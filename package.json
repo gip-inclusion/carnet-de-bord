@@ -26,6 +26,7 @@
 		"@sveltejs/kit": "next",
 		"@tailwindcss/typography": "^0.4.1",
 		"@types/cookie": "^0.4.0",
+		"@types/knex": "^0.16.1",
 		"@typescript-eslint/eslint-plugin": "^4.19.0",
 		"@typescript-eslint/parser": "^4.19.0",
 		"autoprefixer": "^10.2.6",
@@ -49,7 +50,9 @@
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.2.2",
 		"@lukeed/uuid": "^2.0.0",
-		"cookie": "^0.4.1"
+		"cookie": "^0.4.1",
+		"knex": "^0.95.6",
+		"pg": "^8.6.0"
 	},
 	"type": "module",
 	"lint-staged": {
