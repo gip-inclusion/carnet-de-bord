@@ -52,6 +52,7 @@
 		"@lukeed/uuid": "^2.0.0",
 		"cookie": "^0.4.1",
 		"knex": "^0.95.6",
+		"objection": "^2.2.15",
 		"pg": "^8.6.0"
 	},
 	"type": "module",

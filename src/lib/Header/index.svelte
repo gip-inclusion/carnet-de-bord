@@ -11,8 +11,8 @@
 			<div class="py-2 px-8" class:active={$page.path === '/about'}>
 				<a sveltekit:prefetch href="/about">About</a>
 			</div>
-			<div class="py-2 px-8" class:active={$page.path === '/todos'}>
-				<a sveltekit:prefetch href="/todos">Todos</a>
+			<div class="py-2 px-8" class:active={$page.path === '/beneficiaires'}>
+				<a sveltekit:prefetch href="/beneficiaires">Bénéficiaires</a>
 			</div>
 		</div>
 	</nav>

@@ -1,6 +1,7 @@
 import preprocess from 'svelte-preprocess';
 /** @type {import('@sveltejs/kit').Config} */
 import adapter from '@sveltejs/adapter-node';
+import path from 'path';
 
 const config = {
 	kit: {
@@ -11,6 +12,11 @@ const config = {
 				hmr: {
 					protocol: 'ws',
 					port: 3001
+				}
+			},
+			resolve: {
+				alias: {
+					$database: path.resolve('./src/database')
 				}
 			}
 		},
