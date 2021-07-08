@@ -57,7 +57,13 @@
 	},
 	"type": "module",
 	"lint-staged": {
-		"*.{js,ts,svelte}": "eslint"
+		"*.{ts, js,svelte}": [
+			"prettier --write --plugin-search-dir=.",
+			"eslint --ignore-path .gitignore --fix ."
+		],
+		"*.{json,css,postcss,html,md}": [
+			"prettier --write --plugin-search-dir=."
+		]
 	},
 	"husky": {
 		"hooks": {
