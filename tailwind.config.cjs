@@ -11,7 +11,7 @@ const config = {
 		colors: {
 			white: colors.white,
 			orange: colors.orange,
-			'blue-dora': '#2B5787',
+			blue: colors.blue,
 			gray: colors.gray
 		}
 	},

@@ -23,6 +23,8 @@
 </script>
 
 <script lang="ts">
+	import AccBeneficiaireCard from '$lib/AccBeneficiaireCard/index.svelte';
+
 	export let beneficiaires: IBeneficiaire[];
 </script>
 
@@ -31,11 +33,6 @@
 </svelte:head>
 <div class="flex flex-row">
 	{#each beneficiaires as beneficiaire}
-		<div class="p-5 border-2 m-2">
-			<div class="flex flex-row">
-				<div>{beneficiaire.nom}</div>
-				<div class="pl-2">{beneficiaire.prenom}</div>
-			</div>
-		</div>
+		<AccBeneficiaireCard {beneficiaire} />
 	{/each}
 </div>
