@@ -5,7 +5,7 @@ export interface IBeneficiaire {
 	nom: string;
 	prenom: string;
 	email: string;
-	emtelPortable: string;
+	telPortable: string;
 	numeroCaf: string;
 	numeroPe: string;
 }
