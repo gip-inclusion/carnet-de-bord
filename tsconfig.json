@@ -24,6 +24,7 @@
 		"checkJs": true,
 		"paths": {
 			"$lib/*": ["src/lib/*"],
+			"$business/*": ["src/business/*"],
 			"$database/*": ["src/database/*"]
 		}
 	},

@@ -16,6 +16,7 @@ const config = {
 			},
 			resolve: {
 				alias: {
+					$business: path.resolve('./src/business'),
 					$database: path.resolve('./src/database')
 				}
 			}

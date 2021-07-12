@@ -1,7 +1,7 @@
-import Beneficiaire from '../../database/Beneficiaire';
+import BeneficiaireBusiness from '$business/BeneficiaireBusiness';
 
 export async function get() {
-	const beneficiaires: Array<Beneficiaire> = await Beneficiaire.query();
+	const beneficiaires = await BeneficiaireBusiness.findAll();
 
 	return {
 		body: JSON.stringify(beneficiaires)
