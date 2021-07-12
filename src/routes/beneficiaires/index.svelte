@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
+	import type { IBeneficiaire } from 'src/global';
 
 	// see https://kit.svelte.dev/docs#loading
 	export const load: Load = async ({ fetch }) => {
@@ -22,9 +23,7 @@
 </script>
 
 <script lang="ts">
-	import type Beneficiaire from '$database/Beneficiaire';
-
-	export let beneficiaires: Beneficiaire[];
+	export let beneficiaires: IBeneficiaire[];
 </script>
 
 <svelte:head>

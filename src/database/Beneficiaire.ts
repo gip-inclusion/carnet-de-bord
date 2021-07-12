@@ -1,9 +1,10 @@
 import { Model, snakeCaseMappers } from 'objection';
+import type { IBeneficiaire } from 'src/global';
 import knex from './knex';
 
 Model.knex(knex);
 
-export default class Beneficiaire extends Model {
+export default class Beneficiaire extends Model implements IBeneficiaire {
 	id!: number;
 	nom!: string;
 	prenom!: string;
