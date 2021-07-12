@@ -1,6 +1,8 @@
-import { Model, snakeCaseMappers } from 'objection';
+import objection from 'objection';
 import type { IBeneficiaire } from 'src/global';
 import knex from './knex';
+
+const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
