@@ -10,6 +10,14 @@
 
 <script lang="ts">
 	import { session } from '$app/stores';
+	import { post } from '$lib/utils';
+	import { goto } from '$app/navigation';
+
+	async function logout() {
+		await post(`/api/auth/logout`, {});
+		$session.user = null;
+		goto('/');
+	}
 </script>
 
 <header class="shadow-md">
@@ -26,12 +34,9 @@
 		<div class="flex-grow" />
 		{#if $session.user}
 			<a
-				class="block p-2 px-4 border rounded text-action bg-back2 hover:border-accent"
-				href="/logout">Deconnexion</a
-			>
-		{:else}
-			<a class="block p-2 px-4 text-white rounded bg-action hover:bg-accent" href="/login"
-				>Se connecter</a
+				class="block p-2 px-4 border rounded text-action bg-back2 hover:bg-accent"
+				href="/logout"
+				on:click|preventDefault={logout}>Deconnexion</a
 			>
 		{/if}
 	</div>

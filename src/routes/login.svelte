@@ -6,7 +6,7 @@
 	let email = '';
 
 	async function handleSubmit() {
-		const response = await post(`/auth/login`, { email });
+		const response = await post(`/api/auth/login`, { email });
 
 		if (response.user) {
 			$session.user = response.user;
@@ -32,7 +32,7 @@
 	<button
 		type="submit"
 		disabled={!email}
-		class="self-end block w-32 p-2 px-4 text-white border-2 rounded bg-action disabled:bg-back2"
+		class="self-end block w-32 p-2 px-4 text-white border-2 rounded bg-action hover:bg-accent disabled:bg-back2"
 	>
 		Connexion
 	</button>
