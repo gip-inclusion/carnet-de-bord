@@ -9,3 +9,7 @@ export interface IBeneficiaire {
 	numeroCaf: string;
 	numeroPe: string;
 }
+
+export interface ImportMetaEnv {
+	VITE_JWT_SECRET_KEY: string;
+}

@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page, session } from '$app/stores';
+
+	async function logout() {
+		$session.user = null;
+	}
 </script>
 
 <header>
@@ -12,9 +16,23 @@
 				<a sveltekit:prefetch href="/about">About</a>
 			</div>
 			<div class="py-2 px-8" class:active={$page.path === '/beneficiaires'}>
-				<a sveltekit:prefetch href="/beneficiaires">Bénéficiaires</a>
+				<a sveltekit:prefetch href="/pro/beneficiaires">Bénéficiaires</a>
 			</div>
 		</div>
+		{#if $session.user}
+			<div>
+				<div>
+					{$session.user.email}
+				</div>
+				<div>
+					<button on:click={logout}>logout</button>
+				</div>
+			</div>
+		{:else}
+			<div>
+				<a rel="prefetch" href="/auth/login"> Sign in </a>
+			</div>
+		{/if}
 	</nav>
 
 	<div>
