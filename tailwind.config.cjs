@@ -12,10 +12,14 @@ const config = {
 			white: colors.white,
 			orange: colors.orange,
 			blue: colors.blue,
-			gray: colors.gray
+			gray: colors.gray,
+      action: '#000638',
+      accent: "#6A20AE",
+      back1: "#DEDBEE",
+      back2: "#F1F5F6",
 		}
 	},
-	plugins: [require('@tailwindcss/typography')]
+	plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]
 };
 
 module.exports = config;

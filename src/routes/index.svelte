@@ -2,10 +2,6 @@
 	export const prerender = true;
 </script>
 
-<svelte:head>
-	<title>Home</title>
-</svelte:head>
-
 <section>
 	<h1>
 		to your new<br />SvelteKit app

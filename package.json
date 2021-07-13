@@ -1,77 +1,78 @@
 {
-  "name": "carnet-de-bord",
-  "version": "0.0.1",
-  "engines": {
-    "node": "16",
-    "npm": "7"
-  },
-  "repository": "git@github.com:SocialGouv/carnet-de-bord.git",
-  "author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
-  "bugs": "https://github.com/SocialGouv/carnet-de-bord/issues",
-  "license": "Apache-2.0",
-  "scripts": {
-    "dev": "svelte-kit dev",
-    "build": "svelte-kit build",
-    "preview": "svelte-kit preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "prettier --check --plugin-search-dir=. . && eslint src .",
-    "lint:fix": "prettier --check --plugin-search-dir=. . && yarn lint --fix --cache",
-    "lint:pre-commit": "yarn lint:fix",
-    "format": "prettier --write --plugin-search-dir=. ."
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4",
-    "@sveltejs/adapter-node": "1.0.0-next.29",
-    "@sveltejs/kit": "next",
-    "@tailwindcss/typography": "^0.4.1",
-    "@types/cookie": "^0.4.0",
-    "@types/knex": "^0.16.1",
-    "@typescript-eslint/eslint-plugin": "^4.19.0",
-    "@typescript-eslint/parser": "^4.19.0",
-    "autoprefixer": "^10.2.6",
-    "cssnano": "^5.0.6",
-    "eslint": "^7.30.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-svelte3": "^3.2.0",
-    "husky": "^7.0.0",
-    "lint-staged": "^11.0.0",
-    "postcss": "^8.3.5",
-    "postcss-load-config": "^3.1.0",
-    "prettier": "~2.3.2",
-    "prettier-plugin-svelte": "^2.2.0",
-    "svelte": "^3.34.0",
-    "svelte-check": "^2.0.0",
-    "svelte-preprocess": "^4.0.0",
-    "tailwindcss": "^2.2.4",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
-  },
-  "dependencies": {
-    "@fontsource/fira-mono": "^4.2.2",
-    "@lukeed/uuid": "^2.0.0",
-    "@types/jsonwebtoken": "^8.5.4",
-    "cookie": "^0.4.1",
-    "jsonwebtoken": "^8.5.1",
-    "knex": "^0.95.6",
-    "objection": "^2.2.15",
-    "pg": "^8.6.0"
-  },
-  "type": "module",
-  "lint-staged": {
-    "*.{ts, js,svelte}": [
-    "prettier --write --plugin-search-dir=.",
-    "eslint --ignore-path .gitignore --fix ."
-    ],
-    "*.{json,css,postcss,html,md}": [
-    "prettier --write --plugin-search-dir=."
-    ]
-  },
-  "husky": {
-    "hooks": {
-    "pre-commit": "yarn lint:pre-commit",
-    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  }
+	"name": "carnet-de-bord",
+	"version": "0.0.1",
+	"engines": {
+		"node": "16",
+		"npm": "7"
+	},
+	"repository": "git@github.com:SocialGouv/carnet-de-bord.git",
+	"author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
+	"bugs": "https://github.com/SocialGouv/carnet-de-bord/issues",
+	"license": "Apache-2.0",
+	"scripts": {
+		"dev": "svelte-kit dev",
+		"build": "svelte-kit build",
+		"preview": "svelte-kit preview",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --check --plugin-search-dir=. . && eslint src .",
+		"lint:fix": "prettier --check --plugin-search-dir=. . && yarn lint --fix --cache",
+		"lint:pre-commit": "yarn lint:fix",
+		"format": "prettier --write --plugin-search-dir=. ."
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^12.1.4",
+		"@commitlint/config-conventional": "^12.1.4",
+		"@sveltejs/adapter-node": "1.0.0-next.29",
+		"@sveltejs/kit": "next",
+		"@tailwindcss/typography": "^0.4.1",
+		"@tailwindcss/forms": "^0.3.3",
+		"@types/cookie": "^0.4.0",
+		"@types/knex": "^0.16.1",
+		"@typescript-eslint/eslint-plugin": "^4.19.0",
+		"@typescript-eslint/parser": "^4.19.0",
+		"autoprefixer": "^10.2.6",
+		"cssnano": "^5.0.6",
+		"eslint": "^7.30.0",
+		"eslint-config-prettier": "^8.1.0",
+		"eslint-plugin-svelte3": "^3.2.0",
+		"husky": "^7.0.0",
+		"lint-staged": "^11.0.0",
+		"postcss": "^8.3.5",
+		"postcss-load-config": "^3.1.0",
+		"prettier": "~2.3.2",
+		"prettier-plugin-svelte": "^2.2.0",
+		"svelte": "^3.34.0",
+		"svelte-check": "^2.0.0",
+		"svelte-preprocess": "^4.0.0",
+		"tailwindcss": "^2.2.4",
+		"tslib": "^2.3.0",
+		"typescript": "^4.3.5"
+	},
+	"dependencies": {
+		"@fontsource/fira-mono": "^4.2.2",
+		"@lukeed/uuid": "^2.0.0",
+		"@types/jsonwebtoken": "^8.5.4",
+		"cookie": "^0.4.1",
+		"jsonwebtoken": "^8.5.1",
+		"knex": "^0.95.6",
+		"objection": "^2.2.15",
+		"pg": "^8.6.0"
+	},
+	"type": "module",
+	"lint-staged": {
+		"*.{ts, js,svelte}": [
+			"prettier --write --plugin-search-dir=.",
+			"eslint --ignore-path .gitignore --fix ."
+		],
+		"*.{json,css,postcss,html,md}": [
+			"prettier --write --plugin-search-dir=."
+		]
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "yarn lint:pre-commit",
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+		}
+	}
 }

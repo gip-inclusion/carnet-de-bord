@@ -4,11 +4,9 @@
 	import { post } from '$lib/utils';
 
 	let email = '';
-	let password = '';
-	let errors = null;
 
-	async function submit() {
-		const response = await post(`/auth/login`, { email, password });
+	async function handleSubmit() {
+		const response = await post(`/auth/login`, { email });
 
 		if (response.user) {
 			$session.user = response.user;
@@ -17,29 +15,25 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Sign in • Conduit</title>
-</svelte:head>
-
-<div>
-	<div>
-		<div>
-			<div>
-				<h1>Sign In</h1>
-				<p>
-					<a href="/register">Need an account?</a>
-				</p>
-
-				<form on:submit|preventDefault={submit}>
-					<fieldset>
-						<input type="email" required placeholder="Email" bind:value={email} />
-					</fieldset>
-					<fieldset>
-						<input type="password" required placeholder="Password" bind:value={password} />
-					</fieldset>
-					<button type="submit"> Sign in </button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<h1 class="mt-20 mb-4 text-4xl font-bold text-center">Se connecter</h1>
+<form
+	class="flex flex-col max-w-xl gap-6 p-8 mx-auto mt-8 bg-back2"
+	on:submit|preventDefault={handleSubmit}
+>
+	<label class="flex flex-row items-center">
+		<span class="inline-block w-40 font-bold">Couriel</span>
+		<input
+			class="flex-grow inline-block border-gray-300"
+			type="email"
+			required
+			bind:value={email}
+		/>
+	</label>
+	<button
+		type="submit"
+		disabled={!email}
+		class="self-end block w-32 p-2 px-4 text-white border-2 rounded bg-action disabled:bg-back2"
+	>
+		Connexion
+	</button>
+</form>

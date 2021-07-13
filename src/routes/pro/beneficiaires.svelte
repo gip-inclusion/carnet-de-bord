@@ -28,9 +28,6 @@
 	export let beneficiaires: IBeneficiaire[];
 </script>
 
-<svelte:head>
-	<title>Bénéficiaires</title>
-</svelte:head>
 <div class="flex flex-row">
 	{#each beneficiaires as beneficiaire}
 		<ProBeneficiaireCard {beneficiaire} />
