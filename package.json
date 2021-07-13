@@ -5,6 +5,7 @@
 		"node": "16",
 		"npm": "7"
 	},
+	"private": true,
 	"repository": "git@github.com:SocialGouv/carnet-de-bord.git",
 	"author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
 	"bugs": "https://github.com/SocialGouv/carnet-de-bord/issues",
