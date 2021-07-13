@@ -1,6 +1,8 @@
 <script context="module" lang="ts">
-	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
+	import Header from '$lib/components/Header.svelte';
 	import { authGuard } from '$lib/guards';
+	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
+	import '../app.postcss';
 
 	export async function load({ page, fetch, session, context }: LoadInput): Promise<LoadOutput> {
 		return await authGuard({ page, fetch, session, context });
@@ -8,8 +10,6 @@
 </script>
 
 <script lang="ts">
-	import Header from '$lib/Header/index.svelte';
-	import '../app.postcss';
 </script>
 
 <header>

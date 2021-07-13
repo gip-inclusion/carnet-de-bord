@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { session } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { session } from '$app/stores';
 	import { post } from '$lib/utils';
-	import ListErrors from '$lib/ListErrors/index.svelte';
 
 	let email = '';
 	let password = '';
@@ -30,8 +29,6 @@
 				<p>
 					<a href="/register">Need an account?</a>
 				</p>
-
-				<ListErrors {errors} />
 
 				<form on:submit|preventDefault={submit}>
 					<fieldset>
