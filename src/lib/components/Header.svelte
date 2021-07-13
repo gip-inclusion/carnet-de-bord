@@ -30,7 +30,7 @@
 			</div>
 		{:else}
 			<div>
-				<a rel="prefetch" href="/auth/login"> Sign in </a>
+				<a rel="prefetch" href="/login"> Sign in </a>
 			</div>
 		{/if}
 	</nav>
