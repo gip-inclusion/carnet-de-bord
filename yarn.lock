@@ -317,13 +317,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/knex@^0.16.1":
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/@types/knex/-/knex-0.16.1.tgz#619678407265c675463c563ed38323461a49515d"
-  integrity sha512-54gWD1HWwdVx5iLHaJ1qxH3I6KyBsj5fFqzRpXFn7REWiEB2jwspeVCombNsocSrqPd7IRPqKrsIME7/cD+TFQ==
-  dependencies:
-    knex "*"
-
 "@types/minimist@^1.2.0":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
@@ -1860,7 +1853,7 @@ kind-of@^6.0.3:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-knex@*, knex@^0.95.6:
+knex@^0.95.6:
   version "0.95.6"
   resolved "https://registry.yarnpkg.com/knex/-/knex-0.95.6.tgz#5fc60ffc2935567bf122925526b1b06b8dbca785"
   integrity sha512-noRcmkJl1MdicUbezrcr8OtVLcqQ/cfLIwgAx5EaxNxQOIJff88rBeyLywUScGhQNd/b78DIKKXZzLMrm6h/cw==

@@ -7,6 +7,7 @@ RUN yarn --frozen-lockfile
 
 COPY ./src src
 COPY ./static static
+COPY ./knexfile.js knexfile.js
 COPY ./svelte.config.js svelte.config.js
 COPY ./tsconfig.json tsconfig.json
 
