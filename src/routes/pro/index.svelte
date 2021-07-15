@@ -1,16 +1,16 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
-	import type { IBeneficiaire } from 'src/global';
+	import type { IBeneficiary } from 'src/global';
 
 	// see https://kit.svelte.dev/docs#loading
 	export const load: Load = async ({ fetch }) => {
-		const res = await fetch('api/beneficiaires.json');
+		const res = await fetch('api/beneficiaries.json');
 
 		if (res.ok) {
-			const beneficiaires = await res.json();
+			const beneficiaries = await res.json();
 
 			return {
-				props: { beneficiaires }
+				props: { beneficiaries }
 			};
 		}
 
@@ -23,13 +23,13 @@
 </script>
 
 <script lang="ts">
-	import ProBeneficiaireCard from '$lib/components/ProBeneficiaireCard.svelte';
+	import ProBeneficiaryCard from '$lib/components/ProBeneficiaryCard.svelte';
 
-	export let beneficiaires: IBeneficiaire[];
+	export let beneficiaries: IBeneficiary[];
 </script>
 
 <div class="flex flex-row">
-	{#each beneficiaires as beneficiaire}
-		<ProBeneficiaireCard {beneficiaire} />
+	{#each beneficiaries as beneficiary}
+		<ProBeneficiaryCard {beneficiary} />
 	{/each}
 </div>

@@ -1,12 +1,12 @@
-import BeneficiaireBusiness from '$business/BeneficiaireBusiness';
+import BeneficiaryBusiness from '$business/BeneficiaryBusiness';
 import { JWT_SECRET_KEY } from '$lib/variables';
 import jwt from 'jsonwebtoken';
 
 export async function post(request) {
 	const { email } = request.body;
-	const beneficiaire = await BeneficiaireBusiness.findOneByEmail(email);
+	const beneficiary = await BeneficiaryBusiness.findOneByEmail(email);
 
-	if (!beneficiaire) {
+	if (!beneficiary) {
 		return {
 			status: 401,
 			body: {
@@ -15,10 +15,12 @@ export async function post(request) {
 		};
 	}
 
+	const { civilStatus, contact } = beneficiary;
+
 	const user = {
-		nom: beneficiaire.nom,
-		prenom: beneficiaire.prenom,
-		email: beneficiaire.email,
+		lastname: civilStatus.lastname,
+		firstname: civilStatus.firstname,
+		email: contact.email,
 		type: 'part'
 	};
 

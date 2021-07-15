@@ -1,48 +1,48 @@
 /// <reference types="@sveltejs/kit" />
 
-export type EtatCivile = {
-	civilite: !string;
-	nom: !string;
-	prenom: !string;
+export type CivilStatus = {
+	civility: !string;
+	lastname: !string;
+	firstname: !string;
 };
 
-export type Adresse = {
-	codePostal: string;
-	commune: string;
-	voie: string;
+export type Address = {
+	postalCode: string;
+	city: string;
+	address: string;
 };
 
 export type Contact = {
 	email: string;
-	telPortable: string;
+	mobileNumber: string;
 };
 
-export interface ICompte {
+export interface IAccount {
 	id: string;
-	beneficiaire: IBeneficiaire;
-	professionnelle: IProfessionnel;
+	beneficiary: IBeneficiary;
+	professional: IProfessional;
 }
 
-export interface IBeneficiaire {
+export interface IBeneficiary {
 	id: string;
-	numeroCaf: string;
-	numeroPe: string;
-	etatCivile: EtatCivile;
-	adresse: Adresse;
+	cafNumber: string;
+	peNumber: string;
+	civilStatus: CivilStatus;
+	address: Address;
 	contact: Contact;
 }
 
-export interface IProfessionnel {
+export interface IProfessional {
 	id: string;
-	etatCivile: EtatCivile;
+	civilStatus: CivilStatus;
 	contact: Contact;
 	structure: Structure;
 }
 
 export interface IStructure {
 	id: string;
-	nom: string;
-	adresse: Adresse;
+	name: string;
+	address: Address;
 }
 
 export interface ImportMetaEnv {

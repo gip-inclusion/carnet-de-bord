@@ -2,8 +2,8 @@
 export async function up(knex) {
 	return knex.schema.createTable('structure', (table) => {
 		table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-		table.string('nom');
-		table.json('adresse').notNullable();
+		table.string('name');
+		table.json('address').notNullable();
 	});
 }
 

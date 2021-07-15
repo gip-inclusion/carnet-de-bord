@@ -1,18 +1,18 @@
 import objection, { ColumnNameMappers } from 'objection';
-import type { IBeneficiaire, ICompte, IProfessionnel } from 'src/global';
-import Beneficiaire from './Beneficiaire';
+import type { IBeneficiary, IAccount, IProfessional } from 'src/global';
+import Beneficiary from './Beneficiary';
 import knex from './knex';
-import Professionnel from './Professionnel';
+import professional from './Professional';
 
 const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
-export default class Compte extends Model implements ICompte {
+export default class Account extends Model implements IAccount {
 	id!: string;
 
-	beneficiaire: IBeneficiaire;
-	professionnelle: IProfessionnel;
+	beneficiary: IBeneficiary;
+	professional: IProfessional;
 
 	static tableName = 'compte';
 
@@ -21,20 +21,20 @@ export default class Compte extends Model implements ICompte {
 	}
 
 	static relationMappings = {
-		beneficiaire: {
+		beneficiary: {
 			relation: Model.BelongsToOneRelation,
-			modelClass: Beneficiaire,
+			modelClass: Beneficiary,
 			join: {
-				from: 'compte.beneficiaire_id',
-				to: 'beneficiaire.id'
+				from: 'account.beneficiary_id',
+				to: 'beneficiary.id'
 			}
 		},
-		professionnelle: {
+		profesional: {
 			relation: Model.BelongsToOneRelation,
-			modelClass: Professionnel,
+			modelClass: professional,
 			join: {
-				from: 'compte.professionnelle_id',
-				to: 'professionnelle.id'
+				from: 'account.profesional_id',
+				to: 'profesional.id'
 			}
 		}
 	};

@@ -15,8 +15,8 @@
 			<div class="py-2 px-8" class:active={$page.path === '/about'}>
 				<a sveltekit:prefetch href="/about">About</a>
 			</div>
-			<div class="py-2 px-8" class:active={$page.path === '/beneficiaires'}>
-				<a sveltekit:prefetch href="/pro/beneficiaires">Bénéficiaires</a>
+			<div class="py-2 px-8" class:active={$page.path === '/beneficiaries'}>
+				<a sveltekit:prefetch href="/pro/beneficiaries">Bénéficiaires</a>
 			</div>
 		</div>
 		{#if $session.user}

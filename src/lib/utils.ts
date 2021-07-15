@@ -1,4 +1,4 @@
-export function post(endpoint: string, data: unknown) {
+export function post(endpoint: string, data: unknown): Promise<unknown> {
 	return fetch(endpoint, {
 		method: 'POST',
 		credentials: 'include',

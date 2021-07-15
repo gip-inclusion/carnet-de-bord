@@ -1,21 +1,21 @@
 import objection, { ColumnNameMappers } from 'objection';
-import type { Adresse, Contact, EtatCivile, IBeneficiaire } from 'src/global';
+import type { Address, Contact, CivilStatus, IBeneficiary } from 'src/global';
 import knex from './knex';
 
 const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
-export default class Beneficiaire extends Model implements IBeneficiaire {
+export default class Beneficiary extends Model implements IBeneficiary {
 	id!: string;
-	numeroCaf: string;
-	numeroPe: string;
+	cafNumber: string;
+	peNumber: string;
 
-	etatCivile!: EtatCivile;
-	adresse!: Adresse;
+	civilStatus!: CivilStatus;
+	address!: Address;
 	contact!: Contact;
 
-	static tableName = 'beneficiaire';
+	static tableName = 'beneficiary';
 
 	static get columnNameMappers(): ColumnNameMappers {
 		return snakeCaseMappers();
@@ -25,26 +25,26 @@ export default class Beneficiaire extends Model implements IBeneficiaire {
 		type: 'object',
 		properties: {
 			id: { type: 'string' },
-			adresse: {
+			address: {
 				type: 'object',
 				properties: {
-					codePostal: { type: 'string' },
-					commune: { type: 'string' },
-					voie: { type: 'string' }
+					postalCode: { type: 'string' },
+					city: { type: 'string' },
+					address1: { type: 'string' }
 				}
 			},
-			etatCivile: {
+			civilStatus: {
 				type: 'object',
 				properties: {
-					civilite: { type: 'string' },
-					nom: { type: 'string' },
-					prenom: { type: 'string' }
+					civility: { type: 'string' },
+					lastname: { type: 'string' },
+					firstname: { type: 'string' }
 				}
 			},
 			contact: {
 				type: 'object',
 				properties: {
-					telPortable: { type: 'string' },
+					mobileNumber: { type: 'string' },
 					email: { type: 'string' }
 				}
 			}

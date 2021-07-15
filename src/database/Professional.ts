@@ -1,5 +1,5 @@
 import objection, { ColumnNameMappers } from 'objection';
-import type { Contact, EtatCivile, IProfessionnel } from 'src/global';
+import type { Contact, CivilStatus, IProfessional } from 'src/global';
 import knex from './knex';
 import Structure from './Structure';
 
@@ -7,13 +7,13 @@ const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
-export default class Professionnel extends Model implements IProfessionnel {
+export default class professional extends Model implements IProfessional {
 	id!: string;
-	etatCivile!: EtatCivile;
+	civilStatus!: CivilStatus;
 	contact!: Contact;
 	structure: Structure;
 
-	static tableName = 'professionnel';
+	static tableName = 'professional';
 
 	static get columnNameMappers(): ColumnNameMappers {
 		return snakeCaseMappers();
@@ -24,7 +24,7 @@ export default class Professionnel extends Model implements IProfessionnel {
 			relation: Model.BelongsToOneRelation,
 			modelClass: Structure,
 			join: {
-				from: 'professionnel.structure_id',
+				from: 'professional.structure_id',
 				to: 'structure.id'
 			}
 		}
@@ -34,26 +34,26 @@ export default class Professionnel extends Model implements IProfessionnel {
 		type: 'object',
 		properties: {
 			id: { type: 'string' },
-			adresse: {
+			address: {
 				type: 'object',
 				properties: {
-					codePostal: { type: 'string' },
-					commune: { type: 'string' },
-					voie: { type: 'string' }
+					postalCode: { type: 'string' },
+					city: { type: 'string' },
+					address1: { type: 'string' }
 				}
 			},
-			etatCivile: {
+			civilStatus: {
 				type: 'object',
 				properties: {
-					civilite: { type: 'string' },
-					nom: { type: 'string' },
-					prenom: { type: 'string' }
+					civility: { type: 'string' },
+					lastname: { type: 'string' },
+					firstname: { type: 'string' }
 				}
 			},
 			contact: {
 				type: 'object',
 				properties: {
-					telPortable: { type: 'string' },
+					mobileNumber: { type: 'string' },
 					email: { type: 'string' }
 				}
 			}
