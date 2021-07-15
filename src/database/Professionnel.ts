@@ -1,25 +1,34 @@
 import objection, { ColumnNameMappers } from 'objection';
-import type { Adresse, Contact, EtatCivile, IBeneficiaire } from 'src/global';
+import type { Contact, EtatCivile, IProfessionnel } from 'src/global';
 import knex from './knex';
+import Structure from './Structure';
 
 const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
-export default class Beneficiaire extends Model implements IBeneficiaire {
+export default class Professionnel extends Model implements IProfessionnel {
 	id!: string;
-	numeroCaf: string;
-	numeroPe: string;
-
 	etatCivile!: EtatCivile;
-	adresse!: Adresse;
 	contact!: Contact;
+	structure: Structure;
 
-	static tableName = 'beneficiaire';
+	static tableName = 'professionnel';
 
 	static get columnNameMappers(): ColumnNameMappers {
 		return snakeCaseMappers();
 	}
+
+	static relationMappings = {
+		structure: {
+			relation: Model.BelongsToOneRelation,
+			modelClass: Structure,
+			join: {
+				from: 'professionnel.structure_id',
+				to: 'structure.id'
+			}
+		}
+	};
 
 	static jsonSchema = {
 		type: 'object',
