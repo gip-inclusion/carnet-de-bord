@@ -18,7 +18,11 @@ export type Contact = {
 };
 
 export interface IAccount {
-	id: string;
+	username: string;
+	type: string;
+	lastLogin: Date;
+	accessKey: string;
+	accessKeyDate: Date;
 	beneficiary: IBeneficiary;
 	professional: IProfessional;
 }

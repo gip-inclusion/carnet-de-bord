@@ -1,17 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { session } from '$app/stores';
 	import { post } from '$lib/utils';
 
-	let email = '';
+	let username = '';
 
 	async function handleSubmit() {
-		const response = await post(`/api/auth/login`, { email });
-
-		if (response.user) {
-			$session.user = response.user;
-			goto('/');
-		}
+		const response = await post(`/api/auth/login`, { username });
 	}
 </script>
 
@@ -22,16 +16,11 @@
 >
 	<label class="flex flex-row items-center">
 		<span class="inline-block w-40 font-bold">Couriel</span>
-		<input
-			class="flex-grow inline-block border-gray-300"
-			type="email"
-			required
-			bind:value={email}
-		/>
+		<input class="flex-grow inline-block border-gray-300" required bind:value={username} />
 	</label>
 	<button
 		type="submit"
-		disabled={!email}
+		disabled={!username}
 		class="self-end block w-32 p-2 px-4 text-white border-2 rounded bg-action hover:bg-accent disabled:bg-back2"
 	>
 		Connexion

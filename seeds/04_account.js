@@ -5,8 +5,13 @@ export async function seed(knex) {
 		.then(function () {
 			return knex('account').insert([
 				{
-					id: 'a81bc81b-dead-4e5d-abff-90865d1e13b4',
-					beneficiary_id: 'a81bc81b-dead-4e5d-abff-90865d1e13b1',
+					username: 'jean.laroche',
+					type: 'beneficiary',
+					beneficiary_id: 'a81bc81b-dead-4e5d-abff-90865d1e13b1'
+				},
+				{
+					username: 'paul.vercors',
+					type: 'professional',
 					professional_id: 'a81bc81b-dead-4e5d-abff-90865d1e13b3'
 				}
 			]);

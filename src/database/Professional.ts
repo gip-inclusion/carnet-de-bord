@@ -7,7 +7,7 @@ const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
-export default class professional extends Model implements IProfessional {
+export default class Professional extends Model implements IProfessional {
 	id!: string;
 	civilStatus!: CivilStatus;
 	contact!: Contact;
