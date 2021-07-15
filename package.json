@@ -27,7 +27,8 @@
 		"@sveltejs/kit": "next",
 		"@tailwindcss/forms": "^0.3.3",
 		"@tailwindcss/typography": "^0.4.1",
-		"@types/cookie": "^0.4.1",
+		"@types/cookie": "^0.4.0",
+		"@types/nodemailer": "^6.4.4",
 		"@typescript-eslint/eslint-plugin": "^4.19.0",
 		"@typescript-eslint/parser": "^4.19.0",
 		"autoprefixer": "^10.3.1",
@@ -54,7 +55,12 @@
 		"@types/jsonwebtoken": "^8.5.4",
 		"cookie": "^0.4.1",
 		"jsonwebtoken": "^8.5.1",
+<<<<<<< HEAD
 		"knex": "^0.95.7",
+=======
+		"knex": "^0.95.6",
+		"nodemailer": "^6.6.3",
+>>>>>>> feat: implement email sender
 		"objection": "^2.2.15",
 		"pg": "^8.6.0"
 	},

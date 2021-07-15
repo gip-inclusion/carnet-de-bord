@@ -1,4 +1,4 @@
-import objection from 'objection';
+import objection, { ColumnNameMappers } from 'objection';
 import type { IBeneficiaire } from 'src/global';
 import knex from './knex';
 
@@ -18,7 +18,7 @@ export default class Beneficiaire extends Model implements IBeneficiaire {
 	// Table name is the only required property.
 	static tableName = 'beneficiaire';
 
-	static get columnNameMappers() {
+	static get columnNameMappers(): ColumnNameMappers {
 		// If your columns are UPPER_SNAKE_CASE you can
 		// use snakeCaseMappers({ upperCase: true })
 		return snakeCaseMappers();
