@@ -182,10 +182,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/fira-mono@^4.2.2":
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/@fontsource/fira-mono/-/fira-mono-4.4.5.tgz#ceac70967cd3c4262195603aba567cd4582493f8"
-  integrity sha512-LWbsPhTr1JRV3zUgvMrOxQDn1BG9F4R0FPeBkqWP8/oqPxvVYAhEepg1DN9M1k6L9sRN2I2HWHBpt4QVbDGXpw==
+"@fontsource/fira-mono@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/fira-mono/-/fira-mono-4.5.0.tgz#bea97a54b60dc269d1c78469b007835af44dfa7f"
+  integrity sha512-KE+d3wmgq/YKM0BqgUF7p2yeBNi805Nfof1lC1wJ7E9i2EWoC363sGdKG+MQBVm+ei3GYZu+Bo8Xha1w1pkB7g==
 
 "@fullhuman/postcss-purgecss@^4.0.3":
   version "4.0.3"
