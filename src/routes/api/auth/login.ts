@@ -1,12 +1,19 @@
-import BeneficiaryBusiness from '$business/BeneficiaryBusiness';
-import { JWT_SECRET_KEY } from '$lib/variables';
-import jwt from 'jsonwebtoken';
+import { sendEmail } from '$business/EmailSender';
+import Account from '$database/Account';
+import emailMagicLink from '$lib/emails/emailMagicLink';
+import { APP_URL } from '$lib/variables';
+import type { RequestHandler } from '@sveltejs/kit';
+import type { IBeneficiary, IProfessional } from 'src/global';
+import { v4 as uuidv4 } from 'uuid';
 
-export async function post(request) {
-	const { email } = request.body;
-	const beneficiary = await BeneficiaryBusiness.findOneByEmail(email);
+export const post: RequestHandler = async (request) => {
+	const { username } = request.body as unknown as {
+		username: string;
+	};
 
-	if (!beneficiary) {
+	const account = await await Account.query().findOne({ username });
+
+	if (!account) {
 		return {
 			status: 401,
 			body: {
@@ -15,32 +22,29 @@ export async function post(request) {
 		};
 	}
 
-	const { civilStatus, contact } = beneficiary;
+	const { contact, civilStatus } = (await account.$relatedQuery(account.type)) as unknown as
+		| IBeneficiary
+		| IProfessional;
 
-	const user = {
-		lastname: civilStatus.lastname,
-		firstname: civilStatus.firstname,
-		email: contact.email,
-		type: 'part'
-	};
+	const { lastname, firstname } = civilStatus;
 
-	const expireIn = 24 * 60 * 60;
-	const token = jwt.sign(
-		{
-			user
-		},
-		JWT_SECRET_KEY,
-		{
-			expiresIn: expireIn
-		}
-	);
+	const accessKey = uuidv4();
+
+	await Account.query()
+		.update({ accessKey, accessKeyDate: new Date() })
+		.where({ username: account.username });
+
+	// send email
+	sendEmail({
+		to: contact.email,
+		subject: 'Accédez à votre espace Carnet de bord',
+		html: emailMagicLink({ firstname, lastname, accessKey, appUrl: APP_URL })
+	});
 
 	return {
-		headers: {
-			'set-cookie': `jwt=${token}; Path=/; HttpOnly`
-		},
+		status: 200,
 		body: {
-			user
+			email: contact.email
 		}
 	};
-}
+};

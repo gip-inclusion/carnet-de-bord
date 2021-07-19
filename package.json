@@ -58,7 +58,8 @@
 		"knex": "^0.95.7",
 		"nodemailer": "^6.6.3",
 		"objection": "^2.2.15",
-		"pg": "^8.6.0"
+		"pg": "^8.6.0",
+		"uuid": "^8.3.2"
 	},
 	"type": "module",
 	"lint-staged": {

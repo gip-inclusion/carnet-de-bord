@@ -15,7 +15,10 @@ export const handle: Handle = async ({ request, resolve }) => {
 export const getSession: GetSession = async ({ locals }) => {
 	const session = {
 		user: locals.user && {
-			email: locals.user.email
+			email: locals.user.email,
+			lastname: locals.user.lastname,
+			firstname: locals.user.firstname,
+			type: locals.user.type
 		}
 	};
 	return session;

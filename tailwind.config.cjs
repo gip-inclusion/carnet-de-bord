@@ -9,6 +9,7 @@ const config = {
 			sans: ['Marianne']
 		},
 		colors: {
+			black: colors.black,
 			white: colors.white,
 			orange: colors.orange,
 			blue: colors.blue,
@@ -16,7 +17,8 @@ const config = {
 			action: '#000638',
 			accent: '#6A20AE',
 			back1: '#DEDBEE',
-			back2: '#F1F5F6'
+			back2: '#F1F5F6',
+			error: '#ED4737'
 		}
 	},
 	plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]

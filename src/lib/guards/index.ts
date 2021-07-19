@@ -1,15 +1,15 @@
 import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 
-const LOGIN_PAGE_PATH = '/login';
+const LOGIN_PAGE_PATH = '/auth/login';
 
 export async function authGuard({ page, session }: LoadInput): Promise<LoadOutput> {
-	if (!session.user && page.path !== LOGIN_PAGE_PATH) {
+	if (!session.user && !page.path.startsWith('/auth')) {
 		return {
 			status: 302,
 			redirect: LOGIN_PAGE_PATH
 		};
 	}
-	if (session.user && page.path === LOGIN_PAGE_PATH) {
+	if (session.user && page.path.startsWith('/auth')) {
 		return {
 			status: 302,
 			redirect: '/'
