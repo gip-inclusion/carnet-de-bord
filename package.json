@@ -54,7 +54,7 @@
 		"@types/jsonwebtoken": "^8.5.4",
 		"cookie": "^0.4.1",
 		"jsonwebtoken": "^8.5.1",
-		"knex": "^0.95.6",
+		"knex": "^0.95.7",
 		"objection": "^2.2.15",
 		"pg": "^8.6.0"
 	},
