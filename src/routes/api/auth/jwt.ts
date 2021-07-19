@@ -2,10 +2,13 @@ import Account from '$database/Account';
 import type Beneficiary from '$database/Beneficiary';
 import type Professional from '$database/Professional';
 import { JWT_SECRET_KEY } from '$lib/variables';
+import type { RequestHandler } from '@sveltejs/kit';
 import jwt from 'jsonwebtoken';
 
-export async function post(request) {
-	const { accessKey } = request.body;
+export const post: RequestHandler = async (request) => {
+	const { accessKey } = request.body as unknown as {
+		accessKey: string;
+	};
 
 	const account = await Account.query().findOne({ access_key: accessKey });
 
@@ -52,4 +55,4 @@ export async function post(request) {
 			user
 		})
 	};
-}
+};
