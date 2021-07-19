@@ -9,7 +9,7 @@ export async function authGuard({ page, session }: LoadInput): Promise<LoadOutpu
 			redirect: LOGIN_PAGE_PATH
 		};
 	}
-	if (session.user && page.path === LOGIN_PAGE_PATH) {
+	if (session.user && page.path.startsWith('/auth')) {
 		return {
 			status: 302,
 			redirect: '/'
