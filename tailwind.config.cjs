@@ -18,7 +18,7 @@ const config = {
 			accent: '#6A20AE',
 			back1: '#DEDBEE',
 			back2: '#F1F5F6',
-      error: '#ED4737'
+			error: '#ED4737'
 		}
 	},
 	plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]
