@@ -26,12 +26,12 @@
 </h1>
 <div class="flex gap-x-4">
 	<div class="w-1/2 bg-back2" />
-	<form class="w-1/2 flex flex-col" on:submit|preventDefault={handleSubmit}>
-		<div class="pt-4 pb-12">
-			<div class="text-1xl font-bold pt-8">Veuillez saisir votre identifiant</div>
-			<div class="text-xs">pour recevoir pour lien de connexion</div>
-		</div>
-		{#if requestStep !== 'success'}
+	{#if requestStep !== 'success'}
+		<form class="w-1/2 flex flex-col" on:submit|preventDefault={handleSubmit}>
+			<div class="pt-4 pb-12">
+				<div class="text-1xl font-bold pt-8">Veuillez saisir votre identifiant</div>
+				<div class="text-xs">pour recevoir pour lien de connexion</div>
+			</div>
 			<div class="flex flex-col gap-16">
 				<div class="flex flex-col gap-6">
 					<div>
@@ -66,11 +66,14 @@
 					</button>
 				</div>
 			</div>
-		{:else if requestStep === 'success'}
-			<div>
-				Veuillez vérifier votre boîte mail {email}, vous allez recevoir un email avec un lien pour
-				vous connecter au Carnet de bord.
+		</form>
+	{:else}
+		<div class="w-1/2 flex">
+			<div class="pt-4 pb-12 text-xl leading-relaxed font-thin">
+				<div>Veuillez vérifier votre boîte mail,</div>
+				<div class="font-bold">{email}</div>
+				<div>un lien vous a été envoyé pour vous connecter au Carnet de bord.</div>
 			</div>
-		{/if}
-	</form>
+		</div>
+	{/if}
 </div>
