@@ -1,5 +1,7 @@
 import { sendEmail } from '$business/EmailSender';
 import Account from '$database/Account';
+import emailMagicLink from '$lib/emails/emailMagicLink';
+import { APP_URL } from '$lib/variables';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { IBeneficiary, IProfessional } from 'src/global';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,8 +10,6 @@ export const post: RequestHandler = async (request) => {
 	const { username } = request.body as unknown as {
 		username: string;
 	};
-
-	console.log(username);
 
 	const account = await await Account.query().findOne({ username });
 
@@ -38,13 +38,7 @@ export const post: RequestHandler = async (request) => {
 	sendEmail({
 		to: contact.email,
 		subject: 'Accédez à votre espace Carnet de bord',
-		text: `Bonjour ${firstname} ${lastname},
-
-    Pour accéder à votre espace Carnet de bord, veuillez cliquer sur le lien ci-dessous:
-
-    http://localhost:3000/auth/jwt/${accessKey}
-
-    L'équipe Carnet de bord`
+		html: emailMagicLink({ firstname, lastname, accessKey, appUrl: APP_URL })
 	});
 
 	return {

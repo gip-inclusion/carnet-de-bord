@@ -34,10 +34,15 @@
 			$session.user = body.user;
 			goto('/');
 		}
-		if (body.errors) {
-			errors = body.errors;
-		}
 	});
 </script>
 
-<div class="flex flex-row">{errors}</div>
+<div class="pt-28 flex flex-col justify-items-center">
+	<div class="pb-12 text-xl text-center">Désolé, ce lien n'est plus valide...</div>
+	<a
+		class="p-2 px-4 border-2 text-center border-accent text-accent rounded hover:bg-accent hover:text-white"
+		href="/auth/login"
+	>
+		accéder à la page de connexion
+	</a>
+</div>

@@ -1,5 +1,7 @@
 export const JWT_SECRET_KEY = import.meta.env.VITE_JWT_SECRET_KEY;
 
+export const APP_URL = import.meta.env.VITE_APP_URL;
+
 export const SMTP_HOST = import.meta.env.VITE_SMTP_HOST;
 export const SMTP_PORT = import.meta.env.VITE_SMTP_PORT;
 export const SMTP_USER = import.meta.env.VITE_SMTP_USER;
