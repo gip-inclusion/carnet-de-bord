@@ -9,6 +9,7 @@ const config = {
 			sans: ['Marianne']
 		},
 		colors: {
+			black: colors.black,
 			white: colors.white,
 			orange: colors.orange,
 			blue: colors.blue,

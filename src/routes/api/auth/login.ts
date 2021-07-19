@@ -1,12 +1,15 @@
 import { sendEmail } from '$business/EmailSender';
 import Account from '$database/Account';
-import type Beneficiary from '$database/Beneficiary';
-import type Professional from '$database/Professional';
+import type { RequestHandler } from '@sveltejs/kit';
 import type { IBeneficiary, IProfessional } from 'src/global';
 import { v4 as uuidv4 } from 'uuid';
 
-export async function post(request) {
-	const { username } = request.body;
+export const post: RequestHandler = async (request) => {
+	const { username } = request.body as unknown as {
+		username: string;
+	};
+
+	console.log(username);
 
 	const account = await await Account.query().findOne({ username });
 
@@ -45,8 +48,9 @@ export async function post(request) {
 	});
 
 	return {
+		status: 200,
 		body: {
-			success: true
+			email: contact.email
 		}
 	};
-}
+};

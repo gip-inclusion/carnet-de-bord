@@ -20,8 +20,8 @@
 	}
 </script>
 
-<header class="shadow-md">
-	<div class="flex flex-row items-center px-8 py-2">
+<header class="shadow-md px-40">
+	<div class="flex flex-row items-center py-2">
 		<a class="block" href="/">
 			<img
 				class="inline"
@@ -42,6 +42,6 @@
 	</div>
 </header>
 
-<div class="px-8 py-2">
+<div class="px-40 py-2">
 	<slot />
 </div>

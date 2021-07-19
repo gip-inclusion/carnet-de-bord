@@ -6,5 +6,5 @@ export function post(endpoint: string, data: unknown): Promise<any> {
 		headers: {
 			'Content-Type': 'application/json'
 		}
-	}).then((r) => r.json());
+	});
 }
