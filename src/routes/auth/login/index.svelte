@@ -31,27 +31,41 @@
 			<div class="text-1xl font-bold pt-8">Veuillez saisir votre identifiant</div>
 			<div class="text-xs">pour recevoir pour lien de connexion</div>
 		</div>
-		{#if requestStep === 'start'}
-			<div class="w-3/5 flex flex-col gap-8">
-				<input
-					class="border-b-2 border-black border-opacity-30 h-10 bg-gray-100"
-					required
-					bind:value={username}
-				/>
-				<button
-					type="submit"
-					disabled={!username}
-					class="self-end block w-32 p-2 px-4 text-white border-2 border-opacity-20 rounded bg-action hover:bg-accent disabled:bg-back2"
-				>
-					Valider
-				</button>
+		{#if requestStep !== 'success'}
+			<div class="flex flex-col gap-16">
+				<div class="flex flex-col gap-6">
+					<div>
+						<input
+							class="border-b-2 border-black border-opacity-30 h-10 bg-gray-100 w-full"
+							required
+							bind:value={username}
+						/>
+						{#if requestStep === 'error'}
+							<div class="text-xs text-error pt-4">
+								Cet email n’est pas rattaché à un compte existant.
+							</div>
+						{/if}
+					</div>
+					<div class="flex items-center justify-end">
+						<button
+							type="submit"
+							disabled={!username}
+							class="w-32 p-2 px-4 text-white border-2 border-opacity-20 rounded bg-action hover:bg-accent disabled:bg-back2"
+						>
+							Valider
+						</button>
+					</div>
+				</div>
+				<div class="flex justify-between items-center">
+					<div class="text-sm">Vous n’êtes pas encore inscrit ?</div>
+					<button
+						type="submit"
+						class="w-32 p-2 px-4 border-2 border-accent text-accent rounded hover:bg-accent hover:text-white"
+					>
+						Je m'inscris
+					</button>
+				</div>
 			</div>
-		{:else if requestStep === 'error'}
-			<div>
-				Cet email n’est pas rattaché à un compte existant. Veuillez vous inscrire pour vous
-				connecter au Carnet de bord.
-			</div>
-			<div>Vous n’êtes pas encore inscrit ? Avec un bouton « je m’inscris »</div>
 		{:else if requestStep === 'success'}
 			<div>
 				Veuillez vérifier votre boîte mail {email}, vous allez recevoir un email avec un lien pour
