@@ -7,11 +7,9 @@ export async function seed(knex) {
 				{
 					id: 'a81bc81b-dead-4e5d-abff-90865d1e13b2',
 					name: 'Mission Locale Vallée de la Drôme',
-					address: {
-						postal_code: '26150',
-						city: 'Die',
-						address1: '150 Avenue de la Clairette'
-					}
+					address1: '150 Avenue de la Clairette',
+					postal_code: '26150',
+					city: 'Die'
 				}
 			]);
 		});

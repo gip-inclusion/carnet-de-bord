@@ -1,20 +1,15 @@
 /// <reference types="@sveltejs/kit" />
 
-export type Address = {
+export type IAddress = {
 	postalCode: string;
 	city: string;
-	address: string;
-};
-
-export type Contact = {
-	mobileNumber: string;
+	address1: string;
+	address2: string;
 };
 
 export interface IAccount {
 	email: string;
 	type: string;
-	lastname: string;
-	firstname: string;
 	lastLogin: Date;
 	accessKey: string;
 	accessKeyDate: Date;
@@ -22,24 +17,25 @@ export interface IAccount {
 	professional: IProfessional;
 }
 
-export interface IBeneficiary {
+export interface IBeneficiary extends IAddress {
 	id: string;
 	cafNumber: string;
 	peNumber: string;
-	address: Address;
-	contact: Contact;
+	mobileNumber: string;
+	lastname: string;
+	firstname: string;
 }
 
 export interface IProfessional {
 	id: string;
-	contact: Contact;
+	lastname: string;
+	firstname: string;
 	structure: Structure;
 }
 
-export interface IStructure {
+export interface IStructure extends IAddress {
 	id: string;
 	name: string;
-	address: Address;
 }
 
 export interface ImportMetaEnv {

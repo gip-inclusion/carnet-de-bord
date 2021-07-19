@@ -3,6 +3,8 @@ export async function up(knex) {
 	return knex.schema.createTable('professional', (table) => {
 		table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
 		table.uuid('structure_id').notNullable().references('structure.id');
+		table.string('lastname').notNullable();
+		table.string('firstname').notNullable();
 	});
 }
 

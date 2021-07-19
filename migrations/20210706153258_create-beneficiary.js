@@ -4,10 +4,15 @@ export async function up(knex) {
 
 	return knex.schema.createTable('beneficiary', (table) => {
 		table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+		table.string('lastname').notNullable();
+		table.string('firstname').notNullable();
 		table.string('caf_number');
 		table.string('pe_number');
-		table.json('address').notNullable();
-		table.json('contact').notNullable();
+		table.string('postal_code');
+		table.string('city');
+		table.string('address1');
+		table.string('address2');
+		table.string('mobile_number');
 	});
 }
 
