@@ -6,7 +6,6 @@ export async function up(knex) {
 		table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
 		table.string('caf_number');
 		table.string('pe_number');
-		table.json('civil_status').notNullable();
 		table.json('address').notNullable();
 		table.json('contact').notNullable();
 	});

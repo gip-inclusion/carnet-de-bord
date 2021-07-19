@@ -14,7 +14,7 @@
 	import { goto } from '$app/navigation';
 
 	async function logout() {
-		await post(`/api/auth/logout`, {});
+		await post(`/auth/logout`, {});
 		$session.user = null;
 		goto('/');
 	}

@@ -8,13 +8,7 @@ export async function seed(knex) {
 					id: 'a81bc81b-dead-4e5d-abff-90865d1e13b1',
 					caf_number: '12345',
 					pe_number: '89879',
-					civil_status: {
-						civility: 'Monsieur',
-						lastname: 'Laroche',
-						firstname: 'Jean'
-					},
 					contact: {
-						email: 'jean.laroche@cdb.com',
 						mobile_number: '0660203040'
 					},
 					address: {

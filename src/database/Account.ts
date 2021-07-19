@@ -9,8 +9,10 @@ const { Model, snakeCaseMappers } = objection;
 Model.knex(knex);
 
 export default class Account extends Model implements IAccount {
-	username!: string;
+	email!: string;
 	type!: string;
+	firstname!: string;
+	lastname!: string;
 
 	accessKey: string;
 	accessKeyDate: Date;
@@ -23,7 +25,7 @@ export default class Account extends Model implements IAccount {
 	static tableName = 'account';
 
 	static get idColumn(): string {
-		return 'username';
+		return 'email';
 	}
 
 	static get columnNameMappers(): ColumnNameMappers {
@@ -52,8 +54,10 @@ export default class Account extends Model implements IAccount {
 	static jsonSchema = {
 		type: 'object',
 		properties: {
-			username: { type: 'string' },
+			email: { type: 'string' },
 			type: { type: 'string' },
+			lastname: { type: 'string' },
+			firstname: { type: 'string' },
 			accessKey: { type: ['string', 'null'] },
 			accessKeyDate: { type: ['date'] },
 			lastLogin: { type: 'date' }

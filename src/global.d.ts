@@ -1,11 +1,5 @@
 /// <reference types="@sveltejs/kit" />
 
-export type CivilStatus = {
-	civility: !string;
-	lastname: !string;
-	firstname: !string;
-};
-
 export type Address = {
 	postalCode: string;
 	city: string;
@@ -13,13 +7,14 @@ export type Address = {
 };
 
 export type Contact = {
-	email: string;
 	mobileNumber: string;
 };
 
 export interface IAccount {
-	username: string;
+	email: string;
 	type: string;
+	lastname: string;
+	firstname: string;
 	lastLogin: Date;
 	accessKey: string;
 	accessKeyDate: Date;
@@ -31,14 +26,12 @@ export interface IBeneficiary {
 	id: string;
 	cafNumber: string;
 	peNumber: string;
-	civilStatus: CivilStatus;
 	address: Address;
 	contact: Contact;
 }
 
 export interface IProfessional {
 	id: string;
-	civilStatus: CivilStatus;
 	contact: Contact;
 	structure: Structure;
 }

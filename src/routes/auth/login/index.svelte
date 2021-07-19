@@ -4,18 +4,15 @@
 	type RequestStep = 'start' | 'success' | 'error';
 
 	let requestStep: RequestStep = 'start';
-	let username = '';
 	let email;
 
 	async function handleSubmit() {
-		const response = await post(`/api/auth/login`, { username });
+		const response = await post(`/auth/login`, { email });
 		if (response.status === 401) {
 			requestStep = 'error';
 		}
 		if (response.status === 200) {
 			requestStep = 'success';
-			const res = await response.json();
-			email = res.email;
 		}
 	}
 </script>
@@ -29,7 +26,7 @@
 	{#if requestStep !== 'success'}
 		<form class="w-1/2 flex flex-col" on:submit|preventDefault={handleSubmit}>
 			<div class="pt-4 pb-12">
-				<div class="text-1xl font-bold pt-8">Veuillez saisir votre identifiant</div>
+				<div class="text-1xl font-bold pt-8">Veuillez saisir votre email</div>
 				<div class="text-xs">pour recevoir pour lien de connexion</div>
 			</div>
 			<div class="flex flex-col gap-16">
@@ -38,7 +35,7 @@
 						<input
 							class="border-b-2 border-black border-opacity-30 h-10 bg-gray-100 w-full"
 							required
-							bind:value={username}
+							bind:value={email}
 						/>
 						{#if requestStep === 'error'}
 							<div class="text-xs text-error pt-4">
@@ -49,7 +46,7 @@
 					<div class="flex items-center justify-end">
 						<button
 							type="submit"
-							disabled={!username}
+							disabled={!email}
 							class="w-32 p-2 px-4 text-white border-2 border-opacity-20 rounded bg-action hover:bg-accent disabled:bg-back2"
 						>
 							Valider
@@ -70,8 +67,7 @@
 	{:else}
 		<div class="w-1/2 flex">
 			<div class="pt-4 pb-12 text-xl leading-relaxed font-thin">
-				<div>Veuillez vérifier votre boîte mail,</div>
-				<div class="font-bold">{email}</div>
+				<div>Veuillez vérifier votre boîte mail.</div>
 				<div>un lien vous a été envoyé pour vous connecter au Carnet de bord.</div>
 			</div>
 		</div>

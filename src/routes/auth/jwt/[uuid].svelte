@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export async function load({ page, fetch }) {
+	export async function load({ page }) {
 		const accessKey = page.params.uuid;
 		return {
 			props: {
@@ -16,10 +16,9 @@
 	import { onMount } from 'svelte';
 
 	export let accessKey;
-	let errors;
 
 	onMount(async () => {
-		const response: any = await fetch(`/api/auth/jwt`, {
+		const response: any = await fetch(`/auth/jwt`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json; version=1.0',

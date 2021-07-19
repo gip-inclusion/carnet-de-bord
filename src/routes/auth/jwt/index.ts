@@ -1,6 +1,4 @@
 import Account from '$database/Account';
-import type Beneficiary from '$database/Beneficiary';
-import type Professional from '$database/Professional';
 import { JWT_SECRET_KEY } from '$lib/variables';
 import type { RequestHandler } from '@sveltejs/kit';
 import jwt from 'jsonwebtoken';
@@ -21,15 +19,13 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const { civilStatus, contact } = (await account.$relatedQuery<Professional | Beneficiary>(
-		account.type
-	)) as unknown as Professional | Beneficiary;
+	const { email, type, lastname, firstname } = account;
 
 	const user = {
-		lastname: civilStatus.lastname,
-		firstname: civilStatus.firstname,
-		email: contact.email,
-		type: account.type
+		lastname,
+		firstname,
+		email,
+		type
 	};
 
 	const expireIn = 24 * 60 * 60;
@@ -45,7 +41,7 @@ export const post: RequestHandler = async (request) => {
 
 	await Account.query()
 		.update({ accessKey: null, accessKeyDate: null, lastLogin: new Date() })
-		.where({ username: account.username });
+		.where({ email: account.email });
 
 	return {
 		headers: {
