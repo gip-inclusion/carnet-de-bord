@@ -12,8 +12,8 @@ export default ({
 	return `<p>Bonjour ${firstname} ${lastname},</p>
 
   <p>Pour accéder à votre espace Carnet de bord, veuillez cliquer sur le lien ci-dessous:</p>
+  &nbsp; &nbsp;
   <p style="padding-left: 20%">
-    &nbsp;
     <a
       href="${appUrl}/auth/jwt/${accessKey}"
       style="
@@ -32,7 +32,6 @@ export default ({
     </a>
   </p>
   &nbsp; &nbsp;
-
   <p>L'équipe Carnet de bord</p>
   `;
 };
