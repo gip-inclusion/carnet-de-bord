@@ -6,6 +6,7 @@ export async function seed(knex) {
 			return knex('beneficiary').insert([
 				{
 					id: 'a81bc81b-dead-4e5d-abff-90865d1e13b1',
+					email: 'jean.laroche@cdb.fr',
 					lastname: 'Laroche',
 					firstname: 'Jean',
 					caf_number: '12345',

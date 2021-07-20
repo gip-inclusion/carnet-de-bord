@@ -4,10 +4,10 @@
 	type RequestStep = 'start' | 'success' | 'error';
 
 	let requestStep: RequestStep = 'start';
-	let email;
+	let username;
 
 	async function handleSubmit() {
-		const response = await post(`/auth/login`, { email });
+		const response = await post(`/auth/login`, { username });
 		if (response.status === 401) {
 			requestStep = 'error';
 		}
@@ -26,7 +26,7 @@
 	{#if requestStep !== 'success'}
 		<form class="w-1/2 flex flex-col" on:submit|preventDefault={handleSubmit}>
 			<div class="pt-4 pb-12">
-				<div class="text-1xl font-bold pt-8">Veuillez saisir votre email</div>
+				<div class="text-1xl font-bold pt-8">Veuillez saisir votre nom d'utilisateur</div>
 				<div class="text-xs">pour recevoir pour lien de connexion</div>
 			</div>
 			<div class="flex flex-col gap-16">
@@ -35,18 +35,18 @@
 						<input
 							class="border-b-2 border-black border-opacity-30 h-10 bg-gray-100 w-full"
 							required
-							bind:value={email}
+							bind:value={username}
 						/>
 						{#if requestStep === 'error'}
 							<div class="text-xs text-error pt-4">
-								Cet email n’est pas rattaché à un compte existant.
+								Cet nom d'utilisateur n’est pas rattaché à un compte existant.
 							</div>
 						{/if}
 					</div>
 					<div class="flex items-center justify-end">
 						<button
 							type="submit"
-							disabled={!email}
+							disabled={!username}
 							class="w-32 p-2 px-4 text-white border-2 border-opacity-20 rounded bg-action hover:bg-accent disabled:bg-back2"
 						>
 							Valider
@@ -56,7 +56,6 @@
 				<div class="flex justify-between items-center">
 					<div class="text-sm">Vous n’êtes pas encore inscrit ?</div>
 					<button
-						type="submit"
 						class="w-32 p-2 px-4 border-2 border-accent text-accent rounded hover:bg-accent hover:text-white"
 					>
 						Je m'inscris

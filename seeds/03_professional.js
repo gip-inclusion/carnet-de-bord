@@ -6,6 +6,7 @@ export async function seed(knex) {
 			return knex('professional').insert([
 				{
 					id: 'a81bc81b-dead-4e5d-abff-90865d1e13b3',
+					email: 'paul.vercors@cdb.fr',
 					lastname: 'Vercors',
 					firstname: 'Paul',
 					structure_id: 'a81bc81b-dead-4e5d-abff-90865d1e13b2'

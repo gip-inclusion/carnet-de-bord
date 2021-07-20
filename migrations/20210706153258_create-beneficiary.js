@@ -4,6 +4,8 @@ export async function up(knex) {
 
 	return knex.schema.createTable('beneficiary', (table) => {
 		table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+		table.string('email').notNullable();
+		table.unique('email');
 		table.string('lastname').notNullable();
 		table.string('firstname').notNullable();
 		table.string('caf_number');

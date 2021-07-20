@@ -14,6 +14,10 @@ const config = {
 					port: 3001
 				}
 			},
+			optimizeDeps: {
+				exclude: ['@urql/svelte'],
+				include: ['graphql']
+			},
 			resolve: {
 				alias: {
 					$business: path.resolve('./src/business'),

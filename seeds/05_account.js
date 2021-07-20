@@ -5,18 +5,19 @@ export async function seed(knex) {
 		.then(function () {
 			return knex('account').insert([
 				{
-					email: 'jean.laroche@cdb.fr',
+					username: 'jean.laroche',
 					type: 'beneficiary',
 					beneficiary_id: 'a81bc81b-dead-4e5d-abff-90865d1e13b1'
 				},
 				{
-					email: 'paul.vercors@cdb.fr',
+					username: 'paul.vercors',
 					type: 'professional',
 					professional_id: 'a81bc81b-dead-4e5d-abff-90865d1e13b3'
 				},
 				{
-					email: 'admin@cdb.fr',
-					type: 'admin'
+					username: 'admin',
+					type: 'admin',
+					admin_id: 'a81bc81a-dead-4e5d-abff-90865d1e13b7'
 				}
 			]);
 		});

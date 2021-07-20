@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:13
+    image: postgres:12
     environment:
       - POSTGRES_DB=carnet_de_bord
       - POSTGRES_USER=cdb
@@ -13,10 +13,20 @@ services:
       - cdb-pgdata:/var/lib/postgresql/data
     restart: always
 
-  adminer:
-    image: adminer:4.7
+  graphql-engine:
+    image: hasura/graphql-engine:v2.0.3
     ports:
-      - '8081:8080'
+      - '5000:8080'
+    depends_on:
+      - 'db'
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://cdb:test@db:5432/carnet_de_bord
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+      HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256","jwk_url": "http://host.docker.internal:3000/auth/jwks"}'
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: admin
 
 volumes:
   cdb-pgdata:

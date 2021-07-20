@@ -8,7 +8,8 @@ export type IAddress = {
 };
 
 export interface IAccount {
-	email: string;
+	id: string;
+	username: string;
 	type: string;
 	lastLogin: Date;
 	accessKey: string;
@@ -24,10 +25,12 @@ export interface IBeneficiary extends IAddress {
 	mobileNumber: string;
 	lastname: string;
 	firstname: string;
+	email: string;
 }
 
 export interface IProfessional {
 	id: string;
+	email: string;
 	lastname: string;
 	firstname: string;
 	structure: Structure;
