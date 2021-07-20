@@ -1,5 +1,5 @@
 import objection, { ColumnNameMappers } from 'objection';
-import type { Address, Contact, CivilStatus, IBeneficiary } from 'src/global';
+import type { IBeneficiary } from 'src/global';
 import knex from './knex';
 
 const { Model, snakeCaseMappers } = objection;
@@ -10,10 +10,13 @@ export default class Beneficiary extends Model implements IBeneficiary {
 	id!: string;
 	cafNumber: string;
 	peNumber: string;
-
-	civilStatus!: CivilStatus;
-	address!: Address;
-	contact!: Contact;
+	mobileNumber: string;
+	lastname: string;
+	firstname: string;
+	postalCode: string;
+	city: string;
+	address1: string;
+	address2: string;
 
 	static tableName = 'beneficiary';
 

@@ -1,35 +1,52 @@
 <script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
-	import type { IBeneficiary } from 'src/global';
+	import { operationStore } from '@urql/svelte';
 
-	// see https://kit.svelte.dev/docs#loading
-	export const load: Load = async ({ fetch }) => {
-		const res = await fetch('api/beneficiaries.json');
-
-		if (res.ok) {
-			const beneficiaries = await res.json();
-
-			return {
-				props: { beneficiaries }
-			};
-		}
-
-		const { message } = await res.json();
+	export const load: Load = async ({ context }) => {
+		const beneficiaries = operationStore(`
+        query {
+              beneficiary {
+                address1
+                address2
+                caf_number
+                city
+                email
+                firstname
+                id
+                lastname
+                mobile_number
+                pe_number
+                postal_code
+              }
+            }
+  `);
 
 		return {
-			error: new Error(message)
+			props: {
+				beneficiaries
+			}
 		};
 	};
 </script>
 
 <script lang="ts">
 	import ProBeneficiaryCard from '$lib/components/ProBeneficiaryCard.svelte';
+	import type { Load } from '@sveltejs/kit';
+	import { query } from '@urql/svelte';
 
-	export let beneficiaries: IBeneficiary[];
+	export let beneficiaries;
+	query(beneficiaries);
 </script>
 
 <div class="flex flex-row">
-	{#each beneficiaries as beneficiary}
-		<ProBeneficiaryCard {beneficiary} />
-	{/each}
+	{#if $beneficiaries.fetching}
+		<p>Loading...</p>
+	{:else if $beneficiaries.error}
+		<p>Oh no... {$beneficiaries.error.message}</p>
+	{:else}
+		<ul>
+			{#each $beneficiaries.data.beneficiary as beneficiary}
+				<ProBeneficiaryCard {beneficiary} />
+			{/each}
+		</ul>
+	{/if}
 </div>
