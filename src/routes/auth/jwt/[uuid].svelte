@@ -12,7 +12,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	import { session } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	export let accessKey;
@@ -28,9 +27,7 @@
 				accessKey
 			})
 		});
-		const body = await response.json();
-		if (body.user) {
-			$session.user = body.user;
+		if (response.status === 200) {
 			goto('/');
 		}
 	});

@@ -18,11 +18,16 @@
 		"lint": "prettier --check --plugin-search-dir=. . && eslint src .",
 		"lint:fix": "prettier --check --plugin-search-dir=. . && yarn lint --fix --cache",
 		"lint:pre-commit": "yarn lint:fix",
-		"format": "prettier --write --plugin-search-dir=. ."
+		"format": "prettier --write --plugin-search-dir=. .",
+		"codegen": "yarn run graphql-codegen --config codegen.cjs"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^12.1.4",
 		"@commitlint/config-conventional": "^12.1.4",
+		"@graphql-codegen/cli": "1.21.7",
+		"@graphql-codegen/typed-document-node": "^1.18.10",
+		"@graphql-codegen/typescript": "1.23.0",
+		"@graphql-codegen/typescript-operations": "1.18.4",
 		"@sveltejs/adapter-node": "1.0.0-next.29",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/forms": "^0.3.3",
@@ -32,7 +37,6 @@
 		"@types/rasha": "^1.2.3",
 		"@typescript-eslint/eslint-plugin": "^4.28.3",
 		"@typescript-eslint/parser": "^4.28.3",
-		"@urql/devtools": "^2.0.3",
 		"autoprefixer": "^10.3.1",
 		"cssnano": "^5.0.6",
 		"eslint": "^7.31.0",

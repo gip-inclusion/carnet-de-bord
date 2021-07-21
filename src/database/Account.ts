@@ -1,6 +1,5 @@
 import objection, { ColumnNameMappers } from 'objection';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import type { IBeneficiary, IAccount, IProfessional } from 'src/global';
 import Beneficiary from './Beneficiary';
 import knex from './knex';
 import Professional from './Professional';
@@ -10,7 +9,7 @@ const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
-export default class Account extends Model implements IAccount {
+export default class Account extends Model {
 	id!: string;
 	username!: string;
 	type!: string;
@@ -20,8 +19,8 @@ export default class Account extends Model implements IAccount {
 
 	lastLogin: Date;
 
-	beneficiary: IBeneficiary;
-	professional: IProfessional;
+	beneficiary: Beneficiary;
+	professional: Professional;
 
 	static tableName = 'account';
 

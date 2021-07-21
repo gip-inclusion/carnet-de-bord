@@ -2,30 +2,44 @@
 
 ## développement
 
-copier le projet
+**pre-requis**:
+
+- docker
+- docker-compose
+- node
+- hasura-cli
+
+**initialiser le projet**
 
 ```sh
+#copier le projet
 git clone git@github.com:SocialGouv/carnet-de-bord.git
-
 cd carnet-de-bord
-```
 
-installer les dépendances
-
-```sh
+#installer les dépendances
 yarn
-
 yarn run husky install
 ```
 
-démarrer la base de données
+**lancer en local**
 
 ```sh
+# créer le fichier `.env`
+cp .env.sample .env
+
+# démarrer l'application svelte
+yarn dev
+
+# démarrer hasura et postgres
 docker-compose up
+
+# initialiser les données de test
+hasura seed apply
 ```
 
-migrer les données
+**hasura**:
 
-```
-yarn run knex migrate:latest
-```
+- http://localhost:5000
+- admin
+  **carnet de bord**:
+- http://localhost:3000

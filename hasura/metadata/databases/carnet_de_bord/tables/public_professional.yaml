@@ -1,0 +1,15 @@
+table:
+  name: professional
+  schema: public
+object_relationships:
+  - name: structure
+    using:
+      foreign_key_constraint_on: structure_id
+array_relationships:
+  - name: accounts
+    using:
+      foreign_key_constraint_on:
+        column: professional_id
+        table:
+          name: account
+          schema: public

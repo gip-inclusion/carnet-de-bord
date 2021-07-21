@@ -1,9 +1,9 @@
-import { sendEmail } from '$business/EmailSender';
+import { sendEmail } from '$lib/emails/EmailSender';
 import Account from '$database/Account';
 import emailMagicLink from '$lib/emails/emailMagicLink';
 import { APP_URL } from '$lib/variables';
+import type { Beneficiary, Professional } from '$lib/_gen/typed-document-nodes';
 import type { RequestHandler } from '@sveltejs/kit';
-import type { IBeneficiary, IProfessional } from 'src/global';
 import { v4 as uuidv4 } from 'uuid';
 
 export const post: RequestHandler = async (request) => {
@@ -29,8 +29,8 @@ export const post: RequestHandler = async (request) => {
 	await Account.query().update({ accessKey, accessKeyDate: new Date() }).where({ id });
 
 	const { email, firstname, lastname } = (await account.$relatedQuery(account.type)) as unknown as
-		| IBeneficiary
-		| IProfessional;
+		| Beneficiary
+		| Professional;
 
 	// send email
 	sendEmail({

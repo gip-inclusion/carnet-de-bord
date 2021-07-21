@@ -6,14 +6,20 @@
 	onMount(async () => {
 		const user = $session.user;
 		if (user) {
-			if (user.type === 'professional') {
-				goto('/pro');
-			} else if (user.type === 'admin') {
-				goto('/admin');
-			} else if (user.type === 'beneficiary') {
-				goto('/part');
-			} else {
-				goto('/auth/login');
+			const { role } = user;
+			switch (role) {
+				case 'professional':
+					goto('/pro');
+					break;
+				case 'admin':
+					goto('/admin');
+					break;
+				case 'beneficiary':
+					goto('/beneficiary');
+					break;
+				default:
+					goto('/auth/login');
+					break;
 			}
 		}
 	});

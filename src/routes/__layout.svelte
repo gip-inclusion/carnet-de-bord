@@ -1,17 +1,37 @@
 <script context="module" lang="ts">
+	import '../app.postcss';
 	import { GRAPHQL_API_URL } from '$lib/variables';
 	import { createClient, setClient } from '@urql/svelte';
 
-	export async function load({ page, fetch, context }) {
+	function getToken(session) {
+		return session.token;
+	}
+
+	export async function load({ page, fetch, session }) {
+		if (!session.user && !page.path.startsWith('/auth')) {
+			return {
+				status: 302,
+				redirect: '/auth/login'
+			};
+		}
+		if (session.user && page.path.startsWith('/auth')) {
+			return {
+				status: 302,
+				redirect: '/'
+			};
+		}
+
 		const client = createClient({
 			url: GRAPHQL_API_URL,
 			fetch,
 			fetchOptions: () => {
-				const token =
-					'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsicHJvZmVzc2lvbmFsIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InByb2Zlc3Npb25hbCIsIngtaGFzdXJhLXVzZXItaWQiOiIxNzQzNDQ2NC01ZjY5LTQwY2MtODE3Mi00MDE2MDk1OGEzM2QifSwiaWQiOiIxNzQzNDQ2NC01ZjY5LTQwY2MtODE3Mi00MDE2MDk1OGEzM2QiLCJyb2xlIjoicHJvZmVzc2lvbmFsIiwiaWF0IjoxNjI2Nzg5NDA4LCJleHAiOjE2MjkzODE0MDgsInN1YiI6IjE3NDM0NDY0LTVmNjktNDBjYy04MTcyLTQwMTYwOTU4YTMzZCJ9.QNOa0zvS2tDsMIyg5whfdDd_KTY57_eHCpN4NP9D0Iuj34zV_8FF5I6QnzPtbkoT6X58Tgf3PRrTlI8J2FrienCK17_mbwGDGMieednISZ707CViWX-dgEDwBZAg0lyum508ZW-pI-S8XlZdq_3FxB0E5A0gOdVEOgfGDay9RlXpw018FaAdBEalDNkXSqFZqQKF1d4JcnaDVGpBYiDel_H8iq6V5Z75JnHBG5JANlC5vDCbKVZsZ3k7RuoVMZ1i5MgKYgmQQO9RPVQ9GI_eOY_q8qv4HAViRkxuS-BhMdXCeRo5mRZOHoqP58xLPunw9Nq811aH1mjdzdCKoVHvUg';
-				return {
-					headers: { authorization: token ? `Bearer ${token}` : '' }
-				};
+				const token = getToken(session);
+				if (token) {
+					return {
+						headers: { authorization: token ? `Bearer ${token}` : '' }
+					};
+				}
+				return {};
 			}
 		});
 
@@ -49,10 +69,9 @@
 		</a>
 		<div class="flex-grow" />
 		{#if $session.user}
-			<a
+			<button
 				class="block p-2 px-4 border rounded text-action bg-back2 hover:bg-accent"
-				href="/logout"
-				on:click|preventDefault={logout}>Deconnexion</a
+				on:click|preventDefault={logout}>Deconnexion</button
 			>
 		{/if}
 	</div>
