@@ -7,6 +7,10 @@ export const handle: Handle = async ({ request, resolve }) => {
 	if (cookies.jwt) {
 		const user = jwtDecode(cookies.jwt);
 		request.locals.user = user;
+		request.locals.token = cookies.jwt;
+	} else {
+		request.locals.user = null;
+		request.locals.token = null;
 	}
 	return await resolve(request);
 };
@@ -14,10 +18,12 @@ export const handle: Handle = async ({ request, resolve }) => {
 export const getSession: GetSession = async ({ locals }) => {
 	const session = {
 		user: locals.user && {
-			username: locals.user.username,
-			type: locals.user.type
-		}
+			id: locals.user.id,
+			role: locals.user.role
+		},
+		token: locals.token
 	};
+
 	return session;
 };
 

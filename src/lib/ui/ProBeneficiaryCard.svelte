@@ -1,7 +1,10 @@
 <script lang="ts">
-	import type { IBeneficiary } from 'src/global';
+	import type { Beneficiary } from '$lib/_gen/typed-document-nodes';
 
-	export let beneficiary: IBeneficiary;
+	export let beneficiary: Pick<
+		Beneficiary,
+		'id' | 'firstname' | 'lastname' | 'email' | 'mobile_number'
+	>;
 </script>
 
 <div class="border-2 m-2">

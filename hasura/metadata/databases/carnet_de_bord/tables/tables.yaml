@@ -1,0 +1,5 @@
+- '!include public_account.yaml'
+- '!include public_admin.yaml'
+- '!include public_beneficiary.yaml'
+- '!include public_professional.yaml'
+- '!include public_structure.yaml'

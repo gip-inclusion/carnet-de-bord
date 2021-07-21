@@ -1,5 +1,4 @@
 import objection, { ColumnNameMappers } from 'objection';
-import type { Contact, CivilStatus, IProfessional } from 'src/global';
 import knex from './knex';
 import Structure from './Structure';
 
@@ -7,10 +6,11 @@ const { Model, snakeCaseMappers } = objection;
 
 Model.knex(knex);
 
-export default class Professional extends Model implements IProfessional {
+export default class Professional extends Model {
 	id!: string;
-	civilStatus!: CivilStatus;
-	contact!: Contact;
+	lastname: string;
+	firstname: string;
+	email: string;
 	structure: Structure;
 
 	static tableName = 'professional';
@@ -33,30 +33,7 @@ export default class Professional extends Model implements IProfessional {
 	static jsonSchema = {
 		type: 'object',
 		properties: {
-			id: { type: 'string' },
-			address: {
-				type: 'object',
-				properties: {
-					postalCode: { type: 'string' },
-					city: { type: 'string' },
-					address1: { type: 'string' }
-				}
-			},
-			civilStatus: {
-				type: 'object',
-				properties: {
-					civility: { type: 'string' },
-					lastname: { type: 'string' },
-					firstname: { type: 'string' }
-				}
-			},
-			contact: {
-				type: 'object',
-				properties: {
-					mobileNumber: { type: 'string' },
-					email: { type: 'string' }
-				}
-			}
+			id: { type: 'string' }
 		}
 	};
 }
