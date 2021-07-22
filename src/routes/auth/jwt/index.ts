@@ -1,4 +1,5 @@
-import Account from '$database/Account';
+import knex from '$lib/config/db/knex';
+import { getJwtUser } from '$lib/utils/getJwt';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const post: RequestHandler = async (request) => {
@@ -6,7 +7,11 @@ export const post: RequestHandler = async (request) => {
 		accessKey: string;
 	};
 
-	const account = await Account.query().findOne({ access_key: accessKey });
+	const account = (await knex('account').where({ access_key: accessKey }).first()) as {
+		id: string;
+		type: string;
+		username: string;
+	};
 
 	if (!account) {
 		return {
@@ -17,10 +22,10 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const user = await account.getUser();
+	const user = getJwtUser(account);
 
-	await Account.query()
-		.update({ accessKey: null, accessKeyDate: null, lastLogin: new Date() })
+	await await knex('account')
+		.update({ access_key: null, access_key_date: null, last_login: new Date() })
 		.where({ username: account.username });
 
 	return {

@@ -1,4 +1,4 @@
-import { getSecret } from '$lib/variables/jwt';
+import { getSecret } from '$lib/config/jwk/getSecret';
 import type { RequestHandler } from '@sveltejs/kit';
 import Rasha from 'rasha';
 
