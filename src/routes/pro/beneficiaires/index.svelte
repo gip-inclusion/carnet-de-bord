@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import ProBeneficiaryCard from '$lib/ui/ProBeneficiaryCard.svelte';
+	import ProBeneficiarySearch from '$lib/ui/ProBeneficiarySearch.svelte';
 	import type { Beneficiary, GetAllBeneficiariesQuery } from '$lib/_gen/typed-document-nodes';
 	import { GetAllBeneficiariesDocument } from '$lib/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
@@ -11,19 +12,19 @@
 
 		return {
 			props: {
-				beneficiaries
+				beneficiaries,
+				caca: 'popo'
 			}
 		};
 	};
 </script>
 
 <script lang="ts">
-	import ProBeneficiarySearch from '$lib/ui/ProBeneficiarySearch.svelte';
-
 	export let beneficiaries: OperationStore<
 		GetAllBeneficiariesQuery,
 		Pick<Beneficiary, 'id' | 'firstname' | 'lastname' | 'email' | 'mobile_number'>
 	>;
+
 	query(beneficiaries);
 </script>
 

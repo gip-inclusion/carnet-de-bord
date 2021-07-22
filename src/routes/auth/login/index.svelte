@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { post } from '$lib/utils';
+	import { post } from '$lib/utils/post';
 
 	type RequestStep = 'start' | 'success' | 'error';
 

@@ -43,7 +43,7 @@
 
 <script lang="ts">
 	import { session } from '$app/stores';
-	import { post } from '$lib/utils';
+	import { post } from '$lib/utils/post';
 	import { goto } from '$app/navigation';
 
 	async function logout() {
