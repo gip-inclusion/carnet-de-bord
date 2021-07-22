@@ -17,12 +17,6 @@ const config = {
 			optimizeDeps: {
 				exclude: ['@urql/svelte'],
 				include: ['graphql']
-			},
-			resolve: {
-				alias: {
-					$business: path.resolve('./src/business'),
-					$database: path.resolve('./src/database')
-				}
 			}
 		},
 		adapter: adapter({
