@@ -50,7 +50,7 @@
 		"prettier": "~2.3.2",
 		"prettier-plugin-svelte": "^2.3.1",
 		"remixicon": "^2.5.0",
-		"svelte": "^3.38.3",
+		"svelte": "^3.40.2",
 		"svelte-check": "^2.2.3",
 		"svelte-preprocess": "^4.7.4",
 		"tailwindcss": "^2.2.7",
