@@ -10,23 +10,33 @@ configuration:
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
-- name: beneficiary
-  using:
-    foreign_key_constraint_on: beneficiary_id
-- name: professional
-  using:
-    foreign_key_constraint_on: professional_id
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - member_type
-    - last_seen_date
-    - modification_date
-    - beneficiary_id
-    - id
-    - professional_id
-    filter:
-      professional_id:
-        _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      allow_aggregations: true
+      columns:
+        - member_type
+        - last_seen_date
+        - modification_date
+        - beneficiary_id
+        - id
+        - professional_id
+      filter:
+        professional_id:
+          _eq: X-Hasura-Professional-Id
+    role: professional
+update_permissions:
+  - permission:
+      check: null
+      columns:
+        - last_seen_date
+        - modification_date
+      filter:
+        professional_id:
+          _eq: X-Hasura-Professional-Id
+    role: professional
