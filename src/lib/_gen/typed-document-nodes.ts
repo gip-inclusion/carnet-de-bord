@@ -1853,7 +1853,7 @@ export type Team_Member = {
 	beneficiary: Beneficiary;
 	beneficiaryId: Scalars['uuid'];
 	id: Scalars['uuid'];
-	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType: Scalars['String'];
 	modificationDate?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
@@ -1904,7 +1904,7 @@ export type Team_Member_Bool_Exp = {
 	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
 	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
 	id?: Maybe<Uuid_Comparison_Exp>;
-	lastSeenDate?: Maybe<Timestamptz_Comparison_Exp>;
+	lastVisitDate?: Maybe<Timestamptz_Comparison_Exp>;
 	memberType?: Maybe<String_Comparison_Exp>;
 	modificationDate?: Maybe<Timestamptz_Comparison_Exp>;
 	professional?: Maybe<Professional_Bool_Exp>;
@@ -1922,7 +1922,7 @@ export type Team_Member_Insert_Input = {
 	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
 	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
@@ -1934,7 +1934,7 @@ export type Team_Member_Max_Fields = {
 	__typename?: 'team_member_max_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
 	professionalId?: Maybe<Scalars['uuid']>;
@@ -1944,7 +1944,7 @@ export type Team_Member_Max_Fields = {
 export type Team_Member_Max_Order_By = {
 	beneficiaryId?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
-	lastSeenDate?: Maybe<Order_By>;
+	lastVisitDate?: Maybe<Order_By>;
 	memberType?: Maybe<Order_By>;
 	modificationDate?: Maybe<Order_By>;
 	professionalId?: Maybe<Order_By>;
@@ -1955,7 +1955,7 @@ export type Team_Member_Min_Fields = {
 	__typename?: 'team_member_min_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
 	professionalId?: Maybe<Scalars['uuid']>;
@@ -1965,7 +1965,7 @@ export type Team_Member_Min_Fields = {
 export type Team_Member_Min_Order_By = {
 	beneficiaryId?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
-	lastSeenDate?: Maybe<Order_By>;
+	lastVisitDate?: Maybe<Order_By>;
 	memberType?: Maybe<Order_By>;
 	modificationDate?: Maybe<Order_By>;
 	professionalId?: Maybe<Order_By>;
@@ -1992,7 +1992,7 @@ export type Team_Member_Order_By = {
 	beneficiary?: Maybe<Beneficiary_Order_By>;
 	beneficiaryId?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
-	lastSeenDate?: Maybe<Order_By>;
+	lastVisitDate?: Maybe<Order_By>;
 	memberType?: Maybe<Order_By>;
 	modificationDate?: Maybe<Order_By>;
 	professional?: Maybe<Professional_Order_By>;
@@ -2011,7 +2011,7 @@ export enum Team_Member_Select_Column {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	LastSeenDate = 'lastSeenDate',
+	LastVisitDate = 'lastVisitDate',
 	/** column name */
 	MemberType = 'memberType',
 	/** column name */
@@ -2024,7 +2024,7 @@ export enum Team_Member_Select_Column {
 export type Team_Member_Set_Input = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
 	professionalId?: Maybe<Scalars['uuid']>;
@@ -2037,7 +2037,7 @@ export enum Team_Member_Update_Column {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	LastSeenDate = 'lastSeenDate',
+	LastVisitDate = 'lastVisitDate',
 	/** column name */
 	MemberType = 'memberType',
 	/** column name */
@@ -2072,84 +2072,69 @@ export type Uuid_Comparison_Exp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type GetTeamMembersQueryVariables = Exact<{ [key: string]: never }>;
+export type GetBeneficiariesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetTeamMembersQuery = { __typename?: 'query_root' } & {
-	teamMember: Array<
-		{ __typename?: 'team_member' } & Pick<
-			Team_Member,
-			'id' | 'memberType' | 'lastSeenDate' | 'modificationDate'
-		> & {
-				beneficiary: { __typename?: 'beneficiary' } & Pick<
-					Beneficiary,
-					'dateOfBirth' | 'firstname' | 'id' | 'lastname' | 'mobileNumber'
-				>;
-			}
+export type GetBeneficiariesQuery = { __typename?: 'query_root' } & {
+	beneficiary: Array<
+		{ __typename?: 'beneficiary' } & Pick<
+			Beneficiary,
+			'dateOfBirth' | 'firstname' | 'id' | 'lastname' | 'mobileNumber'
+		>
 	>;
 };
 
-export type UpdateLastSeenDateMutationVariables = Exact<{
-	id: Scalars['uuid'];
-	lastSeenDate: Scalars['timestamptz'];
+export type UpdateLastVisitDateMutationVariables = Exact<{
+	beneficiaryId: Scalars['uuid'];
+	lastVisitDate: Scalars['timestamptz'];
 }>;
 
-export type UpdateLastSeenDateMutation = { __typename?: 'mutation_root' } & {
-	update_team_member_by_pk?: Maybe<
-		{ __typename?: 'team_member' } & {
-			beneficiary: { __typename?: 'beneficiary' } & Pick<
-				Beneficiary,
-				| 'address1'
-				| 'address2'
-				| 'cafNumber'
-				| 'city'
-				| 'dateOfBirth'
-				| 'email'
-				| 'firstname'
-				| 'id'
-				| 'lastname'
-				| 'mobileNumber'
-				| 'peNumber'
-				| 'postalCode'
+export type UpdateLastVisitDateMutation = { __typename?: 'mutation_root' } & {
+	update_team_member?: Maybe<
+		{ __typename?: 'team_member_mutation_response' } & {
+			returning: Array<
+				{ __typename?: 'team_member' } & {
+					beneficiary: { __typename?: 'beneficiary' } & Pick<
+						Beneficiary,
+						| 'address1'
+						| 'address2'
+						| 'cafNumber'
+						| 'city'
+						| 'dateOfBirth'
+						| 'email'
+						| 'firstname'
+						| 'id'
+						| 'lastname'
+						| 'mobileNumber'
+						| 'peNumber'
+						| 'postalCode'
+					>;
+				}
 			>;
 		}
 	>;
 };
 
-export const GetTeamMembersDocument = {
+export const GetBeneficiariesDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetTeamMembers' },
+			name: { kind: 'Name', value: 'GetBeneficiaries' },
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'teamMember' },
-						name: { kind: 'Name', value: 'team_member' },
+						name: { kind: 'Name', value: 'beneficiary' },
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastSeenDate' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'modificationDate' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiary' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
-										]
-									}
-								}
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
 							]
 						}
 					}
@@ -2157,18 +2142,18 @@ export const GetTeamMembersDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<GetTeamMembersQuery, GetTeamMembersQueryVariables>;
-export const UpdateLastSeenDateDocument = {
+} as unknown as DocumentNode<GetBeneficiariesQuery, GetBeneficiariesQueryVariables>;
+export const UpdateLastVisitDateDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'mutation',
-			name: { kind: 'Name', value: 'updateLastSeenDate' },
+			name: { kind: 'Name', value: 'updateLastVisitDate' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
@@ -2176,7 +2161,7 @@ export const UpdateLastSeenDateDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastSeenDate' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastVisitDate' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
@@ -2188,18 +2173,30 @@ export const UpdateLastSeenDateDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_team_member_by_pk' },
+						name: { kind: 'Name', value: 'update_team_member' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
+								name: { kind: 'Name', value: 'where' },
 								value: {
 									kind: 'ObjectValue',
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'beneficiaryId' }
+														}
+													}
+												]
+											}
 										}
 									]
 								}
@@ -2212,8 +2209,8 @@ export const UpdateLastSeenDateDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastSeenDate' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastSeenDate' } }
+											name: { kind: 'Name', value: 'lastVisitDate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastVisitDate' } }
 										}
 									]
 								}
@@ -2224,22 +2221,31 @@ export const UpdateLastSeenDateDocument = {
 							selections: [
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiary' },
+									name: { kind: 'Name', value: 'returning' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'beneficiary' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+													]
+												}
+											}
 										]
 									}
 								}
@@ -2250,4 +2256,4 @@ export const UpdateLastSeenDateDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<UpdateLastSeenDateMutation, UpdateLastSeenDateMutationVariables>;
+} as unknown as DocumentNode<UpdateLastVisitDateMutation, UpdateLastVisitDateMutationVariables>;

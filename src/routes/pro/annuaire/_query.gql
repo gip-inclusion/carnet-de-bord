@@ -1,15 +1,9 @@
-query GetTeamMembers {
-	teamMember: team_member {
+query GetBeneficiaries {
+	beneficiary {
+		dateOfBirth
+		firstname
 		id
-		memberType
-		lastSeenDate
-		modificationDate
-		beneficiary {
-			dateOfBirth
-			firstname
-			id
-			lastname
-			mobileNumber
-		}
+		lastname
+		mobileNumber
 	}
 }

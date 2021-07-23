@@ -54,7 +54,7 @@ CREATE TABLE public.team_member (
     beneficiary_id uuid NOT NULL,
     professional_id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     member_type character varying NOT NULL,
-    last_seen_date timestamp with time zone,
+    last_visit_date timestamp with time zone,
     modification_date timestamp with time zone
 );
 ALTER TABLE ONLY public.account

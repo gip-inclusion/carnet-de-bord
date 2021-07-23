@@ -4,7 +4,7 @@ table:
 configuration:
   custom_column_names:
     beneficiary_id: beneficiaryId
-    last_seen_date: lastSeenDate
+    last_visit_date: lastVisitDate
     member_type: memberType
     modification_date: modificationDate
     professional_id: professionalId
@@ -21,7 +21,7 @@ select_permissions:
       allow_aggregations: true
       columns:
         - member_type
-        - last_seen_date
+        - last_visit_date
         - modification_date
         - beneficiary_id
         - id
@@ -34,7 +34,7 @@ update_permissions:
   - permission:
       check: null
       columns:
-        - last_seen_date
+        - last_visit_date
         - modification_date
       filter:
         professional_id:

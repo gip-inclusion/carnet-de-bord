@@ -1,14 +1,14 @@
 <script context="module" lang="ts">
 	import ProBeneficiaryCard from '$lib/ui/ProBeneficiaryCard.svelte';
 	import ProBeneficiarySearch from '$lib/ui/ProBeneficiarySearchBar.svelte';
-	import type { GetTeamMembersQuery } from '$lib/_gen/typed-document-nodes';
-	import { GetTeamMembersDocument } from '$lib/_gen/typed-document-nodes';
+	import type { GetBeneficiariesQuery } from '$lib/_gen/typed-document-nodes';
+	import { GetBeneficiariesDocument } from '$lib/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
 
 	export const load: Load = async () => {
-		const result = operationStore(GetTeamMembersDocument);
+		const result = operationStore(GetBeneficiariesDocument);
 
 		return {
 			props: {
@@ -21,7 +21,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	export let result: OperationStore<GetTeamMembersQuery>;
+	export let result: OperationStore<GetBeneficiariesQuery>;
 
 	query(result);
 
@@ -31,7 +31,7 @@
 	}
 
 	function onClick(id: string) {
-		goto(`/pro/beneficiaire?teamMemberId=${id}`);
+		goto(`/pro/beneficiaire/${id}`);
 	}
 </script>
 
@@ -45,9 +45,9 @@
 		{:else if $result.error}
 			<p>Oh no... {$result.error.message}</p>
 		{:else}
-			{#each $result.data.teamMember as teamMember}
-				<div class="card-container" on:click={() => onClick(teamMember.id)}>
-					<ProBeneficiaryCard beneficiary={teamMember.beneficiary} />
+			{#each $result.data.beneficiary as beneficiary}
+				<div class="card-container" on:click={() => onClick(beneficiary.id)}>
+					<ProBeneficiaryCard {beneficiary} />
 				</div>
 			{/each}
 		{/if}
