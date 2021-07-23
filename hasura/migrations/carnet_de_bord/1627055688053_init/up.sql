@@ -25,7 +25,8 @@ CREATE TABLE public.beneficiary (
     city character varying(255),
     address1 character varying(255),
     address2 character varying(255),
-    mobile_number character varying(255)
+    mobile_number character varying(255),
+    date_of_birth date NOT NULL
 );
 CREATE TABLE public.professional (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
@@ -48,6 +49,14 @@ CREATE TABLE public.structure (
     creation_date timestamp with time zone,
     modification_date timestamp with time zone
 );
+CREATE TABLE public.team_member (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    beneficiary_id uuid NOT NULL,
+    professional_id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    member_type character varying NOT NULL,
+    last_seen_date timestamp with time zone,
+    modification_date timestamp with time zone
+);
 ALTER TABLE ONLY public.account
     ADD CONSTRAINT account_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.account
@@ -66,6 +75,8 @@ ALTER TABLE ONLY public.professional
     ADD CONSTRAINT professional_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.structure
     ADD CONSTRAINT structure_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.team_member
+    ADD CONSTRAINT team_member_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.account
     ADD CONSTRAINT account_admin_id_foreign FOREIGN KEY (admin_id) REFERENCES public.admin(id);
 ALTER TABLE ONLY public.account
@@ -74,3 +85,7 @@ ALTER TABLE ONLY public.account
     ADD CONSTRAINT account_professional_id_foreign FOREIGN KEY (professional_id) REFERENCES public.professional(id);
 ALTER TABLE ONLY public.professional
     ADD CONSTRAINT professional_structure_id_foreign FOREIGN KEY (structure_id) REFERENCES public.structure(id);
+ALTER TABLE ONLY public.team_member
+    ADD CONSTRAINT team_member_beneficiary_id_fkey FOREIGN KEY (beneficiary_id) REFERENCES public.beneficiary(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY public.team_member
+    ADD CONSTRAINT team_member_professional_id_fkey FOREIGN KEY (professional_id) REFERENCES public.professional(id) ON UPDATE RESTRICT ON DELETE RESTRICT;

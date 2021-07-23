@@ -27,7 +27,6 @@ export const post: RequestHandler = async (request) => {
 	}
 
 	const { id, type, beneficiary_id, professional_id, admin_id } = account;
-	console.log(account);
 
 	const accessKey = uuidv4();
 

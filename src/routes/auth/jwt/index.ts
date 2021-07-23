@@ -11,6 +11,8 @@ export const post: RequestHandler = async (request) => {
 		id: string;
 		type: string;
 		username: string;
+		professional_id: string;
+		beneficiary_id: string;
 	};
 
 	if (!account) {
@@ -22,7 +24,15 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const user = getJwtUser(account);
+	const { id, type, username, professional_id, beneficiary_id } = account;
+
+	const user = getJwtUser({
+		id,
+		type,
+		username,
+		professionalId: professional_id,
+		beneficiaryId: beneficiary_id
+	});
 
 	await await knex('account')
 		.update({ access_key: null, access_key_date: null, last_login: new Date() })
