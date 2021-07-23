@@ -1,11 +1,18 @@
 table:
   name: structure
   schema: public
+configuration:
+  custom_column_names:
+    creation_date: creationDate
+    modification_date: modificationDate
+    postal_code: postalCode
+    short_desc: shortDesc
+  custom_root_fields: {}
 array_relationships:
-  - name: professionals
-    using:
-      foreign_key_constraint_on:
-        column: structure_id
-        table:
-          name: professional
-          schema: public
+- name: professionals
+  using:
+    foreign_key_constraint_on:
+      column: structure_id
+      table:
+        name: professional
+        schema: public

@@ -10,6 +10,7 @@ export type Scalars = {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
+	date: any;
 	timestamptz: any;
 	uuid: any;
 };
@@ -50,19 +51,19 @@ export type String_Comparison_Exp = {
 /** columns and relationships of "account" */
 export type Account = {
 	__typename?: 'account';
-	access_key?: Maybe<Scalars['String']>;
-	access_key_date?: Maybe<Scalars['timestamptz']>;
+	accessKey?: Maybe<Scalars['String']>;
+	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
 	admin?: Maybe<Admin>;
-	admin_id?: Maybe<Scalars['uuid']>;
+	adminId?: Maybe<Scalars['uuid']>;
 	/** An object relationship */
 	beneficiary?: Maybe<Beneficiary>;
-	beneficiary_id?: Maybe<Scalars['uuid']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id: Scalars['uuid'];
-	last_login?: Maybe<Scalars['timestamptz']>;
+	lastLogin?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
 	professional?: Maybe<Professional>;
-	professional_id?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
 	type: Scalars['String'];
 	username: Scalars['String'];
 };
@@ -107,16 +108,16 @@ export type Account_Bool_Exp = {
 	_and?: Maybe<Array<Account_Bool_Exp>>;
 	_not?: Maybe<Account_Bool_Exp>;
 	_or?: Maybe<Array<Account_Bool_Exp>>;
-	access_key?: Maybe<String_Comparison_Exp>;
-	access_key_date?: Maybe<Timestamptz_Comparison_Exp>;
+	accessKey?: Maybe<String_Comparison_Exp>;
+	accessKeyDate?: Maybe<Timestamptz_Comparison_Exp>;
 	admin?: Maybe<Admin_Bool_Exp>;
-	admin_id?: Maybe<Uuid_Comparison_Exp>;
+	adminId?: Maybe<Uuid_Comparison_Exp>;
 	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
-	beneficiary_id?: Maybe<Uuid_Comparison_Exp>;
+	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
 	id?: Maybe<Uuid_Comparison_Exp>;
-	last_login?: Maybe<Timestamptz_Comparison_Exp>;
+	lastLogin?: Maybe<Timestamptz_Comparison_Exp>;
 	professional?: Maybe<Professional_Bool_Exp>;
-	professional_id?: Maybe<Uuid_Comparison_Exp>;
+	professionalId?: Maybe<Uuid_Comparison_Exp>;
 	type?: Maybe<String_Comparison_Exp>;
 	username?: Maybe<String_Comparison_Exp>;
 };
@@ -131,16 +132,16 @@ export enum Account_Constraint {
 
 /** input type for inserting data into table "account" */
 export type Account_Insert_Input = {
-	access_key?: Maybe<Scalars['String']>;
-	access_key_date?: Maybe<Scalars['timestamptz']>;
+	accessKey?: Maybe<Scalars['String']>;
+	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	admin?: Maybe<Admin_Obj_Rel_Insert_Input>;
-	admin_id?: Maybe<Scalars['uuid']>;
+	adminId?: Maybe<Scalars['uuid']>;
 	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
-	beneficiary_id?: Maybe<Scalars['uuid']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	last_login?: Maybe<Scalars['timestamptz']>;
+	lastLogin?: Maybe<Scalars['timestamptz']>;
 	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
-	professional_id?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
 };
@@ -148,26 +149,26 @@ export type Account_Insert_Input = {
 /** aggregate max on columns */
 export type Account_Max_Fields = {
 	__typename?: 'account_max_fields';
-	access_key?: Maybe<Scalars['String']>;
-	access_key_date?: Maybe<Scalars['timestamptz']>;
-	admin_id?: Maybe<Scalars['uuid']>;
-	beneficiary_id?: Maybe<Scalars['uuid']>;
+	accessKey?: Maybe<Scalars['String']>;
+	accessKeyDate?: Maybe<Scalars['timestamptz']>;
+	adminId?: Maybe<Scalars['uuid']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	last_login?: Maybe<Scalars['timestamptz']>;
-	professional_id?: Maybe<Scalars['uuid']>;
+	lastLogin?: Maybe<Scalars['timestamptz']>;
+	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
 };
 
 /** order by max() on columns of table "account" */
 export type Account_Max_Order_By = {
-	access_key?: Maybe<Order_By>;
-	access_key_date?: Maybe<Order_By>;
-	admin_id?: Maybe<Order_By>;
-	beneficiary_id?: Maybe<Order_By>;
+	accessKey?: Maybe<Order_By>;
+	accessKeyDate?: Maybe<Order_By>;
+	adminId?: Maybe<Order_By>;
+	beneficiaryId?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
-	last_login?: Maybe<Order_By>;
-	professional_id?: Maybe<Order_By>;
+	lastLogin?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
 	type?: Maybe<Order_By>;
 	username?: Maybe<Order_By>;
 };
@@ -175,26 +176,26 @@ export type Account_Max_Order_By = {
 /** aggregate min on columns */
 export type Account_Min_Fields = {
 	__typename?: 'account_min_fields';
-	access_key?: Maybe<Scalars['String']>;
-	access_key_date?: Maybe<Scalars['timestamptz']>;
-	admin_id?: Maybe<Scalars['uuid']>;
-	beneficiary_id?: Maybe<Scalars['uuid']>;
+	accessKey?: Maybe<Scalars['String']>;
+	accessKeyDate?: Maybe<Scalars['timestamptz']>;
+	adminId?: Maybe<Scalars['uuid']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	last_login?: Maybe<Scalars['timestamptz']>;
-	professional_id?: Maybe<Scalars['uuid']>;
+	lastLogin?: Maybe<Scalars['timestamptz']>;
+	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
 };
 
 /** order by min() on columns of table "account" */
 export type Account_Min_Order_By = {
-	access_key?: Maybe<Order_By>;
-	access_key_date?: Maybe<Order_By>;
-	admin_id?: Maybe<Order_By>;
-	beneficiary_id?: Maybe<Order_By>;
+	accessKey?: Maybe<Order_By>;
+	accessKeyDate?: Maybe<Order_By>;
+	adminId?: Maybe<Order_By>;
+	beneficiaryId?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
-	last_login?: Maybe<Order_By>;
-	professional_id?: Maybe<Order_By>;
+	lastLogin?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
 	type?: Maybe<Order_By>;
 	username?: Maybe<Order_By>;
 };
@@ -217,16 +218,16 @@ export type Account_On_Conflict = {
 
 /** Ordering options when selecting data from "account". */
 export type Account_Order_By = {
-	access_key?: Maybe<Order_By>;
-	access_key_date?: Maybe<Order_By>;
+	accessKey?: Maybe<Order_By>;
+	accessKeyDate?: Maybe<Order_By>;
 	admin?: Maybe<Admin_Order_By>;
-	admin_id?: Maybe<Order_By>;
+	adminId?: Maybe<Order_By>;
 	beneficiary?: Maybe<Beneficiary_Order_By>;
-	beneficiary_id?: Maybe<Order_By>;
+	beneficiaryId?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
-	last_login?: Maybe<Order_By>;
+	lastLogin?: Maybe<Order_By>;
 	professional?: Maybe<Professional_Order_By>;
-	professional_id?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
 	type?: Maybe<Order_By>;
 	username?: Maybe<Order_By>;
 };
@@ -239,19 +240,19 @@ export type Account_Pk_Columns_Input = {
 /** select columns of table "account" */
 export enum Account_Select_Column {
 	/** column name */
-	AccessKey = 'access_key',
+	AccessKey = 'accessKey',
 	/** column name */
-	AccessKeyDate = 'access_key_date',
+	AccessKeyDate = 'accessKeyDate',
 	/** column name */
-	AdminId = 'admin_id',
+	AdminId = 'adminId',
 	/** column name */
-	BeneficiaryId = 'beneficiary_id',
+	BeneficiaryId = 'beneficiaryId',
 	/** column name */
 	Id = 'id',
 	/** column name */
-	LastLogin = 'last_login',
+	LastLogin = 'lastLogin',
 	/** column name */
-	ProfessionalId = 'professional_id',
+	ProfessionalId = 'professionalId',
 	/** column name */
 	Type = 'type',
 	/** column name */
@@ -260,13 +261,13 @@ export enum Account_Select_Column {
 
 /** input type for updating data in table "account" */
 export type Account_Set_Input = {
-	access_key?: Maybe<Scalars['String']>;
-	access_key_date?: Maybe<Scalars['timestamptz']>;
-	admin_id?: Maybe<Scalars['uuid']>;
-	beneficiary_id?: Maybe<Scalars['uuid']>;
+	accessKey?: Maybe<Scalars['String']>;
+	accessKeyDate?: Maybe<Scalars['timestamptz']>;
+	adminId?: Maybe<Scalars['uuid']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	last_login?: Maybe<Scalars['timestamptz']>;
-	professional_id?: Maybe<Scalars['uuid']>;
+	lastLogin?: Maybe<Scalars['timestamptz']>;
+	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
 };
@@ -274,19 +275,19 @@ export type Account_Set_Input = {
 /** update columns of table "account" */
 export enum Account_Update_Column {
 	/** column name */
-	AccessKey = 'access_key',
+	AccessKey = 'accessKey',
 	/** column name */
-	AccessKeyDate = 'access_key_date',
+	AccessKeyDate = 'accessKeyDate',
 	/** column name */
-	AdminId = 'admin_id',
+	AdminId = 'adminId',
 	/** column name */
-	BeneficiaryId = 'beneficiary_id',
+	BeneficiaryId = 'beneficiaryId',
 	/** column name */
 	Id = 'id',
 	/** column name */
-	LastLogin = 'last_login',
+	LastLogin = 'lastLogin',
 	/** column name */
-	ProfessionalId = 'professional_id',
+	ProfessionalId = 'professionalId',
 	/** column name */
 	Type = 'type',
 	/** column name */
@@ -448,15 +449,20 @@ export type Beneficiary = {
 	accounts_aggregate: Account_Aggregate;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
-	caf_number?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
+	dateOfBirth: Scalars['date'];
 	email: Scalars['String'];
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
-	mobile_number?: Maybe<Scalars['String']>;
-	pe_number?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	/** An array relationship */
+	teamMembers: Array<Team_Member>;
+	/** An aggregate relationship */
+	teamMembers_aggregate: Team_Member_Aggregate;
 };
 
 /** columns and relationships of "beneficiary" */
@@ -475,6 +481,24 @@ export type BeneficiaryAccounts_AggregateArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<Account_Order_By>>;
 	where?: Maybe<Account_Bool_Exp>;
+};
+
+/** columns and relationships of "beneficiary" */
+export type BeneficiaryTeamMembersArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+/** columns and relationships of "beneficiary" */
+export type BeneficiaryTeamMembers_AggregateArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** aggregated selection of "beneficiary" */
@@ -506,15 +530,17 @@ export type Beneficiary_Bool_Exp = {
 	accounts?: Maybe<Account_Bool_Exp>;
 	address1?: Maybe<String_Comparison_Exp>;
 	address2?: Maybe<String_Comparison_Exp>;
-	caf_number?: Maybe<String_Comparison_Exp>;
+	cafNumber?: Maybe<String_Comparison_Exp>;
 	city?: Maybe<String_Comparison_Exp>;
+	dateOfBirth?: Maybe<Date_Comparison_Exp>;
 	email?: Maybe<String_Comparison_Exp>;
 	firstname?: Maybe<String_Comparison_Exp>;
 	id?: Maybe<Uuid_Comparison_Exp>;
 	lastname?: Maybe<String_Comparison_Exp>;
-	mobile_number?: Maybe<String_Comparison_Exp>;
-	pe_number?: Maybe<String_Comparison_Exp>;
-	postal_code?: Maybe<String_Comparison_Exp>;
+	mobileNumber?: Maybe<String_Comparison_Exp>;
+	peNumber?: Maybe<String_Comparison_Exp>;
+	postalCode?: Maybe<String_Comparison_Exp>;
+	teamMembers?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "beneficiary" */
@@ -530,15 +556,17 @@ export type Beneficiary_Insert_Input = {
 	accounts?: Maybe<Account_Arr_Rel_Insert_Input>;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
-	caf_number?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
+	dateOfBirth?: Maybe<Scalars['date']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	mobile_number?: Maybe<Scalars['String']>;
-	pe_number?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	teamMembers?: Maybe<Team_Member_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -546,15 +574,16 @@ export type Beneficiary_Max_Fields = {
 	__typename?: 'beneficiary_max_fields';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
-	caf_number?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
+	dateOfBirth?: Maybe<Scalars['date']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	mobile_number?: Maybe<Scalars['String']>;
-	pe_number?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -562,15 +591,16 @@ export type Beneficiary_Min_Fields = {
 	__typename?: 'beneficiary_min_fields';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
-	caf_number?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
+	dateOfBirth?: Maybe<Scalars['date']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	mobile_number?: Maybe<Scalars['String']>;
-	pe_number?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "beneficiary" */
@@ -601,15 +631,17 @@ export type Beneficiary_Order_By = {
 	accounts_aggregate?: Maybe<Account_Aggregate_Order_By>;
 	address1?: Maybe<Order_By>;
 	address2?: Maybe<Order_By>;
-	caf_number?: Maybe<Order_By>;
+	cafNumber?: Maybe<Order_By>;
 	city?: Maybe<Order_By>;
+	dateOfBirth?: Maybe<Order_By>;
 	email?: Maybe<Order_By>;
 	firstname?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
-	mobile_number?: Maybe<Order_By>;
-	pe_number?: Maybe<Order_By>;
-	postal_code?: Maybe<Order_By>;
+	mobileNumber?: Maybe<Order_By>;
+	peNumber?: Maybe<Order_By>;
+	postalCode?: Maybe<Order_By>;
+	teamMembers_aggregate?: Maybe<Team_Member_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: beneficiary */
@@ -624,9 +656,11 @@ export enum Beneficiary_Select_Column {
 	/** column name */
 	Address2 = 'address2',
 	/** column name */
-	CafNumber = 'caf_number',
+	CafNumber = 'cafNumber',
 	/** column name */
 	City = 'city',
+	/** column name */
+	DateOfBirth = 'dateOfBirth',
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -636,26 +670,27 @@ export enum Beneficiary_Select_Column {
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
-	MobileNumber = 'mobile_number',
+	MobileNumber = 'mobileNumber',
 	/** column name */
-	PeNumber = 'pe_number',
+	PeNumber = 'peNumber',
 	/** column name */
-	PostalCode = 'postal_code'
+	PostalCode = 'postalCode'
 }
 
 /** input type for updating data in table "beneficiary" */
 export type Beneficiary_Set_Input = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
-	caf_number?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
+	dateOfBirth?: Maybe<Scalars['date']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	mobile_number?: Maybe<Scalars['String']>;
-	pe_number?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "beneficiary" */
@@ -665,9 +700,11 @@ export enum Beneficiary_Update_Column {
 	/** column name */
 	Address2 = 'address2',
 	/** column name */
-	CafNumber = 'caf_number',
+	CafNumber = 'cafNumber',
 	/** column name */
 	City = 'city',
+	/** column name */
+	DateOfBirth = 'dateOfBirth',
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -677,12 +714,25 @@ export enum Beneficiary_Update_Column {
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
-	MobileNumber = 'mobile_number',
+	MobileNumber = 'mobileNumber',
 	/** column name */
-	PeNumber = 'pe_number',
+	PeNumber = 'peNumber',
 	/** column name */
-	PostalCode = 'postal_code'
+	PostalCode = 'postalCode'
 }
+
+/** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+export type Date_Comparison_Exp = {
+	_eq?: Maybe<Scalars['date']>;
+	_gt?: Maybe<Scalars['date']>;
+	_gte?: Maybe<Scalars['date']>;
+	_in?: Maybe<Array<Scalars['date']>>;
+	_is_null?: Maybe<Scalars['Boolean']>;
+	_lt?: Maybe<Scalars['date']>;
+	_lte?: Maybe<Scalars['date']>;
+	_neq?: Maybe<Scalars['date']>;
+	_nin?: Maybe<Array<Scalars['date']>>;
+};
 
 /** mutation root */
 export type Mutation_Root = {
@@ -707,6 +757,10 @@ export type Mutation_Root = {
 	delete_structure?: Maybe<Structure_Mutation_Response>;
 	/** delete single row from the table: "structure" */
 	delete_structure_by_pk?: Maybe<Structure>;
+	/** delete data from the table: "team_member" */
+	delete_team_member?: Maybe<Team_Member_Mutation_Response>;
+	/** delete single row from the table: "team_member" */
+	delete_team_member_by_pk?: Maybe<Team_Member>;
 	/** insert data into the table: "account" */
 	insert_account?: Maybe<Account_Mutation_Response>;
 	/** insert a single row into the table: "account" */
@@ -727,6 +781,10 @@ export type Mutation_Root = {
 	insert_structure?: Maybe<Structure_Mutation_Response>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
+	/** insert data into the table: "team_member" */
+	insert_team_member?: Maybe<Team_Member_Mutation_Response>;
+	/** insert a single row into the table: "team_member" */
+	insert_team_member_one?: Maybe<Team_Member>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<Account_Mutation_Response>;
 	/** update single row of the table: "account" */
@@ -747,6 +805,10 @@ export type Mutation_Root = {
 	update_structure?: Maybe<Structure_Mutation_Response>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
+	/** update data of the table: "team_member" */
+	update_team_member?: Maybe<Team_Member_Mutation_Response>;
+	/** update single row of the table: "team_member" */
+	update_team_member_by_pk?: Maybe<Team_Member>;
 };
 
 /** mutation root */
@@ -796,6 +858,16 @@ export type Mutation_RootDelete_StructureArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Structure_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Team_MemberArgs = {
+	where: Team_Member_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Team_Member_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -860,6 +932,18 @@ export type Mutation_RootInsert_Structure_OneArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_Team_MemberArgs = {
+	objects: Array<Team_Member_Insert_Input>;
+	on_conflict?: Maybe<Team_Member_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Team_Member_OneArgs = {
+	object: Team_Member_Insert_Input;
+	on_conflict?: Maybe<Team_Member_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_AccountArgs = {
 	_set?: Maybe<Account_Set_Input>;
 	where: Account_Bool_Exp;
@@ -919,6 +1003,18 @@ export type Mutation_RootUpdate_Structure_By_PkArgs = {
 	pk_columns: Structure_Pk_Columns_Input;
 };
 
+/** mutation root */
+export type Mutation_RootUpdate_Team_MemberArgs = {
+	_set?: Maybe<Team_Member_Set_Input>;
+	where: Team_Member_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Team_Member_By_PkArgs = {
+	_set?: Maybe<Team_Member_Set_Input>;
+	pk_columns: Team_Member_Pk_Columns_Input;
+};
+
 /** column ordering options */
 export enum Order_By {
 	/** in ascending order, nulls last */
@@ -948,7 +1044,11 @@ export type Professional = {
 	lastname: Scalars['String'];
 	/** An object relationship */
 	structure: Structure;
-	structure_id: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+	/** An array relationship */
+	teamMembers: Array<Team_Member>;
+	/** An aggregate relationship */
+	teamMembers_aggregate: Team_Member_Aggregate;
 };
 
 /** columns and relationships of "professional" */
@@ -967,6 +1067,24 @@ export type ProfessionalAccounts_AggregateArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<Account_Order_By>>;
 	where?: Maybe<Account_Bool_Exp>;
+};
+
+/** columns and relationships of "professional" */
+export type ProfessionalTeamMembersArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+/** columns and relationships of "professional" */
+export type ProfessionalTeamMembers_AggregateArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** aggregated selection of "professional" */
@@ -1015,7 +1133,8 @@ export type Professional_Bool_Exp = {
 	id?: Maybe<Uuid_Comparison_Exp>;
 	lastname?: Maybe<String_Comparison_Exp>;
 	structure?: Maybe<Structure_Bool_Exp>;
-	structure_id?: Maybe<Uuid_Comparison_Exp>;
+	structureId?: Maybe<Uuid_Comparison_Exp>;
+	teamMembers?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "professional" */
@@ -1034,7 +1153,8 @@ export type Professional_Insert_Input = {
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
 	structure?: Maybe<Structure_Obj_Rel_Insert_Input>;
-	structure_id?: Maybe<Scalars['uuid']>;
+	structureId?: Maybe<Scalars['uuid']>;
+	teamMembers?: Maybe<Team_Member_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1044,7 +1164,7 @@ export type Professional_Max_Fields = {
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	structure_id?: Maybe<Scalars['uuid']>;
+	structureId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "professional" */
@@ -1053,7 +1173,7 @@ export type Professional_Max_Order_By = {
 	firstname?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
-	structure_id?: Maybe<Order_By>;
+	structureId?: Maybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -1063,7 +1183,7 @@ export type Professional_Min_Fields = {
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	structure_id?: Maybe<Scalars['uuid']>;
+	structureId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "professional" */
@@ -1072,7 +1192,7 @@ export type Professional_Min_Order_By = {
 	firstname?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
-	structure_id?: Maybe<Order_By>;
+	structureId?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "professional" */
@@ -1106,7 +1226,8 @@ export type Professional_Order_By = {
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
 	structure?: Maybe<Structure_Order_By>;
-	structure_id?: Maybe<Order_By>;
+	structureId?: Maybe<Order_By>;
+	teamMembers_aggregate?: Maybe<Team_Member_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: professional */
@@ -1125,7 +1246,7 @@ export enum Professional_Select_Column {
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
-	StructureId = 'structure_id'
+	StructureId = 'structureId'
 }
 
 /** input type for updating data in table "professional" */
@@ -1134,7 +1255,7 @@ export type Professional_Set_Input = {
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	structure_id?: Maybe<Scalars['uuid']>;
+	structureId?: Maybe<Scalars['uuid']>;
 };
 
 /** update columns of table "professional" */
@@ -1148,7 +1269,7 @@ export enum Professional_Update_Column {
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
-	StructureId = 'structure_id'
+	StructureId = 'structureId'
 }
 
 export type Query_Root = {
@@ -1183,6 +1304,12 @@ export type Query_Root = {
 	structure_aggregate: Structure_Aggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
+	/** fetch data from the table: "team_member" */
+	team_member: Array<Team_Member>;
+	/** fetch aggregated fields from the table: "team_member" */
+	team_member_aggregate: Team_Member_Aggregate;
+	/** fetch data from the table: "team_member" using primary key columns */
+	team_member_by_pk?: Maybe<Team_Member>;
 };
 
 export type Query_RootAccountArgs = {
@@ -1285,24 +1412,44 @@ export type Query_RootStructure_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type Query_RootTeam_MemberArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+export type Query_RootTeam_Member_AggregateArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+export type Query_RootTeam_Member_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
 /** columns and relationships of "structure" */
 export type Structure = {
 	__typename?: 'structure';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
-	creation_date?: Maybe<Scalars['timestamptz']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	modification_date?: Maybe<Scalars['timestamptz']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	professionals: Array<Professional>;
 	/** An aggregate relationship */
 	professionals_aggregate: Professional_Aggregate;
-	short_desc?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 };
 
@@ -1353,15 +1500,15 @@ export type Structure_Bool_Exp = {
 	address1?: Maybe<String_Comparison_Exp>;
 	address2?: Maybe<String_Comparison_Exp>;
 	city?: Maybe<String_Comparison_Exp>;
-	creation_date?: Maybe<Timestamptz_Comparison_Exp>;
+	creationDate?: Maybe<Timestamptz_Comparison_Exp>;
 	email?: Maybe<String_Comparison_Exp>;
 	id?: Maybe<Uuid_Comparison_Exp>;
-	modification_date?: Maybe<Timestamptz_Comparison_Exp>;
+	modificationDate?: Maybe<Timestamptz_Comparison_Exp>;
 	name?: Maybe<String_Comparison_Exp>;
 	phone?: Maybe<String_Comparison_Exp>;
-	postal_code?: Maybe<String_Comparison_Exp>;
+	postalCode?: Maybe<String_Comparison_Exp>;
 	professionals?: Maybe<Professional_Bool_Exp>;
-	short_desc?: Maybe<String_Comparison_Exp>;
+	shortDesc?: Maybe<String_Comparison_Exp>;
 	siret?: Maybe<String_Comparison_Exp>;
 };
 
@@ -1376,15 +1523,15 @@ export type Structure_Insert_Input = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
-	creation_date?: Maybe<Scalars['timestamptz']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	modification_date?: Maybe<Scalars['timestamptz']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
 	professionals?: Maybe<Professional_Arr_Rel_Insert_Input>;
-	short_desc?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 };
 
@@ -1394,14 +1541,14 @@ export type Structure_Max_Fields = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
-	creation_date?: Maybe<Scalars['timestamptz']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	modification_date?: Maybe<Scalars['timestamptz']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
-	short_desc?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 };
 
@@ -1411,14 +1558,14 @@ export type Structure_Min_Fields = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
-	creation_date?: Maybe<Scalars['timestamptz']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	modification_date?: Maybe<Scalars['timestamptz']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
-	short_desc?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 };
 
@@ -1450,15 +1597,15 @@ export type Structure_Order_By = {
 	address1?: Maybe<Order_By>;
 	address2?: Maybe<Order_By>;
 	city?: Maybe<Order_By>;
-	creation_date?: Maybe<Order_By>;
+	creationDate?: Maybe<Order_By>;
 	email?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
-	modification_date?: Maybe<Order_By>;
+	modificationDate?: Maybe<Order_By>;
 	name?: Maybe<Order_By>;
 	phone?: Maybe<Order_By>;
-	postal_code?: Maybe<Order_By>;
+	postalCode?: Maybe<Order_By>;
 	professionals_aggregate?: Maybe<Professional_Aggregate_Order_By>;
-	short_desc?: Maybe<Order_By>;
+	shortDesc?: Maybe<Order_By>;
 	siret?: Maybe<Order_By>;
 };
 
@@ -1476,21 +1623,21 @@ export enum Structure_Select_Column {
 	/** column name */
 	City = 'city',
 	/** column name */
-	CreationDate = 'creation_date',
+	CreationDate = 'creationDate',
 	/** column name */
 	Email = 'email',
 	/** column name */
 	Id = 'id',
 	/** column name */
-	ModificationDate = 'modification_date',
+	ModificationDate = 'modificationDate',
 	/** column name */
 	Name = 'name',
 	/** column name */
 	Phone = 'phone',
 	/** column name */
-	PostalCode = 'postal_code',
+	PostalCode = 'postalCode',
 	/** column name */
-	ShortDesc = 'short_desc',
+	ShortDesc = 'shortDesc',
 	/** column name */
 	Siret = 'siret'
 }
@@ -1500,14 +1647,14 @@ export type Structure_Set_Input = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
-	creation_date?: Maybe<Scalars['timestamptz']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	modification_date?: Maybe<Scalars['timestamptz']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
-	postal_code?: Maybe<Scalars['String']>;
-	short_desc?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 };
 
@@ -1520,21 +1667,21 @@ export enum Structure_Update_Column {
 	/** column name */
 	City = 'city',
 	/** column name */
-	CreationDate = 'creation_date',
+	CreationDate = 'creationDate',
 	/** column name */
 	Email = 'email',
 	/** column name */
 	Id = 'id',
 	/** column name */
-	ModificationDate = 'modification_date',
+	ModificationDate = 'modificationDate',
 	/** column name */
 	Name = 'name',
 	/** column name */
 	Phone = 'phone',
 	/** column name */
-	PostalCode = 'postal_code',
+	PostalCode = 'postalCode',
 	/** column name */
-	ShortDesc = 'short_desc',
+	ShortDesc = 'shortDesc',
 	/** column name */
 	Siret = 'siret'
 }
@@ -1571,6 +1718,12 @@ export type Subscription_Root = {
 	structure_aggregate: Structure_Aggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
+	/** fetch data from the table: "team_member" */
+	team_member: Array<Team_Member>;
+	/** fetch aggregated fields from the table: "team_member" */
+	team_member_aggregate: Team_Member_Aggregate;
+	/** fetch data from the table: "team_member" using primary key columns */
+	team_member_by_pk?: Maybe<Team_Member>;
 };
 
 export type Subscription_RootAccountArgs = {
@@ -1673,6 +1826,226 @@ export type Subscription_RootStructure_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type Subscription_RootTeam_MemberArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+export type Subscription_RootTeam_Member_AggregateArgs = {
+	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Team_Member_Order_By>>;
+	where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+export type Subscription_RootTeam_Member_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** columns and relationships of "team_member" */
+export type Team_Member = {
+	__typename?: 'team_member';
+	/** An object relationship */
+	beneficiary: Beneficiary;
+	beneficiaryId: Scalars['uuid'];
+	id: Scalars['uuid'];
+	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	memberType: Scalars['String'];
+	modificationDate?: Maybe<Scalars['timestamptz']>;
+	/** An object relationship */
+	professional: Professional;
+	professionalId: Scalars['uuid'];
+};
+
+/** aggregated selection of "team_member" */
+export type Team_Member_Aggregate = {
+	__typename?: 'team_member_aggregate';
+	aggregate?: Maybe<Team_Member_Aggregate_Fields>;
+	nodes: Array<Team_Member>;
+};
+
+/** aggregate fields of "team_member" */
+export type Team_Member_Aggregate_Fields = {
+	__typename?: 'team_member_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<Team_Member_Max_Fields>;
+	min?: Maybe<Team_Member_Min_Fields>;
+};
+
+/** aggregate fields of "team_member" */
+export type Team_Member_Aggregate_FieldsCountArgs = {
+	columns?: Maybe<Array<Team_Member_Select_Column>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "team_member" */
+export type Team_Member_Aggregate_Order_By = {
+	count?: Maybe<Order_By>;
+	max?: Maybe<Team_Member_Max_Order_By>;
+	min?: Maybe<Team_Member_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "team_member" */
+export type Team_Member_Arr_Rel_Insert_Input = {
+	data: Array<Team_Member_Insert_Input>;
+	/** on conflict condition */
+	on_conflict?: Maybe<Team_Member_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "team_member". All fields are combined with a logical 'AND'. */
+export type Team_Member_Bool_Exp = {
+	_and?: Maybe<Array<Team_Member_Bool_Exp>>;
+	_not?: Maybe<Team_Member_Bool_Exp>;
+	_or?: Maybe<Array<Team_Member_Bool_Exp>>;
+	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
+	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
+	id?: Maybe<Uuid_Comparison_Exp>;
+	lastSeenDate?: Maybe<Timestamptz_Comparison_Exp>;
+	memberType?: Maybe<String_Comparison_Exp>;
+	modificationDate?: Maybe<Timestamptz_Comparison_Exp>;
+	professional?: Maybe<Professional_Bool_Exp>;
+	professionalId?: Maybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "team_member" */
+export enum Team_Member_Constraint {
+	/** unique or primary key constraint */
+	TeamMemberPkey = 'team_member_pkey'
+}
+
+/** input type for inserting data into table "team_member" */
+export type Team_Member_Insert_Input = {
+	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
+	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Team_Member_Max_Fields = {
+	__typename?: 'team_member_max_fields';
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "team_member" */
+export type Team_Member_Max_Order_By = {
+	beneficiaryId?: Maybe<Order_By>;
+	id?: Maybe<Order_By>;
+	lastSeenDate?: Maybe<Order_By>;
+	memberType?: Maybe<Order_By>;
+	modificationDate?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Team_Member_Min_Fields = {
+	__typename?: 'team_member_min_fields';
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "team_member" */
+export type Team_Member_Min_Order_By = {
+	beneficiaryId?: Maybe<Order_By>;
+	id?: Maybe<Order_By>;
+	lastSeenDate?: Maybe<Order_By>;
+	memberType?: Maybe<Order_By>;
+	modificationDate?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "team_member" */
+export type Team_Member_Mutation_Response = {
+	__typename?: 'team_member_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Team_Member>;
+};
+
+/** on conflict condition type for table "team_member" */
+export type Team_Member_On_Conflict = {
+	constraint: Team_Member_Constraint;
+	update_columns?: Array<Team_Member_Update_Column>;
+	where?: Maybe<Team_Member_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "team_member". */
+export type Team_Member_Order_By = {
+	beneficiary?: Maybe<Beneficiary_Order_By>;
+	beneficiaryId?: Maybe<Order_By>;
+	id?: Maybe<Order_By>;
+	lastSeenDate?: Maybe<Order_By>;
+	memberType?: Maybe<Order_By>;
+	modificationDate?: Maybe<Order_By>;
+	professional?: Maybe<Professional_Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: team_member */
+export type Team_Member_Pk_Columns_Input = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "team_member" */
+export enum Team_Member_Select_Column {
+	/** column name */
+	BeneficiaryId = 'beneficiaryId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	LastSeenDate = 'lastSeenDate',
+	/** column name */
+	MemberType = 'memberType',
+	/** column name */
+	ModificationDate = 'modificationDate',
+	/** column name */
+	ProfessionalId = 'professionalId'
+}
+
+/** input type for updating data in table "team_member" */
+export type Team_Member_Set_Input = {
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastSeenDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	modificationDate?: Maybe<Scalars['timestamptz']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** update columns of table "team_member" */
+export enum Team_Member_Update_Column {
+	/** column name */
+	BeneficiaryId = 'beneficiaryId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	LastSeenDate = 'lastSeenDate',
+	/** column name */
+	MemberType = 'memberType',
+	/** column name */
+	ModificationDate = 'modificationDate',
+	/** column name */
+	ProfessionalId = 'professionalId'
+}
+
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
 	_eq?: Maybe<Scalars['timestamptz']>;
@@ -1699,38 +2072,98 @@ export type Uuid_Comparison_Exp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type GetAllBeneficiariesQueryVariables = Exact<{ [key: string]: never }>;
+export type GetTeamMembersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAllBeneficiariesQuery = { __typename?: 'query_root' } & {
-	beneficiary: Array<
+export type GetTeamMembersQuery = { __typename?: 'query_root' } & {
+	teamMember: Array<
+		{ __typename?: 'team_member' } & Pick<
+			Team_Member,
+			'memberType' | 'lastSeenDate' | 'modificationDate'
+		> & {
+				beneficiary: { __typename?: 'beneficiary' } & Pick<
+					Beneficiary,
+					| 'address1'
+					| 'address2'
+					| 'cafNumber'
+					| 'city'
+					| 'dateOfBirth'
+					| 'email'
+					| 'firstname'
+					| 'id'
+					| 'lastname'
+					| 'mobileNumber'
+					| 'peNumber'
+					| 'postalCode'
+				>;
+			}
+	>;
+};
+
+export type GetBeneficiaryByIdQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetBeneficiaryByIdQuery = { __typename?: 'query_root' } & {
+	beneficiary_by_pk?: Maybe<
 		{ __typename?: 'beneficiary' } & Pick<
 			Beneficiary,
-			'id' | 'firstname' | 'lastname' | 'email' | 'mobile_number'
+			| 'address1'
+			| 'address2'
+			| 'cafNumber'
+			| 'city'
+			| 'dateOfBirth'
+			| 'email'
+			| 'firstname'
+			| 'id'
+			| 'lastname'
+			| 'mobileNumber'
+			| 'peNumber'
+			| 'postalCode'
 		>
 	>;
 };
 
-export const GetAllBeneficiariesDocument = {
+export const GetTeamMembersDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetAllBeneficiaries' },
+			name: { kind: 'Name', value: 'GetTeamMembers' },
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'beneficiary' },
+						alias: { kind: 'Name', value: 'teamMember' },
+						name: { kind: 'Name', value: 'team_member' },
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'mobile_number' } }
+								{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastSeenDate' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'modificationDate' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+										]
+									}
+								}
 							]
 						}
 					}
@@ -1738,4 +2171,57 @@ export const GetAllBeneficiariesDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<GetAllBeneficiariesQuery, GetAllBeneficiariesQueryVariables>;
+} as unknown as DocumentNode<GetTeamMembersQuery, GetTeamMembersQueryVariables>;
+export const GetBeneficiaryByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetBeneficiaryById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'beneficiary_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<GetBeneficiaryByIdQuery, GetBeneficiaryByIdQueryVariables>;

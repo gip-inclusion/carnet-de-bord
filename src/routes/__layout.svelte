@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import '../app.postcss';
+	import 'remixicon/fonts/remixicon.css';
 	import { GRAPHQL_API_URL } from '$lib/config/env';
 	import { createClient, setClient } from '@urql/svelte';
 

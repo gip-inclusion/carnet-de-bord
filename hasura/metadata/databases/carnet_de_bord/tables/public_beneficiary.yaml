@@ -1,27 +1,47 @@
 table:
   name: beneficiary
   schema: public
+configuration:
+  custom_column_names:
+    caf_number: cafNumber
+    date_of_birth: dateOfBirth
+    mobile_number: mobileNumber
+    pe_number: peNumber
+    postal_code: postalCode
+  custom_root_fields: {}
 array_relationships:
-  - name: accounts
-    using:
-      foreign_key_constraint_on:
-        column: beneficiary_id
-        table:
-          name: account
-          schema: public
+- name: accounts
+  using:
+    foreign_key_constraint_on:
+      column: beneficiary_id
+      table:
+        name: account
+        schema: public
+- name: teamMembers
+  using:
+    foreign_key_constraint_on:
+      column: beneficiary_id
+      table:
+        name: team_member
+        schema: public
 select_permissions:
-  - permission:
-      columns:
-        - id
-        - email
-        - lastname
-        - firstname
-        - caf_number
-        - pe_number
-        - postal_code
-        - city
-        - address1
-        - address2
-        - mobile_number
-      filter: {}
-    role: professional
+- permission:
+    allow_aggregations: true
+    columns:
+    - address1
+    - address2
+    - caf_number
+    - city
+    - date_of_birth
+    - email
+    - firstname
+    - id
+    - lastname
+    - mobile_number
+    - pe_number
+    - postal_code
+    filter:
+      teamMembers:
+        professional_id:
+          _eq: X-Hasura-Professional-Id
+  role: professional

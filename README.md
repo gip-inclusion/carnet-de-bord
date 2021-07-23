@@ -43,4 +43,5 @@ hasura seed apply
 - admin
 
 **carnet de bord**:
+
 - http://localhost:3000

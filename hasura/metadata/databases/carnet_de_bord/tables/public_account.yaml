@@ -1,13 +1,22 @@
 table:
   name: account
   schema: public
+configuration:
+  custom_column_names:
+    access_key: accessKey
+    access_key_date: accessKeyDate
+    admin_id: adminId
+    beneficiary_id: beneficiaryId
+    last_login: lastLogin
+    professional_id: professionalId
+  custom_root_fields: {}
 object_relationships:
-  - name: admin
-    using:
-      foreign_key_constraint_on: admin_id
-  - name: beneficiary
-    using:
-      foreign_key_constraint_on: beneficiary_id
-  - name: professional
-    using:
-      foreign_key_constraint_on: professional_id
+- name: admin
+  using:
+    foreign_key_constraint_on: admin_id
+- name: beneficiary
+  using:
+    foreign_key_constraint_on: beneficiary_id
+- name: professional
+  using:
+    foreign_key_constraint_on: professional_id

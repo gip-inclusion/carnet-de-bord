@@ -1,0 +1,21 @@
+query GetTeamMembers {
+	teamMember: team_member {
+		memberType
+		lastSeenDate
+		modificationDate
+		beneficiary {
+			address1
+			address2
+			cafNumber
+			city
+			dateOfBirth
+			email
+			firstname
+			id
+			lastname
+			mobileNumber
+			peNumber
+			postalCode
+		}
+	}
+}

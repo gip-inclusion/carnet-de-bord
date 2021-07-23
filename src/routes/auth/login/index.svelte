@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$lib/ui/Button.svelte';
 	import { post } from '$lib/utils/post';
 
 	type RequestStep = 'start' | 'success' | 'error';
@@ -44,22 +45,12 @@
 						{/if}
 					</div>
 					<div class="flex items-center justify-end">
-						<button
-							type="submit"
-							disabled={!username}
-							class="w-32 p-2 px-4 text-white border-2 border-opacity-20 rounded bg-action hover:bg-accent disabled:bg-back2"
-						>
-							Valider
-						</button>
+						<Button type="submit" disabled={!username}>Valider</Button>
 					</div>
 				</div>
 				<div class="flex justify-between items-center">
 					<div class="text-sm">Vous n’êtes pas encore inscrit ?</div>
-					<button
-						class="w-32 p-2 px-4 border-2 border-accent text-accent rounded hover:bg-accent hover:text-white"
-					>
-						Je m'inscris
-					</button>
+					<Button style="outline">Je m'inscris</Button>
 				</div>
 			</div>
 		</form>
