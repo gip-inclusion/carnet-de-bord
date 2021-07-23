@@ -3,8 +3,8 @@
 		id: string;
 		firstname: string;
 		lastname: string;
-		mobileNumber: string;
-		dateOfBirth: string;
+		mobileNumber?: string;
+		dateOfBirth: Date;
 	};
 </script>
 

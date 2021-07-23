@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import ProBeneficiaryCard from '$lib/ui/ProBeneficiaryCard.svelte';
-	import ProBeneficiarySearch from '$lib/ui/ProBeneficiarySearch.svelte';
+	import ProBeneficiarySearch from '$lib/ui/ProBeneficiarySearchBar.svelte';
 	import type { GetTeamMembersQuery } from '$lib/_gen/typed-document-nodes';
 	import { GetTeamMembersDocument } from '$lib/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
@@ -25,14 +25,19 @@
 
 	query(result);
 
+	function onSearch({ detail }) {
+		const { search } = detail;
+		alert(search);
+	}
+
 	function onClick(id: string) {
-		goto(`/pro/beneficiaire/${id}`);
+		goto(`/pro/beneficiaire?teamMemberId=${id}`);
 	}
 </script>
 
 <div class="flex flex-col">
 	<div class="pb-6">
-		<ProBeneficiarySearch />
+		<ProBeneficiarySearch on:search={(event) => onSearch(event)} />
 	</div>
 	<div class="flex flex-row flex-wrap justify-between gap-1">
 		{#if $result.fetching}
@@ -41,7 +46,7 @@
 			<p>Oh no... {$result.error.message}</p>
 		{:else}
 			{#each $result.data.teamMember as teamMember}
-				<div class="card-container" on:click={() => onClick(teamMember.beneficiary.id)}>
+				<div class="card-container" on:click={() => onClick(teamMember.id)}>
 					<ProBeneficiaryCard beneficiary={teamMember.beneficiary} />
 				</div>
 			{/each}

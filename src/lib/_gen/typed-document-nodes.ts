@@ -2078,48 +2078,40 @@ export type GetTeamMembersQuery = { __typename?: 'query_root' } & {
 	teamMember: Array<
 		{ __typename?: 'team_member' } & Pick<
 			Team_Member,
-			'memberType' | 'lastSeenDate' | 'modificationDate'
+			'id' | 'memberType' | 'lastSeenDate' | 'modificationDate'
 		> & {
 				beneficiary: { __typename?: 'beneficiary' } & Pick<
 					Beneficiary,
-					| 'address1'
-					| 'address2'
-					| 'cafNumber'
-					| 'city'
-					| 'dateOfBirth'
-					| 'email'
-					| 'firstname'
-					| 'id'
-					| 'lastname'
-					| 'mobileNumber'
-					| 'peNumber'
-					| 'postalCode'
+					'dateOfBirth' | 'firstname' | 'id' | 'lastname' | 'mobileNumber'
 				>;
 			}
 	>;
 };
 
-export type GetBeneficiaryByIdQueryVariables = Exact<{
+export type UpdateLastSeenDateMutationVariables = Exact<{
 	id: Scalars['uuid'];
+	lastSeenDate: Scalars['timestamptz'];
 }>;
 
-export type GetBeneficiaryByIdQuery = { __typename?: 'query_root' } & {
-	beneficiary_by_pk?: Maybe<
-		{ __typename?: 'beneficiary' } & Pick<
-			Beneficiary,
-			| 'address1'
-			| 'address2'
-			| 'cafNumber'
-			| 'city'
-			| 'dateOfBirth'
-			| 'email'
-			| 'firstname'
-			| 'id'
-			| 'lastname'
-			| 'mobileNumber'
-			| 'peNumber'
-			| 'postalCode'
-		>
+export type UpdateLastSeenDateMutation = { __typename?: 'mutation_root' } & {
+	update_team_member_by_pk?: Maybe<
+		{ __typename?: 'team_member' } & {
+			beneficiary: { __typename?: 'beneficiary' } & Pick<
+				Beneficiary,
+				| 'address1'
+				| 'address2'
+				| 'cafNumber'
+				| 'city'
+				| 'dateOfBirth'
+				| 'email'
+				| 'firstname'
+				| 'id'
+				| 'lastname'
+				| 'mobileNumber'
+				| 'peNumber'
+				| 'postalCode'
+			>;
+		}
 	>;
 };
 
@@ -2140,9 +2132,96 @@ export const GetTeamMembersDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastSeenDate' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'modificationDate' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<GetTeamMembersQuery, GetTeamMembersQueryVariables>;
+export const UpdateLastSeenDateDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'updateLastSeenDate' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastSeenDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_team_member_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastSeenDate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastSeenDate' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
@@ -2171,57 +2250,4 @@ export const GetTeamMembersDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<GetTeamMembersQuery, GetTeamMembersQueryVariables>;
-export const GetBeneficiaryByIdDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetBeneficiaryById' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'beneficiary_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-							}
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
-							]
-						}
-					}
-				]
-			}
-		}
-	]
-} as unknown as DocumentNode<GetBeneficiaryByIdQuery, GetBeneficiaryByIdQueryVariables>;
+} as unknown as DocumentNode<UpdateLastSeenDateMutation, UpdateLastSeenDateMutationVariables>;

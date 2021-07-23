@@ -30,6 +30,7 @@
 		@apply hover:bg-accent;
 
 		@apply disabled:bg-back2;
+		@apply disabled:border-back2;
 
 		@apply text-white;
 		@apply hover:text-white;
