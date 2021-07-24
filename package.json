@@ -22,8 +22,8 @@
 		"codegen": "yarn run graphql-codegen --config codegen.cjs"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^12.1.4",
-		"@commitlint/config-conventional": "^12.1.4",
+		"@commitlint/cli": "^13.1.0",
+		"@commitlint/config-conventional": "^13.1.0",
 		"@graphql-codegen/cli": "1.21.7",
 		"@graphql-codegen/typed-document-node": "^1.18.10",
 		"@graphql-codegen/typescript": "1.23.0",
