@@ -1,5 +1,3 @@
-import { DATABASE_URL } from '../env';
-
 const pool = {
 	max: 5,
 	min: 5,
@@ -9,7 +7,7 @@ const pool = {
 const config = {
 	development: {
 		client: 'pg',
-		connection: DATABASE_URL || {
+		connection: process.env['VITE_DATABASE_URL'] || {
 			database: 'carnet_de_bord',
 			host: 'localhost',
 			password: 'test',
@@ -21,13 +19,7 @@ const config = {
 	},
 	production: {
 		client: 'pg',
-		connection: DATABASE_URL || {
-			database: 'carnet_de_bord',
-			host: 'localhost',
-			password: 'test',
-			port: '5434',
-			user: 'cdb'
-		},
+		connection: process.env['VITE_DATABASE_URL'],
 		migrations: {},
 		pool
 	}

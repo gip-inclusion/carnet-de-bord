@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import '../app.postcss';
 	import 'remixicon/fonts/remixicon.css';
-	import { GRAPHQL_API_URL } from '$lib/config/env';
+	import { browser } from '$app/env';
 	import { createClient, setClient } from '@urql/svelte';
 
 	function getToken(session) {
@@ -9,6 +9,8 @@
 	}
 
 	export async function load({ page, fetch, session }) {
+		const graphqlAPI = browser ? session.graphqlAPI : process.env['VITE_GRAPHQL_API_URL'];
+
 		if (!session.user && !page.path.startsWith('/auth')) {
 			return {
 				status: 302,
@@ -23,7 +25,7 @@
 		}
 
 		const client = createClient({
-			url: GRAPHQL_API_URL,
+			url: graphqlAPI,
 			fetch,
 			fetchOptions: () => {
 				const token = getToken(session);
@@ -57,7 +59,7 @@
 	setClient(client);
 </script>
 
-<header class="shadow-md px-40">
+<header class="px-40 shadow-md">
 	<div class="flex flex-row items-center py-2">
 		<a class="block" href="/">
 			<img

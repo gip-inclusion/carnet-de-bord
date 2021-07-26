@@ -21,7 +21,8 @@ export const getSession: GetSession = async ({ locals }) => {
 			id: locals.user.id,
 			role: locals.user.role
 		},
-		token: locals.token
+		token: locals.token,
+		graphqlAPI: process.env['VITE_GRAPHQL_API_URL']
 	};
 
 	return session;

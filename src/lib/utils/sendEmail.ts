@@ -1,17 +1,25 @@
 import nodemailer from 'nodemailer';
-import { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } from '$lib/config/env';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
+const { VITE_SMTP_FROM, VITE_SMTP_HOST, VITE_SMTP_PASS, VITE_SMTP_PORT, VITE_SMTP_USER } =
+	process.env as unknown as {
+		VITE_SMTP_FROM: string;
+		VITE_SMTP_HOST: string;
+		VITE_SMTP_PASS: string;
+		VITE_SMTP_PORT: number;
+		VITE_SMTP_USER: string;
+	};
+
 const smtpConfig = {
-	host: SMTP_HOST,
+	host: VITE_SMTP_HOST,
 	ignoreTLS: false,
-	port: SMTP_PORT,
+	port: VITE_SMTP_PORT,
 	requireTLS: true,
 	secure: false,
 	auth: {
-		pass: SMTP_PASS,
-		user: SMTP_USER
+		pass: VITE_SMTP_PASS,
+		user: VITE_SMTP_USER
 	}
 };
 
@@ -25,7 +33,7 @@ export function sendEmail({
 	const transporter = nodemailer.createTransport(smtpConfig);
 	const mailOptions = {
 		bcc,
-		from: SMTP_FROM,
+		from: VITE_SMTP_FROM,
 		html,
 		subject,
 		text,
