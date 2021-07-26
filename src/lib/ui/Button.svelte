@@ -7,8 +7,8 @@
 	}
 
 	export let style: string | null = 'base';
-	export let type: string = 'button';
-	export let disabled: boolean = false;
+	export let type = 'button';
+	export let disabled = false;
 </script>
 
 <button on:click={click} type={type ? type : ''} {disabled} class={style}>
@@ -27,13 +27,13 @@
 		@apply rounded;
 
 		@apply bg-action;
-		@apply hover:bg-accent;
+		/* @apply hover:bg-accent; */
 
-		@apply disabled:bg-back2;
-		@apply disabled:border-back2;
+		/* @apply disabled:bg-back2; */
+		/* @apply disabled:border-back2; */
 
 		@apply text-white;
-		@apply hover:text-white;
+		/* @apply hover:text-white; */
 	}
 
 	.outline {
@@ -45,7 +45,7 @@
 		@apply border-accent;
 		@apply text-accent;
 		@apply rounded;
-		@apply hover:bg-accent;
-		@apply hover:text-white;
+		/* @apply hover:bg-accent; */
+		/* @apply hover:text-white; */
 	}
 </style>

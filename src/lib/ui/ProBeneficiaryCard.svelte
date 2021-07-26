@@ -34,8 +34,8 @@
 
 		@apply border-l-8;
 		@apply border-gray-300;
-		@apply hover:border-gray-800;
+		/* @apply hover:border-gray-800; */
 
-		@apply hover:cursor-pointer;
+		/* @apply hover:cursor-pointer; */
 	}
 </style>
