@@ -21,7 +21,13 @@ const config = {
 	},
 	production: {
 		client: 'pg',
-		connection: DATABASE_URL,
+		connection: DATABASE_URL || {
+			database: 'carnet_de_bord',
+			host: 'localhost',
+			password: 'test',
+			port: '5434',
+			user: 'cdb'
+		},
 		migrations: {},
 		pool
 	}

@@ -1,4 +1,7 @@
 .svelte-kit
+.husky
 build
 Dockerfile
 .eslintcache
+node_modules
+.editorconfig
