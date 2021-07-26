@@ -18,6 +18,8 @@ services:
     build:
       context: .
       dockerfile: ./hasura/Dockerfile
+    extra_hosts:
+      host.docker.internal: host-gateway
     ports:
       - '5000:8080'
     depends_on:
