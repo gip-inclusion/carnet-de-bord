@@ -1,7 +1,6 @@
 import preprocess from 'svelte-preprocess';
 /** @type {import('@sveltejs/kit').Config} */
 import adapter from '@sveltejs/adapter-node';
-import path from 'path';
 
 const config = {
 	kit: {
@@ -15,8 +14,12 @@ const config = {
 				}
 			},
 			optimizeDeps: {
-				exclude: ['@urql/svelte'],
-				include: ['graphql']
+				//https://formidable.com/open-source/urql/docs/basics/svelte/
+				exclude: ['@urql/svelte']
+			},
+			ssr: {
+				// https://github.com/FormidableLabs/urql/issues/1819
+				noExternal: ['@urql/svelte']
 			}
 		},
 		adapter: adapter({
