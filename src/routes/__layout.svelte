@@ -1,15 +1,19 @@
 <script context="module" lang="ts">
-	import '../app.postcss';
-	import 'remixicon/fonts/remixicon.css';
 	import { browser } from '$app/env';
+	import { goto } from '$app/navigation';
+	import { session } from '$app/stores';
+	import { getGraphqlAPI } from '$lib/config/variables';
+	import { post } from '$lib/utils/post';
 	import { createClient, setClient } from '@urql/svelte';
+	import 'remixicon/fonts/remixicon.css';
+	import '../app.postcss';
 
 	function getToken(session) {
 		return session.token;
 	}
 
 	export async function load({ page, fetch, session }) {
-		const graphqlAPI = browser ? session.graphqlAPI : process.env['VITE_GRAPHQL_API_URL'];
+		const graphqlAPI = session.graphqlAPI ? session.graphqlAPI : getGraphqlAPI();
 
 		if (!session.user && !page.path.startsWith('/auth')) {
 			return {
@@ -45,10 +49,6 @@
 </script>
 
 <script lang="ts">
-	import { session } from '$app/stores';
-	import { post } from '$lib/utils/post';
-	import { goto } from '$app/navigation';
-
 	async function logout() {
 		await post(`/auth/logout`, {});
 		$session.user = null;

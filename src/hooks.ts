@@ -1,6 +1,7 @@
 import cookie from 'cookie';
 import type { Handle, GetSession } from '@sveltejs/kit';
 import jwtDecode from 'jwt-decode';
+import { getGraphqlAPI } from '$lib/config/variables';
 
 export const handle: Handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
@@ -22,7 +23,7 @@ export const getSession: GetSession = async ({ locals }) => {
 			role: locals.user.role
 		},
 		token: locals.token,
-		graphqlAPI: process.env['VITE_GRAPHQL_API_URL']
+		graphqlAPI: getGraphqlAPI()
 	};
 
 	return session;
