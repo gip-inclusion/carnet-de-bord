@@ -4,10 +4,10 @@
 
 **pre-requis**:
 
-- docker
-- docker-compose
-- node
-- hasura-cli
+- docker (version 20.10.5)
+- docker-compose (version 1.29.0)
+- node (version 16)
+- hasura-cli (version 2.0.2)
 
 **initialiser le projet**
 
@@ -34,7 +34,11 @@ yarn dev
 docker-compose up
 
 # initialiser les données de test
+cd hasura
 hasura seed apply
+
+# lancer la console hasura
+hasura console
 ```
 
 **hasura**:
