@@ -6,7 +6,6 @@ data:
   VITE_JWT_SECRET_KEY: very-secret-key-to-sign-jwt
   VITE_APP_URL: http://localhost:3000
   VITE_GRAPHQL_API_URL: http://hasura/v1/graphql
-  #VITE_DATABASE_URL: postgres://cdb:test@localhost:5434/carnet_de_bord
   VITE_AUTH_PRIVATE_KEY: xxx
   VITE_AUTH_PRIVATE_KEY_FILE: xxx
   VITE_AUTH_PUBLIC_KEY: xxx
