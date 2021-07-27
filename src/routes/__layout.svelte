@@ -14,7 +14,9 @@
 
 	export async function load({ page, fetch, session }) {
 		const graphqlAPI = session.graphqlAPI ? session.graphqlAPI : getGraphqlAPI();
-
+		if (page.path === '/healthz') {
+			return {};
+		}
 		if (!session.user && !page.path.startsWith('/auth')) {
 			return {
 				status: 302,
