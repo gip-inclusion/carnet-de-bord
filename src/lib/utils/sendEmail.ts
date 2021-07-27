@@ -1,13 +1,14 @@
+import { getSmtpConfig } from '$lib/config/variables/private';
 import nodemailer from 'nodemailer';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = process.env;
+const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = getSmtpConfig();
 
 const smtpConfig = {
 	host: SMTP_HOST,
 	ignoreTLS: false,
-	port: parseInt(SMTP_PORT),
+	port: SMTP_PORT,
 	requireTLS: true,
 	secure: false,
 	auth: {

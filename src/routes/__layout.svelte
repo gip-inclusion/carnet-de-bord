@@ -1,8 +1,7 @@
 <script context="module" lang="ts">
-	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
-	import { getGraphqlAPI } from '$lib/config/variables';
+	import { getGraphqlAPI } from '$lib/config/variables/public';
 	import { post } from '$lib/utils/post';
 	import { createClient, setClient } from '@urql/svelte';
 	import 'remixicon/fonts/remixicon.css';

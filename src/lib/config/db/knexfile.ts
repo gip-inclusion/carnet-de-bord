@@ -1,13 +1,17 @@
+import { getDatabaseUrl } from '../variables/private';
+
 const pool = {
 	max: 5,
 	min: 5,
 	propagateCreateError: false
 };
 
+const databaseUrl = getDatabaseUrl();
+
 const config = {
 	development: {
 		client: 'pg',
-		connection: process.env.DATABASE_URL || {
+		connection: databaseUrl || {
 			database: 'carnet_de_bord',
 			host: 'localhost',
 			password: 'test',
@@ -19,7 +23,7 @@ const config = {
 	},
 	production: {
 		client: 'pg',
-		connection: process.env.DATABASE_URL,
+		connection: databaseUrl,
 		migrations: {},
 		pool
 	}

@@ -1,15 +1,5 @@
+import { getJwtKey } from '$lib/config/variables/private';
 import jwt, { SignOptions } from 'jsonwebtoken';
-
-const { HASURA_GRAPHQL_JWT_SECRET } = process.env;
-
-console.log({ HASURA_GRAPHQL_JWT_SECRET });
-
-let jwtSecret;
-try {
-	jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
-} catch (error) {
-	console.error('[JWT], HASURA_GRAPHQL_JWT_SECRET is not a valid json');
-}
 
 export function getJwtUser({
 	id,
@@ -64,7 +54,7 @@ export function getJwt({
 		role: type
 	};
 
-	const { key } = jwtSecret;
+	const { key } = getJwtKey();
 
 	const token = jwt.sign(claim, key, signOptions);
 	return token;

@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import type { Handle, GetSession } from '@sveltejs/kit';
 import jwtDecode from 'jwt-decode';
-import { getGraphqlAPI } from '$lib/config/variables';
+import { getGraphqlAPI } from '$lib/config/variables/public';
 import { config } from 'dotenv';
 
 config();

@@ -8,5 +8,5 @@ function find(name: string): string {
 	if (browser) {
 		return import.meta.env[name];
 	}
-	return process.env[name] || import.meta.env[name];
+	return process?.env[name] || import.meta.env[name];
 }
