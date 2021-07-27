@@ -1,3 +1,17 @@
+# [1.0.0-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2021-07-27)
+
+
+### Bug Fixes
+
+* **env:** enhance env var look up ([#40](https://github.com/SocialGouv/carnet-de-bord/issues/40)) ([b1d4380](https://github.com/SocialGouv/carnet-de-bord/commit/b1d4380ab208e22533bef4f05192fa2dac0db6ac))
+* **import:** import correct file ([69689aa](https://github.com/SocialGouv/carnet-de-bord/commit/69689aa360b09b174c1a92a4c5460f2016f5310e))
+
+
+### Features
+
+* **env:** split priva and public variables ([5b1a0b6](https://github.com/SocialGouv/carnet-de-bord/commit/5b1a0b6e5d677752130de6c6e8211453d84844fd))
+* **jwt:** use jwt key instead of jwk ([4b9e063](https://github.com/SocialGouv/carnet-de-bord/commit/4b9e0634b453ee4fc61e1a2e235a63dfa4c3c6bb))
+
 # 1.0.0-alpha.1 (2021-07-27)
 
 
