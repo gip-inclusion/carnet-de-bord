@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fnv from 'fnv-plus';
-import { getSecretConfig } from '../variables.js';
+import { getSecretConfig } from '../variables';
 import { DEV_PRIVATE_KEY } from './dev-secrets/private.pem.js';
 import { DEV_PUBLIC_KEY } from './dev-secrets/public.pem.js';
 
