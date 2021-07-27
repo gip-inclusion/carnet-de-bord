@@ -2,6 +2,9 @@ import cookie from 'cookie';
 import type { Handle, GetSession } from '@sveltejs/kit';
 import jwtDecode from 'jwt-decode';
 import { getGraphqlAPI } from '$lib/config/variables';
+import { config } from 'dotenv';
+
+config();
 
 export const handle: Handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');

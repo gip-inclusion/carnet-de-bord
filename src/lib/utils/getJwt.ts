@@ -1,5 +1,15 @@
-import { getSecret } from '$lib/config/jwk/getSecret';
 import jwt, { SignOptions } from 'jsonwebtoken';
+
+const { HASURA_GRAPHQL_JWT_SECRET } = process.env;
+
+console.log({ HASURA_GRAPHQL_JWT_SECRET });
+
+let jwtSecret;
+try {
+	jwtSecret = JSON.parse(HASURA_GRAPHQL_JWT_SECRET);
+} catch (error) {
+	console.error('[JWT], HASURA_GRAPHQL_JWT_SECRET is not a valid json');
+}
 
 export function getJwtUser({
 	id,
@@ -42,7 +52,7 @@ export function getJwt({
 	professionalId: string;
 }): string {
 	const signOptions: SignOptions = {
-		algorithm: 'RS256',
+		algorithm: 'HS256',
 		expiresIn: '30d',
 		subject: id
 	};
@@ -54,7 +64,7 @@ export function getJwt({
 		role: type
 	};
 
-	const { key } = getSecret();
+	const { key } = jwtSecret;
 
 	const token = jwt.sign(claim, key, signOptions);
 	return token;
