@@ -1,8 +1,12 @@
+import { getDatabaseUrl } from '../variables/private';
+
 const pool = {
 	max: 5,
 	min: 5,
 	propagateCreateError: false
 };
+
+const databaseUrl = getDatabaseUrl();
 
 const config = {
 	development: {

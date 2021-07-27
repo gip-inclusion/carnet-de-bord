@@ -1,4 +1,4 @@
-import { getSecret } from '$lib/config/jwk/getSecret';
+import { getJwtKey } from '$lib/config/variables/private';
 import jwt, { SignOptions } from 'jsonwebtoken';
 
 export function getJwtUser({
@@ -42,7 +42,7 @@ export function getJwt({
 	professionalId: string;
 }): string {
 	const signOptions: SignOptions = {
-		algorithm: 'RS256',
+		algorithm: 'HS256',
 		expiresIn: '30d',
 		subject: id
 	};
@@ -54,7 +54,7 @@ export function getJwt({
 		role: type
 	};
 
-	const { key } = getSecret();
+	const { key } = getJwtKey();
 
 	const token = jwt.sign(claim, key, signOptions);
 	return token;

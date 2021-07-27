@@ -1,4 +1,5 @@
 import knex from '$lib/config/db/knex';
+import { getAppUrl } from '$lib/config/variables/private';
 import { sendEmail } from '$lib/utils/sendEmail';
 import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
@@ -47,7 +48,7 @@ export const post: RequestHandler = async (request) => {
 	sendEmail({
 		to: email,
 		subject: 'Accédez à votre espace Carnet de bord',
-		html: emailMagicLink({ firstname, lastname, accessKey, appUrl: process.env['VITE_APP_URL'] })
+		html: emailMagicLink({ firstname, lastname, accessKey, appUrl: getAppUrl() })
 	});
 
 	return {
