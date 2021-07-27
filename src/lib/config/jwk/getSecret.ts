@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fnv from 'fnv-plus';
+import { getSecretConfig } from '../variables.js';
 import { DEV_PRIVATE_KEY } from './dev-secrets/private.pem.js';
 import { DEV_PUBLIC_KEY } from './dev-secrets/public.pem.js';
 
@@ -9,12 +10,8 @@ export function getSecret(): {
 	kid: string;
 	publicKey: string;
 } {
-	const {
-		VITE_AUTH_PRIVATE_KEY,
-		VITE_AUTH_PRIVATE_KEY_FILE,
-		VITE_AUTH_PUBLIC_KEY,
-		VITE_AUTH_PUBLIC_KEY_FILE
-	} = process.env;
+	const { AUTH_PRIVATE_KEY, AUTH_PRIVATE_KEY_FILE, AUTH_PUBLIC_KEY, AUTH_PUBLIC_KEY_FILE } =
+		getSecretConfig();
 
 	let authPrivateKeyFile;
 	let authPublicKeyFile;
@@ -22,10 +19,10 @@ export function getSecret(): {
 	let authPublicKey;
 
 	// dev (yarn test) and CI
-	if (!(VITE_AUTH_PRIVATE_KEY || VITE_AUTH_PRIVATE_KEY_FILE)) {
+	if (!(AUTH_PRIVATE_KEY || AUTH_PRIVATE_KEY_FILE)) {
 		authPrivateKeyFile = DEV_PRIVATE_KEY;
 	}
-	if (!(VITE_AUTH_PUBLIC_KEY || VITE_AUTH_PUBLIC_KEY_FILE)) {
+	if (!(AUTH_PUBLIC_KEY || AUTH_PUBLIC_KEY_FILE)) {
 		authPublicKeyFile = DEV_PUBLIC_KEY;
 	}
 
