@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.0...v1.1.1) (2021-07-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependency pg to ^8.7.1 ([#43](https://github.com/SocialGouv/carnet-de-bord/issues/43)) ([07848bf](https://github.com/SocialGouv/carnet-de-bord/commit/07848bf2a5b9b6af8c2f7608e99aaffda906cd29))
+
 # [1.1.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.0.0...v1.1.0) (2021-07-28)
 
 
