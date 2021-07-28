@@ -3,11 +3,11 @@
 
 	import Button from './Button.svelte';
 
-	let search;
+	export let filter = null;
 	const dispatch = createEventDispatcher();
 
 	async function handleSubmit() {
-		dispatch('search', { search });
+		dispatch('filter', { filter });
 	}
 </script>
 
@@ -15,11 +15,11 @@
 <form on:submit|preventDefault={handleSubmit}>
 	<div class="bg-gray-300 px-12 py-6 flex">
 		<input
-			bind:value={search}
+			bind:value={filter}
 			class="h-16 w-full p-4"
 			required
 			placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
 		/>
-		<Button type="submit" disabled={!search}>Rechercher</Button>
+		<Button type="submit" disabled={!filter}>Rechercher</Button>
 	</div>
 </form>
