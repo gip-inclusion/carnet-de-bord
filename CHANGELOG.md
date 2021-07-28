@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.0.0...v1.1.0) (2021-07-28)
+
+
+### Features
+
+* **hasura:** update schema and hasura metadata ([2ca8402](https://github.com/SocialGouv/carnet-de-bord/commit/2ca8402ad01260dd74ac1f00cdc6574dad382f38))
+* **pro:** implement search query ([9d9f4e6](https://github.com/SocialGouv/carnet-de-bord/commit/9d9f4e6e54c3df45f11814f51ae8d58703c21715))
+* **pro:** implement welcome page ([f368b08](https://github.com/SocialGouv/carnet-de-bord/commit/f368b08a37ebe8c75a60d6a692859f1867c1338a))
+
 # 1.0.0 (2021-07-28)
 
 
