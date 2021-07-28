@@ -1,15 +1,17 @@
 {
 	"name": "carnet-de-bord",
-	"version": "0.0.1",
+	"version": "1.0.0-beta.2",
 	"engines": {
 		"node": "16",
 		"npm": "7"
 	},
+	"private": true,
 	"repository": "git@github.com:SocialGouv/carnet-de-bord.git",
 	"author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
 	"bugs": "https://github.com/SocialGouv/carnet-de-bord/issues",
 	"license": "Apache-2.0",
 	"scripts": {
+		"k8s": "yarn --silent --cwd .k8s",
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
 		"preview": "svelte-kit preview",

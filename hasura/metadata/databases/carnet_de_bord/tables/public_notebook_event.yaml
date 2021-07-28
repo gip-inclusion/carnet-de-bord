@@ -1,0 +1,53 @@
+table:
+  name: notebook_event
+  schema: public
+object_relationships:
+- name: notebook
+  using:
+    foreign_key_constraint_on: notebook_id
+- name: professional
+  using:
+    foreign_key_constraint_on: professional_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+    columns:
+    - creation_date
+    - data
+    - event_date
+    - id
+    - notebook_id
+    set:
+      professional_id: x-hasura-Professional-Id
+  role: professional
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - event_date
+    - data
+    - creation_date
+    - id
+    - notebook_id
+    - professional_id
+    filter:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+  role: professional
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - data
+    - event_date
+    filter:
+      professional_id:
+        _eq: X-Hasura-Professional-Id
+  role: professional
