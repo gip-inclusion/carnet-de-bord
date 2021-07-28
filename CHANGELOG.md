@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2021-07-28)
+
+
+### Features
+
+* **hasura:** update schema and metadata ([62ccc48](https://github.com/SocialGouv/carnet-de-bord/commit/62ccc488a8db63664020964c8315c5ee8dff7bdd))
+
 # 1.0.0-beta.1 (2021-07-28)
 
 

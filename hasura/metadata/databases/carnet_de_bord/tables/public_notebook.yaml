@@ -1,0 +1,43 @@
+table:
+  name: notebook
+  schema: public
+object_relationships:
+- name: beneficiary
+  using:
+    foreign_key_constraint_on: beneficiary_id
+array_relationships:
+- name: events
+  using:
+    foreign_key_constraint_on:
+      column: notebook_id
+      table:
+        name: notebook_event
+        schema: public
+- name: members
+  using:
+    foreign_key_constraint_on:
+      column: notebook_id
+      table:
+        name: notebook_member
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - id
+    - beneficiary_id
+    - creation_date
+  role: professional
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - creation_date
+    - beneficiary_id
+    - id
+    filter:
+      members:
+        professional_id:
+          _eq: X-Hasura-Professional-Id
+  role: professional

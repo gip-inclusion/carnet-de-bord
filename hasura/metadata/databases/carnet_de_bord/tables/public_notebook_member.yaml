@@ -1,0 +1,40 @@
+table:
+  name: notebook_member
+  schema: public
+object_relationships:
+- name: notebook
+  using:
+    foreign_key_constraint_on: notebook_id
+- name: professional
+  using:
+    foreign_key_constraint_on: professional_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+    columns:
+    - id
+    - notebook_id
+    - professional_id
+    - last_visit_date
+    - member_type
+  role: professional
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - member_type
+    - last_visit_date
+    - id
+    - notebook_id
+    - professional_id
+    filter:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+  role: professional
