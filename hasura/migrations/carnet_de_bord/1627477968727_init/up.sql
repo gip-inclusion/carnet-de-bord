@@ -45,8 +45,9 @@ CREATE TABLE public.notebook_member (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     notebook_id uuid NOT NULL,
     professional_id uuid NOT NULL,
-    last_visit_date timestamp with time zone,
-    member_type character varying NOT NULL
+    notebook_visit_date timestamp with time zone,
+    member_type character varying NOT NULL,
+    notebook_modification_date timestamp with time zone
 );
 CREATE TABLE public.professional (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,

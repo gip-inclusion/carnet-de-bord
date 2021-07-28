@@ -1,8 +1,8 @@
-import cookie from 'cookie';
-import type { Handle, GetSession } from '@sveltejs/kit';
-import jwtDecode from 'jwt-decode';
 import { getGraphqlAPI } from '$lib/config/variables/public';
+import type { GetSession, Handle } from '@sveltejs/kit';
+import cookie from 'cookie';
 import { config } from 'dotenv';
+import jwtDecode from 'jwt-decode';
 
 config();
 
@@ -21,10 +21,7 @@ export const handle: Handle = async ({ request, resolve }) => {
 
 export const getSession: GetSession = async ({ locals }) => {
 	const session = {
-		user: locals.user && {
-			id: locals.user.id,
-			role: locals.user.role
-		},
+		user: locals.user,
 		token: locals.token,
 		graphqlAPI: getGraphqlAPI()
 	};

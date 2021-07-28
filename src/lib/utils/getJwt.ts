@@ -51,7 +51,9 @@ export function getJwt({
 	const claim = {
 		'https://hasura.io/jwt/claims': hasuraClaims,
 		id: id,
-		role: type
+		role: type,
+		beneficiaryId,
+		professionalId
 	};
 
 	const { key } = getJwtKey();

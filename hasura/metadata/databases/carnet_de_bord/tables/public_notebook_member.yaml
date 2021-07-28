@@ -3,55 +3,59 @@ table:
   schema: public
 configuration:
   custom_column_names:
-    last_visit_date: lastVisitDate
     member_type: memberType
     notebook_id: notebookId
+    notebook_modification_date: notebookModificationDate
+    notebook_visit_date: notebookVisitDate
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
-- name: notebook
-  using:
-    foreign_key_constraint_on: notebook_id
-- name: professional
-  using:
-    foreign_key_constraint_on: professional_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check:
-      notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
-    columns:
-    - id
-    - notebook_id
-    - professional_id
-    - last_visit_date
-    - member_type
-  role: professional
+  - permission:
+      backend_only: false
+      check:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+      columns:
+        - id
+        - member_type
+        - notebook_id
+        - notebook_modification_date
+        - notebook_visit_date
+        - professional_id
+    role: professional
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - member_type
-    - last_visit_date
-    - id
-    - notebook_id
-    - professional_id
-    filter:
-      notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      allow_aggregations: true
+      columns:
+        - id
+        - member_type
+        - notebook_id
+        - notebook_modification_date
+        - notebook_visit_date
+        - professional_id
+      filter:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+    role: professional
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - last_visit_date
-    - member_type
-    filter:
-      professional_id:
-        _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      check: null
+      columns:
+        - member_type
+        - notebook_modification_date
+        - notebook_visit_date
+      filter:
+        professional_id:
+          _eq: X-Hasura-Professional-Id
+    role: professional

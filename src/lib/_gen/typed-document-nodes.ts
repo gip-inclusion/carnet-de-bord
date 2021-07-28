@@ -1465,11 +1465,12 @@ export type Notebook_Max_Fields = {
 export type Notebook_Member = {
 	__typename?: 'notebook_member';
 	id: Scalars['uuid'];
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType: Scalars['String'];
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
+	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
+	notebookVisitDate?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
 	professional: Professional;
 	professionalId: Scalars['uuid'];
@@ -1516,10 +1517,11 @@ export type Notebook_Member_Bool_Exp = {
 	_not?: Maybe<Notebook_Member_Bool_Exp>;
 	_or?: Maybe<Array<Notebook_Member_Bool_Exp>>;
 	id?: Maybe<Uuid_Comparison_Exp>;
-	lastVisitDate?: Maybe<Timestamptz_Comparison_Exp>;
 	memberType?: Maybe<String_Comparison_Exp>;
 	notebook?: Maybe<Notebook_Bool_Exp>;
 	notebookId?: Maybe<Uuid_Comparison_Exp>;
+	notebookModificationDate?: Maybe<Timestamptz_Comparison_Exp>;
+	notebookVisitDate?: Maybe<Timestamptz_Comparison_Exp>;
 	professional?: Maybe<Professional_Bool_Exp>;
 	professionalId?: Maybe<Uuid_Comparison_Exp>;
 };
@@ -1533,10 +1535,11 @@ export enum Notebook_Member_Constraint {
 /** input type for inserting data into table "notebook_member" */
 export type Notebook_Member_Insert_Input = {
 	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebook?: Maybe<Notebook_Obj_Rel_Insert_Input>;
 	notebookId?: Maybe<Scalars['uuid']>;
+	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
+	notebookVisitDate?: Maybe<Scalars['timestamptz']>;
 	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
 	professionalId?: Maybe<Scalars['uuid']>;
 };
@@ -1545,18 +1548,20 @@ export type Notebook_Member_Insert_Input = {
 export type Notebook_Member_Max_Fields = {
 	__typename?: 'notebook_member_max_fields';
 	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
+	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
+	notebookVisitDate?: Maybe<Scalars['timestamptz']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "notebook_member" */
 export type Notebook_Member_Max_Order_By = {
 	id?: Maybe<Order_By>;
-	lastVisitDate?: Maybe<Order_By>;
 	memberType?: Maybe<Order_By>;
 	notebookId?: Maybe<Order_By>;
+	notebookModificationDate?: Maybe<Order_By>;
+	notebookVisitDate?: Maybe<Order_By>;
 	professionalId?: Maybe<Order_By>;
 };
 
@@ -1564,18 +1569,20 @@ export type Notebook_Member_Max_Order_By = {
 export type Notebook_Member_Min_Fields = {
 	__typename?: 'notebook_member_min_fields';
 	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
+	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
+	notebookVisitDate?: Maybe<Scalars['timestamptz']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "notebook_member" */
 export type Notebook_Member_Min_Order_By = {
 	id?: Maybe<Order_By>;
-	lastVisitDate?: Maybe<Order_By>;
 	memberType?: Maybe<Order_By>;
 	notebookId?: Maybe<Order_By>;
+	notebookModificationDate?: Maybe<Order_By>;
+	notebookVisitDate?: Maybe<Order_By>;
 	professionalId?: Maybe<Order_By>;
 };
 
@@ -1598,10 +1605,11 @@ export type Notebook_Member_On_Conflict = {
 /** Ordering options when selecting data from "notebook_member". */
 export type Notebook_Member_Order_By = {
 	id?: Maybe<Order_By>;
-	lastVisitDate?: Maybe<Order_By>;
 	memberType?: Maybe<Order_By>;
 	notebook?: Maybe<Notebook_Order_By>;
 	notebookId?: Maybe<Order_By>;
+	notebookModificationDate?: Maybe<Order_By>;
+	notebookVisitDate?: Maybe<Order_By>;
 	professional?: Maybe<Professional_Order_By>;
 	professionalId?: Maybe<Order_By>;
 };
@@ -1616,11 +1624,13 @@ export enum Notebook_Member_Select_Column {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	LastVisitDate = 'lastVisitDate',
-	/** column name */
 	MemberType = 'memberType',
 	/** column name */
 	NotebookId = 'notebookId',
+	/** column name */
+	NotebookModificationDate = 'notebookModificationDate',
+	/** column name */
+	NotebookVisitDate = 'notebookVisitDate',
 	/** column name */
 	ProfessionalId = 'professionalId'
 }
@@ -1628,9 +1638,10 @@ export enum Notebook_Member_Select_Column {
 /** input type for updating data in table "notebook_member" */
 export type Notebook_Member_Set_Input = {
 	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
+	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
+	notebookVisitDate?: Maybe<Scalars['timestamptz']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 };
 
@@ -1639,11 +1650,13 @@ export enum Notebook_Member_Update_Column {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	LastVisitDate = 'lastVisitDate',
-	/** column name */
 	MemberType = 'memberType',
 	/** column name */
 	NotebookId = 'notebookId',
+	/** column name */
+	NotebookModificationDate = 'notebookModificationDate',
+	/** column name */
+	NotebookVisitDate = 'notebookVisitDate',
 	/** column name */
 	ProfessionalId = 'professionalId'
 }
@@ -2657,14 +2670,30 @@ export type Uuid_Comparison_Exp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type GetBeneficiariesQueryVariables = Exact<{ [key: string]: never }>;
+export type GetLastVisitedOrUpdatedQueryVariables = Exact<{
+	professionalId: Scalars['uuid'];
+}>;
 
-export type GetBeneficiariesQuery = { __typename?: 'query_root' } & {
-	beneficiary: Array<
-		{ __typename?: 'beneficiary' } & Pick<
-			Beneficiary,
-			'dateOfBirth' | 'firstname' | 'id' | 'lastname' | 'mobileNumber'
-		>
+export type GetLastVisitedOrUpdatedQuery = { __typename?: 'query_root' } & {
+	lastVisited: Array<
+		{ __typename?: 'notebook_member' } & {
+			notebook: { __typename?: 'notebook' } & {
+				beneficiary: { __typename?: 'beneficiary' } & Pick<
+					Beneficiary,
+					'id' | 'firstname' | 'lastname' | 'mobileNumber' | 'dateOfBirth'
+				>;
+			};
+		}
+	>;
+	lastUpdated: Array<
+		{ __typename?: 'notebook_member' } & {
+			notebook: { __typename?: 'notebook' } & {
+				beneficiary: { __typename?: 'beneficiary' } & Pick<
+					Beneficiary,
+					'id' | 'firstname' | 'lastname' | 'mobileNumber' | 'dateOfBirth'
+				>;
+			};
+		}
 	>;
 };
 
@@ -2681,12 +2710,12 @@ export type SearchBeneficiariesQuery = { __typename?: 'query_root' } & {
 	>;
 };
 
-export type UpdateLastVisitDateMutationVariables = Exact<{
+export type UpdateNotebookVisitDateMutationVariables = Exact<{
 	beneficiaryId: Scalars['uuid'];
-	lastVisitDate: Scalars['timestamptz'];
+	notebookVisitDate: Scalars['timestamptz'];
 }>;
 
-export type UpdateLastVisitDateMutation = { __typename?: 'mutation_root' } & {
+export type UpdateNotebookVisitDateMutation = { __typename?: 'mutation_root' } & {
 	update_notebook_member?: Maybe<
 		{ __typename?: 'notebook_member_mutation_response' } & {
 			returning: Array<
@@ -2714,27 +2743,183 @@ export type UpdateLastVisitDateMutation = { __typename?: 'mutation_root' } & {
 	>;
 };
 
-export const GetBeneficiariesDocument = {
+export const GetLastVisitedOrUpdatedDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetBeneficiaries' },
+			name: { kind: 'Name', value: 'GetLastVisitedOrUpdated' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				}
+			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'beneficiary' },
+						alias: { kind: 'Name', value: 'lastVisited' },
+						name: { kind: 'Name', value: 'notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookVisitDate' },
+											value: { kind: 'EnumValue', value: 'desc_nulls_last' }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'IntValue', value: '3' }
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professionalId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professionalId' }
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'notebook' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'beneficiary' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } }
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'lastUpdated' },
+						name: { kind: 'Name', value: 'notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookModificationDate' },
+											value: { kind: 'EnumValue', value: 'desc_nulls_last' }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'IntValue', value: '3' }
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professionalId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_neq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professionalId' }
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'notebook' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'beneficiary' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } }
+													]
+												}
+											}
+										]
+									}
+								}
 							]
 						}
 					}
@@ -2742,7 +2927,7 @@ export const GetBeneficiariesDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<GetBeneficiariesQuery, GetBeneficiariesQueryVariables>;
+} as unknown as DocumentNode<GetLastVisitedOrUpdatedQuery, GetLastVisitedOrUpdatedQueryVariables>;
 export const SearchBeneficiariesDocument = {
 	kind: 'Document',
 	definitions: [
@@ -2887,13 +3072,13 @@ export const SearchBeneficiariesDocument = {
 		}
 	]
 } as unknown as DocumentNode<SearchBeneficiariesQuery, SearchBeneficiariesQueryVariables>;
-export const UpdateLastVisitDateDocument = {
+export const UpdateNotebookVisitDateDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'mutation',
-			name: { kind: 'Name', value: 'updateLastVisitDate' },
+			name: { kind: 'Name', value: 'updateNotebookVisitDate' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -2905,7 +3090,7 @@ export const UpdateLastVisitDateDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastVisitDate' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookVisitDate' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
@@ -2962,8 +3147,11 @@ export const UpdateLastVisitDateDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastVisitDate' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastVisitDate' } }
+											name: { kind: 'Name', value: 'notebookVisitDate' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'notebookVisitDate' }
+											}
 										}
 									]
 								}
@@ -3018,4 +3206,7 @@ export const UpdateLastVisitDateDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<UpdateLastVisitDateMutation, UpdateLastVisitDateMutationVariables>;
+} as unknown as DocumentNode<
+	UpdateNotebookVisitDateMutation,
+	UpdateNotebookVisitDateMutationVariables
+>;

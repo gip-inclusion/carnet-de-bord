@@ -1,9 +1,32 @@
-query GetBeneficiaries {
-	beneficiary {
-		dateOfBirth
-		firstname
-		id
-		lastname
-		mobileNumber
+query GetLastVisitedOrUpdated($professionalId: uuid!) {
+	lastVisited: notebook_member(
+		order_by: { notebookVisitDate: desc_nulls_last }
+		limit: 3
+		where: { professionalId: { _eq: $professionalId } }
+	) {
+		notebook {
+			beneficiary {
+				id
+				firstname
+				lastname
+				mobileNumber
+				dateOfBirth
+			}
+		}
+	}
+	lastUpdated: notebook_member(
+		order_by: { notebookModificationDate: desc_nulls_last }
+		limit: 3
+		where: { professionalId: { _neq: $professionalId } }
+	) {
+		notebook {
+			beneficiary {
+				id
+				firstname
+				lastname
+				mobileNumber
+				dateOfBirth
+			}
+		}
 	}
 }
