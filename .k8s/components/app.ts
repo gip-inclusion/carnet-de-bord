@@ -140,7 +140,7 @@ export default async () => {
 
 	const hasuraUrl = new EnvVar({
 		name: 'VITE_GRAPHQL_API_URL',
-		value: `https://${getIngressHost(hasuraManifests)}/`
+		value: `https://${getIngressHost(hasuraManifests)}/v1/graphql`
 	});
 
 	addEnv({ deployment, data: hasuraUrl });
