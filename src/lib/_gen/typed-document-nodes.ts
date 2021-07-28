@@ -11,6 +11,7 @@ export type Scalars = {
 	Int: number;
 	Float: number;
 	date: any;
+	jsonb: any;
 	timestamptz: any;
 	uuid: any;
 };
@@ -457,12 +458,10 @@ export type Beneficiary = {
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
+	/** An object relationship */
+	notebook: Notebook;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
-	/** An array relationship */
-	teamMembers: Array<Team_Member>;
-	/** An aggregate relationship */
-	teamMembers_aggregate: Team_Member_Aggregate;
 };
 
 /** columns and relationships of "beneficiary" */
@@ -481,24 +480,6 @@ export type BeneficiaryAccounts_AggregateArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<Account_Order_By>>;
 	where?: Maybe<Account_Bool_Exp>;
-};
-
-/** columns and relationships of "beneficiary" */
-export type BeneficiaryTeamMembersArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-/** columns and relationships of "beneficiary" */
-export type BeneficiaryTeamMembers_AggregateArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** aggregated selection of "beneficiary" */
@@ -538,9 +519,9 @@ export type Beneficiary_Bool_Exp = {
 	id?: Maybe<Uuid_Comparison_Exp>;
 	lastname?: Maybe<String_Comparison_Exp>;
 	mobileNumber?: Maybe<String_Comparison_Exp>;
+	notebook?: Maybe<Notebook_Bool_Exp>;
 	peNumber?: Maybe<String_Comparison_Exp>;
 	postalCode?: Maybe<String_Comparison_Exp>;
-	teamMembers?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "beneficiary" */
@@ -564,9 +545,9 @@ export type Beneficiary_Insert_Input = {
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
+	notebook?: Maybe<Notebook_Obj_Rel_Insert_Input>;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
-	teamMembers?: Maybe<Team_Member_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -639,9 +620,9 @@ export type Beneficiary_Order_By = {
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
 	mobileNumber?: Maybe<Order_By>;
+	notebook?: Maybe<Notebook_Order_By>;
 	peNumber?: Maybe<Order_By>;
 	postalCode?: Maybe<Order_By>;
-	teamMembers_aggregate?: Maybe<Team_Member_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: beneficiary */
@@ -734,6 +715,29 @@ export type Date_Comparison_Exp = {
 	_nin?: Maybe<Array<Scalars['date']>>;
 };
 
+/** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+export type Jsonb_Comparison_Exp = {
+	/** is the column contained in the given json value */
+	_contained_in?: Maybe<Scalars['jsonb']>;
+	/** does the column contain the given json value at the top level */
+	_contains?: Maybe<Scalars['jsonb']>;
+	_eq?: Maybe<Scalars['jsonb']>;
+	_gt?: Maybe<Scalars['jsonb']>;
+	_gte?: Maybe<Scalars['jsonb']>;
+	/** does the string exist as a top-level key in the column */
+	_has_key?: Maybe<Scalars['String']>;
+	/** do all of these strings exist as top-level keys in the column */
+	_has_keys_all?: Maybe<Array<Scalars['String']>>;
+	/** do any of these strings exist as top-level keys in the column */
+	_has_keys_any?: Maybe<Array<Scalars['String']>>;
+	_in?: Maybe<Array<Scalars['jsonb']>>;
+	_is_null?: Maybe<Scalars['Boolean']>;
+	_lt?: Maybe<Scalars['jsonb']>;
+	_lte?: Maybe<Scalars['jsonb']>;
+	_neq?: Maybe<Scalars['jsonb']>;
+	_nin?: Maybe<Array<Scalars['jsonb']>>;
+};
+
 /** mutation root */
 export type Mutation_Root = {
 	__typename?: 'mutation_root';
@@ -749,6 +753,18 @@ export type Mutation_Root = {
 	delete_beneficiary?: Maybe<Beneficiary_Mutation_Response>;
 	/** delete single row from the table: "beneficiary" */
 	delete_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** delete data from the table: "notebook" */
+	delete_notebook?: Maybe<Notebook_Mutation_Response>;
+	/** delete single row from the table: "notebook" */
+	delete_notebook_by_pk?: Maybe<Notebook>;
+	/** delete data from the table: "notebook_event" */
+	delete_notebook_event?: Maybe<Notebook_Event_Mutation_Response>;
+	/** delete single row from the table: "notebook_event" */
+	delete_notebook_event_by_pk?: Maybe<Notebook_Event>;
+	/** delete data from the table: "notebook_member" */
+	delete_notebook_member?: Maybe<Notebook_Member_Mutation_Response>;
+	/** delete single row from the table: "notebook_member" */
+	delete_notebook_member_by_pk?: Maybe<Notebook_Member>;
 	/** delete data from the table: "professional" */
 	delete_professional?: Maybe<Professional_Mutation_Response>;
 	/** delete single row from the table: "professional" */
@@ -757,10 +773,6 @@ export type Mutation_Root = {
 	delete_structure?: Maybe<Structure_Mutation_Response>;
 	/** delete single row from the table: "structure" */
 	delete_structure_by_pk?: Maybe<Structure>;
-	/** delete data from the table: "team_member" */
-	delete_team_member?: Maybe<Team_Member_Mutation_Response>;
-	/** delete single row from the table: "team_member" */
-	delete_team_member_by_pk?: Maybe<Team_Member>;
 	/** insert data into the table: "account" */
 	insert_account?: Maybe<Account_Mutation_Response>;
 	/** insert a single row into the table: "account" */
@@ -773,6 +785,18 @@ export type Mutation_Root = {
 	insert_beneficiary?: Maybe<Beneficiary_Mutation_Response>;
 	/** insert a single row into the table: "beneficiary" */
 	insert_beneficiary_one?: Maybe<Beneficiary>;
+	/** insert data into the table: "notebook" */
+	insert_notebook?: Maybe<Notebook_Mutation_Response>;
+	/** insert data into the table: "notebook_event" */
+	insert_notebook_event?: Maybe<Notebook_Event_Mutation_Response>;
+	/** insert a single row into the table: "notebook_event" */
+	insert_notebook_event_one?: Maybe<Notebook_Event>;
+	/** insert data into the table: "notebook_member" */
+	insert_notebook_member?: Maybe<Notebook_Member_Mutation_Response>;
+	/** insert a single row into the table: "notebook_member" */
+	insert_notebook_member_one?: Maybe<Notebook_Member>;
+	/** insert a single row into the table: "notebook" */
+	insert_notebook_one?: Maybe<Notebook>;
 	/** insert data into the table: "professional" */
 	insert_professional?: Maybe<Professional_Mutation_Response>;
 	/** insert a single row into the table: "professional" */
@@ -781,10 +805,6 @@ export type Mutation_Root = {
 	insert_structure?: Maybe<Structure_Mutation_Response>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
-	/** insert data into the table: "team_member" */
-	insert_team_member?: Maybe<Team_Member_Mutation_Response>;
-	/** insert a single row into the table: "team_member" */
-	insert_team_member_one?: Maybe<Team_Member>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<Account_Mutation_Response>;
 	/** update single row of the table: "account" */
@@ -797,6 +817,18 @@ export type Mutation_Root = {
 	update_beneficiary?: Maybe<Beneficiary_Mutation_Response>;
 	/** update single row of the table: "beneficiary" */
 	update_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** update data of the table: "notebook" */
+	update_notebook?: Maybe<Notebook_Mutation_Response>;
+	/** update single row of the table: "notebook" */
+	update_notebook_by_pk?: Maybe<Notebook>;
+	/** update data of the table: "notebook_event" */
+	update_notebook_event?: Maybe<Notebook_Event_Mutation_Response>;
+	/** update single row of the table: "notebook_event" */
+	update_notebook_event_by_pk?: Maybe<Notebook_Event>;
+	/** update data of the table: "notebook_member" */
+	update_notebook_member?: Maybe<Notebook_Member_Mutation_Response>;
+	/** update single row of the table: "notebook_member" */
+	update_notebook_member_by_pk?: Maybe<Notebook_Member>;
 	/** update data of the table: "professional" */
 	update_professional?: Maybe<Professional_Mutation_Response>;
 	/** update single row of the table: "professional" */
@@ -805,10 +837,6 @@ export type Mutation_Root = {
 	update_structure?: Maybe<Structure_Mutation_Response>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
-	/** update data of the table: "team_member" */
-	update_team_member?: Maybe<Team_Member_Mutation_Response>;
-	/** update single row of the table: "team_member" */
-	update_team_member_by_pk?: Maybe<Team_Member>;
 };
 
 /** mutation root */
@@ -842,6 +870,36 @@ export type Mutation_RootDelete_Beneficiary_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootDelete_NotebookArgs = {
+	where: Notebook_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Notebook_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Notebook_EventArgs = {
+	where: Notebook_Event_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Notebook_Event_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Notebook_MemberArgs = {
+	where: Notebook_Member_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Notebook_Member_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type Mutation_RootDelete_ProfessionalArgs = {
 	where: Professional_Bool_Exp;
 };
@@ -858,16 +916,6 @@ export type Mutation_RootDelete_StructureArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Structure_By_PkArgs = {
-	id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Team_MemberArgs = {
-	where: Team_Member_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Team_Member_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -908,6 +956,42 @@ export type Mutation_RootInsert_Beneficiary_OneArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_NotebookArgs = {
+	objects: Array<Notebook_Insert_Input>;
+	on_conflict?: Maybe<Notebook_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Notebook_EventArgs = {
+	objects: Array<Notebook_Event_Insert_Input>;
+	on_conflict?: Maybe<Notebook_Event_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Notebook_Event_OneArgs = {
+	object: Notebook_Event_Insert_Input;
+	on_conflict?: Maybe<Notebook_Event_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Notebook_MemberArgs = {
+	objects: Array<Notebook_Member_Insert_Input>;
+	on_conflict?: Maybe<Notebook_Member_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Notebook_Member_OneArgs = {
+	object: Notebook_Member_Insert_Input;
+	on_conflict?: Maybe<Notebook_Member_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Notebook_OneArgs = {
+	object: Notebook_Insert_Input;
+	on_conflict?: Maybe<Notebook_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootInsert_ProfessionalArgs = {
 	objects: Array<Professional_Insert_Input>;
 	on_conflict?: Maybe<Professional_On_Conflict>;
@@ -929,18 +1013,6 @@ export type Mutation_RootInsert_StructureArgs = {
 export type Mutation_RootInsert_Structure_OneArgs = {
 	object: Structure_Insert_Input;
 	on_conflict?: Maybe<Structure_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Team_MemberArgs = {
-	objects: Array<Team_Member_Insert_Input>;
-	on_conflict?: Maybe<Team_Member_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Team_Member_OneArgs = {
-	object: Team_Member_Insert_Input;
-	on_conflict?: Maybe<Team_Member_On_Conflict>;
 };
 
 /** mutation root */
@@ -980,6 +1052,52 @@ export type Mutation_RootUpdate_Beneficiary_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_NotebookArgs = {
+	_set?: Maybe<Notebook_Set_Input>;
+	where: Notebook_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Notebook_By_PkArgs = {
+	_set?: Maybe<Notebook_Set_Input>;
+	pk_columns: Notebook_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Notebook_EventArgs = {
+	_append?: Maybe<Notebook_Event_Append_Input>;
+	_delete_at_path?: Maybe<Notebook_Event_Delete_At_Path_Input>;
+	_delete_elem?: Maybe<Notebook_Event_Delete_Elem_Input>;
+	_delete_key?: Maybe<Notebook_Event_Delete_Key_Input>;
+	_prepend?: Maybe<Notebook_Event_Prepend_Input>;
+	_set?: Maybe<Notebook_Event_Set_Input>;
+	where: Notebook_Event_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Notebook_Event_By_PkArgs = {
+	_append?: Maybe<Notebook_Event_Append_Input>;
+	_delete_at_path?: Maybe<Notebook_Event_Delete_At_Path_Input>;
+	_delete_elem?: Maybe<Notebook_Event_Delete_Elem_Input>;
+	_delete_key?: Maybe<Notebook_Event_Delete_Key_Input>;
+	_prepend?: Maybe<Notebook_Event_Prepend_Input>;
+	_set?: Maybe<Notebook_Event_Set_Input>;
+	pk_columns: Notebook_Event_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Notebook_MemberArgs = {
+	_set?: Maybe<Notebook_Member_Set_Input>;
+	where: Notebook_Member_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Notebook_Member_By_PkArgs = {
+	_set?: Maybe<Notebook_Member_Set_Input>;
+	pk_columns: Notebook_Member_Pk_Columns_Input;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_ProfessionalArgs = {
 	_set?: Maybe<Professional_Set_Input>;
 	where: Professional_Bool_Exp;
@@ -1003,17 +1121,605 @@ export type Mutation_RootUpdate_Structure_By_PkArgs = {
 	pk_columns: Structure_Pk_Columns_Input;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_Team_MemberArgs = {
-	_set?: Maybe<Team_Member_Set_Input>;
-	where: Team_Member_Bool_Exp;
+/** columns and relationships of "notebook" */
+export type Notebook = {
+	__typename?: 'notebook';
+	/** An object relationship */
+	beneficiary: Beneficiary;
+	beneficiaryId: Scalars['uuid'];
+	creationDate: Scalars['timestamptz'];
+	/** An array relationship */
+	events: Array<Notebook_Event>;
+	/** An aggregate relationship */
+	events_aggregate: Notebook_Event_Aggregate;
+	id: Scalars['uuid'];
+	/** An array relationship */
+	members: Array<Notebook_Member>;
+	/** An aggregate relationship */
+	members_aggregate: Notebook_Member_Aggregate;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_Team_Member_By_PkArgs = {
-	_set?: Maybe<Team_Member_Set_Input>;
-	pk_columns: Team_Member_Pk_Columns_Input;
+/** columns and relationships of "notebook" */
+export type NotebookEventsArgs = {
+	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
+	where?: Maybe<Notebook_Event_Bool_Exp>;
 };
+
+/** columns and relationships of "notebook" */
+export type NotebookEvents_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
+	where?: Maybe<Notebook_Event_Bool_Exp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookMembersArgs = {
+	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
+	where?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookMembers_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
+	where?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+/** aggregated selection of "notebook" */
+export type Notebook_Aggregate = {
+	__typename?: 'notebook_aggregate';
+	aggregate?: Maybe<Notebook_Aggregate_Fields>;
+	nodes: Array<Notebook>;
+};
+
+/** aggregate fields of "notebook" */
+export type Notebook_Aggregate_Fields = {
+	__typename?: 'notebook_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<Notebook_Max_Fields>;
+	min?: Maybe<Notebook_Min_Fields>;
+};
+
+/** aggregate fields of "notebook" */
+export type Notebook_Aggregate_FieldsCountArgs = {
+	columns?: Maybe<Array<Notebook_Select_Column>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
+export type Notebook_Bool_Exp = {
+	_and?: Maybe<Array<Notebook_Bool_Exp>>;
+	_not?: Maybe<Notebook_Bool_Exp>;
+	_or?: Maybe<Array<Notebook_Bool_Exp>>;
+	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
+	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
+	creationDate?: Maybe<Timestamptz_Comparison_Exp>;
+	events?: Maybe<Notebook_Event_Bool_Exp>;
+	id?: Maybe<Uuid_Comparison_Exp>;
+	members?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "notebook" */
+export enum Notebook_Constraint {
+	/** unique or primary key constraint */
+	NotebookBeneficiaryIdKey = 'notebook_beneficiary_id_key',
+	/** unique or primary key constraint */
+	NotebookPkey = 'notebook_pkey'
+}
+
+/** columns and relationships of "notebook_event" */
+export type Notebook_Event = {
+	__typename?: 'notebook_event';
+	creationDate: Scalars['timestamptz'];
+	data: Scalars['jsonb'];
+	eventDate: Scalars['date'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebookId: Scalars['uuid'];
+	/** An object relationship */
+	professional: Professional;
+	professionalId: Scalars['uuid'];
+};
+
+/** columns and relationships of "notebook_event" */
+export type Notebook_EventDataArgs = {
+	path?: Maybe<Scalars['String']>;
+};
+
+/** aggregated selection of "notebook_event" */
+export type Notebook_Event_Aggregate = {
+	__typename?: 'notebook_event_aggregate';
+	aggregate?: Maybe<Notebook_Event_Aggregate_Fields>;
+	nodes: Array<Notebook_Event>;
+};
+
+/** aggregate fields of "notebook_event" */
+export type Notebook_Event_Aggregate_Fields = {
+	__typename?: 'notebook_event_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<Notebook_Event_Max_Fields>;
+	min?: Maybe<Notebook_Event_Min_Fields>;
+};
+
+/** aggregate fields of "notebook_event" */
+export type Notebook_Event_Aggregate_FieldsCountArgs = {
+	columns?: Maybe<Array<Notebook_Event_Select_Column>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_event" */
+export type Notebook_Event_Aggregate_Order_By = {
+	count?: Maybe<Order_By>;
+	max?: Maybe<Notebook_Event_Max_Order_By>;
+	min?: Maybe<Notebook_Event_Min_Order_By>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Notebook_Event_Append_Input = {
+	data?: Maybe<Scalars['jsonb']>;
+};
+
+/** input type for inserting array relation for remote table "notebook_event" */
+export type Notebook_Event_Arr_Rel_Insert_Input = {
+	data: Array<Notebook_Event_Insert_Input>;
+	/** on conflict condition */
+	on_conflict?: Maybe<Notebook_Event_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_event". All fields are combined with a logical 'AND'. */
+export type Notebook_Event_Bool_Exp = {
+	_and?: Maybe<Array<Notebook_Event_Bool_Exp>>;
+	_not?: Maybe<Notebook_Event_Bool_Exp>;
+	_or?: Maybe<Array<Notebook_Event_Bool_Exp>>;
+	creationDate?: Maybe<Timestamptz_Comparison_Exp>;
+	data?: Maybe<Jsonb_Comparison_Exp>;
+	eventDate?: Maybe<Date_Comparison_Exp>;
+	id?: Maybe<Uuid_Comparison_Exp>;
+	notebook?: Maybe<Notebook_Bool_Exp>;
+	notebookId?: Maybe<Uuid_Comparison_Exp>;
+	professional?: Maybe<Professional_Bool_Exp>;
+	professionalId?: Maybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "notebook_event" */
+export enum Notebook_Event_Constraint {
+	/** unique or primary key constraint */
+	NotebookEventPkey = 'notebook_event_pkey'
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Notebook_Event_Delete_At_Path_Input = {
+	data?: Maybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Notebook_Event_Delete_Elem_Input = {
+	data?: Maybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Notebook_Event_Delete_Key_Input = {
+	data?: Maybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "notebook_event" */
+export type Notebook_Event_Insert_Input = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	data?: Maybe<Scalars['jsonb']>;
+	eventDate?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebook?: Maybe<Notebook_Obj_Rel_Insert_Input>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Notebook_Event_Max_Fields = {
+	__typename?: 'notebook_event_max_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	eventDate?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "notebook_event" */
+export type Notebook_Event_Max_Order_By = {
+	creationDate?: Maybe<Order_By>;
+	eventDate?: Maybe<Order_By>;
+	id?: Maybe<Order_By>;
+	notebookId?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Notebook_Event_Min_Fields = {
+	__typename?: 'notebook_event_min_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	eventDate?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "notebook_event" */
+export type Notebook_Event_Min_Order_By = {
+	creationDate?: Maybe<Order_By>;
+	eventDate?: Maybe<Order_By>;
+	id?: Maybe<Order_By>;
+	notebookId?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "notebook_event" */
+export type Notebook_Event_Mutation_Response = {
+	__typename?: 'notebook_event_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Notebook_Event>;
+};
+
+/** on conflict condition type for table "notebook_event" */
+export type Notebook_Event_On_Conflict = {
+	constraint: Notebook_Event_Constraint;
+	update_columns?: Array<Notebook_Event_Update_Column>;
+	where?: Maybe<Notebook_Event_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "notebook_event". */
+export type Notebook_Event_Order_By = {
+	creationDate?: Maybe<Order_By>;
+	data?: Maybe<Order_By>;
+	eventDate?: Maybe<Order_By>;
+	id?: Maybe<Order_By>;
+	notebook?: Maybe<Notebook_Order_By>;
+	notebookId?: Maybe<Order_By>;
+	professional?: Maybe<Professional_Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: notebook_event */
+export type Notebook_Event_Pk_Columns_Input = {
+	id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Notebook_Event_Prepend_Input = {
+	data?: Maybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "notebook_event" */
+export enum Notebook_Event_Select_Column {
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	Data = 'data',
+	/** column name */
+	EventDate = 'eventDate',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	ProfessionalId = 'professionalId'
+}
+
+/** input type for updating data in table "notebook_event" */
+export type Notebook_Event_Set_Input = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	data?: Maybe<Scalars['jsonb']>;
+	eventDate?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** update columns of table "notebook_event" */
+export enum Notebook_Event_Update_Column {
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	Data = 'data',
+	/** column name */
+	EventDate = 'eventDate',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	ProfessionalId = 'professionalId'
+}
+
+/** input type for inserting data into table "notebook" */
+export type Notebook_Insert_Input = {
+	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	events?: Maybe<Notebook_Event_Arr_Rel_Insert_Input>;
+	id?: Maybe<Scalars['uuid']>;
+	members?: Maybe<Notebook_Member_Arr_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Notebook_Max_Fields = {
+	__typename?: 'notebook_max_fields';
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+};
+
+/** columns and relationships of "notebook_member" */
+export type Notebook_Member = {
+	__typename?: 'notebook_member';
+	id: Scalars['uuid'];
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
+	memberType: Scalars['String'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebookId: Scalars['uuid'];
+	/** An object relationship */
+	professional: Professional;
+	professionalId: Scalars['uuid'];
+};
+
+/** aggregated selection of "notebook_member" */
+export type Notebook_Member_Aggregate = {
+	__typename?: 'notebook_member_aggregate';
+	aggregate?: Maybe<Notebook_Member_Aggregate_Fields>;
+	nodes: Array<Notebook_Member>;
+};
+
+/** aggregate fields of "notebook_member" */
+export type Notebook_Member_Aggregate_Fields = {
+	__typename?: 'notebook_member_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<Notebook_Member_Max_Fields>;
+	min?: Maybe<Notebook_Member_Min_Fields>;
+};
+
+/** aggregate fields of "notebook_member" */
+export type Notebook_Member_Aggregate_FieldsCountArgs = {
+	columns?: Maybe<Array<Notebook_Member_Select_Column>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_member" */
+export type Notebook_Member_Aggregate_Order_By = {
+	count?: Maybe<Order_By>;
+	max?: Maybe<Notebook_Member_Max_Order_By>;
+	min?: Maybe<Notebook_Member_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "notebook_member" */
+export type Notebook_Member_Arr_Rel_Insert_Input = {
+	data: Array<Notebook_Member_Insert_Input>;
+	/** on conflict condition */
+	on_conflict?: Maybe<Notebook_Member_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_member". All fields are combined with a logical 'AND'. */
+export type Notebook_Member_Bool_Exp = {
+	_and?: Maybe<Array<Notebook_Member_Bool_Exp>>;
+	_not?: Maybe<Notebook_Member_Bool_Exp>;
+	_or?: Maybe<Array<Notebook_Member_Bool_Exp>>;
+	id?: Maybe<Uuid_Comparison_Exp>;
+	lastVisitDate?: Maybe<Timestamptz_Comparison_Exp>;
+	memberType?: Maybe<String_Comparison_Exp>;
+	notebook?: Maybe<Notebook_Bool_Exp>;
+	notebookId?: Maybe<Uuid_Comparison_Exp>;
+	professional?: Maybe<Professional_Bool_Exp>;
+	professionalId?: Maybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "notebook_member" */
+export enum Notebook_Member_Constraint {
+	/** unique or primary key constraint */
+	NotebookMemberPkey = 'notebook_member_pkey'
+}
+
+/** input type for inserting data into table "notebook_member" */
+export type Notebook_Member_Insert_Input = {
+	id?: Maybe<Scalars['uuid']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	notebook?: Maybe<Notebook_Obj_Rel_Insert_Input>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Notebook_Member_Max_Fields = {
+	__typename?: 'notebook_member_max_fields';
+	id?: Maybe<Scalars['uuid']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "notebook_member" */
+export type Notebook_Member_Max_Order_By = {
+	id?: Maybe<Order_By>;
+	lastVisitDate?: Maybe<Order_By>;
+	memberType?: Maybe<Order_By>;
+	notebookId?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Notebook_Member_Min_Fields = {
+	__typename?: 'notebook_member_min_fields';
+	id?: Maybe<Scalars['uuid']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "notebook_member" */
+export type Notebook_Member_Min_Order_By = {
+	id?: Maybe<Order_By>;
+	lastVisitDate?: Maybe<Order_By>;
+	memberType?: Maybe<Order_By>;
+	notebookId?: Maybe<Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "notebook_member" */
+export type Notebook_Member_Mutation_Response = {
+	__typename?: 'notebook_member_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Notebook_Member>;
+};
+
+/** on conflict condition type for table "notebook_member" */
+export type Notebook_Member_On_Conflict = {
+	constraint: Notebook_Member_Constraint;
+	update_columns?: Array<Notebook_Member_Update_Column>;
+	where?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "notebook_member". */
+export type Notebook_Member_Order_By = {
+	id?: Maybe<Order_By>;
+	lastVisitDate?: Maybe<Order_By>;
+	memberType?: Maybe<Order_By>;
+	notebook?: Maybe<Notebook_Order_By>;
+	notebookId?: Maybe<Order_By>;
+	professional?: Maybe<Professional_Order_By>;
+	professionalId?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: notebook_member */
+export type Notebook_Member_Pk_Columns_Input = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "notebook_member" */
+export enum Notebook_Member_Select_Column {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	LastVisitDate = 'lastVisitDate',
+	/** column name */
+	MemberType = 'memberType',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	ProfessionalId = 'professionalId'
+}
+
+/** input type for updating data in table "notebook_member" */
+export type Notebook_Member_Set_Input = {
+	id?: Maybe<Scalars['uuid']>;
+	lastVisitDate?: Maybe<Scalars['timestamptz']>;
+	memberType?: Maybe<Scalars['String']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+};
+
+/** update columns of table "notebook_member" */
+export enum Notebook_Member_Update_Column {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	LastVisitDate = 'lastVisitDate',
+	/** column name */
+	MemberType = 'memberType',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	ProfessionalId = 'professionalId'
+}
+
+/** aggregate min on columns */
+export type Notebook_Min_Fields = {
+	__typename?: 'notebook_min_fields';
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "notebook" */
+export type Notebook_Mutation_Response = {
+	__typename?: 'notebook_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Notebook>;
+};
+
+/** input type for inserting object relation for remote table "notebook" */
+export type Notebook_Obj_Rel_Insert_Input = {
+	data: Notebook_Insert_Input;
+	/** on conflict condition */
+	on_conflict?: Maybe<Notebook_On_Conflict>;
+};
+
+/** on conflict condition type for table "notebook" */
+export type Notebook_On_Conflict = {
+	constraint: Notebook_Constraint;
+	update_columns?: Array<Notebook_Update_Column>;
+	where?: Maybe<Notebook_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "notebook". */
+export type Notebook_Order_By = {
+	beneficiary?: Maybe<Beneficiary_Order_By>;
+	beneficiaryId?: Maybe<Order_By>;
+	creationDate?: Maybe<Order_By>;
+	events_aggregate?: Maybe<Notebook_Event_Aggregate_Order_By>;
+	id?: Maybe<Order_By>;
+	members_aggregate?: Maybe<Notebook_Member_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: notebook */
+export type Notebook_Pk_Columns_Input = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "notebook" */
+export enum Notebook_Select_Column {
+	/** column name */
+	BeneficiaryId = 'beneficiaryId',
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	Id = 'id'
+}
+
+/** input type for updating data in table "notebook" */
+export type Notebook_Set_Input = {
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+};
+
+/** update columns of table "notebook" */
+export enum Notebook_Update_Column {
+	/** column name */
+	BeneficiaryId = 'beneficiaryId',
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	Id = 'id'
+}
 
 /** column ordering options */
 export enum Order_By {
@@ -1045,10 +1751,6 @@ export type Professional = {
 	/** An object relationship */
 	structure: Structure;
 	structureId: Scalars['uuid'];
-	/** An array relationship */
-	teamMembers: Array<Team_Member>;
-	/** An aggregate relationship */
-	teamMembers_aggregate: Team_Member_Aggregate;
 };
 
 /** columns and relationships of "professional" */
@@ -1067,24 +1769,6 @@ export type ProfessionalAccounts_AggregateArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<Account_Order_By>>;
 	where?: Maybe<Account_Bool_Exp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalTeamMembersArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalTeamMembers_AggregateArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** aggregated selection of "professional" */
@@ -1134,7 +1818,6 @@ export type Professional_Bool_Exp = {
 	lastname?: Maybe<String_Comparison_Exp>;
 	structure?: Maybe<Structure_Bool_Exp>;
 	structureId?: Maybe<Uuid_Comparison_Exp>;
-	teamMembers?: Maybe<Team_Member_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "professional" */
@@ -1154,7 +1837,6 @@ export type Professional_Insert_Input = {
 	lastname?: Maybe<Scalars['String']>;
 	structure?: Maybe<Structure_Obj_Rel_Insert_Input>;
 	structureId?: Maybe<Scalars['uuid']>;
-	teamMembers?: Maybe<Team_Member_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1227,7 +1909,6 @@ export type Professional_Order_By = {
 	lastname?: Maybe<Order_By>;
 	structure?: Maybe<Structure_Order_By>;
 	structureId?: Maybe<Order_By>;
-	teamMembers_aggregate?: Maybe<Team_Member_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: professional */
@@ -1292,6 +1973,24 @@ export type Query_Root = {
 	beneficiary_aggregate: Beneficiary_Aggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "notebook" */
+	notebook: Array<Notebook>;
+	/** fetch aggregated fields from the table: "notebook" */
+	notebook_aggregate: Notebook_Aggregate;
+	/** fetch data from the table: "notebook" using primary key columns */
+	notebook_by_pk?: Maybe<Notebook>;
+	/** fetch data from the table: "notebook_event" */
+	notebook_event: Array<Notebook_Event>;
+	/** fetch aggregated fields from the table: "notebook_event" */
+	notebook_event_aggregate: Notebook_Event_Aggregate;
+	/** fetch data from the table: "notebook_event" using primary key columns */
+	notebook_event_by_pk?: Maybe<Notebook_Event>;
+	/** fetch data from the table: "notebook_member" */
+	notebook_member: Array<Notebook_Member>;
+	/** fetch aggregated fields from the table: "notebook_member" */
+	notebook_member_aggregate: Notebook_Member_Aggregate;
+	/** fetch data from the table: "notebook_member" using primary key columns */
+	notebook_member_by_pk?: Maybe<Notebook_Member>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -1304,12 +2003,6 @@ export type Query_Root = {
 	structure_aggregate: Structure_Aggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
-	/** fetch data from the table: "team_member" */
-	team_member: Array<Team_Member>;
-	/** fetch aggregated fields from the table: "team_member" */
-	team_member_aggregate: Team_Member_Aggregate;
-	/** fetch data from the table: "team_member" using primary key columns */
-	team_member_by_pk?: Maybe<Team_Member>;
 };
 
 export type Query_RootAccountArgs = {
@@ -1372,6 +2065,66 @@ export type Query_RootBeneficiary_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type Query_RootNotebookArgs = {
+	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Order_By>>;
+	where?: Maybe<Notebook_Bool_Exp>;
+};
+
+export type Query_RootNotebook_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Order_By>>;
+	where?: Maybe<Notebook_Bool_Exp>;
+};
+
+export type Query_RootNotebook_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type Query_RootNotebook_EventArgs = {
+	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
+	where?: Maybe<Notebook_Event_Bool_Exp>;
+};
+
+export type Query_RootNotebook_Event_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
+	where?: Maybe<Notebook_Event_Bool_Exp>;
+};
+
+export type Query_RootNotebook_Event_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type Query_RootNotebook_MemberArgs = {
+	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
+	where?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+export type Query_RootNotebook_Member_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
+	where?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+export type Query_RootNotebook_Member_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type Query_RootProfessionalArgs = {
 	distinct_on?: Maybe<Array<Professional_Select_Column>>;
 	limit?: Maybe<Scalars['Int']>;
@@ -1409,26 +2162,6 @@ export type Query_RootStructure_AggregateArgs = {
 };
 
 export type Query_RootStructure_By_PkArgs = {
-	id: Scalars['uuid'];
-};
-
-export type Query_RootTeam_MemberArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-export type Query_RootTeam_Member_AggregateArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-export type Query_RootTeam_Member_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -1706,6 +2439,24 @@ export type Subscription_Root = {
 	beneficiary_aggregate: Beneficiary_Aggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "notebook" */
+	notebook: Array<Notebook>;
+	/** fetch aggregated fields from the table: "notebook" */
+	notebook_aggregate: Notebook_Aggregate;
+	/** fetch data from the table: "notebook" using primary key columns */
+	notebook_by_pk?: Maybe<Notebook>;
+	/** fetch data from the table: "notebook_event" */
+	notebook_event: Array<Notebook_Event>;
+	/** fetch aggregated fields from the table: "notebook_event" */
+	notebook_event_aggregate: Notebook_Event_Aggregate;
+	/** fetch data from the table: "notebook_event" using primary key columns */
+	notebook_event_by_pk?: Maybe<Notebook_Event>;
+	/** fetch data from the table: "notebook_member" */
+	notebook_member: Array<Notebook_Member>;
+	/** fetch aggregated fields from the table: "notebook_member" */
+	notebook_member_aggregate: Notebook_Member_Aggregate;
+	/** fetch data from the table: "notebook_member" using primary key columns */
+	notebook_member_by_pk?: Maybe<Notebook_Member>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -1718,12 +2469,6 @@ export type Subscription_Root = {
 	structure_aggregate: Structure_Aggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
-	/** fetch data from the table: "team_member" */
-	team_member: Array<Team_Member>;
-	/** fetch aggregated fields from the table: "team_member" */
-	team_member_aggregate: Team_Member_Aggregate;
-	/** fetch data from the table: "team_member" using primary key columns */
-	team_member_by_pk?: Maybe<Team_Member>;
 };
 
 export type Subscription_RootAccountArgs = {
@@ -1786,6 +2531,66 @@ export type Subscription_RootBeneficiary_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type Subscription_RootNotebookArgs = {
+	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Order_By>>;
+	where?: Maybe<Notebook_Bool_Exp>;
+};
+
+export type Subscription_RootNotebook_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Order_By>>;
+	where?: Maybe<Notebook_Bool_Exp>;
+};
+
+export type Subscription_RootNotebook_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type Subscription_RootNotebook_EventArgs = {
+	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
+	where?: Maybe<Notebook_Event_Bool_Exp>;
+};
+
+export type Subscription_RootNotebook_Event_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
+	where?: Maybe<Notebook_Event_Bool_Exp>;
+};
+
+export type Subscription_RootNotebook_Event_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type Subscription_RootNotebook_MemberArgs = {
+	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
+	where?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+export type Subscription_RootNotebook_Member_AggregateArgs = {
+	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
+	where?: Maybe<Notebook_Member_Bool_Exp>;
+};
+
+export type Subscription_RootNotebook_Member_By_PkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type Subscription_RootProfessionalArgs = {
 	distinct_on?: Maybe<Array<Professional_Select_Column>>;
 	limit?: Maybe<Scalars['Int']>;
@@ -1826,226 +2631,6 @@ export type Subscription_RootStructure_By_PkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootTeam_MemberArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-export type Subscription_RootTeam_Member_AggregateArgs = {
-	distinct_on?: Maybe<Array<Team_Member_Select_Column>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Team_Member_Order_By>>;
-	where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-export type Subscription_RootTeam_Member_By_PkArgs = {
-	id: Scalars['uuid'];
-};
-
-/** columns and relationships of "team_member" */
-export type Team_Member = {
-	__typename?: 'team_member';
-	/** An object relationship */
-	beneficiary: Beneficiary;
-	beneficiaryId: Scalars['uuid'];
-	id: Scalars['uuid'];
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
-	memberType: Scalars['String'];
-	modificationDate?: Maybe<Scalars['timestamptz']>;
-	/** An object relationship */
-	professional: Professional;
-	professionalId: Scalars['uuid'];
-};
-
-/** aggregated selection of "team_member" */
-export type Team_Member_Aggregate = {
-	__typename?: 'team_member_aggregate';
-	aggregate?: Maybe<Team_Member_Aggregate_Fields>;
-	nodes: Array<Team_Member>;
-};
-
-/** aggregate fields of "team_member" */
-export type Team_Member_Aggregate_Fields = {
-	__typename?: 'team_member_aggregate_fields';
-	count: Scalars['Int'];
-	max?: Maybe<Team_Member_Max_Fields>;
-	min?: Maybe<Team_Member_Min_Fields>;
-};
-
-/** aggregate fields of "team_member" */
-export type Team_Member_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Team_Member_Select_Column>>;
-	distinct?: Maybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "team_member" */
-export type Team_Member_Aggregate_Order_By = {
-	count?: Maybe<Order_By>;
-	max?: Maybe<Team_Member_Max_Order_By>;
-	min?: Maybe<Team_Member_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "team_member" */
-export type Team_Member_Arr_Rel_Insert_Input = {
-	data: Array<Team_Member_Insert_Input>;
-	/** on conflict condition */
-	on_conflict?: Maybe<Team_Member_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "team_member". All fields are combined with a logical 'AND'. */
-export type Team_Member_Bool_Exp = {
-	_and?: Maybe<Array<Team_Member_Bool_Exp>>;
-	_not?: Maybe<Team_Member_Bool_Exp>;
-	_or?: Maybe<Array<Team_Member_Bool_Exp>>;
-	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
-	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	lastVisitDate?: Maybe<Timestamptz_Comparison_Exp>;
-	memberType?: Maybe<String_Comparison_Exp>;
-	modificationDate?: Maybe<Timestamptz_Comparison_Exp>;
-	professional?: Maybe<Professional_Bool_Exp>;
-	professionalId?: Maybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "team_member" */
-export enum Team_Member_Constraint {
-	/** unique or primary key constraint */
-	TeamMemberPkey = 'team_member_pkey'
-}
-
-/** input type for inserting data into table "team_member" */
-export type Team_Member_Insert_Input = {
-	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
-	beneficiaryId?: Maybe<Scalars['uuid']>;
-	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
-	memberType?: Maybe<Scalars['String']>;
-	modificationDate?: Maybe<Scalars['timestamptz']>;
-	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
-	professionalId?: Maybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type Team_Member_Max_Fields = {
-	__typename?: 'team_member_max_fields';
-	beneficiaryId?: Maybe<Scalars['uuid']>;
-	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
-	memberType?: Maybe<Scalars['String']>;
-	modificationDate?: Maybe<Scalars['timestamptz']>;
-	professionalId?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "team_member" */
-export type Team_Member_Max_Order_By = {
-	beneficiaryId?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastVisitDate?: Maybe<Order_By>;
-	memberType?: Maybe<Order_By>;
-	modificationDate?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Team_Member_Min_Fields = {
-	__typename?: 'team_member_min_fields';
-	beneficiaryId?: Maybe<Scalars['uuid']>;
-	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
-	memberType?: Maybe<Scalars['String']>;
-	modificationDate?: Maybe<Scalars['timestamptz']>;
-	professionalId?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "team_member" */
-export type Team_Member_Min_Order_By = {
-	beneficiaryId?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastVisitDate?: Maybe<Order_By>;
-	memberType?: Maybe<Order_By>;
-	modificationDate?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
-};
-
-/** response of any mutation on the table "team_member" */
-export type Team_Member_Mutation_Response = {
-	__typename?: 'team_member_mutation_response';
-	/** number of rows affected by the mutation */
-	affected_rows: Scalars['Int'];
-	/** data from the rows affected by the mutation */
-	returning: Array<Team_Member>;
-};
-
-/** on conflict condition type for table "team_member" */
-export type Team_Member_On_Conflict = {
-	constraint: Team_Member_Constraint;
-	update_columns?: Array<Team_Member_Update_Column>;
-	where?: Maybe<Team_Member_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "team_member". */
-export type Team_Member_Order_By = {
-	beneficiary?: Maybe<Beneficiary_Order_By>;
-	beneficiaryId?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastVisitDate?: Maybe<Order_By>;
-	memberType?: Maybe<Order_By>;
-	modificationDate?: Maybe<Order_By>;
-	professional?: Maybe<Professional_Order_By>;
-	professionalId?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: team_member */
-export type Team_Member_Pk_Columns_Input = {
-	id: Scalars['uuid'];
-};
-
-/** select columns of table "team_member" */
-export enum Team_Member_Select_Column {
-	/** column name */
-	BeneficiaryId = 'beneficiaryId',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	LastVisitDate = 'lastVisitDate',
-	/** column name */
-	MemberType = 'memberType',
-	/** column name */
-	ModificationDate = 'modificationDate',
-	/** column name */
-	ProfessionalId = 'professionalId'
-}
-
-/** input type for updating data in table "team_member" */
-export type Team_Member_Set_Input = {
-	beneficiaryId?: Maybe<Scalars['uuid']>;
-	id?: Maybe<Scalars['uuid']>;
-	lastVisitDate?: Maybe<Scalars['timestamptz']>;
-	memberType?: Maybe<Scalars['String']>;
-	modificationDate?: Maybe<Scalars['timestamptz']>;
-	professionalId?: Maybe<Scalars['uuid']>;
-};
-
-/** update columns of table "team_member" */
-export enum Team_Member_Update_Column {
-	/** column name */
-	BeneficiaryId = 'beneficiaryId',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	LastVisitDate = 'lastVisitDate',
-	/** column name */
-	MemberType = 'memberType',
-	/** column name */
-	ModificationDate = 'modificationDate',
-	/** column name */
-	ProfessionalId = 'professionalId'
-}
-
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
 	_eq?: Maybe<Scalars['timestamptz']>;
@@ -2083,31 +2668,46 @@ export type GetBeneficiariesQuery = { __typename?: 'query_root' } & {
 	>;
 };
 
+export type SearchBeneficiariesQueryVariables = Exact<{
+	filter?: Maybe<Scalars['String']>;
+}>;
+
+export type SearchBeneficiariesQuery = { __typename?: 'query_root' } & {
+	beneficiary: Array<
+		{ __typename?: 'beneficiary' } & Pick<
+			Beneficiary,
+			'dateOfBirth' | 'firstname' | 'id' | 'lastname' | 'mobileNumber'
+		>
+	>;
+};
+
 export type UpdateLastVisitDateMutationVariables = Exact<{
 	beneficiaryId: Scalars['uuid'];
 	lastVisitDate: Scalars['timestamptz'];
 }>;
 
 export type UpdateLastVisitDateMutation = { __typename?: 'mutation_root' } & {
-	update_team_member?: Maybe<
-		{ __typename?: 'team_member_mutation_response' } & {
+	update_notebook_member?: Maybe<
+		{ __typename?: 'notebook_member_mutation_response' } & {
 			returning: Array<
-				{ __typename?: 'team_member' } & {
-					beneficiary: { __typename?: 'beneficiary' } & Pick<
-						Beneficiary,
-						| 'address1'
-						| 'address2'
-						| 'cafNumber'
-						| 'city'
-						| 'dateOfBirth'
-						| 'email'
-						| 'firstname'
-						| 'id'
-						| 'lastname'
-						| 'mobileNumber'
-						| 'peNumber'
-						| 'postalCode'
-					>;
+				{ __typename?: 'notebook_member' } & {
+					notebook: { __typename?: 'notebook' } & {
+						beneficiary: { __typename?: 'beneficiary' } & Pick<
+							Beneficiary,
+							| 'address1'
+							| 'address2'
+							| 'cafNumber'
+							| 'city'
+							| 'dateOfBirth'
+							| 'email'
+							| 'firstname'
+							| 'id'
+							| 'lastname'
+							| 'mobileNumber'
+							| 'peNumber'
+							| 'postalCode'
+						>;
+					};
 				}
 			>;
 		}
@@ -2143,6 +2743,150 @@ export const GetBeneficiariesDocument = {
 		}
 	]
 } as unknown as DocumentNode<GetBeneficiariesQuery, GetBeneficiariesQueryVariables>;
+export const SearchBeneficiariesDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'SearchBeneficiaries' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'beneficiary' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'peNumber' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'filter' }
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'cafNumber' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'filter' }
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'lastname' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'filter' }
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'mobileNumber' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'filter' }
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<SearchBeneficiariesQuery, SearchBeneficiariesQueryVariables>;
 export const UpdateLastVisitDateDocument = {
 	kind: 'Document',
 	definitions: [
@@ -2173,7 +2917,7 @@ export const UpdateLastVisitDateDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_team_member' },
+						name: { kind: 'Name', value: 'update_notebook_member' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -2183,16 +2927,25 @@ export const UpdateLastVisitDateDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiaryId' },
+											name: { kind: 'Name', value: 'notebook' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
+														name: { kind: 'Name', value: 'beneficiaryId' },
 														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'beneficiaryId' }
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'beneficiaryId' }
+																	}
+																}
+															]
 														}
 													}
 												]
@@ -2227,22 +2980,31 @@ export const UpdateLastVisitDateDocument = {
 										selections: [
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'beneficiary' },
+												name: { kind: 'Name', value: 'notebook' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'beneficiary' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+																]
+															}
+														}
 													]
 												}
 											}

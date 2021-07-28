@@ -1,6 +1,13 @@
 table:
   name: notebook_event
   schema: public
+configuration:
+  custom_column_names:
+    creation_date: creationDate
+    event_date: eventDate
+    notebook_id: notebookId
+    professional_id: professionalId
+  custom_root_fields: {}
 object_relationships:
 - name: notebook
   using:

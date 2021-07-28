@@ -1,0 +1,9 @@
+query GetBeneficiaries {
+	beneficiary {
+		dateOfBirth
+		firstname
+		id
+		lastname
+		mobileNumber
+	}
+}

@@ -25,6 +25,6 @@
 	query(result);
 </script>
 
-{#if $result.data?.update_team_member.returning[0].beneficiary.lastname}
-	<div>{result.data?.update_team_member.returning[0].beneficiary.lastname}</div>
+{#if $result.data?.update_notebook_member.returning[0].notebook.beneficiary.lastname}
+	<div>{result.data?.update_notebook_member.returning[0].notebook.beneficiary.lastname}</div>
 {/if}

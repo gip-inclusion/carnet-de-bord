@@ -1,5 +1,14 @@
-query GetBeneficiaries {
-	beneficiary {
+query SearchBeneficiaries($filter: String) {
+	beneficiary(
+		where: {
+			_or: [
+				{ peNumber: { _ilike: $filter } }
+				{ cafNumber: { _ilike: $filter } }
+				{ lastname: { _ilike: $filter } }
+				{ mobileNumber: { _ilike: $filter } }
+			]
+		}
+	) {
 		dateOfBirth
 		firstname
 		id

@@ -1,6 +1,11 @@
 table:
   name: notebook
   schema: public
+configuration:
+  custom_column_names:
+    beneficiary_id: beneficiaryId
+    creation_date: creationDate
+  custom_root_fields: {}
 object_relationships:
 - name: beneficiary
   using:

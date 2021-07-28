@@ -1,6 +1,13 @@
 table:
   name: notebook_member
   schema: public
+configuration:
+  custom_column_names:
+    last_visit_date: lastVisitDate
+    member_type: memberType
+    notebook_id: notebookId
+    professional_id: professionalId
+  custom_root_fields: {}
 object_relationships:
 - name: notebook
   using:
@@ -37,4 +44,14 @@ select_permissions:
         members:
           professional_id:
             _eq: X-Hasura-Professional-Id
+  role: professional
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - last_visit_date
+    - member_type
+    filter:
+      professional_id:
+        _eq: X-Hasura-Professional-Id
   role: professional
