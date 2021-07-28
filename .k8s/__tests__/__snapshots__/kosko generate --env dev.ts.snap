@@ -2,6 +2,27 @@
 
 exports[`kosko generate --dev 1`] = `
 "---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    field.cattle.io/creatorId: github
+    field.cattle.io/projectId: c-gjtkk:p-xgnjr
+    git/branch: refs/heads/mybranch
+    git/remote: socialgouv/carnet-de-bord
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    azure-pg-admin-user: carnet-de-bord
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: carnet-de-bord-mybranch
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,12 +66,12 @@ spec:
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/carnet-de-board:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+            ghcr.io/socialgouv/carnet-de-bord:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
               path: /healthz
-              port: http
+              port: 3000
             initialDelaySeconds: 30
             periodSeconds: 15
             timeoutSeconds: 5
@@ -62,7 +83,7 @@ spec:
             failureThreshold: 15
             httpGet:
               path: /healthz
-              port: http
+              port: 3000
             initialDelaySeconds: 30
             periodSeconds: 15
             successThreshold: 1
@@ -78,12 +99,20 @@ spec:
             failureThreshold: 12
             httpGet:
               path: /healthz
-              port: http
+              port: 3000
             periodSeconds: 15
             initialDelaySeconds: 30
           envFrom:
             - secretRef:
                 name: azure-pg-user-0123456
+            - secretRef:
+                name: app-sealed-secret
+            - configMapRef:
+                name: app-configmap
+          env:
+            - name: VITE_GRAPHQL_API_URL
+              value: >-
+                https://hasura-carnet-de-bord-mybranch.dev2.fabrique.social.gouv.fr/v1/graphql
       initContainers:
         - env:
             - name: WAIT_FOR_RETRIES
@@ -101,6 +130,81 @@ spec:
             requests:
               cpu: 5m
               memory: 16Mi
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  name: app-sealed-secret
+  namespace: carnet-de-bord-mybranch
+  labels:
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgA4CxVpUuHJca7pQWsnYgKNW4q5EU2d2mrr87FN10DtzjgPMJL5hXRDKQpr0sz3/Vo7jxZ1YIdecTcI+Dl0ordD0LMnwLl42TJx1ZOjy+2Crk6DhE/lM/Ull+pb4hbTzwnOTA3dPrO7uqY9wRO/kURGzq/UuA5vwQ8fEgh7vn2bVgCHuAlpLo5Z+D79yKmGDblOEdrnsKxY2qb06E2MhN7PhHbKMH7iM0QsOBud/EYEE6Nd/tSu22LtZqJf+nNJJCzHEqzDS2Av9hGOGKClNZHcsFZ2hIs5iehIm74z+6IUtnMy2CYhQQYr2qkai57vUNtQfp9r7RY2YabELXTohAqLm4QfKlLKygwG0iILRj/s6I9IX5O4UYU+WTx9dENB3tvYKcqAMsnIai5y3aIvq8o1Y4sK+e+8LGqGEL0iiWVMxQ0pKoCQCZap6hQ80uTqyd+sPD8JwrU8fg6IEKwzjmZa7cc3xZHmi1NeEbCwICetMPtnnklsLSifhBxOir3B1gqo1zBXHqq6AB0kJA1LxMoNJIbKGQGySPqe0hTdsjB/jEwxZm2+PwCFOV8jh1bWNrE94/CWoY4gNTKngRIaZ50if7Kro6zD4ASAuRdsTizWUPscrhB+b6Z1aXmZG1GhkPaZSWnMGWKXP/jEhYoVMFHQ8HVQMCrrUZcHds7QJXv2cLVLE66X01u24W8FQw/OV3zHfPPxDw==
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgCwsD2CYobZjHDtP9FGEV1UUvEq9YPg5B3lKzgzZP+00PZCUkcasK2BY+Yicr5JIeVBgz5Yr8PTU+LgGJO963lcE/eOQDw8mvyp++mXRBBd28z5qN5j//Hw4jzfSCTbuRYeXHAV8jKtWM7CQoh9QTN7MbLfM4Ni7qDhpJK1bEmhqLiTFcP5utlo6ZgcSoOS1vsrHV4Ygnhzr90Ldn9O3mLR9jsJlQvltEiqXD1K3jfKLPvhThjwYkNydxKCCaer+NVgoWi5ETiQDJpbIycgzIruiLvU90E4QXid8LQykFsJtAUEziuMXBtKwng/RIXarEtQoh6XU0CUJX+kZ/M0k/tDFhHNaxqFffVrCAMgVArHD9SkzzyE1AQLDX5sGofWNMVY57tuNS7xFVOvS909044vK6x5Z42elrjBVoqQl/+KvFPrMYzvQWALN07KX6xttDOsSKvN5CG7dS2jVgrHCaxtV2Yp3uXoklyzMEQ2OQw4VSjANNyY/q0GwaqaEm2JgHTQe7N6rlsHQBmtkL4KN/QNQMrT91o049rsIH2wofroOuLfdaNvc89USOWR93aKWvwY1TT74cFglbbn6wM+bhOptOkz9QBmEXnXvghgeiu+LZIbl5LWcGEoUL4AVFzm9dHW2pM1q6iuafqYxVwYshdSksdOnlFEElwCeEfn295Q1RVCSlwQYra2ESQ7RyhHK+5Y4+X0SYNYHr7cgOPOWahYbHq9oSJzVHWWDyv9QiuN5knNSGiESgXNWYRCTMoxcZocG5TTUVwyN+Q58x1l1x8YcU/SAPIEBi/7N8lbqgulT/QwYWra3q6alUOCWGL2
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      name: app-sealed-secret
+      labels:
+        application: carnet-de-bord
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  namespace: carnet-de-bord-mybranch
+data:
+  VITE_JWT_SECRET_KEY: very-secret-key-to-sign-jwt
+  VITE_APP_URL: http://localhost:3000
+  VITE_AUTH_PRIVATE_KEY: xxx
+  VITE_AUTH_PRIVATE_KEY_FILE: xxx
+  VITE_AUTH_PUBLIC_KEY: xxx
+  VITE_AUTH_PUBLIC_KEY_FILE: xxx
+  VITE_SMTP_HOST: smtp.mailtrap.io
+  VITE_SMTP_PORT: '2525'
+  VITE_SMTP_USER: 422a8059a5d8fa
+  VITE_SMTP_PASS: 3640934e040c7c
+  VITE_SMTP_FROM: admin@cdb.fr
 ---
 apiVersion: v1
 kind: Service
@@ -160,11 +264,339 @@ spec:
                 name: app
                 port:
                   name: http
-                  number: 80
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - carnet-de-bord-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: hasura
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: hasura
+  namespace: carnet-de-bord-mybranch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasura
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        app: hasura
+        application: carnet-de-bord
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            ghcr.io/socialgouv/carnet-de-bord/hasura:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: hasura
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: azure-pg-user-0123456
+            - secretRef:
+                name: hasura-sealed-secret
+            - configMapRef:
+                name: hasura-configmap
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-user-0123456
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  name: hasura-sealed-secret
+  namespace: carnet-de-bord-mybranch
+  labels:
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgA4CxVpUuHJca7pQWsnYgKNW4q5EU2d2mrr87FN10DtzjgPMJL5hXRDKQpr0sz3/Vo7jxZ1YIdecTcI+Dl0ordD0LMnwLl42TJx1ZOjy+2Crk6DhE/lM/Ull+pb4hbTzwnOTA3dPrO7uqY9wRO/kURGzq/UuA5vwQ8fEgh7vn2bVgCHuAlpLo5Z+D79yKmGDblOEdrnsKxY2qb06E2MhN7PhHbKMH7iM0QsOBud/EYEE6Nd/tSu22LtZqJf+nNJJCzHEqzDS2Av9hGOGKClNZHcsFZ2hIs5iehIm74z+6IUtnMy2CYhQQYr2qkai57vUNtQfp9r7RY2YabELXTohAqLm4QfKlLKygwG0iILRj/s6I9IX5O4UYU+WTx9dENB3tvYKcqAMsnIai5y3aIvq8o1Y4sK+e+8LGqGEL0iiWVMxQ0pKoCQCZap6hQ80uTqyd+sPD8JwrU8fg6IEKwzjmZa7cc3xZHmi1NeEbCwICetMPtnnklsLSifhBxOir3B1gqo1zBXHqq6AB0kJA1LxMoNJIbKGQGySPqe0hTdsjB/jEwxZm2+PwCFOV8jh1bWNrE94/CWoY4gNTKngRIaZ50if7Kro6zD4ASAuRdsTizWUPscrhB+b6Z1aXmZG1GhkPaZSWnMGWKXP/jEhYoVMFHQ8HVQMCrrUZcHds7QJXv2cLVLE66X01u24W8FQw/OV3zHfPPxDw==
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgCwsD2CYobZjHDtP9FGEV1UUvEq9YPg5B3lKzgzZP+00PZCUkcasK2BY+Yicr5JIeVBgz5Yr8PTU+LgGJO963lcE/eOQDw8mvyp++mXRBBd28z5qN5j//Hw4jzfSCTbuRYeXHAV8jKtWM7CQoh9QTN7MbLfM4Ni7qDhpJK1bEmhqLiTFcP5utlo6ZgcSoOS1vsrHV4Ygnhzr90Ldn9O3mLR9jsJlQvltEiqXD1K3jfKLPvhThjwYkNydxKCCaer+NVgoWi5ETiQDJpbIycgzIruiLvU90E4QXid8LQykFsJtAUEziuMXBtKwng/RIXarEtQoh6XU0CUJX+kZ/M0k/tDFhHNaxqFffVrCAMgVArHD9SkzzyE1AQLDX5sGofWNMVY57tuNS7xFVOvS909044vK6x5Z42elrjBVoqQl/+KvFPrMYzvQWALN07KX6xttDOsSKvN5CG7dS2jVgrHCaxtV2Yp3uXoklyzMEQ2OQw4VSjANNyY/q0GwaqaEm2JgHTQe7N6rlsHQBmtkL4KN/QNQMrT91o049rsIH2wofroOuLfdaNvc89USOWR93aKWvwY1TT74cFglbbn6wM+bhOptOkz9QBmEXnXvghgeiu+LZIbl5LWcGEoUL4AVFzm9dHW2pM1q6iuafqYxVwYshdSksdOnlFEElwCeEfn295Q1RVCSlwQYra2ESQ7RyhHK+5Y4+X0SYNYHr7cgOPOWahYbHq9oSJzVHWWDyv9QiuN5knNSGiESgXNWYRCTMoxcZocG5TTUVwyN+Q58x1l1x8YcU/SAPIEBi/7N8lbqgulT/QwYWra3q6alUOCWGL2
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      name: hasura-sealed-secret
+      labels:
+        application: carnet-de-bord
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hasura-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  namespace: carnet-de-bord-mybranch
+data:
+  HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+  HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+  HASURA_GRAPHQL_NO_OF_RETRIES: '5'
+  HASURA_GRAPHQL_SERVER_PORT: '80'
+  HASURA_GRAPHQL_LOG_LEVEL: debug
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hasura
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: hasura
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: carnet-de-bord-mybranch
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: hasura
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: hasura
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: hasura
+  namespace: carnet-de-bord-mybranch
+spec:
+  rules:
+    - host: hasura-carnet-de-bord-mybranch.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: hasura
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - hasura-carnet-de-bord-mybranch.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
+---
+apiVersion: batch/v1
+kind: Job
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      containers:
+        - command:
+            - create-db-user
+          env:
+            - name: NEW_DB_NAME
+              value: autodevops_0123456
+            - name: NEW_USER
+              value: user_0123456
+            - name: NEW_PASSWORD
+              value: password_0123456
+            - name: NEW_DB_EXTENSIONS
+              value: hstore pgcrypto citext uuid-ossp
+          envFrom:
+            - secretRef:
+                name: azure-pg-admin-user
+          image: ghcr.io/socialgouv/docker/azure-db:6.26.2
+          imagePullPolicy: IfNotPresent
+          name: create-db-user
+          resources:
+            limits:
+              cpu: 300m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+      restartPolicy: Never
+    metadata:
+      annotations:
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/heads/mybranch
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        application: carnet-de-bord
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+  ttlSecondsAfterFinished: 86400
+metadata:
+  annotations:
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: create-db-job-0123456
+  namespace: carnet-de-bord-mybranch
+---
+apiVersion: v1
+kind: Secret
+stringData:
+  DATABASE_URL: >-
+    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+  DB_URI: >-
+    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+  HASURA_GRAPHQL_DATABASE_URL: >-
+    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+  PGDATABASE: autodevops_0123456
+  PGHOST: carnetdeborddevserver.postgres.database.azure.com
+  PGPASSWORD: password_0123456
+  PGRST_DB_URI: >-
+    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+  PGSSLMODE: require
+  PGUSER: user_0123456@carnetdeborddevserver.postgres.database.azure.com
+metadata:
+  annotations:
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/heads/mybranch
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: azure-pg-user-0123456
+  namespace: carnet-de-bord-mybranch
 "
 `;

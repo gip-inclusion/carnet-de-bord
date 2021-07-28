@@ -2,6 +2,27 @@
 
 exports[`kosko generate --preprod 1`] = `
 "---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    field.cattle.io/creatorId: github
+    field.cattle.io/projectId: c-gjtkk:p-xgnjr
+    git/branch: refs/tags/v1.2.3
+    git/remote: socialgouv/carnet-de-bord
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    azure-pg-admin-user: carnet-de-bord
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: carnet-de-bord-preprod
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,12 +66,12 @@ spec:
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/carnet-de-board:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+            ghcr.io/socialgouv/carnet-de-bord:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
               path: /healthz
-              port: http
+              port: 3000
             initialDelaySeconds: 30
             periodSeconds: 15
             timeoutSeconds: 5
@@ -62,7 +83,7 @@ spec:
             failureThreshold: 15
             httpGet:
               path: /healthz
-              port: http
+              port: 3000
             initialDelaySeconds: 30
             periodSeconds: 15
             successThreshold: 1
@@ -78,12 +99,16 @@ spec:
             failureThreshold: 12
             httpGet:
               path: /healthz
-              port: http
+              port: 3000
             periodSeconds: 15
             initialDelaySeconds: 30
           envFrom:
             - secretRef:
                 name: azure-pg-user
+          env:
+            - name: VITE_GRAPHQL_API_URL
+              value: >-
+                https://hasura-carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr/v1/graphql
       initContainers:
         - env:
             - name: WAIT_FOR_RETRIES
@@ -160,11 +185,175 @@ spec:
                 name: app
                 port:
                   name: http
-                  number: 80
             path: /
+            pathType: Prefix
   tls:
     - hosts:
         - carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr
+      secretName: wildcard-crt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: hasura
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: hasura
+  namespace: carnet-de-bord-preprod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasura
+  template:
+    metadata:
+      annotations:
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      labels:
+        app: hasura
+        application: carnet-de-bord
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+    spec:
+      containers:
+        - image: >-
+            ghcr.io/socialgouv/carnet-de-bord/hasura:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: hasura
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 12
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+      initContainers:
+        - env:
+            - name: WAIT_FOR_RETRIES
+              value: '24'
+          envFrom:
+            - secretRef:
+                name: azure-pg-user
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          imagePullPolicy: Always
+          name: wait-for-postgres
+          resources:
+            limits:
+              cpu: 20m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 16Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hasura
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: hasura
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  namespace: carnet-de-bord-preprod
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: hasura
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    app: hasura
+    application: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  name: hasura
+  namespace: carnet-de-bord-preprod
+spec:
+  rules:
+    - host: hasura-carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: hasura
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - hasura-carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 "
 `;
