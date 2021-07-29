@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.1...v1.1.2) (2021-07-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @socialgouv/kosko-charts to v8.1.1 ([#50](https://github.com/SocialGouv/carnet-de-bord/issues/50)) ([e20731f](https://github.com/SocialGouv/carnet-de-bord/commit/e20731fa8f0a833623d031f35dfc055d9f3bacb4))
+* **deps:** update dependency ts-node to ^10.1.0 ([#51](https://github.com/SocialGouv/carnet-de-bord/issues/51)) ([203e9d1](https://github.com/SocialGouv/carnet-de-bord/commit/203e9d11a81fd4fdc1c90705a0570f1b00e74896))
+
 ## [1.1.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.0...v1.1.1) (2021-07-28)
 
 
