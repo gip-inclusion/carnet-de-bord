@@ -21,6 +21,8 @@
 </script>
 
 <script lang="ts">
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+
 	export let result: OperationStore<GetLastVisitedOrUpdatedQuery>;
 
 	query(result);
@@ -40,14 +42,10 @@
 		<ProBeneficiarySearch on:filter={(event) => onSearch(event)} />
 	</div>
 
-	<div>
-		<div>Les derniers profils visités</div>
-		<div class="flex flex-row flex-wrap justify-between gap-1">
-			{#if $result.fetching}
-				<p>Loading...</p>
-			{:else if $result.error}
-				<p>Oh no... {$result.error.message}</p>
-			{:else}
+	<LoaderIndicator {result}>
+		<div>
+			<div>Les derniers profils visités</div>
+			<div class="flex flex-row flex-wrap justify-between gap-1">
 				{#each $result.data.lastVisited as lastVisited}
 					<div
 						class="card-container"
@@ -56,18 +54,11 @@
 						<ProBeneficiaryCard beneficiary={lastVisited.notebook.beneficiary} />
 					</div>
 				{/each}
-			{/if}
+			</div>
 		</div>
-	</div>
-
-	<div>
-		<div>Les derniers profils modifiés par un autre accompagnateur</div>
-		<div class="flex flex-row flex-wrap justify-between gap-1">
-			{#if $result.fetching}
-				<p>Loading...</p>
-			{:else if $result.error}
-				<p>Oh no... {$result.error.message}</p>
-			{:else}
+		<div>
+			<div>Les derniers profils modifiés par un autre accompagnateur</div>
+			<div class="flex flex-row flex-wrap justify-between gap-1">
 				{#each $result.data.lastUpdated as lastUpdated}
 					<div
 						class="card-container"
@@ -76,9 +67,9 @@
 						<ProBeneficiaryCard beneficiary={lastUpdated.notebook.beneficiary} />
 					</div>
 				{/each}
-			{/if}
+			</div>
 		</div>
-	</div>
+	</LoaderIndicator>
 </div>
 
 <style lang="postcss">

@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import ProBeneficiaryCard from '$lib/ui/ProBeneficiaryCard.svelte';
 	import ProBeneficiarySearch from '$lib/ui/ProBeneficiarySearchBar.svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { SearchBeneficiariesQuery } from '$lib/_gen/typed-document-nodes';
 	import { SearchBeneficiariesDocument } from '$lib/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
@@ -44,12 +45,8 @@
 	<div class="pb-6">
 		<ProBeneficiarySearch {filter} on:filter={(event) => onSearch(event)} />
 	</div>
-	<div class="flex flex-row flex-wrap justify-between gap-1">
-		{#if $result.fetching}
-			<p>Loading...</p>
-		{:else if $result.error}
-			<p>Oh no... {$result.error.message}</p>
-		{:else}
+	<LoaderIndicator {result}>
+		<div class="flex flex-row flex-wrap justify-between gap-1">
 			{#each $result.data.beneficiary as beneficiary}
 				<div class="card-container" on:click={() => onClick(beneficiary.id)}>
 					<ProBeneficiaryCard {beneficiary} />
@@ -58,8 +55,8 @@
 			{#if $result.data.beneficiary.length === 0}
 				Aucun résultat
 			{/if}
-		{/if}
-	</div>
+		</div>
+	</LoaderIndicator>
 </div>
 
 <style lang="postcss">
