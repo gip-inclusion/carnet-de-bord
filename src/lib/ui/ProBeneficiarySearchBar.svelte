@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import Button from './Button.svelte';
+	import Button from '$lib/ui/base/Button.svelte';
 
 	export let filter = null;
 	const dispatch = createEventDispatcher();
