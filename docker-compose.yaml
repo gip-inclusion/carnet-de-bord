@@ -21,7 +21,7 @@ services:
     extra_hosts:
       host.docker.internal: host-gateway
     ports:
-      - '5000:8080'
+      - '5000:80'
     depends_on:
       - 'db'
     restart: always
