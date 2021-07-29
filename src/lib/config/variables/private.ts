@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 config();
 
 export function getDatabaseUrl(): string {
-	return process.env['DATABASE_URL'];
+	return process.env['DATABASE_URL'] || process.env['HASURA_GRAPHQL_DATABASE_URL'];
 }
 
 export function getAppUrl(): string {
