@@ -665,13 +665,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/kosko-charts@8.0.2":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-8.0.2.tgz#9768af5e88a9eb34269915011e0a88fda3767ecb"
-  integrity sha512-HiPm+M3hFrXYALW7hJM7wVzGbrDFfYHRIRjlxeIAmoFjkv15/93/k9I/X0F079rRpIRJteNAB89sPjGeRx1oMA==
+"@socialgouv/kosko-charts@8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-8.1.1.tgz#91eccf47665b6a056608be9b81a0996655768b90"
+  integrity sha512-1T/rLbUKQBt4HZwHtdyPQQkqJNMIlaHDH5uOs4tXdNX4n5Ru2nLISsOpZwm1U/OgHbbhprRXYj3yrftwxOeniw==
   dependencies:
+    "@kubernetes-models/sealed-secrets" "^1.6.3"
     "@sindresorhus/is" "^4.0.1"
     fs-extra "^10.0.0"
+    kubernetes-models "^1.7.1"
     slugify "^1.6.0"
 
 "@tootallnate/once@1":
