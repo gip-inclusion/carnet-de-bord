@@ -1,6 +1,6 @@
 # carnet-de-bord
 
-## développement
+## local
 
 **pre-requis**:
 
@@ -41,11 +41,74 @@ hasura seed apply
 hasura console
 ```
 
-**hasura**:
+## développement
 
-- http://localhost:5000
-- admin
+**Génération des types graphql**
 
-**carnet de bord**:
+on écrit un fichier `_query.gql` ou `_mutation.gql`
 
-- http://localhost:3000
+```gql
+# _query.gql
+query SearchBeneficiaries($filter: String) {
+	beneficiary(
+		where: {
+			_or: [
+				{ peNumber: { _ilike: $filter } }
+				{ cafNumber: { _ilike: $filter } }
+				{ lastname: { _ilike: $filter } }
+				{ mobileNumber: { _ilike: $filter } }
+			]
+		}
+	) {
+		dateOfBirth
+		firstname
+		id
+		lastname
+		mobileNumber
+	}
+}
+```
+
+on génère les types avec `codegen`
+
+```sh
+yarn codegen
+```
+
+Les types graphql sont générés dans `src/_gen`. On peut alors les utiliser dans les composants
+
+```ts
+export const load: Load = async ({ page }) => {
+	const filter = page.query.get('filter');
+	const result = operationStore(SearchBeneficiariesDocument, {
+		filter: `%${filter}%`
+	});
+
+	return {
+		props: {
+			result,
+			filter
+		}
+	};
+};
+```
+
+**modification des metadatas hasura**
+
+après avoir modifié des metadatas hasura dans la console (permissions, GraphQL field name, etc), ne pas oublier de les exporter
+
+```sh
+hasura metadata export
+```
+
+**migration de la base de données**
+
+Si les modifications du schéma de la base de données ont faites à partir de la console hasura `http://localhost:9695/`, hasura génère automatiquement des fichiers de migrations dans `hasura/migrations`.
+
+avant de `merge` une PR, ne pas oublier de (squash)[https://hasura.io/docs/latest/graphql/core/hasura-cli/hasura_migrate_squash.html] les fichiers.
+
+Les migrations sont appliquées automatiquement au lancement de hasura
+
+```sh
+docker-compose up --build
+```
