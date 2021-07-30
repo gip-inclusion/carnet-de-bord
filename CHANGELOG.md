@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.2...v1.1.3) (2021-07-30)
+
+
+### Bug Fixes
+
+* Add APP_URL. ([#71](https://github.com/SocialGouv/carnet-de-bord/issues/71)) ([2211c1a](https://github.com/SocialGouv/carnet-de-bord/commit/2211c1ae8946b62ddb395baac2bda0bd4e63a71f))
+
 ## [1.1.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.1...v1.1.2) (2021-07-29)
 
 
