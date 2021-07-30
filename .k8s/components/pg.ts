@@ -7,7 +7,7 @@ import { create } from "@socialgouv/kosko-charts/components/azure-pg";
 
 export default async (): Promise<{ kind: string }[]> => {
   if (env.env === "dev") {
-    return create("pg-user", { env });
+    return create({ env });
   }
 
   // in prod/preprod, we try to add a fixed sealed-secret
