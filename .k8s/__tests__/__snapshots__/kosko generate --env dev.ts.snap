@@ -195,7 +195,6 @@ metadata:
   namespace: carnet-de-bord-mybranch
 data:
   VITE_JWT_SECRET_KEY: very-secret-key-to-sign-jwt
-  VITE_APP_URL: http://localhost:3000
   SMTP_HOST: smtp.mailtrap.io
   SMTP_PORT: '2525'
   SMTP_FROM: admin@carnet-de-bord.fr
