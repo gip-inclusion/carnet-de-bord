@@ -69,6 +69,14 @@ export default async () => {
 
 	ok(deployment);
 
+	/* pass dynamic deployment URL as env var to the container */
+	const frontendUrl = new EnvVar({
+		name: "APP_URL",
+		value: `https://${getIngressHost(manifests)}`,
+	});
+
+	addEnv({ data: frontendUrl, deployment });
+
 	const hasuraManifests = await getHasuraManifests();
 
 	const hasuraUrl = new EnvVar({
