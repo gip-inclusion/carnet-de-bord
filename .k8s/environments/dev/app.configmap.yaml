@@ -3,14 +3,7 @@ apiVersion: v1
 metadata:
   name: app-configmap
 data:
-  VITE_JWT_SECRET_KEY: very-secret-key-to-sign-jwt
   VITE_APP_URL: http://localhost:3000
-  VITE_AUTH_PRIVATE_KEY: xxx
-  VITE_AUTH_PRIVATE_KEY_FILE: xxx
-  VITE_AUTH_PUBLIC_KEY: xxx
-  VITE_AUTH_PUBLIC_KEY_FILE: xxx
-  VITE_SMTP_HOST: smtp.mailtrap.io
-  VITE_SMTP_PORT: '2525'
-  VITE_SMTP_USER: 422a8059a5d8fa
-  VITE_SMTP_PASS: 3640934e040c7c
-  VITE_SMTP_FROM: admin@cdb.fr
+  SMTP_HOST: smtp.mailtrap.io
+  SMTP_PORT: '2525'
+  SMTP_FROM: admin@carnet-de-bord.fr
