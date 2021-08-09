@@ -1,25 +1,24 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import Button from '$lib/ui/base/Button.svelte';
+	import { SearchBar } from '$lib/ui/base';
 
-	export let filter = null;
+	export let search = null;
 	const dispatch = createEventDispatcher();
 
 	async function handleSubmit() {
-		dispatch('filter', { filter });
+		dispatch('search', { search });
 	}
+
+	export let size: string | null = 'lg';
 </script>
 
-<div class="font-bold text-3xl pb-10 pt-4">Rechercher un bénéficiaire</div>
-<form on:submit|preventDefault={handleSubmit}>
-	<div class="bg-gray-300 px-12 py-6 flex">
-		<input
-			bind:value={filter}
-			class="h-16 w-full p-4"
-			required
-			placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
-		/>
-		<Button type="submit" disabled={!filter}>Rechercher</Button>
-	</div>
-</form>
+<SearchBar
+	inputLabel="Rechercher un bénéficiaire"
+	inputHint="Nom, téléphone, n° CAF, n° Pôle emploi"
+	btnLabel="Rechercher"
+	bind:search
+	btnDisabled={!search}
+	{handleSubmit}
+	{size}
+/>

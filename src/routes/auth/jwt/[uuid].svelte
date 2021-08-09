@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
-	export async function load({ page }) {
+	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
+	export async function load({ page }: LoadInput): Promise<LoadOutput> {
 		const accessKey = page.params.uuid;
 		return {
 			props: {
@@ -14,11 +15,11 @@
 
 	import { onMount } from 'svelte';
 
-	export let accessKey;
-	export let displayError;
+	export let accessKey: string;
+	export let displayError: boolean;
 
 	onMount(async () => {
-		const response: any = await fetch(`/auth/jwt`, {
+		const response: Response = await fetch(`/auth/jwt`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json; version=1.0',

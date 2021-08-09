@@ -1,51 +1,35 @@
+<script context="module">
+	let counter = 0;
+</script>
+
 <script lang="ts">
+	counter++;
+
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-	function click() {
+	function click(event: Event) {
+		event.preventDefault();
 		dispatch('click');
 	}
 
-	export let style: string | null = 'base';
-	export let type = 'button';
-	export let disabled = false;
+	export let id: string | null = `button-${counter}`;
+	export let type: string | null = 'button';
+	export let action = type === 'button' ? click : null;
+	export let disabled: boolean | null = false;
+	export let classNames: string | null = '';
+	export let outline: boolean | null = false;
+	export let icon: string | null = '';
+	export let iconSide: 'left' | 'right' = 'left';
+	let _iconSide = icon ? (iconSide ? 'fr-btn--icon-left' : 'fr-btn--icon-right') : '';
 </script>
 
-<button on:click={click} type={type ? type : ''} {disabled} class={style}>
+<button
+	{id}
+	on:click={action}
+	{type}
+	{disabled}
+	class={`fr-btn ${outline ? 'fr-btn--secondary' : ''} ${classNames} ${icon} ${_iconSide}`}
+>
 	<slot />
 </button>
-
-<style lang="postcss">
-	.base {
-		@apply w-32;
-		@apply p-2;
-		@apply px-4;
-
-		@apply border-2;
-		@apply border-opacity-20;
-		@apply border-accent;
-		@apply rounded;
-
-		@apply bg-action;
-		/* @apply hover:bg-accent; */
-
-		/* @apply disabled:bg-back2; */
-		/* @apply disabled:border-back2; */
-
-		@apply text-white;
-		/* @apply hover:text-white; */
-	}
-
-	.outline {
-		@apply w-32;
-		@apply p-2;
-		@apply px-4;
-
-		@apply border-2;
-		@apply border-accent;
-		@apply text-accent;
-		@apply rounded;
-		/* @apply hover:bg-accent; */
-		/* @apply hover:text-white; */
-	}
-</style>

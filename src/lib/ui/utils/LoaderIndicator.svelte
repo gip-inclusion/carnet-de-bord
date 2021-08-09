@@ -4,12 +4,10 @@
 	export let result: OperationStore;
 </script>
 
-<div>
-	{#if $result.fetching}
-		<p>Loading...</p>
-	{:else if $result.error}
-		<p>Oh no... {$result.error.message}</p>
-	{:else}
-		<slot />
-	{/if}
-</div>
+{#if $result.fetching}
+	<p>Chargement en cours...</p>
+{:else if $result.error}
+	<p>Une erreur s'est produite : {$result.error.message}</p>
+{:else}
+	<slot />
+{/if}

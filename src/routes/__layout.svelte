@@ -1,17 +1,21 @@
 <script context="module" lang="ts">
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
+	import { Button, Header, NavBar } from '$lib/ui/base';
 	import { getGraphqlAPI } from '$lib/config/variables/public';
 	import { post } from '$lib/utils/post';
-	import { createClient, setClient } from '@urql/svelte';
-	import 'remixicon/fonts/remixicon.css';
-	import '../app.postcss';
+	import { createClient, setClient, Client } from '@urql/svelte';
 
-	function getToken(session) {
+	import 'remixicon/fonts/remixicon.css';
+	import '@gouvfr/dsfr/dist/css/dsfr.min.css';
+	import '../app.postcss';
+	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
+
+	function getToken(session: { token?: string }) {
 		return session.token;
 	}
 
-	export async function load({ page, fetch, session }) {
+	export async function load({ page, fetch, session }: LoadInput): Promise<LoadOutput> {
 		const graphqlAPI = session.graphqlAPI ? session.graphqlAPI : getGraphqlAPI();
 		if (page.path === '/healthz') {
 			return {};
@@ -56,31 +60,29 @@
 		goto('/');
 	}
 
-	export let client;
+	export let client: Client;
 	setClient(client);
+
+	const menuItems = [
+		{ id: 'accueil', name: 'accueil', path: '/pro/accueil', label: 'Accueil' },
+		{ id: 'annuaire', name: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' }
+	];
+
+	const org = "Ministère<br />du Travail,<br />de l'Emploi<br />et de l'Insertion";
 </script>
 
-<header class="px-40 shadow-md">
-	<div class="flex flex-row items-center py-2">
-		<a class="block" href="/">
-			<img
-				class="inline"
-				src="/logo-ministere.png"
-				alt="Accueil Ministère du Travail, de l'Emploi et de l'Insertion"
-				width="107"
-				height="86"
-			/>
-		</a>
-		<div class="flex-grow" />
+<Header siteName="Carnet de bord" baseline="Précisions sur l'organisation">
+	<span slot="org">{@html org}</span>
+	<span slot="quickAccessRight">
 		{#if $session.user}
-			<button
-				class="block p-2 px-4 border rounded text-action bg-back2 hover:bg-accent"
-				on:click|preventDefault={logout}>Deconnexion</button
-			>
+			<Button outline={true} on:click={logout}>Déconnexion</Button>
 		{/if}
-	</div>
-</header>
+	</span>
+	<span slot="navbar">
+		<NavBar {menuItems} />
+	</span>
+</Header>
 
-<div class="px-40 py-2">
+<div style="min-height: calc(100vh - 200px)">
 	<slot />
 </div>

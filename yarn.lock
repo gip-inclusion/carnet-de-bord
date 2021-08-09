@@ -649,6 +649,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@gouvfr/dsfr@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@gouvfr/dsfr/-/dsfr-1.1.0.tgz#747969f179152721de9b6fe7f084374bb396fb00"
+  integrity sha512-9sEgX046t3t9iA/CiNegBO3i65iZgXnJz9wgsc9mv1/hiuGYdlfiED4gQ+3zU/bQ5E2BB2CBTCCrnXtmGrMMNg==
+
 "@graphql-codegen/cli@1.21.8":
   version "1.21.8"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-1.21.8.tgz#b30190b5e7f851952f04e0e2bdc9ec00349ccac6"
@@ -1190,6 +1195,11 @@
   integrity sha512-2XZovu4NwcqmtZtsBR5XYLw18T8cBCnU2USFHTnYLLHz9fkhnoEMoDsqShJIOFsFhn5aJHjweiUUdTrDGujegA==
   dependencies:
     "@types/node" "*"
+
+"@types/tailwindcss@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/tailwindcss/-/tailwindcss-2.2.1.tgz#891349cc71b5a85208ca5796938d91dd48cc0417"
+  integrity sha512-raLwtQF+uul9lsvs7+GUizeNrpxRqbnckIu/va5hzPPwZsImZunkyLFAS/1rwEHhhvFMNiMJmTiP5PPGa0oNJA==
 
 "@types/websocket@1.0.2":
   version "1.0.2"

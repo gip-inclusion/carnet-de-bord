@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
 	import { goto } from '$app/navigation';
-	import ProBeneficiaryCard from '$lib/ui/ProBeneficiaryCard.svelte';
-	import ProBeneficiarySearch from '$lib/ui/ProBeneficiarySearchBar.svelte';
+	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import type { GetLastVisitedOrUpdatedQuery } from '$lib/_gen/typed-document-nodes';
 	import { GetLastVisitedOrUpdatedDocument } from '$lib/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
@@ -28,43 +27,43 @@
 	query(result);
 
 	function onSearch({ detail }) {
-		const { filter } = detail;
-		goto(`/pro/annuaire?filter=${filter}`);
+		const { search } = detail;
+		goto(`/pro/annuaire?search=${search}`);
 	}
 
-	function onSelect(id: string) {
-		goto(`/pro/beneficiaire/${id}`);
+	function beneficiaryUrl({ id }: { id: string }) {
+		return `/pro/beneficiaire/${id}`;
 	}
 </script>
 
-<div class="flex flex-col">
-	<div class="pb-6">
-		<ProBeneficiarySearch on:filter={(event) => onSearch(event)} />
-	</div>
+<div class="flex flex-col space-y-8 px-40">
+	<h1 class="fr-h2">Rechercher un bénéficiaire</h1>
+
+	<ProBeneficiarySearchBar on:search={(event) => onSearch(event)} />
 
 	<LoaderIndicator {result}>
 		<div>
-			<div>Les derniers profils visités</div>
+			<h2 class="fr-h5 bf-500">Derniers profils consultés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
-				{#each $result.data.lastVisited as lastVisited}
-					<div
-						class="card-container"
-						on:click={() => onSelect(lastVisited.notebook.beneficiary.id)}
-					>
-						<ProBeneficiaryCard beneficiary={lastVisited.notebook.beneficiary} />
+				{#each $result.data.lastVisited as lastVisited (lastVisited.notebook.beneficiary.id)}
+					<div class="card-container">
+						<ProBeneficiaryCard
+							href={beneficiaryUrl(lastVisited.notebook.beneficiary)}
+							beneficiary={lastVisited.notebook.beneficiary}
+						/>
 					</div>
 				{/each}
 			</div>
 		</div>
 		<div>
-			<div>Les derniers profils modifiés par un autre accompagnateur</div>
+			<h2 class="fr-h5 bf-500">Derniers profils modifiés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
 				{#each $result.data.lastUpdated as lastUpdated}
-					<div
-						class="card-container"
-						on:click={() => onSelect(lastUpdated.notebook.beneficiary.id)}
-					>
-						<ProBeneficiaryCard beneficiary={lastUpdated.notebook.beneficiary} />
+					<div class="card-container">
+						<ProBeneficiaryCard
+							href={beneficiaryUrl(lastUpdated.notebook.beneficiary)}
+							beneficiary={lastUpdated.notebook.beneficiary}
+						/>
 					</div>
 				{/each}
 			</div>
@@ -73,6 +72,10 @@
 </div>
 
 <style lang="postcss">
+	.bf-500 {
+		color: var(--bf500);
+	}
+
 	.card-container {
 		width: 49%;
 		@apply py-2;
