@@ -21,8 +21,8 @@
 		"preview": "svelte-kit preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --check --plugin-search-dir=. . && eslint src .",
-		"lint:fix": "prettier --check --plugin-search-dir=. . && yarn lint --fix --cache",
+		"lint": "prettier --check --plugin-search-dir=. src && eslint src .",
+		"lint:fix": "prettier --check --plugin-search-dir=. src && yarn lint --fix --cache",
 		"lint:pre-commit": "yarn lint:fix",
 		"format": "prettier --write --plugin-search-dir=. .",
 		"codegen": "yarn run graphql-codegen --config codegen.cjs"
