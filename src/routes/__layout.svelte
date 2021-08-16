@@ -79,7 +79,9 @@
 		{/if}
 	</span>
 	<span slot="navbar">
-		<NavBar {menuItems} />
+		{#if $session.user}
+			<NavBar {menuItems} />
+		{/if}
 	</span>
 </Header>
 

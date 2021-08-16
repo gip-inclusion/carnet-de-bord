@@ -17,8 +17,6 @@
 			requestStep = 'success';
 		}
 	}
-
-	/* requestStep = 'success'; */
 </script>
 
 <div class="flex flex-row">
