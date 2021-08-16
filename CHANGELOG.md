@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.3...v1.2.0) (2021-08-16)
+
+
+### Features
+
+* issue[#30](https://github.com/SocialGouv/carnet-de-bord/issues/30) - support sending magic link from email ([faad2d1](https://github.com/SocialGouv/carnet-de-bord/commit/faad2d1d4f1ae7153a61023bb17d4b5a40aa1eeb))
+* **ui:** issue[#46](https://github.com/SocialGouv/carnet-de-bord/issues/46) - bring in the DSFR style ([26939ea](https://github.com/SocialGouv/carnet-de-bord/commit/26939ea155b0a8cbefd85d06a9ab6ccb91c128fe))
+
 ## [1.1.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.2...v1.1.3) (2021-07-30)
 
 
