@@ -9,6 +9,7 @@
 
 	export const load: Load = async ({ session }) => {
 		const { professionalId } = session.user;
+		/* @TODO this request does not error in Hasura when called with a professional that's null; instead it matches on all, which is obviously not what we want */
 		const result = operationStore(GetLastVisitedOrUpdatedDocument, { professionalId });
 
 		return {
@@ -52,19 +53,23 @@
 							beneficiary={lastVisited.notebook.beneficiary}
 						/>
 					</div>
+				{:else}
+					<p>Aucun(e) de vos bénéficiaires n'a été consulté(e) récemment.</p>
 				{/each}
 			</div>
 		</div>
 		<div>
 			<h2 class="fr-h5 bf-500">Derniers profils modifiés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
-				{#each $result.data.lastUpdated as lastUpdated}
+				{#each $result.data.lastUpdated as lastUpdated (lastUpdated.notebook.beneficiary.id)}
 					<div class="card-container">
 						<ProBeneficiaryCard
 							href={beneficiaryUrl(lastUpdated.notebook.beneficiary)}
 							beneficiary={lastUpdated.notebook.beneficiary}
 						/>
 					</div>
+				{:else}
+					<p>Aucun(e) de vos bénéficiaires n'a été mis(e) à jour récemment.</p>
 				{/each}
 			</div>
 		</div>

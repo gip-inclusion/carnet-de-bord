@@ -1,0 +1,14 @@
+query GetAccount($accountId: uuid!) {
+	account_by_pk(id: $accountId) {
+		onboardingDone: onboarding_done
+		confirmed
+		username
+		professional {
+			firstname
+			lastname
+			mobileNumber
+			email
+			position
+		}
+	}
+}

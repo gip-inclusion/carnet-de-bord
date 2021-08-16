@@ -16,6 +16,7 @@ export const post: RequestHandler = async (request) => {
 		beneficiary_id: string;
 		professional_id: string;
 		admin_id: string;
+		confirmed: boolean;
 	};
 
 	if (!account) {
@@ -23,6 +24,15 @@ export const post: RequestHandler = async (request) => {
 			status: 401,
 			body: {
 				errors: 'USER_NOT_FOUND'
+			}
+		};
+	}
+
+	if (!account.confirmed) {
+		return {
+			status: 403,
+			body: {
+				errors: 'ACCOUNT_NOT_CONFIRMED'
 			}
 		};
 	}

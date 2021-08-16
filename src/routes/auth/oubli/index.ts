@@ -4,22 +4,29 @@ import { emailMagicLink } from '$lib/utils/emailMagicLink';
 import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
 
-export type Profile = 'professional' | 'beneficiary' | 'admin';
+const types = ['professional', 'beneficiary', 'admin'] as const;
+
+export type Profile = typeof types[number];
 
 export const post: RequestHandler = async (request) => {
-	const { email, type, appUrl } = request.body as unknown as {
+	const { email, appUrl } = request.body as unknown as {
 		email: string;
-		type: Profile;
 		appUrl: string;
 	};
 
-	const profile = (await knex(`${type}`).where({ email }).first()) as unknown as {
-		id: string;
-		firstname: string;
-		lastname: string;
-	};
+	let profile, type;
 
-	console.log('profile', profile);
+	for (const type_ of types) {
+		if (!profile) {
+			profile = (await knex(`${type_}`).where({ email }).first()) as unknown as {
+				id: string;
+				firstname: string;
+				lastname: string;
+			};
+			type = type_;
+		}
+	}
+
 	if (!profile) {
 		return {
 			status: 401,

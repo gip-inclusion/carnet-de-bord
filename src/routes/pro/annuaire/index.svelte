@@ -14,7 +14,7 @@
 		const queryOptions = search
 			? {
 					filter: `%${search}%`
-			  }
+				}
 			: {};
 		const result = operationStore(SearchBeneficiariesDocument, queryOptions);
 
@@ -136,7 +136,7 @@
 				</div>
 			{:else}
 				<div class="flex flex-row flex-wrap justify-between gap-1">
-					{#each beneficiaries as beneficiary}
+					{#each beneficiaries as beneficiary (beneficiary.id)}
 						<div class="card-container">
 							<ProBeneficiaryCard {beneficiary} href={beneficiaryUrl(beneficiary)} />
 						</div>

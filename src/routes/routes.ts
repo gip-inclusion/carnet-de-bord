@@ -61,5 +61,9 @@ export const getSegments = (currentPath: string): Segment[] => {
 		segments.push({ name: 'beneficiaire', label: 'Profil bénéficiaire', path: '' });
 	}
 
+	if (currentPath.startsWith('/pro/moncompte')) {
+		segments.push({ name: 'moncompte', label: 'Mon compte', path: '/pro/moncompte' });
+	}
+
 	return segments;
 };

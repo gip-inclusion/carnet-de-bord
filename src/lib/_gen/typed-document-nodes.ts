@@ -16,6 +16,19 @@ export type Scalars = {
 	uuid: any;
 };
 
+/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+	_eq?: Maybe<Scalars['Boolean']>;
+	_gt?: Maybe<Scalars['Boolean']>;
+	_gte?: Maybe<Scalars['Boolean']>;
+	_in?: Maybe<Array<Scalars['Boolean']>>;
+	_is_null?: Maybe<Scalars['Boolean']>;
+	_lt?: Maybe<Scalars['Boolean']>;
+	_lte?: Maybe<Scalars['Boolean']>;
+	_neq?: Maybe<Scalars['Boolean']>;
+	_nin?: Maybe<Array<Scalars['Boolean']>>;
+};
+
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
 	_eq?: Maybe<Scalars['String']>;
@@ -60,8 +73,10 @@ export type Account = {
 	/** An object relationship */
 	beneficiary?: Maybe<Beneficiary>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	confirmed: Scalars['Boolean'];
 	id: Scalars['uuid'];
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	onboarding_done?: Maybe<Scalars['Boolean']>;
 	/** An object relationship */
 	professional?: Maybe<Professional>;
 	professionalId?: Maybe<Scalars['uuid']>;
@@ -115,8 +130,10 @@ export type Account_Bool_Exp = {
 	adminId?: Maybe<Uuid_Comparison_Exp>;
 	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
 	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
+	confirmed?: Maybe<Boolean_Comparison_Exp>;
 	id?: Maybe<Uuid_Comparison_Exp>;
 	lastLogin?: Maybe<Timestamptz_Comparison_Exp>;
+	onboarding_done?: Maybe<Boolean_Comparison_Exp>;
 	professional?: Maybe<Professional_Bool_Exp>;
 	professionalId?: Maybe<Uuid_Comparison_Exp>;
 	type?: Maybe<String_Comparison_Exp>;
@@ -139,8 +156,10 @@ export type Account_Insert_Input = {
 	adminId?: Maybe<Scalars['uuid']>;
 	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	onboarding_done?: Maybe<Scalars['Boolean']>;
 	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
@@ -225,8 +244,10 @@ export type Account_Order_By = {
 	adminId?: Maybe<Order_By>;
 	beneficiary?: Maybe<Beneficiary_Order_By>;
 	beneficiaryId?: Maybe<Order_By>;
+	confirmed?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastLogin?: Maybe<Order_By>;
+	onboarding_done?: Maybe<Order_By>;
 	professional?: Maybe<Professional_Order_By>;
 	professionalId?: Maybe<Order_By>;
 	type?: Maybe<Order_By>;
@@ -249,9 +270,13 @@ export enum Account_Select_Column {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
+	Confirmed = 'confirmed',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	LastLogin = 'lastLogin',
+	/** column name */
+	OnboardingDone = 'onboarding_done',
 	/** column name */
 	ProfessionalId = 'professionalId',
 	/** column name */
@@ -266,8 +291,10 @@ export type Account_Set_Input = {
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	adminId?: Maybe<Scalars['uuid']>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	onboarding_done?: Maybe<Scalars['Boolean']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
@@ -284,9 +311,13 @@ export enum Account_Update_Column {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
+	Confirmed = 'confirmed',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	LastLogin = 'lastLogin',
+	/** column name */
+	OnboardingDone = 'onboarding_done',
 	/** column name */
 	ProfessionalId = 'professionalId',
 	/** column name */
@@ -1761,6 +1792,8 @@ export type Professional = {
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
+	mobileNumber?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	structure: Structure;
 	structureId: Scalars['uuid'];
@@ -1829,6 +1862,8 @@ export type Professional_Bool_Exp = {
 	firstname?: Maybe<String_Comparison_Exp>;
 	id?: Maybe<Uuid_Comparison_Exp>;
 	lastname?: Maybe<String_Comparison_Exp>;
+	mobileNumber?: Maybe<String_Comparison_Exp>;
+	position?: Maybe<String_Comparison_Exp>;
 	structure?: Maybe<Structure_Bool_Exp>;
 	structureId?: Maybe<Uuid_Comparison_Exp>;
 };
@@ -1848,6 +1883,8 @@ export type Professional_Insert_Input = {
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
 	structure?: Maybe<Structure_Obj_Rel_Insert_Input>;
 	structureId?: Maybe<Scalars['uuid']>;
 };
@@ -1859,6 +1896,8 @@ export type Professional_Max_Fields = {
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
 	structureId?: Maybe<Scalars['uuid']>;
 };
 
@@ -1868,6 +1907,8 @@ export type Professional_Max_Order_By = {
 	firstname?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
+	mobileNumber?: Maybe<Order_By>;
+	position?: Maybe<Order_By>;
 	structureId?: Maybe<Order_By>;
 };
 
@@ -1878,6 +1919,8 @@ export type Professional_Min_Fields = {
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
 	structureId?: Maybe<Scalars['uuid']>;
 };
 
@@ -1887,6 +1930,8 @@ export type Professional_Min_Order_By = {
 	firstname?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
+	mobileNumber?: Maybe<Order_By>;
+	position?: Maybe<Order_By>;
 	structureId?: Maybe<Order_By>;
 };
 
@@ -1920,6 +1965,8 @@ export type Professional_Order_By = {
 	firstname?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastname?: Maybe<Order_By>;
+	mobileNumber?: Maybe<Order_By>;
+	position?: Maybe<Order_By>;
 	structure?: Maybe<Structure_Order_By>;
 	structureId?: Maybe<Order_By>;
 };
@@ -1940,6 +1987,10 @@ export enum Professional_Select_Column {
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
+	MobileNumber = 'mobileNumber',
+	/** column name */
+	Position = 'position',
+	/** column name */
 	StructureId = 'structureId'
 }
 
@@ -1949,6 +2000,8 @@ export type Professional_Set_Input = {
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
 	structureId?: Maybe<Scalars['uuid']>;
 };
 
@@ -1962,6 +2015,10 @@ export enum Professional_Update_Column {
 	Id = 'id',
 	/** column name */
 	Lastname = 'lastname',
+	/** column name */
+	MobileNumber = 'mobileNumber',
+	/** column name */
+	Position = 'position',
 	/** column name */
 	StructureId = 'structureId'
 }
@@ -2670,6 +2727,64 @@ export type Uuid_Comparison_Exp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAccountsSummaryQuery = { __typename?: 'query_root' } & {
+	proConfirmed: Array<
+		{ __typename?: 'account' } & Pick<Account, 'id'> & {
+				professional?: Maybe<
+					{ __typename?: 'professional' } & Pick<
+						Professional,
+						'id' | 'firstname' | 'lastname' | 'position'
+					> & { structure: { __typename?: 'structure' } & Pick<Structure, 'name'> }
+				>;
+			}
+	>;
+	proUnconfirmed: Array<
+		{ __typename?: 'account' } & Pick<Account, 'id'> & {
+				professional?: Maybe<
+					{ __typename?: 'professional' } & Pick<
+						Professional,
+						'id' | 'firstname' | 'lastname' | 'position'
+					> & { structure: { __typename?: 'structure' } & Pick<Structure, 'name'> }
+				>;
+			}
+	>;
+	beneficiaryConfirmed: Array<
+		{ __typename?: 'account' } & Pick<Account, 'id'> & {
+				beneficiary?: Maybe<
+					{ __typename?: 'beneficiary' } & Pick<Beneficiary, 'id' | 'firstname' | 'lastname'>
+				>;
+			}
+	>;
+	beneficiaryUnconfirmed: Array<
+		{ __typename?: 'account' } & Pick<Account, 'id'> & {
+				beneficiary?: Maybe<
+					{ __typename?: 'beneficiary' } & Pick<Beneficiary, 'id' | 'firstname' | 'lastname'>
+				>;
+			}
+	>;
+};
+
+export type GetAccountQueryVariables = Exact<{
+	accountId: Scalars['uuid'];
+}>;
+
+export type GetAccountQuery = { __typename?: 'query_root' } & {
+	account_by_pk?: Maybe<
+		{ __typename?: 'account' } & Pick<Account, 'confirmed' | 'username'> & {
+				onboardingDone: Account['onboarding_done'];
+			} & {
+				professional?: Maybe<
+					{ __typename?: 'professional' } & Pick<
+						Professional,
+						'firstname' | 'lastname' | 'mobileNumber' | 'email' | 'position'
+					>
+				>;
+			}
+	>;
+};
+
 export type GetLastVisitedOrUpdatedQueryVariables = Exact<{
 	professionalId: Scalars['uuid'];
 }>;
@@ -2743,6 +2858,369 @@ export type UpdateNotebookVisitDateMutation = { __typename?: 'mutation_root' } &
 	>;
 };
 
+export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetStructuresQuery = { __typename?: 'query_root' } & {
+	structure: Array<
+		{ __typename?: 'structure' } & Pick<
+			Structure,
+			| 'id'
+			| 'siret'
+			| 'name'
+			| 'shortDesc'
+			| 'phone'
+			| 'email'
+			| 'postalCode'
+			| 'city'
+			| 'address1'
+			| 'address2'
+		>
+	>;
+};
+
+export const GetAccountsSummaryDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountsSummary' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'proConfirmed' },
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'type' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'professional', block: false }
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true }
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'proUnconfirmed' },
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'type' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'professional', block: false }
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: false }
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'beneficiaryConfirmed' },
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'type' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'beneficiary', block: false }
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true }
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } }
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'beneficiaryUnconfirmed' },
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'type' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'beneficiary', block: false }
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: false }
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } }
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
+export const GetAccountDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccount' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } }
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									alias: { kind: 'Name', value: 'onboardingDone' },
+									name: { kind: 'Name', value: 'onboarding_done' }
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } }
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<GetAccountQuery, GetAccountQueryVariables>;
 export const GetLastVisitedOrUpdatedDocument = {
 	kind: 'Document',
 	definitions: [
@@ -3210,3 +3688,37 @@ export const UpdateNotebookVisitDateDocument = {
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
 >;
+export const GetStructuresDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructures' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;

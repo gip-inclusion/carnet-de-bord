@@ -9,46 +9,46 @@ configuration:
     short_desc: shortDesc
   custom_root_fields: {}
 array_relationships:
-  - name: professionals
-    using:
-      foreign_key_constraint_on:
-        column: structure_id
-        table:
-          name: professional
-          schema: public
+- name: professionals
+  using:
+    foreign_key_constraint_on:
+      column: structure_id
+      table:
+        name: professional
+        schema: public
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: {}
-      columns:
-        - id
-        - siret
-        - name
-        - short_desc
-        - phone
-        - email
-        - postal_code
-        - city
-        - address1
-        - address2
-        - creation_date
-        - modification_date
-    role: professional
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - id
+    - siret
+    - name
+    - short_desc
+    - phone
+    - email
+    - postal_code
+    - city
+    - address1
+    - address2
+    - creation_date
+    - modification_date
+  role: professional
 select_permissions:
-  - permission:
-      allow_aggregations: true
-      columns:
-        - address1
-        - address2
-        - city
-        - email
-        - name
-        - phone
-        - postal_code
-        - siret
-        - short_desc
-        - creation_date
-        - modification_date
-        - id
-      filter: {}
-    role: professional
+- permission:
+    allow_aggregations: true
+    columns:
+    - address1
+    - address2
+    - city
+    - email
+    - name
+    - phone
+    - postal_code
+    - siret
+    - short_desc
+    - creation_date
+    - modification_date
+    - id
+    filter: {}
+  role: professional

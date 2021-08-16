@@ -8,6 +8,7 @@ module.exports = {
 	settings: {
 		'svelte3/typescript': () => require('typescript')
 	},
+	rules: { '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }] },
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2019

@@ -5,14 +5,27 @@
 	export let imageUrl = '';
 	export let href = '';
 	export let detail = '';
+	export let largeLink = true;
+	export let hideArrow = true;
 </script>
 
-<div class="fr-card {horizontal ? 'fr-card--horizontal' : ''} fr-enlarge-link">
+<div
+	class={`
+fr-card
+${horizontal ? 'fr-card--horizontal' : ''}
+${largeLink ? 'fr-enlarge-link' : ''}
+${hideArrow ? 'fr-card--no-arrow' : ''}
+`}
+>
 	<div class="fr-card__body">
 		<h4 class="fr-card__title">
-			<Link {href} classNames="fr-card__link">
+			{#if href}
+				<Link {href} classNames="fr-card__link">
+					<slot name="title" />
+				</Link>
+			{:else}
 				<slot name="title" />
-			</Link>
+			{/if}
 		</h4>
 		{#if $$slots.description}
 			<p class="fr-card__desc">

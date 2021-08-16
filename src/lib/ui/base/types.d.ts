@@ -6,7 +6,14 @@ export type TableHeader<Data> = {
 	getHtml: GetHtml<Data>;
 };
 
-export type Option = {
+export interface Option {
 	name: string;
+	label: string;
+};
+
+export type MenuItem = {
+	id: string;
+	name: string;
+	path: string;
 	label: string;
 };

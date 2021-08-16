@@ -13,6 +13,13 @@
 	export let required: boolean | null = false;
 	export let error: string | null = '';
 	export let valid: string | null = '';
+	export let disabled: boolean | null = false;
+
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+	async function handleInput() {
+		dispatch('input', {});
+	}
 </script>
 
 <div
@@ -34,6 +41,7 @@
 		{/if}
 	</label>
 	<input
+		on:input={handleInput}
 		class="fr-input"
 		type="text"
 		placeholder={inputHint}
@@ -41,6 +49,7 @@
 		name={uniqueId}
 		{required}
 		bind:value={val}
+		{disabled}
 	/>
 	{#if error}
 		<p id="text-input-error-desc-error" class="fr-error-text">{error}</p>

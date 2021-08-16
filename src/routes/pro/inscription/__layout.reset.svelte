@@ -6,6 +6,15 @@
 <script lang="ts">
 	export let client: Client;
 	setClient(client);
+	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
+
+	const menuItems = [];
 </script>
 
-<slot />
+<HeaderCDB {menuItems} />
+
+<div style="min-height: calc(100vh - 200px)">
+	<slot />
+</div>
+
+<FooterCDB />

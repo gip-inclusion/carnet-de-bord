@@ -1,3 +1,4 @@
+export { default as Alert } from '$lib/ui/base/Alert.svelte';
 export { default as Button } from '$lib/ui/base/Button.svelte';
 export { default as Breadcrumbs } from '$lib/ui/base/Breadcrumbs.svelte';
 export { default as Card } from '$lib/ui/base/Card.svelte';
