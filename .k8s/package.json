@@ -13,7 +13,7 @@
     "@types/node": "^15.12.2",
     "kosko": "^1.1.5",
     "kubernetes-models": "^1.7.1",
-    "ts-node": "^10.1.0",
+    "ts-node": "^10.2.1",
     "typescript": "^4.3.5"
   },
   "devDependencies": {
