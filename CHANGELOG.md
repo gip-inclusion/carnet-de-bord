@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.2.0...v1.3.0) (2021-08-19)
+
+
+### Features
+
+* [#52](https://github.com/SocialGouv/carnet-de-bord/issues/52) - Pros can request an account and edit their info - Admins can accept them ([f45a71c](https://github.com/SocialGouv/carnet-de-bord/commit/f45a71c020276b11243c46a60154af71dcf8b44b))
+
 # [1.2.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.1.3...v1.2.0) (2021-08-16)
 
 
