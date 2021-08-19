@@ -16,3 +16,7 @@ export type MenuItem = {
 	path: string;
 	label: string;
 };
+export type IdentifierCAF = 'CAF';
+export type IdentifierPE = 'PE';
+export type NoIdentifier = 'NoIdentifier';
+export type IdentifierType = IdentifierCAF | IdentifierPE | NoIdentifier;

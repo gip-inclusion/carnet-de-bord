@@ -2935,6 +2935,27 @@ export type GetLastVisitedOrUpdatedQuery = {
 	}>;
 };
 
+export type CreateBeneficiaryMutationVariables = Exact<{
+	firstname?: Maybe<Scalars['String']>;
+	lastname?: Maybe<Scalars['String']>;
+	dateOfBirth?: Maybe<Scalars['date']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	cerObjects?: Maybe<Scalars['jsonb']>;
+	rights?: Maybe<Scalars['jsonb']>;
+	workSituations?: Maybe<Scalars['jsonb']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+}>;
+
+export type CreateBeneficiaryMutation = {
+	__typename?: 'mutation_root';
+	newNotebook?: Maybe<{ __typename?: 'notebook'; id: any }>;
+};
+
 export type SearchNotebookMemberQueryVariables = Exact<{
 	professionalId: Scalars['uuid'];
 	filter?: Maybe<Scalars['String']>;
@@ -3415,6 +3436,264 @@ export const GetLastVisitedOrUpdatedDocument = {
 		}
 	]
 } as unknown as DocumentNode<GetLastVisitedOrUpdatedQuery, GetLastVisitedOrUpdatedQueryVariables>;
+export const CreateBeneficiaryDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'CreateBeneficiary' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cerObjects' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rights' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituations' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'newNotebook' },
+						name: { kind: 'Name', value: 'insert_notebook_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'firstname' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'firstname' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'lastname' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'lastname' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'dateOfBirth' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'dateOfBirth' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'mobileNumber' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'mobileNumber' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'email' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'email' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'address1' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'address1' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'address2' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'address2' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'postalCode' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'postalCode' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'city' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+																}
+															]
+														}
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'cerObjects' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'cerObjects' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'events' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: { kind: 'ListValue', values: [] }
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'members' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: {
+															kind: 'ListValue',
+															values: [
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'memberType' },
+																			value: {
+																				kind: 'StringValue',
+																				value: 'referent',
+																				block: false
+																			}
+																		},
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'professionalId' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'professionalId' }
+																			}
+																		}
+																	]
+																}
+															]
+														}
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rights' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rights' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'workSituations' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituations' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<CreateBeneficiaryMutation, CreateBeneficiaryMutationVariables>;
 export const SearchNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4120,6 +4399,10 @@ export type GetAccountQueryStore = OperationStore<GetAccountQuery, GetAccountQue
 export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,
 	GetLastVisitedOrUpdatedQueryVariables
+>;
+export type CreateBeneficiaryMutationStore = OperationStore<
+	CreateBeneficiaryMutation,
+	CreateBeneficiaryMutationVariables
 >;
 export type SearchNotebookMemberQueryStore = OperationStore<
 	SearchNotebookMemberQuery,

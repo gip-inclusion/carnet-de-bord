@@ -22,7 +22,7 @@
 <script lang="ts">
 	import type { Option } from '$lib/ui/base/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { Button, Select, SearchBar, Table } from '$lib/ui/base';
+	import { Button, Select, SearchBar, Table, Text } from '$lib/ui/base';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { mutation } from '@urql/svelte';
 	import { formatDate } from '$lib/utils/date';
@@ -105,17 +105,17 @@
 					<div class="flex flex-row">
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Situation</h3>
-							<div>{getLabels(notebook.workSituations, workSituationLabelValue)}</div>
+							<Text value={getLabels(notebook.workSituations, workSituationLabelValue)} />
 						</div>
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Sujet du CER</h3>
-							<div>{getLabels(notebook.cerObjects, cerObjectLabelValue)}</div>
+							<Text value={getLabels(notebook.cerObjects, cerObjectLabelValue)} />
 						</div>
 					</div>
 					<div class="flex flex-row">
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Mes droits</h3>
-							<div>{getLabels(notebook.rights, rightLabelValue)}</div>
+							<Text value={getLabels(notebook.rights, rightLabelValue)} />
 						</div>
 					</div>
 				</div>

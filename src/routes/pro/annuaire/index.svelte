@@ -1,18 +1,23 @@
 <script context="module" lang="ts">
 	import type { Option, TableHeader } from '$lib/ui/base/types';
 	import { Select, Button, Table, Link } from '$lib/ui/base';
-	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
+	import { ProAddBeneficiaryLayer, ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
 		Beneficiary,
+		CreateBeneficiaryMutationStore,
 		NotebookMember,
 		SearchNotebookMemberQueryStore,
 		SearchNotebookMemberQueryVariables
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { SearchNotebookMemberDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		SearchNotebookMemberDocument,
+		CreateBeneficiaryDocument
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
+	import { offCanvas } from '$lib/stores';
 
 	export const load: Load = async ({ page, session }) => {
 		const search = page.query.get('search');
@@ -22,11 +27,13 @@
 			filter: search ? `%${search}%` : undefined
 		};
 		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
+		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
 
 		return {
 			props: {
 				result,
 				search,
+				createBeneficiaryResult,
 				professionalId
 			}
 		};
@@ -34,9 +41,11 @@
 </script>
 
 <script lang="ts">
+	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
 	export let professionalId: string;
+	let isAddBeneficiaryOpen: boolean;
 
 	let selected: Option;
 
@@ -86,8 +95,13 @@
 		return `/pro/beneficiaire/${id}`;
 	}
 
+	function toggleAddBeneficiary() {
+		isAddBeneficiaryOpen = !isAddBeneficiaryOpen;
+		$offCanvas = isAddBeneficiaryOpen;
+	}
+
 	function addBeneficiary() {
-		alert('Not implemented!');
+		toggleAddBeneficiary();
 	}
 
 	let viewMode: 'list' | 'cards' = 'list';
@@ -149,8 +163,12 @@
 			<ProBeneficiarySearchBar bind:search on:search={() => onSearch()} size="md" />
 		</div>
 	</div>
-
 	<LoaderIndicator {result}>
+		<ProAddBeneficiaryLayer
+			close={toggleAddBeneficiary}
+			isOpen={isAddBeneficiaryOpen}
+			{createBeneficiaryResult}
+		/>
 		{#if beneficiaries.length === 0}
 			<div class="flex flex-col space-y-4 items-center">
 				<div class="bf-500 font-bold">

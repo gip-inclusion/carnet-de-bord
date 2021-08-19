@@ -10,7 +10,6 @@
 	counter++;
 	let uniqueId = `select-input-${counter}`;
 	export let id: string | null = `select-${counter}`;
-
 	export let selectHint: string | null = '';
 	export let selectLabel: string | null;
 	export let additionalLabel: string | null = '';

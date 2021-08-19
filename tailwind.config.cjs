@@ -18,6 +18,7 @@ const config = {
 			},
 			'france-blue': '#000091',
 			white: '#FFFFFF',
+			black: '#000000',
 			'marianne-red': '#E1000F',
 			magenta: {
 				80: '#AF8EF3',
