@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.0...v1.3.1) (2021-08-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency knex to ^0.95.10 ([#73](https://github.com/SocialGouv/carnet-de-bord/issues/73)) ([b59f669](https://github.com/SocialGouv/carnet-de-bord/commit/b59f6694f964ea8b84faffb495aba910f028198c))
+
 # [1.3.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.2.0...v1.3.0) (2021-08-19)
 
 
