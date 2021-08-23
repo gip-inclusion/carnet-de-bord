@@ -46,7 +46,7 @@
 				label: s.name,
 				name: s.name || s.id,
 				metadata: [...(s.shortDesc || '').split(' '), ...s.name.split(' ')]
-			}))
+		  }))
 		: [];
 
 	let search = '';

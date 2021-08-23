@@ -9,7 +9,7 @@ export type TableHeader<Data> = {
 export interface Option {
 	name: string;
 	label: string;
-};
+}
 
 export type MenuItem = {
 	id: string;
