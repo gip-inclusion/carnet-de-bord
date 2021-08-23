@@ -1,10 +1,16 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	import type { RequestStep } from '$lib/types';
 	import { Button, Input, Link } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
 
 	let requestStep: RequestStep = 'start';
 	let username: string;
+
+	async function registration() {
+		goto('/inscription');
+	}
 
 	async function handleSubmit() {
 		const { protocol, host } = window.location;
@@ -43,7 +49,7 @@
 			<div class="flex flex-col gap-6">
 				<div class="text-sm font-bold">Vous n’êtes pas encore inscrit ?</div>
 				<div>
-					<Button outline={true}>Je m'inscris</Button>
+					<Button outline={true} on:click={registration}>Je m'inscris</Button>
 				</div>
 			</div>
 		</div>
