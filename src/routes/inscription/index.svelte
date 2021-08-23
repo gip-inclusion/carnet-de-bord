@@ -65,6 +65,7 @@
 		!!ar.email &&
 		!!ar.position &&
 		!!ar.username;
+
 	$: disableSubmission =
 		requestStep === 'error' || !structure || !isAccountRequestValid(accountRequest);
 
@@ -130,7 +131,7 @@
 					<div>
 						<ProFormInfo
 							on:submit={handleSubmit}
-							account={accountRequest}
+							bind:account={accountRequest}
 							fieldErrors={errors}
 							confirmText="Je valide mon inscription"
 							disabled={disableSubmission}
