@@ -2851,36 +2851,29 @@ export type SearchBeneficiariesQuery = {
 	}>;
 };
 
-export type UpdateNotebookVisitDateMutationVariables = Exact<{
+export type GetNotebookQueryVariables = Exact<{
 	beneficiaryId: Scalars['uuid'];
-	notebookVisitDate: Scalars['timestamptz'];
 }>;
 
-export type UpdateNotebookVisitDateMutation = {
-	__typename?: 'mutation_root';
-	update_notebook_member?: Maybe<{
-		__typename?: 'notebook_member_mutation_response';
-		returning: Array<{
-			__typename?: 'notebook_member';
-			notebook: {
-				__typename?: 'notebook';
-				beneficiary: {
-					__typename?: 'beneficiary';
-					address1?: Maybe<string>;
-					address2?: Maybe<string>;
-					cafNumber?: Maybe<string>;
-					city?: Maybe<string>;
-					dateOfBirth: any;
-					email: string;
-					firstname: string;
-					id: any;
-					lastname: string;
-					mobileNumber?: Maybe<string>;
-					peNumber?: Maybe<string>;
-					postalCode?: Maybe<string>;
-				};
-			};
-		}>;
+export type GetNotebookQuery = {
+	__typename?: 'query_root';
+	notebook: Array<{
+		__typename?: 'notebook';
+		beneficiary: {
+			__typename?: 'beneficiary';
+			address1?: Maybe<string>;
+			address2?: Maybe<string>;
+			cafNumber?: Maybe<string>;
+			city?: Maybe<string>;
+			dateOfBirth: any;
+			email: string;
+			firstname: string;
+			id: any;
+			lastname: string;
+			mobileNumber?: Maybe<string>;
+			peNumber?: Maybe<string>;
+			postalCode?: Maybe<string>;
+		};
 	}>;
 };
 
@@ -3575,13 +3568,13 @@ export const SearchBeneficiariesDocument = {
 		}
 	]
 } as unknown as DocumentNode<SearchBeneficiariesQuery, SearchBeneficiariesQueryVariables>;
-export const UpdateNotebookVisitDateDocument = {
+export const GetNotebookDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'updateNotebookVisitDate' },
+			operation: 'query',
+			name: { kind: 'Name', value: 'getNotebook' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -3590,14 +3583,6 @@ export const UpdateNotebookVisitDateDocument = {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
 					}
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookVisitDate' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
-					}
 				}
 			],
 			selectionSet: {
@@ -3605,7 +3590,7 @@ export const UpdateNotebookVisitDateDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_member' },
+						name: { kind: 'Name', value: 'notebook' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -3615,25 +3600,16 @@ export const UpdateNotebookVisitDateDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook' },
+											name: { kind: 'Name', value: 'beneficiaryId' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'beneficiaryId' },
+														name: { kind: 'Name', value: '_eq' },
 														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'beneficiaryId' }
-																	}
-																}
-															]
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'beneficiaryId' }
 														}
 													}
 												]
@@ -3644,20 +3620,8 @@ export const UpdateNotebookVisitDateDocument = {
 							},
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookVisitDate' },
-											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'notebookVisitDate' }
-											}
-										}
-									]
-								}
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'IntValue', value: '1' }
 							}
 						],
 						selectionSet: {
@@ -3665,40 +3629,22 @@ export const UpdateNotebookVisitDateDocument = {
 							selections: [
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'returning' },
+									name: { kind: 'Name', value: 'beneficiary' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'notebook' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'beneficiary' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
-																]
-															}
-														}
-													]
-												}
-											}
+											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
 										]
 									}
 								}
@@ -3709,10 +3655,7 @@ export const UpdateNotebookVisitDateDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<
-	UpdateNotebookVisitDateMutation,
-	UpdateNotebookVisitDateMutationVariables
->;
+} as unknown as DocumentNode<GetNotebookQuery, GetNotebookQueryVariables>;
 export const GetStructuresDocument = {
 	kind: 'Document',
 	definitions: [

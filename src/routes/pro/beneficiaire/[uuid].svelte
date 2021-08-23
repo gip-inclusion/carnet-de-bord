@@ -1,18 +1,14 @@
 <script context="module" lang="ts">
 	import type { OperationStore } from '@urql/svelte';
-	import type {
-		Beneficiary,
-		UpdateNotebookVisitDateMutation
-	} from '$lib/_gen/typed-document-nodes';
-	import { UpdateNotebookVisitDateDocument } from '$lib/_gen/typed-document-nodes';
+	import type { Beneficiary, GetNotebookQuery } from '$lib/_gen/typed-document-nodes';
+	import { GetNotebookDocument } from '$lib/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = ({ page }) => {
 		const id = page.params.uuid;
-		const result = operationStore(UpdateNotebookVisitDateDocument, {
-			beneficiaryId: id,
-			notebookVisitDate: new Date()
+		const result = operationStore(GetNotebookDocument, {
+			beneficiaryId: id
 		});
 		return {
 			props: {
@@ -27,12 +23,11 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button, Select, SearchBar, Table } from '$lib/ui/base';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
-	export let result: OperationStore<UpdateNotebookVisitDateMutation, Beneficiary>;
+	export let result: OperationStore<GetNotebookQuery, Beneficiary>;
 
 	query(result);
 
-	$: beneficiary = $result.data?.update_notebook_member.returning[0].notebook
-		.beneficiary as Beneficiary;
+	$: beneficiary = $result.data?.notebook[0].beneficiary as Beneficiary;
 
 	let search = '';
 	let selectedPeriod: Option | null;
