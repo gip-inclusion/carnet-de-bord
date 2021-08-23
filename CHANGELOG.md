@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.1...v1.3.2) (2021-08-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @urql/core to ^2.3.0 ([#79](https://github.com/SocialGouv/carnet-de-bord/issues/79)) ([1f8f754](https://github.com/SocialGouv/carnet-de-bord/commit/1f8f7540214403692ebd7fcf191c3af3c7876fe9))
+
 ## [1.3.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.0...v1.3.1) (2021-08-20)
 
 ### Bug Fixes
