@@ -11,25 +11,25 @@ configuration:
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
-  - name: admin
-    using:
-      foreign_key_constraint_on: admin_id
-  - name: beneficiary
-    using:
-      foreign_key_constraint_on: beneficiary_id
-  - name: professional
-    using:
-      foreign_key_constraint_on: professional_id
+- name: admin
+  using:
+    foreign_key_constraint_on: admin_id
+- name: beneficiary
+  using:
+    foreign_key_constraint_on: beneficiary_id
+- name: professional
+  using:
+    foreign_key_constraint_on: professional_id
 select_permissions:
-  - permission:
-      columns:
-        - beneficiary_id
-        - confirmed
-        - id
-        - onboarding_done
-        - professional_id
-        - username
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-    role: professional
+- permission:
+    columns:
+    - beneficiary_id
+    - confirmed
+    - id
+    - onboarding_done
+    - professional_id
+    - username
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: professional

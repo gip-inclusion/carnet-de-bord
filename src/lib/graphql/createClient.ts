@@ -19,7 +19,9 @@ export default (session: any) => {
 					headers: { authorization: token ? `Bearer ${token}` : '' }
 				};
 			}
-			return {};
+			return {
+				headers: { 'X-Hasura-Role': 'anonymous' }
+			};
 		}
 	});
 };

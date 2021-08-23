@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 function redirectUrl(page: any, session: any): string | null {
-	if (page.path === '/healthz') {
+	if (['/healthz', '/inscription'].includes(page.path)) {
 		return null;
 	}
 	if (!session.user && !page.path.startsWith('/auth')) {
