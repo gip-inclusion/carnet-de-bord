@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.4...v1.3.5) (2021-08-23)
+
+
+### Bug Fixes
+
+* **inscription:** handle anonymous role ([944f6a4](https://github.com/SocialGouv/carnet-de-bord/commit/944f6a4750987bb7fec6502a8f9c267da928cbff))
+
 ## [1.3.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.3...v1.3.4) (2021-08-23)
 
 
