@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.3...v1.3.4) (2021-08-23)
+
+
+### Bug Fixes
+
+* **pro:** use query to load beneficiary data ([77a9c2e](https://github.com/SocialGouv/carnet-de-bord/commit/77a9c2e1cd29698b7c03059f8cc767543c1c2cb5))
+
 ## [1.3.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.2...v1.3.3) (2021-08-23)
 
 
