@@ -2729,100 +2729,126 @@ export type Uuid_Comparison_Exp = {
 
 export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAccountsSummaryQuery = { __typename?: 'query_root' } & {
-	proConfirmed: Array<
-		{ __typename?: 'account' } & Pick<Account, 'id'> & {
-				professional?: Maybe<
-					{ __typename?: 'professional' } & Pick<
-						Professional,
-						'id' | 'firstname' | 'lastname' | 'position'
-					> & { structure: { __typename?: 'structure' } & Pick<Structure, 'name'> }
-				>;
-			}
-	>;
-	proUnconfirmed: Array<
-		{ __typename?: 'account' } & Pick<Account, 'id'> & {
-				professional?: Maybe<
-					{ __typename?: 'professional' } & Pick<
-						Professional,
-						'id' | 'firstname' | 'lastname' | 'position'
-					> & { structure: { __typename?: 'structure' } & Pick<Structure, 'name'> }
-				>;
-			}
-	>;
-	beneficiaryConfirmed: Array<
-		{ __typename?: 'account' } & Pick<Account, 'id'> & {
-				beneficiary?: Maybe<
-					{ __typename?: 'beneficiary' } & Pick<Beneficiary, 'id' | 'firstname' | 'lastname'>
-				>;
-			}
-	>;
-	beneficiaryUnconfirmed: Array<
-		{ __typename?: 'account' } & Pick<Account, 'id'> & {
-				beneficiary?: Maybe<
-					{ __typename?: 'beneficiary' } & Pick<Beneficiary, 'id' | 'firstname' | 'lastname'>
-				>;
-			}
-	>;
+export type GetAccountsSummaryQuery = {
+	__typename?: 'query_root';
+	proConfirmed: Array<{
+		__typename?: 'account';
+		id: any;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			id: any;
+			firstname: string;
+			lastname: string;
+			position?: Maybe<string>;
+			structure: { __typename?: 'structure'; name?: Maybe<string> };
+		}>;
+	}>;
+	proUnconfirmed: Array<{
+		__typename?: 'account';
+		id: any;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			id: any;
+			firstname: string;
+			lastname: string;
+			position?: Maybe<string>;
+			structure: { __typename?: 'structure'; name?: Maybe<string> };
+		}>;
+	}>;
+	beneficiaryConfirmed: Array<{
+		__typename?: 'account';
+		id: any;
+		beneficiary?: Maybe<{
+			__typename?: 'beneficiary';
+			id: any;
+			firstname: string;
+			lastname: string;
+		}>;
+	}>;
+	beneficiaryUnconfirmed: Array<{
+		__typename?: 'account';
+		id: any;
+		beneficiary?: Maybe<{
+			__typename?: 'beneficiary';
+			id: any;
+			firstname: string;
+			lastname: string;
+		}>;
+	}>;
 };
 
 export type GetAccountQueryVariables = Exact<{
 	accountId: Scalars['uuid'];
 }>;
 
-export type GetAccountQuery = { __typename?: 'query_root' } & {
-	account_by_pk?: Maybe<
-		{ __typename?: 'account' } & Pick<Account, 'confirmed' | 'username'> & {
-				onboardingDone: Account['onboarding_done'];
-			} & {
-				professional?: Maybe<
-					{ __typename?: 'professional' } & Pick<
-						Professional,
-						'firstname' | 'lastname' | 'mobileNumber' | 'email' | 'position'
-					>
-				>;
-			}
-	>;
+export type GetAccountQuery = {
+	__typename?: 'query_root';
+	account_by_pk?: Maybe<{
+		__typename?: 'account';
+		confirmed: boolean;
+		username: string;
+		onboardingDone?: Maybe<boolean>;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			mobileNumber?: Maybe<string>;
+			email: string;
+			position?: Maybe<string>;
+		}>;
+	}>;
 };
 
 export type GetLastVisitedOrUpdatedQueryVariables = Exact<{
 	professionalId: Scalars['uuid'];
 }>;
 
-export type GetLastVisitedOrUpdatedQuery = { __typename?: 'query_root' } & {
-	lastVisited: Array<
-		{ __typename?: 'notebook_member' } & {
-			notebook: { __typename?: 'notebook' } & {
-				beneficiary: { __typename?: 'beneficiary' } & Pick<
-					Beneficiary,
-					'id' | 'firstname' | 'lastname' | 'mobileNumber' | 'dateOfBirth'
-				>;
+export type GetLastVisitedOrUpdatedQuery = {
+	__typename?: 'query_root';
+	lastVisited: Array<{
+		__typename?: 'notebook_member';
+		notebook: {
+			__typename?: 'notebook';
+			beneficiary: {
+				__typename?: 'beneficiary';
+				id: any;
+				firstname: string;
+				lastname: string;
+				mobileNumber?: Maybe<string>;
+				dateOfBirth: any;
 			};
-		}
-	>;
-	lastUpdated: Array<
-		{ __typename?: 'notebook_member' } & {
-			notebook: { __typename?: 'notebook' } & {
-				beneficiary: { __typename?: 'beneficiary' } & Pick<
-					Beneficiary,
-					'id' | 'firstname' | 'lastname' | 'mobileNumber' | 'dateOfBirth'
-				>;
+		};
+	}>;
+	lastUpdated: Array<{
+		__typename?: 'notebook_member';
+		notebook: {
+			__typename?: 'notebook';
+			beneficiary: {
+				__typename?: 'beneficiary';
+				id: any;
+				firstname: string;
+				lastname: string;
+				mobileNumber?: Maybe<string>;
+				dateOfBirth: any;
 			};
-		}
-	>;
+		};
+	}>;
 };
 
 export type SearchBeneficiariesQueryVariables = Exact<{
 	filter?: Maybe<Scalars['String']>;
 }>;
 
-export type SearchBeneficiariesQuery = { __typename?: 'query_root' } & {
-	beneficiary: Array<
-		{ __typename?: 'beneficiary' } & Pick<
-			Beneficiary,
-			'dateOfBirth' | 'firstname' | 'id' | 'lastname' | 'mobileNumber'
-		>
-	>;
+export type SearchBeneficiariesQuery = {
+	__typename?: 'query_root';
+	beneficiary: Array<{
+		__typename?: 'beneficiary';
+		dateOfBirth: any;
+		firstname: string;
+		id: any;
+		lastname: string;
+		mobileNumber?: Maybe<string>;
+	}>;
 };
 
 export type UpdateNotebookVisitDateMutationVariables = Exact<{
@@ -2830,52 +2856,51 @@ export type UpdateNotebookVisitDateMutationVariables = Exact<{
 	notebookVisitDate: Scalars['timestamptz'];
 }>;
 
-export type UpdateNotebookVisitDateMutation = { __typename?: 'mutation_root' } & {
-	update_notebook_member?: Maybe<
-		{ __typename?: 'notebook_member_mutation_response' } & {
-			returning: Array<
-				{ __typename?: 'notebook_member' } & {
-					notebook: { __typename?: 'notebook' } & {
-						beneficiary: { __typename?: 'beneficiary' } & Pick<
-							Beneficiary,
-							| 'address1'
-							| 'address2'
-							| 'cafNumber'
-							| 'city'
-							| 'dateOfBirth'
-							| 'email'
-							| 'firstname'
-							| 'id'
-							| 'lastname'
-							| 'mobileNumber'
-							| 'peNumber'
-							| 'postalCode'
-						>;
-					};
-				}
-			>;
-		}
-	>;
+export type UpdateNotebookVisitDateMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?: Maybe<{
+		__typename?: 'notebook_member_mutation_response';
+		returning: Array<{
+			__typename?: 'notebook_member';
+			notebook: {
+				__typename?: 'notebook';
+				beneficiary: {
+					__typename?: 'beneficiary';
+					address1?: Maybe<string>;
+					address2?: Maybe<string>;
+					cafNumber?: Maybe<string>;
+					city?: Maybe<string>;
+					dateOfBirth: any;
+					email: string;
+					firstname: string;
+					id: any;
+					lastname: string;
+					mobileNumber?: Maybe<string>;
+					peNumber?: Maybe<string>;
+					postalCode?: Maybe<string>;
+				};
+			};
+		}>;
+	}>;
 };
 
 export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetStructuresQuery = { __typename?: 'query_root' } & {
-	structure: Array<
-		{ __typename?: 'structure' } & Pick<
-			Structure,
-			| 'id'
-			| 'siret'
-			| 'name'
-			| 'shortDesc'
-			| 'phone'
-			| 'email'
-			| 'postalCode'
-			| 'city'
-			| 'address1'
-			| 'address2'
-		>
-	>;
+export type GetStructuresQuery = {
+	__typename?: 'query_root';
+	structure: Array<{
+		__typename?: 'structure';
+		id: any;
+		siret?: Maybe<string>;
+		name?: Maybe<string>;
+		shortDesc?: Maybe<string>;
+		phone?: Maybe<string>;
+		email?: Maybe<string>;
+		postalCode?: Maybe<string>;
+		city?: Maybe<string>;
+		address1?: Maybe<string>;
+		address2?: Maybe<string>;
+	}>;
 };
 
 export const GetAccountsSummaryDocument = {
