@@ -10,52 +10,52 @@ configuration:
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
-- name: notebook
-  using:
-    foreign_key_constraint_on: notebook_id
-- name: professional
-  using:
-    foreign_key_constraint_on: professional_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check:
-      notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
-    columns:
-    - id
-    - member_type
-    - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
-    - professional_id
-  role: professional
+  - permission:
+      backend_only: false
+      check:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+      columns:
+        - id
+        - member_type
+        - notebook_id
+        - notebook_modification_date
+        - notebook_visit_date
+        - professional_id
+    role: professional
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - member_type
-    - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
-    - professional_id
-    filter:
-      notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      allow_aggregations: true
+      columns:
+        - id
+        - member_type
+        - notebook_id
+        - notebook_modification_date
+        - notebook_visit_date
+        - professional_id
+      filter:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+    role: professional
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - member_type
-    - notebook_modification_date
-    - notebook_visit_date
-    filter:
-      professional_id:
-        _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      check: null
+      columns:
+        - member_type
+        - notebook_modification_date
+        - notebook_visit_date
+      filter:
+        professional_id:
+          _eq: X-Hasura-Professional-Id
+    role: professional

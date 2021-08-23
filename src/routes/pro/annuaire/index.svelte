@@ -14,7 +14,7 @@
 		const queryOptions = search
 			? {
 					filter: `%${search}%`
-				}
+			  }
 			: {};
 		const result = operationStore(SearchBeneficiariesDocument, queryOptions);
 

@@ -138,8 +138,8 @@ export default async () => {
 
 	/* pass dynamic deployment URL as env var to the container */
 	const frontendUrl = new EnvVar({
-		name: "APP_URL",
-		value: `https://${getIngressHost(manifests)}`,
+		name: 'APP_URL',
+		value: `https://${getIngressHost(manifests)}`
 	});
 
 	addEnv({ data: frontendUrl, deployment });

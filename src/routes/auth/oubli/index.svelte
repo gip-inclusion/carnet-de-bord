@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { RequestStep } from "$lib/types";
+	import type { RequestStep } from '$lib/types';
 	import { Button, Input } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
 
