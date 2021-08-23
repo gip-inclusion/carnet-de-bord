@@ -1,44 +1,21 @@
-import { getGraphqlAPI } from '$lib/config/variables/public';
-import { createClient } from '@urql/svelte';
-
 import 'remixicon/fonts/remixicon.css';
 import '../app.postcss';
 import '@gouvfr/dsfr/dist/css/dsfr.min.css';
 import type { LoadInput, LoadOutput } from '@sveltejs/kit';
+import createClient from './graphql/createClient';
+import redirectUrl from './utils/redirectUrl';
 
-function getToken(session: { token?: string }) {
-	return session.token;
-}
-export async function load({ page, fetch, session }: LoadInput): Promise<LoadOutput> {
-	const graphqlAPI = session.graphqlAPI ? session.graphqlAPI : getGraphqlAPI();
-	if (page.path === '/healthz') {
-		return {};
-	}
-	if (!session.user && !page.path.startsWith('/auth')) {
+export async function load({ page, session }: LoadInput): Promise<LoadOutput> {
+	const redirect = redirectUrl(page, session);
+
+	if (redirect) {
 		return {
 			status: 302,
-			redirect: '/auth/login'
+			redirect
 		};
 	}
-	if (session.user && page.path.startsWith('/auth')) {
-		return {
-			status: 302,
-			redirect: '/'
-		};
-	}
-	const client = createClient({
-		url: graphqlAPI,
-		fetch,
-		fetchOptions: () => {
-			const token = getToken(session);
-			if (token) {
-				return {
-					headers: { authorization: token ? `Bearer ${token}` : '' }
-				};
-			}
-			return {};
-		}
-	});
+
+	const client = createClient(session);
 
 	return {
 		props: { client }

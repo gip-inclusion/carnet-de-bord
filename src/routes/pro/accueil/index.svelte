@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import { goto } from '$app/navigation';
 	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
-	import type { GetLastVisitedOrUpdatedQuery } from '$lib/_gen/typed-document-nodes';
-	import { GetLastVisitedOrUpdatedDocument } from '$lib/_gen/typed-document-nodes';
+	import type { GetLastVisitedOrUpdatedQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetLastVisitedOrUpdatedDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';

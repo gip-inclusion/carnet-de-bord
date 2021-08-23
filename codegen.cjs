@@ -11,7 +11,7 @@ module.exports = {
 	documents: ['src/**/*.gql'],
 	overwrite: true,
 	generates: {
-		'./src/lib/_gen/typed-document-nodes.ts': {
+		'./src/lib/graphql/_gen/typed-document-nodes.ts': {
 			plugins: ['typescript', 'typescript-operations', 'typed-document-node']
 		}
 	},

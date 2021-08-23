@@ -3,8 +3,11 @@
 	import { Select, Button, Table, Link } from '$lib/ui/base';
 	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import type { Beneficiary, SearchBeneficiariesQuery } from '$lib/_gen/typed-document-nodes';
-	import { SearchBeneficiariesDocument } from '$lib/_gen/typed-document-nodes';
+	import type {
+		Beneficiary,
+		SearchBeneficiariesQuery
+	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { SearchBeneficiariesDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';

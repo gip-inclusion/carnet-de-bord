@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import { post } from '$lib/utils/post';
 	import { displayFullName } from '$lib/ui/format';
-	import type { GetAccountsSummaryQuery } from '$lib/_gen/typed-document-nodes';
-	import { GetAccountsSummaryDocument } from '$lib/_gen/typed-document-nodes';
+	import type { GetAccountsSummaryQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetAccountsSummaryDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';

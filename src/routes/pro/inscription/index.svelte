@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { GetStructuresQuery } from '$lib/_gen/typed-document-nodes';
-	import { GetStructuresDocument } from '$lib/_gen/typed-document-nodes';
+	import type { GetStructuresQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetStructuresDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';

@@ -2,8 +2,8 @@
 	import { account } from '$lib/../stores';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import type { GetAccountQuery } from '$lib/_gen/typed-document-nodes';
-	import { GetAccountDocument } from '$lib/_gen/typed-document-nodes';
+	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';

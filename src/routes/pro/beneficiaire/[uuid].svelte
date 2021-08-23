@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { OperationStore } from '@urql/svelte';
-	import type { Beneficiary, GetNotebookQuery } from '$lib/_gen/typed-document-nodes';
-	import { GetNotebookDocument } from '$lib/_gen/typed-document-nodes';
+	import type { Beneficiary, GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetNotebookDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
 
