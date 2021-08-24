@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isCurrentRoute } from '../../../routes/routes';
+	import { isCurrentRoute } from '$lib/routes';
 	import Link from './Link.svelte';
 	type MenuItem = {
 		name: string;

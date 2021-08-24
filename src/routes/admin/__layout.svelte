@@ -3,7 +3,7 @@
 
 	import { Breadcrumbs } from '$lib/ui/base';
 	import { page } from '$app/stores';
-	import { getSegments } from '../../routes/routes';
+	import { getSegments } from '$lib/routes';
 	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
 
 	const menuItems: MenuItem[] = [

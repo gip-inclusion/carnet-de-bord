@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Segment } from '$routes/routes';
+	import type { Segment } from '$lib/routes';
 	let counter = 0;
 </script>
 

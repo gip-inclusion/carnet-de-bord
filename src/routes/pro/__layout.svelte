@@ -24,7 +24,7 @@
 	import type { MenuItem } from '$lib/ui/base/types';
 
 	import { Breadcrumbs } from '$lib/ui/base';
-	import { getSegments } from '../../routes/routes';
+	import { getSegments } from '$lib/routes';
 	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
 
 	export let result: OperationStore<GetAccountQuery>;

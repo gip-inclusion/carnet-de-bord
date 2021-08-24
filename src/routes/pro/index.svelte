@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { homeForRole } from '../routes';
+	import { homeForRole } from '$lib/routes';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
