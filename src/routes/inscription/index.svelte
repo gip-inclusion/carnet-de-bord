@@ -24,6 +24,7 @@
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
 
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import { goto } from '$app/navigation';
 
 	export let result: OperationStore<GetStructuresQuery>;
 
@@ -87,6 +88,10 @@
 		}
 	}
 
+	function handleCancel() {
+		goto('/auth/login');
+	}
+
 	function resetForm() {
 		requestStep = 'start';
 	}
@@ -134,6 +139,7 @@
 							confirmText="Je valide mon inscription"
 							disabled={disableSubmission}
 							onInput={resetForm}
+							on:cancel={handleCancel}
 						/>
 					</div>
 				</div>
