@@ -1,8 +1,8 @@
-- "!include public_account.yaml"
-- "!include public_admin.yaml"
-- "!include public_beneficiary.yaml"
-- "!include public_notebook.yaml"
-- "!include public_notebook_event.yaml"
-- "!include public_notebook_member.yaml"
-- "!include public_professional.yaml"
-- "!include public_structure.yaml"
+- '!include public_account.yaml'
+- '!include public_admin.yaml'
+- '!include public_beneficiary.yaml'
+- '!include public_notebook.yaml'
+- '!include public_notebook_event.yaml'
+- '!include public_notebook_member.yaml'
+- '!include public_professional.yaml'
+- '!include public_structure.yaml'
