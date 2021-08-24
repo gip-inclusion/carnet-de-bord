@@ -1,6 +1,6 @@
 import knex from '$lib/config/db/knex';
 import { sendEmail } from '$lib/utils/sendEmail';
-import { emailMagicLink } from '$lib/utils/emailMagicLink';
+import { emailMagicLink } from '$lib/utils/emailLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
 import { getAppUrl } from '$lib/config/variables/private';
