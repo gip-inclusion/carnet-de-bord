@@ -18,7 +18,7 @@ const adminHome: Route = {
 	path: '/admin'
 };
 const beneficiaryHome: Route = {
-	path: '/beneficiary'
+	path: '/part'
 };
 const homes: Record<string, Route> = {
 	professional: proHome,
@@ -35,6 +35,20 @@ export const routes = {
 
 export const homeForRole = (role: string): string => {
 	return (homes[role] || login).path;
+};
+
+export const baseUrlForRole = (role: string): string => {
+	if (!role) {
+		return '/';
+	}
+	if (role === 'professional') {
+		return '/pro';
+	} else if (role === 'admin') {
+		return '/admin';
+	} else if (role === 'beneficiary') {
+		return '/part';
+	}
+	throw new Error(`role ${role} is not handled!`);
 };
 
 export const isCurrentRoute = (currentPath: string, route: string): boolean => {

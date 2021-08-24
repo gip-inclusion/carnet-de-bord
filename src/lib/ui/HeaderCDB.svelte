@@ -10,7 +10,7 @@
 	import Button from './base/Button.svelte';
 	import { post } from '$lib/utils/post';
 	import { goto } from '$app/navigation';
-	import { homeForRole } from '$lib/routes';
+	import { baseUrlForRole } from '$lib/routes';
 
 	export let menuItems: MenuItem[];
 
@@ -26,7 +26,7 @@
 	<span slot="quickAccessRight">
 		{#if $session.user}
 			<div class="flex flex-row gap-2 align-items-center">
-				<Link href={`${homeForRole($session.user.role)}/moncompte`}>
+				<Link href={`${baseUrlForRole($session.user.role)}/moncompte`}>
 					<span class="bf-500 fr-fi-account-line" aria-hidden="true" />
 				</Link>
 				<Button classNames="self-center" outline={true} on:click={logout}>Déconnexion</Button>
