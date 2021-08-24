@@ -39,8 +39,7 @@
 	async function confirmAccount(id: string) {
 		if (!inFlight) {
 			inFlight = true;
-			const { protocol, host } = window.location;
-			await post(`/admin/confirmPro`, { id, appUrl: `${protocol}//${host}` });
+			await post(`/admin/confirmPro`, { id });
 			inFlight = false;
 			$result.reexecute({ requestPolicy: 'network-only' });
 		}

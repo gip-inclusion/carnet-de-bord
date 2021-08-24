@@ -3,12 +3,14 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
 import { sendEmail } from '$lib/utils/sendEmail';
 import { emailMagicLink } from '$lib/utils/emailMagicLink';
+import { getAppUrl } from '$lib/config/variables/private';
 
 export const post: RequestHandler = async (request) => {
-	const { id, appUrl } = request.body as unknown as {
+	const { id } = request.body as unknown as {
 		id: string;
-		appUrl: string;
 	};
+
+	const appUrl = getAppUrl();
 
 	const account = (await knex('account').where({ id }).first()) as {
 		id: string;

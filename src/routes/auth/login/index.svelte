@@ -13,8 +13,7 @@
 	}
 
 	async function handleSubmit() {
-		const { protocol, host } = window.location;
-		const response = await post('/auth/login', { username, appUrl: `${protocol}//${host}` });
+		const response = await post('/auth/login', { username });
 		if (response.status === 401) {
 			requestStep = 'error';
 		}

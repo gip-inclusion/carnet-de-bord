@@ -6,6 +6,10 @@ export function getDatabaseUrl(): string {
 	return process.env['DATABASE_URL'] || process.env['HASURA_GRAPHQL_DATABASE_URL'];
 }
 
+export function getAppUrl(): string {
+	return process.env['APP_URL'];
+}
+
 export function getSmtpConfig(): {
 	SMTP_FROM: string;
 	SMTP_HOST: string;

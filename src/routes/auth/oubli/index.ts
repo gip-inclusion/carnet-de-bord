@@ -3,15 +3,15 @@ import { sendEmail } from '$lib/utils/sendEmail';
 import { emailMagicLink } from '$lib/utils/emailMagicLink';
 import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
+import { getAppUrl } from '$lib/config/variables/private';
 
 const types = ['professional', 'beneficiary', 'admin'] as const;
 
 export type Profile = typeof types[number];
 
 export const post: RequestHandler = async (request) => {
-	const { email, appUrl } = request.body as unknown as {
+	const { email } = request.body as unknown as {
 		email: string;
-		appUrl: string;
 	};
 
 	let profile, type;
@@ -62,6 +62,8 @@ export const post: RequestHandler = async (request) => {
 	await knex('account')
 		.update({ access_key: accessKey, access_key_date: new Date() })
 		.where({ id: account.id });
+
+	const appUrl = getAppUrl();
 
 	// send email
 	sendEmail({

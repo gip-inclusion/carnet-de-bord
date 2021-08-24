@@ -72,11 +72,9 @@
 	let errors: AccountRequest = {};
 
 	async function handleSubmit() {
-		const { protocol, host } = window.location;
-		const response = await post('/admin/requestPro', {
+		const response = await post('/inscription/request', {
 			accountRequest,
-			structureId: structure.id,
-			appUrl: `${protocol}//${host}`
+			structureId: structure.id
 		});
 
 		if (response.status === 400) {
