@@ -1,9 +1,9 @@
 <script context="module" lang="ts">
 	import { post } from '$lib/utils/post';
-	import { account } from '$lib/../stores';
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
 	import type { Account, AccountRequest, RequestStep } from '$lib/types';
 	import { Alert } from '$lib/ui/base';
+	import { account } from '$lib/stores';
 </script>
 
 <script lang="ts">

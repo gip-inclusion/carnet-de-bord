@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { account } from '$lib/../stores';
+	import { account } from '$lib/stores';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
