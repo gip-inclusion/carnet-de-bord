@@ -59,7 +59,7 @@
 		"prettier-plugin-svelte": "^2.3.1",
 		"remixicon": "^2.5.0",
 		"svelte": "3.42.2",
-		"svelte-check": "^2.2.4",
+		"svelte-check": "^2.2.5",
 		"svelte-preprocess": "^4.7.4",
 		"tailwindcss": "^2.2.7",
 		"tslib": "^2.3.1",
