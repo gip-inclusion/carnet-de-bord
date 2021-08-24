@@ -1,23 +1,15 @@
 <script context="module" lang="ts">
-	import { session } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import { post } from '$lib/utils/post';
 	import { account } from '$lib/../stores';
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
 	import type { Account, AccountRequest, RequestStep } from '$lib/types';
-	import { Alert, Button } from '$lib/ui/base';
+	import { Alert } from '$lib/ui/base';
 </script>
 
 <script lang="ts">
 	let error: string | null;
 	let result: RequestStep = 'start';
 	let cleanedAccount: AccountRequest;
-
-	async function logout() {
-		await post(`/auth/logout`, {});
-		$session.user = null;
-		goto('/');
-	}
 
 	async function handleSubmit() {
 		if (result === 'start') {
@@ -77,14 +69,9 @@
 
 <div class="flex flex-col space-y-8 px-40">
 	{#if cleanedAccount}
-		<div class="flex flex-row flex-grow">
-			<h1 class="fr-h2">
-				{onboardingDone ? 'Mon compte' : 'Première connexion à Carnet de bord'}
-			</h1>
-			<div class="ml-auto flex flex-row">
-				<Button classNames="self-center" outline={true} on:click={logout}>Déconnexion</Button>
-			</div>
-		</div>
+		<h1 class="fr-h2">
+			{onboardingDone ? 'Mon compte' : 'Première connexion à Carnet de bord'}
+		</h1>
 		{#if !onboardingDone}
 			<p>
 				Bienvenue sur Carnet de bord ! Pour cette première connexion, nous vous invitons à vérifier
