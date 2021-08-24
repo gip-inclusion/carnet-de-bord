@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.5...v1.3.6) (2021-08-24)
+
+
+### Bug Fixes
+
+* **moncompte:** redirect to the right page ([cb596bc](https://github.com/SocialGouv/carnet-de-bord/commit/cb596bcb8666cb82fc5ae761f1c1b969a67106a8))
+
 ## [1.3.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.4...v1.3.5) (2021-08-23)
 
 ### Bug Fixes
