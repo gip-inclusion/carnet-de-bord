@@ -15,6 +15,9 @@ export interface InputItem {
 	hint: string;
 	label: string;
 	key: string;
+	type?: InputType;
 }
+
+export type InputType = 'email' | 'text' | 'password' | 'number';
 
 export type RequestStep = 'start' | 'success' | 'error';

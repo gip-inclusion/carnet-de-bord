@@ -3,6 +3,8 @@
 </script>
 
 <script lang="ts">
+	import type { InputType } from '$lib/types';
+
 	counter++;
 	let uniqueId = `text-input-text-${counter}`;
 	export let id: string | null = `text-input-${counter}`;
@@ -10,6 +12,7 @@
 	export let additionalLabel: string | null = '';
 	export let inputHint: string | null = '';
 	export let val: string | null;
+	export let type: InputType = 'text';
 	export let required: boolean | null = false;
 	export let error: string | null = '';
 	export let valid: string | null = '';
@@ -40,17 +43,57 @@
 			</span>
 		{/if}
 	</label>
-	<input
-		on:input={handleInput}
-		class="fr-input"
-		type="text"
-		placeholder={inputHint}
-		id={uniqueId}
-		name={uniqueId}
-		{required}
-		bind:value={val}
-		{disabled}
-	/>
+	<!-- https://github.com/sveltejs/svelte/issues/3921 -->
+	{#if type === 'text'}
+		<input
+			type="text"
+			on:input={handleInput}
+			class="fr-input"
+			placeholder={inputHint}
+			id={uniqueId}
+			name={uniqueId}
+			{required}
+			bind:value={val}
+			{disabled}
+		/>
+	{:else if type === 'password'}
+		<input
+			type="password"
+			on:input={handleInput}
+			class="fr-input"
+			placeholder={inputHint}
+			id={uniqueId}
+			name={uniqueId}
+			{required}
+			bind:value={val}
+			{disabled}
+		/>
+	{:else if type === 'number'}
+		<input
+			type="number"
+			on:input={handleInput}
+			class="fr-input"
+			placeholder={inputHint}
+			id={uniqueId}
+			name={uniqueId}
+			{required}
+			bind:value={val}
+			{disabled}
+		/>
+	{:else if type === 'email'}
+		<input
+			type="email"
+			on:input={handleInput}
+			class="fr-input"
+			placeholder={inputHint}
+			id={uniqueId}
+			name={uniqueId}
+			{required}
+			bind:value={val}
+			{disabled}
+		/>
+	{/if}
+
 	{#if error}
 		<p id="text-input-error-desc-error" class="fr-error-text">{error}</p>
 	{/if}

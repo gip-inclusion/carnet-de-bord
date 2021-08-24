@@ -1,11 +1,11 @@
 <script context="module" lang="ts">
-	import { default as deepEqual } from 'fast-deep-equal';
-	import type { InputItem, AccountRequest } from '$lib/types';
+	import type { AccountRequest, InputItem } from '$lib/types';
 	import { Button, Input } from '$lib/ui/base';
+	import { default as deepEqual } from 'fast-deep-equal';
+	import { createEventDispatcher } from 'svelte';
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	async function handleSubmit() {
 		dispatch('submit', {});
@@ -24,7 +24,8 @@
 		{
 			label: 'Adresse de courriel',
 			hint: 'Ex : jb@poquelin.fr',
-			key: 'email'
+			key: 'email',
+			type: 'email'
 		},
 		{
 			label: 'Nom',
@@ -70,6 +71,7 @@
 			error={fieldErrors[input.key]}
 			on:input={onInput}
 			disabled={disabledKeys[input.key]}
+			type={input.type}
 		/>
 	{/each}
 	{#if globalError}
