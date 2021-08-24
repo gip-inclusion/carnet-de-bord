@@ -1,4 +1,4 @@
-export function emailLoginRequest({
+export function emailAccountRequestValidate({
 	firstname,
 	lastname,
 	accessKey,
@@ -11,11 +11,11 @@ export function emailLoginRequest({
 }): string {
 	return `<p>Bonjour ${firstname} ${lastname},</p>
 
-  <p>Pour accéder à votre espace Carnet de bord, veuillez cliquer sur le lien ci-dessous:</p>
+  <p>Votre demande d'inscription à carnet de bord a été acceptée :</p>
   &nbsp; &nbsp;
   <p style="padding-left: 20%">
     <a
-      href="${appUrl}/auth/jwt/${accessKey}"
+		href="${appUrl}/auth/jwt/${accessKey}"
       style="
         background-color: #6a20ae;
         font-size: 14px;

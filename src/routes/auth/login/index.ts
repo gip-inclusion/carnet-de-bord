@@ -1,6 +1,6 @@
 import knex from '$lib/config/db/knex';
 import { sendEmail } from '$lib/utils/sendEmail';
-import { emailMagicLink } from '$lib/utils/emailLoginRequest';
+import { emailLoginRequest } from '$lib/utils/emailLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
 import { getAppUrl } from '$lib/config/variables/private';
@@ -60,8 +60,8 @@ export const post: RequestHandler = async (request) => {
 	// send email
 	sendEmail({
 		to: email,
-		subject: 'Accédez à votre espace Carnet de bord',
-		html: emailMagicLink({ firstname, lastname, accessKey, appUrl })
+		subject: 'Accédez à Carnet de bord',
+		html: emailLoginRequest({ firstname, lastname, accessKey, appUrl })
 	});
 
 	return {
