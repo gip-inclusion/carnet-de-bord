@@ -1,6 +1,6 @@
 import knex from '$lib/config/db/knex';
 import { sendEmail } from '$lib/utils/sendEmail';
-import { emailLoginRequest } from '$lib/utils/emailLoginRequest';
+import { emailForgotLoginRequest } from '$lib/utils/emailForgotLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
 import { getAppUrl } from '$lib/config/variables/private';
@@ -42,6 +42,7 @@ export const post: RequestHandler = async (request) => {
 		.where({ [`${type}_id`]: id })
 		.first()) as unknown as {
 		id: string;
+		username: string;
 		type: Profile;
 		beneficiary_id: string;
 		professional_id: string;
@@ -69,7 +70,13 @@ export const post: RequestHandler = async (request) => {
 	sendEmail({
 		to: email,
 		subject: 'Accédez à votre espace Carnet de bord',
-		html: emailLoginRequest({ firstname, lastname, accessKey, appUrl })
+		html: emailForgotLoginRequest({
+			username: account.username,
+			firstname,
+			lastname,
+			accessKey,
+			appUrl
+		})
 	});
 
 	return {
