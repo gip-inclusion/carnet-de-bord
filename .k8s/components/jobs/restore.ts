@@ -47,7 +47,7 @@ const job = new Job({
 						image: 'postgres:10.16',
 						command: ['sh', '-c'],
 						args: [
-							'psql < /mnt/carnet-de-bord/hasura/seeds/carnet_de_bord/1627477977566_seed-data.sql'
+							'psql < /mnt/carnet-de-bord/hasura/seeds/carnet_de_bord/1629710957659_seed-data.sql'
 						],
 						envFrom: [
 							{
