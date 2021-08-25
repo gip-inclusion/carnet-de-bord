@@ -26,31 +26,54 @@
 	import { Breadcrumbs } from '$lib/ui/base';
 	import { getSegments } from '$lib/routes';
 	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	export let result: OperationStore<GetAccountQuery>;
 
 	query(result);
 
-	$: {
-		if ($result.data) {
-			if ($result.data.account_by_pk) {
-				const { __typename, ...cleanedProfile } = $result.data.account_by_pk.professional;
-				$account = {
-					...cleanedProfile,
-					username: $result.data.account_by_pk.username,
-					onboardingDone: $result.data.account_by_pk.onboardingDone,
-					confirmed: $result.data.account_by_pk.confirmed
-				};
-			} else {
-				$account = null;
-			}
+	result.subscribe((result) => {
+		if (result.data) {
+			const acc = result.data.account_by_pk;
+			const { username, onboardingDone, confirmed } = acc;
+			const { firstname, lastname, email, mobileNumber, position } = acc.professional;
+			$account = {
+				username,
+				onboardingDone,
+				confirmed,
+				firstname,
+				lastname,
+				email,
+				mobileNumber,
+				position
+			};
 
-			if (!$result.data.account_by_pk.onboardingDone && $page.path !== '/pro/moncompte') {
-				/* @TODO this causes a navigation error with Svelte, this needs to be checked */
+			if (!onboardingDone && $page.path !== '/pro/moncompte') {
 				goto('/pro/moncompte');
 			}
 		}
-	}
+	});
+
+	// $: {
+	// 	if ($result.data) {
+	// 		if ($result.data.account_by_pk) {
+	// 			const { __typename, ...cleanedProfile } = $result.data.account_by_pk.professional;
+	// 			$account = {
+	// 				...cleanedProfile,
+	// 				username: $result.data.account_by_pk.username,
+	// 				onboardingDone: $result.data.account_by_pk.onboardingDone,
+	// 				confirmed: $result.data.account_by_pk.confirmed
+	// 			};
+	// 		} else {
+	// 			$account = null;
+	// 		}
+
+	// 		if (!$result.data.account_by_pk.onboardingDone && $page.path !== '/pro/moncompte') {
+	// 			/* @TODO this causes a navigation error with Svelte, this needs to be checked */
+	// 			goto('/pro/moncompte');
+	// 		}
+	// 	}
+	// }
 
 	const menuItems: MenuItem[] = [
 		{ id: 'accueil', name: 'accueil', path: '/pro/accueil', label: 'Accueil' },
@@ -64,7 +87,9 @@
 
 <div class="fr-container" style="min-height: calc(100vh - 200px)">
 	<Breadcrumbs {segments} />
-	<slot />
+	<LoaderIndicator {result}>
+		<slot />
+	</LoaderIndicator>
 </div>
 
 <FooterCDB />

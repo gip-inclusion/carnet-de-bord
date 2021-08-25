@@ -1,0 +1,37 @@
+mutation UpdateProfessionalProfile(
+	$firstname: String!
+	$lastname: String!
+	$mobileNumber: String!
+	$position: String!
+	$professionalId: uuid!
+) {
+	updateProfessional: update_professional(
+		_set: {
+			firstname: $firstname
+			lastname: $lastname
+			position: $position
+			mobileNumber: $mobileNumber
+		}
+		where: { id: { _eq: $professionalId } }
+	) {
+		affected_rows
+	}
+	updateAccount: update_account(
+		where: { professionalId: { _eq: $professionalId } }
+		_set: { onboardingDone: true }
+	) {
+		returning {
+			id
+			onboardingDone
+			confirmed
+			username
+			professional {
+				firstname
+				lastname
+				mobileNumber
+				email
+				position
+			}
+		}
+	}
+}

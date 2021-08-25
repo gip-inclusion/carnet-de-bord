@@ -76,7 +76,7 @@ export type Account = {
 	confirmed: Scalars['Boolean'];
 	id: Scalars['uuid'];
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	onboarding_done?: Maybe<Scalars['Boolean']>;
+	onboardingDone?: Maybe<Scalars['Boolean']>;
 	/** An object relationship */
 	professional?: Maybe<Professional>;
 	professionalId?: Maybe<Scalars['uuid']>;
@@ -133,7 +133,7 @@ export type Account_Bool_Exp = {
 	confirmed?: Maybe<Boolean_Comparison_Exp>;
 	id?: Maybe<Uuid_Comparison_Exp>;
 	lastLogin?: Maybe<Timestamptz_Comparison_Exp>;
-	onboarding_done?: Maybe<Boolean_Comparison_Exp>;
+	onboardingDone?: Maybe<Boolean_Comparison_Exp>;
 	professional?: Maybe<Professional_Bool_Exp>;
 	professionalId?: Maybe<Uuid_Comparison_Exp>;
 	type?: Maybe<String_Comparison_Exp>;
@@ -159,7 +159,7 @@ export type Account_Insert_Input = {
 	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	onboarding_done?: Maybe<Scalars['Boolean']>;
+	onboardingDone?: Maybe<Scalars['Boolean']>;
 	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
@@ -247,7 +247,7 @@ export type Account_Order_By = {
 	confirmed?: Maybe<Order_By>;
 	id?: Maybe<Order_By>;
 	lastLogin?: Maybe<Order_By>;
-	onboarding_done?: Maybe<Order_By>;
+	onboardingDone?: Maybe<Order_By>;
 	professional?: Maybe<Professional_Order_By>;
 	professionalId?: Maybe<Order_By>;
 	type?: Maybe<Order_By>;
@@ -276,7 +276,7 @@ export enum Account_Select_Column {
 	/** column name */
 	LastLogin = 'lastLogin',
 	/** column name */
-	OnboardingDone = 'onboarding_done',
+	OnboardingDone = 'onboardingDone',
 	/** column name */
 	ProfessionalId = 'professionalId',
 	/** column name */
@@ -294,7 +294,7 @@ export type Account_Set_Input = {
 	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	onboarding_done?: Maybe<Scalars['Boolean']>;
+	onboardingDone?: Maybe<Scalars['Boolean']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
@@ -317,7 +317,7 @@ export enum Account_Update_Column {
 	/** column name */
 	LastLogin = 'lastLogin',
 	/** column name */
-	OnboardingDone = 'onboarding_done',
+	OnboardingDone = 'onboardingDone',
 	/** column name */
 	ProfessionalId = 'professionalId',
 	/** column name */
@@ -2804,9 +2804,10 @@ export type GetAccountQuery = {
 	__typename?: 'query_root';
 	account_by_pk?: Maybe<{
 		__typename?: 'account';
+		id: any;
+		onboardingDone?: Maybe<boolean>;
 		confirmed: boolean;
 		username: string;
-		onboardingDone?: Maybe<boolean>;
 		professional?: Maybe<{
 			__typename?: 'professional';
 			firstname: string;
@@ -2899,6 +2900,66 @@ export type UpdateNotebookVisitDateMutation = {
 					postalCode?: Maybe<string>;
 				};
 			};
+		}>;
+	}>;
+};
+
+export type GetNotebookQueryVariables = Exact<{
+	beneficiaryId: Scalars['uuid'];
+}>;
+
+export type GetNotebookQuery = {
+	__typename?: 'query_root';
+	notebook: Array<{
+		__typename?: 'notebook';
+		beneficiary: {
+			__typename?: 'beneficiary';
+			address1?: Maybe<string>;
+			address2?: Maybe<string>;
+			cafNumber?: Maybe<string>;
+			city?: Maybe<string>;
+			dateOfBirth: any;
+			email: string;
+			firstname: string;
+			id: any;
+			lastname: string;
+			mobileNumber?: Maybe<string>;
+			peNumber?: Maybe<string>;
+			postalCode?: Maybe<string>;
+		};
+	}>;
+};
+
+export type UpdateProfessionalProfileMutationVariables = Exact<{
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	mobileNumber: Scalars['String'];
+	position: Scalars['String'];
+	professionalId: Scalars['uuid'];
+}>;
+
+export type UpdateProfessionalProfileMutation = {
+	__typename?: 'mutation_root';
+	updateProfessional?: Maybe<{
+		__typename?: 'professional_mutation_response';
+		affected_rows: number;
+	}>;
+	updateAccount?: Maybe<{
+		__typename?: 'account_mutation_response';
+		returning: Array<{
+			__typename?: 'account';
+			id: any;
+			onboardingDone?: Maybe<boolean>;
+			confirmed: boolean;
+			username: string;
+			professional?: Maybe<{
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				mobileNumber?: Maybe<string>;
+				email: string;
+				position?: Maybe<string>;
+			}>;
 		}>;
 	}>;
 };
@@ -3251,11 +3312,8 @@ export const GetAccountDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{
-									kind: 'Field',
-									alias: { kind: 'Name', value: 'onboardingDone' },
-									name: { kind: 'Name', value: 'onboarding_done' }
-								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
 								{
@@ -3615,7 +3673,7 @@ export const UpdateNotebookVisitDateDocument = {
 		{
 			kind: 'OperationDefinition',
 			operation: 'mutation',
-			name: { kind: 'Name', value: 'updateNotebookVisitDate' },
+			name: { kind: 'Name', value: 'UpdateNotebookVisitDate' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -3755,4 +3813,297 @@ export const UpdateNotebookVisitDateDocument = {
 } as unknown as DocumentNode<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
+>;
+export const GetNotebookDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'getNotebook' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'notebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'beneficiaryId' }
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'IntValue', value: '1' }
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<GetNotebookQuery, GetNotebookQueryVariables>;
+export const UpdateProfessionalProfileDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateProfessionalProfile' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateProfessional' },
+						name: { kind: 'Name', value: 'update_professional' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'position' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'position' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'mobileNumber' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professionalId' }
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }]
+						}
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateAccount' },
+						name: { kind: 'Name', value: 'update_account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professionalId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professionalId' }
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'onboardingDone' },
+											value: { kind: 'BooleanValue', value: true }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'position' } }
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<
+	UpdateProfessionalProfileMutation,
+	UpdateProfessionalProfileMutationVariables
 >;

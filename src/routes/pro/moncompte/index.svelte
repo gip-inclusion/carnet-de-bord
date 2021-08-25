@@ -1,30 +1,53 @@
 <script context="module" lang="ts">
-	import { post } from '$lib/utils/post';
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
-	import type { Account, AccountRequest, RequestStep } from '$lib/types';
-	import { Alert } from '$lib/ui/base';
+	import type { Account, AccountRequest } from '$lib/types';
+	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { OperationStore } from '@urql/svelte';
+	import { mutation, operationStore } from '@urql/svelte';
+	import type { Load } from '@sveltejs/kit';
 	import { account } from '$lib/stores';
+
+	export const load: Load = async ({ session }) => {
+		const { professionalId } = session.user;
+
+		const updateProfileResult = operationStore(UpdateProfessionalProfileDocument);
+		return {
+			props: {
+				updateProfileResult,
+				professionalId
+			}
+		};
+	};
 </script>
 
 <script lang="ts">
-	let error: string | null;
-	let result: RequestStep = 'start';
+	import AlertRequestResponse from '$lib/ui/utils/AlertRequestResponse.svelte';
+
+	export let professionalId: string;
+	export let updateProfileResult: OperationStore;
+
 	let cleanedAccount: AccountRequest;
 
+	const updateProfile = mutation(updateProfileResult);
+
 	async function handleSubmit() {
-		if (result === 'start') {
-			const response = await post(`/pro/moncompte`, { account: cleanedAccount });
-			if ([401, 403].includes(response.status)) {
-				const json = await response.json();
-				error = json.errors || {};
-				result = 'error';
-			}
-			if (response.status === 200) {
-				result = 'success';
-				const json = await response.json();
-				const patch = json.patch;
-				$account = { ...$account, ...patch, onboardingDone: true };
-			}
+		const { firstname, lastname, mobileNumber, position } = cleanedAccount;
+		const result = await updateProfile({
+			firstname,
+			lastname,
+			professionalId,
+			mobileNumber,
+			position
+		});
+		if (result.data?.updateAccount) {
+			const { confirmed, onboardingDone, username, professional } =
+				result.data.updateAccount.returning[0];
+			$account = {
+				confirmed,
+				onboardingDone,
+				username,
+				...professional
+			};
 			document.querySelector('h1').scrollIntoView({ behavior: 'smooth' });
 		}
 	}
@@ -42,27 +65,6 @@
 		}
 	}
 
-	function getAlert(type: RequestStep) {
-		switch (type) {
-			case 'success':
-				return { description: 'Modifications effectuées avec succès !', type: 'success' as const };
-			case 'error':
-				return {
-					description: "Une erreur s'est produite, veuillez réessayer !",
-					type: 'error' as const
-				};
-			case 'start':
-			default:
-				return {};
-		}
-	}
-
-	const disabledKeys = {
-		username: true,
-		email: true
-	};
-
-	$: disableSubmission = !!error;
 	$: onboardingDone = $account && $account.onboardingDone;
 	$: cleanedAccount = cleanAccount($account);
 </script>
@@ -80,20 +82,19 @@
 				Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 			</p>
 		{/if}
-		{#if result !== 'start'}
-			<Alert description={getAlert(result).description} type={getAlert(result).type} size="sm" />
-		{/if}
+		<AlertRequestResponse operationStore={updateProfileResult} />
 		<div>
 			<ProFormInfo
 				on:submit={handleSubmit}
 				on:cancel={handleCancel}
 				account={cleanedAccount}
 				confirmText="Je valide mes informations"
-				disabled={disableSubmission}
-				globalError={error}
+				disabled={false}
 				fieldErrors={{}}
-				{disabledKeys}
-				onInput={() => (result = 'start')}
+				disabledKeys={{
+					username: true,
+					email: true
+				}}
 			/>
 		</div>
 	{/if}

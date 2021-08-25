@@ -1,4 +1,4 @@
-mutation updateNotebookVisitDate($beneficiaryId: uuid!, $notebookVisitDate: timestamptz!) {
+mutation UpdateNotebookVisitDate($beneficiaryId: uuid!, $notebookVisitDate: timestamptz!) {
 	update_notebook_member(
 		where: { notebook: { beneficiary: { id: { _eq: $beneficiaryId } } } }
 		_set: { notebookVisitDate: $notebookVisitDate }

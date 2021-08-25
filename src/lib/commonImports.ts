@@ -5,7 +5,7 @@ import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 import createClient from './graphql/createClient';
 import redirectUrl from './utils/redirectUrl';
 
-export async function load({ page, session }: LoadInput): Promise<LoadOutput> {
+export async function load({ context, page, session }: LoadInput): Promise<LoadOutput> {
 	const redirect = redirectUrl(page, session);
 
 	if (redirect) {
@@ -18,6 +18,10 @@ export async function load({ page, session }: LoadInput): Promise<LoadOutput> {
 	const client = createClient(session);
 
 	return {
-		props: { client }
+		props: { client },
+		context: {
+			...context,
+			client
+		}
 	};
 }

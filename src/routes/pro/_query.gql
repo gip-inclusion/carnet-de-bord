@@ -1,6 +1,7 @@
 query GetAccount($accountId: uuid!) {
 	account_by_pk(id: $accountId) {
-		onboardingDone: onboarding_done
+		id
+		onboardingDone
 		confirmed
 		username
 		professional {
