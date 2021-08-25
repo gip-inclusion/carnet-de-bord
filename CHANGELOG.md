@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.0...v1.4.1) (2021-08-25)
+
+
+### Bug Fixes
+
+* **import:** import correct type ([6160b5b](https://github.com/SocialGouv/carnet-de-bord/commit/6160b5ba3c0d925fd8852dcef780a4cb0a1415e2))
+
 # [1.4.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.7...v1.4.0) (2021-08-25)
 
 
