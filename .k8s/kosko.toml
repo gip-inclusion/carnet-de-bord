@@ -1,6 +1,6 @@
 
 # dont include jobs on deploys
-components = ["!jobs", "*"]
+components = ["!jobs", "!_namespace", "*"]
 require = ["ts-node/register"]
 
 # dont include underscores-prefix components
