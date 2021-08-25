@@ -1,4 +1,4 @@
-query getNotebook($beneficiaryId: uuid!) {
+query GetNotebook($beneficiaryId: uuid!) {
 	notebook(where: { beneficiaryId: { _eq: $beneficiaryId } }, limit: 1) {
 		beneficiary {
 			address1

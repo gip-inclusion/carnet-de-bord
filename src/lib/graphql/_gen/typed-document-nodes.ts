@@ -3821,7 +3821,7 @@ export const GetNotebookDocument = {
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'getNotebook' },
+			name: { kind: 'Name', value: 'GetNotebook' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
