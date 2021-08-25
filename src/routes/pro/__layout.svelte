@@ -54,27 +54,6 @@
 		}
 	});
 
-	// $: {
-	// 	if ($result.data) {
-	// 		if ($result.data.account_by_pk) {
-	// 			const { __typename, ...cleanedProfile } = $result.data.account_by_pk.professional;
-	// 			$account = {
-	// 				...cleanedProfile,
-	// 				username: $result.data.account_by_pk.username,
-	// 				onboardingDone: $result.data.account_by_pk.onboardingDone,
-	// 				confirmed: $result.data.account_by_pk.confirmed
-	// 			};
-	// 		} else {
-	// 			$account = null;
-	// 		}
-
-	// 		if (!$result.data.account_by_pk.onboardingDone && $page.path !== '/pro/moncompte') {
-	// 			/* @TODO this causes a navigation error with Svelte, this needs to be checked */
-	// 			goto('/pro/moncompte');
-	// 		}
-	// 	}
-	// }
-
 	const menuItems: MenuItem[] = [
 		{ id: 'accueil', name: 'accueil', path: '/pro/accueil', label: 'Accueil' },
 		{ id: 'annuaire', name: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' }
