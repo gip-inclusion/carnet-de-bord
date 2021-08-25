@@ -1,18 +1,20 @@
 <script context="module" lang="ts">
 	import type { OperationStore } from '@urql/svelte';
-	import type { Beneficiary, GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
-	import { GetNotebookDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, query } from '@urql/svelte';
+	import type { Beneficiary } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { UpdateNotebookVisitDateMutation } from '$lib/graphql/_gen/typed-document-nodes';
+	import { UpdateNotebookVisitDateDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { operationStore } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = ({ page }) => {
 		const id = page.params.uuid;
-		const result = operationStore(GetNotebookDocument, {
-			beneficiaryId: id
+		const updateVisitDateResult = operationStore(UpdateNotebookVisitDateDocument, {
+			beneficiaryId: id,
+			notebookVisitDate: new Date()
 		});
 		return {
 			props: {
-				result
+				updateVisitDateResult
 			}
 		};
 	};
@@ -23,11 +25,15 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button, Select, SearchBar, Table } from '$lib/ui/base';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
-	export let result: OperationStore<GetNotebookQuery, Beneficiary>;
+	import { mutation } from '@urql/svelte';
 
-	query(result);
+	export let updateVisitDateResult: OperationStore<UpdateNotebookVisitDateMutation, number>;
 
-	$: beneficiary = $result.data?.notebook[0].beneficiary as Beneficiary;
+	const updateVisitDate = mutation(updateVisitDateResult);
+	updateVisitDate();
+
+	$: beneficiary = $updateVisitDateResult.data?.update_notebook_member.returning[0].notebook
+		.beneficiary as Beneficiary;
 
 	let search = '';
 	let selectedPeriod: Option | null;
@@ -36,7 +42,7 @@
 	let orderOptions = [];
 </script>
 
-<LoaderIndicator {result}>
+<LoaderIndicator result={updateVisitDateResult}>
 	<div class="flex flex-col space-y-8 px-40">
 		<div class="flex flex-col space-y-2">
 			<div class="flex flex-col">
