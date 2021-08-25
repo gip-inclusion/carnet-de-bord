@@ -1,10 +1,8 @@
 <script context="module" lang="ts">
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
 	import type { Account, AccountRequest } from '$lib/types';
-	import {
-		UpdateProfessionalProfileDocument,
-		UpdateProfessionalProfileMutationStore
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import type { UpdateProfessionalProfileMutationStore } from '$lib/graphql/_gen/typed-document-nodes';
+	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
 	import { account } from '$lib/stores';
