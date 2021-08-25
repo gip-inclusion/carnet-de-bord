@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.7...v1.4.0) (2021-08-25)
+
+
+### Bug Fixes
+
+* **pro:** update notebook last visit date ([d2c314e](https://github.com/SocialGouv/carnet-de-bord/commit/d2c314e76943a67bd48e9a73fb66e7107cfeb2a7))
+
+
+### Features
+
+* **email:** add email content for forgot username ([bb44208](https://github.com/SocialGouv/carnet-de-bord/commit/bb44208a0a50df154ff319c289c48eb99c064545))
+
 ## [1.3.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.3.6...v1.3.7) (2021-08-25)
 
 
