@@ -83,6 +83,8 @@ spec:
             - secretRef:
                 name: azure-pg-user
           env:
+            - name: APP_URL
+              value: https://carnet-de-bord.fabrique.social.gouv.fr
             - name: VITE_GRAPHQL_API_URL
               value: https://hasura-carnet-de-bord.fabrique.social.gouv.fr/v1/graphql
       initContainers:
@@ -92,7 +94,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -254,7 +256,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:

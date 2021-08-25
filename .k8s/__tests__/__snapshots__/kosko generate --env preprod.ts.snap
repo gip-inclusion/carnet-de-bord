@@ -2,27 +2,6 @@
 
 exports[`kosko generate --preprod 1`] = `
 "---
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    field.cattle.io/creatorId: github
-    field.cattle.io/projectId: c-gjtkk:p-xgnjr
-    git/branch: refs/tags/v1.2.3
-    git/remote: socialgouv/carnet-de-bord
-    app.github.com/job: '5678'
-    app.github.com/ref: refs/tags/v1.2.3
-    app.github.com/repo: socialgouv/carnet-de-bord
-    app.github.com/run: '1234'
-    app.github.com/sha: '0123456'
-  labels:
-    azure-pg-admin-user: carnet-de-bord
-    application: carnet-de-bord
-    owner: carnet-de-bord
-    team: carnet-de-bord
-    cert: wildcard
-  name: carnet-de-bord-preprod
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -106,6 +85,8 @@ spec:
             - secretRef:
                 name: azure-pg-user
           env:
+            - name: APP_URL
+              value: https://carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr
             - name: VITE_GRAPHQL_API_URL
               value: >-
                 https://hasura-carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr/v1/graphql
@@ -116,7 +97,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -280,7 +261,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
