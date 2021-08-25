@@ -228,6 +228,7 @@ jobs:
         uses: vmware-tanzu/carvel-setup-action@v1
         with:
           only: kapp
+          kapp: v0.39.0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get project and namespace names
