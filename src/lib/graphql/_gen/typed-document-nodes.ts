@@ -1,3 +1,4 @@
+import type { OperationStore } from '@urql/svelte';
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -4104,6 +4105,32 @@ export const UpdateProfessionalProfileDocument = {
 		}
 	]
 } as unknown as DocumentNode<
+	UpdateProfessionalProfileMutation,
+	UpdateProfessionalProfileMutationVariables
+>;
+export type GetAccountsSummaryQueryStore = OperationStore<
+	GetAccountsSummaryQuery,
+	GetAccountsSummaryQueryVariables
+>;
+export type GetStructuresQueryStore = OperationStore<
+	GetStructuresQuery,
+	GetStructuresQueryVariables
+>;
+export type GetAccountQueryStore = OperationStore<GetAccountQuery, GetAccountQueryVariables>;
+export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
+	GetLastVisitedOrUpdatedQuery,
+	GetLastVisitedOrUpdatedQueryVariables
+>;
+export type SearchBeneficiariesQueryStore = OperationStore<
+	SearchBeneficiariesQuery,
+	SearchBeneficiariesQueryVariables
+>;
+export type UpdateNotebookVisitDateMutationStore = OperationStore<
+	UpdateNotebookVisitDateMutation,
+	UpdateNotebookVisitDateMutationVariables
+>;
+export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
+export type UpdateProfessionalProfileMutationStore = OperationStore<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
 >;

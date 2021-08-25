@@ -35,6 +35,7 @@
 		"@graphql-codegen/typed-document-node": "^2.1.1",
 		"@graphql-codegen/typescript": "2.1.1",
 		"@graphql-codegen/typescript-operations": "2.1.1",
+		"@graphql-codegen/urql-svelte-operations-store": "^1.1.1",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/forms": "^0.3.3",
 		"@tailwindcss/typography": "^0.4.1",

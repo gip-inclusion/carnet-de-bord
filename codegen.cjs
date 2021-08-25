@@ -12,7 +12,12 @@ module.exports = {
 	overwrite: true,
 	generates: {
 		'./src/lib/graphql/_gen/typed-document-nodes.ts': {
-			plugins: ['typescript', 'typescript-operations', 'typed-document-node']
+			plugins: [
+				'typescript',
+				'typescript-operations',
+				'typed-document-node',
+				'urql-svelte-operations-store'
+			]
 		}
 	},
 	config: {

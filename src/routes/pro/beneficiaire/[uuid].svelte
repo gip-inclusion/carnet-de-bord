@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
-	import type { OperationStore } from '@urql/svelte';
 	import type { Beneficiary } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { UpdateNotebookVisitDateMutation } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { UpdateNotebookVisitDateMutationStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateNotebookVisitDateDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
@@ -27,7 +26,7 @@
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { mutation } from '@urql/svelte';
 
-	export let updateVisitDateResult: OperationStore<UpdateNotebookVisitDateMutation, number>;
+	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 
 	const updateVisitDate = mutation(updateVisitDateResult);
 	updateVisitDate();

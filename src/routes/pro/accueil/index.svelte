@@ -1,10 +1,9 @@
 <script context="module" lang="ts">
 	import { goto } from '$app/navigation';
 	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
-	import type { GetLastVisitedOrUpdatedQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetLastVisitedOrUpdatedDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { GetLastVisitedOrUpdatedQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
-	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
 
 	export const load: Load = async ({ session }) => {
@@ -23,7 +22,7 @@
 <script lang="ts">
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
-	export let result: OperationStore<GetLastVisitedOrUpdatedQuery>;
+	export let result: GetLastVisitedOrUpdatedQueryStore;
 
 	query(result);
 

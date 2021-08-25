@@ -1,8 +1,10 @@
 <script context="module" lang="ts">
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
 	import type { Account, AccountRequest } from '$lib/types';
-	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { OperationStore } from '@urql/svelte';
+	import {
+		UpdateProfessionalProfileDocument,
+		UpdateProfessionalProfileMutationStore
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
 	import { account } from '$lib/stores';
@@ -24,7 +26,7 @@
 	import AlertRequestResponse from '$lib/ui/utils/AlertRequestResponse.svelte';
 
 	export let professionalId: string;
-	export let updateProfileResult: OperationStore;
+	export let updateProfileResult: UpdateProfessionalProfileMutationStore;
 
 	let cleanedAccount: AccountRequest;
 

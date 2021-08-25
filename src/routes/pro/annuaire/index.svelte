@@ -5,11 +5,10 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
 		Beneficiary,
-		SearchBeneficiariesQuery
+		SearchBeneficiariesQueryStore
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { SearchBeneficiariesDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
-	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
 
 	export const load: Load = async ({ page }) => {
@@ -31,7 +30,7 @@
 </script>
 
 <script lang="ts">
-	export let result: OperationStore<SearchBeneficiariesQuery>;
+	export let result: SearchBeneficiariesQueryStore;
 	export let search: string;
 
 	let selected: Option;
@@ -40,13 +39,13 @@
 
 	function onSearch({ detail }) {
 		const { search } = detail;
-		$result.variables = { search: `%${search}%` };
+		$result.variables = { filter: `%${search}%` };
 		$result.reexecute();
 	}
 
 	function onSelect({ detail }) {
 		const { selected } = detail;
-		$result.variables = { timeRange: `%${selected.name}%` };
+		$result.variables = { filter: `%${selected.name}%` };
 		$result.reexecute();
 	}
 
