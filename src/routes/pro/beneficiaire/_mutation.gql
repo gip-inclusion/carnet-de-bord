@@ -5,6 +5,10 @@ mutation UpdateNotebookVisitDate($beneficiaryId: uuid!, $notebookVisitDate: time
 	) {
 		returning {
 			notebook {
+				id
+				cerObjects
+				rights
+				workSituations
 				beneficiary {
 					address1
 					address2

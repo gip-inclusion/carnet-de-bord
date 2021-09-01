@@ -18,6 +18,11 @@ export interface InputItem {
 	type?: InputType;
 }
 
+export interface LabelValue {
+	label: string;
+	value: string;
+}
+
 export type InputType = 'email' | 'text' | 'password' | 'number';
 
 export type RequestStep = 'start' | 'success' | 'error';

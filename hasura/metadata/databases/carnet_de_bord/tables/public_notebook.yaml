@@ -32,17 +32,23 @@ insert_permissions:
     backend_only: false
     check: {}
     columns:
-    - id
     - beneficiary_id
+    - cer_objects
     - creation_date
+    - id
+    - rights
+    - work_situations
   role: professional
 select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - creation_date
     - beneficiary_id
+    - cer_objects
+    - creation_date
     - id
+    - rights
+    - work_situations
     filter:
       members:
         professional_id:

@@ -26,6 +26,12 @@
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { mutation } from '@urql/svelte';
 	import { formatDate } from '$lib/utils/date';
+	import { getLabels } from '$lib/utils/getLabels';
+	import {
+		cerObjectLabelValue,
+		rightLabelValue,
+		workSituationLabelValue
+	} from '$lib/constants/LabelValues';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 
@@ -99,17 +105,17 @@
 					<div class="flex flex-row">
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Situation</h3>
-							<div>Non renseigné</div>
+							<div>{getLabels(notebook.workSituations, workSituationLabelValue)}</div>
 						</div>
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Sujet du CER</h3>
-							<div>Non renseigné</div>
+							<div>{getLabels(notebook.cerObjects, cerObjectLabelValue)}</div>
 						</div>
 					</div>
 					<div class="flex flex-row">
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Mes droits</h3>
-							<div>Non renseigné</div>
+							<div>{getLabels(notebook.rights, rightLabelValue)}</div>
 						</div>
 					</div>
 				</div>

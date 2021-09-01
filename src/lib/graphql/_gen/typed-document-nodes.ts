@@ -2972,6 +2972,10 @@ export type UpdateNotebookVisitDateMutation = {
 			__typename?: 'notebook_member';
 			notebook: {
 				__typename?: 'notebook';
+				id: any;
+				cerObjects?: Maybe<any>;
+				rights?: Maybe<any>;
+				workSituations?: Maybe<any>;
 				beneficiary: {
 					__typename?: 'beneficiary';
 					address1?: Maybe<string>;
@@ -3851,6 +3855,10 @@ export const UpdateNotebookVisitDateDocument = {
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'cerObjects' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'rights' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'workSituations' } },
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'beneficiary' },
