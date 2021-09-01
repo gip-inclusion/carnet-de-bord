@@ -334,7 +334,7 @@ jobs:
     - name: Download k8s namespace
       uses: actions/download-artifact@v2
       with:
-        name: namespace.yml
+        name: namespace-dev.yml
 
     - name: Download restore-db job
       uses: actions/download-artifact@v2
@@ -345,7 +345,7 @@ jobs:
       uses: mikefarah/yq@master
       id: namespace
       with:
-        cmd: yq eval '.metadata.name' namespace.yml
+        cmd: yq eval '.metadata.name' namespace-dev.yml
 
     - name: Seed database
       run: |
