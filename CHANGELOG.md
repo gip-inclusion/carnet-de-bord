@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.1...v1.4.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency graphql to ^15.5.2 ([#110](https://github.com/SocialGouv/carnet-de-bord/issues/110)) ([bade2d2](https://github.com/SocialGouv/carnet-de-bord/commit/bade2d272ce006716d135c969704650e97e67404))
+
 ## [1.4.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.0...v1.4.1) (2021-08-25)
 
 
