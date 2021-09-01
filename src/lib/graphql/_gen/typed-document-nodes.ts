@@ -1085,12 +1085,22 @@ export type MutationRootUpdateBeneficiaryByPkArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookArgs = {
+	_append?: Maybe<NotebookAppendInput>;
+	_delete_at_path?: Maybe<NotebookDeleteAtPathInput>;
+	_delete_elem?: Maybe<NotebookDeleteElemInput>;
+	_delete_key?: Maybe<NotebookDeleteKeyInput>;
+	_prepend?: Maybe<NotebookPrependInput>;
 	_set?: Maybe<NotebookSetInput>;
 	where: NotebookBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateNotebookByPkArgs = {
+	_append?: Maybe<NotebookAppendInput>;
+	_delete_at_path?: Maybe<NotebookDeleteAtPathInput>;
+	_delete_elem?: Maybe<NotebookDeleteElemInput>;
+	_delete_key?: Maybe<NotebookDeleteKeyInput>;
+	_prepend?: Maybe<NotebookPrependInput>;
 	_set?: Maybe<NotebookSetInput>;
 	pk_columns: NotebookPkColumnsInput;
 };
@@ -1159,6 +1169,7 @@ export type Notebook = {
 	/** An object relationship */
 	beneficiary: Beneficiary;
 	beneficiaryId: Scalars['uuid'];
+	cerObjects?: Maybe<Scalars['jsonb']>;
 	creationDate: Scalars['timestamptz'];
 	/** An array relationship */
 	events: Array<NotebookEvent>;
@@ -1169,6 +1180,13 @@ export type Notebook = {
 	members: Array<NotebookMember>;
 	/** An aggregate relationship */
 	members_aggregate: NotebookMemberAggregate;
+	rights?: Maybe<Scalars['jsonb']>;
+	workSituations?: Maybe<Scalars['jsonb']>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookCerObjectsArgs = {
+	path?: Maybe<Scalars['String']>;
 };
 
 /** columns and relationships of "notebook" */
@@ -1207,6 +1225,16 @@ export type NotebookMembersAggregateArgs = {
 	where?: Maybe<NotebookMemberBoolExp>;
 };
 
+/** columns and relationships of "notebook" */
+export type NotebookRightsArgs = {
+	path?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookWorkSituationsArgs = {
+	path?: Maybe<Scalars['String']>;
+};
+
 /** aggregated selection of "notebook" */
 export type NotebookAggregate = {
 	__typename?: 'notebook_aggregate';
@@ -1228,6 +1256,13 @@ export type NotebookAggregateFieldsCountArgs = {
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type NotebookAppendInput = {
+	cerObjects?: Maybe<Scalars['jsonb']>;
+	rights?: Maybe<Scalars['jsonb']>;
+	workSituations?: Maybe<Scalars['jsonb']>;
+};
+
 /** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
 export type NotebookBoolExp = {
 	_and?: Maybe<Array<NotebookBoolExp>>;
@@ -1235,10 +1270,13 @@ export type NotebookBoolExp = {
 	_or?: Maybe<Array<NotebookBoolExp>>;
 	beneficiary?: Maybe<BeneficiaryBoolExp>;
 	beneficiaryId?: Maybe<UuidComparisonExp>;
+	cerObjects?: Maybe<JsonbComparisonExp>;
 	creationDate?: Maybe<TimestamptzComparisonExp>;
 	events?: Maybe<NotebookEventBoolExp>;
 	id?: Maybe<UuidComparisonExp>;
 	members?: Maybe<NotebookMemberBoolExp>;
+	rights?: Maybe<JsonbComparisonExp>;
+	workSituations?: Maybe<JsonbComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook" */
@@ -1248,6 +1286,27 @@ export enum NotebookConstraint {
 	/** unique or primary key constraint */
 	NotebookPkey = 'notebook_pkey'
 }
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type NotebookDeleteAtPathInput = {
+	cerObjects?: Maybe<Array<Scalars['String']>>;
+	rights?: Maybe<Array<Scalars['String']>>;
+	workSituations?: Maybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type NotebookDeleteElemInput = {
+	cerObjects?: Maybe<Scalars['Int']>;
+	rights?: Maybe<Scalars['Int']>;
+	workSituations?: Maybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type NotebookDeleteKeyInput = {
+	cerObjects?: Maybe<Scalars['String']>;
+	rights?: Maybe<Scalars['String']>;
+	workSituations?: Maybe<Scalars['String']>;
+};
 
 /** columns and relationships of "notebook_event" */
 export type NotebookEvent = {
@@ -1479,10 +1538,13 @@ export enum NotebookEventUpdateColumn {
 export type NotebookInsertInput = {
 	beneficiary?: Maybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	cerObjects?: Maybe<Scalars['jsonb']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	events?: Maybe<NotebookEventArrRelInsertInput>;
 	id?: Maybe<Scalars['uuid']>;
 	members?: Maybe<NotebookMemberArrRelInsertInput>;
+	rights?: Maybe<Scalars['jsonb']>;
+	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
 /** aggregate max on columns */
@@ -1728,10 +1790,13 @@ export type NotebookOnConflict = {
 export type NotebookOrderBy = {
 	beneficiary?: Maybe<BeneficiaryOrderBy>;
 	beneficiaryId?: Maybe<OrderBy>;
+	cerObjects?: Maybe<OrderBy>;
 	creationDate?: Maybe<OrderBy>;
 	events_aggregate?: Maybe<NotebookEventAggregateOrderBy>;
 	id?: Maybe<OrderBy>;
 	members_aggregate?: Maybe<NotebookMemberAggregateOrderBy>;
+	rights?: Maybe<OrderBy>;
+	workSituations?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook */
@@ -1739,21 +1804,37 @@ export type NotebookPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type NotebookPrependInput = {
+	cerObjects?: Maybe<Scalars['jsonb']>;
+	rights?: Maybe<Scalars['jsonb']>;
+	workSituations?: Maybe<Scalars['jsonb']>;
+};
+
 /** select columns of table "notebook" */
 export enum NotebookSelectColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
+	CerObjects = 'cerObjects',
+	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
-	Id = 'id'
+	Id = 'id',
+	/** column name */
+	Rights = 'rights',
+	/** column name */
+	WorkSituations = 'workSituations'
 }
 
 /** input type for updating data in table "notebook" */
 export type NotebookSetInput = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	cerObjects?: Maybe<Scalars['jsonb']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
+	rights?: Maybe<Scalars['jsonb']>;
+	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
 /** update columns of table "notebook" */
@@ -1761,9 +1842,15 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
+	CerObjects = 'cerObjects',
+	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
-	Id = 'id'
+	Id = 'id',
+	/** column name */
+	Rights = 'rights',
+	/** column name */
+	WorkSituations = 'workSituations'
 }
 
 /** column ordering options */

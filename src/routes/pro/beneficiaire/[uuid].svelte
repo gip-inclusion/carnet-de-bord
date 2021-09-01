@@ -88,11 +88,11 @@
 					</div>
 					<div class="w-full">
 						<h4 class="text-base mb-none">Identifiant Pôle emploi</h4>
-						<div>Non renseigné</div>
+						<div>{beneficiary.peNumber}</div>
 					</div>
 					<div class="w-full">
 						<h4 class="text-base mb-none">Identifiant CAF</h4>
-						<div>Non renseigné</div>
+						<div>{beneficiary.cafNumber}</div>
 					</div>
 				</div>
 				<div class="flex flex-col w-5/12 space-y-4">

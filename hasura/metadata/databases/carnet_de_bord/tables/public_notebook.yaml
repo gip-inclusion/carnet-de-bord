@@ -4,7 +4,9 @@ table:
 configuration:
   custom_column_names:
     beneficiary_id: beneficiaryId
+    cer_objects: cerObjects
     creation_date: creationDate
+    work_situations: workSituations
   custom_root_fields: {}
 object_relationships:
 - name: beneficiary
