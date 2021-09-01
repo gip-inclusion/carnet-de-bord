@@ -46,9 +46,7 @@ const job = new Job({
 						name: 'restore-db',
 						image: 'postgres:10.16',
 						command: ['sh', '-c'],
-						args: [
-							'psql < /mnt/carnet-de-bord/hasura/seeds/carnet_de_bord/1629710957659_seed-data.sql'
-						],
+						args: ['psql < /mnt/carnet-de-bord/hasura/seeds/carnet_de_bord/seed-data.sql'],
 						envFrom: [
 							{
 								secretRef: {
