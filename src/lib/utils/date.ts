@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import fr from 'date-fns/locale/fr/index.js';
 
 export function formatDate(value: string): string {
 	if (!value) {
