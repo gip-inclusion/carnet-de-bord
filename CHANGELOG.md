@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.2...v1.5.0) (2021-09-01)
+
+
+### Features
+
+* **pro:** display all data in beneficiary page ([#116](https://github.com/SocialGouv/carnet-de-bord/issues/116)) ([20f2992](https://github.com/SocialGouv/carnet-de-bord/commit/20f2992eccf0f7ef9e448a937651ca13e7de3b77))
+
 ## [1.4.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.1...v1.4.2) (2021-09-01)
 
 
