@@ -1,3 +1,10 @@
+## [1.4.3-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.1...v1.4.3-alpha.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* Use namespace-dev.yml. ([8bb3044](https://github.com/SocialGouv/carnet-de-bord/commit/8bb30443115865c882e5ccc348638bf8545b38f2))
+
 ## [1.4.3-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.2...v1.4.3-alpha.1) (2021-09-01)
 
 
