@@ -21,7 +21,11 @@ module.exports = {
 		}
 	},
 	config: {
-		useTypeImports: true
+		useTypeImports: true,
+		namingConvention: {
+			typeNames: 'change-case-all#pascalCase',
+			transformUnderscore: true
+		}
 	},
 	hooks: {
 		afterAllFileWrite: 'prettier --write'

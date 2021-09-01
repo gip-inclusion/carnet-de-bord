@@ -18,7 +18,7 @@ export type Scalars = {
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
+export type BooleanComparisonExp = {
 	_eq?: Maybe<Scalars['Boolean']>;
 	_gt?: Maybe<Scalars['Boolean']>;
 	_gte?: Maybe<Scalars['Boolean']>;
@@ -31,7 +31,7 @@ export type Boolean_Comparison_Exp = {
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
-export type String_Comparison_Exp = {
+export type StringComparisonExp = {
 	_eq?: Maybe<Scalars['String']>;
 	_gt?: Maybe<Scalars['String']>;
 	_gte?: Maybe<Scalars['String']>;
@@ -86,63 +86,63 @@ export type Account = {
 };
 
 /** aggregated selection of "account" */
-export type Account_Aggregate = {
+export type AccountAggregate = {
 	__typename?: 'account_aggregate';
-	aggregate?: Maybe<Account_Aggregate_Fields>;
+	aggregate?: Maybe<AccountAggregateFields>;
 	nodes: Array<Account>;
 };
 
 /** aggregate fields of "account" */
-export type Account_Aggregate_Fields = {
+export type AccountAggregateFields = {
 	__typename?: 'account_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Account_Max_Fields>;
-	min?: Maybe<Account_Min_Fields>;
+	max?: Maybe<AccountMaxFields>;
+	min?: Maybe<AccountMinFields>;
 };
 
 /** aggregate fields of "account" */
-export type Account_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Account_Select_Column>>;
+export type AccountAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<AccountSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "account" */
-export type Account_Aggregate_Order_By = {
-	count?: Maybe<Order_By>;
-	max?: Maybe<Account_Max_Order_By>;
-	min?: Maybe<Account_Min_Order_By>;
+export type AccountAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<AccountMaxOrderBy>;
+	min?: Maybe<AccountMinOrderBy>;
 };
 
 /** input type for inserting array relation for remote table "account" */
-export type Account_Arr_Rel_Insert_Input = {
-	data: Array<Account_Insert_Input>;
+export type AccountArrRelInsertInput = {
+	data: Array<AccountInsertInput>;
 	/** on conflict condition */
-	on_conflict?: Maybe<Account_On_Conflict>;
+	on_conflict?: Maybe<AccountOnConflict>;
 };
 
 /** Boolean expression to filter rows from the table "account". All fields are combined with a logical 'AND'. */
-export type Account_Bool_Exp = {
-	_and?: Maybe<Array<Account_Bool_Exp>>;
-	_not?: Maybe<Account_Bool_Exp>;
-	_or?: Maybe<Array<Account_Bool_Exp>>;
-	accessKey?: Maybe<String_Comparison_Exp>;
-	accessKeyDate?: Maybe<Timestamptz_Comparison_Exp>;
-	admin?: Maybe<Admin_Bool_Exp>;
-	adminId?: Maybe<Uuid_Comparison_Exp>;
-	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
-	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
-	confirmed?: Maybe<Boolean_Comparison_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	lastLogin?: Maybe<Timestamptz_Comparison_Exp>;
-	onboardingDone?: Maybe<Boolean_Comparison_Exp>;
-	professional?: Maybe<Professional_Bool_Exp>;
-	professionalId?: Maybe<Uuid_Comparison_Exp>;
-	type?: Maybe<String_Comparison_Exp>;
-	username?: Maybe<String_Comparison_Exp>;
+export type AccountBoolExp = {
+	_and?: Maybe<Array<AccountBoolExp>>;
+	_not?: Maybe<AccountBoolExp>;
+	_or?: Maybe<Array<AccountBoolExp>>;
+	accessKey?: Maybe<StringComparisonExp>;
+	accessKeyDate?: Maybe<TimestamptzComparisonExp>;
+	admin?: Maybe<AdminBoolExp>;
+	adminId?: Maybe<UuidComparisonExp>;
+	beneficiary?: Maybe<BeneficiaryBoolExp>;
+	beneficiaryId?: Maybe<UuidComparisonExp>;
+	confirmed?: Maybe<BooleanComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	lastLogin?: Maybe<TimestamptzComparisonExp>;
+	onboardingDone?: Maybe<BooleanComparisonExp>;
+	professional?: Maybe<ProfessionalBoolExp>;
+	professionalId?: Maybe<UuidComparisonExp>;
+	type?: Maybe<StringComparisonExp>;
+	username?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "account" */
-export enum Account_Constraint {
+export enum AccountConstraint {
 	/** unique or primary key constraint */
 	AccountPkey = 'account_pkey',
 	/** unique or primary key constraint */
@@ -150,25 +150,25 @@ export enum Account_Constraint {
 }
 
 /** input type for inserting data into table "account" */
-export type Account_Insert_Input = {
+export type AccountInsertInput = {
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
-	admin?: Maybe<Admin_Obj_Rel_Insert_Input>;
+	admin?: Maybe<AdminObjRelInsertInput>;
 	adminId?: Maybe<Scalars['uuid']>;
-	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
+	beneficiary?: Maybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
-	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
+	professional?: Maybe<ProfessionalObjRelInsertInput>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
-export type Account_Max_Fields = {
+export type AccountMaxFields = {
 	__typename?: 'account_max_fields';
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
@@ -182,20 +182,20 @@ export type Account_Max_Fields = {
 };
 
 /** order by max() on columns of table "account" */
-export type Account_Max_Order_By = {
-	accessKey?: Maybe<Order_By>;
-	accessKeyDate?: Maybe<Order_By>;
-	adminId?: Maybe<Order_By>;
-	beneficiaryId?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastLogin?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
-	type?: Maybe<Order_By>;
-	username?: Maybe<Order_By>;
+export type AccountMaxOrderBy = {
+	accessKey?: Maybe<OrderBy>;
+	accessKeyDate?: Maybe<OrderBy>;
+	adminId?: Maybe<OrderBy>;
+	beneficiaryId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastLogin?: Maybe<OrderBy>;
+	professionalId?: Maybe<OrderBy>;
+	type?: Maybe<OrderBy>;
+	username?: Maybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Account_Min_Fields = {
+export type AccountMinFields = {
 	__typename?: 'account_min_fields';
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
@@ -209,20 +209,20 @@ export type Account_Min_Fields = {
 };
 
 /** order by min() on columns of table "account" */
-export type Account_Min_Order_By = {
-	accessKey?: Maybe<Order_By>;
-	accessKeyDate?: Maybe<Order_By>;
-	adminId?: Maybe<Order_By>;
-	beneficiaryId?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastLogin?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
-	type?: Maybe<Order_By>;
-	username?: Maybe<Order_By>;
+export type AccountMinOrderBy = {
+	accessKey?: Maybe<OrderBy>;
+	accessKeyDate?: Maybe<OrderBy>;
+	adminId?: Maybe<OrderBy>;
+	beneficiaryId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastLogin?: Maybe<OrderBy>;
+	professionalId?: Maybe<OrderBy>;
+	type?: Maybe<OrderBy>;
+	username?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "account" */
-export type Account_Mutation_Response = {
+export type AccountMutationResponse = {
 	__typename?: 'account_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
@@ -231,37 +231,37 @@ export type Account_Mutation_Response = {
 };
 
 /** on conflict condition type for table "account" */
-export type Account_On_Conflict = {
-	constraint: Account_Constraint;
-	update_columns?: Array<Account_Update_Column>;
-	where?: Maybe<Account_Bool_Exp>;
+export type AccountOnConflict = {
+	constraint: AccountConstraint;
+	update_columns?: Array<AccountUpdateColumn>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** Ordering options when selecting data from "account". */
-export type Account_Order_By = {
-	accessKey?: Maybe<Order_By>;
-	accessKeyDate?: Maybe<Order_By>;
-	admin?: Maybe<Admin_Order_By>;
-	adminId?: Maybe<Order_By>;
-	beneficiary?: Maybe<Beneficiary_Order_By>;
-	beneficiaryId?: Maybe<Order_By>;
-	confirmed?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastLogin?: Maybe<Order_By>;
-	onboardingDone?: Maybe<Order_By>;
-	professional?: Maybe<Professional_Order_By>;
-	professionalId?: Maybe<Order_By>;
-	type?: Maybe<Order_By>;
-	username?: Maybe<Order_By>;
+export type AccountOrderBy = {
+	accessKey?: Maybe<OrderBy>;
+	accessKeyDate?: Maybe<OrderBy>;
+	admin?: Maybe<AdminOrderBy>;
+	adminId?: Maybe<OrderBy>;
+	beneficiary?: Maybe<BeneficiaryOrderBy>;
+	beneficiaryId?: Maybe<OrderBy>;
+	confirmed?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastLogin?: Maybe<OrderBy>;
+	onboardingDone?: Maybe<OrderBy>;
+	professional?: Maybe<ProfessionalOrderBy>;
+	professionalId?: Maybe<OrderBy>;
+	type?: Maybe<OrderBy>;
+	username?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: account */
-export type Account_Pk_Columns_Input = {
+export type AccountPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** select columns of table "account" */
-export enum Account_Select_Column {
+export enum AccountSelectColumn {
 	/** column name */
 	AccessKey = 'accessKey',
 	/** column name */
@@ -287,7 +287,7 @@ export enum Account_Select_Column {
 }
 
 /** input type for updating data in table "account" */
-export type Account_Set_Input = {
+export type AccountSetInput = {
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	adminId?: Maybe<Scalars['uuid']>;
@@ -302,7 +302,7 @@ export type Account_Set_Input = {
 };
 
 /** update columns of table "account" */
-export enum Account_Update_Column {
+export enum AccountUpdateColumn {
 	/** column name */
 	AccessKey = 'accessKey',
 	/** column name */
@@ -333,62 +333,62 @@ export type Admin = {
 	/** An array relationship */
 	accounts: Array<Account>;
 	/** An aggregate relationship */
-	accounts_aggregate: Account_Aggregate;
+	accounts_aggregate: AccountAggregate;
 	email: Scalars['String'];
 	id: Scalars['uuid'];
 };
 
 /** columns and relationships of "admin" */
 export type AdminAccountsArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** columns and relationships of "admin" */
-export type AdminAccounts_AggregateArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+export type AdminAccountsAggregateArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** aggregated selection of "admin" */
-export type Admin_Aggregate = {
+export type AdminAggregate = {
 	__typename?: 'admin_aggregate';
-	aggregate?: Maybe<Admin_Aggregate_Fields>;
+	aggregate?: Maybe<AdminAggregateFields>;
 	nodes: Array<Admin>;
 };
 
 /** aggregate fields of "admin" */
-export type Admin_Aggregate_Fields = {
+export type AdminAggregateFields = {
 	__typename?: 'admin_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Admin_Max_Fields>;
-	min?: Maybe<Admin_Min_Fields>;
+	max?: Maybe<AdminMaxFields>;
+	min?: Maybe<AdminMinFields>;
 };
 
 /** aggregate fields of "admin" */
-export type Admin_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Admin_Select_Column>>;
+export type AdminAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<AdminSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "admin". All fields are combined with a logical 'AND'. */
-export type Admin_Bool_Exp = {
-	_and?: Maybe<Array<Admin_Bool_Exp>>;
-	_not?: Maybe<Admin_Bool_Exp>;
-	_or?: Maybe<Array<Admin_Bool_Exp>>;
-	accounts?: Maybe<Account_Bool_Exp>;
-	email?: Maybe<String_Comparison_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
+export type AdminBoolExp = {
+	_and?: Maybe<Array<AdminBoolExp>>;
+	_not?: Maybe<AdminBoolExp>;
+	_or?: Maybe<Array<AdminBoolExp>>;
+	accounts?: Maybe<AccountBoolExp>;
+	email?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "admin" */
-export enum Admin_Constraint {
+export enum AdminConstraint {
 	/** unique or primary key constraint */
 	AdminEmailUnique = 'admin_email_unique',
 	/** unique or primary key constraint */
@@ -396,28 +396,28 @@ export enum Admin_Constraint {
 }
 
 /** input type for inserting data into table "admin" */
-export type Admin_Insert_Input = {
-	accounts?: Maybe<Account_Arr_Rel_Insert_Input>;
+export type AdminInsertInput = {
+	accounts?: Maybe<AccountArrRelInsertInput>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
-export type Admin_Max_Fields = {
+export type AdminMaxFields = {
 	__typename?: 'admin_max_fields';
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate min on columns */
-export type Admin_Min_Fields = {
+export type AdminMinFields = {
 	__typename?: 'admin_min_fields';
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 };
 
 /** response of any mutation on the table "admin" */
-export type Admin_Mutation_Response = {
+export type AdminMutationResponse = {
 	__typename?: 'admin_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
@@ -426,33 +426,33 @@ export type Admin_Mutation_Response = {
 };
 
 /** input type for inserting object relation for remote table "admin" */
-export type Admin_Obj_Rel_Insert_Input = {
-	data: Admin_Insert_Input;
+export type AdminObjRelInsertInput = {
+	data: AdminInsertInput;
 	/** on conflict condition */
-	on_conflict?: Maybe<Admin_On_Conflict>;
+	on_conflict?: Maybe<AdminOnConflict>;
 };
 
 /** on conflict condition type for table "admin" */
-export type Admin_On_Conflict = {
-	constraint: Admin_Constraint;
-	update_columns?: Array<Admin_Update_Column>;
-	where?: Maybe<Admin_Bool_Exp>;
+export type AdminOnConflict = {
+	constraint: AdminConstraint;
+	update_columns?: Array<AdminUpdateColumn>;
+	where?: Maybe<AdminBoolExp>;
 };
 
 /** Ordering options when selecting data from "admin". */
-export type Admin_Order_By = {
-	accounts_aggregate?: Maybe<Account_Aggregate_Order_By>;
-	email?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
+export type AdminOrderBy = {
+	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
+	email?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: admin */
-export type Admin_Pk_Columns_Input = {
+export type AdminPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** select columns of table "admin" */
-export enum Admin_Select_Column {
+export enum AdminSelectColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -460,13 +460,13 @@ export enum Admin_Select_Column {
 }
 
 /** input type for updating data in table "admin" */
-export type Admin_Set_Input = {
+export type AdminSetInput = {
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 };
 
 /** update columns of table "admin" */
-export enum Admin_Update_Column {
+export enum AdminUpdateColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -479,7 +479,7 @@ export type Beneficiary = {
 	/** An array relationship */
 	accounts: Array<Account>;
 	/** An aggregate relationship */
-	accounts_aggregate: Account_Aggregate;
+	accounts_aggregate: AccountAggregate;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	cafNumber?: Maybe<Scalars['String']>;
@@ -498,66 +498,66 @@ export type Beneficiary = {
 
 /** columns and relationships of "beneficiary" */
 export type BeneficiaryAccountsArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** columns and relationships of "beneficiary" */
-export type BeneficiaryAccounts_AggregateArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+export type BeneficiaryAccountsAggregateArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** aggregated selection of "beneficiary" */
-export type Beneficiary_Aggregate = {
+export type BeneficiaryAggregate = {
 	__typename?: 'beneficiary_aggregate';
-	aggregate?: Maybe<Beneficiary_Aggregate_Fields>;
+	aggregate?: Maybe<BeneficiaryAggregateFields>;
 	nodes: Array<Beneficiary>;
 };
 
 /** aggregate fields of "beneficiary" */
-export type Beneficiary_Aggregate_Fields = {
+export type BeneficiaryAggregateFields = {
 	__typename?: 'beneficiary_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Beneficiary_Max_Fields>;
-	min?: Maybe<Beneficiary_Min_Fields>;
+	max?: Maybe<BeneficiaryMaxFields>;
+	min?: Maybe<BeneficiaryMinFields>;
 };
 
 /** aggregate fields of "beneficiary" */
-export type Beneficiary_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Beneficiary_Select_Column>>;
+export type BeneficiaryAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<BeneficiarySelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "beneficiary". All fields are combined with a logical 'AND'. */
-export type Beneficiary_Bool_Exp = {
-	_and?: Maybe<Array<Beneficiary_Bool_Exp>>;
-	_not?: Maybe<Beneficiary_Bool_Exp>;
-	_or?: Maybe<Array<Beneficiary_Bool_Exp>>;
-	accounts?: Maybe<Account_Bool_Exp>;
-	address1?: Maybe<String_Comparison_Exp>;
-	address2?: Maybe<String_Comparison_Exp>;
-	cafNumber?: Maybe<String_Comparison_Exp>;
-	city?: Maybe<String_Comparison_Exp>;
-	dateOfBirth?: Maybe<Date_Comparison_Exp>;
-	email?: Maybe<String_Comparison_Exp>;
-	firstname?: Maybe<String_Comparison_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	lastname?: Maybe<String_Comparison_Exp>;
-	mobileNumber?: Maybe<String_Comparison_Exp>;
-	notebook?: Maybe<Notebook_Bool_Exp>;
-	peNumber?: Maybe<String_Comparison_Exp>;
-	postalCode?: Maybe<String_Comparison_Exp>;
+export type BeneficiaryBoolExp = {
+	_and?: Maybe<Array<BeneficiaryBoolExp>>;
+	_not?: Maybe<BeneficiaryBoolExp>;
+	_or?: Maybe<Array<BeneficiaryBoolExp>>;
+	accounts?: Maybe<AccountBoolExp>;
+	address1?: Maybe<StringComparisonExp>;
+	address2?: Maybe<StringComparisonExp>;
+	cafNumber?: Maybe<StringComparisonExp>;
+	city?: Maybe<StringComparisonExp>;
+	dateOfBirth?: Maybe<DateComparisonExp>;
+	email?: Maybe<StringComparisonExp>;
+	firstname?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	lastname?: Maybe<StringComparisonExp>;
+	mobileNumber?: Maybe<StringComparisonExp>;
+	notebook?: Maybe<NotebookBoolExp>;
+	peNumber?: Maybe<StringComparisonExp>;
+	postalCode?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "beneficiary" */
-export enum Beneficiary_Constraint {
+export enum BeneficiaryConstraint {
 	/** unique or primary key constraint */
 	BeneficiaryEmailUnique = 'beneficiary_email_unique',
 	/** unique or primary key constraint */
@@ -565,8 +565,8 @@ export enum Beneficiary_Constraint {
 }
 
 /** input type for inserting data into table "beneficiary" */
-export type Beneficiary_Insert_Input = {
-	accounts?: Maybe<Account_Arr_Rel_Insert_Input>;
+export type BeneficiaryInsertInput = {
+	accounts?: Maybe<AccountArrRelInsertInput>;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	cafNumber?: Maybe<Scalars['String']>;
@@ -577,13 +577,13 @@ export type Beneficiary_Insert_Input = {
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
-	notebook?: Maybe<Notebook_Obj_Rel_Insert_Input>;
+	notebook?: Maybe<NotebookObjRelInsertInput>;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
-export type Beneficiary_Max_Fields = {
+export type BeneficiaryMaxFields = {
 	__typename?: 'beneficiary_max_fields';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
@@ -600,7 +600,7 @@ export type Beneficiary_Max_Fields = {
 };
 
 /** aggregate min on columns */
-export type Beneficiary_Min_Fields = {
+export type BeneficiaryMinFields = {
 	__typename?: 'beneficiary_min_fields';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
@@ -617,7 +617,7 @@ export type Beneficiary_Min_Fields = {
 };
 
 /** response of any mutation on the table "beneficiary" */
-export type Beneficiary_Mutation_Response = {
+export type BeneficiaryMutationResponse = {
 	__typename?: 'beneficiary_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
@@ -626,44 +626,44 @@ export type Beneficiary_Mutation_Response = {
 };
 
 /** input type for inserting object relation for remote table "beneficiary" */
-export type Beneficiary_Obj_Rel_Insert_Input = {
-	data: Beneficiary_Insert_Input;
+export type BeneficiaryObjRelInsertInput = {
+	data: BeneficiaryInsertInput;
 	/** on conflict condition */
-	on_conflict?: Maybe<Beneficiary_On_Conflict>;
+	on_conflict?: Maybe<BeneficiaryOnConflict>;
 };
 
 /** on conflict condition type for table "beneficiary" */
-export type Beneficiary_On_Conflict = {
-	constraint: Beneficiary_Constraint;
-	update_columns?: Array<Beneficiary_Update_Column>;
-	where?: Maybe<Beneficiary_Bool_Exp>;
+export type BeneficiaryOnConflict = {
+	constraint: BeneficiaryConstraint;
+	update_columns?: Array<BeneficiaryUpdateColumn>;
+	where?: Maybe<BeneficiaryBoolExp>;
 };
 
 /** Ordering options when selecting data from "beneficiary". */
-export type Beneficiary_Order_By = {
-	accounts_aggregate?: Maybe<Account_Aggregate_Order_By>;
-	address1?: Maybe<Order_By>;
-	address2?: Maybe<Order_By>;
-	cafNumber?: Maybe<Order_By>;
-	city?: Maybe<Order_By>;
-	dateOfBirth?: Maybe<Order_By>;
-	email?: Maybe<Order_By>;
-	firstname?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastname?: Maybe<Order_By>;
-	mobileNumber?: Maybe<Order_By>;
-	notebook?: Maybe<Notebook_Order_By>;
-	peNumber?: Maybe<Order_By>;
-	postalCode?: Maybe<Order_By>;
+export type BeneficiaryOrderBy = {
+	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	cafNumber?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	dateOfBirth?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	mobileNumber?: Maybe<OrderBy>;
+	notebook?: Maybe<NotebookOrderBy>;
+	peNumber?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: beneficiary */
-export type Beneficiary_Pk_Columns_Input = {
+export type BeneficiaryPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** select columns of table "beneficiary" */
-export enum Beneficiary_Select_Column {
+export enum BeneficiarySelectColumn {
 	/** column name */
 	Address1 = 'address1',
 	/** column name */
@@ -691,7 +691,7 @@ export enum Beneficiary_Select_Column {
 }
 
 /** input type for updating data in table "beneficiary" */
-export type Beneficiary_Set_Input = {
+export type BeneficiarySetInput = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	cafNumber?: Maybe<Scalars['String']>;
@@ -707,7 +707,7 @@ export type Beneficiary_Set_Input = {
 };
 
 /** update columns of table "beneficiary" */
-export enum Beneficiary_Update_Column {
+export enum BeneficiaryUpdateColumn {
 	/** column name */
 	Address1 = 'address1',
 	/** column name */
@@ -735,7 +735,7 @@ export enum Beneficiary_Update_Column {
 }
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
-export type Date_Comparison_Exp = {
+export type DateComparisonExp = {
 	_eq?: Maybe<Scalars['date']>;
 	_gt?: Maybe<Scalars['date']>;
 	_gte?: Maybe<Scalars['date']>;
@@ -748,7 +748,7 @@ export type Date_Comparison_Exp = {
 };
 
 /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
-export type Jsonb_Comparison_Exp = {
+export type JsonbComparisonExp = {
 	/** is the column contained in the given json value */
 	_contained_in?: Maybe<Scalars['jsonb']>;
 	/** does the column contain the given json value at the top level */
@@ -771,386 +771,386 @@ export type Jsonb_Comparison_Exp = {
 };
 
 /** mutation root */
-export type Mutation_Root = {
+export type MutationRoot = {
 	__typename?: 'mutation_root';
 	/** delete data from the table: "account" */
-	delete_account?: Maybe<Account_Mutation_Response>;
+	delete_account?: Maybe<AccountMutationResponse>;
 	/** delete single row from the table: "account" */
 	delete_account_by_pk?: Maybe<Account>;
 	/** delete data from the table: "admin" */
-	delete_admin?: Maybe<Admin_Mutation_Response>;
+	delete_admin?: Maybe<AdminMutationResponse>;
 	/** delete single row from the table: "admin" */
 	delete_admin_by_pk?: Maybe<Admin>;
 	/** delete data from the table: "beneficiary" */
-	delete_beneficiary?: Maybe<Beneficiary_Mutation_Response>;
+	delete_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** delete single row from the table: "beneficiary" */
 	delete_beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** delete data from the table: "notebook" */
-	delete_notebook?: Maybe<Notebook_Mutation_Response>;
+	delete_notebook?: Maybe<NotebookMutationResponse>;
 	/** delete single row from the table: "notebook" */
 	delete_notebook_by_pk?: Maybe<Notebook>;
 	/** delete data from the table: "notebook_event" */
-	delete_notebook_event?: Maybe<Notebook_Event_Mutation_Response>;
+	delete_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** delete single row from the table: "notebook_event" */
-	delete_notebook_event_by_pk?: Maybe<Notebook_Event>;
+	delete_notebook_event_by_pk?: Maybe<NotebookEvent>;
 	/** delete data from the table: "notebook_member" */
-	delete_notebook_member?: Maybe<Notebook_Member_Mutation_Response>;
+	delete_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** delete single row from the table: "notebook_member" */
-	delete_notebook_member_by_pk?: Maybe<Notebook_Member>;
+	delete_notebook_member_by_pk?: Maybe<NotebookMember>;
 	/** delete data from the table: "professional" */
-	delete_professional?: Maybe<Professional_Mutation_Response>;
+	delete_professional?: Maybe<ProfessionalMutationResponse>;
 	/** delete single row from the table: "professional" */
 	delete_professional_by_pk?: Maybe<Professional>;
 	/** delete data from the table: "structure" */
-	delete_structure?: Maybe<Structure_Mutation_Response>;
+	delete_structure?: Maybe<StructureMutationResponse>;
 	/** delete single row from the table: "structure" */
 	delete_structure_by_pk?: Maybe<Structure>;
 	/** insert data into the table: "account" */
-	insert_account?: Maybe<Account_Mutation_Response>;
+	insert_account?: Maybe<AccountMutationResponse>;
 	/** insert a single row into the table: "account" */
 	insert_account_one?: Maybe<Account>;
 	/** insert data into the table: "admin" */
-	insert_admin?: Maybe<Admin_Mutation_Response>;
+	insert_admin?: Maybe<AdminMutationResponse>;
 	/** insert a single row into the table: "admin" */
 	insert_admin_one?: Maybe<Admin>;
 	/** insert data into the table: "beneficiary" */
-	insert_beneficiary?: Maybe<Beneficiary_Mutation_Response>;
+	insert_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** insert a single row into the table: "beneficiary" */
 	insert_beneficiary_one?: Maybe<Beneficiary>;
 	/** insert data into the table: "notebook" */
-	insert_notebook?: Maybe<Notebook_Mutation_Response>;
+	insert_notebook?: Maybe<NotebookMutationResponse>;
 	/** insert data into the table: "notebook_event" */
-	insert_notebook_event?: Maybe<Notebook_Event_Mutation_Response>;
+	insert_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** insert a single row into the table: "notebook_event" */
-	insert_notebook_event_one?: Maybe<Notebook_Event>;
+	insert_notebook_event_one?: Maybe<NotebookEvent>;
 	/** insert data into the table: "notebook_member" */
-	insert_notebook_member?: Maybe<Notebook_Member_Mutation_Response>;
+	insert_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** insert a single row into the table: "notebook_member" */
-	insert_notebook_member_one?: Maybe<Notebook_Member>;
+	insert_notebook_member_one?: Maybe<NotebookMember>;
 	/** insert a single row into the table: "notebook" */
 	insert_notebook_one?: Maybe<Notebook>;
 	/** insert data into the table: "professional" */
-	insert_professional?: Maybe<Professional_Mutation_Response>;
+	insert_professional?: Maybe<ProfessionalMutationResponse>;
 	/** insert a single row into the table: "professional" */
 	insert_professional_one?: Maybe<Professional>;
 	/** insert data into the table: "structure" */
-	insert_structure?: Maybe<Structure_Mutation_Response>;
+	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
 	/** update data of the table: "account" */
-	update_account?: Maybe<Account_Mutation_Response>;
+	update_account?: Maybe<AccountMutationResponse>;
 	/** update single row of the table: "account" */
 	update_account_by_pk?: Maybe<Account>;
 	/** update data of the table: "admin" */
-	update_admin?: Maybe<Admin_Mutation_Response>;
+	update_admin?: Maybe<AdminMutationResponse>;
 	/** update single row of the table: "admin" */
 	update_admin_by_pk?: Maybe<Admin>;
 	/** update data of the table: "beneficiary" */
-	update_beneficiary?: Maybe<Beneficiary_Mutation_Response>;
+	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
 	update_beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** update data of the table: "notebook" */
-	update_notebook?: Maybe<Notebook_Mutation_Response>;
+	update_notebook?: Maybe<NotebookMutationResponse>;
 	/** update single row of the table: "notebook" */
 	update_notebook_by_pk?: Maybe<Notebook>;
 	/** update data of the table: "notebook_event" */
-	update_notebook_event?: Maybe<Notebook_Event_Mutation_Response>;
+	update_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** update single row of the table: "notebook_event" */
-	update_notebook_event_by_pk?: Maybe<Notebook_Event>;
+	update_notebook_event_by_pk?: Maybe<NotebookEvent>;
 	/** update data of the table: "notebook_member" */
-	update_notebook_member?: Maybe<Notebook_Member_Mutation_Response>;
+	update_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** update single row of the table: "notebook_member" */
-	update_notebook_member_by_pk?: Maybe<Notebook_Member>;
+	update_notebook_member_by_pk?: Maybe<NotebookMember>;
 	/** update data of the table: "professional" */
-	update_professional?: Maybe<Professional_Mutation_Response>;
+	update_professional?: Maybe<ProfessionalMutationResponse>;
 	/** update single row of the table: "professional" */
 	update_professional_by_pk?: Maybe<Professional>;
 	/** update data of the table: "structure" */
-	update_structure?: Maybe<Structure_Mutation_Response>;
+	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_AccountArgs = {
-	where: Account_Bool_Exp;
+export type MutationRootDeleteAccountArgs = {
+	where: AccountBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Account_By_PkArgs = {
+export type MutationRootDeleteAccountByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootDelete_AdminArgs = {
-	where: Admin_Bool_Exp;
+export type MutationRootDeleteAdminArgs = {
+	where: AdminBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Admin_By_PkArgs = {
+export type MutationRootDeleteAdminByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootDelete_BeneficiaryArgs = {
-	where: Beneficiary_Bool_Exp;
+export type MutationRootDeleteBeneficiaryArgs = {
+	where: BeneficiaryBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Beneficiary_By_PkArgs = {
+export type MutationRootDeleteBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootDelete_NotebookArgs = {
-	where: Notebook_Bool_Exp;
+export type MutationRootDeleteNotebookArgs = {
+	where: NotebookBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Notebook_By_PkArgs = {
+export type MutationRootDeleteNotebookByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Notebook_EventArgs = {
-	where: Notebook_Event_Bool_Exp;
+export type MutationRootDeleteNotebookEventArgs = {
+	where: NotebookEventBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Notebook_Event_By_PkArgs = {
+export type MutationRootDeleteNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Notebook_MemberArgs = {
-	where: Notebook_Member_Bool_Exp;
+export type MutationRootDeleteNotebookMemberArgs = {
+	where: NotebookMemberBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Notebook_Member_By_PkArgs = {
+export type MutationRootDeleteNotebookMemberByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootDelete_ProfessionalArgs = {
-	where: Professional_Bool_Exp;
+export type MutationRootDeleteProfessionalArgs = {
+	where: ProfessionalBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Professional_By_PkArgs = {
+export type MutationRootDeleteProfessionalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootDelete_StructureArgs = {
-	where: Structure_Bool_Exp;
+export type MutationRootDeleteStructureArgs = {
+	where: StructureBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Structure_By_PkArgs = {
+export type MutationRootDeleteStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** mutation root */
-export type Mutation_RootInsert_AccountArgs = {
-	objects: Array<Account_Insert_Input>;
-	on_conflict?: Maybe<Account_On_Conflict>;
+export type MutationRootInsertAccountArgs = {
+	objects: Array<AccountInsertInput>;
+	on_conflict?: Maybe<AccountOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Account_OneArgs = {
-	object: Account_Insert_Input;
-	on_conflict?: Maybe<Account_On_Conflict>;
+export type MutationRootInsertAccountOneArgs = {
+	object: AccountInsertInput;
+	on_conflict?: Maybe<AccountOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_AdminArgs = {
-	objects: Array<Admin_Insert_Input>;
-	on_conflict?: Maybe<Admin_On_Conflict>;
+export type MutationRootInsertAdminArgs = {
+	objects: Array<AdminInsertInput>;
+	on_conflict?: Maybe<AdminOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Admin_OneArgs = {
-	object: Admin_Insert_Input;
-	on_conflict?: Maybe<Admin_On_Conflict>;
+export type MutationRootInsertAdminOneArgs = {
+	object: AdminInsertInput;
+	on_conflict?: Maybe<AdminOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_BeneficiaryArgs = {
-	objects: Array<Beneficiary_Insert_Input>;
-	on_conflict?: Maybe<Beneficiary_On_Conflict>;
+export type MutationRootInsertBeneficiaryArgs = {
+	objects: Array<BeneficiaryInsertInput>;
+	on_conflict?: Maybe<BeneficiaryOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Beneficiary_OneArgs = {
-	object: Beneficiary_Insert_Input;
-	on_conflict?: Maybe<Beneficiary_On_Conflict>;
+export type MutationRootInsertBeneficiaryOneArgs = {
+	object: BeneficiaryInsertInput;
+	on_conflict?: Maybe<BeneficiaryOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_NotebookArgs = {
-	objects: Array<Notebook_Insert_Input>;
-	on_conflict?: Maybe<Notebook_On_Conflict>;
+export type MutationRootInsertNotebookArgs = {
+	objects: Array<NotebookInsertInput>;
+	on_conflict?: Maybe<NotebookOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Notebook_EventArgs = {
-	objects: Array<Notebook_Event_Insert_Input>;
-	on_conflict?: Maybe<Notebook_Event_On_Conflict>;
+export type MutationRootInsertNotebookEventArgs = {
+	objects: Array<NotebookEventInsertInput>;
+	on_conflict?: Maybe<NotebookEventOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Notebook_Event_OneArgs = {
-	object: Notebook_Event_Insert_Input;
-	on_conflict?: Maybe<Notebook_Event_On_Conflict>;
+export type MutationRootInsertNotebookEventOneArgs = {
+	object: NotebookEventInsertInput;
+	on_conflict?: Maybe<NotebookEventOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Notebook_MemberArgs = {
-	objects: Array<Notebook_Member_Insert_Input>;
-	on_conflict?: Maybe<Notebook_Member_On_Conflict>;
+export type MutationRootInsertNotebookMemberArgs = {
+	objects: Array<NotebookMemberInsertInput>;
+	on_conflict?: Maybe<NotebookMemberOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Notebook_Member_OneArgs = {
-	object: Notebook_Member_Insert_Input;
-	on_conflict?: Maybe<Notebook_Member_On_Conflict>;
+export type MutationRootInsertNotebookMemberOneArgs = {
+	object: NotebookMemberInsertInput;
+	on_conflict?: Maybe<NotebookMemberOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Notebook_OneArgs = {
-	object: Notebook_Insert_Input;
-	on_conflict?: Maybe<Notebook_On_Conflict>;
+export type MutationRootInsertNotebookOneArgs = {
+	object: NotebookInsertInput;
+	on_conflict?: Maybe<NotebookOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_ProfessionalArgs = {
-	objects: Array<Professional_Insert_Input>;
-	on_conflict?: Maybe<Professional_On_Conflict>;
+export type MutationRootInsertProfessionalArgs = {
+	objects: Array<ProfessionalInsertInput>;
+	on_conflict?: Maybe<ProfessionalOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Professional_OneArgs = {
-	object: Professional_Insert_Input;
-	on_conflict?: Maybe<Professional_On_Conflict>;
+export type MutationRootInsertProfessionalOneArgs = {
+	object: ProfessionalInsertInput;
+	on_conflict?: Maybe<ProfessionalOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_StructureArgs = {
-	objects: Array<Structure_Insert_Input>;
-	on_conflict?: Maybe<Structure_On_Conflict>;
+export type MutationRootInsertStructureArgs = {
+	objects: Array<StructureInsertInput>;
+	on_conflict?: Maybe<StructureOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Structure_OneArgs = {
-	object: Structure_Insert_Input;
-	on_conflict?: Maybe<Structure_On_Conflict>;
+export type MutationRootInsertStructureOneArgs = {
+	object: StructureInsertInput;
+	on_conflict?: Maybe<StructureOnConflict>;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_AccountArgs = {
-	_set?: Maybe<Account_Set_Input>;
-	where: Account_Bool_Exp;
+export type MutationRootUpdateAccountArgs = {
+	_set?: Maybe<AccountSetInput>;
+	where: AccountBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Account_By_PkArgs = {
-	_set?: Maybe<Account_Set_Input>;
-	pk_columns: Account_Pk_Columns_Input;
+export type MutationRootUpdateAccountByPkArgs = {
+	_set?: Maybe<AccountSetInput>;
+	pk_columns: AccountPkColumnsInput;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_AdminArgs = {
-	_set?: Maybe<Admin_Set_Input>;
-	where: Admin_Bool_Exp;
+export type MutationRootUpdateAdminArgs = {
+	_set?: Maybe<AdminSetInput>;
+	where: AdminBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Admin_By_PkArgs = {
-	_set?: Maybe<Admin_Set_Input>;
-	pk_columns: Admin_Pk_Columns_Input;
+export type MutationRootUpdateAdminByPkArgs = {
+	_set?: Maybe<AdminSetInput>;
+	pk_columns: AdminPkColumnsInput;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_BeneficiaryArgs = {
-	_set?: Maybe<Beneficiary_Set_Input>;
-	where: Beneficiary_Bool_Exp;
+export type MutationRootUpdateBeneficiaryArgs = {
+	_set?: Maybe<BeneficiarySetInput>;
+	where: BeneficiaryBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Beneficiary_By_PkArgs = {
-	_set?: Maybe<Beneficiary_Set_Input>;
-	pk_columns: Beneficiary_Pk_Columns_Input;
+export type MutationRootUpdateBeneficiaryByPkArgs = {
+	_set?: Maybe<BeneficiarySetInput>;
+	pk_columns: BeneficiaryPkColumnsInput;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_NotebookArgs = {
-	_set?: Maybe<Notebook_Set_Input>;
-	where: Notebook_Bool_Exp;
+export type MutationRootUpdateNotebookArgs = {
+	_set?: Maybe<NotebookSetInput>;
+	where: NotebookBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Notebook_By_PkArgs = {
-	_set?: Maybe<Notebook_Set_Input>;
-	pk_columns: Notebook_Pk_Columns_Input;
+export type MutationRootUpdateNotebookByPkArgs = {
+	_set?: Maybe<NotebookSetInput>;
+	pk_columns: NotebookPkColumnsInput;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Notebook_EventArgs = {
-	_append?: Maybe<Notebook_Event_Append_Input>;
-	_delete_at_path?: Maybe<Notebook_Event_Delete_At_Path_Input>;
-	_delete_elem?: Maybe<Notebook_Event_Delete_Elem_Input>;
-	_delete_key?: Maybe<Notebook_Event_Delete_Key_Input>;
-	_prepend?: Maybe<Notebook_Event_Prepend_Input>;
-	_set?: Maybe<Notebook_Event_Set_Input>;
-	where: Notebook_Event_Bool_Exp;
+export type MutationRootUpdateNotebookEventArgs = {
+	_append?: Maybe<NotebookEventAppendInput>;
+	_delete_at_path?: Maybe<NotebookEventDeleteAtPathInput>;
+	_delete_elem?: Maybe<NotebookEventDeleteElemInput>;
+	_delete_key?: Maybe<NotebookEventDeleteKeyInput>;
+	_prepend?: Maybe<NotebookEventPrependInput>;
+	_set?: Maybe<NotebookEventSetInput>;
+	where: NotebookEventBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Notebook_Event_By_PkArgs = {
-	_append?: Maybe<Notebook_Event_Append_Input>;
-	_delete_at_path?: Maybe<Notebook_Event_Delete_At_Path_Input>;
-	_delete_elem?: Maybe<Notebook_Event_Delete_Elem_Input>;
-	_delete_key?: Maybe<Notebook_Event_Delete_Key_Input>;
-	_prepend?: Maybe<Notebook_Event_Prepend_Input>;
-	_set?: Maybe<Notebook_Event_Set_Input>;
-	pk_columns: Notebook_Event_Pk_Columns_Input;
+export type MutationRootUpdateNotebookEventByPkArgs = {
+	_append?: Maybe<NotebookEventAppendInput>;
+	_delete_at_path?: Maybe<NotebookEventDeleteAtPathInput>;
+	_delete_elem?: Maybe<NotebookEventDeleteElemInput>;
+	_delete_key?: Maybe<NotebookEventDeleteKeyInput>;
+	_prepend?: Maybe<NotebookEventPrependInput>;
+	_set?: Maybe<NotebookEventSetInput>;
+	pk_columns: NotebookEventPkColumnsInput;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Notebook_MemberArgs = {
-	_set?: Maybe<Notebook_Member_Set_Input>;
-	where: Notebook_Member_Bool_Exp;
+export type MutationRootUpdateNotebookMemberArgs = {
+	_set?: Maybe<NotebookMemberSetInput>;
+	where: NotebookMemberBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Notebook_Member_By_PkArgs = {
-	_set?: Maybe<Notebook_Member_Set_Input>;
-	pk_columns: Notebook_Member_Pk_Columns_Input;
+export type MutationRootUpdateNotebookMemberByPkArgs = {
+	_set?: Maybe<NotebookMemberSetInput>;
+	pk_columns: NotebookMemberPkColumnsInput;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_ProfessionalArgs = {
-	_set?: Maybe<Professional_Set_Input>;
-	where: Professional_Bool_Exp;
+export type MutationRootUpdateProfessionalArgs = {
+	_set?: Maybe<ProfessionalSetInput>;
+	where: ProfessionalBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Professional_By_PkArgs = {
-	_set?: Maybe<Professional_Set_Input>;
-	pk_columns: Professional_Pk_Columns_Input;
+export type MutationRootUpdateProfessionalByPkArgs = {
+	_set?: Maybe<ProfessionalSetInput>;
+	pk_columns: ProfessionalPkColumnsInput;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_StructureArgs = {
-	_set?: Maybe<Structure_Set_Input>;
-	where: Structure_Bool_Exp;
+export type MutationRootUpdateStructureArgs = {
+	_set?: Maybe<StructureSetInput>;
+	where: StructureBoolExp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Structure_By_PkArgs = {
-	_set?: Maybe<Structure_Set_Input>;
-	pk_columns: Structure_Pk_Columns_Input;
+export type MutationRootUpdateStructureByPkArgs = {
+	_set?: Maybe<StructureSetInput>;
+	pk_columns: StructurePkColumnsInput;
 };
 
 /** columns and relationships of "notebook" */
@@ -1161,88 +1161,88 @@ export type Notebook = {
 	beneficiaryId: Scalars['uuid'];
 	creationDate: Scalars['timestamptz'];
 	/** An array relationship */
-	events: Array<Notebook_Event>;
+	events: Array<NotebookEvent>;
 	/** An aggregate relationship */
-	events_aggregate: Notebook_Event_Aggregate;
+	events_aggregate: NotebookEventAggregate;
 	id: Scalars['uuid'];
 	/** An array relationship */
-	members: Array<Notebook_Member>;
+	members: Array<NotebookMember>;
 	/** An aggregate relationship */
-	members_aggregate: Notebook_Member_Aggregate;
+	members_aggregate: NotebookMemberAggregate;
 };
 
 /** columns and relationships of "notebook" */
 export type NotebookEventsArgs = {
-	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+	distinct_on?: Maybe<Array<NotebookEventSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
-	where?: Maybe<Notebook_Event_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookEventOrderBy>>;
+	where?: Maybe<NotebookEventBoolExp>;
 };
 
 /** columns and relationships of "notebook" */
-export type NotebookEvents_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+export type NotebookEventsAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookEventSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
-	where?: Maybe<Notebook_Event_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookEventOrderBy>>;
+	where?: Maybe<NotebookEventBoolExp>;
 };
 
 /** columns and relationships of "notebook" */
 export type NotebookMembersArgs = {
-	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
-	where?: Maybe<Notebook_Member_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
 /** columns and relationships of "notebook" */
-export type NotebookMembers_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+export type NotebookMembersAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
-	where?: Maybe<Notebook_Member_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
 /** aggregated selection of "notebook" */
-export type Notebook_Aggregate = {
+export type NotebookAggregate = {
 	__typename?: 'notebook_aggregate';
-	aggregate?: Maybe<Notebook_Aggregate_Fields>;
+	aggregate?: Maybe<NotebookAggregateFields>;
 	nodes: Array<Notebook>;
 };
 
 /** aggregate fields of "notebook" */
-export type Notebook_Aggregate_Fields = {
+export type NotebookAggregateFields = {
 	__typename?: 'notebook_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Notebook_Max_Fields>;
-	min?: Maybe<Notebook_Min_Fields>;
+	max?: Maybe<NotebookMaxFields>;
+	min?: Maybe<NotebookMinFields>;
 };
 
 /** aggregate fields of "notebook" */
-export type Notebook_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Notebook_Select_Column>>;
+export type NotebookAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<NotebookSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
-export type Notebook_Bool_Exp = {
-	_and?: Maybe<Array<Notebook_Bool_Exp>>;
-	_not?: Maybe<Notebook_Bool_Exp>;
-	_or?: Maybe<Array<Notebook_Bool_Exp>>;
-	beneficiary?: Maybe<Beneficiary_Bool_Exp>;
-	beneficiaryId?: Maybe<Uuid_Comparison_Exp>;
-	creationDate?: Maybe<Timestamptz_Comparison_Exp>;
-	events?: Maybe<Notebook_Event_Bool_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	members?: Maybe<Notebook_Member_Bool_Exp>;
+export type NotebookBoolExp = {
+	_and?: Maybe<Array<NotebookBoolExp>>;
+	_not?: Maybe<NotebookBoolExp>;
+	_or?: Maybe<Array<NotebookBoolExp>>;
+	beneficiary?: Maybe<BeneficiaryBoolExp>;
+	beneficiaryId?: Maybe<UuidComparisonExp>;
+	creationDate?: Maybe<TimestamptzComparisonExp>;
+	events?: Maybe<NotebookEventBoolExp>;
+	id?: Maybe<UuidComparisonExp>;
+	members?: Maybe<NotebookMemberBoolExp>;
 };
 
 /** unique or primary key constraints on table "notebook" */
-export enum Notebook_Constraint {
+export enum NotebookConstraint {
 	/** unique or primary key constraint */
 	NotebookBeneficiaryIdKey = 'notebook_beneficiary_id_key',
 	/** unique or primary key constraint */
@@ -1250,7 +1250,7 @@ export enum Notebook_Constraint {
 }
 
 /** columns and relationships of "notebook_event" */
-export type Notebook_Event = {
+export type NotebookEvent = {
 	__typename?: 'notebook_event';
 	creationDate: Scalars['timestamptz'];
 	data: Scalars['jsonb'];
@@ -1265,100 +1265,100 @@ export type Notebook_Event = {
 };
 
 /** columns and relationships of "notebook_event" */
-export type Notebook_EventDataArgs = {
+export type NotebookEventDataArgs = {
 	path?: Maybe<Scalars['String']>;
 };
 
 /** aggregated selection of "notebook_event" */
-export type Notebook_Event_Aggregate = {
+export type NotebookEventAggregate = {
 	__typename?: 'notebook_event_aggregate';
-	aggregate?: Maybe<Notebook_Event_Aggregate_Fields>;
-	nodes: Array<Notebook_Event>;
+	aggregate?: Maybe<NotebookEventAggregateFields>;
+	nodes: Array<NotebookEvent>;
 };
 
 /** aggregate fields of "notebook_event" */
-export type Notebook_Event_Aggregate_Fields = {
+export type NotebookEventAggregateFields = {
 	__typename?: 'notebook_event_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Notebook_Event_Max_Fields>;
-	min?: Maybe<Notebook_Event_Min_Fields>;
+	max?: Maybe<NotebookEventMaxFields>;
+	min?: Maybe<NotebookEventMinFields>;
 };
 
 /** aggregate fields of "notebook_event" */
-export type Notebook_Event_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Notebook_Event_Select_Column>>;
+export type NotebookEventAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<NotebookEventSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "notebook_event" */
-export type Notebook_Event_Aggregate_Order_By = {
-	count?: Maybe<Order_By>;
-	max?: Maybe<Notebook_Event_Max_Order_By>;
-	min?: Maybe<Notebook_Event_Min_Order_By>;
+export type NotebookEventAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<NotebookEventMaxOrderBy>;
+	min?: Maybe<NotebookEventMinOrderBy>;
 };
 
 /** append existing jsonb value of filtered columns with new jsonb value */
-export type Notebook_Event_Append_Input = {
+export type NotebookEventAppendInput = {
 	data?: Maybe<Scalars['jsonb']>;
 };
 
 /** input type for inserting array relation for remote table "notebook_event" */
-export type Notebook_Event_Arr_Rel_Insert_Input = {
-	data: Array<Notebook_Event_Insert_Input>;
+export type NotebookEventArrRelInsertInput = {
+	data: Array<NotebookEventInsertInput>;
 	/** on conflict condition */
-	on_conflict?: Maybe<Notebook_Event_On_Conflict>;
+	on_conflict?: Maybe<NotebookEventOnConflict>;
 };
 
 /** Boolean expression to filter rows from the table "notebook_event". All fields are combined with a logical 'AND'. */
-export type Notebook_Event_Bool_Exp = {
-	_and?: Maybe<Array<Notebook_Event_Bool_Exp>>;
-	_not?: Maybe<Notebook_Event_Bool_Exp>;
-	_or?: Maybe<Array<Notebook_Event_Bool_Exp>>;
-	creationDate?: Maybe<Timestamptz_Comparison_Exp>;
-	data?: Maybe<Jsonb_Comparison_Exp>;
-	eventDate?: Maybe<Date_Comparison_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	notebook?: Maybe<Notebook_Bool_Exp>;
-	notebookId?: Maybe<Uuid_Comparison_Exp>;
-	professional?: Maybe<Professional_Bool_Exp>;
-	professionalId?: Maybe<Uuid_Comparison_Exp>;
+export type NotebookEventBoolExp = {
+	_and?: Maybe<Array<NotebookEventBoolExp>>;
+	_not?: Maybe<NotebookEventBoolExp>;
+	_or?: Maybe<Array<NotebookEventBoolExp>>;
+	creationDate?: Maybe<TimestamptzComparisonExp>;
+	data?: Maybe<JsonbComparisonExp>;
+	eventDate?: Maybe<DateComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	notebook?: Maybe<NotebookBoolExp>;
+	notebookId?: Maybe<UuidComparisonExp>;
+	professional?: Maybe<ProfessionalBoolExp>;
+	professionalId?: Maybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_event" */
-export enum Notebook_Event_Constraint {
+export enum NotebookEventConstraint {
 	/** unique or primary key constraint */
 	NotebookEventPkey = 'notebook_event_pkey'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-export type Notebook_Event_Delete_At_Path_Input = {
+export type NotebookEventDeleteAtPathInput = {
 	data?: Maybe<Array<Scalars['String']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-export type Notebook_Event_Delete_Elem_Input = {
+export type NotebookEventDeleteElemInput = {
 	data?: Maybe<Scalars['Int']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
-export type Notebook_Event_Delete_Key_Input = {
+export type NotebookEventDeleteKeyInput = {
 	data?: Maybe<Scalars['String']>;
 };
 
 /** input type for inserting data into table "notebook_event" */
-export type Notebook_Event_Insert_Input = {
+export type NotebookEventInsertInput = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	data?: Maybe<Scalars['jsonb']>;
 	eventDate?: Maybe<Scalars['date']>;
 	id?: Maybe<Scalars['uuid']>;
-	notebook?: Maybe<Notebook_Obj_Rel_Insert_Input>;
+	notebook?: Maybe<NotebookObjRelInsertInput>;
 	notebookId?: Maybe<Scalars['uuid']>;
-	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
+	professional?: Maybe<ProfessionalObjRelInsertInput>;
 	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
-export type Notebook_Event_Max_Fields = {
+export type NotebookEventMaxFields = {
 	__typename?: 'notebook_event_max_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	eventDate?: Maybe<Scalars['date']>;
@@ -1368,16 +1368,16 @@ export type Notebook_Event_Max_Fields = {
 };
 
 /** order by max() on columns of table "notebook_event" */
-export type Notebook_Event_Max_Order_By = {
-	creationDate?: Maybe<Order_By>;
-	eventDate?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	notebookId?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
+export type NotebookEventMaxOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	eventDate?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	professionalId?: Maybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Notebook_Event_Min_Fields = {
+export type NotebookEventMinFields = {
 	__typename?: 'notebook_event_min_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	eventDate?: Maybe<Scalars['date']>;
@@ -1387,54 +1387,54 @@ export type Notebook_Event_Min_Fields = {
 };
 
 /** order by min() on columns of table "notebook_event" */
-export type Notebook_Event_Min_Order_By = {
-	creationDate?: Maybe<Order_By>;
-	eventDate?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	notebookId?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
+export type NotebookEventMinOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	eventDate?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	professionalId?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_event" */
-export type Notebook_Event_Mutation_Response = {
+export type NotebookEventMutationResponse = {
 	__typename?: 'notebook_event_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
 	/** data from the rows affected by the mutation */
-	returning: Array<Notebook_Event>;
+	returning: Array<NotebookEvent>;
 };
 
 /** on conflict condition type for table "notebook_event" */
-export type Notebook_Event_On_Conflict = {
-	constraint: Notebook_Event_Constraint;
-	update_columns?: Array<Notebook_Event_Update_Column>;
-	where?: Maybe<Notebook_Event_Bool_Exp>;
+export type NotebookEventOnConflict = {
+	constraint: NotebookEventConstraint;
+	update_columns?: Array<NotebookEventUpdateColumn>;
+	where?: Maybe<NotebookEventBoolExp>;
 };
 
 /** Ordering options when selecting data from "notebook_event". */
-export type Notebook_Event_Order_By = {
-	creationDate?: Maybe<Order_By>;
-	data?: Maybe<Order_By>;
-	eventDate?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	notebook?: Maybe<Notebook_Order_By>;
-	notebookId?: Maybe<Order_By>;
-	professional?: Maybe<Professional_Order_By>;
-	professionalId?: Maybe<Order_By>;
+export type NotebookEventOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	data?: Maybe<OrderBy>;
+	eventDate?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	notebook?: Maybe<NotebookOrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	professional?: Maybe<ProfessionalOrderBy>;
+	professionalId?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_event */
-export type Notebook_Event_Pk_Columns_Input = {
+export type NotebookEventPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
-export type Notebook_Event_Prepend_Input = {
+export type NotebookEventPrependInput = {
 	data?: Maybe<Scalars['jsonb']>;
 };
 
 /** select columns of table "notebook_event" */
-export enum Notebook_Event_Select_Column {
+export enum NotebookEventSelectColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
@@ -1450,7 +1450,7 @@ export enum Notebook_Event_Select_Column {
 }
 
 /** input type for updating data in table "notebook_event" */
-export type Notebook_Event_Set_Input = {
+export type NotebookEventSetInput = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	data?: Maybe<Scalars['jsonb']>;
 	eventDate?: Maybe<Scalars['date']>;
@@ -1460,7 +1460,7 @@ export type Notebook_Event_Set_Input = {
 };
 
 /** update columns of table "notebook_event" */
-export enum Notebook_Event_Update_Column {
+export enum NotebookEventUpdateColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
@@ -1476,17 +1476,17 @@ export enum Notebook_Event_Update_Column {
 }
 
 /** input type for inserting data into table "notebook" */
-export type Notebook_Insert_Input = {
-	beneficiary?: Maybe<Beneficiary_Obj_Rel_Insert_Input>;
+export type NotebookInsertInput = {
+	beneficiary?: Maybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	events?: Maybe<Notebook_Event_Arr_Rel_Insert_Input>;
+	events?: Maybe<NotebookEventArrRelInsertInput>;
 	id?: Maybe<Scalars['uuid']>;
-	members?: Maybe<Notebook_Member_Arr_Rel_Insert_Input>;
+	members?: Maybe<NotebookMemberArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
-export type Notebook_Max_Fields = {
+export type NotebookMaxFields = {
 	__typename?: 'notebook_max_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
@@ -1494,7 +1494,7 @@ export type Notebook_Max_Fields = {
 };
 
 /** columns and relationships of "notebook_member" */
-export type Notebook_Member = {
+export type NotebookMember = {
 	__typename?: 'notebook_member';
 	id: Scalars['uuid'];
 	memberType: Scalars['String'];
@@ -1509,75 +1509,75 @@ export type Notebook_Member = {
 };
 
 /** aggregated selection of "notebook_member" */
-export type Notebook_Member_Aggregate = {
+export type NotebookMemberAggregate = {
 	__typename?: 'notebook_member_aggregate';
-	aggregate?: Maybe<Notebook_Member_Aggregate_Fields>;
-	nodes: Array<Notebook_Member>;
+	aggregate?: Maybe<NotebookMemberAggregateFields>;
+	nodes: Array<NotebookMember>;
 };
 
 /** aggregate fields of "notebook_member" */
-export type Notebook_Member_Aggregate_Fields = {
+export type NotebookMemberAggregateFields = {
 	__typename?: 'notebook_member_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Notebook_Member_Max_Fields>;
-	min?: Maybe<Notebook_Member_Min_Fields>;
+	max?: Maybe<NotebookMemberMaxFields>;
+	min?: Maybe<NotebookMemberMinFields>;
 };
 
 /** aggregate fields of "notebook_member" */
-export type Notebook_Member_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Notebook_Member_Select_Column>>;
+export type NotebookMemberAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<NotebookMemberSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "notebook_member" */
-export type Notebook_Member_Aggregate_Order_By = {
-	count?: Maybe<Order_By>;
-	max?: Maybe<Notebook_Member_Max_Order_By>;
-	min?: Maybe<Notebook_Member_Min_Order_By>;
+export type NotebookMemberAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<NotebookMemberMaxOrderBy>;
+	min?: Maybe<NotebookMemberMinOrderBy>;
 };
 
 /** input type for inserting array relation for remote table "notebook_member" */
-export type Notebook_Member_Arr_Rel_Insert_Input = {
-	data: Array<Notebook_Member_Insert_Input>;
+export type NotebookMemberArrRelInsertInput = {
+	data: Array<NotebookMemberInsertInput>;
 	/** on conflict condition */
-	on_conflict?: Maybe<Notebook_Member_On_Conflict>;
+	on_conflict?: Maybe<NotebookMemberOnConflict>;
 };
 
 /** Boolean expression to filter rows from the table "notebook_member". All fields are combined with a logical 'AND'. */
-export type Notebook_Member_Bool_Exp = {
-	_and?: Maybe<Array<Notebook_Member_Bool_Exp>>;
-	_not?: Maybe<Notebook_Member_Bool_Exp>;
-	_or?: Maybe<Array<Notebook_Member_Bool_Exp>>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	memberType?: Maybe<String_Comparison_Exp>;
-	notebook?: Maybe<Notebook_Bool_Exp>;
-	notebookId?: Maybe<Uuid_Comparison_Exp>;
-	notebookModificationDate?: Maybe<Timestamptz_Comparison_Exp>;
-	notebookVisitDate?: Maybe<Timestamptz_Comparison_Exp>;
-	professional?: Maybe<Professional_Bool_Exp>;
-	professionalId?: Maybe<Uuid_Comparison_Exp>;
+export type NotebookMemberBoolExp = {
+	_and?: Maybe<Array<NotebookMemberBoolExp>>;
+	_not?: Maybe<NotebookMemberBoolExp>;
+	_or?: Maybe<Array<NotebookMemberBoolExp>>;
+	id?: Maybe<UuidComparisonExp>;
+	memberType?: Maybe<StringComparisonExp>;
+	notebook?: Maybe<NotebookBoolExp>;
+	notebookId?: Maybe<UuidComparisonExp>;
+	notebookModificationDate?: Maybe<TimestamptzComparisonExp>;
+	notebookVisitDate?: Maybe<TimestamptzComparisonExp>;
+	professional?: Maybe<ProfessionalBoolExp>;
+	professionalId?: Maybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_member" */
-export enum Notebook_Member_Constraint {
+export enum NotebookMemberConstraint {
 	/** unique or primary key constraint */
 	NotebookMemberPkey = 'notebook_member_pkey'
 }
 
 /** input type for inserting data into table "notebook_member" */
-export type Notebook_Member_Insert_Input = {
+export type NotebookMemberInsertInput = {
 	id?: Maybe<Scalars['uuid']>;
 	memberType?: Maybe<Scalars['String']>;
-	notebook?: Maybe<Notebook_Obj_Rel_Insert_Input>;
+	notebook?: Maybe<NotebookObjRelInsertInput>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
 	notebookVisitDate?: Maybe<Scalars['timestamptz']>;
-	professional?: Maybe<Professional_Obj_Rel_Insert_Input>;
+	professional?: Maybe<ProfessionalObjRelInsertInput>;
 	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
-export type Notebook_Member_Max_Fields = {
+export type NotebookMemberMaxFields = {
 	__typename?: 'notebook_member_max_fields';
 	id?: Maybe<Scalars['uuid']>;
 	memberType?: Maybe<Scalars['String']>;
@@ -1588,17 +1588,17 @@ export type Notebook_Member_Max_Fields = {
 };
 
 /** order by max() on columns of table "notebook_member" */
-export type Notebook_Member_Max_Order_By = {
-	id?: Maybe<Order_By>;
-	memberType?: Maybe<Order_By>;
-	notebookId?: Maybe<Order_By>;
-	notebookModificationDate?: Maybe<Order_By>;
-	notebookVisitDate?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
+export type NotebookMemberMaxOrderBy = {
+	id?: Maybe<OrderBy>;
+	memberType?: Maybe<OrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	notebookModificationDate?: Maybe<OrderBy>;
+	notebookVisitDate?: Maybe<OrderBy>;
+	professionalId?: Maybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Notebook_Member_Min_Fields = {
+export type NotebookMemberMinFields = {
 	__typename?: 'notebook_member_min_fields';
 	id?: Maybe<Scalars['uuid']>;
 	memberType?: Maybe<Scalars['String']>;
@@ -1609,50 +1609,50 @@ export type Notebook_Member_Min_Fields = {
 };
 
 /** order by min() on columns of table "notebook_member" */
-export type Notebook_Member_Min_Order_By = {
-	id?: Maybe<Order_By>;
-	memberType?: Maybe<Order_By>;
-	notebookId?: Maybe<Order_By>;
-	notebookModificationDate?: Maybe<Order_By>;
-	notebookVisitDate?: Maybe<Order_By>;
-	professionalId?: Maybe<Order_By>;
+export type NotebookMemberMinOrderBy = {
+	id?: Maybe<OrderBy>;
+	memberType?: Maybe<OrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	notebookModificationDate?: Maybe<OrderBy>;
+	notebookVisitDate?: Maybe<OrderBy>;
+	professionalId?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_member" */
-export type Notebook_Member_Mutation_Response = {
+export type NotebookMemberMutationResponse = {
 	__typename?: 'notebook_member_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
 	/** data from the rows affected by the mutation */
-	returning: Array<Notebook_Member>;
+	returning: Array<NotebookMember>;
 };
 
 /** on conflict condition type for table "notebook_member" */
-export type Notebook_Member_On_Conflict = {
-	constraint: Notebook_Member_Constraint;
-	update_columns?: Array<Notebook_Member_Update_Column>;
-	where?: Maybe<Notebook_Member_Bool_Exp>;
+export type NotebookMemberOnConflict = {
+	constraint: NotebookMemberConstraint;
+	update_columns?: Array<NotebookMemberUpdateColumn>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
 /** Ordering options when selecting data from "notebook_member". */
-export type Notebook_Member_Order_By = {
-	id?: Maybe<Order_By>;
-	memberType?: Maybe<Order_By>;
-	notebook?: Maybe<Notebook_Order_By>;
-	notebookId?: Maybe<Order_By>;
-	notebookModificationDate?: Maybe<Order_By>;
-	notebookVisitDate?: Maybe<Order_By>;
-	professional?: Maybe<Professional_Order_By>;
-	professionalId?: Maybe<Order_By>;
+export type NotebookMemberOrderBy = {
+	id?: Maybe<OrderBy>;
+	memberType?: Maybe<OrderBy>;
+	notebook?: Maybe<NotebookOrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	notebookModificationDate?: Maybe<OrderBy>;
+	notebookVisitDate?: Maybe<OrderBy>;
+	professional?: Maybe<ProfessionalOrderBy>;
+	professionalId?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_member */
-export type Notebook_Member_Pk_Columns_Input = {
+export type NotebookMemberPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** select columns of table "notebook_member" */
-export enum Notebook_Member_Select_Column {
+export enum NotebookMemberSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -1668,7 +1668,7 @@ export enum Notebook_Member_Select_Column {
 }
 
 /** input type for updating data in table "notebook_member" */
-export type Notebook_Member_Set_Input = {
+export type NotebookMemberSetInput = {
 	id?: Maybe<Scalars['uuid']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -1678,7 +1678,7 @@ export type Notebook_Member_Set_Input = {
 };
 
 /** update columns of table "notebook_member" */
-export enum Notebook_Member_Update_Column {
+export enum NotebookMemberUpdateColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -1694,7 +1694,7 @@ export enum Notebook_Member_Update_Column {
 }
 
 /** aggregate min on columns */
-export type Notebook_Min_Fields = {
+export type NotebookMinFields = {
 	__typename?: 'notebook_min_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
@@ -1702,7 +1702,7 @@ export type Notebook_Min_Fields = {
 };
 
 /** response of any mutation on the table "notebook" */
-export type Notebook_Mutation_Response = {
+export type NotebookMutationResponse = {
 	__typename?: 'notebook_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
@@ -1711,36 +1711,36 @@ export type Notebook_Mutation_Response = {
 };
 
 /** input type for inserting object relation for remote table "notebook" */
-export type Notebook_Obj_Rel_Insert_Input = {
-	data: Notebook_Insert_Input;
+export type NotebookObjRelInsertInput = {
+	data: NotebookInsertInput;
 	/** on conflict condition */
-	on_conflict?: Maybe<Notebook_On_Conflict>;
+	on_conflict?: Maybe<NotebookOnConflict>;
 };
 
 /** on conflict condition type for table "notebook" */
-export type Notebook_On_Conflict = {
-	constraint: Notebook_Constraint;
-	update_columns?: Array<Notebook_Update_Column>;
-	where?: Maybe<Notebook_Bool_Exp>;
+export type NotebookOnConflict = {
+	constraint: NotebookConstraint;
+	update_columns?: Array<NotebookUpdateColumn>;
+	where?: Maybe<NotebookBoolExp>;
 };
 
 /** Ordering options when selecting data from "notebook". */
-export type Notebook_Order_By = {
-	beneficiary?: Maybe<Beneficiary_Order_By>;
-	beneficiaryId?: Maybe<Order_By>;
-	creationDate?: Maybe<Order_By>;
-	events_aggregate?: Maybe<Notebook_Event_Aggregate_Order_By>;
-	id?: Maybe<Order_By>;
-	members_aggregate?: Maybe<Notebook_Member_Aggregate_Order_By>;
+export type NotebookOrderBy = {
+	beneficiary?: Maybe<BeneficiaryOrderBy>;
+	beneficiaryId?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	events_aggregate?: Maybe<NotebookEventAggregateOrderBy>;
+	id?: Maybe<OrderBy>;
+	members_aggregate?: Maybe<NotebookMemberAggregateOrderBy>;
 };
 
 /** primary key columns input for table: notebook */
-export type Notebook_Pk_Columns_Input = {
+export type NotebookPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** select columns of table "notebook" */
-export enum Notebook_Select_Column {
+export enum NotebookSelectColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
@@ -1750,14 +1750,14 @@ export enum Notebook_Select_Column {
 }
 
 /** input type for updating data in table "notebook" */
-export type Notebook_Set_Input = {
+export type NotebookSetInput = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 };
 
 /** update columns of table "notebook" */
-export enum Notebook_Update_Column {
+export enum NotebookUpdateColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
@@ -1767,7 +1767,7 @@ export enum Notebook_Update_Column {
 }
 
 /** column ordering options */
-export enum Order_By {
+export enum OrderBy {
 	/** in ascending order, nulls last */
 	Asc = 'asc',
 	/** in ascending order, nulls first */
@@ -1788,7 +1788,7 @@ export type Professional = {
 	/** An array relationship */
 	accounts: Array<Account>;
 	/** An aggregate relationship */
-	accounts_aggregate: Account_Aggregate;
+	accounts_aggregate: AccountAggregate;
 	email: Scalars['String'];
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
@@ -1802,75 +1802,75 @@ export type Professional = {
 
 /** columns and relationships of "professional" */
 export type ProfessionalAccountsArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** columns and relationships of "professional" */
-export type ProfessionalAccounts_AggregateArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+export type ProfessionalAccountsAggregateArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** aggregated selection of "professional" */
-export type Professional_Aggregate = {
+export type ProfessionalAggregate = {
 	__typename?: 'professional_aggregate';
-	aggregate?: Maybe<Professional_Aggregate_Fields>;
+	aggregate?: Maybe<ProfessionalAggregateFields>;
 	nodes: Array<Professional>;
 };
 
 /** aggregate fields of "professional" */
-export type Professional_Aggregate_Fields = {
+export type ProfessionalAggregateFields = {
 	__typename?: 'professional_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Professional_Max_Fields>;
-	min?: Maybe<Professional_Min_Fields>;
+	max?: Maybe<ProfessionalMaxFields>;
+	min?: Maybe<ProfessionalMinFields>;
 };
 
 /** aggregate fields of "professional" */
-export type Professional_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Professional_Select_Column>>;
+export type ProfessionalAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<ProfessionalSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "professional" */
-export type Professional_Aggregate_Order_By = {
-	count?: Maybe<Order_By>;
-	max?: Maybe<Professional_Max_Order_By>;
-	min?: Maybe<Professional_Min_Order_By>;
+export type ProfessionalAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<ProfessionalMaxOrderBy>;
+	min?: Maybe<ProfessionalMinOrderBy>;
 };
 
 /** input type for inserting array relation for remote table "professional" */
-export type Professional_Arr_Rel_Insert_Input = {
-	data: Array<Professional_Insert_Input>;
+export type ProfessionalArrRelInsertInput = {
+	data: Array<ProfessionalInsertInput>;
 	/** on conflict condition */
-	on_conflict?: Maybe<Professional_On_Conflict>;
+	on_conflict?: Maybe<ProfessionalOnConflict>;
 };
 
 /** Boolean expression to filter rows from the table "professional". All fields are combined with a logical 'AND'. */
-export type Professional_Bool_Exp = {
-	_and?: Maybe<Array<Professional_Bool_Exp>>;
-	_not?: Maybe<Professional_Bool_Exp>;
-	_or?: Maybe<Array<Professional_Bool_Exp>>;
-	accounts?: Maybe<Account_Bool_Exp>;
-	email?: Maybe<String_Comparison_Exp>;
-	firstname?: Maybe<String_Comparison_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	lastname?: Maybe<String_Comparison_Exp>;
-	mobileNumber?: Maybe<String_Comparison_Exp>;
-	position?: Maybe<String_Comparison_Exp>;
-	structure?: Maybe<Structure_Bool_Exp>;
-	structureId?: Maybe<Uuid_Comparison_Exp>;
+export type ProfessionalBoolExp = {
+	_and?: Maybe<Array<ProfessionalBoolExp>>;
+	_not?: Maybe<ProfessionalBoolExp>;
+	_or?: Maybe<Array<ProfessionalBoolExp>>;
+	accounts?: Maybe<AccountBoolExp>;
+	email?: Maybe<StringComparisonExp>;
+	firstname?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	lastname?: Maybe<StringComparisonExp>;
+	mobileNumber?: Maybe<StringComparisonExp>;
+	position?: Maybe<StringComparisonExp>;
+	structure?: Maybe<StructureBoolExp>;
+	structureId?: Maybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "professional" */
-export enum Professional_Constraint {
+export enum ProfessionalConstraint {
 	/** unique or primary key constraint */
 	ProfessionalEmailUnique = 'professional_email_unique',
 	/** unique or primary key constraint */
@@ -1878,20 +1878,20 @@ export enum Professional_Constraint {
 }
 
 /** input type for inserting data into table "professional" */
-export type Professional_Insert_Input = {
-	accounts?: Maybe<Account_Arr_Rel_Insert_Input>;
+export type ProfessionalInsertInput = {
+	accounts?: Maybe<AccountArrRelInsertInput>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
 	position?: Maybe<Scalars['String']>;
-	structure?: Maybe<Structure_Obj_Rel_Insert_Input>;
+	structure?: Maybe<StructureObjRelInsertInput>;
 	structureId?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
-export type Professional_Max_Fields = {
+export type ProfessionalMaxFields = {
 	__typename?: 'professional_max_fields';
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
@@ -1903,18 +1903,18 @@ export type Professional_Max_Fields = {
 };
 
 /** order by max() on columns of table "professional" */
-export type Professional_Max_Order_By = {
-	email?: Maybe<Order_By>;
-	firstname?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastname?: Maybe<Order_By>;
-	mobileNumber?: Maybe<Order_By>;
-	position?: Maybe<Order_By>;
-	structureId?: Maybe<Order_By>;
+export type ProfessionalMaxOrderBy = {
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	mobileNumber?: Maybe<OrderBy>;
+	position?: Maybe<OrderBy>;
+	structureId?: Maybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Professional_Min_Fields = {
+export type ProfessionalMinFields = {
 	__typename?: 'professional_min_fields';
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
@@ -1926,18 +1926,18 @@ export type Professional_Min_Fields = {
 };
 
 /** order by min() on columns of table "professional" */
-export type Professional_Min_Order_By = {
-	email?: Maybe<Order_By>;
-	firstname?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastname?: Maybe<Order_By>;
-	mobileNumber?: Maybe<Order_By>;
-	position?: Maybe<Order_By>;
-	structureId?: Maybe<Order_By>;
+export type ProfessionalMinOrderBy = {
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	mobileNumber?: Maybe<OrderBy>;
+	position?: Maybe<OrderBy>;
+	structureId?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "professional" */
-export type Professional_Mutation_Response = {
+export type ProfessionalMutationResponse = {
 	__typename?: 'professional_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
@@ -1946,39 +1946,39 @@ export type Professional_Mutation_Response = {
 };
 
 /** input type for inserting object relation for remote table "professional" */
-export type Professional_Obj_Rel_Insert_Input = {
-	data: Professional_Insert_Input;
+export type ProfessionalObjRelInsertInput = {
+	data: ProfessionalInsertInput;
 	/** on conflict condition */
-	on_conflict?: Maybe<Professional_On_Conflict>;
+	on_conflict?: Maybe<ProfessionalOnConflict>;
 };
 
 /** on conflict condition type for table "professional" */
-export type Professional_On_Conflict = {
-	constraint: Professional_Constraint;
-	update_columns?: Array<Professional_Update_Column>;
-	where?: Maybe<Professional_Bool_Exp>;
+export type ProfessionalOnConflict = {
+	constraint: ProfessionalConstraint;
+	update_columns?: Array<ProfessionalUpdateColumn>;
+	where?: Maybe<ProfessionalBoolExp>;
 };
 
 /** Ordering options when selecting data from "professional". */
-export type Professional_Order_By = {
-	accounts_aggregate?: Maybe<Account_Aggregate_Order_By>;
-	email?: Maybe<Order_By>;
-	firstname?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	lastname?: Maybe<Order_By>;
-	mobileNumber?: Maybe<Order_By>;
-	position?: Maybe<Order_By>;
-	structure?: Maybe<Structure_Order_By>;
-	structureId?: Maybe<Order_By>;
+export type ProfessionalOrderBy = {
+	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	mobileNumber?: Maybe<OrderBy>;
+	position?: Maybe<OrderBy>;
+	structure?: Maybe<StructureOrderBy>;
+	structureId?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: professional */
-export type Professional_Pk_Columns_Input = {
+export type ProfessionalPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** select columns of table "professional" */
-export enum Professional_Select_Column {
+export enum ProfessionalSelectColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -1996,7 +1996,7 @@ export enum Professional_Select_Column {
 }
 
 /** input type for updating data in table "professional" */
-export type Professional_Set_Input = {
+export type ProfessionalSetInput = {
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -2007,7 +2007,7 @@ export type Professional_Set_Input = {
 };
 
 /** update columns of table "professional" */
-export enum Professional_Update_Column {
+export enum ProfessionalUpdateColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -2024,215 +2024,215 @@ export enum Professional_Update_Column {
 	StructureId = 'structureId'
 }
 
-export type Query_Root = {
+export type QueryRoot = {
 	__typename?: 'query_root';
 	/** fetch data from the table: "account" */
 	account: Array<Account>;
 	/** fetch aggregated fields from the table: "account" */
-	account_aggregate: Account_Aggregate;
+	account_aggregate: AccountAggregate;
 	/** fetch data from the table: "account" using primary key columns */
 	account_by_pk?: Maybe<Account>;
 	/** fetch data from the table: "admin" */
 	admin: Array<Admin>;
 	/** fetch aggregated fields from the table: "admin" */
-	admin_aggregate: Admin_Aggregate;
+	admin_aggregate: AdminAggregate;
 	/** fetch data from the table: "admin" using primary key columns */
 	admin_by_pk?: Maybe<Admin>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
-	beneficiary_aggregate: Beneficiary_Aggregate;
+	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
 	/** fetch aggregated fields from the table: "notebook" */
-	notebook_aggregate: Notebook_Aggregate;
+	notebook_aggregate: NotebookAggregate;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
 	/** fetch data from the table: "notebook_event" */
-	notebook_event: Array<Notebook_Event>;
+	notebook_event: Array<NotebookEvent>;
 	/** fetch aggregated fields from the table: "notebook_event" */
-	notebook_event_aggregate: Notebook_Event_Aggregate;
+	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
-	notebook_event_by_pk?: Maybe<Notebook_Event>;
+	notebook_event_by_pk?: Maybe<NotebookEvent>;
 	/** fetch data from the table: "notebook_member" */
-	notebook_member: Array<Notebook_Member>;
+	notebook_member: Array<NotebookMember>;
 	/** fetch aggregated fields from the table: "notebook_member" */
-	notebook_member_aggregate: Notebook_Member_Aggregate;
+	notebook_member_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "notebook_member" using primary key columns */
-	notebook_member_by_pk?: Maybe<Notebook_Member>;
+	notebook_member_by_pk?: Maybe<NotebookMember>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
-	professional_aggregate: Professional_Aggregate;
+	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
-	structure_aggregate: Structure_Aggregate;
+	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
 };
 
-export type Query_RootAccountArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+export type QueryRootAccountArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
-export type Query_RootAccount_AggregateArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+export type QueryRootAccountAggregateArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
-export type Query_RootAccount_By_PkArgs = {
+export type QueryRootAccountByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Query_RootAdminArgs = {
-	distinct_on?: Maybe<Array<Admin_Select_Column>>;
+export type QueryRootAdminArgs = {
+	distinct_on?: Maybe<Array<AdminSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Admin_Order_By>>;
-	where?: Maybe<Admin_Bool_Exp>;
+	order_by?: Maybe<Array<AdminOrderBy>>;
+	where?: Maybe<AdminBoolExp>;
 };
 
-export type Query_RootAdmin_AggregateArgs = {
-	distinct_on?: Maybe<Array<Admin_Select_Column>>;
+export type QueryRootAdminAggregateArgs = {
+	distinct_on?: Maybe<Array<AdminSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Admin_Order_By>>;
-	where?: Maybe<Admin_Bool_Exp>;
+	order_by?: Maybe<Array<AdminOrderBy>>;
+	where?: Maybe<AdminBoolExp>;
 };
 
-export type Query_RootAdmin_By_PkArgs = {
+export type QueryRootAdminByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Query_RootBeneficiaryArgs = {
-	distinct_on?: Maybe<Array<Beneficiary_Select_Column>>;
+export type QueryRootBeneficiaryArgs = {
+	distinct_on?: Maybe<Array<BeneficiarySelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Beneficiary_Order_By>>;
-	where?: Maybe<Beneficiary_Bool_Exp>;
+	order_by?: Maybe<Array<BeneficiaryOrderBy>>;
+	where?: Maybe<BeneficiaryBoolExp>;
 };
 
-export type Query_RootBeneficiary_AggregateArgs = {
-	distinct_on?: Maybe<Array<Beneficiary_Select_Column>>;
+export type QueryRootBeneficiaryAggregateArgs = {
+	distinct_on?: Maybe<Array<BeneficiarySelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Beneficiary_Order_By>>;
-	where?: Maybe<Beneficiary_Bool_Exp>;
+	order_by?: Maybe<Array<BeneficiaryOrderBy>>;
+	where?: Maybe<BeneficiaryBoolExp>;
 };
 
-export type Query_RootBeneficiary_By_PkArgs = {
+export type QueryRootBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Query_RootNotebookArgs = {
-	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+export type QueryRootNotebookArgs = {
+	distinct_on?: Maybe<Array<NotebookSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Order_By>>;
-	where?: Maybe<Notebook_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookOrderBy>>;
+	where?: Maybe<NotebookBoolExp>;
 };
 
-export type Query_RootNotebook_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+export type QueryRootNotebookAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Order_By>>;
-	where?: Maybe<Notebook_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookOrderBy>>;
+	where?: Maybe<NotebookBoolExp>;
 };
 
-export type Query_RootNotebook_By_PkArgs = {
+export type QueryRootNotebookByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Query_RootNotebook_EventArgs = {
-	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+export type QueryRootNotebookEventArgs = {
+	distinct_on?: Maybe<Array<NotebookEventSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
-	where?: Maybe<Notebook_Event_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookEventOrderBy>>;
+	where?: Maybe<NotebookEventBoolExp>;
 };
 
-export type Query_RootNotebook_Event_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+export type QueryRootNotebookEventAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookEventSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
-	where?: Maybe<Notebook_Event_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookEventOrderBy>>;
+	where?: Maybe<NotebookEventBoolExp>;
 };
 
-export type Query_RootNotebook_Event_By_PkArgs = {
+export type QueryRootNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Query_RootNotebook_MemberArgs = {
-	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+export type QueryRootNotebookMemberArgs = {
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
-	where?: Maybe<Notebook_Member_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
-export type Query_RootNotebook_Member_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+export type QueryRootNotebookMemberAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
-	where?: Maybe<Notebook_Member_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
-export type Query_RootNotebook_Member_By_PkArgs = {
+export type QueryRootNotebookMemberByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Query_RootProfessionalArgs = {
-	distinct_on?: Maybe<Array<Professional_Select_Column>>;
+export type QueryRootProfessionalArgs = {
+	distinct_on?: Maybe<Array<ProfessionalSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Professional_Order_By>>;
-	where?: Maybe<Professional_Bool_Exp>;
+	order_by?: Maybe<Array<ProfessionalOrderBy>>;
+	where?: Maybe<ProfessionalBoolExp>;
 };
 
-export type Query_RootProfessional_AggregateArgs = {
-	distinct_on?: Maybe<Array<Professional_Select_Column>>;
+export type QueryRootProfessionalAggregateArgs = {
+	distinct_on?: Maybe<Array<ProfessionalSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Professional_Order_By>>;
-	where?: Maybe<Professional_Bool_Exp>;
+	order_by?: Maybe<Array<ProfessionalOrderBy>>;
+	where?: Maybe<ProfessionalBoolExp>;
 };
 
-export type Query_RootProfessional_By_PkArgs = {
+export type QueryRootProfessionalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Query_RootStructureArgs = {
-	distinct_on?: Maybe<Array<Structure_Select_Column>>;
+export type QueryRootStructureArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Structure_Order_By>>;
-	where?: Maybe<Structure_Bool_Exp>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
 };
 
-export type Query_RootStructure_AggregateArgs = {
-	distinct_on?: Maybe<Array<Structure_Select_Column>>;
+export type QueryRootStructureAggregateArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Structure_Order_By>>;
-	where?: Maybe<Structure_Bool_Exp>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
 };
 
-export type Query_RootStructure_By_PkArgs = {
+export type QueryRootStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -2252,78 +2252,78 @@ export type Structure = {
 	/** An array relationship */
 	professionals: Array<Professional>;
 	/** An aggregate relationship */
-	professionals_aggregate: Professional_Aggregate;
+	professionals_aggregate: ProfessionalAggregate;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 };
 
 /** columns and relationships of "structure" */
 export type StructureProfessionalsArgs = {
-	distinct_on?: Maybe<Array<Professional_Select_Column>>;
+	distinct_on?: Maybe<Array<ProfessionalSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Professional_Order_By>>;
-	where?: Maybe<Professional_Bool_Exp>;
+	order_by?: Maybe<Array<ProfessionalOrderBy>>;
+	where?: Maybe<ProfessionalBoolExp>;
 };
 
 /** columns and relationships of "structure" */
-export type StructureProfessionals_AggregateArgs = {
-	distinct_on?: Maybe<Array<Professional_Select_Column>>;
+export type StructureProfessionalsAggregateArgs = {
+	distinct_on?: Maybe<Array<ProfessionalSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Professional_Order_By>>;
-	where?: Maybe<Professional_Bool_Exp>;
+	order_by?: Maybe<Array<ProfessionalOrderBy>>;
+	where?: Maybe<ProfessionalBoolExp>;
 };
 
 /** aggregated selection of "structure" */
-export type Structure_Aggregate = {
+export type StructureAggregate = {
 	__typename?: 'structure_aggregate';
-	aggregate?: Maybe<Structure_Aggregate_Fields>;
+	aggregate?: Maybe<StructureAggregateFields>;
 	nodes: Array<Structure>;
 };
 
 /** aggregate fields of "structure" */
-export type Structure_Aggregate_Fields = {
+export type StructureAggregateFields = {
 	__typename?: 'structure_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<Structure_Max_Fields>;
-	min?: Maybe<Structure_Min_Fields>;
+	max?: Maybe<StructureMaxFields>;
+	min?: Maybe<StructureMinFields>;
 };
 
 /** aggregate fields of "structure" */
-export type Structure_Aggregate_FieldsCountArgs = {
-	columns?: Maybe<Array<Structure_Select_Column>>;
+export type StructureAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<StructureSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "structure". All fields are combined with a logical 'AND'. */
-export type Structure_Bool_Exp = {
-	_and?: Maybe<Array<Structure_Bool_Exp>>;
-	_not?: Maybe<Structure_Bool_Exp>;
-	_or?: Maybe<Array<Structure_Bool_Exp>>;
-	address1?: Maybe<String_Comparison_Exp>;
-	address2?: Maybe<String_Comparison_Exp>;
-	city?: Maybe<String_Comparison_Exp>;
-	creationDate?: Maybe<Timestamptz_Comparison_Exp>;
-	email?: Maybe<String_Comparison_Exp>;
-	id?: Maybe<Uuid_Comparison_Exp>;
-	modificationDate?: Maybe<Timestamptz_Comparison_Exp>;
-	name?: Maybe<String_Comparison_Exp>;
-	phone?: Maybe<String_Comparison_Exp>;
-	postalCode?: Maybe<String_Comparison_Exp>;
-	professionals?: Maybe<Professional_Bool_Exp>;
-	shortDesc?: Maybe<String_Comparison_Exp>;
-	siret?: Maybe<String_Comparison_Exp>;
+export type StructureBoolExp = {
+	_and?: Maybe<Array<StructureBoolExp>>;
+	_not?: Maybe<StructureBoolExp>;
+	_or?: Maybe<Array<StructureBoolExp>>;
+	address1?: Maybe<StringComparisonExp>;
+	address2?: Maybe<StringComparisonExp>;
+	city?: Maybe<StringComparisonExp>;
+	creationDate?: Maybe<TimestamptzComparisonExp>;
+	email?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	modificationDate?: Maybe<TimestamptzComparisonExp>;
+	name?: Maybe<StringComparisonExp>;
+	phone?: Maybe<StringComparisonExp>;
+	postalCode?: Maybe<StringComparisonExp>;
+	professionals?: Maybe<ProfessionalBoolExp>;
+	shortDesc?: Maybe<StringComparisonExp>;
+	siret?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "structure" */
-export enum Structure_Constraint {
+export enum StructureConstraint {
 	/** unique or primary key constraint */
 	StructurePkey = 'structure_pkey'
 }
 
 /** input type for inserting data into table "structure" */
-export type Structure_Insert_Input = {
+export type StructureInsertInput = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
@@ -2334,13 +2334,13 @@ export type Structure_Insert_Input = {
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
-	professionals?: Maybe<Professional_Arr_Rel_Insert_Input>;
+	professionals?: Maybe<ProfessionalArrRelInsertInput>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
-export type Structure_Max_Fields = {
+export type StructureMaxFields = {
 	__typename?: 'structure_max_fields';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
@@ -2357,7 +2357,7 @@ export type Structure_Max_Fields = {
 };
 
 /** aggregate min on columns */
-export type Structure_Min_Fields = {
+export type StructureMinFields = {
 	__typename?: 'structure_min_fields';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
@@ -2374,7 +2374,7 @@ export type Structure_Min_Fields = {
 };
 
 /** response of any mutation on the table "structure" */
-export type Structure_Mutation_Response = {
+export type StructureMutationResponse = {
 	__typename?: 'structure_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
@@ -2383,43 +2383,43 @@ export type Structure_Mutation_Response = {
 };
 
 /** input type for inserting object relation for remote table "structure" */
-export type Structure_Obj_Rel_Insert_Input = {
-	data: Structure_Insert_Input;
+export type StructureObjRelInsertInput = {
+	data: StructureInsertInput;
 	/** on conflict condition */
-	on_conflict?: Maybe<Structure_On_Conflict>;
+	on_conflict?: Maybe<StructureOnConflict>;
 };
 
 /** on conflict condition type for table "structure" */
-export type Structure_On_Conflict = {
-	constraint: Structure_Constraint;
-	update_columns?: Array<Structure_Update_Column>;
-	where?: Maybe<Structure_Bool_Exp>;
+export type StructureOnConflict = {
+	constraint: StructureConstraint;
+	update_columns?: Array<StructureUpdateColumn>;
+	where?: Maybe<StructureBoolExp>;
 };
 
 /** Ordering options when selecting data from "structure". */
-export type Structure_Order_By = {
-	address1?: Maybe<Order_By>;
-	address2?: Maybe<Order_By>;
-	city?: Maybe<Order_By>;
-	creationDate?: Maybe<Order_By>;
-	email?: Maybe<Order_By>;
-	id?: Maybe<Order_By>;
-	modificationDate?: Maybe<Order_By>;
-	name?: Maybe<Order_By>;
-	phone?: Maybe<Order_By>;
-	postalCode?: Maybe<Order_By>;
-	professionals_aggregate?: Maybe<Professional_Aggregate_Order_By>;
-	shortDesc?: Maybe<Order_By>;
-	siret?: Maybe<Order_By>;
+export type StructureOrderBy = {
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	modificationDate?: Maybe<OrderBy>;
+	name?: Maybe<OrderBy>;
+	phone?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
+	professionals_aggregate?: Maybe<ProfessionalAggregateOrderBy>;
+	shortDesc?: Maybe<OrderBy>;
+	siret?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: structure */
-export type Structure_Pk_Columns_Input = {
+export type StructurePkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
 /** select columns of table "structure" */
-export enum Structure_Select_Column {
+export enum StructureSelectColumn {
 	/** column name */
 	Address1 = 'address1',
 	/** column name */
@@ -2447,7 +2447,7 @@ export enum Structure_Select_Column {
 }
 
 /** input type for updating data in table "structure" */
-export type Structure_Set_Input = {
+export type StructureSetInput = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
@@ -2463,7 +2463,7 @@ export type Structure_Set_Input = {
 };
 
 /** update columns of table "structure" */
-export enum Structure_Update_Column {
+export enum StructureUpdateColumn {
 	/** column name */
 	Address1 = 'address1',
 	/** column name */
@@ -2490,220 +2490,220 @@ export enum Structure_Update_Column {
 	Siret = 'siret'
 }
 
-export type Subscription_Root = {
+export type SubscriptionRoot = {
 	__typename?: 'subscription_root';
 	/** fetch data from the table: "account" */
 	account: Array<Account>;
 	/** fetch aggregated fields from the table: "account" */
-	account_aggregate: Account_Aggregate;
+	account_aggregate: AccountAggregate;
 	/** fetch data from the table: "account" using primary key columns */
 	account_by_pk?: Maybe<Account>;
 	/** fetch data from the table: "admin" */
 	admin: Array<Admin>;
 	/** fetch aggregated fields from the table: "admin" */
-	admin_aggregate: Admin_Aggregate;
+	admin_aggregate: AdminAggregate;
 	/** fetch data from the table: "admin" using primary key columns */
 	admin_by_pk?: Maybe<Admin>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
-	beneficiary_aggregate: Beneficiary_Aggregate;
+	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
 	/** fetch aggregated fields from the table: "notebook" */
-	notebook_aggregate: Notebook_Aggregate;
+	notebook_aggregate: NotebookAggregate;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
 	/** fetch data from the table: "notebook_event" */
-	notebook_event: Array<Notebook_Event>;
+	notebook_event: Array<NotebookEvent>;
 	/** fetch aggregated fields from the table: "notebook_event" */
-	notebook_event_aggregate: Notebook_Event_Aggregate;
+	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
-	notebook_event_by_pk?: Maybe<Notebook_Event>;
+	notebook_event_by_pk?: Maybe<NotebookEvent>;
 	/** fetch data from the table: "notebook_member" */
-	notebook_member: Array<Notebook_Member>;
+	notebook_member: Array<NotebookMember>;
 	/** fetch aggregated fields from the table: "notebook_member" */
-	notebook_member_aggregate: Notebook_Member_Aggregate;
+	notebook_member_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "notebook_member" using primary key columns */
-	notebook_member_by_pk?: Maybe<Notebook_Member>;
+	notebook_member_by_pk?: Maybe<NotebookMember>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
-	professional_aggregate: Professional_Aggregate;
+	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
-	structure_aggregate: Structure_Aggregate;
+	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
 };
 
-export type Subscription_RootAccountArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+export type SubscriptionRootAccountArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
-export type Subscription_RootAccount_AggregateArgs = {
-	distinct_on?: Maybe<Array<Account_Select_Column>>;
+export type SubscriptionRootAccountAggregateArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Account_Order_By>>;
-	where?: Maybe<Account_Bool_Exp>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
-export type Subscription_RootAccount_By_PkArgs = {
+export type SubscriptionRootAccountByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootAdminArgs = {
-	distinct_on?: Maybe<Array<Admin_Select_Column>>;
+export type SubscriptionRootAdminArgs = {
+	distinct_on?: Maybe<Array<AdminSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Admin_Order_By>>;
-	where?: Maybe<Admin_Bool_Exp>;
+	order_by?: Maybe<Array<AdminOrderBy>>;
+	where?: Maybe<AdminBoolExp>;
 };
 
-export type Subscription_RootAdmin_AggregateArgs = {
-	distinct_on?: Maybe<Array<Admin_Select_Column>>;
+export type SubscriptionRootAdminAggregateArgs = {
+	distinct_on?: Maybe<Array<AdminSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Admin_Order_By>>;
-	where?: Maybe<Admin_Bool_Exp>;
+	order_by?: Maybe<Array<AdminOrderBy>>;
+	where?: Maybe<AdminBoolExp>;
 };
 
-export type Subscription_RootAdmin_By_PkArgs = {
+export type SubscriptionRootAdminByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootBeneficiaryArgs = {
-	distinct_on?: Maybe<Array<Beneficiary_Select_Column>>;
+export type SubscriptionRootBeneficiaryArgs = {
+	distinct_on?: Maybe<Array<BeneficiarySelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Beneficiary_Order_By>>;
-	where?: Maybe<Beneficiary_Bool_Exp>;
+	order_by?: Maybe<Array<BeneficiaryOrderBy>>;
+	where?: Maybe<BeneficiaryBoolExp>;
 };
 
-export type Subscription_RootBeneficiary_AggregateArgs = {
-	distinct_on?: Maybe<Array<Beneficiary_Select_Column>>;
+export type SubscriptionRootBeneficiaryAggregateArgs = {
+	distinct_on?: Maybe<Array<BeneficiarySelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Beneficiary_Order_By>>;
-	where?: Maybe<Beneficiary_Bool_Exp>;
+	order_by?: Maybe<Array<BeneficiaryOrderBy>>;
+	where?: Maybe<BeneficiaryBoolExp>;
 };
 
-export type Subscription_RootBeneficiary_By_PkArgs = {
+export type SubscriptionRootBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootNotebookArgs = {
-	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+export type SubscriptionRootNotebookArgs = {
+	distinct_on?: Maybe<Array<NotebookSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Order_By>>;
-	where?: Maybe<Notebook_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookOrderBy>>;
+	where?: Maybe<NotebookBoolExp>;
 };
 
-export type Subscription_RootNotebook_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Select_Column>>;
+export type SubscriptionRootNotebookAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Order_By>>;
-	where?: Maybe<Notebook_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookOrderBy>>;
+	where?: Maybe<NotebookBoolExp>;
 };
 
-export type Subscription_RootNotebook_By_PkArgs = {
+export type SubscriptionRootNotebookByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootNotebook_EventArgs = {
-	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+export type SubscriptionRootNotebookEventArgs = {
+	distinct_on?: Maybe<Array<NotebookEventSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
-	where?: Maybe<Notebook_Event_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookEventOrderBy>>;
+	where?: Maybe<NotebookEventBoolExp>;
 };
 
-export type Subscription_RootNotebook_Event_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Event_Select_Column>>;
+export type SubscriptionRootNotebookEventAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookEventSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Event_Order_By>>;
-	where?: Maybe<Notebook_Event_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookEventOrderBy>>;
+	where?: Maybe<NotebookEventBoolExp>;
 };
 
-export type Subscription_RootNotebook_Event_By_PkArgs = {
+export type SubscriptionRootNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootNotebook_MemberArgs = {
-	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+export type SubscriptionRootNotebookMemberArgs = {
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
-	where?: Maybe<Notebook_Member_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
-export type Subscription_RootNotebook_Member_AggregateArgs = {
-	distinct_on?: Maybe<Array<Notebook_Member_Select_Column>>;
+export type SubscriptionRootNotebookMemberAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Notebook_Member_Order_By>>;
-	where?: Maybe<Notebook_Member_Bool_Exp>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
-export type Subscription_RootNotebook_Member_By_PkArgs = {
+export type SubscriptionRootNotebookMemberByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootProfessionalArgs = {
-	distinct_on?: Maybe<Array<Professional_Select_Column>>;
+export type SubscriptionRootProfessionalArgs = {
+	distinct_on?: Maybe<Array<ProfessionalSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Professional_Order_By>>;
-	where?: Maybe<Professional_Bool_Exp>;
+	order_by?: Maybe<Array<ProfessionalOrderBy>>;
+	where?: Maybe<ProfessionalBoolExp>;
 };
 
-export type Subscription_RootProfessional_AggregateArgs = {
-	distinct_on?: Maybe<Array<Professional_Select_Column>>;
+export type SubscriptionRootProfessionalAggregateArgs = {
+	distinct_on?: Maybe<Array<ProfessionalSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Professional_Order_By>>;
-	where?: Maybe<Professional_Bool_Exp>;
+	order_by?: Maybe<Array<ProfessionalOrderBy>>;
+	where?: Maybe<ProfessionalBoolExp>;
 };
 
-export type Subscription_RootProfessional_By_PkArgs = {
+export type SubscriptionRootProfessionalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type Subscription_RootStructureArgs = {
-	distinct_on?: Maybe<Array<Structure_Select_Column>>;
+export type SubscriptionRootStructureArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Structure_Order_By>>;
-	where?: Maybe<Structure_Bool_Exp>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
 };
 
-export type Subscription_RootStructure_AggregateArgs = {
-	distinct_on?: Maybe<Array<Structure_Select_Column>>;
+export type SubscriptionRootStructureAggregateArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
 	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<Structure_Order_By>>;
-	where?: Maybe<Structure_Bool_Exp>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
 };
 
-export type Subscription_RootStructure_By_PkArgs = {
+export type SubscriptionRootStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
-export type Timestamptz_Comparison_Exp = {
+export type TimestamptzComparisonExp = {
 	_eq?: Maybe<Scalars['timestamptz']>;
 	_gt?: Maybe<Scalars['timestamptz']>;
 	_gte?: Maybe<Scalars['timestamptz']>;
@@ -2716,7 +2716,7 @@ export type Timestamptz_Comparison_Exp = {
 };
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
-export type Uuid_Comparison_Exp = {
+export type UuidComparisonExp = {
 	_eq?: Maybe<Scalars['uuid']>;
 	_gt?: Maybe<Scalars['uuid']>;
 	_gte?: Maybe<Scalars['uuid']>;
@@ -2900,34 +2900,21 @@ export type UpdateNotebookVisitDateMutation = {
 					peNumber?: Maybe<string>;
 					postalCode?: Maybe<string>;
 				};
+				members: Array<{
+					__typename?: 'notebook_member';
+					id: any;
+					memberType: string;
+					notebookModificationDate?: Maybe<any>;
+					notebookVisitDate?: Maybe<any>;
+					professional: {
+						__typename?: 'professional';
+						id: any;
+						lastname: string;
+						firstname: string;
+					};
+				}>;
 			};
 		}>;
-	}>;
-};
-
-export type GetNotebookQueryVariables = Exact<{
-	beneficiaryId: Scalars['uuid'];
-}>;
-
-export type GetNotebookQuery = {
-	__typename?: 'query_root';
-	notebook: Array<{
-		__typename?: 'notebook';
-		beneficiary: {
-			__typename?: 'beneficiary';
-			address1?: Maybe<string>;
-			address2?: Maybe<string>;
-			cafNumber?: Maybe<string>;
-			city?: Maybe<string>;
-			dateOfBirth: any;
-			email: string;
-			firstname: string;
-			id: any;
-			lastname: string;
-			mobileNumber?: Maybe<string>;
-			peNumber?: Maybe<string>;
-			postalCode?: Maybe<string>;
-		};
 	}>;
 };
 
@@ -3797,6 +3784,87 @@ export const UpdateNotebookVisitDateDocument = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
 																]
 															}
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'members' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'order_by' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'notebookModificationDate' },
+																				value: { kind: 'EnumValue', value: 'desc_nulls_last' }
+																			}
+																		]
+																	}
+																},
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'limit' },
+																	value: { kind: 'IntValue', value: '1' }
+																},
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'where' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'notebookModificationDate' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_is_null' },
+																							value: { kind: 'BooleanValue', value: false }
+																						}
+																					]
+																				}
+																			}
+																		]
+																	}
+																}
+															],
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'notebookModificationDate' }
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'notebookVisitDate' }
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' }
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' }
+																				}
+																			]
+																		}
+																	}
+																]
+															}
 														}
 													]
 												}
@@ -3815,94 +3883,6 @@ export const UpdateNotebookVisitDateDocument = {
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
 >;
-export const GetNotebookDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetNotebook' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'notebook' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiaryId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'beneficiaryId' }
-														}
-													}
-												]
-											}
-										}
-									]
-								}
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'limit' },
-								value: { kind: 'IntValue', value: '1' }
-							}
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiary' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
-} as unknown as DocumentNode<GetNotebookQuery, GetNotebookQueryVariables>;
 export const UpdateProfessionalProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4129,7 +4109,6 @@ export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
 >;
-export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type UpdateProfessionalProfileMutationStore = OperationStore<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables

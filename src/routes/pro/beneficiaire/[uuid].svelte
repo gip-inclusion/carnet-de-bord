@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Beneficiary } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { Beneficiary, NotebookMember } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { UpdateNotebookVisitDateMutationStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateNotebookVisitDateDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore } from '@urql/svelte';
@@ -25,14 +25,17 @@
 	import { Button, Select, SearchBar, Table } from '$lib/ui/base';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { mutation } from '@urql/svelte';
+	import { formatDate } from '$lib/utils/date';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 
 	const updateVisitDate = mutation(updateVisitDateResult);
 	updateVisitDate();
 
-	$: beneficiary = $updateVisitDateResult.data?.update_notebook_member.returning[0].notebook
-		.beneficiary as Beneficiary;
+	$: notebook = $updateVisitDateResult.data?.update_notebook_member.returning[0].notebook;
+	$: beneficiary = notebook?.beneficiary as Beneficiary;
+	$: members = notebook?.members as NotebookMember[];
+	$: member = members?.length ? members[0] : null;
 
 	let search = '';
 	let selectedPeriod: Option | null;
@@ -45,7 +48,13 @@
 	<div class="flex flex-col space-y-8 px-40">
 		<div class="flex flex-col space-y-2">
 			<div class="flex flex-col">
-				<div class="mb-2">Informations mises à jour le 5 juillet par Sarah Courci</div>
+				{#if member}
+					<div class="mb-2">
+						Informations mises à jour le {formatDate(member.notebookModificationDate)} par
+						{member.professional.firstname}
+						{member.professional.lastname}
+					</div>
+				{/if}
 				<div>
 					<h1 class="fr-h2 float-left bf-500">
 						{displayFullName(beneficiary)}
