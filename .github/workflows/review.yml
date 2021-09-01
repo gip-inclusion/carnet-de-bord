@@ -347,6 +347,12 @@ jobs:
       with:
         cmd: yq eval '.metadata.name' namespace-dev.yml
 
+    - name: Create kubernetes config
+      run: |
+        mkdir ~/.kube
+        touch ~/.kube/config
+        echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }} | base64 -d > ~/.kube/config
+
     - name: Seed database
       run: |
         kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
