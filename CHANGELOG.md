@@ -1,3 +1,10 @@
+## [1.4.3-alpha.9](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.8...v1.4.3-alpha.9) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add deactivate workflow. ([19daa4f](https://github.com/SocialGouv/carnet-de-bord/commit/19daa4ff2a71b3347226e6dfc6bd78fc6e7599ea))
+
 ## [1.4.3-alpha.8](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.7...v1.4.3-alpha.8) (2021-09-01)
 
 
