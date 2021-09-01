@@ -1,3 +1,10 @@
+## [1.4.3-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.2...v1.4.3-alpha.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* Use kube config within restore db jobs. ([5321b8c](https://github.com/SocialGouv/carnet-de-bord/commit/5321b8c23286c9e50946f1520dc5d1a80bd269af))
+
 ## [1.4.3-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.1...v1.4.3-alpha.2) (2021-09-01)
 
 
