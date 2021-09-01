@@ -1,3 +1,10 @@
+## [1.4.3-alpha.11](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.10...v1.4.3-alpha.11) (2021-09-01)
+
+
+### Bug Fixes
+
+* App sealed secret. ([86c5233](https://github.com/SocialGouv/carnet-de-bord/commit/86c52335b7f59662c755c725e9861beda00833a4))
+
 ## [1.4.3-alpha.10](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.9...v1.4.3-alpha.10) (2021-09-01)
 
 
