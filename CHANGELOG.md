@@ -1,3 +1,10 @@
+## [1.4.3-alpha.8](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.7...v1.4.3-alpha.8) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add HASURA_GRAPHQL_DATABASE_URL. ([e2330f7](https://github.com/SocialGouv/carnet-de-bord/commit/e2330f7631bf3498b5c1d55cf44e24855034a02c))
+
 ## [1.4.3-alpha.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.6...v1.4.3-alpha.7) (2021-09-01)
 
 
