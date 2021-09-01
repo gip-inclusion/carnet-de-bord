@@ -57,42 +57,43 @@ jobs:
     name: Generate k8s manifests
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Load review environment variables
-        run: |
-          cat ".github/preprod.env" >> $GITHUB_ENV
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Yarn cache setup
-        uses: c-hive/gha-yarn-cache@v2
+    - name: Load review environment variables
+      run: |
+        cat ".github/preprod.env" >> $GITHUB_ENV
 
-      - name: Install kosko-charts dependencies
-        run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v2
 
-      - name: Generate k8s manifests
-        run: yarn --cwd .k8s --silent generate --env preprod > manifests-preprod.yml
-        env:
-          SOCIALGOUV_PREPRODUCTION: true
-          SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    - name: Install kosko-charts dependencies
+      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
 
-      - name: Generate k8s namespace
-        run: yarn --cwd .k8s --silent generate --env preprod _namespace > namespace-preprod.yml
-        env:
-          SOCIALGOUV_PREPRODUCTION: true
-          SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    - name: Generate k8s manifests
+      run: yarn --cwd .k8s --silent generate --env preprod > manifests-preprod.yml
+      env:
+        SOCIALGOUV_PREPRODUCTION: true
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-      - name: Archive k8s manifests
-        uses: actions/upload-artifact@v2
-        with:
-          name: manifests-preprod.yml
-          path: manifests-preprod.yml
+    - name: Generate k8s namespace
+      run: yarn --cwd .k8s --silent generate --env preprod _namespace > namespace-preprod.yml
+      env:
+        SOCIALGOUV_PREPRODUCTION: true
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-      - name: Archive k8s namespace
-        uses: actions/upload-artifact@v2
-        with:
-          name: namespace-preprod.yml
-          path: namespace-preprod.yml
+    - name: Archive k8s manifests
+      uses: actions/upload-artifact@v2
+      with:
+        name: manifests-preprod.yml
+        path: manifests-preprod.yml
+
+    - name: Archive k8s namespace
+      uses: actions/upload-artifact@v2
+      with:
+        name: namespace-preprod.yml
+        path: namespace-preprod.yml
 
   ##############################################################################
   ## DEPLOY PREPRODUCTION APPLICATION
@@ -120,30 +121,43 @@ jobs:
     name: Generate k8s manifests
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Load review environment variables
-        run: |
-          cat ".github/prod.env" >> $GITHUB_ENV
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Yarn cache setup
-        uses: c-hive/gha-yarn-cache@v2
+    - name: Load review environment variables
+      run: |
+        cat ".github/prod.env" >> $GITHUB_ENV
 
-      - name: Install kosko-charts dependencies
-        run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v2
 
-      - name: Generate k8s manifests
-        run: yarn --cwd .k8s --silent generate --env prod > manifests-prod.yml
-        env:
-          SOCIALGOUV_PRODUCTION: true
-          SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    - name: Install kosko-charts dependencies
+      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
 
-      - name: Archive k8s manifests
-        uses: actions/upload-artifact@v2
-        with:
-          name: manifests-prod.yml
-          path: manifests-prod.yml
+    - name: Generate k8s manifests
+      run: yarn --cwd .k8s --silent generate --env prod _namespace > namespace-prod.yml
+      env:
+        SOCIALGOUV_PRODUCTION: true
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Generate k8s manifests
+      run: yarn --cwd .k8s --silent generate --env prod > manifests-prod.yml
+      env:
+        SOCIALGOUV_PRODUCTION: true
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Archive k8s manifests
+      uses: actions/upload-artifact@v2
+      with:
+        name: manifests-prod.yml
+        path: manifests-prod.yml
+
+    - name: Archive k8s namespace
+      uses: actions/upload-artifact@v2
+      with:
+        name: namespace-prod.yml
+        path: namespace-prod.yml
 
   ##############################################################################
   ## DEPLOY PRODUCTION APPLICATION
