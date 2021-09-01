@@ -25,7 +25,7 @@
 		"lint": "prettier --check --plugin-search-dir=. src && eslint src .",
 		"lint:fix": "prettier --check --plugin-search-dir=. src && yarn lint --fix --cache",
 		"lint:pre-commit": "yarn lint:fix",
-		"format": "prettier --write --plugin-search-dir=. .",
+		"format": "prettier --write --plugin-search-dir=. src",
 		"codegen": "yarn run graphql-codegen --config codegen.cjs"
 	},
 	"devDependencies": {
