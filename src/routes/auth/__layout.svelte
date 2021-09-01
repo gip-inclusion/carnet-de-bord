@@ -1,5 +1,4 @@
 <script lang="ts">
-	export { load } from '$lib/commonImports';
 	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
 </script>
 
