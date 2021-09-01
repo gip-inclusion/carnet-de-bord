@@ -16,6 +16,7 @@ metadata:
   labels:
     app: app
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -39,13 +40,14 @@ spec:
       labels:
         app: app
         application: carnet-de-bord
+        component: carnet-de-bord
         owner: carnet-de-bord
         team: carnet-de-bord
         cert: wildcard
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/carnet-de-bord:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+            ghcr.io/socialgouv/carnet-de-bord/app:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -83,7 +85,7 @@ spec:
             initialDelaySeconds: 30
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
+                name: azure-pg-user-mybranch
             - secretRef:
                 name: app-sealed-secret
             - configMapRef:
@@ -100,8 +102,8 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
+                name: azure-pg-user-mybranch
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -128,6 +130,7 @@ metadata:
   namespace: carnet-de-bord-mybranch
   labels:
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -155,6 +158,7 @@ spec:
       name: app-sealed-secret
       labels:
         application: carnet-de-bord
+        component: carnet-de-bord
         owner: carnet-de-bord
         team: carnet-de-bord
         cert: wildcard
@@ -174,6 +178,7 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -189,6 +194,7 @@ metadata:
   labels:
     app: app
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -226,6 +232,7 @@ metadata:
   labels:
     app: app
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -262,6 +269,7 @@ metadata:
   labels:
     app: hasura
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -285,6 +293,7 @@ spec:
       labels:
         app: hasura
         application: carnet-de-bord
+        component: hasura
         owner: carnet-de-bord
         team: carnet-de-bord
         cert: wildcard
@@ -328,7 +337,7 @@ spec:
             periodSeconds: 5
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
+                name: azure-pg-user-mybranch
             - secretRef:
                 name: hasura-sealed-secret
             - configMapRef:
@@ -339,8 +348,8 @@ spec:
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-0123456
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
+                name: azure-pg-user-mybranch
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -367,6 +376,7 @@ metadata:
   namespace: carnet-de-bord-mybranch
   labels:
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -390,6 +400,7 @@ spec:
       name: hasura-sealed-secret
       labels:
         application: carnet-de-bord
+        component: hasura
         owner: carnet-de-bord
         team: carnet-de-bord
         cert: wildcard
@@ -409,6 +420,7 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -427,6 +439,7 @@ metadata:
   labels:
     app: hasura
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -464,6 +477,7 @@ metadata:
   labels:
     app: hasura
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -497,17 +511,17 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_0123456
+              value: autodevops_mybranch
             - name: NEW_USER
-              value: user_0123456
+              value: user_mybranch
             - name: NEW_PASSWORD
-              value: password_0123456
+              value: password_mybranch
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user
-          image: ghcr.io/socialgouv/docker/azure-db:6.32.2
+          image: ghcr.io/socialgouv/docker/azure-db:6.45.0
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
@@ -518,21 +532,10 @@ spec:
               cpu: 100m
               memory: 64Mi
       restartPolicy: Never
-    metadata:
-      annotations:
-        app.github.com/job: '5678'
-        app.github.com/ref: refs/heads/mybranch
-        app.github.com/repo: socialgouv/carnet-de-bord
-        app.github.com/run: '1234'
-        app.github.com/sha: '0123456'
-      labels:
-        application: carnet-de-bord
-        owner: carnet-de-bord
-        team: carnet-de-bord
-        cert: wildcard
   ttlSecondsAfterFinished: 86400
 metadata:
   annotations:
+    kapp.k14s.io/update-strategy: skip
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -540,30 +543,32 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
-  name: create-db-job-0123456
+  name: create-db-job-mybranch
   namespace: carnet-de-bord-mybranch
 ---
 apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   DB_URI: >-
-    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
-  PGDATABASE: autodevops_0123456
+    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
+  PGDATABASE: autodevops_mybranch
   PGHOST: carnetdeborddevserver.postgres.database.azure.com
-  PGPASSWORD: password_0123456
+  PGPASSWORD: password_mybranch
   PGRST_DB_URI: >-
-    postgresql://user_0123456%40carnetdeborddevserver.postgres.database.azure.com:password_0123456@carnetdeborddevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_0123456@carnetdeborddevserver.postgres.database.azure.com
+  PGUSER: user_mybranch@carnetdeborddevserver.postgres.database.azure.com
 metadata:
   annotations:
+    kapp.k14s.io/update-strategy: skip
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -571,10 +576,11 @@ metadata:
     app.github.com/sha: '0123456'
   labels:
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
-  name: azure-pg-user-0123456
+  name: azure-pg-user-mybranch
   namespace: carnet-de-bord-mybranch
 "
 `;
