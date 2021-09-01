@@ -1,3 +1,10 @@
+## [1.4.3-alpha.12](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.11...v1.4.3-alpha.12) (2021-09-01)
+
+
+### Bug Fixes
+
+* Update azure sealed secret. ([f05922c](https://github.com/SocialGouv/carnet-de-bord/commit/f05922cf320befdc69bcba7e5370472ffae2a739))
+
 ## [1.4.3-alpha.11](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.10...v1.4.3-alpha.11) (2021-09-01)
 
 
