@@ -16,6 +16,7 @@ metadata:
   labels:
     app: app
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -39,13 +40,14 @@ spec:
       labels:
         app: app
         application: carnet-de-bord
+        component: carnet-de-bord
         owner: carnet-de-bord
         team: carnet-de-bord
         cert: wildcard
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/carnet-de-bord:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+            ghcr.io/socialgouv/carnet-de-bord/app:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -84,6 +86,10 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
+            - secretRef:
+                name: app-sealed-secret
+            - configMapRef:
+                name: app-configmap
           env:
             - name: APP_URL
               value: https://carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr
@@ -97,7 +103,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -108,12 +114,87 @@ spec:
               cpu: 5m
               memory: 16Mi
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  name: app-sealed-secret
+  namespace: carnet-de-bord-preprod
+  labels:
+    application: carnet-de-bord
+    component: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgA4CxVpUuHJca7pQWsnYgKNW4q5EU2d2mrr87FN10DtzjgPMJL5hXRDKQpr0sz3/Vo7jxZ1YIdecTcI+Dl0ordD0LMnwLl42TJx1ZOjy+2Crk6DhE/lM/Ull+pb4hbTzwnOTA3dPrO7uqY9wRO/kURGzq/UuA5vwQ8fEgh7vn2bVgCHuAlpLo5Z+D79yKmGDblOEdrnsKxY2qb06E2MhN7PhHbKMH7iM0QsOBud/EYEE6Nd/tSu22LtZqJf+nNJJCzHEqzDS2Av9hGOGKClNZHcsFZ2hIs5iehIm74z+6IUtnMy2CYhQQYr2qkai57vUNtQfp9r7RY2YabELXTohAqLm4QfKlLKygwG0iILRj/s6I9IX5O4UYU+WTx9dENB3tvYKcqAMsnIai5y3aIvq8o1Y4sK+e+8LGqGEL0iiWVMxQ0pKoCQCZap6hQ80uTqyd+sPD8JwrU8fg6IEKwzjmZa7cc3xZHmi1NeEbCwICetMPtnnklsLSifhBxOir3B1gqo1zBXHqq6AB0kJA1LxMoNJIbKGQGySPqe0hTdsjB/jEwxZm2+PwCFOV8jh1bWNrE94/CWoY4gNTKngRIaZ50if7Kro6zD4ASAuRdsTizWUPscrhB+b6Z1aXmZG1GhkPaZSWnMGWKXP/jEhYoVMFHQ8HVQMCrrUZcHds7QJXv2cLVLE66X01u24W8FQw/OV3zHfPPxDw==
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgCwsD2CYobZjHDtP9FGEV1UUvEq9YPg5B3lKzgzZP+00PZCUkcasK2BY+Yicr5JIeVBgz5Yr8PTU+LgGJO963lcE/eOQDw8mvyp++mXRBBd28z5qN5j//Hw4jzfSCTbuRYeXHAV8jKtWM7CQoh9QTN7MbLfM4Ni7qDhpJK1bEmhqLiTFcP5utlo6ZgcSoOS1vsrHV4Ygnhzr90Ldn9O3mLR9jsJlQvltEiqXD1K3jfKLPvhThjwYkNydxKCCaer+NVgoWi5ETiQDJpbIycgzIruiLvU90E4QXid8LQykFsJtAUEziuMXBtKwng/RIXarEtQoh6XU0CUJX+kZ/M0k/tDFhHNaxqFffVrCAMgVArHD9SkzzyE1AQLDX5sGofWNMVY57tuNS7xFVOvS909044vK6x5Z42elrjBVoqQl/+KvFPrMYzvQWALN07KX6xttDOsSKvN5CG7dS2jVgrHCaxtV2Yp3uXoklyzMEQ2OQw4VSjANNyY/q0GwaqaEm2JgHTQe7N6rlsHQBmtkL4KN/QNQMrT91o049rsIH2wofroOuLfdaNvc89USOWR93aKWvwY1TT74cFglbbn6wM+bhOptOkz9QBmEXnXvghgeiu+LZIbl5LWcGEoUL4AVFzm9dHW2pM1q6iuafqYxVwYshdSksdOnlFEElwCeEfn295Q1RVCSlwQYra2ESQ7RyhHK+5Y4+X0SYNYHr7cgOPOWahYbHq9oSJzVHWWDyv9QiuN5knNSGiESgXNWYRCTMoxcZocG5TTUVwyN+Q58x1l1x8YcU/SAPIEBi/7N8lbqgulT/QwYWra3q6alUOCWGL2
+    SMTP_USER: >-
+      AgBl0BFsHjRgJulZ3/iLhHbGqFnl0YKHMpC2BXYlJdg7uqvAtj891bZW8teLQzbr6Bh+Xb7Wm3NbdgvKfJ1RKPuCGl1t8Ulmyg2AnoB7s8eDJx2FBpzgc8jNAU3rOWmsAO0cmfJfMJ5t8tpZSGpLGl6rYaQEaBkZzcHBDn8gIVoQNiwW86A/PZJnQoPljolZ7Y0Q4JKQ2ZGzhRvDhSjlk74n0kT12fZ9bMe/V84ZaDwhGoHDsuFXrbGt62YfEIE5xCkqkb2yM+yvkQpzRGaViTieBp4fXg/VektDC4+Gm4Z77XLliR/qRsJ0h6kvYYTYfcEGxk4QRRfBMyZh6LtRK92K6zLBnR43la6wh2je3DsUaOu+xEPmGDBO8Nw+jOKS9TVPbvnAxTj+q5EX9zuER93Mdymbqcm8ochl+3PgNRLAyWCxM9mwdtrMbiYnX2yXtb4zbSKkg1vA78b9iE04o1WF2GFX6eM49D/ITK2DLYJICyUbyJj4Pc/bxwsm8HDyR2rT1LjP0o8yZeZ6bcWRNLZncWDxyxT2Zn8wKH0eF7uBeQnr76kgtcUt9Cw4r+ITpmRctG1YyNiUuLH+KPC1SJ8UbPXo3OrU14dRdrxM6KH0Rx7cd+Jqxa9JDyi+pbn/OZ3QqOX9iEq+UYxFbkvHTa/Xe6Boo1Ilw8nWqNIiW8ebE0Be6h77r+PfLJJPZGu8r7WlN5ibu9qaB8L5aZ9wEA==
+    SMTP_PASS: >-
+      AgBDyWN/0HC+11+mxH6fiu72AIFlLfm0g3To3eClaSisEeTeXj7G6s8R+QQADxWPFKEqvJq6m3RxsbW6CKVUVCgUio1p1c/PoKOJBa3LDdLrE8/++oZpoD75PNFtgoezkUFdRfgJaFjMREjuPXMTptudXoNOLMG/zVTKbWaKQVqX/WoJJ0tVaZ4f+4lppq0WoUzbPlaJta3HH6TZSpFHoTrmhI2IGGqvNAMXTPAADcvnT9vc5vK7rcJzs3BgLrflWX2fgArKPCGtndp/muEthreIZw745ZYF+EBSddomTyiHVRG2kg5+a1hqTMXV/Xd5h0rbpMbJlc8xlZRWTlx8972s98abowvoGqRarThGlAx3kkodzWD8U79nplSyInwJmmEg3CchV57ctvOeJIWff/TKEeeeg/0T6rbwWWG4ZlrZ3DXFLGJJ68aoWBbYHoUnEifXNehZmMaUA6DKmINh81+aT9zlbMFOHpyYI3UcQfd4FwnZom86EOdcq/SJgsTVO3etEaP/387OTbQogZmCrgCTawR7dq4wFIPWLjo5mTdOVuta7oVGKtXGOrufjLRV6RHA2CsS86Pm+IYQC8cbLG9coD/B1kDethzXFR2LYC4pVeBwcDIYlxCB18UKfsPK2qVJvVeEd/lClNhl4WLHN9SIF9SPLJN6WhmzndwfZfMvGZ1UjO4dtt1z8ZliSeIUwuAm4LSGaOAg0U83sM+zTg==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      name: app-sealed-secret
+      labels:
+        application: carnet-de-bord
+        component: carnet-de-bord
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    application: carnet-de-bord
+    component: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  namespace: carnet-de-bord-preprod
+data:
+  SMTP_HOST: smtp.mailtrap.io
+  SMTP_PORT: '2525'
+  SMTP_FROM: admin@carnet-de-bord.fr
+---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: app
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -151,6 +232,7 @@ metadata:
   labels:
     app: app
     application: carnet-de-bord
+    component: carnet-de-bord
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -187,6 +269,7 @@ metadata:
   labels:
     app: hasura
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -210,6 +293,7 @@ spec:
       labels:
         app: hasura
         application: carnet-de-bord
+        component: hasura
         owner: carnet-de-bord
         team: carnet-de-bord
         cert: wildcard
@@ -254,6 +338,10 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
+            - secretRef:
+                name: hasura-sealed-secret
+            - configMapRef:
+                name: hasura-configmap
       initContainers:
         - env:
             - name: WAIT_FOR_RETRIES
@@ -261,7 +349,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.32.2
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -272,12 +360,88 @@ spec:
               cpu: 5m
               memory: 16Mi
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  name: hasura-sealed-secret
+  namespace: carnet-de-bord-preprod
+  labels:
+    application: carnet-de-bord
+    component: hasura
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+spec:
+  encryptedData:
+    HASURA_GRAPHQL_ADMIN_SECRET: >-
+      AgA4CxVpUuHJca7pQWsnYgKNW4q5EU2d2mrr87FN10DtzjgPMJL5hXRDKQpr0sz3/Vo7jxZ1YIdecTcI+Dl0ordD0LMnwLl42TJx1ZOjy+2Crk6DhE/lM/Ull+pb4hbTzwnOTA3dPrO7uqY9wRO/kURGzq/UuA5vwQ8fEgh7vn2bVgCHuAlpLo5Z+D79yKmGDblOEdrnsKxY2qb06E2MhN7PhHbKMH7iM0QsOBud/EYEE6Nd/tSu22LtZqJf+nNJJCzHEqzDS2Av9hGOGKClNZHcsFZ2hIs5iehIm74z+6IUtnMy2CYhQQYr2qkai57vUNtQfp9r7RY2YabELXTohAqLm4QfKlLKygwG0iILRj/s6I9IX5O4UYU+WTx9dENB3tvYKcqAMsnIai5y3aIvq8o1Y4sK+e+8LGqGEL0iiWVMxQ0pKoCQCZap6hQ80uTqyd+sPD8JwrU8fg6IEKwzjmZa7cc3xZHmi1NeEbCwICetMPtnnklsLSifhBxOir3B1gqo1zBXHqq6AB0kJA1LxMoNJIbKGQGySPqe0hTdsjB/jEwxZm2+PwCFOV8jh1bWNrE94/CWoY4gNTKngRIaZ50if7Kro6zD4ASAuRdsTizWUPscrhB+b6Z1aXmZG1GhkPaZSWnMGWKXP/jEhYoVMFHQ8HVQMCrrUZcHds7QJXv2cLVLE66X01u24W8FQw/OV3zHfPPxDw==
+    HASURA_GRAPHQL_JWT_SECRET: >-
+      AgCwsD2CYobZjHDtP9FGEV1UUvEq9YPg5B3lKzgzZP+00PZCUkcasK2BY+Yicr5JIeVBgz5Yr8PTU+LgGJO963lcE/eOQDw8mvyp++mXRBBd28z5qN5j//Hw4jzfSCTbuRYeXHAV8jKtWM7CQoh9QTN7MbLfM4Ni7qDhpJK1bEmhqLiTFcP5utlo6ZgcSoOS1vsrHV4Ygnhzr90Ldn9O3mLR9jsJlQvltEiqXD1K3jfKLPvhThjwYkNydxKCCaer+NVgoWi5ETiQDJpbIycgzIruiLvU90E4QXid8LQykFsJtAUEziuMXBtKwng/RIXarEtQoh6XU0CUJX+kZ/M0k/tDFhHNaxqFffVrCAMgVArHD9SkzzyE1AQLDX5sGofWNMVY57tuNS7xFVOvS909044vK6x5Z42elrjBVoqQl/+KvFPrMYzvQWALN07KX6xttDOsSKvN5CG7dS2jVgrHCaxtV2Yp3uXoklyzMEQ2OQw4VSjANNyY/q0GwaqaEm2JgHTQe7N6rlsHQBmtkL4KN/QNQMrT91o049rsIH2wofroOuLfdaNvc89USOWR93aKWvwY1TT74cFglbbn6wM+bhOptOkz9QBmEXnXvghgeiu+LZIbl5LWcGEoUL4AVFzm9dHW2pM1q6iuafqYxVwYshdSksdOnlFEElwCeEfn295Q1RVCSlwQYra2ESQ7RyhHK+5Y4+X0SYNYHr7cgOPOWahYbHq9oSJzVHWWDyv9QiuN5knNSGiESgXNWYRCTMoxcZocG5TTUVwyN+Q58x1l1x8YcU/SAPIEBi/7N8lbqgulT/QwYWra3q6alUOCWGL2
+    HASURA_GRAPHQL_DATABASE_URL: >-
+      AgCqIOWdJ9yDA8Oxdv9xP03A0vBIxzB92btk/wpLOhnjxLt61OjFhx7SOfbCN1KZMvN38tekN5by9WOvlcNJM8IqDBXXhBgGszQxszc6OeCR9devESeiUMR1QgOQBn1kU/pVLSQJLakaIalAMpcA4Vmis8N5cQb3wXJ/qfoFI9AWT3Aq1qlj2hRGEJqzxozrYHDhRfJBX8xbmXTuszDzV0tQakZXn+ysOq10/Uq21p6hm0BcvhfQxOwsaXiORv7EVZcOzcSTu/PTlxK8UotrlJ0rBW9vEIPTaeqLTSv/cvC3ErA19VlXJazcnQQAqXBz0M+BEz1LPMNDenKQ/3k7F8/794cma5S7rDB033kwGIeyP5sdHECga35ENcXXguapFMZFFQK222WkXjIzHTvnOXYQ0k1VZ4CMPM3dD0FQ+HHSOVNKt+pKK7qifJttg8ipWz6Jp4AArzkKwfleNLnvokT3F8g8FT+t4iSRZKm1XwraKLlEgrkuAb85uljDlaWIzPKE+8f20cotdhmKokoSVRfP90hEhYLnL8t15FxemnBGRoxdfUM24AyBLyH776wrzE+p38D/9o/9Bq5Y34eAi5FERRj/f9bHs2VrfgrL2jnBkUjrP4IYVGAkcCVykwIkvJQ19aKh4MZADYbxP4doZYddZnM9FTZfxcTxN4pRQmF+ObEfnRDVev2l84HMPiCNVR7uqv5e+QKDCPJDtUVHIOjjTxnbh48ROOGxb1NO4u56ymFL9TmIWQVYrOZEyKZ+0bbvb+RXKf47JogUs6s0pxxpsOJuKv7eKeygpDNAUSyeshZ2R542tUy/Zfz6qXtnBeGi2IANqqvmTbgSP4yEbUkGOOw+kwqu8/3xzLqnifOzrM4yKxqT6rwIQ3hS5J/83u5eUE1sqXpLnJ7LJUT+c5v0Xuhzyn7aisSJCzJAL3pg
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        kapp.k14s.io/disable-default-ownership-label-rules: ''
+        kapp.k14s.io/disable-default-label-scoping-rules: ''
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      name: hasura-sealed-secret
+      labels:
+        application: carnet-de-bord
+        component: hasura
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+    type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hasura-configmap
+  annotations:
+    kapp.k14s.io/disable-default-ownership-label-rules: ''
+    kapp.k14s.io/disable-default-label-scoping-rules: ''
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  labels:
+    application: carnet-de-bord
+    component: hasura
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+  namespace: carnet-de-bord-preprod
+data:
+  HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+  HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+  HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+  HASURA_GRAPHQL_NO_OF_RETRIES: '5'
+  HASURA_GRAPHQL_SERVER_PORT: '80'
+  HASURA_GRAPHQL_LOG_LEVEL: debug
+---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: hasura
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -315,6 +479,7 @@ metadata:
   labels:
     app: hasura
     application: carnet-de-bord
+    component: hasura
     owner: carnet-de-bord
     team: carnet-de-bord
     cert: wildcard
@@ -336,5 +501,55 @@ spec:
     - hosts:
         - hasura-carnet-de-bord-preprod.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: 'true'
+    app.github.com/job: '5678'
+    app.github.com/ref: refs/tags/v1.2.3
+    app.github.com/repo: socialgouv/carnet-de-bord
+    app.github.com/run: '1234'
+    app.github.com/sha: '0123456'
+  name: azure-pg-user
+  namespace: carnet-de-bord-preprod
+  labels:
+    application: carnet-de-bord
+    component: carnet-de-bord
+    owner: carnet-de-bord
+    team: carnet-de-bord
+    cert: wildcard
+spec:
+  encryptedData:
+    DATABASE_URL: >-
+      AgCqIOWdJ9yDA8Oxdv9xP03A0vBIxzB92btk/wpLOhnjxLt61OjFhx7SOfbCN1KZMvN38tekN5by9WOvlcNJM8IqDBXXhBgGszQxszc6OeCR9devESeiUMR1QgOQBn1kU/pVLSQJLakaIalAMpcA4Vmis8N5cQb3wXJ/qfoFI9AWT3Aq1qlj2hRGEJqzxozrYHDhRfJBX8xbmXTuszDzV0tQakZXn+ysOq10/Uq21p6hm0BcvhfQxOwsaXiORv7EVZcOzcSTu/PTlxK8UotrlJ0rBW9vEIPTaeqLTSv/cvC3ErA19VlXJazcnQQAqXBz0M+BEz1LPMNDenKQ/3k7F8/794cma5S7rDB033kwGIeyP5sdHECga35ENcXXguapFMZFFQK222WkXjIzHTvnOXYQ0k1VZ4CMPM3dD0FQ+HHSOVNKt+pKK7qifJttg8ipWz6Jp4AArzkKwfleNLnvokT3F8g8FT+t4iSRZKm1XwraKLlEgrkuAb85uljDlaWIzPKE+8f20cotdhmKokoSVRfP90hEhYLnL8t15FxemnBGRoxdfUM24AyBLyH776wrzE+p38D/9o/9Bq5Y34eAi5FERRj/f9bHs2VrfgrL2jnBkUjrP4IYVGAkcCVykwIkvJQ19aKh4MZADYbxP4doZYddZnM9FTZfxcTxN4pRQmF+ObEfnRDVev2l84HMPiCNVR7uqv5e+QKDCPJDtUVHIOjjTxnbh48ROOGxb1NO4u56ymFL9TmIWQVYrOZEyKZ+0bbvb+RXKf47JogUs6s0pxxpsOJuKv7eKeygpDNAUSyeshZ2R542tUy/Zfz6qXtnBeGi2IANqqvmTbgSP4yEbUkGOOw+kwqu8/3xzLqnifOzrM4yKxqT6rwIQ3hS5J/83u5eUE1sqXpLnJ7LJUT+c5v0Xuhzyn7aisSJCzJAL3pg
+    PGDATABASE: >-
+      AgBBvXmFKDg86TFuik8RQtDa2GHtSSuoQfuO6VxgrYoc421Qs8DOYGEQ85l9SrtL37oHBRTrEl/fOSwifGRgwUXNMaTXohENCNtaljTCSjZFT2R8DF+qAbgEca0FA8H37aT5veqjMXEmcxv4+JNNXUHYESdEA0WqLyjmrQtfectNyfAAgeWJZ4B6nLqOKvVxB871U33I7JS7nxZVGKjXm2ZsljPEFjc7FBZLAnAsDN7gWqaZJY6u5AFbVQ738EVVYV5mO5+LBimH239V7u7jg8OVcU/YGDvsPWRzICRGwmyLw0oVclOGZXcELi3YqCdCjR199hHBAqZls4BCt46bGvDPlgmWS1iiLT8S1J5fgKDX3JClGjBLFOcnpE5Rrm7R0aFgzDiZ71nrx9OWBgPDO6QTVYJAZrnDcIaDjVnOrLO7tY0bQkLTha80i1k2P0ZSpXQVA/lOzRSrpK/LAu2rsLQwGA2KHdMELfWPlnRKp+yPZ3dZLozX9ZYytgRwy59dn+Br70Z4x01iJm9xbTvxIXyqxwZNowrODpXx3TIqa+6mtmHlWDUfLUB9DyyxScZ/J4af21jm2EIPBgrhrv+jr9OBTqIUQQo57ACP6qKsoORTzdZdzxKOJWp5mmUQy7R/F7HkOJ8HS5njXEQcfzR9qiC3nIltN/1VojHohYBKuan63iXRj4ZLyS+8t4au2NyUf7PDrhY8NZjc
+    PGHOST: >-
+      AgBiNmSbGxINmo5fxeN+Ln/lNQtnQzsfa7yur8v6HtMpiSyivIZF2UAFGz/nviKtqJlnplZF21lbrOSWG2Mg9yCvS14MXLrqY7BOOPuF31CPHByb3UrVDxb1HG62Yn8tRswGjoq+AMT/QUGdZx1H8W15FNNAXh1J/rf/T9PLUp6K0CM+j+HvIV/sE0Oxz4ny35YGQNEdK77KR98giWh2ke4ra035uyZRmW1jGUI+8PlQqgVShp5zMvcbkx1yXfiarxlsiUxhuDiXtYAbqd99iZgEocRosWd0x0/h6K8OtlywlKv9oLuf2jPF9YgmFn1YgqRvFniIzU4F1vVZ4n/C6lob4iR8ERP4Nh0YiADCalibUDm/zfvP0jFhVJAkVIV5nYGbHXow9uJFmmafViC7fU0eSm3KLYbjqmzLb6+HUykHt7J2WKKY4/5mSTVKlu431mkmguPYlMyAFMwxEuXs7XdaBKh/MRzDhbEAuAvnoL2eepSKCDWpPXfKnFd8ddjvcL3NjW3noup9kwwWedmTO9aQ10YZ0Xc5MDgX3TwJBkiHIGEVwOm9ezIy4PvyQHlQQRAABoyPSzgSEhlEDcIwt9vk+PWBoTEOfGcJx3uhr/pasTBo3AvGeROrfSwhHSRHng2MeOSPlxgJtaHXZnsEIuazhAUQ00gAOb7yZqG7K6PB/KfcU2gEgv/WGGYXEucsyJcJ9qLwhJziZwcNf8rtstg+ThrftYmHJBFVawNvlWAUz0cZFvBjEc+BvFeMFE815Wgc
+    PGPASSWORD: >-
+      AgC1DdoQm+i0p2+PLG0vmthqF8zAm8Te0SJAgGAG1+WRWLTKVEpTiFLanyS5mLaU1xiDoHc4Qt+AyEN6H1/mWJn+4d+L/rfsd9z7n7fl8XKEMgVTGIWsc7BYFs7gyCMZq1aT4Fdp2LDKx6xv4b8SdAlS3KOMy1O6gZ+RiuAA0cpNWonBGl7wdxmh+1CxBw247BifVwt4XLzVsVJKr7BxE3JhTWP3jxY9sZJlad5Qw1IhF7AAXqD9EL5KnnW2/33teCtqSe0u9prLfkkF1qAAr6nKe0r+ZMyfzfPwXMOT/0pN6a/szNED6iHuqEBJCDmKfeQAbxAWw9HN+N3Y7+Pyc3387ZrNFCEQD6lKU7pYW6ssNRje6DtzjKlPeP8HtfVVxRJmeoCf2B7BYJ5tgnDRoVlbXR2osWiURp5WhDNFoLzsT06/AxkFIb2366bD5Zsfc359xjPu3S1hACv3gx/Z//akdeiInL2s1t6a+obgoU518SGIJx7DPbNA2q9gr82O32zOcTHQ8tuCp5LAU7MCnC7i8KnekwKmxwOVKNv2wOlI8NgBu4m4OwgyWlfGRFK8onN/rpmZt49HyY/c6SFumQCL502M4WW9CxhetCSePDuxbmcddc9KSxUxohiT+c2Z+AOJaff4F3pqV4D9npXR1GPuGKYa9cSjyv8D8ySv0X2c07ePHJ7Oaj3mkIofxkhjsBf7ub5lCTLM4AUvPAsJ2HRJ4yFXqVC+Ng==
+    PGSSLMODE: >-
+      AgDZj+tag1o6fXQxNONgRp7pJcpmRz8qVxcsfsDU6DdTu0ozxwq+LVGPKlJ1uwu4oApXRqJGHSzaNNRRoMeIcROz5Hmzgtk4pmIdOfudiSUsAZpMaOgvCJoEonJ1xX8Qq09SDw75Qul2BciGNFeTfpBZb0bxxibhIePMjGS022+/h0FH4uFTUzOOGeT6zZ+o9k7m4mCVM7Eb/VnWtbOd4Mi9aiVn0Z0GSDALlLJqaCDkOsWy0eLuYgva1ir8gDInvc3jNUAx6gLU1puUS98yYT4Y+Bslsd6KLMNkhGf3wTGl4mYsb2yHvREoaNGorp7/sAufP0GqlJkS6j3tHKzlqO71BR2nDPvJWDZDGXigzP0ePT3NRFB6bocLQCPEqd3I+XC7w5RRQ8Ue59SBPmsxUKoRTXrpZlE9XV/etsjcGzpcmUj/bnGKpHWiMf8VZfFXhKUvWx2ykVM/3x1vfXR1eYUbHuEVbRcEMqwKESMQ0mAItBIQv2SYYjtsjLUNnywY+aPJWlmiJCgKFuLO1wpf0OB1cxGYRatGseYmVQdTZnKkrkwHIIIPxePsMzlFtdx7I5pq02swIgq81EIiYloh9UaUooR/aLzvKjJSsgVltEhkghNMHSGXCYQA1d+0pwgfei1cvwKZM++oAW9X5h3eU7GZxfmAksnsd24+pPQAB3CYYRnUkYPjfYxF99gP7r/peLvRvwCB8OL0
+    PGUSER: >-
+      AgCWwcUCmQZGjg5igHyH+x1/lcBV5U8h4x1PFrgHauPrlD9sCaoQHom94yUTjk9ITcolrx8LZHN7z72JaxUjw4sJILwcFc1JivdX9kufrOnnhR11qiPedaeKT0r6hCzmMM44F1jbjtW0NNbs3bEmC5Xzx/fehz3XnV0HT2fu6ZyF4vMyqqdTw422Fuxvustj++JN5j1aWXpav7gHMaFwRW7WsnZ+p6nAtePiwoSQwRSo3eS4AWNm09vpGmMo0BuCU6bDOJmYz9uSp+MKlNh6K4C6tUy+pORR0TYQSGh/46seNrR8AU6AKNOWUrBplDkp1rXaHF2AEQW4d4x8yydwliVp6+NoWeZrK8QnMy4NEFfnQXVVSOBsvPqA9cOIeyuhKtadbWltFIGJIXID9MLBDVDQO8p9f3xHN51nNJERXK7rXgIviB75kkhaNaCH+ckzRLlmDcWvfjumpdeL89AGdCkeszK3JHbog5Qt0xXkHZR3rH6u02fih5LGGO7l5m9Kl3TuGIuX8zul75Xvr3dBcATvv6zCFRqR72eutYoFjiJI0uW+o6Rv/X25pNdGGE7p6t3RtwZ+i3WQulRXYsLUu21k0YmxwgcPdFFBPau+zRHaxSp+YKfBUtA/3kY2YKqm60fcbFP1NP6OpVuXTIshYQwaQHN3BLPlIlDAInYKle3gmR1OtVDZ9dKoiKwG+plkk8Pg684lZ63T1P3FHtYPw2Fmxbr5rYBXgagGPd79eVkchZ9Ficpzcli1uX1WrI2pCAJG2pJk0hFNFlmywJBlHg==
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: 'true'
+        app.github.com/job: '5678'
+        app.github.com/ref: refs/tags/v1.2.3
+        app.github.com/repo: socialgouv/carnet-de-bord
+        app.github.com/run: '1234'
+        app.github.com/sha: '0123456'
+      name: azure-pg-user
+      labels:
+        application: carnet-de-bord
+        component: carnet-de-bord
+        owner: carnet-de-bord
+        team: carnet-de-bord
+        cert: wildcard
+    type: Opaque
 "
 `;
