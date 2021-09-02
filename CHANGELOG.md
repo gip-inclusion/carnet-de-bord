@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.5.0...v1.6.0) (2021-09-02)
+
+
+### Features
+
+* **pro:** add time filters - resolve [#121](https://github.com/SocialGouv/carnet-de-bord/issues/121) ([#123](https://github.com/SocialGouv/carnet-de-bord/issues/123)) ([e51e41f](https://github.com/SocialGouv/carnet-de-bord/commit/e51e41f75da3f50571a81575cc021f09ed86f357))
+
 # [1.5.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.2...v1.5.0) (2021-09-01)
 
 
