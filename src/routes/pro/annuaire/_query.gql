@@ -1,18 +1,36 @@
-query SearchBeneficiaries($filter: String) {
-	beneficiary(
+query SearchNotebookMember(
+	$professionalId: uuid!
+	$filter: String
+	$visitDateStart: timestamptz
+	$visitDateEnd: timestamptz
+) {
+	notebook_member(
 		where: {
-			_or: [
-				{ peNumber: { _ilike: $filter } }
-				{ cafNumber: { _ilike: $filter } }
-				{ lastname: { _ilike: $filter } }
-				{ mobileNumber: { _ilike: $filter } }
-			]
+			professionalId: { _eq: $professionalId }
+			notebook: {
+				beneficiary: {
+					_or: [
+						{ peNumber: { _ilike: $filter } }
+						{ cafNumber: { _ilike: $filter } }
+						{ lastname: { _ilike: $filter } }
+						{ mobileNumber: { _ilike: $filter } }
+					]
+				}
+			}
+			notebookVisitDate: { _gt: $visitDateStart, _lt: $visitDateEnd }
 		}
+		order_by: { notebookModificationDate: desc_nulls_first }
 	) {
-		dateOfBirth
-		firstname
 		id
-		lastname
-		mobileNumber
+		notebook {
+			id
+			beneficiary {
+				dateOfBirth
+				firstname
+				id
+				lastname
+				mobileNumber
+			}
+		}
 	}
 }
