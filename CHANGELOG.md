@@ -1,3 +1,10 @@
+## [1.4.3-alpha.14](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.13...v1.4.3-alpha.14) (2021-09-02)
+
+
+### Bug Fixes
+
+* Upgrade kosko-charts version. ([31a0210](https://github.com/SocialGouv/carnet-de-bord/commit/31a0210ab11c204d268e16ee88dcef9c22f1045b))
+
 ## [1.4.3-alpha.13](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.12...v1.4.3-alpha.13) (2021-09-02)
 
 
