@@ -1064,10 +1064,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@sveltejs/adapter-node@^1.0.0-next.43":
-  version "1.0.0-next.43"
-  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-node/-/adapter-node-1.0.0-next.43.tgz#97e1b14990505b77c231d41e4135a36198eab429"
-  integrity sha512-SRKpI67XKcUTzUIhjLDqnuxx7SC3cPazqOAXhLsCTcrgJggqA9Wr7Mpdc05vU6hZYcaLpA+wxOKep2kCmXKfsQ==
+"@sveltejs/adapter-node@^1.0.0-next.45":
+  version "1.0.0-next.45"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-node/-/adapter-node-1.0.0-next.45.tgz#67c501d02f03d5ae00b87dd67732b88c195259b1"
+  integrity sha512-oZN3XjCSLBJDPWhaf7g84BfQa21Qsqj+DHcem0r4W13IgEF4gcVGj1K94IIibDgCl8uArZq5AfI5wJejo/vtwg==
   dependencies:
     esbuild "^0.12.5"
     tiny-glob "^0.2.9"
