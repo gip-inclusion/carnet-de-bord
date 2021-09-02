@@ -1,3 +1,10 @@
+## [1.4.3-alpha.13](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.12...v1.4.3-alpha.13) (2021-09-02)
+
+
+### Bug Fixes
+
+* Change HASURA_GRAPHQL_JWT_SECRET. ([621c8e5](https://github.com/SocialGouv/carnet-de-bord/commit/621c8e55f37d8dfc1b1161861320c03808b87601))
+
 ## [1.4.3-alpha.12](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.11...v1.4.3-alpha.12) (2021-09-01)
 
 
