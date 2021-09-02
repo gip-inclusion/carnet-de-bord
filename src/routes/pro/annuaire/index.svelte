@@ -5,47 +5,78 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
 		Beneficiary,
-		SearchBeneficiariesQueryStore
+		NotebookMember,
+		SearchNotebookMemberQueryStore,
+		SearchNotebookMemberQueryVariables
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { SearchBeneficiariesDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { SearchNotebookMemberDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
+	import { addMonths } from 'date-fns';
 
-	export const load: Load = async ({ page }) => {
+	export const load: Load = async ({ page, session }) => {
 		const search = page.query.get('search');
-		const queryOptions = search
-			? {
-					filter: `%${search}%`
-			  }
-			: {};
-		const result = operationStore(SearchBeneficiariesDocument, queryOptions);
+		const { professionalId } = session.user;
+		const queryVariables = {
+			professionalId: professionalId,
+			filter: search ? `%${search}%` : undefined
+		};
+		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
 
 		return {
 			props: {
 				result,
-				search
+				search,
+				professionalId
 			}
 		};
 	};
 </script>
 
 <script lang="ts">
-	export let result: SearchBeneficiariesQueryStore;
+	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
+	export let professionalId: string;
 
 	let selected: Option;
 
+	function buildQueryVariables() {
+		let visitDateStart;
+		let visitDateEnd;
+
+		const today = new Date();
+		if (selected?.name === '3months') {
+			visitDateStart = addMonths(today, -3);
+		} else if (selected?.name === '6months') {
+			visitDateStart = addMonths(today, -6);
+		} else if (selected?.name === '12months') {
+			visitDateStart = addMonths(today, -12);
+		} else if (selected?.name === '+12months') {
+			visitDateEnd = addMonths(today, -12);
+		}
+
+		const variables: SearchNotebookMemberQueryVariables = { professionalId };
+		if (search) {
+			variables.filter = `%${search}%`;
+		}
+		if (visitDateStart) {
+			variables.visitDateStart = visitDateStart;
+		}
+		if (visitDateEnd) {
+			variables.visitDateEnd = visitDateEnd;
+		}
+		return variables;
+	}
+
 	query(result);
 
-	function onSearch({ detail }) {
-		const { search } = detail;
-		$result.variables = { filter: `%${search}%` };
+	function onSearch() {
+		$result.variables = buildQueryVariables();
 		$result.reexecute();
 	}
 
-	function onSelect({ detail }) {
-		const { selected } = detail;
-		$result.variables = { filter: `%${selected.name}%` };
+	function onSelect() {
+		$result.variables = buildQueryVariables();
 		$result.reexecute();
 	}
 
@@ -70,7 +101,8 @@
 	];
 
 	/* TODO: find a way without cheating on that type */
-	$: beneficiaries = ($result.data ? $result.data.beneficiary : []) as Beneficiary[];
+	$: members = ($result.data ? $result.data.notebook_member : []) as NotebookMember[];
+	$: beneficiaries = members ? members.map((m) => m.notebook.beneficiary) : [];
 </script>
 
 <div class="flex flex-col space-y-8 px-40">
@@ -93,15 +125,17 @@
 	<div class="flex flex-row w-full space-x-16">
 		<div class="flex-grow">
 			<Select
-				disabled={true}
 				on:select={onSelect}
 				options={[
-					{ name: '3months', label: 'Derniers profils consultés de moins de 3 mois' },
-					{ name: '12months', label: 'Derniers profils consultés de moins de 12 mois' }
+					{ name: '', label: '' },
+					{ name: '3months', label: 'dans les 3 derniers mois' },
+					{ name: '6months', label: 'dans les 6 derniers mois' },
+					{ name: '12months', label: 'dans les 12 derniers mois' },
+					{ name: '+12months', label: 'il y a plus de 12 mois' }
 				]}
 				bind:selected
 				selectHint="Sélectionner un filtre"
-				selectLabel="Filtrer par"
+				selectLabel="Profils consultés"
 			/>
 		</div>
 		<div class="flex-grow">
@@ -110,7 +144,7 @@
 				{' '}
 			</div>
 			<!-- end -->
-			<ProBeneficiarySearchBar {search} on:search={(event) => onSearch(event)} size="md" />
+			<ProBeneficiarySearchBar bind:search on:search={() => onSearch()} size="md" />
 		</div>
 	</div>
 

@@ -2943,19 +2943,30 @@ export type GetLastVisitedOrUpdatedQuery = {
 	}>;
 };
 
-export type SearchBeneficiariesQueryVariables = Exact<{
+export type SearchNotebookMemberQueryVariables = Exact<{
+	professionalId: Scalars['uuid'];
 	filter?: Maybe<Scalars['String']>;
+	visitDateStart?: Maybe<Scalars['timestamptz']>;
+	visitDateEnd?: Maybe<Scalars['timestamptz']>;
 }>;
 
-export type SearchBeneficiariesQuery = {
+export type SearchNotebookMemberQuery = {
 	__typename?: 'query_root';
-	beneficiary: Array<{
-		__typename?: 'beneficiary';
-		dateOfBirth: any;
-		firstname: string;
+	notebook_member: Array<{
+		__typename?: 'notebook_member';
 		id: any;
-		lastname: string;
-		mobileNumber?: Maybe<string>;
+		notebook: {
+			__typename?: 'notebook';
+			id: any;
+			beneficiary: {
+				__typename?: 'beneficiary';
+				dateOfBirth: any;
+				firstname: string;
+				id: any;
+				lastname: string;
+				mobileNumber?: Maybe<string>;
+			};
+		};
 	}>;
 };
 
@@ -3602,18 +3613,36 @@ export const GetLastVisitedOrUpdatedDocument = {
 		}
 	]
 } as unknown as DocumentNode<GetLastVisitedOrUpdatedQuery, GetLastVisitedOrUpdatedQueryVariables>;
-export const SearchBeneficiariesDocument = {
+export const SearchNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'SearchBeneficiaries' },
+			name: { kind: 'Name', value: 'SearchNotebookMember' },
 			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitDateStart' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitDateEnd' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
 				}
 			],
 			selectionSet: {
@@ -3621,7 +3650,7 @@ export const SearchBeneficiariesDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'beneficiary' },
+						name: { kind: 'Name', value: 'notebook_member' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -3631,100 +3660,174 @@ export const SearchBeneficiariesDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_or' },
+											name: { kind: 'Name', value: 'professionalId' },
 											value: {
-												kind: 'ListValue',
-												values: [
+												kind: 'ObjectValue',
+												fields: [
 													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'peNumber' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: '_ilike' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'filter' }
-																			}
-																		}
-																	]
-																}
-															}
-														]
-													},
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'cafNumber' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: '_ilike' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'filter' }
-																			}
-																		}
-																	]
-																}
-															}
-														]
-													},
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'lastname' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: '_ilike' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'filter' }
-																			}
-																		}
-																	]
-																}
-															}
-														]
-													},
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'mobileNumber' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: '_ilike' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'filter' }
-																			}
-																		}
-																	]
-																}
-															}
-														]
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professionalId' }
+														}
 													}
 												]
 											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiary' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_or' },
+																	value: {
+																		kind: 'ListValue',
+																		values: [
+																			{
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'peNumber' },
+																						value: {
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_ilike' },
+																									value: {
+																										kind: 'Variable',
+																										name: { kind: 'Name', value: 'filter' }
+																									}
+																								}
+																							]
+																						}
+																					}
+																				]
+																			},
+																			{
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'cafNumber' },
+																						value: {
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_ilike' },
+																									value: {
+																										kind: 'Variable',
+																										name: { kind: 'Name', value: 'filter' }
+																									}
+																								}
+																							]
+																						}
+																					}
+																				]
+																			},
+																			{
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'lastname' },
+																						value: {
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_ilike' },
+																									value: {
+																										kind: 'Variable',
+																										name: { kind: 'Name', value: 'filter' }
+																									}
+																								}
+																							]
+																						}
+																					}
+																				]
+																			},
+																			{
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'mobileNumber' },
+																						value: {
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_ilike' },
+																									value: {
+																										kind: 'Variable',
+																										name: { kind: 'Name', value: 'filter' }
+																									}
+																								}
+																							]
+																						}
+																					}
+																				]
+																			}
+																		]
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookVisitDate' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_gt' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'visitDateStart' }
+														}
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_lt' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'visitDateEnd' }
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookModificationDate' },
+											value: { kind: 'EnumValue', value: 'desc_nulls_first' }
 										}
 									]
 								}
@@ -3733,11 +3836,31 @@ export const SearchBeneficiariesDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'notebook' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'beneficiary' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
+													]
+												}
+											}
+										]
+									}
+								}
 							]
 						}
 					}
@@ -3745,7 +3868,7 @@ export const SearchBeneficiariesDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<SearchBeneficiariesQuery, SearchBeneficiariesQueryVariables>;
+} as unknown as DocumentNode<SearchNotebookMemberQuery, SearchNotebookMemberQueryVariables>;
 export const UpdateNotebookVisitDateDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4196,9 +4319,9 @@ export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,
 	GetLastVisitedOrUpdatedQueryVariables
 >;
-export type SearchBeneficiariesQueryStore = OperationStore<
-	SearchBeneficiariesQuery,
-	SearchBeneficiariesQueryVariables
+export type SearchNotebookMemberQueryStore = OperationStore<
+	SearchNotebookMemberQuery,
+	SearchNotebookMemberQueryVariables
 >;
 export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
