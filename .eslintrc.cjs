@@ -13,7 +13,14 @@ module.exports = {
 	settings: {
 		'svelte3/typescript': () => require('typescript')
 	},
-	rules: { '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }] },
+	rules: {
+		'@typescript-eslint/no-unused-vars': ['error', {ignoreRestSiblings: true}],
+		'cypress/no-assigning-return-values': 'error',
+		'cypress/no-unnecessary-waiting': 0,
+		'cypress/assertion-before-screenshot': 'warn',
+		'cypress/no-force': 'warn',
+		'cypress/no-async-tests': 'error'
+	},
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2019
