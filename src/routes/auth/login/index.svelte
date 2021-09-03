@@ -42,7 +42,7 @@
 				/>
 				<div><Link href="/auth/oubli">J'ai oublié mon identifiant</Link></div>
 				<div>
-					<Button type="submit" disabled={!username}>Se connecter</Button>
+					<Button id="login-submit" type="submit" disabled={!username}>Se connecter</Button>
 				</div>
 			</div>
 			<div class="flex flex-col gap-6">
