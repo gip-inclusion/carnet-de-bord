@@ -79,7 +79,7 @@
 		"graphql": "^15.5.2",
 		"jsonwebtoken": "^8.5.1",
 		"jwt-decode": "^3.1.2",
-		"knex": "^0.95.10",
+		"knex": "^0.95.11",
 		"nodemailer": "^6.6.3",
 		"pg": "^8.7.1",
 		"rasha": "^1.2.5",
