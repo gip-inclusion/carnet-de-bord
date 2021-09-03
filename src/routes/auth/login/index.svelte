@@ -72,7 +72,9 @@
 				Si vous n'avez pas reçu le lien, vous pouvez cliquer sur le bouton ci-dessous.
 			</div>
 			<div>
-				<Button outline={true}>Renvoyer le lien</Button>
+				<Button id="resend-magiclink" outline={true} on:click={handleSubmit}
+					>Renvoyer le lien</Button
+				>
 			</div>
 		</div>
 	</div>

@@ -14,7 +14,10 @@ module.exports = {
 		'svelte3/typescript': () => require('typescript')
 	},
 	rules: {
-		'@typescript-eslint/no-unused-vars': ['error', {ignoreRestSiblings: true}],
+		'@typescript-eslint/no-unused-vars': [
+			'error',
+			{ "argsIgnorePattern": "^_", varsIgnorePattern: '^_', ignoreRestSiblings: true }
+		],
 		'cypress/no-assigning-return-values': 'error',
 		'cypress/no-unnecessary-waiting': 0,
 		'cypress/assertion-before-screenshot': 'warn',

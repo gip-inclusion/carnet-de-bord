@@ -16,5 +16,6 @@ describe('Login', () => {
 			});
 		cy.get('#login-submit').click();
 		cy.contains('Un lien vous a été envoyé');
+		cy.get('#resend-magiclink').click();
 	});
 });
