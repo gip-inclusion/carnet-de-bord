@@ -45,12 +45,14 @@
 		let visitDateEnd;
 
 		const today = new Date();
-		if (selected?.name === '3months') {
+		if (selected?.name === '-3months') {
 			visitDateStart = addMonths(today, -3);
-		} else if (selected?.name === '6months') {
+		} else if (selected?.name === '3-6months') {
 			visitDateStart = addMonths(today, -6);
-		} else if (selected?.name === '12months') {
+			visitDateEnd = addMonths(today, -3);
+		} else if (selected?.name === '6-12months') {
 			visitDateStart = addMonths(today, -12);
+			visitDateEnd = addMonths(today, -6);
 		} else if (selected?.name === '+12months') {
 			visitDateEnd = addMonths(today, -12);
 		}
@@ -128,9 +130,9 @@
 				on:select={onSelect}
 				options={[
 					{ name: '', label: '' },
-					{ name: '3months', label: 'dans les 3 derniers mois' },
-					{ name: '6months', label: 'dans les 6 derniers mois' },
-					{ name: '12months', label: 'dans les 12 derniers mois' },
+					{ name: '-3months', label: 'dans les 3 derniers mois' },
+					{ name: '3-6months', label: 'entre les 3 et 6 derniers mois' },
+					{ name: '6-12months', label: 'entre les 6 et 12 derniers mois' },
 					{ name: '+12months', label: 'il y a plus de 12 mois' }
 				]}
 				bind:selected
