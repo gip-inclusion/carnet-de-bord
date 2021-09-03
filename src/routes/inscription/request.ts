@@ -14,7 +14,7 @@ export const post: RequestHandler = async (request) => {
 		structureId: string;
 	};
 
-	const { username, email, firstname, lastname } = accountRequest;
+	const { username, email, firstname, lastname, mobileNumber, position } = accountRequest;
 
 	const account = (await knex('account').where({ username }).first()) as unknown;
 
@@ -43,7 +43,9 @@ export const post: RequestHandler = async (request) => {
 			email,
 			lastname,
 			firstname,
-			structure_id: structureId
+			structure_id: structureId,
+			mobile_number: mobileNumber,
+			position
 		})
 		.returning('id');
 
