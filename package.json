@@ -26,7 +26,8 @@
 		"lint:fix": "prettier --check --plugin-search-dir=. src && yarn lint --fix --cache",
 		"lint:pre-commit": "yarn lint:fix",
 		"format": "prettier --write --plugin-search-dir=. src",
-		"codegen": "yarn run graphql-codegen --config codegen.cjs"
+		"codegen": "yarn run graphql-codegen --config codegen.cjs",
+		"cypress": "cypress open"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^13.1.0",
@@ -48,8 +49,10 @@
 		"@typescript-eslint/parser": "^4.30.0",
 		"autoprefixer": "^10.3.4",
 		"cssnano": "^5.0.8",
+		"cypress": "^8.3.1",
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-cypress": "^2.11.3",
 		"eslint-plugin-svelte3": "^3.2.0",
 		"hasura-cli": "^2.0.8",
 		"husky": "^7.0.2",
