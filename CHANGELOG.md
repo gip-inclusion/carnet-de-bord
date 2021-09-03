@@ -35,6 +35,9 @@
 
 # [1.7.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.1...v1.7.0) (2021-09-03)
 
+* Use autodevops actions. ([d0dc96d](https://github.com/SocialGouv/carnet-de-bord/commit/d0dc96d95f54990535b6bdc0d0ca20d53a00f1ae))
+
+## [1.6.1-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.0...v1.6.1-alpha.1) (2021-09-02)
 
 ### Bug Fixes
 
