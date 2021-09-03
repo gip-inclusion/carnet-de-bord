@@ -1,5 +1,5 @@
 SET check_function_bodies = false;
-INSERT INTO public.admin (id, email) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'admin@cdb.fr');
+INSERT INTO public.admin (id, email, lastname, firstname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'admin@cdb.fr', 'Administrateur', 'Carnet de Bord');
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b1', 'jean.laroche@cdb.fr', 'Laroche', 'Jean', '12345', '89879', '26150', 'Die', '26 rue Camille Buffardel', NULL, '0660203040', '1982-05-12');
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13a1', 'arthur.lapointe@cdb.fr', 'Lapointe', 'Arthur', '13245', '81879', '75018', 'Paris', '98 rue de la vilette', NULL, '0640203040', '1976-04-28');
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13d1', 'julie.doeuf@cdb.fr', 'Doeuf', 'Julie', '12345', '89959', '93000', 'Saint denis', '5 avenue de la prairie', NULL, '0660203060', '1995-08-15');
