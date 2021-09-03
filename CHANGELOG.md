@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.0...v1.6.1) (2021-09-03)
+
+
+### Bug Fixes
+
+* **inscription:** store all data - fix [#120](https://github.com/SocialGouv/carnet-de-bord/issues/120) ([#125](https://github.com/SocialGouv/carnet-de-bord/issues/125)) ([c1f0b90](https://github.com/SocialGouv/carnet-de-bord/commit/c1f0b908cd37eef752531538750036cede62b247))
+
 # [1.6.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.5.0...v1.6.0) (2021-09-02)
 
 
