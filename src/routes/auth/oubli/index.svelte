@@ -37,7 +37,7 @@
 						: ''}
 				/>
 				<div>
-					<Button type="submit" disabled={!email}>Envoyer</Button>
+					<Button id="email-submit" type="submit" disabled={!email}>Envoyer</Button>
 				</div>
 			</div>
 		</div>
