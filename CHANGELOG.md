@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.1...v1.7.0) (2021-09-03)
+
+
+### Features
+
+* **admin:** add firstname, lastname - fix [#119](https://github.com/SocialGouv/carnet-de-bord/issues/119) ([#126](https://github.com/SocialGouv/carnet-de-bord/issues/126)) ([ec929f1](https://github.com/SocialGouv/carnet-de-bord/commit/ec929f100d0575917fb68b993b46d5f32e97f849))
+
 ## [1.6.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.0...v1.6.1) (2021-09-03)
 
 
