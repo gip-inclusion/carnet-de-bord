@@ -19,13 +19,6 @@ const config = {
 			'france-blue': '#000091',
 			white: '#FFFFFF',
 			'marianne-red': '#E1000F',
-			dora: {
-				magenta: {
-					brand: '#9C6FF4',
-					hover: '#7B40F0',
-					cta: '#5B12EB'
-				}
-			},
 			magenta: {
 				80: '#AF8EF3',
 				60: '#C3AAF6',
