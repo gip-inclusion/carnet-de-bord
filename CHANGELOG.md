@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.7.1...v1.8.0) (2021-09-05)
+
+
+### Features
+
+* **admin:** add structures page ([8c0f355](https://github.com/SocialGouv/carnet-de-bord/commit/8c0f355143d39f9aeb58dd66d5d8b646a577076f))
+
 ## [1.7.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.7.0...v1.7.1) (2021-09-05)
 
 
