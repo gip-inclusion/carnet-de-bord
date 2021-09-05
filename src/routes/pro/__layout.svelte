@@ -55,8 +55,8 @@
 	});
 
 	const menuItems: MenuItem[] = [
-		{ id: 'accueil', name: 'accueil', path: '/pro/accueil', label: 'Accueil' },
-		{ id: 'annuaire', name: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' }
+		{ id: 'accueil', path: '/pro/accueil', label: 'Accueil' },
+		{ id: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' }
 	];
 
 	$: segments = getSegments($page.path);

@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import NavBarItem from './NavBarItem.svelte';
 	type MenuItem = {
-		name: string;
+		id: string;
 		label: string;
 		path: string;
 	};
@@ -13,7 +13,7 @@
 
 <nav class="fr-nav" {id} role="navigation" aria-label="Menu principal">
 	<ul class="fr-nav__list">
-		{#each menuItems as menuItem (menuItem.name)}
+		{#each menuItems as menuItem (menuItem.id)}
 			<NavBarItem {menuItem} currentRoute={$page.path} />
 		{/each}
 	</ul>

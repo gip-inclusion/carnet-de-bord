@@ -2,7 +2,7 @@
 	import { isCurrentRoute } from '$lib/routes';
 	import Link from './Link.svelte';
 	type MenuItem = {
-		name: string;
+		id: string;
 		label: string;
 		path: string;
 	};

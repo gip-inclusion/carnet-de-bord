@@ -13,7 +13,6 @@ export interface Option {
 
 export type MenuItem = {
 	id: string;
-	name: string;
 	path: string;
 	label: string;
 };

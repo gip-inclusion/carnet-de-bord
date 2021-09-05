@@ -7,7 +7,12 @@
 	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
 
 	const menuItems: MenuItem[] = [
-		{ id: 'accueil', name: 'accueil', path: '/admin', label: 'Accueil' }
+		{
+			id: 'utilisateurs',
+			path: '/admin/utilisateurs',
+			label: 'Utilisateurs'
+		},
+		{ id: 'structures', path: '/admin/structures', label: 'Structures' }
 	];
 
 	$: segments = getSegments($page.path);
