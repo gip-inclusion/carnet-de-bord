@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { dev } from '$app/env';
+
 	import { goto } from '$app/navigation';
 
 	import type { RequestStep } from '$lib/types';
@@ -7,6 +9,9 @@
 
 	let requestStep: RequestStep = 'start';
 	let username: string;
+
+	// only in dev
+	let accessPath;
 
 	async function registration() {
 		goto('/inscription');
@@ -18,6 +23,8 @@
 			requestStep = 'error';
 		}
 		if (response.status === 200) {
+			const { path } = await response.json();
+			accessPath = path;
 			requestStep = 'success';
 		}
 	}
@@ -66,6 +73,9 @@
 						<Button>J'ai compris</Button>
 					</div>
 					-->
+			{#if accessPath && dev}
+				<div><Link href={accessPath}>DEV - LIEN DE CONNEXION</Link></div>
+			{/if}
 		</div>
 		<div class="flex flex-col gap-6">
 			<div class="text-sm">
