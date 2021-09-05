@@ -15,7 +15,7 @@ const proHome: Route = {
 	path: '/pro/accueil'
 };
 const adminHome: Route = {
-	path: '/admin'
+	path: '/admin/utilisateurs'
 };
 const beneficiaryHome: Route = {
 	path: '/part'
