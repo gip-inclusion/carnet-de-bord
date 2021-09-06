@@ -1,3 +1,10 @@
+## [1.9.2-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.2...v1.9.2-alpha.3) (2021-09-06)
+
+
+### Bug Fixes
+
+* Production workflow. ([5b6cf4f](https://github.com/SocialGouv/carnet-de-bord/commit/5b6cf4fba0c1c9e4f5f34214072cb9b750c1977f))
+
 ## [1.9.2-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.1...v1.9.2-alpha.2) (2021-09-06)
 
 
