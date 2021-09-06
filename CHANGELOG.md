@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.2...v1.9.0) (2021-09-06)
+
+
+### Features
+
+* [#62](https://github.com/SocialGouv/carnet-de-bord/issues/62) - add beneficiary ([74d21b4](https://github.com/SocialGouv/carnet-de-bord/commit/74d21b439124ff2db64eac46008eacee144048b9))
+
 ## [1.8.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.1...v1.8.2) (2021-09-06)
 
 
