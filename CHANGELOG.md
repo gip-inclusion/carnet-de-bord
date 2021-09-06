@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.1...v1.8.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sveltejs/adapter-node to ^1.0.0-next.45 ([#118](https://github.com/SocialGouv/carnet-de-bord/issues/118)) ([c832a0f](https://github.com/SocialGouv/carnet-de-bord/commit/c832a0f815f9e26710589243220e397a52f1f654))
+
 ## [1.8.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.0...v1.8.1) (2021-09-06)
 
 
