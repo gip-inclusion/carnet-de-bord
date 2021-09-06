@@ -127,8 +127,8 @@ jobs:
   ##############################################################################
   ## GENERATE PRODUCTION MANIFESTS
   ##############################################################################
-  manifests:
-    name: Preproduction manifests
+  manifests-prod:
+    name: Production manifests
     runs-on: ubuntu-latest
     steps:
 
