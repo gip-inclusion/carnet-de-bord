@@ -1,3 +1,10 @@
+## [1.9.2-alpha.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.3...v1.9.2-alpha.4) (2021-09-06)
+
+
+### Bug Fixes
+
+* Set proper preprod and prod env urls. ([40f942f](https://github.com/SocialGouv/carnet-de-bord/commit/40f942f09b0a04fdfd793432844cae49676401b0))
+
 ## [1.9.2-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.2...v1.9.2-alpha.3) (2021-09-06)
 
 
