@@ -54,46 +54,14 @@ jobs:
   ## GENERATE PREPRODUCTION MANIFESTS
   ##############################################################################
   manifests:
-    name: Generate k8s manifests
+    name: Preproduction manifests
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Load review environment variables
-      run: |
-        cat ".github/preprod.env" >> $GITHUB_ENV
-
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v2
-
-    - name: Install kosko-charts dependencies
-      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
-
-    - name: Generate k8s manifests
-      run: yarn --cwd .k8s --silent generate --env preprod > manifests-preprod.yml
-      env:
-        SOCIALGOUV_PREPRODUCTION: true
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
-    - name: Generate k8s namespace
-      run: yarn --cwd .k8s --silent generate --env preprod _namespace > namespace-preprod.yml
-      env:
-        SOCIALGOUV_PREPRODUCTION: true
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
-    - name: Archive k8s manifests
-      uses: actions/upload-artifact@v2
+    - name: Use autodevops manifests generation
+      uses: SocialGouv/actions/k8s-manifests@master
       with:
-        name: manifests-preprod.yml
-        path: manifests-preprod.yml
-
-    - name: Archive k8s namespace
-      uses: actions/upload-artifact@v2
-      with:
-        name: namespace-preprod.yml
-        path: namespace-preprod.yml
+        environment: "preprod"
 
   ##############################################################################
   ## DEPLOY PREPRODUCTION APPLICATION
@@ -104,7 +72,7 @@ jobs:
     needs: [register, register-hasura, manifests]
     environment:
       name: preproduction
-      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      url: https://carnet-de-bord-prepod.dev.fabrique.social.gouv.fr/
     steps:
   
     - name: Use autodevops deployment
@@ -118,46 +86,14 @@ jobs:
   ## GENERATE PRODUCTION MANIFESTS
   ##############################################################################
   manifests-prod:
-    name: Generate k8s manifests
+    name: Production manifests
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Load review environment variables
-      run: |
-        cat ".github/prod.env" >> $GITHUB_ENV
-
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v2
-
-    - name: Install kosko-charts dependencies
-      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
-
-    - name: Generate k8s manifests
-      run: yarn --cwd .k8s --silent generate --env prod _namespace > namespace-prod.yml
-      env:
-        SOCIALGOUV_PRODUCTION: true
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
-    - name: Generate k8s manifests
-      run: yarn --cwd .k8s --silent generate --env prod > manifests-prod.yml
-      env:
-        SOCIALGOUV_PRODUCTION: true
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
-    - name: Archive k8s manifests
-      uses: actions/upload-artifact@v2
+    - name: Use autodevops manifests generation
+      uses: SocialGouv/actions/k8s-manifests@master
       with:
-        name: manifests-prod.yml
-        path: manifests-prod.yml
-
-    - name: Archive k8s namespace
-      uses: actions/upload-artifact@v2
-      with:
-        name: namespace-prod.yml
-        path: namespace-prod.yml
+        environment: "prod"
 
   ##############################################################################
   ## DEPLOY PRODUCTION APPLICATION
@@ -168,7 +104,7 @@ jobs:
     needs: [deploy-preprod, manifests-prod]
     environment:
       name: production
-      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      url: https://carnet-de-bord.fabrique.social.gouv.fr/
     steps:
 
     - name: Use autodevops deployment

@@ -1,3 +1,38 @@
+## [1.9.2-alpha.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.4...v1.9.2-alpha.5) (2021-09-06)
+
+
+### Bug Fixes
+
+* Remove comments. ([ef7c967](https://github.com/SocialGouv/carnet-de-bord/commit/ef7c967ecb6f1b2363b8e1d8d15c521a32b83890))
+
+## [1.9.2-alpha.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.3...v1.9.2-alpha.4) (2021-09-06)
+
+
+### Bug Fixes
+
+* Set proper preprod and prod env urls. ([40f942f](https://github.com/SocialGouv/carnet-de-bord/commit/40f942f09b0a04fdfd793432844cae49676401b0))
+
+## [1.9.2-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.2...v1.9.2-alpha.3) (2021-09-06)
+
+
+### Bug Fixes
+
+* Production workflow. ([5b6cf4f](https://github.com/SocialGouv/carnet-de-bord/commit/5b6cf4fba0c1c9e4f5f34214072cb9b750c1977f))
+
+## [1.9.2-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2-alpha.1...v1.9.2-alpha.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* Production workflow. ([8857298](https://github.com/SocialGouv/carnet-de-bord/commit/8857298f2d622eea3f58084e7f2d69e79ab7affc))
+
+## [1.9.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.1...v1.9.2-alpha.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops action to generate prod manifests. ([106df2c](https://github.com/SocialGouv/carnet-de-bord/commit/106df2c7fc59796305b604e17981c3d812bea5fe))
+
 ## [1.9.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.0...v1.9.1) (2021-09-06)
 
 
