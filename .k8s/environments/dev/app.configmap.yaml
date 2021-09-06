@@ -7,5 +7,5 @@ data:
   SMTP_PORT: '2525'
   SMTP_FROM: admin@carnet-de-bord.fr
   API_PARTICULIER_URL: https://particulier-test.api.gouv.fr/api
-	API_PARTICULIER_TOKEN_PE: fd38830c480221d0ff0b6013c4de6c32
-	API_PARTICULIER_TOKEN_CAF: fb156a4e-d497-480f-b3ef-9bc1bccdfbb9
+  API_PARTICULIER_TOKEN_PE: fd38830c480221d0ff0b6013c4de6c32
+  API_PARTICULIER_TOKEN_CAF: fb156a4e-d497-480f-b3ef-9bc1bccdfbb9

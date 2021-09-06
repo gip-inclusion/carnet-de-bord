@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY ./package.json package.json
 COPY ./yarn.lock yarn.lock
-RUN yarn --frozen-lockfile
+
+# TODO: Sort dependencies and add "--production" install flag
+RUN yarn --frozen-lockfile && yarn cache clean
 
 COPY ./src src
 COPY ./static static
@@ -18,4 +20,3 @@ RUN yarn build
 EXPOSE 3000
 
 CMD [ "node", "build" ]
-

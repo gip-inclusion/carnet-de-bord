@@ -1,16 +1,23 @@
-# [1.9.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.2...v1.9.0) (2021-09-06)
-
-
-### Features
-
-* [#62](https://github.com/SocialGouv/carnet-de-bord/issues/62) - add beneficiary ([74d21b4](https://github.com/SocialGouv/carnet-de-bord/commit/74d21b439124ff2db64eac46008eacee144048b9))
-
-## [1.8.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.1...v1.8.2) (2021-09-06)
+## [1.9.1-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.1-alpha.1...v1.9.1-alpha.2) (2021-09-06)
 
 
 ### Bug Fixes
 
-* **deps:** update dependency @sveltejs/adapter-node to ^1.0.0-next.45 ([#118](https://github.com/SocialGouv/carnet-de-bord/issues/118)) ([c832a0f](https://github.com/SocialGouv/carnet-de-bord/commit/c832a0f815f9e26710589243220e397a52f1f654))
+* Replace tabs by spaces within configmaps. ([0015f4e](https://github.com/SocialGouv/carnet-de-bord/commit/0015f4e6554679aa19df2157e650dc7091570eb9))
+
+## [1.9.1-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.0...v1.9.1-alpha.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([b4b9494](https://github.com/SocialGouv/carnet-de-bord/commit/b4b9494bfdab6860c4352a5ff5a5f8ed4e733e33))
+
+## [1.8.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.1...v1.8.2-alpha.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([80dce65](https://github.com/SocialGouv/carnet-de-bord/commit/80dce6536295d8c359c99498c027412ba33b24c6))
 
 ## [1.8.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.0...v1.8.1) (2021-09-06)
 
@@ -35,31 +42,106 @@
 
 # [1.7.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.1...v1.7.0) (2021-09-03)
 
+* Use autodevops actions. ([d0dc96d](https://github.com/SocialGouv/carnet-de-bord/commit/d0dc96d95f54990535b6bdc0d0ca20d53a00f1ae))
 
-### Features
+## [1.6.1-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.0...v1.6.1-alpha.1) (2021-09-02)
 
-* **admin:** add firstname, lastname - fix [#119](https://github.com/SocialGouv/carnet-de-bord/issues/119) ([#126](https://github.com/SocialGouv/carnet-de-bord/issues/126)) ([ec929f1](https://github.com/SocialGouv/carnet-de-bord/commit/ec929f100d0575917fb68b993b46d5f32e97f849))
+### Bug Fixes
 
-## [1.6.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.6.0...v1.6.1) (2021-09-03)
+* Use autodevops actions. ([8a41fb3](https://github.com/SocialGouv/carnet-de-bord/commit/8a41fb38b908ea77b701580e8025d0f832ff4227))
+
+## [1.4.3-alpha.13](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.12...v1.4.3-alpha.13) (2021-09-02)
 
 
 ### Bug Fixes
 
-* **inscription:** store all data - fix [#120](https://github.com/SocialGouv/carnet-de-bord/issues/120) ([#125](https://github.com/SocialGouv/carnet-de-bord/issues/125)) ([c1f0b90](https://github.com/SocialGouv/carnet-de-bord/commit/c1f0b908cd37eef752531538750036cede62b247))
+* Change HASURA_GRAPHQL_JWT_SECRET. ([621c8e5](https://github.com/SocialGouv/carnet-de-bord/commit/621c8e55f37d8dfc1b1161861320c03808b87601))
 
-# [1.6.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.5.0...v1.6.0) (2021-09-02)
-
-
-### Features
-
-* **pro:** add time filters - resolve [#121](https://github.com/SocialGouv/carnet-de-bord/issues/121) ([#123](https://github.com/SocialGouv/carnet-de-bord/issues/123)) ([e51e41f](https://github.com/SocialGouv/carnet-de-bord/commit/e51e41f75da3f50571a81575cc021f09ed86f357))
-
-# [1.5.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.2...v1.5.0) (2021-09-01)
+## [1.4.3-alpha.12](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.11...v1.4.3-alpha.12) (2021-09-01)
 
 
-### Features
+### Bug Fixes
 
-* **pro:** display all data in beneficiary page ([#116](https://github.com/SocialGouv/carnet-de-bord/issues/116)) ([20f2992](https://github.com/SocialGouv/carnet-de-bord/commit/20f2992eccf0f7ef9e448a937651ca13e7de3b77))
+* Update azure sealed secret. ([f05922c](https://github.com/SocialGouv/carnet-de-bord/commit/f05922cf320befdc69bcba7e5370472ffae2a739))
+
+## [1.4.3-alpha.11](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.10...v1.4.3-alpha.11) (2021-09-01)
+
+
+### Bug Fixes
+
+* App sealed secret. ([86c5233](https://github.com/SocialGouv/carnet-de-bord/commit/86c52335b7f59662c755c725e9861beda00833a4))
+
+## [1.4.3-alpha.10](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.9...v1.4.3-alpha.10) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add prod env vars. ([da20d91](https://github.com/SocialGouv/carnet-de-bord/commit/da20d91ab3ea5e97994f06472803c04a92106e40))
+
+## [1.4.3-alpha.9](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.8...v1.4.3-alpha.9) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add deactivate workflow. ([19daa4f](https://github.com/SocialGouv/carnet-de-bord/commit/19daa4ff2a71b3347226e6dfc6bd78fc6e7599ea))
+
+## [1.4.3-alpha.8](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.7...v1.4.3-alpha.8) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add HASURA_GRAPHQL_DATABASE_URL. ([e2330f7](https://github.com/SocialGouv/carnet-de-bord/commit/e2330f7631bf3498b5c1d55cf44e24855034a02c))
+
+## [1.4.3-alpha.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.6...v1.4.3-alpha.7) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add workflow prod env file. ([f3c10ed](https://github.com/SocialGouv/carnet-de-bord/commit/f3c10ed1a86f8ae3aaa09a97d352ebddb46aa8e2))
+
+## [1.4.3-alpha.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.5...v1.4.3-alpha.6) (2021-09-01)
+
+
+### Bug Fixes
+
+* Preprod manifests. ([c614537](https://github.com/SocialGouv/carnet-de-bord/commit/c61453744323335b4a935c63a9c7f67d9356e13d))
+
+## [1.4.3-alpha.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.4...v1.4.3-alpha.5) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add workflow preprod env file. ([f330e72](https://github.com/SocialGouv/carnet-de-bord/commit/f330e721494dcd98c6c9305f38074dcfece93e4c))
+
+## [1.4.3-alpha.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.3...v1.4.3-alpha.4) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add preprod env variables. ([138b2b6](https://github.com/SocialGouv/carnet-de-bord/commit/138b2b6306abe10651293366803922467525de80))
+* Add production workflow. ([db4fb71](https://github.com/SocialGouv/carnet-de-bord/commit/db4fb71d5b69ed50dfe207f36638e57f7b491649))
+
+## [1.4.3-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.2...v1.4.3-alpha.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* Use kube config within restore db jobs. ([5321b8c](https://github.com/SocialGouv/carnet-de-bord/commit/5321b8c23286c9e50946f1520dc5d1a80bd269af))
+
+## [1.4.3-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.3-alpha.1...v1.4.3-alpha.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* Use namespace-dev.yml. ([8bb3044](https://github.com/SocialGouv/carnet-de-bord/commit/8bb30443115865c882e5ccc348638bf8545b38f2))
+
+## [1.4.3-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.2...v1.4.3-alpha.1) (2021-09-01)
+
+
+### Bug Fixes
+
+* Add restore db. ([5108744](https://github.com/SocialGouv/carnet-de-bord/commit/51087442ff5d77e72791e57b2fd45a9931f71b2c))
+* Use autodevops actions. ([1e56ded](https://github.com/SocialGouv/carnet-de-bord/commit/1e56ded1f9dad720de5a6eb899b3d2e5a8699408))
 
 ## [1.4.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.4.1...v1.4.2) (2021-09-01)
 

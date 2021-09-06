@@ -40,7 +40,7 @@ export const getManifests = async () => {
 			containerPort: 3000
 		},
 		deployment: {
-			image: `ghcr.io/socialgouv/carnet-de-bord:sha-${ciEnv.sha}`,
+			image: `ghcr.io/socialgouv/carnet-de-bord/app:sha-${ciEnv.sha}`,
 			container: {
 				resources: {
 					requests: {
