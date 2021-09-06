@@ -4,10 +4,10 @@
 	import { ProFormIdentifiers } from '$lib/ui';
 	import type { BeneficiaryAccount, ExternalUser } from '$lib/types';
 	import type { CreateBeneficiaryMutationStore } from '$lib/graphql/_gen/typed-document-nodes';
-	import { session } from '$app/stores';
 </script>
 
 <script lang="ts">
+	import { session } from '$app/stores';
 	const { professionalId } = $session.user;
 	import { mutation } from '@urql/svelte';
 	import BeneficiaryInputs from './beneficiary/BeneficiaryInputs.svelte';

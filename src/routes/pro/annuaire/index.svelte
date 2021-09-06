@@ -17,7 +17,6 @@
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
-	import { offCanvas } from '$lib/stores';
 
 	export const load: Load = async ({ page, session }) => {
 		const search = page.query.get('search');
@@ -41,6 +40,7 @@
 </script>
 
 <script lang="ts">
+	import { offCanvas } from '$lib/stores';
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;

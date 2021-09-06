@@ -1,6 +1,4 @@
 <script context="module" lang="ts">
-	import { account } from '$lib/stores';
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
@@ -21,6 +19,8 @@
 </script>
 
 <script lang="ts">
+	import { account } from '$lib/stores';
+	import { page } from '$app/stores';
 	import type { MenuItem } from '$lib/ui/base/types';
 
 	import { Breadcrumbs } from '$lib/ui/base';
