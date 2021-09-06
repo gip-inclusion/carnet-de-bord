@@ -1,3 +1,10 @@
+## [1.9.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.1...v1.9.2-alpha.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops action to generate prod manifests. ([106df2c](https://github.com/SocialGouv/carnet-de-bord/commit/106df2c7fc59796305b604e17981c3d812bea5fe))
+
 ## [1.9.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.0...v1.9.1) (2021-09-06)
 
 
