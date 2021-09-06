@@ -2,4 +2,4 @@
 	export let value: string;
 </script>
 
-<div>{value || ''}</div>
+<div>{value || '-'}</div>

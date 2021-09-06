@@ -95,11 +95,11 @@
 					</div>
 					<div class="w-full">
 						<h4 class="text-base mb-none">Identifiant Pôle emploi</h4>
-						<div>{beneficiary.peNumber}</div>
+						<Text value={beneficiary.peNumber} />
 					</div>
 					<div class="w-full">
 						<h4 class="text-base mb-none">Identifiant CAF</h4>
-						<div>{beneficiary.cafNumber}</div>
+						<Text value={beneficiary.cafNumber} />
 					</div>
 				</div>
 				<div class="flex flex-col w-5/12 space-y-4">
