@@ -1,3 +1,10 @@
+## [1.9.1-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.1-alpha.1...v1.9.1-alpha.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* Replace tabs by spaces within configmaps. ([0015f4e](https://github.com/SocialGouv/carnet-de-bord/commit/0015f4e6554679aa19df2157e650dc7091570eb9))
+
 ## [1.9.1-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.0...v1.9.1-alpha.1) (2021-09-06)
 
 
