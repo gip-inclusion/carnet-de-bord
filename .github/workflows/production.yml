@@ -59,7 +59,7 @@ jobs:
     steps:
 
     - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/autodevops-manifests@master
+      uses: SocialGouv/actions/k8s-manifests@master
       with:
         environment: "preprod"
 
@@ -133,7 +133,7 @@ jobs:
     steps:
 
     - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/autodevops-manifests@master
+      uses: SocialGouv/actions/k8s-manifests@master
       with:
         environment: "prod"
 
