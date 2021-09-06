@@ -114,7 +114,7 @@ jobs:
     needs: [register, register-hasura, manifests]
     environment:
       name: preproduction
-      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      url: https://carnet-de-bord-prepod.dev.fabrique.social.gouv.fr/
     steps:
   
     - name: Use autodevops deployment
@@ -188,7 +188,7 @@ jobs:
     needs: [deploy-preprod, manifests-prod]
     environment:
       name: production
-      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+      url: https://carnet-de-bord.fabrique.social.gouv.fr/
     steps:
 
     - name: Use autodevops deployment
