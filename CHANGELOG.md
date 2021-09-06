@@ -1,16 +1,9 @@
-# [1.9.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.2...v1.9.0) (2021-09-06)
-
-
-### Features
-
-* [#62](https://github.com/SocialGouv/carnet-de-bord/issues/62) - add beneficiary ([74d21b4](https://github.com/SocialGouv/carnet-de-bord/commit/74d21b439124ff2db64eac46008eacee144048b9))
-
-## [1.8.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.1...v1.8.2) (2021-09-06)
+## [1.8.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.1...v1.8.2-alpha.1) (2021-09-06)
 
 
 ### Bug Fixes
 
-* **deps:** update dependency @sveltejs/adapter-node to ^1.0.0-next.45 ([#118](https://github.com/SocialGouv/carnet-de-bord/issues/118)) ([c832a0f](https://github.com/SocialGouv/carnet-de-bord/commit/c832a0f815f9e26710589243220e397a52f1f654))
+* Use autodevops actions. ([80dce65](https://github.com/SocialGouv/carnet-de-bord/commit/80dce6536295d8c359c99498c027412ba33b24c6))
 
 ## [1.8.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.0...v1.8.1) (2021-09-06)
 
