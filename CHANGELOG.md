@@ -1,3 +1,10 @@
+## [1.9.1-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.0...v1.9.1-alpha.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* Use autodevops actions. ([b4b9494](https://github.com/SocialGouv/carnet-de-bord/commit/b4b9494bfdab6860c4352a5ff5a5f8ed4e733e33))
+
 ## [1.8.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.8.1...v1.8.2-alpha.1) (2021-09-06)
 
 
