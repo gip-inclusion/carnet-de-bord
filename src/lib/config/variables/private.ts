@@ -2,6 +2,18 @@ import { config } from 'dotenv';
 
 config();
 
+export function getApiParticulierConfig(): {
+	API_PARTICULIER_URL: string;
+	API_PARTICULIER_TOKEN_CAF: string;
+	API_PARTICULIER_TOKEN_PE: string;
+} {
+	return {
+		API_PARTICULIER_URL: process.env['API_PARTICULIER_URL'],
+		API_PARTICULIER_TOKEN_CAF: process.env['API_PARTICULIER_TOKEN_CAF'],
+		API_PARTICULIER_TOKEN_PE: process.env['API_PARTICULIER_TOKEN_PE']
+	};
+}
+
 export function getDatabaseUrl(): string {
 	return process.env['DATABASE_URL'] || process.env['HASURA_GRAPHQL_DATABASE_URL'];
 }

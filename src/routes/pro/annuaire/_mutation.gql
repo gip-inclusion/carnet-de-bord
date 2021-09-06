@@ -1,0 +1,40 @@
+mutation CreateBeneficiary(
+	$firstname: String
+	$lastname: String
+	$dateOfBirth: date
+	$mobileNumber: String
+	$email: String
+	$address1: String
+	$address2: String
+	$postalCode: String
+	$city: String
+	$cerObjects: jsonb
+	$rights: jsonb
+	$workSituations: jsonb
+	$professionalId: uuid
+) {
+	newNotebook: insert_notebook_one(
+		object: {
+			beneficiary: {
+				data: {
+					firstname: $firstname
+					lastname: $lastname
+					dateOfBirth: $dateOfBirth
+					mobileNumber: $mobileNumber
+					email: $email
+					address1: $address1
+					address2: $address2
+					postalCode: $postalCode
+					city: $city
+				}
+			}
+			cerObjects: $cerObjects
+			events: { data: [] }
+			members: { data: [{ memberType: "referent", professionalId: $professionalId }] }
+			rights: $rights
+			workSituations: $workSituations
+		}
+	) {
+		id
+	}
+}

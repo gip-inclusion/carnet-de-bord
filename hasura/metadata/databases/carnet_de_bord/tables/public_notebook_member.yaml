@@ -19,11 +19,7 @@ object_relationships:
 insert_permissions:
 - permission:
     backend_only: false
-    check:
-      notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
+    check: {}
     columns:
     - id
     - member_type

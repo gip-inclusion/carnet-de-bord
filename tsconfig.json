@@ -23,7 +23,6 @@
 		"allowJs": true,
 		"checkJs": true,
 		"paths": {
-			"$routes/*": ["src/routes/*"],
 			"$lib/*": ["src/lib/*"]
 		}
 	},

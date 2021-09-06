@@ -1,6 +1,6 @@
 import type { LabelValue } from '$lib/types';
 
-export function getLabels(values: any, labelValues: LabelValue[]): string[] {
+export function getLabels(values: string[], labelValues: LabelValue[]): string[] {
 	if (!values) {
 		return ['-'];
 	}

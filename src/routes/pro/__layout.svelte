@@ -35,21 +35,23 @@
 	result.subscribe((result) => {
 		if (result.data) {
 			const acc = result.data.account_by_pk;
-			const { username, onboardingDone, confirmed } = acc;
-			const { firstname, lastname, email, mobileNumber, position } = acc.professional;
-			$account = {
-				username,
-				onboardingDone,
-				confirmed,
-				firstname,
-				lastname,
-				email,
-				mobileNumber,
-				position
-			};
+			if (acc) {
+				const { username, onboardingDone, confirmed } = acc;
+				const { firstname, lastname, email, mobileNumber, position } = acc.professional;
+				$account = {
+					username,
+					onboardingDone,
+					confirmed,
+					firstname,
+					lastname,
+					email,
+					mobileNumber,
+					position
+				};
 
-			if (!onboardingDone && $page.path !== '/pro/moncompte') {
-				goto('/pro/moncompte');
+				if (!onboardingDone && $page.path !== '/pro/moncompte') {
+					goto('/pro/moncompte');
+				}
 			}
 		}
 	});

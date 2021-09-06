@@ -95,9 +95,13 @@
 	{/if}
 
 	{#if error}
-		<p id="text-input-error-desc-error" class="fr-error-text">{error}</p>
+		<p id={`text-input-error-desc-error-${uniqueId}`} class="fr-error-text" role="status">
+			{error}
+		</p>
 	{/if}
 	{#if valid}
-		<p id="text-input-valid-desc-valid" class="fr-valid-text">{valid}</p>
+		<p id={`text-input-valid-desc-valid-${uniqueId}`} class="fr-valid-text" role="status">
+			{valid}
+		</p>
 	{/if}
 </div>

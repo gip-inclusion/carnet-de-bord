@@ -26,3 +26,30 @@ export interface LabelValue {
 export type InputType = 'email' | 'text' | 'password' | 'number';
 
 export type RequestStep = 'start' | 'success' | 'error';
+
+export type ExternalUser = {
+	firstname: string;
+	lastname: string;
+	dateOfBirth: string;
+	mobileOrPhoneNumber?: string;
+	address1: string;
+	address2: string;
+	postalCode: string;
+	city: string;
+	email?: string;
+};
+
+export type BeneficiaryAccount = {
+	firstname?: string;
+	lastname?: string;
+	dateOfBirth?: string;
+	mobileNumber?: string;
+	email?: string;
+	address1?: string;
+	address2?: string;
+	postalCode?: string;
+	city?: string;
+	cerObjects?: string[];
+	rights?: string[];
+	workSituations?: string[];
+};
