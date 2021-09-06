@@ -10,7 +10,12 @@
 </script>
 
 <script lang="ts">
-	let inputs: { label: string; hint: string; type?: InputType; key: keyof BeneficiaryAccount }[] = [
+	let inputs: {
+		label: string;
+		hint: string;
+		type?: InputType;
+		key: keyof Exclude<BeneficiaryAccount, 'cerObjects' | 'workSituations' | 'rights'>;
+	}[] = [
 		{
 			label: 'Nom',
 			hint: 'Ex : Poquelin',
@@ -59,18 +64,17 @@
 		}
 	];
 
-	export let onInput = undefined;
 	export let disabledKeys: Partial<Record<keyof BeneficiaryAccount, boolean>> = {};
 	export let account: BeneficiaryAccount = {};
 
 	let cerOptions = cerObjectLabelValue.map(({ label, value }) => ({ name: value, label }));
-	$: selectedCerOption = cerOptions.find(({ name }) => name === account.cerObject);
+	$: selectedCerOption = cerOptions.find(({ name }) => (account.cerObjects || []).includes(name));
 	function handleCerSelected({ detail }) {
 		account.cerObjects = [detail.selected.name];
 	}
 
 	let rightsOptions = rightLabelValue.map(({ label, value }) => ({ name: value, label }));
-	$: selectedRightsOption = rightsOptions.find(({ name }) => name === account.rights);
+	$: selectedRightsOption = rightsOptions.find(({ name }) => (account.rights || []).includes(name));
 	function handleRightsSelected({ detail }) {
 		account.rights = [detail.selected.name];
 	}
@@ -79,18 +83,33 @@
 		name: value,
 		label
 	}));
-	$: selectedSituationOption = situationOptions.find(({ name }) => name === account.workSituation);
+	$: selectedSituationOption = situationOptions.find(({ name }) =>
+		(account.workSituations || []).includes(name)
+	);
 	function handleSituationSelected({ detail }) {
 		account.workSituations = [detail.selected.name];
+	}
+
+	function handleSingleAccountKey(key: string) {
+		return (e) => {
+			account[key] = e.detail.value;
+		};
+	}
+
+	function flatten(data: string | string[]) {
+		if (Array.isArray(data)) {
+			return data.join(', ');
+		}
+		return data;
 	}
 </script>
 
 {#each inputs as input (input.key)}
 	<Input
-		bind:val={account[input.key]}
+		val={flatten(account[input.key])}
 		inputHint={input.hint}
 		inputLabel={input.label}
-		on:input={onInput}
+		on:input={handleSingleAccountKey(input.key)}
 		disabled={disabledKeys[input.key]}
 		type={input.type}
 	/>

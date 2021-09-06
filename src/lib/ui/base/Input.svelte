@@ -20,8 +20,8 @@
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	async function handleInput() {
-		dispatch('input', {});
+	async function handleInput(e) {
+		dispatch('input', { value: e.target.value });
 	}
 </script>
 
