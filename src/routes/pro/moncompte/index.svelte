@@ -1,11 +1,10 @@
 <script context="module" lang="ts">
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
-	import type { Account, AccountRequest } from '$lib/types';
+
 	import type { UpdateProfessionalProfileMutationStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
-	import { account } from '$lib/stores';
 
 	export const load: Load = async ({ session }) => {
 		const { professionalId } = session.user;
@@ -22,6 +21,8 @@
 
 <script lang="ts">
 	import AlertRequestResponse from '$lib/ui/utils/AlertRequestResponse.svelte';
+	import type { Account, AccountRequest } from '$lib/types';
+	import { account } from '$lib/stores';
 
 	export let professionalId: string;
 	export let updateProfileResult: UpdateProfessionalProfileMutationStore;
