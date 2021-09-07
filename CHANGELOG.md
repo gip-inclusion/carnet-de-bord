@@ -1,3 +1,10 @@
+## [1.9.3-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2...v1.9.3-alpha.1) (2021-09-07)
+
+
+### Bug Fixes
+
+* Use k8s-restore-db action. ([40d6fa0](https://github.com/SocialGouv/carnet-de-bord/commit/40d6fa03f23d48dbbba75cbda3752e5fc237245b))
+
 ## [1.9.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.1...v1.9.2) (2021-09-06)
 
 
