@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3...v1.10.0) (2021-09-07)
+
+
+### Features
+
+* **pro:** display member info ([#144](https://github.com/SocialGouv/carnet-de-bord/issues/144)) ([317d93a](https://github.com/SocialGouv/carnet-de-bord/commit/317d93a45b03a2268efdd9b4b302cd03fb20e1af))
+
 ## [1.9.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2...v1.9.3) (2021-09-07)
 
 
