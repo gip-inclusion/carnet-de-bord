@@ -53,7 +53,6 @@
 	let orderOptions = [];
 
 	const openMemberInfo = (member: NotebookMember) => {
-		ProMemberInfo;
 		openComponent.open({ component: ProMemberInfo, props: { member } });
 	};
 </script>
