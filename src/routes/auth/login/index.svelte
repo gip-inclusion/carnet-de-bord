@@ -11,7 +11,7 @@
 	let username: string;
 
 	// only in dev
-	let accessPath;
+	let accessPath: string;
 
 	async function registration() {
 		goto('/inscription');

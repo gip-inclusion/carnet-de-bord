@@ -35,10 +35,10 @@
 	const createBeneficiary = mutation(createBeneficiaryResult);
 
 	async function handleSubmit() {
-		if (isAccountValid(account)) {
+		if (isAccountValid(beneficiaryAccount)) {
 			const store = await createBeneficiary({
-				...account,
-				dateOfBirth: new Date(account.dateOfBirth),
+				...beneficiaryAccount,
+				dateOfBirth: new Date(beneficiaryAccount.dateOfBirth),
 				professionalId
 			});
 
@@ -53,7 +53,7 @@
 	function handleUserSelection(event: CustomEvent<ExternalUser>) {
 		selectedUser = event.detail;
 		let { mobileOrPhoneNumber, ...info } = selectedUser;
-		account = {
+		beneficiaryAccount = {
 			...info,
 			mobileNumber: mobileOrPhoneNumber
 		};
@@ -64,7 +64,7 @@
 	}
 
 	let selectedUser: ExternalUser | null = null;
-	let account: BeneficiaryAccount | null = {};
+	let beneficiaryAccount: BeneficiaryAccount | null = {};
 	let submissionSuccess = false;
 	let submissionError = '';
 
@@ -119,7 +119,7 @@
 				/>
 				{#if (selected && selected.name === 'NoIdentifier') || selectedUser}
 					<div class="font-bold mb-6">Veuillez renseigner les informations ci-dessous.</div>
-					<BeneficiaryInputs bind:account />
+					<BeneficiaryInputs bind:beneficiaryAccount />
 				{/if}
 				{#if submissionError}
 					<div class="mb-8">
@@ -129,7 +129,8 @@
 				<div class="flex flex-row gap-4">
 					<Button
 						on:click={handleSubmit}
-						disabled={!selected || !account || !isAccountValid(account)}>Valider</Button
+						disabled={!selected || !beneficiaryAccount || !isAccountValid(beneficiaryAccount)}
+						>Valider</Button
 					>
 					<Button outline={true} on:click={close}>Annuler</Button>
 				</div>

@@ -335,9 +335,7 @@ export type Admin = {
 	/** An aggregate relationship */
 	accounts_aggregate: AccountAggregate;
 	email: Scalars['String'];
-	firstname: Scalars['String'];
 	id: Scalars['uuid'];
-	lastname: Scalars['String'];
 };
 
 /** columns and relationships of "admin" */
@@ -386,9 +384,7 @@ export type AdminBoolExp = {
 	_or?: Maybe<Array<AdminBoolExp>>;
 	accounts?: Maybe<AccountBoolExp>;
 	email?: Maybe<StringComparisonExp>;
-	firstname?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
-	lastname?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "admin" */
@@ -403,27 +399,21 @@ export enum AdminConstraint {
 export type AdminInsertInput = {
 	accounts?: Maybe<AccountArrRelInsertInput>;
 	email?: Maybe<Scalars['String']>;
-	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastname?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type AdminMaxFields = {
 	__typename?: 'admin_max_fields';
 	email?: Maybe<Scalars['String']>;
-	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastname?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type AdminMinFields = {
 	__typename?: 'admin_min_fields';
 	email?: Maybe<Scalars['String']>;
-	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastname?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "admin" */
@@ -453,9 +443,7 @@ export type AdminOnConflict = {
 export type AdminOrderBy = {
 	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
 	email?: Maybe<OrderBy>;
-	firstname?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
-	lastname?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: admin */
@@ -468,19 +456,13 @@ export enum AdminSelectColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
-	Firstname = 'firstname',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	Lastname = 'lastname'
+	Id = 'id'
 }
 
 /** input type for updating data in table "admin" */
 export type AdminSetInput = {
 	email?: Maybe<Scalars['String']>;
-	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	lastname?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "admin" */
@@ -488,11 +470,7 @@ export enum AdminUpdateColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
-	Firstname = 'firstname',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	Lastname = 'lastname'
+	Id = 'id'
 }
 
 /** columns and relationships of "beneficiary" */
@@ -2949,6 +2927,8 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	rights?: Maybe<Scalars['jsonb']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	cafNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
 }>;
 
 export type CreateBeneficiaryMutation = {
@@ -3520,6 +3500,16 @@ export const CreateBeneficiaryDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				}
 			],
 			selectionSet: {
@@ -3616,6 +3606,22 @@ export const CreateBeneficiaryDocument = {
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'city' },
 																	value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'cafNumber' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'cafNumber' }
+																	}
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'peNumber' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'peNumber' }
+																	}
 																}
 															]
 														}

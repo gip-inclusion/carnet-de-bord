@@ -65,34 +65,38 @@
 	];
 
 	export let disabledKeys: Partial<Record<keyof BeneficiaryAccount, boolean>> = {};
-	export let account: BeneficiaryAccount = {};
+	export let beneficiaryAccount: BeneficiaryAccount = {};
 
 	let cerOptions = cerObjectLabelValue.map(({ label, value }) => ({ name: value, label }));
-	$: selectedCerOption = cerOptions.find(({ name }) => (account.cerObjects || []).includes(name));
+	$: selectedCerOptions = cerOptions.filter(({ name }) =>
+		(beneficiaryAccount.cerObjects || []).includes(name)
+	);
 	function handleCerSelected({ detail }) {
-		account.cerObjects = [detail.selected.name];
+		beneficiaryAccount.cerObjects = detail.selected.map(({ name }) => name);
 	}
 
 	let rightsOptions = rightLabelValue.map(({ label, value }) => ({ name: value, label }));
-	$: selectedRightsOption = rightsOptions.find(({ name }) => (account.rights || []).includes(name));
+	$: selectedRightsOption = rightsOptions.filter(({ name }) =>
+		(beneficiaryAccount.rights || []).includes(name)
+	);
 	function handleRightsSelected({ detail }) {
-		account.rights = [detail.selected.name];
+		beneficiaryAccount.rights = detail.selected.map(({ name }) => name);
 	}
 
 	let situationOptions = workSituationLabelValue.map(({ label, value }) => ({
 		name: value,
 		label
 	}));
-	$: selectedSituationOption = situationOptions.find(({ name }) =>
-		(account.workSituations || []).includes(name)
+	$: selectedSituationOption = situationOptions.filter(({ name }) =>
+		(beneficiaryAccount.workSituations || []).includes(name)
 	);
 	function handleSituationSelected({ detail }) {
-		account.workSituations = [detail.selected.name];
+		beneficiaryAccount.workSituations = detail.selected.map(({ name }) => name);
 	}
 
 	function handleSingleAccountKey(key: string) {
-		return (e) => {
-			account[key] = e.detail.value;
+		return (e: CustomEvent) => {
+			beneficiaryAccount[key] = e.detail.value;
 		};
 	}
 
@@ -106,7 +110,7 @@
 
 {#each inputs as input (input.key)}
 	<Input
-		val={flatten(account[input.key])}
+		val={flatten(beneficiaryAccount[input.key])}
 		inputHint={input.hint}
 		inputLabel={input.label}
 		on:input={handleSingleAccountKey(input.key)}
@@ -118,20 +122,23 @@
 	selectLabel={'Sujet CER'}
 	selectHint={"Ex : Réalisation d'une formation de cuisine"}
 	options={cerOptions}
-	selected={selectedCerOption}
+	selectedMultiple={selectedCerOptions}
 	on:select={handleCerSelected}
+	multiple={true}
 />
 <Select
 	selectLabel={'Mes droits'}
 	selectHint={'Ex : Droits'}
 	options={rightsOptions}
-	selected={selectedRightsOption}
+	selectedMultiple={selectedRightsOption}
 	on:select={handleRightsSelected}
+	multiple={true}
 />
 <Select
 	selectLabel={'Situation'}
 	selectHint={'Ex : Sans emploi'}
 	options={situationOptions}
-	selected={selectedSituationOption}
+	selectedMultiple={selectedSituationOption}
 	on:select={handleSituationSelected}
+	multiple={true}
 />
