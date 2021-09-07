@@ -33,6 +33,8 @@
 		rightLabelValue,
 		workSituationLabelValue
 	} from '$lib/constants/LabelValues';
+	import { openComponent } from '$lib/stores';
+	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 
@@ -129,7 +131,10 @@
 		<div class="flex flex-col">
 			<h2 class="fr-h4 bf-500">Groupe de suivi</h2>
 			<div class="flex flex-row w-full justify-between">
-				<Button disabled={true} on:click={() => alert('Not implemented!')}
+				<Button
+					on:click={() => {
+						openComponent.set(ProMemberInfo);
+					}}
 					>Ajouter un accompagnateur
 				</Button>
 				<SearchBar {search} size="md" inputHint="Nom, fonction, structure" />

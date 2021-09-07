@@ -1,7 +1,11 @@
 <script context="module" lang="ts">
-	import { goto } from '$app/navigation';
 	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { getSegments } from '$lib/routes';
+	import { Breadcrumbs } from '$lib/ui/base';
+	import type { MenuItem } from '$lib/ui/base/types';
+	import { FooterCDB, HeaderCDB } from '$lib/ui/index';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
@@ -19,18 +23,21 @@
 </script>
 
 <script lang="ts">
-	import { account } from '$lib/stores';
+	import { account, offCanvas, openComponent } from '$lib/stores';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import type { MenuItem } from '$lib/ui/base/types';
-
-	import { Breadcrumbs } from '$lib/ui/base';
-	import { getSegments } from '$lib/routes';
-	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
-	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	export let result: OperationStore<GetAccountQuery>;
 
 	query(result);
+
+	const close = () => {
+		$openComponent = null;
+	};
+
+	openComponent.subscribe((value) => {
+		$offCanvas = value ? true : false;
+	});
 
 	result.subscribe((result) => {
 		if (result.data) {
@@ -70,7 +77,20 @@
 	<Breadcrumbs {segments} />
 	<LoaderIndicator {result}>
 		<slot />
-	</LoaderIndicator>
+		{#if $openComponent}
+			<div on:click={close} class="!m-0 z-10 fixed inset-0 transition-opacity">
+				<div class="absolute inset-0 bg-black opacity-50" tabindex="0" />
+			</div>
+
+			<div
+				class="!m-0 transform top-0 right-0 w-1/2 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {openComponent
+					? 'translate-x-0'
+					: 'translate-x-full'}"
+			>
+				<svelte:component this={$openComponent} />
+			</div>
+		{/if}</LoaderIndicator
+	>
 </div>
 
 <FooterCDB />

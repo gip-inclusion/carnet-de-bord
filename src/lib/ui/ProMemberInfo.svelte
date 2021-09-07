@@ -1,0 +1,1 @@
+<div>DETAIL SUR ACCOMPAGNATEUR</div>
