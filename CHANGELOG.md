@@ -1,3 +1,10 @@
+## [1.9.3-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.1...v1.9.3-alpha.2) (2021-09-07)
+
+
+### Bug Fixes
+
+* Replace autodevops-manifests by k8s-manifests. ([6022485](https://github.com/SocialGouv/carnet-de-bord/commit/602248591766bf88cb206dd7ae6b463bda3e9627))
+
 ## [1.9.3-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2...v1.9.3-alpha.1) (2021-09-07)
 
 
