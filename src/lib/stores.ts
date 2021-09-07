@@ -6,4 +6,27 @@ import type { SvelteComponent } from 'svelte';
 export const account: Writable<null | Account> = writable(null);
 
 export const offCanvas: Writable<boolean> = writable(false);
-export const openComponent: Writable<typeof SvelteComponent> = writable(null);
+
+function createOpenComponent() {
+	const openComponent: Writable<{
+		component: typeof SvelteComponent;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		props: Record<string, any>;
+	}> = writable(null);
+
+	const { subscribe, set } = openComponent;
+
+	return {
+		subscribe,
+		close: () => {
+			set(null);
+			offCanvas.set(false);
+		},
+		open: (value) => {
+			set(value);
+			offCanvas.set(true);
+		}
+	};
+}
+
+export const openComponent = createOpenComponent();
