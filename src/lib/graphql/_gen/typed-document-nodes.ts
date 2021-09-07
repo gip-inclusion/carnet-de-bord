@@ -3026,6 +3026,18 @@ export type UpdateNotebookVisitDateMutation = {
 						id: any;
 						lastname: string;
 						firstname: string;
+						position?: Maybe<string>;
+						email: string;
+						mobileNumber?: Maybe<string>;
+						structure: {
+							__typename?: 'structure';
+							id: any;
+							name?: Maybe<string>;
+							address1?: Maybe<string>;
+							address2?: Maybe<string>;
+							postalCode?: Maybe<string>;
+							city?: Maybe<string>;
+						};
 					};
 				}>;
 			};
@@ -4101,34 +4113,6 @@ export const UpdateNotebookVisitDateDocument = {
 																			}
 																		]
 																	}
-																},
-																{
-																	kind: 'Argument',
-																	name: { kind: 'Name', value: 'limit' },
-																	value: { kind: 'IntValue', value: '1' }
-																},
-																{
-																	kind: 'Argument',
-																	name: { kind: 'Name', value: 'where' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: 'notebookModificationDate' },
-																				value: {
-																					kind: 'ObjectValue',
-																					fields: [
-																						{
-																							kind: 'ObjectField',
-																							name: { kind: 'Name', value: '_is_null' },
-																							value: { kind: 'BooleanValue', value: false }
-																						}
-																					]
-																				}
-																			}
-																		]
-																	}
 																}
 															],
 															selectionSet: {
@@ -4158,6 +4142,48 @@ export const UpdateNotebookVisitDateDocument = {
 																				{
 																					kind: 'Field',
 																					name: { kind: 'Name', value: 'firstname' }
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'position' }
+																				},
+																				{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'mobileNumber' }
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'structure' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'id' }
+																							},
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'name' }
+																							},
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'address1' }
+																							},
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'address2' }
+																							},
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'postalCode' }
+																							},
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'city' }
+																							}
+																						]
+																					}
 																				}
 																			]
 																		}

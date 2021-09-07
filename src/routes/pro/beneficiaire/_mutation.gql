@@ -23,11 +23,7 @@ mutation UpdateNotebookVisitDate($beneficiaryId: uuid!, $notebookVisitDate: time
 					peNumber
 					postalCode
 				}
-				members(
-					order_by: { notebookModificationDate: desc_nulls_last }
-					limit: 1
-					where: { notebookModificationDate: { _is_null: false } }
-				) {
+				members(order_by: { notebookModificationDate: desc_nulls_last }) {
 					id
 					memberType
 					notebookModificationDate
@@ -36,6 +32,17 @@ mutation UpdateNotebookVisitDate($beneficiaryId: uuid!, $notebookVisitDate: time
 						id
 						lastname
 						firstname
+						position
+						email
+						mobileNumber
+						structure {
+							id
+							name
+							address1
+							address2
+							postalCode
+							city
+						}
 					}
 				}
 			}

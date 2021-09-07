@@ -23,7 +23,7 @@
 </script>
 
 <script lang="ts">
-	import { account, offCanvas, openComponent } from '$lib/stores';
+	import { account, openComponent } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
@@ -32,12 +32,8 @@
 	query(result);
 
 	const close = () => {
-		$openComponent = null;
+		openComponent.close();
 	};
-
-	openComponent.subscribe((value) => {
-		$offCanvas = value ? true : false;
-	});
 
 	result.subscribe((result) => {
 		if (result.data) {
@@ -83,11 +79,11 @@
 			</div>
 
 			<div
-				class="!m-0 transform top-0 right-0 w-1/2 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {openComponent
+				class="!m-0 transform top-0 right-0 w-1/2 bg-white flex fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {openComponent
 					? 'translate-x-0'
 					: 'translate-x-full'}"
 			>
-				<svelte:component this={$openComponent} />
+				<svelte:component this={$openComponent.component} {...$openComponent.props} />
 			</div>
 		{/if}</LoaderIndicator
 	>

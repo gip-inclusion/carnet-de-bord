@@ -22,7 +22,7 @@
 <script lang="ts">
 	import type { Option } from '$lib/ui/base/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { Button, Select, SearchBar, Table } from '$lib/ui/base';
+	import { Button, Select, SearchBar } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { mutation } from '@urql/svelte';
@@ -51,6 +51,11 @@
 	let periodOptions = [];
 	let selectedOrder: Option | null;
 	let orderOptions = [];
+
+	const openMemberInfo = (member: NotebookMember) => {
+		ProMemberInfo;
+		openComponent.open({ component: ProMemberInfo, props: { member } });
+	};
 </script>
 
 <LoaderIndicator result={updateVisitDateResult}>
@@ -131,19 +136,48 @@
 		<div class="flex flex-col">
 			<h2 class="fr-h4 bf-500">Groupe de suivi</h2>
 			<div class="flex flex-row w-full justify-between">
-				<Button
-					on:click={() => {
-						openComponent.set(ProMemberInfo);
-					}}
-					>Ajouter un accompagnateur
-				</Button>
+				<Button disabled={true}>Ajouter un accompagnateur</Button>
 				<SearchBar {search} size="md" inputHint="Nom, fonction, structure" />
 			</div>
-			<!-- @TODO find a way to make Table generically-typed; does not seem obvious -->
-			<Table headers={[]} rows={[]} captionText="Groupe de suivi" captionPosition="none" />
+			<div class="py-8">
+				{#each members as member, i}
+					<div
+						class:bg-gray-100={i % 2 === 0}
+						class="flex hover:ml-2 cursor-pointer gap-2 p-2 mb-2 w-full border-l-2 border-france-blue"
+						on:click={() => {
+							openMemberInfo(member);
+						}}
+					>
+						<div class="flex flex-col w-1/2 min-w-0">
+							<div class="text-gray-text-alt">Structure</div>
+							<Text
+								classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
+								value={member.professional.structure.name}
+							/>
+						</div>
+						<div class="flex flex-col w-1/4 min-w-0">
+							<div class="text-gray-text-alt">Accompagnateur</div>
+							<div
+								class="flex flex-row gap-2 font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
+							>
+								<Text classNames="font-bold" value={member.professional.firstname} />
+								<Text classNames="font-bold" value={member.professional.lastname} />
+							</div>
+						</div>
+						<div class="flex flex-col w-1/4 min-w-0">
+							<div class="text-gray-text-alt">Fonction</div>
+							<Text
+								classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
+								value={member.professional.position}
+							/>
+						</div>
+						<button>
+							<i class="text-2xl text-france-blue ri-arrow-right-line" />
+						</button>
+					</div>
+				{/each}
+			</div>
 		</div>
-		<!-- extract Groupe de suivi -->
-		<!-- extract Historique des démarches -->
 		<div class="flex flex-col">
 			<h2 class="fr-h4 bf-500">Historique des démarches</h2>
 			<div class="flex flex-row w-full justify-between">
