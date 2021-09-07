@@ -1,3 +1,31 @@
+## [1.9.3-alpha.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.3...v1.9.3-alpha.4) (2021-09-07)
+
+
+### Bug Fixes
+
+* Remove comments. ([1d24d43](https://github.com/SocialGouv/carnet-de-bord/commit/1d24d43a8eaf7c39cfbf876b581d74be4fb7aa7a))
+
+## [1.9.3-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.2...v1.9.3-alpha.3) (2021-09-07)
+
+
+### Bug Fixes
+
+* Change getDevDatabaseParameters suffix. ([d44ede7](https://github.com/SocialGouv/carnet-de-bord/commit/d44ede780a1fad8e1f8798235914e50f93d8158b))
+
+## [1.9.3-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.1...v1.9.3-alpha.2) (2021-09-07)
+
+
+### Bug Fixes
+
+* Replace autodevops-manifests by k8s-manifests. ([6022485](https://github.com/SocialGouv/carnet-de-bord/commit/602248591766bf88cb206dd7ae6b463bda3e9627))
+
+## [1.9.3-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.2...v1.9.3-alpha.1) (2021-09-07)
+
+
+### Bug Fixes
+
+* Use k8s-restore-db action. ([40d6fa0](https://github.com/SocialGouv/carnet-de-bord/commit/40d6fa03f23d48dbbba75cbda3752e5fc237245b))
+
 ## [1.9.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.1...v1.9.2) (2021-09-06)
 
 
