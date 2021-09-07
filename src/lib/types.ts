@@ -2,6 +2,7 @@ export type Account = AccountRequest & {
 	onboardingDone: boolean;
 	confirmed: boolean;
 };
+
 export interface AccountRequest {
 	firstname?: string;
 	lastname?: string;
@@ -9,6 +10,22 @@ export interface AccountRequest {
 	email?: string;
 	position?: string;
 	username?: string;
+}
+
+export type Structure = StructureRequest & {
+	siret?: string;
+	shortDesc?: string;
+};
+
+export interface StructureRequest {
+	name?: string;
+	phone?: string;
+	email?: string;
+	address1?: string;
+	address2?: string;
+	postalCode?: string;
+	city?: string;
+	website?: string;
 }
 
 export interface InputItem {

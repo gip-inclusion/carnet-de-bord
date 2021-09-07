@@ -20,7 +20,7 @@
 	import type { AccountRequest, RequestStep } from '$lib/types';
 	import { post } from '$lib/utils/post';
 
-	import { Input, Select } from '$lib/ui/base';
+	import { Button, Input, Select } from '$lib/ui/base';
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
 
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
@@ -113,7 +113,6 @@
 							bind:val={search}
 							inputHint="Ex : Mission locale Vallée de la Drôme"
 							inputLabel="Filtrer les structures"
-							additionalLabel=" "
 						/>
 					</div>
 					<div class="w-full">
@@ -122,8 +121,19 @@
 							{options}
 							bind:selected={structure}
 							selectHint="Choisissez votre structure dans la liste"
-							additionalLabel="Si vous ne trouvez pas votre structure, veuillez nous contacter."
 						/>
+					</div>
+				</div>
+				<div class="mt-6">
+					<div class="float-right">
+						<Button
+							on:click={() => {
+								goto('/structure/creation');
+							}}
+							outline={true}
+						>
+							Soumettre une nouvelle structure
+						</Button>
 					</div>
 				</div>
 				<!-- end @TODO -->
