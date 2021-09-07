@@ -59,51 +59,61 @@ jobs:
     name: Generate k8s manifests
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Load review environment variables
-        run: |
-          cat ".github/dev.env" >> $GITHUB_ENV
+    - name: Use autodevops manifests generation
+      uses: SocialGouv/actions/autodevops-manifests@master
+      with:
+        environment: "dev"
 
-      - name: Yarn cache setup
-        uses: c-hive/gha-yarn-cache@v2
+  # manifests:
+  #   name: Generate k8s manifests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
 
-      - name: Install kosko-charts dependencies
-        run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+  #     - name: Load review environment variables
+  #       run: |
+  #         cat ".github/dev.env" >> $GITHUB_ENV
 
-      - name: Generate k8s manifests
-        run: yarn --cwd .k8s --silent generate:dev > manifests-dev.yml
-        env:
-          SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+  #     - name: Yarn cache setup
+  #       uses: c-hive/gha-yarn-cache@v2
 
-      - name: Generate k8s namespace
-        run: yarn --cwd .k8s --silent generate:dev _namespace > namespace-dev.yml
-        env:
-          SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+  #     - name: Install kosko-charts dependencies
+  #       run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
 
-      - name: Generate restore-db job manifest
-        run: yarn --cwd .k8s --silent generate:dev jobs/restore > restore-db.yml
-        env:
-          SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+  #     - name: Generate k8s manifests
+  #       run: yarn --cwd .k8s --silent generate:dev > manifests-dev.yml
+  #       env:
+  #         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-      - name: Archive k8s manifests
-        uses: actions/upload-artifact@v2
-        with:
-          name: manifests-dev.yml
-          path: manifests-dev.yml
+  #     - name: Generate k8s namespace
+  #       run: yarn --cwd .k8s --silent generate:dev _namespace > namespace-dev.yml
+  #       env:
+  #         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-      - name: Archive k8s namespace
-        uses: actions/upload-artifact@v2
-        with:
-          name: namespace-dev.yml
-          path: namespace-dev.yml
+  #     - name: Generate restore-db job manifest
+  #       run: yarn --cwd .k8s --silent generate:dev jobs/restore > restore-db.yml
+  #       env:
+  #         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-      - name: Archive restore-db job
-        uses: actions/upload-artifact@v2
-        with:
-          name: restore-db.yml
-          path: restore-db.yml
+  #     - name: Archive k8s manifests
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: manifests-dev.yml
+  #         path: manifests-dev.yml
+
+  #     - name: Archive k8s namespace
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: namespace-dev.yml
+  #         path: namespace-dev.yml
+
+  #     - name: Archive restore-db job
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: restore-db.yml
+  #         path: restore-db.yml
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -130,29 +140,33 @@ jobs:
     needs: deploy
     steps:
 
-    - name: Download k8s namespace
-      uses: actions/download-artifact@v2
+    - uses: SocialGouv/actions/k8s-restore-db@k8s-restore-db
       with:
-        name: namespace-dev.yml
+        kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
 
-    - name: Download restore-db job
-      uses: actions/download-artifact@v2
-      with:
-        name: restore-db.yml
+  #   - name: Download k8s namespace
+  #     uses: actions/download-artifact@v2
+  #     with:
+  #       name: namespace-dev.yml
 
-    - name: Get namespace name
-      uses: mikefarah/yq@master
-      id: namespace
-      with:
-        cmd: yq eval '.metadata.name' namespace-dev.yml
+  #   - name: Download restore-db job
+  #     uses: actions/download-artifact@v2
+  #     with:
+  #       name: restore-db.yml
 
-    - name: Create kubernetes config
-      run: |
-        mkdir ~/.kube
-        touch ~/.kube/config
-        echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }} | base64 -d > ~/.kube/config
+  #   - name: Get namespace name
+  #     uses: mikefarah/yq@master
+  #     id: namespace
+  #     with:
+  #       cmd: yq eval '.metadata.name' namespace-dev.yml
 
-    - name: Seed database
-      run: |
-        kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
-        kubectl apply -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }}
+  #   - name: Create kubernetes config
+  #     run: |
+  #       mkdir ~/.kube
+  #       touch ~/.kube/config
+  #       echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }} | base64 -d > ~/.kube/config
+
+  #   - name: Seed database
+  #     run: |
+  #       kubectl delete -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }} || true
+  #       kubectl apply -f restore-db.yml --namespace ${{ steps.namespace.outputs.result }}
