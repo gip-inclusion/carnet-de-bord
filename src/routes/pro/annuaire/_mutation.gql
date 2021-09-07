@@ -12,6 +12,8 @@ mutation CreateBeneficiary(
 	$rights: jsonb
 	$workSituations: jsonb
 	$professionalId: uuid
+	$cafNumber: String
+	$peNumber: String
 ) {
 	newNotebook: insert_notebook_one(
 		object: {
@@ -26,6 +28,8 @@ mutation CreateBeneficiary(
 					address2: $address2
 					postalCode: $postalCode
 					city: $city
+					cafNumber: $cafNumber
+					peNumber: $peNumber
 				}
 			}
 			cerObjects: $cerObjects

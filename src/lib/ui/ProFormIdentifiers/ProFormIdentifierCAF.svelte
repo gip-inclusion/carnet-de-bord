@@ -21,7 +21,7 @@
 		users = RD.notAsked;
 	}
 
-	function iconForRemote(rd: RD.RemoteData<any, any>) {
+	function iconForRemote(rd: RD.RemoteData<unknown, unknown>) {
 		switch (rd.type) {
 			case RD.RemoteDataC.NotAsked:
 				return 'ri-check-line';

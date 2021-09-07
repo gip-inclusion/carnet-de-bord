@@ -37,6 +37,8 @@ export type ExternalUser = {
 	postalCode: string;
 	city: string;
 	email?: string;
+	cafNumber?: string;
+	peNumber?: string;
 };
 
 export type BeneficiaryAccount = {

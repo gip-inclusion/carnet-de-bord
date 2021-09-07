@@ -20,9 +20,10 @@
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	async function handleInput(e) {
-		dispatch('input', { value: e.target.value });
-	}
+	/* const handleInput: svelte.JSX.EventHandler<Event, HTMLInputElement> = (event) => { */
+	const handleInput: (event: any) => void = (event) => {
+		dispatch('input', { value: event.currentTarget.value });
+	};
 </script>
 
 <div
