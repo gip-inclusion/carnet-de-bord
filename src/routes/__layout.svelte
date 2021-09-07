@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import '@gouvfr/dsfr/dist/css/dsfr.min.css';
 	import 'remixicon/fonts/remixicon.css';
-	import '../app.postcss';
+	import '../app.css';
 	import { setClient, Client } from '@urql/svelte';
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 	import redirectUrl from '$lib/utils/redirectUrl';
