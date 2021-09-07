@@ -1,3 +1,10 @@
+## [1.9.3-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.2...v1.9.3-alpha.3) (2021-09-07)
+
+
+### Bug Fixes
+
+* Change getDevDatabaseParameters suffix. ([d44ede7](https://github.com/SocialGouv/carnet-de-bord/commit/d44ede780a1fad8e1f8798235914e50f93d8158b))
+
 ## [1.9.3-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.1...v1.9.3-alpha.2) (2021-09-07)
 
 
