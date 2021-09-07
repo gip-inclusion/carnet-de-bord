@@ -1,3 +1,10 @@
+## [1.9.3-alpha.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.3...v1.9.3-alpha.4) (2021-09-07)
+
+
+### Bug Fixes
+
+* Remove comments. ([1d24d43](https://github.com/SocialGouv/carnet-de-bord/commit/1d24d43a8eaf7c39cfbf876b581d74be4fb7aa7a))
+
 ## [1.9.3-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3-alpha.2...v1.9.3-alpha.3) (2021-09-07)
 
 
