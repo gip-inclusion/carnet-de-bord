@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.10.0...v1.11.0) (2021-09-07)
+
+
+### Features
+
+* add cafNumber and peNumber + make Beneficiary selects multiple ([70fcc47](https://github.com/SocialGouv/carnet-de-bord/commit/70fcc471554bd3fcfe17f38fa01ef06bf96f56c6))
+
 # [1.10.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.9.3...v1.10.0) (2021-09-07)
 
 
