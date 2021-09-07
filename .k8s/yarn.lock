@@ -705,10 +705,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/kosko-charts@9.5.3":
-  version "9.5.3"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.5.3.tgz#0f3e7f029f8ad9567189ce921da9a212968eba57"
-  integrity sha512-L/YfSzycmaxJ3MU9uPTuEN2T946jHpZD4WwcD0Ov77yKdrLtKgNUmt0+77EnAutL+ANmVyizB0vb/tjCRrxg9w==
+"@socialgouv/kosko-charts@9.5.4":
+  version "9.5.4"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-9.5.4.tgz#923ee66df66d976656524563994d1bd97c85e59c"
+  integrity sha512-3xpXEkJPFpdegWK45NMwjvmKb/TEvmVs269U18oZluyLYhHuIq951sadWGtzssk0mYW+52mXvmEmglo1eDkVyg==
   dependencies:
     "@kubernetes-models/sealed-secrets" "^2.0.2"
     "@sindresorhus/is" "^4.0.1"
@@ -3062,12 +3062,7 @@ ts-node@^10.2.1:
     make-error "^1.1.1"
     yn "3.1.1"
 
-tslib@^2.1.0, tslib@^2.2.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
-
-tslib@^2.3.0:
+tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
