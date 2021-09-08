@@ -1,18 +1,25 @@
 <script context="module" lang="ts">
-	import type { Beneficiary, NotebookMember } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { UpdateNotebookVisitDateMutationStore } from '$lib/graphql/_gen/typed-document-nodes';
-	import { UpdateNotebookVisitDateDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore } from '@urql/svelte';
+	import {
+		Beneficiary,
+		GetNotebookDocument,
+		GetNotebookQueryStore,
+		NotebookMember,
+		UpdateNotebookVisitDateDocument,
+		UpdateNotebookVisitDateMutationStore
+	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { mutation, operationStore, query } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = ({ page }) => {
 		const id = page.params.uuid;
+		const getNotebookResult = operationStore(GetNotebookDocument, { id });
 		const updateVisitDateResult = operationStore(UpdateNotebookVisitDateDocument, {
-			beneficiaryId: id,
+			notebookId: id,
 			notebookVisitDate: new Date()
 		});
 		return {
 			props: {
+				getNotebookResult,
 				updateVisitDateResult
 			}
 		};
@@ -22,10 +29,9 @@
 <script lang="ts">
 	import type { Option } from '$lib/ui/base/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { Button, Select, SearchBar } from '$lib/ui/base';
+	import { Button, Select } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
-	import { mutation } from '@urql/svelte';
 	import { formatDate } from '$lib/utils/date';
 	import { getLabels } from '$lib/utils/getLabels';
 	import {
@@ -35,18 +41,21 @@
 	} from '$lib/constants/LabelValues';
 	import { openComponent } from '$lib/stores';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
+	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
+	import { onDestroy } from 'svelte';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
+	export let getNotebookResult: GetNotebookQueryStore;
 
 	const updateVisitDate = mutation(updateVisitDateResult);
-	updateVisitDate();
 
-	$: notebook = $updateVisitDateResult.data?.update_notebook_member.returning[0].notebook;
+	query(getNotebookResult);
+
+	$: notebook = $getNotebookResult.data?.notebook;
 	$: beneficiary = notebook?.beneficiary as Beneficiary;
 	$: members = notebook?.members as NotebookMember[];
 	$: member = members?.length ? members[0] : null;
 
-	let search = '';
 	let selectedPeriod: Option | null;
 	let periodOptions = [];
 	let selectedOrder: Option | null;
@@ -55,13 +64,29 @@
 	const openMemberInfo = (member: NotebookMember) => {
 		openComponent.open({ component: ProMemberInfo, props: { member } });
 	};
+
+	onDestroy(() => {
+		updateVisitDate();
+	});
+
+	const openInviteMember = (beneficiary: Beneficiary, notebookId: string) => {
+		openComponent.open({
+			component: ProMemberInvitation,
+			props: {
+				beneficiaryFirstname: beneficiary.firstname,
+				beneficiaryLastname: beneficiary.lastname,
+				notebookId,
+				professionalIds: members ? members.map((m) => m.professional.id) : []
+			}
+		});
+	};
 </script>
 
-<LoaderIndicator result={updateVisitDateResult}>
+<LoaderIndicator result={getNotebookResult}>
 	<div class="flex flex-col space-y-8 px-40">
 		<div class="flex flex-col space-y-2">
 			<div class="flex flex-col">
-				{#if member}
+				{#if member?.notebookModificationDate}
 					<div class="mb-2">
 						Informations mises à jour le {formatDate(member.notebookModificationDate)} par
 						{member.professional.firstname}
@@ -135,8 +160,11 @@
 		<div class="flex flex-col">
 			<h2 class="fr-h4 bf-500">Groupe de suivi</h2>
 			<div class="flex flex-row w-full justify-between">
-				<Button disabled={true}>Ajouter un accompagnateur</Button>
-				<SearchBar {search} size="md" inputHint="Nom, fonction, structure" />
+				<Button
+					on:click={() => {
+						openInviteMember(beneficiary, notebook.id);
+					}}>Ajouter un accompagnateur</Button
+				>
 			</div>
 			<div class="py-8">
 				{#each members as member, i}

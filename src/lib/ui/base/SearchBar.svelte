@@ -7,7 +7,7 @@
 	let uniqueId = `search-bar-input-${counter}`;
 	export let id: string | null = `search-bar-${counter}`;
 	export let size: string | null = 'lg';
-	export let btnLabel: string | null = 'Rechercher';
+	export let btnLabel: string | null = '';
 	export let inputLabel: string | null = 'Recherche';
 	export let inputHint: string | null = 'Recherche';
 	export let search: string | null;

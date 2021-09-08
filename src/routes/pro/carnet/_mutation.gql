@@ -1,0 +1,10 @@
+mutation UpdateNotebookVisitDate($notebookId: uuid!, $notebookVisitDate: timestamptz!) {
+	update_notebook_member(
+		where: { notebook: { id: { _eq: $notebookId } } }
+		_set: { notebookVisitDate: $notebookVisitDate }
+	) {
+		returning {
+			id
+		}
+	}
+}

@@ -61,7 +61,7 @@ export const post: RequestHandler = async (request) => {
 		.where({ id });
 
 	// send email
-	sendEmail({
+	await sendEmail({
 		to: email,
 		subject: "Votre demande d'inscription à Carnet de Bord est validée",
 		html: emailAccountRequestValidate({ firstname, lastname, accessKey, appUrl })

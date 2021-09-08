@@ -31,8 +31,8 @@
 		goto(`/pro/annuaire?search=${search}`);
 	}
 
-	function beneficiaryUrl({ id }: { id: string }) {
-		return `/pro/beneficiaire/${id}`;
+	function carnetUrl({ id }: { id: string }) {
+		return `/pro/carnet/${id}`;
 	}
 </script>
 
@@ -48,7 +48,7 @@
 				{#each $result.data.lastVisited as lastVisited (lastVisited.notebook.beneficiary.id)}
 					<div class="card-container">
 						<ProBeneficiaryCard
-							href={beneficiaryUrl(lastVisited.notebook.beneficiary)}
+							href={carnetUrl(lastVisited.notebook)}
 							beneficiary={lastVisited.notebook.beneficiary}
 						/>
 					</div>
@@ -63,7 +63,7 @@
 				{#each $result.data.lastUpdated as lastUpdated (lastUpdated.notebook.beneficiary.id)}
 					<div class="card-container">
 						<ProBeneficiaryCard
-							href={beneficiaryUrl(lastUpdated.notebook.beneficiary)}
+							href={carnetUrl(lastUpdated.notebook)}
 							beneficiary={lastUpdated.notebook.beneficiary}
 						/>
 					</div>

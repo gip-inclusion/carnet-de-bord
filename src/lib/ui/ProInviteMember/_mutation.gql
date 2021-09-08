@@ -1,0 +1,12 @@
+mutation AddNotebookMember($creatorId: uuid!, $professionalId: uuid!, $notebookId: uuid!) {
+	newMember: insert_notebook_member_one(
+		object: {
+			creatorId: $creatorId
+			professionalId: $professionalId
+			notebookId: $notebookId
+			memberType: "no_referent"
+		}
+	) {
+		id
+	}
+}

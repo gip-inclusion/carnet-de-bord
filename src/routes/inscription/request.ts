@@ -58,7 +58,7 @@ export const post: RequestHandler = async (request) => {
 	const appUrl = getAppUrl();
 
 	// send email to first admin
-	sendEmail({
+	await sendEmail({
 		to: contactEmail,
 		subject: 'Demande de création de compte',
 		html: emailAccountRequest({

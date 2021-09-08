@@ -1,10 +1,9 @@
 <script context="module" lang="ts">
-	import type { Option, TableHeader } from '$lib/ui/base/types';
-	import { Select, Button, Table, Link } from '$lib/ui/base';
+	import type { Option } from '$lib/ui/base/types';
+	import { Select, Button } from '$lib/ui/base';
 	import { ProAddBeneficiaryLayer, ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
-		Beneficiary,
 		CreateBeneficiaryMutationStore,
 		NotebookMember,
 		SearchNotebookMemberQueryStore,
@@ -91,8 +90,8 @@
 		$result.reexecute();
 	}
 
-	function beneficiaryUrl({ id }: { id: string }) {
-		return `/pro/beneficiaire/${id}`;
+	function carnetUrl({ id }: { id: string }) {
+		return `/pro/carnet/${id}`;
 	}
 
 	function toggleAddBeneficiary() {
@@ -104,27 +103,27 @@
 		toggleAddBeneficiary();
 	}
 
-	let viewMode: 'list' | 'cards' = 'list';
+	// let viewMode: 'list' | 'cards' = 'list';
 
-	function toggleViewMode(vm: 'list' | 'cards') {
-		viewMode = vm;
-	}
+	// function toggleViewMode(vm: 'list' | 'cards') {
+	// 	viewMode = vm;
+	// }
 
-	let headers: TableHeader<Beneficiary>[] = [
-		{ id: 'name', label: 'Nom', getHtml: (b: Beneficiary) => `${b.firstname} ${b.lastname}` },
-		{ id: 'dob', label: 'Date de naissance', getHtml: 'dateOfBirth' },
-		{ id: 'phone', label: 'Numéro de téléphone', getHtml: 'mobileNumber' }
-	];
+	// let headers: TableHeader<Beneficiary>[] = [
+	// 	{ id: 'name', label: 'Nom', getHtml: (b: Beneficiary) => `${b.firstname} ${b.lastname}` },
+	// 	{ id: 'dob', label: 'Date de naissance', getHtml: 'dateOfBirth' },
+	// 	{ id: 'phone', label: 'Numéro de téléphone', getHtml: 'mobileNumber' }
+	// ];
 
 	/* TODO: find a way without cheating on that type */
 	$: members = ($result.data ? $result.data.notebook_member : []) as NotebookMember[];
-	$: beneficiaries = members ? members.map((m) => m.notebook.beneficiary) : [];
+	$: notebooks = members ? members.map((m) => m.notebook) : [];
 </script>
 
 <div class="flex flex-col space-y-8 px-40">
 	<div>
 		<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>
-		<div class="float-right align-middle">
+		<!-- <div class="float-right align-middle">
 			<Button
 				on:click={() => toggleViewMode('cards')}
 				outline={viewMode !== 'cards'}
@@ -135,7 +134,7 @@
 				outline={viewMode !== 'list'}
 				icon="ri-menu-line"
 			/>
-		</div>
+		</div> -->
 	</div>
 
 	<div class="flex flex-row w-full space-x-16">
@@ -169,7 +168,7 @@
 			isOpen={isAddBeneficiaryOpen}
 			{createBeneficiaryResult}
 		/>
-		{#if beneficiaries.length === 0}
+		{#if notebooks.length === 0}
 			<div class="flex flex-col space-y-4 items-center">
 				<div class="bf-500 font-bold">
 					Désolé, aucun bénéficiaire ne correspond à votre recherche.
@@ -180,7 +179,7 @@
 				</div>
 			</div>
 		{:else}
-			{#if viewMode === 'list'}
+			<!-- {#if viewMode === 'list'}
 				<div class="flex flex-grow w-full">
 					<Table {headers} rows={beneficiaries} captionText="Liste des bénéficiaires"
 						><span slot="cellAction" let:slotData>
@@ -190,15 +189,15 @@
 						>
 					</Table>
 				</div>
-			{:else}
-				<div class="flex flex-row flex-wrap justify-between gap-1">
-					{#each beneficiaries as beneficiary (beneficiary.id)}
-						<div class="card-container">
-							<ProBeneficiaryCard {beneficiary} href={beneficiaryUrl(beneficiary)} />
-						</div>
-					{/each}
-				</div>
-			{/if}
+			{:else} -->
+			<div class="flex flex-row flex-wrap justify-between gap-1">
+				{#each notebooks as notebook (notebook.id)}
+					<div class="card-container">
+						<ProBeneficiaryCard beneficiary={notebook.beneficiary} href={carnetUrl(notebook)} />
+					</div>
+				{/each}
+			</div>
+			<!-- {/if} -->
 			<div>
 				<Button outline={true} on:click={addBeneficiary}>Ajouter un nouveau bénéficiaire</Button>
 			</div>

@@ -59,7 +59,7 @@ export const post: RequestHandler = async (request) => {
 	const appUrl = getAppUrl();
 
 	// send email
-	sendEmail({
+	await sendEmail({
 		to: email,
 		subject: 'Accédez à Carnet de bord',
 		html: emailLoginRequest({ firstname, lastname, accessKey, appUrl })
