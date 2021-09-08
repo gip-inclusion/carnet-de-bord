@@ -3,6 +3,9 @@ table:
   schema: public
 configuration:
   custom_column_names:
+    creation_date: creationDate
+    creator_id: creatorId
+    invitation_send_date: invitationSendDate
     member_type: memberType
     notebook_id: notebookId
     notebook_modification_date: notebookModificationDate
@@ -10,6 +13,9 @@ configuration:
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
+- name: creator
+  using:
+    foreign_key_constraint_on: creator_id
 - name: notebook
   using:
     foreign_key_constraint_on: notebook_id
@@ -21,6 +27,7 @@ insert_permissions:
     backend_only: false
     check: {}
     columns:
+    - creator_id
     - id
     - member_type
     - notebook_id
@@ -32,7 +39,10 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - creation_date
+    - creator_id
     - id
+    - invitation_send_date
     - member_type
     - notebook_id
     - notebook_modification_date

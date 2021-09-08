@@ -335,7 +335,9 @@ export type Admin = {
 	/** An aggregate relationship */
 	accounts_aggregate: AccountAggregate;
 	email: Scalars['String'];
+	firstname: Scalars['String'];
 	id: Scalars['uuid'];
+	lastname: Scalars['String'];
 };
 
 /** columns and relationships of "admin" */
@@ -384,7 +386,9 @@ export type AdminBoolExp = {
 	_or?: Maybe<Array<AdminBoolExp>>;
 	accounts?: Maybe<AccountBoolExp>;
 	email?: Maybe<StringComparisonExp>;
+	firstname?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
+	lastname?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "admin" */
@@ -399,21 +403,27 @@ export enum AdminConstraint {
 export type AdminInsertInput = {
 	accounts?: Maybe<AccountArrRelInsertInput>;
 	email?: Maybe<Scalars['String']>;
+	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type AdminMaxFields = {
 	__typename?: 'admin_max_fields';
 	email?: Maybe<Scalars['String']>;
+	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type AdminMinFields = {
 	__typename?: 'admin_min_fields';
 	email?: Maybe<Scalars['String']>;
+	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "admin" */
@@ -443,7 +453,9 @@ export type AdminOnConflict = {
 export type AdminOrderBy = {
 	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
 	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: admin */
@@ -456,13 +468,19 @@ export enum AdminSelectColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
-	Id = 'id'
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname'
 }
 
 /** input type for updating data in table "admin" */
 export type AdminSetInput = {
 	email?: Maybe<Scalars['String']>;
+	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "admin" */
@@ -470,7 +488,11 @@ export enum AdminUpdateColumn {
 	/** column name */
 	Email = 'email',
 	/** column name */
-	Id = 'id'
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname'
 }
 
 /** columns and relationships of "beneficiary" */
@@ -1558,7 +1580,12 @@ export type NotebookMaxFields = {
 /** columns and relationships of "notebook_member" */
 export type NotebookMember = {
 	__typename?: 'notebook_member';
+	creationDate: Scalars['timestamptz'];
+	/** An object relationship */
+	creator?: Maybe<Professional>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	id: Scalars['uuid'];
+	invitationSendDate?: Maybe<Scalars['timestamptz']>;
 	memberType: Scalars['String'];
 	/** An object relationship */
 	notebook: Notebook;
@@ -1610,7 +1637,11 @@ export type NotebookMemberBoolExp = {
 	_and?: Maybe<Array<NotebookMemberBoolExp>>;
 	_not?: Maybe<NotebookMemberBoolExp>;
 	_or?: Maybe<Array<NotebookMemberBoolExp>>;
+	creationDate?: Maybe<TimestamptzComparisonExp>;
+	creator?: Maybe<ProfessionalBoolExp>;
+	creatorId?: Maybe<UuidComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
+	invitationSendDate?: Maybe<TimestamptzComparisonExp>;
 	memberType?: Maybe<StringComparisonExp>;
 	notebook?: Maybe<NotebookBoolExp>;
 	notebookId?: Maybe<UuidComparisonExp>;
@@ -1623,12 +1654,18 @@ export type NotebookMemberBoolExp = {
 /** unique or primary key constraints on table "notebook_member" */
 export enum NotebookMemberConstraint {
 	/** unique or primary key constraint */
+	NotebookMemberNotebookIdProfessionalIdKey = 'notebook_member_notebook_id_professional_id_key',
+	/** unique or primary key constraint */
 	NotebookMemberPkey = 'notebook_member_pkey'
 }
 
 /** input type for inserting data into table "notebook_member" */
 export type NotebookMemberInsertInput = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creator?: Maybe<ProfessionalObjRelInsertInput>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	invitationSendDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebook?: Maybe<NotebookObjRelInsertInput>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -1641,7 +1678,10 @@ export type NotebookMemberInsertInput = {
 /** aggregate max on columns */
 export type NotebookMemberMaxFields = {
 	__typename?: 'notebook_member_max_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	invitationSendDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
@@ -1651,7 +1691,10 @@ export type NotebookMemberMaxFields = {
 
 /** order by max() on columns of table "notebook_member" */
 export type NotebookMemberMaxOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	creatorId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	invitationSendDate?: Maybe<OrderBy>;
 	memberType?: Maybe<OrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	notebookModificationDate?: Maybe<OrderBy>;
@@ -1662,7 +1705,10 @@ export type NotebookMemberMaxOrderBy = {
 /** aggregate min on columns */
 export type NotebookMemberMinFields = {
 	__typename?: 'notebook_member_min_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	invitationSendDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
@@ -1672,7 +1718,10 @@ export type NotebookMemberMinFields = {
 
 /** order by min() on columns of table "notebook_member" */
 export type NotebookMemberMinOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	creatorId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	invitationSendDate?: Maybe<OrderBy>;
 	memberType?: Maybe<OrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	notebookModificationDate?: Maybe<OrderBy>;
@@ -1698,7 +1747,11 @@ export type NotebookMemberOnConflict = {
 
 /** Ordering options when selecting data from "notebook_member". */
 export type NotebookMemberOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	creator?: Maybe<ProfessionalOrderBy>;
+	creatorId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	invitationSendDate?: Maybe<OrderBy>;
 	memberType?: Maybe<OrderBy>;
 	notebook?: Maybe<NotebookOrderBy>;
 	notebookId?: Maybe<OrderBy>;
@@ -1716,7 +1769,13 @@ export type NotebookMemberPkColumnsInput = {
 /** select columns of table "notebook_member" */
 export enum NotebookMemberSelectColumn {
 	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
 	Id = 'id',
+	/** column name */
+	InvitationSendDate = 'invitationSendDate',
 	/** column name */
 	MemberType = 'memberType',
 	/** column name */
@@ -1731,7 +1790,10 @@ export enum NotebookMemberSelectColumn {
 
 /** input type for updating data in table "notebook_member" */
 export type NotebookMemberSetInput = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	invitationSendDate?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	notebookModificationDate?: Maybe<Scalars['timestamptz']>;
@@ -1742,7 +1804,13 @@ export type NotebookMemberSetInput = {
 /** update columns of table "notebook_member" */
 export enum NotebookMemberUpdateColumn {
 	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
 	Id = 'id',
+	/** column name */
+	InvitationSendDate = 'invitationSendDate',
 	/** column name */
 	MemberType = 'memberType',
 	/** column name */
@@ -2815,6 +2883,43 @@ export type UuidComparisonExp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type AddNotebookMemberMutationVariables = Exact<{
+	creatorId: Scalars['uuid'];
+	professionalId: Scalars['uuid'];
+	notebookId: Scalars['uuid'];
+}>;
+
+export type AddNotebookMemberMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_member_one?: Maybe<{ __typename?: 'notebook_member'; id: any }>;
+};
+
+export type SearchProfessionalQueryVariables = Exact<{
+	search?: Maybe<Scalars['String']>;
+	professionalIds?: Maybe<Array<Scalars['uuid']> | Scalars['uuid']>;
+}>;
+
+export type SearchProfessionalQuery = {
+	__typename?: 'query_root';
+	professionals: Array<{
+		__typename?: 'professional';
+		id: any;
+		firstname: string;
+		lastname: string;
+		structure: {
+			__typename?: 'structure';
+			id: any;
+			name?: Maybe<string>;
+			postalCode?: Maybe<string>;
+			phone?: Maybe<string>;
+		};
+	}>;
+	count: {
+		__typename?: 'professional_aggregate';
+		aggregate?: Maybe<{ __typename?: 'professional_aggregate_fields'; count: number }>;
+	};
+};
+
 export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAccountsSummaryQuery = {
@@ -3059,6 +3164,441 @@ export type UpdateProfessionalProfileMutation = {
 	}>;
 };
 
+export const AddNotebookMemberDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookMember' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'creatorId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professionalId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'no_referent', block: false }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
+export const SearchProfessionalDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'SearchProfessional' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalIds' } },
+					type: {
+						kind: 'ListType',
+						type: {
+							kind: 'NonNullType',
+							type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+						}
+					},
+					defaultValue: { kind: 'ListValue', values: [] }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'professionals' },
+						name: { kind: 'Name', value: 'professional' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'lastname' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'search' }
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structure' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'name' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_ilike' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'search' }
+																						}
+																					}
+																				]
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structure' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'postalCode' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_ilike' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'search' }
+																						}
+																					}
+																				]
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_not' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'id' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_in' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'professionalIds' }
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'IntValue', value: '5' }
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'phone' } }
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'count' },
+						name: { kind: 'Name', value: 'professional_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'lastname' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'search' }
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structure' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'name' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_ilike' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'search' }
+																						}
+																					}
+																				]
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structure' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'postalCode' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_ilike' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'search' }
+																						}
+																					}
+																				]
+																			}
+																		}
+																	]
+																}
+															}
+														]
+													}
+												]
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_not' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'id' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_in' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'professionalIds' }
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false }
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
 export const GetAccountsSummaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4418,6 +4958,14 @@ export const UpdateProfessionalProfileDocument = {
 } as unknown as DocumentNode<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
+>;
+export type AddNotebookMemberMutationStore = OperationStore<
+	AddNotebookMemberMutation,
+	AddNotebookMemberMutationVariables
+>;
+export type SearchProfessionalQueryStore = OperationStore<
+	SearchProfessionalQuery,
+	SearchProfessionalQueryVariables
 >;
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,

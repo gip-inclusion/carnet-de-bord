@@ -22,7 +22,7 @@
 <script lang="ts">
 	import type { Option } from '$lib/ui/base/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { Button, Select, SearchBar } from '$lib/ui/base';
+	import { Button, Select } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { mutation } from '@urql/svelte';
@@ -35,6 +35,7 @@
 	} from '$lib/constants/LabelValues';
 	import { openComponent } from '$lib/stores';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
+	import ProInviteMemberSearch from '$lib/ui/ProInviteMember/ProInviteMemberSearch.svelte';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 
@@ -46,7 +47,6 @@
 	$: members = notebook?.members as NotebookMember[];
 	$: member = members?.length ? members[0] : null;
 
-	let search = '';
 	let selectedPeriod: Option | null;
 	let periodOptions = [];
 	let selectedOrder: Option | null;
@@ -54,6 +54,18 @@
 
 	const openMemberInfo = (member: NotebookMember) => {
 		openComponent.open({ component: ProMemberInfo, props: { member } });
+	};
+
+	const openInviteMember = (beneficiary: Beneficiary, notebookId: string) => {
+		openComponent.open({
+			component: ProInviteMemberSearch,
+			props: {
+				beneficiaryFirstname: beneficiary.firstname,
+				beneficiaryLastname: beneficiary.lastname,
+				notebookId,
+				professionalIds: members ? members.map((m) => m.professional.id) : []
+			}
+		});
 	};
 </script>
 
@@ -135,8 +147,11 @@
 		<div class="flex flex-col">
 			<h2 class="fr-h4 bf-500">Groupe de suivi</h2>
 			<div class="flex flex-row w-full justify-between">
-				<Button disabled={true}>Ajouter un accompagnateur</Button>
-				<SearchBar {search} size="md" inputHint="Nom, fonction, structure" />
+				<Button
+					on:click={() => {
+						openInviteMember(beneficiary, notebook.id);
+					}}>Ajouter un accompagnateur</Button
+				>
 			</div>
 			<div class="py-8">
 				{#each members as member, i}
