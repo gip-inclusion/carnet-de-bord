@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.11.0...v1.11.1) (2021-09-08)
+
+
+### Bug Fixes
+
+* Use branch slug within restore db job. ([#153](https://github.com/SocialGouv/carnet-de-bord/issues/153)) ([95f9a1b](https://github.com/SocialGouv/carnet-de-bord/commit/95f9a1bad64d5028f8e0295ef76e306ae4fe1683))
+
 # [1.11.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.10.0...v1.11.0) (2021-09-07)
 
 
