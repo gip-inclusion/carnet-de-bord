@@ -2992,6 +2992,7 @@ export type GetLastVisitedOrUpdatedQuery = {
 		__typename?: 'notebook_member';
 		notebook: {
 			__typename?: 'notebook';
+			id: any;
 			beneficiary: {
 				__typename?: 'beneficiary';
 				id: any;
@@ -3006,6 +3007,7 @@ export type GetLastVisitedOrUpdatedQuery = {
 		__typename?: 'notebook_member';
 		notebook: {
 			__typename?: 'notebook';
+			id: any;
 			beneficiary: {
 				__typename?: 'beneficiary';
 				id: any;
@@ -3069,7 +3071,7 @@ export type SearchNotebookMemberQuery = {
 };
 
 export type UpdateNotebookVisitDateMutationVariables = Exact<{
-	beneficiaryId: Scalars['uuid'];
+	notebookId: Scalars['uuid'];
 	notebookVisitDate: Scalars['timestamptz'];
 }>;
 
@@ -3077,54 +3079,60 @@ export type UpdateNotebookVisitDateMutation = {
 	__typename?: 'mutation_root';
 	update_notebook_member?: Maybe<{
 		__typename?: 'notebook_member_mutation_response';
-		returning: Array<{
+		returning: Array<{ __typename?: 'notebook_member'; id: any }>;
+	}>;
+};
+
+export type GetNotebookQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetNotebookQuery = {
+	__typename?: 'query_root';
+	notebook?: Maybe<{
+		__typename?: 'notebook';
+		id: any;
+		cerObjects?: Maybe<any>;
+		rights?: Maybe<any>;
+		workSituations?: Maybe<any>;
+		beneficiary: {
+			__typename?: 'beneficiary';
+			address1?: Maybe<string>;
+			address2?: Maybe<string>;
+			cafNumber?: Maybe<string>;
+			city?: Maybe<string>;
+			dateOfBirth: any;
+			email: string;
+			firstname: string;
+			id: any;
+			lastname: string;
+			mobileNumber?: Maybe<string>;
+			peNumber?: Maybe<string>;
+			postalCode?: Maybe<string>;
+		};
+		members: Array<{
 			__typename?: 'notebook_member';
-			notebook: {
-				__typename?: 'notebook';
+			id: any;
+			memberType: string;
+			notebookModificationDate?: Maybe<any>;
+			notebookVisitDate?: Maybe<any>;
+			professional: {
+				__typename?: 'professional';
 				id: any;
-				cerObjects?: Maybe<any>;
-				rights?: Maybe<any>;
-				workSituations?: Maybe<any>;
-				beneficiary: {
-					__typename?: 'beneficiary';
+				lastname: string;
+				firstname: string;
+				position?: Maybe<string>;
+				email: string;
+				mobileNumber?: Maybe<string>;
+				structure: {
+					__typename?: 'structure';
+					id: any;
+					name?: Maybe<string>;
 					address1?: Maybe<string>;
 					address2?: Maybe<string>;
-					cafNumber?: Maybe<string>;
-					city?: Maybe<string>;
-					dateOfBirth: any;
-					email: string;
-					firstname: string;
-					id: any;
-					lastname: string;
-					mobileNumber?: Maybe<string>;
-					peNumber?: Maybe<string>;
 					postalCode?: Maybe<string>;
+					city?: Maybe<string>;
 				};
-				members: Array<{
-					__typename?: 'notebook_member';
-					id: any;
-					memberType: string;
-					notebookModificationDate?: Maybe<any>;
-					notebookVisitDate?: Maybe<any>;
-					professional: {
-						__typename?: 'professional';
-						id: any;
-						lastname: string;
-						firstname: string;
-						position?: Maybe<string>;
-						email: string;
-						mobileNumber?: Maybe<string>;
-						structure: {
-							__typename?: 'structure';
-							id: any;
-							name?: Maybe<string>;
-							address1?: Maybe<string>;
-							address2?: Maybe<string>;
-							postalCode?: Maybe<string>;
-							city?: Maybe<string>;
-						};
-					};
-				}>;
 			};
 		}>;
 	}>;
@@ -3863,6 +3871,7 @@ export const GetLastVisitedOrUpdatedDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'beneficiary' },
@@ -3943,6 +3952,7 @@ export const GetLastVisitedOrUpdatedDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'beneficiary' },
@@ -4518,7 +4528,7 @@ export const UpdateNotebookVisitDateDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
@@ -4554,25 +4564,16 @@ export const UpdateNotebookVisitDateDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'beneficiary' },
+														name: { kind: 'Name', value: 'id' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'id' },
+																	name: { kind: 'Name', value: '_eq' },
 																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'beneficiaryId' }
-																				}
-																			}
-																		]
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'notebookId' }
 																	}
 																}
 															]
@@ -4610,130 +4611,129 @@ export const UpdateNotebookVisitDateDocument = {
 									name: { kind: 'Name', value: 'returning' },
 									selectionSet: {
 										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<
+	UpdateNotebookVisitDateMutation,
+	UpdateNotebookVisitDateMutationVariables
+>;
+export const GetNotebookDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebook' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'notebook' },
+						name: { kind: 'Name', value: 'notebook_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'cerObjects' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rights' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'workSituations' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+										]
+									}
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'members' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'notebookModificationDate' },
+														value: { kind: 'EnumValue', value: 'desc_nulls_last' }
+													}
+												]
+											}
+										}
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookModificationDate' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookVisitDate' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'notebook' },
+												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'cerObjects' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'rights' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'workSituations' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 														{
 															kind: 'Field',
-															name: { kind: 'Name', value: 'beneficiary' },
+															name: { kind: 'Name', value: 'structure' },
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
-																]
-															}
-														},
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'members' },
-															arguments: [
-																{
-																	kind: 'Argument',
-																	name: { kind: 'Name', value: 'order_by' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: 'notebookModificationDate' },
-																				value: { kind: 'EnumValue', value: 'desc_nulls_last' }
-																			}
-																		]
-																	}
-																}
-															],
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'notebookModificationDate' }
-																	},
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'notebookVisitDate' }
-																	},
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'professional' },
-																		selectionSet: {
-																			kind: 'SelectionSet',
-																			selections: [
-																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'lastname' }
-																				},
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'firstname' }
-																				},
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'position' }
-																				},
-																				{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'mobileNumber' }
-																				},
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'structure' },
-																					selectionSet: {
-																						kind: 'SelectionSet',
-																						selections: [
-																							{
-																								kind: 'Field',
-																								name: { kind: 'Name', value: 'id' }
-																							},
-																							{
-																								kind: 'Field',
-																								name: { kind: 'Name', value: 'name' }
-																							},
-																							{
-																								kind: 'Field',
-																								name: { kind: 'Name', value: 'address1' }
-																							},
-																							{
-																								kind: 'Field',
-																								name: { kind: 'Name', value: 'address2' }
-																							},
-																							{
-																								kind: 'Field',
-																								name: { kind: 'Name', value: 'postalCode' }
-																							},
-																							{
-																								kind: 'Field',
-																								name: { kind: 'Name', value: 'city' }
-																							}
-																						]
-																					}
-																				}
-																			]
-																		}
-																	}
+																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } }
 																]
 															}
 														}
@@ -4750,10 +4750,7 @@ export const UpdateNotebookVisitDateDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<
-	UpdateNotebookVisitDateMutation,
-	UpdateNotebookVisitDateMutationVariables
->;
+} as unknown as DocumentNode<GetNotebookQuery, GetNotebookQueryVariables>;
 export const UpdateProfessionalProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4992,6 +4989,7 @@ export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
 >;
+export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type UpdateProfessionalProfileMutationStore = OperationStore<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables

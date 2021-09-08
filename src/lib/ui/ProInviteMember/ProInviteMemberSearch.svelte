@@ -55,6 +55,7 @@
 			creatorId: $session.user.professionalId
 		});
 		newMember = store.data.insert_notebook_member_one;
+		//send email
 	}
 
 	$: professionals = $searchProfessionalResult.data?.professionals || [];

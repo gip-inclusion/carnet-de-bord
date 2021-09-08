@@ -5,6 +5,7 @@ query GetLastVisitedOrUpdated($professionalId: uuid!) {
 		where: { professionalId: { _eq: $professionalId } }
 	) {
 		notebook {
+			id
 			beneficiary {
 				id
 				firstname
@@ -20,6 +21,7 @@ query GetLastVisitedOrUpdated($professionalId: uuid!) {
 		where: { professionalId: { _neq: $professionalId } }
 	) {
 		notebook {
+			id
 			beneficiary {
 				id
 				firstname
