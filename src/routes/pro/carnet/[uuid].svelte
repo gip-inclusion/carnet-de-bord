@@ -41,7 +41,7 @@
 	} from '$lib/constants/LabelValues';
 	import { openComponent } from '$lib/stores';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
-	import ProInviteMemberSearch from '$lib/ui/ProInviteMember/ProInviteMemberSearch.svelte';
+	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
 	import { onDestroy } from 'svelte';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
@@ -71,7 +71,7 @@
 
 	const openInviteMember = (beneficiary: Beneficiary, notebookId: string) => {
 		openComponent.open({
-			component: ProInviteMemberSearch,
+			component: ProMemberInvitation,
 			props: {
 				beneficiaryFirstname: beneficiary.firstname,
 				beneficiaryLastname: beneficiary.lastname,

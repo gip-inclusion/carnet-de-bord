@@ -9,6 +9,7 @@
 	import Button from '../base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import { session } from '$app/stores';
+	import { post } from '$lib/utils/post';
 
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
@@ -49,6 +50,7 @@
 	}
 
 	async function onClick() {
+		// TODO(tglatt): should wrap into a hasura action
 		const store = await addNotebookMember({
 			professionalId: selectedProfessionalId,
 			notebookId: notebookId,
@@ -56,6 +58,7 @@
 		});
 		newMember = store.data.newMember;
 		//send email
+		post('/pro/carnet/invitation', { notebookMemberId: newMember.id });
 	}
 
 	$: professionals = $searchProfessionalResult.data?.professionals || [];
