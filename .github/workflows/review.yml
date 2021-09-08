@@ -90,6 +90,6 @@ jobs:
     needs: deploy
     steps:
 
-    - uses: SocialGouv/actions/k8s-restore-db@k8s-restore-db
+    - uses: SocialGouv/actions/k8s-restore-db@master
       with:
         kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
