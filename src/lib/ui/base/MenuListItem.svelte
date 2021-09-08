@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher, getContext } from 'svelte';
-	import { MENU } from './MenuButton.svelte';
+	import { MENU } from './menu';
 	const { registerMenuItem, selectedItem, focusedItem } = getContext(MENU);
 
 	export let disabled = false;

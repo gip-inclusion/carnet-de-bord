@@ -1,12 +1,12 @@
 <script context="module" type="ts">
 	let counter = 0;
 	// the object menu act as a key for the MenuButton context
-	export const MENU = {};
 </script>
 
 <script type="ts">
 	import { setContext, onDestroy, createEventDispatcher } from 'svelte';
 	import { writable } from 'svelte/store';
+	import { MENU } from './menu';
 	export let ref = null;
 	let menuId = `menu-${counter++}`;
 	let buttonId = `button-${menuId}`;
