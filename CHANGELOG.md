@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.11.1...v1.12.0) (2021-09-08)
+
+
+### Features
+
+* **pro:** member invitation ([#149](https://github.com/SocialGouv/carnet-de-bord/issues/149)) ([a900d12](https://github.com/SocialGouv/carnet-de-bord/commit/a900d121e6170653d3156f7211d35207c2ee3217))
+
 ## [1.11.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.11.0...v1.11.1) (2021-09-08)
 
 
