@@ -3,7 +3,7 @@ import { Job } from 'kubernetes-models/batch/v1';
 import environments from '@socialgouv/kosko-charts/environments';
 
 const ciEnv = environments(process.env);
-const pgParams = getDevDatabaseParameters({ suffix: ciEnv.branch });
+const pgParams = getDevDatabaseParameters({ suffix: ciEnv.branchSlug });
 
 const job = new Job({
 	metadata: {
