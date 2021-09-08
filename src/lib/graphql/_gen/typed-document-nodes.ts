@@ -2891,7 +2891,7 @@ export type AddNotebookMemberMutationVariables = Exact<{
 
 export type AddNotebookMemberMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_member_one?: Maybe<{ __typename?: 'notebook_member'; id: any }>;
+	newMember?: Maybe<{ __typename?: 'notebook_member'; id: any }>;
 };
 
 export type SearchProfessionalQueryVariables = Exact<{
@@ -3210,6 +3210,7 @@ export const AddNotebookMemberDocument = {
 				selections: [
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'newMember' },
 						name: { kind: 'Name', value: 'insert_notebook_member_one' },
 						arguments: [
 							{

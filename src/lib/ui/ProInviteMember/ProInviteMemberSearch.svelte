@@ -10,7 +10,7 @@
 	import { openComponent } from '$lib/stores';
 	import { session } from '$app/stores';
 
-	export let beneficiaryFistname: string;
+	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
 	export let notebookId: string;
 	export let professionalIds;
@@ -54,7 +54,7 @@
 			notebookId: notebookId,
 			creatorId: $session.user.professionalId
 		});
-		newMember = store.data.insert_notebook_member_one;
+		newMember = store.data.newMember;
 		//send email
 	}
 
@@ -70,7 +70,7 @@
 				<h1>Inviter un accompagnateur</h1>
 				<div>
 					{`Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de M.
-		${beneficiaryFistname} ${beneficiaryLastname}.`}
+		${beneficiaryFirstname} ${beneficiaryLastname}.`}
 				</div>
 			</div>
 

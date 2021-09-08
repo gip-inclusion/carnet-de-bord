@@ -1,5 +1,5 @@
 mutation AddNotebookMember($creatorId: uuid!, $professionalId: uuid!, $notebookId: uuid!) {
-	insert_notebook_member_one(
+	newMember: insert_notebook_member_one(
 		object: {
 			creatorId: $creatorId
 			professionalId: $professionalId

@@ -86,7 +86,7 @@
 	<div class="flex flex-col space-y-8 px-40">
 		<div class="flex flex-col space-y-2">
 			<div class="flex flex-col">
-				{#if member}
+				{#if member?.notebookModificationDate}
 					<div class="mb-2">
 						Informations mises à jour le {formatDate(member.notebookModificationDate)} par
 						{member.professional.firstname}
