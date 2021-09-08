@@ -112,4 +112,3 @@ Les migrations sont appliquées automatiquement au lancement de hasura
 ```sh
 docker-compose up --build
 ```
-plop
