@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.12.0...v1.13.0) (2021-09-08)
+
+
+### Features
+
+* add disconnect  ui and dropdown profile icon menu ([#147](https://github.com/SocialGouv/carnet-de-bord/issues/147)) ([65a3c5c](https://github.com/SocialGouv/carnet-de-bord/commit/65a3c5c78c67810bcef9bc7b94560ae1b3f09fc1))
+
 # [1.12.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.11.1...v1.12.0) (2021-09-08)
 
 
