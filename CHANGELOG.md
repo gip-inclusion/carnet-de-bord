@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.13.0...v1.13.1) (2021-09-08)
+
+
+### Bug Fixes
+
+* **logout:** use new opencomponent api ([b7e57c8](https://github.com/SocialGouv/carnet-de-bord/commit/b7e57c88996150f3fbd358c83897742081b167d4))
+
 # [1.13.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.12.0...v1.13.0) (2021-09-08)
 
 
