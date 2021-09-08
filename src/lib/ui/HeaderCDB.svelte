@@ -18,7 +18,7 @@
 	import Disconnect from './views/Disconnect.svelte';
 
 	function logout() {
-		openComponent.set(Disconnect);
+		openComponent.open({ component: Disconnect });
 	}
 </script>
 

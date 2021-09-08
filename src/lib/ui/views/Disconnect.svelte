@@ -12,7 +12,7 @@
 	}
 
 	function closeLayer() {
-		openComponent.set(null);
+		openComponent.close();
 	}
 </script>
 
