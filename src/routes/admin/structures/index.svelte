@@ -30,16 +30,18 @@
 	$: structures = $result.data?.structure;
 
 	function openStructureLayer(structure = {}) {
-		/* structure: StructureRequest; */
-		/* globalError: string | null = ''; */
-		/* fieldErrors: StructureRequest; */
-		/* disabled: boolean; */
-		/* confirmText = 'Confirmer'; */
-		/* onInput = undefined; */
-		/* disabledKeys: Record<InputItem['key'], boolean> = {}; */
 		openComponent.open({
 			component: StructureFormInfo,
-			props: { disabled: false, structure, fieldErrors: {} }
+			props: {
+				structure,
+				globalError: '',
+				fieldErrors: {},
+				confirmText: 'Enregistrer',
+				disabled: false,
+				onInput: () => {},
+				disabledKeys: {},
+				onCancel: openComponent.close
+			}
 		});
 	}
 </script>

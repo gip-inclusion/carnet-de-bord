@@ -6,12 +6,17 @@
 </script>
 
 <script lang="ts">
+	export let onCancel: () => void | null = null;
+
 	const dispatch = createEventDispatcher();
 	async function handleSubmit() {
 		dispatch('submit', {});
 	}
 
 	async function handleCancel() {
+		if (onCancel) {
+			onCancel();
+		}
 		dispatch('cancel', {});
 	}
 
@@ -56,6 +61,16 @@
 			label: 'Site internet',
 			hint: 'Ex : https://www.mission-locale.fr/crest',
 			key: 'website'
+		},
+		{
+			label: 'Siret',
+			hint: 'Ex : XXX XXX XXX XXXXX',
+			key: 'siret'
+		},
+		{
+			label: 'Description',
+			hint: 'Ex : Antenne de Crest de la Mission locale Auvergne Rhône-Alpes',
+			key: 'shortDesc'
 		}
 	];
 
