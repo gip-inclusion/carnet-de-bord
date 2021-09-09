@@ -21,7 +21,7 @@
 	import type { AccountRequest, RequestStep } from '$lib/types';
 	import { post } from '$lib/utils/post';
 
-	import { Button, Input, Select } from '$lib/ui/base';
+	import { Input, Select } from '$lib/ui/base';
 	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
 
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';

@@ -31,7 +31,7 @@
 				<Input
 					bind:val={email}
 					inputLabel="Adresse de courriel"
-					inputHint="Ex : manu@elysee.fr"
+					inputHint="Ex : paul@cdb.fr"
 					error={requestStep === 'error'
 						? "Cette adresse de courriel n'est pas rattachée à un compte existant"
 						: ''}
