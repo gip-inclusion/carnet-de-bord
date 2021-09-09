@@ -1,0 +1,7 @@
+mutation UpdateStructure($id: uuid, $name: String) {
+	structure: update_structure(_set: { name: $name }, where: { id: { _eq: $id } }) {
+		returning {
+			name
+		}
+	}
+}

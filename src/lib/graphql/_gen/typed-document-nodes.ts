@@ -2410,6 +2410,7 @@ export type Structure = {
 	professionals_aggregate: ProfessionalAggregate;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** columns and relationships of "structure" */
@@ -2469,6 +2470,7 @@ export type StructureBoolExp = {
 	professionals?: Maybe<ProfessionalBoolExp>;
 	shortDesc?: Maybe<StringComparisonExp>;
 	siret?: Maybe<StringComparisonExp>;
+	website?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "structure" */
@@ -2492,6 +2494,7 @@ export type StructureInsertInput = {
 	professionals?: Maybe<ProfessionalArrRelInsertInput>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -2509,6 +2512,7 @@ export type StructureMaxFields = {
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -2526,6 +2530,7 @@ export type StructureMinFields = {
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "structure" */
@@ -2566,6 +2571,7 @@ export type StructureOrderBy = {
 	professionals_aggregate?: Maybe<ProfessionalAggregateOrderBy>;
 	shortDesc?: Maybe<OrderBy>;
 	siret?: Maybe<OrderBy>;
+	website?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: structure */
@@ -2598,7 +2604,9 @@ export enum StructureSelectColumn {
 	/** column name */
 	ShortDesc = 'shortDesc',
 	/** column name */
-	Siret = 'siret'
+	Siret = 'siret',
+	/** column name */
+	Website = 'website'
 }
 
 /** input type for updating data in table "structure" */
@@ -2615,6 +2623,7 @@ export type StructureSetInput = {
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "structure" */
@@ -2642,7 +2651,9 @@ export enum StructureUpdateColumn {
 	/** column name */
 	ShortDesc = 'shortDesc',
 	/** column name */
-	Siret = 'siret'
+	Siret = 'siret',
+	/** column name */
+	Website = 'website'
 }
 
 export type SubscriptionRoot = {
@@ -2918,6 +2929,28 @@ export type SearchProfessionalQuery = {
 		__typename?: 'professional_aggregate';
 		aggregate?: Maybe<{ __typename?: 'professional_aggregate_fields'; count: number }>;
 	};
+};
+
+export type InsertStructureMutationVariables = Exact<{
+	name?: Maybe<Scalars['String']>;
+}>;
+
+export type InsertStructureMutation = {
+	__typename?: 'mutation_root';
+	structure?: Maybe<{ __typename?: 'structure'; name?: Maybe<string> }>;
+};
+
+export type UpdateStructureMutationVariables = Exact<{
+	id?: Maybe<Scalars['uuid']>;
+	name?: Maybe<Scalars['String']>;
+}>;
+
+export type UpdateStructureMutation = {
+	__typename?: 'mutation_root';
+	structure?: Maybe<{
+		__typename?: 'structure_mutation_response';
+		returning: Array<{ __typename?: 'structure'; name?: Maybe<string> }>;
+	}>;
 };
 
 export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
@@ -3608,6 +3641,137 @@ export const SearchProfessionalDocument = {
 		}
 	]
 } as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
+export const InsertStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'InsertStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
+						name: { kind: 'Name', value: 'insert_structure_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'name' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<InsertStructureMutation, InsertStructureMutationVariables>;
+export const UpdateStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
+						name: { kind: 'Name', value: 'update_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'name' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<UpdateStructureMutation, UpdateStructureMutationVariables>;
 export const GetAccountsSummaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4964,6 +5128,14 @@ export type AddNotebookMemberMutationStore = OperationStore<
 export type SearchProfessionalQueryStore = OperationStore<
 	SearchProfessionalQuery,
 	SearchProfessionalQueryVariables
+>;
+export type InsertStructureMutationStore = OperationStore<
+	InsertStructureMutation,
+	InsertStructureMutationVariables
+>;
+export type UpdateStructureMutationStore = OperationStore<
+	UpdateStructureMutation,
+	UpdateStructureMutationVariables
 >;
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,

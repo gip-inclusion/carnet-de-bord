@@ -1,0 +1,5 @@
+mutation InsertStructure($name: String) {
+  structure: insert_structure_one(object: {name: $name}) {
+    name
+  }
+}
