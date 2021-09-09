@@ -21,7 +21,8 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	/* const handleInput: svelte.JSX.EventHandler<Event, HTMLInputElement> = (event) => { */
-	const handleInput: (event: any) => void = (event) => {
+	type EventHandler = (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => void;
+	const handleInput: EventHandler = (event) => {
 		dispatch('input', { value: event.currentTarget.value });
 	};
 </script>
