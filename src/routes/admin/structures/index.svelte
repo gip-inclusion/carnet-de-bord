@@ -38,7 +38,9 @@
 				fieldErrors: {},
 				confirmText: 'Enregistrer',
 				disabled: false,
-				onInput: () => {},
+				onInput: () => {
+					/* ignore */
+				},
 				disabledKeys: {},
 				onCancel: openComponent.close
 			}
