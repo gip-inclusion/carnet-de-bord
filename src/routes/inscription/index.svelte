@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import { contactEmail } from '$lib/constants';
 	import type { GetStructuresQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetStructuresDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
@@ -113,6 +114,7 @@
 							bind:val={search}
 							inputHint="Ex : Mission locale Vallée de la Drôme"
 							inputLabel="Filtrer les structures"
+							additionalLabel=" "
 						/>
 					</div>
 					<div class="w-full">
@@ -121,6 +123,7 @@
 							{options}
 							bind:selected={structure}
 							selectHint="Choisissez votre structure dans la liste"
+							additionalLabel={`Si vous ne trouvez pas votre structure, veuillez <a href='mailto:${contactEmail}'>nous contacter</a>.`}
 						/>
 					</div>
 				</div>
