@@ -22,22 +22,27 @@
 <script lang="ts">
 	import { Button } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
+	import type { Structure } from '$lib/types';
 
 	export let result: OperationStore<GetStructuresQuery>;
 
 	query(result);
 
-	$: structures = $result.data?.structure;
+	$: structures = $result.data?.structure.map(({ __typename, ...rest }) => ({ ...rest }));
 
-	function openStructureLayer(structure = {}) {
+	function isValid(_s: Structure | null) {
+		return true;
+	}
+
+	function openStructureLayer(structure: Structure | null) {
 		openComponent.open({
 			component: StructureFormInfo,
 			props: {
-				structure,
+				structure: structure || {},
+				structureId: structure ? structure.id : null,
 				globalError: '',
 				fieldErrors: {},
 				confirmText: 'Enregistrer',
-				disabled: false,
 				onInput: () => {
 					/* ignore */
 				},
@@ -54,7 +59,7 @@
 			<h2 class="fr-h4 pt-4">Liste des structures</h2>
 			<div class="flex flex-column flex-wrap justify-between gap-2">
 				<div class="w-full">
-					<Button classNames="float-right" on:click={() => openStructureLayer()} outline={true}
+					<Button classNames="float-right" on:click={() => openStructureLayer(null)} outline={true}
 						>Ajouter une structure</Button
 					>
 				</div>
@@ -62,24 +67,29 @@
 					<div class="flex gap-2 p-3 border-2 border-information w-full">
 						<div class="flex-column">
 							<div class="text-information">Nom</div>
-							<Text value={structure.name} />
+							<Text defaultValue={'-'} value={structure.name} />
 						</div>
 
 						<div class="flex-column">
 							<div class="text-information">Contact</div>
-							<Text value={structure.email} />
-							<Text value={structure.phone} />
+							<Text defaultValue={'-'} value={structure.email} />
+							<Text defaultValue={'-'} value={structure.phone} />
 						</div>
 
 						<div class="flex-column">
 							<div class="text-information">Ville</div>
 							<div class="flex flex-row">
-								<Text value={structure.address1} />
-								<Text value={structure.address2} />
+								<Text defaultValue={'-'} value={structure.address1} />
+								<Text defaultValue={''} value={structure.address2} />
 							</div>
 							<div class="flex flex-row">
-								<Text value={structure.postalCode} />
-								<Text value={structure.city} />
+								{#if !structure.postalCode && !structure.city}
+									-
+								{:else}
+									<Text defaultValue={''} value={structure.postalCode} />
+									{#if structure.postalCode && structure.city}{' '}{/if}
+									<Text defaultValue={''} value={structure.city} />
+								{/if}
 							</div>
 						</div>
 						<div class="flex-grow" />

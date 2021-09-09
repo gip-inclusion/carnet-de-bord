@@ -1,18 +1,18 @@
 mutation UpdateStructure(
-	$id: uuid
-	$name: String!
-	$phone: String!
-	$email: String!
-	$address1: String!
-	$address2: String!
-	$postalCode: String!
-	$city: String!
-	$website: String!
-	$siret: String!
-	$shortDesc: String!
+	$id: uuid!
+	$name: String
+	$phone: String
+	$email: String
+	$address1: String
+	$address2: String
+	$postalCode: String
+	$city: String
+	$website: String
+	$siret: String
+	$shortDesc: String
 ) {
-	structure: update_structure(
-		where: { id: { _eq: $id } }
+	structure: update_structure_by_pk(
+		pk_columns: { id: $id }
 		_set: {
 			name: $name
 			phone: $phone
@@ -26,18 +26,16 @@ mutation UpdateStructure(
 			shortDesc: $shortDesc
 		}
 	) {
-		returning {
-			id
-			name
-			phone
-			email
-			address1
-			address2
-			postalCode
-			city
-			website
-			siret
-			shortDesc
-		}
+		id
+		name
+		phone
+		email
+		address1
+		address2
+		postalCode
+		city
+		website
+		siret
+		shortDesc
 	}
 }

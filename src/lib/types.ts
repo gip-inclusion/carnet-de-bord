@@ -12,7 +12,7 @@ export interface AccountRequest {
 	username?: string;
 }
 
-export type Structure = StructureRequest & Record<string, never>;
+export type Structure = StructureRequest & { id: string };
 
 export type StructureRequest = {
 	name?: string;

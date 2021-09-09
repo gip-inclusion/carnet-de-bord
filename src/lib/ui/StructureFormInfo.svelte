@@ -1,24 +1,13 @@
 <script context="module" lang="ts">
+	import {
+		InsertStructureDocument,
+		UpdateStructureDocument
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { StructureRequest, InputItem } from '$lib/types';
 	import { Button, Input } from '$lib/ui/base';
 	import { default as deepEqual } from 'fast-deep-equal';
 	import { createEventDispatcher } from 'svelte';
-</script>
-
-<script lang="ts">
-	export let onCancel: () => void | null = null;
-
-	const dispatch = createEventDispatcher();
-	async function handleSubmit() {
-		dispatch('submit', {});
-	}
-
-	async function handleCancel() {
-		if (onCancel) {
-			onCancel();
-		}
-		dispatch('cancel', {});
-	}
+	import { operationStore, mutation } from '@urql/svelte';
 
 	let inputs: InputItem[] = [
 		{
@@ -73,23 +62,50 @@
 			key: 'shortDesc'
 		}
 	];
+</script>
 
+<script lang="ts">
 	export let structure: StructureRequest;
 	export let globalError: string | null = '';
 	export let fieldErrors: StructureRequest;
-	export let disabled: boolean;
 	export let confirmText = 'Confirmer';
 	export let onInput = undefined;
+	export let onCancel: () => void | null = null;
 	export let disabledKeys: Record<InputItem['key'], boolean> = {};
-	let isNew = Object.keys(structure).length === 0;
+	export let structureId: string | null = null;
 
 	let originalStructure = { ...structure };
 
 	$: untouched = deepEqual(structure, originalStructure);
+	$: isValid = validateStructure(structure);
+
+	const dispatch = createEventDispatcher();
+
+	function validateStructure(_struct: StructureRequest) {
+		return true;
+	}
+
+	async function handleSubmit() {
+		if (structureId) {
+			mutation(operationStore(UpdateStructureDocument))({ ...structure, id: structureId });
+		} else {
+			mutation(operationStore(InsertStructureDocument))({ ...structure });
+		}
+		dispatch('submit', { structure });
+	}
+
+	async function handleCancel() {
+		if (onCancel) {
+			onCancel();
+		}
+		dispatch('cancel', {});
+	}
 </script>
 
 <div class="w-full">
-	<h2 class="bf-500 fr-h4 pt-8 px-8">{isNew ? 'Création' : 'Modification'} d'une structure</h2>
+	<h2 class="bf-500 fr-h4 pt-8 px-8">
+		{structureId ? 'Création' : 'Modification'} d'une structure
+	</h2>
 	<form class="w-full px-8 pb-8" on:submit|preventDefault={handleSubmit}>
 		{#each inputs as input (input.key)}
 			<Input
@@ -106,7 +122,7 @@
 			<div class="text-error">{globalError}</div>
 		{/if}
 		<div class="flex flex-row gap-2 mt-12">
-			<Button type="submit" disabled={disabled || untouched}>{confirmText}</Button>
+			<Button type="submit" disabled={isValid || untouched}>{confirmText}</Button>
 			<Button outline={true} on:click={handleCancel}>Annuler</Button>
 		</div>
 	</form>

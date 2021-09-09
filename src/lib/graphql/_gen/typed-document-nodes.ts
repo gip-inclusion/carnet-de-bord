@@ -2932,16 +2932,16 @@ export type SearchProfessionalQuery = {
 };
 
 export type InsertStructureMutationVariables = Exact<{
-	name: Scalars['String'];
-	phone: Scalars['String'];
-	email: Scalars['String'];
-	address1: Scalars['String'];
-	address2: Scalars['String'];
-	postalCode: Scalars['String'];
-	city: Scalars['String'];
-	website: Scalars['String'];
-	siret: Scalars['String'];
-	shortDesc: Scalars['String'];
+	name?: Maybe<Scalars['String']>;
+	phone?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
+	siret?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
 }>;
 
 export type InsertStructureMutation = {
@@ -2963,37 +2963,34 @@ export type InsertStructureMutation = {
 };
 
 export type UpdateStructureMutationVariables = Exact<{
-	id?: Maybe<Scalars['uuid']>;
-	name: Scalars['String'];
-	phone: Scalars['String'];
-	email: Scalars['String'];
-	address1: Scalars['String'];
-	address2: Scalars['String'];
-	postalCode: Scalars['String'];
-	city: Scalars['String'];
-	website: Scalars['String'];
-	siret: Scalars['String'];
-	shortDesc: Scalars['String'];
+	id: Scalars['uuid'];
+	name?: Maybe<Scalars['String']>;
+	phone?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
+	siret?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
 }>;
 
 export type UpdateStructureMutation = {
 	__typename?: 'mutation_root';
 	structure?: Maybe<{
-		__typename?: 'structure_mutation_response';
-		returning: Array<{
-			__typename?: 'structure';
-			id: any;
-			name?: Maybe<string>;
-			phone?: Maybe<string>;
-			email?: Maybe<string>;
-			address1?: Maybe<string>;
-			address2?: Maybe<string>;
-			postalCode?: Maybe<string>;
-			city?: Maybe<string>;
-			website?: Maybe<string>;
-			siret?: Maybe<string>;
-			shortDesc?: Maybe<string>;
-		}>;
+		__typename?: 'structure';
+		id: any;
+		name?: Maybe<string>;
+		phone?: Maybe<string>;
+		email?: Maybe<string>;
+		address1?: Maybe<string>;
+		address2?: Maybe<string>;
+		postalCode?: Maybe<string>;
+		city?: Maybe<string>;
+		website?: Maybe<string>;
+		siret?: Maybe<string>;
+		shortDesc?: Maybe<string>;
 	}>;
 };
 
@@ -3696,82 +3693,52 @@ export const InsertStructureDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				}
 			],
 			selectionSet: {
@@ -3875,87 +3842,60 @@ export const UpdateStructureDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				}
 			],
 			selectionSet: {
@@ -3964,27 +3904,18 @@ export const UpdateStructureDocument = {
 					{
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'structure' },
-						name: { kind: 'Name', value: 'update_structure' },
+						name: { kind: 'Name', value: 'update_structure_by_pk' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
+								name: { kind: 'Name', value: 'pk_columns' },
 								value: {
 									kind: 'ObjectValue',
 									fields: [
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'id' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-													}
-												]
-											}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
 										}
 									]
 								}
@@ -4052,26 +3983,17 @@ export const UpdateStructureDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'returning' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } }
-										]
-									}
-								}
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } }
 							]
 						}
 					}
