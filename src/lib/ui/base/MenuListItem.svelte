@@ -9,7 +9,7 @@
 	let internalItemKey = {};
 
 	let item: HTMLButtonElement | HTMLAnchorElement;
-	export function focus() {
+	export function focus(): void {
 		item.focus();
 	}
 	const dispatch = createEventDispatcher();
