@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.13.1...v1.14.0) (2021-09-09)
+
+
+### Features
+
+* handle url target in access link ([#158](https://github.com/SocialGouv/carnet-de-bord/issues/158)) ([761f2f8](https://github.com/SocialGouv/carnet-de-bord/commit/761f2f825e1272640ae74dfb6ab3e75beca6c56e))
+
 ## [1.13.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.13.0...v1.13.1) (2021-09-08)
 
 
