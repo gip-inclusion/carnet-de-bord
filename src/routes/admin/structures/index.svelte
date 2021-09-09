@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-	import { Button } from '$lib/ui/base';
+	import { Button, SearchBar } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import type { Structure } from '$lib/types';
 
@@ -47,19 +47,55 @@
 			}
 		});
 	}
+
+	let search = '';
+	function handleSubmit() {
+		console.log('search');
+	}
+
+	const match = (needle: string) => {
+		const needleLower = needle.toLowerCase();
+		return (haystack: string) => haystack && haystack.toLowerCase().includes(needleLower);
+	};
+
+	let filteredStructures = [];
+	$: {
+		const matcher = match(search);
+		filteredStructures = structures?.filter(
+			({ name, city, postalCode, email, phone, siret }) =>
+				!search ||
+				matcher(name) ||
+				matcher(city) ||
+				matcher(postalCode) ||
+				matcher(email) ||
+				matcher(phone) ||
+				matcher(siret)
+		);
+	}
 </script>
 
 <div class="flex flex-col gap-8 px-40">
 	<LoaderIndicator {result}>
 		<div>
 			<h2 class="fr-h4 pt-4">Liste des structures</h2>
+
+			<div class="mb-4">
+				<SearchBar
+					inputLabel="Rechercher une structure"
+					inputHint="Ex : Nom, ville"
+					btnLabel="Rechercher"
+					bind:search
+					btnDisabled={!search}
+					{handleSubmit}
+				/>
+			</div>
 			<div class="flex flex-column flex-wrap justify-between gap-2">
 				<div class="w-full">
 					<Button classNames="float-right" on:click={() => openStructureLayer(null)} outline={true}
 						>Ajouter une structure</Button
 					>
 				</div>
-				{#each structures as structure (structure.id)}
+				{#each filteredStructures as structure (structure.id)}
 					<div class="flex gap-2 p-3 border-2 border-information w-full">
 						<div class="flex-column">
 							<div class="text-information">Nom</div>
