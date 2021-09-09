@@ -50,16 +50,6 @@
 
 	let search = '';
 	function handleSubmit() {
-		console.log('search');
-	}
-
-	const match = (needle: string) => {
-		const needleLower = needle.toLowerCase();
-		return (haystack: string) => haystack && haystack.toLowerCase().includes(needleLower);
-	};
-
-	let filteredStructures = [];
-	$: {
 		const matcher = match(search);
 		filteredStructures = structures?.filter(
 			({ name, city, postalCode, email, phone, siret }) =>
@@ -72,6 +62,13 @@
 				matcher(siret)
 		);
 	}
+
+	const match = (needle: string) => {
+		const needleLower = needle.toLowerCase();
+		return (haystack: string) => haystack && haystack.toLowerCase().includes(needleLower);
+	};
+
+	$: filteredStructures = structures;
 </script>
 
 <div class="flex flex-col gap-8 px-40">
@@ -85,7 +82,6 @@
 					inputHint="Ex : Nom, ville"
 					btnLabel="Rechercher"
 					bind:search
-					btnDisabled={!search}
 					{handleSubmit}
 				/>
 			</div>
