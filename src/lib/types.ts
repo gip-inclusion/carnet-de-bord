@@ -12,12 +12,9 @@ export interface AccountRequest {
 	username?: string;
 }
 
-export type Structure = StructureRequest & {
-	siret?: string;
-	shortDesc?: string;
-};
+export type Structure = StructureRequest & Record<string, never>;
 
-export interface StructureRequest {
+export type StructureRequest = {
 	name?: string;
 	phone?: string;
 	email?: string;
@@ -26,7 +23,9 @@ export interface StructureRequest {
 	postalCode?: string;
 	city?: string;
 	website?: string;
-}
+	siret?: string;
+	shortDesc?: string;
+};
 
 export interface InputItem {
 	hint: string;
