@@ -33,7 +33,7 @@
 	}`}
 >
 	<label class="fr-label" for={uniqueId}>
-		{inputLabel}
+		{inputLabel}{required ? '*' : ''}
 		{#if additionalLabel}
 			<span
 				class="fr-hint-text"

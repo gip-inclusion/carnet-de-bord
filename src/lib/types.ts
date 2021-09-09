@@ -32,6 +32,7 @@ export interface InputItem {
 	label: string;
 	key: string;
 	type?: InputType;
+	required?: boolean;
 }
 
 export interface LabelValue {

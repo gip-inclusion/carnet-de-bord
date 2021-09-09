@@ -13,6 +13,7 @@
 		{
 			label: 'Nom',
 			hint: 'Ex : Mission locale de Crest',
+			required: true,
 			key: 'name'
 		},
 		{
