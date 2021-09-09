@@ -2,9 +2,11 @@
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 	export async function load({ page }: LoadInput): Promise<LoadOutput> {
 		const accessKey = page.params.uuid;
+		const url = page.query.get('url');
 		return {
 			props: {
-				accessKey
+				accessKey,
+				url
 			}
 		};
 	}
@@ -14,8 +16,11 @@
 	import { goto } from '$app/navigation';
 
 	import { onMount } from 'svelte';
+	import jwtDecode from 'jwt-decode';
+	import { session } from '$app/stores';
 
 	export let accessKey: string;
+	export let url: string;
 	export let displayError: boolean;
 
 	onMount(async () => {
@@ -30,7 +35,11 @@
 			})
 		});
 		if (response.status === 200) {
-			goto('/');
+			const { jwt } = await response.json();
+			const user = jwtDecode(jwt);
+			$session.user = user;
+			$session.token = jwt;
+			goto(url ? url : '/');
 		} else {
 			displayError = true;
 		}

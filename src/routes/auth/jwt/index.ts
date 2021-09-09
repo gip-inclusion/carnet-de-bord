@@ -42,7 +42,9 @@ export const post: RequestHandler = async (request) => {
 		headers: {
 			'set-cookie': `jwt=${user.token}; Path=/; HttpOnly`
 		},
-		body: {},
+		body: {
+			jwt: user.token
+		},
 		status: 200
 	};
 };
