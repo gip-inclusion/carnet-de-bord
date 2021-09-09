@@ -127,18 +127,6 @@
 						/>
 					</div>
 				</div>
-				<div class="mt-6">
-					<div class="float-right">
-						<Button
-							on:click={() => {
-								goto('/structure/creation');
-							}}
-							outline={true}
-						>
-							Soumettre une nouvelle structure
-						</Button>
-					</div>
-				</div>
 				<!-- end @TODO -->
 			</div>
 			{#if structure}
