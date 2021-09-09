@@ -66,32 +66,36 @@
 	export let confirmText = 'Confirmer';
 	export let onInput = undefined;
 	export let disabledKeys: Record<InputItem['key'], boolean> = {};
+	let isNew = Object.keys(structure).length === 0;
 
 	let originalStructure = { ...structure };
 
 	$: untouched = deepEqual(structure, originalStructure);
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
-	{#each inputs as input (input.key)}
-		<Input
-			bind:val={structure[input.key]}
-			inputHint={input.hint}
-			inputLabel={input.label}
-			error={fieldErrors[input.key]}
-			on:input={onInput}
-			disabled={disabledKeys[input.key]}
-			type={input.type}
-		/>
-	{/each}
-	{#if globalError}
-		<div class="text-error">{globalError}</div>
-	{/if}
-	<div class="flex flex-row gap-2 mt-12">
-		<Button type="submit" disabled={disabled || untouched}>{confirmText}</Button>
-		<Button outline={true} on:click={handleCancel}>Annuler</Button>
-	</div>
-</form>
+<div class="w-full">
+	<h2 class="bf-500 fr-h4 pt-8 px-8">{isNew ? 'Création' : 'Modification'} d'une structure</h2>
+	<form class="w-full px-8 pb-8" on:submit|preventDefault={handleSubmit}>
+		{#each inputs as input (input.key)}
+			<Input
+				bind:val={structure[input.key]}
+				inputHint={input.hint}
+				inputLabel={input.label}
+				error={fieldErrors[input.key]}
+				on:input={onInput}
+				disabled={disabledKeys[input.key]}
+				type={input.type}
+			/>
+		{/each}
+		{#if globalError}
+			<div class="text-error">{globalError}</div>
+		{/if}
+		<div class="flex flex-row gap-2 mt-12">
+			<Button type="submit" disabled={disabled || untouched}>{confirmText}</Button>
+			<Button outline={true} on:click={handleCancel}>Annuler</Button>
+		</div>
+	</form>
+</div>
 
 <style lang="postcss">
 	.text-error {

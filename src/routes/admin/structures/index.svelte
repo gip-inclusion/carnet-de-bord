@@ -5,6 +5,8 @@
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import { openComponent } from '$lib/stores';
+	import StructureFormInfo from '$lib/ui/StructureFormInfo.svelte';
 
 	export const load: Load = async () => {
 		const result = operationStore(GetStructuresDocument, {});
@@ -18,6 +20,7 @@
 </script>
 
 <script lang="ts">
+	import { Button } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 
 	export let result: OperationStore<GetStructuresQuery>;
@@ -25,6 +28,20 @@
 	query(result);
 
 	$: structures = $result.data?.structure;
+
+	function openStructureLayer(structure = {}) {
+		/* structure: StructureRequest; */
+		/* globalError: string | null = ''; */
+		/* fieldErrors: StructureRequest; */
+		/* disabled: boolean; */
+		/* confirmText = 'Confirmer'; */
+		/* onInput = undefined; */
+		/* disabledKeys: Record<InputItem['key'], boolean> = {}; */
+		openComponent.open({
+			component: StructureFormInfo,
+			props: { disabled: false, structure, fieldErrors: {} }
+		});
+	}
 </script>
 
 <div class="flex flex-col gap-8 px-40">
@@ -32,6 +49,11 @@
 		<div>
 			<h2 class="fr-h4 pt-4">Liste des structures</h2>
 			<div class="flex flex-column flex-wrap justify-between gap-2">
+				<div class="w-full">
+					<Button classNames="float-right" on:click={() => openStructureLayer()} outline={true}
+						>Ajouter une structure</Button
+					>
+				</div>
 				{#each structures as structure (structure.id)}
 					<div class="flex gap-2 p-3 border-2 border-information w-full">
 						<div class="flex-column">
@@ -55,6 +77,14 @@
 								<Text value={structure.postalCode} />
 								<Text value={structure.city} />
 							</div>
+						</div>
+						<div class="flex-grow" />
+						<div class="self-center">
+							<Button
+								on:click={() => openStructureLayer(structure)}
+								outline={true}
+								icon="ri-edit-line"
+							/>
 						</div>
 					</div>
 				{/each}
