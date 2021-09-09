@@ -30,10 +30,6 @@
 
 	$: structures = $result.data?.structure.map(({ __typename, ...rest }) => ({ ...rest }));
 
-	function isValid(_s: Structure | null) {
-		return true;
-	}
-
 	function openStructureLayer(structure: Structure | null) {
 		openComponent.open({
 			component: StructureFormInfo,

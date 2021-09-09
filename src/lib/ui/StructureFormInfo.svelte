@@ -82,8 +82,8 @@
 
 	const dispatch = createEventDispatcher();
 
-	function validateStructure(_struct: StructureRequest) {
-		return true;
+	function validateStructure({ name }: StructureRequest) {
+		return Boolean(name);
 	}
 
 	async function handleSubmit() {
@@ -123,7 +123,7 @@
 			<div class="text-error">{globalError}</div>
 		{/if}
 		<div class="flex flex-row gap-2 mt-12">
-			<Button type="submit" disabled={isValid || untouched}>{confirmText}</Button>
+			<Button type="submit" disabled={!isValid || untouched}>{confirmText}</Button>
 			<Button outline={true} on:click={handleCancel}>Annuler</Button>
 		</div>
 	</form>
