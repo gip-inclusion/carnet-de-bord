@@ -1,5 +1,4 @@
 <script lang="ts">
-	console.log('here!');
 	import type { OpenComponentStore } from '$lib/stores';
 	export let openComponent: OpenComponentStore = null;
 

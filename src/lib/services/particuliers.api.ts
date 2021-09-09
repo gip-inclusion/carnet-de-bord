@@ -107,7 +107,6 @@ export const requestPEUser = async (
 		if (response.status === 200) {
 			return response.json();
 		}
-		console.log(response);
 		throw new Error('Impossible de se connecter au service demandé.');
 	});
 };

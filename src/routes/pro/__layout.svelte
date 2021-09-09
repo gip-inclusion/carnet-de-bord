@@ -32,10 +32,6 @@
 
 	query(result);
 
-	const close = () => {
-		openComponent.close();
-	};
-
 	result.subscribe((result) => {
 		if (result.data) {
 			const acc = result.data.account_by_pk;

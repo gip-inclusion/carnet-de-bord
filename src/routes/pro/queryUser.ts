@@ -100,7 +100,6 @@ export const post: RequestHandler = async (request) => {
 		} else if (service === 'PE') {
 			users = await getPEUsers(data);
 		}
-		console.log(users);
 	} catch (err) {
 		return {
 			status: 400,
