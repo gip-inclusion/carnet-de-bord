@@ -5,9 +5,13 @@
 </script>
 
 {#if $result.fetching}
-	<p>Chargement en cours...</p>
+	<div class="flex items-center justify-center">
+		<p>Chargement en cours...</p>
+	</div>
 {:else if $result.error}
-	<p>Une erreur s'est produite : {$result.error.message}</p>
+	<div class="flex items-center justify-center">
+		<p>Une erreur s'est produite : {$result.error.message}</p>
+	</div>
 {:else}
 	<slot />
 {/if}

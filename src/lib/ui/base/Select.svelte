@@ -32,7 +32,7 @@
 			{selectLabel}
 			{#if additionalLabel}
 				<span class="fr-hint-text">
-					{additionalLabel}
+					{@html additionalLabel}
 				</span>
 			{/if}
 		</label>

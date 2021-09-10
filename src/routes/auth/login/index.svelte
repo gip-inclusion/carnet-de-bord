@@ -42,7 +42,7 @@
 				<Input
 					bind:val={username}
 					inputLabel="Identifiant"
-					inputHint="Ex : Manu"
+					inputHint="Ex : Paul"
 					error={requestStep === 'error'
 						? "Ce nom d'utilisateur n'est pas rattaché à un compte existant"
 						: ''}

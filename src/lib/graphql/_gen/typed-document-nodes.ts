@@ -2410,6 +2410,7 @@ export type Structure = {
 	professionals_aggregate: ProfessionalAggregate;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** columns and relationships of "structure" */
@@ -2469,6 +2470,7 @@ export type StructureBoolExp = {
 	professionals?: Maybe<ProfessionalBoolExp>;
 	shortDesc?: Maybe<StringComparisonExp>;
 	siret?: Maybe<StringComparisonExp>;
+	website?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "structure" */
@@ -2492,6 +2494,7 @@ export type StructureInsertInput = {
 	professionals?: Maybe<ProfessionalArrRelInsertInput>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -2509,6 +2512,7 @@ export type StructureMaxFields = {
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -2526,6 +2530,7 @@ export type StructureMinFields = {
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "structure" */
@@ -2566,6 +2571,7 @@ export type StructureOrderBy = {
 	professionals_aggregate?: Maybe<ProfessionalAggregateOrderBy>;
 	shortDesc?: Maybe<OrderBy>;
 	siret?: Maybe<OrderBy>;
+	website?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: structure */
@@ -2598,7 +2604,9 @@ export enum StructureSelectColumn {
 	/** column name */
 	ShortDesc = 'shortDesc',
 	/** column name */
-	Siret = 'siret'
+	Siret = 'siret',
+	/** column name */
+	Website = 'website'
 }
 
 /** input type for updating data in table "structure" */
@@ -2615,6 +2623,7 @@ export type StructureSetInput = {
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "structure" */
@@ -2642,7 +2651,9 @@ export enum StructureUpdateColumn {
 	/** column name */
 	ShortDesc = 'shortDesc',
 	/** column name */
-	Siret = 'siret'
+	Siret = 'siret',
+	/** column name */
+	Website = 'website'
 }
 
 export type SubscriptionRoot = {
@@ -2920,6 +2931,84 @@ export type SearchProfessionalQuery = {
 	};
 };
 
+export type InsertStructureMutationVariables = Exact<{
+	name?: Maybe<Scalars['String']>;
+	phone?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
+	siret?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
+}>;
+
+export type InsertStructureMutation = {
+	__typename?: 'mutation_root';
+	structure?: Maybe<{
+		__typename?: 'structure';
+		id: any;
+		name?: Maybe<string>;
+		phone?: Maybe<string>;
+		email?: Maybe<string>;
+		address1?: Maybe<string>;
+		address2?: Maybe<string>;
+		postalCode?: Maybe<string>;
+		city?: Maybe<string>;
+		website?: Maybe<string>;
+		siret?: Maybe<string>;
+		shortDesc?: Maybe<string>;
+	}>;
+};
+
+export type UpdateStructureMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	name?: Maybe<Scalars['String']>;
+	phone?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
+	siret?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
+}>;
+
+export type UpdateStructureMutation = {
+	__typename?: 'mutation_root';
+	structure?: Maybe<{
+		__typename?: 'structure';
+		id: any;
+		name?: Maybe<string>;
+		phone?: Maybe<string>;
+		email?: Maybe<string>;
+		address1?: Maybe<string>;
+		address2?: Maybe<string>;
+		postalCode?: Maybe<string>;
+		city?: Maybe<string>;
+		website?: Maybe<string>;
+		siret?: Maybe<string>;
+		shortDesc?: Maybe<string>;
+	}>;
+};
+
+export type StructureFieldsFragment = {
+	__typename?: 'structure';
+	id: any;
+	name?: Maybe<string>;
+	phone?: Maybe<string>;
+	email?: Maybe<string>;
+	address1?: Maybe<string>;
+	address2?: Maybe<string>;
+	postalCode?: Maybe<string>;
+	city?: Maybe<string>;
+	website?: Maybe<string>;
+	siret?: Maybe<string>;
+	shortDesc?: Maybe<string>;
+};
+
 export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAccountsSummaryQuery = {
@@ -3172,6 +3261,32 @@ export type UpdateProfessionalProfileMutation = {
 	}>;
 };
 
+export const StructureFieldsFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'structureFields' },
+			typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'structure' } },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<StructureFieldsFragment, unknown>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -3608,6 +3723,308 @@ export const SearchProfessionalDocument = {
 		}
 	]
 } as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
+export const InsertStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'InsertStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
+						name: { kind: 'Name', value: 'insert_structure_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'name' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'phone' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address1' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address2' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'postalCode' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'city' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'website' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'siret' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'shortDesc' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } }
+							]
+						}
+					}
+				]
+			}
+		},
+		...StructureFieldsFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<InsertStructureMutation, InsertStructureMutationVariables>;
+export const UpdateStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
+						name: { kind: 'Name', value: 'update_structure_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'name' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'phone' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address1' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address2' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'postalCode' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'city' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'website' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'siret' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'shortDesc' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } }
+							]
+						}
+					}
+				]
+			}
+		},
+		...StructureFieldsFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<UpdateStructureMutation, UpdateStructureMutationVariables>;
 export const GetAccountsSummaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4964,6 +5381,14 @@ export type AddNotebookMemberMutationStore = OperationStore<
 export type SearchProfessionalQueryStore = OperationStore<
 	SearchProfessionalQuery,
 	SearchProfessionalQueryVariables
+>;
+export type InsertStructureMutationStore = OperationStore<
+	InsertStructureMutation,
+	InsertStructureMutationVariables
+>;
+export type UpdateStructureMutationStore = OperationStore<
+	UpdateStructureMutation,
+	UpdateStructureMutationVariables
 >;
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
