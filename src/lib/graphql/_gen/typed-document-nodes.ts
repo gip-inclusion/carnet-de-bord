@@ -2994,6 +2994,21 @@ export type UpdateStructureMutation = {
 	}>;
 };
 
+export type StructureFieldsFragment = {
+	__typename?: 'structure';
+	id: any;
+	name?: Maybe<string>;
+	phone?: Maybe<string>;
+	email?: Maybe<string>;
+	address1?: Maybe<string>;
+	address2?: Maybe<string>;
+	postalCode?: Maybe<string>;
+	city?: Maybe<string>;
+	website?: Maybe<string>;
+	siret?: Maybe<string>;
+	shortDesc?: Maybe<string>;
+};
+
 export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAccountsSummaryQuery = {
@@ -3246,6 +3261,32 @@ export type UpdateProfessionalProfileMutation = {
 	}>;
 };
 
+export const StructureFieldsFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'structureFields' },
+			typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'structure' } },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<StructureFieldsFragment, unknown>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -3812,23 +3853,14 @@ export const InsertStructureDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } }
+								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } }
 							]
 						}
 					}
 				]
 			}
-		}
+		},
+		...StructureFieldsFragmentDoc.definitions
 	]
 } as unknown as DocumentNode<InsertStructureMutation, InsertStructureMutationVariables>;
 export const UpdateStructureDocument = {
@@ -3983,23 +4015,14 @@ export const UpdateStructureDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } }
+								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } }
 							]
 						}
 					}
 				]
 			}
-		}
+		},
+		...StructureFieldsFragmentDoc.definitions
 	]
 } as unknown as DocumentNode<UpdateStructureMutation, UpdateStructureMutationVariables>;
 export const GetAccountsSummaryDocument = {

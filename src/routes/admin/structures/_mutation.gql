@@ -24,17 +24,7 @@ mutation InsertStructure(
 			shortDesc: $shortDesc
 		}
 	) {
-		id
-		name
-		phone
-		email
-		address1
-		address2
-		postalCode
-		city
-		website
-		siret
-		shortDesc
+		...structureFields
 	}
 }
 
@@ -66,16 +56,20 @@ mutation UpdateStructure(
 			shortDesc: $shortDesc
 		}
 	) {
-		id
-		name
-		phone
-		email
-		address1
-		address2
-		postalCode
-		city
-		website
-		siret
-		shortDesc
+		...structureFields
 	}
+}
+
+fragment structureFields on structure {
+	id
+	name
+	phone
+	email
+	address1
+	address2
+	postalCode
+	city
+	website
+	siret
+	shortDesc
 }
