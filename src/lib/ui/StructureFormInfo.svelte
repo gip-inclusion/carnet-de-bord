@@ -86,11 +86,14 @@
 		return Boolean(name);
 	}
 
+	const updater = mutation(operationStore(UpdateStructureDocument));
+	const inserter = mutation(operationStore(InsertStructureDocument));
+
 	async function handleSubmit() {
 		if (structureId) {
-			mutation(operationStore(UpdateStructureDocument))({ ...structure, id: structureId });
+			updater({ ...structure, id: structureId });
 		} else {
-			mutation(operationStore(InsertStructureDocument))({ ...structure });
+			inserter({ ...structure });
 		}
 		dispatch('submit', { structure });
 	}
