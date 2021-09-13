@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.15.0...v1.15.1) (2021-09-13)
+
+
+### Bug Fixes
+
+* **hasura:** auto handle migration by mounting migration / metadata on docker ([#165](https://github.com/SocialGouv/carnet-de-bord/issues/165)) ([dc11f2c](https://github.com/SocialGouv/carnet-de-bord/commit/dc11f2cfcf74b085bb6b116b07fe99bed6e0b208))
+
 # [1.15.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.14.0...v1.15.0) (2021-09-13)
 
 
