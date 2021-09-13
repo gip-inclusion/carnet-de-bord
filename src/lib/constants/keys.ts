@@ -1,5 +1,23 @@
 import { buildKeys } from '$lib/utils/keysBuilder';
 
+export const focusKeys = buildKeys({
+	logement: 'Logement'
+});
+
+export const situationKeys = buildKeys({
+	sans_hebergement: 'Sans hébergement'
+});
+
+export const targetKeys = buildKeys({
+	acces_droits: 'Accès Droits',
+	recherche_logement: 'Recherche de logement'
+});
+
+export const actionKeys = buildKeys({
+	demande_domiciliation: 'Demande de domiciliation',
+	droit_logement_opposable: 'Droit au logement opposable'
+});
+
 export const cerObjectKeys = buildKeys({
 	emploi: 'Emploi',
 	formation: 'Formation',
