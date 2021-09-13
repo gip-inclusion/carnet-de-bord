@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import {
 		Beneficiary,
-		GetBenficiaryIdNotebookDocument,
-		GetBenficiaryIdNotebookQueryStore
+		GetNotebookByBeneficiaryIdDocument,
+		GetNotebookByBeneficiaryIdQueryStore
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import type { Load } from '@sveltejs/kit';
@@ -10,7 +10,7 @@
 	export const load: Load = ({ session }) => {
 		const id = session.user.beneficiaryId;
 		console.log({ id });
-		const getNotebookResult = operationStore(GetBenficiaryIdNotebookDocument, { id });
+		const getNotebookResult = operationStore(GetNotebookByBeneficiaryIdDocument, { id });
 
 		return {
 			props: {
@@ -25,16 +25,10 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button, Select } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
-	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
-	import { getLabels } from '$lib/utils/getLabels';
-	import {
-		cerObjectLabelValue,
-		rightLabelValue,
-		workSituationLabelValue
-	} from '$lib/constants/LabelValues';
+
 	import BeneficiaryInfo from '$lib/ui/beneficiary/BeneficiaryInfo.svelte';
 
-	export let getNotebookResult: GetBenficiaryIdNotebookQueryStore;
+	export let getNotebookResult: GetNotebookByBeneficiaryIdQueryStore;
 
 	query(getNotebookResult);
 
@@ -52,82 +46,11 @@
 		<BeneficiaryInfo
 			{beneficiary}
 			{notebook}
+			onEdit={() => alert('Not implemented!')}
+			onPrint={() => alert('Not implemented!')}
 			lastUpdateDate={members[0].notebookModificationDate}
 			lastUpdateFrom={members[0].professional}
 		/>
-		<div class="flex flex-col space-y-2">
-			<div class="flex flex-col">
-				<div>
-					{#if members[0]?.notebookModificationDate}
-						<div>
-							Informations mises à jour le {new Date(
-								members[0]?.notebookModificationDate
-							).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })} par
-							{displayFullName(members[0].professional)}
-						</div>
-					{/if}
-					<h1 class="fr-h2 float-left bf-500">
-						{displayFullName(beneficiary)}
-					</h1>
-					<div class="float-right align-middle">
-						<Button
-							disabled={true}
-							on:click={() => alert('Not implemented!')}
-							outline={true}
-							icon="ri-printer-line"
-						/>
-						<Button
-							disabled={true}
-							on:click={() => alert('Not implemented!')}
-							outline={true}
-							icon="ri-edit-line"
-						/>
-					</div>
-				</div>
-				<div>Né le {beneficiary.dateOfBirth}</div>
-			</div>
-			<!-- extract Infos -->
-			<div class="flex flex-row">
-				<div class="flex flex-col w-7/12 space-y-4">
-					<div class="w-full">
-						<h3 class="text-lg bf-500 mb-none">{displayMobileNumber(beneficiary)}</h3>
-						<div>{beneficiary.email}</div>
-						<div>
-							{displayFullAddress(beneficiary)}
-						</div>
-					</div>
-					<div class="w-full">
-						<h4 class="text-base mb-none">Identifiant Pôle emploi</h4>
-						<Text value={beneficiary.peNumber} />
-					</div>
-					<div class="w-full">
-						<h4 class="text-base mb-none">Identifiant CAF</h4>
-						<Text value={beneficiary.cafNumber} />
-					</div>
-				</div>
-				<div class="flex flex-col w-5/12 space-y-4">
-					<div class="flex flex-row">
-						<div class="w-full">
-							<h3 class="text-lg bf-500 mb-none">Situation</h3>
-							<Text
-								value={getLabels(notebook.workSituations, workSituationLabelValue).join(', ')}
-							/>
-						</div>
-						<div class="w-full">
-							<h3 class="text-lg bf-500 mb-none">Sujet du CER</h3>
-							<Text value={getLabels(notebook.cerObjects, cerObjectLabelValue).join(', ')} />
-						</div>
-					</div>
-					<div class="flex flex-row">
-						<div class="w-full">
-							<h3 class="text-lg bf-500 mb-none">Mes droits</h3>
-							<Text value={getLabels(notebook.rights, rightLabelValue).join(', ')} />
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- extract Infos -->
-		</div>
 		<!-- extract Groupe de suivi -->
 		<div class="flex flex-col">
 			<h2 class="fr-h4 bf-500">Groupe de suivi</h2>
