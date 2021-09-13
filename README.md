@@ -112,3 +112,9 @@ Les migrations sont appliquées automatiquement au lancement de hasura
 ```sh
 docker-compose up --build
 ```
+
+## Pratique de l'équipe
+
+Les modifications apportées au code doivent passer par des PR qui seront validées avant de pouvoir être versées dans la branche principale. On n'assigne pas forcément de relecteur, tout le monde est libre de relire la PR d'une autre personne.
+
+Dans le cas où une personne de l'équipe de dev est seule, elle peut valider sa PR elle-même pour pouvoir avancer.
