@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import type { InputType } from '$lib/types';
+	import type { InputType, SvelteEventHandler } from '$lib/types';
 
 	counter++;
 	let uniqueId = `text-input-text-${counter}`;
@@ -20,24 +20,22 @@
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	/* const handleInput: svelte.JSX.EventHandler<Event, HTMLInputElement> = (event) => { */
-	type EventHandler = (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => void;
-	const handleInput: EventHandler = (event) => {
+	const handleInput: SvelteEventHandler<HTMLInputElement> = (event) => {
 		dispatch('input', { value: event.currentTarget.value });
 	};
 </script>
 
 <div
 	{id}
-	class={`fr-input-group ${error ? 'fr-input-group--error' : ''} ${
+	class={`flex h-full flex-col fr-input-group ${error ? 'fr-input-group--error' : ''} ${
 		valid ? 'fr-input-group--valid' : ''
 	}`}
 >
-	<label class="fr-label" for={uniqueId}>
-		{inputLabel}{required ? '*' : ''}
+	<label class="fr-label flex-grow" for={uniqueId}>
+		<div>{inputLabel}{required ? '*' : ''}</div>
 		{#if additionalLabel}
 			<span
-				class="fr-hint-text"
+				class="fr-hint-text justify-self-stretch"
 				style={/* hack because the DSFR component does not colorize the hint */
 				`color: var(--${error ? 'error' : valid ? 'success' : 'g600'});`}
 			>
@@ -46,55 +44,57 @@
 		{/if}
 	</label>
 	<!-- https://github.com/sveltejs/svelte/issues/3921 -->
-	{#if type === 'text'}
-		<input
-			type="text"
-			on:input={handleInput}
-			class="fr-input"
-			placeholder={inputHint}
-			id={uniqueId}
-			name={uniqueId}
-			{required}
-			bind:value={val}
-			{disabled}
-		/>
-	{:else if type === 'password'}
-		<input
-			type="password"
-			on:input={handleInput}
-			class="fr-input"
-			placeholder={inputHint}
-			id={uniqueId}
-			name={uniqueId}
-			{required}
-			bind:value={val}
-			{disabled}
-		/>
-	{:else if type === 'number'}
-		<input
-			type="number"
-			on:input={handleInput}
-			class="fr-input"
-			placeholder={inputHint}
-			id={uniqueId}
-			name={uniqueId}
-			{required}
-			bind:value={val}
-			{disabled}
-		/>
-	{:else if type === 'email'}
-		<input
-			type="email"
-			on:input={handleInput}
-			class="fr-input"
-			placeholder={inputHint}
-			id={uniqueId}
-			name={uniqueId}
-			{required}
-			bind:value={val}
-			{disabled}
-		/>
-	{/if}
+	<div class="justify-self-end">
+		{#if type === 'text'}
+			<input
+				type="text"
+				on:input={handleInput}
+				class="fr-input"
+				placeholder={inputHint}
+				id={uniqueId}
+				name={uniqueId}
+				{required}
+				bind:value={val}
+				{disabled}
+			/>
+		{:else if type === 'password'}
+			<input
+				type="password"
+				on:input={handleInput}
+				class="fr-input"
+				placeholder={inputHint}
+				id={uniqueId}
+				name={uniqueId}
+				{required}
+				bind:value={val}
+				{disabled}
+			/>
+		{:else if type === 'number'}
+			<input
+				type="number"
+				on:input={handleInput}
+				class="fr-input"
+				placeholder={inputHint}
+				id={uniqueId}
+				name={uniqueId}
+				{required}
+				bind:value={val}
+				{disabled}
+			/>
+		{:else if type === 'email'}
+			<input
+				type="email"
+				on:input={handleInput}
+				class="fr-input"
+				placeholder={inputHint}
+				id={uniqueId}
+				name={uniqueId}
+				{required}
+				bind:value={val}
+				{disabled}
+			/>
+		{/if}
+	</div>
 
 	{#if error}
 		<p id={`text-input-error-desc-error-${uniqueId}`} class="fr-error-text" role="status">
