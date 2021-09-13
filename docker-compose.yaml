@@ -20,6 +20,9 @@ services:
       dockerfile: ./hasura/Dockerfile
     extra_hosts:
       host.docker.internal: host-gateway
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
     ports:
       - '5000:80'
     depends_on:
@@ -33,6 +36,11 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: admin
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+      HASURA_GRAPHQL_ENABLE_TELEMETRY: 'false'
+      # retry 5 times if posgres is not available
+      HASURA_GRAPHQL_NO_OF_RETRIES: 5
+      # wait for postgres to be ready during 60 second (usefull for startup)
+      HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT: 60
 
 volumes:
   cdb-pgdata:
