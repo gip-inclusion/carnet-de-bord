@@ -1,3 +1,8 @@
+TRUNCATE public.structure CASCADE; 
+TRUNCATE public.beneficiary CASCADE;
+TRUNCATE public.admin CASCADE; 
+TRUNCATE public.professional CASCADE;
+
 SET check_function_bodies = false;
 INSERT INTO public.admin (id, email, lastname, firstname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'admin@cdb.fr', 'Administrateur', 'Carnet de Bord');
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b1', 'jean.laroche@cdb.fr', 'Laroche', 'Jean', '12345', '89879', '26150', 'Die', '26 rue Camille Buffardel', NULL, '0660203040', '1982-05-12');
@@ -8,6 +13,7 @@ INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, creation_date, modification_date) VALUES ('1c52e5ad-e0b9-48b9-a490-105a4effaaea', NULL, 'Pole emploi de la Seine Saint Denis', '', '0137620956', 'contact@pe.com', NULL, 'Saint Denis', NULL, NULL, NULL, NULL);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('1a5b817b-6b81-4a4d-9953-26707a54e0e9', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'agent@poleemploi.fr', 'Emploi', 'Paul', NULL, NULL);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b3', 'a81bc81b-dead-4e5d-abff-90865d1e13b2', 'paul.vercors@cdb.fr', 'Vercors', 'Paul', 'Admin', '0660213723');
+INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('27f2ac67-c4f4-428b-93c3-31422f51658d', 'julie.doeuf', 'beneficiary', NULL, NULL, '2021-07-20 20:08:25.784+00', 'a81bc81b-dead-4e5d-abff-90865d1e13b1', NULL, NULL, true, true);
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('83012d46-fba5-4b5b-85a5-b4787cc7aaf6', 'jean.laroche', 'beneficiary', NULL, NULL, '2021-07-20 20:08:25.784+00', 'a81bc81b-dead-4e5d-abff-90865d1e13b1', NULL, NULL, false, true);
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8173-40160958a33d', 'paul.emploi', 'professional', NULL, NULL, '2021-08-23 07:59:48.689+00', NULL, 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, true, true);
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8172-40160958a33d', 'paul.vercors', 'professional', NULL, NULL, '2021-08-23 17:29:48.689+00', NULL, '1a5b817b-6b81-4a4d-9953-26707a54e0e9', NULL, true, true);
