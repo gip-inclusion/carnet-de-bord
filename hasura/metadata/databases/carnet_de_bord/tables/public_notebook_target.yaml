@@ -1,0 +1,42 @@
+table:
+  name: notebook_target
+  schema: public
+configuration:
+  custom_column_names:
+    creation_date: creationDate
+    focus_id: focusId
+  custom_root_fields: {}
+object_relationships:
+- name: focus
+  using:
+    foreign_key_constraint_on: focus_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      focus:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+    columns:
+    - id
+    - focus_id
+    - target
+    - creation_date
+  role: professional
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - focus_id
+    - target
+    - creation_date
+    filter:
+      focus:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+  role: professional

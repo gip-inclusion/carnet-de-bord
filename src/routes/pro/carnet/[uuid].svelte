@@ -34,11 +34,7 @@
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { formatDate } from '$lib/utils/date';
 	import { getLabels } from '$lib/utils/getLabels';
-	import {
-		cerObjectLabelValue,
-		rightLabelValue,
-		workSituationLabelValue
-	} from '$lib/constants/LabelValues';
+	import { cerObjectKeys, rightKeys, workSituationKeys } from '$lib/constants/keys';
 	import { openComponent } from '$lib/stores';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
@@ -138,18 +134,18 @@
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Situation</h3>
 							<Text
-								value={getLabels(notebook.workSituations, workSituationLabelValue).join(', ')}
+								value={getLabels(notebook.workSituations, workSituationKeys.options).join(', ')}
 							/>
 						</div>
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Sujet du CER</h3>
-							<Text value={getLabels(notebook.cerObjects, cerObjectLabelValue).join(', ')} />
+							<Text value={getLabels(notebook.cerObjects, cerObjectKeys.options).join(', ')} />
 						</div>
 					</div>
 					<div class="flex flex-row">
 						<div class="w-full">
 							<h3 class="text-lg bf-500 mb-none">Mes droits</h3>
-							<Text value={getLabels(notebook.rights, rightLabelValue).join(', ')} />
+							<Text value={getLabels(notebook.rights, rightKeys.options).join(', ')} />
 						</div>
 					</div>
 				</div>
