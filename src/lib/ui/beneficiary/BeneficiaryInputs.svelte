@@ -2,11 +2,7 @@
 	import type { InputType } from '$lib/types';
 	import { Input, Select } from '$lib/ui/base';
 	import type { BeneficiaryAccount } from '$lib/types';
-	import {
-		cerObjectLabelValue,
-		rightLabelValue,
-		workSituationLabelValue
-	} from '$lib/constants/LabelValues';
+	import { cerObjectKeys, rightKeys, workSituationKeys } from '$lib/constants/keys';
 </script>
 
 <script lang="ts">
@@ -67,7 +63,7 @@
 	export let disabledKeys: Partial<Record<keyof BeneficiaryAccount, boolean>> = {};
 	export let beneficiaryAccount: BeneficiaryAccount = {};
 
-	let cerOptions = cerObjectLabelValue.map(({ label, value }) => ({ name: value, label }));
+	let cerOptions = cerObjectKeys.options.map(({ label, value }) => ({ name: value, label }));
 	$: selectedCerOptions = cerOptions.filter(({ name }) =>
 		(beneficiaryAccount.cerObjects || []).includes(name)
 	);
@@ -75,7 +71,7 @@
 		beneficiaryAccount.cerObjects = detail.selected.map(({ name }) => name);
 	}
 
-	let rightsOptions = rightLabelValue.map(({ label, value }) => ({ name: value, label }));
+	let rightsOptions = rightKeys.options.map(({ label, value }) => ({ name: value, label }));
 	$: selectedRightsOption = rightsOptions.filter(({ name }) =>
 		(beneficiaryAccount.rights || []).includes(name)
 	);
@@ -83,7 +79,7 @@
 		beneficiaryAccount.rights = detail.selected.map(({ name }) => name);
 	}
 
-	let situationOptions = workSituationLabelValue.map(({ label, value }) => ({
+	let situationOptions = workSituationKeys.options.map(({ label, value }) => ({
 		name: value,
 		label
 	}));
