@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.14.0...v1.15.0) (2021-09-13)
+
+
+### Features
+
+* **focus:** create database schema ([#166](https://github.com/SocialGouv/carnet-de-bord/issues/166)) ([f1c9d10](https://github.com/SocialGouv/carnet-de-bord/commit/f1c9d10914dc5b7070284e5b515bd6c40b5dc0f5))
+
 # [1.14.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.13.1...v1.14.0) (2021-09-09)
 
 
