@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { Option } from '$lib/ui/base/types';
 	import { Select, Button } from '$lib/ui/base';
-	import { ProAddBeneficiaryLayer, ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
+	import { ProBeneficiaryCreate, ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
 		CreateBeneficiaryMutationStore,
@@ -163,7 +163,7 @@
 		</div>
 	</div>
 	<LoaderIndicator {result}>
-		<ProAddBeneficiaryLayer
+		<ProBeneficiaryCreate
 			close={toggleAddBeneficiary}
 			isOpen={isAddBeneficiaryOpen}
 			{createBeneficiaryResult}
