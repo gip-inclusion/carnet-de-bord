@@ -3079,11 +3079,11 @@ export type GetStructuresQuery = {
 	}>;
 };
 
-export type GetBenficiaryIdNotebookQueryVariables = Exact<{
+export type GetNotebookByBeneficiaryIdQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
 
-export type GetBenficiaryIdNotebookQuery = {
+export type GetNotebookByBeneficiaryIdQuery = {
 	__typename?: 'query_root';
 	notebook: Array<{
 		__typename?: 'notebook';
@@ -4286,13 +4286,13 @@ export const GetStructuresDocument = {
 		}
 	]
 } as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
-export const GetBenficiaryIdNotebookDocument = {
+export const GetNotebookByBeneficiaryIdDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'getBenficiaryIdNotebook' },
+			name: { kind: 'Name', value: 'getNotebookByBeneficiaryId' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -4428,7 +4428,10 @@ export const GetBenficiaryIdNotebookDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<GetBenficiaryIdNotebookQuery, GetBenficiaryIdNotebookQueryVariables>;
+} as unknown as DocumentNode<
+	GetNotebookByBeneficiaryIdQuery,
+	GetNotebookByBeneficiaryIdQueryVariables
+>;
 export const GetLastVisitedOrUpdatedDocument = {
 	kind: 'Document',
 	definitions: [
@@ -5619,9 +5622,9 @@ export type GetStructuresQueryStore = OperationStore<
 	GetStructuresQuery,
 	GetStructuresQueryVariables
 >;
-export type GetBenficiaryIdNotebookQueryStore = OperationStore<
-	GetBenficiaryIdNotebookQuery,
-	GetBenficiaryIdNotebookQueryVariables
+export type GetNotebookByBeneficiaryIdQueryStore = OperationStore<
+	GetNotebookByBeneficiaryIdQuery,
+	GetNotebookByBeneficiaryIdQueryVariables
 >;
 export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,

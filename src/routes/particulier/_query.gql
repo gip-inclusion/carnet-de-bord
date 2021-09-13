@@ -1,4 +1,4 @@
-query getBenficiaryIdNotebook($id: uuid!) {
+query getNotebookByBeneficiaryId($id: uuid!) {
 	notebook(where: { beneficiaryId: { _eq: $id } }) {
 		id
 		cerObjects

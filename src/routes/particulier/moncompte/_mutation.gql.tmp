@@ -1,4 +1,4 @@
-mutation updateBeneficiary(
+mutation UpdateBeneficiary(
 	$firstname: String!
 	$lastname: String!
 	$mobileNumber: String!
