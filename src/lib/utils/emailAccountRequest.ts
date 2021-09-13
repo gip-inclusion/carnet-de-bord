@@ -1,15 +1,19 @@
 export function emailAccountRequest({
 	firstname,
 	lastname,
-	appUrl
+	appUrl,
+	requester
 }: {
 	firstname: string;
 	lastname: string;
 	appUrl: string;
+	requester?: string;
 }): string {
 	return `<p>Bonjour,</p>
 
-  <p>Une nouvelle demande de compte est arrivée de ${firstname} ${lastname}:</p>
+  <p>Une demande de création de compte pour ${firstname} ${lastname} a été reçue${
+		requester ? ` par ${requester}` : ''
+	}&nbsp;:</p>
   &nbsp; &nbsp;
   <p style="padding-left: 20%">
     <a

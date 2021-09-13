@@ -27,7 +27,6 @@
 </script>
 
 <script lang="ts">
-	import type { Option } from '$lib/ui/base/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button, Select } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
@@ -39,6 +38,7 @@
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
 	import { onDestroy } from 'svelte';
+	import type { Option } from '$lib/types';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 	export let getNotebookResult: GetNotebookQueryStore;

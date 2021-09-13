@@ -6,24 +6,27 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
+	import ProCreationForm from '../ProCreationForm/index.svelte';
 	import Button from '../base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import { session } from '$app/stores';
 	import { post } from '$lib/utils/post';
+	import type { AccountRequest, Structure, SvelteEventHandler } from '$lib/types';
+	import { displayFullName } from '../format';
+	import ProAddedConfirmation from './ProAddedConfirmation.svelte';
 
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
 	export let notebookId: string;
-	export let professionalIds;
+	export let professionalIds: string[];
 
-	let search;
-	let selectedProfessionalId;
-	let newMember;
+	let search: string | null;
+	let selectedProfessionalId: string | null;
+	export let newMember: { id: string } | null = null;
 
-	function onChange(event: Event) {
-		const target = event.target as HTMLInputElement;
-		selectedProfessionalId = target.value;
-	}
+	const onChange: SvelteEventHandler<HTMLInputElement> = function (event) {
+		selectedProfessionalId = event.currentTarget.value;
+	};
 
 	function onCancel() {
 		openComponent.close();
@@ -49,84 +52,117 @@
 		$searchProfessionalResult.reexecute();
 	}
 
-	async function onClick() {
+	async function addMemberToNotebook(professionalId: string) {
 		// TODO(tglatt): should wrap into a hasura action
 		const store = await addNotebookMember({
-			professionalId: selectedProfessionalId,
+			professionalId,
 			notebookId: notebookId,
 			creatorId: $session.user.professionalId
 		});
 		newMember = store.data.newMember;
 		//send email
 		post('/pro/carnet/invitation', { notebookMemberId: newMember.id });
+		openComponent.open({ component: ProAddedConfirmation, props: { confirmed: true } });
+	}
+
+	let errors: AccountRequest = {};
+	let accountRequest: AccountRequest = {};
+	let disabled = false;
+	async function onSubmit(structure: Structure) {
+		disabled = true;
+		const response = await post('/inscription/request', {
+			accountRequest,
+			structureId: structure.id,
+			requester: displayFullName($session.user)
+		});
+
+		if (response.status === 400) {
+			errors = (await response.json()).errors as Record<keyof AccountRequest, string>;
+		}
+
+		if (response.status === 200) {
+			const { professionalId } = await response.json();
+			await addMemberToNotebook(professionalId);
+
+			openComponent.open({ component: ProAddedConfirmation, props: { confirmed: false } });
+		}
+	}
+
+	function onInput() {
+		disabled = false;
+	}
+
+	function createPro() {
+		openComponent.open({
+			component: ProCreationForm,
+			props: {
+				disabled,
+				accountRequest,
+				errors,
+				onCancel,
+				onInput,
+				onSubmit
+			}
+		});
 	}
 
 	$: professionals = $searchProfessionalResult.data?.professionals || [];
 	$: count = $searchProfessionalResult.data?.count.aggregate.count;
 </script>
 
-<section class="px-16 pt-28 pb-8 flex flex-col">
+<section class="px-10 pt-20 flex flex-col">
 	<!-- haut -->
-	{#if !newMember}
-		<div class="flex-shrink">
-			<div class="py-12">
-				<h1>Inviter un accompagnateur</h1>
-				<div>
-					{`Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de M.
+	<div class="flex-shrink">
+		<div class="py-12">
+			<h1>Inviter un accompagnateur</h1>
+			<div>
+				{`Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de M.
 		${beneficiaryFirstname} ${beneficiaryLastname}.`}
-				</div>
 			</div>
+		</div>
 
-			<SearchBar
-				inputLabel="Rechercher un bénéficiaire"
-				inputHint="nom, structure, code postal"
-				bind:search
-				btnDisabled={!search}
-				handleSubmit={onSearch}
-			/>
-		</div>
-		<!-- center -->
-		<div class="py-4 flex-grow">
-			<LoaderIndicator result={searchProfessionalResult}>
-				{#if count === 0}
+		<SearchBar
+			inputLabel="Rechercher un bénéficiaire"
+			inputHint="nom, structure, code postal"
+			bind:search
+			btnDisabled={!search}
+			handleSubmit={onSearch}
+		/>
+	</div>
+	<!-- center -->
+	<div class="py-4 flex-grow">
+		<LoaderIndicator result={searchProfessionalResult}>
+			{#if count === 0}
+				<div class="flex flex-col gap-6">
 					<div>Aucun résultat ne correspond à votre recherche</div>
-				{:else if count > 0}
-					<div>{count} résultats correspondent à votre recherche</div>
-				{/if}
-				{#each professionals as professional (professional.id)}
-					<div class="flex flex-row gap-2 justify-between items-center py-4">
-						<input
-							on:change={onChange}
-							type="radio"
-							id={professional.id}
-							name="professional"
-							value={professional.id}
-						/>
-						<div class="w-2/6">{professional.structure.name}</div>
-						<div class="w-2/6">{professional.firstname} {professional.lastname}</div>
-						<div class="w-1/6">{professional.structure.phone || ''}</div>
-						<div class="w-1/6">{professional.structure.postalCode || ''}</div>
-					</div>
-				{/each}
-			</LoaderIndicator>
-		</div>
-		<!-- bas -->
-		<div class="flex-shrink py-4">
-			<Button on:click={onClick} disabled={!selectedProfessionalId}>Envoyer</Button>
-			<Button on:click={onCancel} outline>Annuler</Button>
-		</div>
-	{:else}
-		<div>
-			<h1>Invitation envoyée</h1>
-			<div class="pb-8">
-				Le nouvel accompagnateur a été ajouté au le groupe de suivi du bénéficiaire. Un mail de
-				notification lui a été envoyé.
-			</div>
-			<Button
-				on:click={() => {
-					openComponent.close();
-				}}>J'ai compris</Button
-			>
-		</div>
-	{/if}
+					<div><Button on:click={createPro}>Inviter un accompagnateur</Button></div>
+				</div>
+			{:else if count > 0}
+				<div>{count} résultats correspondent à votre recherche</div>
+			{/if}
+			{#each professionals as professional (professional.id)}
+				<div class="flex flex-row gap-2 justify-between items-center py-4">
+					<input
+						on:change={onChange}
+						type="radio"
+						id={professional.id}
+						name="professional"
+						value={professional.id}
+					/>
+					<div class="w-2/6">{professional.structure.name}</div>
+					<div class="w-2/6">{professional.firstname} {professional.lastname}</div>
+					<div class="w-1/6">{professional.structure.phone || ''}</div>
+					<div class="w-1/6">{professional.structure.postalCode || ''}</div>
+				</div>
+			{/each}
+		</LoaderIndicator>
+	</div>
+	<!-- bas -->
+	<div class="flex-shrink py-4">
+		<Button
+			on:click={() => addMemberToNotebook(selectedProfessionalId)}
+			disabled={!selectedProfessionalId}>Envoyer</Button
+		>
+		<Button on:click={onCancel} outline>Annuler</Button>
+	</div>
 </section>
