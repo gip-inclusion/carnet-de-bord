@@ -48,6 +48,16 @@ array_relationships:
         schema: public
 select_permissions:
 - permission:
+    columns:
+    - email
+    - firstname
+    - id
+    - lastname
+    - mobile_number
+    - position
+    filter: {}
+  role: beneficiary
+- permission:
     allow_aggregations: true
     columns:
     - email

@@ -1,0 +1,32 @@
+mutation updateBeneficiary(
+	$firstname: String!
+	$lastname: String!
+	$mobileNumber: String!
+	$beneficiaryId: uuid!
+) {
+	update_beneficiary_by_pk(
+		_set: { lastname: $lastname, firstname: $firstname, mobileNumber: $mobileNumber }
+		pk_columns: { id: $beneficiaryId }
+	) {
+		firstname
+		lastname
+	}
+
+	updateAccount: update_account(
+		where: { beneficiaryId: { _eq: $beneficiaryId } }
+		_set: { onboardingDone: true }
+	) {
+		returning {
+			id
+			onboardingDone
+			confirmed
+			username
+			beneficiary {
+				firstname
+				lastname
+				mobileNumber
+				email
+			}
+		}
+	}
+}

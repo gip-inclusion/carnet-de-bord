@@ -50,6 +50,23 @@ select_permissions:
     filter: {}
   role: anonymous
 - permission:
+    columns:
+    - address1
+    - address2
+    - city
+    - email
+    - name
+    - phone
+    - postal_code
+    - siret
+    - website
+    - short_desc
+    - creation_date
+    - modification_date
+    - id
+    filter: {}
+  role: beneficiary
+- permission:
     allow_aggregations: true
     columns:
     - address1

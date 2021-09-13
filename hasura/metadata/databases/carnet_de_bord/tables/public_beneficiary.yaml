@@ -60,12 +60,47 @@ select_permissions:
     - mobile_number
     - date_of_birth
     filter:
+      id:
+        _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - email
+    - lastname
+    - firstname
+    - caf_number
+    - pe_number
+    - postal_code
+    - city
+    - address1
+    - address2
+    - mobile_number
+    - date_of_birth
+    filter:
       notebook:
         members:
           professional_id:
             _eq: X-Hasura-Professional-Id
   role: professional
 update_permissions:
+- permission:
+    check: null
+    columns:
+    - address1
+    - address2
+    - city
+    - date_of_birth
+    - email
+    - firstname
+    - lastname
+    - mobile_number
+    - postal_code
+    filter:
+      id:
+        _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
 - permission:
     check: null
     columns:
