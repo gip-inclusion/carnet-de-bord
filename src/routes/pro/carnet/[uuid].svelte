@@ -3,6 +3,7 @@
 		Beneficiary,
 		GetNotebookDocument,
 		GetNotebookQueryStore,
+		NotebookFocus,
 		NotebookMember,
 		UpdateNotebookVisitDateDocument,
 		UpdateNotebookVisitDateMutationStore
@@ -28,17 +29,17 @@
 
 <script lang="ts">
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { Button, Select } from '$lib/ui/base';
+	import { Button } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { formatDate } from '$lib/utils/date';
 	import { getLabels } from '$lib/utils/getLabels';
-	import { cerObjectKeys, rightKeys, workSituationKeys } from '$lib/constants/keys';
+	import { cerObjectKeys, focusThemeKeys, rightKeys, workSituationKeys } from '$lib/constants/keys';
 	import { openComponent } from '$lib/stores';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
 	import { onDestroy } from 'svelte';
-	import type { Option } from '$lib/types';
+	import Card from '$lib/ui/base/Card.svelte';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 	export let getNotebookResult: GetNotebookQueryStore;
@@ -52,10 +53,7 @@
 	$: members = notebook?.members as NotebookMember[];
 	$: member = members?.length ? members[0] : null;
 
-	let selectedPeriod: Option | null;
-	let periodOptions = [];
-	let selectedOrder: Option | null;
-	let orderOptions = [];
+	$: focuses = notebook?.focuses as NotebookFocus[];
 
 	const openMemberInfo = (member: NotebookMember) => {
 		openComponent.open({ component: ProMemberInfo, props: { member } });
@@ -202,29 +200,19 @@
 			</div>
 		</div>
 		<div class="flex flex-col">
-			<h2 class="fr-h4 bf-500">Historique des démarches</h2>
-			<div class="flex flex-row w-full justify-between">
-				<Button disabled={true} on:click={() => alert('Not implemented!')}
-					>Ajouter une étape
-				</Button>
-				<div class="flex flex-row justify-between space-x-4">
-					<Select
-						disabled={true}
-						selected={selectedPeriod}
-						options={periodOptions}
-						selectLabel=""
-						selectHint="Sélectionner une période"
-					/>
-					<Select
-						disabled={true}
-						selected={selectedOrder}
-						options={orderOptions}
-						selectLabel=""
-						selectHint="Sélectionner un tri"
-					/>
-				</div>
+			<h2 class="fr-h4 bf-500">Axes de travail</h2>
+			<div class="flex flex-row flex-wrap">
+				{#each focuses as focus (focus.id)}
+					<div class="w-1/2 p-4 box-border">
+						<Card hideArrow={false}>
+							<span slot="title">{focusThemeKeys.byKey[focus.theme]}</span>
+							<span slot="description">{focusThemeKeys.byKey[focus.theme]}</span>
+						</Card>
+					</div>
+				{/each}
 			</div>
 		</div>
+		<!-- <Button disabled={true} on:click={() => alert('Not implemented!')}>Ajouter une étape</Button> -->
 		<!-- extract Historique des démarches -->
 	</div>
 </LoaderIndicator>

@@ -1,7 +1,9 @@
 import { buildKeys } from '$lib/utils/keysBuilder';
 
-export const focusKeys = buildKeys({
-	logement: 'Logement'
+export const focusThemeKeys = buildKeys({
+	logement: 'Logement',
+	sante: 'Santé',
+	contraintes_familiales: 'Contraintes familiales'
 });
 
 export const situationKeys = buildKeys({

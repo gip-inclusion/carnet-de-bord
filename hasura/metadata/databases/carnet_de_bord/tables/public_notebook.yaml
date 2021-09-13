@@ -20,7 +20,7 @@ array_relationships:
       table:
         name: notebook_event
         schema: public
-- name: focus
+- name: focuses
   using:
     foreign_key_constraint_on:
       column: notebook_id
