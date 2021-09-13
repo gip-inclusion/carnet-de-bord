@@ -1,0 +1,77 @@
+table:
+  name: notebook_focus
+  schema: public
+configuration:
+  custom_column_names:
+    creation_date: creationDate
+    creator_id: creatorId
+    notebook_id: notebookId
+  custom_root_fields: {}
+object_relationships:
+- name: notebook
+  using:
+    foreign_key_constraint_on: notebook_id
+- name: professional
+  using:
+    foreign_key_constraint_on: creator_id
+array_relationships:
+- name: targets
+  using:
+    foreign_key_constraint_on:
+      column: focus_id
+      table:
+        name: notebook_target
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+    columns:
+    - theme
+    - situations
+    - creator_id
+    - id
+    - notebook_id
+    set:
+      creator_id: x-hasura-X-Hasura-Professional-Id
+  role: professional
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - theme
+    - situations
+    - creator_id
+    - notebook_id
+    filter:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+  role: professional
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - theme
+    - situations
+    - creator_id
+    - id
+    - notebook_id
+    filter:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+  role: professional
+delete_permissions:
+- permission:
+    filter:
+      creator_id:
+        _eq: X-Hasura-Professional-Id
+  role: professional

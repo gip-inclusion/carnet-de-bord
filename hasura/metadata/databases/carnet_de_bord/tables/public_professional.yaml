@@ -18,6 +18,34 @@ array_relationships:
       table:
         name: account
         schema: public
+- name: notebookMembersByProfessionalId
+  using:
+    foreign_key_constraint_on:
+      column: professional_id
+      table:
+        name: notebook_member
+        schema: public
+- name: notebook_events
+  using:
+    foreign_key_constraint_on:
+      column: professional_id
+      table:
+        name: notebook_event
+        schema: public
+- name: notebook_focus
+  using:
+    foreign_key_constraint_on:
+      column: creator_id
+      table:
+        name: notebook_focus
+        schema: public
+- name: notebook_members
+  using:
+    foreign_key_constraint_on:
+      column: creator_id
+      table:
+        name: notebook_member
+        schema: public
 select_permissions:
 - permission:
     allow_aggregations: true
