@@ -9,7 +9,6 @@
 
 	export const load: Load = ({ session }) => {
 		const id = session.user.beneficiaryId;
-		console.log({ id });
 		const getNotebookResult = operationStore(GetNotebookByBeneficiaryIdDocument, { id });
 
 		return {
