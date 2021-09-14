@@ -1687,7 +1687,7 @@ export type NotebookFocus = {
 	creationDate: Scalars['timestamptz'];
 	creatorId: Scalars['uuid'];
 	id: Scalars['uuid'];
-	linkedTo: Scalars['String'];
+	linkedTo?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
@@ -4032,6 +4032,7 @@ export type GetNotebookQuery = {
 			id: any;
 			theme: string;
 			situations?: Maybe<any>;
+			linkedTo?: Maybe<string>;
 			targets: Array<{ __typename?: 'notebook_target'; id: any; target: string }>;
 		}>;
 		members: Array<{
@@ -6098,6 +6099,7 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'linkedTo' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'targets' },

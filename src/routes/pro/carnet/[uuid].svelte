@@ -34,7 +34,7 @@
 	import { displayFullName, displayMobileNumber, displayFullAddress } from '$lib/ui/format';
 	import { formatDate } from '$lib/utils/date';
 	import { getLabels } from '$lib/utils/getLabels';
-	import { focusThemeKeys, workSituationKeys } from '$lib/constants/keys';
+	import { contractTypeKeys, focusThemeKeys, workSituationKeys } from '$lib/constants/keys';
 	import { openComponent } from '$lib/stores';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
@@ -196,7 +196,7 @@
 					<div class="w-1/2 p-4 box-border">
 						<Card hideArrow={false}>
 							<span slot="title">{focusThemeKeys.byKey[focus.theme]}</span>
-							<span slot="description">{focusThemeKeys.byKey[focus.theme]}</span>
+							<span slot="description">{contractTypeKeys.byKey[focus.linkedTo]}</span>
 						</Card>
 					</div>
 				{/each}

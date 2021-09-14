@@ -20,6 +20,7 @@ query GetNotebook($id: uuid!) {
 			id
 			theme
 			situations
+			linkedTo
 			targets {
 				id
 				target
