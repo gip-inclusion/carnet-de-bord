@@ -71,5 +71,5 @@ alter table "public"."notebook" add column "rights" jsonb;
 
 -- Could not auto-generate a down migration.
 -- Please write an appropriate down migration for the SQL below:
--- alter table "public"."notebook_target" add column "linked_to" varchar
+-- alter table "public"."notebook_focus" add column "linked_to" varchar
 --  null;

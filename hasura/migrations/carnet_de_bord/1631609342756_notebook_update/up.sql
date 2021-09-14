@@ -1,8 +1,3 @@
-
-
-alter table "public"."notebook_target" add column "linked_to" varchar
- null;
-
 alter table "public"."notebook" drop column "rights" cascade;
 
 alter table "public"."notebook" add column "right_rsa" varchar
@@ -39,3 +34,5 @@ alter table "public"."notebook" add column "contract_type" varchar
 
 alter table "public"."notebook" add column "contract_sign_date" date
  null;
+
+alter table "public"."notebook_focus" add column "linked_to" varchar null;
