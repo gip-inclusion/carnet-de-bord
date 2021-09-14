@@ -10,7 +10,7 @@
 	import { session } from '$app/stores';
 	const { professionalId } = $session.user;
 	import { mutation } from '@urql/svelte';
-	import BeneficiaryInputs from './beneficiary/BeneficiaryInputs.svelte';
+	import BeneficiaryCreateForm from './ProBeneficiaryCreateForm.svelte';
 
 	export let isOpen: boolean;
 	export let close: () => void;
@@ -119,7 +119,7 @@
 				/>
 				{#if (selected && selected.name === 'NoIdentifier') || selectedUser}
 					<div class="font-bold mb-6">Veuillez renseigner les informations ci-dessous.</div>
-					<BeneficiaryInputs bind:beneficiaryAccount />
+					<BeneficiaryCreateForm bind:beneficiaryAccount />
 				{/if}
 				{#if submissionError}
 					<div class="mb-8">

@@ -1,4 +1,4 @@
-export { default as ProAddBeneficiaryLayer } from './ProAddBeneficiaryLayer.svelte';
+export { default as ProBeneficiaryCreate } from './ProBeneficiaryCreate/index.svelte';
 export { default as ProBeneficiaryCard } from './ProBeneficiaryCard.svelte';
 export { default as ProBeneficiarySearchBar } from './ProBeneficiarySearchBar.svelte';
 export { default as ProFormIdentifiers } from './ProFormIdentifiers/index.svelte';
