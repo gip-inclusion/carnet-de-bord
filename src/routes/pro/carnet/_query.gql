@@ -1,8 +1,6 @@
 query GetNotebook($id: uuid!) {
 	notebook: notebook_by_pk(id: $id) {
 		id
-		cerObjects
-		rights
 		workSituations
 		beneficiary {
 			address1
@@ -22,6 +20,7 @@ query GetNotebook($id: uuid!) {
 			id
 			theme
 			situations
+			linkedTo
 			targets {
 				id
 				target

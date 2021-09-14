@@ -5,6 +5,7 @@ configuration:
   custom_column_names:
     creation_date: creationDate
     creator_id: creatorId
+    linked_to: linkedTo
     notebook_id: notebookId
   custom_root_fields: {}
 object_relationships:
@@ -31,11 +32,12 @@ insert_permissions:
           professional_id:
             _eq: X-Hasura-Professional-Id
     columns:
-    - theme
-    - situations
     - creator_id
     - id
+    - linked_to
     - notebook_id
+    - situations
+    - theme
     set:
       creator_id: x-hasura-X-Hasura-Professional-Id
   role: professional
@@ -46,6 +48,7 @@ select_permissions:
     - creation_date
     - creator_id
     - id
+    - linked_to
     - notebook_id
     - situations
     - theme
@@ -59,11 +62,12 @@ update_permissions:
 - permission:
     check: null
     columns:
-    - theme
-    - situations
     - creator_id
     - id
+    - linked_to
     - notebook_id
+    - situations
+    - theme
     filter:
       notebook:
         members:

@@ -1293,8 +1293,10 @@ export type Notebook = {
 	/** An object relationship */
 	beneficiary: Beneficiary;
 	beneficiaryId: Scalars['uuid'];
-	cerObjects?: Maybe<Scalars['jsonb']>;
+	contractSignDate?: Maybe<Scalars['date']>;
+	contractType?: Maybe<Scalars['String']>;
 	creationDate: Scalars['timestamptz'];
+	educationLevel?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	events: Array<NotebookEvent>;
 	/** An aggregate relationship */
@@ -1303,18 +1305,20 @@ export type Notebook = {
 	focuses: Array<NotebookFocus>;
 	/** An aggregate relationship */
 	focuses_aggregate: NotebookFocusAggregate;
+	geographicalArea?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
+	job?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	members: Array<NotebookMember>;
 	/** An aggregate relationship */
 	members_aggregate: NotebookMemberAggregate;
-	rights?: Maybe<Scalars['jsonb']>;
+	rightAre: Scalars['Boolean'];
+	rightAss?: Maybe<Scalars['Boolean']>;
+	rightBonus: Scalars['Boolean'];
+	rightRqth: Scalars['Boolean'];
+	rightRsa?: Maybe<Scalars['String']>;
+	workSituationDate?: Maybe<Scalars['date']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
-};
-
-/** columns and relationships of "notebook" */
-export type NotebookCerObjectsArgs = {
-	path?: Maybe<Scalars['String']>;
 };
 
 /** columns and relationships of "notebook" */
@@ -1372,11 +1376,6 @@ export type NotebookMembersAggregateArgs = {
 };
 
 /** columns and relationships of "notebook" */
-export type NotebookRightsArgs = {
-	path?: Maybe<Scalars['String']>;
-};
-
-/** columns and relationships of "notebook" */
 export type NotebookWorkSituationsArgs = {
 	path?: Maybe<Scalars['String']>;
 };
@@ -1404,8 +1403,6 @@ export type NotebookAggregateFieldsCountArgs = {
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type NotebookAppendInput = {
-	cerObjects?: Maybe<Scalars['jsonb']>;
-	rights?: Maybe<Scalars['jsonb']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
@@ -1416,13 +1413,22 @@ export type NotebookBoolExp = {
 	_or?: Maybe<Array<NotebookBoolExp>>;
 	beneficiary?: Maybe<BeneficiaryBoolExp>;
 	beneficiaryId?: Maybe<UuidComparisonExp>;
-	cerObjects?: Maybe<JsonbComparisonExp>;
+	contractSignDate?: Maybe<DateComparisonExp>;
+	contractType?: Maybe<StringComparisonExp>;
 	creationDate?: Maybe<TimestamptzComparisonExp>;
+	educationLevel?: Maybe<StringComparisonExp>;
 	events?: Maybe<NotebookEventBoolExp>;
 	focuses?: Maybe<NotebookFocusBoolExp>;
+	geographicalArea?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
+	job?: Maybe<StringComparisonExp>;
 	members?: Maybe<NotebookMemberBoolExp>;
-	rights?: Maybe<JsonbComparisonExp>;
+	rightAre?: Maybe<BooleanComparisonExp>;
+	rightAss?: Maybe<BooleanComparisonExp>;
+	rightBonus?: Maybe<BooleanComparisonExp>;
+	rightRqth?: Maybe<BooleanComparisonExp>;
+	rightRsa?: Maybe<StringComparisonExp>;
+	workSituationDate?: Maybe<DateComparisonExp>;
 	workSituations?: Maybe<JsonbComparisonExp>;
 };
 
@@ -1436,22 +1442,16 @@ export enum NotebookConstraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type NotebookDeleteAtPathInput = {
-	cerObjects?: Maybe<Array<Scalars['String']>>;
-	rights?: Maybe<Array<Scalars['String']>>;
 	workSituations?: Maybe<Array<Scalars['String']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type NotebookDeleteElemInput = {
-	cerObjects?: Maybe<Scalars['Int']>;
-	rights?: Maybe<Scalars['Int']>;
 	workSituations?: Maybe<Scalars['Int']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type NotebookDeleteKeyInput = {
-	cerObjects?: Maybe<Scalars['String']>;
-	rights?: Maybe<Scalars['String']>;
 	workSituations?: Maybe<Scalars['String']>;
 };
 
@@ -1687,6 +1687,7 @@ export type NotebookFocus = {
 	creationDate: Scalars['timestamptz'];
 	creatorId: Scalars['uuid'];
 	id: Scalars['uuid'];
+	linkedTo?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
@@ -1771,6 +1772,7 @@ export type NotebookFocusBoolExp = {
 	creationDate?: Maybe<TimestamptzComparisonExp>;
 	creatorId?: Maybe<UuidComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
+	linkedTo?: Maybe<StringComparisonExp>;
 	notebook?: Maybe<NotebookBoolExp>;
 	notebookId?: Maybe<UuidComparisonExp>;
 	professional?: Maybe<ProfessionalBoolExp>;
@@ -1805,6 +1807,7 @@ export type NotebookFocusInsertInput = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	linkedTo?: Maybe<Scalars['String']>;
 	notebook?: Maybe<NotebookObjRelInsertInput>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	professional?: Maybe<ProfessionalObjRelInsertInput>;
@@ -1819,6 +1822,7 @@ export type NotebookFocusMaxFields = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	linkedTo?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	theme?: Maybe<Scalars['String']>;
 };
@@ -1828,6 +1832,7 @@ export type NotebookFocusMaxOrderBy = {
 	creationDate?: Maybe<OrderBy>;
 	creatorId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	linkedTo?: Maybe<OrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	theme?: Maybe<OrderBy>;
 };
@@ -1838,6 +1843,7 @@ export type NotebookFocusMinFields = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	linkedTo?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	theme?: Maybe<Scalars['String']>;
 };
@@ -1847,6 +1853,7 @@ export type NotebookFocusMinOrderBy = {
 	creationDate?: Maybe<OrderBy>;
 	creatorId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	linkedTo?: Maybe<OrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	theme?: Maybe<OrderBy>;
 };
@@ -1879,6 +1886,7 @@ export type NotebookFocusOrderBy = {
 	creationDate?: Maybe<OrderBy>;
 	creatorId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	linkedTo?: Maybe<OrderBy>;
 	notebook?: Maybe<NotebookOrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	professional?: Maybe<ProfessionalOrderBy>;
@@ -1906,6 +1914,8 @@ export enum NotebookFocusSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	LinkedTo = 'linkedTo',
+	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
 	Situations = 'situations',
@@ -1918,6 +1928,7 @@ export type NotebookFocusSetInput = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	linkedTo?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situations?: Maybe<Scalars['jsonb']>;
 	theme?: Maybe<Scalars['String']>;
@@ -1932,6 +1943,8 @@ export enum NotebookFocusUpdateColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	LinkedTo = 'linkedTo',
+	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
 	Situations = 'situations',
@@ -1943,13 +1956,22 @@ export enum NotebookFocusUpdateColumn {
 export type NotebookInsertInput = {
 	beneficiary?: Maybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
-	cerObjects?: Maybe<Scalars['jsonb']>;
+	contractSignDate?: Maybe<Scalars['date']>;
+	contractType?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	educationLevel?: Maybe<Scalars['String']>;
 	events?: Maybe<NotebookEventArrRelInsertInput>;
 	focuses?: Maybe<NotebookFocusArrRelInsertInput>;
+	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	job?: Maybe<Scalars['String']>;
 	members?: Maybe<NotebookMemberArrRelInsertInput>;
-	rights?: Maybe<Scalars['jsonb']>;
+	rightAre?: Maybe<Scalars['Boolean']>;
+	rightAss?: Maybe<Scalars['Boolean']>;
+	rightBonus?: Maybe<Scalars['Boolean']>;
+	rightRqth?: Maybe<Scalars['Boolean']>;
+	rightRsa?: Maybe<Scalars['String']>;
+	workSituationDate?: Maybe<Scalars['date']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
@@ -1957,8 +1979,15 @@ export type NotebookInsertInput = {
 export type NotebookMaxFields = {
 	__typename?: 'notebook_max_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	contractSignDate?: Maybe<Scalars['date']>;
+	contractType?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	educationLevel?: Maybe<Scalars['String']>;
+	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	job?: Maybe<Scalars['String']>;
+	rightRsa?: Maybe<Scalars['String']>;
+	workSituationDate?: Maybe<Scalars['date']>;
 };
 
 /** columns and relationships of "notebook_member" */
@@ -2211,8 +2240,15 @@ export enum NotebookMemberUpdateColumn {
 export type NotebookMinFields = {
 	__typename?: 'notebook_min_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	contractSignDate?: Maybe<Scalars['date']>;
+	contractType?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	educationLevel?: Maybe<Scalars['String']>;
+	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	job?: Maybe<Scalars['String']>;
+	rightRsa?: Maybe<Scalars['String']>;
+	workSituationDate?: Maybe<Scalars['date']>;
 };
 
 /** response of any mutation on the table "notebook" */
@@ -2242,13 +2278,22 @@ export type NotebookOnConflict = {
 export type NotebookOrderBy = {
 	beneficiary?: Maybe<BeneficiaryOrderBy>;
 	beneficiaryId?: Maybe<OrderBy>;
-	cerObjects?: Maybe<OrderBy>;
+	contractSignDate?: Maybe<OrderBy>;
+	contractType?: Maybe<OrderBy>;
 	creationDate?: Maybe<OrderBy>;
+	educationLevel?: Maybe<OrderBy>;
 	events_aggregate?: Maybe<NotebookEventAggregateOrderBy>;
 	focuses_aggregate?: Maybe<NotebookFocusAggregateOrderBy>;
+	geographicalArea?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
+	job?: Maybe<OrderBy>;
 	members_aggregate?: Maybe<NotebookMemberAggregateOrderBy>;
-	rights?: Maybe<OrderBy>;
+	rightAre?: Maybe<OrderBy>;
+	rightAss?: Maybe<OrderBy>;
+	rightBonus?: Maybe<OrderBy>;
+	rightRqth?: Maybe<OrderBy>;
+	rightRsa?: Maybe<OrderBy>;
+	workSituationDate?: Maybe<OrderBy>;
 	workSituations?: Maybe<OrderBy>;
 };
 
@@ -2259,8 +2304,6 @@ export type NotebookPkColumnsInput = {
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type NotebookPrependInput = {
-	cerObjects?: Maybe<Scalars['jsonb']>;
-	rights?: Maybe<Scalars['jsonb']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
@@ -2269,13 +2312,31 @@ export enum NotebookSelectColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
-	CerObjects = 'cerObjects',
+	ContractSignDate = 'contractSignDate',
+	/** column name */
+	ContractType = 'contractType',
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
+	EducationLevel = 'educationLevel',
+	/** column name */
+	GeographicalArea = 'geographicalArea',
+	/** column name */
 	Id = 'id',
 	/** column name */
-	Rights = 'rights',
+	Job = 'job',
+	/** column name */
+	RightAre = 'rightAre',
+	/** column name */
+	RightAss = 'rightAss',
+	/** column name */
+	RightBonus = 'rightBonus',
+	/** column name */
+	RightRqth = 'rightRqth',
+	/** column name */
+	RightRsa = 'rightRsa',
+	/** column name */
+	WorkSituationDate = 'workSituationDate',
 	/** column name */
 	WorkSituations = 'workSituations'
 }
@@ -2283,10 +2344,19 @@ export enum NotebookSelectColumn {
 /** input type for updating data in table "notebook" */
 export type NotebookSetInput = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
-	cerObjects?: Maybe<Scalars['jsonb']>;
+	contractSignDate?: Maybe<Scalars['date']>;
+	contractType?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	educationLevel?: Maybe<Scalars['String']>;
+	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	rights?: Maybe<Scalars['jsonb']>;
+	job?: Maybe<Scalars['String']>;
+	rightAre?: Maybe<Scalars['Boolean']>;
+	rightAss?: Maybe<Scalars['Boolean']>;
+	rightBonus?: Maybe<Scalars['Boolean']>;
+	rightRqth?: Maybe<Scalars['Boolean']>;
+	rightRsa?: Maybe<Scalars['String']>;
+	workSituationDate?: Maybe<Scalars['date']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
@@ -2464,13 +2534,31 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
-	CerObjects = 'cerObjects',
+	ContractSignDate = 'contractSignDate',
+	/** column name */
+	ContractType = 'contractType',
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
+	EducationLevel = 'educationLevel',
+	/** column name */
+	GeographicalArea = 'geographicalArea',
+	/** column name */
 	Id = 'id',
 	/** column name */
-	Rights = 'rights',
+	Job = 'job',
+	/** column name */
+	RightAre = 'rightAre',
+	/** column name */
+	RightAss = 'rightAss',
+	/** column name */
+	RightBonus = 'rightBonus',
+	/** column name */
+	RightRqth = 'rightRqth',
+	/** column name */
+	RightRsa = 'rightRsa',
+	/** column name */
+	WorkSituationDate = 'workSituationDate',
 	/** column name */
 	WorkSituations = 'workSituations'
 }
@@ -3771,8 +3859,6 @@ export type GetNotebookByBeneficiaryIdQuery = {
 	notebook: Array<{
 		__typename?: 'notebook';
 		id: any;
-		cerObjects?: Maybe<any>;
-		rights?: Maybe<any>;
 		workSituations?: Maybe<any>;
 		beneficiary: {
 			__typename?: 'beneficiary';
@@ -3865,8 +3951,6 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	address2?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
-	cerObjects?: Maybe<Scalars['jsonb']>;
-	rights?: Maybe<Scalars['jsonb']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	cafNumber?: Maybe<Scalars['String']>;
@@ -3927,8 +4011,6 @@ export type GetNotebookQuery = {
 	notebook?: Maybe<{
 		__typename?: 'notebook';
 		id: any;
-		cerObjects?: Maybe<any>;
-		rights?: Maybe<any>;
 		workSituations?: Maybe<any>;
 		beneficiary: {
 			__typename?: 'beneficiary';
@@ -3950,6 +4032,7 @@ export type GetNotebookQuery = {
 			id: any;
 			theme: string;
 			situations?: Maybe<any>;
+			linkedTo?: Maybe<string>;
 			targets: Array<{ __typename?: 'notebook_target'; id: any; target: string }>;
 		}>;
 		members: Array<{
@@ -5028,8 +5111,6 @@ export const GetNotebookByBeneficiaryIdDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'cerObjects' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'rights' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'workSituations' } },
 								{
 									kind: 'Field',
@@ -5364,16 +5445,6 @@ export const CreateBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cerObjects' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rights' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituations' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
 				},
@@ -5512,11 +5583,6 @@ export const CreateBeneficiaryDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'cerObjects' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'cerObjects' } }
-										},
-										{
-											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'events' },
 											value: {
 												kind: 'ObjectValue',
@@ -5568,11 +5634,6 @@ export const CreateBeneficiaryDocument = {
 													}
 												]
 											}
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rights' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rights' } }
 										},
 										{
 											kind: 'ObjectField',
@@ -5991,8 +6052,6 @@ export const GetNotebookDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'cerObjects' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'rights' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'workSituations' } },
 								{
 									kind: 'Field',
@@ -6040,6 +6099,7 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'linkedTo' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'targets' },
