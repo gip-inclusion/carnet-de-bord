@@ -18,7 +18,7 @@ const adminHome: Route = {
 	path: '/admin/utilisateurs'
 };
 const beneficiaryHome: Route = {
-	path: '/part'
+	path: '/particulier'
 };
 const homes: Record<string, Route> = {
 	professional: proHome,
@@ -46,7 +46,7 @@ export const baseUrlForRole = (role: string): string => {
 	} else if (role === 'admin') {
 		return '/admin';
 	} else if (role === 'beneficiary') {
-		return '/part';
+		return '/particulier';
 	}
 	throw new Error(`role ${role} is not handled!`);
 };

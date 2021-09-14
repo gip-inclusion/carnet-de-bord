@@ -37,6 +37,20 @@ insert_permissions:
   role: professional
 select_permissions:
 - permission:
+    columns:
+    - creation_date
+    - id
+    - member_type
+    - notebook_id
+    - notebook_modification_date
+    - notebook_visit_date
+    - professional_id
+    filter:
+      notebook:
+        beneficiary_id:
+          _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
+- permission:
     allow_aggregations: true
     columns:
     - creation_date

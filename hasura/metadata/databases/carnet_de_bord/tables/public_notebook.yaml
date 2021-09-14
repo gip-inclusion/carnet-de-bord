@@ -48,6 +48,18 @@ insert_permissions:
   role: professional
 select_permissions:
 - permission:
+    columns:
+    - id
+    - beneficiary_id
+    - creation_date
+    - rights
+    - cer_objects
+    - work_situations
+    filter:
+      beneficiary_id:
+        _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
+- permission:
     allow_aggregations: true
     columns:
     - beneficiary_id

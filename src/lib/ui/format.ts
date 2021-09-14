@@ -8,8 +8,14 @@ export const displayFullName = ({
 	lastname?: string;
 }): string => [firstname, lastname].filter(notNullish).join(' ');
 
-export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string }): string =>
-	mobileNumber;
+export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string }): string => {
+	const phoneNumber = [];
+	const chunkSize = 2;
+	for (let i = 0; i < mobileNumber.length; i += chunkSize) {
+		phoneNumber.push(mobileNumber.slice(i, i + chunkSize));
+	}
+	return phoneNumber.join(' ');
+};
 
 export const displayFullAddress = ({
 	address1,

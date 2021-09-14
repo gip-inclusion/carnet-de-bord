@@ -1,1 +1,0 @@
-<div>ESPACE PARTICULIER</div>

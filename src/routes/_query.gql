@@ -4,6 +4,13 @@ query GetAccount($accountId: uuid!) {
 		onboardingDone
 		confirmed
 		username
+		beneficiary {
+			firstname
+			lastname
+			email
+			mobileNumber
+			dateOfBirth
+		}
 		professional {
 			firstname
 			lastname
