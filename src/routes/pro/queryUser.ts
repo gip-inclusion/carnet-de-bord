@@ -1,9 +1,8 @@
 import { getApiParticulierConfig } from '$lib/config/variables/private';
+import type { CAFResponse, PEResponse } from '$lib/services/particuliers.api';
 import {
-	CAFResponse,
 	isCAFData,
 	isPEData,
-	PEResponse,
 	requestCAFUsers,
 	requestPEUser
 } from '$lib/services/particuliers.api';

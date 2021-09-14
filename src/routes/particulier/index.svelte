@@ -120,8 +120,4 @@
 	.bf-500 {
 		color: var(--bf500);
 	}
-
-	.mb-none {
-		margin-bottom: 0 !important;
-	}
 </style>

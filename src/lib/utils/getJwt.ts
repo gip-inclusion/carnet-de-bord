@@ -1,5 +1,6 @@
 import { getJwtKey } from '$lib/config/variables/private';
-import jwt, { SignOptions } from 'jsonwebtoken';
+import type { SignOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 export function getJwtUser({
 	id,
