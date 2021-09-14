@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.20.0...v1.21.0) (2021-09-14)
+
+
+### Features
+
+* **ui:** add accordeon ([#175](https://github.com/SocialGouv/carnet-de-bord/issues/175)) ([7df766b](https://github.com/SocialGouv/carnet-de-bord/commit/7df766bcb7c95fc416e6bae3e260b5fd218e9386))
+
 # [1.20.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.19.1...v1.20.0) (2021-09-14)
 
 
