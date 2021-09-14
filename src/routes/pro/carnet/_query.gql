@@ -18,6 +18,15 @@ query GetNotebook($id: uuid!) {
 			peNumber
 			postalCode
 		}
+		focuses(order_by: { creationDate: desc_nulls_last }) {
+			id
+			theme
+			situations
+			targets {
+				id
+				target
+			}
+		}
 		members(order_by: { notebookModificationDate: desc_nulls_last }) {
 			id
 			memberType

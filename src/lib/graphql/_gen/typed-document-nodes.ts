@@ -815,10 +815,18 @@ export type MutationRoot = {
 	delete_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** delete single row from the table: "notebook_event" */
 	delete_notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** delete data from the table: "notebook_focus" */
+	delete_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
+	/** delete single row from the table: "notebook_focus" */
+	delete_notebook_focus_by_pk?: Maybe<NotebookFocus>;
 	/** delete data from the table: "notebook_member" */
 	delete_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** delete single row from the table: "notebook_member" */
 	delete_notebook_member_by_pk?: Maybe<NotebookMember>;
+	/** delete data from the table: "notebook_target" */
+	delete_notebook_target?: Maybe<NotebookTargetMutationResponse>;
+	/** delete single row from the table: "notebook_target" */
+	delete_notebook_target_by_pk?: Maybe<NotebookTarget>;
 	/** delete data from the table: "professional" */
 	delete_professional?: Maybe<ProfessionalMutationResponse>;
 	/** delete single row from the table: "professional" */
@@ -845,12 +853,20 @@ export type MutationRoot = {
 	insert_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** insert a single row into the table: "notebook_event" */
 	insert_notebook_event_one?: Maybe<NotebookEvent>;
+	/** insert data into the table: "notebook_focus" */
+	insert_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
+	/** insert a single row into the table: "notebook_focus" */
+	insert_notebook_focus_one?: Maybe<NotebookFocus>;
 	/** insert data into the table: "notebook_member" */
 	insert_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** insert a single row into the table: "notebook_member" */
 	insert_notebook_member_one?: Maybe<NotebookMember>;
 	/** insert a single row into the table: "notebook" */
 	insert_notebook_one?: Maybe<Notebook>;
+	/** insert data into the table: "notebook_target" */
+	insert_notebook_target?: Maybe<NotebookTargetMutationResponse>;
+	/** insert a single row into the table: "notebook_target" */
+	insert_notebook_target_one?: Maybe<NotebookTarget>;
 	/** insert data into the table: "professional" */
 	insert_professional?: Maybe<ProfessionalMutationResponse>;
 	/** insert a single row into the table: "professional" */
@@ -879,10 +895,18 @@ export type MutationRoot = {
 	update_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** update single row of the table: "notebook_event" */
 	update_notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** update data of the table: "notebook_focus" */
+	update_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
+	/** update single row of the table: "notebook_focus" */
+	update_notebook_focus_by_pk?: Maybe<NotebookFocus>;
 	/** update data of the table: "notebook_member" */
 	update_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** update single row of the table: "notebook_member" */
 	update_notebook_member_by_pk?: Maybe<NotebookMember>;
+	/** update data of the table: "notebook_target" */
+	update_notebook_target?: Maybe<NotebookTargetMutationResponse>;
+	/** update single row of the table: "notebook_target" */
+	update_notebook_target_by_pk?: Maybe<NotebookTarget>;
 	/** update data of the table: "professional" */
 	update_professional?: Maybe<ProfessionalMutationResponse>;
 	/** update single row of the table: "professional" */
@@ -944,12 +968,32 @@ export type MutationRootDeleteNotebookEventByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteNotebookFocusArgs = {
+	where: NotebookFocusBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookFocusByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type MutationRootDeleteNotebookMemberArgs = {
 	where: NotebookMemberBoolExp;
 };
 
 /** mutation root */
 export type MutationRootDeleteNotebookMemberByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookTargetArgs = {
+	where: NotebookTargetBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -1028,6 +1072,18 @@ export type MutationRootInsertNotebookEventOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertNotebookFocusArgs = {
+	objects: Array<NotebookFocusInsertInput>;
+	on_conflict?: Maybe<NotebookFocusOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookFocusOneArgs = {
+	object: NotebookFocusInsertInput;
+	on_conflict?: Maybe<NotebookFocusOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertNotebookMemberArgs = {
 	objects: Array<NotebookMemberInsertInput>;
 	on_conflict?: Maybe<NotebookMemberOnConflict>;
@@ -1043,6 +1099,18 @@ export type MutationRootInsertNotebookMemberOneArgs = {
 export type MutationRootInsertNotebookOneArgs = {
 	object: NotebookInsertInput;
 	on_conflict?: Maybe<NotebookOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookTargetArgs = {
+	objects: Array<NotebookTargetInsertInput>;
+	on_conflict?: Maybe<NotebookTargetOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookTargetOneArgs = {
+	object: NotebookTargetInsertInput;
+	on_conflict?: Maybe<NotebookTargetOnConflict>;
 };
 
 /** mutation root */
@@ -1150,6 +1218,28 @@ export type MutationRootUpdateNotebookEventByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookFocusArgs = {
+	_append?: Maybe<NotebookFocusAppendInput>;
+	_delete_at_path?: Maybe<NotebookFocusDeleteAtPathInput>;
+	_delete_elem?: Maybe<NotebookFocusDeleteElemInput>;
+	_delete_key?: Maybe<NotebookFocusDeleteKeyInput>;
+	_prepend?: Maybe<NotebookFocusPrependInput>;
+	_set?: Maybe<NotebookFocusSetInput>;
+	where: NotebookFocusBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookFocusByPkArgs = {
+	_append?: Maybe<NotebookFocusAppendInput>;
+	_delete_at_path?: Maybe<NotebookFocusDeleteAtPathInput>;
+	_delete_elem?: Maybe<NotebookFocusDeleteElemInput>;
+	_delete_key?: Maybe<NotebookFocusDeleteKeyInput>;
+	_prepend?: Maybe<NotebookFocusPrependInput>;
+	_set?: Maybe<NotebookFocusSetInput>;
+	pk_columns: NotebookFocusPkColumnsInput;
+};
+
+/** mutation root */
 export type MutationRootUpdateNotebookMemberArgs = {
 	_set?: Maybe<NotebookMemberSetInput>;
 	where: NotebookMemberBoolExp;
@@ -1159,6 +1249,18 @@ export type MutationRootUpdateNotebookMemberArgs = {
 export type MutationRootUpdateNotebookMemberByPkArgs = {
 	_set?: Maybe<NotebookMemberSetInput>;
 	pk_columns: NotebookMemberPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookTargetArgs = {
+	_set?: Maybe<NotebookTargetSetInput>;
+	where: NotebookTargetBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookTargetByPkArgs = {
+	_set?: Maybe<NotebookTargetSetInput>;
+	pk_columns: NotebookTargetPkColumnsInput;
 };
 
 /** mutation root */
@@ -1197,6 +1299,10 @@ export type Notebook = {
 	events: Array<NotebookEvent>;
 	/** An aggregate relationship */
 	events_aggregate: NotebookEventAggregate;
+	/** An array relationship */
+	focuses: Array<NotebookFocus>;
+	/** An aggregate relationship */
+	focuses_aggregate: NotebookFocusAggregate;
 	id: Scalars['uuid'];
 	/** An array relationship */
 	members: Array<NotebookMember>;
@@ -1227,6 +1333,24 @@ export type NotebookEventsAggregateArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<NotebookEventOrderBy>>;
 	where?: Maybe<NotebookEventBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookFocusesArgs = {
+	distinct_on?: Maybe<Array<NotebookFocusSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookFocusOrderBy>>;
+	where?: Maybe<NotebookFocusBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookFocusesAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookFocusSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookFocusOrderBy>>;
+	where?: Maybe<NotebookFocusBoolExp>;
 };
 
 /** columns and relationships of "notebook" */
@@ -1295,6 +1419,7 @@ export type NotebookBoolExp = {
 	cerObjects?: Maybe<JsonbComparisonExp>;
 	creationDate?: Maybe<TimestamptzComparisonExp>;
 	events?: Maybe<NotebookEventBoolExp>;
+	focuses?: Maybe<NotebookFocusBoolExp>;
 	id?: Maybe<UuidComparisonExp>;
 	members?: Maybe<NotebookMemberBoolExp>;
 	rights?: Maybe<JsonbComparisonExp>;
@@ -1556,6 +1681,264 @@ export enum NotebookEventUpdateColumn {
 	ProfessionalId = 'professionalId'
 }
 
+/** columns and relationships of "notebook_focus" */
+export type NotebookFocus = {
+	__typename?: 'notebook_focus';
+	creationDate: Scalars['timestamptz'];
+	creatorId: Scalars['uuid'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebookId: Scalars['uuid'];
+	/** An object relationship */
+	professional: Professional;
+	situations?: Maybe<Scalars['jsonb']>;
+	/** An array relationship */
+	targets: Array<NotebookTarget>;
+	/** An aggregate relationship */
+	targets_aggregate: NotebookTargetAggregate;
+	theme: Scalars['String'];
+};
+
+/** columns and relationships of "notebook_focus" */
+export type NotebookFocusSituationsArgs = {
+	path?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "notebook_focus" */
+export type NotebookFocusTargetsArgs = {
+	distinct_on?: Maybe<Array<NotebookTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookTargetOrderBy>>;
+	where?: Maybe<NotebookTargetBoolExp>;
+};
+
+/** columns and relationships of "notebook_focus" */
+export type NotebookFocusTargetsAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookTargetOrderBy>>;
+	where?: Maybe<NotebookTargetBoolExp>;
+};
+
+/** aggregated selection of "notebook_focus" */
+export type NotebookFocusAggregate = {
+	__typename?: 'notebook_focus_aggregate';
+	aggregate?: Maybe<NotebookFocusAggregateFields>;
+	nodes: Array<NotebookFocus>;
+};
+
+/** aggregate fields of "notebook_focus" */
+export type NotebookFocusAggregateFields = {
+	__typename?: 'notebook_focus_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookFocusMaxFields>;
+	min?: Maybe<NotebookFocusMinFields>;
+};
+
+/** aggregate fields of "notebook_focus" */
+export type NotebookFocusAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<NotebookFocusSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_focus" */
+export type NotebookFocusAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<NotebookFocusMaxOrderBy>;
+	min?: Maybe<NotebookFocusMinOrderBy>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type NotebookFocusAppendInput = {
+	situations?: Maybe<Scalars['jsonb']>;
+};
+
+/** input type for inserting array relation for remote table "notebook_focus" */
+export type NotebookFocusArrRelInsertInput = {
+	data: Array<NotebookFocusInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<NotebookFocusOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_focus". All fields are combined with a logical 'AND'. */
+export type NotebookFocusBoolExp = {
+	_and?: Maybe<Array<NotebookFocusBoolExp>>;
+	_not?: Maybe<NotebookFocusBoolExp>;
+	_or?: Maybe<Array<NotebookFocusBoolExp>>;
+	creationDate?: Maybe<TimestamptzComparisonExp>;
+	creatorId?: Maybe<UuidComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	notebook?: Maybe<NotebookBoolExp>;
+	notebookId?: Maybe<UuidComparisonExp>;
+	professional?: Maybe<ProfessionalBoolExp>;
+	situations?: Maybe<JsonbComparisonExp>;
+	targets?: Maybe<NotebookTargetBoolExp>;
+	theme?: Maybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_focus" */
+export enum NotebookFocusConstraint {
+	/** unique or primary key constraint */
+	NotebookFocusPkey = 'notebook_focus_pkey'
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type NotebookFocusDeleteAtPathInput = {
+	situations?: Maybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type NotebookFocusDeleteElemInput = {
+	situations?: Maybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type NotebookFocusDeleteKeyInput = {
+	situations?: Maybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "notebook_focus" */
+export type NotebookFocusInsertInput = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebook?: Maybe<NotebookObjRelInsertInput>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professional?: Maybe<ProfessionalObjRelInsertInput>;
+	situations?: Maybe<Scalars['jsonb']>;
+	targets?: Maybe<NotebookTargetArrRelInsertInput>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type NotebookFocusMaxFields = {
+	__typename?: 'notebook_focus_max_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "notebook_focus" */
+export type NotebookFocusMaxOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	creatorId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	theme?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type NotebookFocusMinFields = {
+	__typename?: 'notebook_focus_min_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "notebook_focus" */
+export type NotebookFocusMinOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	creatorId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	theme?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "notebook_focus" */
+export type NotebookFocusMutationResponse = {
+	__typename?: 'notebook_focus_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookFocus>;
+};
+
+/** input type for inserting object relation for remote table "notebook_focus" */
+export type NotebookFocusObjRelInsertInput = {
+	data: NotebookFocusInsertInput;
+	/** on conflict condition */
+	on_conflict?: Maybe<NotebookFocusOnConflict>;
+};
+
+/** on conflict condition type for table "notebook_focus" */
+export type NotebookFocusOnConflict = {
+	constraint: NotebookFocusConstraint;
+	update_columns?: Array<NotebookFocusUpdateColumn>;
+	where?: Maybe<NotebookFocusBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_focus". */
+export type NotebookFocusOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	creatorId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	notebook?: Maybe<NotebookOrderBy>;
+	notebookId?: Maybe<OrderBy>;
+	professional?: Maybe<ProfessionalOrderBy>;
+	situations?: Maybe<OrderBy>;
+	targets_aggregate?: Maybe<NotebookTargetAggregateOrderBy>;
+	theme?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_focus */
+export type NotebookFocusPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type NotebookFocusPrependInput = {
+	situations?: Maybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "notebook_focus" */
+export enum NotebookFocusSelectColumn {
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	Situations = 'situations',
+	/** column name */
+	Theme = 'theme'
+}
+
+/** input type for updating data in table "notebook_focus" */
+export type NotebookFocusSetInput = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	situations?: Maybe<Scalars['jsonb']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "notebook_focus" */
+export enum NotebookFocusUpdateColumn {
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	Situations = 'situations',
+	/** column name */
+	Theme = 'theme'
+}
+
 /** input type for inserting data into table "notebook" */
 export type NotebookInsertInput = {
 	beneficiary?: Maybe<BeneficiaryObjRelInsertInput>;
@@ -1563,6 +1946,7 @@ export type NotebookInsertInput = {
 	cerObjects?: Maybe<Scalars['jsonb']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	events?: Maybe<NotebookEventArrRelInsertInput>;
+	focuses?: Maybe<NotebookFocusArrRelInsertInput>;
 	id?: Maybe<Scalars['uuid']>;
 	members?: Maybe<NotebookMemberArrRelInsertInput>;
 	rights?: Maybe<Scalars['jsonb']>;
@@ -1861,6 +2245,7 @@ export type NotebookOrderBy = {
 	cerObjects?: Maybe<OrderBy>;
 	creationDate?: Maybe<OrderBy>;
 	events_aggregate?: Maybe<NotebookEventAggregateOrderBy>;
+	focuses_aggregate?: Maybe<NotebookFocusAggregateOrderBy>;
 	id?: Maybe<OrderBy>;
 	members_aggregate?: Maybe<NotebookMemberAggregateOrderBy>;
 	rights?: Maybe<OrderBy>;
@@ -1904,6 +2289,175 @@ export type NotebookSetInput = {
 	rights?: Maybe<Scalars['jsonb']>;
 	workSituations?: Maybe<Scalars['jsonb']>;
 };
+
+/** columns and relationships of "notebook_target" */
+export type NotebookTarget = {
+	__typename?: 'notebook_target';
+	creationDate: Scalars['timestamptz'];
+	/** An object relationship */
+	focus: NotebookFocus;
+	focusId: Scalars['uuid'];
+	id: Scalars['uuid'];
+	target: Scalars['String'];
+};
+
+/** aggregated selection of "notebook_target" */
+export type NotebookTargetAggregate = {
+	__typename?: 'notebook_target_aggregate';
+	aggregate?: Maybe<NotebookTargetAggregateFields>;
+	nodes: Array<NotebookTarget>;
+};
+
+/** aggregate fields of "notebook_target" */
+export type NotebookTargetAggregateFields = {
+	__typename?: 'notebook_target_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookTargetMaxFields>;
+	min?: Maybe<NotebookTargetMinFields>;
+};
+
+/** aggregate fields of "notebook_target" */
+export type NotebookTargetAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<NotebookTargetSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_target" */
+export type NotebookTargetAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<NotebookTargetMaxOrderBy>;
+	min?: Maybe<NotebookTargetMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "notebook_target" */
+export type NotebookTargetArrRelInsertInput = {
+	data: Array<NotebookTargetInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<NotebookTargetOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_target". All fields are combined with a logical 'AND'. */
+export type NotebookTargetBoolExp = {
+	_and?: Maybe<Array<NotebookTargetBoolExp>>;
+	_not?: Maybe<NotebookTargetBoolExp>;
+	_or?: Maybe<Array<NotebookTargetBoolExp>>;
+	creationDate?: Maybe<TimestamptzComparisonExp>;
+	focus?: Maybe<NotebookFocusBoolExp>;
+	focusId?: Maybe<UuidComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	target?: Maybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_target" */
+export enum NotebookTargetConstraint {
+	/** unique or primary key constraint */
+	NotebookTargetPkey = 'notebook_target_pkey'
+}
+
+/** input type for inserting data into table "notebook_target" */
+export type NotebookTargetInsertInput = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	focus?: Maybe<NotebookFocusObjRelInsertInput>;
+	focusId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	target?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type NotebookTargetMaxFields = {
+	__typename?: 'notebook_target_max_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	focusId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	target?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "notebook_target" */
+export type NotebookTargetMaxOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	focusId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	target?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type NotebookTargetMinFields = {
+	__typename?: 'notebook_target_min_fields';
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	focusId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	target?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "notebook_target" */
+export type NotebookTargetMinOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	focusId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	target?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "notebook_target" */
+export type NotebookTargetMutationResponse = {
+	__typename?: 'notebook_target_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookTarget>;
+};
+
+/** on conflict condition type for table "notebook_target" */
+export type NotebookTargetOnConflict = {
+	constraint: NotebookTargetConstraint;
+	update_columns?: Array<NotebookTargetUpdateColumn>;
+	where?: Maybe<NotebookTargetBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_target". */
+export type NotebookTargetOrderBy = {
+	creationDate?: Maybe<OrderBy>;
+	focus?: Maybe<NotebookFocusOrderBy>;
+	focusId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	target?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_target */
+export type NotebookTargetPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "notebook_target" */
+export enum NotebookTargetSelectColumn {
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	FocusId = 'focusId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Target = 'target'
+}
+
+/** input type for updating data in table "notebook_target" */
+export type NotebookTargetSetInput = {
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	focusId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	target?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "notebook_target" */
+export enum NotebookTargetUpdateColumn {
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	FocusId = 'focusId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Target = 'target'
+}
 
 /** update columns of table "notebook" */
 export enum NotebookUpdateColumn {
@@ -1949,6 +2503,10 @@ export type Professional = {
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
+	/** An array relationship */
+	notebookMembersByProfessionalId: Array<NotebookMember>;
+	/** An aggregate relationship */
+	notebookMembersByProfessionalId_aggregate: NotebookMemberAggregate;
 	position?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	structure: Structure;
@@ -1971,6 +2529,24 @@ export type ProfessionalAccountsAggregateArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<AccountOrderBy>>;
 	where?: Maybe<AccountBoolExp>;
+};
+
+/** columns and relationships of "professional" */
+export type ProfessionalNotebookMembersByProfessionalIdArgs = {
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
+};
+
+/** columns and relationships of "professional" */
+export type ProfessionalNotebookMembersByProfessionalIdAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
+	where?: Maybe<NotebookMemberBoolExp>;
 };
 
 /** aggregated selection of "professional" */
@@ -2019,6 +2595,7 @@ export type ProfessionalBoolExp = {
 	id?: Maybe<UuidComparisonExp>;
 	lastname?: Maybe<StringComparisonExp>;
 	mobileNumber?: Maybe<StringComparisonExp>;
+	notebookMembersByProfessionalId?: Maybe<NotebookMemberBoolExp>;
 	position?: Maybe<StringComparisonExp>;
 	structure?: Maybe<StructureBoolExp>;
 	structureId?: Maybe<UuidComparisonExp>;
@@ -2040,6 +2617,7 @@ export type ProfessionalInsertInput = {
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
+	notebookMembersByProfessionalId?: Maybe<NotebookMemberArrRelInsertInput>;
 	position?: Maybe<Scalars['String']>;
 	structure?: Maybe<StructureObjRelInsertInput>;
 	structureId?: Maybe<Scalars['uuid']>;
@@ -2122,6 +2700,7 @@ export type ProfessionalOrderBy = {
 	id?: Maybe<OrderBy>;
 	lastname?: Maybe<OrderBy>;
 	mobileNumber?: Maybe<OrderBy>;
+	notebookMembersByProfessionalId_aggregate?: Maybe<NotebookMemberAggregateOrderBy>;
 	position?: Maybe<OrderBy>;
 	structure?: Maybe<StructureOrderBy>;
 	structureId?: Maybe<OrderBy>;
@@ -2211,12 +2790,24 @@ export type QueryRoot = {
 	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
 	notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** fetch data from the table: "notebook_focus" */
+	notebook_focus: Array<NotebookFocus>;
+	/** fetch aggregated fields from the table: "notebook_focus" */
+	notebook_focus_aggregate: NotebookFocusAggregate;
+	/** fetch data from the table: "notebook_focus" using primary key columns */
+	notebook_focus_by_pk?: Maybe<NotebookFocus>;
 	/** fetch data from the table: "notebook_member" */
 	notebook_member: Array<NotebookMember>;
 	/** fetch aggregated fields from the table: "notebook_member" */
 	notebook_member_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "notebook_member" using primary key columns */
 	notebook_member_by_pk?: Maybe<NotebookMember>;
+	/** fetch data from the table: "notebook_target" */
+	notebook_target: Array<NotebookTarget>;
+	/** fetch aggregated fields from the table: "notebook_target" */
+	notebook_target_aggregate: NotebookTargetAggregate;
+	/** fetch data from the table: "notebook_target" using primary key columns */
+	notebook_target_by_pk?: Maybe<NotebookTarget>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -2331,6 +2922,26 @@ export type QueryRootNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootNotebookFocusArgs = {
+	distinct_on?: Maybe<Array<NotebookFocusSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookFocusOrderBy>>;
+	where?: Maybe<NotebookFocusBoolExp>;
+};
+
+export type QueryRootNotebookFocusAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookFocusSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookFocusOrderBy>>;
+	where?: Maybe<NotebookFocusBoolExp>;
+};
+
+export type QueryRootNotebookFocusByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootNotebookMemberArgs = {
 	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
@@ -2348,6 +2959,26 @@ export type QueryRootNotebookMemberAggregateArgs = {
 };
 
 export type QueryRootNotebookMemberByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootNotebookTargetArgs = {
+	distinct_on?: Maybe<Array<NotebookTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookTargetOrderBy>>;
+	where?: Maybe<NotebookTargetBoolExp>;
+};
+
+export type QueryRootNotebookTargetAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookTargetOrderBy>>;
+	where?: Maybe<NotebookTargetBoolExp>;
+};
+
+export type QueryRootNotebookTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -2688,12 +3319,24 @@ export type SubscriptionRoot = {
 	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
 	notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** fetch data from the table: "notebook_focus" */
+	notebook_focus: Array<NotebookFocus>;
+	/** fetch aggregated fields from the table: "notebook_focus" */
+	notebook_focus_aggregate: NotebookFocusAggregate;
+	/** fetch data from the table: "notebook_focus" using primary key columns */
+	notebook_focus_by_pk?: Maybe<NotebookFocus>;
 	/** fetch data from the table: "notebook_member" */
 	notebook_member: Array<NotebookMember>;
 	/** fetch aggregated fields from the table: "notebook_member" */
 	notebook_member_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "notebook_member" using primary key columns */
 	notebook_member_by_pk?: Maybe<NotebookMember>;
+	/** fetch data from the table: "notebook_target" */
+	notebook_target: Array<NotebookTarget>;
+	/** fetch aggregated fields from the table: "notebook_target" */
+	notebook_target_aggregate: NotebookTargetAggregate;
+	/** fetch data from the table: "notebook_target" using primary key columns */
+	notebook_target_by_pk?: Maybe<NotebookTarget>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -2808,6 +3451,26 @@ export type SubscriptionRootNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootNotebookFocusArgs = {
+	distinct_on?: Maybe<Array<NotebookFocusSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookFocusOrderBy>>;
+	where?: Maybe<NotebookFocusBoolExp>;
+};
+
+export type SubscriptionRootNotebookFocusAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookFocusSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookFocusOrderBy>>;
+	where?: Maybe<NotebookFocusBoolExp>;
+};
+
+export type SubscriptionRootNotebookFocusByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type SubscriptionRootNotebookMemberArgs = {
 	distinct_on?: Maybe<Array<NotebookMemberSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
@@ -2825,6 +3488,26 @@ export type SubscriptionRootNotebookMemberAggregateArgs = {
 };
 
 export type SubscriptionRootNotebookMemberByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootNotebookTargetArgs = {
+	distinct_on?: Maybe<Array<NotebookTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookTargetOrderBy>>;
+	where?: Maybe<NotebookTargetBoolExp>;
+};
+
+export type SubscriptionRootNotebookTargetAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookTargetOrderBy>>;
+	where?: Maybe<NotebookTargetBoolExp>;
+};
+
+export type SubscriptionRootNotebookTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -3262,6 +3945,13 @@ export type GetNotebookQuery = {
 			peNumber?: Maybe<string>;
 			postalCode?: Maybe<string>;
 		};
+		focuses: Array<{
+			__typename?: 'notebook_focus';
+			id: any;
+			theme: string;
+			situations?: Maybe<any>;
+			targets: Array<{ __typename?: 'notebook_target'; id: any; target: string }>;
+		}>;
 		members: Array<{
 			__typename?: 'notebook_member';
 			id: any;
@@ -5322,6 +6012,45 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+										]
+									}
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'focuses' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'creationDate' },
+														value: { kind: 'EnumValue', value: 'desc_nulls_last' }
+													}
+												]
+											}
+										}
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'targets' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'target' } }
+													]
+												}
+											}
 										]
 									}
 								},

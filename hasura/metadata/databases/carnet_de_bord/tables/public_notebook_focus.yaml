@@ -43,11 +43,12 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
-    - theme
-    - situations
+    - creation_date
     - creator_id
+    - id
     - notebook_id
+    - situations
+    - theme
     filter:
       notebook:
         members:
