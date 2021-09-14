@@ -5,8 +5,13 @@ export const getGraphqlAPI = (): string => {
 };
 
 function find(name: string): string {
+	let importEnvVar = import.meta.env[name];
+	importEnvVar = typeof importEnvVar === 'string' ? importEnvVar : '';
+
 	if (browser) {
-		return import.meta.env[name];
+		return importEnvVar;
 	}
-	return process?.env[name] || import.meta.env[name];
+
+	const processEnvVar = process?.env[name];
+	return processEnvVar || importEnvVar;
 }
