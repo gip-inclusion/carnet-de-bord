@@ -2,7 +2,7 @@
 	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { Button } from './base';
 	import { displayFullName, displayMobileNumber } from './format';
-	import Text from '../utils/Text.svelte';
+	import Text from './utils/Text.svelte';
 
 	export let onEdit: (id: string) => void;
 	export let onPrint: () => void;
