@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.19.1...v1.20.0) (2021-09-14)
+
+
+### Features
+
+* **notebook:** update schema ([#174](https://github.com/SocialGouv/carnet-de-bord/issues/174)) ([04611a7](https://github.com/SocialGouv/carnet-de-bord/commit/04611a7015847071a2847544996de8f24445f674))
+
 ## [1.19.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.19.0...v1.19.1) (2021-09-14)
 
 
