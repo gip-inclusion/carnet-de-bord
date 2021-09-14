@@ -9,9 +9,10 @@ import type { RequestHandler } from '@sveltejs/kit';
 const type = 'professional';
 
 export const post: RequestHandler = async (request) => {
-	const { accountRequest, structureId } = request.body as unknown as {
+	const { accountRequest, structureId, requester } = request.body as unknown as {
 		accountRequest: AccountRequest;
 		structureId: string;
+		requester?: string;
 	};
 
 	const { username, email, firstname, lastname, mobileNumber, position } = accountRequest;
@@ -64,12 +65,13 @@ export const post: RequestHandler = async (request) => {
 		html: emailAccountRequest({
 			firstname,
 			lastname,
-			appUrl
+			appUrl,
+			requester
 		})
 	});
 
 	return {
 		status: 200,
-		body: {}
+		body: { professionalId }
 	};
 };

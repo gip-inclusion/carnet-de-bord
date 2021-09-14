@@ -13,10 +13,12 @@
 	</div>
 
 	<div
-		class="!m-0 transform top-0 right-0 w-1/2 bg-white flex fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {openComponent
+		class="p-6 !m-0 transform top-0 right-0 w-1/2 bg-white flex fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {openComponent
 			? 'translate-x-0'
 			: 'translate-x-full'}"
 	>
-		<svelte:component this={$openComponent.component} {...$openComponent.props} />
+		<div class="flex flex-col gap-6 p-6">
+			<svelte:component this={$openComponent.component} {...$openComponent.props} />
+		</div>
 	</div>
 {/if}

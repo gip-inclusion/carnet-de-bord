@@ -34,7 +34,15 @@ export const post: RequestHandler = async (request) => {
 		username: string;
 		professional_id: string;
 		beneficiary_id: string;
+		confirmed: boolean;
 	};
+
+	if (!account.confirmed) {
+		return {
+			status: 200,
+			body: {}
+		};
+	}
 
 	const accessKey = uuidv4();
 
