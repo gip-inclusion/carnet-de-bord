@@ -4,7 +4,7 @@
 </script>
 
 <script type="ts">
-	import { setContext, onDestroy, createEventDispatcher } from 'svelte';
+	import { setContext, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { MENU } from './menu';
 	export let ref = null;
@@ -16,9 +16,7 @@
 	let focusedItem = writable(null);
 
 	let menuitems = [];
-	const dispatch = createEventDispatcher();
 	setContext(MENU, {
-		dispatch,
 		registerMenuItem: (menuItem) => {
 			menuitems.push(menuItem);
 

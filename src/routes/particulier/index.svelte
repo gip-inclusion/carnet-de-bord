@@ -21,12 +21,14 @@
 </script>
 
 <script lang="ts">
-	import type { Option } from '$lib/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button, Select } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 
-	import BeneficiaryInfo from '$lib/ui/beneficiary/BeneficiaryInfo.svelte';
+	import BeneficiaryInfo from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
+	import Accordions from '$lib/ui/base/Accordions.svelte';
+	import Accordion from '$lib/ui/base/Accordion.svelte';
+	import type { Option } from '$lib/types';
 
 	export let getNotebookResult: GetNotebookByBeneficiaryIdQueryStore;
 
@@ -45,17 +47,14 @@
 	<div class="flex flex-col space-y-8 px-40">
 		<BeneficiaryInfo
 			{beneficiary}
-			{notebook}
 			onEdit={() => alert('Not implemented!')}
 			onPrint={() => alert('Not implemented!')}
 			lastUpdateDate={members[0].notebookModificationDate}
 			lastUpdateFrom={members[0].professional}
 		/>
-		<!-- extract Groupe de suivi -->
-		<div class="flex flex-col">
-			<h2 class="fr-h4 bf-500">Groupe de suivi</h2>
 
-			<div class="py-8">
+		<Accordions>
+			<Accordion title="Groupe de suivi">
 				{#each members as member, i}
 					<div
 						class:bg-gray-100={i % 2 === 0}
@@ -86,38 +85,32 @@
 						</div>
 					</div>
 				{/each}
-			</div>
-		</div>
-		<div class="flex flex-col">
-			<h2 class="fr-h4 bf-500">Historique des démarches</h2>
-			<div class="flex flex-row w-full justify-between">
-				<Button disabled={true} on:click={() => alert('Not implemented!')}
-					>Ajouter une étape
-				</Button>
-				<div class="flex flex-row justify-between space-x-4">
-					<Select
-						disabled={true}
-						selected={selectedPeriod}
-						options={periodOptions}
-						selectLabel=""
-						selectHint="Sélectionner une période"
-					/>
-					<Select
-						disabled={true}
-						selected={selectedOrder}
-						options={orderOptions}
-						selectLabel=""
-						selectHint="Sélectionner un tri"
-					/>
+			</Accordion>
+			<Accordion title="Historique des démarches">
+				<div class="flex flex-col">
+					<div class="flex flex-row w-full justify-between">
+						<Button disabled={true} on:click={() => alert('Not implemented!')}
+							>Ajouter une étape
+						</Button>
+						<div class="flex flex-row justify-between space-x-4">
+							<Select
+								disabled={true}
+								selected={selectedPeriod}
+								options={periodOptions}
+								selectLabel=""
+								selectHint="Sélectionner une période"
+							/>
+							<Select
+								disabled={true}
+								selected={selectedOrder}
+								options={orderOptions}
+								selectLabel=""
+								selectHint="Sélectionner un tri"
+							/>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<!-- extract Historique des démarches -->
+			</Accordion>
+		</Accordions>
 	</div>
 </LoaderIndicator>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>
