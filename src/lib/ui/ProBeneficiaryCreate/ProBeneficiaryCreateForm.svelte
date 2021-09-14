@@ -10,7 +10,7 @@
 		label: string;
 		hint: string;
 		type?: InputType;
-		key: keyof Exclude<BeneficiaryAccount, 'workSituations'>;
+		key: keyof Exclude<BeneficiaryAccount, 'workSituation'>;
 	}[] = [
 		{
 			label: 'Nom',
@@ -67,11 +67,11 @@
 		name: value,
 		label
 	}));
-	$: selectedSituationOption = situationOptions.filter(({ name }) =>
-		(beneficiaryAccount.workSituations || []).includes(name)
+	$: selectedSituationOption = situationOptions.find(
+		({ name }) => beneficiaryAccount.workSituation === name
 	);
 	function handleSituationSelected({ detail }) {
-		beneficiaryAccount.workSituations = detail.selected.map(({ name }) => name);
+		beneficiaryAccount.workSituation = detail.selected.name;
 	}
 
 	function handleSingleAccountKey(key: string) {
@@ -102,7 +102,6 @@
 	selectLabel={'Situation'}
 	selectHint={'Ex : Sans emploi'}
 	options={situationOptions}
-	selectedMultiple={selectedSituationOption}
+	selected={selectedSituationOption}
 	on:select={handleSituationSelected}
-	multiple={true}
 />

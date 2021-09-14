@@ -8,7 +8,7 @@ mutation CreateBeneficiary(
 	$address2: String
 	$postalCode: String
 	$city: String
-	$workSituations: jsonb
+	$workSituation: String
 	$professionalId: uuid
 	$cafNumber: String
 	$peNumber: String
@@ -32,7 +32,7 @@ mutation CreateBeneficiary(
 			}
 			events: { data: [] }
 			members: { data: [{ memberType: "referent", professionalId: $professionalId }] }
-			workSituations: $workSituations
+			workSituation: $workSituation
 		}
 	) {
 		id
