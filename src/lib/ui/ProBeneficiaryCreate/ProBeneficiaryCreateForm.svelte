@@ -2,7 +2,7 @@
 	import type { InputType } from '$lib/types';
 	import { Input, Select } from '$lib/ui/base';
 	import type { BeneficiaryAccount } from '$lib/types';
-	import { cerObjectKeys, rightKeys, workSituationKeys } from '$lib/constants/keys';
+	import { workSituationKeys } from '$lib/constants/keys';
 </script>
 
 <script lang="ts">
@@ -63,21 +63,21 @@
 	export let disabledKeys: Partial<Record<keyof BeneficiaryAccount, boolean>> = {};
 	export let beneficiaryAccount: BeneficiaryAccount = {};
 
-	let cerOptions = cerObjectKeys.options.map(({ label, value }) => ({ name: value, label }));
-	$: selectedCerOptions = cerOptions.filter(({ name }) =>
-		(beneficiaryAccount.cerObjects || []).includes(name)
-	);
-	function handleCerSelected({ detail }) {
-		beneficiaryAccount.cerObjects = detail.selected.map(({ name }) => name);
-	}
+	// let cerOptions = cerObjectKeys.options.map(({ label, value }) => ({ name: value, label }));
+	// $: selectedCerOptions = cerOptions.filter(({ name }) =>
+	// 	(beneficiaryAccount.cerObjects || []).includes(name)
+	// );
+	// function handleCerSelected({ detail }) {
+	// 	beneficiaryAccount.cerObjects = detail.selected.map(({ name }) => name);
+	// }
 
-	let rightsOptions = rightKeys.options.map(({ label, value }) => ({ name: value, label }));
-	$: selectedRightsOption = rightsOptions.filter(({ name }) =>
-		(beneficiaryAccount.rights || []).includes(name)
-	);
-	function handleRightsSelected({ detail }) {
-		beneficiaryAccount.rights = detail.selected.map(({ name }) => name);
-	}
+	// let rightsOptions = rightKeys.options.map(({ label, value }) => ({ name: value, label }));
+	// $: selectedRightsOption = rightsOptions.filter(({ name }) =>
+	// 	(beneficiaryAccount.rights || []).includes(name)
+	// );
+	// function handleRightsSelected({ detail }) {
+	// 	beneficiaryAccount.rights = detail.selected.map(({ name }) => name);
+	// }
 
 	let situationOptions = workSituationKeys.options.map(({ label, value }) => ({
 		name: value,
@@ -114,7 +114,7 @@
 		type={input.type}
 	/>
 {/each}
-<Select
+<!-- <Select
 	selectLabel={'Sujet CER'}
 	selectHint={"Ex : Réalisation d'une formation de cuisine"}
 	options={cerOptions}
@@ -129,7 +129,7 @@
 	selectedMultiple={selectedRightsOption}
 	on:select={handleRightsSelected}
 	multiple={true}
-/>
+/> -->
 <Select
 	selectLabel={'Situation'}
 	selectHint={'Ex : Sans emploi'}

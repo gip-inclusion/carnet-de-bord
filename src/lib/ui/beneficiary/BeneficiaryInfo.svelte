@@ -1,8 +1,5 @@
 <script type="ts">
-	import { rightKeys } from '$lib/constants/keys';
-
 	import type { Beneficiary, Notebook, Professional } from '$lib/graphql/_gen/typed-document-nodes';
-	import { getLabels } from '$lib/utils/getLabels';
 	import { Button } from '../base';
 	import { displayFullName, displayMobileNumber } from '../format';
 	import Text from '../utils/Text.svelte';
@@ -78,10 +75,10 @@
 			<strong class="bf-500">Identifiant CAF</strong>
 			<Text value={beneficiary.cafNumber} />
 		</div>
-		<div class="w-full">
+		<!-- <div class="w-full">
 			<strong class="text-lg bf-500">droits</strong>
 			<Text value={getLabels(notebook.rights, rightKeys.options).join(', ')} />
-		</div>
+		</div> -->
 	</div>
 </div>
 
