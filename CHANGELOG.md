@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.19.0...v1.19.1) (2021-09-14)
+
+
+### Bug Fixes
+
+* Use k8s-deactivate action. ([#155](https://github.com/SocialGouv/carnet-de-bord/issues/155)) ([d662258](https://github.com/SocialGouv/carnet-de-bord/commit/d6622580dc675d7abc302097d5eb537ecdbfc6a9))
+
 # [1.19.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.18.0...v1.19.0) (2021-09-14)
 
 
