@@ -25,7 +25,7 @@
 	import { Button, Select } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 
-	import BeneficiaryInfo from '$lib/ui/ProBeneficiaryPersonalInfo.svelte';
+	import BeneficiaryInfo from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
 	import Accordions from '$lib/ui/base/Accordions.svelte';
 	import Accordion from '$lib/ui/base/Accordion.svelte';
 	import type { Option } from '$lib/types';
