@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.17.0...v1.18.0) (2021-09-14)
+
+
+### Features
+
+* **ui:** add cross to close right panel ([5482e65](https://github.com/SocialGouv/carnet-de-bord/commit/5482e652fbf2627a84b4722f754ead566e3f2a7a))
+
 # [1.17.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.16.0...v1.17.0) (2021-09-14)
 
 
