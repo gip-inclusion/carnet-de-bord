@@ -1,5 +1,5 @@
 <script type="ts">
-	import type { Beneficiary, Notebook, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { Button } from '../base';
 	import { displayFullName, displayMobileNumber } from '../format';
 	import Text from '../utils/Text.svelte';
@@ -24,7 +24,6 @@
 	>;
 	export let lastUpdateDate: Date = new Date();
 	export let lastUpdateFrom: Pick<Professional, 'firstname' | 'lastname'>;
-	export let notebook: Pick<Notebook, 'rights'>;
 </script>
 
 <div class="flex flex-col space-y-6">
@@ -75,10 +74,6 @@
 			<strong class="bf-500">Identifiant CAF</strong>
 			<Text value={beneficiary.cafNumber} />
 		</div>
-		<!-- <div class="w-full">
-			<strong class="text-lg bf-500">droits</strong>
-			<Text value={getLabels(notebook.rights, rightKeys.options).join(', ')} />
-		</div> -->
 	</div>
 </div>
 

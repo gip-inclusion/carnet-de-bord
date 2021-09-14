@@ -135,16 +135,6 @@
 								value={getLabels(notebook.workSituations, workSituationKeys.options).join(', ')}
 							/>
 						</div>
-						<!-- <div class="w-full">
-							<h3 class="text-lg bf-500 mb-none">Sujet du CER</h3>
-							<Text value={getLabels(notebook.cerObjects, cerObjectKeys.options).join(', ')} />
-						</div> -->
-					</div>
-					<div class="flex flex-row">
-						<!-- <div class="w-full">
-							<h3 class="text-lg bf-500 mb-none">Mes droits</h3>
-							<Text value={getLabels(notebook.rights, rightKeys.options).join(', ')} />
-						</div> -->
 					</div>
 				</div>
 			</div>

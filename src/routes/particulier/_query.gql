@@ -1,8 +1,6 @@
 query getNotebookByBeneficiaryId($id: uuid!) {
 	notebook(where: { beneficiaryId: { _eq: $id } }) {
 		id
-		cerObjects
-		rights
 		workSituations
 		beneficiary {
 			address1

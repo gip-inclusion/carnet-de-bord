@@ -68,8 +68,6 @@ export type BeneficiaryAccount = {
 	address2?: string;
 	postalCode?: string;
 	city?: string;
-	cerObjects?: string[];
-	rights?: string[];
 	workSituations?: string[];
 };
 

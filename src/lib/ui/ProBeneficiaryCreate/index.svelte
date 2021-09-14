@@ -76,8 +76,6 @@
 			acc.address1 &&
 			acc.postalCode &&
 			acc.city &&
-			acc.cerObjects &&
-			acc.rights &&
 			acc.workSituations
 		);
 	}
