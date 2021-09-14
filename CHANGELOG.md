@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.21.0...v1.22.0) (2021-09-14)
+
+
+### Features
+
+* **pro:** add beneficiary sociopro situation view ([#177](https://github.com/SocialGouv/carnet-de-bord/issues/177)) ([6b08af0](https://github.com/SocialGouv/carnet-de-bord/commit/6b08af04786899d3bced9951376509de84b76bb6))
+
 # [1.21.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.20.0...v1.21.0) (2021-09-14)
 
 
