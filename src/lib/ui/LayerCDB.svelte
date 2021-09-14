@@ -2,11 +2,20 @@
 	import type { OpenComponentStore } from '$lib/stores';
 	export let openComponent: OpenComponentStore = null;
 
+	function handleKeyDown(event: KeyboardEvent) {
+		if ($openComponent) {
+			if (event.key === 'Escape') {
+				close();
+			}
+		}
+	}
+
 	const close = () => {
 		openComponent.close();
 	};
 </script>
 
+<svelte:window on:keydown={handleKeyDown} />
 {#if $openComponent}
 	<div on:click={close} class="!m-0 z-10 fixed inset-0 transition-opacity">
 		<div class="absolute inset-0 bg-black opacity-50" tabindex="0" />
