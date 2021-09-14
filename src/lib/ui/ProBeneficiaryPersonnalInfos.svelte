@@ -1,11 +1,12 @@
 <script type="ts">
 	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import { formatDateLocale } from '$lib/utils/date';
+	import { createEventDispatcher } from 'svelte';
 	import { Button } from './base';
 	import { displayFullName, displayMobileNumber } from './format';
 	import Text from './utils/Text.svelte';
 
-	export let onEdit: (id: string) => void;
-	export let onPrint: () => void;
+	const dispatch = createEventDispatcher();
 
 	export let beneficiary: Pick<
 		Beneficiary,
@@ -22,7 +23,7 @@
 		| 'cafNumber'
 		| 'peNumber'
 	>;
-	export let lastUpdateDate: Date = new Date();
+	export let lastUpdateDate: string;
 	export let lastUpdateFrom: Pick<Professional, 'firstname' | 'lastname'>;
 </script>
 
@@ -30,7 +31,7 @@
 	<div>
 		{#if lastUpdateDate}
 			<div class="text-sm">
-				Informations mises à jour le {new Date(lastUpdateDate).toLocaleDateString('fr-FR', {
+				Informations mises à jour le {formatDateLocale(lastUpdateDate, {
 					year: 'numeric',
 					month: 'long',
 					day: 'numeric'
@@ -43,16 +44,15 @@
 				{displayFullName(beneficiary)}
 			</h1>
 			<div>
-				<Button disabled={true} on:click={onPrint} outline={true} icon="ri-printer-line" />
 				<Button
 					disabled={true}
-					on:click={() => onEdit(beneficiary.id)}
+					on:click={() => dispatch('print')}
 					outline={true}
-					icon="ri-edit-line"
+					icon="ri-printer-line"
 				/>
 			</div>
 		</div>
-		<div class="-mt-2">Né le {new Date(beneficiary.dateOfBirth).toLocaleDateString()}</div>
+		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>
 	</div>
 
 	<h2 class="fr-h4 bf-500">Informations personnelles</h2>
@@ -75,6 +75,9 @@
 			<Text value={beneficiary.cafNumber} />
 		</div>
 	</div>
+	<Button disabled classNames="self-start" on:click={() => dispatch('edit')} outline>
+		Mettre à jour
+	</Button>
 </div>
 
 <style lang="postcss">

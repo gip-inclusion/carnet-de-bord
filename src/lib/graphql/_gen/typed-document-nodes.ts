@@ -3973,6 +3973,7 @@ export type GetNotebookQuery = {
 	notebook?: Maybe<{
 		__typename?: 'notebook';
 		id: any;
+		workSituationDate?: Maybe<any>;
 		workSituation?: Maybe<string>;
 		rightRsa?: Maybe<string>;
 		rightRqth: boolean;
@@ -3980,6 +3981,7 @@ export type GetNotebookQuery = {
 		rightAss?: Maybe<boolean>;
 		rightBonus: boolean;
 		geographicalArea?: Maybe<string>;
+		job?: Maybe<string>;
 		educationLevel?: Maybe<string>;
 		beneficiary: {
 			__typename?: 'beneficiary';
@@ -6021,6 +6023,7 @@ export const GetNotebookDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'workSituationDate' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightRqth' } },
@@ -6028,6 +6031,7 @@ export const GetNotebookDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'job' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 								{
 									kind: 'Field',

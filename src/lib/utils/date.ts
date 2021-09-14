@@ -9,3 +9,11 @@ export function formatDate(value: string): string {
 		locale: fr
 	});
 }
+
+export function formatDateLocale(value: string, format?: Intl.DateTimeFormatOptions): string {
+	const date = new Date(value);
+	if (date.toString() === 'Invalid Date') {
+		return value;
+	}
+	return date.toLocaleDateString('fr-FR', format);
+}
