@@ -39,7 +39,7 @@ insert_permissions:
     - situations
     - theme
     set:
-      creator_id: x-hasura-X-Hasura-Professional-Id
+      creator_id: x-hasura-Professional-Id
   role: professional
 select_permissions:
 - permission:

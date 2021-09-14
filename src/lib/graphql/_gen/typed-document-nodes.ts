@@ -3964,6 +3964,17 @@ export type UpdateNotebookVisitDateMutation = {
 	}>;
 };
 
+export type AddNotebookFocusMutationVariables = Exact<{
+	notebookId: Scalars['uuid'];
+	situations?: Maybe<Scalars['jsonb']>;
+	theme: Scalars['String'];
+}>;
+
+export type AddNotebookFocusMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_focus_one?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
+};
+
 export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -5988,6 +5999,92 @@ export const UpdateNotebookVisitDateDocument = {
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
 >;
+export const AddNotebookFocusDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookFocus' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_focus_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'situations' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'theme' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'targets' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: { kind: 'ListValue', values: [] }
+													}
+												]
+											}
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<AddNotebookFocusMutation, AddNotebookFocusMutationVariables>;
 export const GetNotebookDocument = {
 	kind: 'Document',
 	definitions: [
@@ -6410,6 +6507,10 @@ export type SearchNotebookMemberQueryStore = OperationStore<
 export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
+>;
+export type AddNotebookFocusMutationStore = OperationStore<
+	AddNotebookFocusMutation,
+	AddNotebookFocusMutationVariables
 >;
 export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type UpdateProfessionalProfileMutationStore = OperationStore<

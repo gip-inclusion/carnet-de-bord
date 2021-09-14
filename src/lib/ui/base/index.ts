@@ -2,6 +2,8 @@ export { default as Alert } from '$lib/ui/base/Alert.svelte';
 export { default as Button } from '$lib/ui/base/Button.svelte';
 export { default as Breadcrumbs } from '$lib/ui/base/Breadcrumbs.svelte';
 export { default as Card } from '$lib/ui/base/Card.svelte';
+export { default as Checkboxes } from '$lib/ui/base/Checkboxes.svelte';
+export { default as Checkbox } from '$lib/ui/base/Checkbox.svelte';
 export { default as Footer } from '$lib/ui/base/Footer.svelte';
 export { default as Header } from '$lib/ui/base/Header.svelte';
 export { default as Input } from '$lib/ui/base/Input.svelte';
