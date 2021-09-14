@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.16.0...v1.17.0) (2021-09-14)
+
+
+### Features
+
+* **pro:** display notebook focus in beneficiary page ([#168](https://github.com/SocialGouv/carnet-de-bord/issues/168)) ([38ae1d7](https://github.com/SocialGouv/carnet-de-bord/commit/38ae1d7861108745ea754f1d5b986e3f7ad9ae06))
+
 # [1.16.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.15.1...v1.16.0) (2021-09-14)
 
 
