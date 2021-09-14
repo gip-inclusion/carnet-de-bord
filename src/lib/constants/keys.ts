@@ -41,6 +41,12 @@ export const contractTypeKeys = buildKeys({
 	pacea: 'PACEA'
 });
 
+export const contractTypeFullKeys = buildKeys({
+	cer: "Contrat d'Engagement Réciproque (CER)",
+	ppae: "Projet Personnalisé d'Accès à l'Emploi (PPAE)",
+	pacea: "Parcours contractualisé d'Accompagnement vers l'Emploi et l'Autonomie (PACEA)"
+});
+
 export const educationLevelKeys = buildKeys({
 	level_1: 'Niveau I : enseignement supérieur',
 	level_2: 'Niveau II : BAC +3 / +4',
@@ -63,8 +69,34 @@ export const focusThemeKeys = buildKeys({
 });
 
 export const situationKeys = buildKeys({
-	sans_hebergement: 'Sans hébergement'
+	sans_hebergement: 'Sans hébergement',
+	chrs: 'CHRS',
+	hotel_social: 'Hôtel social',
+	foyer_urgence: "Foyer d'urgence",
+	ppartement_relais: 'Appartement relais',
+	bail_glissant: 'Bail glissant',
+	logement_insalubre: 'Logement insalubre',
+	expulsion: 'Expulsion en cours',
+	difficulter_payer: 'Difficulté à payer le loyer',
+	chez_tiers: 'Chez un tiers',
+	autre: 'Autre'
 });
+
+export const focusToSituations = {
+	logement: [
+		'sans_hebergement',
+		'chrs',
+		'hotel_social',
+		'foyer_urgence',
+		'ppartement_relais',
+		'bail_glissant',
+		'logement_insalubre',
+		'expulsion',
+		'difficulter_payer',
+		'chez_tiers',
+		'autre'
+	]
+};
 
 export const targetKeys = buildKeys({
 	acces_droits: 'Accès Droits',
