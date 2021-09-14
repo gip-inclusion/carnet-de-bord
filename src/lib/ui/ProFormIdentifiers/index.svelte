@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Radio } from '$lib/ui/base';
-	import type { IdentifierCAF, IdentifierPE, IdentifierType, Option } from '$lib/ui/base/types';
+	import type { IdentifierCAF, IdentifierPE, IdentifierType, Option } from '$lib/types';
 	import ProFormIdentifierPe from './ProFormIdentifierPE.svelte';
 	import ProFormIdentifierCaf from './ProFormIdentifierCAF.svelte';
 	import { createEventDispatcher, SvelteComponent } from 'svelte';

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { IdentifierType } from '$lib/ui/base/types';
+	import type { IdentifierType } from '$lib/types';
 	import { Alert, Button, Radio } from '$lib/ui/base';
 	import { ProFormIdentifiers } from '$lib/ui';
 	import type { BeneficiaryAccount, ExternalUser } from '$lib/types';

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Option } from '$lib/ui/base/types';
+	import type { Option } from '$lib/types';
 
 	let counter = 0;
 </script>

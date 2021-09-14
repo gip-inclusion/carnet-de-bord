@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import type { Option } from '$lib/ui/base/types';
+	import type { Option } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	export let selected: Option | null;
 	export let options: Option[];

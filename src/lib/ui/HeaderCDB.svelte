@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import { session } from '$app/stores';
 	import { orgName } from '$lib/constants';
-	import type { MenuItem } from '$lib/ui/base/types';
+	import type { MenuItem } from '$lib/types';
 
 	import { Header, NavBar } from '$lib/ui/base';
 </script>

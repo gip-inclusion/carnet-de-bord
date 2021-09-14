@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { Beneficiary } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { TableHeader } from '$lib/ui/base/types';
+	import type { TableHeader } from '$lib/types';
 	let counter = 0;
 </script>
 

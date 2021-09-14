@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Option } from '$lib/ui/base/types';
+	import type { Option } from '$lib/types';
 	import { Select, Button } from '$lib/ui/base';
 	import { ProBeneficiaryCreate, ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';

@@ -21,7 +21,7 @@
 </script>
 
 <script lang="ts">
-	import type { Option } from '$lib/ui/base/types';
+	import type { Option } from '$lib/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button, Select } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';

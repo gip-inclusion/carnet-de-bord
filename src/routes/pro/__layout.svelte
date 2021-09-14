@@ -3,7 +3,7 @@
 	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { getSegments } from '$lib/routes';
 	import { Breadcrumbs } from '$lib/ui/base';
-	import type { MenuItem } from '$lib/ui/base/types';
+	import type { MenuItem } from '$lib/types';
 	import { FooterCDB, HeaderCDB } from '$lib/ui/index';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import LayerCDB from '$lib/ui/LayerCDB.svelte';

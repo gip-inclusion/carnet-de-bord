@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import type { MenuItem } from '$lib/ui/base/types';
+	import type { MenuItem } from '$lib/types';
 
 	import { openComponent } from '$lib/stores';
 	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
