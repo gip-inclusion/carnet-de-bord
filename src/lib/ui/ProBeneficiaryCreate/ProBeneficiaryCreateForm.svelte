@@ -63,10 +63,8 @@
 	export let disabledKeys: Partial<Record<keyof BeneficiaryAccount, boolean>> = {};
 	export let beneficiaryAccount: BeneficiaryAccount = {};
 
-	let situationOptions = workSituationKeys.options.map(({ label, value }) => ({
-		name: value,
-		label
-	}));
+	let situationOptions = workSituationKeys.options;
+
 	$: selectedSituationOption = situationOptions.find(
 		({ name }) => beneficiaryAccount.workSituation === name
 	);

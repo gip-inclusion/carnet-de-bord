@@ -3,7 +3,7 @@ export type KeyType = {
 	byValue: Record<string, string>;
 	keys: string[];
 	values: string[];
-	options: { label: string; value: string }[];
+	options: { label: string; name: string }[];
 };
 
 function revertMapKeysValues(mapByKey) {
@@ -15,11 +15,11 @@ function revertMapKeysValues(mapByKey) {
 }
 
 function buildOptions(map: Record<string, string>) {
-	return Object.keys(map).map((value) => {
-		const label: string = map[value];
+	return Object.keys(map).map((name) => {
+		const label: string = map[name];
 		return {
 			label,
-			value
+			name
 		};
 	});
 }

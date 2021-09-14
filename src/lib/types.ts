@@ -40,7 +40,7 @@ export interface LabelValue {
 	value: string;
 }
 
-export type InputType = 'email' | 'text' | 'password' | 'number';
+export type InputType = 'email' | 'text' | 'password' | 'number' | 'date';
 
 export type RequestStep = 'start' | 'success' | 'error';
 
