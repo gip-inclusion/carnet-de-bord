@@ -40,6 +40,7 @@
 	import ProBeneficiaryPersonnalInfos from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
 	import Accordions from '$lib/ui/base/Accordions.svelte';
 	import Accordion from '$lib/ui/base/Accordion.svelte';
+	import ProBeneficiarySocioProSituation from '$lib/ui/ProBeneficiarySocioProSituation.svelte';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 	export let getNotebookResult: GetNotebookQueryStore;
@@ -79,12 +80,15 @@
 	<div class="flex flex-col space-y-8 px-40">
 		<ProBeneficiaryPersonnalInfos
 			{beneficiary}
-			onEdit={() => alert('Not implemented!')}
-			onPrint={() => alert('Not implemented!')}
+			on:edit={() => alert('Not implemented!')}
+			on:print={() => alert('Not implemented!')}
 			lastUpdateDate={members[0].notebookModificationDate}
 			lastUpdateFrom={members[0].professional}
 		/>
 		<Accordions>
+			<Accordion title="Situation socioprofessionnelle">
+				<ProBeneficiarySocioProSituation {notebook} />
+			</Accordion>
 			<Accordion title="Groupe de suivi">
 				<div class="flex flex-row w-full justify-between">
 					<Button

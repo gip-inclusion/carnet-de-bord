@@ -47,8 +47,8 @@
 	<div class="flex flex-col space-y-8 px-40">
 		<BeneficiaryInfo
 			{beneficiary}
-			onEdit={() => alert('Not implemented!')}
-			onPrint={() => alert('Not implemented!')}
+			on:edit={() => alert('Not implemented!')}
+			on:print={() => alert('Not implemented!')}
 			lastUpdateDate={members[0].notebookModificationDate}
 			lastUpdateFrom={members[0].professional}
 		/>

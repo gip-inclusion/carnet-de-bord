@@ -23,9 +23,9 @@ export const workSituationKeys = buildKeys({
 });
 
 export const rsaRightKeys = buildKeys({
-	rsa_droit_ouvert_et_suspendu: 'RSA_ Droit ouvert et suspendu',
-	rsa_droit_ouvert_versable: 'RSA_Droit ouvert et versable',
-	rsa_droit_ouvert_versement_suspendu: 'RSA_Droit ouvert mais versement suspendu'
+	rsa_droit_ouvert_et_suspendu: 'Droit ouvert et suspendu',
+	rsa_droit_ouvert_versable: 'Droit ouvert et versable',
+	rsa_droit_ouvert_versement_suspendu: 'Droit ouvert mais versement suspendu'
 });
 
 export const geographicalAreaKeys = buildKeys({

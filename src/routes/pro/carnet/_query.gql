@@ -1,6 +1,7 @@
 query GetNotebook($id: uuid!) {
 	notebook: notebook_by_pk(id: $id) {
 		id
+		workSituationDate
 		workSituation
 		rightRsa
 		rightRqth
@@ -8,6 +9,7 @@ query GetNotebook($id: uuid!) {
 		rightAss
 		rightBonus
 		geographicalArea
+		job
 		educationLevel
 		beneficiary {
 			address1
