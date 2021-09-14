@@ -23,24 +23,6 @@ object_relationships:
     foreign_key_constraint_on: professional_id
 select_permissions:
 - permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - username
-    - type
-    - access_key
-    - access_key_date
-    - last_login
-    - beneficiary_id
-    - professional_id
-    - admin_id
-    - confirmed
-    - onboarding_done
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: beneficiary
-- permission:
     columns:
     - beneficiary_id
     - confirmed
@@ -53,15 +35,6 @@ select_permissions:
         _eq: X-Hasura-User-Id
   role: professional
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - last_login
-    - username
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: beneficiary
 - permission:
     check: null
     columns:

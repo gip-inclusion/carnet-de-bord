@@ -5,6 +5,7 @@ configuration:
   custom_column_names:
     creation_date: creationDate
     focus_id: focusId
+    linked_to: linkedTo
   custom_root_fields: {}
 object_relationships:
 - name: focus
