@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.18.0...v1.19.0) (2021-09-14)
+
+
+### Features
+
+* **ui:** close layer with Escape ([c884bd4](https://github.com/SocialGouv/carnet-de-bord/commit/c884bd492c11786779c209a36aad33ff52847195))
+
 # [1.18.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.17.0...v1.18.0) (2021-09-14)
 
 
