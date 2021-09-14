@@ -76,7 +76,7 @@
 			acc.address1 &&
 			acc.postalCode &&
 			acc.city &&
-			acc.workSituations
+			acc.workSituation
 		);
 	}
 </script>

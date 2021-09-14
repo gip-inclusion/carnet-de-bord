@@ -1,7 +1,7 @@
 query getNotebookByBeneficiaryId($id: uuid!) {
 	notebook(where: { beneficiaryId: { _eq: $id } }) {
 		id
-		workSituations
+		workSituation
 		beneficiary {
 			address1
 			address2

@@ -68,7 +68,7 @@ export type BeneficiaryAccount = {
 	address2?: string;
 	postalCode?: string;
 	city?: string;
-	workSituations?: string[];
+	workSituation?: string;
 };
 
 type GetHtml<Data> = keyof Data | ((data: Data) => string);

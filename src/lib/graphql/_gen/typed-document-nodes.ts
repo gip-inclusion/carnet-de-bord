@@ -1175,22 +1175,12 @@ export type MutationRootUpdateBeneficiaryByPkArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookArgs = {
-	_append?: Maybe<NotebookAppendInput>;
-	_delete_at_path?: Maybe<NotebookDeleteAtPathInput>;
-	_delete_elem?: Maybe<NotebookDeleteElemInput>;
-	_delete_key?: Maybe<NotebookDeleteKeyInput>;
-	_prepend?: Maybe<NotebookPrependInput>;
 	_set?: Maybe<NotebookSetInput>;
 	where: NotebookBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateNotebookByPkArgs = {
-	_append?: Maybe<NotebookAppendInput>;
-	_delete_at_path?: Maybe<NotebookDeleteAtPathInput>;
-	_delete_elem?: Maybe<NotebookDeleteElemInput>;
-	_delete_key?: Maybe<NotebookDeleteKeyInput>;
-	_prepend?: Maybe<NotebookPrependInput>;
 	_set?: Maybe<NotebookSetInput>;
 	pk_columns: NotebookPkColumnsInput;
 };
@@ -1317,8 +1307,8 @@ export type Notebook = {
 	rightBonus: Scalars['Boolean'];
 	rightRqth: Scalars['Boolean'];
 	rightRsa?: Maybe<Scalars['String']>;
+	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
-	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
 /** columns and relationships of "notebook" */
@@ -1375,11 +1365,6 @@ export type NotebookMembersAggregateArgs = {
 	where?: Maybe<NotebookMemberBoolExp>;
 };
 
-/** columns and relationships of "notebook" */
-export type NotebookWorkSituationsArgs = {
-	path?: Maybe<Scalars['String']>;
-};
-
 /** aggregated selection of "notebook" */
 export type NotebookAggregate = {
 	__typename?: 'notebook_aggregate';
@@ -1399,11 +1384,6 @@ export type NotebookAggregateFields = {
 export type NotebookAggregateFieldsCountArgs = {
 	columns?: Maybe<Array<NotebookSelectColumn>>;
 	distinct?: Maybe<Scalars['Boolean']>;
-};
-
-/** append existing jsonb value of filtered columns with new jsonb value */
-export type NotebookAppendInput = {
-	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
 /** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
@@ -1428,8 +1408,8 @@ export type NotebookBoolExp = {
 	rightBonus?: Maybe<BooleanComparisonExp>;
 	rightRqth?: Maybe<BooleanComparisonExp>;
 	rightRsa?: Maybe<StringComparisonExp>;
+	workSituation?: Maybe<StringComparisonExp>;
 	workSituationDate?: Maybe<DateComparisonExp>;
-	workSituations?: Maybe<JsonbComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook" */
@@ -1439,21 +1419,6 @@ export enum NotebookConstraint {
 	/** unique or primary key constraint */
 	NotebookPkey = 'notebook_pkey'
 }
-
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-export type NotebookDeleteAtPathInput = {
-	workSituations?: Maybe<Array<Scalars['String']>>;
-};
-
-/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-export type NotebookDeleteElemInput = {
-	workSituations?: Maybe<Scalars['Int']>;
-};
-
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-export type NotebookDeleteKeyInput = {
-	workSituations?: Maybe<Scalars['String']>;
-};
 
 /** columns and relationships of "notebook_event" */
 export type NotebookEvent = {
@@ -1971,8 +1936,8 @@ export type NotebookInsertInput = {
 	rightBonus?: Maybe<Scalars['Boolean']>;
 	rightRqth?: Maybe<Scalars['Boolean']>;
 	rightRsa?: Maybe<Scalars['String']>;
+	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
-	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
 /** aggregate max on columns */
@@ -1987,6 +1952,7 @@ export type NotebookMaxFields = {
 	id?: Maybe<Scalars['uuid']>;
 	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
+	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
 };
 
@@ -2248,6 +2214,7 @@ export type NotebookMinFields = {
 	id?: Maybe<Scalars['uuid']>;
 	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
+	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
 };
 
@@ -2293,18 +2260,13 @@ export type NotebookOrderBy = {
 	rightBonus?: Maybe<OrderBy>;
 	rightRqth?: Maybe<OrderBy>;
 	rightRsa?: Maybe<OrderBy>;
+	workSituation?: Maybe<OrderBy>;
 	workSituationDate?: Maybe<OrderBy>;
-	workSituations?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook */
 export type NotebookPkColumnsInput = {
 	id: Scalars['uuid'];
-};
-
-/** prepend existing jsonb value of filtered columns with new jsonb value */
-export type NotebookPrependInput = {
-	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
 /** select columns of table "notebook" */
@@ -2336,9 +2298,9 @@ export enum NotebookSelectColumn {
 	/** column name */
 	RightRsa = 'rightRsa',
 	/** column name */
-	WorkSituationDate = 'workSituationDate',
+	WorkSituation = 'workSituation',
 	/** column name */
-	WorkSituations = 'workSituations'
+	WorkSituationDate = 'workSituationDate'
 }
 
 /** input type for updating data in table "notebook" */
@@ -2356,8 +2318,8 @@ export type NotebookSetInput = {
 	rightBonus?: Maybe<Scalars['Boolean']>;
 	rightRqth?: Maybe<Scalars['Boolean']>;
 	rightRsa?: Maybe<Scalars['String']>;
+	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
-	workSituations?: Maybe<Scalars['jsonb']>;
 };
 
 /** columns and relationships of "notebook_target" */
@@ -2558,9 +2520,9 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	RightRsa = 'rightRsa',
 	/** column name */
-	WorkSituationDate = 'workSituationDate',
+	WorkSituation = 'workSituation',
 	/** column name */
-	WorkSituations = 'workSituations'
+	WorkSituationDate = 'workSituationDate'
 }
 
 /** column ordering options */
@@ -3859,7 +3821,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 	notebook: Array<{
 		__typename?: 'notebook';
 		id: any;
-		workSituations?: Maybe<any>;
+		workSituation?: Maybe<string>;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: Maybe<string>;
@@ -3951,7 +3913,7 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	address2?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
-	workSituations?: Maybe<Scalars['jsonb']>;
+	workSituation?: Maybe<Scalars['String']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	cafNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
@@ -4011,7 +3973,14 @@ export type GetNotebookQuery = {
 	notebook?: Maybe<{
 		__typename?: 'notebook';
 		id: any;
-		workSituations?: Maybe<any>;
+		workSituation?: Maybe<string>;
+		rightRsa?: Maybe<string>;
+		rightRqth: boolean;
+		rightAre: boolean;
+		rightAss?: Maybe<boolean>;
+		rightBonus: boolean;
+		geographicalArea?: Maybe<string>;
+		educationLevel?: Maybe<string>;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: Maybe<string>;
@@ -5111,7 +5080,7 @@ export const GetNotebookByBeneficiaryIdDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'workSituations' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
@@ -5445,8 +5414,8 @@ export const CreateBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituations' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
 				},
 				{
 					kind: 'VariableDefinition',
@@ -5637,8 +5606,8 @@ export const CreateBeneficiaryDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'workSituations' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituations' } }
+											name: { kind: 'Name', value: 'workSituation' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } }
 										}
 									]
 								}
@@ -6052,7 +6021,14 @@ export const GetNotebookDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'workSituations' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightRqth' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightAre' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
