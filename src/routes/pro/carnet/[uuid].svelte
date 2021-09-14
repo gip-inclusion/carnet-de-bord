@@ -35,6 +35,7 @@
 	import { openComponent } from '$lib/stores';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
+	import ProFocusCreation from '$lib/ui/ProFocusCreation/index.svelte';
 	import { onDestroy } from 'svelte';
 	import Card from '$lib/ui/base/Card.svelte';
 	import ProBeneficiaryPersonnalInfos from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
@@ -74,10 +75,14 @@
 			}
 		});
 	};
+
+	const addFocus = () => {
+		openComponent.open({ component: ProFocusCreation, props: { notebook } });
+	};
 </script>
 
 <LoaderIndicator result={getNotebookResult}>
-	<div class="flex flex-col space-y-8 px-40">
+	<div class="flex flex-col gap-8 px-40">
 		<ProBeneficiaryPersonnalInfos
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}
@@ -137,15 +142,18 @@
 				</div>
 			</Accordion>
 			<Accordion title="Axe de travail">
-				<div class="flex  flex-row flex-wrap">
+				<div class="flex flex-row flex-wrap gap-4">
 					{#each focuses as focus (focus.id)}
-						<div class="w-1/2 p-4 box-border">
+						<div class="w-5/12 box-border">
 							<Card hideArrow={false}>
 								<span slot="title">{focusThemeKeys.byKey[focus.theme]}</span>
-								<span slot="description">{contractTypeKeys.byKey[focus.linkedTo]}</span>
+								<span slot="description">
+									<Text value={contractTypeKeys.byKey[focus.linkedTo]} />
+								</span>
 							</Card>
 						</div>
 					{/each}
+					<div><Button on:click={addFocus}>Ajouter un axe de travail</Button></div>
 				</div>
 			</Accordion>
 		</Accordions>
