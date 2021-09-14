@@ -1,3 +1,11 @@
+# [1.16.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.15.1...v1.16.0) (2021-09-14)
+
+
+### Features
+
+* **beneficiary:** add beneficiary home page with info ([#170](https://github.com/SocialGouv/carnet-de-bord/issues/170)) ([fcdb41c](https://github.com/SocialGouv/carnet-de-bord/commit/fcdb41c527bc1f72ecee16e87dfff4c75f35d787))
+* **pro:** member can create new member [#163](https://github.com/SocialGouv/carnet-de-bord/issues/163) ([#171](https://github.com/SocialGouv/carnet-de-bord/issues/171)) ([8da6ccd](https://github.com/SocialGouv/carnet-de-bord/commit/8da6ccd4dbde5c89576b56b052caaa35b9d8a9bd))
+
 ## [1.15.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.15.0...v1.15.1) (2021-09-13)
 
 
