@@ -52,7 +52,7 @@
 		<div class={`fr-fieldset__content ${globalClassNames}`}>
 			{#each options as option (option.name)}
 				<Checkbox
-					bind:selectedOptions={selectedOptions}
+					bind:selectedOptions
 					{option}
 					{groupId}
 					disabled={disabledBoxes[option.name]}

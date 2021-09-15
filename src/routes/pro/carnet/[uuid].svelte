@@ -7,14 +7,12 @@
 		UpdateNotebookVisitDateDocument,
 		UpdateNotebookVisitDateMutationStore
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { openComponent } from '$lib/stores';
-	import { Accordion, Accordions, Button } from '$lib/ui/base';
-	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
-	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
+	import { Accordion, Accordions } from '$lib/ui/base';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
+	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
-	import { LoaderIndicator, Text } from '$lib/ui/utils';
+	import { LoaderIndicator } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { onDestroy } from 'svelte';
@@ -47,25 +45,9 @@
 	$: members = notebook?.members as NotebookMember[];
 	$: lastMember = members?.length ? members[0] : null;
 
-	const openMemberInfo = (member: NotebookMember) => {
-		openComponent.open({ component: ProMemberInfo, props: { member } });
-	};
-
 	onDestroy(() => {
 		updateVisitDate();
 	});
-
-	const openInviteMember = (beneficiary: Beneficiary, notebookId: string) => {
-		openComponent.open({
-			component: ProMemberInvitation,
-			props: {
-				beneficiaryFirstname: beneficiary.firstname,
-				beneficiaryLastname: beneficiary.lastname,
-				notebookId,
-				professionalIds: members ? members.map((m) => m.professional.id) : []
-			}
-		});
-	};
 </script>
 
 <LoaderIndicator result={getNotebookResult}>
@@ -82,51 +64,12 @@
 				<ProNotebookSocioProView {notebook} />
 			</Accordion>
 			<Accordion title="Groupe de suivi">
-				<div class="flex flex-row w-full justify-between">
-					<Button
-						on:click={() => {
-							openInviteMember(beneficiary, notebook.id);
-						}}>Ajouter un accompagnateur</Button
-					>
-				</div>
-				<div class="py-8">
-					{#each members as member, i}
-						<div
-							class:bg-gray-100={i % 2 === 0}
-							class="flex hover:ml-2 cursor-pointer gap-2 p-2 mb-2 w-full border-l-2 border-france-blue"
-							on:click={() => {
-								openMemberInfo(member);
-							}}
-						>
-							<div class="flex flex-col w-1/2 min-w-0">
-								<div class="text-gray-text-alt">Structure</div>
-								<Text
-									classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-									value={member.professional.structure.name}
-								/>
-							</div>
-							<div class="flex flex-col w-1/4 min-w-0">
-								<div class="text-gray-text-alt">Accompagnateur</div>
-								<div
-									class="flex flex-row gap-2 font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-								>
-									<Text classNames="font-bold" value={member.professional.firstname} />
-									<Text classNames="font-bold" value={member.professional.lastname} />
-								</div>
-							</div>
-							<div class="flex flex-col w-1/4 min-w-0">
-								<div class="text-gray-text-alt">Fonction</div>
-								<Text
-									classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-									value={member.professional.position}
-								/>
-							</div>
-							<button>
-								<i class="text-2xl text-france-blue ri-arrow-right-line" />
-							</button>
-						</div>
-					{/each}
-				</div>
+				<ProNotebookMembersView
+					{members}
+					notebookId={notebook.id}
+					beneficiaryFirstname={beneficiary.firstname}
+					beneficiaryLastname={beneficiary.lastname}
+				/>
 			</Accordion>
 			<Accordion title="Axe de travail">
 				<ProNotebookFocusView notebookId={notebook.id} focuses={notebook.focuses} />
