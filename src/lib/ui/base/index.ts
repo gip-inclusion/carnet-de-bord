@@ -16,3 +16,5 @@ export { default as SearchBar } from '$lib/ui/base/SearchBar.svelte';
 export { default as Select } from '$lib/ui/base/Select.svelte';
 export { default as Select2 } from '$lib/ui/base/Select2.svelte';
 export { default as Table } from '$lib/ui/base/Table.svelte';
+export { default as Accordions } from '$lib/ui/base/Accordions.svelte';
+export { default as Accordion } from '$lib/ui/base/Accordion.svelte';

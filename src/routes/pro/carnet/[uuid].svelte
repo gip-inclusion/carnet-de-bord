@@ -8,16 +8,13 @@
 		UpdateNotebookVisitDateMutationStore
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
-	import { Button } from '$lib/ui/base';
-	import Accordion from '$lib/ui/base/Accordion.svelte';
-	import Accordions from '$lib/ui/base/Accordions.svelte';
+	import { Accordion, Accordions, Button } from '$lib/ui/base';
 	import { ProBeneficiaryFocusView } from '$lib/ui/ProBeneficiaryFocus';
-	import ProBeneficiaryPersonnalInfos from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
 	import { ProBeneficiarySocioProView } from '$lib/ui/ProBeneficiarySocioPro';
+	import { ProCarnetPersonnalInfoView } from '$lib/ui/ProCarnetPersonalInfo';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
-	import { Text } from '$lib/ui/utils';
-	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import { LoaderIndicator, Text } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { onDestroy } from 'svelte';
@@ -48,7 +45,7 @@
 	$: notebook = $getNotebookResult.data?.notebook;
 	$: beneficiary = notebook?.beneficiary as Beneficiary;
 	$: members = notebook?.members as NotebookMember[];
-	$: member = members?.length ? members[0] : null;
+	$: lastMember = members?.length ? members[0] : null;
 
 	const openMemberInfo = (member: NotebookMember) => {
 		openComponent.open({ component: ProMemberInfo, props: { member } });
@@ -73,12 +70,12 @@
 
 <LoaderIndicator result={getNotebookResult}>
 	<div class="flex flex-col gap-8 px-40">
-		<ProBeneficiaryPersonnalInfos
+		<ProCarnetPersonnalInfoView
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}
 			on:print={() => alert('Not implemented!')}
-			lastUpdateDate={members[0].notebookModificationDate}
-			lastUpdateFrom={members[0].professional}
+			lastUpdateDate={lastMember?.notebookModificationDate}
+			lastUpdateFrom={lastMember?.professional}
 		/>
 		<Accordions>
 			<Accordion title="Situation socioprofessionnelle">

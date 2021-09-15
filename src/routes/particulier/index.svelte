@@ -4,8 +4,13 @@
 		GetNotebookByBeneficiaryIdDocument,
 		GetNotebookByBeneficiaryIdQueryStore
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, query } from '@urql/svelte';
+	import type { Option } from '$lib/types';
+	import { Accordion, Accordions, Button, Select } from '$lib/ui/base';
+	import BeneficiaryInfo from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import Text from '$lib/ui/utils/Text.svelte';
 	import type { Load } from '@sveltejs/kit';
+	import { operationStore, query } from '@urql/svelte';
 
 	export const load: Load = ({ session }) => {
 		const id = session.user.beneficiaryId;
@@ -20,15 +25,6 @@
 </script>
 
 <script lang="ts">
-	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { Button, Select } from '$lib/ui/base';
-	import Text from '$lib/ui/utils/Text.svelte';
-
-	import BeneficiaryInfo from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
-	import Accordions from '$lib/ui/base/Accordions.svelte';
-	import Accordion from '$lib/ui/base/Accordion.svelte';
-	import type { Option } from '$lib/types';
-
 	export let getNotebookResult: GetNotebookByBeneficiaryIdQueryStore;
 
 	query(getNotebookResult);

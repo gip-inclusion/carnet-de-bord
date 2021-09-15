@@ -2,9 +2,9 @@
 	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { createEventDispatcher } from 'svelte';
-	import { Button } from './base';
-	import { displayFullName, displayMobileNumber } from './format';
-	import { Text } from './utils';
+	import { Button } from '../base';
+	import { displayFullName, displayMobileNumber } from '../format';
+	import { Text } from '../utils';
 
 	const dispatch = createEventDispatcher();
 
