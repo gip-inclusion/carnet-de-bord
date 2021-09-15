@@ -10,7 +10,7 @@
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Button } from '../base';
 	import { Text } from '../utils';
-	import ProCarnetSocioProUpdate from './ProCarnetSocioProUpdate.svelte';
+	import ProCarnetSocioProUpdate from './ProNotebookSocioProUpdate.svelte';
 
 	export let notebook: Pick<
 		Notebook,
