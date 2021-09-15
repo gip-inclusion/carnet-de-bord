@@ -1,0 +1,33 @@
+mutation UpdateBeneficiaryPersonalInfo(
+	$id: uuid!
+	$firstname: String
+	$lastname: String
+	$dateOfBirth: date
+	$mobileNumber: String
+	$email: String
+	$address1: String
+	$address2: String
+	$postalCode: String
+	$city: String
+	$peNumber: String
+	$cafNumber: String
+) {
+	update: update_beneficiary_by_pk(
+		pk_columns: { id: $id }
+		_set: {
+			firstname: $firstname
+			lastname: $lastname
+			dateOfBirth: $dateOfBirth
+			mobileNumber: $mobileNumber
+			email: $email
+			address1: $address1
+			address2: $address2
+			postalCode: $postalCode
+			city: $city
+			peNumber: $peNumber
+			cafNumber: $cafNumber
+		}
+	) {
+		id
+	}
+}
