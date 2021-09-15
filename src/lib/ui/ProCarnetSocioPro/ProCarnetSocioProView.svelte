@@ -10,7 +10,7 @@
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Button } from '../base';
 	import { Text } from '../utils';
-	import ProBeneficiarySocioProUpdate from './ProBeneficiarySocioProUpdate.svelte';
+	import ProCarnetSocioProUpdate from './ProCarnetSocioProUpdate.svelte';
 
 	export let notebook: Pick<
 		Notebook,
@@ -28,7 +28,7 @@
 
 	const editSocioProSituation = () => {
 		openComponent.open({
-			component: ProBeneficiarySocioProUpdate,
+			component: ProCarnetSocioProUpdate,
 			props: {
 				notebook
 			}

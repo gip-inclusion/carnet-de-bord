@@ -11,7 +11,7 @@
 	import type { Option } from '$lib/types';
 	import { Button, Checkboxes, Radio, Select } from '$lib/ui/base';
 	import { mutation, operationStore } from '@urql/svelte';
-	import ProFocusCreationConfirmation from './ProBeneficiaryFocusCreationConfirmation.svelte';
+	import ProNotebookFocusConfirmation from './ProNotebookFocusConfirmation.svelte';
 
 	function close() {
 		openComponent.close();
@@ -56,7 +56,7 @@
 				creatorId: $session.user.professionalId
 			});
 		} else {
-			openComponent.open({ component: ProFocusCreationConfirmation });
+			openComponent.open({ component: ProNotebookFocusConfirmation });
 		}
 	}
 </script>

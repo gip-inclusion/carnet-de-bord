@@ -9,11 +9,11 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Accordion, Accordions, Button } from '$lib/ui/base';
-	import { ProBeneficiaryFocusView } from '$lib/ui/ProBeneficiaryFocus';
-	import { ProBeneficiarySocioProView } from '$lib/ui/ProBeneficiarySocioPro';
 	import { ProCarnetPersonnalInfoView } from '$lib/ui/ProCarnetPersonalInfo';
+	import { ProCarnetSocioProView } from '$lib/ui/ProCarnetSocioPro';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
+	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { LoaderIndicator, Text } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
 	import { mutation, operationStore, query } from '@urql/svelte';
@@ -79,7 +79,7 @@
 		/>
 		<Accordions>
 			<Accordion title="Situation socioprofessionnelle">
-				<ProBeneficiarySocioProView {notebook} />
+				<ProCarnetSocioProView {notebook} />
 			</Accordion>
 			<Accordion title="Groupe de suivi">
 				<div class="flex flex-row w-full justify-between">
@@ -129,7 +129,7 @@
 				</div>
 			</Accordion>
 			<Accordion title="Axe de travail">
-				<ProBeneficiaryFocusView notebookId={notebook.id} focuses={notebook.focuses} />
+				<ProNotebookFocusView notebookId={notebook.id} focuses={notebook.focuses} />
 			</Accordion>
 		</Accordions>
 	</div>

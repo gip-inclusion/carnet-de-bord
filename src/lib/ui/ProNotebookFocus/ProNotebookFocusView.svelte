@@ -4,13 +4,13 @@
 	import { openComponent } from '$lib/stores';
 	import { Button, Card } from '../base';
 	import { Text } from '../utils';
-	import ProBeneficiaryFocusCreate from './ProBeneficiaryFocusCreate.svelte';
+	import ProNotebookFocusCreate from './ProNotebookFocusCreate.svelte';
 
 	export let notebookId: string;
 	export let focuses: Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'>[] = [];
 
 	const addFocus = () => {
-		openComponent.open({ component: ProBeneficiaryFocusCreate, props: { notebookId } });
+		openComponent.open({ component: ProNotebookFocusCreate, props: { notebookId } });
 	};
 </script>
 
