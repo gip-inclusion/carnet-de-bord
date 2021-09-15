@@ -5,14 +5,13 @@
 		rsaRightKeys,
 		workSituationKeys
 	} from '$lib/constants/keys';
-
 	import type { Notebook } from '$lib/graphql/_gen/typed-document-nodes';
+	import { openComponent } from '$lib/stores';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { createEventDispatcher } from 'svelte';
-	import Button from './base/Button.svelte';
-	import Text from './utils/Text.svelte';
+	import { Button } from '../base';
+	import { Text } from '../utils';
+	import ProCarnetSocioProUpdate from './ProNotebookSocioProUpdate.svelte';
 
-	const dispatch = createEventDispatcher();
 	export let notebook: Pick<
 		Notebook,
 		| 'workSituation'
@@ -26,6 +25,15 @@
 		| 'job'
 		| 'educationLevel'
 	>;
+
+	const editSocioProSituation = () => {
+		openComponent.open({
+			component: ProCarnetSocioProUpdate,
+			props: {
+				notebook
+			}
+		});
+	};
 </script>
 
 <div class="flex flex-col space-y-6">
@@ -68,7 +76,9 @@
 			<Text classNames="mb-2" value={educationLevelKeys.byKey[notebook.educationLevel]} />
 		</div>
 	</div>
-	<Button classNames="self-start" on:click={() => dispatch('edit')} outline>Mettre à jour</Button>
+	<Button classNames="self-start" on:click={() => editSocioProSituation()} outline
+		>Mettre à jour</Button
+	>
 </div>
 
 <style lang="postcss">

@@ -16,7 +16,7 @@
 	function onChange({ target }) {
 		const { value, checked } = target;
 		if (checked) {
-			selectedOptions = [...selectedOptions, value]
+			selectedOptions = [...selectedOptions, value];
 		} else {
 			selectedOptions = selectedOptions.filter((item) => item !== value);
 		}
