@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.22.0...v1.23.0) (2021-09-15)
+
+
+### Features
+
+* **pro:** update socio pro data ([#179](https://github.com/SocialGouv/carnet-de-bord/issues/179)) ([a5c8ee5](https://github.com/SocialGouv/carnet-de-bord/commit/a5c8ee57e99b837ffff7ccc6e04cb4c1e9cfbb67))
+
 # [1.22.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.21.0...v1.22.0) (2021-09-14)
 
 
