@@ -8,13 +8,12 @@
 		rsaRightKeys,
 		workSituationKeys
 	} from '$lib/constants/keys';
-
 	import { Notebook, UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { openComponent } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
+	import { Checkbox2, Radio2, Select2 } from '../base';
 	import Button from '../base/Button.svelte';
 	import Input from '../base/Input.svelte';
-	import { Checkbox2, Radio2, Select2 } from '../base';
-	import { openComponent } from '$lib/stores';
 
 	export let notebook: Pick<
 		Notebook,
@@ -59,8 +58,6 @@
 		});
 		openComponent.close();
 	}
-
-	$: disabled = !formData.workSituation;
 </script>
 
 <div>
@@ -96,7 +93,7 @@
 		/>
 
 		<div class="flex flex-row">
-			<Button type="submit" {disabled}>Enregistrer</Button>
+			<Button type="submit">Enregistrer</Button>
 			<Button outline>Annuler</Button>
 		</div>
 	</form>

@@ -3627,23 +3627,15 @@ export type UuidComparisonExp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type UpdateSocioProMutationVariables = Exact<{
-	id: Scalars['uuid'];
-	workSituation?: Maybe<Scalars['String']>;
-	workSituationDate?: Maybe<Scalars['date']>;
-	rightRsa?: Maybe<Scalars['String']>;
-	rightAre?: Maybe<Scalars['Boolean']>;
-	rightAss?: Maybe<Scalars['Boolean']>;
-	rightRqth?: Maybe<Scalars['Boolean']>;
-	rightBonus?: Maybe<Scalars['Boolean']>;
-	job?: Maybe<Scalars['String']>;
-	geographicalArea?: Maybe<Scalars['String']>;
-	educationLevel?: Maybe<Scalars['String']>;
+export type AddNotebookFocusMutationVariables = Exact<{
+	notebookId: Scalars['uuid'];
+	situations?: Maybe<Scalars['jsonb']>;
+	theme: Scalars['String'];
 }>;
 
-export type UpdateSocioProMutation = {
+export type AddNotebookFocusMutation = {
 	__typename?: 'mutation_root';
-	update?: Maybe<{ __typename?: 'notebook'; id: any }>;
+	insert_notebook_focus_one?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
 };
 
 export type AddNotebookMemberMutationVariables = Exact<{
@@ -3681,6 +3673,45 @@ export type SearchProfessionalQuery = {
 		__typename?: 'professional_aggregate';
 		aggregate?: Maybe<{ __typename?: 'professional_aggregate_fields'; count: number }>;
 	};
+};
+
+export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	firstname?: Maybe<Scalars['String']>;
+	lastname?: Maybe<Scalars['String']>;
+	dateOfBirth?: Maybe<Scalars['date']>;
+	mobileNumber?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['String']>;
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
+}>;
+
+export type UpdateBeneficiaryPersonalInfoMutation = {
+	__typename?: 'mutation_root';
+	update?: Maybe<{ __typename?: 'beneficiary'; id: any }>;
+};
+
+export type UpdateSocioProMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	workSituation?: Maybe<Scalars['String']>;
+	workSituationDate?: Maybe<Scalars['date']>;
+	rightRsa?: Maybe<Scalars['String']>;
+	rightAre?: Maybe<Scalars['Boolean']>;
+	rightAss?: Maybe<Scalars['Boolean']>;
+	rightRqth?: Maybe<Scalars['Boolean']>;
+	rightBonus?: Maybe<Scalars['Boolean']>;
+	job?: Maybe<Scalars['String']>;
+	geographicalArea?: Maybe<Scalars['String']>;
+	educationLevel?: Maybe<Scalars['String']>;
+}>;
+
+export type UpdateSocioProMutation = {
+	__typename?: 'mutation_root';
+	update?: Maybe<{ __typename?: 'notebook'; id: any }>;
 };
 
 export type GetAccountQueryVariables = Exact<{
@@ -3983,17 +4014,6 @@ export type UpdateNotebookVisitDateMutation = {
 	}>;
 };
 
-export type AddNotebookFocusMutationVariables = Exact<{
-	notebookId: Scalars['uuid'];
-	situations?: Maybe<Scalars['jsonb']>;
-	theme: Scalars['String'];
-}>;
-
-export type AddNotebookFocusMutation = {
-	__typename?: 'mutation_root';
-	insert_notebook_focus_one?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
-};
-
 export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -4124,17 +4144,17 @@ export const StructureFieldsFragmentDoc = {
 		}
 	]
 } as unknown as DocumentNode<StructureFieldsFragment, unknown>;
-export const UpdateSocioProDocument = {
+export const AddNotebookFocusDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateSocioPro' },
+			name: { kind: 'Name', value: 'AddNotebookFocus' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
@@ -4142,53 +4162,16 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituationDate' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
 				}
 			],
 			selectionSet: {
@@ -4196,81 +4179,42 @@ export const UpdateSocioProDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'update' },
-						name: { kind: 'Name', value: 'update_notebook_by_pk' },
+						name: { kind: 'Name', value: 'insert_notebook_focus_one' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
+								name: { kind: 'Name', value: 'object' },
 								value: {
 									kind: 'ObjectValue',
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-										}
-									]
-								}
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'workSituation' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } }
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } }
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'workSituationDate' },
+											name: { kind: 'Name', value: 'situations' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'theme' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'targets' },
 											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'workSituationDate' }
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: { kind: 'ListValue', values: [] }
+													}
+												]
 											}
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightRsa' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightAre' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightAss' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightRqth' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightBonus' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'job' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'geographicalArea' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'educationLevel' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } }
 										}
 									]
 								}
@@ -4285,7 +4229,7 @@ export const UpdateSocioProDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<UpdateSocioProMutation, UpdateSocioProMutationVariables>;
+} as unknown as DocumentNode<AddNotebookFocusMutation, AddNotebookFocusMutationVariables>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -4722,6 +4666,340 @@ export const SearchProfessionalDocument = {
 		}
 	]
 } as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
+export const UpdateBeneficiaryPersonalInfoDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateBeneficiaryPersonalInfo' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'update' },
+						name: { kind: 'Name', value: 'update_beneficiary_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'dateOfBirth' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'mobileNumber' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address1' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address2' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'postalCode' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'city' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'peNumber' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'cafNumber' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<
+	UpdateBeneficiaryPersonalInfoMutation,
+	UpdateBeneficiaryPersonalInfoMutationVariables
+>;
+export const UpdateSocioProDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateSocioPro' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituationDate' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'update' },
+						name: { kind: 'Name', value: 'update_notebook_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'workSituation' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'workSituationDate' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'workSituationDate' }
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightRsa' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightAre' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightAss' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightRqth' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightBonus' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'job' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'geographicalArea' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'educationLevel' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<UpdateSocioProMutation, UpdateSocioProMutationVariables>;
 export const GetAccountDocument = {
 	kind: 'Document',
 	definitions: [
@@ -6180,92 +6458,6 @@ export const UpdateNotebookVisitDateDocument = {
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
 >;
-export const AddNotebookFocusDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookFocus' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
-				}
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_focus_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'situations' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'theme' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } }
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'targets' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'data' },
-														value: { kind: 'ListValue', values: [] }
-													}
-												]
-											}
-										}
-									]
-								}
-							}
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
-						}
-					}
-				]
-			}
-		}
-	]
-} as unknown as DocumentNode<AddNotebookFocusMutation, AddNotebookFocusMutationVariables>;
 export const GetNotebookDocument = {
 	kind: 'Document',
 	definitions: [
@@ -6644,9 +6836,9 @@ export const UpdateProfessionalProfileDocument = {
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
 >;
-export type UpdateSocioProMutationStore = OperationStore<
-	UpdateSocioProMutation,
-	UpdateSocioProMutationVariables
+export type AddNotebookFocusMutationStore = OperationStore<
+	AddNotebookFocusMutation,
+	AddNotebookFocusMutationVariables
 >;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
@@ -6655,6 +6847,14 @@ export type AddNotebookMemberMutationStore = OperationStore<
 export type SearchProfessionalQueryStore = OperationStore<
 	SearchProfessionalQuery,
 	SearchProfessionalQueryVariables
+>;
+export type UpdateBeneficiaryPersonalInfoMutationStore = OperationStore<
+	UpdateBeneficiaryPersonalInfoMutation,
+	UpdateBeneficiaryPersonalInfoMutationVariables
+>;
+export type UpdateSocioProMutationStore = OperationStore<
+	UpdateSocioProMutation,
+	UpdateSocioProMutationVariables
 >;
 export type GetAccountQueryStore = OperationStore<GetAccountQuery, GetAccountQueryVariables>;
 export type InsertStructureMutationStore = OperationStore<
@@ -6692,10 +6892,6 @@ export type SearchNotebookMemberQueryStore = OperationStore<
 export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
->;
-export type AddNotebookFocusMutationStore = OperationStore<
-	AddNotebookFocusMutation,
-	AddNotebookFocusMutationVariables
 >;
 export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type UpdateProfessionalProfileMutationStore = OperationStore<
