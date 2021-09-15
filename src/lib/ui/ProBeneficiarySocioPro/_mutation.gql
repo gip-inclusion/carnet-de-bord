@@ -1,0 +1,31 @@
+mutation UpdateSocioPro(
+	$id: uuid!
+	$workSituation: String
+	$workSituationDate: date
+	$rightRsa: String
+	$rightAre: Boolean
+	$rightAss: Boolean
+	$rightRqth: Boolean
+	$rightBonus: Boolean
+	$job: String
+	$geographicalArea: String
+	$educationLevel: String
+) {
+	update: update_notebook_by_pk(
+		pk_columns: { id: $id }
+		_set: {
+			workSituation: $workSituation
+			workSituationDate: $workSituationDate
+			rightRsa: $rightRsa
+			rightAre: $rightAre
+			rightAss: $rightAss
+			rightRqth: $rightRqth
+			rightBonus: $rightBonus
+			job: $job
+			geographicalArea: $geographicalArea
+			educationLevel: $educationLevel
+		}
+	) {
+		id
+	}
+}

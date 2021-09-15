@@ -42,6 +42,7 @@
 	import Accordions from '$lib/ui/base/Accordions.svelte';
 	import Accordion from '$lib/ui/base/Accordion.svelte';
 	import ProBeneficiarySocioProSituation from '$lib/ui/ProBeneficiarySocioProSituation.svelte';
+	import ProBeneficiarySocioPro from '$lib/ui/ProBeneficiarySocioPro/index.svelte';
 
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 	export let getNotebookResult: GetNotebookQueryStore;
@@ -79,6 +80,15 @@
 	const addFocus = () => {
 		openComponent.open({ component: ProFocusCreation, props: { notebook } });
 	};
+
+	const editSocioProSituation = () => {
+		openComponent.open({
+			component: ProBeneficiarySocioPro,
+			props: {
+				notebook
+			}
+		});
+	};
 </script>
 
 <LoaderIndicator result={getNotebookResult}>
@@ -92,7 +102,7 @@
 		/>
 		<Accordions>
 			<Accordion title="Situation socioprofessionnelle">
-				<ProBeneficiarySocioProSituation {notebook} />
+				<ProBeneficiarySocioProSituation {notebook} on:edit={editSocioProSituation} />
 			</Accordion>
 			<Accordion title="Groupe de suivi">
 				<div class="flex flex-row w-full justify-between">

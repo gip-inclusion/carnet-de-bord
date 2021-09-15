@@ -68,9 +68,7 @@
 			<Text classNames="mb-2" value={educationLevelKeys.byKey[notebook.educationLevel]} />
 		</div>
 	</div>
-	<Button disabled classNames="self-start" on:click={() => dispatch('edit')} outline
-		>Mettre à jour</Button
-	>
+	<Button classNames="self-start" on:click={() => dispatch('edit')} outline>Mettre à jour</Button>
 </div>
 
 <style lang="postcss">

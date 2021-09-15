@@ -93,6 +93,18 @@
 				bind:value={val}
 				{disabled}
 			/>
+		{:else if type === 'date'}
+			<input
+				type="date"
+				on:input={handleInput}
+				class="fr-input"
+				placeholder={inputHint}
+				id={uniqueId}
+				name={uniqueId}
+				{required}
+				bind:value={val}
+				{disabled}
+			/>
 		{/if}
 	</div>
 

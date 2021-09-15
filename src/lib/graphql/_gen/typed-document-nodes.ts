@@ -3627,6 +3627,25 @@ export type UuidComparisonExp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type UpdateSocioProMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	workSituation?: Maybe<Scalars['String']>;
+	workSituationDate?: Maybe<Scalars['date']>;
+	rightRsa?: Maybe<Scalars['String']>;
+	rightAre?: Maybe<Scalars['Boolean']>;
+	rightAss?: Maybe<Scalars['Boolean']>;
+	rightRqth?: Maybe<Scalars['Boolean']>;
+	rightBonus?: Maybe<Scalars['Boolean']>;
+	job?: Maybe<Scalars['String']>;
+	geographicalArea?: Maybe<Scalars['String']>;
+	educationLevel?: Maybe<Scalars['String']>;
+}>;
+
+export type UpdateSocioProMutation = {
+	__typename?: 'mutation_root';
+	update?: Maybe<{ __typename?: 'notebook'; id: any }>;
+};
+
 export type AddNotebookMemberMutationVariables = Exact<{
 	creatorId: Scalars['uuid'];
 	professionalId: Scalars['uuid'];
@@ -4105,6 +4124,168 @@ export const StructureFieldsFragmentDoc = {
 		}
 	]
 } as unknown as DocumentNode<StructureFieldsFragment, unknown>;
+export const UpdateSocioProDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateSocioPro' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituationDate' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'update' },
+						name: { kind: 'Name', value: 'update_notebook_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+										}
+									]
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'workSituation' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'workSituationDate' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'workSituationDate' }
+											}
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightRsa' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightAre' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightAss' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightRqth' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightBonus' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'job' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'geographicalArea' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } }
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'educationLevel' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } }
+										}
+									]
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<UpdateSocioProMutation, UpdateSocioProMutationVariables>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -6462,6 +6643,10 @@ export const UpdateProfessionalProfileDocument = {
 } as unknown as DocumentNode<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
+>;
+export type UpdateSocioProMutationStore = OperationStore<
+	UpdateSocioProMutation,
+	UpdateSocioProMutationVariables
 >;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
