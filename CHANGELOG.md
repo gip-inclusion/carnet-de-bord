@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.23.0...v1.24.0) (2021-09-15)
+
+
+### Features
+
+* **pro:** update beneficiary personal info ([#183](https://github.com/SocialGouv/carnet-de-bord/issues/183)) ([a38509e](https://github.com/SocialGouv/carnet-de-bord/commit/a38509ead0d6c2ff39c247f61fb1649e6c27480d))
+
 # [1.23.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.22.0...v1.23.0) (2021-09-15)
 
 
