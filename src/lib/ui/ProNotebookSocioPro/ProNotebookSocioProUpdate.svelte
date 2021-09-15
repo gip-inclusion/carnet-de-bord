@@ -60,25 +60,34 @@
 	}
 </script>
 
-<div>
+<section class="pl-4">
+	<div class="pb-8">
+		<h1>Informations personnelles</h1>
+		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier</p>
+	</div>
 	<form on:submit|preventDefault={handleSubmit}>
-		<Select2
-			selectLabel={'Situation'}
-			selectHint={"Ex : En recherche d'emploi"}
-			options={workSituationKeys.options}
-			bind:selected={formData.workSituation}
-		/>
-		<Input bind:val={formData.workSituationDate} inputLabel="Depuis le" type="date" />
+		<div class="fr-form-group">
+			<Select2
+				selectLabel={'Situation'}
+				selectHint={"Ex : En recherche d'emploi"}
+				options={workSituationKeys.options}
+				bind:selected={formData.workSituation}
+			/>
+			<Input bind:val={formData.workSituationDate} inputLabel="Depuis le" type="date" />
+		</div>
 		<Radio2
 			caption={'Revenu de solidarité active (RSA)'}
 			bind:selected={formData.rightRsa}
 			options={rsaRightKeys.options}
 		/>
 
-		<Checkbox2 bind:value={formData.rightAre} name="rightAre" label="ARE" />
-		<Checkbox2 bind:value={formData.rightAss} name="rightAss" label="ASS" />
-		<Checkbox2 bind:value={formData.rightRqth} name="rightRqth" label="RQTH" />
-		<Checkbox2 bind:value={formData.rightBonus} name="rightBonus" label="Prime d'activité" />
+		<div class="fr-form-group">
+			<div class="font-bold pb-2">Autres aides</div>
+			<Checkbox2 bind:value={formData.rightAre} name="rightAre" label="ARE" />
+			<Checkbox2 bind:value={formData.rightAss} name="rightAss" label="ASS" />
+			<Checkbox2 bind:value={formData.rightRqth} name="rightRqth" label="RQTH" />
+			<Checkbox2 bind:value={formData.rightBonus} name="rightBonus" label="Prime d'activité" />
+		</div>
 
 		<Radio2
 			caption={'Zone géographique privilégiée'}
@@ -86,15 +95,18 @@
 			options={geographicalAreaKeys.options}
 		/>
 
-		<Select2
-			selectLabel={"Niveau d'étude le plus élevé"}
-			options={educationLevelKeys.options}
-			bind:selected={formData.educationLevel}
-		/>
+		<div class="fr-form-group">
+			<div class="font-bold pb-2">Diplôme</div>
+			<Select2
+				selectLabel={"Niveau d'étude le plus élevé"}
+				options={educationLevelKeys.options}
+				bind:selected={formData.educationLevel}
+			/>
+		</div>
 
-		<div class="flex flex-row">
+		<div class="flex flex-row gap-2 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>
 			<Button outline>Annuler</Button>
 		</div>
 	</form>
-</div>
+</section>
