@@ -9,11 +9,11 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Accordion, Accordions, Button } from '$lib/ui/base';
-	import { ProCarnetPersonnalInfoView } from '$lib/ui/ProCarnetPersonalInfo';
 	import { ProCarnetSocioProView } from '$lib/ui/ProCarnetSocioPro';
 	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
 	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
+	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { LoaderIndicator, Text } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
 	import { mutation, operationStore, query } from '@urql/svelte';
@@ -70,7 +70,7 @@
 
 <LoaderIndicator result={getNotebookResult}>
 	<div class="flex flex-col gap-8 px-40">
-		<ProCarnetPersonnalInfoView
+		<ProNotebookPersonalInfoView
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}
 			on:print={() => alert('Not implemented!')}
