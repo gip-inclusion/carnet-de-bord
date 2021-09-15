@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { Button } from './base';
 	import { displayFullName, displayMobileNumber } from './format';
-	import Text from './utils/Text.svelte';
+	import { Text } from './utils';
 
 	const dispatch = createEventDispatcher();
 

@@ -3,13 +3,24 @@
 		Beneficiary,
 		GetNotebookDocument,
 		GetNotebookQueryStore,
-		NotebookFocus,
 		NotebookMember,
 		UpdateNotebookVisitDateDocument,
 		UpdateNotebookVisitDateMutationStore
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { mutation, operationStore, query } from '@urql/svelte';
+	import { openComponent } from '$lib/stores';
+	import { Button } from '$lib/ui/base';
+	import Accordion from '$lib/ui/base/Accordion.svelte';
+	import Accordions from '$lib/ui/base/Accordions.svelte';
+	import { ProBeneficiaryFocusView } from '$lib/ui/ProBeneficiaryFocus';
+	import ProBeneficiaryPersonnalInfos from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
+	import { ProBeneficiarySocioProView } from '$lib/ui/ProBeneficiarySocioPro';
+	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
+	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
+	import { Text } from '$lib/ui/utils';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { Load } from '@sveltejs/kit';
+	import { mutation, operationStore, query } from '@urql/svelte';
+	import { onDestroy } from 'svelte';
 
 	export const load: Load = ({ page }) => {
 		const id = page.params.uuid;
@@ -28,22 +39,6 @@
 </script>
 
 <script lang="ts">
-	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { Button } from '$lib/ui/base';
-	import Text from '$lib/ui/utils/Text.svelte';
-	import { contractTypeKeys, focusThemeKeys } from '$lib/constants/keys';
-	import { openComponent } from '$lib/stores';
-	import ProMemberInfo from '$lib/ui/ProMemberInfo.svelte';
-	import ProMemberInvitation from '$lib/ui/ProInviteMember/ProMemberInvitation.svelte';
-	import ProFocusCreation from '$lib/ui/ProFocusCreation/index.svelte';
-	import { onDestroy } from 'svelte';
-	import Card from '$lib/ui/base/Card.svelte';
-	import ProBeneficiaryPersonnalInfos from '$lib/ui/ProBeneficiaryPersonnalInfos.svelte';
-	import Accordions from '$lib/ui/base/Accordions.svelte';
-	import Accordion from '$lib/ui/base/Accordion.svelte';
-	import ProBeneficiarySocioProSituation from '$lib/ui/ProBeneficiarySocioProSituation.svelte';
-	import ProBeneficiarySocioPro from '$lib/ui/ProBeneficiarySocioPro/index.svelte';
-
 	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
 	export let getNotebookResult: GetNotebookQueryStore;
 
@@ -54,8 +49,6 @@
 	$: beneficiary = notebook?.beneficiary as Beneficiary;
 	$: members = notebook?.members as NotebookMember[];
 	$: member = members?.length ? members[0] : null;
-
-	$: focuses = notebook?.focuses as NotebookFocus[];
 
 	const openMemberInfo = (member: NotebookMember) => {
 		openComponent.open({ component: ProMemberInfo, props: { member } });
@@ -76,19 +69,6 @@
 			}
 		});
 	};
-
-	const addFocus = () => {
-		openComponent.open({ component: ProFocusCreation, props: { notebook } });
-	};
-
-	const editSocioProSituation = () => {
-		openComponent.open({
-			component: ProBeneficiarySocioPro,
-			props: {
-				notebook
-			}
-		});
-	};
 </script>
 
 <LoaderIndicator result={getNotebookResult}>
@@ -102,7 +82,7 @@
 		/>
 		<Accordions>
 			<Accordion title="Situation socioprofessionnelle">
-				<ProBeneficiarySocioProSituation {notebook} on:edit={editSocioProSituation} />
+				<ProBeneficiarySocioProView {notebook} />
 			</Accordion>
 			<Accordion title="Groupe de suivi">
 				<div class="flex flex-row w-full justify-between">
@@ -152,19 +132,7 @@
 				</div>
 			</Accordion>
 			<Accordion title="Axe de travail">
-				<div class="flex flex-row flex-wrap gap-4">
-					{#each focuses as focus (focus.id)}
-						<div class="w-5/12 box-border">
-							<Card hideArrow={false}>
-								<span slot="title">{focusThemeKeys.byKey[focus.theme]}</span>
-								<span slot="description">
-									<Text value={contractTypeKeys.byKey[focus.linkedTo]} />
-								</span>
-							</Card>
-						</div>
-					{/each}
-					<div><Button on:click={addFocus}>Ajouter un axe de travail</Button></div>
-				</div>
+				<ProBeneficiaryFocusView notebookId={notebook.id} focuses={notebook.focuses} />
 			</Accordion>
 		</Accordions>
 	</div>

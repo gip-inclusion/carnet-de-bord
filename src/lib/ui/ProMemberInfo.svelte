@@ -2,7 +2,7 @@
 	import type { NotebookMember } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import Button from './base/Button.svelte';
-	import Text from './utils/Text.svelte';
+	import { Text } from './utils';
 
 	export let member: NotebookMember;
 </script>

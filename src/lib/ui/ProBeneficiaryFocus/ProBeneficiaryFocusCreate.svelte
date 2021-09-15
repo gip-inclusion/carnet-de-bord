@@ -1,24 +1,23 @@
 <script lang="ts">
 	import { session } from '$app/stores';
-	import { mutation, operationStore } from '@urql/svelte';
 	import {
-		focusThemeKeys,
 		contractTypeFullKeys,
-		situationKeys,
-		focusToSituations
+		focusThemeKeys,
+		focusToSituations,
+		situationKeys
 	} from '$lib/constants/keys';
-
+	import { AddNotebookFocusDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { openComponent } from '$lib/stores';
 	import type { Option } from '$lib/types';
 	import { Button, Checkboxes, Radio, Select } from '$lib/ui/base';
-	import { openComponent } from '$lib/stores';
-	import ProFocusCreationConfirmation from './ProFocusCreationConfirmation.svelte';
-	import { AddNotebookFocusDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { mutation, operationStore } from '@urql/svelte';
+	import ProFocusCreationConfirmation from './ProBeneficiaryFocusCreationConfirmation.svelte';
 
 	function close() {
 		openComponent.close();
 	}
 
-	export let notebook: { id: string };
+	export let notebookId;
 
 	let selectedContract: Option | null = null;
 	let contractOptions: Option[] = contractTypeFullKeys.keys
@@ -47,7 +46,7 @@
 	const addNotebookFocus = mutation(addNotebookFocusStore);
 	async function createFocus() {
 		const store = await addNotebookFocus({
-			notebookId: notebook.id,
+			notebookId,
 			theme: selectedFocus.name,
 			situations
 		});
