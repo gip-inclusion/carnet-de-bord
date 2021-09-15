@@ -1,10 +1,12 @@
 <script type="ts">
 	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import { openComponent } from '$lib/stores';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { createEventDispatcher } from 'svelte';
 	import { Button } from '../base';
 	import { displayFullName, displayMobileNumber } from '../format';
 	import { Text } from '../utils';
+	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -25,6 +27,10 @@
 	>;
 	export let lastUpdateDate: string;
 	export let lastUpdateFrom: Pick<Professional, 'firstname' | 'lastname'>;
+
+	function edit() {
+		openComponent.open({ component: ProNotebookPersonalInfoUpdate, props: { beneficiary } });
+	}
 </script>
 
 <div class="flex flex-col space-y-6">
@@ -75,9 +81,7 @@
 			<Text value={beneficiary.cafNumber} />
 		</div>
 	</div>
-	<Button disabled classNames="self-start" on:click={() => dispatch('edit')} outline>
-		Mettre à jour
-	</Button>
+	<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>
 </div>
 
 <style lang="postcss">
