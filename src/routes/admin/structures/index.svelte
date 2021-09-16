@@ -13,8 +13,8 @@
 
 		return {
 			props: {
-				result
-			}
+				result,
+			},
 		};
 	};
 </script>
@@ -43,8 +43,8 @@
 					/* ignore */
 				},
 				disabledKeys: {},
-				onCancel: openComponent.close
-			}
+				onCancel: openComponent.close,
+			},
 		});
 	}
 

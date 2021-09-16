@@ -13,8 +13,8 @@ const smtpConfig = {
 	secure: false,
 	auth: {
 		pass: SMTP_PASS,
-		user: SMTP_USER
-	}
+		user: SMTP_USER,
+	},
 };
 
 export function sendEmail({
@@ -22,7 +22,7 @@ export function sendEmail({
 	subject,
 	text,
 	html,
-	bcc
+	bcc,
 }: Mail.Options): Promise<SMTPTransport.SentMessageInfo> {
 	const transporter = nodemailer.createTransport(smtpConfig);
 	const mailOptions = {
@@ -31,7 +31,7 @@ export function sendEmail({
 		html,
 		subject,
 		text,
-		to
+		to,
 	};
 	return transporter.sendMail(mailOptions);
 }

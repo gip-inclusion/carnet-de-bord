@@ -4,7 +4,7 @@
 <script lang="ts">
 	import {
 		Beneficiary,
-		UpdateBeneficiaryPersonalInfoDocument
+		UpdateBeneficiaryPersonalInfoDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
@@ -43,7 +43,7 @@
 			postalCode: beneficiary.postalCode,
 			city: beneficiary.city,
 			peNumber: beneficiary.peNumber,
-			cafNumber: beneficiary.cafNumber
+			cafNumber: beneficiary.cafNumber,
 		};
 	}
 
@@ -52,7 +52,7 @@
 	async function handleSubmit() {
 		await update({
 			id: beneficiary.id,
-			...formData
+			...formData,
 		});
 		openComponent.close();
 	}

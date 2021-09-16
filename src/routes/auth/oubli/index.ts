@@ -31,8 +31,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 401,
 			body: {
-				errors: 'PROFILE_NOT_FOUND'
-			}
+				errors: 'PROFILE_NOT_FOUND',
+			},
 		};
 	}
 
@@ -53,8 +53,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 401,
 			body: {
-				errors: 'ACCOUNT_NOT_FOUND'
-			}
+				errors: 'ACCOUNT_NOT_FOUND',
+			},
 		};
 	}
 
@@ -75,14 +75,14 @@ export const post: RequestHandler = async (request) => {
 			firstname,
 			lastname,
 			accessKey,
-			appUrl
-		})
+			appUrl,
+		}),
 	});
 
 	return {
 		status: 200,
 		body: {
-			email
-		}
+			email,
+		},
 	};
 };

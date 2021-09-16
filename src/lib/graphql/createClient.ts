@@ -16,12 +16,12 @@ export default (session: any) => {
 			const token = getToken(session);
 			if (token) {
 				return {
-					headers: { authorization: token ? `Bearer ${token}` : '' }
+					headers: { authorization: token ? `Bearer ${token}` : '' },
 				};
 			}
 			return {
-				headers: { 'X-Hasura-Role': 'anonymous' }
+				headers: { 'X-Hasura-Role': 'anonymous' },
 			};
-		}
+		},
 	});
 };

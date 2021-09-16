@@ -17,16 +17,16 @@
 	let options: { name: IdentifierType; label: string }[] = [
 		{
 			name: 'CAF',
-			label: "Je connais l'identifiant CAF du bénéficiaire."
+			label: "Je connais l'identifiant CAF du bénéficiaire.",
 		},
 		{
 			name: 'PE',
-			label: "Je connais l'identifiant Pôle emploi du bénéficiaire."
+			label: "Je connais l'identifiant Pôle emploi du bénéficiaire.",
 		},
 		{
 			name: 'NoIdentifier',
-			label: 'Je ne connais pas les identifiants bénéficiaire.'
-		}
+			label: 'Je ne connais pas les identifiants bénéficiaire.',
+		},
 	];
 
 	let selected: { name: IdentifierType; label: string } | null;
@@ -39,7 +39,7 @@
 			const store = await createBeneficiary({
 				...beneficiaryAccount,
 				dateOfBirth: new Date(beneficiaryAccount.dateOfBirth),
-				professionalId
+				professionalId,
 			});
 
 			if (store.error) {
@@ -55,7 +55,7 @@
 		let { mobileOrPhoneNumber, ...info } = selectedUser;
 		beneficiaryAccount = {
 			...info,
-			mobileNumber: mobileOrPhoneNumber
+			mobileNumber: mobileOrPhoneNumber,
 		};
 	}
 

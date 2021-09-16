@@ -7,11 +7,11 @@
 		CreateBeneficiaryMutationStore,
 		NotebookMember,
 		SearchNotebookMemberQueryStore,
-		SearchNotebookMemberQueryVariables
+		SearchNotebookMemberQueryVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		SearchNotebookMemberDocument,
-		CreateBeneficiaryDocument
+		CreateBeneficiaryDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
@@ -22,7 +22,7 @@
 		const { professionalId } = session.user;
 		const queryVariables = {
 			professionalId: professionalId,
-			filter: search ? `%${search}%` : undefined
+			filter: search ? `%${search}%` : undefined,
 		};
 		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
 		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
@@ -32,8 +32,8 @@
 				result,
 				search,
 				createBeneficiaryResult,
-				professionalId
-			}
+				professionalId,
+			},
 		};
 	};
 </script>
@@ -146,7 +146,7 @@
 					{ name: '-3months', label: 'dans les 3 derniers mois' },
 					{ name: '3-6months', label: 'entre les 3 et 6 derniers mois' },
 					{ name: '6-12months', label: 'entre les 6 et 12 derniers mois' },
-					{ name: '+12months', label: 'il y a plus de 12 mois' }
+					{ name: '+12months', label: 'il y a plus de 12 mois' },
 				]}
 				bind:selected
 				selectHint="Sélectionner un filtre"

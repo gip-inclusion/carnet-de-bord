@@ -19,8 +19,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 401,
 			body: {
-				errors: `no account for key ${accessKey}`
-			}
+				errors: `no account for key ${accessKey}`,
+			},
 		};
 	}
 
@@ -31,7 +31,7 @@ export const post: RequestHandler = async (request) => {
 		type,
 		username,
 		professionalId: professional_id,
-		beneficiaryId: beneficiary_id
+		beneficiaryId: beneficiary_id,
 	});
 
 	await await knex('account')
@@ -40,11 +40,11 @@ export const post: RequestHandler = async (request) => {
 
 	return {
 		headers: {
-			'set-cookie': `jwt=${user.token}; Path=/; HttpOnly`
+			'set-cookie': `jwt=${user.token}; Path=/; HttpOnly`,
 		},
 		body: {
-			jwt: user.token
+			jwt: user.token,
 		},
-		status: 200
+		status: 200,
 	};
 };

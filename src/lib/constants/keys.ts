@@ -19,32 +19,32 @@ export const workSituationKeys = buildKeys({
 	interim: 'En interim',
 	construction_projet: 'En construction de projet',
 	projet_entrepreneurial: 'En projet entrepreneurial',
-	entrepreneur: 'Entrepreneur'
+	entrepreneur: 'Entrepreneur',
 });
 
 export const rsaRightKeys = buildKeys({
 	rsa_droit_ouvert_et_suspendu: 'Droit ouvert et suspendu',
 	rsa_droit_ouvert_versable: 'Droit ouvert et versable',
-	rsa_droit_ouvert_versement_suspendu: 'Droit ouvert mais versement suspendu'
+	rsa_droit_ouvert_versement_suspendu: 'Droit ouvert mais versement suspendu',
 });
 
 export const geographicalAreaKeys = buildKeys({
 	less_10: 'Mois de 10 km',
 	between_10_20: 'Entre  10 et 20 km',
 	between_20_30: 'Entre  20 et 30 km',
-	plus_30: 'Plus de 30 km'
+	plus_30: 'Plus de 30 km',
 });
 
 export const contractTypeKeys = buildKeys({
 	cer: 'CER',
 	ppae: 'PPAE',
-	pacea: 'PACEA'
+	pacea: 'PACEA',
 });
 
 export const contractTypeFullKeys = buildKeys({
 	cer: "Contrat d'Engagement Réciproque (CER)",
 	ppae: "Projet Personnalisé d'Accès à l'Emploi (PPAE)",
-	pacea: "Parcours contractualisé d'Accompagnement vers l'Emploi et l'Autonomie (PACEA)"
+	pacea: "Parcours contractualisé d'Accompagnement vers l'Emploi et l'Autonomie (PACEA)",
 });
 
 export const educationLevelKeys = buildKeys({
@@ -54,7 +54,7 @@ export const educationLevelKeys = buildKeys({
 	level_4: 'Niveau IV : BAC ou équivalent',
 	level_5: 'Niveau V : CAP/BEP',
 	level_6: 'Formation courte max 1 mois',
-	level_7: 'Pas de formation / Pas de diplôme'
+	level_7: 'Pas de formation / Pas de diplôme',
 });
 
 /* ----------------------------------------------- */
@@ -65,7 +65,7 @@ export const educationLevelKeys = buildKeys({
 export const focusThemeKeys = buildKeys({
 	logement: 'Logement',
 	sante: 'Santé',
-	contraintes_familiales: 'Contraintes familiales'
+	contraintes_familiales: 'Contraintes familiales',
 });
 
 export const situationKeys = buildKeys({
@@ -79,7 +79,7 @@ export const situationKeys = buildKeys({
 	expulsion: 'Expulsion en cours',
 	difficulter_payer: 'Difficulté à payer le loyer',
 	chez_tiers: 'Chez un tiers',
-	autre: 'Autre'
+	autre: 'Autre',
 });
 
 export const focusToSituations = {
@@ -94,16 +94,16 @@ export const focusToSituations = {
 		'expulsion',
 		'difficulter_payer',
 		'chez_tiers',
-		'autre'
-	]
+		'autre',
+	],
 };
 
 export const targetKeys = buildKeys({
 	acces_droits: 'Accès Droits',
-	recherche_logement: 'Recherche de logement'
+	recherche_logement: 'Recherche de logement',
 });
 
 export const actionKeys = buildKeys({
 	demande_domiciliation: 'Demande de domiciliation',
-	droit_logement_opposable: 'Droit au logement opposable'
+	droit_logement_opposable: 'Droit au logement opposable',
 });

@@ -4,7 +4,7 @@
 	import { operationStore, OperationStore } from '@urql/svelte';
 	import {
 		GetStructuresDocument,
-		GetStructuresQuery
+		GetStructuresQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { query } from '@urql/svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -49,7 +49,7 @@
 			...s,
 			label: s.name,
 			name: s.name || s.id,
-			metadata: [...(s.shortDesc || '').split(' '), ...s.name.split(' ')]
+			metadata: [...(s.shortDesc || '').split(' '), ...s.name.split(' ')],
 		})) || [];
 
 	let search = '';

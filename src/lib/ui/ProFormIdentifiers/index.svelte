@@ -14,7 +14,7 @@
 
 	let forms: Record<IdentifierCAF | IdentifierPE, typeof SvelteComponent> = {
 		CAF: ProFormIdentifierCaf,
-		PE: ProFormIdentifierPe
+		PE: ProFormIdentifierPe,
 	};
 
 	export let identifierType: IdentifierType | null;
@@ -22,7 +22,7 @@
 	let users: Record<IdentifierType, RD.RemoteData<ExternalUser[], string>> = {
 		CAF: RD.notAsked,
 		PE: RD.notAsked,
-		NoIdentifier: RD.notAsked
+		NoIdentifier: RD.notAsked,
 	};
 
 	let selectedUser: ExternalUserOption = null;
@@ -37,10 +37,10 @@
 				externalUser.firstname,
 				externalUser.lastname,
 				externalUser.dateOfBirth,
-				externalUser.mobileOrPhoneNumber
+				externalUser.mobileOrPhoneNumber,
 			]
 				.filter(Boolean)
-				.join('-')
+				.join('-'),
 		};
 	}
 	function handleSelectUser(option: CustomEvent<ExternalUserOption>): void {

@@ -2,7 +2,7 @@ export function emailAccountRequestValidate({
 	firstname,
 	lastname,
 	accessKey,
-	appUrl
+	appUrl,
 }: {
 	firstname: string;
 	lastname: string;

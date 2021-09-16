@@ -3,7 +3,7 @@ import { getDatabaseUrl } from '../variables/private';
 const pool = {
 	max: 5,
 	min: 5,
-	propagateCreateError: false
+	propagateCreateError: false,
 };
 
 const databaseUrl = getDatabaseUrl();
@@ -16,17 +16,17 @@ const config = {
 			host: 'localhost',
 			password: 'test',
 			port: '5434',
-			user: 'cdb'
+			user: 'cdb',
 		},
 		migrations: {},
-		pool
+		pool,
 	},
 	production: {
 		client: 'pg',
 		connection: databaseUrl,
 		migrations: {},
-		pool
-	}
+		pool,
+	},
 };
 
 export default config;

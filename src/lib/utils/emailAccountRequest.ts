@@ -2,7 +2,7 @@ export function emailAccountRequest({
 	firstname,
 	lastname,
 	appUrl,
-	requester
+	requester,
 }: {
 	firstname: string;
 	lastname: string;

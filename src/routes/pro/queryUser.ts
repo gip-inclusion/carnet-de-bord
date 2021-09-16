@@ -4,7 +4,7 @@ import {
 	isCAFData,
 	isPEData,
 	requestCAFUsers,
-	requestPEUser
+	requestPEUser,
 } from '$lib/services/particuliers.api';
 import type { ExternalUser } from '$lib/types';
 import type { RequestHandler } from '@sveltejs/kit';
@@ -33,7 +33,7 @@ const convertCAFUserToExternalUser =
 					2,
 					4
 				)}-${allocataire.dateDeNaissance.slice(0, 2)}`,
-				cafNumber
+				cafNumber,
 			};
 		});
 	};
@@ -64,7 +64,7 @@ const convertPEUserToExternalUser = (user: PEResponse): ExternalUser => {
 		email: user.email,
 		city: user.adresse.localite,
 		postalCode: user.adresse.codePostal,
-		peNumber: user.identifiant
+		peNumber: user.identifiant,
 	};
 };
 
@@ -103,8 +103,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 400,
 			body: {
-				error: err.message
-			}
+				error: err.message,
+			},
 		};
 	}
 
@@ -112,13 +112,13 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 400,
 			body: {
-				error: "Impossible de trouver l'utilisateur demandé"
-			}
+				error: "Impossible de trouver l'utilisateur demandé",
+			},
 		};
 	}
 
 	return {
 		status: 200,
-		body: { users }
+		body: { users },
 	};
 };

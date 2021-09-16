@@ -13,8 +13,8 @@
 		return {
 			props: {
 				updateProfileResult,
-				professionalId
-			}
+				professionalId,
+			},
 		};
 	};
 </script>
@@ -38,7 +38,7 @@
 			lastname,
 			professionalId,
 			mobileNumber,
-			position
+			position,
 		});
 		if (result.data?.updateAccount) {
 			const { confirmed, onboardingDone, username, professional } =
@@ -47,7 +47,7 @@
 				confirmed,
 				onboardingDone,
 				username,
-				...professional
+				...professional,
 			};
 			document.querySelector('h1').scrollIntoView({ behavior: 'smooth' });
 		}
@@ -94,7 +94,7 @@
 				fieldErrors={{}}
 				disabledKeys={{
 					username: true,
-					email: true
+					email: true,
 				}}
 			/>
 		</div>

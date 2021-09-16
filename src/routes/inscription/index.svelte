@@ -12,7 +12,7 @@
 	async function onSubmit(structure: Structure) {
 		const response = await post('/inscription/request', {
 			accountRequest,
-			structureId: structure.id
+			structureId: structure.id,
 		});
 
 		if (response.status === 400) {

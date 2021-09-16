@@ -3,7 +3,7 @@ export function emailForgotLoginRequest({
 	firstname,
 	lastname,
 	accessKey,
-	appUrl
+	appUrl,
 }: {
 	firstname: string;
 	username: string;

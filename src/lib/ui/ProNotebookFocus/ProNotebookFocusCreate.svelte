@@ -4,7 +4,7 @@
 		contractTypeFullKeys,
 		focusThemeKeys,
 		focusToSituations,
-		situationKeys
+		situationKeys,
 	} from '$lib/constants/keys';
 	import { AddNotebookFocusDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
@@ -23,13 +23,13 @@
 	let contractOptions: Option[] = contractTypeFullKeys.keys
 		.map((key: string) => ({
 			name: key,
-			label: contractTypeFullKeys.byKey[key]
+			label: contractTypeFullKeys.byKey[key],
 		}))
 		.concat([{ name: 'none', label: 'Aucun' }]);
 	let selectedFocus: Option | null = null;
 	let focusOptions: Option[] = focusThemeKeys.keys.map((key) => ({
 		name: key,
-		label: focusThemeKeys.byKey[key]
+		label: focusThemeKeys.byKey[key],
 	}));
 
 	let situations: string[] = [];
@@ -48,12 +48,12 @@
 		const store = await addNotebookFocus({
 			notebookId,
 			theme: selectedFocus.name,
-			situations
+			situations,
 		});
 		if (store.error) {
 			console.log('createFocus error', {
 				error: store.error,
-				creatorId: $session.user.professionalId
+				creatorId: $session.user.professionalId,
 			});
 		} else {
 			openComponent.open({ component: ProNotebookFocusConfirmation });

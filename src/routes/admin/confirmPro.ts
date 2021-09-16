@@ -21,8 +21,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 404,
 			body: {
-				errors: 'Account not found'
-			}
+				errors: 'Account not found',
+			},
 		};
 	}
 
@@ -30,8 +30,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 404,
 			body: {
-				errors: 'Not a professional account'
-			}
+				errors: 'Not a professional account',
+			},
 		};
 	}
 
@@ -47,8 +47,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 404,
 			body: {
-				errors: 'Professional not found'
-			}
+				errors: 'Professional not found',
+			},
 		};
 	}
 
@@ -64,11 +64,11 @@ export const post: RequestHandler = async (request) => {
 	await sendEmail({
 		to: email,
 		subject: "Votre demande d'inscription à Carnet de Bord est validée",
-		html: emailAccountRequestValidate({ firstname, lastname, accessKey, appUrl })
+		html: emailAccountRequestValidate({ firstname, lastname, accessKey, appUrl }),
 	});
 
 	return {
 		status: 200,
-		body: {}
+		body: {},
 	};
 };

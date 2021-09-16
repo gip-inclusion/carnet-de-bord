@@ -34,7 +34,7 @@
 				Informations mises à jour le {formatDateLocale(lastUpdateDate, {
 					year: 'numeric',
 					month: 'long',
-					day: 'numeric'
+					day: 'numeric',
 				})} par
 				{displayFullName(lastUpdateFrom)}
 			</div>

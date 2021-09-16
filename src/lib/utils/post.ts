@@ -4,7 +4,7 @@ export function post(endpoint: string, data: unknown): Promise<Response> {
 		credentials: 'include',
 		body: JSON.stringify(data || {}),
 		headers: {
-			'Content-Type': 'application/json'
-		}
+			'Content-Type': 'application/json',
+		},
 	});
 }

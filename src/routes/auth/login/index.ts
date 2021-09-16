@@ -24,8 +24,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 401,
 			body: {
-				errors: 'USER_NOT_FOUND'
-			}
+				errors: 'USER_NOT_FOUND',
+			},
 		};
 	}
 
@@ -33,8 +33,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 403,
 			body: {
-				errors: 'ACCOUNT_NOT_CONFIRMED'
-			}
+				errors: 'ACCOUNT_NOT_CONFIRMED',
+			},
 		};
 	}
 
@@ -48,7 +48,7 @@ export const post: RequestHandler = async (request) => {
 
 	const { email, firstname, lastname } = (await knex(`${type}`)
 		.where({
-			id: beneficiary_id || professional_id || admin_id
+			id: beneficiary_id || professional_id || admin_id,
 		})
 		.first()) as unknown as {
 		email: string;
@@ -62,14 +62,14 @@ export const post: RequestHandler = async (request) => {
 	await sendEmail({
 		to: email,
 		subject: 'Accédez à Carnet de bord',
-		html: emailLoginRequest({ firstname, lastname, accessKey, appUrl })
+		html: emailLoginRequest({ firstname, lastname, accessKey, appUrl }),
 	});
 
 	return {
 		status: 200,
 		body: {
 			email,
-			path: dev ? `/auth/jwt/${accessKey}` : null
-		}
+			path: dev ? `/auth/jwt/${accessKey}` : null,
+		},
 	};
 };

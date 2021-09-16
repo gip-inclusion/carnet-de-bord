@@ -5,7 +5,7 @@
 		InsertStructureMutationVariables,
 		UpdateStructureDocument,
 		UpdateStructureMutation,
-		UpdateStructureMutationVariables
+		UpdateStructureMutationVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Structure, StructureRequest, InputItem } from '$lib/types';
 	import { Alert, Button, Input } from '$lib/ui/base';
@@ -20,54 +20,54 @@
 			label: 'Nom',
 			hint: 'Ex : Mission locale de Crest',
 			required: true,
-			key: 'name'
+			key: 'name',
 		},
 		{
 			label: 'Téléphone',
 			hint: 'Ex : 04 75 76 70 67',
-			key: 'phone'
+			key: 'phone',
 		},
 		{
 			label: 'Adresse de courriel',
 			hint: 'Ex : crest@mission-locale.fr',
 			key: 'email',
-			type: 'email'
+			type: 'email',
 		},
 		{
 			label: 'Adresse',
 			hint: 'Ex : 3 Rue des Cuiretteries',
-			key: 'address1'
+			key: 'address1',
 		},
 		{
 			label: 'Adresse (complément)',
 			hint: 'Ex : Conseiller en réinsertion',
-			key: 'address2'
+			key: 'address2',
 		},
 		{
 			label: 'Code postal',
 			hint: 'Ex : 26400',
-			key: 'postalCode'
+			key: 'postalCode',
 		},
 		{
 			label: 'Ville',
 			hint: 'Ex : Crest',
-			key: 'city'
+			key: 'city',
 		},
 		{
 			label: 'Site internet',
 			hint: 'Ex : https://www.mission-locale.fr/crest',
-			key: 'website'
+			key: 'website',
 		},
 		{
 			label: 'Siret',
 			hint: 'Ex : XXX XXX XXX XXXXX',
-			key: 'siret'
+			key: 'siret',
 		},
 		{
 			label: 'Description',
 			hint: 'Ex : Antenne de Crest de la Mission locale Auvergne Rhône-Alpes',
-			key: 'shortDesc'
-		}
+			key: 'shortDesc',
+		},
 	];
 </script>
 

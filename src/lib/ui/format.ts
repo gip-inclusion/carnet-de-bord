@@ -2,7 +2,7 @@ const notNullish = (data) => !!data;
 
 export const displayFullName = ({
 	firstname,
-	lastname
+	lastname,
 }: {
 	firstname?: string;
 	lastname?: string;
@@ -21,7 +21,7 @@ export const displayFullAddress = ({
 	address1,
 	address2,
 	postalCode,
-	city
+	city,
 }: {
 	address1?: string;
 	address2?: string;

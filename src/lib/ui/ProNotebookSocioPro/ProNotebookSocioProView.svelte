@@ -3,7 +3,7 @@
 		educationLevelKeys,
 		geographicalAreaKeys,
 		rsaRightKeys,
-		workSituationKeys
+		workSituationKeys,
 	} from '$lib/constants/keys';
 	import type { Notebook } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
@@ -30,8 +30,8 @@
 		openComponent.open({
 			component: ProCarnetSocioProUpdate,
 			props: {
-				notebook
-			}
+				notebook,
+			},
 		});
 	};
 </script>
@@ -55,7 +55,7 @@
 						notebook.rightRqth && 'RQTH',
 						notebook.rightAre && 'ARE',
 						notebook.rightAss && 'ASS',
-						notebook.rightBonus && 'Bonus'
+						notebook.rightBonus && 'Bonus',
 					]
 						.filter(Boolean)
 						.join(', ')}

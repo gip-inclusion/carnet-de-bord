@@ -72,8 +72,8 @@ export const requestCAFUsers = async (
 		method: 'GET',
 		headers: {
 			'X-Api-Key': token,
-			'Content-Type': 'application/json'
-		}
+			'Content-Type': 'application/json',
+		},
 	}).then((response) => {
 		if (response.status === 200) {
 			return response.json();
@@ -101,8 +101,8 @@ export const requestPEUser = async (
 		method: 'GET',
 		headers: {
 			'X-Api-Key': token,
-			'Content-Type': 'application/json'
-		}
+			'Content-Type': 'application/json',
+		},
 	}).then((response) => {
 		if (response.status === 200) {
 			return response.json();
