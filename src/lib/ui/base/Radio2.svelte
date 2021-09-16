@@ -7,6 +7,7 @@
 	export let selected: string | null;
 	export let options: Option[];
 	export let caption: string;
+	export let legendClass = '';
 
 	counter += 1;
 
@@ -24,7 +25,9 @@
 <div class="fr-form-group">
 	<fieldset class="fr-fieldset">
 		<legend class="fr-fieldset__legend fr-text--regular" id="radio-legend">
-			{caption}
+			<span class={legendClass}>
+				{caption}
+			</span>
 		</legend>
 		<div class="fr-fieldset__content">
 			{#each options as option (option.name)}
