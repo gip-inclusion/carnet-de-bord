@@ -7,7 +7,7 @@
 	export let selected: string | null;
 	export let options: Option[];
 	export let caption: string;
-	export let legendClass: string = '';
+	export let legendClass = '';
 
 	counter += 1;
 
