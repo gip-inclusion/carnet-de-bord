@@ -39,7 +39,7 @@
 	{#each members as member, i}
 		<div
 			class:bg-gray-100={i % 2 === 0}
-			class="flex hover:ml-2 cursor-pointer gap-2 p-2 mb-2 w-full border-l-2 border-france-blue"
+			class="flex cursor-pointer gap-2 p-2 mb-2 w-full border-l-2 border-france-blue"
 			on:click={() => {
 				openMemberInfo(member);
 			}}
