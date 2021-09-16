@@ -62,9 +62,9 @@ export const educationLevelKeys = buildKeys({
 
 // FOCUS KEYS
 
-export const focusThemeMap = {
+export const focusThemeKeys = buildKeys({
 	logement: 'Logement',
 	difficulte_administrative: 'Difficultés administratives',
 	difficulte_financiere: 'Difficultés financières',
 	mobilite: 'Mobilité',
-};
+});

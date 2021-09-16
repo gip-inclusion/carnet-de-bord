@@ -1,11 +1,11 @@
-mutation AddNotebookFocus($notebookId: uuid!, $situations: jsonb, $theme: String!) {
+mutation AddNotebookFocus(
+	$notebookId: uuid!
+	$situations: jsonb
+	$theme: String!
+	$linkedTo: String!
+) {
 	insert_notebook_focus_one(
-		object: {
-			notebookId: $notebookId
-			situations: $situations
-			theme: $theme
-			targets: { data: [] }
-		}
+		object: { notebookId: $notebookId, situations: $situations, theme: $theme, linkedTo: $linkedTo }
 	) {
 		id
 	}

@@ -1,54 +1,46 @@
 <script lang="ts">
 	import { session } from '$app/stores';
+	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
 	import {
-		contractTypeFullKeys,
-		focusThemeKeys,
-		focusToSituations,
-		situationKeys,
-	} from '$lib/constants/keys';
-	import { AddNotebookFocusDocument } from '$lib/graphql/_gen/typed-document-nodes';
+		AddNotebookFocusDocument,
+		GetRefSituationsDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
-	import type { Option } from '$lib/types';
-	import { Button, Checkboxes, Radio, Select } from '$lib/ui/base';
-	import { mutation, operationStore } from '@urql/svelte';
+	import { Button, Checkboxes, Select2 } from '$lib/ui/base';
+	import { mutation, operationStore, query } from '@urql/svelte';
+	import Radio2 from '../base/Radio2.svelte';
 	import ProNotebookFocusConfirmation from './ProNotebookFocusConfirmation.svelte';
+
+	export let notebookId;
+
+	const refSituationStore = operationStore(GetRefSituationsDocument);
+	query(refSituationStore);
 
 	function close() {
 		openComponent.close();
 	}
 
-	export let notebookId;
-
-	let selectedContract: Option | null = null;
-	let contractOptions: Option[] = contractTypeFullKeys.keys
-		.map((key: string) => ({
-			name: key,
-			label: contractTypeFullKeys.byKey[key],
-		}))
-		.concat([{ name: 'none', label: 'Aucun' }]);
-	let selectedFocus: Option | null = null;
-	let focusOptions: Option[] = focusThemeKeys.keys.map((key) => ({
-		name: key,
-		label: focusThemeKeys.byKey[key],
-	}));
-
-	let situations: string[] = [];
-	let situationOptions: Option[];
-	$: {
-		situationOptions = Object.entries(situationKeys.byKey)
-			.filter(([k]) => (focusToSituations[selectedFocus?.name] || []).includes(k))
-			.map(([name, label]) => ({ name, label }));
-	}
-
-	let disabled = false;
-
 	const addNotebookFocusStore = operationStore(AddNotebookFocusDocument);
 	const addNotebookFocus = mutation(addNotebookFocusStore);
+
+	function initFormData() {
+		return {
+			theme: null,
+			linkedTo: null,
+			situations: [],
+		};
+	}
+
+	const formData = initFormData();
+
+	let disabled = !formData.theme && !formData.linkedTo && formData.situations?.length > 0;
+
 	async function createFocus() {
 		const store = await addNotebookFocus({
 			notebookId,
-			theme: selectedFocus.name,
-			situations,
+			theme: formData.theme,
+			situations: formData.situations,
+			linkedTo: formData.linkedTo,
 		});
 		if (store.error) {
 			console.log('createFocus error', {
@@ -58,6 +50,25 @@
 		} else {
 			openComponent.open({ component: ProNotebookFocusConfirmation });
 		}
+	}
+
+	function buildSituationOptions() {
+		if (!formData.theme) {
+			return [];
+		}
+		const refSituations = $refSituationStore.data?.refSituations || [];
+		const filtered = refSituations.filter(({ theme: t }) => t === formData.theme);
+		return filtered.map(({ id, description }) => ({
+			label: description,
+			name: id,
+		}));
+	}
+
+	let situationOptions = buildSituationOptions();
+
+	function selectTheme() {
+		formData.situations = [];
+		situationOptions = buildSituationOptions();
 	}
 </script>
 
@@ -70,21 +81,26 @@
 	</div>
 	<div>
 		<h2 class="fr-h4 bf-500">Axe de travail</h2>
-		<Radio
+		<Radio2
 			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
-			bind:selected={selectedContract}
-			options={contractOptions}
+			bind:selected={formData.linkedTo}
+			options={contractTypeFullKeys.options.concat([{ name: 'none', label: 'Aucun' }])}
 		/>
-		<Select selectLabel={'Thème'} options={focusOptions} bind:selected={selectedFocus} />
+		<Select2
+			selectLabel={'Thème'}
+			options={focusThemeKeys.options}
+			bind:selected={formData.theme}
+			on:select={() => selectTheme()}
+		/>
 	</div>
-	{#if selectedFocus}
+	{#if formData.theme}
 		<div>
 			<h2 class="fr-h4 bf-500">Situation</h2>
 			<Checkboxes
 				globalClassNames={'flex flex-row flex-wrap gap-4'}
 				checkboxesCommonClassesNames={`!mt-0 w-5/12`}
 				caption={''}
-				bind:selectedOptions={situations}
+				bind:selectedOptions={formData.situations}
 				options={situationOptions}
 			/>
 		</div>

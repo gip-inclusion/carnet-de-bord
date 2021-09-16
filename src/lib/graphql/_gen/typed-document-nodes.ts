@@ -831,6 +831,18 @@ export type MutationRoot = {
 	delete_professional?: Maybe<ProfessionalMutationResponse>;
 	/** delete single row from the table: "professional" */
 	delete_professional_by_pk?: Maybe<Professional>;
+	/** delete data from the table: "ref_action" */
+	delete_ref_action?: Maybe<RefActionMutationResponse>;
+	/** delete single row from the table: "ref_action" */
+	delete_ref_action_by_pk?: Maybe<RefAction>;
+	/** delete data from the table: "ref_situation" */
+	delete_ref_situation?: Maybe<RefSituationMutationResponse>;
+	/** delete single row from the table: "ref_situation" */
+	delete_ref_situation_by_pk?: Maybe<RefSituation>;
+	/** delete data from the table: "ref_target" */
+	delete_ref_target?: Maybe<RefTargetMutationResponse>;
+	/** delete single row from the table: "ref_target" */
+	delete_ref_target_by_pk?: Maybe<RefTarget>;
 	/** delete data from the table: "structure" */
 	delete_structure?: Maybe<StructureMutationResponse>;
 	/** delete single row from the table: "structure" */
@@ -871,6 +883,18 @@ export type MutationRoot = {
 	insert_professional?: Maybe<ProfessionalMutationResponse>;
 	/** insert a single row into the table: "professional" */
 	insert_professional_one?: Maybe<Professional>;
+	/** insert data into the table: "ref_action" */
+	insert_ref_action?: Maybe<RefActionMutationResponse>;
+	/** insert a single row into the table: "ref_action" */
+	insert_ref_action_one?: Maybe<RefAction>;
+	/** insert data into the table: "ref_situation" */
+	insert_ref_situation?: Maybe<RefSituationMutationResponse>;
+	/** insert a single row into the table: "ref_situation" */
+	insert_ref_situation_one?: Maybe<RefSituation>;
+	/** insert data into the table: "ref_target" */
+	insert_ref_target?: Maybe<RefTargetMutationResponse>;
+	/** insert a single row into the table: "ref_target" */
+	insert_ref_target_one?: Maybe<RefTarget>;
 	/** insert data into the table: "structure" */
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
@@ -911,6 +935,18 @@ export type MutationRoot = {
 	update_professional?: Maybe<ProfessionalMutationResponse>;
 	/** update single row of the table: "professional" */
 	update_professional_by_pk?: Maybe<Professional>;
+	/** update data of the table: "ref_action" */
+	update_ref_action?: Maybe<RefActionMutationResponse>;
+	/** update single row of the table: "ref_action" */
+	update_ref_action_by_pk?: Maybe<RefAction>;
+	/** update data of the table: "ref_situation" */
+	update_ref_situation?: Maybe<RefSituationMutationResponse>;
+	/** update single row of the table: "ref_situation" */
+	update_ref_situation_by_pk?: Maybe<RefSituation>;
+	/** update data of the table: "ref_target" */
+	update_ref_target?: Maybe<RefTargetMutationResponse>;
+	/** update single row of the table: "ref_target" */
+	update_ref_target_by_pk?: Maybe<RefTarget>;
 	/** update data of the table: "structure" */
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
@@ -1004,6 +1040,36 @@ export type MutationRootDeleteProfessionalArgs = {
 
 /** mutation root */
 export type MutationRootDeleteProfessionalByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRefActionArgs = {
+	where: RefActionBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRefActionByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRefSituationArgs = {
+	where: RefSituationBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRefSituationByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRefTargetArgs = {
+	where: RefTargetBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -1123,6 +1189,42 @@ export type MutationRootInsertProfessionalArgs = {
 export type MutationRootInsertProfessionalOneArgs = {
 	object: ProfessionalInsertInput;
 	on_conflict?: Maybe<ProfessionalOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefActionArgs = {
+	objects: Array<RefActionInsertInput>;
+	on_conflict?: Maybe<RefActionOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefActionOneArgs = {
+	object: RefActionInsertInput;
+	on_conflict?: Maybe<RefActionOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefSituationArgs = {
+	objects: Array<RefSituationInsertInput>;
+	on_conflict?: Maybe<RefSituationOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefSituationOneArgs = {
+	object: RefSituationInsertInput;
+	on_conflict?: Maybe<RefSituationOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefTargetArgs = {
+	objects: Array<RefTargetInsertInput>;
+	on_conflict?: Maybe<RefTargetOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefTargetOneArgs = {
+	object: RefTargetInsertInput;
+	on_conflict?: Maybe<RefTargetOnConflict>;
 };
 
 /** mutation root */
@@ -1263,6 +1365,42 @@ export type MutationRootUpdateProfessionalArgs = {
 export type MutationRootUpdateProfessionalByPkArgs = {
 	_set?: Maybe<ProfessionalSetInput>;
 	pk_columns: ProfessionalPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefActionArgs = {
+	_set?: Maybe<RefActionSetInput>;
+	where: RefActionBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefActionByPkArgs = {
+	_set?: Maybe<RefActionSetInput>;
+	pk_columns: RefActionPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefSituationArgs = {
+	_set?: Maybe<RefSituationSetInput>;
+	where: RefSituationBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefSituationByPkArgs = {
+	_set?: Maybe<RefSituationSetInput>;
+	pk_columns: RefSituationPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefTargetArgs = {
+	_set?: Maybe<RefTargetSetInput>;
+	where: RefTargetBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefTargetByPkArgs = {
+	_set?: Maybe<RefTargetSetInput>;
+	pk_columns: RefTargetPkColumnsInput;
 };
 
 /** mutation root */
@@ -2864,6 +3002,24 @@ export type QueryRoot = {
 	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
+	/** fetch data from the table: "ref_action" */
+	ref_action: Array<RefAction>;
+	/** fetch aggregated fields from the table: "ref_action" */
+	ref_action_aggregate: RefActionAggregate;
+	/** fetch data from the table: "ref_action" using primary key columns */
+	ref_action_by_pk?: Maybe<RefAction>;
+	/** fetch data from the table: "ref_situation" */
+	ref_situation: Array<RefSituation>;
+	/** fetch aggregated fields from the table: "ref_situation" */
+	ref_situation_aggregate: RefSituationAggregate;
+	/** fetch data from the table: "ref_situation" using primary key columns */
+	ref_situation_by_pk?: Maybe<RefSituation>;
+	/** fetch data from the table: "ref_target" */
+	ref_target: Array<RefTarget>;
+	/** fetch aggregated fields from the table: "ref_target" */
+	ref_target_aggregate: RefTargetAggregate;
+	/** fetch data from the table: "ref_target" using primary key columns */
+	ref_target_by_pk?: Maybe<RefTarget>;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -3052,6 +3208,66 @@ export type QueryRootProfessionalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootRefActionArgs = {
+	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefActionOrderBy>>;
+	where?: Maybe<RefActionBoolExp>;
+};
+
+export type QueryRootRefActionAggregateArgs = {
+	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefActionOrderBy>>;
+	where?: Maybe<RefActionBoolExp>;
+};
+
+export type QueryRootRefActionByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootRefSituationArgs = {
+	distinct_on?: Maybe<Array<RefSituationSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefSituationOrderBy>>;
+	where?: Maybe<RefSituationBoolExp>;
+};
+
+export type QueryRootRefSituationAggregateArgs = {
+	distinct_on?: Maybe<Array<RefSituationSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefSituationOrderBy>>;
+	where?: Maybe<RefSituationBoolExp>;
+};
+
+export type QueryRootRefSituationByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootRefTargetArgs = {
+	distinct_on?: Maybe<Array<RefTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefTargetOrderBy>>;
+	where?: Maybe<RefTargetBoolExp>;
+};
+
+export type QueryRootRefTargetAggregateArgs = {
+	distinct_on?: Maybe<Array<RefTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefTargetOrderBy>>;
+	where?: Maybe<RefTargetBoolExp>;
+};
+
+export type QueryRootRefTargetByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootStructureArgs = {
 	distinct_on?: Maybe<Array<StructureSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
@@ -3071,6 +3287,440 @@ export type QueryRootStructureAggregateArgs = {
 export type QueryRootStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
+
+/** columns and relationships of "ref_action" */
+export type RefAction = {
+	__typename?: 'ref_action';
+	description: Scalars['String'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	target: RefTarget;
+	target_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "ref_action" */
+export type RefActionAggregate = {
+	__typename?: 'ref_action_aggregate';
+	aggregate?: Maybe<RefActionAggregateFields>;
+	nodes: Array<RefAction>;
+};
+
+/** aggregate fields of "ref_action" */
+export type RefActionAggregateFields = {
+	__typename?: 'ref_action_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RefActionMaxFields>;
+	min?: Maybe<RefActionMinFields>;
+};
+
+/** aggregate fields of "ref_action" */
+export type RefActionAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<RefActionSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "ref_action" */
+export type RefActionAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<RefActionMaxOrderBy>;
+	min?: Maybe<RefActionMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "ref_action" */
+export type RefActionArrRelInsertInput = {
+	data: Array<RefActionInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<RefActionOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "ref_action". All fields are combined with a logical 'AND'. */
+export type RefActionBoolExp = {
+	_and?: Maybe<Array<RefActionBoolExp>>;
+	_not?: Maybe<RefActionBoolExp>;
+	_or?: Maybe<Array<RefActionBoolExp>>;
+	description?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	target?: Maybe<RefTargetBoolExp>;
+	target_id?: Maybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "ref_action" */
+export enum RefActionConstraint {
+	/** unique or primary key constraint */
+	RefActionPkey = 'ref_action_pkey',
+}
+
+/** input type for inserting data into table "ref_action" */
+export type RefActionInsertInput = {
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	target?: Maybe<RefTargetObjRelInsertInput>;
+	target_id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type RefActionMaxFields = {
+	__typename?: 'ref_action_max_fields';
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	target_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "ref_action" */
+export type RefActionMaxOrderBy = {
+	description?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	target_id?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type RefActionMinFields = {
+	__typename?: 'ref_action_min_fields';
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	target_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "ref_action" */
+export type RefActionMinOrderBy = {
+	description?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	target_id?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "ref_action" */
+export type RefActionMutationResponse = {
+	__typename?: 'ref_action_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<RefAction>;
+};
+
+/** on conflict condition type for table "ref_action" */
+export type RefActionOnConflict = {
+	constraint: RefActionConstraint;
+	update_columns?: Array<RefActionUpdateColumn>;
+	where?: Maybe<RefActionBoolExp>;
+};
+
+/** Ordering options when selecting data from "ref_action". */
+export type RefActionOrderBy = {
+	description?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	target?: Maybe<RefTargetOrderBy>;
+	target_id?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: ref_action */
+export type RefActionPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "ref_action" */
+export enum RefActionSelectColumn {
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	TargetId = 'target_id',
+}
+
+/** input type for updating data in table "ref_action" */
+export type RefActionSetInput = {
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	target_id?: Maybe<Scalars['uuid']>;
+};
+
+/** update columns of table "ref_action" */
+export enum RefActionUpdateColumn {
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	TargetId = 'target_id',
+}
+
+/** columns and relationships of "ref_situation" */
+export type RefSituation = {
+	__typename?: 'ref_situation';
+	description: Scalars['String'];
+	id: Scalars['uuid'];
+	theme: Scalars['String'];
+};
+
+/** aggregated selection of "ref_situation" */
+export type RefSituationAggregate = {
+	__typename?: 'ref_situation_aggregate';
+	aggregate?: Maybe<RefSituationAggregateFields>;
+	nodes: Array<RefSituation>;
+};
+
+/** aggregate fields of "ref_situation" */
+export type RefSituationAggregateFields = {
+	__typename?: 'ref_situation_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RefSituationMaxFields>;
+	min?: Maybe<RefSituationMinFields>;
+};
+
+/** aggregate fields of "ref_situation" */
+export type RefSituationAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<RefSituationSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "ref_situation". All fields are combined with a logical 'AND'. */
+export type RefSituationBoolExp = {
+	_and?: Maybe<Array<RefSituationBoolExp>>;
+	_not?: Maybe<RefSituationBoolExp>;
+	_or?: Maybe<Array<RefSituationBoolExp>>;
+	description?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	theme?: Maybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "ref_situation" */
+export enum RefSituationConstraint {
+	/** unique or primary key constraint */
+	RefSituationPkey = 'ref_situation_pkey',
+}
+
+/** input type for inserting data into table "ref_situation" */
+export type RefSituationInsertInput = {
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type RefSituationMaxFields = {
+	__typename?: 'ref_situation_max_fields';
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type RefSituationMinFields = {
+	__typename?: 'ref_situation_min_fields';
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "ref_situation" */
+export type RefSituationMutationResponse = {
+	__typename?: 'ref_situation_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<RefSituation>;
+};
+
+/** on conflict condition type for table "ref_situation" */
+export type RefSituationOnConflict = {
+	constraint: RefSituationConstraint;
+	update_columns?: Array<RefSituationUpdateColumn>;
+	where?: Maybe<RefSituationBoolExp>;
+};
+
+/** Ordering options when selecting data from "ref_situation". */
+export type RefSituationOrderBy = {
+	description?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	theme?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: ref_situation */
+export type RefSituationPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "ref_situation" */
+export enum RefSituationSelectColumn {
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Theme = 'theme',
+}
+
+/** input type for updating data in table "ref_situation" */
+export type RefSituationSetInput = {
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "ref_situation" */
+export enum RefSituationUpdateColumn {
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Theme = 'theme',
+}
+
+/** columns and relationships of "ref_target" */
+export type RefTarget = {
+	__typename?: 'ref_target';
+	/** An array relationship */
+	actions: Array<RefAction>;
+	/** An aggregate relationship */
+	actions_aggregate: RefActionAggregate;
+	description: Scalars['String'];
+	id: Scalars['uuid'];
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "ref_target" */
+export type RefTargetActionsArgs = {
+	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefActionOrderBy>>;
+	where?: Maybe<RefActionBoolExp>;
+};
+
+/** columns and relationships of "ref_target" */
+export type RefTargetActionsAggregateArgs = {
+	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefActionOrderBy>>;
+	where?: Maybe<RefActionBoolExp>;
+};
+
+/** aggregated selection of "ref_target" */
+export type RefTargetAggregate = {
+	__typename?: 'ref_target_aggregate';
+	aggregate?: Maybe<RefTargetAggregateFields>;
+	nodes: Array<RefTarget>;
+};
+
+/** aggregate fields of "ref_target" */
+export type RefTargetAggregateFields = {
+	__typename?: 'ref_target_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RefTargetMaxFields>;
+	min?: Maybe<RefTargetMinFields>;
+};
+
+/** aggregate fields of "ref_target" */
+export type RefTargetAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<RefTargetSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "ref_target". All fields are combined with a logical 'AND'. */
+export type RefTargetBoolExp = {
+	_and?: Maybe<Array<RefTargetBoolExp>>;
+	_not?: Maybe<RefTargetBoolExp>;
+	_or?: Maybe<Array<RefTargetBoolExp>>;
+	actions?: Maybe<RefActionBoolExp>;
+	description?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	theme?: Maybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "ref_target" */
+export enum RefTargetConstraint {
+	/** unique or primary key constraint */
+	RefTargetPkey = 'ref_target_pkey',
+}
+
+/** input type for inserting data into table "ref_target" */
+export type RefTargetInsertInput = {
+	actions?: Maybe<RefActionArrRelInsertInput>;
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type RefTargetMaxFields = {
+	__typename?: 'ref_target_max_fields';
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type RefTargetMinFields = {
+	__typename?: 'ref_target_min_fields';
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "ref_target" */
+export type RefTargetMutationResponse = {
+	__typename?: 'ref_target_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<RefTarget>;
+};
+
+/** input type for inserting object relation for remote table "ref_target" */
+export type RefTargetObjRelInsertInput = {
+	data: RefTargetInsertInput;
+	/** on conflict condition */
+	on_conflict?: Maybe<RefTargetOnConflict>;
+};
+
+/** on conflict condition type for table "ref_target" */
+export type RefTargetOnConflict = {
+	constraint: RefTargetConstraint;
+	update_columns?: Array<RefTargetUpdateColumn>;
+	where?: Maybe<RefTargetBoolExp>;
+};
+
+/** Ordering options when selecting data from "ref_target". */
+export type RefTargetOrderBy = {
+	actions_aggregate?: Maybe<RefActionAggregateOrderBy>;
+	description?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	theme?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: ref_target */
+export type RefTargetPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "ref_target" */
+export enum RefTargetSelectColumn {
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Theme = 'theme',
+}
+
+/** input type for updating data in table "ref_target" */
+export type RefTargetSetInput = {
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "ref_target" */
+export enum RefTargetUpdateColumn {
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Theme = 'theme',
+}
 
 /** columns and relationships of "structure" */
 export type Structure = {
@@ -3393,6 +4043,24 @@ export type SubscriptionRoot = {
 	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
+	/** fetch data from the table: "ref_action" */
+	ref_action: Array<RefAction>;
+	/** fetch aggregated fields from the table: "ref_action" */
+	ref_action_aggregate: RefActionAggregate;
+	/** fetch data from the table: "ref_action" using primary key columns */
+	ref_action_by_pk?: Maybe<RefAction>;
+	/** fetch data from the table: "ref_situation" */
+	ref_situation: Array<RefSituation>;
+	/** fetch aggregated fields from the table: "ref_situation" */
+	ref_situation_aggregate: RefSituationAggregate;
+	/** fetch data from the table: "ref_situation" using primary key columns */
+	ref_situation_by_pk?: Maybe<RefSituation>;
+	/** fetch data from the table: "ref_target" */
+	ref_target: Array<RefTarget>;
+	/** fetch aggregated fields from the table: "ref_target" */
+	ref_target_aggregate: RefTargetAggregate;
+	/** fetch data from the table: "ref_target" using primary key columns */
+	ref_target_by_pk?: Maybe<RefTarget>;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -3581,6 +4249,66 @@ export type SubscriptionRootProfessionalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootRefActionArgs = {
+	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefActionOrderBy>>;
+	where?: Maybe<RefActionBoolExp>;
+};
+
+export type SubscriptionRootRefActionAggregateArgs = {
+	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefActionOrderBy>>;
+	where?: Maybe<RefActionBoolExp>;
+};
+
+export type SubscriptionRootRefActionByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootRefSituationArgs = {
+	distinct_on?: Maybe<Array<RefSituationSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefSituationOrderBy>>;
+	where?: Maybe<RefSituationBoolExp>;
+};
+
+export type SubscriptionRootRefSituationAggregateArgs = {
+	distinct_on?: Maybe<Array<RefSituationSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefSituationOrderBy>>;
+	where?: Maybe<RefSituationBoolExp>;
+};
+
+export type SubscriptionRootRefSituationByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootRefTargetArgs = {
+	distinct_on?: Maybe<Array<RefTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefTargetOrderBy>>;
+	where?: Maybe<RefTargetBoolExp>;
+};
+
+export type SubscriptionRootRefTargetAggregateArgs = {
+	distinct_on?: Maybe<Array<RefTargetSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<RefTargetOrderBy>>;
+	where?: Maybe<RefTargetBoolExp>;
+};
+
+export type SubscriptionRootRefTargetByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type SubscriptionRootStructureArgs = {
 	distinct_on?: Maybe<Array<StructureSelectColumn>>;
 	limit?: Maybe<Scalars['Int']>;
@@ -3631,11 +4359,24 @@ export type AddNotebookFocusMutationVariables = Exact<{
 	notebookId: Scalars['uuid'];
 	situations?: Maybe<Scalars['jsonb']>;
 	theme: Scalars['String'];
+	linkedTo: Scalars['String'];
 }>;
 
 export type AddNotebookFocusMutation = {
 	__typename?: 'mutation_root';
 	insert_notebook_focus_one?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
+};
+
+export type GetRefSituationsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetRefSituationsQuery = {
+	__typename?: 'query_root';
+	refSituations: Array<{
+		__typename?: 'ref_situation';
+		id: any;
+		description: string;
+		theme: string;
+	}>;
 };
 
 export type AddNotebookMemberMutationVariables = Exact<{
@@ -4173,6 +4914,14 @@ export const AddNotebookFocusDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'linkedTo' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -4204,17 +4953,8 @@ export const AddNotebookFocusDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'targets' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'data' },
-														value: { kind: 'ListValue', values: [] },
-													},
-												],
-											},
+											name: { kind: 'Name', value: 'linkedTo' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'linkedTo' } },
 										},
 									],
 								},
@@ -4230,6 +4970,34 @@ export const AddNotebookFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<AddNotebookFocusMutation, AddNotebookFocusMutationVariables>;
+export const GetRefSituationsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetRefSituations' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'refSituations' },
+						name: { kind: 'Name', value: 'ref_situation' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetRefSituationsQuery, GetRefSituationsQueryVariables>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -6845,6 +7613,10 @@ export const UpdateProfessionalProfileDocument = {
 export type AddNotebookFocusMutationStore = OperationStore<
 	AddNotebookFocusMutation,
 	AddNotebookFocusMutationVariables
+>;
+export type GetRefSituationsQueryStore = OperationStore<
+	GetRefSituationsQuery,
+	GetRefSituationsQueryVariables
 >;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
