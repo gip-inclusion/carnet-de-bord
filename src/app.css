@@ -17,3 +17,12 @@
 	src: url('/Marianne/Marianne-Regular_Italic.woff') format('woff');
 	font-style: italic;
 }
+
+.custom-svelecte .inputBox {
+	height: auto !important;
+	--tw-ring-shadow: unset;
+}
+
+.custom-svelecte .sv-item-btn {
+	box-shadow: unset;
+}

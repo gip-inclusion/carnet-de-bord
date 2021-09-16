@@ -14,6 +14,7 @@
 	import { Checkbox2, Radio2, Select2 } from '../base';
 	import Button from '../base/Button.svelte';
 	import Input from '../base/Input.svelte';
+	import ProNotebookSocioProRome from './ProNotebookSocioProROME.svelte';
 
 	export let notebook: Pick<
 		Notebook,
@@ -95,6 +96,11 @@
 			bind:selected={formData.geographicalArea}
 			options={geographicalAreaKeys.options}
 		/>
+
+		<div class="fr-form-group">
+			<div class="font-bold pb-2">Emploi recherché</div>
+			<ProNotebookSocioProRome bind:current={formData.job} />
+		</div>
 
 		<div class="fr-form-group">
 			<div class="font-bold pb-2">Diplôme</div>
