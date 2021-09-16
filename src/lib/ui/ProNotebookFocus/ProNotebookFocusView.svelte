@@ -15,9 +15,9 @@
 </script>
 
 <div class="flex flex-col gap-4">
-	<div class="flex flex-row flex-wrap gap-4">
-		{#each focuses as focus (focus.id)}
-			<div class="w-5/12 box-border">
+	<div class="flex flex-row flex-wrap">
+		{#each focuses as focus, i (focus.id)}
+			<div class={`w-1/2 py-1 box-border ${i % 2 ? 'pl-1' : 'pr-1'}`}>
 				<Card hideArrow={false}>
 					<span slot="title">{focusThemeKeys.byKey[focus.theme]}</span>
 					<span slot="description">
