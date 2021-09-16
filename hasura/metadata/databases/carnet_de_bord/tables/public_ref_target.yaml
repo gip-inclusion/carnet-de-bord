@@ -1,0 +1,24 @@
+table:
+  name: ref_target
+  schema: public
+array_relationships:
+- name: actions
+  using:
+    foreign_key_constraint_on:
+      column: target_id
+      table:
+        name: ref_action
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - description
+    - id
+    filter: {}
+  role: beneficiary
+- permission:
+    columns:
+    - description
+    - id
+    filter: {}
+  role: professional

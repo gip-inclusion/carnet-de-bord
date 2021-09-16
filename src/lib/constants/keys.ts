@@ -62,55 +62,9 @@ export const educationLevelKeys = buildKeys({
 
 // FOCUS KEYS
 
-const focusThemeMap = {
+export const focusThemeMap = {
 	logement: 'Logement',
-	sante: 'Santé',
-	contraintes_familiales: 'Contraintes familiales',
+	difficulte_administrative: 'Difficultés administratives',
+	difficulte_financiere: 'Difficultés financières',
+	mobilite: 'Mobilité',
 };
-export const focusThemeKeys = buildKeys(focusThemeMap);
-
-const situationMap = {
-	sans_hebergement: 'Sans hébergement',
-	chrs: 'CHRS',
-	hotel_social: 'Hôtel social',
-	foyer_urgence: "Foyer d'urgence",
-	appartement_relais: 'Appartement relais',
-	bail_glissant: 'Bail glissant',
-	chez_tiers: 'Chez un tiers',
-	logement_insalubre: 'Logement insalubre',
-	expulsion: 'Expulsion en cours',
-	difficulter_payer: 'Difficulté à payer le loyer',
-	autre: 'Autre'
-};
-export const situationKeys = buildKeys(situationMap);
-
-export const focusToSituations: Record<
-	keyof typeof focusThemeMap,
-	Array<keyof typeof situationMap>
-> = {
-	logement: [
-		'sans_hebergement',
-		'chrs',
-		'hotel_social',
-		'foyer_urgence',
-		'appartement_relais',
-		'bail_glissant',
-		'logement_insalubre',
-		'expulsion',
-		'difficulter_payer',
-		'chez_tiers',
-		'autre'
-	],
-	sante: [],
-	contraintes_familiales: [],
-};
-
-export const targetKeys = buildKeys({
-	acces_droits: 'Accès Droits',
-	recherche_logement: 'Recherche de logement',
-});
-
-export const actionKeys = buildKeys({
-	demande_domiciliation: 'Demande de domiciliation',
-	droit_logement_opposable: 'Droit au logement opposable',
-});
