@@ -26,7 +26,7 @@
 			? 'translate-x-0'
 			: 'translate-x-full'}"
 	>
-		<div class="flex flex-col gap-6">
+		<div class="flex flex-col gap-6 w-full">
 			<svelte:component this={$openComponent.component} {...$openComponent.props} />
 		</div>
 		<i class="ri-close-line absolute top-4 right-4 cursor-pointer" on:click={close} />
