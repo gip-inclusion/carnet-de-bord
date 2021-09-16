@@ -9,28 +9,28 @@ export type Route = {
 };
 
 const login: Route = {
-	path: '/auth/login'
+	path: '/auth/login',
 };
 const proHome: Route = {
-	path: '/pro/accueil'
+	path: '/pro/accueil',
 };
 const adminHome: Route = {
-	path: '/admin/utilisateurs'
+	path: '/admin/utilisateurs',
 };
 const beneficiaryHome: Route = {
-	path: '/particulier'
+	path: '/particulier',
 };
 const homes: Record<string, Route> = {
 	professional: proHome,
 	admin: adminHome,
-	beneficiary: beneficiaryHome
+	beneficiary: beneficiaryHome,
 };
 
 export const routes = {
 	login,
 	proHome,
 	adminHome,
-	beneficiaryHome
+	beneficiaryHome,
 };
 
 export const homeForRole = (role: string): string => {

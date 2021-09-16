@@ -23,8 +23,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 400,
 			body: {
-				errors: { username: `Cet identifiant est déjà utilisé.` }
-			}
+				errors: { username: `Cet identifiant est déjà utilisé.` },
+			},
 		};
 	}
 
@@ -34,8 +34,8 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 400,
 			body: {
-				errors: { email: 'Cet email est déjà utilisé.' }
-			}
+				errors: { email: 'Cet email est déjà utilisé.' },
+			},
 		};
 	}
 
@@ -46,14 +46,14 @@ export const post: RequestHandler = async (request) => {
 			firstname,
 			structure_id: structureId,
 			mobile_number: mobileNumber,
-			position
+			position,
 		})
 		.returning('id');
 
 	await knex('account').insert({
 		username,
 		professional_id: professionalId,
-		type
+		type,
 	});
 
 	const appUrl = getAppUrl();
@@ -66,12 +66,12 @@ export const post: RequestHandler = async (request) => {
 			firstname,
 			lastname,
 			appUrl,
-			requester
-		})
+			requester,
+		}),
 	});
 
 	return {
 		status: 200,
-		body: { professionalId }
+		body: { professionalId },
 	};
 };

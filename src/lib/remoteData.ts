@@ -2,7 +2,7 @@ export enum RemoteDataC {
 	NotAsked = 'NotAsked',
 	Loading = 'Loading',
 	Failure = 'Failure',
-	Success = 'Success'
+	Success = 'Success',
 }
 export type NotAsked = { type: RemoteDataC.NotAsked };
 export const notAsked: NotAsked = { type: RemoteDataC.NotAsked };
@@ -11,12 +11,12 @@ export const loading: Loading = { type: RemoteDataC.Loading };
 export type Failure<Error> = { type: RemoteDataC.Failure; error: Error };
 export const failure = <Error>(error: Error): Failure<Error> => ({
 	type: RemoteDataC.Failure,
-	error
+	error,
 });
 export type Success<Data> = { type: RemoteDataC.Success; data: Data };
 export const success = <Data>(data: Data): Success<Data> => ({
 	type: RemoteDataC.Success,
-	data
+	data,
 });
 export type RemoteData<Data, Err> = NotAsked | Loading | Failure<Err> | Success<Data>;
 

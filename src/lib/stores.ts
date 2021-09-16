@@ -32,7 +32,7 @@ function createOpenComponent() {
 		open: (value) => {
 			set(value);
 			offCanvas.set(true);
-		}
+		},
 	};
 }
 

@@ -2,7 +2,7 @@
 	import SearchBar from '../base/SearchBar.svelte';
 	import {
 		AddNotebookMemberDocument,
-		SearchProfessionalDocument
+		SearchProfessionalDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
@@ -47,7 +47,7 @@
 		$searchProfessionalResult.context.pause = false;
 		$searchProfessionalResult.variables = {
 			search: `%${search}%`,
-			professionalIds
+			professionalIds,
 		};
 		$searchProfessionalResult.reexecute();
 	}
@@ -57,7 +57,7 @@
 		const store = await addNotebookMember({
 			professionalId,
 			notebookId: notebookId,
-			creatorId: $session.user.professionalId
+			creatorId: $session.user.professionalId,
 		});
 		newMember = store.data.newMember;
 		//send email
@@ -73,7 +73,7 @@
 		const response = await post('/inscription/request', {
 			accountRequest,
 			structureId: structure.id,
-			requester: displayFullName($session.user)
+			requester: displayFullName($session.user),
 		});
 
 		if (response.status === 400) {
@@ -101,8 +101,8 @@
 				errors,
 				onCancel,
 				onInput,
-				onSubmit
-			}
+				onSubmit,
+			},
 		});
 	}
 

@@ -6,8 +6,8 @@
 		return {
 			props: {
 				accessKey,
-				url
-			}
+				url,
+			},
 		};
 	}
 </script>
@@ -28,11 +28,11 @@
 			method: 'POST',
 			headers: {
 				Accept: 'application/json; version=1.0',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				accessKey
-			})
+				accessKey,
+			}),
 		});
 		if (response.status === 200) {
 			const { jwt } = await response.json();

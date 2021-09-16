@@ -23,7 +23,7 @@ export const getSession: GetSession = async ({ locals }) => {
 	const session = {
 		user: locals.user,
 		token: locals.token,
-		graphqlAPI: getGraphqlAPI()
+		graphqlAPI: getGraphqlAPI(),
 	};
 
 	return session;

@@ -12,9 +12,9 @@
 		{
 			id: 'utilisateurs',
 			path: '/admin/utilisateurs',
-			label: 'Utilisateurs'
+			label: 'Utilisateurs',
 		},
-		{ id: 'structures', path: '/admin/structures', label: 'Structures' }
+		{ id: 'structures', path: '/admin/structures', label: 'Structures' },
 	];
 </script>
 

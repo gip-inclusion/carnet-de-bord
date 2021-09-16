@@ -5,7 +5,7 @@ export function emailNotebookInvitation({
 	creatorLastname,
 	accessKey,
 	appUrl,
-	notebookId
+	notebookId,
 }: {
 	firstname: string;
 	lastname: string;

@@ -8,7 +8,7 @@
 
 	async function handleSubmit() {
 		const response = await post('/auth/oubli', {
-			email
+			email,
 		});
 		if (response.status === 401) {
 			requestStep = 'error';

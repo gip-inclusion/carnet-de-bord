@@ -6,7 +6,7 @@ export function formatDate(value: string): string {
 		return null;
 	}
 	return format(new Date(value), 'dd MMMM yyyy', {
-		locale: fr
+		locale: fr,
 	});
 }
 

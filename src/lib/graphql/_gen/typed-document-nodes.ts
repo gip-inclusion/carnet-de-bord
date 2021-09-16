@@ -146,7 +146,7 @@ export enum AccountConstraint {
 	/** unique or primary key constraint */
 	AccountPkey = 'account_pkey',
 	/** unique or primary key constraint */
-	AccountUsernameUnique = 'account_username_unique'
+	AccountUsernameUnique = 'account_username_unique',
 }
 
 /** input type for inserting data into table "account" */
@@ -283,7 +283,7 @@ export enum AccountSelectColumn {
 	/** column name */
 	Type = 'type',
 	/** column name */
-	Username = 'username'
+	Username = 'username',
 }
 
 /** input type for updating data in table "account" */
@@ -324,7 +324,7 @@ export enum AccountUpdateColumn {
 	/** column name */
 	Type = 'type',
 	/** column name */
-	Username = 'username'
+	Username = 'username',
 }
 
 /** columns and relationships of "admin" */
@@ -396,7 +396,7 @@ export enum AdminConstraint {
 	/** unique or primary key constraint */
 	AdminEmailUnique = 'admin_email_unique',
 	/** unique or primary key constraint */
-	AdminPkey = 'admin_pkey'
+	AdminPkey = 'admin_pkey',
 }
 
 /** input type for inserting data into table "admin" */
@@ -472,7 +472,7 @@ export enum AdminSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	Lastname = 'lastname'
+	Lastname = 'lastname',
 }
 
 /** input type for updating data in table "admin" */
@@ -492,7 +492,7 @@ export enum AdminUpdateColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	Lastname = 'lastname'
+	Lastname = 'lastname',
 }
 
 /** columns and relationships of "beneficiary" */
@@ -583,7 +583,7 @@ export enum BeneficiaryConstraint {
 	/** unique or primary key constraint */
 	BeneficiaryEmailUnique = 'beneficiary_email_unique',
 	/** unique or primary key constraint */
-	BeneficiaryPkey = 'beneficiary_pkey'
+	BeneficiaryPkey = 'beneficiary_pkey',
 }
 
 /** input type for inserting data into table "beneficiary" */
@@ -709,7 +709,7 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
-	PostalCode = 'postalCode'
+	PostalCode = 'postalCode',
 }
 
 /** input type for updating data in table "beneficiary" */
@@ -753,7 +753,7 @@ export enum BeneficiaryUpdateColumn {
 	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
-	PostalCode = 'postalCode'
+	PostalCode = 'postalCode',
 }
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -1417,7 +1417,7 @@ export enum NotebookConstraint {
 	/** unique or primary key constraint */
 	NotebookBeneficiaryIdKey = 'notebook_beneficiary_id_key',
 	/** unique or primary key constraint */
-	NotebookPkey = 'notebook_pkey'
+	NotebookPkey = 'notebook_pkey',
 }
 
 /** columns and relationships of "notebook_event" */
@@ -1498,7 +1498,7 @@ export type NotebookEventBoolExp = {
 /** unique or primary key constraints on table "notebook_event" */
 export enum NotebookEventConstraint {
 	/** unique or primary key constraint */
-	NotebookEventPkey = 'notebook_event_pkey'
+	NotebookEventPkey = 'notebook_event_pkey',
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -1617,7 +1617,7 @@ export enum NotebookEventSelectColumn {
 	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
-	ProfessionalId = 'professionalId'
+	ProfessionalId = 'professionalId',
 }
 
 /** input type for updating data in table "notebook_event" */
@@ -1643,7 +1643,7 @@ export enum NotebookEventUpdateColumn {
 	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
-	ProfessionalId = 'professionalId'
+	ProfessionalId = 'professionalId',
 }
 
 /** columns and relationships of "notebook_focus" */
@@ -1749,7 +1749,7 @@ export type NotebookFocusBoolExp = {
 /** unique or primary key constraints on table "notebook_focus" */
 export enum NotebookFocusConstraint {
 	/** unique or primary key constraint */
-	NotebookFocusPkey = 'notebook_focus_pkey'
+	NotebookFocusPkey = 'notebook_focus_pkey',
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -1885,7 +1885,7 @@ export enum NotebookFocusSelectColumn {
 	/** column name */
 	Situations = 'situations',
 	/** column name */
-	Theme = 'theme'
+	Theme = 'theme',
 }
 
 /** input type for updating data in table "notebook_focus" */
@@ -1914,7 +1914,7 @@ export enum NotebookFocusUpdateColumn {
 	/** column name */
 	Situations = 'situations',
 	/** column name */
-	Theme = 'theme'
+	Theme = 'theme',
 }
 
 /** input type for inserting data into table "notebook" */
@@ -2035,7 +2035,7 @@ export enum NotebookMemberConstraint {
 	/** unique or primary key constraint */
 	NotebookMemberNotebookIdProfessionalIdKey = 'notebook_member_notebook_id_professional_id_key',
 	/** unique or primary key constraint */
-	NotebookMemberPkey = 'notebook_member_pkey'
+	NotebookMemberPkey = 'notebook_member_pkey',
 }
 
 /** input type for inserting data into table "notebook_member" */
@@ -2164,7 +2164,7 @@ export enum NotebookMemberSelectColumn {
 	/** column name */
 	NotebookVisitDate = 'notebookVisitDate',
 	/** column name */
-	ProfessionalId = 'professionalId'
+	ProfessionalId = 'professionalId',
 }
 
 /** input type for updating data in table "notebook_member" */
@@ -2199,7 +2199,7 @@ export enum NotebookMemberUpdateColumn {
 	/** column name */
 	NotebookVisitDate = 'notebookVisitDate',
 	/** column name */
-	ProfessionalId = 'professionalId'
+	ProfessionalId = 'professionalId',
 }
 
 /** aggregate min on columns */
@@ -2300,7 +2300,7 @@ export enum NotebookSelectColumn {
 	/** column name */
 	WorkSituation = 'workSituation',
 	/** column name */
-	WorkSituationDate = 'workSituationDate'
+	WorkSituationDate = 'workSituationDate',
 }
 
 /** input type for updating data in table "notebook" */
@@ -2383,7 +2383,7 @@ export type NotebookTargetBoolExp = {
 /** unique or primary key constraints on table "notebook_target" */
 export enum NotebookTargetConstraint {
 	/** unique or primary key constraint */
-	NotebookTargetPkey = 'notebook_target_pkey'
+	NotebookTargetPkey = 'notebook_target_pkey',
 }
 
 /** input type for inserting data into table "notebook_target" */
@@ -2468,7 +2468,7 @@ export enum NotebookTargetSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	Target = 'target'
+	Target = 'target',
 }
 
 /** input type for updating data in table "notebook_target" */
@@ -2488,7 +2488,7 @@ export enum NotebookTargetUpdateColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	Target = 'target'
+	Target = 'target',
 }
 
 /** update columns of table "notebook" */
@@ -2522,7 +2522,7 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	WorkSituation = 'workSituation',
 	/** column name */
-	WorkSituationDate = 'workSituationDate'
+	WorkSituationDate = 'workSituationDate',
 }
 
 /** column ordering options */
@@ -2538,7 +2538,7 @@ export enum OrderBy {
 	/** in descending order, nulls first */
 	DescNullsFirst = 'desc_nulls_first',
 	/** in descending order, nulls last */
-	DescNullsLast = 'desc_nulls_last'
+	DescNullsLast = 'desc_nulls_last',
 }
 
 /** columns and relationships of "professional" */
@@ -2656,7 +2656,7 @@ export enum ProfessionalConstraint {
 	/** unique or primary key constraint */
 	ProfessionalEmailUnique = 'professional_email_unique',
 	/** unique or primary key constraint */
-	ProfessionalPkey = 'professional_pkey'
+	ProfessionalPkey = 'professional_pkey',
 }
 
 /** input type for inserting data into table "professional" */
@@ -2776,7 +2776,7 @@ export enum ProfessionalSelectColumn {
 	/** column name */
 	Position = 'position',
 	/** column name */
-	StructureId = 'structureId'
+	StructureId = 'structureId',
 }
 
 /** input type for updating data in table "professional" */
@@ -2805,7 +2805,7 @@ export enum ProfessionalUpdateColumn {
 	/** column name */
 	Position = 'position',
 	/** column name */
-	StructureId = 'structureId'
+	StructureId = 'structureId',
 }
 
 export type QueryRoot = {
@@ -3157,7 +3157,7 @@ export type StructureBoolExp = {
 /** unique or primary key constraints on table "structure" */
 export enum StructureConstraint {
 	/** unique or primary key constraint */
-	StructurePkey = 'structure_pkey'
+	StructurePkey = 'structure_pkey',
 }
 
 /** input type for inserting data into table "structure" */
@@ -3287,7 +3287,7 @@ export enum StructureSelectColumn {
 	/** column name */
 	Siret = 'siret',
 	/** column name */
-	Website = 'website'
+	Website = 'website',
 }
 
 /** input type for updating data in table "structure" */
@@ -3334,7 +3334,7 @@ export enum StructureUpdateColumn {
 	/** column name */
 	Siret = 'siret',
 	/** column name */
-	Website = 'website'
+	Website = 'website',
 }
 
 export type SubscriptionRoot = {
@@ -4138,11 +4138,11 @@ export const StructureFieldsFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } }
-				]
-			}
-		}
-	]
+					{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<StructureFieldsFragment, unknown>;
 export const AddNotebookFocusDocument = {
 	kind: 'Document',
@@ -4157,22 +4157,22 @@ export const AddNotebookFocusDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -4190,17 +4190,17 @@ export const AddNotebookFocusDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'situations' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'theme' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -4211,24 +4211,24 @@ export const AddNotebookFocusDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'data' },
-														value: { kind: 'ListValue', values: [] }
-													}
-												]
-											}
-										}
-									]
-								}
-							}
+														value: { kind: 'ListValue', values: [] },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
-						}
-					}
-				]
-			}
-		}
-	]
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<AddNotebookFocusMutation, AddNotebookFocusMutationVariables>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
@@ -4243,25 +4243,25 @@ export const AddNotebookMemberDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -4280,36 +4280,36 @@ export const AddNotebookMemberDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'creatorId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'professionalId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'memberType' },
-											value: { kind: 'StringValue', value: 'no_referent', block: false }
-										}
-									]
-								}
-							}
+											value: { kind: 'StringValue', value: 'no_referent', block: false },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
-						}
-					}
-				]
-			}
-		}
-	]
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
 export const SearchProfessionalDocument = {
 	kind: 'Document',
@@ -4322,7 +4322,7 @@ export const SearchProfessionalDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
@@ -4331,11 +4331,11 @@ export const SearchProfessionalDocument = {
 						kind: 'ListType',
 						type: {
 							kind: 'NonNullType',
-							type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-						}
+							type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+						},
 					},
-					defaultValue: { kind: 'ListValue', values: [] }
-				}
+					defaultValue: { kind: 'ListValue', values: [] },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -4371,13 +4371,13 @@ export const SearchProfessionalDocument = {
 																			name: { kind: 'Name', value: '_ilike' },
 																			value: {
 																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'search' }
-																			}
-																		}
-																	]
-																}
-															}
-														]
+																				name: { kind: 'Name', value: 'search' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 													{
 														kind: 'ObjectValue',
@@ -4399,16 +4399,16 @@ export const SearchProfessionalDocument = {
 																						name: { kind: 'Name', value: '_ilike' },
 																						value: {
 																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'search' }
-																						}
-																					}
-																				]
-																			}
-																		}
-																	]
-																}
-															}
-														]
+																							name: { kind: 'Name', value: 'search' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 													{
 														kind: 'ObjectValue',
@@ -4430,19 +4430,19 @@ export const SearchProfessionalDocument = {
 																						name: { kind: 'Name', value: '_ilike' },
 																						value: {
 																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'search' }
-																						}
-																					}
-																				]
-																			}
-																		}
-																	]
-																}
-															}
-														]
-													}
-												]
-											}
+																							name: { kind: 'Name', value: 'search' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -4461,23 +4461,23 @@ export const SearchProfessionalDocument = {
 																	name: { kind: 'Name', value: '_in' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'professionalIds' }
-																	}
-																}
-															]
-														}
-													}
-												]
-											}
-										}
-									]
-								}
+																		name: { kind: 'Name', value: 'professionalIds' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'limit' },
-								value: { kind: 'IntValue', value: '5' }
-							}
+								value: { kind: 'IntValue', value: '5' },
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -4494,12 +4494,12 @@ export const SearchProfessionalDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'phone' } }
-										]
-									}
-								}
-							]
-						}
+											{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+										],
+									},
+								},
+							],
+						},
 					},
 					{
 						kind: 'Field',
@@ -4532,13 +4532,13 @@ export const SearchProfessionalDocument = {
 																			name: { kind: 'Name', value: '_ilike' },
 																			value: {
 																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'search' }
-																			}
-																		}
-																	]
-																}
-															}
-														]
+																				name: { kind: 'Name', value: 'search' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 													{
 														kind: 'ObjectValue',
@@ -4560,16 +4560,16 @@ export const SearchProfessionalDocument = {
 																						name: { kind: 'Name', value: '_ilike' },
 																						value: {
 																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'search' }
-																						}
-																					}
-																				]
-																			}
-																		}
-																	]
-																}
-															}
-														]
+																							name: { kind: 'Name', value: 'search' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 													{
 														kind: 'ObjectValue',
@@ -4591,19 +4591,19 @@ export const SearchProfessionalDocument = {
 																						name: { kind: 'Name', value: '_ilike' },
 																						value: {
 																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'search' }
-																						}
-																					}
-																				]
-																			}
-																		}
-																	]
-																}
-															}
-														]
-													}
-												]
-											}
+																							name: { kind: 'Name', value: 'search' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -4622,18 +4622,18 @@ export const SearchProfessionalDocument = {
 																	name: { kind: 'Name', value: '_in' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'professionalIds' }
-																	}
-																}
-															]
-														}
-													}
-												]
-											}
-										}
-									]
-								}
-							}
+																		name: { kind: 'Name', value: 'professionalIds' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -4651,20 +4651,20 @@ export const SearchProfessionalDocument = {
 													{
 														kind: 'Argument',
 														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false }
-													}
-												]
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
 export const UpdateBeneficiaryPersonalInfoDocument = {
 	kind: 'Document',
@@ -4679,64 +4679,64 @@ export const UpdateBeneficiaryPersonalInfoDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -4755,10 +4755,10 @@ export const UpdateBeneficiaryPersonalInfoDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-										}
-									]
-								}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -4769,71 +4769,71 @@ export const UpdateBeneficiaryPersonalInfoDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'dateOfBirth' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'mobileNumber' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'address1' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'address2' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'postalCode' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'city' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'peNumber' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'cafNumber' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } }
-										}
-									]
-								}
-							}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
-						}
-					}
-				]
-			}
-		}
-	]
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<
 	UpdateBeneficiaryPersonalInfoMutation,
 	UpdateBeneficiaryPersonalInfoMutationVariables
@@ -4851,59 +4851,59 @@ export const UpdateSocioProDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituationDate' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -4922,10 +4922,10 @@ export const UpdateSocioProDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-										}
-									]
-								}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -4936,69 +4936,72 @@ export const UpdateSocioProDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'workSituation' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'workSituationDate' },
 											value: {
 												kind: 'Variable',
-												name: { kind: 'Name', value: 'workSituationDate' }
-											}
+												name: { kind: 'Name', value: 'workSituationDate' },
+											},
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'rightRsa' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'rightAre' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'rightAss' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'rightRqth' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'rightBonus' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'job' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'geographicalArea' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } }
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'geographicalArea' },
+											},
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'educationLevel' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } }
-										}
-									]
-								}
-							}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
-						}
-					}
-				]
-			}
-		}
-	]
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<UpdateSocioProMutation, UpdateSocioProMutationVariables>;
 export const GetAccountDocument = {
 	kind: 'Document',
@@ -5013,9 +5016,9 @@ export const GetAccountDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -5027,8 +5030,8 @@ export const GetAccountDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } }
-							}
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -5047,9 +5050,9 @@ export const GetAccountDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } }
-										]
-									}
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+										],
+									},
 								},
 								{
 									kind: 'Field',
@@ -5061,17 +5064,17 @@ export const GetAccountDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'position' } }
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<GetAccountQuery, GetAccountQueryVariables>;
 export const InsertStructureDocument = {
 	kind: 'Document',
@@ -5084,53 +5087,53 @@ export const InsertStructureDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -5149,69 +5152,69 @@ export const InsertStructureDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'name' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'phone' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'address1' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'address2' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'postalCode' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'city' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'website' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'siret' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'shortDesc' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } }
-										}
-									]
-								}
-							}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } }
-							]
-						}
-					}
-				]
-			}
+								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } },
+							],
+						},
+					},
+				],
+			},
 		},
-		...StructureFieldsFragmentDoc.definitions
-	]
+		...StructureFieldsFragmentDoc.definitions,
+	],
 } as unknown as DocumentNode<InsertStructureMutation, InsertStructureMutationVariables>;
 export const UpdateStructureDocument = {
 	kind: 'Document',
@@ -5226,59 +5229,59 @@ export const UpdateStructureDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -5297,10 +5300,10 @@ export const UpdateStructureDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-										}
-									]
-								}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -5311,69 +5314,69 @@ export const UpdateStructureDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'name' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'phone' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'address1' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'address2' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'postalCode' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'city' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'website' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'siret' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'shortDesc' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } }
-										}
-									]
-								}
-							}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } }
-							]
-						}
-					}
-				]
-			}
+								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } },
+							],
+						},
+					},
+				],
+			},
 		},
-		...StructureFieldsFragmentDoc.definitions
-	]
+		...StructureFieldsFragmentDoc.definitions,
+	],
 } as unknown as DocumentNode<UpdateStructureMutation, UpdateStructureMutationVariables>;
 export const GetAccountsSummaryDocument = {
 	kind: 'Document',
@@ -5405,13 +5408,13 @@ export const GetAccountsSummaryDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'StringValue', value: 'professional', block: false }
-													}
-												]
-											}
-										}
-									]
-								}
+														value: { kind: 'StringValue', value: 'professional', block: false },
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -5422,11 +5425,11 @@ export const GetAccountsSummaryDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'confirmed' },
-											value: { kind: 'EnumValue', value: 'asc' }
-										}
-									]
-								}
-							}
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -5451,20 +5454,20 @@ export const GetAccountsSummaryDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } }
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
 export const GetStructuresDocument = {
 	kind: 'Document',
@@ -5491,14 +5494,14 @@ export const GetStructuresDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } }
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
 export const GetNotebookByBeneficiaryIdDocument = {
 	kind: 'Document',
@@ -5513,9 +5516,9 @@ export const GetNotebookByBeneficiaryIdDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -5539,14 +5542,14 @@ export const GetNotebookByBeneficiaryIdDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-													}
-												]
-											}
-										}
-									]
-								}
-							}
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -5570,9 +5573,9 @@ export const GetNotebookByBeneficiaryIdDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
-										]
-									}
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+										],
+									},
 								},
 								{
 									kind: 'Field',
@@ -5587,11 +5590,11 @@ export const GetNotebookByBeneficiaryIdDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'notebookModificationDate' },
-														value: { kind: 'EnumValue', value: 'desc_nulls_last' }
-													}
-												]
-											}
-										}
+														value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+													},
+												],
+											},
+										},
 									],
 									selectionSet: {
 										kind: 'SelectionSet',
@@ -5623,23 +5626,23 @@ export const GetNotebookByBeneficiaryIdDocument = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } }
-																]
-															}
-														}
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<
 	GetNotebookByBeneficiaryIdQuery,
 	GetNotebookByBeneficiaryIdQueryVariables
@@ -5657,9 +5660,9 @@ export const GetLastVisitedOrUpdatedDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -5678,15 +5681,15 @@ export const GetLastVisitedOrUpdatedDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookVisitDate' },
-											value: { kind: 'EnumValue', value: 'desc_nulls_last' }
-										}
-									]
-								}
+											value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'limit' },
-								value: { kind: 'IntValue', value: '3' }
+								value: { kind: 'IntValue', value: '3' },
 							},
 							{
 								kind: 'Argument',
@@ -5705,15 +5708,15 @@ export const GetLastVisitedOrUpdatedDocument = {
 														name: { kind: 'Name', value: '_eq' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' }
-														}
-													}
-												]
-											}
-										}
-									]
-								}
-							}
+															name: { kind: 'Name', value: 'professionalId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -5735,15 +5738,15 @@ export const GetLastVisitedOrUpdatedDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } }
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
+														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
 					},
 					{
 						kind: 'Field',
@@ -5759,15 +5762,15 @@ export const GetLastVisitedOrUpdatedDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookModificationDate' },
-											value: { kind: 'EnumValue', value: 'desc_nulls_last' }
-										}
-									]
-								}
+											value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'limit' },
-								value: { kind: 'IntValue', value: '3' }
+								value: { kind: 'IntValue', value: '3' },
 							},
 							{
 								kind: 'Argument',
@@ -5786,15 +5789,15 @@ export const GetLastVisitedOrUpdatedDocument = {
 														name: { kind: 'Name', value: '_neq' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' }
-														}
-													}
-												]
-											}
-										}
-									]
-								}
-							}
+															name: { kind: 'Name', value: 'professionalId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -5816,20 +5819,20 @@ export const GetLastVisitedOrUpdatedDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } }
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<GetLastVisitedOrUpdatedQuery, GetLastVisitedOrUpdatedQueryVariables>;
 export const CreateBeneficiaryDocument = {
 	kind: 'Document',
@@ -5842,68 +5845,68 @@ export const CreateBeneficiaryDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-				}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -5936,91 +5939,94 @@ export const CreateBeneficiaryDocument = {
 																	name: { kind: 'Name', value: 'firstname' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'firstname' }
-																	}
+																		name: { kind: 'Name', value: 'firstname' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'lastname' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'lastname' }
-																	}
+																		name: { kind: 'Name', value: 'lastname' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'dateOfBirth' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'dateOfBirth' }
-																	}
+																		name: { kind: 'Name', value: 'dateOfBirth' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'mobileNumber' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'mobileNumber' }
-																	}
+																		name: { kind: 'Name', value: 'mobileNumber' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'email' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'email' }
-																	}
+																		name: { kind: 'Name', value: 'email' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'address1' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'address1' }
-																	}
+																		name: { kind: 'Name', value: 'address1' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'address2' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'address2' }
-																	}
+																		name: { kind: 'Name', value: 'address2' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'postalCode' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'postalCode' }
-																	}
+																		name: { kind: 'Name', value: 'postalCode' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'city' },
-																	value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } }
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'city' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'cafNumber' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'cafNumber' }
-																	}
+																		name: { kind: 'Name', value: 'cafNumber' },
+																	},
 																},
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'peNumber' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'peNumber' }
-																	}
-																}
-															]
-														}
-													}
-												]
-											}
+																		name: { kind: 'Name', value: 'peNumber' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -6031,10 +6037,10 @@ export const CreateBeneficiaryDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'data' },
-														value: { kind: 'ListValue', values: [] }
-													}
-												]
-											}
+														value: { kind: 'ListValue', values: [] },
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -6057,43 +6063,43 @@ export const CreateBeneficiaryDocument = {
 																			value: {
 																				kind: 'StringValue',
 																				value: 'referent',
-																				block: false
-																			}
+																				block: false,
+																			},
 																		},
 																		{
 																			kind: 'ObjectField',
 																			name: { kind: 'Name', value: 'professionalId' },
 																			value: {
 																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'professionalId' }
-																			}
-																		}
-																	]
-																}
-															]
-														}
-													}
-												]
-											}
+																				name: { kind: 'Name', value: 'professionalId' },
+																			},
+																		},
+																	],
+																},
+															],
+														},
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'workSituation' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } }
-										}
-									]
-								}
-							}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
-						}
-					}
-				]
-			}
-		}
-	]
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<CreateBeneficiaryMutation, CreateBeneficiaryMutationVariables>;
 export const SearchNotebookMemberDocument = {
 	kind: 'Document',
@@ -6108,24 +6114,24 @@ export const SearchNotebookMemberDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitDateStart' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitDateEnd' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
-				}
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -6151,11 +6157,11 @@ export const SearchNotebookMemberDocument = {
 														name: { kind: 'Name', value: '_eq' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' }
-														}
-													}
-												]
-											}
+															name: { kind: 'Name', value: 'professionalId' },
+														},
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -6189,13 +6195,13 @@ export const SearchNotebookMemberDocument = {
 																									name: { kind: 'Name', value: '_ilike' },
 																									value: {
 																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' }
-																									}
-																								}
-																							]
-																						}
-																					}
-																				]
+																										name: { kind: 'Name', value: 'filter' },
+																									},
+																								},
+																							],
+																						},
+																					},
+																				],
 																			},
 																			{
 																				kind: 'ObjectValue',
@@ -6211,13 +6217,13 @@ export const SearchNotebookMemberDocument = {
 																									name: { kind: 'Name', value: '_ilike' },
 																									value: {
 																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' }
-																									}
-																								}
-																							]
-																						}
-																					}
-																				]
+																										name: { kind: 'Name', value: 'filter' },
+																									},
+																								},
+																							],
+																						},
+																					},
+																				],
 																			},
 																			{
 																				kind: 'ObjectValue',
@@ -6233,13 +6239,13 @@ export const SearchNotebookMemberDocument = {
 																									name: { kind: 'Name', value: '_ilike' },
 																									value: {
 																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' }
-																									}
-																								}
-																							]
-																						}
-																					}
-																				]
+																										name: { kind: 'Name', value: 'filter' },
+																									},
+																								},
+																							],
+																						},
+																					},
+																				],
 																			},
 																			{
 																				kind: 'ObjectValue',
@@ -6255,22 +6261,22 @@ export const SearchNotebookMemberDocument = {
 																									name: { kind: 'Name', value: '_ilike' },
 																									value: {
 																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' }
-																									}
-																								}
-																							]
-																						}
-																					}
-																				]
-																			}
-																		]
-																	}
-																}
-															]
-														}
-													}
-												]
-											}
+																										name: { kind: 'Name', value: 'filter' },
+																									},
+																								},
+																							],
+																						},
+																					},
+																				],
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -6283,22 +6289,22 @@ export const SearchNotebookMemberDocument = {
 														name: { kind: 'Name', value: '_gt' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'visitDateStart' }
-														}
+															name: { kind: 'Name', value: 'visitDateStart' },
+														},
 													},
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_lt' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'visitDateEnd' }
-														}
-													}
-												]
-											}
-										}
-									]
-								}
+															name: { kind: 'Name', value: 'visitDateEnd' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -6309,11 +6315,11 @@ export const SearchNotebookMemberDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookModificationDate' },
-											value: { kind: 'EnumValue', value: 'desc_nulls_first' }
-										}
-									]
-								}
-							}
+											value: { kind: 'EnumValue', value: 'desc_nulls_first' },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -6336,20 +6342,20 @@ export const SearchNotebookMemberDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } }
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<SearchNotebookMemberQuery, SearchNotebookMemberQueryVariables>;
 export const UpdateNotebookVisitDateDocument = {
 	kind: 'Document',
@@ -6364,17 +6370,17 @@ export const UpdateNotebookVisitDateDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookVisitDate' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -6406,17 +6412,17 @@ export const UpdateNotebookVisitDateDocument = {
 																	name: { kind: 'Name', value: '_eq' },
 																	value: {
 																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'notebookId' }
-																	}
-																}
-															]
-														}
-													}
-												]
-											}
-										}
-									]
-								}
+																		name: { kind: 'Name', value: 'notebookId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -6429,12 +6435,12 @@ export const UpdateNotebookVisitDateDocument = {
 											name: { kind: 'Name', value: 'notebookVisitDate' },
 											value: {
 												kind: 'Variable',
-												name: { kind: 'Name', value: 'notebookVisitDate' }
-											}
-										}
-									]
-								}
-							}
+												name: { kind: 'Name', value: 'notebookVisitDate' },
+											},
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -6444,16 +6450,16 @@ export const UpdateNotebookVisitDateDocument = {
 									name: { kind: 'Name', value: 'returning' },
 									selectionSet: {
 										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
@@ -6471,9 +6477,9 @@ export const GetNotebookDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -6486,8 +6492,8 @@ export const GetNotebookDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-							}
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -6520,9 +6526,9 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
-										]
-									}
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+										],
+									},
 								},
 								{
 									kind: 'Field',
@@ -6537,11 +6543,11 @@ export const GetNotebookDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'creationDate' },
-														value: { kind: 'EnumValue', value: 'desc_nulls_last' }
-													}
-												]
-											}
-										}
+														value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+													},
+												],
+											},
+										},
 									],
 									selectionSet: {
 										kind: 'SelectionSet',
@@ -6557,12 +6563,12 @@ export const GetNotebookDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'target' } }
-													]
-												}
-											}
-										]
-									}
+														{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
+													],
+												},
+											},
+										],
+									},
 								},
 								{
 									kind: 'Field',
@@ -6577,11 +6583,11 @@ export const GetNotebookDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'notebookModificationDate' },
-														value: { kind: 'EnumValue', value: 'desc_nulls_last' }
-													}
-												]
-											}
-										}
+														value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+													},
+												],
+											},
+										},
 									],
 									selectionSet: {
 										kind: 'SelectionSet',
@@ -6613,23 +6619,23 @@ export const GetNotebookDocument = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } }
-																]
-															}
-														}
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<GetNotebookQuery, GetNotebookQueryVariables>;
 export const UpdateProfessionalProfileDocument = {
 	kind: 'Document',
@@ -6644,41 +6650,41 @@ export const UpdateProfessionalProfileDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } }
-					}
-				}
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -6697,25 +6703,25 @@ export const UpdateProfessionalProfileDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'position' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'position' } }
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'mobileNumber' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } }
-										}
-									]
-								}
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -6734,20 +6740,20 @@ export const UpdateProfessionalProfileDocument = {
 														name: { kind: 'Name', value: '_eq' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' }
-														}
-													}
-												]
-											}
-										}
-									]
-								}
-							}
+															name: { kind: 'Name', value: 'professionalId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }]
-						}
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
 					},
 					{
 						kind: 'Field',
@@ -6771,14 +6777,14 @@ export const UpdateProfessionalProfileDocument = {
 														name: { kind: 'Name', value: '_eq' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' }
-														}
-													}
-												]
-											}
-										}
-									]
-								}
+															name: { kind: 'Name', value: 'professionalId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 							{
 								kind: 'Argument',
@@ -6789,11 +6795,11 @@ export const UpdateProfessionalProfileDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'onboardingDone' },
-											value: { kind: 'BooleanValue', value: true }
-										}
-									]
-								}
-							}
+											value: { kind: 'BooleanValue', value: true },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -6818,20 +6824,20 @@ export const UpdateProfessionalProfileDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'position' } }
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
-	]
+														{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
 } as unknown as DocumentNode<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables

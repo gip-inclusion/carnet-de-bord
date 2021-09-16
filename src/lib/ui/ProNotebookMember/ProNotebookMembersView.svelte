@@ -22,8 +22,8 @@
 				beneficiaryFirstname,
 				beneficiaryLastname,
 				notebookId,
-				professionalIds: members ? members.map((m) => m.professional.id) : []
-			}
+				professionalIds: members ? members.map((m) => m.professional.id) : [],
+			},
 		});
 	};
 </script>

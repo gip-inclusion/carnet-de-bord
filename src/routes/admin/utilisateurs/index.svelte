@@ -12,8 +12,8 @@
 
 		return {
 			props: {
-				result
-			}
+				result,
+			},
 		};
 	};
 </script>

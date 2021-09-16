@@ -17,8 +17,8 @@
 
 		return {
 			props: {
-				result
-			}
+				result,
+			},
 		};
 	};
 </script>
@@ -45,7 +45,7 @@
 					firstname,
 					lastname,
 					email,
-					mobileNumber
+					mobileNumber,
 				};
 
 				if (!onboardingDone && $page.path !== '/particulier/moncompte') {

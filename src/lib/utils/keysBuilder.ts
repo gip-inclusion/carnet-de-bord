@@ -19,7 +19,7 @@ function buildOptions(map: Record<string, string>) {
 		const label: string = map[name];
 		return {
 			label,
-			name
+			name,
 		};
 	});
 }
@@ -30,7 +30,7 @@ function buildKeys(byKey: Record<string, string>): KeyType {
 		byValue: revertMapKeysValues(byKey),
 		keys: Object.keys(byKey),
 		options: buildOptions(byKey),
-		values: Object.values(byKey)
+		values: Object.values(byKey),
 	};
 }
 

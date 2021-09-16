@@ -28,7 +28,7 @@
 			});
 		},
 		focusedItem,
-		selectedItem
+		selectedItem,
 	});
 
 	function select() {

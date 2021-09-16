@@ -22,7 +22,7 @@ export const post: RequestHandler = async (request) => {
 	const {
 		notebook_id: notebookId,
 		professional_id: professionalId,
-		creator_id: creatorId
+		creator_id: creatorId,
 	} = notebookMember;
 
 	const professional = await knex('professional').where({ id: professionalId }).first();
@@ -40,7 +40,7 @@ export const post: RequestHandler = async (request) => {
 	if (!account.confirmed) {
 		return {
 			status: 200,
-			body: {}
+			body: {},
 		};
 	}
 
@@ -67,14 +67,14 @@ export const post: RequestHandler = async (request) => {
 			lastname,
 			accessKey,
 			appUrl,
-			notebookId
-		})
+			notebookId,
+		}),
 	});
 
 	return {
 		status: 200,
 		body: {
-			email
-		}
+			email,
+		},
 	};
 };

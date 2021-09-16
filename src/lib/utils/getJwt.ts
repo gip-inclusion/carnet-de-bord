@@ -7,7 +7,7 @@ export function getJwtUser({
 	type,
 	username,
 	professionalId,
-	beneficiaryId
+	beneficiaryId,
 }: {
 	id: string;
 	username: string;
@@ -27,7 +27,7 @@ export function getJwtUser({
 		username: username,
 		roles: [type],
 		token: token,
-		type: type
+		type: type,
 	};
 }
 
@@ -35,7 +35,7 @@ export function getJwt({
 	id,
 	type,
 	beneficiaryId,
-	professionalId
+	professionalId,
 }: {
 	id: string;
 	type: string;
@@ -45,7 +45,7 @@ export function getJwt({
 	const signOptions: SignOptions = {
 		algorithm: 'HS256',
 		expiresIn: '30d',
-		subject: id
+		subject: id,
 	};
 
 	const hasuraClaims = getHasuraClaims(id, type, beneficiaryId, professionalId);
@@ -54,7 +54,7 @@ export function getJwt({
 		id: id,
 		role: type,
 		beneficiaryId,
-		professionalId
+		professionalId,
 	};
 
 	const { key } = getJwtKey();
@@ -74,6 +74,6 @@ function getHasuraClaims(
 		'x-hasura-default-role': type,
 		'x-hasura-user-id': `${id}`,
 		'x-hasura-professional-id': `${professionalId}`,
-		'x-hasura-beneficiary-id': `${beneficiaryId}`
+		'x-hasura-beneficiary-id': `${beneficiaryId}`,
 	};
 }

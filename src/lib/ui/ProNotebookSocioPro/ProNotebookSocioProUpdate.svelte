@@ -6,7 +6,7 @@
 		educationLevelKeys,
 		geographicalAreaKeys,
 		rsaRightKeys,
-		workSituationKeys
+		workSituationKeys,
 	} from '$lib/constants/keys';
 	import { Notebook, UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
@@ -45,7 +45,7 @@
 			rightBonus: notebook.rightBonus,
 			job: notebook.job,
 			geographicalArea: notebook.geographicalArea,
-			educationLevel: notebook.educationLevel
+			educationLevel: notebook.educationLevel,
 		};
 	}
 
@@ -54,7 +54,7 @@
 	async function handleSubmit() {
 		await updateSocioPro({
 			id: notebook.id,
-			...formData
+			...formData,
 		});
 		openComponent.close();
 	}

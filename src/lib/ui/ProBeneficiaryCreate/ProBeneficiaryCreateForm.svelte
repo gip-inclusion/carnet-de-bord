@@ -15,49 +15,49 @@
 		{
 			label: 'Nom',
 			hint: 'Ex : Poquelin',
-			key: 'firstname'
+			key: 'firstname',
 		},
 		{
 			label: 'Prénom',
 			hint: 'Ex : Jean-Baptiste',
-			key: 'lastname'
+			key: 'lastname',
 		},
 		{
 			label: 'Date de naissance (JJ/MM/AAAA)',
 			hint: 'Ex : 21/12/1977',
-			key: 'dateOfBirth'
+			key: 'dateOfBirth',
 		},
 		{
 			label: 'Téléphone',
 			hint: 'Ex : 0123456789',
-			key: 'mobileNumber'
+			key: 'mobileNumber',
 		},
 		{
 			label: 'Adresse de courriel',
 			hint: 'Ex : jb@poquelin.fr',
 			key: 'email',
-			type: 'email'
+			type: 'email',
 		},
 		{
 			label: 'Adresse',
 			hint: 'Ex : 55-57 rue du Faubourg Saint-Honoré',
-			key: 'address1'
+			key: 'address1',
 		},
 		{
 			label: 'Adresse (complément)',
 			hint: 'Ex : 1er étage',
-			key: 'address2'
+			key: 'address2',
 		},
 		{
 			label: 'Code postal',
 			hint: 'Ex : 75 008',
-			key: 'postalCode'
+			key: 'postalCode',
 		},
 		{
 			label: 'Ville',
 			hint: 'Ex : Paris',
-			key: 'city'
-		}
+			key: 'city',
+		},
 	];
 
 	export let disabledKeys: Partial<Record<keyof BeneficiaryAccount, boolean>> = {};

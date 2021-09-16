@@ -19,34 +19,34 @@
 		{
 			label: 'Identifiant',
 			hint: 'Ex : JBdu26',
-			key: 'username'
+			key: 'username',
 		},
 		{
 			label: 'Adresse de courriel',
 			hint: 'Ex : jb@poquelin.fr',
 			key: 'email',
-			type: 'email'
+			type: 'email',
 		},
 		{
 			label: 'Nom',
 			hint: 'Ex : Poquelin',
-			key: 'firstname'
+			key: 'firstname',
 		},
 		{
 			label: 'Prénom',
 			hint: 'Ex : Jean-Baptiste',
-			key: 'lastname'
+			key: 'lastname',
 		},
 		{
 			label: 'Téléphone',
 			hint: 'Ex : 0123456789',
-			key: 'mobileNumber'
+			key: 'mobileNumber',
 		},
 		{
 			label: 'Fonction',
 			hint: 'Ex : Conseiller en réinsertion',
-			key: 'position'
-		}
+			key: 'position',
+		},
 	];
 
 	export let account: AccountRequest;

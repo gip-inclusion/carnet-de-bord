@@ -12,7 +12,7 @@
 		if (redirect) {
 			return {
 				status: 302,
-				redirect
+				redirect,
 			};
 		}
 
@@ -22,8 +22,8 @@
 			props: { client },
 			context: {
 				...context,
-				client
-			}
+				client,
+			},
 		};
 	}
 </script>

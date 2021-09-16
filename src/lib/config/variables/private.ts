@@ -10,7 +10,7 @@ export function getApiParticulierConfig(): {
 	return {
 		API_PARTICULIER_URL: process.env['API_PARTICULIER_URL'],
 		API_PARTICULIER_TOKEN_CAF: process.env['API_PARTICULIER_TOKEN_CAF'],
-		API_PARTICULIER_TOKEN_PE: process.env['API_PARTICULIER_TOKEN_PE']
+		API_PARTICULIER_TOKEN_PE: process.env['API_PARTICULIER_TOKEN_PE'],
 	};
 }
 
@@ -35,7 +35,7 @@ export function getSmtpConfig(): {
 		SMTP_HOST,
 		SMTP_PASS,
 		SMTP_PORT: parseInt(SMTP_PORT),
-		SMTP_USER
+		SMTP_USER,
 	};
 }
 

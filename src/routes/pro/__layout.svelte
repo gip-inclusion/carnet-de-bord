@@ -17,8 +17,8 @@
 
 		return {
 			props: {
-				result
-			}
+				result,
+			},
 		};
 	};
 </script>
@@ -46,7 +46,7 @@
 					lastname,
 					email,
 					mobileNumber,
-					position
+					position,
 				};
 
 				if (!onboardingDone && $page.path !== '/pro/moncompte') {
@@ -58,7 +58,7 @@
 
 	const menuItems: MenuItem[] = [
 		{ id: 'accueil', path: '/pro/accueil', label: 'Accueil' },
-		{ id: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' }
+		{ id: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' },
 	];
 
 	$: segments = getSegments($page.path);

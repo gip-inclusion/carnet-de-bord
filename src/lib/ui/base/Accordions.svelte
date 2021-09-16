@@ -23,7 +23,7 @@
 			} else {
 				$selectedItem = accordion;
 			}
-		}
+		},
 	});
 </script>
 

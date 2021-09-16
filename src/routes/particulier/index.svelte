@@ -2,7 +2,7 @@
 	import {
 		Beneficiary,
 		GetNotebookByBeneficiaryIdDocument,
-		GetNotebookByBeneficiaryIdQueryStore
+		GetNotebookByBeneficiaryIdQueryStore,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Option } from '$lib/types';
 	import { Accordion, Accordions, Button, Select } from '$lib/ui/base';
@@ -18,8 +18,8 @@
 
 		return {
 			props: {
-				getNotebookResult
-			}
+				getNotebookResult,
+			},
 		};
 	};
 </script>

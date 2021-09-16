@@ -5,7 +5,7 @@
 		GetNotebookQueryStore,
 		NotebookMember,
 		UpdateNotebookVisitDateDocument,
-		UpdateNotebookVisitDateMutationStore
+		UpdateNotebookVisitDateMutationStore,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Accordion, Accordions } from '$lib/ui/base';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
@@ -22,13 +22,13 @@
 		const getNotebookResult = operationStore(GetNotebookDocument, { id });
 		const updateVisitDateResult = operationStore(UpdateNotebookVisitDateDocument, {
 			notebookId: id,
-			notebookVisitDate: new Date()
+			notebookVisitDate: new Date(),
 		});
 		return {
 			props: {
 				getNotebookResult,
-				updateVisitDateResult
-			}
+				updateVisitDateResult,
+			},
 		};
 	};
 </script>
