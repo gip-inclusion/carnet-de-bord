@@ -62,40 +62,47 @@ export const educationLevelKeys = buildKeys({
 
 // FOCUS KEYS
 
-export const focusThemeKeys = buildKeys({
+const focusThemeMap = {
 	logement: 'Logement',
 	sante: 'Santé',
 	contraintes_familiales: 'Contraintes familiales',
-});
+};
+export const focusThemeKeys = buildKeys(focusThemeMap);
 
-export const situationKeys = buildKeys({
+const situationMap = {
 	sans_hebergement: 'Sans hébergement',
 	chrs: 'CHRS',
 	hotel_social: 'Hôtel social',
 	foyer_urgence: "Foyer d'urgence",
-	ppartement_relais: 'Appartement relais',
+	appartement_relais: 'Appartement relais',
 	bail_glissant: 'Bail glissant',
+	chez_tiers: 'Chez un tiers',
 	logement_insalubre: 'Logement insalubre',
 	expulsion: 'Expulsion en cours',
 	difficulter_payer: 'Difficulté à payer le loyer',
-	chez_tiers: 'Chez un tiers',
-	autre: 'Autre',
-});
+	autre: 'Autre'
+};
+export const situationKeys = buildKeys(situationMap);
 
-export const focusToSituations = {
+export const focusToSituations: Record<
+	keyof typeof focusThemeMap,
+	Array<keyof typeof situationMap>
+> = {
 	logement: [
 		'sans_hebergement',
 		'chrs',
 		'hotel_social',
 		'foyer_urgence',
-		'ppartement_relais',
+		'appartement_relais',
 		'bail_glissant',
 		'logement_insalubre',
 		'expulsion',
 		'difficulter_payer',
 		'chez_tiers',
-		'autre',
+		'autre'
 	],
+	sante: [],
+	contraintes_familiales: [],
 };
 
 export const targetKeys = buildKeys({
