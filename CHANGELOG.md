@@ -1,3 +1,10 @@
+# [1.26.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.25.0...v1.26.0) (2021-09-16)
+
+
+### Features
+
+* **rom:** implement select with fetch ([#192](https://github.com/SocialGouv/carnet-de-bord/issues/192)) ([866fc6a](https://github.com/SocialGouv/carnet-de-bord/commit/866fc6aa78044838c33d9d1499a5c630a5a8d8c2))
+
 # [1.25.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.24.0...v1.25.0) (2021-09-16)
 
 
