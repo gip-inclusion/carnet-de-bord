@@ -58,6 +58,10 @@
 		});
 		openComponent.close();
 	}
+
+	function onCancel() {
+		openComponent.close();
+	}
 </script>
 
 <section class="pl-4">
@@ -106,7 +110,7 @@
 
 		<div class="flex flex-row gap-2 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>
-			<Button outline>Annuler</Button>
+			<Button outline on:click={onCancel}>Annuler</Button>
 		</div>
 	</form>
 </section>
