@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.24.0...v1.25.0) (2021-09-16)
+
+
+### Features
+
+* use ref datas in focus creation ([ffdde2d](https://github.com/SocialGouv/carnet-de-bord/commit/ffdde2dc46188c5e7966f42790162bf06a98fdc9))
+
 # [1.24.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.23.0...v1.24.0) (2021-09-15)
 
 
