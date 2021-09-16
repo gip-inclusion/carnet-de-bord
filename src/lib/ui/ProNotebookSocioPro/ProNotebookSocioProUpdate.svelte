@@ -91,6 +91,7 @@
 
 		<Radio2
 			caption={'Zone géographique privilégiée'}
+			legendClass="!font-bold"
 			bind:selected={formData.geographicalArea}
 			options={geographicalAreaKeys.options}
 		/>
