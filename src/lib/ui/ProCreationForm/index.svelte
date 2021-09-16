@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import { stringsMatch } from '$lib/helpers';
 	import { contactEmail } from '$lib/constants';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { operationStore, OperationStore } from '@urql/svelte';
@@ -43,7 +44,7 @@
 	const structureMatchesSearch =
 		(s: string) =>
 		({ label, metadata }: StructureLight) =>
-			[label, ...metadata].some((it) => it.toLocaleLowerCase().includes(s.toLocaleLowerCase()));
+			[label, ...metadata].some(stringsMatch(s));
 	$: structures =
 		$result?.data?.structure.map((s) => ({
 			...s,
