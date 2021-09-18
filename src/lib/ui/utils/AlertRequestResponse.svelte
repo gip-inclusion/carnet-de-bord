@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { OperationStore } from '@urql/svelte';
-	import Alert from '../base/Alert.svelte';
+	import { Alert } from '$lib/ui/base';
 
 	export let operationStore: OperationStore;
 </script>

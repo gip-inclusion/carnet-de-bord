@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	import type { Option } from '$lib/types';
 	import { Select, Button } from '$lib/ui/base';
 	import { ProBeneficiaryCreate, ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
@@ -46,22 +45,22 @@
 	export let professionalId: string;
 	let isAddBeneficiaryOpen: boolean;
 
-	let selected: Option;
+	let selected: string;
 
 	function buildQueryVariables() {
-		let visitDateStart;
-		let visitDateEnd;
+		let visitDateStart: Date;
+		let visitDateEnd: Date;
 
 		const today = new Date();
-		if (selected?.name === '-3months') {
+		if (selected === '-3months') {
 			visitDateStart = addMonths(today, -3);
-		} else if (selected?.name === '3-6months') {
+		} else if (selected === '3-6months') {
 			visitDateStart = addMonths(today, -6);
 			visitDateEnd = addMonths(today, -3);
-		} else if (selected?.name === '6-12months') {
+		} else if (selected === '6-12months') {
 			visitDateStart = addMonths(today, -12);
 			visitDateEnd = addMonths(today, -6);
-		} else if (selected?.name === '+12months') {
+		} else if (selected === '+12months') {
 			visitDateEnd = addMonths(today, -12);
 		}
 
@@ -103,18 +102,6 @@
 		toggleAddBeneficiary();
 	}
 
-	// let viewMode: 'list' | 'cards' = 'list';
-
-	// function toggleViewMode(vm: 'list' | 'cards') {
-	// 	viewMode = vm;
-	// }
-
-	// let headers: TableHeader<Beneficiary>[] = [
-	// 	{ id: 'name', label: 'Nom', getHtml: (b: Beneficiary) => `${b.firstname} ${b.lastname}` },
-	// 	{ id: 'dob', label: 'Date de naissance', getHtml: 'dateOfBirth' },
-	// 	{ id: 'phone', label: 'Numéro de téléphone', getHtml: 'mobileNumber' }
-	// ];
-
 	/* TODO: find a way without cheating on that type */
 	$: members = ($result.data ? $result.data.notebook_member : []) as NotebookMember[];
 	$: notebooks = members ? members.map((m) => m.notebook) : [];
@@ -123,18 +110,6 @@
 <div class="flex flex-col space-y-8 px-40">
 	<div>
 		<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>
-		<!-- <div class="float-right align-middle">
-			<Button
-				on:click={() => toggleViewMode('cards')}
-				outline={viewMode !== 'cards'}
-				icon="ri-layout-grid-line"
-			/>
-			<Button
-				on:click={() => toggleViewMode('list')}
-				outline={viewMode !== 'list'}
-				icon="ri-menu-line"
-			/>
-		</div> -->
 	</div>
 
 	<div class="flex flex-row w-full space-x-16">

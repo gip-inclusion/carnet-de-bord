@@ -25,7 +25,7 @@
 		NoIdentifier: RD.notAsked,
 	};
 
-	let selectedUser: ExternalUserOption = null;
+	let username: string;
 
 	function externalUserToOption(externalUser: ExternalUser): ExternalUserOption {
 		return {
@@ -43,28 +43,24 @@
 				.join('-'),
 		};
 	}
-	function handleSelectUser(option: CustomEvent<ExternalUserOption>): void {
-		dispatch('selectedUser', option.detail.value);
+	function handleSelectUser(externalUser: ExternalUser | null): void {
+		dispatch('selectedUser', externalUser);
 	}
 
-	let userOptions = [];
+	let userOptions: ExternalUserOption[] = [];
 	$: {
 		if (identifierType) {
 			userOptions = (RD.getData(users[identifierType]) || []).map(externalUserToOption);
 		}
 	}
+	$: handleSelectUser(userOptions.find(({ name }) => name === username)?.value);
 </script>
 
 {#if ['CAF', 'PE'].includes(identifierType)}
 	<svelte:component this={forms[identifierType]} bind:users={users[identifierType]} />
 	{#if userOptions.length > 0}
 		{#key identifierType}
-			<Radio
-				caption="Usagers"
-				options={userOptions}
-				on:selectedItem={handleSelectUser}
-				selected={selectedUser}
-			/>
+			<Radio caption="Usagers" options={userOptions} bind:selected={username} />
 		{/key}
 	{/if}
 {/if}

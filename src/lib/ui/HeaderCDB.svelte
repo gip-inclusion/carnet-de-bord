@@ -3,14 +3,11 @@
 	import { orgName } from '$lib/constants';
 	import type { MenuItem } from '$lib/types';
 
-	import { Header, NavBar } from '$lib/ui/base';
+	import { Header, MenuButton, MenuListItem, NavBar } from '$lib/ui/base';
 </script>
 
 <script lang="ts">
 	import { baseUrlForRole } from '$lib/routes';
-
-	import MenuButton from './base/MenuButton.svelte';
-	import MenuListItem from './base/MenuListItem.svelte';
 
 	export let menuItems: MenuItem[];
 

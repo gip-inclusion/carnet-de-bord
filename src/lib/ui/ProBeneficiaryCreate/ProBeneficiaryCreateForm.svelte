@@ -64,34 +64,13 @@
 	export let beneficiaryAccount: BeneficiaryAccount = {};
 
 	let situationOptions = workSituationKeys.options;
-
-	$: selectedSituationOption = situationOptions.find(
-		({ name }) => beneficiaryAccount.workSituation === name
-	);
-	function handleSituationSelected({ detail }) {
-		beneficiaryAccount.workSituation = detail.selected.name;
-	}
-
-	function handleSingleAccountKey(key: string) {
-		return (e: CustomEvent) => {
-			beneficiaryAccount[key] = e.detail.value;
-		};
-	}
-
-	function flatten(data: string | string[]) {
-		if (Array.isArray(data)) {
-			return data.join(', ');
-		}
-		return data;
-	}
 </script>
 
 {#each inputs as input (input.key)}
 	<Input
-		val={flatten(beneficiaryAccount[input.key])}
+		bind:val={beneficiaryAccount[input.key]}
 		inputHint={input.hint}
 		inputLabel={input.label}
-		on:input={handleSingleAccountKey(input.key)}
 		disabled={disabledKeys[input.key]}
 		type={input.type}
 	/>
@@ -100,6 +79,5 @@
 	selectLabel={'Situation'}
 	selectHint={'Ex : Sans emploi'}
 	options={situationOptions}
-	selected={selectedSituationOption}
-	on:select={handleSituationSelected}
+	bind:selected={beneficiaryAccount.workSituation}
 />

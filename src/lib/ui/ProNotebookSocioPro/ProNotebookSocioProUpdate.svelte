@@ -11,9 +11,7 @@
 	import { Notebook, UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Checkbox2, Radio2, Select2 } from '../base';
-	import Button from '../base/Button.svelte';
-	import Input from '../base/Input.svelte';
+	import { Button, Checkbox, Input, Radio, Select } from '../base';
 	import ProNotebookSocioProRome from './ProNotebookSocioProROME.svelte';
 
 	export let notebook: Pick<
@@ -72,7 +70,7 @@
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
 		<div class="fr-form-group">
-			<Select2
+			<Select
 				selectLabel={'Situation'}
 				selectHint={"Ex : En recherche d'emploi"}
 				options={workSituationKeys.options}
@@ -80,7 +78,7 @@
 			/>
 			<Input bind:val={formData.workSituationDate} inputLabel="Depuis le" type="date" />
 		</div>
-		<Radio2
+		<Radio
 			caption={'Revenu de solidarité active (RSA)'}
 			bind:selected={formData.rightRsa}
 			options={rsaRightKeys.options}
@@ -88,13 +86,13 @@
 
 		<div class="fr-form-group">
 			<div class="font-bold pb-2">Autres aides</div>
-			<Checkbox2 bind:value={formData.rightAre} name="rightAre" label="ARE" />
-			<Checkbox2 bind:value={formData.rightAss} name="rightAss" label="ASS" />
-			<Checkbox2 bind:value={formData.rightRqth} name="rightRqth" label="RQTH" />
-			<Checkbox2 bind:value={formData.rightBonus} name="rightBonus" label="Prime d'activité" />
+			<Checkbox bind:checked={formData.rightAre} name="rightAre" label="ARE" />
+			<Checkbox bind:checked={formData.rightAss} name="rightAss" label="ASS" />
+			<Checkbox bind:checked={formData.rightRqth} name="rightRqth" label="RQTH" />
+			<Checkbox bind:checked={formData.rightBonus} name="rightBonus" label="Prime d'activité" />
 		</div>
 
-		<Radio2
+		<Radio
 			caption={'Zone géographique privilégiée'}
 			legendClass="!font-bold"
 			bind:selected={formData.geographicalArea}
@@ -108,7 +106,7 @@
 
 		<div class="fr-form-group">
 			<div class="font-bold pb-2">Diplôme</div>
-			<Select2
+			<Select
 				selectLabel={"Niveau d'étude le plus élevé"}
 				options={educationLevelKeys.options}
 				bind:selected={formData.educationLevel}

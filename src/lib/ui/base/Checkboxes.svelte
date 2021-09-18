@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import type { Option } from '$lib/types';
-	import Checkbox from '$lib/ui/base/Checkbox.svelte';
+	import Checkbox from '$lib/ui/base/GroupCheckbox.svelte';
 	export let selectedOptions: string[] | null;
 	export let options: Option[];
 	export let caption: string | null = null;

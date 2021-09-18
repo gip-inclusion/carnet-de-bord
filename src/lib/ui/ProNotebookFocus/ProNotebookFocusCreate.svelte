@@ -6,12 +6,11 @@
 		GetRefSituationsDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
-	import { Button, Checkboxes, Select2 } from '$lib/ui/base';
+	import { Button, Checkboxes, Radio, Select } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
-	import Radio2 from '../base/Radio2.svelte';
 	import ProNotebookFocusConfirmation from './ProNotebookFocusConfirmation.svelte';
 
-	export let notebookId;
+	export let notebookId: string | null;
 
 	const refSituationStore = operationStore(GetRefSituationsDocument);
 	query(refSituationStore);
@@ -81,12 +80,12 @@
 	</div>
 	<div>
 		<h2 class="fr-h4 bf-500">Axe de travail</h2>
-		<Radio2
+		<Radio
 			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
 			bind:selected={formData.linkedTo}
 			options={contractTypeFullKeys.options.concat([{ name: 'none', label: 'Aucun' }])}
 		/>
-		<Select2
+		<Select
 			selectLabel={'Thème'}
 			options={focusThemeKeys.options}
 			bind:selected={formData.theme}
