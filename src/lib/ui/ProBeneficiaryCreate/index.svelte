@@ -29,7 +29,7 @@
 		},
 	];
 
-	let selected: { name: IdentifierType; label: string } | null;
+	let selected: IdentifierType | null;
 
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	const createBeneficiary = mutation(createBeneficiaryResult);
@@ -52,11 +52,15 @@
 
 	function handleUserSelection(event: CustomEvent<ExternalUser>) {
 		selectedUser = event.detail;
-		let { mobileOrPhoneNumber, ...info } = selectedUser;
-		beneficiaryAccount = {
-			...info,
-			mobileNumber: mobileOrPhoneNumber,
-		};
+		if (selectedUser) {
+			let { mobileOrPhoneNumber, ...info } = selectedUser;
+			beneficiaryAccount = {
+				...info,
+				mobileNumber: mobileOrPhoneNumber,
+			};
+		} else {
+			beneficiaryAccount = {};
+		}
 	}
 
 	function clearSelectedUser() {
@@ -79,6 +83,8 @@
 			acc.workSituation
 		);
 	}
+
+	$: console.log({ selected, beneficiaryAccount, valid: isAccountValid(beneficiaryAccount) });
 </script>
 
 {#if isOpen}
@@ -111,11 +117,8 @@
 
 				{#if selected}<hr class="mb-8" />{/if}
 
-				<ProFormIdentifiers
-					identifierType={selected ? selected.name : null}
-					on:selectedUser={handleUserSelection}
-				/>
-				{#if (selected && selected.name === 'NoIdentifier') || selectedUser}
+				<ProFormIdentifiers identifierType={selected} on:selectedUser={handleUserSelection} />
+				{#if selected === 'NoIdentifier' || selectedUser}
 					<div class="font-bold mb-6">Veuillez renseigner les informations ci-dessous.</div>
 					<BeneficiaryCreateForm bind:beneficiaryAccount />
 				{/if}
