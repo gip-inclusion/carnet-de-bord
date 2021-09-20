@@ -25,7 +25,7 @@ query GetNotebook($id: uuid!) {
 			peNumber
 			postalCode
 		}
-		focuses(order_by: { creationDate: desc_nulls_last }) {
+		focuses(order_by: { theme: asc_nulls_last }) {
 			id
 			theme
 			situations

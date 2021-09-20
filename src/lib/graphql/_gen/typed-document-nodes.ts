@@ -4378,6 +4378,29 @@ export type UpdateNotebookFocusMutation = {
 	update_notebook_focus_by_pk?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
 };
 
+export type GetNotebookFocusByIdQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetNotebookFocusByIdQuery = {
+	__typename?: 'query_root';
+	focus?: Maybe<{
+		__typename?: 'notebook_focus';
+		id: any;
+		situations?: Maybe<any>;
+		linkedTo?: Maybe<string>;
+		theme: string;
+		targets: Array<{ __typename?: 'notebook_target'; target: string; id: any }>;
+		professional: {
+			__typename?: 'professional';
+			id: any;
+			position?: Maybe<string>;
+			firstname: string;
+			lastname: string;
+		};
+	}>;
+};
+
 export type GetRefSituationsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetRefSituationsQuery = {
@@ -5095,6 +5118,92 @@ export const UpdateNotebookFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateNotebookFocusMutation, UpdateNotebookFocusMutationVariables>;
+export const GetNotebookFocusByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookFocusById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'focus' },
+						name: { kind: 'Name', value: 'notebook_focus_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'linkedTo' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'targets' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'creationDate' },
+														value: { kind: 'EnumValue', value: 'desc' },
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+										],
+									},
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetNotebookFocusByIdQuery, GetNotebookFocusByIdQueryVariables>;
 export const GetRefSituationsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -7647,8 +7756,8 @@ export const GetNotebookDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'creationDate' },
-														value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+														name: { kind: 'Name', value: 'theme' },
+														value: { kind: 'EnumValue', value: 'asc_nulls_last' },
 													},
 												],
 											},
@@ -7954,6 +8063,10 @@ export type AddNotebookFocusMutationStore = OperationStore<
 export type UpdateNotebookFocusMutationStore = OperationStore<
 	UpdateNotebookFocusMutation,
 	UpdateNotebookFocusMutationVariables
+>;
+export type GetNotebookFocusByIdQueryStore = OperationStore<
+	GetNotebookFocusByIdQuery,
+	GetNotebookFocusByIdQueryVariables
 >;
 export type GetRefSituationsQueryStore = OperationStore<
 	GetRefSituationsQuery,

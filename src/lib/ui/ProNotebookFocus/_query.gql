@@ -1,3 +1,22 @@
+query GetNotebookFocusById($id: uuid!) {
+  focus: notebook_focus_by_pk(id: $id) {
+    id
+    situations
+    linkedTo
+    targets(order_by: {creationDate: desc}) {
+      target
+      id
+    }
+    theme
+    professional {
+      id
+      position
+      firstname
+      lastname
+    }
+  }
+}
+
 query GetRefSituations {
 	refSituations: ref_situation {
 		id
