@@ -1,3 +1,11 @@
+# [1.27.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.26.0...v1.27.0) (2021-09-20)
+
+
+### Features
+
+* **pro:** implement create target component ([25d48ca](https://github.com/SocialGouv/carnet-de-bord/commit/25d48ca18a0bafd2c5765fb066d2bf1e4764e469))
+* **pro:** implement update notebook focus component ([e2c0524](https://github.com/SocialGouv/carnet-de-bord/commit/e2c0524770876a20b679d6eb2fc652e3c867f045))
+
 # [1.26.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.25.0...v1.26.0) (2021-09-16)
 
 
