@@ -8,6 +8,7 @@
 	import { openComponent } from '$lib/stores';
 	import { Button, Checkboxes, Radio, Select } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
+	import { buildSituationOptions } from './focusOptionsBuilder';
 	import ProNotebookFocusConfirmation from './ProNotebookFocusConfirmation.svelte';
 
 	export let notebookId: string | null;
@@ -51,23 +52,20 @@
 		}
 	}
 
-	function buildSituationOptions() {
+	function getSituationOptions() {
 		if (!formData.theme) {
 			return [];
 		}
 		const refSituations = $refSituationStore.data?.refSituations || [];
 		const filtered = refSituations.filter(({ theme: t }) => t === formData.theme);
-		return filtered.map(({ id, description }) => ({
-			label: description,
-			name: id,
-		}));
+		return buildSituationOptions(filtered);
 	}
 
 	let situationOptions = buildSituationOptions();
 
 	function selectTheme() {
 		formData.situations = [];
-		situationOptions = buildSituationOptions();
+		situationOptions = getSituationOptions();
 	}
 </script>
 

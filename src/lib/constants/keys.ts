@@ -45,6 +45,7 @@ export const contractTypeFullKeys = buildKeys({
 	cer: "Contrat d'Engagement Réciproque (CER)",
 	ppae: "Projet Personnalisé d'Accès à l'Emploi (PPAE)",
 	pacea: "Parcours contractualisé d'Accompagnement vers l'Emploi et l'Autonomie (PACEA)",
+	no: 'Aucun',
 });
 
 export const educationLevelKeys = buildKeys({
