@@ -14,11 +14,13 @@ select_permissions:
     columns:
     - description
     - id
+    - theme
     filter: {}
   role: beneficiary
 - permission:
     columns:
     - description
     - id
+    - theme
     filter: {}
   role: professional
