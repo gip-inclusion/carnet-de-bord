@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.27.0...v1.28.0) (2021-09-20)
+
+
+### Features
+
+* **ui:** view Focus details in panel ([#203](https://github.com/SocialGouv/carnet-de-bord/issues/203)) ([96ebd20](https://github.com/SocialGouv/carnet-de-bord/commit/96ebd20e5fb6f17a89e6830009802d55ba0f4d19))
+
 # [1.27.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.26.0...v1.27.0) (2021-09-20)
 
 
