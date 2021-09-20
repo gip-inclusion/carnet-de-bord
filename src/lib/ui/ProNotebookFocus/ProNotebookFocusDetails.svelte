@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { GetNotebookFocusByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
-	import { Accordions, Accordion, Button, Card } from '$lib/ui/base';
+	import { GetNotebookFocusByIdDocument, Structure } from '$lib/graphql/_gen/typed-document-nodes';
+	import { openComponent } from '$lib/stores';
+	import { Accordion, Accordions, Button, Card } from '$lib/ui/base';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
-	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
-	import { openComponent } from '$lib/stores';
 	import { operationStore, query } from '@urql/svelte';
+	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
+	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 
 	export let focusId: string;
@@ -14,18 +15,22 @@
 	const focusStore = operationStore(GetNotebookFocusByIdDocument, { id: focusId });
 	query(focusStore);
 
+	const init: Record<string, Pick<Structure, 'id' | 'name'>> = {};
+
 	$: focus = $focusStore.data?.focus;
+	$: situations = (focus?.situations as string[]) || [];
+	$: targets = focus?.targets;
 
-	type Structure = {
-		id: string;
-	};
-	let structures: Structure[] = [];
-
-	$: situations = focus?.situations
-		? Array.isArray(focus?.situations)
-			? focus?.situations
-			: []
-		: ([] as string[]);
+	$: structures = Object.values(
+		targets
+			?.flatMap(({ actions }) => actions)
+			.reduce((acc, { structure }) => {
+				return {
+					...acc,
+					[structure.id]: structure,
+				};
+			}, init) || {}
+	);
 
 	function createTarget() {
 		openComponent.open({
@@ -58,12 +63,10 @@
 			<Card>
 				<span slot="description">
 					<div class="flex flex-row flex-wrap flex-grow">
-						{#each situations as situation}
+						{#each situations as situation, i (i)}
 							<span class="w-1/2 font-bold">
 								<span class="bf-500 fr-text--lg">·</span>{' '}{situation}
 							</span>
-						{:else}
-							Aucune situation saisie pour l'instant.
 						{/each}
 					</div>
 				</span>
@@ -104,12 +107,12 @@
 				<Accordions>
 					{#each focus?.targets || [] as target (target.id)}
 						<Accordion title={target.target}>
-							<div class="flex flex-col">
-								{#each [] as action}
+							<div class="flex flex-col pb-12">
+								{#each target.actions as action (action.id)}
 									<div>{action}</div>
-								{:else}
-									Aucune action associée pour l'instant.
 								{/each}
+
+								<ProNotebookActionCreate {target} />
 							</div>
 						</Accordion>
 					{:else}

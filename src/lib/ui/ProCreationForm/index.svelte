@@ -1,21 +1,18 @@
 <script context="module" lang="ts">
-	import { stringsMatch } from '$lib/helpers';
 	import { contactEmail } from '$lib/constants';
-	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { operationStore, OperationStore } from '@urql/svelte';
 	import {
 		GetStructuresDocument,
 		GetStructuresQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { query } from '@urql/svelte';
+	import type { AccountRequest, Structure } from '$lib/types';
+	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import { operationStore, OperationStore, query } from '@urql/svelte';
+	import Svelecte from 'svelecte';
 	import { createEventDispatcher } from 'svelte';
 </script>
 
 <script lang="ts">
-	import type { AccountRequest, Structure } from '$lib/types';
-	import { Input, Select } from '$lib/ui/base';
-	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
-
 	export let disabled = false;
 	export let errors: AccountRequest = {};
 	export let accountRequest: AccountRequest = {};
@@ -41,20 +38,7 @@
 		metadata: string[];
 	};
 
-	const structureMatchesSearch =
-		(s: string) =>
-		({ label, metadata }: StructureLight) =>
-			[label, ...metadata].some(stringsMatch(s));
-	$: structures =
-		$result?.data?.structure.map((s) => ({
-			...s,
-			label: s.name,
-			name: s.name || s.id,
-			metadata: [...(s.shortDesc || '').split(' '), ...s.name.split(' ')],
-		})) || [];
-
-	let search = '';
-	$: options = structures.filter(structureMatchesSearch(search));
+	$: options = $result?.data?.structure;
 
 	let structure: StructureLight | null;
 
@@ -72,23 +56,26 @@
 <div>
 	<LoaderIndicator {result}>
 		<h2 class="bf-500 fr-h4">Structure</h2>
-		<!-- @TODO let's replace both with a SearchInput component if it does not clash with the DSFR specs -->
-		<div class="flex flex-row gap-2 w-full">
+		<div class="flex flex-row w-full gap-2">
 			<div class="w-full">
-				<Input
-					bind:val={search}
-					inputHint="Ex : Mission locale Vallée de la Drôme"
-					inputLabel="Filtrer les structures"
-					additionalLabel=" "
-				/>
-			</div>
-			<div class="w-full">
-				<Select
-					selectLabel="Sélectionnez votre structure"
+				<label class="flex-grow mb-2 fr-label" for="structureSelect">
+					<div>Sélectionnez votre structure</div>
+					<span class="fr-hint-text justify-self-stretch">
+						Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}"
+							>nous contacter</a
+						>.
+					</span>
+				</label>
+				<Svelecte
+					name="structureSelect"
 					{options}
-					bind:selected={structure}
-					selectHint="Choisissez votre structure dans la liste"
-					additionalLabel={`Si vous ne trouvez pas votre structure, veuillez <a href='mailto:${contactEmail}'>nous contacter</a>.`}
+					placeholder=""
+					bind:selection={structure}
+					disableSifter={false}
+					class="svelecte-control custom-svelecte"
+					valueField="id"
+					labelField="name"
+					clearable={true}
 				/>
 			</div>
 		</div>

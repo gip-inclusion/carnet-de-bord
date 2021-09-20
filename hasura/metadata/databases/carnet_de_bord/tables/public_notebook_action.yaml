@@ -24,7 +24,6 @@ insert_permissions:
     check: {}
     columns:
     - action
-    - creator_id
     - status
     - structure_id
     - target_id
