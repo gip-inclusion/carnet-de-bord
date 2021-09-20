@@ -2,6 +2,7 @@
 - "!include public_admin.yaml"
 - "!include public_beneficiary.yaml"
 - "!include public_notebook.yaml"
+- "!include public_notebook_action.yaml"
 - "!include public_notebook_event.yaml"
 - "!include public_notebook_focus.yaml"
 - "!include public_notebook_member.yaml"
