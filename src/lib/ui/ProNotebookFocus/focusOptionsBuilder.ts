@@ -4,8 +4,8 @@ import type { LabelName } from '$lib/types';
 export function buildSituationOptions(
 	refSituations: Pick<RefSituation, 'id' | 'description' | 'theme'>[] = []
 ): LabelName[] {
-	return refSituations.map(({ id, description }) => ({
+	return refSituations.map(({ description }) => ({
 		label: description,
-		name: id,
+		name: description,
 	}));
 }

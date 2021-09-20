@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { contractTypeFullKeys } from '$lib/constants/keys';
+	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
 	import {
 		GetRefSituationsByThemeDocument,
 		NotebookFocus,
@@ -9,6 +9,7 @@
 	import { Button, Checkboxes, Radio } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { buildSituationOptions } from './focusOptionsBuilder';
+	import ProNotebookFocusDetails from './ProNotebookFocusDetails.svelte';
 
 	export let focus: Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'>;
 
@@ -16,7 +17,7 @@
 	query(refSituationStore);
 
 	function close() {
-		openComponent.close();
+		openComponent.open({ component: ProNotebookFocusDetails, props: { focusId: focus.id } });
 	}
 
 	const updateNotebookFocusStore = operationStore(UpdateNotebookFocusDocument);
@@ -39,15 +40,15 @@
 			situations: formData.situations,
 			linkedTo: formData.linkedTo,
 		});
-		openComponent.close();
+		close();
 	}
 
-	let situationOptions = buildSituationOptions($refSituationStore.data?.refSituations);
+	$: situationOptions = buildSituationOptions($refSituationStore.data?.refSituations);
 </script>
 
 <div class="flex flex-col gap-6 mb-6">
 	<div>
-		<h1>{focus.theme}</h1>
+		<h1>{focusThemeKeys.byKey[focus.theme]}</h1>
 		<p class="mb-0">
 			Veuillez renseigner les informations ci-dessous pour modifier l'axe de travail.
 		</p>

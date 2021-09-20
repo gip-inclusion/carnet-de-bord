@@ -7,14 +7,22 @@
 	export let detail = '';
 	export let largeLink = true;
 	export let hideArrow = true;
+	export let disabledHover = false;
+	export let onClick: ((event: Event) => void) | null = null;
+
+	if (!href && !onClick) {
+		disabledHover = true;
+	}
 </script>
 
 <div
+	on:click={onClick}
 	class={`
 fr-card
 ${horizontal ? 'fr-card--horizontal' : ''}
 ${largeLink ? 'fr-enlarge-link' : ''}
 ${hideArrow ? 'fr-card--no-arrow' : ''}
+${disabledHover ? 'force-disable-hover' : ''}
 `}
 >
 	<div class="fr-card__body">
@@ -45,3 +53,9 @@ ${hideArrow ? 'fr-card--no-arrow' : ''}
 		</div>
 	{/if}
 </div>
+
+<style lang="postcss">
+	.force-disable-hover {
+		background-image: none !important;
+	}
+</style>
