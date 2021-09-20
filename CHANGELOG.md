@@ -1,3 +1,10 @@
+# [1.29.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.28.0...v1.29.0) (2021-09-20)
+
+
+### Features
+
+* add action table ([#204](https://github.com/SocialGouv/carnet-de-bord/issues/204)) ([857be52](https://github.com/SocialGouv/carnet-de-bord/commit/857be52611f988fe5c1743b2745d4adf2ebb4071))
+
 # [1.28.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.27.0...v1.28.0) (2021-09-20)
 
 
