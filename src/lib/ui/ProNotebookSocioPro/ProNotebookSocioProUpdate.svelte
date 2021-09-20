@@ -85,7 +85,7 @@
 		/>
 
 		<div class="fr-form-group">
-			<div class="font-bold pb-2">Autres aides</div>
+			<div class="pb-2 font-bold">Autres aides</div>
 			<Checkbox bind:checked={formData.rightAre} name="rightAre" label="ARE" />
 			<Checkbox bind:checked={formData.rightAss} name="rightAss" label="ASS" />
 			<Checkbox bind:checked={formData.rightRqth} name="rightRqth" label="RQTH" />
@@ -100,12 +100,12 @@
 		/>
 
 		<div class="fr-form-group">
-			<div class="font-bold pb-2">Emploi recherché</div>
+			<div class="pb-2 font-bold">Emploi recherché</div>
 			<ProNotebookSocioProRome bind:current={formData.job} />
 		</div>
 
 		<div class="fr-form-group">
-			<div class="font-bold pb-2">Diplôme</div>
+			<div class="pb-2 font-bold">Diplôme</div>
 			<Select
 				selectLabel={"Niveau d'étude le plus élevé"}
 				options={educationLevelKeys.options}

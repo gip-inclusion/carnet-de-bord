@@ -4455,6 +4455,25 @@ export type UpdateSocioProMutation = {
 	update?: Maybe<{ __typename?: 'notebook'; id: any }>;
 };
 
+export type AddNotebookTargetMutationVariables = Exact<{
+	focusId: Scalars['uuid'];
+	target?: Maybe<Scalars['String']>;
+}>;
+
+export type AddNotebookTargetMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_target_one?: Maybe<{ __typename?: 'notebook_target'; id: any }>;
+};
+
+export type GetRefTargetByFocusQueryVariables = Exact<{
+	theme: Scalars['String'];
+}>;
+
+export type GetRefTargetByFocusQuery = {
+	__typename?: 'query_root';
+	refTargets: Array<{ __typename?: 'ref_target'; id: any; description: string }>;
+};
+
 export type GetAccountQueryVariables = Exact<{
 	accountId: Scalars['uuid'];
 }>;
@@ -5771,6 +5790,141 @@ export const UpdateSocioProDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateSocioProMutation, UpdateSocioProMutationVariables>;
+export const AddNotebookTargetDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookTarget' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'focusId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'target' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_target_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'focusId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'focusId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'target' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'target' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<AddNotebookTargetMutation, AddNotebookTargetMutationVariables>;
+export const GetRefTargetByFocusDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetRefTargetByFocus' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'refTargets' },
+						name: { kind: 'Name', value: 'ref_target' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'theme' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'description' },
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetRefTargetByFocusQuery, GetRefTargetByFocusQueryVariables>;
 export const GetAccountDocument = {
 	kind: 'Document',
 	definitions: [
@@ -7633,6 +7787,14 @@ export type UpdateBeneficiaryPersonalInfoMutationStore = OperationStore<
 export type UpdateSocioProMutationStore = OperationStore<
 	UpdateSocioProMutation,
 	UpdateSocioProMutationVariables
+>;
+export type AddNotebookTargetMutationStore = OperationStore<
+	AddNotebookTargetMutation,
+	AddNotebookTargetMutationVariables
+>;
+export type GetRefTargetByFocusQueryStore = OperationStore<
+	GetRefTargetByFocusQuery,
+	GetRefTargetByFocusQueryVariables
 >;
 export type GetAccountQueryStore = OperationStore<GetAccountQuery, GetAccountQueryVariables>;
 export type InsertStructureMutationStore = OperationStore<
