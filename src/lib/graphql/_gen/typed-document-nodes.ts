@@ -4777,7 +4777,17 @@ export type GetNotebookFocusByIdQuery = {
 				creationDate: any;
 				status: string;
 				action: string;
-				structure: { __typename?: 'structure'; id: any; name?: Maybe<string> };
+				structure: {
+					__typename?: 'structure';
+					id: any;
+					name?: Maybe<string>;
+					phone?: Maybe<string>;
+					address1?: Maybe<string>;
+					address2?: Maybe<string>;
+					city?: Maybe<string>;
+					postalCode?: Maybe<string>;
+					website?: Maybe<string>;
+				};
 				creator: { __typename?: 'professional'; id: any; lastname: string; firstname: string };
 			}>;
 		}>;
@@ -4793,6 +4803,7 @@ export type GetNotebookFocusByIdQuery = {
 				__typename?: 'structure';
 				id: any;
 				name?: Maybe<string>;
+				phone?: Maybe<string>;
 				address1?: Maybe<string>;
 				address2?: Maybe<string>;
 				city?: Maybe<string>;
@@ -5767,6 +5778,12 @@ export const GetNotebookFocusByIdDocument = {
 																selections: [
 																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 																],
 															},
 														},
@@ -5809,6 +5826,7 @@ export const GetNotebookFocusByIdDocument = {
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
@@ -7553,6 +7571,20 @@ export const GetLastVisitedOrUpdatedDocument = {
 												],
 											},
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookVisitDate' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_is_null' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										},
 									],
 								},
 							},
@@ -7630,6 +7662,20 @@ export const GetLastVisitedOrUpdatedDocument = {
 															kind: 'Variable',
 															name: { kind: 'Name', value: 'professionalId' },
 														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookModificationDate' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_is_null' },
+														value: { kind: 'BooleanValue', value: false },
 													},
 												],
 											},
