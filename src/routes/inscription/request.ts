@@ -59,16 +59,20 @@ export const post: RequestHandler = async (request) => {
 	const appUrl = getAppUrl();
 
 	// send email to first admin
-	await sendEmail({
-		to: contactEmail,
-		subject: 'Demande de création de compte',
-		html: emailAccountRequest({
-			firstname,
-			lastname,
-			appUrl,
-			requester,
-		}),
-	});
+	try {
+		await sendEmail({
+			to: contactEmail,
+			subject: 'Demande de création de compte',
+			html: emailAccountRequest({
+				firstname,
+				lastname,
+				appUrl,
+				requester,
+			}),
+		});
+	} catch (e) {
+		console.log(e);
+	}
 
 	return {
 		status: 200,
