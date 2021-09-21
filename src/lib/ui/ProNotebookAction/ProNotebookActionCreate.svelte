@@ -7,7 +7,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import Svelecte from 'svelecte';
-	import { Button, Select } from '../base';
+	import { Button, Select } from '$lib/ui/base';
 
 	export let target: Pick<NotebookTarget, 'id' | 'target'>;
 
@@ -47,7 +47,7 @@
 	}
 </script>
 
-<form on:submit|preventDefault={createAction}>
+<form on:submit|preventDefault={createAction} class="pb-4">
 	<div>
 		<div class="flex flex-row justify-between">
 			<div class="flex flex-row w-9/12">

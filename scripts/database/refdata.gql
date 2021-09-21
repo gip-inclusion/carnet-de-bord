@@ -71,8 +71,8 @@ mutation INSERT_REF_TARGET {
         description: "Se maintenir dans le logement suite à des impayés de loyers"
         actions: {
           data: [
-            { description: "Demande Fond Solidarité Energie" }
-            { description: "Demande Fond Solidarité Logement" }
+            { description: "Demande Fonds Solidarité Energie" }
+            { description: "Demande Fonds Solidarité Logement" }
           ]
         }
       }
