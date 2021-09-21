@@ -1,32 +1,91 @@
 <script context="module" lang="ts">
-	import {
+	import type {
 		Beneficiary,
-		GetNotebookDocument,
 		GetNotebookQueryStore,
+		GetNotebookEventsQueryStore,
 		NotebookMember,
-		UpdateNotebookVisitDateDocument,
-		UpdateNotebookVisitDateMutationStore,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { Accordion, Accordions } from '$lib/ui/base';
+	import {
+		GetNotebookDocument,
+		UpdateNotebookVisitDateDocument,
+		GetNotebookEventsDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { Accordion, Accordions, Select } from '$lib/ui/base';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
-	import { mutation, operationStore, query } from '@urql/svelte';
-	import { onDestroy } from 'svelte';
+	import { operationStore, query } from '@urql/svelte';
+	import { addMonths } from 'date-fns';
+
+	type Period =
+		| typeof threeMonths
+		| typeof threeSixMonths
+		| typeof sixTwelveMonths
+		| typeof twelveMonths;
+	const threeMonths = '-3months';
+	const threeSixMonths = '3-6months';
+	const sixTwelveMonths = '6-12months';
+	const twelveMonths = '+12months';
+
+	function toDateFormat(date: Date) {
+		const yyyy = date.getFullYear().toString().padStart(4, '0');
+		const mm = (1 + date.getMonth()).toString().padStart(2, '0');
+		const dd = date.getDate().toString().padStart(2, '0');
+
+		return `${yyyy}-${mm}-${dd}`;
+	}
+
+	function buildQueryVariables<Vars>(
+		variables: Vars & {
+			eventsStart?: string;
+			eventsEnd?: string;
+		},
+		selected: Period
+	) {
+		let eventsStart: Date;
+		let eventsEnd: Date;
+
+		const today = new Date();
+		if (selected === threeMonths) {
+			eventsStart = addMonths(today, -3);
+		} else if (selected === threeSixMonths) {
+			eventsStart = addMonths(today, -6);
+			eventsEnd = addMonths(today, -3);
+		} else if (selected === sixTwelveMonths) {
+			eventsStart = addMonths(today, -12);
+			eventsEnd = addMonths(today, -6);
+		} else if (selected === twelveMonths) {
+			eventsEnd = addMonths(today, -12);
+		}
+
+		if (eventsStart) {
+			variables.eventsStart = toDateFormat(eventsStart);
+		}
+		if (eventsEnd) {
+			variables.eventsEnd = toDateFormat(eventsEnd);
+		}
+		return variables;
+	}
 
 	export const load: Load = ({ page }) => {
-		const id = page.params.uuid;
-		const getNotebookResult = operationStore(GetNotebookDocument, { id });
+		const notebookId = page.params.uuid;
+		const variables = { id: notebookId };
+		const getNotebookStore = operationStore(
+			GetNotebookDocument,
+			buildQueryVariables(variables, threeMonths)
+		);
+
 		const updateVisitDateResult = operationStore(UpdateNotebookVisitDateDocument, {
-			notebookId: id,
+			notebookId,
 			notebookVisitDate: new Date(),
 		});
 		return {
 			props: {
-				getNotebookResult,
+				notebookId,
+				getNotebookStore,
 				updateVisitDateResult,
 			},
 		};
@@ -34,23 +93,34 @@
 </script>
 
 <script lang="ts">
-	export let updateVisitDateResult: UpdateNotebookVisitDateMutationStore;
-	export let getNotebookResult: GetNotebookQueryStore;
+	export let notebookId: string;
+	export let getNotebookStore: GetNotebookQueryStore;
+	let selected: Period = threeMonths;
+	let getNotebookEventsStore: GetNotebookEventsQueryStore = operationStore(
+		GetNotebookEventsDocument,
+		{ notebookId, eventsStart: null, eventsEnd: null },
+		{ pause: true }
+	);
 
-	const updateVisitDate = mutation(updateVisitDateResult);
-	query(getNotebookResult);
+	query(getNotebookStore);
+	query(getNotebookEventsStore);
 
-	$: notebook = $getNotebookResult.data?.notebook;
+	function onSelect() {
+		$getNotebookEventsStore.context.pause = false;
+		const variables = { notebookId };
+		$getNotebookEventsStore.variables = buildQueryVariables(variables, selected);
+		$getNotebookEventsStore.reexecute();
+	}
+
+	$: notebook = $getNotebookStore.data?.notebook;
+	$: events =
+		$getNotebookEventsStore.data?.notebook_event || $getNotebookStore.data?.notebook.events;
 	$: beneficiary = notebook?.beneficiary as Beneficiary;
 	$: members = notebook?.members as NotebookMember[];
 	$: lastMember = members?.length ? members[0] : null;
-
-	onDestroy(() => {
-		updateVisitDate();
-	});
 </script>
 
-<LoaderIndicator result={getNotebookResult}>
+<LoaderIndicator result={getNotebookStore}>
 	<div class="flex flex-col gap-8 px-40">
 		<ProNotebookPersonalInfoView
 			{beneficiary}
@@ -73,6 +143,46 @@
 			</Accordion>
 			<Accordion title="Axes de travail">
 				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
+			</Accordion>
+			<Accordion title="Historique des actions">
+				<div class="mb-2">
+					<Select
+						on:select={onSelect}
+						options={[
+							{ name: threeMonths, label: 'Dans les 3 derniers mois' },
+							{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
+							{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
+							{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
+						]}
+						bind:selected
+						selectHint="Sélectionner un filtre"
+						selectLabel=""
+					/>
+				</div>
+				<div class={`w-full fr-table fr-table--layout-fixed`}>
+					<table class="w-full">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Événements</th>
+								<th>Auteurs</th>
+							</tr>
+						</thead>
+						<tbody class="w-full">
+							{#each events || [] as event (event.id)}
+								<tr>
+									<td>{event.eventDate} </td>
+									<td>{event.data}</td>
+									<td>{event.professional?.structure?.name} </td>
+								</tr>
+							{:else}
+								<tr class="shadow-sm">
+									<td class="!text-center" colspan="3"> Aucun événement pour le moment. </td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 			</Accordion>
 		</Accordions>
 	</div>
