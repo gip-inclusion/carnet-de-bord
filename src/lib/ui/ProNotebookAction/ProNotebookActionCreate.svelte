@@ -45,6 +45,8 @@
 		});
 		formData = initFormData();
 	}
+
+	$: disabled = !(formData.action && formData.structureId);
 </script>
 
 <form on:submit|preventDefault={createAction} class="pb-4">
@@ -74,7 +76,7 @@
 				</div>
 			</div>
 			<div class="self-end w-1/6">
-				<Button type="submit" outline>Ajouter</Button>
+				<Button type="submit" {disabled}>Ajouter</Button>
 			</div>
 		</div>
 	</div>
