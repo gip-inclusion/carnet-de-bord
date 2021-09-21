@@ -5,14 +5,14 @@
 
 	type NotebookActionListType = {
 		target: string;
-		id: any;
+		id: string;
 		actions: Array<{
-			id: any;
-			creationDate: any;
+			id: string;
+			creationDate: string;
 			status: string;
 			action: string;
-			structure: { id: any; name?: Maybe<string> };
-			creator: { id: any; lastname: string; firstname: string };
+			structure: { id: string; name?: Maybe<string> };
+			creator: { id: string; lastname: string; firstname: string };
 		}>;
 	};
 

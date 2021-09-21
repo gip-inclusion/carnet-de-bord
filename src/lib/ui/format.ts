@@ -1,4 +1,4 @@
-export const notNullish = (data) => !!data;
+export const notNullish = (data: unknown): boolean => !!data;
 
 export const displayFullName = ({
 	firstname,
