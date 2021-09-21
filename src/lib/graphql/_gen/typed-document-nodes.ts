@@ -4766,6 +4766,7 @@ export type GetNotebookFocusByIdQuery = {
 		situations?: Maybe<any>;
 		linkedTo?: Maybe<string>;
 		theme: string;
+		creationDate: any;
 		targets: Array<{
 			__typename?: 'notebook_target';
 			target: string;
@@ -4786,6 +4787,17 @@ export type GetNotebookFocusByIdQuery = {
 			position?: Maybe<string>;
 			firstname: string;
 			lastname: string;
+			structureId: any;
+			structure: {
+				__typename?: 'structure';
+				id: any;
+				name?: Maybe<string>;
+				address1?: Maybe<string>;
+				address2?: Maybe<string>;
+				city?: Maybe<string>;
+				postalCode?: Maybe<string>;
+				website?: Maybe<string>;
+			};
 		};
 	}>;
 };
@@ -5786,9 +5798,27 @@ export const GetNotebookFocusByIdDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+													],
+												},
+											},
 										],
 									},
 								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'creationDate' } },
 							],
 						},
 					},

@@ -9,6 +9,7 @@
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
+	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 
 	export let focusId: string;
 
@@ -36,6 +37,13 @@
 		openComponent.open({
 			component: ProNotebookTargetCreate,
 			props: { focusId: focus?.id, focusTheme: focus?.theme },
+		});
+	}
+
+	function viewCreator() {
+		openComponent.open({
+			component: ProNotebookCreatorView,
+			props: { creator: focus?.professional, creationDate: new Date() },
 		});
 	}
 </script>
@@ -75,7 +83,7 @@
 		<div class="flex flex-row gap-4">
 			<div class="w-1/2 items-stretch">
 				<h2 class="fr-h4 bf-500">Créé par</h2>
-				<Card>
+				<Card onClick={viewCreator}>
 					<span slot="title">{focus?.professional ? displayFullName(focus?.professional) : ''}</span
 					>
 					<span slot="description">
