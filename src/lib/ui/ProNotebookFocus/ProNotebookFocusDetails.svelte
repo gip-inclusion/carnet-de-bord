@@ -43,7 +43,7 @@
 	function viewCreator() {
 		openComponent.open({
 			component: ProNotebookCreatorView,
-			props: { creator: focus?.professional, creationDate: new Date() },
+			props: { creator: focus?.professional, creationDate: focus?.creationDate },
 		});
 	}
 </script>
@@ -84,10 +84,12 @@
 			<div class="w-1/2 items-stretch">
 				<h2 class="fr-h4 bf-500">Créé par</h2>
 				<Card onClick={viewCreator}>
-					<span slot="title">{focus?.professional ? displayFullName(focus?.professional) : ''}</span
-					>
+					<span slot="title">
+						{focus?.professional ? displayFullName(focus?.professional) : ''}
+					</span>
 					<span slot="description">
 						<Text value={focus?.professional?.position} />
+						<Text classNames="font-bold" value={focus?.professional?.mobileNumber} />
 					</span>
 				</Card>
 			</div>
