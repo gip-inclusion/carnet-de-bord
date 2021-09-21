@@ -49,5 +49,7 @@
 			</tbody>
 		</table>
 	</div>
-	<ProNotebookActionCreate {target} />
+	<div class="py-1">
+		<ProNotebookActionCreate {target} />
+	</div>
 </div>

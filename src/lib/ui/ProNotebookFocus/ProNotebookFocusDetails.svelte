@@ -104,7 +104,7 @@
 					<span slot="title">{''}</span>
 					<span slot="description">
 						<span class="font-bold">
-							{`Voir toutes les strutures (${structures.length})`}
+							{`Voir toutes les structures (${structures.length})`}
 						</span>
 					</span>
 				</Card>

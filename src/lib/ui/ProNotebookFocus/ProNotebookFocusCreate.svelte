@@ -81,7 +81,7 @@
 		<Radio
 			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
 			bind:selected={formData.linkedTo}
-			options={contractTypeFullKeys.options.concat([{ name: 'none', label: 'Aucun' }])}
+			options={contractTypeFullKeys.options}
 		/>
 		<Select
 			selectLabel={'Thème'}
@@ -106,8 +106,7 @@
 			{/if}
 		</div>
 	{/if}
-	<div class="h-full flex-stretch">{' '}</div>
-	<div>
+	<div class="py-4">
 		<Button {disabled} on:click={createFocus}>Valider</Button>
 		<Button outline={true} on:click={close}>Annuler</Button>
 	</div>
