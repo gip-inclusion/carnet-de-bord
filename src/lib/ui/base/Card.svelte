@@ -22,7 +22,7 @@ fr-card
 ${horizontal ? 'fr-card--horizontal' : ''}
 ${largeLink ? 'fr-enlarge-link' : ''}
 ${hideArrow ? 'fr-card--no-arrow' : ''}
-${disabledHover ? 'force-disable-hover' : ''}
+${disabledHover ? 'force-disable-hover' : 'cursor-pointer'}
 `}
 >
 	<div class="fr-card__body">

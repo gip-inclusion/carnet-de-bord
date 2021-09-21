@@ -809,6 +809,10 @@ export type MutationRoot = {
 	delete_beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** delete data from the table: "notebook" */
 	delete_notebook?: Maybe<NotebookMutationResponse>;
+	/** delete data from the table: "notebook_action" */
+	delete_notebook_action?: Maybe<NotebookActionMutationResponse>;
+	/** delete single row from the table: "notebook_action" */
+	delete_notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** delete single row from the table: "notebook" */
 	delete_notebook_by_pk?: Maybe<Notebook>;
 	/** delete data from the table: "notebook_event" */
@@ -861,6 +865,10 @@ export type MutationRoot = {
 	insert_beneficiary_one?: Maybe<Beneficiary>;
 	/** insert data into the table: "notebook" */
 	insert_notebook?: Maybe<NotebookMutationResponse>;
+	/** insert data into the table: "notebook_action" */
+	insert_notebook_action?: Maybe<NotebookActionMutationResponse>;
+	/** insert a single row into the table: "notebook_action" */
+	insert_notebook_action_one?: Maybe<NotebookAction>;
 	/** insert data into the table: "notebook_event" */
 	insert_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** insert a single row into the table: "notebook_event" */
@@ -913,6 +921,10 @@ export type MutationRoot = {
 	update_beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** update data of the table: "notebook" */
 	update_notebook?: Maybe<NotebookMutationResponse>;
+	/** update data of the table: "notebook_action" */
+	update_notebook_action?: Maybe<NotebookActionMutationResponse>;
+	/** update single row of the table: "notebook_action" */
+	update_notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** update single row of the table: "notebook" */
 	update_notebook_by_pk?: Maybe<Notebook>;
 	/** update data of the table: "notebook_event" */
@@ -986,6 +998,16 @@ export type MutationRootDeleteBeneficiaryByPkArgs = {
 /** mutation root */
 export type MutationRootDeleteNotebookArgs = {
 	where: NotebookBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookActionArgs = {
+	where: NotebookActionBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookActionByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -1123,6 +1145,18 @@ export type MutationRootInsertBeneficiaryOneArgs = {
 export type MutationRootInsertNotebookArgs = {
 	objects: Array<NotebookInsertInput>;
 	on_conflict?: Maybe<NotebookOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookActionArgs = {
+	objects: Array<NotebookActionInsertInput>;
+	on_conflict?: Maybe<NotebookActionOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookActionOneArgs = {
+	object: NotebookActionInsertInput;
+	on_conflict?: Maybe<NotebookActionOnConflict>;
 };
 
 /** mutation root */
@@ -1279,6 +1313,18 @@ export type MutationRootUpdateBeneficiaryByPkArgs = {
 export type MutationRootUpdateNotebookArgs = {
 	_set?: Maybe<NotebookSetInput>;
 	where: NotebookBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookActionArgs = {
+	_set?: Maybe<NotebookActionSetInput>;
+	where: NotebookActionBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookActionByPkArgs = {
+	_set?: Maybe<NotebookActionSetInput>;
+	pk_columns: NotebookActionPkColumnsInput;
 };
 
 /** mutation root */
@@ -1502,6 +1548,224 @@ export type NotebookMembersAggregateArgs = {
 	order_by?: Maybe<Array<NotebookMemberOrderBy>>;
 	where?: Maybe<NotebookMemberBoolExp>;
 };
+
+/** columns and relationships of "notebook_action" */
+export type NotebookAction = {
+	__typename?: 'notebook_action';
+	action: Scalars['String'];
+	creationDate: Scalars['timestamptz'];
+	/** An object relationship */
+	creator: Professional;
+	creatorId: Scalars['uuid'];
+	id: Scalars['uuid'];
+	status: Scalars['String'];
+	/** An object relationship */
+	structure: Structure;
+	structureId: Scalars['uuid'];
+	/** An object relationship */
+	target: NotebookTarget;
+	targetId: Scalars['uuid'];
+};
+
+/** aggregated selection of "notebook_action" */
+export type NotebookActionAggregate = {
+	__typename?: 'notebook_action_aggregate';
+	aggregate?: Maybe<NotebookActionAggregateFields>;
+	nodes: Array<NotebookAction>;
+};
+
+/** aggregate fields of "notebook_action" */
+export type NotebookActionAggregateFields = {
+	__typename?: 'notebook_action_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookActionMaxFields>;
+	min?: Maybe<NotebookActionMinFields>;
+};
+
+/** aggregate fields of "notebook_action" */
+export type NotebookActionAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<NotebookActionSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_action" */
+export type NotebookActionAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<NotebookActionMaxOrderBy>;
+	min?: Maybe<NotebookActionMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "notebook_action" */
+export type NotebookActionArrRelInsertInput = {
+	data: Array<NotebookActionInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<NotebookActionOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_action". All fields are combined with a logical 'AND'. */
+export type NotebookActionBoolExp = {
+	_and?: Maybe<Array<NotebookActionBoolExp>>;
+	_not?: Maybe<NotebookActionBoolExp>;
+	_or?: Maybe<Array<NotebookActionBoolExp>>;
+	action?: Maybe<StringComparisonExp>;
+	creationDate?: Maybe<TimestamptzComparisonExp>;
+	creator?: Maybe<ProfessionalBoolExp>;
+	creatorId?: Maybe<UuidComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	status?: Maybe<StringComparisonExp>;
+	structure?: Maybe<StructureBoolExp>;
+	structureId?: Maybe<UuidComparisonExp>;
+	target?: Maybe<NotebookTargetBoolExp>;
+	targetId?: Maybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_action" */
+export enum NotebookActionConstraint {
+	/** unique or primary key constraint */
+	NotebookActionPkey = 'notebook_action_pkey',
+}
+
+/** input type for inserting data into table "notebook_action" */
+export type NotebookActionInsertInput = {
+	action?: Maybe<Scalars['String']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creator?: Maybe<ProfessionalObjRelInsertInput>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	structure?: Maybe<StructureObjRelInsertInput>;
+	structureId?: Maybe<Scalars['uuid']>;
+	target?: Maybe<NotebookTargetObjRelInsertInput>;
+	targetId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type NotebookActionMaxFields = {
+	__typename?: 'notebook_action_max_fields';
+	action?: Maybe<Scalars['String']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	structureId?: Maybe<Scalars['uuid']>;
+	targetId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "notebook_action" */
+export type NotebookActionMaxOrderBy = {
+	action?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	creatorId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	status?: Maybe<OrderBy>;
+	structureId?: Maybe<OrderBy>;
+	targetId?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type NotebookActionMinFields = {
+	__typename?: 'notebook_action_min_fields';
+	action?: Maybe<Scalars['String']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	structureId?: Maybe<Scalars['uuid']>;
+	targetId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "notebook_action" */
+export type NotebookActionMinOrderBy = {
+	action?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	creatorId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	status?: Maybe<OrderBy>;
+	structureId?: Maybe<OrderBy>;
+	targetId?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "notebook_action" */
+export type NotebookActionMutationResponse = {
+	__typename?: 'notebook_action_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookAction>;
+};
+
+/** on conflict condition type for table "notebook_action" */
+export type NotebookActionOnConflict = {
+	constraint: NotebookActionConstraint;
+	update_columns?: Array<NotebookActionUpdateColumn>;
+	where?: Maybe<NotebookActionBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_action". */
+export type NotebookActionOrderBy = {
+	action?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	creator?: Maybe<ProfessionalOrderBy>;
+	creatorId?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	status?: Maybe<OrderBy>;
+	structure?: Maybe<StructureOrderBy>;
+	structureId?: Maybe<OrderBy>;
+	target?: Maybe<NotebookTargetOrderBy>;
+	targetId?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_action */
+export type NotebookActionPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "notebook_action" */
+export enum NotebookActionSelectColumn {
+	/** column name */
+	Action = 'action',
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Status = 'status',
+	/** column name */
+	StructureId = 'structureId',
+	/** column name */
+	TargetId = 'targetId',
+}
+
+/** input type for updating data in table "notebook_action" */
+export type NotebookActionSetInput = {
+	action?: Maybe<Scalars['String']>;
+	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	structureId?: Maybe<Scalars['uuid']>;
+	targetId?: Maybe<Scalars['uuid']>;
+};
+
+/** update columns of table "notebook_action" */
+export enum NotebookActionUpdateColumn {
+	/** column name */
+	Action = 'action',
+	/** column name */
+	CreationDate = 'creationDate',
+	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Status = 'status',
+	/** column name */
+	StructureId = 'structureId',
+	/** column name */
+	TargetId = 'targetId',
+}
 
 /** aggregated selection of "notebook" */
 export type NotebookAggregate = {
@@ -2463,12 +2727,34 @@ export type NotebookSetInput = {
 /** columns and relationships of "notebook_target" */
 export type NotebookTarget = {
 	__typename?: 'notebook_target';
+	/** An array relationship */
+	actions: Array<NotebookAction>;
+	/** An aggregate relationship */
+	actions_aggregate: NotebookActionAggregate;
 	creationDate: Scalars['timestamptz'];
 	/** An object relationship */
 	focus: NotebookFocus;
 	focusId: Scalars['uuid'];
 	id: Scalars['uuid'];
 	target: Scalars['String'];
+};
+
+/** columns and relationships of "notebook_target" */
+export type NotebookTargetActionsArgs = {
+	distinct_on?: Maybe<Array<NotebookActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookActionOrderBy>>;
+	where?: Maybe<NotebookActionBoolExp>;
+};
+
+/** columns and relationships of "notebook_target" */
+export type NotebookTargetActionsAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookActionOrderBy>>;
+	where?: Maybe<NotebookActionBoolExp>;
 };
 
 /** aggregated selection of "notebook_target" */
@@ -2511,6 +2797,7 @@ export type NotebookTargetBoolExp = {
 	_and?: Maybe<Array<NotebookTargetBoolExp>>;
 	_not?: Maybe<NotebookTargetBoolExp>;
 	_or?: Maybe<Array<NotebookTargetBoolExp>>;
+	actions?: Maybe<NotebookActionBoolExp>;
 	creationDate?: Maybe<TimestamptzComparisonExp>;
 	focus?: Maybe<NotebookFocusBoolExp>;
 	focusId?: Maybe<UuidComparisonExp>;
@@ -2526,6 +2813,7 @@ export enum NotebookTargetConstraint {
 
 /** input type for inserting data into table "notebook_target" */
 export type NotebookTargetInsertInput = {
+	actions?: Maybe<NotebookActionArrRelInsertInput>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
 	focus?: Maybe<NotebookFocusObjRelInsertInput>;
 	focusId?: Maybe<Scalars['uuid']>;
@@ -2576,6 +2864,13 @@ export type NotebookTargetMutationResponse = {
 	returning: Array<NotebookTarget>;
 };
 
+/** input type for inserting object relation for remote table "notebook_target" */
+export type NotebookTargetObjRelInsertInput = {
+	data: NotebookTargetInsertInput;
+	/** on conflict condition */
+	on_conflict?: Maybe<NotebookTargetOnConflict>;
+};
+
 /** on conflict condition type for table "notebook_target" */
 export type NotebookTargetOnConflict = {
 	constraint: NotebookTargetConstraint;
@@ -2585,6 +2880,7 @@ export type NotebookTargetOnConflict = {
 
 /** Ordering options when selecting data from "notebook_target". */
 export type NotebookTargetOrderBy = {
+	actions_aggregate?: Maybe<NotebookActionAggregateOrderBy>;
 	creationDate?: Maybe<OrderBy>;
 	focus?: Maybe<NotebookFocusOrderBy>;
 	focusId?: Maybe<OrderBy>;
@@ -2968,6 +3264,12 @@ export type QueryRoot = {
 	beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
+	/** fetch data from the table: "notebook_action" */
+	notebook_action: Array<NotebookAction>;
+	/** fetch aggregated fields from the table: "notebook_action" */
+	notebook_action_aggregate: NotebookActionAggregate;
+	/** fetch data from the table: "notebook_action" using primary key columns */
+	notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
 	/** fetch data from the table: "notebook" using primary key columns */
@@ -3094,6 +3396,26 @@ export type QueryRootNotebookArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<NotebookOrderBy>>;
 	where?: Maybe<NotebookBoolExp>;
+};
+
+export type QueryRootNotebookActionArgs = {
+	distinct_on?: Maybe<Array<NotebookActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookActionOrderBy>>;
+	where?: Maybe<NotebookActionBoolExp>;
+};
+
+export type QueryRootNotebookActionAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookActionOrderBy>>;
+	where?: Maybe<NotebookActionBoolExp>;
+};
+
+export type QueryRootNotebookActionByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type QueryRootNotebookAggregateArgs = {
@@ -4009,6 +4331,12 @@ export type SubscriptionRoot = {
 	beneficiary_by_pk?: Maybe<Beneficiary>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
+	/** fetch data from the table: "notebook_action" */
+	notebook_action: Array<NotebookAction>;
+	/** fetch aggregated fields from the table: "notebook_action" */
+	notebook_action_aggregate: NotebookActionAggregate;
+	/** fetch data from the table: "notebook_action" using primary key columns */
+	notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
 	/** fetch data from the table: "notebook" using primary key columns */
@@ -4135,6 +4463,26 @@ export type SubscriptionRootNotebookArgs = {
 	offset?: Maybe<Scalars['Int']>;
 	order_by?: Maybe<Array<NotebookOrderBy>>;
 	where?: Maybe<NotebookBoolExp>;
+};
+
+export type SubscriptionRootNotebookActionArgs = {
+	distinct_on?: Maybe<Array<NotebookActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookActionOrderBy>>;
+	where?: Maybe<NotebookActionBoolExp>;
+};
+
+export type SubscriptionRootNotebookActionAggregateArgs = {
+	distinct_on?: Maybe<Array<NotebookActionSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<NotebookActionOrderBy>>;
+	where?: Maybe<NotebookActionBoolExp>;
+};
+
+export type SubscriptionRootNotebookActionByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type SubscriptionRootNotebookAggregateArgs = {
@@ -4355,6 +4703,34 @@ export type UuidComparisonExp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type AddNotebookActionMutationVariables = Exact<{
+	action: Scalars['String'];
+	targetId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+	status: Scalars['String'];
+}>;
+
+export type AddNotebookActionMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_action_one?: Maybe<{
+		__typename?: 'notebook_action';
+		id: any;
+		target: { __typename?: 'notebook_target'; id: any };
+	}>;
+};
+
+export type GetRefActionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetRefActionsQuery = {
+	__typename?: 'query_root';
+	refActions: Array<{
+		__typename?: 'ref_action';
+		id: any;
+		description: string;
+		target: { __typename?: 'ref_target'; id: any; description: string };
+	}>;
+};
+
 export type AddNotebookFocusMutationVariables = Exact<{
 	notebookId: Scalars['uuid'];
 	situations?: Maybe<Scalars['jsonb']>;
@@ -4390,13 +4766,38 @@ export type GetNotebookFocusByIdQuery = {
 		situations?: Maybe<any>;
 		linkedTo?: Maybe<string>;
 		theme: string;
-		targets: Array<{ __typename?: 'notebook_target'; target: string; id: any }>;
+		creationDate: any;
+		targets: Array<{
+			__typename?: 'notebook_target';
+			target: string;
+			id: any;
+			actions: Array<{
+				__typename?: 'notebook_action';
+				id: any;
+				creationDate: any;
+				status: string;
+				action: string;
+				structure: { __typename?: 'structure'; id: any; name?: Maybe<string> };
+				creator: { __typename?: 'professional'; id: any; lastname: string; firstname: string };
+			}>;
+		}>;
 		professional: {
 			__typename?: 'professional';
 			id: any;
 			position?: Maybe<string>;
 			firstname: string;
 			lastname: string;
+			structureId: any;
+			structure: {
+				__typename?: 'structure';
+				id: any;
+				name?: Maybe<string>;
+				address1?: Maybe<string>;
+				address2?: Maybe<string>;
+				city?: Maybe<string>;
+				postalCode?: Maybe<string>;
+				website?: Maybe<string>;
+			};
 		};
 	}>;
 };
@@ -4952,6 +5353,158 @@ export const StructureFieldsFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<StructureFieldsFragment, unknown>;
+export const AddNotebookActionDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookAction' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'action' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'targetId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_action_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'action' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'action' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'targetId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'targetId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'target' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<AddNotebookActionMutation, AddNotebookActionMutationVariables>;
+export const GetRefActionsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetRefActions' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'refActions' },
+						name: { kind: 'Name', value: 'ref_action' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'description' },
+											value: { kind: 'EnumValue', value: 'asc_nulls_first' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'target' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetRefActionsQuery, GetRefActionsQueryVariables>;
 export const AddNotebookFocusDocument = {
 	kind: 'Document',
 	definitions: [
@@ -5179,6 +5732,58 @@ export const GetNotebookFocusByIdDocument = {
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'actions' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'creationDate' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'creationDate' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'action' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'creator' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																],
+															},
+														},
+													],
+												},
+											},
 										],
 									},
 								},
@@ -5193,9 +5798,27 @@ export const GetNotebookFocusByIdDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+													],
+												},
+											},
 										],
 									},
 								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'creationDate' } },
 							],
 						},
 					},
@@ -8055,6 +8678,14 @@ export const UpdateProfessionalProfileDocument = {
 } as unknown as DocumentNode<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
+>;
+export type AddNotebookActionMutationStore = OperationStore<
+	AddNotebookActionMutation,
+	AddNotebookActionMutationVariables
+>;
+export type GetRefActionsQueryStore = OperationStore<
+	GetRefActionsQuery,
+	GetRefActionsQueryVariables
 >;
 export type AddNotebookFocusMutationStore = OperationStore<
 	AddNotebookFocusMutation,

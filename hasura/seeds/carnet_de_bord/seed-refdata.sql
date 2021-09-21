@@ -16,8 +16,8 @@ INSERT INTO public.ref_target (id, description, theme) VALUES ('3802e199-e182-4b
 INSERT INTO public.ref_action (id, description, target_id) VALUES ('ada5be15-c4e5-4e71-889b-de4f1e22b838', 'Demande SIAO', 'ef8d2df3-9b04-435e-a26a-c532e17ae233');
 INSERT INTO public.ref_action (id, description, target_id) VALUES ('d49bb66f-370d-4635-8001-cff8b5eaf78d', 'Demande de logement social', 'ef8d2df3-9b04-435e-a26a-c532e17ae233');
 INSERT INTO public.ref_action (id, description, target_id) VALUES ('6b4f47f8-04aa-493d-accd-9ebdf2dbaa10', 'Demande DALO - Démarche de relogement suite à une problématique d''insalubrité', 'ef8d2df3-9b04-435e-a26a-c532e17ae233');
-INSERT INTO public.ref_action (id, description, target_id) VALUES ('97485869-a061-4462-80da-d41fd4fcc655', 'Demande Fond Solidarité Energie', 'fac56ab0-55b1-4829-af14-d3fcc0e44939');
-INSERT INTO public.ref_action (id, description, target_id) VALUES ('7542b8eb-d5b9-4fc0-802e-f7e46ed53e5e', 'Demande Fond Solidarité Logement', 'fac56ab0-55b1-4829-af14-d3fcc0e44939');
+INSERT INTO public.ref_action (id, description, target_id) VALUES ('97485869-a061-4462-80da-d41fd4fcc655', 'Demande Fonds Solidarité Energie', 'fac56ab0-55b1-4829-af14-d3fcc0e44939');
+INSERT INTO public.ref_action (id, description, target_id) VALUES ('7542b8eb-d5b9-4fc0-802e-f7e46ed53e5e', 'Demande Fonds Solidarité Logement', 'fac56ab0-55b1-4829-af14-d3fcc0e44939');
 INSERT INTO public.ref_action (id, description, target_id) VALUES ('f4b468b8-b3c1-4460-9063-31b5868aeea4', 'Aide à la constitution du dossier de surendettement', '5560c147-af34-49d0-a8cb-a7027a341897');
 INSERT INTO public.ref_action (id, description, target_id) VALUES ('bd46e79b-04da-4d7a-8f9c-6bee881846fb', 'Médiation avec les institutions', '5560c147-af34-49d0-a8cb-a7027a341897');
 INSERT INTO public.ref_action (id, description, target_id) VALUES ('5309db9c-0aaa-414f-8109-21c5ae24fca6', 'Aide à la négociation ou renégociation de prêt', '5560c147-af34-49d0-a8cb-a7027a341897');

@@ -6,6 +6,21 @@ query GetNotebookFocusById($id: uuid!) {
     targets(order_by: {creationDate: desc}) {
       target
       id
+      actions(order_by: {creationDate: desc}) {
+        id
+        creationDate
+        status
+        action
+        structure {
+          id
+          name
+        }
+        creator {
+          id
+          lastname
+          firstname
+        }
+      }
     }
     theme
     professional {
@@ -13,7 +28,18 @@ query GetNotebookFocusById($id: uuid!) {
       position
       firstname
       lastname
+      structureId
+      structure {
+        id
+        name
+        address1
+        address2
+        city
+        postalCode
+        website
+      }
     }
+    creationDate
   }
 }
 
