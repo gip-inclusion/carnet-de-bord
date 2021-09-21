@@ -11,10 +11,10 @@ export type Scalars = {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
-	date: any;
+	date: string;
 	jsonb: any;
 	timestamptz: any;
-	uuid: any;
+	uuid: string;
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -4714,8 +4714,8 @@ export type AddNotebookActionMutation = {
 	__typename?: 'mutation_root';
 	insert_notebook_action_one?: Maybe<{
 		__typename?: 'notebook_action';
-		id: any;
-		target: { __typename?: 'notebook_target'; id: any };
+		id: string;
+		target: { __typename?: 'notebook_target'; id: string };
 	}>;
 };
 
@@ -4725,9 +4725,9 @@ export type GetRefActionsQuery = {
 	__typename?: 'query_root';
 	refActions: Array<{
 		__typename?: 'ref_action';
-		id: any;
+		id: string;
 		description: string;
-		target: { __typename?: 'ref_target'; id: any; description: string };
+		target: { __typename?: 'ref_target'; id: string; description: string };
 	}>;
 };
 
@@ -4740,7 +4740,7 @@ export type AddNotebookFocusMutationVariables = Exact<{
 
 export type AddNotebookFocusMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_focus_one?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
+	insert_notebook_focus_one?: Maybe<{ __typename?: 'notebook_focus'; id: string }>;
 };
 
 export type UpdateNotebookFocusMutationVariables = Exact<{
@@ -4751,7 +4751,7 @@ export type UpdateNotebookFocusMutationVariables = Exact<{
 
 export type UpdateNotebookFocusMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_focus_by_pk?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
+	update_notebook_focus_by_pk?: Maybe<{ __typename?: 'notebook_focus'; id: string }>;
 };
 
 export type GetNotebookFocusByIdQueryVariables = Exact<{
@@ -4762,7 +4762,7 @@ export type GetNotebookFocusByIdQuery = {
 	__typename?: 'query_root';
 	focus?: Maybe<{
 		__typename?: 'notebook_focus';
-		id: any;
+		id: string;
 		situations?: Maybe<any>;
 		linkedTo?: Maybe<string>;
 		theme: string;
@@ -4770,16 +4770,16 @@ export type GetNotebookFocusByIdQuery = {
 		targets: Array<{
 			__typename?: 'notebook_target';
 			target: string;
-			id: any;
+			id: string;
 			actions: Array<{
 				__typename?: 'notebook_action';
-				id: any;
+				id: string;
 				creationDate: any;
 				status: string;
 				action: string;
 				structure: {
 					__typename?: 'structure';
-					id: any;
+					id: string;
 					name?: Maybe<string>;
 					phone?: Maybe<string>;
 					address1?: Maybe<string>;
@@ -4788,20 +4788,20 @@ export type GetNotebookFocusByIdQuery = {
 					postalCode?: Maybe<string>;
 					website?: Maybe<string>;
 				};
-				creator: { __typename?: 'professional'; id: any; lastname: string; firstname: string };
+				creator: { __typename?: 'professional'; id: string; lastname: string; firstname: string };
 			}>;
 		}>;
 		professional: {
 			__typename?: 'professional';
-			id: any;
+			id: string;
 			position?: Maybe<string>;
 			firstname: string;
 			lastname: string;
 			mobileNumber?: Maybe<string>;
-			structureId: any;
+			structureId: string;
 			structure: {
 				__typename?: 'structure';
-				id: any;
+				id: string;
 				name?: Maybe<string>;
 				phone?: Maybe<string>;
 				address1?: Maybe<string>;
@@ -4820,7 +4820,7 @@ export type GetRefSituationsQuery = {
 	__typename?: 'query_root';
 	refSituations: Array<{
 		__typename?: 'ref_situation';
-		id: any;
+		id: string;
 		description: string;
 		theme: string;
 	}>;
@@ -4834,7 +4834,7 @@ export type GetRefSituationsByThemeQuery = {
 	__typename?: 'query_root';
 	refSituations: Array<{
 		__typename?: 'ref_situation';
-		id: any;
+		id: string;
 		description: string;
 		theme: string;
 	}>;
@@ -4848,7 +4848,7 @@ export type AddNotebookMemberMutationVariables = Exact<{
 
 export type AddNotebookMemberMutation = {
 	__typename?: 'mutation_root';
-	newMember?: Maybe<{ __typename?: 'notebook_member'; id: any }>;
+	newMember?: Maybe<{ __typename?: 'notebook_member'; id: string }>;
 };
 
 export type SearchProfessionalQueryVariables = Exact<{
@@ -4860,12 +4860,12 @@ export type SearchProfessionalQuery = {
 	__typename?: 'query_root';
 	professionals: Array<{
 		__typename?: 'professional';
-		id: any;
+		id: string;
 		firstname: string;
 		lastname: string;
 		structure: {
 			__typename?: 'structure';
-			id: any;
+			id: string;
 			name?: Maybe<string>;
 			postalCode?: Maybe<string>;
 			phone?: Maybe<string>;
@@ -4894,7 +4894,7 @@ export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
 
 export type UpdateBeneficiaryPersonalInfoMutation = {
 	__typename?: 'mutation_root';
-	update?: Maybe<{ __typename?: 'beneficiary'; id: any }>;
+	update?: Maybe<{ __typename?: 'beneficiary'; id: string }>;
 };
 
 export type UpdateSocioProMutationVariables = Exact<{
@@ -4913,7 +4913,7 @@ export type UpdateSocioProMutationVariables = Exact<{
 
 export type UpdateSocioProMutation = {
 	__typename?: 'mutation_root';
-	update?: Maybe<{ __typename?: 'notebook'; id: any }>;
+	update?: Maybe<{ __typename?: 'notebook'; id: string }>;
 };
 
 export type AddNotebookTargetMutationVariables = Exact<{
@@ -4923,7 +4923,7 @@ export type AddNotebookTargetMutationVariables = Exact<{
 
 export type AddNotebookTargetMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_target_one?: Maybe<{ __typename?: 'notebook_target'; id: any }>;
+	insert_notebook_target_one?: Maybe<{ __typename?: 'notebook_target'; id: string }>;
 };
 
 export type GetRefTargetByFocusQueryVariables = Exact<{
@@ -4932,7 +4932,7 @@ export type GetRefTargetByFocusQueryVariables = Exact<{
 
 export type GetRefTargetByFocusQuery = {
 	__typename?: 'query_root';
-	refTargets: Array<{ __typename?: 'ref_target'; id: any; description: string }>;
+	refTargets: Array<{ __typename?: 'ref_target'; id: string; description: string }>;
 };
 
 export type GetAccountQueryVariables = Exact<{
@@ -4943,7 +4943,7 @@ export type GetAccountQuery = {
 	__typename?: 'query_root';
 	account_by_pk?: Maybe<{
 		__typename?: 'account';
-		id: any;
+		id: string;
 		onboardingDone?: Maybe<boolean>;
 		confirmed: boolean;
 		username: string;
@@ -4953,7 +4953,7 @@ export type GetAccountQuery = {
 			lastname: string;
 			email: string;
 			mobileNumber?: Maybe<string>;
-			dateOfBirth: any;
+			dateOfBirth: string;
 		}>;
 		professional?: Maybe<{
 			__typename?: 'professional';
@@ -4983,7 +4983,7 @@ export type InsertStructureMutation = {
 	__typename?: 'mutation_root';
 	structure?: Maybe<{
 		__typename?: 'structure';
-		id: any;
+		id: string;
 		name?: Maybe<string>;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
@@ -5015,7 +5015,7 @@ export type UpdateStructureMutation = {
 	__typename?: 'mutation_root';
 	structure?: Maybe<{
 		__typename?: 'structure';
-		id: any;
+		id: string;
 		name?: Maybe<string>;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
@@ -5031,7 +5031,7 @@ export type UpdateStructureMutation = {
 
 export type StructureFieldsFragment = {
 	__typename?: 'structure';
-	id: any;
+	id: string;
 	name?: Maybe<string>;
 	phone?: Maybe<string>;
 	email?: Maybe<string>;
@@ -5050,16 +5050,16 @@ export type GetAccountsSummaryQuery = {
 	__typename?: 'query_root';
 	accounts: Array<{
 		__typename?: 'account';
-		id: any;
+		id: string;
 		confirmed: boolean;
 		professional?: Maybe<{
 			__typename?: 'professional';
-			id: any;
+			id: string;
 			firstname: string;
 			lastname: string;
 			position?: Maybe<string>;
 			mobileNumber?: Maybe<string>;
-			structure: { __typename?: 'structure'; id: any; name?: Maybe<string> };
+			structure: { __typename?: 'structure'; id: string; name?: Maybe<string> };
 		}>;
 	}>;
 };
@@ -5070,7 +5070,7 @@ export type GetStructuresQuery = {
 	__typename?: 'query_root';
 	structure: Array<{
 		__typename?: 'structure';
-		id: any;
+		id: string;
 		siret?: Maybe<string>;
 		name?: Maybe<string>;
 		shortDesc?: Maybe<string>;
@@ -5091,7 +5091,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 	__typename?: 'query_root';
 	notebook: Array<{
 		__typename?: 'notebook';
-		id: any;
+		id: string;
 		workSituation?: Maybe<string>;
 		beneficiary: {
 			__typename?: 'beneficiary';
@@ -5099,10 +5099,10 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			address2?: Maybe<string>;
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
-			dateOfBirth: any;
+			dateOfBirth: string;
 			email: string;
 			firstname: string;
-			id: any;
+			id: string;
 			lastname: string;
 			mobileNumber?: Maybe<string>;
 			peNumber?: Maybe<string>;
@@ -5110,13 +5110,13 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		};
 		members: Array<{
 			__typename?: 'notebook_member';
-			id: any;
+			id: string;
 			memberType: string;
 			notebookModificationDate?: Maybe<any>;
 			notebookVisitDate?: Maybe<any>;
 			professional: {
 				__typename?: 'professional';
-				id: any;
+				id: string;
 				lastname: string;
 				firstname: string;
 				position?: Maybe<string>;
@@ -5124,7 +5124,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				mobileNumber?: Maybe<string>;
 				structure: {
 					__typename?: 'structure';
-					id: any;
+					id: string;
 					name?: Maybe<string>;
 					address1?: Maybe<string>;
 					address2?: Maybe<string>;
@@ -5146,14 +5146,14 @@ export type GetLastVisitedOrUpdatedQuery = {
 		__typename?: 'notebook_member';
 		notebook: {
 			__typename?: 'notebook';
-			id: any;
+			id: string;
 			beneficiary: {
 				__typename?: 'beneficiary';
-				id: any;
+				id: string;
 				firstname: string;
 				lastname: string;
 				mobileNumber?: Maybe<string>;
-				dateOfBirth: any;
+				dateOfBirth: string;
 			};
 		};
 	}>;
@@ -5161,14 +5161,14 @@ export type GetLastVisitedOrUpdatedQuery = {
 		__typename?: 'notebook_member';
 		notebook: {
 			__typename?: 'notebook';
-			id: any;
+			id: string;
 			beneficiary: {
 				__typename?: 'beneficiary';
-				id: any;
+				id: string;
 				firstname: string;
 				lastname: string;
 				mobileNumber?: Maybe<string>;
-				dateOfBirth: any;
+				dateOfBirth: string;
 			};
 		};
 	}>;
@@ -5192,7 +5192,7 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 
 export type CreateBeneficiaryMutation = {
 	__typename?: 'mutation_root';
-	newNotebook?: Maybe<{ __typename?: 'notebook'; id: any }>;
+	newNotebook?: Maybe<{ __typename?: 'notebook'; id: string }>;
 };
 
 export type SearchNotebookMemberQueryVariables = Exact<{
@@ -5206,15 +5206,15 @@ export type SearchNotebookMemberQuery = {
 	__typename?: 'query_root';
 	notebook_member: Array<{
 		__typename?: 'notebook_member';
-		id: any;
+		id: string;
 		notebook: {
 			__typename?: 'notebook';
-			id: any;
+			id: string;
 			beneficiary: {
 				__typename?: 'beneficiary';
-				dateOfBirth: any;
+				dateOfBirth: string;
 				firstname: string;
-				id: any;
+				id: string;
 				lastname: string;
 				mobileNumber?: Maybe<string>;
 			};
@@ -5231,7 +5231,7 @@ export type UpdateNotebookVisitDateMutation = {
 	__typename?: 'mutation_root';
 	update_notebook_member?: Maybe<{
 		__typename?: 'notebook_member_mutation_response';
-		returning: Array<{ __typename?: 'notebook_member'; id: any }>;
+		returning: Array<{ __typename?: 'notebook_member'; id: string }>;
 	}>;
 };
 
@@ -5254,8 +5254,8 @@ export type GetNotebookQuery = {
 	__typename?: 'query_root';
 	notebook?: Maybe<{
 		__typename?: 'notebook';
-		id: any;
-		workSituationDate?: Maybe<any>;
+		id: string;
+		workSituationDate?: Maybe<string>;
 		workSituation?: Maybe<string>;
 		rightRsa?: Maybe<string>;
 		rightRqth: boolean;
@@ -5266,17 +5266,17 @@ export type GetNotebookQuery = {
 		job?: Maybe<string>;
 		educationLevel?: Maybe<string>;
 		contractType?: Maybe<string>;
-		contractSignDate?: Maybe<any>;
+		contractSignDate?: Maybe<string>;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: Maybe<string>;
 			address2?: Maybe<string>;
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
-			dateOfBirth: any;
+			dateOfBirth: string;
 			email: string;
 			firstname: string;
-			id: any;
+			id: string;
 			lastname: string;
 			mobileNumber?: Maybe<string>;
 			peNumber?: Maybe<string>;
@@ -5284,21 +5284,21 @@ export type GetNotebookQuery = {
 		};
 		focuses: Array<{
 			__typename?: 'notebook_focus';
-			id: any;
+			id: string;
 			theme: string;
 			situations?: Maybe<any>;
 			linkedTo?: Maybe<string>;
-			targets: Array<{ __typename?: 'notebook_target'; id: any; target: string }>;
+			targets: Array<{ __typename?: 'notebook_target'; id: string; target: string }>;
 		}>;
 		members: Array<{
 			__typename?: 'notebook_member';
-			id: any;
+			id: string;
 			memberType: string;
 			notebookModificationDate?: Maybe<any>;
 			notebookVisitDate?: Maybe<any>;
 			professional: {
 				__typename?: 'professional';
-				id: any;
+				id: string;
 				lastname: string;
 				firstname: string;
 				position?: Maybe<string>;
@@ -5306,7 +5306,7 @@ export type GetNotebookQuery = {
 				mobileNumber?: Maybe<string>;
 				structure: {
 					__typename?: 'structure';
-					id: any;
+					id: string;
 					name?: Maybe<string>;
 					address1?: Maybe<string>;
 					address2?: Maybe<string>;
@@ -5336,7 +5336,7 @@ export type UpdateProfessionalProfileMutation = {
 		__typename?: 'account_mutation_response';
 		returning: Array<{
 			__typename?: 'account';
-			id: any;
+			id: string;
 			onboardingDone?: Maybe<boolean>;
 			confirmed: boolean;
 			username: string;

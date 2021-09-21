@@ -3,10 +3,10 @@ module.exports = {
 		{
 			'http://localhost:5000/v1/graphql': {
 				headers: {
-					'x-hasura-admin-secret': 'admin'
-				}
-			}
-		}
+					'x-hasura-admin-secret': 'admin',
+				},
+			},
+		},
 	],
 	documents: ['src/**/*.gql'],
 	overwrite: true,
@@ -16,18 +16,24 @@ module.exports = {
 				'typescript',
 				'typescript-operations',
 				'typed-document-node',
-				'urql-svelte-operations-store'
-			]
-		}
+				'urql-svelte-operations-store',
+			],
+		},
 	},
 	config: {
 		useTypeImports: true,
 		namingConvention: {
 			typeNames: 'change-case-all#pascalCase',
-			transformUnderscore: true
-		}
+			transformUnderscore: true,
+		},
+		scalars: {
+			defaultScalarType: 'unknown',
+			date: 'string',
+			timestampz: 'Date',
+			uuid: 'string',
+		},
 	},
 	hooks: {
-		afterAllFileWrite: 'prettier --write'
-	}
+		afterAllFileWrite: 'prettier --write',
+	},
 };
