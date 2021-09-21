@@ -12,7 +12,7 @@ export async function getManifests() {
 	const config = {
 		config: { ingress: hasura === 'exposed' },
 		deployment: {
-			image: `ghcr.io/socialgouv/carnet-de-bord/hasura:sha-${ciEnv.sha}`
+			image: `harbor.fabrique.social.gouv.fr/carnet-de-bord/hasura:sha-${ciEnv.sha}`
 		},
 		env
 	};
