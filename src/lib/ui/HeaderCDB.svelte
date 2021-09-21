@@ -19,7 +19,10 @@
 	}
 </script>
 
-<Header siteName="Carnet de bord" baseline="Précisions sur l'organisation">
+<Header
+	siteName="Carnet de bord"
+	baseline="Faciliter la vie des personnes en insertion et de leurs accompagnants"
+>
 	<div slot="org">{@html orgName}</div>
 	<div slot="quickAccessRight">
 		{#if $session.user}
