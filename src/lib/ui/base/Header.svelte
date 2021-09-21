@@ -28,28 +28,6 @@
 						<div class="fr-header__operator">
 							<slot name="brand" />
 						</div>
-						<!--
-						<div class="fr-header__navbar">
-							<button
-								class="fr-btn--search fr-btn"
-								data-fr-opened="false"
-								aria-controls="modal-866"
-								title="Rechercher"
-							>
-								Rechercher
-							</button>
-							<button
-								class="fr-btn--menu fr-btn"
-								data-fr-opened="false"
-								aria-controls="modal-870"
-								aria-haspopup="menu"
-								title="Menu"
-								id="fr-btn-menu-mobile-4"
-							>
-								Menu
-							</button>
-						</div>
-						-->
 					</div>
 					{#if siteName}
 						<div class="fr-header__service">

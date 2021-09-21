@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="flex flex-col space-y-6">
+<div class="flex flex-col space-y-6 pt-2">
 	<div>
 		{#if lastUpdateDate}
 			<div class="text-sm">

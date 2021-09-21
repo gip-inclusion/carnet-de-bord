@@ -62,22 +62,3 @@ export const isCurrentRoute = (currentPath: string, route: string): boolean => {
 		return true;
 	}
 };
-
-export const getSegments = (currentPath: string): Segment[] => {
-	const segments = [{ name: 'accueil', label: 'Accueil', path: '/' }];
-
-	if (currentPath === '/pro/annuaire') {
-		segments.push({ name: 'annuaire', label: 'Annuaire des bénéficiaires', path: '/pro/annuaire' });
-	}
-
-	if (currentPath.startsWith('/pro/beneficiaire/')) {
-		segments.push({ name: 'annuaire', label: 'Annuaire des bénéficiaires', path: '/pro/annuaire' });
-		segments.push({ name: 'beneficiaire', label: 'Profil bénéficiaire', path: '' });
-	}
-
-	if (currentPath.startsWith('/pro/moncompte')) {
-		segments.push({ name: 'moncompte', label: 'Mon compte', path: '/pro/moncompte' });
-	}
-
-	return segments;
-};

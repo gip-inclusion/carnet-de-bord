@@ -1,12 +1,13 @@
 <script context="module" lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { getSegments } from '$lib/routes';
-	import { Breadcrumbs } from '$lib/ui/base';
+	import { account, openComponent } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 	import { FooterCDB, HeaderCDB } from '$lib/ui/index';
-	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import LayerCDB from '$lib/ui/LayerCDB.svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
@@ -24,10 +25,6 @@
 </script>
 
 <script lang="ts">
-	import { account, openComponent } from '$lib/stores';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-
 	export let result: OperationStore<GetAccountQuery>;
 
 	query(result);
@@ -56,14 +53,11 @@
 	});
 
 	const menuItems: MenuItem[] = [{ id: 'accueil', path: '/particulier', label: 'Accueil' }];
-
-	$: segments = getSegments($page.path);
 </script>
 
 <HeaderCDB {menuItems} />
 
 <div class="fr-container" style="min-height: calc(100vh - 200px)">
-	<Breadcrumbs {segments} />
 	<LoaderIndicator {result}>
 		<slot />
 		<LayerCDB {openComponent} />
