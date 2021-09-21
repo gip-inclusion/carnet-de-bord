@@ -1,3 +1,11 @@
+# [1.32.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.31.0...v1.32.0) (2021-09-21)
+
+
+### Features
+
+* allow custom onClose for openComponent ([cd76ec3](https://github.com/SocialGouv/carnet-de-bord/commit/cd76ec3b8e6f5b8f002eab1cbec54fabe806bf38))
+* show actions history ([44dcd16](https://github.com/SocialGouv/carnet-de-bord/commit/44dcd16612884d3abb25d858970e588324a32e5e))
+
 # [1.31.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.30.1...v1.31.0) (2021-09-21)
 
 
