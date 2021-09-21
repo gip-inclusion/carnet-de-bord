@@ -57,19 +57,23 @@ export const post: RequestHandler = async (request) => {
 
 	// send email
 
-	await sendEmail({
-		to: email,
-		subject: 'Invitation à rejoindre un carnet de bord',
-		html: emailNotebookInvitation({
-			creatorFirstname,
-			creatorLastname,
-			firstname,
-			lastname,
-			accessKey,
-			appUrl,
-			notebookId,
-		}),
-	});
+	try {
+		await sendEmail({
+			to: email,
+			subject: 'Invitation à rejoindre un carnet de bord',
+			html: emailNotebookInvitation({
+				creatorFirstname,
+				creatorLastname,
+				firstname,
+				lastname,
+				accessKey,
+				appUrl,
+				notebookId,
+			}),
+		});
+	} catch (e) {
+		console.log(e);
+	}
 
 	return {
 		status: 200,

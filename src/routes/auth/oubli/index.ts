@@ -67,17 +67,21 @@ export const post: RequestHandler = async (request) => {
 	const appUrl = getAppUrl();
 
 	// send email
-	await sendEmail({
-		to: email,
-		subject: 'Accédez à votre espace Carnet de bord',
-		html: emailForgotLoginRequest({
-			username: account.username,
-			firstname,
-			lastname,
-			accessKey,
-			appUrl,
-		}),
-	});
+	try {
+		await sendEmail({
+			to: email,
+			subject: 'Accédez à votre espace Carnet de bord',
+			html: emailForgotLoginRequest({
+				username: account.username,
+				firstname,
+				lastname,
+				accessKey,
+				appUrl,
+			}),
+		});
+	} catch (e) {
+		console.log(e);
+	}
 
 	return {
 		status: 200,

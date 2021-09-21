@@ -59,11 +59,15 @@ export const post: RequestHandler = async (request) => {
 	const appUrl = getAppUrl();
 
 	// send email
-	await sendEmail({
-		to: email,
-		subject: 'Accédez à Carnet de bord',
-		html: emailLoginRequest({ firstname, lastname, accessKey, appUrl }),
-	});
+	try {
+		await sendEmail({
+			to: email,
+			subject: 'Accédez à Carnet de bord',
+			html: emailLoginRequest({ firstname, lastname, accessKey, appUrl }),
+		});
+	} catch (e) {
+		console.log(e);
+	}
 
 	return {
 		status: 200,
