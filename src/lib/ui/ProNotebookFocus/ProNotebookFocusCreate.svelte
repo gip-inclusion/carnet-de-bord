@@ -81,7 +81,7 @@
 		<Radio
 			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
 			bind:selected={formData.linkedTo}
-			options={contractTypeFullKeys.options.concat([{ name: 'none', label: 'Aucun' }])}
+			options={contractTypeFullKeys.options}
 		/>
 		<Select
 			selectLabel={'Thème'}

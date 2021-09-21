@@ -50,16 +50,16 @@
 
 	const formData = initFormData();
 
+	function close() {
+		openComponent.close();
+	}
+
 	async function handleSubmit() {
 		await updateSocioPro({
 			id: notebook.id,
 			...formData,
 		});
-		openComponent.close();
-	}
-
-	function onCancel() {
-		openComponent.close();
+		close();
 	}
 </script>
 
@@ -115,7 +115,7 @@
 
 		<div class="flex flex-row gap-2 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>
-			<Button outline on:click={onCancel}>Annuler</Button>
+			<Button outline on:click={close}>Annuler</Button>
 		</div>
 	</form>
 </section>
