@@ -28,6 +28,7 @@ query GetNotebookFocusById($id: uuid!) {
       position
       firstname
       lastname
+      mobileNumber
       structureId
       structure {
         id

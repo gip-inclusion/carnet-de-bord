@@ -4787,6 +4787,7 @@ export type GetNotebookFocusByIdQuery = {
 			position?: Maybe<string>;
 			firstname: string;
 			lastname: string;
+			mobileNumber?: Maybe<string>;
 			structureId: any;
 			structure: {
 				__typename?: 'structure';
@@ -5798,6 +5799,7 @@ export const GetNotebookFocusByIdDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
 											{
 												kind: 'Field',
