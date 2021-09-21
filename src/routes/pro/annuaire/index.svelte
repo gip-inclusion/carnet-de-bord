@@ -154,17 +154,6 @@
 				</div>
 			</div>
 		{:else}
-			<!-- {#if viewMode === 'list'}
-				<div class="flex flex-grow w-full">
-					<Table {headers} rows={beneficiaries} captionText="Liste des bénéficiaires"
-						><span slot="cellAction" let:slotData>
-							<Link href={(() => beneficiaryUrl(slotData))()} classNames="bf-500 !shadow-none">
-								<span aria-hidden="true" class="fr-fi-arrow-right-line" />
-							</Link></span
-						>
-					</Table>
-				</div>
-			{:else} -->
 			<div class="flex flex-row flex-wrap justify-between gap-1">
 				{#each notebooks as notebook (notebook.id)}
 					<div class="card-container">
