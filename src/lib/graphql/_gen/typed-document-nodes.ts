@@ -4703,6 +4703,34 @@ export type UuidComparisonExp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type AddNotebookActionMutationVariables = Exact<{
+	action: Scalars['String'];
+	targetId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+	status: Scalars['String'];
+}>;
+
+export type AddNotebookActionMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_action_one?: Maybe<{
+		__typename?: 'notebook_action';
+		id: any;
+		target: { __typename?: 'notebook_target'; id: any };
+	}>;
+};
+
+export type GetRefActionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetRefActionsQuery = {
+	__typename?: 'query_root';
+	refActions: Array<{
+		__typename?: 'ref_action';
+		id: any;
+		description: string;
+		target: { __typename?: 'ref_target'; id: any; description: string };
+	}>;
+};
+
 export type AddNotebookFocusMutationVariables = Exact<{
 	notebookId: Scalars['uuid'];
 	situations?: Maybe<Scalars['jsonb']>;
@@ -4724,22 +4752,6 @@ export type UpdateNotebookFocusMutationVariables = Exact<{
 export type UpdateNotebookFocusMutation = {
 	__typename?: 'mutation_root';
 	update_notebook_focus_by_pk?: Maybe<{ __typename?: 'notebook_focus'; id: any }>;
-};
-
-export type AddNotebookActionMutationVariables = Exact<{
-	action: Scalars['String'];
-	targetId: Scalars['uuid'];
-	structureId: Scalars['uuid'];
-	status: Scalars['String'];
-}>;
-
-export type AddNotebookActionMutation = {
-	__typename?: 'mutation_root';
-	insert_notebook_action_one?: Maybe<{
-		__typename?: 'notebook_action';
-		id: any;
-		target: { __typename?: 'notebook_target'; id: any };
-	}>;
 };
 
 export type GetNotebookFocusByIdQueryVariables = Exact<{
@@ -4801,18 +4813,6 @@ export type GetRefSituationsByThemeQuery = {
 		id: any;
 		description: string;
 		theme: string;
-	}>;
-};
-
-export type GetRefActionsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetRefActionsQuery = {
-	__typename?: 'query_root';
-	refActions: Array<{
-		__typename?: 'ref_action';
-		id: any;
-		description: string;
-		target: { __typename?: 'ref_target'; id: any; description: string };
 	}>;
 };
 
@@ -5341,6 +5341,158 @@ export const StructureFieldsFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<StructureFieldsFragment, unknown>;
+export const AddNotebookActionDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookAction' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'action' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'targetId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_action_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'action' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'action' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'targetId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'targetId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'target' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<AddNotebookActionMutation, AddNotebookActionMutationVariables>;
+export const GetRefActionsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetRefActions' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'refActions' },
+						name: { kind: 'Name', value: 'ref_action' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'description' },
+											value: { kind: 'EnumValue', value: 'asc_nulls_first' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'target' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetRefActionsQuery, GetRefActionsQueryVariables>;
 export const AddNotebookFocusDocument = {
 	kind: 'Document',
 	definitions: [
@@ -5507,104 +5659,6 @@ export const UpdateNotebookFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateNotebookFocusMutation, UpdateNotebookFocusMutationVariables>;
-export const AddNotebookActionDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookAction' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'action' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'targetId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_action_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'action' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'action' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'structureId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'targetId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'targetId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'target' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<AddNotebookActionMutation, AddNotebookActionMutationVariables>;
 export const GetNotebookFocusByIdDocument = {
 	kind: 'Document',
 	definitions: [
@@ -5848,60 +5902,6 @@ export const GetRefSituationsByThemeDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetRefSituationsByThemeQuery, GetRefSituationsByThemeQueryVariables>;
-export const GetRefActionsDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetRefActions' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'refActions' },
-						name: { kind: 'Name', value: 'ref_action' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'description' },
-											value: { kind: 'EnumValue', value: 'asc_nulls_first' },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'target' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetRefActionsQuery, GetRefActionsQueryVariables>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8649,6 +8649,14 @@ export const UpdateProfessionalProfileDocument = {
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
 >;
+export type AddNotebookActionMutationStore = OperationStore<
+	AddNotebookActionMutation,
+	AddNotebookActionMutationVariables
+>;
+export type GetRefActionsQueryStore = OperationStore<
+	GetRefActionsQuery,
+	GetRefActionsQueryVariables
+>;
 export type AddNotebookFocusMutationStore = OperationStore<
 	AddNotebookFocusMutation,
 	AddNotebookFocusMutationVariables
@@ -8656,10 +8664,6 @@ export type AddNotebookFocusMutationStore = OperationStore<
 export type UpdateNotebookFocusMutationStore = OperationStore<
 	UpdateNotebookFocusMutation,
 	UpdateNotebookFocusMutationVariables
->;
-export type AddNotebookActionMutationStore = OperationStore<
-	AddNotebookActionMutation,
-	AddNotebookActionMutationVariables
 >;
 export type GetNotebookFocusByIdQueryStore = OperationStore<
 	GetNotebookFocusByIdQuery,
@@ -8672,10 +8676,6 @@ export type GetRefSituationsQueryStore = OperationStore<
 export type GetRefSituationsByThemeQueryStore = OperationStore<
 	GetRefSituationsByThemeQuery,
 	GetRefSituationsByThemeQueryVariables
->;
-export type GetRefActionsQueryStore = OperationStore<
-	GetRefActionsQuery,
-	GetRefActionsQueryVariables
 >;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,

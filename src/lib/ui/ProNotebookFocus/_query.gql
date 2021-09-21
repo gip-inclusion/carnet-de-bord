@@ -47,14 +47,3 @@ query GetRefSituationsByTheme($theme: String!) {
 		theme
 	}
 }
-
-query GetRefActions {
-	refActions: ref_action(order_by: { description: asc_nulls_first }) {
-		id
-		description
-		target {
-			id
-			description
-		}
-	}
-}

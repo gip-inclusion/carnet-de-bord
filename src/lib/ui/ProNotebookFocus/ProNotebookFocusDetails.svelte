@@ -6,8 +6,8 @@
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	import { operationStore, query } from '@urql/svelte';
+	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
-	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 
 	export let focusId: string;
@@ -107,13 +107,7 @@
 				<Accordions>
 					{#each focus?.targets || [] as target (target.id)}
 						<Accordion title={target.target}>
-							<div class="flex flex-col pb-12">
-								{#each target.actions as action (action.id)}
-									<div>{action}</div>
-								{/each}
-
-								<ProNotebookActionCreate {target} />
-							</div>
+							<ProNotebookActionList {target} />
 						</Accordion>
 					{:else}
 						<p>Aucun objectif n'a été créé pour cet axe de travail.</p>

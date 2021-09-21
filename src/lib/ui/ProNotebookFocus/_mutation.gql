@@ -19,19 +19,3 @@ mutation UpdateNotebookFocus($id: uuid!, $situations: jsonb, $linkedTo: String!)
 		id
 	}
 }
-
-mutation AddNotebookAction(
-	$action: String!
-	$targetId: uuid!
-	$structureId: uuid!
-	$status: String!
-) {
-	insert_notebook_action_one(
-		object: { action: $action, structureId: $structureId, targetId: $targetId, status: $status }
-	) {
-		id
-		target {
-			id
-		}
-	}
-}
