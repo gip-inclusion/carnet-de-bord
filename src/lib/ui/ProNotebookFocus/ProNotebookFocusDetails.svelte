@@ -73,7 +73,7 @@
 			</Card>
 		</div>
 		<div class="flex flex-row gap-4">
-			<div class="w-1/2">
+			<div class="w-1/2 items-stretch">
 				<h2 class="fr-h4 bf-500">Créé par</h2>
 				<Card>
 					<span slot="title">{focus?.professional ? displayFullName(focus?.professional) : ''}</span
@@ -83,22 +83,16 @@
 					</span>
 				</Card>
 			</div>
-			<div class="w-1/2 ml-1">
+			<div class="w-1/2 ml-1 items-stretch">
 				<h2 class="fr-h4 bf-500">Structures sollicitées</h2>
-				{#each structures as structure (structure.id)}
-					<Card>
-						<span slot="title">{'Objectif : '}{structure.id}</span>
-					</Card>
-				{:else}
-					<Card>
-						<span slot="title">{''}</span>
-						<span slot="description">
-							<span class="font-bold">
-								{"Aucune structure n'a été sollicitée pour cet axe de travail."}
-							</span>
+				<Card>
+					<span slot="title">{''}</span>
+					<span slot="description">
+						<span class="font-bold">
+							{`Voir toutes les strutures (${structures.length})`}
 						</span>
-					</Card>
-				{/each}
+					</span>
+				</Card>
 			</div>
 		</div>
 		<div class="flex flex-col gap-4">
