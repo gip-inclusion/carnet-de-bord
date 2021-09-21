@@ -1,9 +1,7 @@
 <script context="module" lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { account, openComponent } from '$lib/stores';
+	import { openComponent } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 	import { FooterCDB, HeaderCDB } from '$lib/ui/index';
 	import LayerCDB from '$lib/ui/LayerCDB.svelte';
@@ -25,6 +23,9 @@
 </script>
 
 <script lang="ts">
+	import { account } from '$lib/stores';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	export let result: OperationStore<GetAccountQuery>;
 
 	query(result);
