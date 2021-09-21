@@ -1,3 +1,10 @@
+## [1.30.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.30.0...v1.30.1) (2021-09-21)
+
+
+### Bug Fixes
+
+* Use Harbor as registry ([f79ba04](https://github.com/SocialGouv/carnet-de-bord/commit/f79ba04979f16c7438f04c81ef24ee5fdd6992e7))
+
 # [1.30.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.29.0...v1.30.0) (2021-09-21)
 
 
