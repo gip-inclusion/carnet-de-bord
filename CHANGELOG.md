@@ -1,3 +1,10 @@
+# [1.33.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.32.0...v1.33.0) (2021-09-21)
+
+
+### Features
+
+* **event:** update notebook event schema ([ef8daee](https://github.com/SocialGouv/carnet-de-bord/commit/ef8daee3dbe2fbd96b0a98ab9d2802ce6e584192))
+
 # [1.32.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.31.0...v1.32.0) (2021-09-21)
 
 
