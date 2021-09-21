@@ -5235,6 +5235,17 @@ export type UpdateNotebookVisitDateMutation = {
 	}>;
 };
 
+export type UpdateNotebookContractMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	contractSignDate: Scalars['date'];
+	contractType: Scalars['String'];
+}>;
+
+export type UpdateNotebookContractMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_by_pk?: Maybe<{ __typename?: 'notebook'; id: string }>;
+};
+
 export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -5254,6 +5265,8 @@ export type GetNotebookQuery = {
 		geographicalArea?: Maybe<string>;
 		job?: Maybe<string>;
 		educationLevel?: Maybe<string>;
+		contractType?: Maybe<string>;
+		contractSignDate?: Maybe<any>;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: Maybe<string>;
@@ -8349,6 +8362,96 @@ export const UpdateNotebookVisitDateDocument = {
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
 >;
+export const UpdateNotebookContractDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateNotebookContract' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractSignDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractType' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'contractSignDate' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'contractSignDate' },
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'contractType' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'contractType' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateNotebookContractMutation,
+	UpdateNotebookContractMutationVariables
+>;
 export const GetNotebookDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8394,6 +8497,8 @@ export const GetNotebookDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'job' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
@@ -8815,6 +8920,10 @@ export type SearchNotebookMemberQueryStore = OperationStore<
 export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
+>;
+export type UpdateNotebookContractMutationStore = OperationStore<
+	UpdateNotebookContractMutation,
+	UpdateNotebookContractMutationVariables
 >;
 export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type UpdateProfessionalProfileMutationStore = OperationStore<

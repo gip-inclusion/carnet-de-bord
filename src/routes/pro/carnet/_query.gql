@@ -11,6 +11,8 @@ query GetNotebook($id: uuid!) {
 		geographicalArea
 		job
 		educationLevel
+		contractType
+		contractSignDate
 		beneficiary {
 			address1
 			address2

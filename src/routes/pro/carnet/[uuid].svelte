@@ -71,8 +71,8 @@
 					beneficiaryLastname={beneficiary.lastname}
 				/>
 			</Accordion>
-			<Accordion title="Axe de travail">
-				<ProNotebookFocusView notebookId={notebook.id} focuses={notebook.focuses} />
+			<Accordion title="Axes de travail">
+				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 			</Accordion>
 		</Accordions>
 	</div>

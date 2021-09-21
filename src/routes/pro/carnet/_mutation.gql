@@ -8,3 +8,12 @@ mutation UpdateNotebookVisitDate($notebookId: uuid!, $notebookVisitDate: timesta
 		}
 	}
 }
+
+mutation UpdateNotebookContract($id: uuid!, $contractSignDate: date!, $contractType: String!) {
+	update_notebook_by_pk(
+		_set: { contractSignDate: $contractSignDate, contractType: $contractType }
+		pk_columns: { id: $id }
+	) {
+		id
+	}
+}
