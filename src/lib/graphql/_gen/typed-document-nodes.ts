@@ -5248,6 +5248,8 @@ export type UpdateNotebookContractMutation = {
 
 export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
+	eventsStart?: Maybe<Scalars['date']>;
+	eventsEnd?: Maybe<Scalars['date']>;
 }>;
 
 export type GetNotebookQuery = {
@@ -5315,7 +5317,54 @@ export type GetNotebookQuery = {
 				};
 			};
 		}>;
+		events: Array<{
+			__typename?: 'notebook_event';
+			id: string;
+			eventDate: string;
+			data: any;
+			professionalId: string;
+			professional: {
+				__typename?: 'professional';
+				structureId: string;
+				structure: { __typename?: 'structure'; name?: Maybe<string> };
+			};
+		}>;
 	}>;
+};
+
+export type GetNotebookEventsQueryVariables = Exact<{
+	eventsStart?: Maybe<Scalars['date']>;
+	eventsEnd?: Maybe<Scalars['date']>;
+	notebookId: Scalars['uuid'];
+}>;
+
+export type GetNotebookEventsQuery = {
+	__typename?: 'query_root';
+	notebook_event: Array<{
+		__typename?: 'notebook_event';
+		id: string;
+		eventDate: string;
+		data: any;
+		professionalId: string;
+		professional: {
+			__typename?: 'professional';
+			structureId: string;
+			structure: { __typename?: 'structure'; name?: Maybe<string> };
+		};
+	}>;
+};
+
+export type EventFieldsFragment = {
+	__typename?: 'notebook_event';
+	id: string;
+	eventDate: string;
+	data: any;
+	professionalId: string;
+	professional: {
+		__typename?: 'professional';
+		structureId: string;
+		structure: { __typename?: 'structure'; name?: Maybe<string> };
+	};
 };
 
 export type UpdateProfessionalProfileMutationVariables = Exact<{
@@ -5378,6 +5427,43 @@ export const StructureFieldsFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<StructureFieldsFragment, unknown>;
+export const EventFieldsFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'eventFields' },
+			typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_event' } },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'data' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<EventFieldsFragment, unknown>;
 export const AddNotebookActionDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8468,6 +8554,16 @@ export const GetNotebookDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -8619,14 +8715,185 @@ export const GetNotebookDocument = {
 										],
 									},
 								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'events' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'eventDate' },
+														value: { kind: 'EnumValue', value: 'desc_nulls_first' },
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'eventDate' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_gte' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'eventsStart' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_lte' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'eventsEnd' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'eventFields' } },
+										],
+									},
+								},
 							],
 						},
 					},
 				],
 			},
 		},
+		...EventFieldsFragmentDoc.definitions,
 	],
 } as unknown as DocumentNode<GetNotebookQuery, GetNotebookQueryVariables>;
+export const GetNotebookEventsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookEvents' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'notebook_event' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'eventDate' },
+											value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'eventDate' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_gte' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'eventsStart' },
+														},
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_lte' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'notebookId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'eventFields' } },
+							],
+						},
+					},
+				],
+			},
+		},
+		...EventFieldsFragmentDoc.definitions,
+	],
+} as unknown as DocumentNode<GetNotebookEventsQuery, GetNotebookEventsQueryVariables>;
 export const UpdateProfessionalProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8926,6 +9193,10 @@ export type UpdateNotebookContractMutationStore = OperationStore<
 	UpdateNotebookContractMutationVariables
 >;
 export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
+export type GetNotebookEventsQueryStore = OperationStore<
+	GetNotebookEventsQuery,
+	GetNotebookEventsQueryVariables
+>;
 export type UpdateProfessionalProfileMutationStore = OperationStore<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables

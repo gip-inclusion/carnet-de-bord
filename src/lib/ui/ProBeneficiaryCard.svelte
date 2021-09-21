@@ -6,7 +6,7 @@
 		firstname: string;
 		lastname: string;
 		mobileNumber?: string;
-		dateOfBirth: Date;
+		dateOfBirth: string;
 	};
 	export let href: string;
 </script>

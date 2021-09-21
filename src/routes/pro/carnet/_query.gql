@@ -1,4 +1,4 @@
-query GetNotebook($id: uuid!) {
+query GetNotebook($id: uuid!, $eventsStart: date, $eventsEnd: date) {
 	notebook: notebook_by_pk(id: $id) {
 		id
 		workSituationDate
@@ -58,6 +58,34 @@ query GetNotebook($id: uuid!) {
 					city
 				}
 			}
+		}
+		events(
+			order_by: { eventDate: desc_nulls_first }
+			where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd } }
+		) {
+			...eventFields
+		}
+	}
+}
+
+query GetNotebookEvents($eventsStart: date, $eventsEnd: date, $notebookId: uuid!) {
+	notebook_event(
+		order_by: { eventDate: desc_nulls_last }
+		where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd }, notebookId: { _eq: $notebookId } }
+	) {
+		...eventFields
+	}
+}
+
+fragment eventFields on notebook_event {
+	id
+	eventDate
+	data
+	professionalId
+	professional {
+		structureId
+		structure {
+			name
 		}
 	}
 }
