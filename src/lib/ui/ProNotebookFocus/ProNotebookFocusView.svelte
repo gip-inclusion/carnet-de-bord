@@ -7,6 +7,7 @@
 	import ProNotebookFocusCreate from './ProNotebookFocusCreate.svelte';
 	import ProNotebookFocusDetails from './ProNotebookFocusDetails.svelte';
 	import ProNotebookContractDetails from '$lib/ui/ProNotebookContract/ProNotebookContractDetails.svelte';
+	import { formatDateLocale } from '$lib/utils/date';
 
 	export let notebook: Pick<Notebook, 'id' | 'contractType' | 'contractSignDate'>;
 	export let focuses: Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'>[] = [];
@@ -26,10 +27,11 @@
 <div class="flex flex-col gap-4">
 	<div>
 		<div class="bf-500 underline cursor-pointer" on:click={openContract}>
-			{contractTypeFullKeys.byKey[notebook.contractType] || 'Rattacher un contrat au carnet de bord'}
+			{contractTypeFullKeys.byKey[notebook.contractType] ||
+				'Rattacher un contrat au carnet de bord'}
 		</div>
 		{#if notebook.contractSignDate}
-			<div>Signé le {notebook.contractSignDate}</div>
+			<div>Signé le {formatDateLocale(notebook.contractSignDate)}</div>
 		{/if}
 	</div>
 	<div class="flex flex-row flex-wrap">

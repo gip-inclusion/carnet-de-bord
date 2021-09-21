@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-6 mb-6">
+<div class="mb-6">
 	<h1>Type de contrat</h1>
 	<form on:submit|preventDefault={saveContract}>
 		<Radio
