@@ -42,7 +42,7 @@
 			options={contractTypeFullKeys.options}
 		/>
 		<Input bind:val={formData.contractSignDate} inputLabel="Date de signature" type="date" />
-		<div class="flex flex-row">
+		<div class="flex flex-row gap-4">
 			<Button type="submit">Enregistrer</Button>
 			<Button outline={true} on:click={close}>Annuler</Button>
 		</div>

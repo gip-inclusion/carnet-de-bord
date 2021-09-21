@@ -11,9 +11,11 @@ type OpenComponentType = {
 	component: typeof SvelteComponent;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	props?: Record<string, any>;
+	onClose?: () => void;
 } | null;
 
 export type OpenComponentStore = Readable<OpenComponentType> & {
+	get: () => OpenComponentType;
 	close: () => void;
 	open: (value: OpenComponentType) => void;
 };
@@ -22,15 +24,19 @@ function createOpenComponent() {
 	const openComponent: Writable<OpenComponentType> = writable(null);
 
 	const { subscribe, set } = openComponent;
+	let val;
 
 	return {
 		subscribe,
+		get: () => val,
 		close: () => {
-			set(null);
+			val = null;
+			set(val);
 			offCanvas.set(false);
 		},
 		open: (value) => {
-			set(value);
+			val = value;
+			set(val);
 			offCanvas.set(true);
 		},
 	};

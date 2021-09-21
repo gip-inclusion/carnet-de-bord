@@ -10,9 +10,7 @@
 		}
 	}
 
-	const close = () => {
-		openComponent.close();
-	};
+	$: close = $openComponent?.onClose || openComponent.close;
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -27,7 +25,11 @@
 			: 'translate-x-full'}"
 	>
 		<div class="flex flex-col w-full gap-6">
-			<svelte:component this={$openComponent.component} {...$openComponent.props} />
+			<svelte:component
+				this={$openComponent.component}
+				{...$openComponent.props}
+				componentOnClose={$openComponent?.onClose}
+			/>
 		</div>
 		<i class="absolute cursor-pointer ri-close-line top-4 right-4" on:click={close} />
 	</div>
