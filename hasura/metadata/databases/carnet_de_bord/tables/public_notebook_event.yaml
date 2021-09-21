@@ -25,7 +25,6 @@ insert_permissions:
             _eq: X-Hasura-Professional-Id
     columns:
     - creation_date
-    - data
     - event_date
     - id
     - notebook_id
@@ -36,12 +35,13 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - event_date
-    - data
     - creation_date
+    - event
+    - event_date
     - id
     - notebook_id
     - professional_id
+    - structure
     filter:
       notebook:
         members:
@@ -52,7 +52,6 @@ update_permissions:
 - permission:
     check: null
     columns:
-    - data
     - event_date
     filter:
       professional_id:

@@ -1335,22 +1335,12 @@ export type MutationRootUpdateNotebookByPkArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookEventArgs = {
-	_append?: Maybe<NotebookEventAppendInput>;
-	_delete_at_path?: Maybe<NotebookEventDeleteAtPathInput>;
-	_delete_elem?: Maybe<NotebookEventDeleteElemInput>;
-	_delete_key?: Maybe<NotebookEventDeleteKeyInput>;
-	_prepend?: Maybe<NotebookEventPrependInput>;
 	_set?: Maybe<NotebookEventSetInput>;
 	where: NotebookEventBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateNotebookEventByPkArgs = {
-	_append?: Maybe<NotebookEventAppendInput>;
-	_delete_at_path?: Maybe<NotebookEventDeleteAtPathInput>;
-	_delete_elem?: Maybe<NotebookEventDeleteElemInput>;
-	_delete_key?: Maybe<NotebookEventDeleteKeyInput>;
-	_prepend?: Maybe<NotebookEventPrependInput>;
 	_set?: Maybe<NotebookEventSetInput>;
 	pk_columns: NotebookEventPkColumnsInput;
 };
@@ -1826,7 +1816,7 @@ export enum NotebookConstraint {
 export type NotebookEvent = {
 	__typename?: 'notebook_event';
 	creationDate: Scalars['timestamptz'];
-	data: Scalars['jsonb'];
+	event?: Maybe<Scalars['String']>;
 	eventDate: Scalars['date'];
 	id: Scalars['uuid'];
 	/** An object relationship */
@@ -1835,11 +1825,7 @@ export type NotebookEvent = {
 	/** An object relationship */
 	professional: Professional;
 	professionalId: Scalars['uuid'];
-};
-
-/** columns and relationships of "notebook_event" */
-export type NotebookEventDataArgs = {
-	path?: Maybe<Scalars['String']>;
+	structure?: Maybe<Scalars['String']>;
 };
 
 /** aggregated selection of "notebook_event" */
@@ -1870,11 +1856,6 @@ export type NotebookEventAggregateOrderBy = {
 	min?: Maybe<NotebookEventMinOrderBy>;
 };
 
-/** append existing jsonb value of filtered columns with new jsonb value */
-export type NotebookEventAppendInput = {
-	data?: Maybe<Scalars['jsonb']>;
-};
-
 /** input type for inserting array relation for remote table "notebook_event" */
 export type NotebookEventArrRelInsertInput = {
 	data: Array<NotebookEventInsertInput>;
@@ -1888,13 +1869,14 @@ export type NotebookEventBoolExp = {
 	_not?: Maybe<NotebookEventBoolExp>;
 	_or?: Maybe<Array<NotebookEventBoolExp>>;
 	creationDate?: Maybe<TimestamptzComparisonExp>;
-	data?: Maybe<JsonbComparisonExp>;
+	event?: Maybe<StringComparisonExp>;
 	eventDate?: Maybe<DateComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	notebook?: Maybe<NotebookBoolExp>;
 	notebookId?: Maybe<UuidComparisonExp>;
 	professional?: Maybe<ProfessionalBoolExp>;
 	professionalId?: Maybe<UuidComparisonExp>;
+	structure?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_event" */
@@ -1903,69 +1885,63 @@ export enum NotebookEventConstraint {
 	NotebookEventPkey = 'notebook_event_pkey',
 }
 
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-export type NotebookEventDeleteAtPathInput = {
-	data?: Maybe<Array<Scalars['String']>>;
-};
-
-/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-export type NotebookEventDeleteElemInput = {
-	data?: Maybe<Scalars['Int']>;
-};
-
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-export type NotebookEventDeleteKeyInput = {
-	data?: Maybe<Scalars['String']>;
-};
-
 /** input type for inserting data into table "notebook_event" */
 export type NotebookEventInsertInput = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	data?: Maybe<Scalars['jsonb']>;
+	event?: Maybe<Scalars['String']>;
 	eventDate?: Maybe<Scalars['date']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebook?: Maybe<NotebookObjRelInsertInput>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	professional?: Maybe<ProfessionalObjRelInsertInput>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	structure?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type NotebookEventMaxFields = {
 	__typename?: 'notebook_event_max_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	event?: Maybe<Scalars['String']>;
 	eventDate?: Maybe<Scalars['date']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	structure?: Maybe<Scalars['String']>;
 };
 
 /** order by max() on columns of table "notebook_event" */
 export type NotebookEventMaxOrderBy = {
 	creationDate?: Maybe<OrderBy>;
+	event?: Maybe<OrderBy>;
 	eventDate?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	professionalId?: Maybe<OrderBy>;
+	structure?: Maybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type NotebookEventMinFields = {
 	__typename?: 'notebook_event_min_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	event?: Maybe<Scalars['String']>;
 	eventDate?: Maybe<Scalars['date']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	structure?: Maybe<Scalars['String']>;
 };
 
 /** order by min() on columns of table "notebook_event" */
 export type NotebookEventMinOrderBy = {
 	creationDate?: Maybe<OrderBy>;
+	event?: Maybe<OrderBy>;
 	eventDate?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	professionalId?: Maybe<OrderBy>;
+	structure?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_event" */
@@ -1987,13 +1963,14 @@ export type NotebookEventOnConflict = {
 /** Ordering options when selecting data from "notebook_event". */
 export type NotebookEventOrderBy = {
 	creationDate?: Maybe<OrderBy>;
-	data?: Maybe<OrderBy>;
+	event?: Maybe<OrderBy>;
 	eventDate?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	notebook?: Maybe<NotebookOrderBy>;
 	notebookId?: Maybe<OrderBy>;
 	professional?: Maybe<ProfessionalOrderBy>;
 	professionalId?: Maybe<OrderBy>;
+	structure?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_event */
@@ -2001,17 +1978,12 @@ export type NotebookEventPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
-/** prepend existing jsonb value of filtered columns with new jsonb value */
-export type NotebookEventPrependInput = {
-	data?: Maybe<Scalars['jsonb']>;
-};
-
 /** select columns of table "notebook_event" */
 export enum NotebookEventSelectColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
-	Data = 'data',
+	Event = 'event',
 	/** column name */
 	EventDate = 'eventDate',
 	/** column name */
@@ -2020,16 +1992,19 @@ export enum NotebookEventSelectColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	ProfessionalId = 'professionalId',
+	/** column name */
+	Structure = 'structure',
 }
 
 /** input type for updating data in table "notebook_event" */
 export type NotebookEventSetInput = {
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	data?: Maybe<Scalars['jsonb']>;
+	event?: Maybe<Scalars['String']>;
 	eventDate?: Maybe<Scalars['date']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	structure?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "notebook_event" */
@@ -2037,7 +2012,7 @@ export enum NotebookEventUpdateColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
-	Data = 'data',
+	Event = 'event',
 	/** column name */
 	EventDate = 'eventDate',
 	/** column name */
@@ -2046,6 +2021,8 @@ export enum NotebookEventUpdateColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	ProfessionalId = 'professionalId',
+	/** column name */
+	Structure = 'structure',
 }
 
 /** columns and relationships of "notebook_focus" */
@@ -5321,7 +5298,8 @@ export type GetNotebookQuery = {
 			__typename?: 'notebook_event';
 			id: string;
 			eventDate: string;
-			data: any;
+			event?: Maybe<string>;
+			structure?: Maybe<string>;
 			professionalId: string;
 			professional: {
 				__typename?: 'professional';
@@ -5344,7 +5322,8 @@ export type GetNotebookEventsQuery = {
 		__typename?: 'notebook_event';
 		id: string;
 		eventDate: string;
-		data: any;
+		event?: Maybe<string>;
+		structure?: Maybe<string>;
 		professionalId: string;
 		professional: {
 			__typename?: 'professional';
@@ -5358,7 +5337,8 @@ export type EventFieldsFragment = {
 	__typename?: 'notebook_event';
 	id: string;
 	eventDate: string;
-	data: any;
+	event?: Maybe<string>;
+	structure?: Maybe<string>;
 	professionalId: string;
 	professional: {
 		__typename?: 'professional';
@@ -5439,7 +5419,8 @@ export const EventFieldsFragmentDoc = {
 				selections: [
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'data' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'event' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'structure' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 					{
 						kind: 'Field',

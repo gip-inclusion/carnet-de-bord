@@ -80,7 +80,8 @@ query GetNotebookEvents($eventsStart: date, $eventsEnd: date, $notebookId: uuid!
 fragment eventFields on notebook_event {
 	id
 	eventDate
-	data
+	event
+	structure
 	professionalId
 	professional {
 		structureId

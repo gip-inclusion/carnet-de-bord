@@ -16,6 +16,7 @@
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import { LoaderIndicator } from '$lib/ui/utils';
+	import { formatDateLocale } from '$lib/utils/date';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
@@ -24,7 +25,8 @@
 		| typeof threeMonths
 		| typeof threeSixMonths
 		| typeof sixTwelveMonths
-		| typeof twelveMonths;
+		| typeof twelveMonths
+		| null;
 	const threeMonths = '-3months';
 	const threeSixMonths = '3-6months';
 	const sixTwelveMonths = '6-12months';
@@ -47,7 +49,6 @@
 	) {
 		let eventsStart: Date;
 		let eventsEnd: Date;
-
 		const today = new Date();
 		if (selected === threeMonths) {
 			eventsStart = addMonths(today, -3);
@@ -75,7 +76,7 @@
 		const variables = { id: notebookId };
 		const getNotebookStore = operationStore(
 			GetNotebookDocument,
-			buildQueryVariables(variables, threeMonths)
+			buildQueryVariables(variables, null)
 		);
 
 		const updateVisitDateResult = operationStore(UpdateNotebookVisitDateDocument, {
@@ -95,7 +96,7 @@
 <script lang="ts">
 	export let notebookId: string;
 	export let getNotebookStore: GetNotebookQueryStore;
-	let selected: Period = threeMonths;
+	let selected: Period = null;
 	let getNotebookEventsStore: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
 		{ notebookId, eventsStart: null, eventsEnd: null },
@@ -149,6 +150,7 @@
 					<Select
 						on:select={onSelect}
 						options={[
+							{ name: null, label: 'Tous les évènements' },
 							{ name: threeMonths, label: 'Dans les 3 derniers mois' },
 							{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
 							{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
@@ -171,9 +173,9 @@
 						<tbody class="w-full">
 							{#each events || [] as event (event.id)}
 								<tr>
-									<td>{event.eventDate} </td>
-									<td>{event.data}</td>
-									<td>{event.professional?.structure?.name} </td>
+									<td>{formatDateLocale(event.eventDate)} </td>
+									<td>{event.event}</td>
+									<td>{event.structure} </td>
 								</tr>
 							{:else}
 								<tr class="shadow-sm">
