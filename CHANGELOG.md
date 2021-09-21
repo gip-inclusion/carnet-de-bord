@@ -1,3 +1,10 @@
+# [1.31.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.30.1...v1.31.0) (2021-09-21)
+
+
+### Features
+
+* add/edit contract for notebook ([f60ae5b](https://github.com/SocialGouv/carnet-de-bord/commit/f60ae5b4e86a843370fd335244757bf6e13c41a9))
+
 ## [1.30.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.30.0...v1.30.1) (2021-09-21)
 
 
