@@ -10,6 +10,7 @@
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
+	import { ProNotebookStructureList } from '../ProNotebookStructure';
 
 	export let focusId: string;
 
@@ -95,7 +96,11 @@
 			</div>
 			<div class="w-1/2 ml-1 items-stretch">
 				<h2 class="fr-h4 bf-500">Structures sollicitées</h2>
-				<Card>
+				<Card
+					hideArrow={false}
+					onClick={() =>
+						openComponent.open({ component: ProNotebookStructureList, props: { structures } })}
+				>
 					<span slot="title">{''}</span>
 					<span slot="description">
 						<span class="font-bold">

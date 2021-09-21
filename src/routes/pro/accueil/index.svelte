@@ -45,7 +45,7 @@
 		<div>
 			<h2 class="fr-h5 bf-500">Derniers profils consultés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
-				{#each $result.data.lastVisited as lastVisited (lastVisited.notebook.beneficiary.id)}
+				{#each $result.data.lastVisited as lastVisited, i (i)}
 					<div class="card-container">
 						<ProBeneficiaryCard
 							href={carnetUrl(lastVisited.notebook)}
@@ -60,7 +60,7 @@
 		<div>
 			<h2 class="fr-h5 bf-500">Derniers profils modifiés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
-				{#each $result.data.lastUpdated as lastUpdated (lastUpdated.notebook.beneficiary.id)}
+				{#each $result.data.lastUpdated as lastUpdated, i (i)}
 					<div class="card-container">
 						<ProBeneficiaryCard
 							href={carnetUrl(lastUpdated.notebook)}
