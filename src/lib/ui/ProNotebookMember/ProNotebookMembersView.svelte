@@ -28,48 +28,45 @@
 	};
 </script>
 
-<div class="flex flex-row w-full justify-between">
+<div class="pb-6">
 	<Button
 		on:click={() => {
 			openInviteMember();
 		}}>Ajouter un accompagnateur</Button
 	>
 </div>
-<div class="py-8">
-	{#each members as member, i}
-		<div
-			class:bg-gray-100={i % 2 === 0}
-			class="flex cursor-pointer gap-2 p-2 mb-2 w-full border-l-2 border-france-blue"
-			on:click={() => {
-				openMemberInfo(member);
-			}}
-		>
-			<div class="flex flex-col w-1/2 min-w-0">
-				<div class="text-gray-text-alt">Structure</div>
-				<Text
-					classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-					value={member.professional.structure.name}
-				/>
-			</div>
-			<div class="flex flex-col w-1/4 min-w-0">
-				<div class="text-gray-text-alt">Accompagnateur</div>
-				<div
-					class="flex flex-row gap-2 font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-				>
-					<Text classNames="font-bold" value={member.professional.firstname} />
-					<Text classNames="font-bold" value={member.professional.lastname} />
-				</div>
-			</div>
-			<div class="flex flex-col w-1/4 min-w-0">
-				<div class="text-gray-text-alt">Fonction</div>
-				<Text
-					classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-					value={member.professional.position}
-				/>
-			</div>
-			<button>
-				<i class="text-2xl text-france-blue ri-arrow-right-line" />
-			</button>
-		</div>
-	{/each}
+<div class={`fr-table fr-table--layout-fixed`}>
+	<table>
+		<thead>
+			<tr>
+				<th style="width: 40%">Structure</th>
+				<th style="width: 30%">Accompagnateur</th>
+				<th style="width: 20%">Fonction</th>
+				<th style="width: 10%" />
+			</tr>
+		</thead>
+		<tbody>
+			{#each members as member, i}
+				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
+					<td>
+						<Text value={member.professional.structure.name} />
+					</td>
+					<td>
+						<div class="flex flex-row gap-2">
+							<Text value={member.professional.firstname} />
+							<Text value={member.professional.lastname} />
+						</div>
+					</td>
+					<td>
+						<Text value={member.professional.position} />
+					</td>
+					<td>
+						<button>
+							<i class="text-2xl text-france-blue ri-arrow-right-line" />
+						</button>
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
 </div>
