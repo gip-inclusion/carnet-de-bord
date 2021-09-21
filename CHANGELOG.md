@@ -1,3 +1,10 @@
+# [1.30.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.29.0...v1.30.0) (2021-09-21)
+
+
+### Features
+
+* **pro:** implement notebook action creation ([#205](https://github.com/SocialGouv/carnet-de-bord/issues/205)) ([f414108](https://github.com/SocialGouv/carnet-de-bord/commit/f414108b40b925b86948b8ac99ead78dc874051d))
+
 # [1.29.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.28.0...v1.29.0) (2021-09-20)
 
 
