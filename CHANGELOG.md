@@ -1,3 +1,14 @@
+## [1.34.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.34.0...v1.34.1) (2021-09-22)
+
+
+### Bug Fixes
+
+* issue [#216](https://github.com/SocialGouv/carnet-de-bord/issues/216) ([a6dd5ff](https://github.com/SocialGouv/carnet-de-bord/commit/a6dd5ff938244357986728a188ebe17f96f5a2eb))
+* issue [#218](https://github.com/SocialGouv/carnet-de-bord/issues/218) ([c2ff940](https://github.com/SocialGouv/carnet-de-bord/commit/c2ff9408a959c8487be49e37920cce2786742b9e))
+* issue [#225](https://github.com/SocialGouv/carnet-de-bord/issues/225) ([d1d89ab](https://github.com/SocialGouv/carnet-de-bord/commit/d1d89ab726d1ebaeca7e45120bb32a2521ec960e))
+* issue [#227](https://github.com/SocialGouv/carnet-de-bord/issues/227) ([aae2ab1](https://github.com/SocialGouv/carnet-de-bord/commit/aae2ab1caad27bc59a8e1a2b69ad78ab74027551))
+* issue [#228](https://github.com/SocialGouv/carnet-de-bord/issues/228) ([ea52717](https://github.com/SocialGouv/carnet-de-bord/commit/ea527176acc46791dc025c476083d8777be09514))
+
 # [1.34.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.33.0...v1.34.0) (2021-09-21)
 
 
