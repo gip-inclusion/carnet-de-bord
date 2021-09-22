@@ -46,7 +46,7 @@
 		formData = initFormData();
 	}
 
-	$: disabled = !(formData.action && formData.structureId);
+	$: disabled = !formData.action || !formData.structureId;
 </script>
 
 <form on:submit|preventDefault={createAction} class="pb-4">
