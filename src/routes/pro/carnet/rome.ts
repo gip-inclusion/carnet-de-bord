@@ -1,5 +1,5 @@
-import type { RequestHandler } from '@sveltejs/kit';
 import { stringsMatch } from '$lib/helpers';
+import type { RequestHandler } from '@sveltejs/kit';
 import romeCodes from './codesrometree.xls.json';
 
 type RomeItem = {
@@ -9,6 +9,10 @@ type RomeItem = {
 };
 function filterAndFlatten(list: RomeItem[], matcher: (string) => boolean) {
 	return list.reduce((acc, { children, rome, text }) => {
+		//HACK: create ROM table and prevent query from front if query.length < 3
+		if (acc && acc.length > 20) {
+			return acc;
+		}
 		let codes = [];
 		if (children) {
 			codes = filterAndFlatten(children, matcher);
