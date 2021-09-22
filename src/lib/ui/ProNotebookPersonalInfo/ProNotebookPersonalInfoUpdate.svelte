@@ -69,7 +69,7 @@
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
 		<Input bind:val={formData.lastname} inputLabel="Nom" />
-		<Input bind:val={formData.lastname} inputLabel="Prénom" />
+		<Input bind:val={formData.firstname} inputLabel="Prénom" />
 		<Input bind:val={formData.dateOfBirth} inputLabel="Date de naissance" type="date" />
 		<Input bind:val={formData.mobileNumber} inputLabel="Téléphone" />
 		<Input bind:val={formData.email} inputLabel="Email" type="email" />
