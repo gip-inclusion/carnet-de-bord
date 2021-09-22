@@ -7,21 +7,27 @@
 	import { Text } from '$lib/ui/utils';
 	import { operationStore, query } from '@urql/svelte';
 	import { ProNotebookActionList } from '../ProNotebookAction';
-	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
-	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import { ProNotebookStructureList } from '../ProNotebookStructure';
+	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
+	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 
 	export let focusId: string;
 
-	const focusStore = operationStore(GetNotebookFocusByIdDocument, { id: focusId });
+	const focusStore = operationStore(
+		GetNotebookFocusByIdDocument,
+		{ id: focusId },
+		{
+			additionalTypenames: ['notebook_target'],
+		}
+	);
 	query(focusStore);
 
 	const init: Record<string, Pick<Structure, 'id' | 'name'>> = {};
 
 	$: focus = $focusStore.data?.focus;
 	$: situations = (focus?.situations as string[]) || [];
-	$: targets = focus?.targets;
+	$: targets = focus?.targets || [];
 
 	$: structures = Object.values(
 		targets
@@ -114,7 +120,7 @@
 			<h2 class="fr-h4 bf-500">Objectifs</h2>
 			<div>
 				<Accordions>
-					{#each focus?.targets || [] as target (target.id)}
+					{#each targets as target (target.id)}
 						<Accordion title={target.target}>
 							<ProNotebookActionList {target} />
 						</Accordion>
