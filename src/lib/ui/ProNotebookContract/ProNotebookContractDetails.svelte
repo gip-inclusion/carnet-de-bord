@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { contractTypeFullKeys } from '$lib/constants/keys';
-
 	import { Notebook, UpdateNotebookContractDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Button, Input, Radio } from '$lib/ui/base';
@@ -24,6 +23,12 @@
 		openComponent.close();
 	}
 
+	function onChange(event) {
+		if ('no' == event.detail.value) {
+			formData.contractSignDate = null;
+		}
+	}
+
 	async function saveContract() {
 		await updateNotebookContract({
 			id: notebook.id,
@@ -31,6 +36,12 @@
 		});
 		close();
 	}
+
+	$: isContract = 'no' !== formData.contractType;
+
+	$: disabled = isContract
+		? !formData.contractType || !formData.contractSignDate
+		: !formData.contractType;
 </script>
 
 <div class="mb-6">
@@ -40,10 +51,13 @@
 			caption={'Veuillez sélectionner le type de contrat.'}
 			bind:selected={formData.contractType}
 			options={contractTypeFullKeys.options}
+			on:input={onChange}
 		/>
-		<Input bind:val={formData.contractSignDate} inputLabel="Date de signature" type="date" />
+		{#if isContract}
+			<Input bind:val={formData.contractSignDate} inputLabel="Date de signature" type="date" />
+		{/if}
 		<div class="flex flex-row gap-4">
-			<Button type="submit">Enregistrer</Button>
+			<Button {disabled} type="submit">Enregistrer</Button>
 			<Button outline={true} on:click={close}>Annuler</Button>
 		</div>
 	</form>

@@ -3,11 +3,11 @@
 	import type { Notebook, NotebookFocus } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Button, Card } from '$lib/ui/base';
+	import ProNotebookContractDetails from '$lib/ui/ProNotebookContract/ProNotebookContractDetails.svelte';
 	import { Text } from '$lib/ui/utils';
+	import { formatDateLocale } from '$lib/utils/date';
 	import ProNotebookFocusCreate from './ProNotebookFocusCreate.svelte';
 	import ProNotebookFocusDetails from './ProNotebookFocusDetails.svelte';
-	import ProNotebookContractDetails from '$lib/ui/ProNotebookContract/ProNotebookContractDetails.svelte';
-	import { formatDateLocale } from '$lib/utils/date';
 
 	export let notebook: Pick<Notebook, 'id' | 'contractType' | 'contractSignDate'>;
 	export let focuses: Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'>[] = [];
@@ -22,13 +22,17 @@
 	const openContract = () => {
 		openComponent.open({ component: ProNotebookContractDetails, props: { notebook } });
 	};
+
+	$: contractLabel =
+		!notebook.contractType || 'no' === notebook.contractType
+			? 'Rattacher un contrat au carnet de bord'
+			: contractTypeFullKeys.byKey[notebook.contractType];
 </script>
 
 <div class="flex flex-col gap-4">
 	<div>
 		<div class="bf-500 underline cursor-pointer" on:click={openContract}>
-			{contractTypeFullKeys.byKey[notebook.contractType] ||
-				'Rattacher un contrat au carnet de bord'}
+			{contractLabel}
 		</div>
 		{#if notebook.contractSignDate}
 			<div>Signé le {formatDateLocale(notebook.contractSignDate)}</div>

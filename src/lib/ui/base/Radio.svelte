@@ -3,11 +3,19 @@
 </script>
 
 <script lang="ts">
-	import type { Option } from '$lib/types';
+	import type { Option, SvelteEventHandler } from '$lib/types';
+	import { createEventDispatcher } from 'svelte';
+
 	export let selected: string | null;
 	export let options: Option[];
 	export let caption: string;
 	export let legendClass = '';
+
+	const dispatch = createEventDispatcher();
+
+	const handleInput: SvelteEventHandler<HTMLInputElement> = (event) => {
+		dispatch('input', { value: event.currentTarget.value });
+	};
 
 	counter += 1;
 
@@ -27,6 +35,7 @@
 			{#each options as option (option.name)}
 				<div class="fr-radio-group">
 					<input
+						on:change={handleInput}
 						type="radio"
 						id="radio-{option.name}"
 						name={groupId}
