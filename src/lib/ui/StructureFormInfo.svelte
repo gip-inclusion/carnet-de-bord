@@ -179,7 +179,7 @@
 					<Alert type="error" description={RD.getError(mutationResult)} />
 				</div>
 			{/if}
-			<div class="flex flex-row gap-2 mt-12">
+			<div class="flex flex-row gap-6 mt-12">
 				<Button type="submit" disabled={!isValid || untouched || RD.isLoading(mutationResult)}
 					>{confirmText}</Button
 				>

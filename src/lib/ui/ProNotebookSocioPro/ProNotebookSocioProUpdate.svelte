@@ -113,7 +113,7 @@
 			/>
 		</div>
 
-		<div class="flex flex-row gap-2 pt-4 pb-12">
+		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>
 			<Button outline on:click={close}>Annuler</Button>
 		</div>

@@ -75,7 +75,7 @@
 		{/if}
 	</div>
 	<div class="h-full flex-stretch">{' '}</div>
-	<div>
+	<div class="flex flex-row gap-6">
 		<Button {disabled} on:click={updateFocus}>Valider</Button>
 		<Button outline={true} on:click={close}>Annuler</Button>
 	</div>

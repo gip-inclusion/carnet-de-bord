@@ -77,7 +77,7 @@
 	{#if globalError}
 		<div class="text-error">{globalError}</div>
 	{/if}
-	<div class="flex flex-row gap-2 mt-12">
+	<div class="flex flex-row gap-6 mt-12">
 		<Button type="submit" disabled={disabled || untouched}>{confirmText}</Button>
 		<Button outline={true} on:click={handleCancel}>Annuler</Button>
 	</div>
