@@ -9,7 +9,7 @@ on:
 
 concurrency:
   cancel-in-progress: true
-  group: ${{ github.ref }}
+  group: review-${{ github.ref }}
 
 jobs:
 
@@ -69,7 +69,7 @@ jobs:
   ## DEPLOY BACKEND & FRONT-END
   ##############################################################################
   deploy:
-    name: Deploy application
+    name: Deploy review branch
     runs-on: ubuntu-latest
     needs: [register, register-hasura, manifests]
     steps:
