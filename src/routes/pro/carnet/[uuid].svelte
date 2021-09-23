@@ -145,7 +145,7 @@
 			<Accordion title="Axes de travail">
 				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 			</Accordion>
-			<Accordion title="Historique des actions">
+			<Accordion title="Historique de parcours">
 				<div class="mb-2">
 					<Select
 						on:select={onSelect}

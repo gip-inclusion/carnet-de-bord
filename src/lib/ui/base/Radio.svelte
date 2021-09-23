@@ -31,7 +31,7 @@
 				{caption}
 			</span>
 		</legend>
-		<div class="fr-fieldset__content">
+		<div class="fr-fieldset__content my-4">
 			{#each options as option (option.name)}
 				<div class="fr-radio-group">
 					<input
@@ -42,7 +42,7 @@
 						bind:group={selected}
 						value={option.name}
 					/>
-					<label class="fr-label" for="radio-{option.name}">{option.label}</label>
+					<label class="fr-label" for="radio-{option.name}">{@html option.label}</label>
 				</div>
 			{/each}
 		</div>
