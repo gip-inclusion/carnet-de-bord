@@ -74,7 +74,7 @@
 	fetchResetOnBlur={false}
 	fetchCallback={postProcess}
 	renderer="renderRome"
-	class="svelecte-control custom-svelecte"
+	class="svelecte-control custom-svelecte cursor-pointer"
 	valueField="rome"
 	labelField="text"
 	clearable={true}
