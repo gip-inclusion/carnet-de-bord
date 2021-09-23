@@ -12,6 +12,7 @@
 	import { mutation } from '@urql/svelte';
 	import BeneficiaryCreateForm from './ProBeneficiaryCreateForm.svelte';
 	import { openComponent } from '$lib/stores';
+	import { notNullish } from '$lib/ui/format';
 
 	let options: { name: IdentifierType; label: string }[] = [
 		{
@@ -29,6 +30,7 @@
 	];
 
 	let selected: IdentifierType | null;
+	let errors: Partial<BeneficiaryAccount>;
 
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	const createBeneficiary = mutation(createBeneficiaryResult);
@@ -72,16 +74,17 @@
 	let submissionError = '';
 
 	function isAccountValid(acc: BeneficiaryAccount | null) {
-		return (
-			acc.firstname &&
-			acc.lastname &&
-			acc.dateOfBirth &&
-			acc.address1 &&
-			acc.postalCode &&
-			acc.city &&
-			acc.workSituation
-		);
+		errors = {};
+
+		['firstname', 'lastname', 'dateOfBirth'].forEach((key) => {
+			errors[key] = acc[key] ? '' : 'Ce champ est obligatoire';
+		});
+		return Object.keys(errors).filter(notNullish).length === 0;
 	}
+
+	const onInput = (key: string) => () => {
+		errors[key] = '';
+	};
 </script>
 
 <div>
@@ -107,7 +110,7 @@
 			<ProFormIdentifiers identifierType={selected} on:selectedUser={handleUserSelection} />
 			{#if selected === 'NoIdentifier' || selectedUser}
 				<div class="font-bold mb-6">Veuillez renseigner les informations ci-dessous.</div>
-				<BeneficiaryCreateForm bind:beneficiaryAccount />
+				<BeneficiaryCreateForm bind:beneficiaryAccount {errors} {onInput} />
 			{/if}
 			{#if submissionError}
 				<div class="mb-8">
@@ -115,11 +118,7 @@
 				</div>
 			{/if}
 			<div class="flex flex-row gap-6">
-				<Button
-					on:click={handleSubmit}
-					disabled={!selected || !beneficiaryAccount || !isAccountValid(beneficiaryAccount)}
-					>Valider</Button
-				>
+				<Button on:click={handleSubmit}>Valider</Button>
 				<Button outline={true} on:click={openComponent.close}>Annuler</Button>
 			</div>
 		</form>

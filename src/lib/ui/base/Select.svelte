@@ -16,6 +16,9 @@
 	export let options: Option[];
 	export let selected: string | null = null;
 	export let disabled: boolean | null = false;
+	export let error: string | null = '';
+	export let valid: string | null = '';
+	export let required: boolean | null = false;
 
 	const dispatch = createEventDispatcher();
 	const handleSelect: SvelteEventHandler<HTMLSelectElement> = async function handleSelect(event) {
@@ -26,11 +29,17 @@
 	const selectHintOption = 'select_hint_option';
 </script>
 
-<div {id} class="fr-input-group">
+<div
+	{id}
+	class={`fr-select-group ${error ? 'fr-select-group--error' : ''} ${
+		valid ? 'fr-select-group--valid' : ''
+	}`}
+>
 	<!-- @TODO non-standard, DSFR deems the label mandatory -->
 	{#if selectLabel}
 		<label class="fr-label" for={uniqueId}>
-			{selectLabel}
+
+			{selectLabel}{required ? ' *' : ''}
 			{#if additionalLabel}
 				<span class="fr-hint-text">
 					{@html additionalLabel}
@@ -39,7 +48,10 @@
 		</label>
 	{/if}
 	<select
-		class="fr-select"
+		class={`fr-select ${error ? 'fr-select--error' : ''} ${valid ? 'fr-select--valid' : ''}`}
+		aria-describedby={`${error ? `select-error-desc-error-${uniqueId}` : ''} ${
+			valid ? `select-valid-desc-valid-${uniqueId}` : ''
+		}`}
 		value={selected || selectHintOption}
 		id={uniqueId}
 		name={uniqueId}
@@ -51,4 +63,15 @@
 			<option name={option.name} value={option.name}>{option.label}</option>
 		{/each}
 	</select>
+
+	{#if error}
+		<p id={`select-error-desc-error-${uniqueId}`} class="fr-error-text" role="status">
+			{error}
+		</p>
+	{/if}
+	{#if valid}
+		<p id={`select-valid-desc-valid-${uniqueId}`} class="fr-valid-text" role="status">
+			{valid}
+		</p>
+	{/if}
 </div>
