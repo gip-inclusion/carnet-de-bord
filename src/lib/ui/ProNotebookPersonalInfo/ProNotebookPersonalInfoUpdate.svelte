@@ -7,9 +7,9 @@
 		UpdateBeneficiaryPersonalInfoDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
+	import type { InputItem } from '$lib/types';
 	import { mutation, operationStore } from '@urql/svelte';
-	import Button from '../base/Button.svelte';
-	import Input from '../base/Input.svelte';
+	import { Button, Input } from '$lib/ui/base';
 
 	export let beneficiary: Pick<
 		Beneficiary,
@@ -48,6 +48,7 @@
 	}
 
 	const formData = initFormData();
+	const fieldErrors: Partial<typeof beneficiary> = {};
 
 	async function handleSubmit() {
 		await update({
@@ -60,6 +61,69 @@
 	function onCancel() {
 		openComponent.close();
 	}
+
+	let inputs: InputItem[] = [
+		{
+			label: 'Nom',
+			hint: 'Ex : Poquelin',
+			key: 'firstname',
+			required: true,
+		},
+		{
+			label: 'Prénom',
+			hint: 'Ex : Jean-Baptiste',
+			key: 'lastname',
+			required: true,
+		},
+		{
+			label: 'Date de naissance (JJ/MM/AAAA)',
+			hint: 'Ex : 21/12/1977',
+			key: 'dateOfBirth',
+			type: 'date',
+			required: true,
+		},
+		{
+			label: 'Téléphone',
+			hint: 'Ex : 0123456789',
+			key: 'mobileNumber',
+		},
+		{
+			label: 'Adresse de courriel',
+			hint: 'Ex : jb@poquelin.fr',
+			key: 'email',
+			type: 'email',
+		},
+		{
+			label: 'Adresse',
+			hint: 'Ex : 55-57 rue du Faubourg Saint-Honoré',
+			key: 'address1',
+		},
+		{
+			label: 'Adresse (complément)',
+			hint: 'Ex : 1er étage',
+			key: 'address2',
+		},
+		{
+			label: 'Code postal',
+			hint: 'Ex : 75 008',
+			key: 'postalCode',
+		},
+		{
+			label: 'Ville',
+			hint: 'Ex : Paris',
+			key: 'city',
+		},
+		{
+			label: 'Identifiant Pôle emploi',
+			hint: 'Ex : 123456789A',
+			key: 'peNumber',
+		},
+		{
+			label: 'Identifiant CAF',
+			hint: 'Ex : 123456789A',
+			key: 'cafNumber',
+		},
+	];
 </script>
 
 <section class="pl-4">
@@ -68,19 +132,15 @@
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
-		<Input bind:val={formData.lastname} inputLabel="Nom" />
-		<Input bind:val={formData.firstname} inputLabel="Prénom" />
-		<Input bind:val={formData.dateOfBirth} inputLabel="Date de naissance" type="date" />
-		<Input bind:val={formData.mobileNumber} inputLabel="Téléphone" />
-		<Input bind:val={formData.email} inputLabel="Email" type="email" />
-		<Input bind:val={formData.address1} inputLabel="Adresse" />
-		<div class="flex gap-2">
-			<Input bind:val={formData.postalCode} inputLabel="Code postal" />
-			<Input bind:val={formData.city} inputLabel="Ville" />
-		</div>
-
-		<Input bind:val={formData.peNumber} inputLabel="Identifiant Pôle emploi" />
-		<Input bind:val={formData.cafNumber} inputLabel="Identifiant CAF" />
+		{#each inputs as input (input.key)}
+			<Input
+				bind:val={formData[input.key]}
+				inputHint={input.hint}
+				inputLabel={input.label}
+				error={fieldErrors[input.key]}
+				type={input.type}
+			/>
+		{/each}
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>

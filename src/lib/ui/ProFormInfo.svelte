@@ -20,12 +20,14 @@
 			label: 'Identifiant',
 			hint: 'Ex : JBdu26',
 			key: 'username',
+			required: true,
 		},
 		{
 			label: 'Adresse de courriel',
 			hint: 'Ex : jb@poquelin.fr',
 			key: 'email',
 			type: 'email',
+			required: true,
 		},
 		{
 			label: 'Nom',

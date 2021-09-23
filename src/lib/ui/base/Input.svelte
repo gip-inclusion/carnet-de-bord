@@ -32,7 +32,7 @@
 	}`}
 >
 	<label class="fr-label flex-grow" for={uniqueId}>
-		<div>{inputLabel}{required ? '*' : ''}</div>
+		<div>{inputLabel}{required ? ' *' : ''}</div>
 		{#if additionalLabel}
 			<span
 				class="fr-hint-text justify-self-stretch"

@@ -46,6 +46,7 @@
 					error={requestStep === 'error'
 						? "Ce nom d'utilisateur n'est pas rattaché à un compte existant"
 						: ''}
+					required={true}
 				/>
 				<div><Link href="/auth/oubli">J'ai oublié mon identifiant</Link></div>
 				<div>
