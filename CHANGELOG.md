@@ -1,3 +1,10 @@
+## [1.36.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.1...v1.36.2) (2021-09-23)
+
+
+### Bug Fixes
+
+* Revert registry changes ([#253](https://github.com/SocialGouv/carnet-de-bord/issues/253)) ([ee2e495](https://github.com/SocialGouv/carnet-de-bord/commit/ee2e4953ab860eb4909475b039944293c5b546c2))
+
 ## [1.36.2-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.2-alpha.1...v1.36.2-alpha.2) (2021-09-23)
 
 
