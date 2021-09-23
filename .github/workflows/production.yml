@@ -27,7 +27,7 @@ jobs:
       uses: SocialGouv/actions/harbor-build-register@master
       with:
         imageName: ${{ env.project }}/app
-				harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
         harborPassword: ${{ secrets.HARBOR_PASSWORD }}
 
   ##############################################################################
