@@ -44,7 +44,8 @@
 			});
 
 			if (store.error) {
-				submissionError = `Une erreur s'est produite : ${store.error}`;
+				submissionError =
+					"Une erreur s'est produite. Si le problème persiste, veuillez nous contacter.";
 			} else {
 				submissionSuccess = true;
 			}
