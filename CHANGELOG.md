@@ -1,3 +1,10 @@
+## [1.35.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.35.0...v1.35.1) (2021-09-23)
+
+
+### Bug Fixes
+
+* **ci:** use harbor in production workflow ([#244](https://github.com/SocialGouv/carnet-de-bord/issues/244)) ([d0bc565](https://github.com/SocialGouv/carnet-de-bord/commit/d0bc565042c3f61d6bb5bce5f2489ee0eee229e2))
+
 # [1.35.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.34.1...v1.35.0) (2021-09-23)
 
 
