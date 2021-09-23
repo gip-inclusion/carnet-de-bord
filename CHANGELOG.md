@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.34.1...v1.35.0) (2021-09-23)
+
+
+### Features
+
+* **ui:** add cdb logo ([9629bfe](https://github.com/SocialGouv/carnet-de-bord/commit/9629bfe5c6b3cc9fe56f6ac4bcedbcfdd4119568))
+
 ## [1.34.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.34.0...v1.34.1) (2021-09-22)
 
 
