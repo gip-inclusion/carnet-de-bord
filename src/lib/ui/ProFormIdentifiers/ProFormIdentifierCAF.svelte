@@ -55,7 +55,7 @@
 		{#if RD.isLoading(users)}
 			<span class="ri ri-refresh-line" />
 		{:else if RD.isFailure(users)}
-			Une erreur s'est produite : {RD.getError(users) || 'Erreur inconnue'}
+			Une erreur s'est produite. Si le problème persiste, veuillez nous contacter.
 		{/if}
 	</div>
 </form>

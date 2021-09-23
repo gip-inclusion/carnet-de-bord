@@ -10,7 +10,7 @@
 	</div>
 {:else if $result.error}
 	<div class="flex items-center justify-center">
-		<p>Une erreur s'est produite : {$result.error.message}</p>
+		<p>Une erreur s'est produite. Si le problème persiste, veuillez nous contacter.</p>
 	</div>
 {:else}
 	<slot />
