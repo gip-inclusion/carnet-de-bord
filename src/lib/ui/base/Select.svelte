@@ -38,7 +38,6 @@
 	<!-- @TODO non-standard, DSFR deems the label mandatory -->
 	{#if selectLabel}
 		<label class="fr-label" for={uniqueId}>
-
 			{selectLabel}{required ? ' *' : ''}
 			{#if additionalLabel}
 				<span class="fr-hint-text">
