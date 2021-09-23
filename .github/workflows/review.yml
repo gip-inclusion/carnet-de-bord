@@ -26,7 +26,7 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@master
+      uses: SocialGouv/actions/autodevops-build-register@v1
       with:
         project: ${{ env.project }}
         imageName: ${{ env.project }}/app
@@ -45,7 +45,7 @@ jobs:
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@master
+      uses: SocialGouv/actions/autodevops-build-register@v1
       with:
         project: ${{ env.project }}
         dockerfile: hasura/Dockerfile
@@ -61,7 +61,7 @@ jobs:
     steps:
 
     - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@master
+      uses: SocialGouv/actions/k8s-manifests@v1
       with:
         environment: "dev"
 
@@ -75,7 +75,7 @@ jobs:
     steps:
 
     - name: Use autodevops deployment
-      uses: SocialGouv/actions/autodevops-deploy@master
+      uses: SocialGouv/actions/autodevops-deploy@v1
       with:
         environment: "dev"
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -90,6 +90,6 @@ jobs:
     needs: deploy
     steps:
 
-    - uses: SocialGouv/actions/k8s-restore-db@master
+    - uses: SocialGouv/actions/k8s-restore-db@v1
       with:
         kubeconfig: ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }}
