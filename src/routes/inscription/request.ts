@@ -17,9 +17,22 @@ export const post: RequestHandler = async (request) => {
 
 	const { email, firstname, lastname, mobileNumber, position } = accountRequest;
 	let [username] = email.split('@');
-	const account = await knex<Account>('account').where({ username });
+	const accounts = await knex<Account>('account').where({ username: `like ${username}%` });
 
-	username += `${account.length + 1}`;
+	if (accounts.length > 0) {
+		const matcher = new RegExp(`^${username}(\\d*)$`);
+		const index = accounts.reduce((maxIndex, item) => {
+			const matched = item.username.match(matcher);
+			if (!matched) {
+				return maxIndex;
+			}
+			if (isNaN(parseInt(matched[1]))) {
+				return maxIndex;
+			}
+			return Math.max(parseInt(matched[1]), maxIndex);
+		}, 0);
+		username += `${index + 1}`;
+	}
 
 	const existingPro = (await knex(`${type}`).where({ email }).first()) as unknown;
 
