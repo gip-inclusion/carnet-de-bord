@@ -1,7 +1,7 @@
 <script lang="ts">
 	/* export let withLogo: boolean | null = false; */
 	export let withSearch: boolean | null = false;
-	export let enlargeLink: boolean | null = false;
+	export let enlargeLink: boolean | null = true;
 	export let siteName: string | null = '';
 	export let baseline: string | null = '';
 	export let landing: string | null = '/';
@@ -26,7 +26,14 @@
 							</a>
 						</div>
 						<div class="fr-header__operator">
-							<slot name="brand" />
+							<img
+								src="/static/logo-cdb.svg"
+								class="fr-responsive-img"
+								style="width:5.4rem;"
+								alt=""
+								aria-hidden="true"
+							/>
+							<!-- L’alternative de l’image (attribut alt) doit impérativement être renseignée et reprendre le texte visible dans l’image -->
 						</div>
 					</div>
 					{#if siteName}
