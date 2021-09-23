@@ -49,13 +49,12 @@ export const contractTypeFullKeys = buildKeys({
 });
 
 export const educationLevelKeys = buildKeys({
-	level_1: 'Niveau I : enseignement supérieur',
-	level_2: 'Niveau II : BAC +3 / +4',
-	level_3: 'Niveau III : BAC +2',
-	level_4: 'Niveau IV : BAC ou équivalent',
-	level_5: 'Niveau V : CAP/BEP',
-	level_6: 'Formation courte max 1 mois',
-	level_7: 'Pas de formation / Pas de diplôme',
+	level_3: 'Niveau 3 : CAP/BEP',
+	level_4: 'Niveau 4 : Bac ou équivalent',
+	level_5: 'Niveau 5 : Bac +2',
+	level_6: 'Niveau 6 : Bac +3 / +4',
+	level_7: 'Niveau 7 : Maîtrise / Master / DEA / DESS / DI',
+	level_8: 'Niveau 8 : Doctorat / HDR',
 });
 
 /* ----------------------------------------------- */
