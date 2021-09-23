@@ -1,3 +1,10 @@
+## [1.36.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.0...v1.36.1) (2021-09-23)
+
+
+### Bug Fixes
+
+* **ui:** update layer layout ([5ee4c18](https://github.com/SocialGouv/carnet-de-bord/commit/5ee4c181abd9a0f07ca9f8d032b991c7ea905160))
+
 # [1.36.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.35.2...v1.36.0) (2021-09-23)
 
 
