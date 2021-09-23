@@ -10,7 +10,7 @@
 </script>
 
 <div class={`fr-checkbox-group ${classNames}`}>
-	<input type="checkbox" {checked} {disabled} id={name} {name} />
+	<input type="checkbox" bind:checked {disabled} id={name} {name} />
 	<label class="fr-label" for={name}>
 		{label}
 		{#if additionalLabel}
