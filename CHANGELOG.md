@@ -1,3 +1,11 @@
+## [1.36.2-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.2-alpha.1...v1.36.2-alpha.2) (2021-09-23)
+
+
+### Bug Fixes
+
+* Minor fixes ([8e9863d](https://github.com/SocialGouv/carnet-de-bord/commit/8e9863d3dcc13f844a1806a18523a83d21ad44db))
+* Use socialgouv/actions@v1 ([beeb492](https://github.com/SocialGouv/carnet-de-bord/commit/beeb4925cf1d286a45191918806c0aa9f480b399))
+
 ## [1.36.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.1...v1.36.2-alpha.1) (2021-09-23)
 
 
