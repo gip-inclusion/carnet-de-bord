@@ -6,7 +6,7 @@
 	export let href = '';
 	export let detail = '';
 	export let largeLink = true;
-	export let hideArrow = true;
+	export let hideArrow = false;
 	export let disabledHover = false;
 	export let onClick: ((event: Event) => void) | null = null;
 
@@ -36,7 +36,7 @@ ${disabledHover ? 'force-disable-hover' : 'cursor-pointer'}
 			{/if}
 		</h4>
 		{#if $$slots.description}
-			<p class="fr-card__desc">
+			<p class="leading-6 text-sm my-0">
 				<slot name="description" />
 			</p>
 		{/if}
@@ -48,7 +48,7 @@ ${disabledHover ? 'force-disable-hover' : 'cursor-pointer'}
 	</div>
 	{#if imageUrl}
 		<div class="fr-card__img">
-			<img src={imageUrl} class="fr-responsive-img" alt="" />
+			<img src={imageUrl} class="fr-responsive-img" alt="" aria-hidden="true" />
 			<!-- L'alternative de l'image (attribut alt) doit à priori rester vide car l'image est illustrative et ne doit pas être restituée aux technologies d’assistance. Vous pouvez toutefois remplir l'alternative si vous estimer qu'elle apporte une information essentielle à la compréhension du contenu non présente dans le texte -->
 		</div>
 	{/if}
