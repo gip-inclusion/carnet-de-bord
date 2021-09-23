@@ -47,7 +47,7 @@ jobs:
       with:
         dockerfile: hasura/Dockerfile
         imageName: ${{ env.project }}/hasura
-				harborUsername: ${{ secrets.HARBOR_USERNAME }}
+        harborUsername: ${{ secrets.HARBOR_USERNAME }}
         harborPassword: ${{ secrets.HARBOR_PASSWORD }}
   ##############################################################################
   ## GENERATE PREPRODUCTION MANIFESTS
