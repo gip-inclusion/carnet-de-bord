@@ -72,7 +72,7 @@
 		<div class="fr-form-group">
 			<Select
 				selectLabel={'Situation'}
-				selectHint={"Sélectionner votre situation..."}
+				selectHint={'Sélectionner votre situation...'}
 				options={workSituationKeys.options}
 				bind:selected={formData.workSituation}
 			/>
