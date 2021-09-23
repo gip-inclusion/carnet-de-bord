@@ -20,17 +20,23 @@
 	</div>
 
 	<div
-		class="p-6 !m-0 transform top-0 right-0 w-8/12 bg-white flex fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {openComponent
+		class="!m-0 transform top-0 right-0 w-8/12 bg-white flex fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {openComponent
 			? 'translate-x-0'
 			: 'translate-x-full'}"
 	>
-		<div class="flex flex-col w-full gap-6">
+		<div class="flex flex-col w-full gap-6 mx-14 mt-28">
 			<svelte:component
 				this={$openComponent.component}
 				{...$openComponent.props}
 				componentOnClose={$openComponent?.onClose}
 			/>
 		</div>
-		<i class="absolute cursor-pointer ri-close-line top-4 right-4" on:click={close} />
+		<button
+			on:click={close}
+			type="button"
+			class="bt text-2xl  text-france-blue absolute top-14 right-14"
+		>
+			<span class="ri-close-line" aria-label="fermer le panneau" />
+		</button>
 	</div>
 {/if}

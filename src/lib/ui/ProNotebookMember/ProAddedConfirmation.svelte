@@ -4,7 +4,7 @@
 	export let confirmed = true;
 </script>
 
-<div>
+<section>
 	<h1>Invitation envoyée</h1>
 	{#if confirmed}
 		<div class="pb-8">
@@ -22,4 +22,4 @@
 			openComponent.close();
 		}}>J'ai compris</Button
 	>
-</div>
+</section>

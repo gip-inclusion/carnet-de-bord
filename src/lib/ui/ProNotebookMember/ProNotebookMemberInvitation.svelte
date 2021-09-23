@@ -110,7 +110,7 @@
 	$: count = $searchProfessionalResult.data?.count.aggregate.count;
 </script>
 
-<section class="px-10 pt-20 flex flex-col">
+<section class="flex flex-col">
 	<!-- haut -->
 	<div class="flex-shrink">
 		<div class="py-12">

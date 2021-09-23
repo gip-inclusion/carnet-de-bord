@@ -44,7 +44,7 @@
 		: !formData.contractType;
 </script>
 
-<div class="mb-6">
+<section>
 	<h1>Type de contrat</h1>
 	<form on:submit|preventDefault={saveContract}>
 		<Radio
@@ -66,4 +66,4 @@
 			<Button outline={true} on:click={close}>Annuler</Button>
 		</div>
 	</form>
-</div>
+</section>

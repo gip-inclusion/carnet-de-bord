@@ -7,7 +7,7 @@
 	export let member: NotebookMember;
 </script>
 
-<div class="flex flex-col justify-center pl-16">
+<div class="flex flex-col justify-center">
 	<div>
 		<h1>Membre du groupe de suivi</h1>
 		<div class="py-2">

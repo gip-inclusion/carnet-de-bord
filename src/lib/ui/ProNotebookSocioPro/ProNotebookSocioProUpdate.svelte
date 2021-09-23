@@ -63,7 +63,7 @@
 	}
 </script>
 
-<section class="pl-4">
+<section>
 	<div class="pb-8">
 		<h1>Informations personnelles</h1>
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier</p>

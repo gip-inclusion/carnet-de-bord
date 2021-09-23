@@ -56,7 +56,7 @@
 </script>
 
 {#if focus}
-	<div class="flex flex-col gap-6 mb-6">
+	<div class="flex flex-col gap-6">
 		<div class="flex flex-row">
 			<div class="flex-grow">
 				<h1>{focusThemeKeys.byKey[focus?.theme]}</h1>

@@ -69,7 +69,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-6 mb-6">
+<div class="flex flex-col gap-6">
 	<div>
 		<h1>Ajouter un axe de travail</h1>
 		<p class="mb-0">
