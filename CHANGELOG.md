@@ -1,3 +1,26 @@
+## [1.36.2-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.2-alpha.1...v1.36.2-alpha.2) (2021-09-23)
+
+
+### Bug Fixes
+
+* Minor fixes ([8e9863d](https://github.com/SocialGouv/carnet-de-bord/commit/8e9863d3dcc13f844a1806a18523a83d21ad44db))
+* Use socialgouv/actions@v1 ([beeb492](https://github.com/SocialGouv/carnet-de-bord/commit/beeb4925cf1d286a45191918806c0aa9f480b399))
+
+## [1.36.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.1...v1.36.2-alpha.1) (2021-09-23)
+
+
+### Bug Fixes
+
+* Revert registry changes on preprod and prod ([119fd5c](https://github.com/SocialGouv/carnet-de-bord/commit/119fd5c422fc2c7bb7c2cd36c2a7df9cf5771d31))
+* Revert registry changes on review branches ([a24a499](https://github.com/SocialGouv/carnet-de-bord/commit/a24a4992a6b89f4e321b1d5f2a38abdc7a1a2c78))
+
+
+### Reverts
+
+* Revert "fix: Use Harbor as registry" ([799796e](https://github.com/SocialGouv/carnet-de-bord/commit/799796e3a5135504448a28f9298ee40e9dfe6dfc))
+* Revert "Change image base url" ([5b96473](https://github.com/SocialGouv/carnet-de-bord/commit/5b964737bb8fe1f243188b6da635684deaf72c08))
+* Revert "fix(ci): use harbor in production workflow (#244)" ([e5c3052](https://github.com/SocialGouv/carnet-de-bord/commit/e5c3052571c97eb904db37e4cf548cb8c5508778)), closes [#244](https://github.com/SocialGouv/carnet-de-bord/issues/244)
+
 ## [1.36.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.0...v1.36.1) (2021-09-23)
 
 
