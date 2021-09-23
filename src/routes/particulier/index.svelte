@@ -38,7 +38,7 @@
 		<PartNotebookPersonalInfoView
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}
-			on:print={() => alert('Not implemented!')}
+			on:print={() => window.print()}
 			lastUpdateDate={members[0].notebookModificationDate}
 			lastUpdateFrom={members[0].professional}
 		/>

@@ -7,6 +7,7 @@ export { default as GroupCheckbox } from '$lib/ui/base/GroupCheckbox.svelte';
 export { default as Checkbox } from '$lib/ui/base/Checkbox.svelte';
 export { default as Footer } from '$lib/ui/base/Footer.svelte';
 export { default as Header } from '$lib/ui/base/Header.svelte';
+export { default as IconButton } from '$lib/ui/base/IconButton.svelte';
 export { default as Input } from '$lib/ui/base/Input.svelte';
 export { default as Link } from '$lib/ui/base/Link.svelte';
 export { default as MenuButton } from '$lib/ui/base/MenuButton.svelte';

@@ -8,6 +8,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
+
 	function click(event: Event) {
 		event.preventDefault();
 		dispatch('click');

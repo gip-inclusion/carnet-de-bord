@@ -8,6 +8,7 @@
 	import { writable } from 'svelte/store';
 	import { MENU } from './menu';
 	export let ref = null;
+	export let icon = 'fr-fi-account-line';
 	let menuId = `menu-${counter++}`;
 	let buttonId = `button-${menuId}`;
 	let isOpened = false;
@@ -97,7 +98,7 @@
 	type="button"
 	class="bt text-france-blue"
 >
-	<span class="fr-fi-account-line" aria-hidden="true" />
+	<span class={icon} aria-label="Mon compte" />
 </button>
 <div
 	class:block={isOpened}
