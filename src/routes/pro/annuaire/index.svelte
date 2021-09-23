@@ -38,7 +38,7 @@
 </script>
 
 <script lang="ts">
-	import { offCanvas } from '$lib/stores';
+	import { offCanvas, openComponent } from '$lib/stores';
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
@@ -93,13 +93,8 @@
 		return `/pro/carnet/${id}`;
 	}
 
-	function toggleAddBeneficiary() {
-		isAddBeneficiaryOpen = !isAddBeneficiaryOpen;
-		$offCanvas = isAddBeneficiaryOpen;
-	}
-
 	function addBeneficiary() {
-		toggleAddBeneficiary();
+		openComponent.open({ component: ProBeneficiaryCreate, props: { createBeneficiaryResult } });
 	}
 
 	/* TODO: find a way without cheating on that type */
@@ -138,11 +133,6 @@
 		</div>
 	</div>
 	<LoaderIndicator {result}>
-		<ProBeneficiaryCreate
-			close={toggleAddBeneficiary}
-			isOpen={isAddBeneficiaryOpen}
-			{createBeneficiaryResult}
-		/>
 		{#if notebooks.length === 0}
 			<div class="flex flex-col space-y-4 items-center">
 				<div class="bf-500 font-bold">
