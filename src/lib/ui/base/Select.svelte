@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Option } from '$lib/types';
+	import type { Option, SvelteEventHandler } from '$lib/types';
 
 	let counter = 0;
 </script>
@@ -18,9 +18,12 @@
 	export let disabled: boolean | null = false;
 
 	const dispatch = createEventDispatcher();
-	async function handleSelect() {
+	const handleSelect: SvelteEventHandler<HTMLSelectElement> = async function handleSelect(event) {
+		selected = event.currentTarget.value;
 		dispatch('select', { selected });
-	}
+	};
+
+	const selectHintOption = 'select_hint_option';
 </script>
 
 <div {id} class="fr-input-group">
@@ -37,15 +40,13 @@
 	{/if}
 	<select
 		class="fr-select"
-		bind:value={selected}
+		value={selected || selectHintOption}
 		id={uniqueId}
 		name={uniqueId}
 		on:change={handleSelect}
 		{disabled}
 	>
-		{#if selectHint}
-			<option value="" selected disabled hidden>{selectHint}</option>
-		{/if}
+		<option value={selectHintOption} disabled>{selectHint || 'Sélectionner...'}</option>
 		{#each options as option (option.name)}
 			<option name={option.name} value={option.name}>{option.label}</option>
 		{/each}
