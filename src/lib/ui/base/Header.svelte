@@ -33,7 +33,6 @@
 								alt=""
 								aria-hidden="true"
 							/>
-							<!-- L’alternative de l’image (attribut alt) doit impérativement être renseignée et reprendre le texte visible dans l’image -->
 						</div>
 					</div>
 					{#if siteName}
