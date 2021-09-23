@@ -56,13 +56,13 @@
 
 	const menuItems: MenuItem[] = [
 		{ id: 'accueil', path: '/pro/accueil', label: 'Accueil' },
-		{ id: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' },
+		{ id: 'annuaire', path: '/pro/annuaire', label: 'Annuaire de mes bénéficiaires' },
 	];
 </script>
 
 <HeaderCDB {menuItems} />
 
-<div class="fr-container" style="min-height: calc(100vh - 200px)">
+<div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
 	<LoaderIndicator {result}>
 		<slot />
 		<LayerCDB {openComponent} />
