@@ -5,9 +5,9 @@
 		SearchProfessionalDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
-	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
-	import ProCreationForm from '../ProCreationForm/index.svelte';
-	import Button from '../base/Button.svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
+	import Button from '$lib/ui/base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import { session } from '$app/stores';
 	import { post } from '$lib/utils/post';

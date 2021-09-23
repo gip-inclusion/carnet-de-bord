@@ -35,6 +35,7 @@
 					error={requestStep === 'error'
 						? "Cette adresse de courriel n'est pas rattachée à un compte existant"
 						: ''}
+					required={true}
 				/>
 				<div>
 					<Button type="submit" disabled={!email}>Envoyer</Button>

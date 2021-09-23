@@ -1,31 +1,30 @@
 <script context="module" lang="ts">
-	import type { InputType } from '$lib/types';
+	import type { InputItem, InputType } from '$lib/types';
 	import { Input, Select } from '$lib/ui/base';
 	import type { BeneficiaryAccount } from '$lib/types';
 	import { workSituationKeys } from '$lib/constants/keys';
 </script>
 
 <script lang="ts">
-	let inputs: {
-		label: string;
-		hint: string;
-		type?: InputType;
-		key: keyof Exclude<BeneficiaryAccount, 'workSituation'>;
-	}[] = [
+	let inputs: InputItem[] = [
 		{
 			label: 'Nom',
 			hint: 'Ex : Poquelin',
 			key: 'firstname',
+			required: true,
 		},
 		{
 			label: 'Prénom',
 			hint: 'Ex : Jean-Baptiste',
 			key: 'lastname',
+			required: true,
 		},
 		{
 			label: 'Date de naissance (JJ/MM/AAAA)',
 			hint: 'Ex : 21/12/1977',
 			key: 'dateOfBirth',
+			type: 'date',
+			required: true,
 		},
 		{
 			label: 'Téléphone',

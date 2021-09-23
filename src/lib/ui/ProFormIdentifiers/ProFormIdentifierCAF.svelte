@@ -37,6 +37,7 @@
 			inputLabel={'Code postal'}
 			error={errors.postalCode}
 			on:input={resetFetchedUser}
+			required={true}
 		/>
 		<Input
 			bind:val={idCAF}
@@ -44,6 +45,7 @@
 			inputLabel={'Identifiant CAF'}
 			error={errors.idCAF}
 			on:input={resetFetchedUser}
+			required={true}
 		/>
 		<div class="self-center">
 			<Button outline={true} type="submit">Rechercher</Button>

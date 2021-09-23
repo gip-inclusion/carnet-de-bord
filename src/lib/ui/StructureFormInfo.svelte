@@ -19,24 +19,27 @@
 		{
 			label: 'Nom',
 			hint: 'Ex : Mission locale de Crest',
-			required: true,
 			key: 'name',
+			required: true,
 		},
 		{
 			label: 'Téléphone',
 			hint: 'Ex : 04 75 76 70 67',
 			key: 'phone',
+			required: true,
 		},
 		{
 			label: 'Adresse de courriel',
 			hint: 'Ex : crest@mission-locale.fr',
 			key: 'email',
 			type: 'email',
+			required: true,
 		},
 		{
 			label: 'Adresse',
 			hint: 'Ex : 3 Rue des Cuiretteries',
 			key: 'address1',
+			required: true,
 		},
 		{
 			label: 'Adresse (complément)',
@@ -47,11 +50,13 @@
 			label: 'Code postal',
 			hint: 'Ex : 26400',
 			key: 'postalCode',
+			required: true,
 		},
 		{
 			label: 'Ville',
 			hint: 'Ex : Crest',
 			key: 'city',
+			required: true,
 		},
 		{
 			label: 'Site internet',

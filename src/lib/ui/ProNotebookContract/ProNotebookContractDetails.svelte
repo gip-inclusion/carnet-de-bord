@@ -54,7 +54,12 @@
 			on:input={onChange}
 		/>
 		{#if isContract}
-			<Input bind:val={formData.contractSignDate} inputLabel="Date de signature" type="date" />
+			<Input
+				bind:val={formData.contractSignDate}
+				inputLabel="Date de signature"
+				type="date"
+				required={true}
+			/>
 		{/if}
 		<div class="flex flex-row gap-6">
 			<Button {disabled} type="submit">Enregistrer</Button>
