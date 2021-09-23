@@ -1,3 +1,14 @@
+## [1.35.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.35.1...v1.35.2) (2021-09-23)
+
+
+### Bug Fixes
+
+* **ui:** add arrow to card ([d8b64cb](https://github.com/SocialGouv/carnet-de-bord/commit/d8b64cb2b1db03e7452044e00ec13e4cf7399cbe))
+* **ui:** add margin to main page under header ([3140800](https://github.com/SocialGouv/carnet-de-bord/commit/31408000e07e01d3e8a7b7147761a03af1bb6667))
+* **ui:** change wording ([0f36199](https://github.com/SocialGouv/carnet-de-bord/commit/0f361992c638ca2f564224d67ecfd19805bce272))
+* **ui:** increase margin between button ([00cb9e3](https://github.com/SocialGouv/carnet-de-bord/commit/00cb9e36ee113b3fd210e4af0022a8c1742de630))
+* **ui:** make search always enabled ([b3e35f1](https://github.com/SocialGouv/carnet-de-bord/commit/b3e35f1824fc3b2d931df3a2e419ce5a33dcf656))
+
 ## [1.35.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.35.0...v1.35.1) (2021-09-23)
 
 
