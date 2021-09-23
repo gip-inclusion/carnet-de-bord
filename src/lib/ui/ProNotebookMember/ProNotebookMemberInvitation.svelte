@@ -158,7 +158,7 @@
 		</LoaderIndicator>
 	</div>
 	<!-- bas -->
-	<div class="flex-shrink py-4">
+	<div class="flex-shrink py-4 flex flex-row gap-6">
 		<Button
 			on:click={() => addMemberToNotebook(selectedProfessionalId)}
 			disabled={!selectedProfessionalId}>Envoyer</Button

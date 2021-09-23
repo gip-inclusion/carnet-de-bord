@@ -106,7 +106,7 @@
 			{/if}
 		</div>
 	{/if}
-	<div class="py-4">
+	<div class="py-4 flex flex-row gap-6">
 		<Button {disabled} on:click={createFocus}>Valider</Button>
 		<Button outline={true} on:click={close}>Annuler</Button>
 	</div>

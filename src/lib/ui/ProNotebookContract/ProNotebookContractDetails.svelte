@@ -56,7 +56,7 @@
 		{#if isContract}
 			<Input bind:val={formData.contractSignDate} inputLabel="Date de signature" type="date" />
 		{/if}
-		<div class="flex flex-row gap-4">
+		<div class="flex flex-row gap-6">
 			<Button {disabled} type="submit">Enregistrer</Button>
 			<Button outline={true} on:click={close}>Annuler</Button>
 		</div>
