@@ -11,9 +11,8 @@
 	const { professionalId } = $session.user;
 	import { mutation } from '@urql/svelte';
 	import BeneficiaryCreateForm from './ProBeneficiaryCreateForm.svelte';
+	import { openComponent } from '$lib/stores';
 
-	export let isOpen: boolean;
-	export let close: () => void;
 	let options: { name: IdentifierType; label: string }[] = [
 		{
 			name: 'CAF',
@@ -83,59 +82,46 @@
 			acc.workSituation
 		);
 	}
-
-	$: console.log({ selected, beneficiaryAccount, valid: isAccountValid(beneficiaryAccount) });
 </script>
 
-{#if isOpen}
-	<div on:click={close} class="!m-0 z-10 fixed inset-0 transition-opacity">
-		<div class="absolute inset-0 bg-black opacity-50" tabindex="0" />
-	</div>
-{/if}
-<div
-	class="!m-0 transform top-0 right-0 w-1/2 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 overscroll-contain {isOpen
-		? 'translate-x-0'
-		: 'translate-x-full'}"
->
-	<div class="my-32 px-8">
-		{#if submissionSuccess}
-			<h2 role="status">Demande d'ajout d'un nouveau bénéficiaire envoyée !</h2>
-			<p>
-				Nous avons bien pris en compte votre demande. Vous retrouverez ce bénéficiaire dans votre
-				annuaire dans les plus brefs délai.
-			</p>
-			<Button on:click={close}>J'ai compris</Button>
-		{:else}
-			<h2>Ajouter un bénéficiaire</h2>
-			<form on:submit|preventDefault={handleSubmit} class="flex flex-col">
-				<Radio
-					caption="Connaissez-vous l’identifiant CAF ou Pôle emploi du bénéficiaire&nbsp;?"
-					{options}
-					bind:selected
-					on:selectedItem={clearSelectedUser}
-				/>
+<div>
+	{#if submissionSuccess}
+		<h2 role="status">Demande d'ajout d'un nouveau bénéficiaire envoyée !</h2>
+		<p>
+			Nous avons bien pris en compte votre demande. Vous retrouverez ce bénéficiaire dans votre
+			annuaire dans les plus brefs délai.
+		</p>
+		<Button on:click={openComponent.close}>J'ai compris</Button>
+	{:else}
+		<h2>Ajouter un bénéficiaire</h2>
+		<form on:submit|preventDefault={handleSubmit} class="flex flex-col">
+			<Radio
+				caption="Connaissez-vous l’identifiant CAF ou Pôle emploi du bénéficiaire&nbsp;?"
+				{options}
+				bind:selected
+				on:selectedItem={clearSelectedUser}
+			/>
 
-				{#if selected}<hr class="mb-8" />{/if}
+			{#if selected}<hr class="mb-8" />{/if}
 
-				<ProFormIdentifiers identifierType={selected} on:selectedUser={handleUserSelection} />
-				{#if selected === 'NoIdentifier' || selectedUser}
-					<div class="font-bold mb-6">Veuillez renseigner les informations ci-dessous.</div>
-					<BeneficiaryCreateForm bind:beneficiaryAccount />
-				{/if}
-				{#if submissionError}
-					<div class="mb-8">
-						<Alert type="error" description={submissionError} />
-					</div>
-				{/if}
-				<div class="flex flex-row gap-6">
-					<Button
-						on:click={handleSubmit}
-						disabled={!selected || !beneficiaryAccount || !isAccountValid(beneficiaryAccount)}
-						>Valider</Button
-					>
-					<Button outline={true} on:click={close}>Annuler</Button>
+			<ProFormIdentifiers identifierType={selected} on:selectedUser={handleUserSelection} />
+			{#if selected === 'NoIdentifier' || selectedUser}
+				<div class="font-bold mb-6">Veuillez renseigner les informations ci-dessous.</div>
+				<BeneficiaryCreateForm bind:beneficiaryAccount />
+			{/if}
+			{#if submissionError}
+				<div class="mb-8">
+					<Alert type="error" description={submissionError} />
 				</div>
-			</form>
-		{/if}
-	</div>
+			{/if}
+			<div class="flex flex-row gap-6">
+				<Button
+					on:click={handleSubmit}
+					disabled={!selected || !beneficiaryAccount || !isAccountValid(beneficiaryAccount)}
+					>Valider</Button
+				>
+				<Button outline={true} on:click={openComponent.close}>Annuler</Button>
+			</div>
+		</form>
+	{/if}
 </div>
