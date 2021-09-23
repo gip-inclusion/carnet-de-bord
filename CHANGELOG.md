@@ -1,3 +1,17 @@
+# [1.36.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.35.2...v1.36.0) (2021-09-23)
+
+
+### Features
+
+* add visible default option for Selects [#231](https://github.com/SocialGouv/carnet-de-bord/issues/231) ([3f53be3](https://github.com/SocialGouv/carnet-de-bord/commit/3f53be39271a615d5ff48eed8ea16a5f0c187ede))
+* better handling of date filter for Beneficiary directory ([8943c33](https://github.com/SocialGouv/carnet-de-bord/commit/8943c332da8abe42a6e87b188970e1a75de65db9))
+* correct diploma levels [#246](https://github.com/SocialGouv/carnet-de-bord/issues/246) ([25c2e2c](https://github.com/SocialGouv/carnet-de-bord/commit/25c2e2c8385911d7504eb7a56bc1218abca6839a))
+* fix lone Checkbox bug [#243](https://github.com/SocialGouv/carnet-de-bord/issues/243) ([17c176c](https://github.com/SocialGouv/carnet-de-bord/commit/17c176cd10ec448676e3e401e93bf36c0f9571f2))
+* handling of required fields [#233](https://github.com/SocialGouv/carnet-de-bord/issues/233) ([f3fddf2](https://github.com/SocialGouv/carnet-de-bord/commit/f3fddf23cc1ce54d3954a0202eeaa043035058d3))
+* hide complex errors from users [#230](https://github.com/SocialGouv/carnet-de-bord/issues/230) ([6fde85e](https://github.com/SocialGouv/carnet-de-bord/commit/6fde85eee0cce755eacd5d5f19c3461dd29cefd4))
+* improve forms and add error support to CreateBeneficiary [#230](https://github.com/SocialGouv/carnet-de-bord/issues/230) ([de9abfb](https://github.com/SocialGouv/carnet-de-bord/commit/de9abfb1d699e21a7d766a95fa29a5ec7906b2f2))
+* improve layout of focus details panel [#248](https://github.com/SocialGouv/carnet-de-bord/issues/248) ([a038e16](https://github.com/SocialGouv/carnet-de-bord/commit/a038e16373793b420a403d3753212bb2168a2711))
+
 ## [1.35.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.35.1...v1.35.2) (2021-09-23)
 
 
