@@ -65,7 +65,7 @@
 <section class="pl-4">
 	<div class="pb-8">
 		<h1>Informations personnelles</h1>
-		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier</p>
+		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
 		<Input bind:val={formData.lastname} inputLabel="Nom" />
@@ -82,7 +82,7 @@
 		<Input bind:val={formData.peNumber} inputLabel="Identifiant Pôle emploi" />
 		<Input bind:val={formData.cafNumber} inputLabel="Identifiant CAF" />
 
-		<div class="flex flex-row gap-2 pt-4 pb-12">
+		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>
 			<Button outline on:click={onCancel}>Annuler</Button>
 		</div>

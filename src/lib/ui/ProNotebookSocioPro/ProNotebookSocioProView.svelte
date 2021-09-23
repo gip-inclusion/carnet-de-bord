@@ -38,7 +38,7 @@
 
 <div class="flex flex-col space-y-6">
 	{#if notebook.workSituationDate && notebook.workSituation}
-		<div class="text-sm">
+		<div>
 			<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong> depuis le {formatDateLocale(
 				notebook.workSituationDate
 			)}

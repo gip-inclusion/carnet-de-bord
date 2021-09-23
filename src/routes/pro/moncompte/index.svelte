@@ -89,7 +89,7 @@
 				on:submit={handleSubmit}
 				on:cancel={handleCancel}
 				account={cleanedAccount}
-				confirmText="Je valide mes informations"
+				confirmText="Enregistrer mes modifications"
 				disabled={false}
 				fieldErrors={{}}
 				disabledKeys={{

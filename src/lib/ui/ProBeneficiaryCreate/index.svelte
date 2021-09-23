@@ -109,7 +109,7 @@
 			<h2>Ajouter un bénéficiaire</h2>
 			<form on:submit|preventDefault={handleSubmit} class="flex flex-col">
 				<Radio
-					caption="Connaissez-vous l’identifiant CAF ou Pôle emploi du bénéficiaire?"
+					caption="Connaissez-vous l’identifiant CAF ou Pôle emploi du bénéficiaire&nbsp;?"
 					{options}
 					bind:selected
 					on:selectedItem={clearSelectedUser}
@@ -127,7 +127,7 @@
 						<Alert type="error" description={submissionError} />
 					</div>
 				{/if}
-				<div class="flex flex-row gap-4">
+				<div class="flex flex-row gap-6">
 					<Button
 						on:click={handleSubmit}
 						disabled={!selected || !beneficiaryAccount || !isAccountValid(beneficiaryAccount)}
