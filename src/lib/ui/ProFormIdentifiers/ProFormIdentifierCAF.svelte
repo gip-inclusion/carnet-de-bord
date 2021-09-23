@@ -21,19 +21,6 @@
 		users = RD.notAsked;
 	}
 
-	function iconForRemote(rd: RD.RemoteData<unknown, unknown>) {
-		switch (rd.type) {
-			case RD.RemoteDataC.NotAsked:
-				return 'ri-check-line';
-			case RD.RemoteDataC.Loading:
-				return 'ri-refresh-line';
-			case RD.RemoteDataC.Failure:
-				return 'ri-close-line';
-			case RD.RemoteDataC.Success:
-				return 'ri-check-line';
-		}
-	}
-
 	let postalCode = '';
 	let idCAF = '';
 	let errors: { postalCode?: string; idCAF?: string } = {};
@@ -59,12 +46,7 @@
 			on:input={resetFetchedUser}
 		/>
 		<div class="self-center">
-			<Button
-				outline={true}
-				disabled={!(postalCode && idCAF && users === RD.notAsked)}
-				type="submit"
-				icon={iconForRemote(users)}
-			/>
+			<Button outline={true} type="submit">Rechercher</Button>
 		</div>
 	</div>
 	<div class="flex flex-col gap-6">

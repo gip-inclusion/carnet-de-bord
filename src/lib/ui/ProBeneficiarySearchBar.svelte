@@ -3,7 +3,7 @@
 
 	import { SearchBar } from '$lib/ui/base';
 
-	export let search = null;
+	export let search = '';
 	const dispatch = createEventDispatcher();
 
 	async function handleSubmit() {
@@ -18,7 +18,6 @@
 	inputHint="Nom, téléphone, n° CAF, n° Pôle emploi"
 	btnLabel="Rechercher"
 	bind:search
-	btnDisabled={!search}
 	{handleSubmit}
 	{size}
 />
