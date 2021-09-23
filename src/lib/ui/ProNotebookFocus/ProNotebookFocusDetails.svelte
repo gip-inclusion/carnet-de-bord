@@ -87,6 +87,23 @@
 				</span>
 			</Card>
 		</div>
+		<div class="flex flex-col gap-4">
+			<h2 class="fr-h4 bf-500">Objectifs</h2>
+			<div>
+				<Accordions>
+					{#each targets as target (target.id)}
+						<Accordion title={target.target}>
+							<ProNotebookActionList {target} />
+						</Accordion>
+					{:else}
+						<p>Aucun objectif n'a été créé pour cet axe de travail.</p>
+					{/each}
+				</Accordions>
+			</div>
+			<div>
+				<Button on:click={createTarget}>Ajouter un objectif</Button>
+			</div>
+		</div>
 		<div class="flex flex-row gap-4">
 			<div class="w-1/2 items-stretch">
 				<h2 class="fr-h4 bf-500">Créé par</h2>
@@ -114,23 +131,6 @@
 						</span>
 					</span>
 				</Card>
-			</div>
-		</div>
-		<div class="flex flex-col gap-4">
-			<h2 class="fr-h4 bf-500">Objectifs</h2>
-			<div>
-				<Accordions>
-					{#each targets as target (target.id)}
-						<Accordion title={target.target}>
-							<ProNotebookActionList {target} />
-						</Accordion>
-					{:else}
-						<p>Aucun objectif n'a été créé pour cet axe de travail.</p>
-					{/each}
-				</Accordions>
-			</div>
-			<div>
-				<Button on:click={createTarget}>Ajouter un objectif</Button>
 			</div>
 		</div>
 	</div>
