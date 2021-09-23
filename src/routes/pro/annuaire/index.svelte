@@ -16,51 +16,20 @@
 	import { operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
 
-	export const load: Load = async ({ page, session }) => {
-		const search = page.query.get('search');
-		const { professionalId } = session.user;
-		const queryVariables = {
-			professionalId: professionalId,
-			filter: search ? `%${search}%` : undefined,
-		};
-		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
-		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
-
-		return {
-			props: {
-				result,
-				search,
-				createBeneficiaryResult,
-				professionalId,
-			},
-		};
-	};
-</script>
-
-<script lang="ts">
-	import { offCanvas, openComponent } from '$lib/stores';
-	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
-	export let result: SearchNotebookMemberQueryStore;
-	export let search: string;
-	export let professionalId: string;
-	let isAddBeneficiaryOpen: boolean;
-
-	let selected: string;
-
-	function buildQueryVariables() {
+	function buildQueryVariables({ professionalId, search, selected }) {
 		let visitDateStart: Date;
 		let visitDateEnd: Date;
 
 		const today = new Date();
-		if (selected === '-3months') {
+		if (selected === threeMonths) {
 			visitDateStart = addMonths(today, -3);
-		} else if (selected === '3-6months') {
+		} else if (selected === threeSixMonths) {
 			visitDateStart = addMonths(today, -6);
 			visitDateEnd = addMonths(today, -3);
-		} else if (selected === '6-12months') {
+		} else if (selected === sixTwelveMonths) {
 			visitDateStart = addMonths(today, -12);
 			visitDateEnd = addMonths(today, -6);
-		} else if (selected === '+12months') {
+		} else if (selected === twelveMonths) {
 			visitDateEnd = addMonths(today, -12);
 		}
 
@@ -77,15 +46,48 @@
 		return variables;
 	}
 
+	const threeMonths = '-3months';
+	const threeSixMonths = '3-6months';
+	const sixTwelveMonths = '6-12months';
+	const twelveMonths = '+12months';
+
+	export const load: Load = async ({ page, session }) => {
+		const selected = threeMonths;
+		const search = page.query.get('search');
+		const { professionalId } = session.user;
+		const queryVariables = buildQueryVariables({ professionalId, search, selected });
+		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
+		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
+
+		return {
+			props: {
+				result,
+				search,
+				createBeneficiaryResult,
+				professionalId,
+				selected,
+			},
+		};
+	};
+</script>
+
+<script lang="ts">
+	import { openComponent } from '$lib/stores';
+	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
+	export let result: SearchNotebookMemberQueryStore;
+	export let search: string;
+	export let professionalId: string;
+	export let selected: string;
+
 	query(result);
 
 	function onSearch() {
-		$result.variables = buildQueryVariables();
+		$result.variables = buildQueryVariables({ professionalId, search, selected });
 		$result.reexecute();
 	}
 
 	function onSelect() {
-		$result.variables = buildQueryVariables();
+		$result.variables = buildQueryVariables({ professionalId, search, selected });
 		$result.reexecute();
 	}
 
@@ -106,21 +108,20 @@
 	<div>
 		<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>
 	</div>
-
 	<div class="flex flex-row w-full space-x-16">
 		<div class="flex-grow">
 			<Select
 				on:select={onSelect}
 				options={[
-					{ name: '', label: '' },
-					{ name: '-3months', label: 'dans les 3 derniers mois' },
-					{ name: '3-6months', label: 'entre les 3 et 6 derniers mois' },
-					{ name: '6-12months', label: 'entre les 6 et 12 derniers mois' },
-					{ name: '+12months', label: 'il y a plus de 12 mois' },
+					{ name: threeMonths, label: 'dans les 3 derniers mois' },
+					{ name: threeSixMonths, label: 'entre les 3 et 6 derniers mois' },
+
+					{ name: sixTwelveMonths, label: 'entre les 6 et 12 derniers mois' },
+					{ name: twelveMonths, label: 'il y a plus de 12 mois' },
 				]}
 				bind:selected
 				selectHint="Sélectionner un filtre"
-				selectLabel="Profils consultés"
+				selectLabel="Profils consultés..."
 			/>
 		</div>
 		<div class="flex-grow">
