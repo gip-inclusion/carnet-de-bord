@@ -139,6 +139,7 @@
 				inputLabel={input.label}
 				error={fieldErrors[input.key]}
 				type={input.type}
+				required={input.required}
 			/>
 		{/each}
 

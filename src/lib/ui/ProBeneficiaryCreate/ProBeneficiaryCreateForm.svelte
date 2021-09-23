@@ -1,11 +1,13 @@
 <script context="module" lang="ts">
-	import type { InputItem, InputType } from '$lib/types';
+	import type { InputItem } from '$lib/types';
 	import { Input, Select } from '$lib/ui/base';
 	import type { BeneficiaryAccount } from '$lib/types';
 	import { workSituationKeys } from '$lib/constants/keys';
 </script>
 
 <script lang="ts">
+	export let errors: Partial<BeneficiaryAccount> = {};
+	export let onInput: (key: string) => () => void | null = null;
 	let inputs: InputItem[] = [
 		{
 			label: 'Nom',
@@ -72,6 +74,9 @@
 		inputLabel={input.label}
 		disabled={disabledKeys[input.key]}
 		type={input.type}
+		error={errors[input.key]}
+		required={input.required}
+		on:input={onInput(input.key)}
 	/>
 {/each}
 <Select
@@ -79,4 +84,7 @@
 	selectHint={'Ex : Sans emploi'}
 	options={situationOptions}
 	bind:selected={beneficiaryAccount.workSituation}
+	error={errors.workSituation}
+	required={false}
+	on:select={onInput('workSituation')}
 />

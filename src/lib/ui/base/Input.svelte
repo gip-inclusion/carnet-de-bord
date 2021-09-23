@@ -49,7 +49,7 @@
 			<input
 				type="text"
 				on:input={handleInput}
-				class="fr-input"
+				class={`fr-input ${error ? 'fr-input--error' : ''} ${valid ? 'fr-input--valid' : ''}`}
 				placeholder={inputHint}
 				id={uniqueId}
 				name={uniqueId}

@@ -74,6 +74,7 @@
 			on:input={onInput}
 			disabled={disabledKeys[input.key]}
 			type={input.type}
+			required={input.required}
 		/>
 	{/each}
 	{#if globalError}
