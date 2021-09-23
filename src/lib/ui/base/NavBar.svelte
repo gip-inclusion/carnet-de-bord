@@ -6,7 +6,6 @@
 		label: string;
 		path: string;
 	};
-
 	export let id: string | null = `header-navigation`;
 	export let menuItems: MenuItem[] | null = [];
 </script>
