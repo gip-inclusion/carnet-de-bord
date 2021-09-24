@@ -57,9 +57,9 @@
 
 {#if focus}
 	<div class="flex flex-col gap-6">
-		<div class="flex flex-row">
-			<div class="flex-grow">
-				<h1>{focusThemeKeys.byKey[focus?.theme]}</h1>
+		<div>
+			<h1 class="mb-0">{focusThemeKeys.byKey[focus?.theme]}</h1>
+			<div class="flex justify-between items-center">
 				{#if focus?.linkedTo}
 					<p class="mb-0">
 						{focus.linkedTo === 'no'
@@ -67,8 +67,6 @@
 							: contractTypeFullKeys.byKey[focus.linkedTo]}
 					</p>
 				{/if}
-			</div>
-			<div class="float-right mr-6">
 				<Button
 					outline={true}
 					on:click={() =>
