@@ -10,7 +10,7 @@
 		UpdateNotebookVisitDateDocument,
 		GetNotebookEventsDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { Accordion, Accordions, Select } from '$lib/ui/base';
+	import { MainAccordion, Accordions, Select } from '$lib/ui/base';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
@@ -131,21 +131,21 @@
 			lastUpdateFrom={lastMember?.professional}
 		/>
 		<Accordions>
-			<Accordion title="Situation socioprofessionnelle">
+			<MainAccordion title="Situation socioprofessionnelle">
 				<ProNotebookSocioProView {notebook} />
-			</Accordion>
-			<Accordion title="Groupe de suivi">
+			</MainAccordion>
+			<MainAccordion title="Groupe de suivi">
 				<ProNotebookMembersView
 					{members}
 					notebookId={notebook.id}
 					beneficiaryFirstname={beneficiary.firstname}
 					beneficiaryLastname={beneficiary.lastname}
 				/>
-			</Accordion>
-			<Accordion title="Axes de travail">
+			</MainAccordion>
+			<MainAccordion title="Axes de travail">
 				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
-			</Accordion>
-			<Accordion title="Historique de parcours">
+			</MainAccordion>
+			<MainAccordion title="Historique de parcours">
 				<div class="mb-2">
 					<Select
 						on:select={onSelect}
@@ -185,7 +185,7 @@
 						</tbody>
 					</table>
 				</div>
-			</Accordion>
+			</MainAccordion>
 		</Accordions>
 	</div>
 </LoaderIndicator>

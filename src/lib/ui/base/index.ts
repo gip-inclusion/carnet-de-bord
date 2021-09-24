@@ -17,4 +17,5 @@ export { default as Radio } from '$lib/ui/base/Radio.svelte';
 export { default as SearchBar } from '$lib/ui/base/SearchBar.svelte';
 export { default as Select } from '$lib/ui/base/Select.svelte';
 export { default as Accordions } from '$lib/ui/base/Accordions.svelte';
+export { default as MainAccordion } from '$lib/ui/base/MainAccordion.svelte';
 export { default as Accordion } from '$lib/ui/base/Accordion.svelte';
