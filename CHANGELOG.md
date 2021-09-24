@@ -1,3 +1,10 @@
+## [1.36.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.5...v1.36.6) (2021-09-24)
+
+
+### Bug Fixes
+
+* **ui:** use icon button ([#278](https://github.com/SocialGouv/carnet-de-bord/issues/278)) ([e02f5aa](https://github.com/SocialGouv/carnet-de-bord/commit/e02f5aa43e96a9f0fa19234fca38f761833f8cfa))
+
 ## [1.36.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.4...v1.36.5) (2021-09-24)
 
 
