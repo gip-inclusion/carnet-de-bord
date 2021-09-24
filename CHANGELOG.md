@@ -1,3 +1,10 @@
+## [1.36.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.4...v1.36.5) (2021-09-24)
+
+
+### Bug Fixes
+
+* **ui:** fix menu and mobile ([#276](https://github.com/SocialGouv/carnet-de-bord/issues/276)) ([cedcf00](https://github.com/SocialGouv/carnet-de-bord/commit/cedcf006fabb6e3d9741d30f73462bc2a5681a9c))
+
 ## [1.36.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.3...v1.36.4) (2021-09-24)
 
 
