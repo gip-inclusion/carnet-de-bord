@@ -1,4 +1,5 @@
 export type Account = AccountRequest & {
+	username: string;
 	onboardingDone: boolean;
 	confirmed: boolean;
 };
@@ -9,7 +10,6 @@ export interface AccountRequest {
 	mobileNumber?: string;
 	email?: string;
 	position?: string;
-	username?: string;
 }
 
 export type Structure = StructureRequest & { id: string };

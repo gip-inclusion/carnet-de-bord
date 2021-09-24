@@ -1,7 +1,7 @@
 import knex from '$lib/config/db/knex';
 import { getAppUrl } from '$lib/config/variables/private';
 import { contactEmail } from '$lib/constants';
-import type { AccountRequest } from '$lib/types';
+import type { Account, AccountRequest } from '$lib/types';
 import { emailAccountRequest } from '$lib/utils/emailAccountRequest';
 import { sendEmail } from '$lib/utils/sendEmail';
 import type { RequestHandler } from '@sveltejs/kit';
@@ -15,17 +15,23 @@ export const post: RequestHandler = async (request) => {
 		requester?: string;
 	};
 
-	const { username, email, firstname, lastname, mobileNumber, position } = accountRequest;
+	const { email, firstname, lastname, mobileNumber, position } = accountRequest;
+	let [username] = email.split('@');
+	const accounts = await knex<Account>('account').where({ username: `like ${username}%` });
 
-	const account = (await knex('account').where({ username }).first()) as unknown;
-
-	if (account) {
-		return {
-			status: 400,
-			body: {
-				errors: { username: `Cet identifiant est déjà utilisé.` },
-			},
-		};
+	if (accounts.length > 0) {
+		const matcher = new RegExp(`^${username}(\\d*)$`);
+		const index = accounts.reduce((maxIndex, item) => {
+			const matched = item.username.match(matcher);
+			if (!matched) {
+				return maxIndex;
+			}
+			if (isNaN(parseInt(matched[1]))) {
+				return maxIndex;
+			}
+			return Math.max(parseInt(matched[1]), maxIndex);
+		}, 0);
+		username += `${index + 1}`;
 	}
 
 	const existingPro = (await knex(`${type}`).where({ email }).first()) as unknown;
