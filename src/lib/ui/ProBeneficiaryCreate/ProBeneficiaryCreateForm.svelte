@@ -34,7 +34,7 @@
 			key: 'mobileNumber',
 		},
 		{
-			label: 'Adresse de courriel',
+			label: 'Courriel',
 			hint: 'Ex : jb@poquelin.fr',
 			key: 'email',
 			type: 'email',

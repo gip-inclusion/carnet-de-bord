@@ -29,7 +29,7 @@
 			required: true,
 		},
 		{
-			label: 'Adresse de courriel',
+			label: 'Courriel',
 			hint: 'Ex : crest@mission-locale.fr',
 			key: 'email',
 			type: 'email',
