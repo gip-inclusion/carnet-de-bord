@@ -1,3 +1,10 @@
+## [1.36.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.6...v1.36.7) (2021-09-24)
+
+
+### Bug Fixes
+
+* ui, typo ([#284](https://github.com/SocialGouv/carnet-de-bord/issues/284)) ([30bef7f](https://github.com/SocialGouv/carnet-de-bord/commit/30bef7f9fc2c31400c226aebe11ff9e8b659f35f)), closes [#275](https://github.com/SocialGouv/carnet-de-bord/issues/275) [#270](https://github.com/SocialGouv/carnet-de-bord/issues/270) [#274](https://github.com/SocialGouv/carnet-de-bord/issues/274) [#271](https://github.com/SocialGouv/carnet-de-bord/issues/271) [#263](https://github.com/SocialGouv/carnet-de-bord/issues/263) [#257](https://github.com/SocialGouv/carnet-de-bord/issues/257) [#268](https://github.com/SocialGouv/carnet-de-bord/issues/268) [#271](https://github.com/SocialGouv/carnet-de-bord/issues/271)
+
 ## [1.36.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.5...v1.36.6) (2021-09-24)
 
 
