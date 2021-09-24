@@ -57,14 +57,16 @@
 
 {#if focus}
 	<div class="flex flex-col gap-6">
-		<div class="flex flex-row">
-			<div class="flex-grow">
-				<h1>{focusThemeKeys.byKey[focus?.theme]}</h1>
+		<div>
+			<h1 class="mb-0">{focusThemeKeys.byKey[focus?.theme]}</h1>
+			<div class="flex justify-between items-center">
 				{#if focus?.linkedTo}
-					<p class="mb-0">{contractTypeFullKeys.byKey[focus?.linkedTo]}</p>
+					<p class="mb-0">
+						{focus.linkedTo === 'no'
+							? 'Axe de travail non rattaché à un contrat'
+							: contractTypeFullKeys.byKey[focus.linkedTo]}
+					</p>
 				{/if}
-			</div>
-			<div class="float-right mr-6">
 				<Button
 					outline={true}
 					on:click={() =>
@@ -75,17 +77,13 @@
 		</div>
 		<div class="flex flex-col gap-4">
 			<h2 class="fr-h4 bf-500">Situation</h2>
-			<Card>
-				<span slot="description">
-					<div class="flex flex-row flex-wrap flex-grow">
-						{#each situations as situation, i (i)}
-							<span class="w-1/2 font-bold">
-								<span class="bf-500 fr-text--lg">·</span>{' '}{situation}
-							</span>
-						{/each}
-					</div>
-				</span>
-			</Card>
+			<ul class="dsfr-list px-9 py-6 bg-gray-100 flex flex-row flex-wrap flex-grow">
+				{#each situations as situation, i (i)}
+					<li class="w-1/2 font-bold dsfr-bullet">
+						{situation}
+					</li>
+				{/each}
+			</ul>
 		</div>
 		<div class="flex flex-col gap-4">
 			<h2 class="fr-h4 bf-500">Objectifs</h2>
@@ -117,20 +115,31 @@
 					</span>
 				</Card>
 			</div>
-			<div class="w-1/2 ml-1 items-stretch">
+			<div class="w-1/2 ml-1 items-stretch flex flex-col">
 				<h2 class="fr-h4 bf-500">Structures sollicitées</h2>
-				<Card
-					hideArrow={false}
-					onClick={() =>
-						openComponent.open({ component: ProNotebookStructureList, props: { structures } })}
-				>
-					<span slot="title">{''}</span>
-					<span slot="description">
-						<span class="font-bold">
-							{`Voir toutes les structures (${structures.length})`}
-						</span>
-					</span>
-				</Card>
+				{#if structures.length > 0}
+					<div class="flex flex-1">
+						<Card
+							onClick={() =>
+								openComponent.open({ component: ProNotebookStructureList, props: { structures } })}
+						>
+							<span slot="title">{''}</span>
+							<span slot="description">
+								<span class="font-bold">
+									{`Voir toutes les structures (${structures.length})`}
+								</span>
+							</span>
+						</Card>
+					</div>
+				{:else}
+					<div class="flex flex-1">
+						<Card hideArrow>
+							<span slot="description">
+								<span class="font-bold"> Aucune structure sollicitées </span>
+							</span>
+						</Card>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -138,6 +147,13 @@
 
 <style lang="postcss">
 	.bf-500 {
+		color: var(--bf500);
+	}
+	.dsfr-bullet {
+		list-style-type: '\2022 ';
+		padding-left: 0.4rem;
+	}
+	.dsfr-bullet::marker {
 		color: var(--bf500);
 	}
 </style>

@@ -63,12 +63,12 @@
 	}
 </script>
 
-<section>
+<section class="flex flex-col w-full">
 	<div class="pb-8">
-		<h1>Informations personnelles</h1>
-		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier</p>
+		<h1>Situation socioprofessionnelle</h1>
+		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
-	<form on:submit|preventDefault={handleSubmit}>
+	<form class="flex flex-col w-full" on:submit|preventDefault={handleSubmit}>
 		<div class="fr-form-group">
 			<Select
 				selectLabel={'Situation'}
@@ -92,17 +92,17 @@
 			<Checkbox bind:checked={formData.rightBonus} name="rightBonus" label="Prime d'activité" />
 		</div>
 
+		<div class="fr-form-group">
+			<div class="pb-2 font-bold">Emploi recherché</div>
+			<ProNotebookSocioProRome bind:current={formData.job} />
+		</div>
+
 		<Radio
 			caption={'Zone géographique privilégiée'}
 			legendClass="!font-bold"
 			bind:selected={formData.geographicalArea}
 			options={geographicalAreaKeys.options}
 		/>
-
-		<div class="fr-form-group">
-			<div class="pb-2 font-bold">Emploi recherché</div>
-			<ProNotebookSocioProRome bind:current={formData.job} />
-		</div>
 
 		<div class="fr-form-group">
 			<div class="pb-2 font-bold">Diplôme</div>

@@ -30,7 +30,7 @@
 			<div class="flex w-full flex-col gap-6">
 				<Input
 					bind:val={email}
-					inputLabel="Adresse de courriel"
+					inputLabel="Courriel"
 					inputHint="Ex : paul@cdb.fr"
 					error={requestStep === 'error'
 						? "Cette adresse de courriel n'est pas rattachée à un compte existant"

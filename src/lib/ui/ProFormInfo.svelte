@@ -17,7 +17,7 @@
 
 	let inputs: InputItem[] = [
 		{
-			label: 'Adresse de courriel',
+			label: 'Courriel',
 			hint: 'Ex : jb@poquelin.fr',
 			key: 'email',
 			type: 'email',

@@ -32,7 +32,7 @@
 	<Button
 		on:click={() => {
 			openInviteMember();
-		}}>Ajouter un accompagnateur</Button
+		}}>Inviter un accompagnateur</Button
 	>
 </div>
 <div class={`fr-table fr-table--layout-fixed`}>

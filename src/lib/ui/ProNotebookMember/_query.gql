@@ -2,6 +2,7 @@ query SearchProfessional($search: String, $professionalIds: [uuid!] = []) {
 	professionals: professional(
 		where: {
 			_or: [
+				{ firstname: { _ilike: $search } }
 				{ lastname: { _ilike: $search } }
 				{ structure: { name: { _ilike: $search } } }
 				{ structure: { postalCode: { _ilike: $search } } }
@@ -23,6 +24,7 @@ query SearchProfessional($search: String, $professionalIds: [uuid!] = []) {
 	count: professional_aggregate(
 		where: {
 			_or: [
+				{ firstname: { _ilike: $search } }
 				{ lastname: { _ilike: $search } }
 				{ structure: { name: { _ilike: $search } } }
 				{ structure: { postalCode: { _ilike: $search } } }
