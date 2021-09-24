@@ -1,3 +1,10 @@
+## [1.36.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.2...v1.36.3) (2021-09-24)
+
+
+### Bug Fixes
+
+* **frontend:** remove username from user creation form ([#247](https://github.com/SocialGouv/carnet-de-bord/issues/247)) ([dd48e21](https://github.com/SocialGouv/carnet-de-bord/commit/dd48e21fc78fabbaa5b6a933061949e28b357ac9))
+
 ## [1.36.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.1...v1.36.2) (2021-09-23)
 
 
