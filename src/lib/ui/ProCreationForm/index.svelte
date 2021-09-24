@@ -13,6 +13,7 @@
 </script>
 
 <script lang="ts">
+	export let submitLabel = 'Je valide mon inscription';
 	export let disabled = false;
 	export let errors: AccountRequest = {};
 	export let accountRequest: AccountRequest = {};
@@ -84,7 +85,7 @@
 			<ProFormInfo
 				bind:account={accountRequest}
 				fieldErrors={errors}
-				confirmText="Je valide mon inscription"
+				confirmText={submitLabel}
 				disabled={disableSubmission}
 				on:submit={() => onSubmit(structure)}
 				on:cancel={onCancel}

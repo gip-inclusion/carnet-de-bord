@@ -6,7 +6,6 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import Button from '$lib/ui/base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import { session } from '$app/stores';
@@ -14,6 +13,7 @@
 	import type { AccountRequest, Structure, SvelteEventHandler } from '$lib/types';
 	import { displayFullName } from '../format';
 	import ProAddedConfirmation from './ProAddedConfirmation.svelte';
+	import ProNotebookMemberForm from './ProNotebookMemberForm.svelte';
 
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
@@ -94,7 +94,7 @@
 
 	function createPro() {
 		openComponent.open({
-			component: ProCreationForm,
+			component: ProNotebookMemberForm,
 			props: {
 				disabled,
 				accountRequest,
