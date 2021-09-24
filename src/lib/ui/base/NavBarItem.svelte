@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { isCurrentRoute } from '$lib/routes';
+	import { isMenuOpened } from '$lib/stores';
 	import Link from './Link.svelte';
 	type MenuItem = {
 		id: string;
@@ -13,7 +14,12 @@
 	$: isCurrent = currentRoute && menuItem.path && isCurrentRoute(currentRoute, menuItem.path);
 </script>
 
-<li class="fr-nav__item">
+<li
+	class="fr-nav__item"
+	on:click={() => {
+		$isMenuOpened = false;
+	}}
+>
 	<Link
 		href={menuItem.path}
 		classNames={`fr-nav__link ${isCurrent ? 'bf-500' : 'notActive'}`}

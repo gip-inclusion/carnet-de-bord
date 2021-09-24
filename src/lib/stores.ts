@@ -6,6 +6,7 @@ import type { SvelteComponent } from 'svelte';
 export const account: Writable<null | Account> = writable(null);
 
 export const offCanvas: Writable<boolean> = writable(false);
+export const isMenuOpened: Writable<boolean> = writable(false);
 
 type OpenComponentType = {
 	component: typeof SvelteComponent;

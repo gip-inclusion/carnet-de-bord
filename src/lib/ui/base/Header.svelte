@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { isMenuOpened } from '$lib/stores';
+
 	/* export let withLogo: boolean | null = false; */
 	export let withSearch: boolean | null = false;
 	export let enlargeLink: boolean | null = true;
 	export let siteName: string | null = '';
 	export let baseline: string | null = '';
 	export let landing: string | null = '/';
+
 	let showQuickAccess =
 		$$slots.quickAccessLeft || $$slots.quickAccessMiddle || $$slots.quickAccessRight;
 	let showTools =
@@ -33,6 +36,21 @@
 								alt=""
 								aria-hidden="true"
 							/>
+						</div>
+						<div class="fr-header__navbar">
+							<button
+								class="fr-btn--menu fr-btn"
+								data-fr-opened="false"
+								aria-controls="modal-menu"
+								aria-haspopup="menu"
+								title="Menu"
+								id="fr-btn-menu-mobile-4"
+								on:click={() => {
+									$isMenuOpened = true;
+								}}
+							>
+								Menu
+							</button>
 						</div>
 					</div>
 					{#if siteName}
@@ -84,10 +102,26 @@
 					</div>
 				{/if}
 			</div>
-			<slot name="navbar" />
 		</div>
 	</div>
-	<!--
+	<div
+		class="fr-header__menu fr-modal"
+		class:fr-modal--opened={$isMenuOpened}
+		id="modal-menu"
+		aria-labelledby="fr-btn-menu-mobile"
+	>
+		<div class="fr-container">
+			<button
+				class="fr-link--close fr-link"
+				aria-controls="modal-menu"
+				on:click={() => {
+					$isMenuOpened = false;
+				}}>Fermer</button
+			>
+			<div class="fr-header__menu-links" />
+			<slot name="navbar" />
+		</div>
+		<!--
 	{#if withQuickAccess}
 	<div class="fr-header__menu fr-modal" id="modal-870" aria-labelledby="fr-btn-menu-mobile-4">
 		<div class="fr-container">
@@ -113,4 +147,5 @@
 	</div>
 	{/if}
 	-->
+	</div>
 </header>
