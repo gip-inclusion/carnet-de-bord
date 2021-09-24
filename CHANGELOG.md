@@ -1,3 +1,10 @@
+## [1.36.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.3...v1.36.4) (2021-09-24)
+
+
+### Bug Fixes
+
+* **ui:** add transition to layer ([#277](https://github.com/SocialGouv/carnet-de-bord/issues/277)) ([a1ff3eb](https://github.com/SocialGouv/carnet-de-bord/commit/a1ff3eb3f560042111c67741bf9cce70c3e02a90))
+
 ## [1.36.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.2...v1.36.3) (2021-09-24)
 
 
