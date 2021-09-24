@@ -46,16 +46,16 @@
 	$: disabled = !formData.target;
 </script>
 
-<section>
+<section class="flex flex-col gap-4">
 	<div>
 		<h1>Ajouter un objectif</h1>
-		<p class="mb-0">Veuillez sélectionner un objectif</p>
+		<p class="my-6">Veuillez sélectionner un objectif</p>
 	</div>
-	<div>
+	<div class="min-w-0">
 		<Select selectLabel={'Objectif'} options={targetOptions} bind:selected={formData.target} />
 	</div>
 	<div class="flex flex-row gap-6 pt-4 pb-12">
-		<Button {disabled} on:click={createTarget}>Valider</Button>
+		<Button {disabled} on:click={createTarget}>Ajouter</Button>
 		<Button outline={true} on:click={close}>Annuler</Button>
 	</div>
 </section>

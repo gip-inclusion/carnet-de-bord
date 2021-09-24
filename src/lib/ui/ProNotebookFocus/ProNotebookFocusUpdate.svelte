@@ -48,12 +48,13 @@
 
 <div class="flex flex-col gap-6">
 	<div>
-		<h1>{focusThemeKeys.byKey[focus.theme]}</h1>
+		<h1>Modifier l'axe de travail « {focusThemeKeys.byKey[focus.theme]} »</h1>
 		<p class="mb-0">
 			Veuillez renseigner les informations ci-dessous pour modifier l'axe de travail.
 		</p>
 	</div>
 	<div>
+		<h2 class="fr-h4 bf-500">Axe de travail</h2>
 		<Radio
 			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
 			bind:selected={formData.linkedTo}

@@ -63,12 +63,12 @@
 	}
 </script>
 
-<section>
+<section class="flex flex-col w-full">
 	<div class="pb-8">
 		<h1>Situation socioprofessionnelle</h1>
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
-	<form on:submit|preventDefault={handleSubmit}>
+	<form class="flex flex-col w-full" on:submit|preventDefault={handleSubmit}>
 		<div class="fr-form-group">
 			<Select
 				selectLabel={'Situation'}

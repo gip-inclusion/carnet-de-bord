@@ -123,7 +123,7 @@
 
 		<SearchBar
 			inputLabel="Rechercher un bénéficiaire"
-			inputHint="nom, structure, code postal"
+			inputHint="Nom, structure, code postal"
 			bind:search
 			btnDisabled={!search}
 			handleSubmit={onSearch}
@@ -135,13 +135,13 @@
 			{#if count === 0}
 				<div class="flex flex-col gap-6">
 					<div>Aucun résultat ne correspond à votre recherche</div>
-					<div><Button on:click={createPro}>Inviter un accompagnateur</Button></div>
+					<div><Button on:click={createPro}>Inviter un nouvel accompagnateur</Button></div>
 				</div>
 			{:else if count > 0}
 				<div>{count} résultats correspondent à votre recherche</div>
 			{/if}
 			{#each professionals as professional (professional.id)}
-				<div class="flex flex-row gap-2 justify-between items-center py-4">
+				<label for={professional.id} class="flex flex-row gap-2 justify-between items-center py-4">
 					<input
 						on:change={onChange}
 						type="radio"
@@ -153,7 +153,7 @@
 					<div class="w-2/6">{professional.firstname} {professional.lastname}</div>
 					<div class="w-1/6">{professional.structure.phone || ''}</div>
 					<div class="w-1/6">{professional.structure.postalCode || ''}</div>
-				</div>
+				</label>
 			{/each}
 		</LoaderIndicator>
 	</div>

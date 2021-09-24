@@ -26,15 +26,17 @@ ${disabledHover ? 'force-disable-hover' : 'cursor-pointer'}
 `}
 >
 	<div class="fr-card__body">
-		<h4 class="fr-card__title">
-			{#if href}
-				<Link {href} classNames="fr-card__link">
+		{#if href || $$slots.title}
+			<h4 class="fr-card__title">
+				{#if href}
+					<Link {href} classNames="fr-card__link">
+						<slot name="title" />
+					</Link>
+				{:else}
 					<slot name="title" />
-				</Link>
-			{:else}
-				<slot name="title" />
-			{/if}
-		</h4>
+				{/if}
+			</h4>
+		{/if}
 		{#if $$slots.description}
 			<p class="leading-6 text-sm my-0">
 				<slot name="description" />

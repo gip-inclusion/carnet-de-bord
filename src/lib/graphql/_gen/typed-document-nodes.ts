@@ -6254,6 +6254,28 @@ export const SearchProfessionalDocument = {
 														fields: [
 															{
 																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'firstname' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'search' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
 																name: { kind: 'Name', value: 'lastname' },
 																value: {
 																	kind: 'ObjectValue',
@@ -6410,6 +6432,28 @@ export const SearchProfessionalDocument = {
 											value: {
 												kind: 'ListValue',
 												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'firstname' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_ilike' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'search' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
 													{
 														kind: 'ObjectValue',
 														fields: [
