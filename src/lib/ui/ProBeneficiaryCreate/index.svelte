@@ -80,7 +80,7 @@
 		['firstname', 'lastname', 'dateOfBirth'].forEach((key) => {
 			errors[key] = acc[key] ? '' : 'Ce champ est obligatoire';
 		});
-		return Object.keys(errors).filter(notNullish).length === 0;
+		return Object.values(errors).filter(notNullish).length === 0;
 	}
 
 	const onInput = (key: string) => () => {
