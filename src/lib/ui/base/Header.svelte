@@ -27,7 +27,7 @@
 						</div>
 						<div class="fr-header__operator">
 							<img
-								src="/static/logo-cdb.svg"
+								src="/logo-cdb.svg"
 								class="fr-responsive-img"
 								style="width:5.4rem;"
 								alt=""
