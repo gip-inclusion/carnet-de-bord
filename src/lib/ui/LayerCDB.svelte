@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { OpenComponentStore } from '$lib/stores';
+	import { IconButton } from '$lib/ui/base';
 	export let openComponent: OpenComponentStore = null;
 	import { fade, fly } from 'svelte/transition';
 	function handleKeyDown(event: KeyboardEvent) {
@@ -32,13 +33,12 @@
 				componentOnClose={$openComponent?.onClose}
 			/>
 		</div>
-		<button
+		<IconButton
 			on:click={close}
-			type="button"
-			class="bt text-2xl  text-france-blue absolute top-14 right-14"
-		>
-			<span class="ri-close-line" aria-label="fermer le panneau" />
-		</button>
+			icon="ri-close-line"
+			ariaLabel="fermer le panneau"
+			classNames=" absolute top-14 right-14"
+		/>
 	</div>
 {/if}
 

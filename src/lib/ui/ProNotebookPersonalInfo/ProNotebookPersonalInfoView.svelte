@@ -2,13 +2,10 @@
 	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { createEventDispatcher } from 'svelte';
-	import { Button } from '../base';
-	import { displayFullName, displayMobileNumber } from '../format';
-	import { Text } from '../utils';
+	import { Button, IconButton } from '$lib/ui/base';
+	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
+	import { Text } from '$lib/ui/utils';
 	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
-
-	const dispatch = createEventDispatcher();
 
 	export let beneficiary: Pick<
 		Beneficiary,
@@ -50,12 +47,7 @@
 				{displayFullName(beneficiary)}
 			</h1>
 			<div>
-				<Button
-					disabled={true}
-					on:click={() => dispatch('print')}
-					outline={true}
-					icon="ri-printer-line"
-				/>
+				<IconButton on:click={() => window.print()} icon="ri-printer-line" ariaLabel="Imprimer" />
 			</div>
 		</div>
 		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>

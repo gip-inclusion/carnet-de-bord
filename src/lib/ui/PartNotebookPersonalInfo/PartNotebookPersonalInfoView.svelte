@@ -2,9 +2,9 @@
 	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { createEventDispatcher } from 'svelte';
-	import { Button } from '../base';
-	import { displayFullName, displayMobileNumber } from '../format';
-	import { Text } from '../utils';
+	import { Button, IconButton } from '$lib/ui/base';
+	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
+	import { Text } from '$lib/ui/utils';
 
 	const dispatch = createEventDispatcher();
 
@@ -44,11 +44,10 @@
 				{displayFullName(beneficiary)}
 			</h1>
 			<div>
-				<Button
-					disabled={true}
+				<IconButton
 					on:click={() => dispatch('print')}
-					outline={true}
 					icon="ri-printer-line"
+					ariaLabel="Imprimer"
 				/>
 			</div>
 		</div>
