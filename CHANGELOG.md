@@ -1,3 +1,10 @@
+## [1.36.8-beta.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.7...v1.36.8-beta.1) (2021-09-26)
+
+
+### Bug Fixes
+
+* update seed data ([b1438d5](https://github.com/SocialGouv/carnet-de-bord/commit/b1438d5a9dfa625cd624902fb4c1c7d5961db8fb))
+
 ## [1.36.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.6...v1.36.7) (2021-09-24)
 
 
