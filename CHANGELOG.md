@@ -1,3 +1,10 @@
+# [1.37.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.7...v1.37.0) (2021-09-27)
+
+
+### Features
+
+* **ui:** better support for nested layers ([51fad5b](https://github.com/SocialGouv/carnet-de-bord/commit/51fad5b255c496fc236f7c800bd4c2eba1e1b09b))
+
 ## [1.36.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.6...v1.36.7) (2021-09-24)
 
 
