@@ -4,5 +4,5 @@ metadata:
   name: app-configmap
 data:
   SMTP_HOST: smtp.tipimail.com
-  SMTP_PORT: '2525'
+  SMTP_PORT: '2500'
   SMTP_FROM: admin@carnet-de-bord.fr
