@@ -153,7 +153,7 @@
 <div class="w-full">
 	{#if RD.getData(mutationResult)}
 		<div role="status">
-			<h2 class="bf-500 fr-h4 pt-8 px-8">
+			<h2 class="text-france-blue fr-h4 pt-8 px-8">
 				{structureId ? 'Création' : 'Modification'} d'une structure
 			</h2>
 			<div class="w-full p-8">
@@ -164,7 +164,7 @@
 			</div>
 		</div>
 	{:else}
-		<h2 class="bf-500 fr-h4 pt-8 px-8">
+		<h2 class="text-france-blue fr-h4 pt-8 px-8">
 			{structureId ? 'Création' : 'Modification'} d'une structure
 		</h2>
 		<form class="w-full px-8 pb-8" on:submit|preventDefault={handleSubmit}>
@@ -194,9 +194,3 @@
 		</form>
 	{/if}
 </div>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>

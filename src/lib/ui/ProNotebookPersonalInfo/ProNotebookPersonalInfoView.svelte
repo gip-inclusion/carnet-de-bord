@@ -43,7 +43,7 @@
 			</div>
 		{/if}
 		<div class="flex">
-			<h1 class="fr-h1 flex-1 bf-500">
+			<h1 class="fr-h1 flex-1 text-france-blue">
 				{displayFullName(beneficiary)}
 			</h1>
 			<div>
@@ -53,7 +53,7 @@
 		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>
 	</div>
 
-	<h2 class="fr-h4 bf-500">Informations personnelles</h2>
+	<h2 class="fr-h4 text-france-blue">Informations personnelles</h2>
 	<!-- extract Infos -->
 	<div class="flex flex-row space-x-4">
 		<div class="w-full">
@@ -67,17 +67,11 @@
 			</address>
 		</div>
 		<div class="w-full">
-			<strong class="text-base bf-500">Identifiant Pôle emploi</strong>
+			<strong class="text-base text-france-blue">Identifiant Pôle emploi</strong>
 			<Text classNames="mb-2" value={beneficiary.peNumber} />
-			<strong class="bf-500">Identifiant CAF</strong>
+			<strong class="text-france-blue">Identifiant CAF</strong>
 			<Text value={beneficiary.cafNumber} />
 		</div>
 	</div>
 	<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>
 </div>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>

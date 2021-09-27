@@ -43,7 +43,7 @@
 
 	<LoaderIndicator {result}>
 		<div>
-			<h2 class="fr-h5 bf-500">Derniers profils consultés</h2>
+			<h2 class="fr-h5 text-france-blue">Derniers profils consultés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
 				{#each $result.data.lastVisited as lastVisited, i (i)}
 					<div class="card-container">
@@ -58,7 +58,7 @@
 			</div>
 		</div>
 		<div>
-			<h2 class="fr-h5 bf-500">Derniers profils modifiés</h2>
+			<h2 class="fr-h5 text-france-blue">Derniers profils modifiés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
 				{#each $result.data.lastUpdated as lastUpdated, i (i)}
 					<div class="card-container">
@@ -74,14 +74,3 @@
 		</div>
 	</LoaderIndicator>
 </div>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-
-	.card-container {
-		width: 49%;
-		@apply py-2;
-	}
-</style>

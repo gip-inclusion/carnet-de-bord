@@ -47,7 +47,7 @@
 
 	<div class="flex flex-row flex-wrap">
 		<div class="w-1/2">
-			<strong class="text-base bf-500">Droits</strong>
+			<strong class="text-base text-france-blue">Droits</strong>
 			<Text classNames="mb-2" value={rsaRightKeys.byKey[notebook.rightRsa]} />
 			{#if [notebook.rightRqth, notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter(Boolean).length > 0}
 				<p>
@@ -64,15 +64,15 @@
 		</div>
 
 		<div class="w-1/2">
-			<strong class="text-base bf-500">Emploi recherché</strong>
+			<strong class="text-base text-france-blue">Emploi recherché</strong>
 			<Text classNames="mb-2" value={notebook.job} />
 		</div>
 		<div class="w-1/2">
-			<strong class="text-base bf-500">Zone géographique</strong>
+			<strong class="text-base text-france-blue">Zone géographique</strong>
 			<Text classNames="mb-2" value={geographicalAreaKeys.byKey[notebook.geographicalArea]} />
 		</div>
 		<div class="w-1/2">
-			<strong class="text-base bf-500">Diplôme</strong>
+			<strong class="text-base text-france-blue">Diplôme</strong>
 			<Text classNames="mb-2" value={educationLevelKeys.byKey[notebook.educationLevel]} />
 		</div>
 	</div>
@@ -80,9 +80,3 @@
 		>Mettre à jour</Button
 	>
 </div>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>

@@ -77,7 +77,7 @@
 		</p>
 	</div>
 	<div>
-		<h2 class="fr-h4 bf-500">Axe de travail</h2>
+		<h2 class="fr-h4 text-france-blue">Axe de travail</h2>
 		<Radio
 			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
 			bind:selected={formData.linkedTo}
@@ -92,7 +92,7 @@
 	</div>
 	{#if formData.theme}
 		<div>
-			<h2 class="fr-h4 bf-500">Situation</h2>
+			<h2 class="fr-h4 text-france-blue">Situation</h2>
 			{#if situationOptions.length === 0}
 				<p>Aucune situation ne correspond à ce thème.</p>
 			{:else}
@@ -111,9 +111,3 @@
 		<Button outline={true} on:click={close}>Annuler</Button>
 	</div>
 </div>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>

@@ -46,7 +46,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each members as member, i}
+			{#each members as member}
 				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
 					<td>
 						<Text value={member.professional.structure.name} />
