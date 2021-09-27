@@ -80,7 +80,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col gap-4">
-			<h2 class="fr-h4 bf-500">Situation</h2>
+			<h2 class="fr-h4 text-france-blue">Situation</h2>
 			<ul class="dsfr-list px-9 py-6 bg-gray-100 flex flex-row flex-wrap flex-grow">
 				{#each situations as situation, i (i)}
 					<li class="w-1/2 font-bold dsfr-bullet">
@@ -90,7 +90,7 @@
 			</ul>
 		</div>
 		<div class="flex flex-col gap-4">
-			<h2 class="fr-h4 bf-500">Objectifs</h2>
+			<h2 class="fr-h4 text-france-blue">Objectifs</h2>
 			<div>
 				<Accordions>
 					{#each targets as target (target.id)}
@@ -108,7 +108,7 @@
 		</div>
 		<div class="flex flex-row gap-4">
 			<div class="w-1/2 items-stretch">
-				<h2 class="fr-h4 bf-500">Créé par</h2>
+				<h2 class="fr-h4 text-france-blue">Créé par</h2>
 				<Card onClick={viewCreator}>
 					<span slot="title">
 						{focus?.professional ? displayFullName(focus?.professional) : ''}
@@ -120,7 +120,7 @@
 				</Card>
 			</div>
 			<div class="w-1/2 ml-1 items-stretch flex flex-col">
-				<h2 class="fr-h4 bf-500">Structures sollicitées</h2>
+				<h2 class="fr-h4 text-france-blue">Structures sollicitées</h2>
 				{#if structures.length > 0}
 					<div class="flex flex-1">
 						<Card onClick={viewStructures}>
@@ -147,9 +147,6 @@
 {/if}
 
 <style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
 	.dsfr-bullet {
 		list-style-type: '\2022 ';
 		padding-left: 0.4rem;

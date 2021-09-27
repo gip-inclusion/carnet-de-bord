@@ -51,7 +51,7 @@
 
 <div>
 	<LoaderIndicator {result}>
-		<h2 class="bf-500 fr-h4">Structure</h2>
+		<h2 class="text-france-blue fr-h4">Structure</h2>
 		<div class="flex flex-row w-full gap-2">
 			<div class="w-full">
 				<label class="flex-grow mb-2 fr-label" for="structureSelect">
@@ -80,7 +80,7 @@
 </div>
 {#if structure}
 	<div>
-		<h2 class="bf-500 fr-h4">Informations personnelles</h2>
+		<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
 		<div>
 			<ProFormInfo
 				bind:account={accountRequest}
@@ -94,9 +94,3 @@
 		</div>
 	</div>
 {/if}
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>

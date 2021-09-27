@@ -22,7 +22,7 @@
 >
 	<Link
 		href={menuItem.path}
-		classNames={`fr-nav__link ${isCurrent ? 'bf-500' : 'notActive'}`}
+		classNames={`fr-nav__link ${isCurrent ? 'text-france-blue' : 'notActive'}`}
 		{isCurrent}
 	>
 		{menuItem.label}

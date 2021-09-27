@@ -136,7 +136,7 @@
 	<LoaderIndicator {result}>
 		{#if notebooks.length === 0}
 			<div class="flex flex-col space-y-4 items-center">
-				<div class="bf-500 font-bold">
+				<div class="text-france-blue font-bold">
 					Désolé, aucun bénéficiaire ne correspond à votre recherche.
 				</div>
 				<div>Veuillez cliquer sur le bouton ci-dessous pour ajouter un bénéficiaire.</div>
@@ -159,14 +159,3 @@
 		{/if}
 	</LoaderIndicator>
 </div>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-
-	.card-container {
-		width: 49%;
-		@apply py-2;
-	}
-</style>

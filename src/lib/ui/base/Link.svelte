@@ -27,9 +27,3 @@
 >
 	<slot />
 </a>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>

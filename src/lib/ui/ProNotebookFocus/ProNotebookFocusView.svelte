@@ -31,7 +31,7 @@
 
 <div class="flex flex-col gap-4">
 	<div>
-		<div class="bf-500 underline cursor-pointer" on:click={openContract}>
+		<div class="text-france-blue underline cursor-pointer" on:click={openContract}>
 			{contractLabel}
 		</div>
 		{#if notebook.contractSignDate}
@@ -52,9 +52,3 @@
 	</div>
 	<div><Button on:click={addFocus}>Ajouter un axe de travail</Button></div>
 </div>
-
-<style lang="postcss">
-	.bf-500 {
-		color: var(--bf500);
-	}
-</style>
