@@ -1,3 +1,10 @@
+# [1.38.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.37.1...v1.38.0) (2021-09-27)
+
+
+### Features
+
+* **ui:** bring Create Beneficiary closer to the wireframe ([#289](https://github.com/SocialGouv/carnet-de-bord/issues/289)) ([d96d57f](https://github.com/SocialGouv/carnet-de-bord/commit/d96d57f601ec19a4f83daff67e5e24abdb37fbaf)), closes [#262](https://github.com/SocialGouv/carnet-de-bord/issues/262)
+
 ## [1.37.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.37.0...v1.37.1) (2021-09-27)
 
 
