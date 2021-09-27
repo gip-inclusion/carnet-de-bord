@@ -1,3 +1,10 @@
+## [1.37.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.37.0...v1.37.1) (2021-09-27)
+
+
+### Bug Fixes
+
+* **ui:** update structure display ([2ae6b49](https://github.com/SocialGouv/carnet-de-bord/commit/2ae6b490e423a2b3ac4b9f30d8b9fefb07f63931)), closes [#266](https://github.com/SocialGouv/carnet-de-bord/issues/266) [#273](https://github.com/SocialGouv/carnet-de-bord/issues/273)
+
 # [1.37.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.36.7...v1.37.0) (2021-09-27)
 
 
