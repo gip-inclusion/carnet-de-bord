@@ -1,3 +1,10 @@
+## [1.39.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.0...v1.39.1) (2021-09-27)
+
+
+### Bug Fixes
+
+* **workflows:** Use secrets instead of env variables ([#296](https://github.com/SocialGouv/carnet-de-bord/issues/296)) ([c351093](https://github.com/SocialGouv/carnet-de-bord/commit/c35109333ca67173bc2bb9522f7662f219257607))
+
 ## [1.39.1-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.0...v1.39.1-alpha.1) (2021-09-27)
 
 
