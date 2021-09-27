@@ -1,3 +1,10 @@
+# [1.39.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.38.0...v1.39.0) (2021-09-27)
+
+
+### Features
+
+* improve event history ([#294](https://github.com/SocialGouv/carnet-de-bord/issues/294)) ([d0288e1](https://github.com/SocialGouv/carnet-de-bord/commit/d0288e198728f6e5bfb76b8ed394ea0a15da3c04)), closes [#275](https://github.com/SocialGouv/carnet-de-bord/issues/275)
+
 # [1.38.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.37.1...v1.38.0) (2021-09-27)
 
 
