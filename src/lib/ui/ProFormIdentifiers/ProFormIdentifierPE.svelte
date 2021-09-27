@@ -27,7 +27,6 @@
 	export let users: RD.RemoteData<ExternalUser[], string> = RD.notAsked;
 </script>
 
-<div class="font-bold mb-6">Veuillez saisir l'identifiant Pôle emploi.</div>
 <form on:submit|preventDefault={handleSubmit} class="mb-6">
 	<div class="flex flex-row gap-6">
 		<Input
