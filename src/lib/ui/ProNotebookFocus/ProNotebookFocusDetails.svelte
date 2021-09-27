@@ -53,6 +53,10 @@
 			props: { creator: focus?.professional, creationDate: focus?.creationDate },
 		});
 	}
+
+	function viewStructures() {
+		openComponent.open({ component: ProNotebookStructureList, props: { structures } });
+	}
 </script>
 
 {#if focus}
@@ -119,10 +123,7 @@
 				<h2 class="fr-h4 bf-500">Structures sollicitées</h2>
 				{#if structures.length > 0}
 					<div class="flex flex-1">
-						<Card
-							onClick={() =>
-								openComponent.open({ component: ProNotebookStructureList, props: { structures } })}
-						>
+						<Card onClick={viewStructures}>
 							<span slot="title">{''}</span>
 							<span slot="description">
 								<span class="font-bold">

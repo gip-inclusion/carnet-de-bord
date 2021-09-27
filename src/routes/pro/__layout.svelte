@@ -24,7 +24,7 @@
 
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { account, openComponent } from '$lib/stores';
+	import { account } from '$lib/stores';
 
 	export let result: OperationStore<GetAccountQuery>;
 
@@ -65,7 +65,7 @@
 <div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
 	<LoaderIndicator {result}>
 		<slot />
-		<LayerCDB {openComponent} />
+		<LayerCDB />
 	</LoaderIndicator>
 </div>
 
