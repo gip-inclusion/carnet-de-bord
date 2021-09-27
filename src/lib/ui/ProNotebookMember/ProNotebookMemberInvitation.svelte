@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SearchBar from '../base/SearchBar.svelte';
+	import { SearchBar } from '$lib/ui/base';
 	import {
 		AddNotebookMemberDocument,
 		SearchProfessionalDocument,
@@ -11,9 +11,9 @@
 	import { session } from '$app/stores';
 	import { post } from '$lib/utils/post';
 	import type { AccountRequest, Structure, SvelteEventHandler } from '$lib/types';
-	import { displayFullName } from '../format';
-	import ProAddedConfirmation from './ProAddedConfirmation.svelte';
-	import ProNotebookMemberForm from './ProNotebookMemberForm.svelte';
+	import { displayFullName } from '$lib/ui/format';
+	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
+	import ProNotebookMemberForm from '$lib/ui/ProNotebookMember/ProNotebookMemberForm.svelte';
 
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
