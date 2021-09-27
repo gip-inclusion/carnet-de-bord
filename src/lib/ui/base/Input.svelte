@@ -17,7 +17,7 @@
 	export let error: string | null = '';
 	export let valid: string | null = '';
 	export let disabled: boolean | null = false;
-
+	export let twWidthClass = '';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	const handleInput: SvelteEventHandler<HTMLInputElement> = (event) => {
@@ -29,7 +29,7 @@
 	{id}
 	class={`flex h-full flex-col fr-input-group ${error ? 'fr-input-group--error' : ''} ${
 		valid ? 'fr-input-group--valid' : ''
-	}`}
+	} ${twWidthClass}`}
 >
 	<label class="fr-label flex-grow" for={uniqueId}>
 		<div>{inputLabel}{required ? ' *' : ''}</div>

@@ -80,6 +80,7 @@
 	type={firstnameInput.type}
 	error={errors[firstnameInput.key]}
 	required={firstnameInput.required}
+	twWidthClass="w-10/12"
 	on:input={onInput(firstnameInput.key)}
 />
 <Input
@@ -90,6 +91,7 @@
 	type={dateOfBirthInput.type}
 	error={errors[dateOfBirthInput.key]}
 	required={dateOfBirthInput.required}
+	twWidthClass="w-4/12"
 	on:input={onInput(dateOfBirthInput.key)}
 />
 <Input
@@ -100,6 +102,7 @@
 	type={phoneInput.type}
 	error={errors[phoneInput.key]}
 	required={phoneInput.required}
+	twWidthClass="w-4/12"
 	on:input={onInput(phoneInput.key)}
 />
 <Input
@@ -132,7 +135,7 @@
 	required={address2Input.required}
 	on:input={onInput(address2Input.key)}
 />
-<div class="w-full flex flex-row justify-between">
+<div class="flex flex-row gap-6">
 	<Input
 		bind:val={beneficiaryAccount[postalCodeInput.key]}
 		inputHint={postalCodeInput.hint}
@@ -142,6 +145,7 @@
 		error={errors[postalCodeInput.key]}
 		required={postalCodeInput.required}
 		on:input={onInput(postalCodeInput.key)}
+		twWidthClass="w-1/3"
 	/>
 	<Input
 		bind:val={beneficiaryAccount[cityInput.key]}
@@ -152,5 +156,6 @@
 		error={errors[cityInput.key]}
 		required={cityInput.required}
 		on:input={onInput(cityInput.key)}
+		twWidthClass="w-2/3"
 	/>
 </div>

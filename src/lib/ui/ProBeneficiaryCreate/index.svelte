@@ -17,6 +17,8 @@
 	import { openComponent } from '$lib/stores';
 	const { professionalId } = $session.user;
 
+	type ExternalUserOption = Option & { value: ExternalUser };
+
 	let options: { name: IdentifierType; label: string }[] = [
 		{
 			name: 'CAF',
@@ -37,11 +39,28 @@
 		PE: 'Pôle emploi',
 	};
 
+	let forms: Record<IdentifierCAF | IdentifierPE, typeof SvelteComponent> = {
+		CAF: ProFormIdentifierCaf,
+		PE: ProFormIdentifierPe,
+	};
+
+	let users: Record<IdentifierType, RD.RemoteData<ExternalUser[], string>> = {
+		CAF: RD.notAsked,
+		PE: RD.notAsked,
+		NoIdentifier: RD.notAsked,
+	};
+
 	let identifierType: IdentifierType | null;
-	let errors: Partial<BeneficiaryAccount>;
+	let errors: Partial<BeneficiaryAccount> = {};
 
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	const createBeneficiary = mutation(createBeneficiaryResult);
+
+	let username: string;
+	let selectedUser: ExternalUser | null = null;
+	let beneficiaryAccount: BeneficiaryAccount | null = {};
+	let submissionSuccess = false;
+	let submissionError = '';
 
 	async function handleSubmit() {
 		if (isAccountValid(beneficiaryAccount)) {
@@ -62,15 +81,9 @@
 
 	function clearSelectedUser() {
 		selectedUser = null;
+		users[identifierType] = RD.notAsked;
 		beneficiaryAccount = {};
 	}
-
-	let selectedUser: ExternalUser | null = null;
-	let beneficiaryAccount: BeneficiaryAccount | null = {};
-	let submissionSuccess = false;
-	let submissionError = '';
-	type Step = 'NoSelection' | 'Step1' | 'Step2' | 'Step3' | 'FromScratch';
-	let step: Step = 'NoSelection';
 
 	function isAccountValid(acc: BeneficiaryAccount | null) {
 		errors = {};
@@ -84,21 +97,6 @@
 	const onInput = (key: string) => () => {
 		errors[key] = '';
 	};
-
-	type ExternalUserOption = Option & { value: ExternalUser };
-
-	let forms: Record<IdentifierCAF | IdentifierPE, typeof SvelteComponent> = {
-		CAF: ProFormIdentifierCaf,
-		PE: ProFormIdentifierPe,
-	};
-
-	let users: Record<IdentifierType, RD.RemoteData<ExternalUser[], string>> = {
-		CAF: RD.notAsked,
-		PE: RD.notAsked,
-		NoIdentifier: RD.notAsked,
-	};
-
-	let username: string;
 
 	function externalUserToOption(externalUser: ExternalUser): ExternalUserOption {
 		return {
@@ -117,24 +115,25 @@
 		};
 	}
 
+	function initializeBeneficiaryAccount(evt: CustomEvent<{ value: string }>) {
+		selectedUser = userOptions.find(({ name }) => name === evt.detail.value)?.value;
+
+		const { mobileOrPhoneNumber, ...accountInfo } = selectedUser;
+		beneficiaryAccount = {
+			...accountInfo,
+			mobileNumber: mobileOrPhoneNumber,
+		};
+	}
+
 	let userOptions: ExternalUserOption[] = [];
 	$: {
 		if (identifierType) {
 			userOptions = (RD.getData(users[identifierType]) || []).map(externalUserToOption);
 		}
 	}
-	$: {
-		selectedUser = userOptions.find(({ name }) => name === username)?.value;
-		if (selectedUser) {
-			let { mobileOrPhoneNumber, ...info } = selectedUser;
-			beneficiaryAccount = {
-				...info,
-				mobileNumber: mobileOrPhoneNumber,
-			};
-		} else {
-			beneficiaryAccount = {};
-		}
-	}
+
+	type Step = 'NoSelection' | 'Step1' | 'Step2' | 'Step3' | 'FromScratch';
+	let step: Step = 'NoSelection';
 	$: {
 		if (!identifierType) {
 			step = 'NoSelection';
@@ -165,7 +164,7 @@
 				caption="Connaissez-vous l’identifiant CAF ou Pôle emploi du bénéficiaire&nbsp;?"
 				{options}
 				bind:selected={identifierType}
-				on:selectedItem={clearSelectedUser}
+				on:input={clearSelectedUser}
 			/>
 
 			{#if step !== 'NoSelection'}
@@ -186,7 +185,11 @@
 					</div>
 					{#if step === 'Step2'}
 						{#key identifierType}
-							<Radio options={userOptions} bind:selected={username} />
+							<Radio
+								options={userOptions}
+								bind:selected={username}
+								on:input={initializeBeneficiaryAccount}
+							/>
 						{/key}
 					{/if}
 					<hr class="mb-8" />
