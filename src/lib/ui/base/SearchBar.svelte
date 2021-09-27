@@ -13,9 +13,11 @@
 	export let search: string | null;
 	export let btnDisabled: boolean | null = false;
 	export let handleSubmit: (event: Event) => void | undefined = undefined;
+	export let twWidthClass = '';
+	export let classNames = '';
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form class={`${twWidthClass} ${classNames}`} on:submit|preventDefault={handleSubmit}>
 	<div class={`fr-search-bar ${size === 'md' ? '' : 'fr-search-bar--lg'}`} {id} role="search">
 		{#if inputLabel}
 			<label class="fr-label" for={uniqueId}>

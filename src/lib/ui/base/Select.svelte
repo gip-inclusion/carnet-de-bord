@@ -19,6 +19,8 @@
 	export let error: string | null = '';
 	export let valid: string | null = '';
 	export let required: boolean | null = false;
+	export let classNames = '';
+	export let twWidthClass = '';
 
 	const dispatch = createEventDispatcher();
 	const handleSelect: SvelteEventHandler<HTMLSelectElement> = async function handleSelect(event) {
@@ -33,7 +35,7 @@
 	{id}
 	class={`fr-select-group ${error ? 'fr-select-group--error' : ''} ${
 		valid ? 'fr-select-group--valid' : ''
-	}`}
+	} ${twWidthClass} ${classNames}`}
 >
 	<!-- @TODO non-standard, DSFR deems the label mandatory -->
 	{#if selectLabel}
