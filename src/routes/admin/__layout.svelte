@@ -4,8 +4,6 @@
 
 <script lang="ts">
 	import type { MenuItem } from '$lib/types';
-
-	import { openComponent } from '$lib/stores';
 	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
 
 	const menuItems: MenuItem[] = [
@@ -22,7 +20,7 @@
 
 <div class="fr-container" style="min-height: calc(100vh - 200px)">
 	<slot />
-	<LayerCDB {openComponent} />
+	<LayerCDB />
 </div>
 
 <FooterCDB />

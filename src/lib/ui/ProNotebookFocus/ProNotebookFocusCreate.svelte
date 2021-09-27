@@ -48,7 +48,7 @@
 				creatorId: $session.user.professionalId,
 			});
 		} else {
-			openComponent.open({ component: ProNotebookFocusConfirmation });
+			openComponent.replace({ component: ProNotebookFocusConfirmation });
 		}
 	}
 

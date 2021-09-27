@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
 	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { openComponent } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 	import { FooterCDB, HeaderCDB } from '$lib/ui/index';
 	import LayerCDB from '$lib/ui/LayerCDB.svelte';
@@ -61,7 +60,7 @@
 <div class="fr-container" style="min-height: calc(100vh - 200px)">
 	<LoaderIndicator {result}>
 		<slot />
-		<LayerCDB {openComponent} />
+		<LayerCDB />
 	</LoaderIndicator>
 </div>
 

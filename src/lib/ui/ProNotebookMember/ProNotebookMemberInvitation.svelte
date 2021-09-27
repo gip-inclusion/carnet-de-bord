@@ -62,7 +62,7 @@
 		newMember = store.data.newMember;
 		//send email
 		post('/pro/carnet/invitation', { notebookMemberId: newMember.id });
-		openComponent.open({ component: ProAddedConfirmation, props: { confirmed: true } });
+		openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: true } });
 	}
 
 	let errors: AccountRequest = {};
@@ -84,7 +84,7 @@
 			const { professionalId } = await response.json();
 			await addMemberToNotebook(professionalId);
 
-			openComponent.open({ component: ProAddedConfirmation, props: { confirmed: false } });
+			openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: false } });
 		}
 	}
 
