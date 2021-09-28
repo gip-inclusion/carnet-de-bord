@@ -1,3 +1,10 @@
+## [1.39.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.1...v1.39.2-alpha.1) (2021-09-28)
+
+
+### Bug Fixes
+
+* secret ([c9ad4a0](https://github.com/SocialGouv/carnet-de-bord/commit/c9ad4a0b0ece6d4b2e0ea671d7ab00efeac4e76f))
+
 ## [1.39.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.0...v1.39.1) (2021-09-27)
 
 
