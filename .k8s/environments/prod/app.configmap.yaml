@@ -5,5 +5,5 @@ metadata:
 data:
   SMTP_HOST: smtp.tipimail.com
   SMTP_PORT: '2500'
-  SMTP_FROM: support.carnet-de-bord@fabrique.social.gouv.fr
+  SMTP_FROM: contact.carnet-de-bord@fabrique.social.gouv.fr
   API_PARTICULIER_URL: https://particulier.api.gouv.fr/api
