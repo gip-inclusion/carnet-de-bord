@@ -6,3 +6,4 @@ data:
   SMTP_HOST: smtp.tipimail.com
   SMTP_PORT: '2500'
   SMTP_FROM: admin@carnet-de-bord.fr
+  API_PARTICULIER_URL: https://particulier.api.gouv.fr/api
