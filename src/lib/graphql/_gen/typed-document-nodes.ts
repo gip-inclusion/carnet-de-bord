@@ -4710,8 +4710,8 @@ export type GetRefActionsQuery = {
 
 export type UpdateNotebookContractMutationVariables = Exact<{
 	id: Scalars['uuid'];
-	contractSignDate: Scalars['date'];
 	contractType: Scalars['String'];
+	contractSignDate?: Maybe<Scalars['date']>;
 }>;
 
 export type UpdateNotebookContractMutation = {
@@ -5163,11 +5163,11 @@ export type GetLastVisitedOrUpdatedQuery = {
 };
 
 export type CreateBeneficiaryMutationVariables = Exact<{
-	firstname?: Maybe<Scalars['String']>;
-	lastname?: Maybe<Scalars['String']>;
-	dateOfBirth?: Maybe<Scalars['date']>;
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	dateOfBirth: Scalars['date'];
 	mobileNumber?: Maybe<Scalars['String']>;
-	email?: Maybe<Scalars['String']>;
+	email: Scalars['String'];
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
@@ -5615,19 +5615,16 @@ export const UpdateNotebookContractDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractSignDate' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractType' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractSignDate' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
 				},
 			],
 			selectionSet: {
@@ -7944,17 +7941,26 @@ export const CreateBeneficiaryDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
@@ -7964,7 +7970,10 @@ export const CreateBeneficiaryDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',

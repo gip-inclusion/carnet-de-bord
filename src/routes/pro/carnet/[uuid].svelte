@@ -126,7 +126,7 @@
 	$: members = notebook?.members as NotebookMember[];
 	$: lastMember = members?.length ? members[0] : null;
 
-	let search: string = '';
+	let search = '';
 
 	$: filteredEvents = events;
 
