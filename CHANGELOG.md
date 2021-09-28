@@ -1,3 +1,10 @@
+## [1.40.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.40.0...v1.40.1) (2021-09-28)
+
+
+### Bug Fixes
+
+* add nofollow to email ([#303](https://github.com/SocialGouv/carnet-de-bord/issues/303)) ([061f351](https://github.com/SocialGouv/carnet-de-bord/commit/061f3511c0033d38accc2c67f85e05684d219d0a))
+
 # [1.40.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.3...v1.40.0) (2021-09-28)
 
 
