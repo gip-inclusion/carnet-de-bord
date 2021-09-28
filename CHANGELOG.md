@@ -1,3 +1,10 @@
+## [1.40.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.40.1...v1.40.2) (2021-09-28)
+
+
+### Bug Fixes
+
+* update jwt secret format ([#304](https://github.com/SocialGouv/carnet-de-bord/issues/304)) ([52a488d](https://github.com/SocialGouv/carnet-de-bord/commit/52a488d38f32110447ef3757791cd4e7efc4e894))
+
 ## [1.40.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.40.0...v1.40.1) (2021-09-28)
 
 
