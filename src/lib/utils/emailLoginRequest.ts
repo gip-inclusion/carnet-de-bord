@@ -15,6 +15,7 @@ export function emailLoginRequest({
   &nbsp; &nbsp;
   <p style="padding-left: 20%">
     <a
+			rel="nofollow"
       href="${appUrl}/auth/jwt/${accessKey}"
       style="
         background-color: #6a20ae;
