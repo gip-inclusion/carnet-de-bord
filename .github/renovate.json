@@ -1,3 +1,5 @@
 {
-	"extends": ["github>SocialGouv/renovate-config:light"]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["github>SocialGouv/renovate-config:light"],
+	"enabled": false
 }
