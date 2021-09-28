@@ -1,3 +1,10 @@
+## [1.39.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.2...v1.39.3) (2021-09-28)
+
+
+### Bug Fixes
+
+* preprod ([#300](https://github.com/SocialGouv/carnet-de-bord/issues/300)) ([24df0ab](https://github.com/SocialGouv/carnet-de-bord/commit/24df0ab68c986ccd8b9913c31e4f5c6d51fa4e16))
+
 ## [1.39.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.1...v1.39.2) (2021-09-28)
 
 
