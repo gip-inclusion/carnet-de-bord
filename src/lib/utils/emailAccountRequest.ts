@@ -18,7 +18,7 @@ export function emailAccountRequest({
   <p style="padding-left: 20%">
     <a
       href="${appUrl}"
-			rel="nofollow"
+				rel="nofollow"
       style="
         background-color: #6a20ae;
         font-size: 14px;
