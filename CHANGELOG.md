@@ -1,3 +1,10 @@
+## [1.39.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.1...v1.39.2) (2021-09-28)
+
+
+### Bug Fixes
+
+* update admin mail ([#299](https://github.com/SocialGouv/carnet-de-bord/issues/299)) ([1b33c2d](https://github.com/SocialGouv/carnet-de-bord/commit/1b33c2d66341d8c8610a37d0e2ef4fe5846524cc))
+
 ## [1.39.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.0...v1.39.1) (2021-09-27)
 
 
