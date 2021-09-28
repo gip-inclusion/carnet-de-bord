@@ -22,6 +22,7 @@ export function emailNotebookInvitation({
    &nbsp;
   <p style="padding-left: 20%">
     <a
+			rel="nofollow"
       href="${appUrl}/auth/jwt/${accessKey}?url=/pro/carnet/${notebookId}"
       style="
         background-color: #6a20ae;
