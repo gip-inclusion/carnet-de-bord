@@ -10,7 +10,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   ##############################################################################
   ## BUILD AND REGISTER APPLICATION IMAGE
   ##############################################################################
@@ -18,17 +17,16 @@ jobs:
     name: Build & Register application
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
-      with:
-        project: ${{ env.project }}
-        imageName: ${{ env.project }}/app
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          project: ${{ env.project }}
+          imageName: ${{ env.project }}/app
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   ##############################################################################
   ## BUILD AND REGISTER HASURA IMAGE
@@ -37,18 +35,17 @@ jobs:
     name: Build & Register Hasura
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
-      with:
-        project: ${{ env.project }}
-        dockerfile: hasura/Dockerfile
-        token: ${{ secrets.GITHUB_TOKEN }}
-        imageName: ${{ env.project }}/hasura
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          project: ${{ env.project }}
+          dockerfile: hasura/Dockerfile
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/hasura
 
   ##############################################################################
   ## GENERATE PREPRODUCTION MANIFESTS
@@ -57,13 +54,12 @@ jobs:
     name: Preproduction manifests
     runs-on: ubuntu-latest
     steps:
-
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@v1
-      with:
-        environment: "preprod"
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+      - name: Use autodevops manifests generation
+        uses: SocialGouv/actions/k8s-manifests@v1
+        with:
+          environment: 'preprod'
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
   ## DEPLOY PREPRODUCTION APPLICATION
@@ -74,16 +70,15 @@ jobs:
     needs: [register, register-hasura, manifests]
     environment:
       name: preproduction
-      url: https://carnet-de-bord-prepod.dev.fabrique.social.gouv.fr/
+      url: https://carnet-de-bord-preprod.dev.fabrique.social.gouv.fr/
     steps:
-  
-    - name: Use autodevops deployment
-      uses: SocialGouv/actions/autodevops-deploy@v1
-      with:
-        environment: "preprod"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.KUBECONFIG }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+      - name: Use autodevops deployment
+        uses: SocialGouv/actions/autodevops-deploy@v1
+        with:
+          environment: 'preprod'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
   ##############################################################################
   ## DEPLOY PRODUCTION APPLICATION
@@ -96,18 +91,17 @@ jobs:
       name: production
       url: https://carnet-de-bord.fabrique.social.gouv.fr/
     steps:
+      - name: Use autodevops manifests generation
+        uses: SocialGouv/actions/k8s-manifests@v1
+        with:
+          environment: 'prod'
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@v1
-      with:
-        environment: "prod"
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-
-    - name: Use autodevops deployment
-      uses: SocialGouv/actions/autodevops-deploy@v1
-      with:
-        environment: "prod"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.KUBECONFIG }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+      - name: Use autodevops deployment
+        uses: SocialGouv/actions/autodevops-deploy@v1
+        with:
+          environment: 'prod'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
