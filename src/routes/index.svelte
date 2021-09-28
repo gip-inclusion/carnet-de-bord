@@ -1,15 +1,22 @@
-<script lang="ts">
+<script context="module" type="ts">
 	import { homeForRole } from '$lib/routes';
-	import { session } from '$app/stores';
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 
-	onMount(async () => {
-		const user = $session.user;
-		if (user) {
-			const { role } = user;
-			const home = homeForRole(role);
-			goto(home);
+	export async function load({ session }) {
+		const { user } = session;
+
+		if (!user) {
+			return {
+				status: 302,
+				redirect: '/login',
+			};
 		}
-	});
+		const { role } = user;
+
+		const home = homeForRole(role);
+
+		return {
+			status: 302,
+			redirect: home,
+		};
+	}
 </script>
