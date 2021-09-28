@@ -1,3 +1,10 @@
+# [1.40.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.3...v1.40.0) (2021-09-28)
+
+
+### Features
+
+* udpate prod secret ([#301](https://github.com/SocialGouv/carnet-de-bord/issues/301)) ([74bc7e6](https://github.com/SocialGouv/carnet-de-bord/commit/74bc7e67b86caa2419a7b63c013e71158298b666))
+
 ## [1.39.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.39.2...v1.39.3) (2021-09-28)
 
 
