@@ -96,5 +96,6 @@ jobs:
     - uses: SocialGouv/actions/k8s-restore-db@v1
       with:
         kubeconfig: ${{ secrets.KUBECONFIG }}
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
         socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
