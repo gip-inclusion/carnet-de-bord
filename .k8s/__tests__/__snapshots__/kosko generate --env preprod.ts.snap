@@ -190,7 +190,7 @@ metadata:
 data:
   SMTP_HOST: smtp.mailtrap.io
   SMTP_PORT: '2525'
-  SMTP_FROM: admin@carnet-de-bord.fr
+  SMTP_FROM: support.carnet-de-bord@fabrique.social.gouv.fr
   API_PARTICULIER_URL: https://particulier-test.api.gouv.fr/api
 ---
 apiVersion: v1
