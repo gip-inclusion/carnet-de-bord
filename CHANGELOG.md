@@ -1,3 +1,10 @@
+# [1.42.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.41.0...v1.42.0) (2021-09-29)
+
+
+### Features
+
+* **beneficiary:** make email nullable ([#307](https://github.com/SocialGouv/carnet-de-bord/issues/307)) ([8f76263](https://github.com/SocialGouv/carnet-de-bord/commit/8f7626330cdcee755d32fbb0bb75602aade13242))
+
 # [1.41.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.40.2...v1.41.0) (2021-09-29)
 
 
