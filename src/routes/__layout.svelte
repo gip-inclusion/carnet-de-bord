@@ -9,6 +9,7 @@
 	import { offCanvas } from '$lib/stores';
 
 	import { onMount } from 'svelte';
+	import * as Matomo from '$lib/tracking/matomo';
 
 	export async function load({ context, page, session }: LoadInput): Promise<LoadOutput> {
 		const redirect = redirectUrl(page, session);
@@ -32,9 +33,17 @@
 </script>
 
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { browser } from '$app/env';
+	import { getMatomoSIteId, getMatomoUrl } from '$lib/config/variables/public';
+
 	export let client: Client;
-	let scrollbarWidth = '0';
 	setClient(client);
+
+	const MATOMO_URL = getMatomoUrl();
+	const MATOMO_SITE_ID = getMatomoSIteId();
+
+	let scrollbarWidth = '0';
 
 	onMount(() => {
 		const { body } = document;
@@ -51,7 +60,13 @@
 		// Remove element
 		body.removeChild(scrollDiv);
 		body.style.setProperty('--scrollbarWidth', scrollbarWidth);
+
+		Matomo.load(MATOMO_URL, MATOMO_SITE_ID);
 	});
+
+	$: {
+		$page.path, browser && Matomo.trackPageView();
+	}
 </script>
 
 <svelte:head>
