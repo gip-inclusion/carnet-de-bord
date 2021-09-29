@@ -33,39 +33,39 @@
 	}
 </script>
 
-<div class="flex flex-col gap-8 px-40">
+<div class="py-4 px-40">
 	<LoaderIndicator {result}>
-		<div>
-			<h2 class="fr-h4 pt-4">Liste des accompagnateurs</h2>
-			<div class="flex flex-column flex-wrap justify-between gap-2">
-				{#each accounts as account (account.id)}
-					<div class="flex gap-2 p-3 border-2 justify-between border-information w-full">
-						<div class="flex flex-row gap-3">
-							<div class="flex-column">
-								<div class="text-information">Nom</div>
-								<div>{account.professional.firstname} {account.professional.lastname}</div>
-							</div>
-
-							<div class="flex-column">
-								<div class="text-information">Mobile:</div>
-								<div>{account.professional.mobileNumber}</div>
-							</div>
-
-							<div class="flex-column">
-								<div class="text-information">Structure:</div>
-								<div>{account.professional.structure.name}</div>
-							</div>
-							<div class="flex-column">
-								<div class="text-information">Compte:</div>
-								<div>{account.confirmed ? 'actif' : 'à valider'}</div>
-							</div>
-						</div>
-						{#if !account.confirmed}
-							<Button on:click={() => confirmAccount(account.id)}>Valider ce compte</Button>
-						{/if}
-					</div>
-				{/each}
-			</div>
+		<div class={`w-full fr-table fr-table--layout-fixed`}>
+			<table>
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Mobile</th>
+						<th>Structure</th>
+						<th>Compte</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each accounts as account (account.id)}
+						<tr>
+							<td>{account.professional.lastname}</td>
+							<td>{account.professional.firstname}</td>
+							<td>{account.professional.mobileNumber}</td>
+							<td>{account.professional.structure.name}</td>
+							{#if !account.confirmed}
+								<td><Button on:click={() => confirmAccount(account.id)}>activer</Button></td>
+							{:else}
+								<td>Actif</td>
+							{/if}
+						</tr>
+					{:else}
+						<tr class="shadow-sm">
+							<td class="!text-center" colspan="4"> Aucune action entreprise pour le moment. </td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
 		</div>
 	</LoaderIndicator>
 </div>

@@ -507,7 +507,7 @@ export type Beneficiary = {
 	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	dateOfBirth: Scalars['date'];
-	email: Scalars['String'];
+	email?: Maybe<Scalars['String']>;
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
@@ -4939,7 +4939,7 @@ export type GetAccountQuery = {
 			__typename?: 'beneficiary';
 			firstname: string;
 			lastname: string;
-			email: string;
+			email?: Maybe<string>;
 			mobileNumber?: Maybe<string>;
 			dateOfBirth: string;
 		}>;
@@ -5088,7 +5088,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
 			dateOfBirth: string;
-			email: string;
+			email?: Maybe<string>;
 			firstname: string;
 			id: string;
 			lastname: string;
@@ -5253,7 +5253,7 @@ export type GetNotebookQuery = {
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
 			dateOfBirth: string;
-			email: string;
+			email?: Maybe<string>;
 			firstname: string;
 			id: string;
 			lastname: string;
@@ -7494,6 +7494,20 @@ export const GetAccountsSummaryDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'confirmed' },
 											value: { kind: 'EnumValue', value: 'asc' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professional' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastname' },
+														value: { kind: 'EnumValue', value: 'asc' },
+													},
+												],
+											},
 										},
 									],
 								},
