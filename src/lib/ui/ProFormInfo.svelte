@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
 	import type { AccountRequest, InputItem } from '$lib/types';
 	import { Button, Input } from '$lib/ui/base';
-	import { default as deepEqual } from 'fast-deep-equal';
 	import { createEventDispatcher } from 'svelte';
 </script>
 
@@ -52,10 +51,6 @@
 	export let confirmText = 'Confirmer';
 	export let onInput = undefined;
 	export let disabledKeys: Record<InputItem['key'], boolean> = {};
-
-	let originalAccount = { ...account };
-
-	$: untouched = deepEqual(account, originalAccount);
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -75,7 +70,7 @@
 		<div class="text-error">{globalError}</div>
 	{/if}
 	<div class="flex flex-row gap-6 mt-12">
-		<Button type="submit" disabled={disabled || untouched}>{confirmText}</Button>
+		<Button type="submit" {disabled}>{confirmText}</Button>
 		<Button outline={true} on:click={handleCancel}>Annuler</Button>
 	</div>
 </form>
