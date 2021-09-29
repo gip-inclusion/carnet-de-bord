@@ -1,3 +1,10 @@
+# [1.43.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.42.0...v1.43.0) (2021-09-29)
+
+
+### Features
+
+* **admin:** use table for user list ([#308](https://github.com/SocialGouv/carnet-de-bord/issues/308)) ([231a77d](https://github.com/SocialGouv/carnet-de-bord/commit/231a77d9ee58107116ed5a04bdbcf420f97579f0))
+
 # [1.42.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.41.0...v1.42.0) (2021-09-29)
 
 
