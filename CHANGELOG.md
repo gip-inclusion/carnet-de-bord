@@ -1,3 +1,10 @@
+# [1.41.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.40.2...v1.41.0) (2021-09-29)
+
+
+### Features
+
+* add client tracking ([#305](https://github.com/SocialGouv/carnet-de-bord/issues/305)) ([69032e5](https://github.com/SocialGouv/carnet-de-bord/commit/69032e5230eb740355922a52b2248ee532b0e85e))
+
 ## [1.40.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.40.1...v1.40.2) (2021-09-28)
 
 
