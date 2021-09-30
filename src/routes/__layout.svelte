@@ -65,7 +65,9 @@
 	});
 
 	$: {
-		$page.path, browser && Matomo.trackPageView();
+		if ($page.path && browser && MATOMO_URL && MATOMO_SITE_ID) {
+			Matomo.trackPageView();
+		}
 	}
 </script>
 
