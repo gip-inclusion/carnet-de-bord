@@ -10,6 +10,9 @@ declare global {
 }
 
 export function load(url: string, siteId: string): void {
+	if (!url || !siteId) {
+		return;
+	}
 	if (document.getElementById('matomo-script')) {
 		// early return; we don't need 2 scripts
 		return;
