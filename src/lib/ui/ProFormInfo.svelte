@@ -6,9 +6,6 @@
 
 <script lang="ts">
 	const dispatch = createEventDispatcher();
-	async function handleSubmit() {
-		dispatch('submit', {});
-	}
 
 	async function handleCancel() {
 		dispatch('cancel', {});
@@ -51,28 +48,34 @@
 	export let confirmText = 'Confirmer';
 	export let onInput = undefined;
 	export let disabledKeys: Record<InputItem['key'], boolean> = {};
+
+	async function handleSubmit() {
+		dispatch('submit', { account });
+	}
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-	{#each inputs as input (input.key)}
-		<Input
-			bind:val={account[input.key]}
-			inputHint={input.hint}
-			inputLabel={input.label}
-			error={fieldErrors[input.key]}
-			on:input={onInput}
-			disabled={disabledKeys[input.key]}
-			type={input.type}
-			required={input.required}
-		/>
-	{/each}
-	{#if globalError}
-		<div class="text-error">{globalError}</div>
+	{#if account}
+		{#each inputs as input (input.key)}
+			<Input
+				bind:val={account[input.key]}
+				inputHint={input.hint}
+				inputLabel={input.label}
+				error={fieldErrors[input.key]}
+				on:input={onInput}
+				disabled={disabledKeys[input.key]}
+				type={input.type}
+				required={input.required}
+			/>
+		{/each}
+		{#if globalError}
+			<div class="text-error">{globalError}</div>
+		{/if}
+		<div class="flex flex-row gap-6 mt-12">
+			<Button type="submit" {disabled}>{confirmText}</Button>
+			<Button outline={true} on:click={handleCancel}>Annuler</Button>
+		</div>
 	{/if}
-	<div class="flex flex-row gap-6 mt-12">
-		<Button type="submit" {disabled}>{confirmText}</Button>
-		<Button outline={true} on:click={handleCancel}>Annuler</Button>
-	</div>
 </form>
 
 <style lang="postcss">

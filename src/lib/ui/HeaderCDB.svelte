@@ -27,9 +27,9 @@
 	<div slot="quickAccessRight">
 		{#if $session.user}
 			<MenuButton>
-				<MenuListItem href={`${baseUrlForRole($session.user.role)}/moncompte`}
-					>Mon Compte</MenuListItem
-				>
+				<MenuListItem href={`${baseUrlForRole($session.user.role)}/moncompte`}>
+					Mon Compte
+				</MenuListItem>
 				<MenuListItem on:select={logout}>Déconnexion</MenuListItem>
 			</MenuButton>
 		{/if}

@@ -34,9 +34,10 @@
 		if (result.data) {
 			const acc = result.data.account_by_pk;
 			if (acc) {
-				const { username, onboardingDone, confirmed } = acc;
+				const { username, onboardingDone, confirmed, id } = acc;
 				const { firstname, lastname, email, mobileNumber, position } = acc.professional;
 				$account = {
+					id,
 					username,
 					onboardingDone,
 					confirmed,

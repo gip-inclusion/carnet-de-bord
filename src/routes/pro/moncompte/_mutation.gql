@@ -4,6 +4,7 @@ mutation UpdateProfessionalProfile(
 	$mobileNumber: String!
 	$position: String!
 	$professionalId: uuid!
+	$structureId: uuid
 ) {
 	updateProfessional: update_professional(
 		_set: {
@@ -11,6 +12,7 @@ mutation UpdateProfessionalProfile(
 			lastname: $lastname
 			position: $position
 			mobileNumber: $mobileNumber
+			structureId: $structureId
 		}
 		where: { id: { _eq: $professionalId } }
 	) {

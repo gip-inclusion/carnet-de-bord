@@ -1,4 +1,5 @@
 export type Account = AccountRequest & {
+	id?: string;
 	username: string;
 	onboardingDone: boolean;
 	confirmed: boolean;
