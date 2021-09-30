@@ -19,22 +19,69 @@
 </script>
 
 <script lang="ts">
-	import { Button } from '$lib/ui/base';
+	import { Button, SearchBar } from '$lib/ui/base';
+	import { stringsMatch } from '$lib/helpers';
+	import { goto } from '$app/navigation';
 
 	export let result: OperationStore<GetAccountsSummaryQuery>;
 
 	query(result);
 
-	$: accounts = $result.data?.accounts;
+	let accounts: GetAccountsSummaryQuery['accounts'];
+	$: accounts = $result.data?.accounts || [];
 
 	async function confirmAccount(id: string) {
 		await post(`/admin/confirmPro`, { id });
 		$result.reexecute({ requestPolicy: 'network-only' });
 	}
+
+	let search = '';
+	let search2 = '';
+
+	function filter(accs: GetAccountsSummaryQuery['accounts'], s: string | null) {
+		const matcher = stringsMatch(s);
+		return accs.filter(({ professional }) => {
+			if (professional) {
+				return (
+					(professional.firstname && matcher(professional.firstname)) ||
+					(professional.lastname && matcher(professional.lastname)) ||
+					(professional.email && matcher(professional.email)) ||
+					(professional.mobileNumber &&
+						matcher(
+							professional.mobileNumber
+								.replace(' ', '')
+								.replace('.', '')
+								.replace('-', '')
+								.replace('/', '')
+						))
+				);
+			} else {
+				return false;
+			}
+		});
+	}
+
+	function handleSubmit() {
+		search2 = search;
+	}
+
+	$: filteredAccounts = filter(accounts, search2);
+
+	function openProInfo({ id }: GetAccountsSummaryQuery['accounts'][0]) {
+		goto(`/admin/utilisateur/${id}`);
+		return;
+	}
 </script>
 
-<div class="py-4 px-40">
+<div class="py-4 px-40 space-y-4">
 	<LoaderIndicator {result}>
+		<SearchBar
+			bind:search
+			inputLabel="Rechercher un compte"
+			inputHint="Nom, prénom, email, téléphone"
+			btnLabel="Rechercher"
+			{handleSubmit}
+		/>
 		<div class={`w-full fr-table fr-table--layout-fixed`}>
 			<table>
 				<thead>
@@ -47,21 +94,23 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each accounts as account (account.id)}
-						<tr>
+					{#each filteredAccounts as account (account.id)}
+						<tr class="cursor-pointer" on:click={() => openProInfo(account)}>
 							<td>{account.professional.lastname}</td>
 							<td>{account.professional.firstname}</td>
 							<td>{account.professional.mobileNumber}</td>
 							<td>{account.professional.structure.name}</td>
-							{#if !account.confirmed}
-								<td><Button on:click={() => confirmAccount(account.id)}>activer</Button></td>
-							{:else}
-								<td>Actif</td>
-							{/if}
+							<td>
+								{#if !account.confirmed}
+									<Button on:click={() => confirmAccount(account.id)}>activer</Button>
+								{:else}
+									Actif
+								{/if}
+							</td>
 						</tr>
 					{:else}
 						<tr class="shadow-sm">
-							<td class="!text-center" colspan="4"> Aucune action entreprise pour le moment. </td>
+							<td class="!text-center" colspan="4"> Aucun compte utilisateur. </td>
 						</tr>
 					{/each}
 				</tbody>
