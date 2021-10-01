@@ -1,3 +1,10 @@
+## [1.43.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.0...v1.43.1) (2021-10-01)
+
+
+### Bug Fixes
+
+* handle matomo url not present ([#309](https://github.com/SocialGouv/carnet-de-bord/issues/309)) ([b04f2a2](https://github.com/SocialGouv/carnet-de-bord/commit/b04f2a2bc991dc2a4abb0da30dde7e96c09a06f5))
+
 # [1.43.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.42.0...v1.43.0) (2021-09-29)
 
 
