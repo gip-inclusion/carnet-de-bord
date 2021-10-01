@@ -1,9 +1,9 @@
-## [1.43.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.1...v1.43.2-alpha.1) (2021-10-26)
+# [1.44.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.1...v1.44.0) (2021-10-01)
 
 
-### Bug Fixes
+### Features
 
-* Add environment to buig-register image. ([141ae5f](https://github.com/SocialGouv/carnet-de-bord/commit/141ae5f818ee2ce7eeb7eca9320b4d58422325d1))
+* **matomo:** add dev matomo ([#311](https://github.com/SocialGouv/carnet-de-bord/issues/311)) ([75133c8](https://github.com/SocialGouv/carnet-de-bord/commit/75133c8f2d5da8a88fafa841aed79a51f5cb3f14))
 
 ## [1.43.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.0...v1.43.1) (2021-10-01)
 
