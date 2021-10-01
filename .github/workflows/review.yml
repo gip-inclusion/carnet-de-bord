@@ -2,8 +2,8 @@ name: Review
 
 on:
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - 'master'
     tags-ignore:
       - v*
 
@@ -12,25 +12,26 @@ concurrency:
   group: review-${{ github.ref }}
 
 jobs:
-
   ##############################################################################
   ## BUILD AND REGISTER APP IMAGE
   ##############################################################################
-  register:
+  register-app:
     name: Build & Register application
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
-      with:
-        project: ${{ env.project }}
-        imageName: ${{ env.project }}/app
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          project: ${{ env.project }}
+          imageName: ${{ env.project }}/app
+          token: ${{ secrets.GITHUB_TOKEN }}
+          dockerbuildargs: |
+            VITE_MATOMO_SITE_ID=53
+            VITE_MATOMO_URL=https://matomo.fabrique.social.gouv.fr
 
   ##############################################################################
   ## BUILD AND REGISTER HASURA IMAGE
@@ -39,18 +40,17 @@ jobs:
     name: Build & Register Hasura
     runs-on: ubuntu-latest
     steps:
+      - name: Get project name
+        run: |
+          echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - name: Get project name
-      run: |
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    - name: Use autodevops build and register
-      uses: SocialGouv/actions/autodevops-build-register@v1
-      with:
-        project: ${{ env.project }}
-        dockerfile: hasura/Dockerfile
-        token: ${{ secrets.GITHUB_TOKEN }}
-        imageName: ${{ env.project }}/hasura
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          project: ${{ env.project }}
+          dockerfile: hasura/Dockerfile
+          token: ${{ secrets.GITHUB_TOKEN }}
+          imageName: ${{ env.project }}/hasura
 
   ##############################################################################
   ## GENERATE KUBERNETES MANIFESTS
@@ -59,13 +59,12 @@ jobs:
     name: Generate k8s manifests
     runs-on: ubuntu-latest
     steps:
-
-    - name: Use autodevops manifests generation
-      uses: SocialGouv/actions/k8s-manifests@v1
-      with:
-        environment: "dev"
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+      - name: Use autodevops manifests generation
+        uses: SocialGouv/actions/k8s-manifests@v1
+        with:
+          environment: 'dev'
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -73,16 +72,15 @@ jobs:
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [register, register-hasura, manifests]
+    needs: [register-app, register-hasura, manifests]
     steps:
-
-    - name: Use autodevops deployment
-      uses: SocialGouv/actions/autodevops-deploy@v1
-      with:
-        environment: "dev"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        kubeconfig: ${{ secrets.KUBECONFIG }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+      - name: Use autodevops deployment
+        uses: SocialGouv/actions/autodevops-deploy@v1
+        with:
+          environment: 'dev'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
   ##############################################################################
   ## RESTORE DATABASE
@@ -92,10 +90,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
-
-    - uses: SocialGouv/actions/k8s-restore-db@v1
-      with:
-        kubeconfig: ${{ secrets.KUBECONFIG }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-
+      - uses: SocialGouv/actions/k8s-restore-db@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
