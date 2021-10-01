@@ -2,6 +2,12 @@ FROM node:16-slim
 
 WORKDIR /app
 
+ARG VITE_MATOMO_URL
+ARG VITE_MATOMO_SITE_ID
+
+ENV VITE_MATOMO_URL=$VITE_MATOMO_URL
+ENV VITE_MATOMO_SITE_ID=$VITE_MATOMO_SITE_ID
+
 COPY ./package.json package.json
 COPY ./yarn.lock yarn.lock
 
