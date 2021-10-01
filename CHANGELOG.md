@@ -1,3 +1,10 @@
+# [1.44.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.1...v1.44.0) (2021-10-01)
+
+
+### Features
+
+* **matomo:** add dev matomo ([#311](https://github.com/SocialGouv/carnet-de-bord/issues/311)) ([75133c8](https://github.com/SocialGouv/carnet-de-bord/commit/75133c8f2d5da8a88fafa841aed79a51f5cb3f14))
+
 ## [1.43.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.0...v1.43.1) (2021-10-01)
 
 
