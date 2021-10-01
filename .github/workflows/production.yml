@@ -27,7 +27,9 @@ jobs:
           project: ${{ env.project }}
           imageName: ${{ env.project }}/app
           token: ${{ secrets.GITHUB_TOKEN }}
-
+					dockerbuildargs: |
+						VITE_MATOMO_URL: https://matomo.fabrique.social.gouv.fr/
+						VITE_MATOMO_SITE_ID: '51'
   ##############################################################################
   ## BUILD AND REGISTER HASURA IMAGE
   ##############################################################################
