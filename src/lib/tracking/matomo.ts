@@ -31,10 +31,6 @@ export function load(url: string, siteId: string): void {
 	scriptElement.id = 'matomo-script';
 	scriptElement.src = `${url}/matomo.js`;
 
-	scriptElement.onload = () => {
-		onMatomoReady();
-	};
-
 	const noscript = document.createElement('noscript');
 	noscript.innerHTML = `<p><img src="${url}/matomo.php?idsite=${siteId}&amp;rec=1" style="border:0;" alt="" /></p></noscript>`;
 
@@ -42,35 +38,6 @@ export function load(url: string, siteId: string): void {
 		firstScriptElement.parentNode.insertBefore(noscript, firstScriptElement);
 		firstScriptElement.parentNode.insertBefore(scriptElement, noscript);
 	}
-}
-
-/***
- *
- *
-
-<!-- Matomo -->
-<script type="text/javascript">
-  var _paq = window._paq = window._paq || [];
-  // tracker methods like "setCustomDimension" should be called before "trackPageView"
-  _paq.push(["setDoNotTrack", true]);
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="https://matomo.fabrique.social.gouv.fr/";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '53']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="https://matomo.fabrique.social.gouv.fr/matomo.php?idsite=53&amp;rec=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Matomo Code -->
-
-
- *
- */
-function onMatomoReady() {
-	console.log(window.Matomo);
 }
 
 export function trackPageView(): void {
