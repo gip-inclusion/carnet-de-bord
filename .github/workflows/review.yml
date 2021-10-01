@@ -31,7 +31,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           dockerbuildargs: |
             VITE_MATOMO_SITE_ID=53
-            VITE_MATOMO_URL=https://matomo.fabrique.social.gouv.fr/
+            VITE_MATOMO_URL=https://matomo.fabrique.social.gouv.fr
 
   ##############################################################################
   ## BUILD AND REGISTER HASURA IMAGE

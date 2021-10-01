@@ -29,7 +29,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           dockerbuildargs: |
             VITE_MATOMO_SITE_ID=51
-            VITE_MATOMO_URL=https://matomo.fabrique.social.gouv.fr/
+            VITE_MATOMO_URL=https://matomo.fabrique.social.gouv.fr
 
   ##############################################################################
   ## BUILD AND REGISTER HASURA IMAGE
@@ -61,7 +61,6 @@ jobs:
       name: production
       url: https://carnet-de-bord.fabrique.social.gouv.fr/
     steps:
-
       - name: Use autodevops manifests generation
         uses: SocialGouv/actions/k8s-manifests@v1
         with:

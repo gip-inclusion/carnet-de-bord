@@ -192,7 +192,7 @@ data:
   SMTP_PORT: '2525'
   SMTP_FROM: contact.carnet-de-bord@fabrique.social.gouv.fr
   API_PARTICULIER_URL: https://particulier-test.api.gouv.fr/api
-  VITE_MATOMO_URL: https://matomo.fabrique.social.gouv.fr/
+  VITE_MATOMO_URL: https://matomo.fabrique.social.gouv.fr
   VITE_MATOMO_SITE_ID: '53'
 ---
 apiVersion: v1
