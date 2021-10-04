@@ -72,7 +72,7 @@ export const post: RequestHandler = async (request) => {
 		status: 200,
 		body: {
 			email,
-			path: process.env.VITE_NO_LOGIN ? `/auth/jwt/${accessKey}` : null,
+			...{ accessUrl: process.env['SANDBOX_LOGIN'] ? `/auth/jwt/${accessKey}` : null },
 		},
 	};
 };
