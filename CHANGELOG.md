@@ -1,3 +1,11 @@
+## [1.46.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.0...v1.46.1) (2021-10-04)
+
+
+### Bug Fixes
+
+* add title to page ([eb791be](https://github.com/SocialGouv/carnet-de-bord/commit/eb791be619cc912dddad37d4de283afc104d6ce7))
+* title ([aa38c8d](https://github.com/SocialGouv/carnet-de-bord/commit/aa38c8d589b6beb01cad19b417b15a5d0467d916))
+
 # [1.46.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.45.0...v1.46.0) (2021-10-04)
 
 
