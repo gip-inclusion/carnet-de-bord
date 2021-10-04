@@ -79,6 +79,7 @@
 			{#if accessPath && import.meta.env.VITE_NO_LOGIN}
 				<div><Link href={accessPath}>Ouvrir carnet de bord</Link></div>
 			{/if}
+			({import.meta.env.VITE_NO_LOGIN})
 		</div>
 		<div class="flex flex-col gap-6">
 			<div class="text-sm">
