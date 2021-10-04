@@ -28,6 +28,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Connexion - carnet de bord</title>
+</svelte:head>
+
 {#if requestStep !== 'success'}
 	<h1>
 		<div>Se connecter</div>

@@ -20,6 +20,7 @@
 
 <script lang="ts">
 	import ProWithStructureView from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
+	import { displayFullName } from '$lib/ui/format';
 
 	export let getAccountStore: GetAccountQueryStore;
 
@@ -27,6 +28,10 @@
 	$: acc = $getAccountStore?.data?.account_by_pk;
 	$: professional = acc?.professional as Professional | null;
 </script>
+
+<svelte:head>
+	<title>Fiche professionnel {displayFullName(professional)} - carnet de bord</title>
+</svelte:head>
 
 <div class="flex flex-col gap-8 p-20">
 	<LoaderIndicator result={getAccountStore}>

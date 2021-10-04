@@ -12,6 +12,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { stringsMatch } from '$lib/helpers';
 	import { MainAccordion, Accordions, Select, SearchBar } from '$lib/ui/base';
+	import { displayFullName } from '$lib/ui/format';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
@@ -136,6 +137,9 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Carnet beneficiaire {displayFullName(beneficiary)} - carnet de bord</title>
+</svelte:head>
 <LoaderIndicator result={getNotebookStore}>
 	<div class="flex flex-col gap-8 p-40">
 		<ProNotebookPersonalInfoView

@@ -36,6 +36,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Accueil Professionnel - carnet de bord</title>
+</svelte:head>
+
 <div class="flex flex-col space-y-8 px-40">
 	<h1 class="fr-h2">Rechercher un bénéficiaire</h1>
 
