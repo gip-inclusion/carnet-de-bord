@@ -104,6 +104,9 @@
 	$: notebooks = members ? members.map((m) => m.notebook) : [];
 </script>
 
+<svelte:head>
+	<title>Annuaire - carnet de bord</title>
+</svelte:head>
 <div class="flex flex-col space-y-8 px-40">
 	<div>
 		<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>

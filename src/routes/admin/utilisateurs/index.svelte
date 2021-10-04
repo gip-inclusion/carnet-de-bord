@@ -69,6 +69,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Gestion des utilisateurs - carnet de bord</title>
+</svelte:head>
+
 <div class="py-4 px-40 space-y-4">
 	<LoaderIndicator {result}>
 		<SearchBar

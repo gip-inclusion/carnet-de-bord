@@ -46,6 +46,9 @@
 	});
 </script>
 
+<svelte:head>
+	<title>validation du token de connexion - carnet de bord</title>
+</svelte:head>
 {#if displayError}
 	<div class="pt-28 flex flex-col justify-items-center">
 		<div class="pb-12 text-xl text-center">Désolé, ce lien n'est plus valide...</div>
