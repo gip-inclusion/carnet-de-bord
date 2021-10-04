@@ -17,7 +17,6 @@ export function load(url: string, siteId: string): void {
 		// early return; we don't need 2 scripts
 		return;
 	}
-	console.log('matomo load');
 	window._paq = window._paq || [];
 	window._paq.push(['setDoNotTrack', 'true']);
 	window._paq.push(['trackPageView']);
@@ -32,12 +31,8 @@ export function load(url: string, siteId: string): void {
 	scriptElement.id = 'matomo-script';
 	scriptElement.src = `${url}/matomo.js`;
 
-	const noscript = document.createElement('noscript');
-	noscript.innerHTML = `<p><img src="${url}/matomo.php?idsite=${siteId}&amp;rec=1" style="border:0;" alt="" /></p></noscript>`;
-
 	if (firstScriptElement.parentNode) {
-		firstScriptElement.parentNode.insertBefore(noscript, firstScriptElement);
-		firstScriptElement.parentNode.insertBefore(scriptElement, noscript);
+		firstScriptElement.parentNode.insertBefore(scriptElement, firstScriptElement);
 	}
 }
 
