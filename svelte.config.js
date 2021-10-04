@@ -10,17 +10,17 @@ const config = {
 			server: {
 				hmr: {
 					protocol: 'ws',
-					port: 3001
-				}
+					port: 3001,
+				},
 			},
 			optimizeDeps: {
 				//https://formidable.com/open-source/urql/docs/basics/svelte/
-				exclude: ['@urql/svelte']
+				exclude: ['@urql/svelte'],
 			},
 			ssr: {
 				// https://github.com/FormidableLabs/urql/issues/1819
-				noExternal: ['@urql/svelte']
-			}
+				noExternal: ['@urql/svelte'],
+			},
 		},
 		adapter: adapter({
 			// default options are shown
@@ -29,19 +29,15 @@ const config = {
 			env: {
 				// host: 'HOST',
 				// port: 'PORT'
-			}
-		})
+			},
+		}),
 	},
 
 	preprocess: [
 		preprocess({
-			postcss: true
-		})
-	]
+			postcss: true,
+		}),
+	],
 };
 
 export default config;
-// Workaround until SvelteKit uses Vite 2.3.8 (and it's confirmed to fix the Tailwind JIT problem)
-const mode = process.env.NODE_ENV;
-const dev = mode === 'development';
-process.env.TAILWIND_MODE = dev ? 'watch' : 'build';

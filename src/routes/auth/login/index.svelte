@@ -8,8 +8,7 @@
 	let requestStep: RequestStep = 'start';
 	let username: string;
 
-	// only in dev
-	let accessPath: string;
+	let magicLink = '';
 
 	async function registration() {
 		goto('/inscription');
@@ -21,9 +20,11 @@
 			requestStep = 'error';
 		}
 		if (response.status === 200) {
-			const { path } = await response.json();
-			accessPath = path;
+			const { accessUrl } = await response.json();
+			magicLink = accessUrl;
 			requestStep = 'success';
+		} else {
+			magicLink = '';
 		}
 	}
 </script>
@@ -76,8 +77,8 @@
 						<Button>J'ai compris</Button>
 					</div>
 					-->
-			{#if accessPath && import.meta.env.VITE_NO_LOGIN}
-				<div><Link href={accessPath}>Ouvrir carnet de bord</Link></div>
+			{#if magicLink}
+				<div><Link href={magicLink}>Ouvrir carnet de bord</Link></div>
 			{/if}
 		</div>
 		<div class="flex flex-col gap-6">
