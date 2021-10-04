@@ -38,12 +38,12 @@
 	let search = '';
 	let search2 = '';
 
-	function filter(accs: GetAccountsSummaryQuery['accounts'], s: string | null) {
+	function filterAccount(accs: GetAccountsSummaryQuery['accounts'], s: string | null) {
 		const matcher = stringsMatch(s);
-		return accs.filter(({ professional }) => {
-			if (professional) {
-				return (
-					(professional.firstname && matcher(professional.firstname)) ||
+		return accs.filter(
+			({ professional }) =>
+				!!professional &&
+				((professional.firstname && matcher(professional.firstname)) ||
 					(professional.lastname && matcher(professional.lastname)) ||
 					(professional.email && matcher(professional.email)) ||
 					(professional.mobileNumber &&
@@ -53,19 +53,15 @@
 								.replace('.', '')
 								.replace('-', '')
 								.replace('/', '')
-						))
-				);
-			} else {
-				return false;
-			}
-		});
+						)))
+		);
 	}
 
 	function handleSubmit() {
 		search2 = search;
 	}
 
-	$: filteredAccounts = filter(accounts, search2);
+	$: filteredAccounts = filterAccount(accounts, search2);
 
 	function openProInfo({ id }: GetAccountsSummaryQuery['accounts'][0]) {
 		goto(`/admin/utilisateur/${id}`);
