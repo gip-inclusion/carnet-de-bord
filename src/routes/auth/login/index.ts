@@ -4,7 +4,6 @@ import { emailLoginRequest } from '$lib/utils/emailLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
 import { getAppUrl } from '$lib/config/variables/private';
-import { dev } from '$app/env';
 
 export const post: RequestHandler = async (request) => {
 	const { username } = request.body as unknown as {
@@ -73,7 +72,7 @@ export const post: RequestHandler = async (request) => {
 		status: 200,
 		body: {
 			email,
-			path: dev ? `/auth/jwt/${accessKey}` : null,
+			path: process.env.VITE_NO_LOGIN ? `/auth/jwt/${accessKey}` : null,
 		},
 	};
 };
