@@ -70,6 +70,10 @@
 	$: cleanedAccount = cleanAccount($account);
 </script>
 
+<svelte:head>
+	<title>Mon compte - carnet de bord</title>
+</svelte:head>
+
 <div class="flex flex-col space-y-8 px-40">
 	{#if cleanedAccount}
 		<h1 class="fr-h2">

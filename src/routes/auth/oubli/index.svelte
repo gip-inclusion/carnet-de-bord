@@ -19,8 +19,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Récupération de mot de passe - carnet de bord</title>
+</svelte:head>
 {#if requestStep !== 'success'}
-	<h1 class="">
+	<h1>
 		<div>Se connecter</div>
 		<div>au Carnet de bord</div>
 	</h1>

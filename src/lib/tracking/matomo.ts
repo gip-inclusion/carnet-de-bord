@@ -17,6 +17,7 @@ export function load(url: string, siteId: string): void {
 		// early return; we don't need 2 scripts
 		return;
 	}
+	console.log('matomo load');
 	window._paq = window._paq || [];
 	window._paq.push(['setDoNotTrack', 'true']);
 	window._paq.push(['trackPageView']);
