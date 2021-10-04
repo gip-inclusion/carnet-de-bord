@@ -8,6 +8,7 @@ query GetAccountsSummary {
       lastname
       position
       mobileNumber
+      email
       structure {
         id
         name

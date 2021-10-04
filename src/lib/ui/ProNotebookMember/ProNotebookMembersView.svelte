@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { NotebookMember } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
-	import { Button } from '../base';
-	import { Text } from '../utils';
+	import { Button } from '$lib/ui/base';
+	import { Text } from '$lib/ui/utils';
 	import ProNotebookMemberInvitation from './ProNotebookMemberInvitation.svelte';
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
 

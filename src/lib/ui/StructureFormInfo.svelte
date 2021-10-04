@@ -154,7 +154,7 @@
 	{#if RD.getData(mutationResult)}
 		<div role="status">
 			<h2 class="text-france-blue fr-h4 pt-8 px-8">
-				{structureId ? 'Création' : 'Modification'} d'une structure
+				{structureId ? 'Modification' : 'Création'} d'une structure
 			</h2>
 			<div class="w-full p-8">
 				<Alert type="success" description={'La structure a été enregistrée avec succès !'} />
@@ -165,7 +165,7 @@
 		</div>
 	{:else}
 		<h2 class="text-france-blue fr-h4 pt-8 px-8">
-			{structureId ? 'Création' : 'Modification'} d'une structure
+			{structureId ? 'Modification' : 'Création'} d'une structure
 		</h2>
 		<form class="w-full px-8 pb-8" on:submit|preventDefault={handleSubmit}>
 			{#each inputs as input (input.key)}
