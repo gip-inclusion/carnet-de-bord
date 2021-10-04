@@ -5,5 +5,6 @@ interface ImportMeta {
 		VITE_GRAPHQL_API_URL: string;
 		VITE_MATOMO_URL: string;
 		VITE_MATOMO_SITE_ID: string;
+		VITE_NO_LOGIN: boolean;
 	};
 }

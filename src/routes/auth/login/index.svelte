@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { dev } from '$app/env';
-
 	import { goto } from '$app/navigation';
 
 	import type { RequestStep } from '$lib/types';
@@ -74,8 +72,8 @@
 						<Button>J'ai compris</Button>
 					</div>
 					-->
-			{#if accessPath && dev}
-				<div><Link href={accessPath}>DEV - LIEN DE CONNEXION</Link></div>
+			{#if accessPath && import.meta.env.VITE_NO_LOGIN}
+				<div><Link href={accessPath}>Ouvrir carnet de bord</Link></div>
 			{/if}
 		</div>
 		<div class="flex flex-col gap-6">
