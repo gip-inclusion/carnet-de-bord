@@ -1,3 +1,10 @@
+# [1.46.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.45.0...v1.46.0) (2021-10-04)
+
+
+### Features
+
+* admin improvements (user list) ([#310](https://github.com/SocialGouv/carnet-de-bord/issues/310)) ([b5fa5d1](https://github.com/SocialGouv/carnet-de-bord/commit/b5fa5d1c7a45992a6cd356b3ce71b0684ddfad2c))
+
 # [1.45.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.44.0...v1.45.0) (2021-10-04)
 
 
