@@ -1,3 +1,10 @@
+# [1.45.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.44.0...v1.45.0) (2021-10-04)
+
+
+### Features
+
+* allow no-login on preprod ([#312](https://github.com/SocialGouv/carnet-de-bord/issues/312)) ([a353cdd](https://github.com/SocialGouv/carnet-de-bord/commit/a353cddf3cfb84df17f613b0ad3a21a0d7f85a6c))
+
 # [1.44.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.1...v1.44.0) (2021-10-01)
 
 
