@@ -1,3 +1,10 @@
+## [1.46.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.2...v1.46.3) (2021-10-04)
+
+
+### Bug Fixes
+
+* add magikLink on dev / preprod ([e0552cc](https://github.com/SocialGouv/carnet-de-bord/commit/e0552cc4a394f24c60d964a3b9ccbb22492090b1))
+
 ## [1.46.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.1...v1.46.2) (2021-10-04)
 
 
