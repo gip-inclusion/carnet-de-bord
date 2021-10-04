@@ -17,6 +17,14 @@ query GetAccount($accountId: uuid!) {
 			mobileNumber
 			email
 			position
+			structure {
+				id
+				name
+				address1
+				address2
+				postalCode
+				city
+			}
 		}
 	}
 }

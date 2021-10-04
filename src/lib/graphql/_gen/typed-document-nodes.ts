@@ -4950,6 +4950,15 @@ export type GetAccountQuery = {
 			mobileNumber?: Maybe<string>;
 			email: string;
 			position?: Maybe<string>;
+			structure: {
+				__typename?: 'structure';
+				id: string;
+				name?: Maybe<string>;
+				address1?: Maybe<string>;
+				address2?: Maybe<string>;
+				postalCode?: Maybe<string>;
+				city?: Maybe<string>;
+			};
 		}>;
 	}>;
 };
@@ -5047,6 +5056,7 @@ export type GetAccountsSummaryQuery = {
 			lastname: string;
 			position?: Maybe<string>;
 			mobileNumber?: Maybe<string>;
+			email: string;
 			structure: { __typename?: 'structure'; id: string; name?: Maybe<string> };
 		}>;
 	}>;
@@ -7133,6 +7143,21 @@ export const GetAccountDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+													],
+												},
+											},
 										],
 									},
 								},
@@ -7529,6 +7554,7 @@ export const GetAccountsSummaryDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'structure' },

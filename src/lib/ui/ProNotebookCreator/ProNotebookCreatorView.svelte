@@ -19,7 +19,7 @@
 	<div class="flex flex-row gap-4">
 		<div class="w-1/2 flex flex-col">
 			<span class="mb-1 text-sm">Structure</span>
-			<h2 class="fr-h5 !mb-0 text-france-blue truncate" title={creator.structure?.name}> 
+			<h2 class="fr-h5 !mb-0 text-france-blue truncate" title={creator.structure?.name}>
 				{creator.structure?.name}
 			</h2>
 			<div class="flex flex-col gap-1">
