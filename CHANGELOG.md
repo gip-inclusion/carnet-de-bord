@@ -1,3 +1,10 @@
+## [1.46.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.1...v1.46.2) (2021-10-04)
+
+
+### Bug Fixes
+
+* fix VITE_NO_LOGIN injection ([#314](https://github.com/SocialGouv/carnet-de-bord/issues/314)) ([1d609f1](https://github.com/SocialGouv/carnet-de-bord/commit/1d609f1e6d2f05a6660182af43ffe808dcd922fb))
+
 ## [1.46.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.0...v1.46.1) (2021-10-04)
 
 
