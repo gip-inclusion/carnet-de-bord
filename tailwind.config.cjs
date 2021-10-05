@@ -14,9 +14,9 @@ const config = {
 				'03': '#CCCCCC',
 				text: { DEFAULT: '#555555', alt: '#999999', alt2: '#777777' },
 				dark: '#2E2E2E',
-				bg: '#F8F8F8'
+				bg: '#F8F8F8',
 			},
-			'france-blue': '#000091',
+			'france-blue': { DEFAULT: '#000091', 100: '#F2F2F9', 500: '#000091' },
 			white: '#FFFFFF',
 			black: '#000000',
 			'marianne-red': '#E1000F',
@@ -25,20 +25,20 @@ const config = {
 				60: '#C3AAF6',
 				40: '#D7C6F9',
 				20: '#EBE3FB',
-				10: '#F5F0FD'
+				10: '#F5F0FD',
 			},
 			success: '#008941',
 			error: '#E10600',
 			information: { DEFAULT: '#0762C8', bg: '#DBF0FF', light: '#F0F8FF' },
 			action: '#000638',
 			accent: '#6A20AE',
-			error: '#ED4737'
+			error: '#ED4737',
 		},
 		fontFamily: {
-			sans: ['Marianne']
-		}
+			sans: ['Marianne'],
+		},
 	},
-	plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]
+	plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 };
 
 module.exports = config;
