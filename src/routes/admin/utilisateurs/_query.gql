@@ -1,18 +1,21 @@
 query GetAccountsSummary {
-  accounts: account(where: {type: {_eq: "professional"}}, order_by: {confirmed: asc, professional: {lastname: asc}}) {
-    id
-    confirmed
-    professional {
-      id
-      firstname
-      lastname
-      position
-      mobileNumber
-      email
-      structure {
-        id
-        name
-      }
-    }
-  }
+	accounts: account(
+		where: { type: { _eq: "professional" } }
+		order_by: { confirmed: asc, professional: { lastname: asc } }
+	) {
+		id
+		confirmed
+		professional {
+			id
+			firstname
+			lastname
+			position
+			mobileNumber
+			email
+			structure {
+				id
+				name
+			}
+		}
+	}
 }
