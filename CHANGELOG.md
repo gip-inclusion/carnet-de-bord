@@ -1,3 +1,16 @@
+# [1.48.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.47.0...v1.48.0) (2021-10-05)
+
+
+### Bug Fixes
+
+* redirections ([beafbef](https://github.com/SocialGouv/carnet-de-bord/commit/beafbefbedc64b1841d63b566a578fa843ca68e4))
+* use table to display structure list ([#317](https://github.com/SocialGouv/carnet-de-bord/issues/317)) ([595bfc5](https://github.com/SocialGouv/carnet-de-bord/commit/595bfc562e9b14b63511bb8735ac9ea64e344e95))
+
+
+### Features
+
+* landing page ([33ff75a](https://github.com/SocialGouv/carnet-de-bord/commit/33ff75a27a78049b3775d48fea4b200d98476509))
+
 # [1.47.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.3...v1.47.0) (2021-10-05)
 
 
