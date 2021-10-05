@@ -1,3 +1,10 @@
+# [1.47.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.3...v1.47.0) (2021-10-05)
+
+
+### Features
+
+* update My Account page to split viewing and editing ([#315](https://github.com/SocialGouv/carnet-de-bord/issues/315)) ([e7e9472](https://github.com/SocialGouv/carnet-de-bord/commit/e7e94729fcb54b5aabe4d8073886ec8d1f2ca431))
+
 ## [1.46.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.46.2...v1.46.3) (2021-10-04)
 
 
