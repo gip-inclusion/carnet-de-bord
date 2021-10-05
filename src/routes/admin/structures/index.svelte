@@ -20,8 +20,7 @@
 </script>
 
 <script lang="ts">
-	import { Button, SearchBar } from '$lib/ui/base';
-	import Text from '$lib/ui/utils/Text.svelte';
+	import { Button, IconButton, SearchBar } from '$lib/ui/base';
 	import type { Structure } from '$lib/types';
 
 	export let result: OperationStore<GetStructuresQuery>;
@@ -74,7 +73,14 @@
 <div class="flex flex-col gap-8 px-40">
 	<LoaderIndicator {result}>
 		<div>
-			<h2 class="fr-h4 pt-4">Liste des structures</h2>
+			<div class="flex flex-row justify-between">
+				<h2 class="fr-h4 pt-4">Liste des structures</h2>
+				<IconButton
+					on:click={() => openStructureLayer(null)}
+					icon="ri-add-circle-line"
+					ariaLabel="Ajouter un structure"
+				/>
+			</div>
 
 			<div class="mb-4">
 				<SearchBar
@@ -85,51 +91,25 @@
 					{handleSubmit}
 				/>
 			</div>
-			<div class="flex flex-column flex-wrap justify-between gap-2">
-				<div class="w-full">
-					<Button classNames="float-right" on:click={() => openStructureLayer(null)} outline={true}
-						>Ajouter une structure</Button
-					>
-				</div>
-				{#each filteredStructures as structure (structure.id)}
-					<div class="flex gap-2 p-3 border-2 border-information w-full">
-						<div class="flex-column">
-							<div class="text-information">Nom</div>
-							<Text defaultValue={'-'} value={structure.name} />
-						</div>
-
-						<div class="flex-column">
-							<div class="text-information">Contact</div>
-							<Text defaultValue={'-'} value={structure.email} />
-							<Text defaultValue={'-'} value={structure.phone} />
-						</div>
-
-						<div class="flex-column">
-							<div class="text-information">Ville</div>
-							<div class="flex flex-row">
-								<Text defaultValue={'-'} value={structure.address1} />
-								<Text defaultValue={''} value={structure.address2} />
-							</div>
-							<div class="flex flex-row">
-								{#if !structure.postalCode && !structure.city}
-									-
-								{:else}
-									<Text defaultValue={''} value={structure.postalCode} />
-									{#if structure.postalCode && structure.city}{' '}{/if}
-									<Text defaultValue={''} value={structure.city} />
-								{/if}
-							</div>
-						</div>
-						<div class="flex-grow" />
-						<div class="self-center">
-							<Button
-								on:click={() => openStructureLayer(structure)}
-								outline={true}
-								icon="ri-edit-line"
-							/>
-						</div>
-					</div>
-				{/each}
+			<div class={`w-full fr-table fr-table--layout-fixed`}>
+				<table>
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Code postal</th>
+							<th>Ville</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each filteredStructures as structure (structure.id)}
+							<tr class="cursor-pointer" on:click={() => openStructureLayer(structure)}>
+								<td>{structure.name}</td>
+								<td>{structure.postalCode || ''}</td>
+								<td>{structure.city || ''}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</LoaderIndicator>
