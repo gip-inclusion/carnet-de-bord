@@ -1,73 +1,27 @@
 <script context="module" lang="ts">
-	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
-
-	import type { UpdateProfessionalProfileMutationStore } from '$lib/graphql/_gen/typed-document-nodes';
-	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { mutation, operationStore } from '@urql/svelte';
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async ({ session }) => {
-		const { professionalId } = session.user;
-
-		const updateProfileResult = operationStore(UpdateProfessionalProfileDocument);
-		return {
-			props: {
-				updateProfileResult,
-				professionalId,
-			},
-		};
-	};
+	import { GetAccountDocument, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import { operationStore, query } from '@urql/svelte';
 </script>
 
 <script lang="ts">
-	import AlertRequestResponse from '$lib/ui/utils/AlertRequestResponse.svelte';
-	import type { Account, AccountRequest } from '$lib/types';
-	import { account } from '$lib/stores';
+	import { account, openComponent } from '$lib/stores';
+	import ProAccountEdit from '$lib/ui/ProAccount/ProAccountEdit.svelte';
+	import ProWithStructureView from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
+	import { Button } from '$lib/ui/base';
 
-	export let professionalId: string;
-	export let updateProfileResult: UpdateProfessionalProfileMutationStore;
+	const variables = { accountId: $account?.id };
+	const getAccountStore = operationStore(GetAccountDocument, variables);
+	query(getAccountStore);
 
-	let cleanedAccount: AccountRequest;
+	$: acc = $getAccountStore?.data?.account_by_pk;
 
-	const updateProfile = mutation(updateProfileResult);
-
-	async function handleSubmit() {
-		const { firstname, lastname, mobileNumber, position } = cleanedAccount;
-		const result = await updateProfile({
-			firstname,
-			lastname,
-			professionalId,
-			mobileNumber,
-			position,
+	$: professional = acc?.professional as Professional | null;
+	function editAccount() {
+		openComponent.open({
+			component: ProAccountEdit,
+			props: { professional: professional },
 		});
-		if (result.data?.updateAccount) {
-			const { confirmed, onboardingDone, username, professional } =
-				result.data.updateAccount.returning[0];
-			$account = {
-				confirmed,
-				onboardingDone,
-				username,
-				...professional,
-			};
-			document.querySelector('h1').scrollIntoView({ behavior: 'smooth' });
-		}
 	}
-
-	function handleCancel() {
-		cleanedAccount = cleanAccount($account);
-	}
-
-	function cleanAccount(acc: Account): AccountRequest | null {
-		if ($account) {
-			const { onboardingDone, confirmed, ...cleaned } = acc;
-			return cleaned;
-		} else {
-			return null;
-		}
-	}
-
-	$: onboardingDone = $account && $account.onboardingDone;
-	$: cleanedAccount = cleanAccount($account);
 </script>
 
 <svelte:head>
@@ -75,32 +29,26 @@
 </svelte:head>
 
 <div class="flex flex-col space-y-8 px-40">
-	{#if cleanedAccount}
+	{#if $account}
 		<h1 class="fr-h2">
-			{onboardingDone ? 'Mon compte' : 'Première connexion à Carnet de bord'}
+			{$account.onboardingDone ? 'Mon compte' : 'Première connexion à Carnet de bord'}
 		</h1>
-		{#if !onboardingDone}
+		{#if !$account.onboardingDone}
 			<p>
 				Bienvenue sur Carnet de bord ! Pour cette première connexion, nous vous invitons à vérifier
-				et mettre à jour les informations ci-dessous.
+				et mettre à jour les informations ci-dessous en cliquant sur le bouton "Mettre à jour".
 				<br />
 				Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 			</p>
 		{/if}
-		<AlertRequestResponse operationStore={updateProfileResult} />
+		<ProWithStructureView
+			{professional}
+			proFirst={true}
+			mainTitle="Informations personnelles"
+			username={acc?.username}
+		/>
 		<div>
-			<ProFormInfo
-				on:submit={handleSubmit}
-				on:cancel={handleCancel}
-				account={cleanedAccount}
-				confirmText="Enregistrer mes modifications"
-				disabled={false}
-				fieldErrors={{}}
-				disabledKeys={{
-					username: true,
-					email: true,
-				}}
-			/>
+			<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
 		</div>
 	{/if}
 </div>

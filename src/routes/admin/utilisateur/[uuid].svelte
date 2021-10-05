@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Professional, GetAccountQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
@@ -7,12 +7,10 @@
 
 	export const load: Load = ({ page }) => {
 		const accountId = page.params.uuid;
-		const variables = { accountId };
-		const getAccountStore = operationStore(GetAccountDocument, variables);
 
 		return {
 			props: {
-				getAccountStore,
+				accountId,
 			},
 		};
 	};
@@ -21,8 +19,9 @@
 <script lang="ts">
 	import ProWithStructureView from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
 
-	export let getAccountStore: GetAccountQueryStore;
-
+	export let accountId: string;
+	const variables = { accountId };
+	const getAccountStore = operationStore(GetAccountDocument, variables);
 	query(getAccountStore);
 	$: acc = $getAccountStore?.data?.account_by_pk;
 	$: professional = acc?.professional as Professional | null;
