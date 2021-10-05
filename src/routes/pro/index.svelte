@@ -13,6 +13,7 @@
 		const { role } = user;
 
 		const home = homeForRole(role);
+
 		return {
 			status: 302,
 			redirect: home,
