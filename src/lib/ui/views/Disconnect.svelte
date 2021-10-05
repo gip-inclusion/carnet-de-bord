@@ -3,16 +3,17 @@
 	import { session } from '$app/stores';
 	import { openComponent } from '$lib/stores';
 	import { post } from '$lib/utils/post';
-	import Button from '../base/Button.svelte';
+	import Button from '$lib/ui/base/Button.svelte';
+
+	function closeLayer() {
+		openComponent.close();
+	}
 
 	async function logout() {
 		await post(`/auth/logout`, {});
 		$session.user = null;
+		closeLayer();
 		goto('/');
-	}
-
-	function closeLayer() {
-		openComponent.close();
 	}
 </script>
 

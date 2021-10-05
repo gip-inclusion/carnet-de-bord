@@ -1,7 +1,8 @@
 <script lang="ts" context="module">
 	import { homeForRole } from '$lib/routes';
+	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 
-	export async function load({ session }) {
+	export async function load({ session }: LoadInput): Promise<LoadOutput> {
 		const { user } = session;
 
 		if (!user) {
