@@ -12,7 +12,7 @@
 	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
 	import { contactEmail } from '$lib/constants';
 	import { account, openComponent } from '$lib/stores';
-	import { Alert, Button } from '../base';
+	import { Button } from '$lib/ui/base';
 
 	export let professional: Professional | null;
 

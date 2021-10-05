@@ -140,7 +140,7 @@
 	<title>Carnet beneficiaire - carnet de bord</title>
 </svelte:head>
 <LoaderIndicator result={getNotebookStore}>
-	<div class="flex flex-col gap-8 p-40">
+	<div class="flex flex-col gap-8 px-40">
 		<ProNotebookPersonalInfoView
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}
