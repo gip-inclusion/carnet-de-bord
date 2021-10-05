@@ -5,6 +5,7 @@ query GetAccount($accountId: uuid!) {
 		confirmed
 		username
 		beneficiary {
+			id
 			firstname
 			lastname
 			email
@@ -12,6 +13,7 @@ query GetAccount($accountId: uuid!) {
 			dateOfBirth
 		}
 		professional {
+			id
 			firstname
 			lastname
 			mobileNumber

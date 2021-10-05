@@ -4937,6 +4937,7 @@ export type GetAccountQuery = {
 		username: string;
 		beneficiary?: Maybe<{
 			__typename?: 'beneficiary';
+			id: string;
 			firstname: string;
 			lastname: string;
 			email?: Maybe<string>;
@@ -4945,6 +4946,7 @@ export type GetAccountQuery = {
 		}>;
 		professional?: Maybe<{
 			__typename?: 'professional';
+			id: string;
 			firstname: string;
 			lastname: string;
 			mobileNumber?: Maybe<string>;
@@ -5363,6 +5365,7 @@ export type UpdateProfessionalProfileMutationVariables = Exact<{
 	mobileNumber: Scalars['String'];
 	position: Scalars['String'];
 	professionalId: Scalars['uuid'];
+	structureId?: Maybe<Scalars['uuid']>;
 }>;
 
 export type UpdateProfessionalProfileMutation = {
@@ -7124,6 +7127,7 @@ export const GetAccountDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
@@ -7138,6 +7142,7 @@ export const GetAccountDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
@@ -9016,6 +9021,11 @@ export const UpdateProfessionalProfileDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -9050,6 +9060,11 @@ export const UpdateProfessionalProfileDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'mobileNumber' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
 										},
 									],
 								},

@@ -4,11 +4,13 @@
 	import { Text } from '$lib/ui/utils';
 
 	export let professional: Professional;
+	export let mainTitle = 'Accompagnateur';
 	export let proFirst = false;
+	export let username = "";
 	$: structure = professional?.structure;
 </script>
 
-<div class="flex flex-row{proFirst ? '-reverse' : ''} gap-4 ">
+<div class="flex flex-row gap-4" style={proFirst ? 'flex-direction: row-reverse;' : ''}>
 	<div class="w-1/2 flex flex-col">
 		<span class="mb-1 text-sm">Structure</span>
 		<h2 class="fr-h5 !mb-0 text-france-blue truncate" title={structure?.name}>
@@ -27,7 +29,7 @@
 		</div>
 	</div>
 	<div class="w-1/2 flex flex-col">
-		<span class="mb-1 text-sm">Accompagnateur</span>
+		<span class="mb-1 text-sm">{mainTitle}</span>
 		<h2 class="fr-h5 !mb-0 text-france-blue truncate" title={displayFullName(professional)}>
 			{displayFullName(professional)}
 		</h2>
@@ -44,6 +46,9 @@
 				value={professional.mobileNumber}
 			/>
 			<Text defaultValueClassNames="italic" defaultValue="Pas d'email" value={professional.email} />
+			{#if username}
+				<Text defaultValue="" value={`Identifiant : ${username}`} />
+			{/if}
 		</div>
 	</div>
 </div>
