@@ -14,66 +14,6 @@
 	import { operationStore, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import * as RD from '$lib/remoteData';
-
-	let inputs: InputItem[] = [
-		{
-			label: 'Nom',
-			hint: 'Ex : Mission locale de Crest',
-			key: 'name',
-			required: true,
-		},
-		{
-			label: 'Téléphone',
-			hint: 'Ex : 04 75 76 70 67',
-			key: 'phone',
-			required: true,
-		},
-		{
-			label: 'Courriel',
-			hint: 'Ex : crest@mission-locale.fr',
-			key: 'email',
-			type: 'email',
-			required: true,
-		},
-		{
-			label: 'Adresse',
-			hint: 'Ex : 3 Rue des Cuiretteries',
-			key: 'address1',
-			required: true,
-		},
-		{
-			label: 'Adresse (complément)',
-			hint: 'Ex : Conseiller en réinsertion',
-			key: 'address2',
-		},
-		{
-			label: 'Code postal',
-			hint: 'Ex : 26400',
-			key: 'postalCode',
-			required: true,
-		},
-		{
-			label: 'Ville',
-			hint: 'Ex : Crest',
-			key: 'city',
-			required: true,
-		},
-		{
-			label: 'Site internet',
-			hint: 'Ex : https://www.mission-locale.fr/crest',
-			key: 'website',
-		},
-		{
-			label: 'Siret',
-			hint: 'Ex : XXX XXX XXX XXXXX',
-			key: 'siret',
-		},
-		{
-			label: 'Description',
-			hint: 'Ex : Antenne de Crest de la Mission locale Auvergne Rhône-Alpes',
-			key: 'shortDesc',
-		},
-	];
 </script>
 
 <script lang="ts">
@@ -168,18 +108,92 @@
 			{structureId ? 'Modification' : 'Création'} d'une structure
 		</h2>
 		<form class="w-full px-8 pb-8" on:submit|preventDefault={handleSubmit}>
-			{#each inputs as input (input.key)}
-				<Input
-					bind:val={structure[input.key]}
-					inputHint={input.hint}
-					inputLabel={input.label}
-					error={fieldErrors[input.key]}
-					on:input={onInput}
-					disabled={disabledKeys[input.key]}
-					type={input.type}
-					required={input.required}
-				/>
-			{/each}
+			<Input
+				bind:val={structure['name']}
+				inputHint={'Ex : Mission locale de Crest'}
+				inputLabel={'Nom'}
+				error={fieldErrors['name']}
+				on:input={onInput}
+				disabled={disabledKeys['name']}
+				required={true}
+			/>
+			<Input
+				bind:val={structure['phone']}
+				inputHint={'Ex : 04 75 76 70 67'}
+				inputLabel={'Téléphone'}
+				error={fieldErrors['phone']}
+				on:input={onInput}
+				disabled={disabledKeys['phone']}
+				required={true}
+			/>
+			<Input
+				bind:val={structure['email']}
+				inputHint={'Ex : crest@mission-locale.fr'}
+				inputLabel={'Courriel'}
+				error={fieldErrors['email']}
+				on:input={onInput}
+				disabled={disabledKeys['email']}
+				type={'email'}
+				required={true}
+			/>
+			<Input
+				bind:val={structure['address1']}
+				inputHint={'Ex : 3 Rue des Cuiretteries'}
+				inputLabel={'Adresse'}
+				error={fieldErrors['address1']}
+				on:input={onInput}
+				disabled={disabledKeys['address1']}
+				required={true}
+			/>
+			<Input
+				bind:val={structure['address2']}
+				inputHint={'Ex : Conseiller en réinsertion'}
+				inputLabel={'Adresse (complément)'}
+				error={fieldErrors['address2']}
+				on:input={onInput}
+				disabled={disabledKeys['address2']}
+			/>
+			<Input
+				bind:val={structure['postalCode']}
+				inputHint={'Ex : 26400'}
+				inputLabel={'Code postal'}
+				error={fieldErrors['postalCode']}
+				on:input={onInput}
+				disabled={disabledKeys['postalCode']}
+			/>
+			<Input
+				bind:val={structure['city']}
+				inputHint={'Ex : Crest'}
+				inputLabel={'Ville'}
+				error={fieldErrors['city']}
+				on:input={onInput}
+				disabled={disabledKeys['city']}
+				required={true}
+			/>
+			<Input
+				bind:val={structure['website']}
+				inputHint={'Ex : https://www.mission-locale.fr/crest'}
+				inputLabel={'Site internet'}
+				error={fieldErrors['website']}
+				on:input={onInput}
+				disabled={disabledKeys['website']}
+			/>
+			<Input
+				bind:val={structure['siret']}
+				inputHint={'Ex : XXX XXX XXX XXXXX'}
+				inputLabel={'Siret'}
+				error={fieldErrors['siret']}
+				on:input={onInput}
+				disabled={disabledKeys['siret']}
+			/>
+			<Input
+				bind:val={structure['shortDesc']}
+				inputHint={'Ex : Antenne de Crest de la Mission locale Auvergne Rhône-Alpes'}
+				inputLabel={'Description'}
+				error={fieldErrors['shortDesc']}
+				on:input={onInput}
+				disabled={disabledKeys['shortDesc']}
+			/>
 			{#if RD.getError(mutationResult)}
 				<div class="mb-8">
 					<Alert type="error" description={RD.getError(mutationResult)} />

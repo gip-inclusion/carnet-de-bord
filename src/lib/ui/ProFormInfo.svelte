@@ -11,36 +11,6 @@
 		dispatch('cancel', {});
 	}
 
-	let inputs: InputItem[] = [
-		{
-			label: 'Courriel',
-			hint: 'Ex : jb@poquelin.fr',
-			key: 'email',
-			type: 'email',
-			required: true,
-		},
-		{
-			label: 'Nom',
-			hint: 'Ex : Poquelin',
-			key: 'firstname',
-		},
-		{
-			label: 'Prénom',
-			hint: 'Ex : Jean-Baptiste',
-			key: 'lastname',
-		},
-		{
-			label: 'Téléphone',
-			hint: 'Ex : 0123456789',
-			key: 'mobileNumber',
-		},
-		{
-			label: 'Fonction',
-			hint: 'Ex : Conseiller en réinsertion',
-			key: 'position',
-		},
-	];
-
 	export let account: AccountRequest;
 	export let globalError: string | null = '';
 	export let fieldErrors: AccountRequest;
@@ -56,18 +26,48 @@
 
 <form on:submit|preventDefault={handleSubmit}>
 	{#if account}
-		{#each inputs as input (input.key)}
-			<Input
-				bind:val={account[input.key]}
-				inputHint={input.hint}
-				inputLabel={input.label}
-				error={fieldErrors[input.key]}
-				on:input={onInput}
-				disabled={disabledKeys[input.key]}
-				type={input.type}
-				required={input.required}
-			/>
-		{/each}
+		<Input
+			bind:val={account['email']}
+			inputHint={'Ex : jb@poquelin.fr'}
+			inputLabel={'Courriel'}
+			error={fieldErrors['email']}
+			on:input={onInput}
+			disabled={disabledKeys['email']}
+			type={'email'}
+			required={true}
+		/>
+		<Input
+			bind:val={account['firstname']}
+			inputHint={'Ex : Poquelin'}
+			inputLabel={'Nom'}
+			error={fieldErrors['firstname']}
+			on:input={onInput}
+			disabled={disabledKeys['firstname']}
+		/>
+		<Input
+			bind:val={account['lastname']}
+			inputHint={'Ex : Jean-Baptiste'}
+			inputLabel={'Prénom'}
+			error={fieldErrors['lastname']}
+			on:input={onInput}
+			disabled={disabledKeys['lastname']}
+		/>
+		<Input
+			bind:val={account['mobileNumber']}
+			inputHint={'Ex : 0123456789'}
+			inputLabel={'Téléphone'}
+			error={fieldErrors['mobileNumber']}
+			on:input={onInput}
+			disabled={disabledKeys['mobileNumber']}
+		/>
+		<Input
+			bind:val={account['position']}
+			inputHint={'Ex : Conseiller en réinsertion'}
+			inputLabel={'Fonction'}
+			error={fieldErrors['position']}
+			on:input={onInput}
+			disabled={disabledKeys['position']}
+		/>
 		{#if globalError}
 			<div class="text-error">{globalError}</div>
 		{/if}

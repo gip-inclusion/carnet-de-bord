@@ -61,69 +61,6 @@
 	function onCancel() {
 		openComponent.close();
 	}
-
-	let inputs: InputItem[] = [
-		{
-			label: 'Nom',
-			hint: 'Ex : Poquelin',
-			key: 'firstname',
-			required: true,
-		},
-		{
-			label: 'Prénom',
-			hint: 'Ex : Jean-Baptiste',
-			key: 'lastname',
-			required: true,
-		},
-		{
-			label: 'Date de naissance (JJ/MM/AAAA)',
-			hint: 'Ex : 21/12/1977',
-			key: 'dateOfBirth',
-			type: 'date',
-			required: true,
-		},
-		{
-			label: 'Téléphone',
-			hint: 'Ex : 0123456789',
-			key: 'mobileNumber',
-		},
-		{
-			label: 'Courriel',
-			hint: 'Ex : jb@poquelin.fr',
-			key: 'email',
-			type: 'email',
-		},
-		{
-			label: 'Adresse',
-			hint: 'Ex : 55-57 rue du Faubourg Saint-Honoré',
-			key: 'address1',
-		},
-		{
-			label: 'Adresse (complément)',
-			hint: 'Ex : 1er étage',
-			key: 'address2',
-		},
-		{
-			label: 'Code postal',
-			hint: 'Ex : 75 008',
-			key: 'postalCode',
-		},
-		{
-			label: 'Ville',
-			hint: 'Ex : Paris',
-			key: 'city',
-		},
-		{
-			label: 'Identifiant Pôle emploi',
-			hint: 'Ex : 123456789A',
-			key: 'peNumber',
-		},
-		{
-			label: 'Identifiant CAF',
-			hint: 'Ex : 123456789A',
-			key: 'cafNumber',
-		},
-	];
 </script>
 
 <section>
@@ -132,17 +69,77 @@
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
-		{#each inputs as input (input.key)}
-			<Input
-				bind:val={formData[input.key]}
-				inputHint={input.hint}
-				inputLabel={input.label}
-				error={fieldErrors[input.key]}
-				type={input.type}
-				required={input.required}
-			/>
-		{/each}
-
+		<Input
+			bind:val={formData['firstname']}
+			inputHint={'Ex : Poquelin'}
+			inputLabel={'Nom'}
+			error={fieldErrors['firstname']}
+			required={true}
+		/>
+		<Input
+			bind:val={formData['lastname']}
+			inputHint={'Ex : Jean-Baptiste'}
+			inputLabel={'Prénom'}
+			error={fieldErrors['lastname']}
+			required={true}
+		/>
+		<Input
+			bind:val={formData['dateOfBirth']}
+			inputHint={'Ex : 21/12/1977'}
+			inputLabel={'Date de naissance (JJ/MM/AAAA)'}
+			error={fieldErrors['dateOfBirth']}
+			type={'date'}
+			required={true}
+		/>
+		<Input
+			bind:val={formData['mobileNumber']}
+			inputHint={'Ex : 0123456789'}
+			inputLabel={'Téléphone'}
+			error={fieldErrors['mobileNumber']}
+		/>
+		<Input
+			bind:val={formData['email']}
+			inputHint={'Ex : jb@poquelin.fr'}
+			inputLabel={'Courriel'}
+			error={fieldErrors['email']}
+			type={'email'}
+		/>
+		<Input
+			bind:val={formData['address1']}
+			inputHint={'Ex : 55-57 rue du Faubourg Saint-Honoré'}
+			inputLabel={'Adresse'}
+			error={fieldErrors['address1']}
+		/>
+		<Input
+			bind:val={formData['address2']}
+			inputHint={'Ex : 1er étage'}
+			inputLabel={'Adresse (complément)'}
+			error={fieldErrors['address2']}
+		/>
+		<Input
+			bind:val={formData['postalCode']}
+			inputHint={'Ex : 75 008'}
+			inputLabel={'Code postal'}
+			error={fieldErrors['postalCode']}
+		/>
+		<Input
+			bind:val={formData['city']}
+			inputHint={'Ex : Paris'}
+			inputLabel={'Ville'}
+			error={fieldErrors['city']}
+		/>
+		<Input
+			bind:val={formData['peNumber']}
+			inputHint={'Ex : 123456789A'}
+			inputLabel={'Identifiant Pôle emploi'}
+			error={fieldErrors['peNumber']}
+		/>
+		<Input
+			bind:val={formData['cafNumber']}
+			inputHint={'Ex : 123456789A'}
+			inputLabel={'Identifiant CAF'}
+			error={fieldErrors['cafNumber']}
+		/>
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>
 			<Button outline on:click={onCancel}>Annuler</Button>
