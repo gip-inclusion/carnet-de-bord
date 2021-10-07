@@ -10,7 +10,7 @@ export const post: RequestHandler = async (request) => {
 		username: string;
 	};
 
-	const account = (await knex('account').where({ username }).first()) as unknown as {
+	let account = (await knex('account').where({ username }).first()) as {
 		id: string;
 		type: 'professional' | 'beneficiary' | 'admin';
 		beneficiary_id: string;
@@ -20,12 +20,41 @@ export const post: RequestHandler = async (request) => {
 	};
 
 	if (!account) {
-		return {
-			status: 401,
-			body: {
-				errors: 'USER_NOT_FOUND',
-			},
-		};
+		account =
+			((await knex('account')
+				.join('professional', 'professional.id', 'account.professional_id')
+				.where(function () {
+					this.where('professional.email', username).andWhereNot('professional.email', null);
+				})
+				.first()) as {
+				id: string;
+				type: 'professional' | 'beneficiary' | 'admin';
+				beneficiary_id: string;
+				professional_id: string;
+				admin_id: string;
+				confirmed: boolean;
+			}) ||
+			((await knex('account')
+				.join('admin', 'admin.id', 'account.admin_id')
+				.where(function () {
+					this.where('admin.email', username).andWhereNot('admin.email', null);
+				})
+				.first()) as {
+				id: string;
+				type: 'professional' | 'beneficiary' | 'admin';
+				beneficiary_id: string;
+				professional_id: string;
+				admin_id: string;
+				confirmed: boolean;
+			});
+		if (!account) {
+			return {
+				status: 401,
+				body: {
+					errors: 'USER_NOT_FOUND',
+				},
+			};
+		}
 	}
 
 	if (!account.confirmed) {
