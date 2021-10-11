@@ -1,3 +1,10 @@
+## [1.48.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.48.0...v1.48.1) (2021-10-11)
+
+
+### Bug Fixes
+
+* add bg to dropdown menu ([d7de3a8](https://github.com/SocialGouv/carnet-de-bord/commit/d7de3a8d4b5ef1bc7e61f25a83e2ec3653dda18a))
+
 # [1.48.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.47.0...v1.48.0) (2021-10-05)
 
 
