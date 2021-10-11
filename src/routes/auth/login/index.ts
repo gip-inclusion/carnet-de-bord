@@ -22,6 +22,14 @@ export const post: RequestHandler = async (request) => {
 	if (!account) {
 		account =
 			((await knex('account')
+				.select([
+					'account.id as id',
+					'account.type as type',
+					'account.beneficiary_id as beneficiary_id',
+					'account.professional_id as professional_id',
+					'account.admin_id as admin_id',
+					'account.confirmed as confirmed',
+				])
 				.join('professional', 'professional.id', 'account.professional_id')
 				.where(function () {
 					this.where('professional.email', username).andWhereNot('professional.email', null);
@@ -35,6 +43,14 @@ export const post: RequestHandler = async (request) => {
 				confirmed: boolean;
 			}) ||
 			((await knex('account')
+				.select([
+					'account.id as id',
+					'account.type as type',
+					'account.beneficiary_id as beneficiary_id',
+					'account.professional_id as professional_id',
+					'account.admin_id as admin_id',
+					'account.confirmed as confirmed',
+				])
 				.join('admin', 'admin.id', 'account.admin_id')
 				.where(function () {
 					this.where('admin.email', username).andWhereNot('admin.email', null);
