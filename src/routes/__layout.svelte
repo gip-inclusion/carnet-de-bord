@@ -70,7 +70,7 @@
 				Matomo.setUserId($session.user.id);
 			}
 			if ($page.query.has('search')) {
-				Matomo.trackSiteSearch($page.query.get('search'), 'beneficiaire');
+				Matomo.trackSiteSearch($page.query.get('search'), $page.path);
 			} else {
 				Matomo.trackPageView();
 			}
