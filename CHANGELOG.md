@@ -1,3 +1,10 @@
+# [1.49.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.48.1...v1.49.0) (2021-10-11)
+
+
+### Features
+
+* add username and lastLogin to users table for admin ([#329](https://github.com/SocialGouv/carnet-de-bord/issues/329)) ([5f7cb88](https://github.com/SocialGouv/carnet-de-bord/commit/5f7cb880922daa2c4369ca9c885d0133e09edf3b))
+
 ## [1.48.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.48.0...v1.48.1) (2021-10-11)
 
 
