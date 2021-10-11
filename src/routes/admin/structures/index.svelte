@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-	import { Button, IconButton, SearchBar } from '$lib/ui/base';
+	import { IconButton, SearchBar } from '$lib/ui/base';
 	import type { Structure } from '$lib/types';
 
 	export let result: OperationStore<GetStructuresQuery>;
