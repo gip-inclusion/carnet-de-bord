@@ -26,7 +26,7 @@
 	<div slot="org">{@html orgName}</div>
 	<div slot="quickAccessRight">
 		{#if $session.user}
-			<MenuButton>
+			<MenuButton label="Mon compte" icon="fr-fi-account-line">
 				<MenuListItem href={`${baseUrlForRole($session.user.role)}/moncompte`}>
 					Mon Compte
 				</MenuListItem>
