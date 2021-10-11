@@ -14,6 +14,7 @@
 	import { displayFullName } from '$lib/ui/format';
 	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
 	import ProNotebookMemberForm from '$lib/ui/ProNotebookMember/ProNotebookMemberForm.svelte';
+	import { trackSiteSearch } from '$lib/tracking/matomo';
 
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
@@ -50,6 +51,7 @@
 			professionalIds,
 		};
 		$searchProfessionalResult.reexecute();
+		trackSiteSearch(search, '/pro/notebook/member');
 	}
 
 	async function addMemberToNotebook(professionalId: string) {
