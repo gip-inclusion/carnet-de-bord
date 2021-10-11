@@ -17,12 +17,12 @@ export function load(url: string, siteId: string): void {
 		// early return; we don't need 2 scripts
 		return;
 	}
-	window._paq = window._paq || [];
-	window._paq.push(['setDoNotTrack', 'true']);
-	window._paq.push(['trackPageView']);
-	window._paq.push(['enableLinkTracking']);
-	window._paq.push(['setTrackerUrl', `${url}/matomo.php`]);
-	window._paq.push(['setSiteId', `${siteId}`]);
+	// we don't need this page trackPageView since we already push one on the initial load
+	// see src/routes/__layout.svelte
+	// _push(['trackPageView']);
+	_push(['enableLinkTracking']);
+	_push(['setTrackerUrl', `${url}/matomo.php`]);
+	_push(['setSiteId', `${siteId}`]);
 
 	const scriptElement = document.createElement('script');
 	const firstScriptElement = document.getElementsByTagName('script')[0];
@@ -35,9 +35,26 @@ export function load(url: string, siteId: string): void {
 		firstScriptElement.parentNode.insertBefore(scriptElement, firstScriptElement);
 	}
 }
-
+export function setUserId(id: string): void {
+	_push(['setUserId', id]);
+}
 export function trackPageView(): void {
 	_push(['trackPageView']);
+}
+
+export function trackSiteSearch(pattern: string, category?: string): void {
+	_push(['trackSiteSearch', pattern, category]);
+}
+
+/** source: https://developer.matomo.org/guides/tracking-javascript-guide#when-user-logs-out-reset-user-id */
+export function disconnectUser(): void {
+	// User has just logged out, we reset the User ID
+	_push(['resetUserId']);
+	// we also force a new visit to be created for the pageviews after logout
+	_push(['appendToTrackingUrl', 'new_visit=1']);
+	_push(['trackPageView']);
+	// we finally make sure to not again create a new visit afterwards (important for Single Page Applications)
+	_push(['appendToTrackingUrl', '']);
 }
 
 export function trackEvent(category: string, action: string, name?: string, value?: string): void {

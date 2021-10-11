@@ -4,6 +4,7 @@
 	import { openComponent } from '$lib/stores';
 	import { post } from '$lib/utils/post';
 	import Button from '$lib/ui/base/Button.svelte';
+	import * as Matomo from '$lib/tracking/matomo';
 
 	function closeLayer() {
 		openComponent.close();
@@ -11,6 +12,7 @@
 
 	async function logout() {
 		await post(`/auth/logout`, {});
+		Matomo.disconnectUser();
 		$session.user = null;
 		closeLayer();
 		goto('/');
