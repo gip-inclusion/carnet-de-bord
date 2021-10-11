@@ -5050,6 +5050,8 @@ export type GetAccountsSummaryQuery = {
 	accounts: Array<{
 		__typename?: 'account';
 		id: string;
+		username: string;
+		lastLogin?: Maybe<any>;
 		confirmed: boolean;
 		professional?: Maybe<{
 			__typename?: 'professional';
@@ -7547,6 +7549,8 @@ export const GetAccountsSummaryDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 								{
 									kind: 'Field',
