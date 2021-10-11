@@ -22,6 +22,8 @@
 	import { Button, SearchBar } from '$lib/ui/base';
 	import { stringsMatch } from '$lib/helpers';
 	import { goto } from '$app/navigation';
+	import { Text } from '$lib/ui/utils';
+	import { formatDateTimeLocale } from '$lib/utils/date';
 
 	export let result: OperationStore<GetAccountsSummaryQuery>;
 
@@ -90,16 +92,19 @@
 						<th>Prénom</th>
 						<th>Mobile</th>
 						<th>Structure</th>
+						<th>Identifiant</th>
 						<th>Compte</th>
+						<th>Dernière connexion</th>
 					</tr>
 				</thead>
 				<tbody>
 					{#each filteredAccounts as account (account.id)}
 						<tr class="cursor-pointer" on:click={() => openProInfo(account)}>
-							<td>{account.professional.lastname}</td>
-							<td>{account.professional.firstname}</td>
-							<td>{account.professional.mobileNumber}</td>
-							<td>{account.professional.structure.name}</td>
+							<td><Text value={account.professional.lastname} /></td>
+							<td><Text value={account.professional.firstname} /></td>
+							<td><Text value={account.professional.mobileNumber} /></td>
+							<td><Text value={account.professional.structure.name} /></td>
+							<td><Text value={account.username} /></td>
 							<td>
 								{#if !account.confirmed}
 									<Button on:click={() => confirmAccount(account.id)}>activer</Button>
@@ -107,6 +112,11 @@
 									Actif
 								{/if}
 							</td>
+							<td
+								><Text
+									value={account.lastLogin ? formatDateTimeLocale(account.lastLogin) : ''}
+								/></td
+							>
 						</tr>
 					{:else}
 						<tr class="shadow-sm">

@@ -4,6 +4,8 @@ query GetAccountsSummary {
 		order_by: { confirmed: asc, professional: { lastname: asc } }
 	) {
 		id
+		username
+		lastLogin
 		confirmed
 		professional {
 			id
