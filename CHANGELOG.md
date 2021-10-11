@@ -1,3 +1,12 @@
+## [1.49.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.49.0...v1.49.1) (2021-10-11)
+
+
+### Bug Fixes
+
+* add SameSite policy to cookie ([41f48df](https://github.com/SocialGouv/carnet-de-bord/commit/41f48df28a17b751b13abf09fc16555c59850f30))
+* handle search in different page ([efb971b](https://github.com/SocialGouv/carnet-de-bord/commit/efb971ba9e26d6571cbb03eb3ea008c8493b4e03))
+* track user login/logout properly ([2bc229d](https://github.com/SocialGouv/carnet-de-bord/commit/2bc229d4d0b133c1e516546b9f5098d26f23a719))
+
 # [1.49.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.48.1...v1.49.0) (2021-10-11)
 
 
