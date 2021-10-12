@@ -10,7 +10,7 @@ export const post: RequestHandler = async (request) => {
 		username: string;
 	};
 
-	let account = (await knex('account').where({ username }).first()) as {
+	type Acc = {
 		id: string;
 		type: 'professional' | 'beneficiary' | 'admin';
 		beneficiary_id: string;
@@ -19,30 +19,24 @@ export const post: RequestHandler = async (request) => {
 		confirmed: boolean;
 	};
 
+	let account = (await knex('account').where({ username }).first()) as Acc;
+
 	if (!account) {
-		account =
-			((await knex('account')
-				.select([
-					'account.id as id',
-					'account.type as type',
-					'account.beneficiary_id as beneficiary_id',
-					'account.professional_id as professional_id',
-					'account.admin_id as admin_id',
-					'account.confirmed as confirmed',
-				])
-				.join('professional', 'professional.id', 'account.professional_id')
-				.where(function () {
-					this.where('professional.email', username).andWhereNot('professional.email', null);
-				})
-				.first()) as {
-				id: string;
-				type: 'professional' | 'beneficiary' | 'admin';
-				beneficiary_id: string;
-				professional_id: string;
-				admin_id: string;
-				confirmed: boolean;
-			}) ||
-			((await knex('account')
+		account = ((await knex('account')
+			.select([
+				'account.id as id',
+				'account.type as type',
+				'account.beneficiary_id as beneficiary_id',
+				'account.professional_id as professional_id',
+				'account.admin_id as admin_id',
+				'account.confirmed as confirmed',
+			])
+			.join('professional', 'professional.id', 'account.professional_id')
+			.where(function () {
+				this.where('professional.email', username).andWhereNot('professional.email', null);
+			})
+			.first()) ||
+			(await knex('account')
 				.select([
 					'account.id as id',
 					'account.type as type',
@@ -55,14 +49,7 @@ export const post: RequestHandler = async (request) => {
 				.where(function () {
 					this.where('admin.email', username).andWhereNot('admin.email', null);
 				})
-				.first()) as {
-				id: string;
-				type: 'professional' | 'beneficiary' | 'admin';
-				beneficiary_id: string;
-				professional_id: string;
-				admin_id: string;
-				confirmed: boolean;
-			});
+				.first())) as Acc;
 		if (!account) {
 			return {
 				status: 401,
