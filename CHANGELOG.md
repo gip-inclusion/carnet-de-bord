@@ -1,3 +1,10 @@
+# [1.50.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.49.1...v1.50.0) (2021-10-12)
+
+
+### Features
+
+* allow professionals to log in with email directly ([#331](https://github.com/SocialGouv/carnet-de-bord/issues/331)) ([387b320](https://github.com/SocialGouv/carnet-de-bord/commit/387b320ddde5c2a5367eb25b1cd045f58dd55ca1))
+
 ## [1.49.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.49.0...v1.49.1) (2021-10-11)
 
 
