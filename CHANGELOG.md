@@ -1,3 +1,10 @@
+## [1.50.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.50.0...v1.50.1) (2021-10-12)
+
+
+### Bug Fixes
+
+* don't track user ([74a3a3f](https://github.com/SocialGouv/carnet-de-bord/commit/74a3a3fb95b8defe3eeca3ade0f3232aad5c44c3))
+
 # [1.50.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.49.1...v1.50.0) (2021-10-12)
 
 
