@@ -49,8 +49,14 @@ const job = new Job({
 						envFrom: [
 							{
 								secretRef: {
-									name: 'azure-pg-user',
+									name: 'azure-pg-admin-user',
 								},
+							},
+						],
+						env: [
+							{
+								name: 'PGDATABASE',
+								value: pgParams.database,
 							},
 						],
 						volumeMounts: [

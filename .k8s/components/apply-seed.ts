@@ -38,14 +38,8 @@ const cronjob = new CronJob({
 								envFrom: [
 									{
 										secretRef: {
-											name: 'azure-pg-admin-user',
+											name: 'azure-pg-user',
 										},
-									},
-								],
-								env: [
-									{
-										name: 'PGDATABASE',
-										value: pgParams.database,
 									},
 								],
 								volumeMounts: [new VolumeMount({ mountPath: '/mnt/cdb', name: volumeName })],

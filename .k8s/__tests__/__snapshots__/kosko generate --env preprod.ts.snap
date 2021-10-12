@@ -310,10 +310,7 @@ spec:
                 - psql < /mnt/cdb/seed-data.sql
               envFrom:
                 - secretRef:
-                    name: azure-pg-admin-user
-              env:
-                - name: PGDATABASE
-                  value: autodevops_v1-2-3-5oe0cj
+                    name: azure-pg-user
               volumeMounts:
                 - mountPath: /mnt/cdb
                   name: cdb

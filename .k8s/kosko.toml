@@ -7,5 +7,5 @@ require = ["ts-node/register"]
 [environments.prod]
 components = ["!_*", "!apply-seed"]
 
-# [environments.dev]
-# components = ["!apply-seed"]
+[environments.dev]
+components = ["!apply-seed"]
