@@ -33,7 +33,7 @@
 </script>
 
 <script lang="ts">
-	import { page, session } from '$app/stores';
+	import { page } from '$app/stores';
 	import { browser } from '$app/env';
 	import { getMatomoSIteId, getMatomoUrl } from '$lib/config/variables/public';
 
@@ -66,9 +66,6 @@
 
 	$: {
 		if ($page.path && browser && MATOMO_URL && MATOMO_SITE_ID) {
-			if ($session.user) {
-				Matomo.setUserId($session.user.id);
-			}
 			if ($page.query.has('search')) {
 				Matomo.trackSiteSearch($page.query.get('search'), $page.path);
 			} else {
