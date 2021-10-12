@@ -6,7 +6,6 @@ import { ConfigMap, Volume, VolumeMount } from 'kubernetes-models/v1';
 import path from 'path';
 
 const ciEnv = environments(process.env);
-const pgParams = getDevDatabaseParameters({ suffix: ciEnv.branchSlug });
 const configMapName = `apply-seed-configmap-${ciEnv.branchSlug}`;
 const volumeName = 'cdb';
 const cronjob = new CronJob({
@@ -38,14 +37,8 @@ const cronjob = new CronJob({
 								envFrom: [
 									{
 										secretRef: {
-											name: 'azure-pg-admin-user',
+											name: 'azure-pg-user',
 										},
-									},
-								],
-								env: [
-									{
-										name: 'PGDATABASE',
-										value: pgParams.database,
 									},
 								],
 								volumeMounts: [new VolumeMount({ mountPath: '/mnt/cdb', name: volumeName })],
