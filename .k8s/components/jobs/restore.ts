@@ -10,7 +10,7 @@ const job = new Job({
 		name: 'restore-db',
 		namespace: ciEnv.metadata.namespace.name,
 		labels: ciEnv.metadata.labels,
-		annotations: ciEnv.metadata.annotations
+		annotations: ciEnv.metadata.annotations,
 	},
 	spec: {
 		template: {
@@ -19,8 +19,8 @@ const job = new Job({
 				volumes: [
 					{
 						name: 'restore-db-volume',
-						emptyDir: {}
-					}
+						emptyDir: {},
+					},
 				],
 				initContainers: [
 					{
@@ -30,15 +30,15 @@ const job = new Job({
 						args: [
 							'clone',
 							'https://github.com/SocialGouv/carnet-de-bord.git',
-							'/mnt/carnet-de-bord'
+							'/mnt/carnet-de-bord',
 						],
 						volumeMounts: [
 							{
 								name: 'restore-db-volume',
-								mountPath: '/mnt/carnet-de-bord'
-							}
-						]
-					}
+								mountPath: '/mnt/carnet-de-bord',
+							},
+						],
+					},
 				],
 				containers: [
 					{
@@ -49,29 +49,29 @@ const job = new Job({
 						envFrom: [
 							{
 								secretRef: {
-									name: 'azure-pg-admin-user'
-								}
-							}
+									name: 'azure-pg-admin-user',
+								},
+							},
 						],
 						env: [
 							{
 								name: 'PGDATABASE',
-								value: pgParams.database
-							}
+								value: pgParams.database,
+							},
 						],
 						volumeMounts: [
 							{
 								name: 'restore-db-volume',
-								mountPath: '/mnt/carnet-de-bord'
-							}
-						]
-					}
+								mountPath: '/mnt/carnet-de-bord',
+							},
+						],
+					},
 				],
-				restartPolicy: 'OnFailure'
-			}
+				restartPolicy: 'OnFailure',
+			},
 		},
-		ttlSecondsAfterFinished: 86400
-	}
+		ttlSecondsAfterFinished: 86400,
+	},
 });
 
 export default [job];
