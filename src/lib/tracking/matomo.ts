@@ -35,9 +35,7 @@ export function load(url: string, siteId: string): void {
 		firstScriptElement.parentNode.insertBefore(scriptElement, firstScriptElement);
 	}
 }
-export function setUserId(id: string): void {
-	_push(['setUserId', id]);
-}
+
 export function trackPageView(): void {
 	_push(['trackPageView']);
 }
@@ -48,8 +46,6 @@ export function trackSiteSearch(pattern: string, category?: string): void {
 
 /** source: https://developer.matomo.org/guides/tracking-javascript-guide#when-user-logs-out-reset-user-id */
 export function disconnectUser(): void {
-	// User has just logged out, we reset the User ID
-	_push(['resetUserId']);
 	// we also force a new visit to be created for the pageviews after logout
 	_push(['appendToTrackingUrl', 'new_visit=1']);
 	_push(['trackPageView']);
