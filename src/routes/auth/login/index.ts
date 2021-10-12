@@ -22,7 +22,7 @@ export const post: RequestHandler = async (request) => {
 	let account = (await knex('account').where({ username }).first()) as Acc;
 
 	if (!account) {
-		account = ((await knex('account')
+		account = (await knex('account')
 			.select([
 				'account.id as id',
 				'account.type as type',
@@ -31,25 +31,11 @@ export const post: RequestHandler = async (request) => {
 				'account.admin_id as admin_id',
 				'account.confirmed as confirmed',
 			])
-			.join('professional', 'professional.id', 'account.professional_id')
-			.where(function () {
-				this.where('professional.email', username).andWhereNot('professional.email', null);
-			})
-			.first()) ||
-			(await knex('account')
-				.select([
-					'account.id as id',
-					'account.type as type',
-					'account.beneficiary_id as beneficiary_id',
-					'account.professional_id as professional_id',
-					'account.admin_id as admin_id',
-					'account.confirmed as confirmed',
-				])
-				.join('admin', 'admin.id', 'account.admin_id')
-				.where(function () {
-					this.where('admin.email', username).andWhereNot('admin.email', null);
-				})
-				.first())) as Acc;
+			.leftJoin('professional', 'professional.id', 'account.professional_id')
+			.leftJoin('admin', 'admin.id', 'account.admin_id')
+			.where('admin.email', username)
+			.orWhere('professional.email', username)
+			.first()) as Acc;
 		if (!account) {
 			return {
 				status: 401,
