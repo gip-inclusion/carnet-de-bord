@@ -10,7 +10,7 @@ export const post: RequestHandler = async (request) => {
 		username: string;
 	};
 
-	const account = (await knex('account').where({ username }).first()) as unknown as {
+	type Acc = {
 		id: string;
 		type: 'professional' | 'beneficiary' | 'admin';
 		beneficiary_id: string;
@@ -19,13 +19,31 @@ export const post: RequestHandler = async (request) => {
 		confirmed: boolean;
 	};
 
+	let account = (await knex('account').where({ username }).first()) as Acc;
+
 	if (!account) {
-		return {
-			status: 401,
-			body: {
-				errors: 'USER_NOT_FOUND',
-			},
-		};
+		account = (await knex('account')
+			.select([
+				'account.id as id',
+				'account.type as type',
+				'account.beneficiary_id as beneficiary_id',
+				'account.professional_id as professional_id',
+				'account.admin_id as admin_id',
+				'account.confirmed as confirmed',
+			])
+			.leftJoin('professional', 'professional.id', 'account.professional_id')
+			.leftJoin('admin', 'admin.id', 'account.admin_id')
+			.where('admin.email', username)
+			.orWhere('professional.email', username)
+			.first()) as Acc;
+		if (!account) {
+			return {
+				status: 401,
+				body: {
+					errors: 'USER_NOT_FOUND',
+				},
+			};
+		}
 	}
 
 	if (!account.confirmed) {

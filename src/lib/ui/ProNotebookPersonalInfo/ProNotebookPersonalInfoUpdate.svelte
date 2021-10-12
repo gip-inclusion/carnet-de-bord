@@ -7,7 +7,6 @@
 		UpdateBeneficiaryPersonalInfoDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
-	import type { InputItem } from '$lib/types';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button, Input } from '$lib/ui/base';
 
