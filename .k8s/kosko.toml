@@ -5,4 +5,7 @@ require = ["ts-node/register"]
 
 # dont include underscores-prefix components
 [environments.prod]
-components = ["!_*"]
+components = ["!_*", "!apply-seed"]
+
+[environments.dev]
+components = ["!apply-seed"]
