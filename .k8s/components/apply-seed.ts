@@ -2,7 +2,7 @@ import { getDevDatabaseParameters } from '@socialgouv/kosko-charts/components/az
 import environments from '@socialgouv/kosko-charts/environments';
 import { readFileSync } from 'fs';
 import { CronJob } from 'kubernetes-models/batch/v1beta1/CronJob';
-import { ConfigMap, EnvVar, Volume, VolumeMount } from 'kubernetes-models/v1';
+import { ConfigMap, Volume, VolumeMount } from 'kubernetes-models/v1';
 import path from 'path';
 
 const ciEnv = environments(process.env);
@@ -17,8 +17,7 @@ const cronjob = new CronJob({
 		labels: ciEnv.metadata.labels,
 	},
 	spec: {
-		// schedule: '30 12 * * *', // at 12:30, every day,
-		schedule: '5 * * * *', // at 12:30, every day,
+		schedule: '30 12 * * *', // at 12:30, every day,
 		jobTemplate: {
 			spec: {
 				template: {
@@ -35,7 +34,7 @@ const cronjob = new CronJob({
 								name: `apply-seed-container`,
 								image: `postgres:10.16`,
 								command: ['sh', '-c'],
-								args: ['psql < /mnt/carnet-de-bord/hasura/seeds/carnet_de_bord/seed-data.sql'],
+								args: ['psql < /mnt/cdb/seed-data.sql'],
 								envFrom: [
 									{
 										secretRef: {

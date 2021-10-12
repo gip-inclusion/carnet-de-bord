@@ -279,7 +279,7 @@ metadata:
     team: carnet-de-bord
     cert: wildcard
 spec:
-  schedule: 5 * * * *
+  schedule: 30 12 * * *
   jobTemplate:
     spec:
       template:
@@ -307,9 +307,7 @@ spec:
                 - sh
                 - '-c'
               args:
-                - >-
-                  psql <
-                  /mnt/carnet-de-bord/hasura/seeds/carnet_de_bord/seed-data.sql
+                - psql < /mnt/cdb/seed-data.sql
               envFrom:
                 - secretRef:
                     name: azure-pg-admin-user
