@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { isMenuOpened } from '$lib/stores';
+	import { session } from '$app/stores';
+	import { baseUrlForRole } from '$lib/routes';
+
+	import { isMenuOpened, openComponent } from '$lib/stores';
+	import { Link } from '.';
+	import Disconnect from '../views/Disconnect.svelte';
 
 	/* export let withLogo: boolean | null = false; */
 	export let withSearch: boolean | null = false;
@@ -13,6 +18,10 @@
 	let showTools =
 		/* withSearch || */
 		showQuickAccess;
+
+	function logout() {
+		openComponent.open({ component: Disconnect });
+	}
 </script>
 
 <header role="banner" class="fr-header">
@@ -68,17 +77,13 @@
 					<div class="fr-header__tools">
 						{#if showQuickAccess}
 							<div class="fr-header__tools-links">
-								<ul class="fr-links-group">
-									<li>
+								{#if !$isMenuOpened}
+									<ul class="fr-links-group">
 										<slot name="quickAccessLeft" />
-									</li>
-									<li>
 										<slot name="quickAccessMiddle" />
-									</li>
-									<li>
 										<slot name="quickAccessRight" />
-									</li>
-								</ul>
+									</ul>
+								{/if}
 							</div>
 						{/if}
 						{#if withSearch}
@@ -118,7 +123,20 @@
 					$isMenuOpened = false;
 				}}>Fermer</button
 			>
-			<div class="fr-header__menu-links" />
+			{#if $isMenuOpened}
+				<div class="fr-header__menu-links">
+					{#if $session.user}
+						<ul class="fr-links-group">
+							<li>
+								<Link classNames="fr-link" href={`${baseUrlForRole($session.user.role)}/moncompte`}
+									>Mon Compte</Link
+								>
+							</li>
+							<li><button class="fr-link" on:click={logout}>Déconnexion</button></li>
+						</ul>
+					{/if}
+				</div>
+			{/if}
 			<slot name="navbar" />
 		</div>
 		<!--

@@ -24,7 +24,7 @@
 	baseline="Faciliter la vie des personnes en insertion et de leurs accompagnants"
 >
 	<div slot="org">{@html orgName}</div>
-	<div slot="quickAccessRight">
+	<li slot="quickAccessRight">
 		{#if $session.user}
 			<MenuButton label="Mon compte" icon="fr-fi-account-line">
 				<MenuListItem href={`${baseUrlForRole($session.user.role)}/moncompte`}>
@@ -33,7 +33,7 @@
 				<MenuListItem on:select={logout}>Déconnexion</MenuListItem>
 			</MenuButton>
 		{/if}
-	</div>
+	</li>
 	<div slot="navbar">
 		{#if $session.user}
 			<NavBar {menuItems} />
