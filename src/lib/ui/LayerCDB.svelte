@@ -18,7 +18,7 @@
 
 <svelte:window on:keydown={handleKeyDown} />
 {#if currentLayer}
-	<div transition:fade on:click={close} class="!m-0 z-10 fixed inset-0">
+	<div transition:fade on:click={close} class="!m-0 z-1 fixed inset-0">
 		<div class="absolute inset-0 bg-black opacity-50" tabindex="0" />
 	</div>
 {/if}
@@ -42,6 +42,6 @@
 
 <style>
 	.layer {
-		z-index: 3501;
+		z-index: 1;
 	}
 </style>
