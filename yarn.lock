@@ -5406,6 +5406,11 @@ svelecte@^1.4.1:
   dependencies:
     svelte-tiny-virtual-list "^1.1.7"
 
+svelte-accessible-dialog@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/svelte-accessible-dialog/-/svelte-accessible-dialog-2.1.3.tgz#ba1a32475e270cd25ba5b66e6c00b6e8bab75917"
+  integrity sha512-W3JVaPgLznHn297uTF32Ybp5FUYr7Mm9Geiu8zhQvOTIkLdo/iLpOeytTaD7U/8CdNFx8YWJayBCnAXJvxdLew==
+
 svelte-check@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/svelte-check/-/svelte-check-2.2.5.tgz#fc3d99494b38478dde6ba2060e8cbf5297e2025a"

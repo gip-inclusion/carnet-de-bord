@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
-	import { GetNotebookFocusByIdDocument, Structure } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		DeleteNotebookFocusByIdDocument,
+		GetNotebookFocusByIdDocument,
+		Structure,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Accordion, Accordions, Button, Card } from '$lib/ui/base';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
-	import { operationStore, query } from '@urql/svelte';
+	import { mutation, operationStore, query } from '@urql/svelte';
+	import Confirm from '../Confirm.svelte';
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import { ProNotebookStructureList } from '../ProNotebookStructure';
@@ -22,6 +27,8 @@
 		}
 	);
 	query(focusStore);
+	const deleteFocusStore = operationStore(DeleteNotebookFocusByIdDocument);
+	const deleteFocusMutation = mutation(deleteFocusStore);
 
 	const init: Record<string, Pick<Structure, 'id' | 'name'>> = {};
 
@@ -56,6 +63,11 @@
 
 	function viewStructures() {
 		openComponent.open({ component: ProNotebookStructureList, props: { structures } });
+	}
+
+	function removeTarget() {
+		deleteFocusMutation({ id: focus.id });
+		openComponent.close();
 	}
 </script>
 
@@ -142,6 +154,14 @@
 					</div>
 				{/if}
 			</div>
+		</div>
+		<div class="flex">
+			<Confirm
+				title="Supprimer un axe de travail"
+				label="Supprimer l'axe de travail"
+				content="Etes vous sur de vouloir supprimer l'axe de travail"
+				on:confirm={removeTarget}
+			/>
 		</div>
 	</div>
 {/if}
