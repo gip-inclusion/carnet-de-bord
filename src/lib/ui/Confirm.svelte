@@ -4,7 +4,6 @@
 	import { DialogOverlay, DialogContent } from 'svelte-accessible-dialog';
 	import Button from './base/Button.svelte';
 
-	export let content: string;
 	export let label: string;
 	export let title: string;
 
@@ -28,7 +27,7 @@
 
 <Button outline on:click={open}>{label}</Button>
 <DialogOverlay {isOpen} onDismiss={close} on:keypress={(e) => console.log(e)}>
-	<DialogContent aria-label={label}>
+	<DialogContent aria-label={title}>
 		<div class="fr-container fr-container--fluid fr-container-md">
 			<div class="fr-grid-row fr-grid-row--center">
 				<div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
@@ -43,11 +42,9 @@
 						</div>
 						<div class="fr-modal__content">
 							<h1 id="fr-modal-title-modal-1" class="fr-modal__title">
-								<span class="fr-fi-arrow-right-line fr-fi--lg" />{label}
+								<span class="fr-fi-arrow-right-line fr-fi--lg" />{title}
 							</h1>
-							<p>
-								{content}
-							</p>
+							<slot />
 							<div class="flex gap-6">
 								<Button on:click={confirm}>{label}</Button>
 								<Button outline on:click={close}>Annuler</Button>
