@@ -159,9 +159,13 @@
 			<Confirm
 				title="Supprimer un axe de travail"
 				label="Supprimer l'axe de travail"
-				content="Etes vous sur de vouloir supprimer l'axe de travail"
 				on:confirm={removeTarget}
-			/>
+			>
+				<p>
+					Êtes-vous sûr de vouloir supprimer l’axe de travail
+					<strong>{focus.theme}</strong>
+				</p>
+			</Confirm>
 		</div>
 	</div>
 {/if}
