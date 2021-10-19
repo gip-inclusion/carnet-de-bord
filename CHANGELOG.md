@@ -1,3 +1,10 @@
+## [1.50.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.50.1...v1.50.2) (2021-10-19)
+
+
+### Bug Fixes
+
+* add profile link into mobile nav ([85575c8](https://github.com/SocialGouv/carnet-de-bord/commit/85575c82fdfb240e9d265e76920153f40b051931))
+
 ## [1.50.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.50.0...v1.50.1) (2021-10-12)
 
 
