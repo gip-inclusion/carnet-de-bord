@@ -1,3 +1,15 @@
+# [1.51.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.50.2...v1.51.0) (2021-10-19)
+
+
+### Bug Fixes
+
+* review ([65fae25](https://github.com/SocialGouv/carnet-de-bord/commit/65fae258525f4206a1c2591161d10d0df1c978c1))
+
+
+### Features
+
+* delete notebookFocus ([23593c7](https://github.com/SocialGouv/carnet-de-bord/commit/23593c7f89791e2340a6dbc41d0040b013f00519)), closes [#245](https://github.com/SocialGouv/carnet-de-bord/issues/245)
+
 ## [1.50.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.50.1...v1.50.2) (2021-10-19)
 
 
