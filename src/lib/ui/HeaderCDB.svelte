@@ -27,9 +27,11 @@
 	<div slot="quickAccessRight">
 		{#if $session.user}
 			<MenuButton label="Mon compte" icon="fr-fi-account-line">
-				<MenuListItem href={`${baseUrlForRole($session.user.role)}/moncompte`}>
-					Mon Compte
-				</MenuListItem>
+				{#if ['pro', 'particulier'].includes($session.user.role)}
+					<MenuListItem href={`${baseUrlForRole($session.user.role)}/moncompte`}>
+						Mon Compte
+					</MenuListItem>
+				{/if}
 				<MenuListItem on:select={logout}>Déconnexion</MenuListItem>
 			</MenuButton>
 		{/if}
