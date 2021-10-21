@@ -1,3 +1,10 @@
+## [1.51.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.51.0...v1.51.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* missing Mon Compte link for professionals ([#351](https://github.com/SocialGouv/carnet-de-bord/issues/351)) ([5f4ef2b](https://github.com/SocialGouv/carnet-de-bord/commit/5f4ef2b2720206b8a7e3950a75467beb26ff0ecd))
+
 # [1.51.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.50.2...v1.51.0) (2021-10-19)
 
 
