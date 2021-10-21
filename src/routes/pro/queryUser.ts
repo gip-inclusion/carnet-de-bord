@@ -7,6 +7,7 @@ import {
 	requestPEUser,
 } from '$lib/services/particuliers.api';
 import type { ExternalUser } from '$lib/types';
+import { authorizeOnly } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 
 const { API_PARTICULIER_URL, API_PARTICULIER_TOKEN_CAF, API_PARTICULIER_TOKEN_PE } =
@@ -86,6 +87,14 @@ const getPEUsers = async (data: unknown): Promise<ExternalUser[] | null> => {
 };
 
 export const post: RequestHandler = async (request) => {
+	try {
+		authorizeOnly(['admin'])(request);
+	} catch (e) {
+		return {
+			status: 403,
+		};
+	}
+
 	const { service, data } = request.body as unknown as {
 		service: 'CAF' | 'PE';
 		data: unknown;
