@@ -26,6 +26,7 @@
 		"lint:fix": "prettier --check --plugin-search-dir=. src && yarn lint --fix --cache",
 		"lint:pre-commit": "yarn lint:fix",
 		"format": "prettier --write --plugin-search-dir=. src",
+		"test": "ts-node tests/index.ts",
 		"codegen": "yarn run graphql-codegen --config codegen.cjs"
 	},
 	"devDependencies": {
@@ -47,6 +48,7 @@
 		"@typescript-eslint/eslint-plugin": "^4.31.0",
 		"@typescript-eslint/parser": "^4.31.0",
 		"autoprefixer": "^10.3.4",
+		"chai": "^4.3.4",
 		"cssnano": "^5.0.8",
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
