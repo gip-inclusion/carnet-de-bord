@@ -1,3 +1,10 @@
+# [1.52.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.51.1...v1.52.0) (2021-10-21)
+
+
+### Features
+
+* allow only whitelisted roles for some routes ([#355](https://github.com/SocialGouv/carnet-de-bord/issues/355)) ([44e515b](https://github.com/SocialGouv/carnet-de-bord/commit/44e515b579a080ff4067102f8f46dd32b348b1d6))
+
 ## [1.51.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.51.0...v1.51.1) (2021-10-21)
 
 
