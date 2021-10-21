@@ -8,7 +8,10 @@ export const displayFullName = ({
 	lastname?: string;
 }): string => [firstname, lastname].filter(notNullish).join(' ');
 
-export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string }): string => {
+export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string }): string | null => {
+	if (!mobileNumber) {
+		return null;
+	}
 	const phoneNumber = [];
 	const chunkSize = 2;
 	for (let i = 0; i < mobileNumber.length; i += chunkSize) {
