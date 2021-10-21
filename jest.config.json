@@ -1,0 +1,15 @@
+{
+	"testMatch": ["!node_modules*", "**/(*.)+(spec|test).(ts|js|svelte)"],
+	"transform": {
+		"^.+\\.[tj]s$": "babel-jest",
+		"^.+\\.svelte$": ["svelte-jester", { "preprocess": true }]
+	},
+	"moduleNameMapper": {
+		"^\\$lib(.*)$": "<rootDir>/src/lib$1",
+		"^\\$app(.*)$": [
+			"<rootDir>/.svelte-kit/dev/runtime/app$1",
+			"<rootDir>/.svelte-kit/build/runtime/app$1"
+		]
+	},
+	"moduleFileExtensions": ["js", "svelte", "ts"]
+}
