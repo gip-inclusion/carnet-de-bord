@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { GetAccountQuery } from '$lib/graphql/_gen/typed-document-nodes';
-	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { GetAccountByPkQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { MenuItem } from '$lib/types';
 	import { FooterCDB, HeaderCDB } from '$lib/ui/index';
 	import LayerCDB from '$lib/ui/LayerCDB.svelte';
@@ -11,7 +11,7 @@
 
 	export const load: Load = async ({ session }) => {
 		const accountId = session.user.id;
-		const result = operationStore(GetAccountDocument, { accountId });
+		const result = operationStore(GetAccountByPkDocument, { accountId });
 
 		return {
 			props: {
@@ -25,7 +25,7 @@
 	import { account } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	export let result: OperationStore<GetAccountQuery>;
+	export let result: OperationStore<GetAccountByPkQuery>;
 
 	query(result);
 

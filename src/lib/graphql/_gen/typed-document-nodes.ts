@@ -4978,11 +4978,11 @@ export type GetRefTargetByFocusQuery = {
 	refTargets: Array<{ __typename?: 'ref_target'; id: string; description: string }>;
 };
 
-export type GetAccountQueryVariables = Exact<{
+export type GetAccountByPkQueryVariables = Exact<{
 	accountId: Scalars['uuid'];
 }>;
 
-export type GetAccountQuery = {
+export type GetAccountByPkQuery = {
 	__typename?: 'query_root';
 	account_by_pk?: Maybe<{
 		__typename?: 'account';
@@ -7183,13 +7183,13 @@ export const GetRefTargetByFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetRefTargetByFocusQuery, GetRefTargetByFocusQueryVariables>;
-export const GetAccountDocument = {
+export const GetAccountByPkDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetAccount' },
+			name: { kind: 'Name', value: 'GetAccountByPk' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -7272,7 +7272,7 @@ export const GetAccountDocument = {
 			},
 		},
 	],
-} as unknown as DocumentNode<GetAccountQuery, GetAccountQueryVariables>;
+} as unknown as DocumentNode<GetAccountByPkQuery, GetAccountByPkQueryVariables>;
 export const InsertStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -9330,7 +9330,10 @@ export type GetRefTargetByFocusQueryStore = OperationStore<
 	GetRefTargetByFocusQuery,
 	GetRefTargetByFocusQueryVariables
 >;
-export type GetAccountQueryStore = OperationStore<GetAccountQuery, GetAccountQueryVariables>;
+export type GetAccountByPkQueryStore = OperationStore<
+	GetAccountByPkQuery,
+	GetAccountByPkQueryVariables
+>;
 export type InsertStructureMutationStore = OperationStore<
 	InsertStructureMutation,
 	InsertStructureMutationVariables
