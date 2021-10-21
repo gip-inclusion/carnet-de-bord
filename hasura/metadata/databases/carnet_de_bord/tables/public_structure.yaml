@@ -4,84 +4,89 @@ table:
 configuration:
   custom_column_names:
     creation_date: creationDate
+    deployment_id: deploymentId
     modification_date: modificationDate
     postal_code: postalCode
     short_desc: shortDesc
   custom_root_fields: {}
+object_relationships:
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
 array_relationships:
-- name: professionals
-  using:
-    foreign_key_constraint_on:
-      column: structure_id
-      table:
-        name: professional
-        schema: public
+  - name: professionals
+    using:
+      foreign_key_constraint_on:
+        column: structure_id
+        table:
+          name: professional
+          schema: public
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - address1
-    - address2
-    - city
-    - creation_date
-    - email
-    - id
-    - modification_date
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    - website
-  role: professional
+  - permission:
+      backend_only: false
+      check: {}
+      columns:
+        - address1
+        - address2
+        - city
+        - creation_date
+        - email
+        - id
+        - modification_date
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+        - website
+    role: professional
 select_permissions:
-- permission:
-    columns:
-    - address1
-    - address2
-    - city
-    - email
-    - id
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    filter: {}
-  role: anonymous
-- permission:
-    columns:
-    - address1
-    - address2
-    - city
-    - email
-    - name
-    - phone
-    - postal_code
-    - siret
-    - website
-    - short_desc
-    - creation_date
-    - modification_date
-    - id
-    filter: {}
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - address1
-    - address2
-    - city
-    - creation_date
-    - email
-    - id
-    - modification_date
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    - website
-    filter: {}
-  role: professional
+  - permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - email
+        - id
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+      filter: {}
+    role: anonymous
+  - permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - email
+        - name
+        - phone
+        - postal_code
+        - siret
+        - website
+        - short_desc
+        - creation_date
+        - modification_date
+        - id
+      filter: {}
+    role: beneficiary
+  - permission:
+      allow_aggregations: true
+      columns:
+        - address1
+        - address2
+        - city
+        - creation_date
+        - email
+        - id
+        - modification_date
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+        - website
+      filter: {}
+    role: professional

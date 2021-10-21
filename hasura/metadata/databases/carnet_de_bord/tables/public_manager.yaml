@@ -1,0 +1,21 @@
+table:
+  name: manager
+  schema: public
+configuration:
+  custom_column_names:
+    created_at: createdAt
+    deployment_id: deploymentId
+    updated_at: updatedAt
+  custom_root_fields: {}
+object_relationships:
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
+array_relationships:
+  - name: accounts
+    using:
+      foreign_key_constraint_on:
+        column: manager_id
+        table:
+          name: account
+          schema: public

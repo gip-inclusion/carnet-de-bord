@@ -18,94 +18,118 @@ configuration:
     work_situation_date: workSituationDate
   custom_root_fields: {}
 object_relationships:
-- name: beneficiary
-  using:
-    foreign_key_constraint_on: beneficiary_id
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id
 array_relationships:
-- name: events
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_event
-        schema: public
-- name: focuses
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_focus
-        schema: public
-- name: members
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_member
-        schema: public
+  - name: events
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          name: notebook_event
+          schema: public
+  - name: focuses
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          name: notebook_focus
+          schema: public
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          name: notebook_member
+          schema: public
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - creation_date
-    - education_level
-    - geographical_area
-    - job
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - work_situation
-    - work_situation_date
-  role: professional
+  - permission:
+      backend_only: false
+      check: {}
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - creation_date
+        - education_level
+        - geographical_area
+        - job
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+    role: professional
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - creation_date
-    - education_level
-    - geographical_area
-    - id
-    - job
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - work_situation
-    - work_situation_date
-    filter:
-      members:
-        professional_id:
-          _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      columns:
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - contract_type
+        - education_level
+        - geographical_area
+        - job
+        - right_rsa
+        - work_situation
+        - contract_sign_date
+        - work_situation_date
+        - creation_date
+        - beneficiary_id
+        - id
+      filter:
+        members:
+          professional:
+            structure:
+              deployment_id:
+                _eq: X-Hasura-deployment-Id
+    role: manager
+  - permission:
+      allow_aggregations: true
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - creation_date
+        - education_level
+        - geographical_area
+        - id
+        - job
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+      filter:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+    role: professional
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - contract_sign_date
-    - contract_type
-    - creation_date
-    - education_level
-    - geographical_area
-    - job
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - work_situation
-    - work_situation_date
-    filter:
-      members:
-        professional_id:
-          _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      check: null
+      columns:
+        - contract_sign_date
+        - contract_type
+        - creation_date
+        - education_level
+        - geographical_area
+        - job
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+      filter:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+    role: professional

@@ -13,69 +13,88 @@ configuration:
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
-- name: creator
-  using:
-    foreign_key_constraint_on: creator_id
-- name: notebook
-  using:
-    foreign_key_constraint_on: notebook_id
-- name: professional
-  using:
-    foreign_key_constraint_on: professional_id
+  - name: creator
+    using:
+      foreign_key_constraint_on: creator_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - creator_id
-    - id
-    - member_type
-    - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
-    - professional_id
-  role: professional
+  - permission:
+      backend_only: false
+      check:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      columns: []
+    role: manager
+  - permission:
+      backend_only: false
+      check: {}
+      columns:
+        - creator_id
+        - id
+        - member_type
+        - notebook_id
+        - notebook_modification_date
+        - notebook_visit_date
+        - professional_id
+      set:
+        creator_id: x-hasura-Professional-Id
+    role: professional
 select_permissions:
-- permission:
-    columns:
-    - creation_date
-    - id
-    - member_type
-    - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
-    - professional_id
-    filter:
-      notebook:
-        beneficiary_id:
-          _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - creation_date
-    - creator_id
-    - id
-    - invitation_send_date
-    - member_type
-    - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
-    - professional_id
-    filter:
-      notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      columns:
+        - creation_date
+        - id
+        - member_type
+        - notebook_id
+        - notebook_modification_date
+        - notebook_visit_date
+        - professional_id
+      filter:
+        notebook:
+          beneficiary_id:
+            _eq: X-Hasura-Beneficiary-Id
+    role: beneficiary
+  - permission:
+      columns: []
+      filter:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+    role: manager
+  - permission:
+      allow_aggregations: true
+      columns:
+        - creation_date
+        - creator_id
+        - id
+        - invitation_send_date
+        - member_type
+        - notebook_id
+        - notebook_modification_date
+        - notebook_visit_date
+        - professional_id
+      filter:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+    role: professional
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - member_type
-    - notebook_modification_date
-    - notebook_visit_date
-    filter:
-      professional_id:
-        _eq: X-Hasura-Professional-Id
-  role: professional
+  - permission:
+      check: null
+      columns:
+        - member_type
+        - notebook_modification_date
+        - notebook_visit_date
+      filter:
+        professional_id:
+          _eq: X-Hasura-Professional-Id
+    role: professional

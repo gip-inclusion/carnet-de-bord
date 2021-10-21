@@ -8,66 +8,113 @@ configuration:
     admin_id: adminId
     beneficiary_id: beneficiaryId
     last_login: lastLogin
+    manager_id: managerId
     onboarding_done: onboardingDone
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
-- name: admin
-  using:
-    foreign_key_constraint_on: admin_id
-- name: beneficiary
-  using:
-    foreign_key_constraint_on: beneficiary_id
-- name: professional
-  using:
-    foreign_key_constraint_on: professional_id
+  - name: admin
+    using:
+      foreign_key_constraint_on: admin_id
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id
+  - name: manager
+    using:
+      foreign_key_constraint_on: manager_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id
+insert_permissions:
+  - permission:
+      backend_only: false
+      check: {}
+      columns:
+        - professional_id
+        - username
+      set:
+        type: professional
+    role: manager
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - username
-    - type
-    - access_key
-    - access_key_date
-    - last_login
-    - beneficiary_id
-    - professional_id
-    - admin_id
-    - confirmed
-    - onboarding_done
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: beneficiary
-- permission:
-    columns:
-    - beneficiary_id
-    - confirmed
-    - id
-    - onboarding_done
-    - professional_id
-    - username
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: professional
+  - permission:
+      allow_aggregations: true
+      columns:
+        - access_key
+        - access_key_date
+        - beneficiary_id
+        - confirmed
+        - id
+        - last_login
+        - onboarding_done
+        - type
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+    role: beneficiary
+  - permission:
+      columns:
+        - manager_id
+        - confirmed
+        - last_login
+        - onboarding_done
+        - professional_id
+        - type
+        - username
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-deployment-Id
+    role: manager
+  - permission:
+      columns:
+        - beneficiary_id
+        - confirmed
+        - id
+        - onboarding_done
+        - professional_id
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+    role: professional
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - last_login
-    - username
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: beneficiary
-- permission:
-    check: null
-    columns:
-    - confirmed
-    - onboarding_done
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: professional
+  - permission:
+      check: null
+      columns:
+        - last_login
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+    role: beneficiary
+  - permission:
+      check: null
+      columns:
+        - access_key
+        - access_key_date
+        - confirmed
+        - onboarding_done
+        - username
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-deployment-Id
+    role: manager
+  - permission:
+      check: null
+      columns:
+        - confirmed
+        - onboarding_done
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+    role: professional

@@ -11,6 +11,7 @@ export type Scalars = {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
+	citext: any;
 	date: string;
 	jsonb: any;
 	timestamptz: any;
@@ -77,7 +78,9 @@ export type Account = {
 	confirmed: Scalars['Boolean'];
 	id: Scalars['uuid'];
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	manager_id?: Maybe<Scalars['uuid']>;
+	/** An object relationship */
+	manager?: Maybe<Manager>;
+	managerId?: Maybe<Scalars['uuid']>;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
 	/** An object relationship */
 	professional?: Maybe<Professional>;
@@ -135,7 +138,8 @@ export type AccountBoolExp = {
 	confirmed?: Maybe<BooleanComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	lastLogin?: Maybe<TimestamptzComparisonExp>;
-	manager_id?: Maybe<UuidComparisonExp>;
+	manager?: Maybe<ManagerBoolExp>;
+	managerId?: Maybe<UuidComparisonExp>;
 	onboardingDone?: Maybe<BooleanComparisonExp>;
 	professional?: Maybe<ProfessionalBoolExp>;
 	professionalId?: Maybe<UuidComparisonExp>;
@@ -162,7 +166,8 @@ export type AccountInsertInput = {
 	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	manager_id?: Maybe<Scalars['uuid']>;
+	manager?: Maybe<ManagerObjRelInsertInput>;
+	managerId?: Maybe<Scalars['uuid']>;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
 	professional?: Maybe<ProfessionalObjRelInsertInput>;
 	professionalId?: Maybe<Scalars['uuid']>;
@@ -179,7 +184,7 @@ export type AccountMaxFields = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	manager_id?: Maybe<Scalars['uuid']>;
+	managerId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
@@ -193,7 +198,7 @@ export type AccountMaxOrderBy = {
 	beneficiaryId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	lastLogin?: Maybe<OrderBy>;
-	manager_id?: Maybe<OrderBy>;
+	managerId?: Maybe<OrderBy>;
 	professionalId?: Maybe<OrderBy>;
 	type?: Maybe<OrderBy>;
 	username?: Maybe<OrderBy>;
@@ -208,7 +213,7 @@ export type AccountMinFields = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	manager_id?: Maybe<Scalars['uuid']>;
+	managerId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
@@ -222,7 +227,7 @@ export type AccountMinOrderBy = {
 	beneficiaryId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	lastLogin?: Maybe<OrderBy>;
-	manager_id?: Maybe<OrderBy>;
+	managerId?: Maybe<OrderBy>;
 	professionalId?: Maybe<OrderBy>;
 	type?: Maybe<OrderBy>;
 	username?: Maybe<OrderBy>;
@@ -255,7 +260,8 @@ export type AccountOrderBy = {
 	confirmed?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	lastLogin?: Maybe<OrderBy>;
-	manager_id?: Maybe<OrderBy>;
+	manager?: Maybe<ManagerOrderBy>;
+	managerId?: Maybe<OrderBy>;
 	onboardingDone?: Maybe<OrderBy>;
 	professional?: Maybe<ProfessionalOrderBy>;
 	professionalId?: Maybe<OrderBy>;
@@ -285,7 +291,7 @@ export enum AccountSelectColumn {
 	/** column name */
 	LastLogin = 'lastLogin',
 	/** column name */
-	ManagerId = 'manager_id',
+	ManagerId = 'managerId',
 	/** column name */
 	OnboardingDone = 'onboardingDone',
 	/** column name */
@@ -305,7 +311,7 @@ export type AccountSetInput = {
 	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
-	manager_id?: Maybe<Scalars['uuid']>;
+	managerId?: Maybe<Scalars['uuid']>;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
@@ -329,7 +335,7 @@ export enum AccountUpdateColumn {
 	/** column name */
 	LastLogin = 'lastLogin',
 	/** column name */
-	ManagerId = 'manager_id',
+	ManagerId = 'managerId',
 	/** column name */
 	OnboardingDone = 'onboardingDone',
 	/** column name */
@@ -791,6 +797,39 @@ export enum BeneficiaryUpdateColumn {
 	PostalCode = 'postalCode',
 }
 
+/** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+export type CitextComparisonExp = {
+	_eq?: Maybe<Scalars['citext']>;
+	_gt?: Maybe<Scalars['citext']>;
+	_gte?: Maybe<Scalars['citext']>;
+	/** does the column match the given case-insensitive pattern */
+	_ilike?: Maybe<Scalars['citext']>;
+	_in?: Maybe<Array<Scalars['citext']>>;
+	/** does the column match the given POSIX regular expression, case insensitive */
+	_iregex?: Maybe<Scalars['citext']>;
+	_is_null?: Maybe<Scalars['Boolean']>;
+	/** does the column match the given pattern */
+	_like?: Maybe<Scalars['citext']>;
+	_lt?: Maybe<Scalars['citext']>;
+	_lte?: Maybe<Scalars['citext']>;
+	_neq?: Maybe<Scalars['citext']>;
+	/** does the column NOT match the given case-insensitive pattern */
+	_nilike?: Maybe<Scalars['citext']>;
+	_nin?: Maybe<Array<Scalars['citext']>>;
+	/** does the column NOT match the given POSIX regular expression, case insensitive */
+	_niregex?: Maybe<Scalars['citext']>;
+	/** does the column NOT match the given pattern */
+	_nlike?: Maybe<Scalars['citext']>;
+	/** does the column NOT match the given POSIX regular expression, case sensitive */
+	_nregex?: Maybe<Scalars['citext']>;
+	/** does the column NOT match the given SQL regular expression */
+	_nsimilar?: Maybe<Scalars['citext']>;
+	/** does the column match the given POSIX regular expression, case sensitive */
+	_regex?: Maybe<Scalars['citext']>;
+	/** does the column match the given SQL regular expression */
+	_similar?: Maybe<Scalars['citext']>;
+};
+
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
 export type DateComparisonExp = {
 	_eq?: Maybe<Scalars['date']>;
@@ -803,6 +842,227 @@ export type DateComparisonExp = {
 	_neq?: Maybe<Scalars['date']>;
 	_nin?: Maybe<Array<Scalars['date']>>;
 };
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type Deployment = {
+	__typename?: 'deployment';
+	createdAt: Scalars['timestamptz'];
+	id: Scalars['uuid'];
+	label: Scalars['String'];
+	/** An array relationship */
+	managers: Array<Manager>;
+	/** An aggregate relationship */
+	managers_aggregate: ManagerAggregate;
+	/** An array relationship */
+	structures: Array<Structure>;
+	/** An aggregate relationship */
+	structures_aggregate: StructureAggregate;
+	updatedAt: Scalars['timestamptz'];
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentManagersArgs = {
+	distinct_on?: Maybe<Array<ManagerSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<ManagerOrderBy>>;
+	where?: Maybe<ManagerBoolExp>;
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentManagersAggregateArgs = {
+	distinct_on?: Maybe<Array<ManagerSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<ManagerOrderBy>>;
+	where?: Maybe<ManagerBoolExp>;
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentStructuresArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentStructuresAggregateArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
+};
+
+/** aggregated selection of "deployment" */
+export type DeploymentAggregate = {
+	__typename?: 'deployment_aggregate';
+	aggregate?: Maybe<DeploymentAggregateFields>;
+	nodes: Array<Deployment>;
+};
+
+/** aggregate fields of "deployment" */
+export type DeploymentAggregateFields = {
+	__typename?: 'deployment_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<DeploymentMaxFields>;
+	min?: Maybe<DeploymentMinFields>;
+};
+
+/** aggregate fields of "deployment" */
+export type DeploymentAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<DeploymentSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "deployment". All fields are combined with a logical 'AND'. */
+export type DeploymentBoolExp = {
+	_and?: Maybe<Array<DeploymentBoolExp>>;
+	_not?: Maybe<DeploymentBoolExp>;
+	_or?: Maybe<Array<DeploymentBoolExp>>;
+	createdAt?: Maybe<TimestamptzComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	label?: Maybe<StringComparisonExp>;
+	managers?: Maybe<ManagerBoolExp>;
+	structures?: Maybe<StructureBoolExp>;
+	updatedAt?: Maybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "deployment" */
+export enum DeploymentConstraint {
+	/** unique or primary key constraint */
+	DeploymentPkey = 'deployment_pkey',
+}
+
+/** input type for inserting data into table "deployment" */
+export type DeploymentInsertInput = {
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	label?: Maybe<Scalars['String']>;
+	managers?: Maybe<ManagerArrRelInsertInput>;
+	structures?: Maybe<StructureArrRelInsertInput>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type DeploymentMaxFields = {
+	__typename?: 'deployment_max_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	label?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type DeploymentMinFields = {
+	__typename?: 'deployment_min_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	label?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "deployment" */
+export type DeploymentMutationResponse = {
+	__typename?: 'deployment_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Deployment>;
+};
+
+/** input type for inserting object relation for remote table "deployment" */
+export type DeploymentObjRelInsertInput = {
+	data: DeploymentInsertInput;
+	/** on conflict condition */
+	on_conflict?: Maybe<DeploymentOnConflict>;
+};
+
+/** on conflict condition type for table "deployment" */
+export type DeploymentOnConflict = {
+	constraint: DeploymentConstraint;
+	update_columns?: Array<DeploymentUpdateColumn>;
+	where?: Maybe<DeploymentBoolExp>;
+};
+
+/** Ordering options when selecting data from "deployment". */
+export type DeploymentOrderBy = {
+	createdAt?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	label?: Maybe<OrderBy>;
+	managers_aggregate?: Maybe<ManagerAggregateOrderBy>;
+	structures_aggregate?: Maybe<StructureAggregateOrderBy>;
+	updatedAt?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: deployment */
+export type DeploymentPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "deployment" */
+export enum DeploymentSelectColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "deployment" */
+export type DeploymentSetInput = {
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	label?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "deployment" */
+export enum DeploymentUpdateColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
 
 /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
 export type JsonbComparisonExp = {
@@ -827,6 +1087,264 @@ export type JsonbComparisonExp = {
 	_nin?: Maybe<Array<Scalars['jsonb']>>;
 };
 
+/**
+ * A manager handle structure and professional for a given deployment
+ *
+ *
+ * columns and relationships of "manager"
+ *
+ */
+export type Manager = {
+	__typename?: 'manager';
+	/** An array relationship */
+	accounts: Array<Account>;
+	/** An aggregate relationship */
+	accounts_aggregate: AccountAggregate;
+	createdAt: Scalars['timestamptz'];
+	/** An object relationship */
+	deployment?: Maybe<Deployment>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	email: Scalars['citext'];
+	firstname: Scalars['String'];
+	id: Scalars['uuid'];
+	lastname: Scalars['String'];
+	updatedAt: Scalars['timestamptz'];
+};
+
+/**
+ * A manager handle structure and professional for a given deployment
+ *
+ *
+ * columns and relationships of "manager"
+ *
+ */
+export type ManagerAccountsArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
+};
+
+/**
+ * A manager handle structure and professional for a given deployment
+ *
+ *
+ * columns and relationships of "manager"
+ *
+ */
+export type ManagerAccountsAggregateArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
+};
+
+/** aggregated selection of "manager" */
+export type ManagerAggregate = {
+	__typename?: 'manager_aggregate';
+	aggregate?: Maybe<ManagerAggregateFields>;
+	nodes: Array<Manager>;
+};
+
+/** aggregate fields of "manager" */
+export type ManagerAggregateFields = {
+	__typename?: 'manager_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ManagerMaxFields>;
+	min?: Maybe<ManagerMinFields>;
+};
+
+/** aggregate fields of "manager" */
+export type ManagerAggregateFieldsCountArgs = {
+	columns?: Maybe<Array<ManagerSelectColumn>>;
+	distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "manager" */
+export type ManagerAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<ManagerMaxOrderBy>;
+	min?: Maybe<ManagerMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "manager" */
+export type ManagerArrRelInsertInput = {
+	data: Array<ManagerInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<ManagerOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "manager". All fields are combined with a logical 'AND'. */
+export type ManagerBoolExp = {
+	_and?: Maybe<Array<ManagerBoolExp>>;
+	_not?: Maybe<ManagerBoolExp>;
+	_or?: Maybe<Array<ManagerBoolExp>>;
+	accounts?: Maybe<AccountBoolExp>;
+	createdAt?: Maybe<TimestamptzComparisonExp>;
+	deployment?: Maybe<DeploymentBoolExp>;
+	deploymentId?: Maybe<UuidComparisonExp>;
+	email?: Maybe<CitextComparisonExp>;
+	firstname?: Maybe<StringComparisonExp>;
+	id?: Maybe<UuidComparisonExp>;
+	lastname?: Maybe<StringComparisonExp>;
+	updatedAt?: Maybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "manager" */
+export enum ManagerConstraint {
+	/** unique or primary key constraint */
+	ManagerPkey = 'manager_pkey',
+}
+
+/** input type for inserting data into table "manager" */
+export type ManagerInsertInput = {
+	accounts?: Maybe<AccountArrRelInsertInput>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deployment?: Maybe<DeploymentObjRelInsertInput>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type ManagerMaxFields = {
+	__typename?: 'manager_max_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "manager" */
+export type ManagerMaxOrderBy = {
+	createdAt?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	updatedAt?: Maybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type ManagerMinFields = {
+	__typename?: 'manager_min_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "manager" */
+export type ManagerMinOrderBy = {
+	createdAt?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	updatedAt?: Maybe<OrderBy>;
+};
+
+/** response of any mutation on the table "manager" */
+export type ManagerMutationResponse = {
+	__typename?: 'manager_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Manager>;
+};
+
+/** input type for inserting object relation for remote table "manager" */
+export type ManagerObjRelInsertInput = {
+	data: ManagerInsertInput;
+	/** on conflict condition */
+	on_conflict?: Maybe<ManagerOnConflict>;
+};
+
+/** on conflict condition type for table "manager" */
+export type ManagerOnConflict = {
+	constraint: ManagerConstraint;
+	update_columns?: Array<ManagerUpdateColumn>;
+	where?: Maybe<ManagerBoolExp>;
+};
+
+/** Ordering options when selecting data from "manager". */
+export type ManagerOrderBy = {
+	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
+	createdAt?: Maybe<OrderBy>;
+	deployment?: Maybe<DeploymentOrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	updatedAt?: Maybe<OrderBy>;
+};
+
+/** primary key columns input for table: manager */
+export type ManagerPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "manager" */
+export enum ManagerSelectColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	DeploymentId = 'deploymentId',
+	/** column name */
+	Email = 'email',
+	/** column name */
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "manager" */
+export type ManagerSetInput = {
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "manager" */
+export enum ManagerUpdateColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	DeploymentId = 'deploymentId',
+	/** column name */
+	Email = 'email',
+	/** column name */
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
 /** mutation root */
 export type MutationRoot = {
 	__typename?: 'mutation_root';
@@ -842,6 +1360,14 @@ export type MutationRoot = {
 	delete_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** delete single row from the table: "beneficiary" */
 	delete_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** delete data from the table: "deployment" */
+	delete_deployment?: Maybe<DeploymentMutationResponse>;
+	/** delete single row from the table: "deployment" */
+	delete_deployment_by_pk?: Maybe<Deployment>;
+	/** delete data from the table: "manager" */
+	delete_manager?: Maybe<ManagerMutationResponse>;
+	/** delete single row from the table: "manager" */
+	delete_manager_by_pk?: Maybe<Manager>;
 	/** delete data from the table: "notebook" */
 	delete_notebook?: Maybe<NotebookMutationResponse>;
 	/** delete data from the table: "notebook_action" */
@@ -898,6 +1424,14 @@ export type MutationRoot = {
 	insert_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** insert a single row into the table: "beneficiary" */
 	insert_beneficiary_one?: Maybe<Beneficiary>;
+	/** insert data into the table: "deployment" */
+	insert_deployment?: Maybe<DeploymentMutationResponse>;
+	/** insert a single row into the table: "deployment" */
+	insert_deployment_one?: Maybe<Deployment>;
+	/** insert data into the table: "manager" */
+	insert_manager?: Maybe<ManagerMutationResponse>;
+	/** insert a single row into the table: "manager" */
+	insert_manager_one?: Maybe<Manager>;
 	/** insert data into the table: "notebook" */
 	insert_notebook?: Maybe<NotebookMutationResponse>;
 	/** insert data into the table: "notebook_action" */
@@ -954,6 +1488,14 @@ export type MutationRoot = {
 	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
 	update_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** update data of the table: "deployment" */
+	update_deployment?: Maybe<DeploymentMutationResponse>;
+	/** update single row of the table: "deployment" */
+	update_deployment_by_pk?: Maybe<Deployment>;
+	/** update data of the table: "manager" */
+	update_manager?: Maybe<ManagerMutationResponse>;
+	/** update single row of the table: "manager" */
+	update_manager_by_pk?: Maybe<Manager>;
 	/** update data of the table: "notebook" */
 	update_notebook?: Maybe<NotebookMutationResponse>;
 	/** update data of the table: "notebook_action" */
@@ -1027,6 +1569,26 @@ export type MutationRootDeleteBeneficiaryArgs = {
 
 /** mutation root */
 export type MutationRootDeleteBeneficiaryByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteDeploymentArgs = {
+	where: DeploymentBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteDeploymentByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteManagerArgs = {
+	where: ManagerBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteManagerByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -1174,6 +1736,30 @@ export type MutationRootInsertBeneficiaryArgs = {
 export type MutationRootInsertBeneficiaryOneArgs = {
 	object: BeneficiaryInsertInput;
 	on_conflict?: Maybe<BeneficiaryOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertDeploymentArgs = {
+	objects: Array<DeploymentInsertInput>;
+	on_conflict?: Maybe<DeploymentOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertDeploymentOneArgs = {
+	object: DeploymentInsertInput;
+	on_conflict?: Maybe<DeploymentOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertManagerArgs = {
+	objects: Array<ManagerInsertInput>;
+	on_conflict?: Maybe<ManagerOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertManagerOneArgs = {
+	object: ManagerInsertInput;
+	on_conflict?: Maybe<ManagerOnConflict>;
 };
 
 /** mutation root */
@@ -1342,6 +1928,30 @@ export type MutationRootUpdateBeneficiaryArgs = {
 export type MutationRootUpdateBeneficiaryByPkArgs = {
 	_set?: Maybe<BeneficiarySetInput>;
 	pk_columns: BeneficiaryPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateDeploymentArgs = {
+	_set?: Maybe<DeploymentSetInput>;
+	where: DeploymentBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateDeploymentByPkArgs = {
+	_set?: Maybe<DeploymentSetInput>;
+	pk_columns: DeploymentPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateManagerArgs = {
+	_set?: Maybe<ManagerSetInput>;
+	where: ManagerBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateManagerByPkArgs = {
+	_set?: Maybe<ManagerSetInput>;
+	pk_columns: ManagerPkColumnsInput;
 };
 
 /** mutation root */
@@ -3274,6 +3884,18 @@ export type QueryRoot = {
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "deployment" */
+	deployment: Array<Deployment>;
+	/** fetch aggregated fields from the table: "deployment" */
+	deployment_aggregate: DeploymentAggregate;
+	/** fetch data from the table: "deployment" using primary key columns */
+	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table: "manager" */
+	manager: Array<Manager>;
+	/** fetch aggregated fields from the table: "manager" */
+	manager_aggregate: ManagerAggregate;
+	/** fetch data from the table: "manager" using primary key columns */
+	manager_by_pk?: Maybe<Manager>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
 	/** fetch data from the table: "notebook_action" */
@@ -3399,6 +4021,46 @@ export type QueryRootBeneficiaryAggregateArgs = {
 };
 
 export type QueryRootBeneficiaryByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootDeploymentArgs = {
+	distinct_on?: Maybe<Array<DeploymentSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<DeploymentOrderBy>>;
+	where?: Maybe<DeploymentBoolExp>;
+};
+
+export type QueryRootDeploymentAggregateArgs = {
+	distinct_on?: Maybe<Array<DeploymentSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<DeploymentOrderBy>>;
+	where?: Maybe<DeploymentBoolExp>;
+};
+
+export type QueryRootDeploymentByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootManagerArgs = {
+	distinct_on?: Maybe<Array<ManagerSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<ManagerOrderBy>>;
+	where?: Maybe<ManagerBoolExp>;
+};
+
+export type QueryRootManagerAggregateArgs = {
+	distinct_on?: Maybe<Array<ManagerSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<ManagerOrderBy>>;
+	where?: Maybe<ManagerBoolExp>;
+};
+
+export type QueryRootManagerByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -4063,7 +4725,9 @@ export type Structure = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	deployement_id: Scalars['uuid'];
+	/** An object relationship */
+	deployment?: Maybe<Deployment>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4118,6 +4782,20 @@ export type StructureAggregateFieldsCountArgs = {
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "structure" */
+export type StructureAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<StructureMaxOrderBy>;
+	min?: Maybe<StructureMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "structure" */
+export type StructureArrRelInsertInput = {
+	data: Array<StructureInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<StructureOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "structure". All fields are combined with a logical 'AND'. */
 export type StructureBoolExp = {
 	_and?: Maybe<Array<StructureBoolExp>>;
@@ -4127,7 +4805,8 @@ export type StructureBoolExp = {
 	address2?: Maybe<StringComparisonExp>;
 	city?: Maybe<StringComparisonExp>;
 	creationDate?: Maybe<TimestamptzComparisonExp>;
-	deployement_id?: Maybe<UuidComparisonExp>;
+	deployment?: Maybe<DeploymentBoolExp>;
+	deploymentId?: Maybe<UuidComparisonExp>;
 	email?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	modificationDate?: Maybe<TimestamptzComparisonExp>;
@@ -4152,7 +4831,8 @@ export type StructureInsertInput = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	deployement_id?: Maybe<Scalars['uuid']>;
+	deployment?: Maybe<DeploymentObjRelInsertInput>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4172,7 +4852,7 @@ export type StructureMaxFields = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	deployement_id?: Maybe<Scalars['uuid']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4184,6 +4864,24 @@ export type StructureMaxFields = {
 	website?: Maybe<Scalars['String']>;
 };
 
+/** order by max() on columns of table "structure" */
+export type StructureMaxOrderBy = {
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	modificationDate?: Maybe<OrderBy>;
+	name?: Maybe<OrderBy>;
+	phone?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
+	shortDesc?: Maybe<OrderBy>;
+	siret?: Maybe<OrderBy>;
+	website?: Maybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type StructureMinFields = {
 	__typename?: 'structure_min_fields';
@@ -4191,7 +4889,7 @@ export type StructureMinFields = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	deployement_id?: Maybe<Scalars['uuid']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4201,6 +4899,24 @@ export type StructureMinFields = {
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 	website?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "structure" */
+export type StructureMinOrderBy = {
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	modificationDate?: Maybe<OrderBy>;
+	name?: Maybe<OrderBy>;
+	phone?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
+	shortDesc?: Maybe<OrderBy>;
+	siret?: Maybe<OrderBy>;
+	website?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "structure" */
@@ -4232,7 +4948,8 @@ export type StructureOrderBy = {
 	address2?: Maybe<OrderBy>;
 	city?: Maybe<OrderBy>;
 	creationDate?: Maybe<OrderBy>;
-	deployement_id?: Maybe<OrderBy>;
+	deployment?: Maybe<DeploymentOrderBy>;
+	deploymentId?: Maybe<OrderBy>;
 	email?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	modificationDate?: Maybe<OrderBy>;
@@ -4261,7 +4978,7 @@ export enum StructureSelectColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
-	DeployementId = 'deployement_id',
+	DeploymentId = 'deploymentId',
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -4288,7 +5005,7 @@ export type StructureSetInput = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	deployement_id?: Maybe<Scalars['uuid']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4311,7 +5028,7 @@ export enum StructureUpdateColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
-	DeployementId = 'deployement_id',
+	DeploymentId = 'deploymentId',
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -4352,6 +5069,18 @@ export type SubscriptionRoot = {
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "deployment" */
+	deployment: Array<Deployment>;
+	/** fetch aggregated fields from the table: "deployment" */
+	deployment_aggregate: DeploymentAggregate;
+	/** fetch data from the table: "deployment" using primary key columns */
+	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table: "manager" */
+	manager: Array<Manager>;
+	/** fetch aggregated fields from the table: "manager" */
+	manager_aggregate: ManagerAggregate;
+	/** fetch data from the table: "manager" using primary key columns */
+	manager_by_pk?: Maybe<Manager>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
 	/** fetch data from the table: "notebook_action" */
@@ -4477,6 +5206,46 @@ export type SubscriptionRootBeneficiaryAggregateArgs = {
 };
 
 export type SubscriptionRootBeneficiaryByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootDeploymentArgs = {
+	distinct_on?: Maybe<Array<DeploymentSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<DeploymentOrderBy>>;
+	where?: Maybe<DeploymentBoolExp>;
+};
+
+export type SubscriptionRootDeploymentAggregateArgs = {
+	distinct_on?: Maybe<Array<DeploymentSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<DeploymentOrderBy>>;
+	where?: Maybe<DeploymentBoolExp>;
+};
+
+export type SubscriptionRootDeploymentByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootManagerArgs = {
+	distinct_on?: Maybe<Array<ManagerSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<ManagerOrderBy>>;
+	where?: Maybe<ManagerBoolExp>;
+};
+
+export type SubscriptionRootManagerAggregateArgs = {
+	distinct_on?: Maybe<Array<ManagerSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<ManagerOrderBy>>;
+	where?: Maybe<ManagerBoolExp>;
+};
+
+export type SubscriptionRootManagerByPkArgs = {
 	id: Scalars['uuid'];
 };
 
