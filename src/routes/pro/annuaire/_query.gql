@@ -1,8 +1,7 @@
 query SearchNotebookMember(
 	$professionalId: uuid!
 	$filter: String
-	$visitDateStart: timestamptz
-	$visitDateEnd: timestamptz
+	$visitDate: timestamptz_comparison_exp!
 ) {
 	notebook_member(
 		where: {
@@ -17,7 +16,7 @@ query SearchNotebookMember(
 					]
 				}
 			}
-			notebookVisitDate: { _gt: $visitDateStart, _lt: $visitDateEnd }
+			notebookVisitDate: $visitDate
 		}
 		order_by: { notebookModificationDate: desc_nulls_first }
 	) {

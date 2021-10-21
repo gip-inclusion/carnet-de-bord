@@ -77,6 +77,7 @@ export type Account = {
 	confirmed: Scalars['Boolean'];
 	id: Scalars['uuid'];
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	manager_id?: Maybe<Scalars['uuid']>;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
 	/** An object relationship */
 	professional?: Maybe<Professional>;
@@ -134,6 +135,7 @@ export type AccountBoolExp = {
 	confirmed?: Maybe<BooleanComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	lastLogin?: Maybe<TimestamptzComparisonExp>;
+	manager_id?: Maybe<UuidComparisonExp>;
 	onboardingDone?: Maybe<BooleanComparisonExp>;
 	professional?: Maybe<ProfessionalBoolExp>;
 	professionalId?: Maybe<UuidComparisonExp>;
@@ -160,6 +162,7 @@ export type AccountInsertInput = {
 	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	manager_id?: Maybe<Scalars['uuid']>;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
 	professional?: Maybe<ProfessionalObjRelInsertInput>;
 	professionalId?: Maybe<Scalars['uuid']>;
@@ -176,6 +179,7 @@ export type AccountMaxFields = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	manager_id?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
@@ -189,6 +193,7 @@ export type AccountMaxOrderBy = {
 	beneficiaryId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	lastLogin?: Maybe<OrderBy>;
+	manager_id?: Maybe<OrderBy>;
 	professionalId?: Maybe<OrderBy>;
 	type?: Maybe<OrderBy>;
 	username?: Maybe<OrderBy>;
@@ -203,6 +208,7 @@ export type AccountMinFields = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	manager_id?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
 	username?: Maybe<Scalars['String']>;
@@ -216,6 +222,7 @@ export type AccountMinOrderBy = {
 	beneficiaryId?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	lastLogin?: Maybe<OrderBy>;
+	manager_id?: Maybe<OrderBy>;
 	professionalId?: Maybe<OrderBy>;
 	type?: Maybe<OrderBy>;
 	username?: Maybe<OrderBy>;
@@ -248,6 +255,7 @@ export type AccountOrderBy = {
 	confirmed?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	lastLogin?: Maybe<OrderBy>;
+	manager_id?: Maybe<OrderBy>;
 	onboardingDone?: Maybe<OrderBy>;
 	professional?: Maybe<ProfessionalOrderBy>;
 	professionalId?: Maybe<OrderBy>;
@@ -277,6 +285,8 @@ export enum AccountSelectColumn {
 	/** column name */
 	LastLogin = 'lastLogin',
 	/** column name */
+	ManagerId = 'manager_id',
+	/** column name */
 	OnboardingDone = 'onboardingDone',
 	/** column name */
 	ProfessionalId = 'professionalId',
@@ -295,6 +305,7 @@ export type AccountSetInput = {
 	confirmed?: Maybe<Scalars['Boolean']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
+	manager_id?: Maybe<Scalars['uuid']>;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
 	professionalId?: Maybe<Scalars['uuid']>;
 	type?: Maybe<Scalars['String']>;
@@ -318,6 +329,8 @@ export enum AccountUpdateColumn {
 	/** column name */
 	LastLogin = 'lastLogin',
 	/** column name */
+	ManagerId = 'manager_id',
+	/** column name */
 	OnboardingDone = 'onboardingDone',
 	/** column name */
 	ProfessionalId = 'professionalId',
@@ -334,10 +347,12 @@ export type Admin = {
 	accounts: Array<Account>;
 	/** An aggregate relationship */
 	accounts_aggregate: AccountAggregate;
+	created_at?: Maybe<Scalars['timestamptz']>;
 	email: Scalars['String'];
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** columns and relationships of "admin" */
@@ -385,10 +400,12 @@ export type AdminBoolExp = {
 	_not?: Maybe<AdminBoolExp>;
 	_or?: Maybe<Array<AdminBoolExp>>;
 	accounts?: Maybe<AccountBoolExp>;
+	created_at?: Maybe<TimestamptzComparisonExp>;
 	email?: Maybe<StringComparisonExp>;
 	firstname?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	lastname?: Maybe<StringComparisonExp>;
+	updated_at?: Maybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "admin" */
@@ -402,28 +419,34 @@ export enum AdminConstraint {
 /** input type for inserting data into table "admin" */
 export type AdminInsertInput = {
 	accounts?: Maybe<AccountArrRelInsertInput>;
+	created_at?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type AdminMaxFields = {
 	__typename?: 'admin_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate min on columns */
 export type AdminMinFields = {
 	__typename?: 'admin_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** response of any mutation on the table "admin" */
@@ -452,10 +475,12 @@ export type AdminOnConflict = {
 /** Ordering options when selecting data from "admin". */
 export type AdminOrderBy = {
 	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
+	created_at?: Maybe<OrderBy>;
 	email?: Maybe<OrderBy>;
 	firstname?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	lastname?: Maybe<OrderBy>;
+	updated_at?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: admin */
@@ -466,6 +491,8 @@ export type AdminPkColumnsInput = {
 /** select columns of table "admin" */
 export enum AdminSelectColumn {
 	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
 	Email = 'email',
 	/** column name */
 	Firstname = 'firstname',
@@ -473,19 +500,25 @@ export enum AdminSelectColumn {
 	Id = 'id',
 	/** column name */
 	Lastname = 'lastname',
+	/** column name */
+	UpdatedAt = 'updated_at',
 }
 
 /** input type for updating data in table "admin" */
 export type AdminSetInput = {
+	created_at?: Maybe<Scalars['timestamptz']>;
 	email?: Maybe<Scalars['String']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** update columns of table "admin" */
 export enum AdminUpdateColumn {
 	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
 	Email = 'email',
 	/** column name */
 	Firstname = 'firstname',
@@ -493,6 +526,8 @@ export enum AdminUpdateColumn {
 	Id = 'id',
 	/** column name */
 	Lastname = 'lastname',
+	/** column name */
+	UpdatedAt = 'updated_at',
 }
 
 /** columns and relationships of "beneficiary" */
@@ -4028,6 +4063,7 @@ export type Structure = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	deployement_id: Scalars['uuid'];
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4091,6 +4127,7 @@ export type StructureBoolExp = {
 	address2?: Maybe<StringComparisonExp>;
 	city?: Maybe<StringComparisonExp>;
 	creationDate?: Maybe<TimestamptzComparisonExp>;
+	deployement_id?: Maybe<UuidComparisonExp>;
 	email?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	modificationDate?: Maybe<TimestamptzComparisonExp>;
@@ -4115,6 +4152,7 @@ export type StructureInsertInput = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	deployement_id?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4134,6 +4172,7 @@ export type StructureMaxFields = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	deployement_id?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4152,6 +4191,7 @@ export type StructureMinFields = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	deployement_id?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4192,6 +4232,7 @@ export type StructureOrderBy = {
 	address2?: Maybe<OrderBy>;
 	city?: Maybe<OrderBy>;
 	creationDate?: Maybe<OrderBy>;
+	deployement_id?: Maybe<OrderBy>;
 	email?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	modificationDate?: Maybe<OrderBy>;
@@ -4220,6 +4261,8 @@ export enum StructureSelectColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
+	DeployementId = 'deployement_id',
+	/** column name */
 	Email = 'email',
 	/** column name */
 	Id = 'id',
@@ -4245,6 +4288,7 @@ export type StructureSetInput = {
 	address2?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	deployement_id?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	modificationDate?: Maybe<Scalars['timestamptz']>;
@@ -4266,6 +4310,8 @@ export enum StructureUpdateColumn {
 	City = 'city',
 	/** column name */
 	CreationDate = 'creationDate',
+	/** column name */
+	DeployementId = 'deployement_id',
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -5209,8 +5255,7 @@ export type CreateBeneficiaryMutation = {
 export type SearchNotebookMemberQueryVariables = Exact<{
 	professionalId: Scalars['uuid'];
 	filter?: Maybe<Scalars['String']>;
-	visitDateStart?: Maybe<Scalars['timestamptz']>;
-	visitDateEnd?: Maybe<Scalars['timestamptz']>;
+	visitDate: TimestamptzComparisonExp;
 }>;
 
 export type SearchNotebookMemberQuery = {
@@ -8333,13 +8378,14 @@ export const SearchNotebookMemberDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitDateStart' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitDateEnd' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'visitDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'timestamptz_comparison_exp' },
+						},
+					},
 				},
 			],
 			selectionSet: {
@@ -8490,27 +8536,7 @@ export const SearchNotebookMemberDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookVisitDate' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_gt' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'visitDateStart' },
-														},
-													},
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_lt' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'visitDateEnd' },
-														},
-													},
-												],
-											},
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'visitDate' } },
 										},
 									],
 								},
