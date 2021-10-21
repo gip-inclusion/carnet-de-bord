@@ -1,3 +1,10 @@
+## [1.52.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.52.0...v1.52.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* search beneficiary without date ([1ee03be](https://github.com/SocialGouv/carnet-de-bord/commit/1ee03be5b50ac991341ffd7a2a3816b3229c2256))
+
 # [1.52.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.51.1...v1.52.0) (2021-10-21)
 
 
