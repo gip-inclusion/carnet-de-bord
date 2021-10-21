@@ -70,4 +70,5 @@ export const focusThemeKeys = buildKeys({
 	mobilite: 'Mobilité',
 	sante: 'Santé',
 	contraintes_familiales: 'Contraintes familiales',
+	formation: 'Formation',
 });
