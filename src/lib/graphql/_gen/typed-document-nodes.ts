@@ -5890,6 +5890,38 @@ export type GetAccountsSummaryQuery = {
 	}>;
 };
 
+export type GetAccountInfoQueryVariables = Exact<{
+	accessKey: Scalars['String'];
+}>;
+
+export type GetAccountInfoQuery = {
+	__typename?: 'query_root';
+	account: Array<{
+		__typename?: 'account';
+		id: string;
+		type: string;
+		username: string;
+		beneficiaryId?: Maybe<string>;
+		professionalId?: Maybe<string>;
+		managerId?: Maybe<string>;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			structure: { __typename?: 'structure'; deploymentId?: Maybe<string> };
+		}>;
+		manager?: Maybe<{ __typename?: 'manager'; deploymentId?: Maybe<string> }>;
+	}>;
+};
+
+export type ResetAccountAccessKeyMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	now: Scalars['timestamptz'];
+}>;
+
+export type ResetAccountAccessKeyMutation = {
+	__typename?: 'mutation_root';
+	update_account_by_pk?: Maybe<{ __typename?: 'account'; lastLogin?: Maybe<any> }>;
+};
+
 export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetStructuresQuery = {
@@ -8452,6 +8484,179 @@ export const GetAccountsSummaryDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
+export const GetAccountInfoDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountInfo' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKey' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } },
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetAccountInfoQuery, GetAccountInfoQueryVariables>;
+export const ResetAccountAccessKeyDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'ResetAccountAccessKey' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKeyDate' },
+											value: { kind: 'NullValue' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKey' },
+											value: { kind: 'NullValue' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastLogin' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<ResetAccountAccessKeyMutation, ResetAccountAccessKeyMutationVariables>;
 export const GetStructuresDocument = {
 	kind: 'Document',
 	definitions: [
@@ -10114,6 +10319,14 @@ export type UpdateStructureMutationStore = OperationStore<
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
 	GetAccountsSummaryQueryVariables
+>;
+export type GetAccountInfoQueryStore = OperationStore<
+	GetAccountInfoQuery,
+	GetAccountInfoQueryVariables
+>;
+export type ResetAccountAccessKeyMutationStore = OperationStore<
+	ResetAccountAccessKeyMutation,
+	ResetAccountAccessKeyMutationVariables
 >;
 export type GetStructuresQueryStore = OperationStore<
 	GetStructuresQuery,

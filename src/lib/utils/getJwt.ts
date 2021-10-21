@@ -6,14 +6,18 @@ export function getJwtUser({
 	id,
 	type,
 	username,
+	managerId,
 	professionalId,
 	beneficiaryId,
+	deploymentId,
 }: {
 	id: string;
-	username: string;
 	type: string;
+	username: string;
+	managerId: string;
 	professionalId: string;
 	beneficiaryId: string;
+	deploymentId: string;
 }): {
 	id: string;
 	username: string;
@@ -21,7 +25,7 @@ export function getJwtUser({
 	token: string;
 	type: string;
 } {
-	const token = getJwt({ id, type, beneficiaryId, professionalId });
+	const token = getJwt({ id, type, beneficiaryId, managerId, professionalId, deploymentId });
 	return {
 		id: id,
 		username: username,
@@ -36,11 +40,15 @@ export function getJwt({
 	type,
 	beneficiaryId,
 	professionalId,
+	managerId,
+	deploymentId,
 }: {
 	id: string;
 	type: string;
+	managerId: string;
 	beneficiaryId: string;
 	professionalId: string;
+	deploymentId: string;
 }): string {
 	const signOptions: SignOptions = {
 		algorithm: 'HS256',
@@ -48,13 +56,22 @@ export function getJwt({
 		subject: id,
 	};
 
-	const hasuraClaims = getHasuraClaims(id, type, beneficiaryId, professionalId);
+	const hasuraClaims = getHasuraClaims(
+		id,
+		type,
+		beneficiaryId,
+		professionalId,
+		managerId,
+		deploymentId
+	);
 	const claim = {
 		'https://hasura.io/jwt/claims': hasuraClaims,
 		id: id,
 		role: type,
 		beneficiaryId,
+		managerId,
 		professionalId,
+		deploymentId,
 	};
 
 	const { key } = getJwtKey();
@@ -67,7 +84,9 @@ function getHasuraClaims(
 	id: string,
 	type: string,
 	beneficiaryId: string,
-	professionalId: string
+	professionalId: string,
+	managerId: string,
+	deploymentId: string
 ): unknown {
 	return {
 		'x-hasura-allowed-roles': [type],
@@ -75,5 +94,7 @@ function getHasuraClaims(
 		'x-hasura-user-id': `${id}`,
 		'x-hasura-professional-id': `${professionalId}`,
 		'x-hasura-beneficiary-id': `${beneficiaryId}`,
+		'x-hasura-manager-id': `${managerId}`,
+		'x-hasura-deployment-id': `${deploymentId}`,
 	};
 }

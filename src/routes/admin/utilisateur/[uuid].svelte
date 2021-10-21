@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { Professional } from '$lib/graphql/_gen/typed-document-nodes';
-	import { GetAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
@@ -21,7 +21,7 @@
 
 	export let accountId: string;
 	const variables = { accountId };
-	const getAccountStore = operationStore(GetAccountDocument, variables);
+	const getAccountStore = operationStore(GetAccountByPkDocument, variables);
 	query(getAccountStore);
 	$: acc = $getAccountStore?.data?.account_by_pk;
 	$: professional = acc?.professional as Professional | null;
