@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { Select, Button } from '$lib/ui/base';
-	import { ProBeneficiaryCreate, ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
+	import { ProBeneficiaryCreate, ProBeneficiaryCard } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
 		CreateBeneficiaryMutationStore,
@@ -16,44 +16,47 @@
 	import { operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
 
-	function buildQueryVariables({ professionalId, search, selected }) {
-		let visitDateStart: Date;
-		let visitDateEnd: Date;
+	const dt = {
+		none: 'none',
+		'3months': '3months',
+		'3-6months': '3-6months',
+		'6-12months': '6-12months',
+		'12months': '12months',
+	};
 
+	function buildQueryVariables({ professionalId, search, selected }) {
 		const today = new Date();
-		if (selected === threeMonths) {
-			visitDateStart = addMonths(today, -3);
-		} else if (selected === threeSixMonths) {
-			visitDateStart = addMonths(today, -6);
-			visitDateEnd = addMonths(today, -3);
-		} else if (selected === sixTwelveMonths) {
-			visitDateStart = addMonths(today, -12);
-			visitDateEnd = addMonths(today, -6);
-		} else if (selected === twelveMonths) {
-			visitDateEnd = addMonths(today, -12);
+		let visitDate = { _is_null: undefined, _gt: undefined, _lt: undefined };
+
+		if (selected === dt['3months']) {
+			visitDate._gt = addMonths(today, -3);
+		} else if (selected === dt['3-6months']) {
+			visitDate._gt = addMonths(today, -6);
+			visitDate._lt = addMonths(today, -3);
+		} else if (selected === dt['6-12months']) {
+			visitDate._gt = addMonths(today, -12);
+			visitDate._lt = addMonths(today, -6);
+		} else if (selected === dt['12months']) {
+			visitDate._lt = addMonths(today, -12);
+		} else {
+			visitDate._is_null = true;
 		}
 
-		const variables: SearchNotebookMemberQueryVariables = { professionalId };
+		const variables: SearchNotebookMemberQueryVariables = { professionalId, visitDate };
 		if (search) {
 			variables.filter = `%${search}%`;
 		}
-		if (visitDateStart) {
-			variables.visitDateStart = visitDateStart;
-		}
-		if (visitDateEnd) {
-			variables.visitDateEnd = visitDateEnd;
-		}
+
 		return variables;
 	}
 
-	const threeMonths = '-3months';
-	const threeSixMonths = '3-6months';
-	const sixTwelveMonths = '6-12months';
-	const twelveMonths = '+12months';
-
 	export const load: Load = async ({ page, session }) => {
-		const selected = threeMonths;
 		const search = page.query.get('search');
+
+		let selected = dt.none;
+		if (page.query.get('dt') && dt[page.query.get('dt')]) {
+			selected = dt[page.query.get('dt')];
+		}
 		const { professionalId } = session.user;
 		const queryVariables = buildQueryVariables({ professionalId, search, selected });
 		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
@@ -78,15 +81,19 @@
 	export let search: string;
 	export let professionalId: string;
 	export let selected: string;
+	let searching = false;
 
 	query(result);
 
-	function onSearch() {
-		$result.variables = buildQueryVariables({ professionalId, search, selected });
-		$result.reexecute();
+	function updateUrl(search, dt) {
+		const url = new URL(window.location.toString());
+		url.searchParams.set('search', search);
+		url.searchParams.set('dt', dt);
+		window.history.pushState({}, '', url);
 	}
 
 	function onSelect() {
+		updateUrl(search, selected);
 		$result.variables = buildQueryVariables({ professionalId, search, selected });
 		$result.reexecute();
 	}
@@ -97,6 +104,11 @@
 
 	function addBeneficiary() {
 		openComponent.open({ component: ProBeneficiaryCreate, props: { createBeneficiaryResult } });
+	}
+	function handleSubmit() {
+		updateUrl(search, selected);
+		$result.variables = buildQueryVariables({ professionalId, search, selected });
+		$result.reexecute();
 	}
 
 	/* TODO: find a way without cheating on that type */
@@ -111,31 +123,37 @@
 	<div>
 		<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>
 	</div>
-	<div class="flex flex-row w-full space-x-16">
-		<div class="flex-grow">
-			<Select
-				on:select={onSelect}
-				options={[
-					{ name: threeMonths, label: 'dans les 3 derniers mois' },
-					{ name: threeSixMonths, label: 'entre les 3 et 6 derniers mois' },
+	<form class="flex flex-row w-full space-x-16" on:submit|preventDefault={handleSubmit}>
+		<Select
+			on:select={onSelect}
+			options={[
+				{ name: dt.none, label: 'tous' },
+				{ name: dt['3months'], label: 'dans les 3 derniers mois' },
+				{ name: dt['3-6months'], label: 'entre les 3 et 6 derniers mois' },
 
-					{ name: sixTwelveMonths, label: 'entre les 6 et 12 derniers mois' },
-					{ name: twelveMonths, label: 'il y a plus de 12 mois' },
-				]}
-				bind:selected
-				selectHint="Sélectionner un filtre"
-				selectLabel="Profils consultés..."
-			/>
-		</div>
-		<div class="flex-grow">
-			<!-- ugly AF, positioning needs to be done using align with tailwind or something else -->
-			<div class="mb-2 flex-grow" style="user-select: none;">
-				{' '}
+				{ name: dt['6-12months'], label: 'entre les 6 et 12 derniers mois' },
+				{ name: dt['12months'], label: 'il y a plus de 12 mois' },
+			]}
+			bind:selected
+			selectHint="Sélectionner un filtre"
+			selectLabel="Profils consultés..."
+		/>
+		<div class="mb-6 self-end">
+			<div class="fr-search-bar" role="search">
+				<label class="fr-label" for="search-beneficiary"> Rechercher un bénéficiaire </label>
+				<input
+					class="fr-input"
+					placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
+					type="search"
+					id="search-beneficiary"
+					name="search"
+					bind:value={search}
+					disabled={!handleSubmit}
+				/>
+				<button class="fr-btn" disabled={!handleSubmit || searching}> Rechercher </button>
 			</div>
-			<!-- end -->
-			<ProBeneficiarySearchBar bind:search on:search={() => onSearch()} size="md" />
 		</div>
-	</div>
+	</form>
 	<LoaderIndicator {result}>
 		{#if notebooks.length === 0}
 			<div class="flex flex-col space-y-4 items-center">
