@@ -21,6 +21,8 @@
 
 <script lang="ts">
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import { post } from '$lib/utils/post';
+	import Button from '$lib/ui/base/Button.svelte';
 
 	export let result: GetLastVisitedOrUpdatedQueryStore;
 
@@ -33,6 +35,10 @@
 
 	function carnetUrl({ id }: { id: string }) {
 		return `/pro/carnet/${id}`;
+	}
+
+	function parse() {
+		post('/pro/accueil/parse', {});
 	}
 </script>
 
@@ -47,6 +53,7 @@
 
 	<LoaderIndicator {result}>
 		<div>
+			<Button on:click={parse}>Parse</Button>
 			<h2 class="fr-h5 text-france-blue">Derniers profils consultés</h2>
 			<div class="flex flex-row flex-wrap justify-between gap-1">
 				{#each $result.data.lastVisited as lastVisited, i (i)}

@@ -4770,6 +4770,7 @@ export type AddNotebookFocusMutationVariables = Exact<{
 	situations?: Maybe<Scalars['jsonb']>;
 	theme: Scalars['String'];
 	linkedTo: Scalars['String'];
+	creatorId?: Maybe<Scalars['uuid']>;
 }>;
 
 export type AddNotebookFocusMutation = {
@@ -5790,6 +5791,11 @@ export const AddNotebookFocusDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -5823,6 +5829,11 @@ export const AddNotebookFocusDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'linkedTo' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'linkedTo' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'creatorId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
 										},
 									],
 								},

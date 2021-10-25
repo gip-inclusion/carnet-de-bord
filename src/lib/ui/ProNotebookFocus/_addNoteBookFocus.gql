@@ -3,9 +3,10 @@ mutation AddNotebookFocus(
 	$situations: jsonb
 	$theme: String!
 	$linkedTo: String!
+	$creatorId: uuid
 ) {
 	insert_notebook_focus_one(
-		object: { notebookId: $notebookId, situations: $situations, theme: $theme, linkedTo: $linkedTo }
+		object: { notebookId: $notebookId, situations: $situations, theme: $theme, linkedTo: $linkedTo, creatorId: $creatorId }
 	) {
 		id
 	}
