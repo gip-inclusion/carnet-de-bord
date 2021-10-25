@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { GetAccountDocument, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetAccountByPkDocument, Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 </script>
 
@@ -10,7 +10,7 @@
 	import { Button } from '$lib/ui/base';
 
 	const variables = { accountId: $account?.id };
-	const getAccountStore = operationStore(GetAccountDocument, variables);
+	const getAccountStore = operationStore(GetAccountByPkDocument, variables);
 	query(getAccountStore);
 
 	$: acc = $getAccountStore?.data?.account_by_pk;

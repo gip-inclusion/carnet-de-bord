@@ -4,10 +4,15 @@ table:
 configuration:
   custom_column_names:
     creation_date: creationDate
+    deployment_id: deploymentId
     modification_date: modificationDate
     postal_code: postalCode
     short_desc: shortDesc
   custom_root_fields: {}
+object_relationships:
+- name: deployment
+  using:
+    foreign_key_constraint_on: deployment_id
 array_relationships:
 - name: professionals
   using:
@@ -17,6 +22,28 @@ array_relationships:
         name: professional
         schema: public
 insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+    columns:
+    - address1
+    - address2
+    - city
+    - creation_date
+    - email
+    - id
+    - modification_date
+    - name
+    - phone
+    - postal_code
+    - short_desc
+    - siret
+    - website
+    set:
+      deployment_id: x-hasura-Deployment-Id
+  role: manager
 - permission:
     backend_only: false
     check: {}
@@ -67,6 +94,25 @@ select_permissions:
     - id
     filter: {}
   role: beneficiary
+- permission:
+    columns:
+    - address1
+    - address2
+    - city
+    - creation_date
+    - email
+    - id
+    - modification_date
+    - name
+    - phone
+    - postal_code
+    - short_desc
+    - siret
+    - website
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: manager
 - permission:
     allow_aggregations: true
     columns:

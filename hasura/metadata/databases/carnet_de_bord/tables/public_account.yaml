@@ -8,6 +8,7 @@ configuration:
     admin_id: adminId
     beneficiary_id: beneficiaryId
     last_login: lastLogin
+    manager_id: managerId
     onboarding_done: onboardingDone
     professional_id: professionalId
   custom_root_fields: {}
@@ -18,9 +19,23 @@ object_relationships:
 - name: beneficiary
   using:
     foreign_key_constraint_on: beneficiary_id
+- name: manager
+  using:
+    foreign_key_constraint_on: manager_id
 - name: professional
   using:
     foreign_key_constraint_on: professional_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - beneficiary_id
+    - id
+    - professional_id
+    - type
+    - username
+  role: manager
 select_permissions:
 - permission:
     allow_aggregations: true
@@ -40,6 +55,32 @@ select_permissions:
       id:
         _eq: X-Hasura-User-Id
   role: beneficiary
+- permission:
+    columns:
+    - access_key
+    - access_key_date
+    - admin_id
+    - beneficiary_id
+    - confirmed
+    - id
+    - last_login
+    - manager_id
+    - onboarding_done
+    - professional_id
+    - type
+    - username
+    filter:
+      _or:
+      - id:
+          _eq: X-Hasura-User-Id
+      - beneficiary:
+          id:
+            _eq: X-Hasura-Deployement-Id
+      - professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployement-Id
+  role: manager
 - permission:
     columns:
     - beneficiary_id
@@ -62,6 +103,24 @@ update_permissions:
       id:
         _eq: X-Hasura-User-Id
   role: beneficiary
+- permission:
+    check: null
+    columns:
+    - access_key
+    - access_key_date
+    - username
+    filter:
+      _or:
+      - id:
+          _eq: X-Hasura-User-Id
+      - beneficiary:
+          id:
+            _eq: X-Hasura-Deployement-Id
+      - professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployement-Id
+  role: manager
 - permission:
     check: null
     columns:

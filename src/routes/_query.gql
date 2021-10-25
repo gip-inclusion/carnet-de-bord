@@ -1,4 +1,4 @@
-query GetAccount($accountId: uuid!) {
+query GetAccountByPk($accountId: uuid!) {
 	account_by_pk(id: $accountId) {
 		id
 		onboardingDone

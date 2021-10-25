@@ -25,6 +25,24 @@ object_relationships:
 insert_permissions:
 - permission:
     backend_only: false
+    check:
+      notebook:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+    columns:
+    - id
+    - notebook_id
+    - professional_id
+    - notebook_visit_date
+    - member_type
+    - notebook_modification_date
+    - creation_date
+    - creator_id
+    - invitation_send_date
+  role: manager
+- permission:
+    backend_only: false
     check: {}
     columns:
     - creator_id
@@ -50,6 +68,24 @@ select_permissions:
         beneficiary_id:
           _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - notebook_id
+    - professional_id
+    - notebook_visit_date
+    - member_type
+    - notebook_modification_date
+    - creation_date
+    - creator_id
+    - invitation_send_date
+    filter:
+      notebook:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: manager
 - permission:
     allow_aggregations: true
     columns:
