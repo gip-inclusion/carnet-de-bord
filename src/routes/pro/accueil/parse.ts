@@ -15,7 +15,7 @@ import {
 import { getHasuraAdminSecret } from '$lib/config/variables/private';
 
 const sourceToken = '';
-const sourceUrl = 'http://localhost:3000/pro/accueil/marne';
+const sourceUrl = 'http://localhost:3000/pro/accueil/fixtures';
 const sourceHeaders = { Authorization: `Bearer ${sourceToken}` };
 
 const allThemes: Set<string> = new Set();
