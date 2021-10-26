@@ -1,3 +1,11 @@
+# [1.44.0-alpha.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.44.0-alpha.1...v1.44.0-alpha.2) (2021-10-26)
+
+
+### Bug Fixes
+
+* Update preprod workflow, again. ([b5a38c1](https://github.com/SocialGouv/carnet-de-bord/commit/b5a38c18328402a3942e3ed32c764e843000bfad))
+* Update preprod workflow. ([6d92496](https://github.com/SocialGouv/carnet-de-bord/commit/6d92496c50449875793fcd04df922375345251d8))
+
 # [1.44.0-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.2-alpha.1...v1.44.0-alpha.1) (2021-10-26)
 
 
