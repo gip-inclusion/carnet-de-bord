@@ -3,10 +3,16 @@ table:
   schema: public
 select_permissions:
 - permission:
-    allow_aggregations: true
     columns:
     - description
     - id
-    - theme
+    - target_id
+    filter: {}
+  role: manager
+- permission:
+    columns:
+    - id
+    - description
+    - target_id
     filter: {}
   role: professional
