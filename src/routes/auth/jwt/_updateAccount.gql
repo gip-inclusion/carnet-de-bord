@@ -1,0 +1,8 @@
+mutation ResetAccountAccessKey($id: uuid!, $now: timestamptz!) {
+	update_account_by_pk(
+		pk_columns: { id: $id }
+		_set: { accessKeyDate: null, accessKey: null, lastLogin: $now }
+	) {
+		lastLogin
+	}
+}

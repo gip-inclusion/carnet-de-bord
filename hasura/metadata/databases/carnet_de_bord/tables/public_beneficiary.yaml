@@ -5,11 +5,15 @@ configuration:
   custom_column_names:
     caf_number: cafNumber
     date_of_birth: dateOfBirth
+    deployment_id: deploymentId
     mobile_number: mobileNumber
     pe_number: peNumber
     postal_code: postalCode
   custom_root_fields: {}
 object_relationships:
+- name: deployment
+  using:
+    foreign_key_constraint_on: deployment_id
 - name: notebook
   using:
     foreign_key_constraint_on:
@@ -28,7 +32,9 @@ array_relationships:
 insert_permissions:
 - permission:
     backend_only: false
-    check: {}
+    check:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
     columns:
     - address1
     - address2
@@ -41,7 +47,29 @@ insert_permissions:
     - pe_number
     - postal_code
     - date_of_birth
+    - deployment_id
     - id
+    set:
+      deployment_id: x-hasura-Deployment-id
+  role: manager
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - address1
+    - address2
+    - caf_number
+    - city
+    - date_of_birth
+    - email
+    - firstname
+    - id
+    - lastname
+    - mobile_number
+    - pe_number
+    - postal_code
+    set:
+      deployment_id: x-hasura-Deployment-id
   role: professional
 select_permissions:
 - permission:
@@ -63,6 +91,26 @@ select_permissions:
       id:
         _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - email
+    - lastname
+    - firstname
+    - caf_number
+    - pe_number
+    - postal_code
+    - city
+    - address1
+    - address2
+    - mobile_number
+    - date_of_birth
+    - deployment_id
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: manager
 - permission:
     allow_aggregations: true
     columns:
@@ -101,6 +149,24 @@ update_permissions:
       id:
         _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
+- permission:
+    check: null
+    columns:
+    - address1
+    - address2
+    - caf_number
+    - city
+    - date_of_birth
+    - email
+    - firstname
+    - lastname
+    - mobile_number
+    - pe_number
+    - postal_code
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: manager
 - permission:
     check: null
     columns:

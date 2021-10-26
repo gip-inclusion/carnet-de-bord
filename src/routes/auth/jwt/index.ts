@@ -1,21 +1,39 @@
-import knex from '$lib/config/db/knex';
 import { getJwtUser } from '$lib/utils/getJwt';
 import type { RequestHandler } from '@sveltejs/kit';
+
+import { createClient } from '@urql/svelte';
+import { getGraphqlAPI } from '$lib/config/variables/public';
+import {
+	GetAccountInfoDocument,
+	GetAccountInfoQuery,
+	ResetAccountAccessKeyDocument,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import { getHasuraAdminSecret } from '$lib/config/variables/private';
+
+const client = createClient({
+	url: getGraphqlAPI(),
+	fetch,
+	fetchOptions: {
+		headers: {
+			'Content-Type': 'application/json',
+			'x-hasura-admin-secret': getHasuraAdminSecret(),
+		},
+	},
+	requestPolicy: 'network-only',
+});
 
 export const post: RequestHandler = async (request) => {
 	const { accessKey } = request.body as unknown as {
 		accessKey: string;
 	};
+	const { data, error } = await client
+		.query<GetAccountInfoQuery>(GetAccountInfoDocument, { accessKey })
+		.toPromise();
 
-	const account = (await knex('account').where({ access_key: accessKey }).first()) as {
-		id: string;
-		type: string;
-		username: string;
-		professional_id: string;
-		beneficiary_id: string;
-	};
-
-	if (!account) {
+	if (error || !data || data.account.length === 0) {
+		if (error) {
+			console.error(error);
+		}
 		return {
 			status: 401,
 			body: {
@@ -23,20 +41,26 @@ export const post: RequestHandler = async (request) => {
 			},
 		};
 	}
-
-	const { id, type, username, professional_id, beneficiary_id } = account;
+	const { id, type, username, beneficiaryId, managerId, professionalId, professional, manager } =
+		data.account[0];
+	let deploymentId = null;
+	if (professional) {
+		deploymentId = professional.structure.deploymentId;
+	} else if (manager) {
+		deploymentId = manager.deploymentId;
+	}
 
 	const user = getJwtUser({
 		id,
 		type,
 		username,
-		professionalId: professional_id,
-		beneficiaryId: beneficiary_id,
+		professionalId,
+		managerId,
+		beneficiaryId,
+		deploymentId,
 	});
 
-	await await knex('account')
-		.update({ access_key: null, access_key_date: null, last_login: new Date() })
-		.where({ username: account.username });
+	await client.mutation(ResetAccountAccessKeyDocument, { id, now: new Date() }).toPromise();
 
 	return {
 		headers: {
