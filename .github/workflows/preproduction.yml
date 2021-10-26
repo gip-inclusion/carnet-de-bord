@@ -2,7 +2,7 @@ name: Preproduction
 
 on:
   push:
-    branches: [master, alpha, beta, next]
+    branches: [master, alpha]
 
 concurrency:
   group: preproduction
