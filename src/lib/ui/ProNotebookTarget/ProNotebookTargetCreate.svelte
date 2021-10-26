@@ -6,7 +6,6 @@
 	import { openComponent } from '$lib/stores';
 	import { Button, Select } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
-	import ProNotebookFocusDetails from '$lib/ui/ProNotebookFocus/ProNotebookFocusDetails.svelte';
 
 	export let focusId: string;
 	export let focusTheme: string;
@@ -34,7 +33,8 @@
 			focusId,
 			target: formData.target,
 		});
-		openComponent.open({ component: ProNotebookFocusDetails, props: { focusId } });
+
+		openComponent.close();
 	}
 
 	$: targetOptions =

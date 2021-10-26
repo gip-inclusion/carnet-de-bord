@@ -5950,8 +5950,8 @@ export type SearchNotebookMemberQuery = {
 };
 
 export type UpdateNotebookVisitDateMutationVariables = Exact<{
-	notebookId: Scalars['uuid'];
-	notebookVisitDate: Scalars['timestamptz'];
+	id: Scalars['uuid'];
+	date: Scalars['timestamptz'];
 }>;
 
 export type UpdateNotebookVisitDateMutation = {
@@ -9446,7 +9446,7 @@ export const UpdateNotebookVisitDateDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
@@ -9454,7 +9454,7 @@ export const UpdateNotebookVisitDateDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookVisitDate' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
@@ -9489,10 +9489,7 @@ export const UpdateNotebookVisitDateDocument = {
 																{
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: '_eq' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'notebookId' },
-																	},
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 																},
 															],
 														},
@@ -9512,10 +9509,7 @@ export const UpdateNotebookVisitDateDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookVisitDate' },
-											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'notebookVisitDate' },
-											},
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
 										},
 									],
 								},
