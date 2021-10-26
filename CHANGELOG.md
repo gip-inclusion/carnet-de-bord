@@ -1,3 +1,10 @@
+## [1.43.2-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.1...v1.43.2-alpha.1) (2021-10-26)
+
+
+### Bug Fixes
+
+* Add environment to buig-register image. ([141ae5f](https://github.com/SocialGouv/carnet-de-bord/commit/141ae5f818ee2ce7eeb7eca9320b4d58422325d1))
+
 ## [1.43.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.0...v1.43.1) (2021-10-01)
 
 
