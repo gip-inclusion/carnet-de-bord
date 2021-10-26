@@ -9,16 +9,11 @@
 	import { Button, Checkboxes, Radio } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { buildSituationOptions } from './focusOptionsBuilder';
-	import ProNotebookFocusDetails from './ProNotebookFocusDetails.svelte';
 
 	export let focus: Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'>;
 
 	const refSituationStore = operationStore(GetRefSituationsByThemeDocument, { theme: focus.theme });
 	query(refSituationStore);
-
-	function close() {
-		openComponent.open({ component: ProNotebookFocusDetails, props: { focusId: focus.id } });
-	}
 
 	const updateNotebookFocusStore = operationStore(UpdateNotebookFocusDocument);
 	const updateNotebookFocus = mutation(updateNotebookFocusStore);
@@ -40,7 +35,7 @@
 			situations: formData.situations,
 			linkedTo: formData.linkedTo,
 		});
-		close();
+		openComponent.close();
 	}
 
 	$: situationOptions = buildSituationOptions($refSituationStore.data?.refSituations);
