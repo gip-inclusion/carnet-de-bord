@@ -19,7 +19,7 @@
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import { formatDateLocale } from '$lib/utils/date';
 	import type { Load } from '@sveltejs/kit';
-	import { operationStore, query } from '@urql/svelte';
+	import { mutation, operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
 
 	type Period =
@@ -83,16 +83,14 @@
 			buildQueryVariables(variables, selected)
 		);
 
-		const updateVisitDateResult = operationStore(UpdateNotebookVisitDateDocument, {
-			notebookId,
-			notebookVisitDate: new Date(),
-		});
+		const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
+
 		return {
 			props: {
 				notebookId,
 				getNotebookStore,
-				updateVisitDateResult,
 				selected,
+				updateVisitDateStore,
 			},
 		};
 	};
@@ -110,6 +108,12 @@
 
 	query(getNotebookStore);
 	query(getNotebookEventsStore);
+
+	const updateVisitDateMutation = mutation({ query: UpdateNotebookVisitDateDocument });
+	updateVisitDateMutation({
+		id: notebookId,
+		date: new Date(),
+	});
 
 	function onSelect(event: CustomEvent<{ selected: Period }>) {
 		selected = event.detail.selected;
