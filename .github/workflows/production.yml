@@ -22,9 +22,8 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@preprod-tag
+        uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          environment: "preprod"
           project: ${{ env.project }}
           imageName: ${{ env.project }}/app
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,9 +43,8 @@ jobs:
           echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
       - name: Use autodevops build and register
-        uses: SocialGouv/actions/autodevops-build-register@preprod-tag
+        uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          environment: "preprod"
           project: ${{ env.project }}
           dockerfile: hasura/Dockerfile
           token: ${{ secrets.GITHUB_TOKEN }}
