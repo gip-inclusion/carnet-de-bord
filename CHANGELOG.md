@@ -1,3 +1,40 @@
+# [1.44.0-alpha.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.43.2-alpha.1...v1.44.0-alpha.1) (2021-10-26)
+
+
+### Bug Fixes
+
+* add bg to dropdown menu ([a185cd0](https://github.com/SocialGouv/carnet-de-bord/commit/a185cd0b85d718d59d2fc12416db94f3b020f5a2))
+* add magikLink on dev / preprod ([89b39a3](https://github.com/SocialGouv/carnet-de-bord/commit/89b39a318cc6978711c8c29e6252c6d86e9ad4fb))
+* add profile link into mobile nav ([30b0eea](https://github.com/SocialGouv/carnet-de-bord/commit/30b0eead3c984112a8519e4f2c2fc70eb7d7dcca))
+* add SameSite policy to cookie ([fc25cb6](https://github.com/SocialGouv/carnet-de-bord/commit/fc25cb6e1e584cd573754d3d8fc89c663b8f6667))
+* add title to page ([b56f20c](https://github.com/SocialGouv/carnet-de-bord/commit/b56f20c7424061cd95c47c41f20744c67743de10))
+* don't track user ([c99c9e0](https://github.com/SocialGouv/carnet-de-bord/commit/c99c9e0e7e2d3bf5697739e3626f227f845a64bb))
+* fix VITE_NO_LOGIN injection ([#314](https://github.com/SocialGouv/carnet-de-bord/issues/314)) ([25cf5ed](https://github.com/SocialGouv/carnet-de-bord/commit/25cf5edb07692b5a4c2b0a6f3ae49852a5ae50b5))
+* handle search in different page ([0e3d83d](https://github.com/SocialGouv/carnet-de-bord/commit/0e3d83db5978b81491d99ae875a45da0d8cd38de))
+* missing Mon Compte link for professionals ([#351](https://github.com/SocialGouv/carnet-de-bord/issues/351)) ([6d35ce8](https://github.com/SocialGouv/carnet-de-bord/commit/6d35ce80ab82f481a00768c46b0c860cf3c55f69))
+* redirections ([115ab3d](https://github.com/SocialGouv/carnet-de-bord/commit/115ab3d7cc1aa98d5f7f72aee6a5dc33f119f7f6))
+* review ([8851ea5](https://github.com/SocialGouv/carnet-de-bord/commit/8851ea53e891838cb13a1bbdc5ce308990bf945b))
+* search beneficiary without date ([1440d82](https://github.com/SocialGouv/carnet-de-bord/commit/1440d825ec70b7c70156f6b59bc35f704b9ac446))
+* title ([77efbf1](https://github.com/SocialGouv/carnet-de-bord/commit/77efbf1fd105b5eb265048e5fa2a61aa0f8c3dac))
+* track user login/logout properly ([b7e1f6e](https://github.com/SocialGouv/carnet-de-bord/commit/b7e1f6e56c3b846f202cbbb95839fe3565ab5c5f))
+* update notebook visite date and modification date ([#363](https://github.com/SocialGouv/carnet-de-bord/issues/363)) ([24c9be4](https://github.com/SocialGouv/carnet-de-bord/commit/24c9be4adbc49f17ba609a4aaf4fb591993a534a))
+* Update preprod workflow. ([977c624](https://github.com/SocialGouv/carnet-de-bord/commit/977c6240542ffcc8ee2d001f6769e5529bf67b23))
+* use table to display structure list ([#317](https://github.com/SocialGouv/carnet-de-bord/issues/317)) ([600ffff](https://github.com/SocialGouv/carnet-de-bord/commit/600fffff072dfe00ec09310cecb561f9e23ade16))
+
+
+### Features
+
+* add deployment filter ([#361](https://github.com/SocialGouv/carnet-de-bord/issues/361)) ([a0f5f7f](https://github.com/SocialGouv/carnet-de-bord/commit/a0f5f7f21c6c7bc3b603f58c3b4bf86168cafe96))
+* add username and lastLogin to users table for admin ([#329](https://github.com/SocialGouv/carnet-de-bord/issues/329)) ([469d7c4](https://github.com/SocialGouv/carnet-de-bord/commit/469d7c42cd714882f9600c05d0d40a9a48919e18))
+* admin improvements (user list) ([#310](https://github.com/SocialGouv/carnet-de-bord/issues/310)) ([db6680a](https://github.com/SocialGouv/carnet-de-bord/commit/db6680a1d47a25aa9c9085219e39097531606e0d))
+* allow no-login on preprod ([#312](https://github.com/SocialGouv/carnet-de-bord/issues/312)) ([5f24626](https://github.com/SocialGouv/carnet-de-bord/commit/5f24626a9cb4480728a53ac5a9af08430def3b0b))
+* allow only whitelisted roles for some routes ([#355](https://github.com/SocialGouv/carnet-de-bord/issues/355)) ([99ba8bc](https://github.com/SocialGouv/carnet-de-bord/commit/99ba8bcd46da00aa341d030e40b3ba792771ee3d))
+* allow professionals to log in with email directly ([#331](https://github.com/SocialGouv/carnet-de-bord/issues/331)) ([6a50f6b](https://github.com/SocialGouv/carnet-de-bord/commit/6a50f6bb067d3385f40667a86a07a733db216134))
+* delete notebookFocus ([b939e2b](https://github.com/SocialGouv/carnet-de-bord/commit/b939e2bdee0ca6922e28c80bb4ba412104b3910e)), closes [#245](https://github.com/SocialGouv/carnet-de-bord/issues/245)
+* landing page ([6888eea](https://github.com/SocialGouv/carnet-de-bord/commit/6888eeaf020a8333291a53b38315db9d87f3243c))
+* update My Account page to split viewing and editing ([#315](https://github.com/SocialGouv/carnet-de-bord/issues/315)) ([5824bf8](https://github.com/SocialGouv/carnet-de-bord/commit/5824bf878829f64be9f19e6306bb67b5ee8d0e1d))
+* **matomo:** add dev matomo ([#311](https://github.com/SocialGouv/carnet-de-bord/issues/311)) ([7f33c79](https://github.com/SocialGouv/carnet-de-bord/commit/7f33c79f43044ec1a775aa0f6cfb0532269504d2))
+
 ## [1.53.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.53.0...v1.53.1) (2021-10-26)
 
 
