@@ -6,13 +6,13 @@ select_permissions:
     columns:
     - description
     - id
-    - target_id
+    - theme
     filter: {}
   role: manager
 - permission:
     columns:
     - id
     - description
-    - target_id
+    - theme
     filter: {}
   role: professional
