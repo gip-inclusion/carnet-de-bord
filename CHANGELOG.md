@@ -1,3 +1,10 @@
+## [1.53.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.53.0...v1.53.1) (2021-10-26)
+
+
+### Bug Fixes
+
+* update notebook visite date and modification date ([#363](https://github.com/SocialGouv/carnet-de-bord/issues/363)) ([fbc8678](https://github.com/SocialGouv/carnet-de-bord/commit/fbc86781b9ce1edb608defa944163995c2abfbc9))
+
 # [1.53.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.52.1...v1.53.0) (2021-10-26)
 
 
