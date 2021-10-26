@@ -8,4 +8,11 @@ select_permissions:
     - id
     - theme
     filter: {}
+  role: manager
+- permission:
+    columns:
+    - id
+    - description
+    - theme
+    filter: {}
   role: professional

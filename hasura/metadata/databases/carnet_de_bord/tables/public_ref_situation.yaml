@@ -8,7 +8,7 @@ select_permissions:
     - description
     - theme
     filter: {}
-  role: beneficiary
+  role: manager
 - permission:
     columns:
     - id

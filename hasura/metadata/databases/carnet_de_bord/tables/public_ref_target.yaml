@@ -4,11 +4,11 @@ table:
 select_permissions:
 - permission:
     columns:
-    - description
     - id
+    - description
     - theme
     filter: {}
-  role: beneficiary
+  role: manager
 - permission:
     columns:
     - description
