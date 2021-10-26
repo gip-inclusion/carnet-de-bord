@@ -1,3 +1,10 @@
+# [1.44.0-alpha.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.44.0-alpha.3...v1.44.0-alpha.4) (2021-10-26)
+
+
+### Bug Fixes
+
+* Bump version. ([936d7f1](https://github.com/SocialGouv/carnet-de-bord/commit/936d7f15aca12fcd89aa147b725fa86aef49bef8))
+
 # [1.44.0-alpha.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.44.0-alpha.2...v1.44.0-alpha.3) (2021-10-26)
 
 
