@@ -1,3 +1,10 @@
+# [1.53.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.52.1...v1.53.0) (2021-10-26)
+
+
+### Features
+
+* add deployment filter ([#361](https://github.com/SocialGouv/carnet-de-bord/issues/361)) ([2190876](https://github.com/SocialGouv/carnet-de-bord/commit/2190876eb0491b0e791c1d73b3500219338b6a21))
+
 ## [1.52.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.52.0...v1.52.1) (2021-10-21)
 
 
