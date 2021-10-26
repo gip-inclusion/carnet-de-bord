@@ -107,7 +107,7 @@
 				<Accordions>
 					{#each targets as target (target.id)}
 						<Accordion title={target.target}>
-							<ProNotebookActionList {target} notebookId={focus.notebookId} />
+							<ProNotebookActionList {target} notebookId={focus.notebookId} theme={focus.theme} />
 						</Accordion>
 					{:else}
 						<p>Aucun objectif n'a été créé pour cet axe de travail.</p>

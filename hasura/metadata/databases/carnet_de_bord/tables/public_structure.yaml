@@ -69,20 +69,6 @@ select_permissions:
     - address2
     - city
     - email
-    - id
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    filter: {}
-  role: anonymous
-- permission:
-    columns:
-    - address1
-    - address2
-    - city
-    - email
     - name
     - phone
     - postal_code
@@ -129,5 +115,7 @@ select_permissions:
     - short_desc
     - siret
     - website
-    filter: {}
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
   role: professional
