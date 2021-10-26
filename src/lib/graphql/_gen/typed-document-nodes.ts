@@ -4209,9 +4209,7 @@ export type RefAction = {
 	__typename?: 'ref_action';
 	description: Scalars['String'];
 	id: Scalars['uuid'];
-	/** An object relationship */
-	target: RefTarget;
-	target_id: Scalars['uuid'];
+	theme: Scalars['String'];
 };
 
 /** aggregated selection of "ref_action" */
@@ -4235,20 +4233,6 @@ export type RefActionAggregateFieldsCountArgs = {
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
-/** order by aggregate values of table "ref_action" */
-export type RefActionAggregateOrderBy = {
-	count?: Maybe<OrderBy>;
-	max?: Maybe<RefActionMaxOrderBy>;
-	min?: Maybe<RefActionMinOrderBy>;
-};
-
-/** input type for inserting array relation for remote table "ref_action" */
-export type RefActionArrRelInsertInput = {
-	data: Array<RefActionInsertInput>;
-	/** on conflict condition */
-	on_conflict?: Maybe<RefActionOnConflict>;
-};
-
 /** Boolean expression to filter rows from the table "ref_action". All fields are combined with a logical 'AND'. */
 export type RefActionBoolExp = {
 	_and?: Maybe<Array<RefActionBoolExp>>;
@@ -4256,8 +4240,7 @@ export type RefActionBoolExp = {
 	_or?: Maybe<Array<RefActionBoolExp>>;
 	description?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
-	target?: Maybe<RefTargetBoolExp>;
-	target_id?: Maybe<UuidComparisonExp>;
+	theme?: Maybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "ref_action" */
@@ -4270,8 +4253,7 @@ export enum RefActionConstraint {
 export type RefActionInsertInput = {
 	description?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	target?: Maybe<RefTargetObjRelInsertInput>;
-	target_id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -4279,14 +4261,7 @@ export type RefActionMaxFields = {
 	__typename?: 'ref_action_max_fields';
 	description?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	target_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "ref_action" */
-export type RefActionMaxOrderBy = {
-	description?: Maybe<OrderBy>;
-	id?: Maybe<OrderBy>;
-	target_id?: Maybe<OrderBy>;
+	theme?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -4294,14 +4269,7 @@ export type RefActionMinFields = {
 	__typename?: 'ref_action_min_fields';
 	description?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	target_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "ref_action" */
-export type RefActionMinOrderBy = {
-	description?: Maybe<OrderBy>;
-	id?: Maybe<OrderBy>;
-	target_id?: Maybe<OrderBy>;
+	theme?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "ref_action" */
@@ -4324,8 +4292,7 @@ export type RefActionOnConflict = {
 export type RefActionOrderBy = {
 	description?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
-	target?: Maybe<RefTargetOrderBy>;
-	target_id?: Maybe<OrderBy>;
+	theme?: Maybe<OrderBy>;
 };
 
 /** primary key columns input for table: ref_action */
@@ -4340,14 +4307,14 @@ export enum RefActionSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	TargetId = 'target_id',
+	Theme = 'theme',
 }
 
 /** input type for updating data in table "ref_action" */
 export type RefActionSetInput = {
 	description?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	target_id?: Maybe<Scalars['uuid']>;
+	theme?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "ref_action" */
@@ -4357,7 +4324,7 @@ export enum RefActionUpdateColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	TargetId = 'target_id',
+	Theme = 'theme',
 }
 
 /** columns and relationships of "ref_situation" */
@@ -4486,31 +4453,9 @@ export enum RefSituationUpdateColumn {
 /** columns and relationships of "ref_target" */
 export type RefTarget = {
 	__typename?: 'ref_target';
-	/** An array relationship */
-	actions: Array<RefAction>;
-	/** An aggregate relationship */
-	actions_aggregate: RefActionAggregate;
 	description: Scalars['String'];
 	id: Scalars['uuid'];
-	theme?: Maybe<Scalars['String']>;
-};
-
-/** columns and relationships of "ref_target" */
-export type RefTargetActionsArgs = {
-	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<RefActionOrderBy>>;
-	where?: Maybe<RefActionBoolExp>;
-};
-
-/** columns and relationships of "ref_target" */
-export type RefTargetActionsAggregateArgs = {
-	distinct_on?: Maybe<Array<RefActionSelectColumn>>;
-	limit?: Maybe<Scalars['Int']>;
-	offset?: Maybe<Scalars['Int']>;
-	order_by?: Maybe<Array<RefActionOrderBy>>;
-	where?: Maybe<RefActionBoolExp>;
+	theme: Scalars['String'];
 };
 
 /** aggregated selection of "ref_target" */
@@ -4539,7 +4484,6 @@ export type RefTargetBoolExp = {
 	_and?: Maybe<Array<RefTargetBoolExp>>;
 	_not?: Maybe<RefTargetBoolExp>;
 	_or?: Maybe<Array<RefTargetBoolExp>>;
-	actions?: Maybe<RefActionBoolExp>;
 	description?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	theme?: Maybe<StringComparisonExp>;
@@ -4553,7 +4497,6 @@ export enum RefTargetConstraint {
 
 /** input type for inserting data into table "ref_target" */
 export type RefTargetInsertInput = {
-	actions?: Maybe<RefActionArrRelInsertInput>;
 	description?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	theme?: Maybe<Scalars['String']>;
@@ -4584,13 +4527,6 @@ export type RefTargetMutationResponse = {
 	returning: Array<RefTarget>;
 };
 
-/** input type for inserting object relation for remote table "ref_target" */
-export type RefTargetObjRelInsertInput = {
-	data: RefTargetInsertInput;
-	/** on conflict condition */
-	on_conflict?: Maybe<RefTargetOnConflict>;
-};
-
 /** on conflict condition type for table "ref_target" */
 export type RefTargetOnConflict = {
 	constraint: RefTargetConstraint;
@@ -4600,7 +4536,6 @@ export type RefTargetOnConflict = {
 
 /** Ordering options when selecting data from "ref_target". */
 export type RefTargetOrderBy = {
-	actions_aggregate?: Maybe<RefActionAggregateOrderBy>;
 	description?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	theme?: Maybe<OrderBy>;
@@ -5381,16 +5316,13 @@ export type AddNotebookActionMutation = {
 	}>;
 };
 
-export type GetRefActionsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetRefActionsQueryVariables = Exact<{
+	theme: Scalars['String'];
+}>;
 
 export type GetRefActionsQuery = {
 	__typename?: 'query_root';
-	refActions: Array<{
-		__typename?: 'ref_action';
-		id: string;
-		description: string;
-		target: { __typename?: 'ref_target'; id: string; description: string };
-	}>;
+	refActions: Array<{ __typename?: 'ref_action'; id: string; description: string }>;
 };
 
 export type UpdateNotebookContractMutationVariables = Exact<{
@@ -6290,6 +6222,16 @@ export const GetRefActionsDocument = {
 			kind: 'OperationDefinition',
 			operation: 'query',
 			name: { kind: 'Name', value: 'GetRefActions' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
@@ -6298,6 +6240,29 @@ export const GetRefActionsDocument = {
 						alias: { kind: 'Name', value: 'refActions' },
 						name: { kind: 'Name', value: 'ref_action' },
 						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'theme' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },
@@ -6318,17 +6283,6 @@ export const GetRefActionsDocument = {
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'target' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
-										],
-									},
-								},
 							],
 						},
 					},

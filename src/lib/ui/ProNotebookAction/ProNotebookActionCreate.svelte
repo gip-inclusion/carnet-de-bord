@@ -10,8 +10,9 @@
 	import { Button, Select } from '$lib/ui/base';
 
 	export let target: Pick<NotebookTarget, 'id' | 'target'>;
+	export let theme: string;
 
-	const actionStore = operationStore(GetRefActionsDocument);
+	const actionStore = operationStore(GetRefActionsDocument, { theme });
 	query(actionStore);
 
 	const stuctureStore = operationStore(GetStructuresDocument, {});
@@ -23,9 +24,10 @@
 	$: structureOptions = $stuctureStore.data?.structure || [];
 
 	$: actionOptions =
-		$actionStore.data?.refActions
-			.filter(({ target: t }) => t.description === target.target)
-			.map(({ description }) => ({ label: description, name: description })) || [];
+		$actionStore.data?.refActions.map(({ description }) => ({
+			label: description,
+			name: description,
+		})) || [];
 
 	function initFormData() {
 		return {

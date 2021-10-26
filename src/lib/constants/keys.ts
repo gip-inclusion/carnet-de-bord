@@ -20,6 +20,19 @@ export const workSituationKeys = buildKeys({
 	construction_projet: 'En construction de projet',
 	projet_entrepreneurial: 'En projet entrepreneurial',
 	entrepreneur: 'Entrepreneur',
+	etudiant: 'Etudiant',
+	scolarisé: 'Scolarisé',
+	enretraite: 'En retraite / pré-retraite',
+	maladie: 'Longue maladie',
+	invalidite: 'En invalidité de travail',
+	conge_parental: 'Congé parental',
+	au_foyer: 'Au foyer',
+	autre: 'Autre',
+	cdi_temps_plein: 'CDI temps complet',
+	cdi_temps_partiel: 'CDI temps partiel',
+	cdd_temps_plein: 'CDD temps complet',
+	cdd_temps_partiel: 'CDD temps partiel',
+	intermittent: 'Intermittent du spectacle ',
 });
 
 export const rsaRightKeys = buildKeys({
@@ -65,9 +78,11 @@ export const educationLevelKeys = buildKeys({
 export const focusThemeKeys = buildKeys({
 	logement: 'Logement',
 	emploi: 'Emploi',
+	formation: 'Formation',
 	difficulte_administrative: 'Difficultés administratives',
 	difficulte_financiere: 'Difficultés financières',
 	mobilite: 'Mobilité',
 	sante: 'Santé',
 	contraintes_familiales: 'Contraintes familiales',
+	maitrise_langue: 'Maîtrise de la langue française',
 });

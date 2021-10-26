@@ -17,6 +17,7 @@
 	};
 
 	export let target: NotebookActionListType;
+	export let theme: string;
 </script>
 
 <div class="pb-8">
@@ -50,6 +51,6 @@
 		</table>
 	</div>
 	<div class="py-1">
-		<ProNotebookActionCreate {target} />
+		<ProNotebookActionCreate {target} {theme} />
 	</div>
 </div>
