@@ -1,3 +1,10 @@
+## [1.54.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.54.0...v1.54.1) (2021-10-26)
+
+
+### Bug Fixes
+
+* update ref metadata ([#366](https://github.com/SocialGouv/carnet-de-bord/issues/366)) ([1f12f45](https://github.com/SocialGouv/carnet-de-bord/commit/1f12f45e40eef1451e9941e6a937b25ebec48184))
+
 # [1.54.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.53.1...v1.54.0) (2021-10-26)
 
 
