@@ -83,14 +83,11 @@
 			buildQueryVariables(variables, selected)
 		);
 
-		const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
-
 		return {
 			props: {
 				notebookId,
 				getNotebookStore,
 				selected,
-				updateVisitDateStore,
 			},
 		};
 	};
@@ -100,6 +97,8 @@
 	export let notebookId: string;
 	export let getNotebookStore: GetNotebookQueryStore;
 	export let selected: Period = threeMonths;
+
+	const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
 	let getNotebookEventsStore: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
 		{ notebookId, eventsStart: null, eventsEnd: null },
@@ -109,7 +108,7 @@
 	query(getNotebookStore);
 	query(getNotebookEventsStore);
 
-	const updateVisitDateMutation = mutation({ query: UpdateNotebookVisitDateDocument });
+	const updateVisitDateMutation = mutation(updateVisitDateStore);
 	updateVisitDateMutation({
 		id: notebookId,
 		date: new Date(),
