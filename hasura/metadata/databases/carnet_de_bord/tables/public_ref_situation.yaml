@@ -3,13 +3,7 @@ table:
   schema: public
 select_permissions:
 - permission:
-    columns:
-    - id
-    - description
-    - theme
-    filter: {}
-  role: beneficiary
-- permission:
+    allow_aggregations: true
     columns:
     - id
     - description
