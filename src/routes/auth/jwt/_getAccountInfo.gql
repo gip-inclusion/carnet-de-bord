@@ -1,0 +1,18 @@
+query GetAccountInfo($accessKey: String!) {
+	account(where: { accessKey: { _eq: $accessKey } }) {
+		id
+		type
+		username
+		beneficiaryId
+		professionalId
+		managerId
+		professional {
+			structure {
+				deploymentId
+			}
+		}
+		manager {
+			deploymentId
+		}
+	}
+}

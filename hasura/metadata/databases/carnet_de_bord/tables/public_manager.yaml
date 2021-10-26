@@ -1,0 +1,43 @@
+table:
+  name: manager
+  schema: public
+configuration:
+  custom_column_names:
+    deployment_id: deploymentId
+  custom_root_fields: {}
+object_relationships:
+- name: deployment
+  using:
+    foreign_key_constraint_on: deployment_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+    columns:
+    - firstname
+    - lastname
+    - created_at
+    - updated_at
+    - email
+    - deployment_id
+    - id
+    set:
+      deployment_id: x-hasura-Deployment-id
+  role: manager
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - created_at
+    - deployment_id
+    - email
+    - firstname
+    - id
+    - lastname
+    - updated_at
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: manager

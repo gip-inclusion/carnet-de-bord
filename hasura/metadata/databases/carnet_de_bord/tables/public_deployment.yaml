@@ -1,0 +1,11 @@
+table:
+  name: deployment
+  schema: public
+array_relationships:
+- name: managers
+  using:
+    foreign_key_constraint_on:
+      column: deployment_id
+      table:
+        name: manager
+        schema: public

@@ -25,6 +25,22 @@ array_relationships:
       table:
         name: notebook_member
         schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      structure:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+    columns:
+    - email
+    - firstname
+    - lastname
+    - mobile_number
+    - position
+    - id
+    - structure_id
+  role: manager
 select_permissions:
 - permission:
     columns:
@@ -39,6 +55,21 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - id
+    - structure_id
+    - email
+    - lastname
+    - firstname
+    - position
+    - mobile_number
+    filter:
+      structure:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  role: manager
+- permission:
+    allow_aggregations: true
+    columns:
     - email
     - firstname
     - id
@@ -49,6 +80,19 @@ select_permissions:
     filter: {}
   role: professional
 update_permissions:
+- permission:
+    check: null
+    columns:
+    - email
+    - firstname
+    - lastname
+    - mobile_number
+    - position
+    filter:
+      structure:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  role: manager
 - permission:
     check: null
     columns:
