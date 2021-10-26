@@ -65,8 +65,8 @@
 		openComponent.open({ component: ProNotebookStructureList, props: { structures } });
 	}
 
-	function removeTarget() {
-		deleteFocusMutation({ id: focus.id });
+	async function removeFocus() {
+		await deleteFocusMutation({ id: focus.id });
 		openComponent.close();
 	}
 </script>
@@ -107,7 +107,7 @@
 				<Accordions>
 					{#each targets as target (target.id)}
 						<Accordion title={target.target}>
-							<ProNotebookActionList {target} />
+							<ProNotebookActionList {target} notebookId={focus.notebookId} />
 						</Accordion>
 					{:else}
 						<p>Aucun objectif n'a été créé pour cet axe de travail.</p>
@@ -159,7 +159,7 @@
 			<Confirm
 				title="Supprimer un axe de travail"
 				label="Supprimer l'axe de travail"
-				on:confirm={removeTarget}
+				on:confirm={removeFocus}
 			>
 				<p>
 					Êtes-vous sûr de vouloir supprimer l’axe de travail
