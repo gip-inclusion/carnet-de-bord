@@ -1,7 +1,7 @@
-mutation UpdateNotebookVisitDate($notebookId: uuid!, $notebookVisitDate: timestamptz!) {
+mutation UpdateNotebookVisitDate($id: uuid!, $date: timestamptz!) {
 	update_notebook_member(
-		where: { notebook: { id: { _eq: $notebookId } } }
-		_set: { notebookVisitDate: $notebookVisitDate }
+		where: { notebook: { id: { _eq: $id } } }
+		_set: { notebookVisitDate: $date }
 	) {
 		returning {
 			id
