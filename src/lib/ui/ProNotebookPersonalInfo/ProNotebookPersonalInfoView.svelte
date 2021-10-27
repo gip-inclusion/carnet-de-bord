@@ -57,8 +57,20 @@
 	<!-- extract Infos -->
 	<div class="flex flex-row space-x-4">
 		<div class="w-full">
-			<div class="text-lg font-bold">{displayMobileNumber(beneficiary)}</div>
-			<div>{beneficiary.email}</div>
+			<div class="text-lg font-bold">
+				<Text
+					value={displayMobileNumber(beneficiary)}
+					defaultValue="Pas de téléphone"
+					defaultValueClassNames={'italic'}
+				/>
+			</div>
+			<div>
+				<Text
+					value={beneficiary.email}
+					defaultValue="Pas d'email"
+					defaultValueClassNames={'italic'}
+				/>
+			</div>
 			<address class="mt-2 not-italic">
 				{@html [beneficiary.address1, beneficiary.address2]
 					.filter(Boolean)
