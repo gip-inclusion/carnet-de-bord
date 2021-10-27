@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import type { AccountRequest, Structure } from '$lib/types';
 
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
