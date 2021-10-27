@@ -33,7 +33,7 @@
 	$: accounts = $result.data?.accounts || [];
 
 	async function confirmAccount(id: string) {
-		await post(`/admin/confirmPro`, { id });
+		await post(`/manager/confirmPro`, { id });
 		$result.reexecute({ requestPolicy: 'network-only' });
 	}
 
@@ -66,7 +66,7 @@
 	$: filteredAccounts = filterAccount(accounts, search2);
 
 	function openProInfo({ id }: GetAccountsSummaryQuery['accounts'][0]) {
-		goto(`/admin/utilisateur/${id}`);
+		goto(`/manager/utilisateur/${id}`);
 		return;
 	}
 </script>

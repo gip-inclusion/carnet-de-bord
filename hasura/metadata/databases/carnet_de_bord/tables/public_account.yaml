@@ -28,7 +28,18 @@ object_relationships:
 insert_permissions:
 - permission:
     backend_only: false
-    check: {}
+    check:
+      _or:
+      - manager:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
     columns:
     - beneficiary_id
     - id
@@ -74,12 +85,12 @@ select_permissions:
       - id:
           _eq: X-Hasura-User-Id
       - beneficiary:
-          id:
-            _eq: X-Hasura-Deployement-Id
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
       - professional:
           structure:
             deployment_id:
-              _eq: X-Hasura-Deployement-Id
+              _eq: X-Hasura-Deployment-Id
   role: manager
 - permission:
     columns:
@@ -114,12 +125,12 @@ update_permissions:
       - id:
           _eq: X-Hasura-User-Id
       - beneficiary:
-          id:
-            _eq: X-Hasura-Deployement-Id
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
       - professional:
           structure:
             deployment_id:
-              _eq: X-Hasura-Deployement-Id
+              _eq: X-Hasura-Deployment-Id
   role: manager
 - permission:
     check: null
