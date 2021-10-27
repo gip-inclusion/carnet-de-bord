@@ -8,11 +8,12 @@ export async function getManifests() {
 	const hasura = 'exposed';
 
 	const ciEnv = environments(process.env);
+	const version = ciEnv.isPreProduction ? "preprod" : ciEnv.tag || `sha-${ciEnv.sha}`;
 
 	const config = {
 		config: { ingress: hasura === 'exposed' },
 		deployment: {
-			image: `ghcr.io/socialgouv/carnet-de-bord/hasura:sha-${ciEnv.sha}`
+			image: `ghcr.io/socialgouv/carnet-de-bord/hasura:${version}`
 		},
 		env
 	};
