@@ -1,3 +1,10 @@
+## [1.54.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.54.1...v1.54.2) (2021-10-27)
+
+
+### Bug Fixes
+
+* cleaner display of email/mobile for beneficiaries ([#368](https://github.com/SocialGouv/carnet-de-bord/issues/368)) ([2a9f6f8](https://github.com/SocialGouv/carnet-de-bord/commit/2a9f6f8d964a639c0782fbb7269170c024da1e45))
+
 ## [1.54.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.54.0...v1.54.1) (2021-10-26)
 
 
