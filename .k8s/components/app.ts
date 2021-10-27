@@ -15,6 +15,7 @@ export const getManifests = async () => {
 	const subdomain = 'carnet-de-bord';
 
 	const ciEnv = environments(process.env);
+	const version = ciEnv.isPreProduction ? "preprod" : ciEnv.tag || `sha-${ciEnv.sha}`;
 
 	const podProbes = ['livenessProbe', 'readinessProbe', 'startupProbe'].reduce(
 		(probes, probe) => ({
@@ -40,7 +41,7 @@ export const getManifests = async () => {
 			containerPort: 3000
 		},
 		deployment: {
-			image: `ghcr.io/socialgouv/carnet-de-bord/app:sha-${ciEnv.sha}`,
+			image: `ghcr.io/socialgouv/carnet-de-bord/app:${version}`,
 			container: {
 				resources: {
 					requests: {
