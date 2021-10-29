@@ -15,7 +15,7 @@ export const getManifests = async () => {
 	const subdomain = 'carnet-de-bord';
 
 	const ciEnv = environments(process.env);
-	const version = ciEnv.isPreProduction ? "preprod" : ciEnv.tag || `sha-${ciEnv.sha}`;
+	const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
 
 	const podProbes = ['livenessProbe', 'readinessProbe', 'startupProbe'].reduce(
 		(probes, probe) => ({

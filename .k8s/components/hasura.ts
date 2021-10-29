@@ -8,7 +8,7 @@ export async function getManifests() {
 	const hasura = 'exposed';
 
 	const ciEnv = environments(process.env);
-	const version = ciEnv.isPreProduction ? "preprod" : ciEnv.tag || `sha-${ciEnv.sha}`;
+	const version = ciEnv.isPreProduction ? `preprod-${ciEnv.sha}` : ciEnv.tag || `sha-${ciEnv.sha}`;
 
 	const config = {
 		config: { ingress: hasura === 'exposed' },
