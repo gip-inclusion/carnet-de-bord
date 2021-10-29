@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { createEventDispatcher } from 'svelte';

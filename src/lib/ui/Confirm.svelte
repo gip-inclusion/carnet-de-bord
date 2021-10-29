@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
 	import { DialogOverlay, DialogContent } from 'svelte-accessible-dialog';

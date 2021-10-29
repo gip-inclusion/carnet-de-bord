@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
 	import { openComponent } from '$lib/stores';

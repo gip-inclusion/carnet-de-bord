@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { onDestroy, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { ACCORDION } from './accordion';

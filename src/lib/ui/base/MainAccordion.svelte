@@ -2,7 +2,7 @@
 	let counter = 0;
 </script>
 
-<script type="ts">
+<script lang="ts">
 	import { getContext, onMount } from 'svelte';
 
 	import { ACCORDION } from './accordion';

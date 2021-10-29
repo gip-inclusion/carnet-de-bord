@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	export let icon: string;
 	export let ariaLabel: string;
 	export let classNames = '';
