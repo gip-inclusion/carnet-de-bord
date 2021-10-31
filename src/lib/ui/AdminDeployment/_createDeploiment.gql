@@ -1,0 +1,6 @@
+mutation CreateDeployment($object: deployment_insert_input!) {
+	insert_deployment_one(object: $object) {
+		id
+		label
+	}
+}

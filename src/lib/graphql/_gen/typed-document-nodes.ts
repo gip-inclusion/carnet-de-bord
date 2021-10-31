@@ -579,6 +579,20 @@ export type BeneficiaryAggregateFieldsCountArgs = {
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "beneficiary" */
+export type BeneficiaryAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<BeneficiaryMaxOrderBy>;
+	min?: Maybe<BeneficiaryMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "beneficiary" */
+export type BeneficiaryArrRelInsertInput = {
+	data: Array<BeneficiaryInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<BeneficiaryOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "beneficiary". All fields are combined with a logical 'AND'. */
 export type BeneficiaryBoolExp = {
 	_and?: Maybe<Array<BeneficiaryBoolExp>>;
@@ -648,6 +662,23 @@ export type BeneficiaryMaxFields = {
 	postalCode?: Maybe<Scalars['String']>;
 };
 
+/** order by max() on columns of table "beneficiary" */
+export type BeneficiaryMaxOrderBy = {
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	cafNumber?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	dateOfBirth?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	mobileNumber?: Maybe<OrderBy>;
+	peNumber?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type BeneficiaryMinFields = {
 	__typename?: 'beneficiary_min_fields';
@@ -664,6 +695,23 @@ export type BeneficiaryMinFields = {
 	mobileNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "beneficiary" */
+export type BeneficiaryMinOrderBy = {
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	cafNumber?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	dateOfBirth?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	firstname?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	lastname?: Maybe<OrderBy>;
+	mobileNumber?: Maybe<OrderBy>;
+	peNumber?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "beneficiary" */
@@ -846,6 +894,10 @@ export type DateComparisonExp = {
  */
 export type Deployment = {
 	__typename?: 'deployment';
+	/** An array relationship */
+	beneficiaries: Array<Beneficiary>;
+	/** An aggregate relationship */
+	beneficiaries_aggregate: BeneficiaryAggregate;
 	created_at: Scalars['timestamptz'];
 	id: Scalars['uuid'];
 	label: Scalars['String'];
@@ -853,7 +905,41 @@ export type Deployment = {
 	managers: Array<Manager>;
 	/** An aggregate relationship */
 	managers_aggregate: ManagerAggregate;
+	/** An array relationship */
+	structures: Array<Structure>;
+	/** An aggregate relationship */
+	structures_aggregate: StructureAggregate;
 	updated_at: Scalars['timestamptz'];
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentBeneficiariesArgs = {
+	distinct_on?: Maybe<Array<BeneficiarySelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<BeneficiaryOrderBy>>;
+	where?: Maybe<BeneficiaryBoolExp>;
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentBeneficiariesAggregateArgs = {
+	distinct_on?: Maybe<Array<BeneficiarySelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<BeneficiaryOrderBy>>;
+	where?: Maybe<BeneficiaryBoolExp>;
 };
 
 /**
@@ -886,6 +972,36 @@ export type DeploymentManagersAggregateArgs = {
 	where?: Maybe<ManagerBoolExp>;
 };
 
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentStructuresArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentStructuresAggregateArgs = {
+	distinct_on?: Maybe<Array<StructureSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<StructureOrderBy>>;
+	where?: Maybe<StructureBoolExp>;
+};
+
 /** aggregated selection of "deployment" */
 export type DeploymentAggregate = {
 	__typename?: 'deployment_aggregate';
@@ -912,10 +1028,12 @@ export type DeploymentBoolExp = {
 	_and?: Maybe<Array<DeploymentBoolExp>>;
 	_not?: Maybe<DeploymentBoolExp>;
 	_or?: Maybe<Array<DeploymentBoolExp>>;
+	beneficiaries?: Maybe<BeneficiaryBoolExp>;
 	created_at?: Maybe<TimestamptzComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	label?: Maybe<StringComparisonExp>;
 	managers?: Maybe<ManagerBoolExp>;
+	structures?: Maybe<StructureBoolExp>;
 	updated_at?: Maybe<TimestamptzComparisonExp>;
 };
 
@@ -927,10 +1045,12 @@ export enum DeploymentConstraint {
 
 /** input type for inserting data into table "deployment" */
 export type DeploymentInsertInput = {
+	beneficiaries?: Maybe<BeneficiaryArrRelInsertInput>;
 	created_at?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	label?: Maybe<Scalars['String']>;
 	managers?: Maybe<ManagerArrRelInsertInput>;
+	structures?: Maybe<StructureArrRelInsertInput>;
 	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -977,10 +1097,12 @@ export type DeploymentOnConflict = {
 
 /** Ordering options when selecting data from "deployment". */
 export type DeploymentOrderBy = {
+	beneficiaries_aggregate?: Maybe<BeneficiaryAggregateOrderBy>;
 	created_at?: Maybe<OrderBy>;
 	id?: Maybe<OrderBy>;
 	label?: Maybe<OrderBy>;
 	managers_aggregate?: Maybe<ManagerAggregateOrderBy>;
+	structures_aggregate?: Maybe<StructureAggregateOrderBy>;
 	updated_at?: Maybe<OrderBy>;
 };
 
@@ -1053,6 +1175,10 @@ export type JsonbComparisonExp = {
  */
 export type Manager = {
 	__typename?: 'manager';
+	/** An array relationship */
+	accounts: Array<Account>;
+	/** An aggregate relationship */
+	accounts_aggregate: AccountAggregate;
 	created_at: Scalars['timestamptz'];
 	/** An object relationship */
 	deployment?: Maybe<Deployment>;
@@ -1062,6 +1188,36 @@ export type Manager = {
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
 	updated_at: Scalars['timestamptz'];
+};
+
+/**
+ * A manager handle structure and professional for a given deployment
+ *
+ *
+ * columns and relationships of "manager"
+ *
+ */
+export type ManagerAccountsArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
+};
+
+/**
+ * A manager handle structure and professional for a given deployment
+ *
+ *
+ * columns and relationships of "manager"
+ *
+ */
+export type ManagerAccountsAggregateArgs = {
+	distinct_on?: Maybe<Array<AccountSelectColumn>>;
+	limit?: Maybe<Scalars['Int']>;
+	offset?: Maybe<Scalars['Int']>;
+	order_by?: Maybe<Array<AccountOrderBy>>;
+	where?: Maybe<AccountBoolExp>;
 };
 
 /** aggregated selection of "manager" */
@@ -1104,6 +1260,7 @@ export type ManagerBoolExp = {
 	_and?: Maybe<Array<ManagerBoolExp>>;
 	_not?: Maybe<ManagerBoolExp>;
 	_or?: Maybe<Array<ManagerBoolExp>>;
+	accounts?: Maybe<AccountBoolExp>;
 	created_at?: Maybe<TimestamptzComparisonExp>;
 	deployment?: Maybe<DeploymentBoolExp>;
 	deploymentId?: Maybe<UuidComparisonExp>;
@@ -1122,6 +1279,7 @@ export enum ManagerConstraint {
 
 /** input type for inserting data into table "manager" */
 export type ManagerInsertInput = {
+	accounts?: Maybe<AccountArrRelInsertInput>;
 	created_at?: Maybe<Scalars['timestamptz']>;
 	deployment?: Maybe<DeploymentObjRelInsertInput>;
 	deploymentId?: Maybe<Scalars['uuid']>;
@@ -1203,6 +1361,7 @@ export type ManagerOnConflict = {
 
 /** Ordering options when selecting data from "manager". */
 export type ManagerOrderBy = {
+	accounts_aggregate?: Maybe<AccountAggregateOrderBy>;
 	created_at?: Maybe<OrderBy>;
 	deployment?: Maybe<DeploymentOrderBy>;
 	deploymentId?: Maybe<OrderBy>;
@@ -4637,6 +4796,20 @@ export type StructureAggregateFieldsCountArgs = {
 	distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "structure" */
+export type StructureAggregateOrderBy = {
+	count?: Maybe<OrderBy>;
+	max?: Maybe<StructureMaxOrderBy>;
+	min?: Maybe<StructureMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "structure" */
+export type StructureArrRelInsertInput = {
+	data: Array<StructureInsertInput>;
+	/** on conflict condition */
+	on_conflict?: Maybe<StructureOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "structure". All fields are combined with a logical 'AND'. */
 export type StructureBoolExp = {
 	_and?: Maybe<Array<StructureBoolExp>>;
@@ -4705,6 +4878,24 @@ export type StructureMaxFields = {
 	website?: Maybe<Scalars['String']>;
 };
 
+/** order by max() on columns of table "structure" */
+export type StructureMaxOrderBy = {
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	modificationDate?: Maybe<OrderBy>;
+	name?: Maybe<OrderBy>;
+	phone?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
+	shortDesc?: Maybe<OrderBy>;
+	siret?: Maybe<OrderBy>;
+	website?: Maybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type StructureMinFields = {
 	__typename?: 'structure_min_fields';
@@ -4722,6 +4913,24 @@ export type StructureMinFields = {
 	shortDesc?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 	website?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "structure" */
+export type StructureMinOrderBy = {
+	address1?: Maybe<OrderBy>;
+	address2?: Maybe<OrderBy>;
+	city?: Maybe<OrderBy>;
+	creationDate?: Maybe<OrderBy>;
+	deploymentId?: Maybe<OrderBy>;
+	email?: Maybe<OrderBy>;
+	id?: Maybe<OrderBy>;
+	modificationDate?: Maybe<OrderBy>;
+	name?: Maybe<OrderBy>;
+	phone?: Maybe<OrderBy>;
+	postalCode?: Maybe<OrderBy>;
+	shortDesc?: Maybe<OrderBy>;
+	siret?: Maybe<OrderBy>;
+	website?: Maybe<OrderBy>;
 };
 
 /** response of any mutation on the table "structure" */
@@ -5300,6 +5509,52 @@ export type UuidComparisonExp = {
 	_nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type CreateDeploymentMutationVariables = Exact<{
+	object: DeploymentInsertInput;
+}>;
+
+export type CreateDeploymentMutation = {
+	__typename?: 'mutation_root';
+	insert_deployment_one?: Maybe<{ __typename?: 'deployment'; id: string; label: string }>;
+};
+
+export type GetDeploymentByIdQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetDeploymentByIdQuery = {
+	__typename?: 'query_root';
+	deployment?: Maybe<{
+		__typename?: 'deployment';
+		label: string;
+		managers: Array<{ __typename?: 'manager'; id: string; firstname: string; lastname: string }>;
+		beneficiaries_aggregate: {
+			__typename?: 'beneficiary_aggregate';
+			aggregate?: Maybe<{ __typename?: 'beneficiary_aggregate_fields'; count: number }>;
+		};
+		structures_aggregate: {
+			__typename?: 'structure_aggregate';
+			aggregate?: Maybe<{ __typename?: 'structure_aggregate_fields'; count: number }>;
+		};
+	}>;
+	professional_aggregate: {
+		__typename?: 'professional_aggregate';
+		aggregate?: Maybe<{ __typename?: 'professional_aggregate_fields'; count: number }>;
+	};
+};
+
+export type GetDeploymentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetDeploymentsQuery = {
+	__typename?: 'query_root';
+	deployments: Array<{
+		__typename?: 'deployment';
+		id: string;
+		label: string;
+		managers: Array<{ __typename?: 'manager'; id: string; firstname: string; lastname: string }>;
+	}>;
+};
+
 export type AddNotebookActionMutationVariables = Exact<{
 	action: Scalars['String'];
 	targetId: Scalars['uuid'];
@@ -5591,6 +5846,57 @@ export type GetAccountByPkQuery = {
 	}>;
 };
 
+export type GetAccountInfoQueryVariables = Exact<{
+	accessKey: Scalars['String'];
+}>;
+
+export type GetAccountInfoQuery = {
+	__typename?: 'query_root';
+	account: Array<{
+		__typename?: 'account';
+		id: string;
+		type: string;
+		username: string;
+		beneficiaryId?: Maybe<string>;
+		professionalId?: Maybe<string>;
+		managerId?: Maybe<string>;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			structure: { __typename?: 'structure'; deploymentId?: Maybe<string> };
+		}>;
+		manager?: Maybe<{ __typename?: 'manager'; deploymentId?: Maybe<string> }>;
+	}>;
+};
+
+export type ResetAccountAccessKeyMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	now: Scalars['timestamptz'];
+}>;
+
+export type ResetAccountAccessKeyMutation = {
+	__typename?: 'mutation_root';
+	update_account_by_pk?: Maybe<{ __typename?: 'account'; lastLogin?: Maybe<any> }>;
+};
+
+export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetStructuresQuery = {
+	__typename?: 'query_root';
+	structure: Array<{
+		__typename?: 'structure';
+		id: string;
+		siret?: Maybe<string>;
+		name?: Maybe<string>;
+		shortDesc?: Maybe<string>;
+		phone?: Maybe<string>;
+		email?: Maybe<string>;
+		postalCode?: Maybe<string>;
+		city?: Maybe<string>;
+		address1?: Maybe<string>;
+		address2?: Maybe<string>;
+	}>;
+};
+
 export type InsertStructureMutationVariables = Exact<{
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
@@ -5689,57 +5995,6 @@ export type GetAccountsSummaryQuery = {
 			email: string;
 			structure: { __typename?: 'structure'; id: string; name?: Maybe<string> };
 		}>;
-	}>;
-};
-
-export type GetAccountInfoQueryVariables = Exact<{
-	accessKey: Scalars['String'];
-}>;
-
-export type GetAccountInfoQuery = {
-	__typename?: 'query_root';
-	account: Array<{
-		__typename?: 'account';
-		id: string;
-		type: string;
-		username: string;
-		beneficiaryId?: Maybe<string>;
-		professionalId?: Maybe<string>;
-		managerId?: Maybe<string>;
-		professional?: Maybe<{
-			__typename?: 'professional';
-			structure: { __typename?: 'structure'; deploymentId?: Maybe<string> };
-		}>;
-		manager?: Maybe<{ __typename?: 'manager'; deploymentId?: Maybe<string> }>;
-	}>;
-};
-
-export type ResetAccountAccessKeyMutationVariables = Exact<{
-	id: Scalars['uuid'];
-	now: Scalars['timestamptz'];
-}>;
-
-export type ResetAccountAccessKeyMutation = {
-	__typename?: 'mutation_root';
-	update_account_by_pk?: Maybe<{ __typename?: 'account'; lastLogin?: Maybe<any> }>;
-};
-
-export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetStructuresQuery = {
-	__typename?: 'query_root';
-	structure: Array<{
-		__typename?: 'structure';
-		id: string;
-		siret?: Maybe<string>;
-		name?: Maybe<string>;
-		shortDesc?: Maybe<string>;
-		phone?: Maybe<string>;
-		email?: Maybe<string>;
-		postalCode?: Maybe<string>;
-		city?: Maybe<string>;
-		address1?: Maybe<string>;
-		address2?: Maybe<string>;
 	}>;
 };
 
@@ -6117,6 +6372,244 @@ export const EventFieldsFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<EventFieldsFragment, unknown>;
+export const CreateDeploymentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'CreateDeployment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'deployment_insert_input' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_deployment_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<CreateDeploymentMutation, CreateDeploymentMutationVariables>;
+export const GetDeploymentByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployment' },
+						name: { kind: 'Name', value: 'deployment_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'managers' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structures_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structure' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentByIdQuery, GetDeploymentByIdQueryVariables>;
+export const GetDeploymentsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeployments' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployments' },
+						name: { kind: 'Name', value: 'deployment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'created_at' },
+											value: { kind: 'EnumValue', value: 'desc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'managers' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentsQuery, GetDeploymentsQueryVariables>;
 export const AddNotebookActionDocument = {
 	kind: 'Document',
 	definitions: [
@@ -7898,6 +8391,213 @@ export const GetAccountByPkDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByPkQuery, GetAccountByPkQueryVariables>;
+export const GetAccountInfoDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountInfo' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKey' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } },
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetAccountInfoQuery, GetAccountInfoQueryVariables>;
+export const ResetAccountAccessKeyDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'ResetAccountAccessKey' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKeyDate' },
+											value: { kind: 'NullValue' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKey' },
+											value: { kind: 'NullValue' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastLogin' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<ResetAccountAccessKeyMutation, ResetAccountAccessKeyMutationVariables>;
+export const GetStructuresDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructures' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
 export const InsertStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8308,213 +9008,6 @@ export const GetAccountsSummaryDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
-export const GetAccountInfoDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetAccountInfo' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'account' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accessKey' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } },
-													],
-												},
-											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'manager' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetAccountInfoQuery, GetAccountInfoQueryVariables>;
-export const ResetAccountAccessKeyDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'ResetAccountAccessKey' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_account_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accessKeyDate' },
-											value: { kind: 'NullValue' },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accessKey' },
-											value: { kind: 'NullValue' },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastLogin' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<ResetAccountAccessKeyMutation, ResetAccountAccessKeyMutationVariables>;
-export const GetStructuresDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetStructures' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'structure' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
 export const GetNotebookByBeneficiaryIdDocument = {
 	kind: 'Document',
 	definitions: [
@@ -10062,6 +10555,18 @@ export const UpdateProfessionalProfileDocument = {
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
 >;
+export type CreateDeploymentMutationStore = OperationStore<
+	CreateDeploymentMutation,
+	CreateDeploymentMutationVariables
+>;
+export type GetDeploymentByIdQueryStore = OperationStore<
+	GetDeploymentByIdQuery,
+	GetDeploymentByIdQueryVariables
+>;
+export type GetDeploymentsQueryStore = OperationStore<
+	GetDeploymentsQuery,
+	GetDeploymentsQueryVariables
+>;
 export type AddNotebookActionMutationStore = OperationStore<
 	AddNotebookActionMutation,
 	AddNotebookActionMutationVariables
@@ -10126,18 +10631,6 @@ export type GetAccountByPkQueryStore = OperationStore<
 	GetAccountByPkQuery,
 	GetAccountByPkQueryVariables
 >;
-export type InsertStructureMutationStore = OperationStore<
-	InsertStructureMutation,
-	InsertStructureMutationVariables
->;
-export type UpdateStructureMutationStore = OperationStore<
-	UpdateStructureMutation,
-	UpdateStructureMutationVariables
->;
-export type GetAccountsSummaryQueryStore = OperationStore<
-	GetAccountsSummaryQuery,
-	GetAccountsSummaryQueryVariables
->;
 export type GetAccountInfoQueryStore = OperationStore<
 	GetAccountInfoQuery,
 	GetAccountInfoQueryVariables
@@ -10149,6 +10642,18 @@ export type ResetAccountAccessKeyMutationStore = OperationStore<
 export type GetStructuresQueryStore = OperationStore<
 	GetStructuresQuery,
 	GetStructuresQueryVariables
+>;
+export type InsertStructureMutationStore = OperationStore<
+	InsertStructureMutation,
+	InsertStructureMutationVariables
+>;
+export type UpdateStructureMutationStore = OperationStore<
+	UpdateStructureMutation,
+	UpdateStructureMutationVariables
+>;
+export type GetAccountsSummaryQueryStore = OperationStore<
+	GetAccountsSummaryQuery,
+	GetAccountsSummaryQueryVariables
 >;
 export type GetNotebookByBeneficiaryIdQueryStore = OperationStore<
 	GetNotebookByBeneficiaryIdQuery,

@@ -1,0 +1,76 @@
+<script lang="ts">
+	import { CreateDeploymentDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { openComponent } from '$lib/stores';
+
+	import { mutation, operationStore } from '@urql/svelte';
+	import { Input } from '../base';
+	import Button from '../base/Button.svelte';
+
+	const deploymentStore = operationStore(CreateDeploymentDocument);
+	const insertDeployment = mutation(deploymentStore);
+
+	const deployment = {
+		label: '',
+	};
+	const manager = {
+		firstname: '',
+		lastname: '',
+		email: '',
+		accounts: {
+			data: {
+				username: '',
+				type: 'manager',
+			},
+		},
+	};
+
+	async function handleSubmit() {
+		console.log('submit');
+		// todo validate inputs
+		try {
+			await insertDeployment({
+				object: { label: deployment.label, managers: { data: [manager] } },
+			});
+			openComponent.close();
+		} catch (err) {
+			console.error(err);
+		}
+	}
+	function close() {
+		openComponent.close();
+	}
+
+	$: error = $deploymentStore.error;
+</script>
+
+<div class="flex flex-col gap-6">
+	<div>
+		<h1>Ajouter un Déploiement</h1>
+		<p class="mb-0">
+			Veuillez renseigner les informations ci-dessous pour créer un nouveau deploiement. Un
+			deploiement permet de rattacher des structures, professionnels et bénéficiaires.
+		</p>
+	</div>
+
+	<form class="flex flex-col gap-6" on:submit|preventDefault={handleSubmit}>
+		<Input name="account" required inputLabel="Nom du déploiement" bind:val={deployment.label} />
+		<div>
+			<fieldset>
+				<legend>Responsable</legend>
+				<Input
+					name="account"
+					required
+					inputLabel="Identifiant"
+					bind:val={manager.accounts.data.username}
+				/>
+				<Input name="firstname" required inputLabel="Prénom" bind:val={manager.firstname} />
+				<Input name="lastname" required inputLabel="Nom" bind:val={manager.lastname} />
+				<Input name="email" required inputLabel="Courriel" bind:val={manager.email} />
+			</fieldset>
+		</div>
+		<div class="flex flex-row gap-6 mt-12">
+			<Button type="submit">Créer le déploiement</Button>
+			<Button outline={true} on:click={close}>Annuler</Button>
+		</div>
+	</form>
+</div>

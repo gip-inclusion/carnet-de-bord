@@ -2,10 +2,24 @@ table:
   name: deployment
   schema: public
 array_relationships:
+- name: beneficiaries
+  using:
+    foreign_key_constraint_on:
+      column: deployment_id
+      table:
+        name: beneficiary
+        schema: public
 - name: managers
   using:
     foreign_key_constraint_on:
       column: deployment_id
       table:
         name: manager
+        schema: public
+- name: structures
+  using:
+    foreign_key_constraint_on:
+      column: deployment_id
+      table:
+        name: structure
         schema: public

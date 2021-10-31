@@ -30,8 +30,10 @@
 
 <HeaderCDB {menuItems} />
 
-<div class="fr-container" style="min-height: calc(100vh - 200px)">
-	<slot />
+<div class="fr-container  fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
+	<div class="py-4 px-40 space-y-4">
+		<slot />
+	</div>
 	<LayerCDB />
 </div>
 
