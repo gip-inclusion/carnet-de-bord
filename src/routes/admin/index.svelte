@@ -2,8 +2,7 @@
 	import { GetDeploymentsDocument } from '$lib/graphql/_gen/typed-document-nodes';
 
 	import { openComponent } from '$lib/stores';
-	import AdminDeploymentCreateLayer from '$lib/ui/AdminDeployment/AdminDeploymentCreateLayer.svelte';
-	import AdminDeploymentList from '$lib/ui/AdminDeployment/AdminDeploymentList.svelte';
+	import { AdminDeploymentList, AdminDeploymentCreateLayer } from '$lib/ui/AdminDeployment';
 	import { Button } from '$lib/ui/base';
 	import { operationStore, query } from '@urql/svelte';
 

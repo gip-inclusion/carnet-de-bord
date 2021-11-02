@@ -3,8 +3,7 @@
 	import { openComponent } from '$lib/stores';
 
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Input } from '$lib/ui/base';
-	import Button from '$lib/ui/base/Button.svelte';
+	import { Button, Input } from '$lib/ui/base';
 
 	const deploymentStore = operationStore(CreateDeploymentDocument);
 	const insertDeployment = mutation(deploymentStore);

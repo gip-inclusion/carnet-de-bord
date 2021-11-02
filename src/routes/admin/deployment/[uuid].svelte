@@ -15,7 +15,8 @@
 </script>
 
 <script lang="ts">
-	import AdminDeploymentDetail from '$lib/ui/AdminDeployment/AdminDeploymentDetail.svelte';
+	import { AdminDeploymentDetail } from '$lib/ui/AdminDeployment';
+	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let deploymentId: string;
 	const getDeploymentStore = operationStore(GetDeploymentByIdDocument, { id: deploymentId });
@@ -28,5 +29,6 @@
 <svelte:head>
 	<title>Deploiement {deployment?.label ?? ''} - Carnet de bord</title>
 </svelte:head>
-
-<AdminDeploymentDetail {deployment} {professional_aggregate} />
+<LoaderIndicator result={getDeploymentStore}>
+	<AdminDeploymentDetail {deployment} {professional_aggregate} />
+</LoaderIndicator>

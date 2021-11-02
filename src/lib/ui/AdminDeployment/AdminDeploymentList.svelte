@@ -2,7 +2,7 @@
 	import type { GetDeploymentsQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { OperationStore } from '@urql/svelte';
 	import { displayFullName } from '$lib/ui/format';
-	import LoaderIndicator from '$lib/utils/LoaderIndicator.svelte';
+	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let deploymentsStore: OperationStore<GetDeploymentsQuery>;
 
