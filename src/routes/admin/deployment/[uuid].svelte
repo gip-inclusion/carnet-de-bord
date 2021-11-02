@@ -26,7 +26,7 @@
 </script>
 
 <svelte:head>
-	<title>Deploiment {deployment?.label} - carnet de bord</title>
+	<title>Deploiement {deployment?.label ?? ''} - Carnet de bord</title>
 </svelte:head>
 
 <AdminDeploymentDetail {deployment} {professional_aggregate} />

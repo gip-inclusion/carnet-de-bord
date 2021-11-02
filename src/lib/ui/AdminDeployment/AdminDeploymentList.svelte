@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { GetDeploymentsQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { OperationStore } from '@urql/svelte';
-	import { displayFullName } from '../format';
-	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
+	import { displayFullName } from '$lib/ui/format';
+	import LoaderIndicator from '$lib/utils/LoaderIndicator.svelte';
 
 	export let deploymentsStore: OperationStore<GetDeploymentsQuery>;
 

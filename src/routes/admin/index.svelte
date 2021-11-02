@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Gestion des déploiements - carnet de bord</title>
+	<title>Gestion des déploiements - Carnet de bord</title>
 </svelte:head>
 
 <Button on:click={onAddDeployementClick}>Ajouter un Déploiment</Button>

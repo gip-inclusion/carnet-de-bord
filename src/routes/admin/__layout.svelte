@@ -1,4 +1,4 @@
-<script type="ts" context="module">
+<script lang="ts" context="module">
 	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
 
 	import redirectUrl from '$lib/utils/redirectUrl';
@@ -16,7 +16,7 @@
 	}
 </script>
 
-<script type="ts">
+<script lang="ts">
 	import type { MenuItem } from '$lib/types';
 
 	const menuItems: MenuItem[] = [

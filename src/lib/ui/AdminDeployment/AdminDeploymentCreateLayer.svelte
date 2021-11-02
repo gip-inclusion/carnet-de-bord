@@ -3,8 +3,8 @@
 	import { openComponent } from '$lib/stores';
 
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Input } from '../base';
-	import Button from '../base/Button.svelte';
+	import { Input } from '$lib/ui/base';
+	import Button from '$lib/ui/base/Button.svelte';
 
 	const deploymentStore = operationStore(CreateDeploymentDocument);
 	const insertDeployment = mutation(deploymentStore);
@@ -25,7 +25,6 @@
 	};
 
 	async function handleSubmit() {
-		console.log('submit');
 		// todo validate inputs
 		try {
 			await insertDeployment({
