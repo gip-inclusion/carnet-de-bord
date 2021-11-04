@@ -11,10 +11,13 @@ TRUNCATE public.ref_action CASCADE;
 
 SET check_function_bodies = false;
 INSERT INTO public.admin (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Carnet de Bord', 'Administrateur');
+INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', 'admin', 'admin', NULL, NULL, '2021-09-21 12:25:55.822+00', NULL, NULL, 'a81bc81a-dead-4e5d-abff-90865d1e13b7', true, false);
 INSERT INTO public.deployment (id, label) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93');
-INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.deployment (id, label) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51');
+INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94', 'manager.cd93', 'manager', '01a3d906-70d9-42e6-9b61-2ccf030e5d8f', true, false);
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
+INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('3f4c5d95-b25c-4e18-a2c6-b394b8221c8f', 'manager.cd51', 'manager', 'cc32124d-f810-4193-a855-db76915ae7e4', true, false);
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, deployment_id) VALUES ('c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', 'stifour93@yahoo.fr', 'Tifour', 'Sophie', '2055990', '300000L', '93190', 'Livry-Gargan', '7 chemin du soleil', NULL, '0606060606', '1982-02-01', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, creation_date, modification_date, website, deployment_id) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b2', NULL, 'Pole Emploi Agence Livry-Gargnan', 'Pole Emploi Agence Livry-Gargnan', '09 72 72 39 49', 'contact@pole-emploi.fr', '93190', 'Die', '33 Bd Robert Schuman', NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, creation_date, modification_date, website, deployment_id) VALUES ('1c52e5ad-e0b9-48b9-a490-105a4effaaea', NULL, 'Centre Communal d''action social Livry-Gargan', '', '01 41 70 88 00', '', NULL, 'Saint Denis', ' 3 Pl. François Mitterrand', NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
@@ -25,15 +28,17 @@ INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, creation_date, modification_date, website, deployment_id) VALUES ('3b299bcb-445c-48db-bc61-e30cd52d65b6', NULL, 'AFPA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, creation_date, modification_date, website, deployment_id) VALUES ('dfaaa6e1-4c5a-4079-a191-e8611d573acf', NULL, 'Plateforme - Ma demande de logement social', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, creation_date, modification_date, website, deployment_id) VALUES ('dfaaa6e3-4c5a-4079-a191-e8611d573acf', NULL, 'Interlogement 93', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, creation_date, modification_date, website, deployment_id) VALUES ('c0b8aee3-c061-4023-b57e-92880627d589', NULL, 'Interlogement 51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('1a5b817b-6b81-4a4d-9953-26707a54e0e9', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pierre.chevalier@livry-gargan.fr', 'Pierre', 'Chevalier', 'Conseiller en insertion', '01 41 70 88 00');
-INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', 'e578237f-6167-4012-b457-7c4f36fb079d', 'pcamara@seinesaintdenis.fr', 'Paul', 'Camara', 'Assistant de service social', '01 71 29 43 80');
-INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('74323049-eae6-4ccd-b596-e95514a32781', '8b71184c-6479-4440-aa89-15da704cc792', 'sanka@groupe-ns.fr', 'Anka', 'Simon', 'Conseiller en Insertion Professionnel', NULL);
-INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b3', 'a81bc81b-dead-4e5d-abff-90865d1e13b2', 'dunord@pole-emploi.fr', 'Dunord', 'Thierry', 'Conseiller pôle emploi', '');
-INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', 'admin', 'admin', NULL, NULL, '2021-09-21 12:25:55.822+00', NULL, NULL, 'a81bc81a-dead-4e5d-abff-90865d1e13b7', true, false);
-INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('a501db53-1b79-4a60-860b-5972bd184f98', 'sanka', 'professional', NULL, NULL, NULL, NULL, '74323049-eae6-4ccd-b596-e95514a32781', NULL, true, true);
-INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8173-40160958a33d', 'thierry.dunord', 'professional', NULL, NULL, '2021-08-23 07:59:48.689+00', NULL, 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, true, true);
-INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('d0b8f314-5e83-4535-9360-60f29dcfb5c8', 'pcamara', 'professional', NULL, NULL, NULL, NULL, 'e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', NULL, true, true);
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8172-40160958a33d', 'pierre.chevalier', 'professional', NULL, NULL, '2021-09-27 14:08:02.222+00', NULL, '1a5b817b-6b81-4a4d-9953-26707a54e0e9', NULL, true, true);
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', 'e578237f-6167-4012-b457-7c4f36fb079d', 'pcamara@seinesaintdenis.fr', 'Paul', 'Camara', 'Assistant de service social', '01 71 29 43 80');
+INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('d0b8f314-5e83-4535-9360-60f29dcfb5c8', 'pcamara', 'professional', NULL, NULL, NULL, NULL, 'e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', NULL, true, true);
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('74323049-eae6-4ccd-b596-e95514a32781', '8b71184c-6479-4440-aa89-15da704cc792', 'sanka@groupe-ns.fr', 'Anka', 'Simon', 'Conseiller en Insertion Professionnel', NULL);
+INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('a501db53-1b79-4a60-860b-5972bd184f98', 'sanka', 'professional', NULL, NULL, NULL, NULL, '74323049-eae6-4ccd-b596-e95514a32781', NULL, true, true);
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b3', 'a81bc81b-dead-4e5d-abff-90865d1e13b2', 'dunord@pole-emploi.fr', 'Dunord', 'Thierry', 'Conseiller pôle emploi', '');
+INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8173-40160958a33d', 'thierry.dunord', 'professional', NULL, NULL, '2021-08-23 07:59:48.689+00', NULL, 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, true, true);
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'c0b8aee3-c061-4023-b57e-92880627d589', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
+INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
 INSERT INTO public.notebook (id, beneficiary_id, creation_date, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, job, work_situation_date, contract_type, contract_sign_date, work_situation) VALUES ('9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', '2021-09-21 11:51:37.295647+00', 'rsa_droit_ouvert_et_suspendu', false, false, false, false, 'between_10_20', 'level_3', 'Aide à domicile (K1304)', '2021-09-22', 'cer', '2020-01-05', 'iae');
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, creation_date, linked_to) VALUES ('a55d1dd2-2b09-4456-bcc5-1412695f684f', 'logement', '["Chez un tiers"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:15:54.752334+00', 'cer');
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, creation_date, linked_to) VALUES ('19911b5c-e614-450d-bbeb-eba0d8ae1e18', 'difficulte_administrative', '["Accès au droit"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:26:42.939011+00', 'cer');
@@ -74,9 +79,9 @@ INSERT INTO public.notebook_member (id, notebook_id, professional_id, notebook_v
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, notebook_visit_date, member_type, notebook_modification_date, creation_date, creator_id, invitation_send_date) VALUES ('ea55bf8a-c0da-4c5f-b38c-66d57e3e18ba', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, '', NULL, '2021-09-21 12:33:10.281341+00', NULL, NULL);
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, notebook_visit_date, member_type, notebook_modification_date, creation_date, creator_id, invitation_send_date) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '2021-09-21 13:06:45.076+00', 'referent', NULL, '2021-09-21 11:51:37.295647+00', NULL, NULL);
 
--- 
--- Situations (diagnostics) 
--- 
+--
+-- Situations (diagnostics)
+--
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('dc5b03e6-14f4-4ded-9313-dcbbd6c7d88c', 'Sans hébergement', 'logement');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('1b770b5e-aa1a-4393-9a2e-d30dc4db4b80', 'CHRS', 'logement');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('4cd5ef49-8d0d-4a46-b6f1-21971ca5550f', 'Hôtel social', 'logement');
@@ -146,7 +151,7 @@ INSERT INTO public.ref_situation (id, description, theme) VALUES ('800be521-f2e4
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('652bbee9-f47b-44bf-ad4e-3762457c6157', 'Permis et voiture', 'mobilite');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('afd3e4b1-57c5-42ce-bbc0-264cc35f5ba5', 'Mobile à PLUS de 25 km', 'mobilite');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('91c1bb42-f9c7-47b9-a44e-6e187339ea5b', 'Mobile à MOINS de 25 km', 'mobilite');
-INSERT INTO public.ref_situation (id, description, theme) VALUES ('0e0177e1-510e-483e-b25e-5b35faeb309f', 'Permis mais pas de voiture', 'mobilite'); 
+INSERT INTO public.ref_situation (id, description, theme) VALUES ('0e0177e1-510e-483e-b25e-5b35faeb309f', 'Permis mais pas de voiture', 'mobilite');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('2f77a4ed-ed19-486e-b846-caee9c054a61', 'moyen de transport', 'mobilite');
 
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('e4a5e5f4-d881-446f-8806-8b49fde9b022', 'Couverture sociale', 'sante');
@@ -206,9 +211,9 @@ INSERT INTO public.ref_situation (id, description, theme) VALUES ('8bcdae49-c9c4
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('fd46b393-5ef5-4703-9d2e-c4c04ab2cc16', 'Moins de 26 ans ayant un manque d''expérience professionnelle et/ou de confiance en soi', 'formation');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('3c022046-4086-4ca7-8e6f-0c4a42c50bfd', 'Nécessité d''accèder à la formation comme préalable  pour accèder à l''emploi durable', 'formation');
 
--- 
--- Objectifs 
--- 
+--
+-- Objectifs
+--
 INSERT INTO public.ref_target (id, description, theme) VALUES ('ef8d2df3-9b04-435e-a26a-c532e17ae233', 'Recherche d''un logement', 'logement');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('fac56ab0-55b1-4829-af14-d3fcc0e44939', 'Se maintenir dans le logement suite à des impayés de loyers', 'logement');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('220d95af-5727-4476-b3d2-ecce2dabbd6a', 'Recherche de logement', 'logement');
@@ -225,7 +230,7 @@ INSERT INTO public.ref_target (id, description, theme) VALUES ('23f5446d-582e-43
 INSERT INTO public.ref_target (id, description, theme) VALUES ('6005f48b-a1e0-4474-85c2-25738f54de3a', 'Hébergement insablubre ou indécent (au sens du DALO)', 'logement');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('cd13f5da-881f-4ddd-8b17-93d73a09d8aa', 'Accéder ou se maintenir dans un logement', 'logement');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('c2c52c80-45c0-40f8-8c29-7d6f47eba386', 'S''informer sur les démarches liées au logement (budget, état des lieux …)', 'logement');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('18b16189-d02b-44c8-8de5-ed590d2169c2', 'Trouver une solution d''hébergement', 'logement'); 
+INSERT INTO public.ref_target (id, description, theme) VALUES ('18b16189-d02b-44c8-8de5-ed590d2169c2', 'Trouver une solution d''hébergement', 'logement');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('699c1469-1bad-446b-893c-938f26a16f2f', 'Accèder au logement social', 'logement');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('412f52cb-ede3-42f4-83bf-78aef4381a25', 'Mise en œuvre des préconisations du chargé de mission logement ou travailleur social', 'logement');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('a7df14a3-8892-4ab9-a3c9-aeff04560b27', 'Favoriser l''accès au logement ou la résorption d''un impayé', 'logement');
@@ -322,9 +327,9 @@ INSERT INTO public.ref_target (id, description, theme) VALUES ('1eb77933-bfc0-49
 INSERT INTO public.ref_target (id, description, theme) VALUES ('6dd45ae0-e4d5-4253-a7c8-d4d98e41d895', 'Acquérir et/ou développer  des compétences et de l''expérience au travers d''une intégration au sein d''un collectif et d''une mission spécifique confiée aux jeunes', 'formation');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('a6f61400-03e8-4bf0-aef8-b7e0b37eded2', 'Définition d''un parcours de formation personnalisé', 'formation');
 
--- 
+--
 -- Actions
--- 
+--
 INSERT INTO public.ref_action (id, description, theme) VALUES ('ada5be15-c4e5-4e71-889b-de4f1e22b838', 'Demande SIAO', 'logement');
 INSERT INTO public.ref_action (id, description, theme) VALUES ('d49bb66f-370d-4635-8001-cff8b5eaf78d', 'Demande de logement social', 'logement');
 INSERT INTO public.ref_action (id, description, theme) VALUES ('6b4f47f8-04aa-493d-accd-9ebdf2dbaa10', 'Demande DALO - Démarche de relogement suite à une problématique d''insalubrité', 'logement');
@@ -461,4 +466,3 @@ INSERT INTO public.ref_action (id, description, theme) VALUES ('0565f980-18cc-49
 INSERT INTO public.ref_action (id, description, theme) VALUES ('ab83da69-8f97-41d4-ab43-4446c09c08a5', 'Formation pré qualifiante', 'formation');
 INSERT INTO public.ref_action (id, description, theme) VALUES ('28bd809d-8982-4d83-9d43-99b7d92f8826', 'Linguistique : FLE', 'formation');
 INSERT INTO public.ref_action (id, description, theme) VALUES ('f074c50b-d5f5-4e4c-8c3d-02e70e7c3dad', 'Linguistique : Alphabétisation', 'formation');
-
