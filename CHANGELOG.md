@@ -1,3 +1,10 @@
+## [1.55.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.1...v1.55.2) (2021-11-04)
+
+
+### Bug Fixes
+
+* remove duplicate admin insert in seed ([46c8fd9](https://github.com/SocialGouv/carnet-de-bord/commit/46c8fd9587c7cf9f2f64be843def186cf14f0225))
+
 ## [1.55.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.0...v1.55.1) (2021-11-04)
 
 
