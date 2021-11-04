@@ -26,7 +26,7 @@
 <h1 class="fr-h2">
 	Déploiement <span class="text-france-blue-500">{deployment?.label ?? ''}</span>
 </h1>
-<p>Référent&nbs: {deployment?.managers.map((item) => displayFullName(item)).join(', ')}</p>
+<p>Référent&nbsp;: {deployment?.managers.map((item) => displayFullName(item)).join(', ')}</p>
 <div class="fr-container--fluid fr-my-6w">
 	<div class="fr-grid-row fr-grid-row--gutters">
 		<div class="fr-col-md-3 fr-m-2v fr-p-4v bg-gray-bg">

@@ -27,7 +27,7 @@
 </script>
 
 <svelte:head>
-	<title>Deploiement {deployment?.label ?? ''} - Carnet de bord</title>
+	<title>Déploiement {deployment?.label ?? ''} - Carnet de bord</title>
 </svelte:head>
 <LoaderIndicator result={getDeploymentStore}>
 	<AdminDeploymentDetail {deployment} {professional_aggregate} />
