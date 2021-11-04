@@ -35,6 +35,10 @@
 			situations: formData.situations,
 			linkedTo: formData.linkedTo,
 		});
+		close();
+	}
+
+	function close() {
 		openComponent.close();
 	}
 

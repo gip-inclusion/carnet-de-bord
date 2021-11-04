@@ -12,9 +12,10 @@ export const post: RequestHandler = async (request) => {
 
 	type Acc = {
 		id: string;
-		type: 'professional' | 'beneficiary' | 'admin';
+		type: 'professional' | 'beneficiary' | 'admin' | 'manager';
 		beneficiary_id: string;
 		professional_id: string;
+		manager_id: string;
 		admin_id: string;
 		confirmed: boolean;
 	};
@@ -29,12 +30,15 @@ export const post: RequestHandler = async (request) => {
 				'account.beneficiary_id as beneficiary_id',
 				'account.professional_id as professional_id',
 				'account.admin_id as admin_id',
+				'account.manager_id as manager_id',
 				'account.confirmed as confirmed',
 			])
 			.leftJoin('professional', 'professional.id', 'account.professional_id')
 			.leftJoin('admin', 'admin.id', 'account.admin_id')
+			.leftJoin('manager', 'manager.id', 'account.manager_id')
 			.where('admin.email', username)
 			.orWhere('professional.email', username)
+			.orWhere('manager.email', username)
 			.first()) as Acc;
 		if (!account) {
 			return {
@@ -55,7 +59,7 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const { id, type, beneficiary_id, professional_id, admin_id } = account;
+	const { id, type, beneficiary_id, professional_id, admin_id, manager_id } = account;
 
 	const accessKey = uuidv4();
 
@@ -65,7 +69,7 @@ export const post: RequestHandler = async (request) => {
 
 	const { email, firstname, lastname } = (await knex(`${type}`)
 		.where({
-			id: beneficiary_id || professional_id || admin_id,
+			id: beneficiary_id || professional_id || admin_id || manager_id,
 		})
 		.first()) as unknown as {
 		email: string;
