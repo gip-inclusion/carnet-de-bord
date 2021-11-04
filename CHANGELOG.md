@@ -1,3 +1,10 @@
+# [1.55.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.54.2...v1.55.0) (2021-11-04)
+
+
+### Features
+
+* add admin home ([#370](https://github.com/SocialGouv/carnet-de-bord/issues/370)) ([816628e](https://github.com/SocialGouv/carnet-de-bord/commit/816628ead1a5a9fc2dcf17e6c626478f34acc54c))
+
 ## [1.54.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.54.1...v1.54.2) (2021-10-27)
 
 
