@@ -1,3 +1,10 @@
+## [1.55.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.0...v1.55.1) (2021-11-04)
+
+
+### Bug Fixes
+
+* insert account after pro / manager/ admin ([#371](https://github.com/SocialGouv/carnet-de-bord/issues/371)) ([1bcca08](https://github.com/SocialGouv/carnet-de-bord/commit/1bcca086a96e00268c9a511ddda9727663593c24))
+
 # [1.55.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.54.2...v1.55.0) (2021-11-04)
 
 
