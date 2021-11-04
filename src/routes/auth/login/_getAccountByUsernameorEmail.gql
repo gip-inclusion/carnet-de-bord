@@ -1,0 +1,28 @@
+query GetAccountByUsername($login: String!) {
+	account(where: { username: { _eq: $login } }) {
+		id 
+		beneficiary {firstname, lastname, email}
+		professional {firstname, lastname, email}
+		admin {firstname, lastname, email}
+		manager {firstname, lastname, email}
+		confirmed
+	}
+}
+query GetAccountByEmail($login: citext!) {
+	account(
+		where: {
+			_or: [
+				{ admin: { email: { _eq: $login } } }
+				{ professional: { email: { _eq: $login } } }
+				{ manager: { email: { _eq: $login } } }
+			]
+		}
+	) {
+		id 
+		beneficiary {firstname, lastname, email}
+		professional {firstname, lastname, email}
+		admin {firstname, lastname, email}
+		manager {firstname, lastname, email}
+		confirmed
+	}
+}

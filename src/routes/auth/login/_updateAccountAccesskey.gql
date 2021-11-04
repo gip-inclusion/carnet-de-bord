@@ -1,0 +1,8 @@
+mutation UpdateAccountAccessKey($id: uuid!, $accessKey: String!, $accessKeyDate: timestamptz!) {
+	update_account_by_pk(
+		pk_columns: { id: $id }
+		_set: { accessKey: $accessKey, accessKeyDate: $accessKeyDate }
+	) {
+		accessKey
+	}
+}
