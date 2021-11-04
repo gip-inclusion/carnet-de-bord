@@ -1,23 +1,14 @@
 <script lang="ts" context="module">
-	import { homeForRole } from '$lib/routes';
+	import redirectUrl from '$lib/utils/redirectUrl';
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 
-	export async function load({ session }: LoadInput): Promise<LoadOutput> {
-		const { user } = session;
-
-		if (!user) {
+	export async function load({ page, session }: LoadInput): Promise<LoadOutput> {
+		const redirect = redirectUrl(page, session);
+		if (redirect) {
 			return {
 				status: 302,
-				redirect: '/login',
+				redirect,
 			};
 		}
-		const { role } = user;
-
-		const home = homeForRole(role);
-
-		return {
-			status: 302,
-			redirect: home,
-		};
 	}
 </script>

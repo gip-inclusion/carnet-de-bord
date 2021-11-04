@@ -7,6 +7,7 @@
 
 	counter++;
 	let uniqueId = `text-input-text-${counter}`;
+	export let name = uniqueId;
 	export let id: string | null = `text-input-${counter}`;
 	export let inputLabel: string | null = '';
 	export let additionalLabel: string | null = '';
@@ -52,7 +53,7 @@
 				class={`fr-input ${error ? 'fr-input--error' : ''} ${valid ? 'fr-input--valid' : ''}`}
 				placeholder={inputHint}
 				id={uniqueId}
-				name={uniqueId}
+				{name}
 				{required}
 				bind:value={val}
 				{disabled}
