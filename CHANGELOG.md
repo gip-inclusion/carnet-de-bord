@@ -1,3 +1,10 @@
+## [1.55.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.2...v1.55.3) (2021-11-05)
+
+
+### Bug Fixes
+
+* logout ui and verify token on handle / security ([#375](https://github.com/SocialGouv/carnet-de-bord/issues/375)) ([852f4a1](https://github.com/SocialGouv/carnet-de-bord/commit/852f4a1946221b409fdcd86c8254d00d56d6d81e))
+
 ## [1.55.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.1...v1.55.2) (2021-11-04)
 
 
