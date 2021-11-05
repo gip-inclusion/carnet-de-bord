@@ -1,0 +1,8 @@
+mutation insertProfessionalAccount($account: account_insert_input!) {
+	account: insert_account_one(object: $account) {
+		id
+		professional {
+			id
+		}
+	}
+}

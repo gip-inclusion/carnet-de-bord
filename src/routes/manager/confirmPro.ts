@@ -1,9 +1,26 @@
-import knex from '$lib/config/db/knex';
 import type { RequestHandler } from '@sveltejs/kit';
-import { v4 as uuidv4 } from 'uuid';
 import { sendEmail } from '$lib/utils/sendEmail';
 import { emailAccountRequestValidate } from '$lib/utils/emailAccountRequestValidate';
-import { getAppUrl } from '$lib/config/variables/private';
+import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { createClient } from '@urql/core';
+import { getGraphqlAPI } from '$lib/config/variables/public';
+import {
+	GetAccountByIdDocument,
+	GetAccountByIdQuery,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import { updateAccessKey } from '$lib/services/account';
+
+const client = createClient({
+	fetch,
+	fetchOptions: {
+		headers: {
+			'Content-Type': 'application/json',
+			'x-hasura-admin-secret': getHasuraAdminSecret(),
+		},
+	},
+	requestPolicy: 'network-only',
+	url: getGraphqlAPI(),
+});
 
 export const post: RequestHandler = async (request) => {
 	const { id } = request.body as unknown as {
@@ -12,12 +29,21 @@ export const post: RequestHandler = async (request) => {
 
 	const appUrl = getAppUrl();
 
-	const account = (await knex('account').where({ id }).first()) as {
-		id: string;
-		professional_id: string | null;
-	};
+	const { error, data } = await client
+		.query<GetAccountByIdQuery>(GetAccountByIdDocument, { id })
+		.toPromise();
 
-	if (!account) {
+	if (error) {
+		console.error('confirmPro', error);
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERROR',
+			},
+		};
+	}
+
+	if (!data.account) {
 		return {
 			status: 404,
 			body: {
@@ -26,24 +52,7 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	if (!account.professional_id) {
-		return {
-			status: 404,
-			body: {
-				errors: 'Not a professional account',
-			},
-		};
-	}
-
-	const existingPro = (await knex('professional')
-		.where({ id: account.professional_id })
-		.first()) as {
-		email: string;
-		firstname: string;
-		lastname: string;
-	};
-
-	if (!existingPro) {
+	if (!data.account.professional) {
 		return {
 			status: 404,
 			body: {
@@ -52,13 +61,19 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const { email, lastname, firstname } = existingPro;
+	const { email, lastname, firstname } = data.account.professional;
 
-	const accessKey = uuidv4();
-
-	await knex('account')
-		.update({ access_key: accessKey, access_key_date: new Date(), confirmed: true })
-		.where({ id });
+	const result = await updateAccessKey(client, id);
+	if (result.error) {
+		console.error('login', result.error);
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERRROR',
+			},
+		};
+	}
+	const accessKey = result.data.account.accessKey;
 
 	// send email
 	try {

@@ -1,27 +1,29 @@
 import { sendEmail } from '$lib/utils/sendEmail';
 import { emailLoginRequest } from '$lib/utils/emailLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
-import { v4 as uuidv4 } from 'uuid';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import createClient from '$lib/graphql/createClient';
+
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	GetAccountByEmailDocument,
 	GetAccountByEmailQuery,
 	GetAccountByUsernameDocument,
 	GetAccountByUsernameQuery,
-	UpdateAccountAccessKeyDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
+import { createClient } from '@urql/core';
+import { updateAccessKey } from '$lib/services/account';
 
-const client = createClient({ url: getGraphqlAPI() });
-client.requestPolicy = 'network-only';
-client.fetch = fetch;
-client.fetchOptions = {
-	headers: {
-		'Content-Type': 'application/json',
-		'x-hasura-admin-secret': getHasuraAdminSecret(),
+const client = createClient({
+	fetch,
+	fetchOptions: {
+		headers: {
+			'Content-Type': 'application/json',
+			'x-hasura-admin-secret': getHasuraAdminSecret(),
+		},
 	},
-};
+	requestPolicy: 'network-only',
+	url: getGraphqlAPI(),
+});
 
 export const post: RequestHandler = async (request) => {
 	const { username } = request.body as unknown as {
@@ -31,7 +33,7 @@ export const post: RequestHandler = async (request) => {
 	let account;
 
 	const usernameResult = await client
-		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, { login: username })
+		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, { comp: { _eq: username } })
 		.toPromise();
 
 	if (usernameResult.error) {
@@ -44,7 +46,16 @@ export const post: RequestHandler = async (request) => {
 	}
 	if (!usernameResult.data || usernameResult.data.account.length === 0) {
 		const emailResult = await client
-			.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, { login: username })
+			.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
+				criteria: {
+					_or: [
+						{ beneficiary: { email: { _eq: username } } },
+						{ professional: { email: { _eq: username } } },
+						{ manager: { email: { _eq: username } } },
+						{ admin: { email: { _eq: username } } },
+					],
+				},
+			})
 			.toPromise();
 		if (emailResult.error || !usernameResult.data || usernameResult.data.account.length === 0) {
 			return {
@@ -69,16 +80,17 @@ export const post: RequestHandler = async (request) => {
 	const { id, beneficiary, manager, admin, professional } = account;
 	const user = beneficiary || manager || admin || professional;
 
-	const accessKey = uuidv4();
-
-	await client
-		.mutation(UpdateAccountAccessKeyDocument, {
-			id,
-			accessKey: accessKey,
-			accessKeyDate: new Date(),
-		})
-		.toPromise();
-
+	const result = await updateAccessKey(client, id);
+	if (result.error) {
+		console.error('login', result.error);
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERRROR',
+			},
+		};
+	}
+	const accessKey = result.data.account.accessKey;
 	const { firstname, lastname, email } = user;
 
 	const appUrl = getAppUrl();

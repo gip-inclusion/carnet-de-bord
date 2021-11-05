@@ -1,6 +1,7 @@
-query GetAccountByUsername($login: String!) {
-	account(where: { username: { _eq: $login } }) {
-		id 
+query GetAccountByUsername($comp: String_comparison_exp!) {
+	account(where: { username: $comp }) {
+		id
+		username
 		beneficiary {firstname, lastname, email}
 		professional {firstname, lastname, email}
 		admin {firstname, lastname, email}
@@ -8,17 +9,12 @@ query GetAccountByUsername($login: String!) {
 		confirmed
 	}
 }
-query GetAccountByEmail($login: citext!) {
+query GetAccountByEmail($criteria: account_bool_exp!) {
 	account(
-		where: {
-			_or: [
-				{ admin: { email: { _eq: $login } } }
-				{ professional: { email: { _eq: $login } } }
-				{ manager: { email: { _eq: $login } } }
-			]
-		}
+		where: $criteria
 	) {
-		id 
+		id
+		username
 		beneficiary {firstname, lastname, email}
 		professional {firstname, lastname, email}
 		admin {firstname, lastname, email}
