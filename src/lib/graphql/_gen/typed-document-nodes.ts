@@ -353,7 +353,7 @@ export type Admin = {
 	accounts: Array<Account>;
 	/** An aggregate relationship */
 	accounts_aggregate: AccountAggregate;
-	email: Scalars['String'];
+	email: Scalars['citext'];
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
@@ -404,7 +404,7 @@ export type AdminBoolExp = {
 	_not?: Maybe<AdminBoolExp>;
 	_or?: Maybe<Array<AdminBoolExp>>;
 	accounts?: Maybe<AccountBoolExp>;
-	email?: Maybe<StringComparisonExp>;
+	email?: Maybe<CitextComparisonExp>;
 	firstname?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	lastname?: Maybe<StringComparisonExp>;
@@ -421,7 +421,7 @@ export enum AdminConstraint {
 /** input type for inserting data into table "admin" */
 export type AdminInsertInput = {
 	accounts?: Maybe<AccountArrRelInsertInput>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -430,7 +430,7 @@ export type AdminInsertInput = {
 /** aggregate max on columns */
 export type AdminMaxFields = {
 	__typename?: 'admin_max_fields';
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -439,7 +439,7 @@ export type AdminMaxFields = {
 /** aggregate min on columns */
 export type AdminMinFields = {
 	__typename?: 'admin_min_fields';
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -496,7 +496,7 @@ export enum AdminSelectColumn {
 
 /** input type for updating data in table "admin" */
 export type AdminSetInput = {
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -529,7 +529,7 @@ export type Beneficiary = {
 	/** An object relationship */
 	deployment?: Maybe<Deployment>;
 	deploymentId?: Maybe<Scalars['uuid']>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
@@ -606,7 +606,7 @@ export type BeneficiaryBoolExp = {
 	dateOfBirth?: Maybe<DateComparisonExp>;
 	deployment?: Maybe<DeploymentBoolExp>;
 	deploymentId?: Maybe<UuidComparisonExp>;
-	email?: Maybe<StringComparisonExp>;
+	email?: Maybe<CitextComparisonExp>;
 	firstname?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	lastname?: Maybe<StringComparisonExp>;
@@ -634,7 +634,7 @@ export type BeneficiaryInsertInput = {
 	dateOfBirth?: Maybe<Scalars['date']>;
 	deployment?: Maybe<DeploymentObjRelInsertInput>;
 	deploymentId?: Maybe<Scalars['uuid']>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -653,7 +653,7 @@ export type BeneficiaryMaxFields = {
 	city?: Maybe<Scalars['String']>;
 	dateOfBirth?: Maybe<Scalars['date']>;
 	deploymentId?: Maybe<Scalars['uuid']>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -688,7 +688,7 @@ export type BeneficiaryMinFields = {
 	city?: Maybe<Scalars['String']>;
 	dateOfBirth?: Maybe<Scalars['date']>;
 	deploymentId?: Maybe<Scalars['uuid']>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -800,7 +800,7 @@ export type BeneficiarySetInput = {
 	city?: Maybe<Scalars['String']>;
 	dateOfBirth?: Maybe<Scalars['date']>;
 	deploymentId?: Maybe<Scalars['uuid']>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -1273,6 +1273,8 @@ export type ManagerBoolExp = {
 
 /** unique or primary key constraints on table "manager" */
 export enum ManagerConstraint {
+	/** unique or primary key constraint */
+	ManagerEmailKey = 'manager_email_key',
 	/** unique or primary key constraint */
 	ManagerPkey = 'manager_pkey',
 }
@@ -3683,7 +3685,7 @@ export type Professional = {
 	accounts: Array<Account>;
 	/** An aggregate relationship */
 	accounts_aggregate: AccountAggregate;
-	email: Scalars['String'];
+	email: Scalars['citext'];
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
@@ -3775,7 +3777,7 @@ export type ProfessionalBoolExp = {
 	_not?: Maybe<ProfessionalBoolExp>;
 	_or?: Maybe<Array<ProfessionalBoolExp>>;
 	accounts?: Maybe<AccountBoolExp>;
-	email?: Maybe<StringComparisonExp>;
+	email?: Maybe<CitextComparisonExp>;
 	firstname?: Maybe<StringComparisonExp>;
 	id?: Maybe<UuidComparisonExp>;
 	lastname?: Maybe<StringComparisonExp>;
@@ -3797,7 +3799,7 @@ export enum ProfessionalConstraint {
 /** input type for inserting data into table "professional" */
 export type ProfessionalInsertInput = {
 	accounts?: Maybe<AccountArrRelInsertInput>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -3811,7 +3813,7 @@ export type ProfessionalInsertInput = {
 /** aggregate max on columns */
 export type ProfessionalMaxFields = {
 	__typename?: 'professional_max_fields';
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -3834,7 +3836,7 @@ export type ProfessionalMaxOrderBy = {
 /** aggregate min on columns */
 export type ProfessionalMinFields = {
 	__typename?: 'professional_min_fields';
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -3916,7 +3918,7 @@ export enum ProfessionalSelectColumn {
 
 /** input type for updating data in table "professional" */
 export type ProfessionalSetInput = {
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
@@ -5752,7 +5754,7 @@ export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
 	lastname?: Maybe<Scalars['String']>;
 	dateOfBirth?: Maybe<Scalars['date']>;
 	mobileNumber?: Maybe<Scalars['String']>;
-	email?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
@@ -5821,7 +5823,7 @@ export type GetAccountByPkQuery = {
 			id: string;
 			firstname: string;
 			lastname: string;
-			email?: Maybe<string>;
+			email?: Maybe<any>;
 			mobileNumber?: Maybe<string>;
 			dateOfBirth: string;
 		}>;
@@ -5831,7 +5833,7 @@ export type GetAccountByPkQuery = {
 			firstname: string;
 			lastname: string;
 			mobileNumber?: Maybe<string>;
-			email: string;
+			email: any;
 			position?: Maybe<string>;
 			structure: {
 				__typename?: 'structure';
@@ -5878,6 +5880,73 @@ export type ResetAccountAccessKeyMutation = {
 	update_account_by_pk?: Maybe<{ __typename?: 'account'; lastLogin?: Maybe<any> }>;
 };
 
+export type GetAccountByUsernameQueryVariables = Exact<{
+	comp: StringComparisonExp;
+}>;
+
+export type GetAccountByUsernameQuery = {
+	__typename?: 'query_root';
+	account: Array<{
+		__typename?: 'account';
+		id: string;
+		username: string;
+		confirmed: boolean;
+		beneficiary?: Maybe<{
+			__typename?: 'beneficiary';
+			firstname: string;
+			lastname: string;
+			email?: Maybe<any>;
+		}>;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: any;
+		}>;
+		admin?: Maybe<{ __typename?: 'admin'; firstname: string; lastname: string; email: any }>;
+		manager?: Maybe<{ __typename?: 'manager'; firstname: string; lastname: string; email: any }>;
+	}>;
+};
+
+export type GetAccountByEmailQueryVariables = Exact<{
+	criteria: AccountBoolExp;
+}>;
+
+export type GetAccountByEmailQuery = {
+	__typename?: 'query_root';
+	account: Array<{
+		__typename?: 'account';
+		id: string;
+		username: string;
+		confirmed: boolean;
+		beneficiary?: Maybe<{
+			__typename?: 'beneficiary';
+			firstname: string;
+			lastname: string;
+			email?: Maybe<any>;
+		}>;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: any;
+		}>;
+		admin?: Maybe<{ __typename?: 'admin'; firstname: string; lastname: string; email: any }>;
+		manager?: Maybe<{ __typename?: 'manager'; firstname: string; lastname: string; email: any }>;
+	}>;
+};
+
+export type UpdateAccountAccessKeyMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	accessKey: Scalars['String'];
+	accessKeyDate: Scalars['timestamptz'];
+}>;
+
+export type UpdateAccountAccessKeyMutation = {
+	__typename?: 'mutation_root';
+	account?: Maybe<{ __typename?: 'account'; accessKey?: Maybe<string> }>;
+};
+
 export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetStructuresQuery = {
@@ -5894,6 +5963,38 @@ export type GetStructuresQuery = {
 		city?: Maybe<string>;
 		address1?: Maybe<string>;
 		address2?: Maybe<string>;
+	}>;
+};
+
+export type InsertProfessionalAccountMutationVariables = Exact<{
+	account: AccountInsertInput;
+}>;
+
+export type InsertProfessionalAccountMutation = {
+	__typename?: 'mutation_root';
+	account?: Maybe<{
+		__typename?: 'account';
+		id: string;
+		professional?: Maybe<{ __typename?: 'professional'; id: string }>;
+	}>;
+};
+
+export type GetAccountByIdQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetAccountByIdQuery = {
+	__typename?: 'query_root';
+	account?: Maybe<{
+		__typename?: 'account';
+		id: string;
+		confirmed: boolean;
+		professional?: Maybe<{
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: any;
+		}>;
 	}>;
 };
 
@@ -5992,7 +6093,7 @@ export type GetAccountsSummaryQuery = {
 			lastname: string;
 			position?: Maybe<string>;
 			mobileNumber?: Maybe<string>;
-			email: string;
+			email: any;
 			structure: { __typename?: 'structure'; id: string; name?: Maybe<string> };
 		}>;
 	}>;
@@ -6015,7 +6116,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
 			dateOfBirth: string;
-			email?: Maybe<string>;
+			email?: Maybe<any>;
 			firstname: string;
 			id: string;
 			lastname: string;
@@ -6035,7 +6136,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				lastname: string;
 				firstname: string;
 				position?: Maybe<string>;
-				email: string;
+				email: any;
 				mobileNumber?: Maybe<string>;
 				structure: {
 					__typename?: 'structure';
@@ -6094,7 +6195,7 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	lastname: Scalars['String'];
 	dateOfBirth: Scalars['date'];
 	mobileNumber?: Maybe<Scalars['String']>;
-	email: Scalars['String'];
+	email: Scalars['citext'];
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
@@ -6136,16 +6237,30 @@ export type SearchNotebookMemberQuery = {
 	}>;
 };
 
-export type UpdateNotebookVisitDateMutationVariables = Exact<{
+export type GetNotebookMemberByIdQueryVariables = Exact<{
 	id: Scalars['uuid'];
-	date: Scalars['timestamptz'];
 }>;
 
-export type UpdateNotebookVisitDateMutation = {
-	__typename?: 'mutation_root';
-	update_notebook_member?: Maybe<{
-		__typename?: 'notebook_member_mutation_response';
-		returning: Array<{ __typename?: 'notebook_member'; id: string }>;
+export type GetNotebookMemberByIdQuery = {
+	__typename?: 'query_root';
+	member?: Maybe<{
+		__typename?: 'notebook_member';
+		notebookId: string;
+		creator?: Maybe<{
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: any;
+			id: string;
+		}>;
+		professional: {
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: any;
+			id: string;
+			accounts: Array<{ __typename?: 'account'; id: string; confirmed: boolean }>;
+		};
 	}>;
 };
 
@@ -6179,7 +6294,7 @@ export type GetNotebookQuery = {
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
 			dateOfBirth: string;
-			email?: Maybe<string>;
+			email?: Maybe<any>;
 			firstname: string;
 			id: string;
 			lastname: string;
@@ -6207,7 +6322,7 @@ export type GetNotebookQuery = {
 				lastname: string;
 				firstname: string;
 				position?: Maybe<string>;
-				email: string;
+				email: any;
 				mobileNumber?: Maybe<string>;
 				structure: {
 					__typename?: 'structure';
@@ -6273,6 +6388,19 @@ export type EventFieldsFragment = {
 	};
 };
 
+export type UpdateNotebookVisitDateMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	date: Scalars['timestamptz'];
+}>;
+
+export type UpdateNotebookVisitDateMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?: Maybe<{
+		__typename?: 'notebook_member_mutation_response';
+		returning: Array<{ __typename?: 'notebook_member'; id: string }>;
+	}>;
+};
+
 export type UpdateProfessionalProfileMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
@@ -6301,7 +6429,7 @@ export type UpdateProfessionalProfileMutation = {
 				firstname: string;
 				lastname: string;
 				mobileNumber?: Maybe<string>;
-				email: string;
+				email: any;
 				position?: Maybe<string>;
 			}>;
 		}>;
@@ -7868,7 +7996,7 @@ export const UpdateBeneficiaryPersonalInfoDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
 				},
 				{
 					kind: 'VariableDefinition',
@@ -8564,6 +8692,292 @@ export const ResetAccountAccessKeyDocument = {
 		},
 	],
 } as unknown as DocumentNode<ResetAccountAccessKeyMutation, ResetAccountAccessKeyMutationVariables>;
+export const GetAccountByUsernameDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountByUsername' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'comp' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String_comparison_exp' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'username' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'comp' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'admin' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetAccountByUsernameQuery, GetAccountByUsernameQueryVariables>;
+export const GetAccountByEmailDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountByEmail' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'criteria' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'account_bool_exp' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'criteria' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'admin' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>;
+export const UpdateAccountAccessKeyDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateAccountAccessKey' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'account' },
+						name: { kind: 'Name', value: 'update_account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKey' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKeyDate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: { kind: 'BooleanValue', value: true },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'accessKey' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateAccountAccessKeyMutation,
+	UpdateAccountAccessKeyMutationVariables
+>;
 export const GetStructuresDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8598,6 +9012,116 @@ export const GetStructuresDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
+export const InsertProfessionalAccountDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'insertProfessionalAccount' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'account' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'account_insert_input' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'account' },
+						name: { kind: 'Name', value: 'insert_account_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'account' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	InsertProfessionalAccountMutation,
+	InsertProfessionalAccountMutationVariables
+>;
+export const GetAccountByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'account' },
+						name: { kind: 'Name', value: 'account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetAccountByIdQuery, GetAccountByIdQueryVariables>;
 export const InsertStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -9409,7 +9933,7 @@ export const CreateBeneficiaryDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
 					},
 				},
 				{
@@ -9883,13 +10407,13 @@ export const SearchNotebookMemberDocument = {
 		},
 	],
 } as unknown as DocumentNode<SearchNotebookMemberQuery, SearchNotebookMemberQueryVariables>;
-export const UpdateNotebookVisitDateDocument = {
+export const GetNotebookMemberByIdDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateNotebookVisitDate' },
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookMemberById' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -9899,78 +10423,60 @@ export const UpdateNotebookVisitDateDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
-					},
-				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_member' },
+						alias: { kind: 'Name', value: 'member' },
+						name: { kind: 'Name', value: 'notebook_member_by_pk' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'id' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookVisitDate' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-										},
-									],
-								},
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'returning' },
+									name: { kind: 'Name', value: 'creator' },
 									selectionSet: {
 										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'accounts' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+													],
+												},
+											},
+										],
 									},
 								},
 							],
@@ -9980,10 +10486,7 @@ export const UpdateNotebookVisitDateDocument = {
 			},
 		},
 	],
-} as unknown as DocumentNode<
-	UpdateNotebookVisitDateMutation,
-	UpdateNotebookVisitDateMutationVariables
->;
+} as unknown as DocumentNode<GetNotebookMemberByIdQuery, GetNotebookMemberByIdQueryVariables>;
 export const GetNotebookDocument = {
 	kind: 'Document',
 	definitions: [
@@ -10340,6 +10843,107 @@ export const GetNotebookEventsDocument = {
 		...EventFieldsFragmentDoc.definitions,
 	],
 } as unknown as DocumentNode<GetNotebookEventsQuery, GetNotebookEventsQueryVariables>;
+export const UpdateNotebookVisitDateDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateNotebookVisitDate' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'id' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookVisitDate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateNotebookVisitDateMutation,
+	UpdateNotebookVisitDateMutationVariables
+>;
 export const UpdateProfessionalProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -10639,9 +11243,29 @@ export type ResetAccountAccessKeyMutationStore = OperationStore<
 	ResetAccountAccessKeyMutation,
 	ResetAccountAccessKeyMutationVariables
 >;
+export type GetAccountByUsernameQueryStore = OperationStore<
+	GetAccountByUsernameQuery,
+	GetAccountByUsernameQueryVariables
+>;
+export type GetAccountByEmailQueryStore = OperationStore<
+	GetAccountByEmailQuery,
+	GetAccountByEmailQueryVariables
+>;
+export type UpdateAccountAccessKeyMutationStore = OperationStore<
+	UpdateAccountAccessKeyMutation,
+	UpdateAccountAccessKeyMutationVariables
+>;
 export type GetStructuresQueryStore = OperationStore<
 	GetStructuresQuery,
 	GetStructuresQueryVariables
+>;
+export type InsertProfessionalAccountMutationStore = OperationStore<
+	InsertProfessionalAccountMutation,
+	InsertProfessionalAccountMutationVariables
+>;
+export type GetAccountByIdQueryStore = OperationStore<
+	GetAccountByIdQuery,
+	GetAccountByIdQueryVariables
 >;
 export type InsertStructureMutationStore = OperationStore<
 	InsertStructureMutation,
@@ -10671,14 +11295,18 @@ export type SearchNotebookMemberQueryStore = OperationStore<
 	SearchNotebookMemberQuery,
 	SearchNotebookMemberQueryVariables
 >;
-export type UpdateNotebookVisitDateMutationStore = OperationStore<
-	UpdateNotebookVisitDateMutation,
-	UpdateNotebookVisitDateMutationVariables
+export type GetNotebookMemberByIdQueryStore = OperationStore<
+	GetNotebookMemberByIdQuery,
+	GetNotebookMemberByIdQueryVariables
 >;
 export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type GetNotebookEventsQueryStore = OperationStore<
 	GetNotebookEventsQuery,
 	GetNotebookEventsQueryVariables
+>;
+export type UpdateNotebookVisitDateMutationStore = OperationStore<
+	UpdateNotebookVisitDateMutation,
+	UpdateNotebookVisitDateMutationVariables
 >;
 export type UpdateProfessionalProfileMutationStore = OperationStore<
 	UpdateProfessionalProfileMutation,

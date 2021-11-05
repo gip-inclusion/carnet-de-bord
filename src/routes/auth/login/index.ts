@@ -1,46 +1,63 @@
-import knex from '$lib/config/db/knex';
 import { sendEmail } from '$lib/utils/sendEmail';
 import { emailLoginRequest } from '$lib/utils/emailLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
-import { v4 as uuidv4 } from 'uuid';
-import { getAppUrl } from '$lib/config/variables/private';
+import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+
+import { getGraphqlAPI } from '$lib/config/variables/public';
+import {
+	GetAccountByEmailDocument,
+	GetAccountByEmailQuery,
+	GetAccountByUsernameDocument,
+	GetAccountByUsernameQuery,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import { createClient } from '@urql/core';
+import { updateAccessKey } from '$lib/services/account';
+
+const client = createClient({
+	fetch,
+	fetchOptions: {
+		headers: {
+			'Content-Type': 'application/json',
+			'x-hasura-admin-secret': getHasuraAdminSecret(),
+		},
+	},
+	requestPolicy: 'network-only',
+	url: getGraphqlAPI(),
+});
 
 export const post: RequestHandler = async (request) => {
 	const { username } = request.body as unknown as {
 		username: string;
 	};
 
-	type Acc = {
-		id: string;
-		type: 'professional' | 'beneficiary' | 'admin' | 'manager';
-		beneficiary_id: string;
-		professional_id: string;
-		manager_id: string;
-		admin_id: string;
-		confirmed: boolean;
-	};
+	let account;
 
-	let account = (await knex('account').where({ username }).first()) as Acc;
+	const usernameResult = await client
+		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, { comp: { _eq: username } })
+		.toPromise();
 
-	if (!account) {
-		account = (await knex('account')
-			.select([
-				'account.id as id',
-				'account.type as type',
-				'account.beneficiary_id as beneficiary_id',
-				'account.professional_id as professional_id',
-				'account.admin_id as admin_id',
-				'account.manager_id as manager_id',
-				'account.confirmed as confirmed',
-			])
-			.leftJoin('professional', 'professional.id', 'account.professional_id')
-			.leftJoin('admin', 'admin.id', 'account.admin_id')
-			.leftJoin('manager', 'manager.id', 'account.manager_id')
-			.where('admin.email', username)
-			.orWhere('professional.email', username)
-			.orWhere('manager.email', username)
-			.first()) as Acc;
-		if (!account) {
+	if (usernameResult.error) {
+		return {
+			status: 401,
+			body: {
+				errors: 'USER_NOT_FOUND',
+			},
+		};
+	}
+	if (!usernameResult.data || usernameResult.data.account.length === 0) {
+		const emailResult = await client
+			.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
+				criteria: {
+					_or: [
+						{ beneficiary: { email: { _eq: username } } },
+						{ professional: { email: { _eq: username } } },
+						{ manager: { email: { _eq: username } } },
+						{ admin: { email: { _eq: username } } },
+					],
+				},
+			})
+			.toPromise();
+		if (emailResult.error || !usernameResult.data || usernameResult.data.account.length === 0) {
 			return {
 				status: 401,
 				body: {
@@ -48,8 +65,10 @@ export const post: RequestHandler = async (request) => {
 				},
 			};
 		}
+		account = emailResult.data.account[0];
+	} else {
+		account = usernameResult.data.account[0];
 	}
-
 	if (!account.confirmed) {
 		return {
 			status: 403,
@@ -58,24 +77,21 @@ export const post: RequestHandler = async (request) => {
 			},
 		};
 	}
+	const { id, beneficiary, manager, admin, professional } = account;
+	const user = beneficiary || manager || admin || professional;
 
-	const { id, type, beneficiary_id, professional_id, admin_id, manager_id } = account;
-
-	const accessKey = uuidv4();
-
-	await knex('account')
-		.update({ access_key: accessKey, access_key_date: new Date() })
-		.where({ id });
-
-	const { email, firstname, lastname } = (await knex(`${type}`)
-		.where({
-			id: beneficiary_id || professional_id || admin_id || manager_id,
-		})
-		.first()) as unknown as {
-		email: string;
-		firstname: string;
-		lastname: string;
-	};
+	const result = await updateAccessKey(client, id);
+	if (result.error) {
+		console.error('login', result.error);
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERRROR',
+			},
+		};
+	}
+	const accessKey = result.data.account.accessKey;
+	const { firstname, lastname, email } = user;
 
 	const appUrl = getAppUrl();
 

@@ -3,7 +3,7 @@ mutation CreateBeneficiary(
 	$lastname: String!
 	$dateOfBirth: date!
 	$mobileNumber: String
-	$email: String!
+	$email: citext!
 	$address1: String
 	$address2: String
 	$postalCode: String

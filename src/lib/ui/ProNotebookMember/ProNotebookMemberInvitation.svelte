@@ -23,7 +23,6 @@
 
 	let search: string | null;
 	let selectedProfessionalId: string | null;
-	export let newMember: { id: string } | null = null;
 
 	const onChange: SvelteEventHandler<HTMLInputElement> = function (event) {
 		selectedProfessionalId = event.currentTarget.value;
@@ -61,9 +60,9 @@
 			notebookId: notebookId,
 			creatorId: $session.user.professionalId,
 		});
-		newMember = store.data.newMember;
+		const { id: notebookMemberId } = store.data.newMember;
 		//send email
-		post('/pro/carnet/invitation', { notebookMemberId: newMember.id });
+		post('/pro/carnet/invitation', { notebookMemberId });
 		openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: true } });
 	}
 

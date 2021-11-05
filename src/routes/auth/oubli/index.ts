@@ -1,55 +1,46 @@
-import knex from '$lib/config/db/knex';
 import { sendEmail } from '$lib/utils/sendEmail';
 import { emailForgotLoginRequest } from '$lib/utils/emailForgotLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
-import { v4 as uuidv4 } from 'uuid';
-import { getAppUrl } from '$lib/config/variables/private';
+import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { createClient } from '@urql/core';
+import { getGraphqlAPI } from '$lib/config/variables/public';
+import {
+	GetAccountByEmailDocument,
+	GetAccountByEmailQuery,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import { updateAccessKey } from '$lib/services/account';
 
-const types = ['professional', 'beneficiary', 'admin'] as const;
-
-export type Profile = typeof types[number];
+const client = createClient({
+	fetch,
+	fetchOptions: {
+		headers: {
+			'Content-Type': 'application/json',
+			'x-hasura-admin-secret': getHasuraAdminSecret(),
+		},
+	},
+	requestPolicy: 'network-only',
+	url: getGraphqlAPI(),
+});
 
 export const post: RequestHandler = async (request) => {
 	const { email } = request.body as unknown as {
 		email: string;
 	};
 
-	let profile, type;
-
-	for (const type_ of types) {
-		if (!profile) {
-			profile = (await knex(`${type_}`).where({ email }).first()) as unknown as {
-				id: string;
-				firstname: string;
-				lastname: string;
-			};
-			type = type_;
-		}
-	}
-
-	if (!profile) {
-		return {
-			status: 401,
-			body: {
-				errors: 'PROFILE_NOT_FOUND',
+	const { error, data } = await client
+		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
+			criteria: {
+				_or: [
+					{ beneficiary: { email: { _eq: email } } },
+					{ professional: { email: { _eq: email } } },
+					{ manager: { email: { _eq: email } } },
+					{ admin: { email: { _eq: email } } },
+				],
 			},
-		};
-	}
+		})
+		.toPromise();
 
-	const { firstname, lastname, id } = profile;
-
-	const account = (await knex('account')
-		.where({ [`${type}_id`]: id })
-		.first()) as unknown as {
-		id: string;
-		username: string;
-		type: Profile;
-		beneficiary_id: string;
-		professional_id: string;
-		admin_id: string;
-	};
-
-	if (!account) {
+	if (error || !data || data.account.length === 0) {
 		return {
 			status: 401,
 			body: {
@@ -57,12 +48,20 @@ export const post: RequestHandler = async (request) => {
 			},
 		};
 	}
-
-	const accessKey = uuidv4();
-
-	await knex('account')
-		.update({ access_key: accessKey, access_key_date: new Date() })
-		.where({ id: account.id });
+	const { id, username, beneficiary, manager, admin, professional } = data.account[0];
+	const user = beneficiary || manager || admin || professional;
+	const { firstname, lastname } = user;
+	const result = await updateAccessKey(client, id);
+	if (result.error) {
+		console.error('login', result.error);
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERRROR',
+			},
+		};
+	}
+	const accessKey = result.data.account.accessKey;
 
 	const appUrl = getAppUrl();
 
@@ -72,7 +71,7 @@ export const post: RequestHandler = async (request) => {
 			to: email,
 			subject: 'Accédez à votre espace Carnet de bord',
 			html: emailForgotLoginRequest({
-				username: account.username,
+				username: username,
 				firstname,
 				lastname,
 				accessKey,

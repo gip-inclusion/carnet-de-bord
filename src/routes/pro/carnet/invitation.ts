@@ -1,74 +1,83 @@
-import knex from '$lib/config/db/knex';
 import type { RequestHandler } from '@sveltejs/kit';
-import { v4 as uuidv4 } from 'uuid';
-import { getAppUrl } from '$lib/config/variables/private';
+import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { sendEmail } from '$lib/utils/sendEmail';
 import { emailNotebookInvitation } from '$lib/utils/emailNotebookInvitation';
+import { createClient } from '@urql/core';
+import { getGraphqlAPI } from '$lib/config/variables/public';
+import {
+	GetNotebookMemberByIdDocument,
+	GetNotebookMemberByIdQuery,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import { updateAccessKey } from '$lib/services/account';
+
+const client = createClient({
+	fetch,
+	fetchOptions: {
+		headers: {
+			'Content-Type': 'application/json',
+			'x-hasura-admin-secret': getHasuraAdminSecret(),
+		},
+	},
+	requestPolicy: 'network-only',
+	url: getGraphqlAPI(),
+});
 
 export const post: RequestHandler = async (request) => {
 	const { notebookMemberId } = request.body as unknown as {
 		notebookMemberId: string;
 	};
 
-	const notebookMember = (await knex('notebook_member')
-		.where({ id: notebookMemberId })
-		.first()) as {
-		id: string;
-		creator_id: string;
-		professional_id: string;
-		notebook_id: string;
-	};
+	const { data, error } = await client
+		.query<GetNotebookMemberByIdQuery>(GetNotebookMemberByIdDocument, { id: notebookMemberId })
+		.toPromise();
 
-	const {
-		notebook_id: notebookId,
-		professional_id: professionalId,
-		creator_id: creatorId,
-	} = notebookMember;
+	if (error || !data) {
+		return {
+			status: 401,
+			body: {
+				errors: 'NOTEBOOK_MEMBER_NOT_FOUND',
+			},
+		};
+	}
+	const { notebookId, creator, professional } = data.member;
 
-	const professional = await knex('professional').where({ id: professionalId }).first();
-	const creator = await knex('professional').where({ id: creatorId }).first();
-
-	const account = (await knex('account').where({ professional_id: professionalId }).first()) as {
-		id: string;
-		type: string;
-		username: string;
-		professional_id: string;
-		beneficiary_id: string;
-		confirmed: boolean;
-	};
-
-	if (!account.confirmed) {
+	/**
+	 * If professional account is not confirmed, we don't send invitation
+	 */
+	if (professional.accounts.length > 0 && !professional.accounts[0].confirmed) {
 		return {
 			status: 200,
 			body: {},
 		};
 	}
-
-	const accessKey = uuidv4();
-
-	await knex('account')
-		.update({ access_key: accessKey, access_key_date: new Date() })
-		.where({ id: account.id });
+	const result = await updateAccessKey(client, professional.accounts[0].id);
+	if (result.error) {
+		console.error('login', result.error);
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERRROR',
+			},
+		};
+	}
+	const accessKey = result.data.account.accessKey;
 
 	const appUrl = getAppUrl();
-
-	const { firstname: creatorFirstname, lastname: creatorLastname } = creator;
-	const { firstname, lastname, email } = professional;
 
 	// send email
 
 	try {
 		await sendEmail({
-			to: email,
+			to: professional.email,
 			subject: 'Invitation à rejoindre un carnet de bord',
 			html: emailNotebookInvitation({
-				creatorFirstname,
-				creatorLastname,
-				firstname,
-				lastname,
+				creatorFirstname: creator.firstname,
+				creatorLastname: creator.lastname,
+				firstname: professional.firstname,
+				lastname: professional.firstname,
 				accessKey,
 				appUrl,
-				notebookId,
+				notebookId: notebookId,
 			}),
 		});
 	} catch (e) {
@@ -78,7 +87,7 @@ export const post: RequestHandler = async (request) => {
 	return {
 		status: 200,
 		body: {
-			email,
+			email: professional.email,
 		},
 	};
 };
