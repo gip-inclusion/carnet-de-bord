@@ -34,7 +34,7 @@
 				accessKey,
 			}),
 		});
-		if (response.status === 200) {
+		if (response.ok) {
 			const { jwt } = await response.json();
 			const user = jwtDecode(jwt);
 			$session.user = user;
