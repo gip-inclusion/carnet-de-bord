@@ -1,6 +1,8 @@
 import cookie from 'cookie';
-import jwtDecode from 'jwt-decode';
+// jsonwebtoken is cjs module and has no  verify named export
+import jwt from 'jsonwebtoken';
 import type { RequestHandler } from '@sveltejs/kit';
+import { getJwtKey } from '$lib/config/variables/private';
 
 export const authorizeOnly =
 	(roles: string[]) =>
@@ -9,7 +11,10 @@ export const authorizeOnly =
 		if (!cookies.jwt) {
 			throw Error('Unauthorized access');
 		}
-		const user = jwtDecode(cookies.jwt) as { role?: string } | null;
+		const { key, type } = getJwtKey();
+		const user = jwt.verify(cookies.jwt, key, { algorithms: [type] }) as {
+			role?: string;
+		} | null;
 		if (!user || !user.role || !roles.includes(user.role)) {
 			throw Error('Unauthorized access');
 		}

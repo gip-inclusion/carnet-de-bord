@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
+import type { Algorithm } from 'jsonwebtoken';
 
 config();
 
@@ -41,7 +42,7 @@ export function getSmtpConfig(): {
 
 export function getJwtKey(): {
 	key: string;
-	type: string;
+	type: Algorithm;
 } {
 	const hasuraJwtSecret = process.env['HASURA_GRAPHQL_JWT_SECRET'];
 	let jwtSecret;
