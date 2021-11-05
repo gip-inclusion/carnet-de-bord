@@ -65,6 +65,24 @@ insert_permissions:
 select_permissions:
 - permission:
     columns:
+    - id
+    - siret
+    - name
+    - short_desc
+    - phone
+    - email
+    - postal_code
+    - city
+    - address1
+    - address2
+    - creation_date
+    - modification_date
+    - website
+    - deployment_id
+    filter: {}
+  role: anonymous
+- permission:
+    columns:
     - address1
     - address2
     - city
