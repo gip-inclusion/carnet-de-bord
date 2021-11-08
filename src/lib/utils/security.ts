@@ -2,7 +2,7 @@ import cookie from 'cookie';
 // jsonwebtoken is cjs module and has no  verify named export
 import jwt from 'jsonwebtoken';
 import type { RequestHandler } from '@sveltejs/kit';
-import { getJwtKey } from '$lib/config/variables/private';
+import { getActionSecret, getJwtKey } from '$lib/config/variables/private';
 
 export const authorizeOnly =
 	(roles: string[]) =>
@@ -19,3 +19,12 @@ export const authorizeOnly =
 			throw Error('Unauthorized access');
 		}
 	};
+
+export const actionsGuard = (headers: Record<string, string>): void => {
+	const actionSecret = getActionSecret();
+	console.log({ actionSecret });
+	console.log(headers);
+	if (actionSecret !== headers.secret_token) {
+		throw Error('ACTION_SECRET header not match');
+	}
+};

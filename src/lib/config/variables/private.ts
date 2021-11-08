@@ -57,3 +57,7 @@ export function getJwtKey(): {
 export function getHasuraAdminSecret(): string {
 	return process.env['HASURA_GRAPHQL_ADMIN_SECRET'];
 }
+
+export function getActionSecret(): string {
+	return process.env['ACTION_SECRET'];
+}

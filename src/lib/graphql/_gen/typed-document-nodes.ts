@@ -31,6 +31,17 @@ export type BooleanComparisonExp = {
 	_nin?: Maybe<Array<Scalars['Boolean']>>;
 };
 
+export type CreateBeneficiaryOutput = {
+	__typename?: 'CreateBeneficiaryOutput';
+	id: Scalars['uuid'];
+};
+
+export type DeploymentConfigInput = {
+	callback?: Maybe<Scalars['String']>;
+	headers?: Maybe<Scalars['jsonb']>;
+	url?: Maybe<Scalars['String']>;
+};
+
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type StringComparisonExp = {
 	_eq?: Maybe<Scalars['String']>;
@@ -62,6 +73,11 @@ export type StringComparisonExp = {
 	_regex?: Maybe<Scalars['String']>;
 	/** does the column match the given SQL regular expression */
 	_similar?: Maybe<Scalars['String']>;
+};
+
+export type UpdateNotebookOutput = {
+	__typename?: 'UpdateNotebookOutput';
+	id: Scalars['uuid'];
 };
 
 /** columns and relationships of "account" */
@@ -1474,6 +1490,7 @@ export enum ManagerUpdateColumn {
 /** mutation root */
 export type MutationRoot = {
 	__typename?: 'mutation_root';
+	createBeneficiary?: Maybe<CreateBeneficiaryOutput>;
 	/** delete data from the table: "account" */
 	delete_account?: Maybe<AccountMutationResponse>;
 	/** delete single row from the table: "account" */
@@ -1602,6 +1619,8 @@ export type MutationRoot = {
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
+	/** update a given notebook using an extrenal API */
+	updateNotebook?: Maybe<UpdateNotebookOutput>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<AccountMutationResponse>;
 	/** update single row of the table: "account" */
@@ -1666,6 +1685,23 @@ export type MutationRoot = {
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
+};
+
+/** mutation root */
+export type MutationRootCreateBeneficiaryArgs = {
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	dateOfBirth: Scalars['date'];
+	email: Scalars['String'];
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	mobileNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	professionalId?: Maybe<Scalars['uuid']>;
+	workSituation?: Maybe<Scalars['String']>;
 };
 
 /** mutation root */
@@ -2018,6 +2054,12 @@ export type MutationRootInsertStructureArgs = {
 export type MutationRootInsertStructureOneArgs = {
 	object: StructureInsertInput;
 	on_conflict?: Maybe<StructureOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookArgs = {
+	config: DeploymentConfigInput;
+	id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -5873,6 +5915,43 @@ export type GetAccountByPkQuery = {
 	}>;
 };
 
+export type GetNotebookInfoQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetNotebookInfoQuery = {
+	__typename?: 'query_root';
+	notebook?: Maybe<{
+		__typename?: 'notebook';
+		beneficiary: {
+			__typename?: 'beneficiary';
+			id: string;
+			firstname: string;
+			lastname: string;
+			dateOfBirth: string;
+		};
+		members: Array<{ __typename?: 'notebook_member'; professionalId: string }>;
+	}>;
+};
+
+export type UpdateNotebookFromApiMutationVariables = Exact<{
+	notebookId: Scalars['uuid'];
+	notebook?: Maybe<NotebookSetInput>;
+	beneficiaryId: Scalars['uuid'];
+	beneficiary: BeneficiarySetInput;
+	focuses: Array<NotebookFocusInsertInput> | NotebookFocusInsertInput;
+}>;
+
+export type UpdateNotebookFromApiMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_by_pk?: Maybe<{ __typename?: 'notebook'; id: string }>;
+	update_beneficiary_by_pk?: Maybe<{ __typename?: 'beneficiary'; id: string }>;
+	insert_notebook_focus?: Maybe<{
+		__typename?: 'notebook_focus_mutation_response';
+		affected_rows: number;
+	}>;
+};
+
 export type GetAccountInfoQueryVariables = Exact<{
 	accessKey: Scalars['String'];
 }>;
@@ -8514,6 +8593,232 @@ export const GetAccountByPkDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByPkQuery, GetAccountByPkQueryVariables>;
+export const GetNotebookInfoDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookInfo' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'notebook' },
+						name: { kind: 'Name', value: 'notebook_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'members' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'memberType' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'StringValue', value: 'referent', block: false },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetNotebookInfoQuery, GetNotebookInfoQueryVariables>;
+export const UpdateNotebookFromApiDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateNotebookFromApi' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_set_input' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiary' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_set_input' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'focuses' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_focus_insert_input' },
+								},
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiary' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_focus' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'focuses' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateNotebookFromApiMutation, UpdateNotebookFromApiMutationVariables>;
 export const GetAccountInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -11229,6 +11534,14 @@ export type GetRefTargetByFocusQueryStore = OperationStore<
 export type GetAccountByPkQueryStore = OperationStore<
 	GetAccountByPkQuery,
 	GetAccountByPkQueryVariables
+>;
+export type GetNotebookInfoQueryStore = OperationStore<
+	GetNotebookInfoQuery,
+	GetNotebookInfoQueryVariables
+>;
+export type UpdateNotebookFromApiMutationStore = OperationStore<
+	UpdateNotebookFromApiMutation,
+	UpdateNotebookFromApiMutationVariables
 >;
 export type GetAccountInfoQueryStore = OperationStore<
 	GetAccountInfoQuery,
