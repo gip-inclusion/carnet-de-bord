@@ -75,6 +75,8 @@ export type BeneficiaryAccount = {
 	postalCode?: string;
 	city?: string;
 	workSituation?: string;
+	cafNumber?: string;
+	peNumber?: string;
 };
 
 type GetHtml<Data> = keyof Data | ((data: Data) => string);
@@ -103,3 +105,9 @@ export type IdentifierType = IdentifierCAF | IdentifierPE | NoIdentifier;
 export type SvelteEventHandler<HTMLElement> = (
 	event: Event & { currentTarget: EventTarget & HTMLElement }
 ) => void;
+
+export type DeploymentConfig = {
+	url: string;
+	headers: Record<string, string>;
+	callback: string;
+};

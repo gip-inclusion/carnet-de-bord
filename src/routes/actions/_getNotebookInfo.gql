@@ -1,0 +1,13 @@
+query GetNotebookInfo($id: uuid!) {
+	notebook: notebook_by_pk(id: $id) {
+		beneficiary {
+			id
+			firstname
+			lastname
+			dateOfBirth
+		}
+		members(where: { memberType: { _eq: "referent" } }) {
+			professionalId
+		}
+	}
+}
