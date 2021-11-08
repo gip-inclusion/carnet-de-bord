@@ -16,7 +16,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Deploiment</th>
+					<th>Déploiement</th>
 					<th>Responsable(s)</th>
 				</tr>
 			</thead>

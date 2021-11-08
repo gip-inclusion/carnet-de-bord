@@ -37,16 +37,14 @@
 	function close() {
 		openComponent.close();
 	}
-
-	$: error = $deploymentStore.error;
 </script>
 
 <div class="flex flex-col gap-6">
 	<div>
 		<h1>Ajouter un Déploiement</h1>
 		<p class="mb-0">
-			Veuillez renseigner les informations ci-dessous pour créer un nouveau deploiement. Un
-			deploiement permet de rattacher des structures, professionnels et bénéficiaires.
+			Veuillez renseigner les informations ci-dessous pour créer un nouveau déploiement. Un
+			déploiement permet de rattacher des structures, professionnels et bénéficiaires.
 		</p>
 	</div>
 

@@ -140,7 +140,7 @@
 </script>
 
 <svelte:head>
-	<title>Carnet beneficiaire - carnet de bord</title>
+	<title>Carnet bénéficiaire - Carnet de bord</title>
 </svelte:head>
 
 <LoaderIndicator result={getNotebookStore}>

@@ -26,7 +26,7 @@
 </script>
 
 <Button outline on:click={open}>{label}</Button>
-<DialogOverlay {isOpen} onDismiss={close} on:keypress={(e) => console.log(e)}>
+<DialogOverlay {isOpen} onDismiss={close}>
 	<DialogContent aria-label={title}>
 		<div class="fr-container fr-container--fluid fr-container-md">
 			<div class="fr-grid-row fr-grid-row--center">
