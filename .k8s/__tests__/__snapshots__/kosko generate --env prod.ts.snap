@@ -44,8 +44,7 @@ spec:
         team: carnet-de-bord
     spec:
       containers:
-        - image: >-
-            ghcr.io/socialgouv/carnet-de-bord/app:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+        - image: ghcr.io/socialgouv/carnet-de-bord/app:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -143,6 +142,8 @@ spec:
       AgAzg6Pt5dYiFshwcJqxoBpBzc+qaw6QbrRGdm0+0BWKIyohRyUV5dAGPtzrLXLm2FGpxNbB6+cWG9gBwBiyD1kaOoIb059Q4SMo7tUJX7YU6QuslR4MJkJ47Boy0xjXT4OXl+JcUeaT9ch5v9+VGGgzvGm3wYwKk07iJ9ysdi9FPZzHaWnZtfRbVq0q/tMgEoIfTSTUGRH6gWZzL30/F7thFUZPYg9jERvN8F0x88SVR7Son2VT+jNPC9AOYGBFVsEJKVEKS0iHcrUJIuM/SI4j+TLhtnKoejUnLc8qPkGDVXkWSBYcOpH3XF1LBhhH8QbeIJQPLtz3JqD6F/yz4MaJpC6ncmcnjvo3/NCvHTZ+8DlDg4zX2Y6xZDTXkPNwiovAAZeLn8oqr/1cYwHSIxyDZG/NTA2pWnio95L5s5Z7z11spLDHPZYz3fNhvOnaw3c9PM7pqv61W42G70EXQXVS/Siw1yP7Sk7bBgw1A+sw6nG1jxgsqY+aTWJ4ejXj/9SJR+K5fo0DzHmiljBl8ufJlpc0OMFVnTEHmi4q577p02PtcxbV7WqzDt+RDXIWgyKJbS+qxA6a/AMTvkobTMy9EXn58crestvoHjQmCQPD88DUHutuQPiyK3sKae5GHvXpuiQejJf2GSKxg/d/ycIIBu8NfcOeVSJIl2npRklu5Bd/iLi8OF8M9kmCXtYqWwExlzBf7by+7ZMzy2EyZH9zt7y0b3q7ICjzC2N4Ua9OL+O41rs=
     API_PARTICULIER_TOKEN_CAF: >-
       AgAzg6Pt5dYiFshwcJqxoBpBzc+qaw6QbrRGdm0+0BWKIyohRyUV5dAGPtzrLXLm2FGpxNbB6+cWG9gBwBiyD1kaOoIb059Q4SMo7tUJX7YU6QuslR4MJkJ47Boy0xjXT4OXl+JcUeaT9ch5v9+VGGgzvGm3wYwKk07iJ9ysdi9FPZzHaWnZtfRbVq0q/tMgEoIfTSTUGRH6gWZzL30/F7thFUZPYg9jERvN8F0x88SVR7Son2VT+jNPC9AOYGBFVsEJKVEKS0iHcrUJIuM/SI4j+TLhtnKoejUnLc8qPkGDVXkWSBYcOpH3XF1LBhhH8QbeIJQPLtz3JqD6F/yz4MaJpC6ncmcnjvo3/NCvHTZ+8DlDg4zX2Y6xZDTXkPNwiovAAZeLn8oqr/1cYwHSIxyDZG/NTA2pWnio95L5s5Z7z11spLDHPZYz3fNhvOnaw3c9PM7pqv61W42G70EXQXVS/Siw1yP7Sk7bBgw1A+sw6nG1jxgsqY+aTWJ4ejXj/9SJR+K5fo0DzHmiljBl8ufJlpc0OMFVnTEHmi4q577p02PtcxbV7WqzDt+RDXIWgyKJbS+qxA6a/AMTvkobTMy9EXn58crestvoHjQmCQPD88DUHutuQPiyK3sKae5GHvXpuiQejJf2GSKxg/d/ycIIBu8NfcOeVSJIl2npRklu5Bd/iLi8OF8M9kmCXtYqWwExlzBf7by+7ZMzy2EyZH9zt7y0b3q7ICjzC2N4Ua9OL+O41rs=
+    ACTION_SECRET: >-
+      AgBt0swVR5RewuLmYSBeGAuq5cscIO7mHWF0bgVqsp7ZaqRY/hiy0zsHVjlGG7R2zd+GQUOc/JkQkK4jOgUFxQhhuVkH7IlwAz0UXdGVQUUPmNH/iQjgqEPOSbWJG8WdPGOku4jHc5PuP0Ni3p2OXQuNsuyy2CKl/HTUjjMfxrZ+JsHUZm85KRCl9ue0iH69BygwYKwJnp/1f94HecIbKqZHfATHx3nNvQCUE4Uy8Qw2DHrKd8Sp+FKx4l431zXJdpZPsF06rf4IR/S4rzELD8ufpjWTTMawwEDQlgapkKJYagaynYi/BL5CbF1u43WRwgGLpDYw8PblaAsZRpdT+wnFMCkTtVhdnUeLvJDXkmVWRoJ670a0YLF8iOI4vfXqnxISgmhbANi8entn3TaAUnQWkA50qo7iiyFryU6d+/wOOlaFQ97H2lTGAn6vHmBLJfaNx1oRXjZo4W7VzJ7Q1gLJJY6BuwgKo+obkQ8mIIfACUOa8C3eftDNm9VpJr7rn/Yj6VxN7s1kZJM0E3LWDxPCoZHhPOdjABmUhMM4MEtqxnK3gatG6NBvptYeZ7Df59wiMVzGLZyX3FR/I5AV+aYezGIAp6/ldk5X9JG9UQa8Ml25Nvr7vucF9ct9xs74ZqJJUetfd1UhiJntjD0Hb5u5FEemnPd4ol6YI2WXgWka4A/0iGdR4/UZVJzJFBmz/Ph5710XeasVHkCvVv3JfzBKrd7BrOk+W7Jp+UwxDtcfZKvbVJh6931sfMR3J4M200PLNH002Q9IUoyAxJmZoovY
 template:
   metadata:
     annotations: {}
@@ -282,8 +283,7 @@ spec:
         team: carnet-de-bord
     spec:
       containers:
-        - image: >-
-            ghcr.io/socialgouv/carnet-de-bord/hasura:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
+        - image: ghcr.io/socialgouv/carnet-de-bord/hasura:1.2.3
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -369,6 +369,8 @@ spec:
       AgCbJl5DKv0GOCXw16ETXZSa7CIfAdoZvsDWRp3KMBbxsOmWXLEH7UsFksf6mKZHwoGRaOmpkwiCbVWiArco0OphdaSbHIkAd3JJZCEIxSyOO9Jjmj8r2ZUcvDJdd6A/FqheLlfjnsCGJWUkxB9bL91AjwVvN4kn7gupqSTyXNu14z93pbmfuYJn1WM0dqtbqRZemYI/KKGWLxXGYpPxFP4R3eR7CUl6JHz039YkBG3e9qz2kzjnZMca+NPB+eayKINg03XnHHbClqQ4qzYuzvtvP31VqWZNHQUJhCXduweO9zUcZ4NX31W1aSXIEoT8wTCPdXo3RcF+/o6dU8IVxY160qqK9oRUQQ90keS811v1Vo4l9frAZBGuYQRP1E8BsrEdfRfTiwTQ7a2jDuvRs3C6Fpo4JgzRLoLQjaOESxfoVspGeR3JCXeAyWVQt0xg7WD8nRlpn2c1n9EccKjsgyhA0/TIJ37k62hES6+j5WOD9xJozNz9XJnsc+hHbgDvi+077e5fPghaHWvaH+g2j+2VswWq2rcd9DrYljG81TNdGwZoZV6bmOKjfr4RkvjSnNPHNT52zUVBDdFUv0nOIefeU480YA/wbAsdyI7x+uU14yi0FRB9lU5UEgN1/cEZiYNVFpE84lobWy4Z4lgRnpHi6n1cVvkvKPjF2Pu3F5b/3l+Ga/rQgYg+hIUSoykqiMPwFopyl4HcwDJ43nZuFmtPmfwPCV3BwdAgzYJoSTktOaVhxjrZvDNtrgvnJHn0N4KaAQVGw+FXTXiYDM0ZYa99zUZ+4mE35ojFCZdmVIadZjEOswC8pYKDGxqHxw==
     HASURA_GRAPHQL_DATABASE_URL: >-
       AgBgTYQQnOMqGzIshfFGlwd6LX8lZc8IK8owLUs+aKtEoUE+dkjMy0GRs+8EwWUqNeD4pmWAUsbvfwbhSZAPLQvZMF2MCVmandsCuM2nd4JKfBmNf8CAyMQhS7F3cWyzcfpY0KPRoY5+9FpPKAFjj3XTQtbXbqOKeqGhWoKzj4Ot4VGsEZ1onP2mp24mykLzrnUCcboRtRWmaaTCnvmTQ8dTWqqjLebf1Ldk2lgtUgCyGavx5ynwSII09j2/cwVf0Jex5XZ768gjIoZlBgFWlYuen2lCPIvILknU72hMQlP1blTHIQ99aFfdOeTERw/DNlRHtFeo2JSfM1X+z2hgapsx2VvGQQdGnAJvNF0QSzSUJctzMJ/d2SLhQnqkXWHAnBoY9VVwEney6vnOII1Pvyu0+fbdrQypCWRGx4Hqfridbg4MTIcywxuvbvanWKT20VnPoIoSCXDEfTnsdrRT5WqvhnFJqyDvmX4armdYKHtKGy5OLtoWTthRxvuMvrDqPJOf/rPY77WRExbFKuFg4j935hs3IwvEA6rAcufnxyoLGIf5riMAELDpFQszKsC2HyDH6KEYcW9KsFuItdRha6wtdA/dOG1tyJ9BsndJArXVpNx8m98QgRszdDOP5dDMAIGfvbzXof5yBRPvILt635LxtpBCz76milk7ZccMRnTPAJiybBadIhP60el4CWgeD97o96zaJulgl5l5Su/Rt44msmNLAxkh6k3+pvPbwyZ+lfYjChPHfsLKsW9KqgISm1AlpTk/PiFR9ScMolIFnttSLADS+LOiNL5RhPf7HLBZt6BKMgo3RDxFH0nSTdoMn4X8OtwFzewUKYzE/kXvpwGo7QcboyM3JdgmYD6msqKPodyVUe6Wpr00HImlYWpjqHp4/q98FXPWbGgH7FPM+pmK/WxQ0dSnSNRtjWES+wcCarU=
+    ACTION_VALUE: >-
+      AgBkREpDisCX/25JUs77+4hp514TH9DmAOabqNvXddBKIQVWVwlm28mxjhJ1zDOZ3CAcRIdCA/iNt3TnzE2LV/HXNIEpu0in/wWF6YeznZJkpCDCtltDOJzDrslEcxjpekclerkRNeLKfuVQPpObVMLMo7UFtPIYfsOysKFgYZuhdmPXUWZ3LFynFx2m/T/0th27P5cojy4SYpNx66xrN6D70dE5LECN3hJWMeaHflmIDgr/EPia2uP2mJ53KqAnsAKTfoIBQRNqYLtUqW8rfmL1vnxyvCkTRbSx2f6KqnWZjquh18IsXa42sKjiZt/LwxM0lp1DCRX/LrgRo2oI9Lxditddch3AN3vlTfunGDwBTQE+sR0xg5cvqejd96ub+jyCLyMLo7u+3OAtH7NU6Hfd7J3zA/8FLuHBTx3S2/QfGlipAi86GiNDsV2k/RPq+zL26RaY+J0keb87NCiZey10Y++4hZpKbeatRCDZjZjh7N1aBYdUFsmnq8Oc/pciCPT3dqGUiveq1k6IYQY3/QWl2FokciR2c+Tv9/tb485kuhjE8a4IL5Eiu/5ZOtwcxe0ugmrbP6RI3JBCu9INrpzDY3z2gZ2E4W4SaKUVX4+XttINTo19ogeX+NN/jB0LHBa/Q0u6qgsuHjboaRvYagZ2kQl7kqto/Z3RfkEyR1VWUnaSEfaFBH8XhQOHV0V/KBMbCR0kzX3PWNxnbUl1x/Sb/zqCrYHxFWWlR4k2HwtcmpqKCmWbO6e023PBI3+94MwqEM2nxkAiISZb2YseVXa
   template:
     metadata:
       annotations:
@@ -412,6 +414,8 @@ data:
   HASURA_GRAPHQL_NO_OF_RETRIES: '5'
   HASURA_GRAPHQL_SERVER_PORT: '80'
   HASURA_GRAPHQL_LOG_LEVEL: debug
+  HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT: '180'
+  ACTION_BASE_URL: http://app/actions
 ---
 apiVersion: v1
 kind: Service
