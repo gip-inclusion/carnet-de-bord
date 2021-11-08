@@ -11,10 +11,10 @@ TRUNCATE public.ref_action CASCADE;
 
 SET check_function_bodies = false;
 INSERT INTO public.admin (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Carnet de Bord', 'Administrateur');
-INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', 'admin', 'admin', NULL, NULL, '2021-09-21 12:25:55.822+00', NULL, NULL, 'a81bc81a-dead-4e5d-abff-90865d1e13b7', true, false); 
+INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', 'admin', 'admin', NULL, NULL, '2021-09-21 12:25:55.822+00', NULL, NULL, 'a81bc81a-dead-4e5d-abff-90865d1e13b7', true, false);
 INSERT INTO public.deployment (id, label) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93');
-INSERT INTO public.deployment (id, label) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51');
- 
+INSERT INTO public.deployment (id, label, config) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51', '{"url": "http://localhost:3000/api/test", "headers": {"token":"azerty"}, "callback": "/api/marne" }');
+
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94', 'manager.cd93', 'manager', '01a3d906-70d9-42e6-9b61-2ccf030e5d8f', true, false);
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'contact.carnet-de-bord@fabrique.social.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
@@ -79,6 +79,10 @@ INSERT INTO public.notebook_event (id, notebook_id, creation_date, event_date, p
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, notebook_visit_date, member_type, notebook_modification_date, creation_date, creator_id, invitation_send_date) VALUES ('91dba199-109c-4312-93cb-bd99f579532b', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '74323049-eae6-4ccd-b596-e95514a32781', NULL, '', NULL, '2021-09-21 12:32:59.911757+00', NULL, NULL);
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, notebook_visit_date, member_type, notebook_modification_date, creation_date, creator_id, invitation_send_date) VALUES ('ea55bf8a-c0da-4c5f-b38c-66d57e3e18ba', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, '', NULL, '2021-09-21 12:33:10.281341+00', NULL, NULL);
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, notebook_visit_date, member_type, notebook_modification_date, creation_date, creator_id, invitation_send_date) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '2021-09-21 13:06:45.076+00', 'referent', NULL, '2021-09-21 11:51:37.295647+00', NULL, NULL);
+
+INSERT INTO public.beneficiary (id, email, lastname, firstname, mobile_number, date_of_birth, deployment_id) VALUES ('f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'marc@yahoo.fr', 'Marc', 'Saintpa',  '0600000000', '1982-02-01', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
+INSERT INTO public.notebook (id, beneficiary_id, geographical_area, education_level, job, work_situation_date, contract_type, contract_sign_date, work_situation) VALUES ('b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'between_10_20', 'level_3', 'Aide à domicile (K1304)', '2021-09-22', 'cer', '2020-01-05', 'iae');
+INSERT INTO public.notebook_member (id, notebook_id, professional_id, notebook_visit_date, member_type) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', '9b5f4863-dd2e-4680-af40-46258c457654', '2021-09-21 13:06:45.076+00', 'referent');
 
 --
 -- Situations (diagnostics)
