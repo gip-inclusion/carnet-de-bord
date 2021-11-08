@@ -2,10 +2,31 @@
 	import { createEventDispatcher } from 'svelte';
 
 	import { DialogOverlay, DialogContent } from 'svelte-accessible-dialog';
-	import Button from './base/Button.svelte';
+	import { Button } from '$lib/ui/base';
 
 	export let label: string;
+	export let size: 'small' | 'medium' | 'large' = 'medium';
+	export let buttonLabel: string = label;
+	export let confirmLabel: string = label;
 	export let title: string;
+
+	let medCol = '';
+	let lgCol = '';
+
+	switch (size) {
+		case 'small':
+			medCol = '6';
+			lgCol = '4';
+			break;
+		case 'large':
+			medCol = '10';
+			lgCol = '10';
+			break;
+		case 'medium':
+		default:
+			medCol = '8';
+			lgCol = '6';
+	}
 
 	let isOpen = false;
 
@@ -25,12 +46,12 @@
 	};
 </script>
 
-<Button outline on:click={open}>{label}</Button>
+<Button outline on:click={open}>{buttonLabel}</Button>
 <DialogOverlay {isOpen} onDismiss={close}>
 	<DialogContent aria-label={title}>
 		<div class="fr-container fr-container--fluid fr-container-md">
 			<div class="fr-grid-row fr-grid-row--center">
-				<div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+				<div class="fr-col-12 fr-col-md-{medCol} fr-col-lg-{lgCol}">
 					<div class="fr-modal__body">
 						<div class="fr-modal__header">
 							<button
@@ -45,8 +66,8 @@
 								<span class="fr-fi-arrow-right-line fr-fi--lg" />{title}
 							</h1>
 							<slot />
-							<div class="flex gap-6">
-								<Button on:click={confirm}>{label}</Button>
+							<div class="flex mt-4 gap-6">
+								<Button on:click={confirm}>{confirmLabel}</Button>
 								<Button outline on:click={close}>Annuler</Button>
 							</div>
 						</div>
