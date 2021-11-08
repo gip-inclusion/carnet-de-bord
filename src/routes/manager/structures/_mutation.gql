@@ -9,6 +9,7 @@ mutation InsertStructure(
 	$website: String
 	$siret: String
 	$shortDesc: String
+	$deploymentId: uuid
 ) {
 	structure: insert_structure_one(
 		object: {
@@ -22,6 +23,7 @@ mutation InsertStructure(
 			website: $website
 			siret: $siret
 			shortDesc: $shortDesc
+			deploymentId: $deploymentId
 		}
 	) {
 		...structureFields

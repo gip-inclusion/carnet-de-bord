@@ -6,10 +6,10 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Accordion, Accordions, Button, Card } from '$lib/ui/base';
+	import Dialog from '$lib/ui/Dialog.svelte';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	import { mutation, operationStore, query } from '@urql/svelte';
-	import Confirm from '../Confirm.svelte';
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
@@ -114,16 +114,16 @@
 			</div>
 		</div>
 		<div class="flex">
-			<Confirm
+			<Dialog
 				title="Supprimer un axe de travail"
-				label="Supprimer un axe de travail"
+				label="Supprimer l'axe de travail"
 				on:confirm={removeFocus}
 			>
 				<p>
 					Êtes-vous sûr(e) de vouloir supprimer l’axe de travail
 					<strong>{focus.theme}</strong>&nbsp;?
 				</p>
-			</Confirm>
+			</Dialog>
 		</div>
 	</div>
 {/if}

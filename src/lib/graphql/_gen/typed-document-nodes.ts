@@ -4802,7 +4802,7 @@ export type Structure = {
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	modificationDate?: Maybe<Scalars['timestamptz']>;
-	name?: Maybe<Scalars['String']>;
+	name: Scalars['String'];
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -4892,6 +4892,8 @@ export type StructureBoolExp = {
 
 /** unique or primary key constraints on table "structure" */
 export enum StructureConstraint {
+	/** unique or primary key constraint */
+	StructureNameKey = 'structure_name_key',
 	/** unique or primary key constraint */
 	StructurePkey = 'structure_pkey',
 }
@@ -5583,6 +5585,7 @@ export type GetDeploymentByIdQuery = {
 	__typename?: 'query_root';
 	deployment?: Maybe<{
 		__typename?: 'deployment';
+		id: string;
 		label: string;
 		managers: Array<{ __typename?: 'manager'; id: string; firstname: string; lastname: string }>;
 		beneficiaries_aggregate: {
@@ -5705,7 +5708,7 @@ export type GetNotebookFocusByIdQuery = {
 			structure: {
 				__typename?: 'structure';
 				id: string;
-				name?: Maybe<string>;
+				name: string;
 				phone?: Maybe<string>;
 				address1?: Maybe<string>;
 				address2?: Maybe<string>;
@@ -5780,7 +5783,7 @@ export type SearchProfessionalQuery = {
 		structure: {
 			__typename?: 'structure';
 			id: string;
-			name?: Maybe<string>;
+			name: string;
 			postalCode?: Maybe<string>;
 			phone?: Maybe<string>;
 		};
@@ -5881,7 +5884,7 @@ export type GetAccountByPkQuery = {
 			structure: {
 				__typename?: 'structure';
 				id: string;
-				name?: Maybe<string>;
+				name: string;
 				address1?: Maybe<string>;
 				address2?: Maybe<string>;
 				postalCode?: Maybe<string>;
@@ -6035,7 +6038,7 @@ export type GetStructuresQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: Maybe<string>;
-		name?: Maybe<string>;
+		name: string;
 		shortDesc?: Maybe<string>;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
@@ -6089,6 +6092,7 @@ export type InsertStructureMutationVariables = Exact<{
 	website?: Maybe<Scalars['String']>;
 	siret?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 }>;
 
 export type InsertStructureMutation = {
@@ -6096,7 +6100,7 @@ export type InsertStructureMutation = {
 	structure?: Maybe<{
 		__typename?: 'structure';
 		id: string;
-		name?: Maybe<string>;
+		name: string;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
 		address1?: Maybe<string>;
@@ -6128,7 +6132,7 @@ export type UpdateStructureMutation = {
 	structure?: Maybe<{
 		__typename?: 'structure';
 		id: string;
-		name?: Maybe<string>;
+		name: string;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
 		address1?: Maybe<string>;
@@ -6144,7 +6148,7 @@ export type UpdateStructureMutation = {
 export type StructureFieldsFragment = {
 	__typename?: 'structure';
 	id: string;
-	name?: Maybe<string>;
+	name: string;
 	phone?: Maybe<string>;
 	email?: Maybe<string>;
 	address1?: Maybe<string>;
@@ -6174,7 +6178,7 @@ export type GetAccountsSummaryQuery = {
 			position?: Maybe<string>;
 			mobileNumber?: Maybe<string>;
 			email: any;
-			structure: { __typename?: 'structure'; id: string; name?: Maybe<string> };
+			structure: { __typename?: 'structure'; id: string; name: string };
 		}>;
 	}>;
 };
@@ -6221,7 +6225,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				structure: {
 					__typename?: 'structure';
 					id: string;
-					name?: Maybe<string>;
+					name: string;
 					address1?: Maybe<string>;
 					address2?: Maybe<string>;
 					postalCode?: Maybe<string>;
@@ -6407,7 +6411,7 @@ export type GetNotebookQuery = {
 				structure: {
 					__typename?: 'structure';
 					id: string;
-					name?: Maybe<string>;
+					name: string;
 					address1?: Maybe<string>;
 					address2?: Maybe<string>;
 					postalCode?: Maybe<string>;
@@ -6425,7 +6429,7 @@ export type GetNotebookQuery = {
 			professional: {
 				__typename?: 'professional';
 				structureId: string;
-				structure: { __typename?: 'structure'; name?: Maybe<string> };
+				structure: { __typename?: 'structure'; name: string };
 			};
 		}>;
 	}>;
@@ -6449,7 +6453,7 @@ export type GetNotebookEventsQuery = {
 		professional: {
 			__typename?: 'professional';
 			structureId: string;
-			structure: { __typename?: 'structure'; name?: Maybe<string> };
+			structure: { __typename?: 'structure'; name: string };
 		};
 	}>;
 };
@@ -6464,7 +6468,7 @@ export type EventFieldsFragment = {
 	professional: {
 		__typename?: 'professional';
 		structureId: string;
-		structure: { __typename?: 'structure'; name?: Maybe<string> };
+		structure: { __typename?: 'structure'; name: string };
 	};
 };
 
@@ -6657,6 +6661,7 @@ export const GetDeploymentByIdDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
 								{
 									kind: 'Field',
@@ -9456,6 +9461,11 @@ export const InsertStructureDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -9520,6 +9530,11 @@ export const InsertStructureDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'shortDesc' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
 										},
 									],
 								},
