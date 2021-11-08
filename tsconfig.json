@@ -2,9 +2,7 @@
 	"compilerOptions": {
 		"moduleResolution": "node",
 		"module": "es2020",
-		"lib": [
-			"es2020"
-		],
+		"lib": ["es2020"],
 		"target": "es2019",
 		"importsNotUsedAsValues": "error",
 		"isolatedModules": true,
@@ -17,22 +15,18 @@
 		"allowJs": true,
 		"checkJs": true,
 		"paths": {
-			"$lib": [
-				"src/lib"
-			],
-			"$lib/*": [
-				"src/lib/*"
-			]
+			"$lib": ["src/lib"],
+			"$lib/*": ["src/lib/*"]
 		},
 		"noEmit": true
 	},
-	"types": [
-		"jest"
-	],
+	"types": ["jest"],
 	"include": [
 		"src/**/*.d.ts",
 		"src/**/*.js",
 		"src/**/*.ts",
-		"src/**/*.svelte"
+		"src/**/*.svelte",
+		"__tests__/index.test.ts",
+		"__tests__/marne.test.ts"
 	]
 }
