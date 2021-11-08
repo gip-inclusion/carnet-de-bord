@@ -36,7 +36,7 @@
 			{professional_aggregate?.aggregate.count} <br /> Professionnels
 		</div>
 		<div class="fr-col-md-3 fr-m-2v fr-p-4v bg-gray-bg">
-			{deployment?.beneficiaries_aggregate.aggregate.count} <br /> Beneficiaires
+			{deployment?.beneficiaries_aggregate.aggregate.count} <br /> Bénéficiaires
 		</div>
 	</div>
 </div>

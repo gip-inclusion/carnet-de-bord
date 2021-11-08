@@ -88,7 +88,7 @@
 				<Accordions>
 					{#each targets as target (target.id)}
 						<Accordion title={target.target}>
-							<ProNotebookActionList {target} notebookId={focus.notebookId} theme={focus.theme} />
+							<ProNotebookActionList {target} theme={focus.theme} />
 						</Accordion>
 					{:else}
 						<p>Aucun objectif n'a été créé pour cet axe de travail.</p>
@@ -116,12 +116,12 @@
 		<div class="flex">
 			<Confirm
 				title="Supprimer un axe de travail"
-				label="Supprimer l'axe de travail"
+				label="Supprimer un axe de travail"
 				on:confirm={removeFocus}
 			>
 				<p>
-					Êtes-vous sûr de vouloir supprimer l’axe de travail
-					<strong>{focus.theme}</strong>
+					Êtes-vous sûr(e) de vouloir supprimer l’axe de travail
+					<strong>{focus.theme}</strong>&nbsp;?
 				</p>
 			</Confirm>
 		</div>
