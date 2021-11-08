@@ -8,12 +8,12 @@ services:
       - POSTGRES_USER=cdb
       - POSTGRES_PASSWORD=test
     ports:
-      - '5434:5432'
+      - '5432:5432'
     volumes:
       - cdb-pgdata:/var/lib/postgresql/data
     restart: always
 
-  graphql-engine:
+  hasura:
     image: cdb_hasura
     build:
       context: .
@@ -28,19 +28,12 @@ services:
     depends_on:
       - 'db'
     restart: always
+    env_file:
+      - .env
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: $HASURA_GRAPHQL_DATABASE_URL
-      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
-      HASURA_GRAPHQL_JWT_SECRET: $HASURA_GRAPHQL_JWT_SECRET
       HASURA_GRAPHQL_DEV_MODE: 'true'
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-      HASURA_GRAPHQL_ADMIN_SECRET: admin
-      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
       HASURA_GRAPHQL_ENABLE_TELEMETRY: 'false'
-      # retry 5 times if posgres is not available
-      HASURA_GRAPHQL_NO_OF_RETRIES: 5
-      # wait for postgres to be ready during 60 second (usefull for startup)
-      HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT: 60
 
 volumes:
   cdb-pgdata:
