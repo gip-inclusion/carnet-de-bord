@@ -5,6 +5,7 @@
 	import { Button } from '$lib/ui/base';
 
 	export let label: string;
+	export let showButtons = true;
 	export let size: 'small' | 'medium' | 'large' = 'medium';
 	export let buttonLabel: string = label;
 	export let confirmLabel: string = label;
@@ -66,10 +67,12 @@
 								<span class="fr-fi-arrow-right-line fr-fi--lg" />{title}
 							</h1>
 							<slot />
-							<div class="flex mt-4 gap-6">
-								<Button on:click={confirm}>{confirmLabel}</Button>
-								<Button outline on:click={close}>Annuler</Button>
-							</div>
+							{#if showButtons}
+								<div class="flex mt-4 gap-6">
+									<Button on:click={confirm}>{confirmLabel}</Button>
+									<Button outline on:click={close}>Annuler</Button>
+								</div>
+							{/if}
 						</div>
 					</div>
 				</div>
