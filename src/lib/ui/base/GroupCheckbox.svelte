@@ -7,6 +7,7 @@
 	export let boxSuccess: string | null = null;
 	export let groupId: string;
 	export let classNames = '';
+	export let title = '';
 	export let selectedOptions: string[] | null;
 
 	let input: HTMLElement;
@@ -33,6 +34,7 @@
 		value={option.name}
 		{disabled}
 		on:change={onChange}
+		{title}
 	/>
 	<label class="fr-label" for="checkbox-{groupId}-{option.name}">
 		{option.label}
