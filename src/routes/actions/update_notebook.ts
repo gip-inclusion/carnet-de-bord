@@ -67,14 +67,13 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		return {
 			status: 401,
 			body: {
-				errors: 'DEPLOYMENT_NOT_FOUND',
+				errors: 'NOTEBOOK_NOT_FOUND',
 			},
 		};
 	}
 
 	const { url, callback, headers } = input.config;
 	const { beneficiary, members } = data.notebook;
-	console.log({ url, callback, headers, beneficiary, members });
 	const callbackUrl = `${getAppUrl()}${callback}`;
 	const result: ExternalDeploymentApiOutput = await fetch(callbackUrl, {
 		method: 'POST',
@@ -93,7 +92,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		if (response.ok) {
 			return response.json();
 		}
-		Promise.reject(response.json());
+		return Promise.reject(response.json());
 	});
 
 	await client
@@ -108,6 +107,6 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 
 	return {
 		status: 200,
-		body: { id: '6b7cd0c7-6340-401b-a809-869e4f640eb7' },
+		body: { id: input.id },
 	};
 };
