@@ -9,6 +9,9 @@
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
+	import { getCrispWebsiteId } from '$lib/config/variables/public';
+	import Crisp from '$lib/chat/Crisp.svelte';
+	const CRISP_WEBSITE_ID = getCrispWebsiteId();
 
 	export const load: Load = async ({ session }) => {
 		const accountId = session.user.id;
@@ -61,6 +64,7 @@
 	];
 </script>
 
+<Crisp websiteId={CRISP_WEBSITE_ID} />
 <HeaderCDB {menuItems} />
 
 <div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">

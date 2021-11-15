@@ -28,6 +28,7 @@ jobs:
           imageName: ${{ env.project }}/app
           token: ${{ secrets.GITHUB_TOKEN }}
           dockerbuildargs: |
+            VITE_CRISP_WEBSITE_ID=2f9fd96d-44a0-4588-8f7e-a06a5a531c6f
             VITE_MATOMO_SITE_ID=53
             VITE_MATOMO_URL=https://matomo.fabrique.social.gouv.fr/
 
