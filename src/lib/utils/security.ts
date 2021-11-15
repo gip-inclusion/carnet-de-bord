@@ -22,8 +22,6 @@ export const authorizeOnly =
 
 export const actionsGuard = (headers: Record<string, string>): void => {
 	const actionSecret = getActionSecret();
-	console.log({ actionSecret });
-	console.log(headers);
 	if (actionSecret !== headers.secret_token) {
 		throw Error('ACTION_SECRET header not match');
 	}
