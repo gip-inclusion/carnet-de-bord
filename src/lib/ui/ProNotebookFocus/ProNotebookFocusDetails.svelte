@@ -3,7 +3,6 @@
 	import {
 		DeleteNotebookFocusByIdDocument,
 		GetNotebookFocusByIdDocument,
-		Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Accordion, Accordions, Button, Card } from '$lib/ui/base';
@@ -13,7 +12,6 @@
 	import Confirm from '../Confirm.svelte';
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
-	import { ProNotebookStructureList } from '../ProNotebookStructure';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 
@@ -30,22 +28,9 @@
 	const deleteFocusStore = operationStore(DeleteNotebookFocusByIdDocument);
 	const deleteFocusMutation = mutation(deleteFocusStore);
 
-	const init: Record<string, Pick<Structure, 'id' | 'name'>> = {};
-
 	$: focus = $focusStore.data?.focus;
 	$: situations = (focus?.situations as string[]) || [];
 	$: targets = focus?.targets || [];
-
-	$: structures = Object.values(
-		targets
-			?.flatMap(({ actions }) => actions)
-			.reduce((acc, { structure }) => {
-				return {
-					...acc,
-					[structure.id]: structure,
-				};
-			}, init) || {}
-	);
 
 	function createTarget() {
 		openComponent.open({
@@ -59,10 +44,6 @@
 			component: ProNotebookCreatorView,
 			props: { creator: focus?.professional, creationDate: focus?.creationDate },
 		});
-	}
-
-	function viewStructures() {
-		openComponent.open({ component: ProNotebookStructureList, props: { structures } });
 	}
 
 	async function removeFocus() {
@@ -130,29 +111,6 @@
 						<Text classNames="font-bold" value={focus?.professional?.mobileNumber} />
 					</span>
 				</Card>
-			</div>
-			<div class="w-1/2 ml-1 items-stretch flex flex-col">
-				<h2 class="fr-h4 text-france-blue">Structures sollicitées</h2>
-				{#if structures.length > 0}
-					<div class="flex flex-1">
-						<Card onClick={viewStructures}>
-							<span slot="title">{''}</span>
-							<span slot="description">
-								<span class="font-bold">
-									{`Voir toutes les structures (${structures.length})`}
-								</span>
-							</span>
-						</Card>
-					</div>
-				{:else}
-					<div class="flex flex-1">
-						<Card hideArrow>
-							<span slot="description">
-								<span class="font-bold"> Aucune structure sollicitées </span>
-							</span>
-						</Card>
-					</div>
-				{/if}
 			</div>
 		</div>
 		<div class="flex">

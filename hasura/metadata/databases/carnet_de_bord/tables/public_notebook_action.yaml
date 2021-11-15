@@ -5,16 +5,12 @@ configuration:
   custom_column_names:
     creation_date: creationDate
     creator_id: creatorId
-    structure_id: structureId
     target_id: targetId
   custom_root_fields: {}
 object_relationships:
 - name: creator
   using:
     foreign_key_constraint_on: creator_id
-- name: structure
-  using:
-    foreign_key_constraint_on: structure_id
 - name: target
   using:
     foreign_key_constraint_on: target_id
@@ -25,7 +21,6 @@ insert_permissions:
     columns:
     - action
     - status
-    - structure_id
     - target_id
     set:
       creator_id: x-hasura-Professional-Id
@@ -34,11 +29,10 @@ select_permissions:
 - permission:
     columns:
     - action
-    - status
     - creation_date
     - creator_id
     - id
-    - structure_id
+    - status
     - target_id
     filter:
       target:
@@ -54,7 +48,6 @@ update_permissions:
     columns:
     - action
     - status
-    - structure_id
     filter:
       target:
         focus:

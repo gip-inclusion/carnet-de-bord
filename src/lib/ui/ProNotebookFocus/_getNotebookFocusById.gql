@@ -11,16 +11,6 @@ query GetNotebookFocusById($id: uuid!) {
 				creationDate
 				status
 				action
-				structure {
-					id
-					name
-					phone
-					address1
-					address2
-					city
-					postalCode
-					website
-				}
 				creator {
 					id
 					lastname
