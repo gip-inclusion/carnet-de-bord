@@ -1,3 +1,10 @@
+## [1.55.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.3...v1.55.4) (2021-11-15)
+
+
+### Bug Fixes
+
+* change role protection from admin to professional for queryUser API ([#388](https://github.com/SocialGouv/carnet-de-bord/issues/388)) ([534994d](https://github.com/SocialGouv/carnet-de-bord/commit/534994da372428302c6c161322bb83aeef85c0dd))
+
 ## [1.55.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.2...v1.55.3) (2021-11-05)
 
 
