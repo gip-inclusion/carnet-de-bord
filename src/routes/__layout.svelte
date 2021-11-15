@@ -35,13 +35,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/env';
-	import { getMatomoSIteId, getMatomoUrl } from '$lib/config/variables/public';
+	import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
 
 	export let client: Client;
 	setClient(client);
 
 	const MATOMO_URL = getMatomoUrl();
-	const MATOMO_SITE_ID = getMatomoSIteId();
+	const MATOMO_SITE_ID = getMatomoSiteId();
 
 	let scrollbarWidth = '0';
 
