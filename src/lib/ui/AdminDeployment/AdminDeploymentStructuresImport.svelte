@@ -126,7 +126,7 @@
 		{ label: 'Téléphone', key: 'phone' },
 		{ label: 'Courriel', key: 'email' },
 		{ label: 'Site web', key: 'website' },
-		{ label: 'SIRET', key: 'shortDesc' },
+		{ label: 'SIRET', key: 'siret' },
 		{ label: 'Description', key: 'shortDesc' },
 	];
 
@@ -151,18 +151,30 @@
 			<div class="border-b border-gray-200 shadow">
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
-						{#each headers as header}
-							<th>{header.label}</th>
-						{/each}
+						<th>Nom*</th>
+						<th>Ville*</th>
+						<th>Code postal</th>
+						<th>Adresse</th>
+						<th>Adresse (complément)</th>
+						<th>Téléphone</th>
+						<th>Courriel</th>
+						<th>Site web</th>
+						<th>SIRET</th>
+						<th>Description</th>
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each structures as structure}
 							<tr>
-								{#each headers as header}
-									<td class="px-2 py-2 ">
-										<Text value={structure[header.key]} />
-									</td>
-								{/each}
+								<td class="px-2 py-2"><Text value={structure.name} /></td>
+								<td class="px-2 py-2"><Text value={structure.city} /></td>
+								<td class="px-2 py-2"><Text value={structure.postalCode} /></td>
+								<td class="px-2 py-2"><Text value={structure.address1} /></td>
+								<td class="px-2 py-2"><Text value={structure.address2} /></td>
+								<td class="px-2 py-2"><Text value={structure.phone} /></td>
+								<td class="px-2 py-2"><Text value={structure.email} /></td>
+								<td class="px-2 py-2"><Text value={structure.website} /></td>
+								<td class="px-2 py-2"><Text value={structure.siret} /></td>
+								<td class="px-2 py-2"><Text value={structure.shortDesc} /></td>
 								<td class="align-middle">
 									{#if structure.valid}
 										<Checkbox
