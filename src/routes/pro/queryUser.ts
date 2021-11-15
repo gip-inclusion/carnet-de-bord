@@ -88,7 +88,7 @@ const getPEUsers = async (data: unknown): Promise<ExternalUser[] | null> => {
 
 export const post: RequestHandler = async (request) => {
 	try {
-		authorizeOnly(['admin'])(request);
+		authorizeOnly(['professional'])(request);
 	} catch (e) {
 		return {
 			status: 403,
