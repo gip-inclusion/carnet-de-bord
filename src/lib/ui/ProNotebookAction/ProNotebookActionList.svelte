@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Maybe } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 
@@ -11,7 +10,6 @@
 			creationDate: string;
 			status: string;
 			action: string;
-			structure: { id: string; name?: Maybe<string> };
 			creator: { id: string; lastname: string; firstname: string };
 		}>;
 	};
@@ -25,10 +23,9 @@
 		<table class="w-full">
 			<thead>
 				<tr>
-					<th>Action</th>
-					<th>Créée par</th>
-					<th>Structure sollicitée</th>
-					<th>Date de création</th>
+					<th class="min-w-min w-3/5">Action</th>
+					<th class="min-w-min">Créée par</th>
+					<th class="min-w-min !text-right">Date de création</th>
 				</tr>
 			</thead>
 			<tbody class="w-full">
@@ -39,8 +36,7 @@
 							<div>{action.creator.firstname}</div>
 							<div>{action.creator.lastname}</div>
 						</td>
-						<td>{action.structure.name} </td>
-						<td>{formatDateLocale(action.creationDate)} </td>
+						<td class="!text-right">{formatDateLocale(action.creationDate)} </td>
 					</tr>
 				{:else}
 					<tr class="shadow-sm">
