@@ -18,6 +18,6 @@
 	<title>Gestion des déploiements - Carnet de bord</title>
 </svelte:head>
 
-<Button on:click={onAddDeployementClick}>Ajouter un Déploiment</Button>
+<Button on:click={onAddDeployementClick}>Ajouter un Déploiement</Button>
 
 <AdminDeploymentList {deploymentsStore} />
