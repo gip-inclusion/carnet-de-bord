@@ -43,6 +43,7 @@
 			error={fieldErrors['firstname']}
 			on:input={onInput}
 			disabled={disabledKeys['firstname']}
+			required={true}
 		/>
 		<Input
 			bind:val={account['lastname']}
@@ -51,6 +52,7 @@
 			error={fieldErrors['lastname']}
 			on:input={onInput}
 			disabled={disabledKeys['lastname']}
+			required={true}
 		/>
 		<Input
 			bind:val={account['mobileNumber']}

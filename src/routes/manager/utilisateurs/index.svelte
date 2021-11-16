@@ -98,22 +98,32 @@
 			</thead>
 			<tbody>
 				{#each filteredAccounts as account (account.id)}
-					<tr class="cursor-pointer" on:click={() => openProInfo(account)}>
-						<td><Text value={account.professional.lastname} /></td>
-						<td><Text value={account.professional.firstname} /></td>
-						<td><Text value={account.professional.mobileNumber} /></td>
-						<td><Text value={account.professional.structure.name} /></td>
-						<td><Text value={account.username} /></td>
+					<tr class="cursor-pointer">
+						<td on:click={() => openProInfo(account)}>
+							<Text value={account.professional.lastname} />
+						</td>
+						<td on:click={() => openProInfo(account)}>
+							<Text value={account.professional.firstname} />
+						</td>
+						<td on:click={() => openProInfo(account)}>
+							<Text value={account.professional.mobileNumber} />
+						</td>
+						<td on:click={() => openProInfo(account)}>
+							<Text value={account.professional.structure.name} />
+						</td>
+						<td on:click={() => openProInfo(account)}>
+							<Text value={account.username} />
+						</td>
 						<td>
 							{#if !account.confirmed}
-								<Button on:click={() => confirmAccount(account.id)}>activer</Button>
+								<Button on:click={() => confirmAccount(account.id)}>Activer</Button>
 							{:else}
 								Actif
 							{/if}
 						</td>
-						<td
-							><Text value={account.lastLogin ? formatDateTimeLocale(account.lastLogin) : ''} /></td
-						>
+						<td>
+							<Text value={account.lastLogin ? formatDateTimeLocale(account.lastLogin) : ''} />
+						</td>
 					</tr>
 				{:else}
 					<tr class="shadow-sm">
