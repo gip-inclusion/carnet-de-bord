@@ -40,41 +40,39 @@
 	<title>Accueil Professionnel - carnet de bord</title>
 </svelte:head>
 
-<div class="flex flex-col space-y-8 px-40">
-	<h1 class="fr-h2">Rechercher un bénéficiaire</h1>
+<h1 class="fr-h2">Rechercher un bénéficiaire</h1>
 
-	<ProBeneficiarySearchBar on:search={(event) => onSearch(event)} />
+<ProBeneficiarySearchBar on:search={(event) => onSearch(event)} />
 
-	<LoaderIndicator {result}>
-		<div>
-			<h2 class="fr-h5 text-france-blue">Derniers profils consultés</h2>
-			<div class="flex flex-row flex-wrap justify-between gap-1">
-				{#each $result.data.lastVisited as lastVisited, i (i)}
-					<div class="card-container">
-						<ProBeneficiaryCard
-							href={carnetUrl(lastVisited.notebook)}
-							beneficiary={lastVisited.notebook.beneficiary}
-						/>
-					</div>
-				{:else}
-					<p>Aucun(e) de vos bénéficiaires n'a été consulté(e) récemment.</p>
-				{/each}
-			</div>
+<LoaderIndicator {result}>
+	<div>
+		<h2 class="fr-h5 text-france-blue">Derniers profils consultés</h2>
+		<div class="flex flex-row flex-wrap justify-between gap-1">
+			{#each $result.data.lastVisited as lastVisited, i (i)}
+				<div class="card-container">
+					<ProBeneficiaryCard
+						href={carnetUrl(lastVisited.notebook)}
+						beneficiary={lastVisited.notebook.beneficiary}
+					/>
+				</div>
+			{:else}
+				<p>Aucun(e) de vos bénéficiaires n'a été consulté(e) récemment.</p>
+			{/each}
 		</div>
-		<div>
-			<h2 class="fr-h5 text-france-blue">Derniers profils modifiés</h2>
-			<div class="flex flex-row flex-wrap justify-between gap-1">
-				{#each $result.data.lastUpdated as lastUpdated, i (i)}
-					<div class="card-container">
-						<ProBeneficiaryCard
-							href={carnetUrl(lastUpdated.notebook)}
-							beneficiary={lastUpdated.notebook.beneficiary}
-						/>
-					</div>
-				{:else}
-					<p>Aucun(e) de vos bénéficiaires n'a été mis(e) à jour récemment.</p>
-				{/each}
-			</div>
+	</div>
+	<div>
+		<h2 class="fr-h5 text-france-blue">Derniers profils modifiés</h2>
+		<div class="flex flex-row flex-wrap justify-between gap-1">
+			{#each $result.data.lastUpdated as lastUpdated, i (i)}
+				<div class="card-container">
+					<ProBeneficiaryCard
+						href={carnetUrl(lastUpdated.notebook)}
+						beneficiary={lastUpdated.notebook.beneficiary}
+					/>
+				</div>
+			{:else}
+				<p>Aucun(e) de vos bénéficiaires n'a été mis(e) à jour récemment.</p>
+			{/each}
 		</div>
-	</LoaderIndicator>
-</div>
+	</div>
+</LoaderIndicator>

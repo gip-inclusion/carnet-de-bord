@@ -2,8 +2,7 @@
 	import type { GetAccountByPkQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { MenuItem } from '$lib/types';
-	import { FooterCDB, HeaderCDB } from '$lib/ui/index';
-	import LayerCDB from '$lib/ui/LayerCDB.svelte';
+	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
@@ -57,11 +56,13 @@
 
 <HeaderCDB {menuItems} />
 
-<div class="fr-container" style="min-height: calc(100vh - 200px)">
-	<LoaderIndicator {result}>
-		<slot />
-		<LayerCDB />
-	</LoaderIndicator>
+<div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
+	<div class="flex flex-col gap-8 px-40">
+		<LoaderIndicator {result}>
+			<slot />
+		</LoaderIndicator>
+	</div>
+	<LayerCDB />
 </div>
 
 <FooterCDB />

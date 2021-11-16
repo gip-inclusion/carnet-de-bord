@@ -142,87 +142,86 @@
 <svelte:head>
 	<title>Carnet beneficiaire - carnet de bord</title>
 </svelte:head>
+
 <LoaderIndicator result={getNotebookStore}>
-	<div class="flex flex-col gap-8 px-40">
-		<ProNotebookPersonalInfoView
-			{beneficiary}
-			on:edit={() => alert('Not implemented!')}
-			on:print={() => alert('Not implemented!')}
-			lastUpdateDate={lastMember?.notebookModificationDate}
-			lastUpdateFrom={lastMember?.professional}
-		/>
-		<Accordions>
-			<MainAccordion title="Situation socioprofessionnelle">
-				<ProNotebookSocioProView {notebook} />
-			</MainAccordion>
-			<MainAccordion title="Groupe de suivi">
-				<ProNotebookMembersView
-					{members}
-					notebookId={notebook.id}
-					beneficiaryFirstname={beneficiary.firstname}
-					beneficiaryLastname={beneficiary.lastname}
+	<ProNotebookPersonalInfoView
+		{beneficiary}
+		on:edit={() => alert('Not implemented!')}
+		on:print={() => alert('Not implemented!')}
+		lastUpdateDate={lastMember?.notebookModificationDate}
+		lastUpdateFrom={lastMember?.professional}
+	/>
+	<Accordions>
+		<MainAccordion title="Situation socioprofessionnelle">
+			<ProNotebookSocioProView {notebook} />
+		</MainAccordion>
+		<MainAccordion title="Groupe de suivi">
+			<ProNotebookMembersView
+				{members}
+				notebookId={notebook.id}
+				beneficiaryFirstname={beneficiary.firstname}
+				beneficiaryLastname={beneficiary.lastname}
+			/>
+		</MainAccordion>
+		<MainAccordion title="Axes de travail">
+			<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
+		</MainAccordion>
+		<MainAccordion title="Historique de parcours">
+			<div class="flex flex-row justify-between mb-2">
+				<Select
+					on:select={onSelect}
+					options={[
+						{ name: allEvents, label: 'Tous les évènements' },
+						{ name: threeMonths, label: 'Dans les 3 derniers mois' },
+						{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
+						{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
+						{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
+					]}
+					{selected}
+					selectHint="Sélectionner un filtre"
+					selectLabel="Période"
+					classNames="self-center"
+					twWidthClass="w-5/12"
 				/>
-			</MainAccordion>
-			<MainAccordion title="Axes de travail">
-				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
-			</MainAccordion>
-			<MainAccordion title="Historique de parcours">
-				<div class="flex flex-row justify-between mb-2">
-					<Select
-						on:select={onSelect}
-						options={[
-							{ name: allEvents, label: 'Tous les évènements' },
-							{ name: threeMonths, label: 'Dans les 3 derniers mois' },
-							{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
-							{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
-							{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
-						]}
-						{selected}
-						selectHint="Sélectionner un filtre"
-						selectLabel="Période"
-						classNames="self-center"
-						twWidthClass="w-5/12"
-					/>
-					<SearchBar
-						inputLabel=""
-						inputHint="Axe de travail, action, structure"
-						bind:search
-						handleSubmit={handleSearch}
-						classNames="self-center"
-						twWidthClass="w-5/12"
-					/>
-				</div>
-				<div class={`w-full fr-table fr-table--layout-fixed`}>
-					<table class="w-full">
-						<thead>
+				<SearchBar
+					inputLabel=""
+					inputHint="Axe de travail, action, structure"
+					bind:search
+					handleSubmit={handleSearch}
+					classNames="self-center"
+					twWidthClass="w-5/12"
+				/>
+			</div>
+			<div class={`w-full fr-table fr-table--layout-fixed`}>
+				<table class="w-full">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Évènements</th>
+							<th>Auteurs</th>
+						</tr>
+					</thead>
+					<tbody class="w-full">
+						{#each filteredEvents || [] as event (event.id)}
 							<tr>
-								<th>Date</th>
-								<th>Évènements</th>
-								<th>Auteurs</th>
+								<td>{formatDateLocale(event.eventDate)} </td>
+								<td>{event.event}</td>
+								<td>{event.structure} </td>
 							</tr>
-						</thead>
-						<tbody class="w-full">
-							{#each filteredEvents || [] as event (event.id)}
-								<tr>
-									<td>{formatDateLocale(event.eventDate)} </td>
-									<td>{event.event}</td>
-									<td>{event.structure} </td>
-								</tr>
-							{:else}
-								<tr class="shadow-sm">
-									<td class="!text-center" colspan="3">
-										{#if events.length > 0}
-											Aucun évènement ne correspond à votre recherche.
-										{:else}
-											Aucun évènement pour le moment.
-										{/if}
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
-			</MainAccordion>
-		</Accordions>
-	</div>
+						{:else}
+							<tr class="shadow-sm">
+								<td class="!text-center" colspan="3">
+									{#if events.length > 0}
+										Aucun évènement ne correspond à votre recherche.
+									{:else}
+										Aucun évènement pour le moment.
+									{/if}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		</MainAccordion>
+	</Accordions>
 </LoaderIndicator>

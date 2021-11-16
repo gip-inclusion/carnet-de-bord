@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
+	import { FooterCDB, HeaderCDB } from '$lib/ui';
 	import { Link } from '$lib/ui/base';
 </script>
 
@@ -109,6 +109,5 @@
 		</div>
 	</div>
 </div>
-<LayerCDB />
 
 <FooterCDB />
