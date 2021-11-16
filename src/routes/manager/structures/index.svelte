@@ -70,47 +70,45 @@
 	$: filteredStructures = structures;
 </script>
 
-<div class="flex flex-col gap-8 px-40">
-	<LoaderIndicator {result}>
-		<div>
-			<div class="flex flex-row justify-between">
-				<h2 class="fr-h4 pt-4">Liste des structures</h2>
-				<IconButton
-					on:click={() => openStructureLayer(null)}
-					icon="ri-add-circle-line"
-					ariaLabel="Ajouter un structure"
-				/>
-			</div>
-
-			<div class="mb-4">
-				<SearchBar
-					inputLabel="Rechercher une structure"
-					inputHint="Ex : Nom, ville"
-					btnLabel="Rechercher"
-					bind:search
-					{handleSubmit}
-				/>
-			</div>
-			<div class={`w-full fr-table fr-table--layout-fixed`}>
-				<table>
-					<thead>
-						<tr>
-							<th>Nom</th>
-							<th>Code postal</th>
-							<th>Ville</th>
-						</tr>
-					</thead>
-					<tbody>
-						{#each filteredStructures as structure (structure.id)}
-							<tr class="cursor-pointer" on:click={() => openStructureLayer(structure)}>
-								<td>{structure.name}</td>
-								<td>{structure.postalCode || ''}</td>
-								<td>{structure.city || ''}</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-			</div>
+<LoaderIndicator {result}>
+	<div>
+		<div class="flex flex-row justify-between">
+			<h2 class="fr-h4 pt-4">Liste des structures</h2>
+			<IconButton
+				on:click={() => openStructureLayer(null)}
+				icon="ri-add-circle-line"
+				ariaLabel="Ajouter un structure"
+			/>
 		</div>
-	</LoaderIndicator>
-</div>
+
+		<div class="mb-4">
+			<SearchBar
+				inputLabel="Rechercher une structure"
+				inputHint="Ex : Nom, ville"
+				btnLabel="Rechercher"
+				bind:search
+				{handleSubmit}
+			/>
+		</div>
+		<div class={`w-full fr-table fr-table--layout-fixed`}>
+			<table>
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Code postal</th>
+						<th>Ville</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each filteredStructures as structure (structure.id)}
+						<tr class="cursor-pointer" on:click={() => openStructureLayer(structure)}>
+							<td>{structure.name}</td>
+							<td>{structure.postalCode || ''}</td>
+							<td>{structure.city || ''}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</LoaderIndicator>

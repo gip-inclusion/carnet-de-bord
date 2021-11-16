@@ -75,56 +75,52 @@
 	<title>Gestion des utilisateurs - carnet de bord</title>
 </svelte:head>
 
-<div class="py-4 px-40 space-y-4">
-	<LoaderIndicator {result}>
-		<SearchBar
-			bind:search
-			inputLabel="Rechercher un compte"
-			inputHint="Nom, prénom, email, téléphone"
-			btnLabel="Rechercher"
-			{handleSubmit}
-		/>
-		<div class={`w-full fr-table fr-table--layout-fixed`}>
-			<table>
-				<thead>
-					<tr>
-						<th>Nom</th>
-						<th>Prénom</th>
-						<th>Mobile</th>
-						<th>Structure</th>
-						<th>Identifiant</th>
-						<th>Compte</th>
-						<th>Dernière connexion</th>
+<LoaderIndicator {result}>
+	<SearchBar
+		bind:search
+		inputLabel="Rechercher un compte"
+		inputHint="Nom, prénom, email, téléphone"
+		btnLabel="Rechercher"
+		{handleSubmit}
+	/>
+	<div class={`w-full fr-table fr-table--layout-fixed`}>
+		<table>
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Mobile</th>
+					<th>Structure</th>
+					<th>Identifiant</th>
+					<th>Compte</th>
+					<th>Dernière connexion</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each filteredAccounts as account (account.id)}
+					<tr class="cursor-pointer" on:click={() => openProInfo(account)}>
+						<td><Text value={account.professional.lastname} /></td>
+						<td><Text value={account.professional.firstname} /></td>
+						<td><Text value={account.professional.mobileNumber} /></td>
+						<td><Text value={account.professional.structure.name} /></td>
+						<td><Text value={account.username} /></td>
+						<td>
+							{#if !account.confirmed}
+								<Button on:click={() => confirmAccount(account.id)}>activer</Button>
+							{:else}
+								Actif
+							{/if}
+						</td>
+						<td
+							><Text value={account.lastLogin ? formatDateTimeLocale(account.lastLogin) : ''} /></td
+						>
 					</tr>
-				</thead>
-				<tbody>
-					{#each filteredAccounts as account (account.id)}
-						<tr class="cursor-pointer" on:click={() => openProInfo(account)}>
-							<td><Text value={account.professional.lastname} /></td>
-							<td><Text value={account.professional.firstname} /></td>
-							<td><Text value={account.professional.mobileNumber} /></td>
-							<td><Text value={account.professional.structure.name} /></td>
-							<td><Text value={account.username} /></td>
-							<td>
-								{#if !account.confirmed}
-									<Button on:click={() => confirmAccount(account.id)}>activer</Button>
-								{:else}
-									Actif
-								{/if}
-							</td>
-							<td
-								><Text
-									value={account.lastLogin ? formatDateTimeLocale(account.lastLogin) : ''}
-								/></td
-							>
-						</tr>
-					{:else}
-						<tr class="shadow-sm">
-							<td class="!text-center" colspan="4"> Aucun compte utilisateur. </td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
-	</LoaderIndicator>
-</div>
+				{:else}
+					<tr class="shadow-sm">
+						<td class="!text-center" colspan="4"> Aucun compte utilisateur. </td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
+</LoaderIndicator>

@@ -31,10 +31,8 @@
 	<title>Fiche professionnel - carnet de bord</title>
 </svelte:head>
 
-<div class="flex flex-col gap-8 p-20">
-	<LoaderIndicator result={getAccountByPkStore}>
-		{#if acc.professional}
-			<ProWithStructureView {professional} proFirst={true} />
-		{/if}
-	</LoaderIndicator>
-</div>
+<LoaderIndicator result={getAccountByPkStore}>
+	{#if acc.professional}
+		<ProWithStructureView {professional} proFirst={true} />
+	{/if}
+</LoaderIndicator>

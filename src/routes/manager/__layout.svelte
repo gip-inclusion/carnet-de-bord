@@ -14,9 +14,8 @@
 </script>
 
 <script lang="ts">
-	import LayerCDB from '$lib/ui/LayerCDB.svelte';
 	import type { MenuItem } from '$lib/types';
-	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
+	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
 
 	const menuItems: MenuItem[] = [
 		{
@@ -30,8 +29,10 @@
 
 <HeaderCDB {menuItems} />
 
-<div class="fr-container" style="min-height: calc(100vh - 200px)">
-	<slot />
+<div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
+	<div class="flex flex-col gap-8 px-40">
+		<slot />
+	</div>
 	<LayerCDB />
 </div>
 
