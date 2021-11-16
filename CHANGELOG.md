@@ -1,3 +1,10 @@
+## [1.57.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.0...v1.57.1) (2021-11-16)
+
+
+### Bug Fixes
+
+* update permision to filter pro using deploymentId ([400f349](https://github.com/SocialGouv/carnet-de-bord/commit/400f3497c823b26af12d50d2b6fe19723b4d272d))
+
 # [1.57.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.56.0...v1.57.0) (2021-11-16)
 
 
