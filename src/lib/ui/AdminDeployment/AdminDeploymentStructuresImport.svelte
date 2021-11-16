@@ -134,10 +134,6 @@
 		structures = [];
 	}
 
-	function backToUpload() {
-		insertResult = undefined;
-	}
-
 	$: successfulImports = (insertResult || []).filter(({ error }) => !error).length;
 </script>
 
@@ -284,9 +280,6 @@
 					</table>
 				</div>
 			{/key}
-			<div class="mt-6 flex justify-end flex-row gap-4">
-				<Button on:click={backToUpload} outline={true}>Retour</Button>
-			</div>
 		</div>
 	{/if}
 </div>
