@@ -44,7 +44,7 @@
 	let structure: StructureLight | null;
 
 	const isAccountRequestValid = (ar: AccountRequest) =>
-		!!ar.firstname && !!ar.lastname && !!ar.mobileNumber && !!ar.email && !!ar.position;
+		!!ar.firstname && !!ar.lastname && !!ar.email;
 
 	$: disableSubmission = disabled || !structure || !isAccountRequestValid(accountRequest);
 </script>
