@@ -75,38 +75,54 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	const { url, callback, headers } = input.config;
 	const { beneficiary, members } = data.notebook;
 	const callbackUrl = `${getAppUrl()}${callback}`;
-	const result: ExternalDeploymentApiOutput = await fetch(callbackUrl, {
-		method: 'POST',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			url,
-			headers,
-			input: beneficiary,
-			notebookId: input.id,
-			professionalId: members[0]?.professionalId,
-		}),
-	}).then((response) => {
-		if (response.ok) {
-			return response.json();
-		}
-		return Promise.reject(response.json());
-	});
+	let result: ExternalDeploymentApiOutput;
+	try {
+		result = await fetch(callbackUrl, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				url,
+				headers,
+				input: beneficiary,
+				notebookId: input.id,
+				professionalId: members[0]?.professionalId,
+			}),
+		}).then((response) => {
+			if (response.ok) {
+				return response.json();
+			}
+			return Promise.reject(response.json());
+		});
+	} catch (error) {
+		console.error(error);
+		return {
+			status: 500,
+			body: { error: 'CALLBACK_FAILED' },
+		};
+	}
 
-	await client
-		.mutation(UpdateNotebookFromApiDocument, {
-			notebookId: input.id,
-			notebook: result.notebook,
-			beneficiaryId: beneficiary.id,
-			beneficiary: result.beneficiary,
-			focuses: result.focuses,
-		})
-		.toPromise();
-
-	return {
-		status: 200,
-		body: { id: input.id },
-	};
+	try {
+		await client
+			.mutation(UpdateNotebookFromApiDocument, {
+				notebookId: input.id,
+				notebook: result.notebook,
+				beneficiaryId: beneficiary.id,
+				beneficiary: result.beneficiary,
+				focuses: result.focuses,
+			})
+			.toPromise();
+		return {
+			status: 200,
+			body: { id: input.id },
+		};
+	} catch (error) {
+		console.error(error);
+		return {
+			status: 500,
+			body: { error: 'UPDATE_FAILED' },
+		};
+	}
 };

@@ -3,9 +3,9 @@ import type { ServerRequest } from '@sveltejs/kit/types/hooks';
 import type {
 	ExternalDeploymentApiBody,
 	ExternalDeploymentApiOutput,
-} from '../actions/update_notebook';
-import fixtures from './fixtures.json';
-import { post } from './marne';
+} from '../src/routes/actions/update_notebook';
+import fixtures from '../src/routes/api/fixtures.json';
+import { post } from '../src/routes/api/marne';
 
 global.fetch = jest
 	.fn()
