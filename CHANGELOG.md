@@ -1,3 +1,11 @@
+## [1.57.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.1...v1.57.2) (2021-11-16)
+
+
+### Bug Fixes
+
+* remove duplicate layer ([329b6d1](https://github.com/SocialGouv/carnet-de-bord/commit/329b6d1433d7fc8d0b7d59f953c8f0461226e9fa))
+* use empty visitiDate when search all beneficiary ([ef716b3](https://github.com/SocialGouv/carnet-de-bord/commit/ef716b3808e35253e6bea24545c5fe2401a41a1f))
+
 ## [1.57.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.0...v1.57.1) (2021-11-16)
 
 
