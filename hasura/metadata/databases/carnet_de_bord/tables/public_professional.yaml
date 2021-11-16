@@ -77,7 +77,10 @@ select_permissions:
     - mobile_number
     - position
     - structure_id
-    filter: {}
+    filter:
+      structure:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
   role: professional
 update_permissions:
 - permission:
