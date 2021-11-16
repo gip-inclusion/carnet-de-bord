@@ -1,3 +1,19 @@
+# [1.56.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.4...v1.56.0) (2021-11-16)
+
+
+### Bug Fixes
+
+* add down migration ([cd66c28](https://github.com/SocialGouv/carnet-de-bord/commit/cd66c283fac77e7a17c86a83a5205d92add81c40))
+* log error ([35d8b4d](https://github.com/SocialGouv/carnet-de-bord/commit/35d8b4d7d6f5b9a52e951bc4c4ba875149668960))
+* review ([1bbfe9a](https://github.com/SocialGouv/carnet-de-bord/commit/1bbfe9a273e050da7cbe17747aede7f34f7f2511))
+
+
+### Features
+
+* add config column to deployement ([912c293](https://github.com/SocialGouv/carnet-de-bord/commit/912c2937c774497ae0777f3f5485a98afb298ae6))
+* add update notebook action ([413594f](https://github.com/SocialGouv/carnet-de-bord/commit/413594f155965eb3395e257c9d7d80a3a95c1ac9))
+* remove structure_sollicitées from notebook_actions ([453905b](https://github.com/SocialGouv/carnet-de-bord/commit/453905bc18572b738f8d22c64ab671b23c643837))
+
 ## [1.55.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.3...v1.55.4) (2021-11-15)
 
 
