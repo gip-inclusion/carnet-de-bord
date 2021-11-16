@@ -36,7 +36,6 @@
 		hint: 'Ex : jb@poquelin.fr',
 		key: 'email',
 		type: 'email',
-		required: true,
 	};
 	const address1Input: InputItem = {
 		label: 'Adresse',
