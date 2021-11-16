@@ -1,3 +1,10 @@
+# [1.57.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.56.0...v1.57.0) (2021-11-16)
+
+
+### Features
+
+* add Crisp chat ([37938b2](https://github.com/SocialGouv/carnet-de-bord/commit/37938b24aaacdf277ce4817ca2822df0dbaa0cb4))
+
 # [1.56.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.55.4...v1.56.0) (2021-11-16)
 
 
