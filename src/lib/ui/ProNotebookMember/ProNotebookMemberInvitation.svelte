@@ -103,6 +103,7 @@
 				onCancel,
 				onInput,
 				onSubmit,
+				name: `${beneficiaryFirstname} ${beneficiaryLastname}`,
 			},
 		});
 	}
@@ -117,8 +118,7 @@
 		<div class="py-12">
 			<h1>Inviter un accompagnateur</h1>
 			<div>
-				{`Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de M.
-		${beneficiaryFirstname} ${beneficiaryLastname}.`}
+				{`Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de ${beneficiaryFirstname} ${beneficiaryLastname}.`}
 			</div>
 		</div>
 

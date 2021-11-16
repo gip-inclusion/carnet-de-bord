@@ -16,7 +16,7 @@
 	<div>
 		<h1 class="mb-0">Ajouter un nouvel accompagnateur</h1>
 		<p class="mb-0">
-			Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de M. {name}.
+			Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de {name}.
 		</p>
 	</div>
 	<ProCreationForm
