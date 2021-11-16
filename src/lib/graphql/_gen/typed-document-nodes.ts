@@ -6275,7 +6275,7 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	lastname: Scalars['String'];
 	dateOfBirth: Scalars['date'];
 	mobileNumber?: Maybe<Scalars['String']>;
-	email: Scalars['citext'];
+	email?: Maybe<Scalars['citext']>;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
@@ -10207,10 +10207,7 @@ export const CreateBeneficiaryDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
-					},
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
 				},
 				{
 					kind: 'VariableDefinition',
