@@ -4802,7 +4802,7 @@ export type Structure = {
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	modificationDate?: Maybe<Scalars['timestamptz']>;
-	name: Scalars['String'];
+	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -4893,7 +4893,7 @@ export type StructureBoolExp = {
 /** unique or primary key constraints on table "structure" */
 export enum StructureConstraint {
 	/** unique or primary key constraint */
-	StructureNameKey = 'structure_name_key',
+	StructureNameDeploymentIdKey = 'structure_name_deployment_id_key',
 	/** unique or primary key constraint */
 	StructurePkey = 'structure_pkey',
 }
@@ -5708,7 +5708,7 @@ export type GetNotebookFocusByIdQuery = {
 			structure: {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: Maybe<string>;
 				phone?: Maybe<string>;
 				address1?: Maybe<string>;
 				address2?: Maybe<string>;
@@ -5783,7 +5783,7 @@ export type SearchProfessionalQuery = {
 		structure: {
 			__typename?: 'structure';
 			id: string;
-			name: string;
+			name?: Maybe<string>;
 			postalCode?: Maybe<string>;
 			phone?: Maybe<string>;
 		};
@@ -5884,7 +5884,7 @@ export type GetAccountByPkQuery = {
 			structure: {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: Maybe<string>;
 				address1?: Maybe<string>;
 				address2?: Maybe<string>;
 				postalCode?: Maybe<string>;
@@ -6038,7 +6038,7 @@ export type GetStructuresQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: Maybe<string>;
-		name: string;
+		name?: Maybe<string>;
 		shortDesc?: Maybe<string>;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
@@ -6100,7 +6100,7 @@ export type InsertStructureMutation = {
 	structure?: Maybe<{
 		__typename?: 'structure';
 		id: string;
-		name: string;
+		name?: Maybe<string>;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
 		address1?: Maybe<string>;
@@ -6132,7 +6132,7 @@ export type UpdateStructureMutation = {
 	structure?: Maybe<{
 		__typename?: 'structure';
 		id: string;
-		name: string;
+		name?: Maybe<string>;
 		phone?: Maybe<string>;
 		email?: Maybe<string>;
 		address1?: Maybe<string>;
@@ -6148,7 +6148,7 @@ export type UpdateStructureMutation = {
 export type StructureFieldsFragment = {
 	__typename?: 'structure';
 	id: string;
-	name: string;
+	name?: Maybe<string>;
 	phone?: Maybe<string>;
 	email?: Maybe<string>;
 	address1?: Maybe<string>;
@@ -6178,7 +6178,7 @@ export type GetAccountsSummaryQuery = {
 			position?: Maybe<string>;
 			mobileNumber?: Maybe<string>;
 			email: any;
-			structure: { __typename?: 'structure'; id: string; name: string };
+			structure: { __typename?: 'structure'; id: string; name?: Maybe<string> };
 		}>;
 	}>;
 };
@@ -6225,7 +6225,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				structure: {
 					__typename?: 'structure';
 					id: string;
-					name: string;
+					name?: Maybe<string>;
 					address1?: Maybe<string>;
 					address2?: Maybe<string>;
 					postalCode?: Maybe<string>;
@@ -6411,7 +6411,7 @@ export type GetNotebookQuery = {
 				structure: {
 					__typename?: 'structure';
 					id: string;
-					name: string;
+					name?: Maybe<string>;
 					address1?: Maybe<string>;
 					address2?: Maybe<string>;
 					postalCode?: Maybe<string>;
@@ -6429,7 +6429,7 @@ export type GetNotebookQuery = {
 			professional: {
 				__typename?: 'professional';
 				structureId: string;
-				structure: { __typename?: 'structure'; name: string };
+				structure: { __typename?: 'structure'; name?: Maybe<string> };
 			};
 		}>;
 	}>;
@@ -6453,7 +6453,7 @@ export type GetNotebookEventsQuery = {
 		professional: {
 			__typename?: 'professional';
 			structureId: string;
-			structure: { __typename?: 'structure'; name: string };
+			structure: { __typename?: 'structure'; name?: Maybe<string> };
 		};
 	}>;
 };
@@ -6468,7 +6468,7 @@ export type EventFieldsFragment = {
 	professional: {
 		__typename?: 'professional';
 		structureId: string;
-		structure: { __typename?: 'structure'; name: string };
+		structure: { __typename?: 'structure'; name?: Maybe<string> };
 	};
 };
 
