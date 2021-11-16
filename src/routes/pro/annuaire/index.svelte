@@ -26,7 +26,7 @@
 
 	function buildQueryVariables({ professionalId, search, selected }) {
 		const today = new Date();
-		let visitDate = { _is_null: undefined, _gt: undefined, _lt: undefined };
+		let visitDate = { _gt: undefined, _lt: undefined };
 
 		if (selected === dt['3months']) {
 			visitDate._gt = addMonths(today, -3);
@@ -38,8 +38,6 @@
 			visitDate._lt = addMonths(today, -6);
 		} else if (selected === dt['12months']) {
 			visitDate._lt = addMonths(today, -12);
-		} else {
-			visitDate._is_null = true;
 		}
 
 		const variables: SearchNotebookMemberQueryVariables = { professionalId, visitDate };
