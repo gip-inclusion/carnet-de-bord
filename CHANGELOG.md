@@ -1,3 +1,10 @@
+## [1.57.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.2...v1.57.3) (2021-11-18)
+
+
+### Bug Fixes
+
+* update codegen to reflect current status ([5fd42ea](https://github.com/SocialGouv/carnet-de-bord/commit/5fd42ea9c4070e3457ddf95f494e7774c733b178))
+
 ## [1.57.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.1...v1.57.2) (2021-11-16)
 
 
