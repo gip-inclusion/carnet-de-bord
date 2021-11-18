@@ -1,3 +1,18 @@
+# [1.58.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.3...v1.58.0) (2021-11-18)
+
+
+### Bug Fixes
+
+* manager can now activate account + correct mandatory fields when registering ([ccb0135](https://github.com/SocialGouv/carnet-de-bord/commit/ccb0135889c6226a97caaef6f13928b5085c385f))
+* minor typo ([216651f](https://github.com/SocialGouv/carnet-de-bord/commit/216651f72054f9b91b1d80e727a133201e5045fe))
+* remove default dates when adding a notebook member ([f3f8502](https://github.com/SocialGouv/carnet-de-bord/commit/f3f85025529b3b27238ad54af43908e86cf5e19f))
+* remove mandatory email when creating beneficiary ([39e710b](https://github.com/SocialGouv/carnet-de-bord/commit/39e710bc93c652711d28995fbdb39f90b6bc8022))
+
+
+### Features
+
+* fix typos when adding a Pro to a Beneficiary's notebook ([55a6b26](https://github.com/SocialGouv/carnet-de-bord/commit/55a6b262952e71c739e1d13b8cf398b21c9d95e6))
+
 ## [1.57.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.2...v1.57.3) (2021-11-18)
 
 
