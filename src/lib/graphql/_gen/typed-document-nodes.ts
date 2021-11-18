@@ -5931,6 +5931,45 @@ export type UpdateNotebookFromApiMutation = {
 	}>;
 };
 
+export type GetProfessionalsForDeploymentQueryVariables = Exact<{
+	deploymentId?: Maybe<Scalars['uuid']>;
+}>;
+
+export type GetProfessionalsForDeploymentQuery = {
+	__typename?: 'query_root';
+	professional: Array<{
+		__typename?: 'professional';
+		id: string;
+		firstname: string;
+		lastname: string;
+		mobileNumber?: Maybe<string>;
+		position?: Maybe<string>;
+		structureId: string;
+		structure: { __typename?: 'structure'; id: string; name?: Maybe<string> };
+	}>;
+};
+
+export type GetStructuresForDeploymentQueryVariables = Exact<{
+	deploymentId?: Maybe<Scalars['uuid']>;
+}>;
+
+export type GetStructuresForDeploymentQuery = {
+	__typename?: 'query_root';
+	structure: Array<{
+		__typename?: 'structure';
+		id: string;
+		siret?: Maybe<string>;
+		name?: Maybe<string>;
+		shortDesc?: Maybe<string>;
+		phone?: Maybe<string>;
+		email?: Maybe<string>;
+		postalCode?: Maybe<string>;
+		city?: Maybe<string>;
+		address1?: Maybe<string>;
+		address2?: Maybe<string>;
+	}>;
+};
+
 export type GetAccountInfoQueryVariables = Exact<{
 	accessKey: Scalars['String'];
 }>;
@@ -6285,9 +6324,10 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	postalCode?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	workSituation?: Maybe<Scalars['String']>;
-	professionalId?: Maybe<Scalars['uuid']>;
+	professionalId: Scalars['uuid'];
 	cafNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 }>;
 
 export type CreateBeneficiaryMutation = {
@@ -8800,6 +8840,166 @@ export const UpdateNotebookFromApiDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateNotebookFromApiMutation, UpdateNotebookFromApiMutationVariables>;
+export const GetProfessionalsForDeploymentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetProfessionalsForDeployment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structure' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetProfessionalsForDeploymentQuery,
+	GetProfessionalsForDeploymentQueryVariables
+>;
+export const GetStructuresForDeploymentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructuresForDeployment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'deploymentId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetStructuresForDeploymentQuery,
+	GetStructuresForDeploymentQueryVariables
+>;
 export const GetAccountInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -10252,7 +10452,10 @@ export const CreateBeneficiaryDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
@@ -10263,6 +10466,11 @@ export const CreateBeneficiaryDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
 			],
 			selectionSet: {
@@ -10377,6 +10585,14 @@ export const CreateBeneficiaryDocument = {
 																	value: {
 																		kind: 'Variable',
 																		name: { kind: 'Name', value: 'peNumber' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deploymentId' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
 																	},
 																},
 															],
@@ -11530,6 +11746,14 @@ export type GetNotebookInfoQueryStore = OperationStore<
 export type UpdateNotebookFromApiMutationStore = OperationStore<
 	UpdateNotebookFromApiMutation,
 	UpdateNotebookFromApiMutationVariables
+>;
+export type GetProfessionalsForDeploymentQueryStore = OperationStore<
+	GetProfessionalsForDeploymentQuery,
+	GetProfessionalsForDeploymentQueryVariables
+>;
+export type GetStructuresForDeploymentQueryStore = OperationStore<
+	GetStructuresForDeploymentQuery,
+	GetStructuresForDeploymentQueryVariables
 >;
 export type GetAccountInfoQueryStore = OperationStore<
 	GetAccountInfoQuery,

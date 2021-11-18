@@ -27,10 +27,11 @@ const client = createClient({
 });
 
 export const post: RequestHandler = async (request) => {
-	const { accountRequest, structureId, requester } = request.body as unknown as {
+	const { accountRequest, structureId, requester, noEmail } = request.body as unknown as {
 		accountRequest: AccountRequest;
 		structureId: string;
 		requester?: string;
+		noEmail?: boolean;
 	};
 
 	const { email, firstname, lastname, mobileNumber, position } = accountRequest;
@@ -132,20 +133,22 @@ export const post: RequestHandler = async (request) => {
 	const { account } = insertResult.data;
 	const appUrl = getAppUrl();
 
-	// send email to first admin
-	try {
-		await sendEmail({
-			to: contactEmail,
-			subject: 'Demande de création de compte',
-			html: emailAccountRequest({
-				firstname,
-				lastname,
-				appUrl,
-				requester,
-			}),
-		});
-	} catch (e) {
-		console.log(e);
+	if (!noEmail) {
+		// send email to first admin
+		try {
+			await sendEmail({
+				to: contactEmail,
+				subject: 'Demande de création de compte',
+				html: emailAccountRequest({
+					firstname,
+					lastname,
+					appUrl,
+					requester,
+				}),
+			});
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	return {

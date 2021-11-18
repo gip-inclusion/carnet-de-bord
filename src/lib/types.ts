@@ -6,10 +6,10 @@ export type Account = AccountRequest & {
 };
 
 export interface AccountRequest {
-	firstname?: string;
-	lastname?: string;
+	email: string;
+	firstname: string;
+	lastname: string;
 	mobileNumber?: string;
-	email?: string;
 	position?: string;
 }
 

@@ -1,0 +1,14 @@
+query GetProfessionalsForDeployment($deploymentId: uuid) {
+	professional(where: { structure: { deploymentId: { _eq: $deploymentId } } }) {
+		id
+		firstname
+		lastname
+		mobileNumber
+		position
+		structureId
+		structure {
+			id
+			name
+		}
+	}
+}
