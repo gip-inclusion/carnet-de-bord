@@ -31,11 +31,6 @@ export type BooleanComparisonExp = {
 	_nin?: Maybe<Array<Scalars['Boolean']>>;
 };
 
-export type CreateBeneficiaryOutput = {
-	__typename?: 'CreateBeneficiaryOutput';
-	id: Scalars['uuid'];
-};
-
 export type DeploymentConfigInput = {
 	callback?: Maybe<Scalars['String']>;
 	headers?: Maybe<Scalars['jsonb']>;
@@ -1490,7 +1485,6 @@ export enum ManagerUpdateColumn {
 /** mutation root */
 export type MutationRoot = {
 	__typename?: 'mutation_root';
-	createBeneficiary?: Maybe<CreateBeneficiaryOutput>;
 	/** delete data from the table: "account" */
 	delete_account?: Maybe<AccountMutationResponse>;
 	/** delete single row from the table: "account" */
@@ -1619,7 +1613,6 @@ export type MutationRoot = {
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
-	/** update a given notebook using an extrenal API */
 	updateNotebook?: Maybe<UpdateNotebookOutput>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<AccountMutationResponse>;
@@ -1685,23 +1678,6 @@ export type MutationRoot = {
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
-};
-
-/** mutation root */
-export type MutationRootCreateBeneficiaryArgs = {
-	address1?: Maybe<Scalars['String']>;
-	address2?: Maybe<Scalars['String']>;
-	cafNumber?: Maybe<Scalars['String']>;
-	city?: Maybe<Scalars['String']>;
-	dateOfBirth: Scalars['date'];
-	email: Scalars['String'];
-	firstname: Scalars['String'];
-	lastname: Scalars['String'];
-	mobileNumber?: Maybe<Scalars['String']>;
-	peNumber?: Maybe<Scalars['String']>;
-	postalCode?: Maybe<Scalars['String']>;
-	professionalId?: Maybe<Scalars['uuid']>;
-	workSituation?: Maybe<Scalars['String']>;
 };
 
 /** mutation root */
