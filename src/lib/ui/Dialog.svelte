@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-
 	import { DialogOverlay, DialogContent } from 'svelte-accessible-dialog';
 	import { Button } from '$lib/ui/base';
 
@@ -35,10 +34,12 @@
 
 	const open = () => {
 		isOpen = true;
+		dispatch('open');
 	};
 
 	const close = () => {
 		isOpen = false;
+		dispatch('close');
 	};
 
 	const confirm = () => {

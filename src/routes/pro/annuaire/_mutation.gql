@@ -9,9 +9,10 @@ mutation CreateBeneficiary(
 	$postalCode: String
 	$city: String
 	$workSituation: String
-	$professionalId: uuid
+	$professionalId: uuid!
 	$cafNumber: String
 	$peNumber: String
+	$deploymentId: uuid
 ) {
 	newNotebook: insert_notebook_one(
 		object: {
@@ -28,6 +29,7 @@ mutation CreateBeneficiary(
 					city: $city
 					cafNumber: $cafNumber
 					peNumber: $peNumber
+					deploymentId: $deploymentId
 				}
 			}
 			events: { data: [] }

@@ -19,7 +19,11 @@
 	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let deploymentId: string;
-	const getDeploymentStore = operationStore(GetDeploymentByIdDocument, { id: deploymentId });
+	const getDeploymentStore = operationStore(
+		GetDeploymentByIdDocument,
+		{ id: deploymentId },
+		{ additionalTypenames: ['structure', 'professional', 'beneficiary'] }
+	);
 	query(getDeploymentStore);
 
 	$: deployment = $getDeploymentStore?.data?.deployment;
@@ -30,5 +34,5 @@
 	<title>Déploiement {deployment?.label ?? ''} - Carnet de bord</title>
 </svelte:head>
 <LoaderIndicator result={getDeploymentStore}>
-	<AdminDeploymentDetail {deployment} {professional_aggregate} />
+	<AdminDeploymentDetail {deployment} {professional_aggregate} store={getDeploymentStore}/>
 </LoaderIndicator>

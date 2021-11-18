@@ -137,16 +137,17 @@
 	$: successfulImports = (insertResult || []).filter(({ error }) => !error).length;
 </script>
 
-<div>
+<div class="flex flex-col gap-6">
 	{#if insertResult === undefined}
 		{#if structures.length > 0}
 			<p>
 				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
 				correctes et confirmer.
 			</p>
-			<div class="border-b border-gray-200 shadow">
+			<div class="border-b border-gray-200 shadow" style="overflow-x: auto;">
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
+						<th></th>
 						<th>Nom*</th>
 						<th>Ville*</th>
 						<th>Code postal</th>
@@ -161,20 +162,10 @@
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each structures as structure}
 							<tr>
-								<td class="px-2 py-2"><Text value={structure.name} /></td>
-								<td class="px-2 py-2"><Text value={structure.city} /></td>
-								<td class="px-2 py-2"><Text value={structure.postalCode} /></td>
-								<td class="px-2 py-2"><Text value={structure.address1} /></td>
-								<td class="px-2 py-2"><Text value={structure.address2} /></td>
-								<td class="px-2 py-2"><Text value={structure.phone} /></td>
-								<td class="px-2 py-2"><Text value={structure.email} /></td>
-								<td class="px-2 py-2"><Text value={structure.website} /></td>
-								<td class="px-2 py-2"><Text value={structure.siret} /></td>
-								<td class="px-2 py-2"><Text value={structure.shortDesc} /></td>
 								<td class="align-middle">
 									{#if structure.valid}
 										<Checkbox
-											classNames="bottom-3 right-3"
+											classNames="bottom-3 left-2"
 											bind:selectedOptions={toImport}
 											groupId={'toImport'}
 											option={{ name: structure.uid, label: '' }}
@@ -185,11 +176,21 @@
 										/>
 									{:else}
 										<i
-											class="ri-alert-line text-error relative right-2"
+											class="ri-alert-line text-error relative left-3"
 											title="La structure ne contient pas les informations obligatoires (marquées d'un astérisque)"
 										/>
 									{/if}
 								</td>
+								<td class="px-2 py-2"><Text value={structure.name} /></td>
+								<td class="px-2 py-2"><Text value={structure.city} /></td>
+								<td class="px-2 py-2"><Text value={structure.postalCode} /></td>
+								<td class="px-2 py-2"><Text value={structure.address1} /></td>
+								<td class="px-2 py-2"><Text value={structure.address2} /></td>
+								<td class="px-2 py-2"><Text value={structure.phone} /></td>
+								<td class="px-2 py-2"><Text value={structure.email} /></td>
+								<td class="px-2 py-2"><Text value={structure.website} /></td>
+								<td class="px-2 py-2"><Text value={structure.siret} /></td>
+								<td class="px-2 py-2"><Text value={structure.shortDesc} /></td>
 							</tr>
 						{/each}
 					</tbody>
@@ -208,11 +209,11 @@
 				<Button on:click={handleSubmit} disabled={toImport.length < 1}>Confirmer</Button>
 			</div>
 		{:else}
-			<p>
+			<div>
 				Veuillez fournir un fichier au format CSV avec les informations suivantes dans l'ordre,
 				séparées par des virgules (deux virgules consécutives quand il n'y a pas de valeur)&nbsp;:
-				<br />{headers.map((header) => header.label).join(', ')}
-			</p>
+				<br /><strong>{headers.map((header) => header.label).join(', ')}</strong>
+			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
