@@ -1,3 +1,12 @@
+# [1.59.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.58.0...v1.59.0) (2021-11-18)
+
+
+### Features
+
+* add option to hide Buttons from Dialog ([0b1b491](https://github.com/SocialGouv/carnet-de-bord/commit/0b1b491e5022afa9f05c1ef25757e83c08140cf8))
+* add support for title in GroupCheckbox ([862862e](https://github.com/SocialGouv/carnet-de-bord/commit/862862ef13a2d2f3544f13cacd7b5ac7cb6dfa0a))
+* admin can now batch import structures for a given deployment ([5812cb5](https://github.com/SocialGouv/carnet-de-bord/commit/5812cb5d24f81c45bf64e210244248aa68eb9a8c))
+
 # [1.58.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.57.3...v1.58.0) (2021-11-18)
 
 
