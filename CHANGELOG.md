@@ -1,3 +1,10 @@
+## [1.59.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.59.0...v1.59.1) (2021-11-18)
+
+
+### Bug Fixes
+
+* allow managers to update a structure again ([5e17fdd](https://github.com/SocialGouv/carnet-de-bord/commit/5e17fdd7589b1b4421147a8c839d1e44fae7c6ca))
+
 # [1.59.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.58.0...v1.59.0) (2021-11-18)
 
 
