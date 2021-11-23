@@ -31,12 +31,6 @@ export type BooleanComparisonExp = {
 	_nin?: Maybe<Array<Scalars['Boolean']>>;
 };
 
-export type DeploymentConfigInput = {
-	callback?: Maybe<Scalars['String']>;
-	headers?: Maybe<Scalars['jsonb']>;
-	url?: Maybe<Scalars['String']>;
-};
-
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type StringComparisonExp = {
 	_eq?: Maybe<Scalars['String']>;
@@ -2034,7 +2028,6 @@ export type MutationRootInsertStructureOneArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookArgs = {
-	config: DeploymentConfigInput;
 	id: Scalars['uuid'];
 };
 
@@ -5587,6 +5580,7 @@ export type GetDeploymentByIdQuery = {
 		__typename?: 'deployment';
 		id: string;
 		label: string;
+		config?: Maybe<any>;
 		managers: Array<{ __typename?: 'manager'; id: string; firstname: string; lastname: string }>;
 		beneficiaries_aggregate: {
 			__typename?: 'beneficiary_aggregate';
@@ -5613,6 +5607,29 @@ export type GetDeploymentsQuery = {
 		label: string;
 		managers: Array<{ __typename?: 'manager'; id: string; firstname: string; lastname: string }>;
 	}>;
+};
+
+export type GetDeploymentNotebooksQueryVariables = Exact<{
+	deploymentId: Scalars['uuid'];
+}>;
+
+export type GetDeploymentNotebooksQuery = {
+	__typename?: 'query_root';
+	deployment?: Maybe<{ __typename?: 'deployment'; label: string; id: string }>;
+	notebooks: Array<{
+		__typename?: 'notebook';
+		id: string;
+		beneficiary: { __typename?: 'beneficiary'; firstname: string; lastname: string };
+	}>;
+};
+
+export type UpdateNotebookActionMutationVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type UpdateNotebookActionMutation = {
+	__typename?: 'mutation_root';
+	updateNotebook?: Maybe<{ __typename?: 'UpdateNotebookOutput'; id: string }>;
 };
 
 export type AddNotebookActionMutationVariables = Exact<{
@@ -5908,6 +5925,7 @@ export type GetNotebookInfoQuery = {
 			firstname: string;
 			lastname: string;
 			dateOfBirth: string;
+			deployment?: Maybe<{ __typename?: 'deployment'; config?: Maybe<any> }>;
 		};
 		members: Array<{ __typename?: 'notebook_member'; professionalId: string }>;
 	}>;
@@ -6703,6 +6721,7 @@ export const GetDeploymentByIdDocument = {
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'config' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'managers' },
@@ -6863,6 +6882,149 @@ export const GetDeploymentsDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetDeploymentsQuery, GetDeploymentsQueryVariables>;
+export const GetDeploymentNotebooksDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentNotebooks' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployment' },
+						name: { kind: 'Name', value: 'deployment_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'notebooks' },
+						name: { kind: 'Name', value: 'notebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentNotebooksQuery, GetDeploymentNotebooksQueryVariables>;
+export const UpdateNotebookActionDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateNotebookAction' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'updateNotebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateNotebookActionMutation, UpdateNotebookActionMutationVariables>;
 export const AddNotebookActionDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8658,6 +8820,14 @@ export const GetNotebookInfoDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'deployment' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'config' } }],
+												},
+											},
 										],
 									},
 								},
@@ -11674,6 +11844,14 @@ export type GetDeploymentByIdQueryStore = OperationStore<
 export type GetDeploymentsQueryStore = OperationStore<
 	GetDeploymentsQuery,
 	GetDeploymentsQueryVariables
+>;
+export type GetDeploymentNotebooksQueryStore = OperationStore<
+	GetDeploymentNotebooksQuery,
+	GetDeploymentNotebooksQueryVariables
+>;
+export type UpdateNotebookActionMutationStore = OperationStore<
+	UpdateNotebookActionMutation,
+	UpdateNotebookActionMutationVariables
 >;
 export type AddNotebookActionMutationStore = OperationStore<
 	AddNotebookActionMutation,

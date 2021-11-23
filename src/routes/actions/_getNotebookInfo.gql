@@ -5,6 +5,9 @@ query GetNotebookInfo($id: uuid!) {
 			firstname
 			lastname
 			dateOfBirth
+			deployment {
+				config
+			}
 		}
 		members(where: { memberType: { _eq: "referent" } }) {
 			professionalId
