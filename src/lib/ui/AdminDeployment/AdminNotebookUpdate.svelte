@@ -19,5 +19,5 @@
 </script>
 
 <LoaderIndicator result={getDeploymentStore}>
-	<NotebookListUpdater {deploymentId} {notebooks} />
+	<NotebookListUpdater {notebooks} />
 </LoaderIndicator>
