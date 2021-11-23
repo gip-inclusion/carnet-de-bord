@@ -7,9 +7,8 @@ import {
 	NotebookFocusInsertInput,
 	NotebookSetInput,
 	UpdateNotebookFromApiDocument,
-	DeploymentConfigInput,
 } from '$lib/graphql/_gen/typed-document-nodes';
-import type { BeneficiaryAccount } from '$lib/types';
+import type { BeneficiaryAccount, DeploymentConfig } from '$lib/types';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
@@ -43,7 +42,6 @@ export type ExternalDeploymentApiBody = {
 type Body = {
 	input: {
 		id: string;
-		config: DeploymentConfigInput;
 	};
 };
 
@@ -67,12 +65,13 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		return {
 			status: 401,
 			body: {
-				errors: 'NOTEBOOK_NOT_FOUND',
+				message: 'NOTEBOOK_NOT_FOUND',
 			},
 		};
 	}
 
-	const { url, callback, headers } = input.config;
+	const { url, callback, headers } = data.notebook.beneficiary.deployment
+		.config as DeploymentConfig;
 	const { beneficiary, members } = data.notebook;
 	const callbackUrl = `${getAppUrl()}${callback}`;
 	let result: ExternalDeploymentApiOutput;

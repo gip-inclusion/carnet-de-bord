@@ -1,63 +1,7 @@
 type Mutation {
-  updateNotebook(
-    id: uuid!
-    config: DeploymentConfigInput!
-  ): UpdateNotebookOutput
-}
-
-input UpdateNotebookNotebookSetInput {
-  beneficiaryId: uuid
-  contractSignDate: date
-  contractType: String
-  creationDate: timestamptz
-  educationLevel: String
-  geographicalArea: String
-  id: uuid
-  job: String
-  rightAre: Boolean
-  rightAss: Boolean
-  rightBonus: Boolean
-  rightRqth: Boolean
-  rightRsa: String
-  workSituation: String
-  workSituationDate: date
-}
-
-input UpdateNotebookInput {
-  beneficiaryId: uuid
-  contractSignDate: date
-  contractType: String
-  creationDate: timestamptz
-  educationLevel: String
-  geographicalArea: String
-  id: uuid
-  job: String
-  rightAre: Boolean
-  rightAss: Boolean
-  rightBonus: Boolean
-  rightRqth: Boolean
-  rightRsa: String
-  workSituation: String
-  workSituationDate: date
-}
-
-input DeploymentConfig {
-  url: String
-  headers: jsonb
-  callback: String
-}
-
-input DeploymentConfigInput {
-  url: String
-  headers: jsonb
-  callback: String
-}
-
-type CreateBeneficiaryOutput {
-  id: uuid!
+	updateNotebook(id: uuid!): UpdateNotebookOutput
 }
 
 type UpdateNotebookOutput {
-  id: uuid!
+	id: uuid!
 }
-

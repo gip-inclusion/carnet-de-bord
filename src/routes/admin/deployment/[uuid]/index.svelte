@@ -5,7 +5,6 @@
 
 	export const load: Load = ({ page }) => {
 		const deploymentId = page.params.uuid;
-
 		return {
 			props: {
 				deploymentId,
@@ -17,6 +16,7 @@
 <script lang="ts">
 	import { AdminDeploymentDetail } from '$lib/ui/AdminDeployment';
 	import { LoaderIndicator } from '$lib/ui/utils';
+	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
 
 	export let deploymentId: string;
 	const getDeploymentStore = operationStore(
@@ -28,11 +28,27 @@
 
 	$: deployment = $getDeploymentStore?.data?.deployment;
 	$: professional_aggregate = $getDeploymentStore?.data?.professional_aggregate;
+	$: breadcrumbs = [
+		{
+			name: 'accueil',
+			path: '/admin',
+			label: 'Accueil',
+		},
+		{
+			name: 'deploiement',
+			path: `/admin/deployment/$getDeploymentStore?.data?.deployment.id}`,
+			label: `déploiement ${$getDeploymentStore?.data?.deployment.label}`,
+		},
+	];
 </script>
 
 <svelte:head>
 	<title>Déploiement {deployment?.label ?? ''} - Carnet de bord</title>
 </svelte:head>
+
 <LoaderIndicator result={getDeploymentStore}>
-	<AdminDeploymentDetail {deployment} {professional_aggregate} store={getDeploymentStore}/>
+	<Breadcrumbs segments={breadcrumbs} />
+	<div class="flex flex-col gap-8">
+		<AdminDeploymentDetail {deployment} {professional_aggregate} store={getDeploymentStore} />/>
+	</div>
 </LoaderIndicator>

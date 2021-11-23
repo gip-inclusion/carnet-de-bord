@@ -12,12 +12,13 @@
 	import AdminDeploymentProfessionalsImport from './AdminDeploymentProfessionalsImport.svelte';
 	import AdminDeploymentBeneficiariesImport from './AdminDeploymentBeneficiariesImport.svelte';
 	import type { OperationStore } from '@urql/svelte';
+	import AdminNotebookUpdate from './AdminNotebookUpdate.svelte';
 
 	type StructureAggregateSub = Pick<StructureAggregate, 'aggregate'>;
 	type BeneficiariesAggregateSub = Pick<BeneficiaryAggregate, 'aggregate'>;
 	type ManagerSub = Pick<Manager, 'id' | 'firstname' | 'lastname'>;
 
-	export let deployment: Pick<Deployment, 'label' | 'id'> & {
+	export let deployment: Pick<Deployment, 'label' | 'id' | 'config'> & {
 		managers: ManagerSub[];
 		structures_aggregate: StructureAggregateSub;
 		beneficiaries_aggregate: BeneficiariesAggregateSub;
@@ -85,6 +86,22 @@
 			>
 				<AdminDeploymentBeneficiariesImport deploymentId={deployment?.id} />
 			</Dialog>
+		</div>
+		<div class="fr-col-md-3 fr-m-2v fr-p-4v " />
+		<div class="fr-col-md-3 fr-m-2v fr-p-4v">
+			<div class="flex">
+				{#if deployment?.config?.url && deployment?.config?.callback}
+					<Dialog
+						label="Mise a jour des carnets"
+						buttonLabel="Mettre à jour les carnets"
+						title="Mise a jour des carnets"
+						size={'large'}
+						showButtons={false}
+					>
+						<AdminNotebookUpdate deploymentId={deployment?.id} />
+					</Dialog>
+				{/if}
+			</div>
 		</div>
 	</div>
 </div>

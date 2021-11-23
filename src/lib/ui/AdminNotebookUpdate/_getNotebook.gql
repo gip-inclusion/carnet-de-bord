@@ -1,0 +1,13 @@
+query GetDeploymentNotebooks($deploymentId: uuid!) {
+	deployment: deployment_by_pk(id: $deploymentId) {
+		label
+		id
+	}
+	notebooks: notebook(where: { beneficiary: { deploymentId: { _eq: $deploymentId } } }) {
+		id
+		beneficiary {
+			firstname
+			lastname
+		}
+	}
+}

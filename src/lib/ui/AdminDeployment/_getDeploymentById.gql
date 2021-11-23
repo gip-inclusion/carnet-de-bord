@@ -2,6 +2,7 @@ query GetDeploymentById($id: uuid!) {
 	deployment: deployment_by_pk(id: $id) {
 		id
 		label
+		config
 		managers {
 			id
 			firstname
