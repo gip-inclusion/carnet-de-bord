@@ -236,7 +236,7 @@
 			{#if insertInProgress}
 				<Alert
 					type="info"
-					title={`Ajout de${toImport.length > 1 ? 's' : ' la'} professionnel{
+					title={`Ajout ${toImport.length > 1 ? 'des' : ' d’un'} professionnel${
 						toImport.length > 1 ? 's' : ''
 					} en cours...`}
 				/>
