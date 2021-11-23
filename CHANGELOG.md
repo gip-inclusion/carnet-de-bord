@@ -1,3 +1,10 @@
+## [1.59.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.59.1...v1.59.2) (2021-11-23)
+
+
+### Bug Fixes
+
+* fix route guard for role ([092d349](https://github.com/SocialGouv/carnet-de-bord/commit/092d349cef33392ea59e2c439df54a3514a6f812))
+
 ## [1.59.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.59.0...v1.59.1) (2021-11-18)
 
 
