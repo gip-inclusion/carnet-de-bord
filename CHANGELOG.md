@@ -1,3 +1,16 @@
+# [1.61.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.60.0...v1.61.0) (2021-11-24)
+
+
+### Bug Fixes
+
+* align on import ui ([b468920](https://github.com/SocialGouv/carnet-de-bord/commit/b46892038725b118bf2b9ed251a3b6140a01e779))
+* augustin ([2a6635d](https://github.com/SocialGouv/carnet-de-bord/commit/2a6635ddf3d8036d6222037288a1292e8d29de35))
+
+
+### Features
+
+* add button to update notebook ([d324453](https://github.com/SocialGouv/carnet-de-bord/commit/d32445357cc0ad9d7d9e69bfc78b36ecbc0d605c))
+
 # [1.60.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.59.2...v1.60.0) (2021-11-24)
 
 
