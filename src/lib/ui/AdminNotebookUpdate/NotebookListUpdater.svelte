@@ -3,9 +3,9 @@
 	import { RemoteDataC as RD } from '$lib/remoteData';
 
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Button } from '../base';
-	import Alert from '../base/Alert.svelte';
-	import Text from '../utils/Text.svelte';
+	import { Button } from '$lib/ui/base';
+	import Alert from '$lib/ui/base/Alert.svelte';
+	import Text from '$lib/ui/utils/Text.svelte';
 
 	type NotebooksResult = {
 		id: string;
@@ -56,18 +56,18 @@
 	{#if status === RD.Success}
 		<Alert
 			type={successfullUpdate > 0 ? 'success' : 'error'}
-			title={`${successfullUpdate || 'Aucune'}
+			title={`${successfullUpdate || 'Aucun'}
 		carnet${successfullUpdate > 1 ? 's' : ''}
 		mis à jour
 		sur ${Object.values(updatedNotebooks).length}
-		demandée${Object.values(updatedNotebooks).length > 1 ? 's' : ''}.`}
+		demandé${Object.values(updatedNotebooks).length > 1 ? 's' : ''}.`}
 		/>
 	{/if}
 	{#if status === RD.Loading}
 		<Alert
 			type="info"
 			title={`Mise à jour ${
-				Object.values(updatedNotebooks).length > 1 ? 'des carnets' : ' du carnet'
+				Object.values(updatedNotebooks).length > 1 ? 'des carnets' : 'du carnet'
 			} en cours...`}
 		/>
 	{/if}
@@ -120,7 +120,7 @@
 									style="margin: 0 50%;"
 								/>
 							{:else}
-								<Text classNames="text-error" value={'erreur de mise a jour'} />
+								<Text classNames="text-error" value={'Erreur de mise a jour'} />
 							{/if}
 						{:else if status === RD.Loading}
 							<span
@@ -136,7 +136,7 @@
 	</table>
 	{#if status !== RD.Success}
 		<Button disabled={nbItemToUpdate === 0 || status === RD.Loading} on:click={udpateNotebooks}>
-			mettre à jour
+			Mettre à jour
 		</Button>
 	{/if}
 </div>
