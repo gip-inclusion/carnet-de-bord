@@ -1,0 +1,34 @@
+{
+	"name": "@cdb/e2e",
+	"version": "1.0.0",
+	"description": "e2e tests for carnet-de-bord",
+	"repository": "git@github.com:SocialGouv/carnet-de-bord.git",
+	"author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
+	"bugs": "https://github.com/SocialGouv/carnet-de-bord/issues",
+	"main": "codecept.conf.js",
+	"license": "Apache-2.0",
+	"scripts": {
+		"precommit": "lint-staged",
+		"lint": "eslint ./**/*.js",
+		"test": "codeceptjs run --features",
+		"test:e2e:ui": "codecept-ui --app"
+	},
+	"dependencies": {
+		"@codeceptjs/helper": "^1.0.2",
+		"@codeceptjs/ui": "^0.4.6",
+		"codeceptjs": "^3.0.7",
+		"puppeteer": "^10.4.0"
+	},
+	"devDependencies": {
+		"@socialgouv/eslint-config-recommended": "^1.75.0",
+		"eslint": "^7.32.0",
+		"lint-staged": "^11.2.2",
+		"playwright": "^1"
+	},
+	"lint-staged": {
+		"*.{ts,js}": [
+			"yarn lint --fix"
+		]
+	},
+	"private": true
+}
