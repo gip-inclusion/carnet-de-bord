@@ -1,3 +1,10 @@
+# [1.60.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.59.2...v1.60.0) (2021-11-24)
+
+
+### Features
+
+* import pros and beneficiaries as well ([122e6fa](https://github.com/SocialGouv/carnet-de-bord/commit/122e6fa7f78dbbb47413ee53884bd6de28435f83))
+
 ## [1.59.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.59.1...v1.59.2) (2021-11-23)
 
 
