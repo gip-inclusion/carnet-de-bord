@@ -12,10 +12,7 @@
 	const getDeploymentStore = operationStore(GetDeploymentNotebooksDocument, { deploymentId });
 	query(getDeploymentStore);
 
-	$: notebooks = $getDeploymentStore.data?.notebooks.concat({
-		id: 'tototoot',
-		beneficiary: { firstname: 'yo', lastname: 'bob' },
-	});
+	$: notebooks = $getDeploymentStore.data?.notebooks;
 </script>
 
 <LoaderIndicator result={getDeploymentStore}>
