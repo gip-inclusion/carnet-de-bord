@@ -4,7 +4,7 @@
 Fonctionnalité: Page d'accueil
 	Pour pouvoir me renseigner sur carnet de bord
 	En tant que visiteur
-	Je veux pouvoir consulter la page d'acceuil
+	Je veux pouvoir consulter la page d'accueil
 
 Scénario:
 	Soit un utilisateur sur la page d'accueil
