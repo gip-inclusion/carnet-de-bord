@@ -49,6 +49,6 @@
 <LoaderIndicator result={getDeploymentStore}>
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col gap-8">
-		<AdminDeploymentDetail {deployment} {professional_aggregate} store={getDeploymentStore} />/>
+		<AdminDeploymentDetail {deployment} {professional_aggregate} store={getDeploymentStore} />
 	</div>
 </LoaderIndicator>
