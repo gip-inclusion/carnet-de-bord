@@ -7,8 +7,8 @@ exports.config = {
 	helpers: {
 		Playwright: {
 			browser: 'chromium',
-			show: process.env.CODECEPT_HEADLESS ? false : true,
-			url: 'http://localhost:3000',
+			show: process.env.CODECEPT_UI ? true : false,
+			url: process.env.CODECEPT_BASEURL || 'http://localhost:3000',
 		},
 	},
 	hooks: [],

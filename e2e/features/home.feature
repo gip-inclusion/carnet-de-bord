@@ -11,4 +11,3 @@ Scénario:
 	Alors je vois "La nouvelle version du Carnet de bord est en ligne"
 	Alors le lien "Accéder à mon compte" pointe sur "/auth/login"
 
-
