@@ -46,15 +46,12 @@
 				</li>
 				<li class="fr-footer__bottom-item">
 					<!-- svelte-ignore a11y-missing-attribute -->
-					<a class="fr-footer__bottom-link">Mentions légales</a>
+					<a class="fr-footer__bottom-link" href="/mentions-legales">Mentions légales</a>
 				</li>
 				<li class="fr-footer__bottom-item">
-					<!-- svelte-ignore a11y-missing-attribute -->
-					<a class="fr-footer__bottom-link">Données personnelles</a>
-				</li>
-				<li class="fr-footer__bottom-item">
-					<!-- svelte-ignore a11y-missing-attribute -->
-					<a class="fr-footer__bottom-link">Gestion des cookies</a>
+					<a class="fr-footer__bottom-link" href="/politique-confidentialite">
+						Politique de confidentialité
+					</a>
 				</li>
 			</ul>
 			<div class="fr-footer__bottom-copy">
