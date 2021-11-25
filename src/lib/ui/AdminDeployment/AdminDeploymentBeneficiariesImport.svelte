@@ -29,7 +29,6 @@
 		firstname: string;
 		lastname: string;
 		dateOfBirth: string;
-		professionalId: string;
 		mobileNumber?: string;
 		email?: string;
 		address1?: string;
@@ -44,6 +43,8 @@
 	type BeneficiaryImport = Beneficiary & {
 		valid: boolean;
 		uid: string;
+		professionalId: string;
+		additionalProfessionalId: string;
 	};
 
 	$: professionals = ($queryProfessionals.data?.professional || []).map((pro) => ({
@@ -200,6 +201,7 @@
 						<th class="px-2 py-2">Situation de travail</th>
 						<th class="px-2 py-2">N° CAF</th>
 						<th class="px-2 py-2">N° Pôle emploi</th>
+						<th class="px-2 py-2">Accompagnant supplémentaire</th>
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each beneficiaries as beneficiary}
@@ -235,6 +237,21 @@
 								<td class="px-2 py-2"><Text value={beneficiary.workSituation} /></td>
 								<td class="px-2 py-2"><Text value={beneficiary.cafNumber} /></td>
 								<td class="px-2 py-2"><Text value={beneficiary.peNumber} /></td>
+								<td class="px-2 py-2">
+									{#if beneficiary.valid}
+										<Svelecte
+											name={`professionalSelect-${beneficiary.firstname}-${beneficiary.lastname}`}
+											options={professionals.filter(({ id }) => id !== professionalId)}
+											placeholder=""
+											bind:value={beneficiary.additionalProfessionalId}
+											disableSifter={false}
+											class="svelecte-control custom-svelecte"
+											valueField="id"
+											labelField="name"
+											clearable={true}
+										/>
+									{/if}
+								</td>
 							</tr>
 						{/each}
 					</tbody>

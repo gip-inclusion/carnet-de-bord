@@ -13,6 +13,7 @@ mutation CreateBeneficiary(
 	$cafNumber: String
 	$peNumber: String
 	$deploymentId: uuid
+	$additionalProfessionalId: uuid
 ) {
 	newNotebook: insert_notebook_one(
 		object: {
@@ -33,7 +34,12 @@ mutation CreateBeneficiary(
 				}
 			}
 			events: { data: [] }
-			members: { data: [{ memberType: "referent", professionalId: $professionalId }] }
+			members: {
+				data: [
+					{ memberType: "referent", professionalId: $professionalId }
+					{ memberType: "", professionalId: $additionalProfessionalId }
+				]
+			}
 			workSituation: $workSituation
 		}
 	) {
