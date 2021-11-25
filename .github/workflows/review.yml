@@ -98,7 +98,7 @@ jobs:
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
-  ## End To End Tests running on all branche
+  ## End To End Tests running on all branches
   ##############################################################################
   e2e:
     name: run CodeceptJS tests
