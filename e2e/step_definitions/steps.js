@@ -130,7 +130,7 @@ Alors('je ne vois pas le thème {string}', (theme) => {
 	I.dontSeeElement(`//a[text()="${theme}" and starts-with(@href, "/themes/")]`);
 });
 
-Alors('je suis redirigé vers la page: {string}', (url) => {
+Alors('je suis redirigé vers la page : {string}', (url) => {
 	// also check search and hash
 	I.waitForFunction(
 		(url) => window.location.pathname + window.location.search + window.location.hash === url,
