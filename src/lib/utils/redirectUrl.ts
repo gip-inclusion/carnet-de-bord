@@ -9,6 +9,14 @@ function redirectUrl(page: any, session: any): string | null {
 		return null;
 	}
 
+	if (page.path === '/mentions-legales') {
+		return null;
+	}
+
+	if (page.path === '/politique-confidentialite') {
+		return null;
+	}
+
 	if (session.user) {
 		const { role } = session.user;
 		if (page.path === '/' || !page.path.startsWith(baseUrlForRole(role))) {
