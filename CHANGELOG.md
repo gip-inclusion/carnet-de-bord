@@ -1,3 +1,16 @@
+# [1.62.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.61.0...v1.62.0) (2021-11-25)
+
+
+### Bug Fixes
+
+* extraneous closing bracket ([1b9326c](https://github.com/SocialGouv/carnet-de-bord/commit/1b9326c0563f999559ac5cab71c9a733f02cb9b0))
+* typo ([458b107](https://github.com/SocialGouv/carnet-de-bord/commit/458b107750613fbf8120a3630dfdb7d820190631))
+
+
+### Features
+
+* add additional Pro when importing Beneficiaries ([0a9026a](https://github.com/SocialGouv/carnet-de-bord/commit/0a9026a94e5f29ee337365d8c2623ab2034003b5))
+
 # [1.61.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.60.0...v1.61.0) (2021-11-24)
 
 
