@@ -6346,6 +6346,7 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	cafNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
 	deploymentId?: Maybe<Scalars['uuid']>;
+	additionalProfessionalId?: Maybe<Scalars['uuid']>;
 }>;
 
 export type CreateBeneficiaryMutation = {
@@ -10642,6 +10643,11 @@ export const CreateBeneficiaryDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'additionalProfessionalId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -10815,6 +10821,24 @@ export const CreateBeneficiaryDocument = {
 																			value: {
 																				kind: 'Variable',
 																				name: { kind: 'Name', value: 'professionalId' },
+																			},
+																		},
+																	],
+																},
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'memberType' },
+																			value: { kind: 'StringValue', value: '', block: false },
+																		},
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'professionalId' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'additionalProfessionalId' },
 																			},
 																		},
 																	],
