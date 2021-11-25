@@ -161,13 +161,13 @@
 	{#if insertResult === undefined}
 		<div class="flex flex-row gap-4">
 			<div class="flex items-center">
-				<label class="mb-2 fr-label" for="professionnalSelect">
+				<label class="mb-2 fr-label" for="professionalSelect">
 					<div>Choisissez le professionnel de rattachement</div>
 				</label>
 			</div>
 			<div class="flex items-center !flex-grow-0 w-1/2">
 				<Svelecte
-					name="professionnalSelect"
+					name="professionalSelect"
 					options={professionals}
 					placeholder=""
 					bind:selection={professional}
