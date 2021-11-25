@@ -86,7 +86,7 @@ jobs:
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
   ##############################################################################
-  ## End To End Tests running on all branche
+  ## End To End Tests running on all branches
   ##############################################################################
   e2e:
     name: run CodeceptJS tests
