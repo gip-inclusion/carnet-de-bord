@@ -6301,6 +6301,33 @@ export type GetAccountByIdQuery = {
 	}>;
 };
 
+export type GetNotebooksAllAndRecentQueryVariables = Exact<{
+	creationDate: TimestamptzComparisonExp;
+}>;
+
+export type GetNotebooksAllAndRecentQuery = {
+	__typename?: 'query_root';
+	all: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
+	};
+	recent: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
+	};
+	shared: {
+		__typename?: 'notebook_aggregate';
+		nodes: Array<{
+			__typename?: 'notebook';
+			id: string;
+			members_aggregate: {
+				__typename?: 'notebook_member_aggregate';
+				aggregate?: Maybe<{ __typename?: 'notebook_member_aggregate_fields'; count: number }>;
+			};
+		}>;
+	};
+};
+
 export type InsertStructureMutationVariables = Exact<{
 	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
@@ -9936,6 +9963,176 @@ export const GetAccountByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByIdQuery, GetAccountByIdQueryVariables>;
+export const GetNotebooksAllAndRecentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebooksAllAndRecent' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'creationDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'timestamptz_comparison_exp' },
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'all' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'recent' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'creationDate' },
+																value: {
+																	kind: 'Variable',
+																	name: { kind: 'Name', value: 'creationDate' },
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'shared' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'nodes' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'members_aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'aggregate' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'count' },
+																		arguments: [
+																			{
+																				kind: 'Argument',
+																				name: { kind: 'Name', value: 'distinct' },
+																				value: { kind: 'BooleanValue', value: false },
+																			},
+																		],
+																	},
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetNotebooksAllAndRecentQuery, GetNotebooksAllAndRecentQueryVariables>;
 export const InsertStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -12110,6 +12307,10 @@ export type InsertProfessionalAccountMutationStore = OperationStore<
 export type GetAccountByIdQueryStore = OperationStore<
 	GetAccountByIdQuery,
 	GetAccountByIdQueryVariables
+>;
+export type GetNotebooksAllAndRecentQueryStore = OperationStore<
+	GetNotebooksAllAndRecentQuery,
+	GetNotebooksAllAndRecentQueryVariables
 >;
 export type InsertStructureMutationStore = OperationStore<
 	InsertStructureMutation,

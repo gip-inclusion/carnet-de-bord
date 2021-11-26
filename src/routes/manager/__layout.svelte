@@ -9,6 +9,7 @@
 			label: 'Utilisateurs',
 		},
 		{ id: 'structures', path: '/manager/structures', label: 'Structures' },
+		{ id: 'statistiques', path: '/manager/statistiques', label: 'Statistiques' },
 	];
 </script>
 

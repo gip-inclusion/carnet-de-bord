@@ -1,0 +1,28 @@
+query GetNotebooksAllAndRecent($creationDate: timestamptz_comparison_exp!) {
+  all: notebook_aggregate {
+		aggregate {
+			count(distinct: false)
+		}
+  }
+  recent: notebook_aggregate(
+		where: {
+			_and: [
+				{ creationDate: $creationDate }
+			]
+		}
+	) {
+		aggregate {
+			count(distinct: false)
+		}
+  }
+  shared: notebook_aggregate {
+    nodes {
+      id
+      members_aggregate {
+        aggregate {
+          count(distinct: false)
+        }
+      }
+    }
+  }
+}
