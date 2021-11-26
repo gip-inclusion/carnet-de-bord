@@ -71,8 +71,8 @@
 	<form class="flex flex-col w-full" on:submit|preventDefault={handleSubmit}>
 		<div class="fr-form-group">
 			<Select
-				selectLabel={'Situation'}
-				selectHint={'Sélectionner votre situation...'}
+				selectLabel={'Situation actuelle'}
+				selectHint={'Sélectionnez votre situation actuelle...'}
 				options={workSituationKeys.options}
 				bind:selected={formData.workSituation}
 			/>
