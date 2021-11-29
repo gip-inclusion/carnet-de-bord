@@ -73,7 +73,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col gap-4">
-			<h2 class="fr-h4 text-france-blue">Situation</h2>
+			<h2 class="fr-h4 text-france-blue">Situation actuelle</h2>
 			<ul class="dsfr-list px-9 py-6 bg-gray-100 flex flex-row flex-wrap flex-grow">
 				{#each situations as situation, i (i)}
 					<li class="w-1/2 font-bold dsfr-bullet">
