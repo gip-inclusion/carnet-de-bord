@@ -1,3 +1,10 @@
+## [1.62.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.62.1...v1.62.2) (2021-11-29)
+
+
+### Bug Fixes
+
+* update lint config ([4ff162a](https://github.com/SocialGouv/carnet-de-bord/commit/4ff162a38472ae8770d983e3807188e36ed669bd)), closes [#359](https://github.com/SocialGouv/carnet-de-bord/issues/359)
+
 ## [1.62.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.62.0...v1.62.1) (2021-11-29)
 
 
