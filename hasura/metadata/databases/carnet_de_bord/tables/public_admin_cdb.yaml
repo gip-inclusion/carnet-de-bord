@@ -1,5 +1,5 @@
 table:
-  name: admin
+  name: admin_cdb
   schema: public
 array_relationships:
 - name: accounts

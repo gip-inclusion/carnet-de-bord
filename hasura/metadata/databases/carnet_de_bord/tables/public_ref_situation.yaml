@@ -8,6 +8,13 @@ select_permissions:
     - description
     - theme
     filter: {}
+  role: admin_cdb
+- permission:
+    columns:
+    - id
+    - description
+    - theme
+    filter: {}
   role: manager
 - permission:
     columns:
