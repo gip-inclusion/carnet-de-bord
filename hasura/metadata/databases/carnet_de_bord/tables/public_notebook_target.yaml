@@ -41,6 +41,8 @@ insert_permissions:
     - focus_id
     - target
     - creation_date
+    set:
+      creator_id: x-hasura-Professional-Id
   role: professional
 select_permissions:
 - permission:
