@@ -1,3 +1,10 @@
+# [1.63.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.62.2...v1.63.0) (2021-11-29)
+
+
+### Features
+
+* add error page ([e63a829](https://github.com/SocialGouv/carnet-de-bord/commit/e63a8290188a766ba92db302f284950595ddedda))
+
 ## [1.62.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.62.1...v1.62.2) (2021-11-29)
 
 
