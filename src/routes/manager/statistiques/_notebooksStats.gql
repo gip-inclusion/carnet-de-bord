@@ -1,4 +1,4 @@
-query GetNotebooksAllAndRecent($creationDate: timestamptz_comparison_exp!) {
+query GetNotebooksAllAndRecent($afterDate: timestamptz_comparison_exp!) {
   all: notebook_aggregate {
 		aggregate {
 			count(distinct: false)
@@ -7,7 +7,7 @@ query GetNotebooksAllAndRecent($creationDate: timestamptz_comparison_exp!) {
   recent: notebook_aggregate(
 		where: {
 			_and: [
-				{ creationDate: $creationDate }
+				{ creationDate: $afterDate }
 			]
 		}
 	) {
@@ -22,6 +22,16 @@ query GetNotebooksAllAndRecent($creationDate: timestamptz_comparison_exp!) {
         aggregate {
           count(distinct: false)
         }
+      }
+    }
+  }
+  structConnections: structure {
+    id
+    name
+    city
+    professionals_aggregate(where: { accounts: {lastLogin: $afterDate}}) {
+      aggregate {
+        count(distinct: false)
       }
     }
   }
