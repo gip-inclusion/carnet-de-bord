@@ -1,0 +1,4 @@
+build
+.svelte-kit
+.github
+.husky
