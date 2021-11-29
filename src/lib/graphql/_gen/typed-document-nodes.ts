@@ -6302,7 +6302,7 @@ export type GetAccountByIdQuery = {
 };
 
 export type GetNotebooksAllAndRecentQueryVariables = Exact<{
-	creationDate: TimestamptzComparisonExp;
+	afterDate: TimestamptzComparisonExp;
 }>;
 
 export type GetNotebooksAllAndRecentQuery = {
@@ -6326,6 +6326,16 @@ export type GetNotebooksAllAndRecentQuery = {
 			};
 		}>;
 	};
+	structConnections: Array<{
+		__typename?: 'structure';
+		id: string;
+		name?: Maybe<string>;
+		city?: Maybe<string>;
+		professionals_aggregate: {
+			__typename?: 'professional_aggregate';
+			aggregate?: Maybe<{ __typename?: 'professional_aggregate_fields'; count: number }>;
+		};
+	}>;
 };
 
 export type InsertStructureMutationVariables = Exact<{
@@ -9958,6 +9968,76 @@ export const GetAccountByIdDocument = {
 							],
 						},
 					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structConnections' },
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professionals_aggregate' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'accounts' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'lastLogin' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'afterDate' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'count' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'distinct' },
+																	value: { kind: 'BooleanValue', value: false },
+																},
+															],
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
 				],
 			},
 		},
@@ -9973,7 +10053,7 @@ export const GetNotebooksAllAndRecentDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'creationDate' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
 					type: {
 						kind: 'NonNullType',
 						type: {
@@ -10041,7 +10121,7 @@ export const GetNotebooksAllAndRecentDocument = {
 																name: { kind: 'Name', value: 'creationDate' },
 																value: {
 																	kind: 'Variable',
-																	name: { kind: 'Name', value: 'creationDate' },
+																	name: { kind: 'Name', value: 'afterDate' },
 																},
 															},
 														],
