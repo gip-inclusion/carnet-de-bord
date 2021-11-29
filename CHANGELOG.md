@@ -1,3 +1,10 @@
+## [1.62.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.62.0...v1.62.1) (2021-11-29)
+
+
+### Bug Fixes
+
+* update eslint config ([4875a64](https://github.com/SocialGouv/carnet-de-bord/commit/4875a64717cc0f4333e4c2e7b057d6ec14fc9d54))
+
 # [1.62.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.61.0...v1.62.0) (2021-11-25)
 
 
