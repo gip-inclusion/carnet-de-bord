@@ -28,6 +28,23 @@ object_relationships:
 insert_permissions:
 - permission:
     backend_only: false
+    check: {}
+    columns:
+    - id
+    - username
+    - type
+    - access_key
+    - access_key_date
+    - last_login
+    - beneficiary_id
+    - professional_id
+    - admin_id
+    - confirmed
+    - onboarding_done
+    - manager_id
+  role: admin_cdb
+- permission:
+    backend_only: false
     check:
       _or:
       - manager:
@@ -48,6 +65,23 @@ insert_permissions:
     - username
   role: manager
 select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - confirmed
+    - onboarding_done
+    - access_key
+    - type
+    - username
+    - access_key_date
+    - last_login
+    - admin_id
+    - beneficiary_id
+    - id
+    - manager_id
+    - professional_id
+    filter: {}
+  role: admin_cdb
 - permission:
     allow_aggregations: true
     columns:
@@ -105,6 +139,23 @@ select_permissions:
         _eq: X-Hasura-User-Id
   role: professional
 update_permissions:
+- permission:
+    check: {}
+    columns:
+    - confirmed
+    - onboarding_done
+    - access_key
+    - type
+    - username
+    - access_key_date
+    - last_login
+    - admin_id
+    - beneficiary_id
+    - id
+    - manager_id
+    - professional_id
+    filter: {}
+  role: admin_cdb
 - permission:
     check: null
     columns:

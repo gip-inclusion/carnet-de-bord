@@ -19,6 +19,17 @@ insert_permissions:
     backend_only: false
     check: {}
     columns:
+    - id
+    - action
+    - target_id
+    - status
+    - creator_id
+    - creation_date
+  role: admin_cdb
+- permission:
+    backend_only: false
+    check: {}
+    columns:
     - action
     - status
     - target_id
@@ -26,6 +37,17 @@ insert_permissions:
       creator_id: x-hasura-Professional-Id
   role: professional
 select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - action
+    - status
+    - creation_date
+    - creator_id
+    - id
+    - target_id
+    filter: {}
+  role: admin_cdb
 - permission:
     columns:
     - action
@@ -43,6 +65,17 @@ select_permissions:
                 _eq: X-Hasura-Professional-Id
   role: professional
 update_permissions:
+- permission:
+    check: {}
+    columns:
+    - action
+    - status
+    - creation_date
+    - creator_id
+    - id
+    - target_id
+    filter: {}
+  role: admin_cdb
 - permission:
     check: null
     columns:

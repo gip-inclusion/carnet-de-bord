@@ -5,6 +5,13 @@ select_permissions:
 - permission:
     columns:
     - description
+    - theme
+    - id
+    filter: {}
+  role: admin_cdb
+- permission:
+    columns:
+    - description
     - id
     - theme
     filter: {}
