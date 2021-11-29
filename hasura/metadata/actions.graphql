@@ -1,7 +1,10 @@
 type Mutation {
-	updateNotebook(id: uuid!): UpdateNotebookOutput
+  updateNotebook(
+    id: uuid!
+  ): UpdateNotebookOutput
 }
 
 type UpdateNotebookOutput {
-	id: uuid!
+  id: uuid!
 }
+

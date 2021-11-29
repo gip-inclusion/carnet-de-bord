@@ -1,5 +1,5 @@
 - "!include public_account.yaml"
-- "!include public_admin.yaml"
+- "!include public_admin_cdb.yaml"
 - "!include public_beneficiary.yaml"
 - "!include public_deployment.yaml"
 - "!include public_manager.yaml"

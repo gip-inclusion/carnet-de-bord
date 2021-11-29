@@ -21,6 +21,15 @@ array_relationships:
 insert_permissions:
 - permission:
     backend_only: false
+    check: {}
+    columns:
+    - id
+    - focus_id
+    - target
+    - creation_date
+  role: admin_cdb
+- permission:
+    backend_only: false
     check:
       focus:
         notebook:
@@ -37,6 +46,15 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - target
+    - creation_date
+    - focus_id
+    - id
+    filter: {}
+  role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
     - id
     - focus_id
     - target
@@ -48,3 +66,13 @@ select_permissions:
             professional_id:
               _eq: X-Hasura-Professional-Id
   role: professional
+update_permissions:
+- permission:
+    check: {}
+    columns:
+    - target
+    - creation_date
+    - focus_id
+    - id
+    filter: {}
+  role: admin_cdb

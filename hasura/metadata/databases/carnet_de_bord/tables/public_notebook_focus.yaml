@@ -26,6 +26,18 @@ array_relationships:
 insert_permissions:
 - permission:
     backend_only: false
+    check: {}
+    columns:
+    - id
+    - theme
+    - situations
+    - creator_id
+    - notebook_id
+    - creation_date
+    - linked_to
+  role: admin_cdb
+- permission:
+    backend_only: false
     check:
       notebook:
         members:
@@ -45,6 +57,18 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - linked_to
+    - theme
+    - situations
+    - creation_date
+    - creator_id
+    - id
+    - notebook_id
+    filter: {}
+  role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
     - creation_date
     - creator_id
     - id
@@ -59,6 +83,18 @@ select_permissions:
             _eq: X-Hasura-Professional-Id
   role: professional
 update_permissions:
+- permission:
+    check: {}
+    columns:
+    - linked_to
+    - theme
+    - situations
+    - creation_date
+    - creator_id
+    - id
+    - notebook_id
+    filter: {}
+  role: admin_cdb
 - permission:
     check: null
     columns:

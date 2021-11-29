@@ -18,6 +18,18 @@ object_relationships:
 insert_permissions:
 - permission:
     backend_only: false
+    check: {}
+    columns:
+    - id
+    - notebook_id
+    - creation_date
+    - event_date
+    - professional_id
+    - event
+    - structure
+  role: admin_cdb
+- permission:
+    backend_only: false
     check:
       notebook:
         members:
@@ -35,6 +47,18 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - event
+    - structure
+    - event_date
+    - creation_date
+    - id
+    - notebook_id
+    - professional_id
+    filter: {}
+  role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
     - creation_date
     - event
     - event_date
@@ -49,6 +73,18 @@ select_permissions:
             _eq: X-Hasura-Professional-Id
   role: professional
 update_permissions:
+- permission:
+    check: {}
+    columns:
+    - event
+    - structure
+    - event_date
+    - creation_date
+    - id
+    - notebook_id
+    - professional_id
+    filter: {}
+  role: admin_cdb
 - permission:
     check: null
     columns:
