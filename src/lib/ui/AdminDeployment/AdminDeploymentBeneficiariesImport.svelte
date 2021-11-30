@@ -44,7 +44,7 @@
 		valid: boolean;
 		uid: string;
 		professionalId: string;
-		additionalProfessionalId: string;
+		additionalProfessionalId?: string;
 	};
 
 	$: professionals = ($queryProfessionals.data?.professional || []).map((pro) => ({
@@ -123,8 +123,13 @@
 		insertInProgress = true;
 		insertResult = [];
 		for (const beneficiary of beneficiariesToImport) {
-			const { uid, valid, ...benef } = beneficiary;
-			await inserter({ ...benef, professionalId, deploymentId });
+			const { uid, valid, additionalProfessionalId, ...benef } = beneficiary;
+			const members = [{ memberType: 'referent', professionalId }];
+			const payload = { ...benef, deploymentId, members };
+			if (additionalProfessionalId) {
+				members.push({ memberType: '', professionalId: additionalProfessionalId });
+			}
+			await inserter(payload);
 			await new Promise((resolve) => {
 				setTimeout(resolve, 500);
 			});

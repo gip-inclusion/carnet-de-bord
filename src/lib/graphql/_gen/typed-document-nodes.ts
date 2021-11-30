@@ -6342,11 +6342,10 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	postalCode?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	workSituation?: Maybe<Scalars['String']>;
-	professionalId: Scalars['uuid'];
 	cafNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
 	deploymentId?: Maybe<Scalars['uuid']>;
-	additionalProfessionalId?: Maybe<Scalars['uuid']>;
+	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
 }>;
 
 export type CreateBeneficiaryMutation = {
@@ -10622,14 +10621,6 @@ export const CreateBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
@@ -10645,8 +10636,20 @@ export const CreateBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'additionalProfessionalId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'members' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_member_insert_input' },
+								},
+							},
+						},
+					},
 				},
 			],
 			selectionSet: {
@@ -10800,51 +10803,7 @@ export const CreateBeneficiaryDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'data' },
-														value: {
-															kind: 'ListValue',
-															values: [
-																{
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'memberType' },
-																			value: {
-																				kind: 'StringValue',
-																				value: 'referent',
-																				block: false,
-																			},
-																		},
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'professionalId' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'professionalId' },
-																			},
-																		},
-																	],
-																},
-																{
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'memberType' },
-																			value: { kind: 'StringValue', value: '', block: false },
-																		},
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'professionalId' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'additionalProfessionalId' },
-																			},
-																		},
-																	],
-																},
-															],
-														},
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'members' } },
 													},
 												],
 											},
