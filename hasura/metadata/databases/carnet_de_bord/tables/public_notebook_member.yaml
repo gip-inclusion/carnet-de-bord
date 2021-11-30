@@ -3,13 +3,13 @@ table:
   schema: public
 configuration:
   custom_column_names:
-    creation_date: creationDate
+    created_at: createdAt
     creator_id: creatorId
     invitation_send_date: invitationSendDate
+    last_modified_at: lastModifiedAt
+    last_visited_at: lastVisitedAt
     member_type: memberType
     notebook_id: notebookId
-    notebook_modification_date: notebookModificationDate
-    notebook_visit_date: notebookVisitDate
     professional_id: professionalId
   custom_root_fields: {}
 object_relationships:
@@ -30,10 +30,10 @@ insert_permissions:
     - id
     - notebook_id
     - professional_id
-    - notebook_visit_date
+    - last_visited_at
     - member_type
-    - notebook_modification_date
-    - creation_date
+    - last_modified_at
+    - created_at
     - creator_id
     - invitation_send_date
   role: admin_cdb
@@ -48,10 +48,10 @@ insert_permissions:
     - id
     - notebook_id
     - professional_id
-    - notebook_visit_date
+    - last_visited_at
     - member_type
-    - notebook_modification_date
-    - creation_date
+    - last_modified_at
+    - created_at
     - creator_id
     - invitation_send_date
   role: manager
@@ -63,8 +63,8 @@ insert_permissions:
     - id
     - member_type
     - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
+    - last_modified_at
+    - last_visited_at
     - professional_id
   role: professional
 select_permissions:
@@ -72,10 +72,10 @@ select_permissions:
     allow_aggregations: true
     columns:
     - member_type
-    - creation_date
+    - created_at
     - invitation_send_date
-    - notebook_modification_date
-    - notebook_visit_date
+    - last_modified_at
+    - last_visited_at
     - creator_id
     - id
     - notebook_id
@@ -84,12 +84,12 @@ select_permissions:
   role: admin_cdb
 - permission:
     columns:
-    - creation_date
+    - created_at
     - id
     - member_type
     - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
+    - last_modified_at
+    - last_visited_at
     - professional_id
     filter:
       notebook:
@@ -102,10 +102,10 @@ select_permissions:
     - id
     - notebook_id
     - professional_id
-    - notebook_visit_date
+    - last_visited_at
     - member_type
-    - notebook_modification_date
-    - creation_date
+    - last_modified_at
+    - created_at
     - creator_id
     - invitation_send_date
     filter:
@@ -117,14 +117,14 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - creation_date
+    - created_at
     - creator_id
     - id
     - invitation_send_date
     - member_type
     - notebook_id
-    - notebook_modification_date
-    - notebook_visit_date
+    - last_modified_at
+    - last_visited_at
     - professional_id
     filter:
       notebook:
@@ -137,10 +137,10 @@ update_permissions:
     check: {}
     columns:
     - member_type
-    - creation_date
+    - created_at
     - invitation_send_date
-    - notebook_modification_date
-    - notebook_visit_date
+    - last_modified_at
+    - last_visited_at
     - creator_id
     - id
     - notebook_id
@@ -151,8 +151,8 @@ update_permissions:
     check: null
     columns:
     - member_type
-    - notebook_modification_date
-    - notebook_visit_date
+    - last_modified_at
+    - last_visited_at
     filter:
       professional_id:
         _eq: X-Hasura-Professional-Id

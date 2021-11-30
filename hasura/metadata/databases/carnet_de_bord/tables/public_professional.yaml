@@ -57,13 +57,15 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - created_at
+    - email
     - firstname
+    - id
     - lastname
     - mobile_number
     - position
-    - email
-    - id
     - structure_id
+    - updated_at
     filter: {}
   role: admin_cdb
 - permission:
@@ -79,13 +81,15 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
-    - structure_id
+    - created_at
     - email
-    - lastname
     - firstname
-    - position
+    - id
+    - lastname
     - mobile_number
+    - position
+    - structure_id
+    - updated_at
     filter:
       structure:
         deployment_id:
@@ -94,6 +98,7 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - created_at
     - email
     - firstname
     - id
@@ -101,6 +106,7 @@ select_permissions:
     - mobile_number
     - position
     - structure_id
+    - updated_at
     filter:
       structure:
         deployment_id:

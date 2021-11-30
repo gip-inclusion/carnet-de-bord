@@ -3,10 +3,11 @@ table:
   schema: public
 configuration:
   custom_column_names:
-    creation_date: creationDate
+    created_at: creationDate
     creator_id: creatorId
     linked_to: linkedTo
     notebook_id: notebookId
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: notebook
@@ -33,7 +34,7 @@ insert_permissions:
     - situations
     - creator_id
     - notebook_id
-    - creation_date
+    - created_at
     - linked_to
   role: admin_cdb
 - permission:
@@ -57,25 +58,27 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - linked_to
-    - theme
-    - situations
-    - creation_date
+    - created_at
     - creator_id
     - id
+    - linked_to
     - notebook_id
+    - situations
+    - theme
+    - updated_at
     filter: {}
   role: admin_cdb
 - permission:
     allow_aggregations: true
     columns:
-    - creation_date
+    - created_at
     - creator_id
     - id
     - linked_to
     - notebook_id
     - situations
     - theme
+    - updated_at
     filter:
       notebook:
         members:
@@ -89,7 +92,7 @@ update_permissions:
     - linked_to
     - theme
     - situations
-    - creation_date
+    - created_at
     - creator_id
     - id
     - notebook_id

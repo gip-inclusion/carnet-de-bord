@@ -7,10 +7,12 @@ configuration:
     access_key_date: accessKeyDate
     admin_id: adminId
     beneficiary_id: beneficiaryId
+    created_at: createdAt
     last_login: lastLogin
     manager_id: managerId
     onboarding_done: onboardingDone
     professional_id: professionalId
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: admin
@@ -68,18 +70,20 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - confirmed
-    - onboarding_done
     - access_key
-    - type
-    - username
     - access_key_date
-    - last_login
     - admin_id
     - beneficiary_id
+    - confirmed
+    - created_at
     - id
+    - last_login
     - manager_id
+    - onboarding_done
     - professional_id
+    - type
+    - updated_at
+    - username
     filter: {}
   role: admin_cdb
 - permission:
@@ -107,12 +111,14 @@ select_permissions:
     - admin_id
     - beneficiary_id
     - confirmed
+    - created_at
     - id
     - last_login
     - manager_id
     - onboarding_done
     - professional_id
     - type
+    - updated_at
     - username
     filter:
       _or:
@@ -130,9 +136,11 @@ select_permissions:
     columns:
     - beneficiary_id
     - confirmed
+    - created_at
     - id
     - onboarding_done
     - professional_id
+    - updated_at
     - username
     filter:
       id:
