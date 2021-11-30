@@ -24,6 +24,29 @@ query GetNotebooksAllAndRecent($afterDate: timestamptz_comparison_exp!) {
 			}
 		}
 	}
+	recentlyInfoAdded: notebook_aggregate(
+		where: {
+			focuses: {
+				_or: [
+					{ createdAt: $afterDate }
+					{ updatedAt: $afterDate }
+					{
+						targets: {
+							_or: [
+								{ createdAt: $afterDate }
+								{ updatedAt: $afterDate }
+								{ actions: { _or: [{ createdAt: $afterDate }, { updatedAt: $afterDate }] } }
+							]
+						}
+					}
+				]
+			}
+		}
+	) {
+		aggregate {
+			count(distinct: false)
+		}
+	}
 	recentlyCreated: notebook_aggregate(where: { _and: [{ createdAt: $afterDate }] }) {
 		aggregate {
 			count(distinct: false)

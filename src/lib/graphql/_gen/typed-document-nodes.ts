@@ -6330,6 +6330,10 @@ export type GetNotebooksAllAndRecentQuery = {
 			};
 		}>;
 	};
+	recentlyInfoAdded: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
+	};
 	recentlyCreated: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
@@ -10213,6 +10217,201 @@ export const GetNotebooksAllAndRecentDocument = {
 														},
 													],
 												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'recentlyInfoAdded' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'focuses' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_or' },
+														value: {
+															kind: 'ListValue',
+															values: [
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'createdAt' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'afterDate' },
+																			},
+																		},
+																	],
+																},
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'updatedAt' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'afterDate' },
+																			},
+																		},
+																	],
+																},
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'targets' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_or' },
+																						value: {
+																							kind: 'ListValue',
+																							values: [
+																								{
+																									kind: 'ObjectValue',
+																									fields: [
+																										{
+																											kind: 'ObjectField',
+																											name: { kind: 'Name', value: 'createdAt' },
+																											value: {
+																												kind: 'Variable',
+																												name: { kind: 'Name', value: 'afterDate' },
+																											},
+																										},
+																									],
+																								},
+																								{
+																									kind: 'ObjectValue',
+																									fields: [
+																										{
+																											kind: 'ObjectField',
+																											name: { kind: 'Name', value: 'updatedAt' },
+																											value: {
+																												kind: 'Variable',
+																												name: { kind: 'Name', value: 'afterDate' },
+																											},
+																										},
+																									],
+																								},
+																								{
+																									kind: 'ObjectValue',
+																									fields: [
+																										{
+																											kind: 'ObjectField',
+																											name: { kind: 'Name', value: 'actions' },
+																											value: {
+																												kind: 'ObjectValue',
+																												fields: [
+																													{
+																														kind: 'ObjectField',
+																														name: { kind: 'Name', value: '_or' },
+																														value: {
+																															kind: 'ListValue',
+																															values: [
+																																{
+																																	kind: 'ObjectValue',
+																																	fields: [
+																																		{
+																																			kind: 'ObjectField',
+																																			name: {
+																																				kind: 'Name',
+																																				value: 'createdAt',
+																																			},
+																																			value: {
+																																				kind: 'Variable',
+																																				name: {
+																																					kind: 'Name',
+																																					value: 'afterDate',
+																																				},
+																																			},
+																																		},
+																																	],
+																																},
+																																{
+																																	kind: 'ObjectValue',
+																																	fields: [
+																																		{
+																																			kind: 'ObjectField',
+																																			name: {
+																																				kind: 'Name',
+																																				value: 'updatedAt',
+																																			},
+																																			value: {
+																																				kind: 'Variable',
+																																				name: {
+																																					kind: 'Name',
+																																					value: 'afterDate',
+																																				},
+																																			},
+																																		},
+																																	],
+																																},
+																															],
+																														},
+																													},
+																												],
+																											},
+																										},
+																									],
+																								},
+																							],
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
 											},
 										],
 									},
