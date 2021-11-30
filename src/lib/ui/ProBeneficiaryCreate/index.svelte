@@ -64,10 +64,11 @@
 
 	async function handleSubmit() {
 		if (isAccountValid(beneficiaryAccount)) {
+			const members = [{ memberType: 'referent', professionalId }];
 			const store = await createBeneficiary({
 				...beneficiaryAccount,
 				dateOfBirth: new Date(beneficiaryAccount.dateOfBirth),
-				professionalId,
+				members,
 			});
 
 			if (store.error) {

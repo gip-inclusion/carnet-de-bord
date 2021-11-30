@@ -9,11 +9,10 @@ mutation CreateBeneficiary(
 	$postalCode: String
 	$city: String
 	$workSituation: String
-	$professionalId: uuid!
 	$cafNumber: String
 	$peNumber: String
 	$deploymentId: uuid
-	$additionalProfessionalId: uuid
+	$members: [notebook_member_insert_input!]!
 ) {
 	newNotebook: insert_notebook_one(
 		object: {
@@ -34,12 +33,7 @@ mutation CreateBeneficiary(
 				}
 			}
 			events: { data: [] }
-			members: {
-				data: [
-					{ memberType: "referent", professionalId: $professionalId }
-					{ memberType: "", professionalId: $additionalProfessionalId }
-				]
-			}
+			members: { data: $members }
 			workSituation: $workSituation
 		}
 	) {
