@@ -1,38 +1,52 @@
 query GetNotebooksAllAndRecent($afterDate: timestamptz_comparison_exp!) {
-  all: notebook_aggregate {
+	all: notebook_aggregate {
 		aggregate {
 			count(distinct: false)
 		}
-  }
-  recent: notebook_aggregate(
-		where: {
-			_and: [
-				{ creationDate: $afterDate }
-			]
-		}
-	) {
+	}
+	open: notebook_aggregate(where: { members: { lastVisitedAt: { _is_null: false } } }) {
 		aggregate {
 			count(distinct: false)
 		}
-  }
-  shared: notebook_aggregate {
-    nodes {
-      id
-      members_aggregate {
-        aggregate {
-          count(distinct: false)
-        }
-      }
-    }
-  }
-  structConnections: structure {
-    id
-    name
-    city
-    professionals_aggregate(where: { accounts: {lastLogin: $afterDate}}) {
-      aggregate {
-        count(distinct: false)
-      }
-    }
-  }
+	}
+	modified: notebook_aggregate(where: { members: { lastModifiedAt: { _is_null: false } } }) {
+		aggregate {
+			count(distinct: false)
+		}
+	}
+	shared: notebook_aggregate {
+		nodes {
+			id
+			members_aggregate {
+				aggregate {
+					count(distinct: false)
+				}
+			}
+		}
+	}
+	recentlyCreated: notebook_aggregate(where: { _and: [{ createdAt: $afterDate }] }) {
+		aggregate {
+			count(distinct: false)
+		}
+	}
+	recentlyOpen: notebook_aggregate(where: { members: { lastVisitedAt: $afterDate } }) {
+		aggregate {
+			count(distinct: false)
+		}
+	}
+	recentlyModified: notebook_aggregate(where: { members: { lastModifiedAt: $afterDate } }) {
+		aggregate {
+			count(distinct: false)
+		}
+	}
+	structConnections: structure {
+		id
+		name
+		city
+		professionals_aggregate(where: { accounts: { lastLogin: $afterDate } }) {
+			aggregate {
+				count(distinct: false)
+			}
+		}
+	}
 }

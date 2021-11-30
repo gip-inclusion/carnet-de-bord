@@ -6311,7 +6311,11 @@ export type GetNotebooksAllAndRecentQuery = {
 		__typename?: 'notebook_aggregate';
 		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
 	};
-	recent: {
+	open: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
+	};
+	modified: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
 	};
@@ -6325,6 +6329,18 @@ export type GetNotebooksAllAndRecentQuery = {
 				aggregate?: Maybe<{ __typename?: 'notebook_member_aggregate_fields'; count: number }>;
 			};
 		}>;
+	};
+	recentlyCreated: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
+	};
+	recentlyOpen: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
+	};
+	recentlyModified: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
 	};
 	structConnections: Array<{
 		__typename?: 'structure';
@@ -6427,6 +6443,7 @@ export type GetAccountsSummaryQuery = {
 		username: string;
 		lastLogin?: Maybe<any>;
 		confirmed: boolean;
+		onboardingDone?: Maybe<boolean>;
 		professional?: Maybe<{
 			__typename?: 'professional';
 			id: string;
@@ -9968,76 +9985,6 @@ export const GetAccountByIdDocument = {
 							],
 						},
 					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'structConnections' },
-						name: { kind: 'Name', value: 'structure' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professionals_aggregate' },
-									arguments: [
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'where' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'accounts' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'lastLogin' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'afterDate' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'count' },
-															arguments: [
-																{
-																	kind: 'Argument',
-																	name: { kind: 'Name', value: 'distinct' },
-																	value: { kind: 'BooleanValue', value: false },
-																},
-															],
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
 				],
 			},
 		},
@@ -10098,7 +10045,7 @@ export const GetNotebooksAllAndRecentDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'recent' },
+						alias: { kind: 'Name', value: 'open' },
 						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
 							{
@@ -10109,22 +10056,87 @@ export const GetNotebooksAllAndRecentDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_and' },
+											name: { kind: 'Name', value: 'members' },
 											value: {
-												kind: 'ListValue',
-												values: [
+												kind: 'ObjectValue',
+												fields: [
 													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'creationDate' },
-																value: {
-																	kind: 'Variable',
-																	name: { kind: 'Name', value: 'afterDate' },
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastVisitedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: false },
 																},
-															},
-														],
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'modified' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'members' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastModifiedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: false },
+																},
+															],
+														},
 													},
 												],
 											},
@@ -10198,6 +10210,249 @@ export const GetNotebooksAllAndRecentDocument = {
 																	},
 																],
 															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'recentlyCreated' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'createdAt' },
+																value: {
+																	kind: 'Variable',
+																	name: { kind: 'Name', value: 'afterDate' },
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'recentlyOpen' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'members' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastVisitedAt' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'recentlyModified' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'members' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastModifiedAt' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'count' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'distinct' },
+														value: { kind: 'BooleanValue', value: false },
+													},
+												],
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structConnections' },
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professionals_aggregate' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'accounts' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'lastLogin' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'afterDate' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'count' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'distinct' },
+																	value: { kind: 'BooleanValue', value: false },
+																},
+															],
 														},
 													],
 												},
@@ -10599,6 +10854,7 @@ export const GetAccountsSummaryDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },

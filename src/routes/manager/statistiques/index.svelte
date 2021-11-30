@@ -30,11 +30,15 @@
 	query(result);
 
 	$: all = $result.data?.all?.aggregate?.count;
-	$: recent = $result.data?.recent?.aggregate?.count;
+	$: open = $result.data?.open?.aggregate?.count;
+	$: modified = $result.data?.modified?.aggregate?.count;
 	$: shared =
 		$result.data?.shared?.nodes?.filter(
 			({ members_aggregate }) => 1 < (members_aggregate?.aggregate?.count || 0)
 		).length || 0;
+	$: recentlyCreated = $result.data?.recentlyCreated?.aggregate?.count;
+	$: recentlyOpen = $result.data?.open?.aggregate?.count;
+	$: recentlyModified = $result.data?.modified?.aggregate?.count;
 	$: connections = $result.data?.structConnections
 		?.map(({ id, name, city, professionals_aggregate }) => ({
 			id,
@@ -49,18 +53,48 @@
 	<div>
 		<div class="flex flex-col gap-4">
 			<h2 class="fr-h4 pt-4">Statistiques d'utilisation</h2>
+			<h3>Total</h3>
 			<div class="flex flex-row gap-8 mt-8 pb-16">
 				<div class="w-1/3">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{all}</h3>
-					<div class="text-center">carnets au total</div>
-				</div>
-				<div class="w-1/3">
-					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recent}</h3>
-					<div class="text-center">carnets créés depuis le {formatDate(lastWeek.toString())}</div>
+					<div class="text-center">
+						carnet{all > 1 ? 's' : ''} créé{all > 1 ? 's' : ''} au total
+					</div>
 				</div>
 				<div class="w-1/3">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{shared}</h3>
-					<div class="text-center">carnets avec 2 accompagnants ou plus</div>
+					<div class="text-center">carnet{shared > 1 ? 's' : ''} avec 2 accompagnants ou plus</div>
+				</div>
+				<div class="w-1/3">
+					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{open}</h3>
+					<div class="text-center">carnet{open > 1 ? 's' : ''} ouvert{open > 1 ? 's' : ''}</div>
+				</div>
+				<div class="w-1/3">
+					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{modified}</h3>
+					<div class="text-center">
+						carnet{modified > 1 ? 's' : ''} modifié{modified > 1 ? 's' : ''}
+					</div>
+				</div>
+			</div>
+			<h3>Depuis le {formatDate(lastWeek.toString())}</h3>
+			<div class="flex flex-row gap-8 mt-8 pb-16">
+				<div class="w-1/3">
+					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyCreated}</h3>
+					<div class="text-center">
+						carnet{recentlyCreated > 1 ? 's' : ''} créé{recentlyCreated > 1 ? 's' : ''}
+					</div>
+				</div>
+				<div class="w-1/3">
+					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyOpen}</h3>
+					<div class="text-center">
+						carnet{recentlyOpen > 1 ? 's' : ''} ouvert{recentlyOpen > 1 ? 's' : ''}
+					</div>
+				</div>
+				<div class="w-1/3">
+					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyModified}</h3>
+					<div class="text-center">
+						carnet{recentlyModified > 1 ? 's' : ''} modifié{recentlyModified > 1 ? 's' : ''}
+					</div>
 				</div>
 			</div>
 			<h2 class="fr-h4 pt-4">Activité par structure</h2>
