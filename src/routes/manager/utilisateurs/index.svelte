@@ -23,7 +23,6 @@
 	import { stringsMatch } from '$lib/helpers';
 	import { goto } from '$app/navigation';
 	import { Text } from '$lib/ui/utils';
-	import { formatDateTimeLocale } from '$lib/utils/date';
 
 	export let result: OperationStore<GetAccountsSummaryQuery>;
 
@@ -93,7 +92,7 @@
 					<th>Structure</th>
 					<th>Identifiant</th>
 					<th>Compte</th>
-					<th>Dernière connexion</th>
+					<th>Onboarding</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -122,7 +121,7 @@
 							{/if}
 						</td>
 						<td>
-							<Text value={account.lastLogin ? formatDateTimeLocale(account.lastLogin) : ''} />
+							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
 						</td>
 					</tr>
 				{:else}
