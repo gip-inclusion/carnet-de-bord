@@ -3,9 +3,10 @@ table:
   schema: public
 configuration:
   custom_column_names:
-    creation_date: creationDate
+    created_at: createdAt
     creator_id: creatorId
     target_id: targetId
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: creator
@@ -24,7 +25,7 @@ insert_permissions:
     - target_id
     - status
     - creator_id
-    - creation_date
+    - created_at
   role: admin_cdb
 - permission:
     backend_only: false
@@ -41,21 +42,23 @@ select_permissions:
     allow_aggregations: true
     columns:
     - action
-    - status
-    - creation_date
+    - created_at
     - creator_id
     - id
+    - status
     - target_id
+    - updated_at
     filter: {}
   role: admin_cdb
 - permission:
     columns:
     - action
-    - creation_date
+    - created_at
     - creator_id
     - id
     - status
     - target_id
+    - updated_at
     filter:
       target:
         focus:
@@ -70,7 +73,7 @@ update_permissions:
     columns:
     - action
     - status
-    - creation_date
+    - created_at
     - creator_id
     - id
     - target_id

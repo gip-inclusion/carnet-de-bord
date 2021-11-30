@@ -3,11 +3,11 @@ table:
   schema: public
 configuration:
   custom_column_names:
-    creation_date: creationDate
+    created_at: createdAt
     deployment_id: deploymentId
-    modification_date: modificationDate
     postal_code: postalCode
     short_desc: shortDesc
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: deployment
@@ -36,8 +36,8 @@ insert_permissions:
     - city
     - address1
     - address2
-    - creation_date
-    - modification_date
+    - created_at
+    - updated_at
     - website
     - deployment_id
   role: admin_cdb
@@ -50,10 +50,10 @@ insert_permissions:
     - address1
     - address2
     - city
-    - creation_date
+    - created_at
     - email
     - id
-    - modification_date
+    - updated_at
     - name
     - phone
     - postal_code
@@ -70,10 +70,10 @@ insert_permissions:
     - address1
     - address2
     - city
-    - creation_date
+    - created_at
     - email
     - id
-    - modification_date
+    - updated_at
     - name
     - phone
     - postal_code
@@ -95,8 +95,8 @@ select_permissions:
     - siret
     - website
     - short_desc
-    - creation_date
-    - modification_date
+    - created_at
+    - updated_at
     - deployment_id
     - id
     filter: {}
@@ -113,8 +113,8 @@ select_permissions:
     - city
     - address1
     - address2
-    - creation_date
-    - modification_date
+    - created_at
+    - updated_at
     - website
     - deployment_id
     filter: {}
@@ -131,8 +131,8 @@ select_permissions:
     - siret
     - website
     - short_desc
-    - creation_date
-    - modification_date
+    - created_at
+    - updated_at
     - id
     filter: {}
   role: beneficiary
@@ -141,10 +141,10 @@ select_permissions:
     - address1
     - address2
     - city
-    - creation_date
+    - created_at
     - email
     - id
-    - modification_date
+    - updated_at
     - name
     - phone
     - postal_code
@@ -161,10 +161,10 @@ select_permissions:
     - address1
     - address2
     - city
-    - creation_date
+    - created_at
     - email
     - id
-    - modification_date
+    - updated_at
     - name
     - phone
     - postal_code

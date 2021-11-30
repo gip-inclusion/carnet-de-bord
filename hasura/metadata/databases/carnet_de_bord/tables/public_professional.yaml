@@ -3,8 +3,10 @@ table:
   schema: public
 configuration:
   custom_column_names:
+    created_at: createdAt
     mobile_number: mobileNumber
     structure_id: structureId
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: structure
@@ -57,13 +59,15 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - created_at
+    - email
     - firstname
+    - id
     - lastname
     - mobile_number
     - position
-    - email
-    - id
     - structure_id
+    - updated_at
     filter: {}
   role: admin_cdb
 - permission:
@@ -79,13 +83,15 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
-    - structure_id
+    - created_at
     - email
-    - lastname
     - firstname
-    - position
+    - id
+    - lastname
     - mobile_number
+    - position
+    - structure_id
+    - updated_at
     filter:
       structure:
         deployment_id:
@@ -94,6 +100,7 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - created_at
     - email
     - firstname
     - id
@@ -101,6 +108,7 @@ select_permissions:
     - mobile_number
     - position
     - structure_id
+    - updated_at
     filter:
       structure:
         deployment_id:

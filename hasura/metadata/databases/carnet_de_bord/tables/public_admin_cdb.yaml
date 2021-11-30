@@ -1,6 +1,11 @@
 table:
   name: admin_cdb
   schema: public
+configuration:
+  custom_column_names:
+    created_at: createdAt
+    updated_at: updatedAt
+  custom_root_fields: {}
 array_relationships:
 - name: accounts
   using:
@@ -23,10 +28,12 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
+    - created_at
     - email
     - firstname
+    - id
     - lastname
+    - updated_at
     filter: {}
   role: admin_cdb
 update_permissions:
