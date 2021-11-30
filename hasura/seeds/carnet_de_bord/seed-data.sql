@@ -171,7 +171,7 @@ INSERT INTO public.ref_situation (id, description, theme) VALUES ('dfb67d09-a138
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('562a13b0-b27d-44b4-a3bf-4019442d2dde', 'Juste quelques soucis de santé', 'sante');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('e291eb03-565d-4c59-bac5-91c1c4e70d2d', 'Ne peux plus exercer certains métiers', 'sante');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('61a829f9-36fe-49d5-86fd-61310c787328', 'Oui mais une activité adaptée', 'sante');
-INSERT INTO public.ref_situation (id, description, theme) VALUES ('ab79937a-297f-44f2-934d-dcfeb2261ba4', 'Oui mais doit souvent s¿absenter', 'sante');
+INSERT INTO public.ref_situation (id, description, theme) VALUES ('ab79937a-297f-44f2-934d-dcfeb2261ba4', 'Oui mais doit souvent s''absenter', 'sante');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('5516000b-80b9-4be5-9869-7ad8f4f9dd04', 'Non ne peux pas reprendre une activité', 'sante');
 
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('cb9db2ff-4058-4fbe-b05d-e995719a1262', 'Pas de carte d''identifié', 'difficulte_administrative');
