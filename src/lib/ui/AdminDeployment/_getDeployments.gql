@@ -1,5 +1,5 @@
 query GetDeployments {
-	deployments: deployment(order_by: { created_at: desc }) {
+	deployments: deployment(order_by: { createdAt: desc }) {
 		id
 		label
 		managers {

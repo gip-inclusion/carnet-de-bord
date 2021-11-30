@@ -16,9 +16,9 @@ query SearchNotebookMember(
 					]
 				}
 			}
-			notebookVisitDate: $visitDate
+			lastVisitedAt: $visitDate
 		}
-		order_by: { notebookModificationDate: desc_nulls_first }
+		order_by: { lastModifiedAt: desc_nulls_first }
 	) {
 		id
 		notebook {

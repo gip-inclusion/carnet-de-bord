@@ -42,7 +42,7 @@
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}
 			on:print={() => window.print()}
-			lastUpdateDate={members[0].notebookModificationDate}
+			lastUpdateDate={members[0].lastModifiedAt}
 			lastUpdateFrom={members[0].professional}
 		/>
 

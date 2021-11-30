@@ -10,12 +10,12 @@
 		Professional,
 		'firstname' | 'lastname' | 'structure' | 'position' | 'mobileNumber' | 'email'
 	>;
-	export let creationDate: Date;
+	export let createdAt: Date;
 </script>
 
 <div class="flex flex-col gap-6">
 	<h1>Auteur de l'axe de travail</h1>
-	<p class="mb-0">Ajouté le {formatDateLocale(creationDate.toString())}</p>
+	<p class="mb-0">Ajouté le {formatDateLocale(createdAt.toString())}</p>
 	<div class="flex flex-row gap-4">
 		<div class="w-1/2 flex flex-col">
 			<span class="mb-1 text-sm">Structure</span>

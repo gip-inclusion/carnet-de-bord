@@ -16,11 +16,11 @@ query getNotebookByBeneficiaryId($id: uuid!) {
 			peNumber
 			postalCode
 		}
-		members(order_by: { notebookModificationDate: desc_nulls_last }) {
+		members(order_by: { lastModifiedAt: desc_nulls_last }) {
 			id
 			memberType
-			notebookModificationDate
-			notebookVisitDate
+			lastModifiedAt
+			lastVisitedAt
 			professional {
 				id
 				lastname
