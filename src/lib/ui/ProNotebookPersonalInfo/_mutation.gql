@@ -12,6 +12,12 @@ mutation UpdateBeneficiaryPersonalInfo(
 	$peNumber: String
 	$cafNumber: String
 ) {
+	updateMember: update_notebook_member(
+		where: { notebook: { beneficiaryId: { _eq: $id } } }
+		_set: { lastModifiedAt: "now()" }
+	) {
+		affected_rows
+	}
 	update: update_beneficiary_by_pk(
 		pk_columns: { id: $id }
 		_set: {

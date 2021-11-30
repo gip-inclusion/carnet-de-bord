@@ -5991,6 +5991,7 @@ export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
 
 export type UpdateBeneficiaryPersonalInfoMutation = {
 	__typename?: 'mutation_root';
+	updateMember?: Maybe<{ __typename?: 'notebook_member_mutation_response'; affected_rows: number }>;
 	update?: Maybe<{ __typename?: 'beneficiary'; id: string }>;
 };
 
@@ -8510,6 +8511,63 @@ export const UpdateBeneficiaryPersonalInfoDocument = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateMember' },
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiaryId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastModifiedAt' },
+											value: { kind: 'StringValue', value: 'now()', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
 					{
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'update' },
