@@ -42,7 +42,7 @@
 	function viewCreator() {
 		openComponent.open({
 			component: ProNotebookCreatorView,
-			props: { creator: focus?.professional, creationDate: focus?.creationDate },
+			props: { creator: focus?.professional, createdAt: focus?.createdAt },
 		});
 	}
 

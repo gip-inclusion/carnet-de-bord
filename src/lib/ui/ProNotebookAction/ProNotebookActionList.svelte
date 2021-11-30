@@ -7,7 +7,7 @@
 		id: string;
 		actions: Array<{
 			id: string;
-			creationDate: string;
+			createdAt: string;
 			status: string;
 			action: string;
 			creator: { id: string; lastname: string; firstname: string };
@@ -36,7 +36,7 @@
 							<div>{action.creator.firstname}</div>
 							<div>{action.creator.lastname}</div>
 						</td>
-						<td class="!text-right">{formatDateLocale(action.creationDate)} </td>
+						<td class="!text-right">{formatDateLocale(action.createdAt)} </td>
 					</tr>
 				{:else}
 					<tr class="shadow-sm">
