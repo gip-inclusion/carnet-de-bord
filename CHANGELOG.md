@@ -1,3 +1,15 @@
+# [1.64.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.63.0...v1.64.0) (2021-11-30)
+
+
+### Bug Fixes
+
+* missing titles ([74290f6](https://github.com/SocialGouv/carnet-de-bord/commit/74290f6f740398572187caebfb44bc072c8cba0b))
+
+
+### Features
+
+* add legal notice and privacy policy ([a7d64e2](https://github.com/SocialGouv/carnet-de-bord/commit/a7d64e2dfad2da80cd56b0f8a5315cf14e658a64))
+
 # [1.63.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.62.2...v1.63.0) (2021-11-29)
 
 
