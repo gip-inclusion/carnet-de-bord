@@ -3,7 +3,9 @@ table:
   schema: public
 configuration:
   custom_column_names:
+    created_at: createdAt
     deployment_id: deploymentId
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: deployment

@@ -1,6 +1,11 @@
 table:
   name: deployment
   schema: public
+configuration:
+  custom_column_names:
+    created_at: createdAt
+    updated_at: updatedAt
+  custom_root_fields: {}
 array_relationships:
 - name: beneficiaries
   using:

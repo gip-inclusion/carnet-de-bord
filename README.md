@@ -81,14 +81,14 @@ Les types graphql sont générés dans `src/_gen`. On peut alors les utiliser da
 export const load: Load = async ({ page }) => {
 	const filter = page.query.get('filter');
 	const result = operationStore(SearchBeneficiariesDocument, {
-		filter: `%${filter}%`
+		filter: `%${filter}%`,
 	});
 
 	return {
 		props: {
 			result,
-			filter
-		}
+			filter,
+		},
 	};
 };
 ```
@@ -118,3 +118,11 @@ docker-compose up --build
 Les modifications apportées au code doivent passer par des PR qui seront validées avant de pouvoir être versées dans la branche principale. On n'assigne pas forcément de relecteur, tout le monde est libre de relire la PR d'une autre personne.
 
 Dans le cas où une personne de l'équipe de dev est seule, elle peut valider sa PR elle-même pour pouvoir avancer.
+
+## howto
+
+executer un fichier de migration directement via postgres
+
+```sh
+docker-compose exec -T db psql --dbname carnet_de_bord --user cdb  < hasura/migrations/carnet_de_bord/${migration_name}/${up|down}.sql
+```
