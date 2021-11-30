@@ -21,7 +21,7 @@
 </script>
 
 <script lang="ts">
-	import addWeeks from 'date-fns/addWeeks';
+	import addWeeks from 'date-fns/addWeeks/index.js';
 	import { formatDate } from '$lib/utils/date';
 	import { Text } from '$lib/ui/utils';
 
