@@ -8,7 +8,7 @@ TRUNCATE public.structure CASCADE;
 TRUNCATE public.deployment CASCADE;
 TRUNCATE public.manager CASCADE;
 TRUNCATE public.beneficiary CASCADE;
-TRUNCATE public.admin CASCADE;
+TRUNCATE public.admin_cdb CASCADE;
 TRUNCATE public.professional CASCADE;
 TRUNCATE public.notebook CASCADE;
 TRUNCATE public.ref_target CASCADE;
