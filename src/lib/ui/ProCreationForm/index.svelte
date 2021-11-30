@@ -15,8 +15,8 @@
 <script lang="ts">
 	export let submitLabel = 'Je valide mon inscription';
 	export let disabled = false;
-	export let errors: AccountRequest = {};
-	export let accountRequest: AccountRequest = {};
+	export let errors: AccountRequest = {} as AccountRequest;
+	export let accountRequest: AccountRequest = {} as AccountRequest;
 	export let onSubmit: (s: Structure) => void = (s) => {
 		dispatch('submit', { structure: s });
 	};
