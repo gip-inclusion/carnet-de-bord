@@ -4,11 +4,13 @@ table:
 configuration:
   custom_column_names:
     caf_number: cafNumber
+    created_at: createdAt
     date_of_birth: dateOfBirth
     deployment_id: deploymentId
     mobile_number: mobileNumber
     pe_number: peNumber
     postal_code: postalCode
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: deployment
@@ -97,15 +99,17 @@ select_permissions:
     - address2
     - caf_number
     - city
+    - created_at
+    - date_of_birth
+    - deployment_id
+    - email
     - firstname
+    - id
     - lastname
     - mobile_number
     - pe_number
     - postal_code
-    - date_of_birth
-    - email
-    - deployment_id
-    - id
+    - updated_at
     filter: {}
   role: admin_cdb
 - permission:
@@ -130,19 +134,21 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
-    - email
-    - lastname
-    - firstname
-    - caf_number
-    - pe_number
-    - postal_code
-    - city
     - address1
     - address2
-    - mobile_number
+    - caf_number
+    - city
+    - created_at
     - date_of_birth
     - deployment_id
+    - email
+    - firstname
+    - id
+    - lastname
+    - mobile_number
+    - pe_number
+    - postal_code
+    - updated_at
     filter:
       deployment_id:
         _eq: X-Hasura-Deployment-Id
@@ -150,18 +156,20 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
-    - email
-    - lastname
-    - firstname
-    - caf_number
-    - pe_number
-    - postal_code
-    - city
     - address1
     - address2
-    - mobile_number
+    - caf_number
+    - city
+    - created_at
     - date_of_birth
+    - email
+    - firstname
+    - id
+    - lastname
+    - mobile_number
+    - pe_number
+    - postal_code
+    - updated_at
     filter:
       notebook:
         members:

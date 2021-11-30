@@ -3,8 +3,10 @@ table:
   schema: public
 configuration:
   custom_column_names:
-    creation_date: creationDate
+    created_at: createdAt
+    creator_id: creatorId
     focus_id: focusId
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
 - name: focus
@@ -26,7 +28,7 @@ insert_permissions:
     - id
     - focus_id
     - target
-    - creation_date
+    - created_at
   role: admin_cdb
 - permission:
     backend_only: false
@@ -40,7 +42,7 @@ insert_permissions:
     - id
     - focus_id
     - target
-    - creation_date
+    - created_at
     set:
       creator_id: x-hasura-Professional-Id
   role: professional
@@ -48,19 +50,23 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - target
-    - creation_date
+    - created_at
+    - creator_id
     - focus_id
     - id
+    - target
+    - updated_at
     filter: {}
   role: admin_cdb
 - permission:
     allow_aggregations: true
     columns:
-    - id
+    - created_at
+    - creator_id
     - focus_id
+    - id
     - target
-    - creation_date
+    - updated_at
     filter:
       focus:
         notebook:
@@ -73,7 +79,7 @@ update_permissions:
     check: {}
     columns:
     - target
-    - creation_date
+    - created_at
     - focus_id
     - id
     filter: {}
