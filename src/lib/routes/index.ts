@@ -52,7 +52,6 @@ export const baseUrlForRole = (role: AppRoles): string => {
 	} else if (role === 'manager') {
 		return '/manager';
 	}
-	console.log({ role });
 	throw new Error(`role ${role} is not handled!`);
 };
 
