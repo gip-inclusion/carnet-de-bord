@@ -1,3 +1,12 @@
+## [1.64.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.64.0...v1.64.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* bad display for address ([e23d79a](https://github.com/SocialGouv/carnet-de-bord/commit/e23d79abc1699098f2f0dd93e702b15b7d97b57c))
+* import beneficiaries work with or without additional pro ([bb40dd3](https://github.com/SocialGouv/carnet-de-bord/commit/bb40dd38b120bff575908918130099b6e4022b90))
+* typo in sendEmail + cleanup ([6f4ee7c](https://github.com/SocialGouv/carnet-de-bord/commit/6f4ee7c46114378b2adf51982f407b76b65efdee))
+
 # [1.64.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.63.0...v1.64.0) (2021-11-30)
 
 
