@@ -52,32 +52,29 @@ export const post: RequestHandler = async (request) => {
 	}
 	const result = await updateAccessKey(client, professional.accounts[0].id);
 	if (result.error) {
-		console.error('login', result.error);
 		return {
 			status: 500,
 			body: {
-				errors: 'SERVER_ERRROR',
+				errors: 'SERVER_ERROR',
 			},
 		};
 	}
-	const accessKey = result.data.account.accessKey;
-
+	const accessKey = result.data?.account?.accessKey;
 	const appUrl = getAppUrl();
 
 	// send email
-
 	try {
 		await sendEmail({
 			to: professional.email,
 			subject: 'Invitation à rejoindre un carnet de bord',
 			html: emailNotebookInvitation({
+				firstname: professional.firstname,
+				lastname: professional.lastname,
 				creatorFirstname: creator.firstname,
 				creatorLastname: creator.lastname,
-				firstname: professional.firstname,
-				lastname: professional.firstname,
 				accessKey,
 				appUrl,
-				notebookId: notebookId,
+				notebookId,
 			}),
 		});
 	} catch (e) {
