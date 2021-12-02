@@ -1,3 +1,19 @@
+# [1.66.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.65.0...v1.66.0) (2021-12-02)
+
+
+### Bug Fixes
+
+* correct import for build to work ([f4894ce](https://github.com/SocialGouv/carnet-de-bord/commit/f4894cee304b6688df76eb567fbb237e14a06af4))
+* notebook member was not updated correctly when beneficiary infos were updated ([d278608](https://github.com/SocialGouv/carnet-de-bord/commit/d2786084c36f2a98e385e7fe7541f04e6ef3cb2b))
+
+
+### Features
+
+* add more metrics ([e4fec10](https://github.com/SocialGouv/carnet-de-bord/commit/e4fec10c819eabe8fcb5f7586d6421b0b619fee8))
+* add notebook stats for managers ([9c29868](https://github.com/SocialGouv/carnet-de-bord/commit/9c29868d7b8b4c44c96eae9013d2a35995fe01cf))
+* add number of accounts used during last week, per structure ([9333632](https://github.com/SocialGouv/carnet-de-bord/commit/93336323a000e1ca516bd3fe4f62c38e3a621427))
+* add stats for notebooks with info added recently - CAUTION - RIGHTS PROBLEM? ([1ad69cf](https://github.com/SocialGouv/carnet-de-bord/commit/1ad69cf0ca85fcd0ea90ac0b7b2611fe2629f48c))
+
 # [1.65.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.64.1...v1.65.0) (2021-12-02)
 
 
