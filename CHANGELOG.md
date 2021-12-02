@@ -1,3 +1,10 @@
+# [1.67.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.66.0...v1.67.0) (2021-12-02)
+
+
+### Features
+
+* admin-imported pros are confirmed by default ([cc78d41](https://github.com/SocialGouv/carnet-de-bord/commit/cc78d4128edc2bb3782a5a0f35afcc101a960a59))
+
 # [1.66.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.65.0...v1.66.0) (2021-12-02)
 
 
