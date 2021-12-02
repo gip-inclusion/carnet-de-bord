@@ -1,3 +1,18 @@
+# [1.65.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.64.1...v1.65.0) (2021-12-02)
+
+
+### Bug Fixes
+
+* bad quote in seed data ([7c706fb](https://github.com/SocialGouv/carnet-de-bord/commit/7c706fb2db6c40bb3a3a7a134775b320aac34890))
+* seed ([150f6b3](https://github.com/SocialGouv/carnet-de-bord/commit/150f6b347b94b77a075d1caac6cc4ee162e748fa))
+* update codegen ([628993c](https://github.com/SocialGouv/carnet-de-bord/commit/628993cd6c006c9e9fc2257ced8e62282488d76e))
+
+
+### Features
+
+* add created_at and updated_at columns ([e0b9f04](https://github.com/SocialGouv/carnet-de-bord/commit/e0b9f047df44a1e76de0641ce2d3d385cbb5e5f1)), closes [#357](https://github.com/SocialGouv/carnet-de-bord/issues/357)
+* add creator_id for target ([fd6245f](https://github.com/SocialGouv/carnet-de-bord/commit/fd6245f2df2043749c174ffa41ae921e86237153))
+
 ## [1.64.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.64.0...v1.64.1) (2021-12-01)
 
 
