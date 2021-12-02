@@ -44,6 +44,8 @@ insert_permissions:
     - confirmed
     - onboarding_done
     - manager_id
+    set:
+      confirmed: "true"
   role: admin_cdb
 - permission:
     backend_only: false
