@@ -5,8 +5,8 @@
 
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 
-	let errors: AccountRequest = {};
-	let accountRequest: AccountRequest = {};
+	let errors: AccountRequest = {} as AccountRequest;
+	let accountRequest: AccountRequest = {} as AccountRequest;
 	let requestStep: RequestStep = 'start';
 
 	async function onSubmit(structure: Structure) {
