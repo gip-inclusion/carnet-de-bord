@@ -1,5 +1,3 @@
-import { sendEmail } from '$lib/utils/sendEmail';
-import { emailLoginRequest } from '$lib/utils/emailLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 
@@ -12,6 +10,7 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { createClient } from '@urql/core';
 import { updateAccessKey } from '$lib/services/account';
+import send from '$lib/emailing';
 
 const client = createClient({
 	fetch,
@@ -97,10 +96,22 @@ export const post: RequestHandler = async (request) => {
 
 	// send email
 	try {
-		await sendEmail({
-			to: email,
-			subject: 'Accédez à Carnet de bord',
-			html: emailLoginRequest({ firstname, lastname, accessKey, appUrl }),
+		await send({
+			options: {
+				to: email,
+				subject: 'Accédez à Carnet de bord',
+			},
+			template: 'loginRequest',
+			params: {
+				pro: {
+					firstname,
+					lastname,
+				},
+				url: {
+					accessKey,
+					appUrl,
+				},
+			},
 		});
 	} catch (e) {
 		console.log(e);

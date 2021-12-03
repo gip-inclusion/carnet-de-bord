@@ -11,7 +11,6 @@
 	import { session } from '$app/stores';
 	import { post } from '$lib/utils/post';
 	import type { AccountRequest, Structure, SvelteEventHandler } from '$lib/types';
-	import { displayFullName } from '$lib/ui/format';
 	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
 	import ProNotebookMemberForm from '$lib/ui/ProNotebookMember/ProNotebookMemberForm.svelte';
 	import { trackSiteSearch } from '$lib/tracking/matomo';
@@ -66,15 +65,16 @@
 		openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: true } });
 	}
 
-	let errors: AccountRequest = {};
-	let accountRequest: AccountRequest = {};
+	let errors: AccountRequest = {} as AccountRequest;
+	let accountRequest: AccountRequest = {} as AccountRequest;
 	let disabled = false;
 	async function onSubmit(structure: Structure) {
 		disabled = true;
+		const { firstname, lastname } = $session.user;
 		const response = await post('/inscription/request', {
 			accountRequest,
 			structureId: structure.id,
-			requester: displayFullName($session.user),
+			requester: { firstname, lastname },
 		});
 
 		if (response.status === 400) {

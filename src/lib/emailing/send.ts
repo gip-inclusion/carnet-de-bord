@@ -17,7 +17,7 @@ const smtpConfig = {
 	},
 };
 
-export function sendEmail({
+export function send({
 	to,
 	subject,
 	text,
