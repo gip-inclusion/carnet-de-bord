@@ -1,5 +1,3 @@
-import { sendEmail } from '$lib/utils/sendEmail';
-import { emailForgotLoginRequest } from '$lib/utils/emailForgotLoginRequest';
 import type { RequestHandler } from '@sveltejs/kit';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { createClient } from '@urql/core';
@@ -9,6 +7,7 @@ import {
 	GetAccountByEmailQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
+import send from '$lib/emailing';
 
 const client = createClient({
 	fetch,
@@ -67,16 +66,23 @@ export const post: RequestHandler = async (request) => {
 
 	// send email
 	try {
-		await sendEmail({
-			to: email,
-			subject: 'Accédez à votre espace Carnet de bord',
-			html: emailForgotLoginRequest({
-				username: username,
-				firstname,
-				lastname,
-				accessKey,
-				appUrl,
-			}),
+		await send({
+			options: {
+				to: email,
+				subject: 'Accédez à votre espace Carnet de bord',
+			},
+			template: 'forgotLoginRequest',
+			params: {
+				account: {
+					username,
+					firstname,
+					lastname,
+				},
+				url: {
+					accessKey,
+					appUrl,
+				},
+			},
 		});
 	} catch (e) {
 		console.log(e);

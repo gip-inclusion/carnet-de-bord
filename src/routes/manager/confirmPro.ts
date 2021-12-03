@@ -1,6 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { sendEmail } from '$lib/utils/sendEmail';
-import { emailAccountRequestValidate } from '$lib/utils/emailAccountRequestValidate';
+import send from '$lib/emailing';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { createClient } from '@urql/core';
 import { getGraphqlAPI } from '$lib/config/variables/public';
@@ -77,10 +76,22 @@ export const post: RequestHandler = async (request) => {
 
 	// send email
 	try {
-		await sendEmail({
-			to: email,
-			subject: "Votre demande d'inscription à Carnet de Bord est validée",
-			html: emailAccountRequestValidate({ firstname, lastname, accessKey, appUrl }),
+		await send({
+			options: {
+				to: email,
+				subject: "Votre demande d'inscription à Carnet de Bord est validée",
+			},
+			template: 'accountRequestValidate',
+			params: {
+				pro: {
+					firstname,
+					lastname,
+				},
+				url: {
+					accessKey,
+					appUrl,
+				},
+			},
 		});
 	} catch (e) {
 		console.log(e);

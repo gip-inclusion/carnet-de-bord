@@ -1,16 +1,16 @@
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { getGraphqlAPI } from '$lib/config/variables/public';
-import { contactEmail } from '$lib/constants';
+import send from '$lib/emailing';
 import {
 	GetAccountByEmailDocument,
 	GetAccountByEmailQuery,
 	GetAccountByUsernameDocument,
 	GetAccountByUsernameQuery,
+	GetDeploymentManagersForStructureDocument,
+	GetDeploymentManagersForStructureQuery,
 	InsertProfessionalAccountDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { AccountRequest } from '$lib/types';
-import { emailAccountRequest } from '$lib/utils/emailAccountRequest';
-import { sendEmail } from '$lib/utils/sendEmail';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 
@@ -30,7 +30,7 @@ export const post: RequestHandler = async (request) => {
 	const { accountRequest, structureId, requester, noEmail } = request.body as unknown as {
 		accountRequest: AccountRequest;
 		structureId: string;
-		requester?: string;
+		requester?: { firstname: string; lastname: string };
 		noEmail?: boolean;
 	};
 
@@ -134,20 +134,44 @@ export const post: RequestHandler = async (request) => {
 	const appUrl = getAppUrl();
 
 	if (!noEmail) {
-		// send email to first admin
-		try {
-			await sendEmail({
-				to: contactEmail,
-				subject: 'Demande de création de compte',
-				html: emailAccountRequest({
-					firstname,
-					lastname,
-					appUrl,
-					requester,
-				}),
-			});
-		} catch (e) {
-			console.log(e);
+		// send email to all deployment managers for the target structure
+		const { error, data } = await client
+			.query<GetDeploymentManagersForStructureQuery>(GetDeploymentManagersForStructureDocument, {
+				structureId,
+			})
+			.toPromise();
+		if (error) {
+			return {
+				status: 500,
+				body: {
+					errors: 'SERVER_ERROR',
+				},
+			};
+		}
+
+		const emails: string[] = data?.structure?.deployment?.managers?.map(({ email }) => email);
+		for (const email in emails) {
+			try {
+				await send({
+					options: {
+						to: email,
+						subject: 'Demande de création de compte',
+					},
+					template: 'accountRequest',
+					params: {
+						pro: {
+							firstname,
+							lastname,
+						},
+						url: {
+							appUrl,
+						},
+						requester,
+					},
+				});
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	}
 

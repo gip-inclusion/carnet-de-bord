@@ -1,7 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { sendEmail } from '$lib/utils/sendEmail';
-import { emailNotebookInvitation } from '$lib/utils/emailNotebookInvitation';
 import { createClient } from '@urql/core';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
@@ -9,6 +7,7 @@ import {
 	GetNotebookMemberByIdQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
+import send from '$lib/emailing';
 
 const client = createClient({
 	fetch,
@@ -64,18 +63,17 @@ export const post: RequestHandler = async (request) => {
 
 	// send email
 	try {
-		await sendEmail({
-			to: professional.email,
-			subject: 'Invitation à rejoindre un carnet de bord',
-			html: emailNotebookInvitation({
-				firstname: professional.firstname,
-				lastname: professional.lastname,
-				creatorFirstname: creator.firstname,
-				creatorLastname: creator.lastname,
-				accessKey,
-				appUrl,
-				notebookId,
-			}),
+		await send({
+			options: {
+				to: professional.email,
+				subject: 'Invitation à rejoindre un carnet de bord',
+			},
+			template: 'notebookInvitation',
+			params: {
+				pro: professional,
+				creator,
+				url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
+			},
 		});
 	} catch (e) {
 		console.log(e);

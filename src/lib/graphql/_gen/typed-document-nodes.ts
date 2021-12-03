@@ -6251,6 +6251,21 @@ export type UpdateAccountAccessKeyMutation = {
 	account?: Maybe<{ __typename?: 'account'; accessKey?: Maybe<string> }>;
 };
 
+export type GetDeploymentManagersForStructureQueryVariables = Exact<{
+	structureId: Scalars['uuid'];
+}>;
+
+export type GetDeploymentManagersForStructureQuery = {
+	__typename?: 'query_root';
+	structure?: Maybe<{
+		__typename?: 'structure';
+		deployment?: Maybe<{
+			__typename?: 'deployment';
+			managers: Array<{ __typename?: 'manager'; email: any }>;
+		}>;
+	}>;
+};
+
 export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetStructuresQuery = {
@@ -9908,6 +9923,68 @@ export const UpdateAccountAccessKeyDocument = {
 	UpdateAccountAccessKeyMutation,
 	UpdateAccountAccessKeyMutationVariables
 >;
+export const GetDeploymentManagersForStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentManagersForStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
+						name: { kind: 'Name', value: 'structure_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'deployment' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'managers' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetDeploymentManagersForStructureQuery,
+	GetDeploymentManagersForStructureQueryVariables
+>;
 export const GetStructuresDocument = {
 	kind: 'Document',
 	definitions: [
@@ -12888,6 +12965,10 @@ export type GetAccountByEmailQueryStore = OperationStore<
 export type UpdateAccountAccessKeyMutationStore = OperationStore<
 	UpdateAccountAccessKeyMutation,
 	UpdateAccountAccessKeyMutationVariables
+>;
+export type GetDeploymentManagersForStructureQueryStore = OperationStore<
+	GetDeploymentManagersForStructureQuery,
+	GetDeploymentManagersForStructureQueryVariables
 >;
 export type GetStructuresQueryStore = OperationStore<
 	GetStructuresQuery,
