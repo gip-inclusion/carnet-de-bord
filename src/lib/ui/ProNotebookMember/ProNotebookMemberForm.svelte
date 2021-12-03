@@ -5,8 +5,8 @@
 
 	export let name: string;
 	export let disabled: boolean;
-	export let accountRequest: AccountRequest = {};
-	export let errors: AccountRequest = {};
+	export let accountRequest: AccountRequest = {} as AccountRequest;
+	export let errors: AccountRequest = {} as AccountRequest;
 	export let onCancel: () => void;
 	export let onInput: () => void;
 	export let onSubmit: (s: Structure) => void;
