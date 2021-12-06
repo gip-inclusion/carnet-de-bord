@@ -158,16 +158,18 @@ export const post: RequestHandler = async (request) => {
 						subject: 'Demande de création de compte',
 					},
 					template: 'accountRequest',
-					params: {
-						pro: {
-							firstname,
-							lastname,
+					params: [
+						{
+							pro: {
+								firstname,
+								lastname,
+							},
+							url: {
+								appUrl,
+							},
+							requester,
 						},
-						url: {
-							appUrl,
-						},
-						requester,
-					},
+					],
 				});
 			} catch (e) {
 				console.log(e);

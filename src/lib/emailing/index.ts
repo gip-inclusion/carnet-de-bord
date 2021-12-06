@@ -10,7 +10,7 @@ function send<K extends keyof typeof templates>({
 }: {
 	options: Mail.Options;
 	template: K;
-	params: Parameters<typeof templates[K]>[0];
+	params: Parameters<typeof templates[K]>;
 }): Promise<SentMessageInfo> {
 	if (!templates[template]) {
 		throw `Invalid template name: ${template}. Available templates are: ${Object.keys(

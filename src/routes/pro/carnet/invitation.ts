@@ -69,11 +69,13 @@ export const post: RequestHandler = async (request) => {
 				subject: 'Invitation à rejoindre un carnet de bord',
 			},
 			template: 'notebookInvitation',
-			params: {
-				pro: professional,
-				creator,
-				url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
-			},
+			params: [
+				{
+					pro: professional,
+					creator,
+					url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
+				},
+			],
 		});
 	} catch (e) {
 		console.log(e);

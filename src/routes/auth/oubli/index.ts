@@ -72,17 +72,19 @@ export const post: RequestHandler = async (request) => {
 				subject: 'Accédez à votre espace Carnet de bord',
 			},
 			template: 'forgotLoginRequest',
-			params: {
-				account: {
-					username,
-					firstname,
-					lastname,
+			params: [
+				{
+					account: {
+						username,
+						firstname,
+						lastname,
+					},
+					url: {
+						accessKey,
+						appUrl,
+					},
 				},
-				url: {
-					accessKey,
-					appUrl,
-				},
-			},
+			],
 		});
 	} catch (e) {
 		console.log(e);
