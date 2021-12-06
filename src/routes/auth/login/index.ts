@@ -102,16 +102,18 @@ export const post: RequestHandler = async (request) => {
 				subject: 'Accédez à Carnet de bord',
 			},
 			template: 'loginRequest',
-			params: {
-				pro: {
-					firstname,
-					lastname,
+			params: [
+				{
+					pro: {
+						firstname,
+						lastname,
+					},
+					url: {
+						accessKey,
+						appUrl,
+					},
 				},
-				url: {
-					accessKey,
-					appUrl,
-				},
-			},
+			],
 		});
 	} catch (e) {
 		console.log(e);

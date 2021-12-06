@@ -82,16 +82,18 @@ export const post: RequestHandler = async (request) => {
 				subject: "Votre demande d'inscription à Carnet de Bord est validée",
 			},
 			template: 'accountRequestValidate',
-			params: {
-				pro: {
-					firstname,
-					lastname,
+			params: [
+				{
+					pro: {
+						firstname,
+						lastname,
+					},
+					url: {
+						accessKey,
+						appUrl,
+					},
 				},
-				url: {
-					accessKey,
-					appUrl,
-				},
-			},
+			],
 		});
 	} catch (e) {
 		console.log(e);
