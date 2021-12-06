@@ -1,3 +1,10 @@
+# [1.68.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.67.0...v1.68.0) (2021-12-06)
+
+
+### Features
+
+* cleanup and improve API of sendEmail + fix contact email for account requests ([30a7e46](https://github.com/SocialGouv/carnet-de-bord/commit/30a7e46dca2143267bfda301b48cd30f6f0b1fd1))
+
 # [1.67.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.66.0...v1.67.0) (2021-12-02)
 
 
