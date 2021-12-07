@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {
-		CreateBeneficiaryDocument,
-		CreateBeneficiaryMutation,
-		CreateBeneficiaryMutationVariables,
+		ImportBeneficiaryDocument,
+		ImportBeneficiaryMutation,
+		ImportBeneficiaryMutationVariables,
 		GetProfessionalsForDeploymentDocument,
 		GetProfessionalsForDeploymentQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
@@ -111,10 +111,10 @@
 	}
 
 	const insertStore: OperationStore<
-		CreateBeneficiaryMutation,
-		CreateBeneficiaryMutationVariables,
+		ImportBeneficiaryMutation,
+		ImportBeneficiaryMutationVariables,
 		Beneficiary
-	> = operationStore(CreateBeneficiaryDocument);
+	> = operationStore(ImportBeneficiaryDocument);
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
 	let insertResult: { benef: Beneficiary; error: string | null }[];

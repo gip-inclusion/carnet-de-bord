@@ -1,4 +1,4 @@
-mutation CreateBeneficiary(
+mutation ImportBeneficiary(
 	$firstname: String!
 	$lastname: String!
 	$dateOfBirth: date!
@@ -11,6 +11,7 @@ mutation CreateBeneficiary(
 	$workSituation: String
 	$cafNumber: String
 	$peNumber: String
+	$deploymentId: uuid
 	$members: [notebook_member_insert_input!]!
 ) {
 	newNotebook: insert_notebook_one(
@@ -28,6 +29,7 @@ mutation CreateBeneficiary(
 					city: $city
 					cafNumber: $cafNumber
 					peNumber: $peNumber
+					deploymentId: $deploymentId
 				}
 			}
 			events: { data: [] }

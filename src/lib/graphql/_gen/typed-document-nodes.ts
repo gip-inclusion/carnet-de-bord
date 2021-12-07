@@ -5733,6 +5733,28 @@ export type CreateDeploymentMutation = {
 	insert_deployment_one?: Maybe<{ __typename?: 'deployment'; id: string; label: string }>;
 };
 
+export type ImportBeneficiaryMutationVariables = Exact<{
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	dateOfBirth: Scalars['date'];
+	mobileNumber?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	city?: Maybe<Scalars['String']>;
+	workSituation?: Maybe<Scalars['String']>;
+	cafNumber?: Maybe<Scalars['String']>;
+	peNumber?: Maybe<Scalars['String']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+}>;
+
+export type ImportBeneficiaryMutation = {
+	__typename?: 'mutation_root';
+	newNotebook?: Maybe<{ __typename?: 'notebook'; id: string }>;
+};
+
 export type GetDeploymentByIdQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -6581,7 +6603,6 @@ export type CreateBeneficiaryMutationVariables = Exact<{
 	workSituation?: Maybe<Scalars['String']>;
 	cafNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
-	deploymentId?: Maybe<Scalars['uuid']>;
 	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
 }>;
 
@@ -6922,6 +6943,281 @@ export const CreateDeploymentDocument = {
 		},
 	],
 } as unknown as DocumentNode<CreateDeploymentMutation, CreateDeploymentMutationVariables>;
+export const ImportBeneficiaryDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'ImportBeneficiary' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'members' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_member_insert_input' },
+								},
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'newNotebook' },
+						name: { kind: 'Name', value: 'insert_notebook_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'firstname' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'firstname' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'lastname' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'lastname' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'dateOfBirth' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'dateOfBirth' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'mobileNumber' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'mobileNumber' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'email' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'email' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'address1' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'address1' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'address2' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'address2' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'postalCode' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'postalCode' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'city' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'city' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'cafNumber' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'cafNumber' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'peNumber' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'peNumber' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deploymentId' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'events' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: { kind: 'ListValue', values: [] },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'members' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'members' } },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'workSituation' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<ImportBeneficiaryMutation, ImportBeneficiaryMutationVariables>;
 export const GetDeploymentByIdDocument = {
 	kind: 'Document',
 	definitions: [
@@ -11661,11 +11957,6 @@ export const CreateBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'members' } },
 					type: {
 						kind: 'NonNullType',
@@ -11794,14 +12085,6 @@ export const CreateBeneficiaryDocument = {
 																	value: {
 																		kind: 'Variable',
 																		name: { kind: 'Name', value: 'peNumber' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'deploymentId' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'deploymentId' },
 																	},
 																},
 															],
@@ -12849,6 +13132,10 @@ export const UpdateProfessionalProfileDocument = {
 export type CreateDeploymentMutationStore = OperationStore<
 	CreateDeploymentMutation,
 	CreateDeploymentMutationVariables
+>;
+export type ImportBeneficiaryMutationStore = OperationStore<
+	ImportBeneficiaryMutation,
+	ImportBeneficiaryMutationVariables
 >;
 export type GetDeploymentByIdQueryStore = OperationStore<
 	GetDeploymentByIdQuery,
