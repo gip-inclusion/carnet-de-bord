@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	import '@gouvfr/dsfr/dist/css/dsfr.min.css';
 	import 'remixicon/fonts/remixicon.css';
 	import '../app.css';
 	import { setClient, Client } from '@urql/svelte';

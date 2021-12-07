@@ -22,6 +22,14 @@
 	function logout() {
 		openComponent.open({ component: Disconnect });
 	}
+	let modalEl: HTMLDivElement;
+	function closeDsfrModal() {
+		if (!modalEl) {
+			return;
+		}
+		console.log(dsfr(modalEl));
+		window.dsfr(modalEl).modal.conceal();
+	}
 </script>
 
 <header role="banner" class="fr-header">
@@ -54,9 +62,6 @@
 								aria-haspopup="menu"
 								title="Menu"
 								id="fr-btn-menu-mobile-4"
-								on:click={() => {
-									$isMenuOpened = true;
-								}}
 							>
 								Menu
 							</button>
@@ -77,13 +82,11 @@
 					<div class="fr-header__tools">
 						{#if showQuickAccess}
 							<div class="fr-header__tools-links">
-								{#if !$isMenuOpened}
-									<ul class="fr-links-group">
-										<slot name="quickAccessLeft" />
-										<slot name="quickAccessMiddle" />
-										<slot name="quickAccessRight" />
-									</ul>
-								{/if}
+								<ul class="fr-links-group">
+									<slot name="quickAccessLeft" />
+									<slot name="quickAccessMiddle" />
+									<slot name="quickAccessRight" />
+								</ul>
 							</div>
 						{/if}
 						{#if withSearch}
@@ -111,62 +114,28 @@
 	</div>
 	<div
 		class="fr-header__menu fr-modal"
-		class:fr-modal--opened={$isMenuOpened}
 		id="modal-menu"
+		bind:this={modalEl}
 		aria-labelledby="fr-btn-menu-mobile"
 	>
-		<div class="fr-container">
-			<button
-				class="fr-link--close fr-link"
-				aria-controls="modal-menu"
-				on:click={() => {
-					$isMenuOpened = false;
-				}}>Fermer</button
-			>
-			{#if $isMenuOpened}
-				<div class="fr-header__menu-links">
-					{#if $session.user}
-						<ul class="fr-links-group">
-							{#if ['professional', 'particulier'].includes($session.user.role)}
-								<li>
-									<Link
-										classNames="fr-link"
-										href={`${baseUrlForRole($session.user.role)}/moncompte`}>Mon Compte</Link
-									>
-								</li>
-							{/if}
-							<li><button class="fr-link" on:click={logout}>Déconnexion</button></li>
-						</ul>
-					{/if}
-				</div>
-			{/if}
+		<div class="fr-container" on:click={closeDsfrModal}>
+			<button class="fr-link--close fr-link" aria-controls="modal-menu">Fermer</button>
+			<div class="fr-header__menu-links hidden" />
+			<div class="fr-header__menu-links">
+				{#if $session.user}
+					<ul class="fr-links-group">
+						{#if ['professional', 'particulier'].includes($session.user.role)}
+							<li>
+								<Link classNames="fr-link" href={`${baseUrlForRole($session.user.role)}/moncompte`}
+									>Mon Compte</Link
+								>
+							</li>
+						{/if}
+						<li><button class="fr-link" on:click={logout}>Déconnexion</button></li>
+					</ul>
+				{/if}
+			</div>
 			<slot name="navbar" />
 		</div>
-		<!--
-	{#if withQuickAccess}
-	<div class="fr-header__menu fr-modal" id="modal-870" aria-labelledby="fr-btn-menu-mobile-4">
-		<div class="fr-container">
-			<button class="fr-link--close fr-link" aria-controls="modal-870">Fermer</button>
-			<div class="fr-header__menu-links" />
-			<nav class="fr-nav" id="navigation-869" role="navigation" aria-label="Menu principal">
-				<ul class="fr-nav__list">
-					<li class="fr-nav__item">
-						<a class="fr-nav__link" href="#" target="_self">accès direct</a>
-					</li>
-					<li class="fr-nav__item">
-						<a class="fr-nav__link" href="#" target="_self">accès direct</a>
-					</li>
-					<li class="fr-nav__item">
-						<a class="fr-nav__link" href="#" target="_self">accès direct</a>
-					</li>
-					<li class="fr-nav__item">
-						<a class="fr-nav__link" href="#" target="_self">accès direct</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-	{/if}
-	-->
 	</div>
 </header>

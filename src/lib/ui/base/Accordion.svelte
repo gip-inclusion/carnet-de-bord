@@ -16,40 +16,16 @@
 	const { registerAccordionItem, selectedItem, toggleAccordion } = getContext(ACCORDION);
 	registerAccordionItem(internalItemKey);
 	$: expanded = $selectedItem === internalItemKey;
-	let collapseSize = 0;
-	onMount(() => {
-		if (contentRef && contentRef.firstChild) {
-			collapseSize = contentRef.firstChild.offsetHeight;
-		}
-	});
 </script>
 
 <li>
 	<section data-dsfr-accordion class="fr-accordion">
 		<h3 class="fr-accordion__title">
-			<button
-				bind:this={ref}
-				class="fr-accordion__btn"
-				on:click={() => {
-					toggleAccordion(internalItemKey);
-					if (expanded && ref && ref.getBoundingClientRect().top < 0) {
-						contentRef;
-						ref.scrollIntoView();
-					}
-				}}
-				aria-expanded={expanded}
-				aria-controls={accordionId}>{title}</button
+			<button class="fr-accordion__btn" aria-expanded={expanded} aria-controls={accordionId}
+				>{title}</button
 			>
 		</h3>
-		<div
-			class="fr-collapse"
-			style={expanded
-				? `max-height:none; --collapse: -${collapseSize}px}`
-				: `--collapse: -${collapseSize}px`}
-			class:fr-collapse--expanded={expanded}
-			id={accordionId}
-			bind:this={contentRef}
-		>
+		<div class="fr-collapse" id={accordionId}>
 			<slot />
 		</div>
 	</section>

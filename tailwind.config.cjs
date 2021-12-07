@@ -28,7 +28,6 @@ const config = {
 				10: '#F5F0FD',
 			},
 			success: '#008941',
-			error: '#E10600',
 			information: { DEFAULT: '#0762C8', bg: '#DBF0FF', light: '#F0F8FF' },
 			action: '#000638',
 			accent: '#6A20AE',
