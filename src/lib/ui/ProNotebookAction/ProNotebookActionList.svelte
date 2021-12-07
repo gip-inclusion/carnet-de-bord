@@ -40,7 +40,7 @@
 					</tr>
 				{:else}
 					<tr class="shadow-sm">
-						<td class="!text-center" colspan="4"> Aucune action entreprise pour le moment. </td>
+						<td class="!text-center" colspan="3"> Aucune action entreprise pour le moment. </td>
 					</tr>
 				{/each}
 			</tbody>

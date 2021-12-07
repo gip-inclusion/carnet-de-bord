@@ -2,3 +2,8 @@ build
 .svelte-kit
 .github
 .husky
+static/*
+.DS_Store
+node_modules
+.eslintcache
+.env
