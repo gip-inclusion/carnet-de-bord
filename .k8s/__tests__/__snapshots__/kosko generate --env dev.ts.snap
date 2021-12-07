@@ -103,7 +103,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user-mybranch
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.56.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -357,7 +357,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user-mybranch
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.45.0
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.56.1
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -512,6 +512,27 @@ spec:
         - hasura-carnet-de-bord-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: netpol-carnet-de-bord-mybranch
+  namespace: carnet-de-bord-mybranch
+spec:
+  ingress:
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: ingress-controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network-policy/source: monitoring
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
 apiVersion: batch/v1
 kind: Job
 spec:
@@ -533,7 +554,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-admin-user
-          image: ghcr.io/socialgouv/docker/azure-db:6.45.0
+          image: ghcr.io/socialgouv/docker/azure-db:6.56.1
           imagePullPolicy: IfNotPresent
           name: create-db-user
           resources:
