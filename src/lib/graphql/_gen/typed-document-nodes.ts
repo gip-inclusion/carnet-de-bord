@@ -6394,21 +6394,13 @@ export type GetAccountByIdQuery = {
 	}>;
 };
 
-export type GetNotebooksAllAndRecentQueryVariables = Exact<{
+export type GetNotebooksStatsQueryVariables = Exact<{
 	afterDate: TimestamptzComparisonExp;
 }>;
 
-export type GetNotebooksAllAndRecentQuery = {
+export type GetNotebooksStatsQuery = {
 	__typename?: 'query_root';
-	all: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
-	};
-	open: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
-	};
-	modified: {
+	created: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
 	};
@@ -6423,19 +6415,15 @@ export type GetNotebooksAllAndRecentQuery = {
 			};
 		}>;
 	};
-	recentlyInfoAdded: {
+	open: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
 	};
-	recentlyCreated: {
+	modified: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
 	};
-	recentlyOpen: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
-	};
-	recentlyModified: {
+	infoAdded: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: Maybe<{ __typename?: 'notebook_aggregate_fields'; count: number }>;
 	};
@@ -10615,13 +10603,13 @@ export const GetAccountByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByIdQuery, GetAccountByIdQueryVariables>;
-export const GetNotebooksAllAndRecentDocument = {
+export const GetNotebooksStatsDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetNotebooksAllAndRecent' },
+			name: { kind: 'Name', value: 'GetNotebooksStats' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -10640,8 +10628,41 @@ export const GetNotebooksAllAndRecentDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'all' },
+						alias: { kind: 'Name', value: 'created' },
 						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'createdAt' },
+																value: {
+																	kind: 'Variable',
+																	name: { kind: 'Name', value: 'afterDate' },
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
@@ -10670,6 +10691,88 @@ export const GetNotebooksAllAndRecentDocument = {
 					},
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'shared' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'createdAt' },
+																value: {
+																	kind: 'Variable',
+																	name: { kind: 'Name', value: 'afterDate' },
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'nodes' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'members_aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'aggregate' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'count' },
+																		arguments: [
+																			{
+																				kind: 'Argument',
+																				name: { kind: 'Name', value: 'distinct' },
+																				value: { kind: 'BooleanValue', value: false },
+																			},
+																		],
+																	},
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
 						alias: { kind: 'Name', value: 'open' },
 						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
@@ -10688,16 +10791,7 @@ export const GetNotebooksAllAndRecentDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'lastVisitedAt' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_is_null' },
-																	value: { kind: 'BooleanValue', value: false },
-																},
-															],
-														},
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
 													},
 												],
 											},
@@ -10752,16 +10846,7 @@ export const GetNotebooksAllAndRecentDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'lastModifiedAt' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_is_null' },
-																	value: { kind: 'BooleanValue', value: false },
-																},
-															],
-														},
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
 													},
 												],
 											},
@@ -10798,56 +10883,7 @@ export const GetNotebooksAllAndRecentDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'shared' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'nodes' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'members_aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'aggregate' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'count' },
-																		arguments: [
-																			{
-																				kind: 'Argument',
-																				name: { kind: 'Name', value: 'distinct' },
-																				value: { kind: 'BooleanValue', value: false },
-																			},
-																		],
-																	},
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'recentlyInfoAdded' },
+						alias: { kind: 'Name', value: 'infoAdded' },
 						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
 							{
@@ -11042,179 +11078,6 @@ export const GetNotebooksAllAndRecentDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'recentlyCreated' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_and' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'createdAt' },
-																value: {
-																	kind: 'Variable',
-																	name: { kind: 'Name', value: 'afterDate' },
-																},
-															},
-														],
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'count' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'recentlyOpen' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'members' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'lastVisitedAt' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'count' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'recentlyModified' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'members' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'lastModifiedAt' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'count' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
 						alias: { kind: 'Name', value: 'structConnections' },
 						name: { kind: 'Name', value: 'structure' },
 						selectionSet: {
@@ -11287,7 +11150,7 @@ export const GetNotebooksAllAndRecentDocument = {
 			},
 		},
 	],
-} as unknown as DocumentNode<GetNotebooksAllAndRecentQuery, GetNotebooksAllAndRecentQueryVariables>;
+} as unknown as DocumentNode<GetNotebooksStatsQuery, GetNotebooksStatsQueryVariables>;
 export const InsertStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13453,9 +13316,9 @@ export type GetAccountByIdQueryStore = OperationStore<
 	GetAccountByIdQuery,
 	GetAccountByIdQueryVariables
 >;
-export type GetNotebooksAllAndRecentQueryStore = OperationStore<
-	GetNotebooksAllAndRecentQuery,
-	GetNotebooksAllAndRecentQueryVariables
+export type GetNotebooksStatsQueryStore = OperationStore<
+	GetNotebooksStatsQuery,
+	GetNotebooksStatsQueryVariables
 >;
 export type InsertStructureMutationStore = OperationStore<
 	InsertStructureMutation,

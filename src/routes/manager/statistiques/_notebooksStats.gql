@@ -1,20 +1,10 @@
-query GetNotebooksAllAndRecent($afterDate: timestamptz_comparison_exp!) {
-	all: notebook_aggregate {
+query GetNotebooksStats($afterDate: timestamptz_comparison_exp!) {
+	created: notebook_aggregate(where: { _and: [{ createdAt: $afterDate }] }) {
 		aggregate {
 			count(distinct: false)
 		}
 	}
-	open: notebook_aggregate(where: { members: { lastVisitedAt: { _is_null: false } } }) {
-		aggregate {
-			count(distinct: false)
-		}
-	}
-	modified: notebook_aggregate(where: { members: { lastModifiedAt: { _is_null: false } } }) {
-		aggregate {
-			count(distinct: false)
-		}
-	}
-	shared: notebook_aggregate {
+	shared: notebook_aggregate(where: { _and: [{ createdAt: $afterDate }] }) {
 		nodes {
 			id
 			members_aggregate {
@@ -24,7 +14,17 @@ query GetNotebooksAllAndRecent($afterDate: timestamptz_comparison_exp!) {
 			}
 		}
 	}
-	recentlyInfoAdded: notebook_aggregate(
+	open: notebook_aggregate(where: { members: { lastVisitedAt: $afterDate } }) {
+		aggregate {
+			count(distinct: false)
+		}
+	}
+	modified: notebook_aggregate(where: { members: { lastModifiedAt: $afterDate } }) {
+		aggregate {
+			count(distinct: false)
+		}
+	}
+	infoAdded: notebook_aggregate(
 		where: {
 			focuses: {
 				_or: [
@@ -43,21 +43,6 @@ query GetNotebooksAllAndRecent($afterDate: timestamptz_comparison_exp!) {
 			}
 		}
 	) {
-		aggregate {
-			count(distinct: false)
-		}
-	}
-	recentlyCreated: notebook_aggregate(where: { _and: [{ createdAt: $afterDate }] }) {
-		aggregate {
-			count(distinct: false)
-		}
-	}
-	recentlyOpen: notebook_aggregate(where: { members: { lastVisitedAt: $afterDate } }) {
-		aggregate {
-			count(distinct: false)
-		}
-	}
-	recentlyModified: notebook_aggregate(where: { members: { lastModifiedAt: $afterDate } }) {
 		aggregate {
 			count(distinct: false)
 		}
