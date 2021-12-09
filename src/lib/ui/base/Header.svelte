@@ -27,7 +27,6 @@
 		if (!modalEl) {
 			return;
 		}
-		console.log(dsfr(modalEl));
 		window.dsfr(modalEl).modal.conceal();
 	}
 </script>
