@@ -40,7 +40,10 @@
 			visitDate._lt = addMonths(today, -12);
 		}
 
-		const variables: SearchNotebookMemberQueryVariables = { professionalId, visitDate };
+		const variables: SearchNotebookMemberQueryVariables = {
+			professionalId: !professionalId ? { _eq: professionalId } : {},
+			visitDate,
+		};
 		if (search) {
 			variables.filter = `%${search}%`;
 		}
@@ -83,7 +86,7 @@
 
 	query(result);
 
-	function updateUrl(search, dt) {
+	function updateUrl(search: string, dt: string) {
 		const url = new URL(window.location.toString());
 		url.searchParams.set('search', search);
 		url.searchParams.set('dt', dt);
@@ -103,6 +106,7 @@
 	function addBeneficiary() {
 		openComponent.open({ component: ProBeneficiaryCreate, props: { createBeneficiaryResult } });
 	}
+
 	function handleSubmit() {
 		updateUrl(search, selected);
 		$result.variables = buildQueryVariables({ professionalId, search, selected });
@@ -111,7 +115,11 @@
 
 	/* TODO: find a way without cheating on that type */
 	$: members = ($result.data ? $result.data.notebook_member : []) as NotebookMember[];
-	$: notebooks = members ? members.map((m) => m.notebook) : [];
+
+	function dedupeById<T>(data: Array<T & { id: string }>): Array<T> {
+		return Object.values(data.reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), {}));
+	}
+	$: notebooks = dedupeById(members ? members.map((m) => m.notebook) : []);
 </script>
 
 <svelte:head>

@@ -173,9 +173,9 @@ select_permissions:
     - work_situation
     - work_situation_date
     filter:
-      members:
-        professional_id:
-          _eq: X-Hasura-Professional-Id
+      beneficiary:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
   role: professional
 update_permissions:
 - permission:

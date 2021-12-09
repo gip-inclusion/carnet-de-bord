@@ -6643,7 +6643,7 @@ export type CreateBeneficiaryMutation = {
 };
 
 export type SearchNotebookMemberQueryVariables = Exact<{
-	professionalId: Scalars['uuid'];
+	professionalId: UuidComparisonExp;
 	filter?: Maybe<Scalars['String']>;
 	visitDate: TimestamptzComparisonExp;
 }>;
@@ -11887,19 +11887,7 @@ export const GetLastVisitedOrUpdatedDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'professionalId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' },
-														},
-													},
-												],
-											},
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -12324,7 +12312,7 @@ export const SearchNotebookMemberDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid_comparison_exp' } },
 					},
 				},
 				{
