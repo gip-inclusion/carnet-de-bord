@@ -17,13 +17,6 @@
 		},
 		accordionItems,
 		selectedItem,
-		// toggleAccordion: (accordion) => {
-		// 	if ($selectedItem === accordion) {
-		// 		$selectedItem = null;
-		// 	} else {
-		// 		$selectedItem = accordion;
-		// 	}
-		// },
 	});
 </script>
 
