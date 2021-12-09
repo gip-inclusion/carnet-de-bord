@@ -113,7 +113,7 @@
 									ouvert mais versement suspendu, AAH, ATA, RQTH, ARE, ASS, Prime d’activité
 									<ul>
 										<li>Inscription et durée</li>
-										<li>Numéros d'allocataire (CAF,MSA)</li>
+										<li>Numéros d'allocataire (CAF, MSA)</li>
 									</ul>
 								</li>
 								<li>Information relative aux freins socio-professionnel</li>

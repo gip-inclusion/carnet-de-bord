@@ -22,7 +22,7 @@
 	let options: { name: IdentifierType; label: string }[] = [
 		{
 			name: 'CAF',
-			label: "Je connais l'identifiant CAF du bénéficiaire.",
+			label: "Je connais l'identifiant CAF/MSA du bénéficiaire.",
 		},
 		{
 			name: 'PE',
@@ -162,7 +162,7 @@
 		<h2>Ajouter un bénéficiaire</h2>
 		<form on:submit|preventDefault={handleSubmit} class="flex flex-col">
 			<Radio
-				caption="Connaissez-vous l’identifiant CAF ou Pôle emploi du bénéficiaire&nbsp;?"
+				caption="Connaissez-vous l’identifiant CAF/MSA ou Pôle emploi du bénéficiaire&nbsp;?"
 				{options}
 				bind:selected={identifierType}
 				on:input={clearSelectedUser}

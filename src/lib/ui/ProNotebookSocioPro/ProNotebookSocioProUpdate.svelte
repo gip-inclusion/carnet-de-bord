@@ -98,14 +98,14 @@
 		</div>
 
 		<Radio
-			caption={'Zone géographique privilégiée'}
+			caption={'Zone de mobilité'}
 			legendClass="!font-bold"
 			bind:selected={formData.geographicalArea}
 			options={geographicalAreaKeys.options}
 		/>
 
 		<div class="fr-form-group">
-			<div class="pb-2 font-bold">Diplôme</div>
+			<div class="pb-2 font-bold">Niveau de formation</div>
 			<Select
 				selectLabel={"Niveau d'étude le plus élevé"}
 				options={educationLevelKeys.options}
