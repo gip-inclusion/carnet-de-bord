@@ -124,7 +124,6 @@
 				error={fieldErrors['phone']}
 				on:input={onInput}
 				disabled={disabledKeys['phone']}
-				required={true}
 			/>
 			<Input
 				bind:val={structure['email']}
@@ -134,7 +133,6 @@
 				on:input={onInput}
 				disabled={disabledKeys['email']}
 				type={'email'}
-				required={true}
 			/>
 			<Input
 				bind:val={structure['address1']}
@@ -143,7 +141,6 @@
 				error={fieldErrors['address1']}
 				on:input={onInput}
 				disabled={disabledKeys['address1']}
-				required={true}
 			/>
 			<Input
 				bind:val={structure['address2']}
