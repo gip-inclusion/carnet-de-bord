@@ -19,7 +19,6 @@
 	import * as yup from 'yup';
 	import { mutation } from '@urql/svelte';
 
-	import Debug from './debug.svelte';
 	import { isDate } from 'date-fns';
 	import Form from './Form.svelte';
 	import ProBeneficiaryCreateFields from './ProBeneficiaryCreateFields.svelte';
@@ -261,7 +260,6 @@
 				{/if}
 				<Button outline={true} on:click={openComponent.close}>Annuler</Button>
 			</div>
-			<Debug />
 		</Form>
 	{/if}
 </div>
