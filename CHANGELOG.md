@@ -1,3 +1,17 @@
+# [1.69.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.68.1...v1.69.0) (2021-12-09)
+
+
+### Bug Fixes
+
+* remove wrong required info from Structure creation form ([db0ddc3](https://github.com/SocialGouv/carnet-de-bord/commit/db0ddc34f61beda91cfd2ee8487c13bb2bc4e898))
+* use proper mutation to import beneficiary ([81c12c9](https://github.com/SocialGouv/carnet-de-bord/commit/81c12c9bbf88196a0be32cd4a5443bf4b3346a1e))
+* use proper mutation to import/insert structures ([6710de2](https://github.com/SocialGouv/carnet-de-bord/commit/6710de20215af4d5e9ad4f539a1643577f27416e))
+
+
+### Features
+
+* some renaming ([a9b7d67](https://github.com/SocialGouv/carnet-de-bord/commit/a9b7d675dc95b9dcecafaacd6621fb38c2be1fd9))
+
 ## [1.68.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.68.0...v1.68.1) (2021-12-09)
 
 
