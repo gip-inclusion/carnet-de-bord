@@ -101,8 +101,7 @@
 		"svelte-file-dropzone": "^0.0.15",
 		"svelte-forms-lib": "^2.0.0",
 		"uuid": "^8.3.2",
-		"yup": "^0.32.11",
-		"yup-locales": "^1.2.0"
+		"yup": "^0.32.11"
 	},
 	"type": "module",
 	"lint-staged": {
