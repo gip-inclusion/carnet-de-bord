@@ -128,9 +128,9 @@ select_permissions:
     - professional_id
     filter:
       notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
   role: professional
 update_permissions:
 - permission:

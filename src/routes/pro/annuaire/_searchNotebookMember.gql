@@ -1,11 +1,11 @@
 query SearchNotebookMember(
-	$professionalId: uuid!
+	$professionalId: uuid_comparison_exp!
 	$filter: String
 	$visitDate: timestamptz_comparison_exp!
 ) {
 	notebook_member(
 		where: {
-			professionalId: { _eq: $professionalId }
+			professionalId: $professionalId
 			notebook: {
 				beneficiary: {
 					_or: [
