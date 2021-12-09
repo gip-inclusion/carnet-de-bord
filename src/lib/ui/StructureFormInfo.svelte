@@ -109,8 +109,8 @@
 		</h2>
 		<form class="w-full px-8 pb-8" on:submit|preventDefault={handleSubmit}>
 			<Input
-				bind:val={structure['name']}
-				inputHint={'Ex : Mission locale de Crest'}
+				bind:value={structure['name']}
+				placeholder={'Ex : Mission locale de Crest'}
 				inputLabel={'Nom'}
 				error={fieldErrors['name']}
 				on:input={onInput}
@@ -118,16 +118,16 @@
 				required={true}
 			/>
 			<Input
-				bind:val={structure['phone']}
-				inputHint={'Ex : 04 75 76 70 67'}
+				bind:value={structure['phone']}
+				placeholder={'Ex : 04 75 76 70 67'}
 				inputLabel={'Téléphone'}
 				error={fieldErrors['phone']}
 				on:input={onInput}
 				disabled={disabledKeys['phone']}
 			/>
 			<Input
-				bind:val={structure['email']}
-				inputHint={'Ex : crest@mission-locale.fr'}
+				bind:value={structure['email']}
+				placeholder={'Ex : crest@mission-locale.fr'}
 				inputLabel={'Courriel'}
 				error={fieldErrors['email']}
 				on:input={onInput}
@@ -135,32 +135,32 @@
 				type={'email'}
 			/>
 			<Input
-				bind:val={structure['address1']}
-				inputHint={'Ex : 3 Rue des Cuiretteries'}
+				bind:value={structure['address1']}
+				placeholder={'Ex : 3 Rue des Cuiretteries'}
 				inputLabel={'Adresse'}
 				error={fieldErrors['address1']}
 				on:input={onInput}
 				disabled={disabledKeys['address1']}
 			/>
 			<Input
-				bind:val={structure['address2']}
-				inputHint={'Ex : Conseiller en réinsertion'}
+				bind:value={structure['address2']}
+				placeholder={'Ex : Conseiller en réinsertion'}
 				inputLabel={'Adresse (complément)'}
 				error={fieldErrors['address2']}
 				on:input={onInput}
 				disabled={disabledKeys['address2']}
 			/>
 			<Input
-				bind:val={structure['postalCode']}
-				inputHint={'Ex : 26400'}
+				bind:value={structure['postalCode']}
+				placeholder={'Ex : 26400'}
 				inputLabel={'Code postal'}
 				error={fieldErrors['postalCode']}
 				on:input={onInput}
 				disabled={disabledKeys['postalCode']}
 			/>
 			<Input
-				bind:val={structure['city']}
-				inputHint={'Ex : Crest'}
+				bind:value={structure['city']}
+				placeholder={'Ex : Crest'}
 				inputLabel={'Ville'}
 				error={fieldErrors['city']}
 				on:input={onInput}
@@ -168,24 +168,24 @@
 				required={true}
 			/>
 			<Input
-				bind:val={structure['website']}
-				inputHint={'Ex : https://www.mission-locale.fr/crest'}
+				bind:value={structure['website']}
+				placeholder={'Ex : https://www.mission-locale.fr/crest'}
 				inputLabel={'Site internet'}
 				error={fieldErrors['website']}
 				on:input={onInput}
 				disabled={disabledKeys['website']}
 			/>
 			<Input
-				bind:val={structure['siret']}
-				inputHint={'Ex : XXX XXX XXX XXXXX'}
+				bind:value={structure['siret']}
+				placeholder={'Ex : XXX XXX XXX XXXXX'}
 				inputLabel={'Siret'}
 				error={fieldErrors['siret']}
 				on:input={onInput}
 				disabled={disabledKeys['siret']}
 			/>
 			<Input
-				bind:val={structure['shortDesc']}
-				inputHint={'Ex : Antenne de Crest de la Mission locale Auvergne Rhône-Alpes'}
+				bind:value={structure['shortDesc']}
+				placeholder={'Ex : Antenne de Crest de la Mission locale Auvergne Rhône-Alpes'}
 				inputLabel={'Description'}
 				error={fieldErrors['shortDesc']}
 				on:input={onInput}

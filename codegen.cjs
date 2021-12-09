@@ -28,9 +28,10 @@ module.exports = {
 		},
 		scalars: {
 			defaultScalarType: 'unknown',
-			date: 'string',
+			date: 'Date',
 			timestampz: 'Date',
 			uuid: 'string',
+			citext: 'string',
 		},
 	},
 	hooks: {

@@ -31,20 +31,22 @@
 <form on:submit|preventDefault={handleSubmit} class="mb-6">
 	<div class="flex flex-row gap-6">
 		<Input
-			bind:val={postalCode}
-			inputHint={'Ex : 75 008'}
+			name="postalCode"
+			bind:value={postalCode}
+			placeholder={'Ex : 75 008'}
 			inputLabel={'Code postal'}
 			error={errors.postalCode}
 			on:input={resetFetchedUser}
-			required={true}
+			required
 		/>
 		<Input
-			bind:val={idCAF}
-			inputHint={'Ex : XXXXXXX46468'}
-			inputLabel={'Identifiant CAF/MSA'}
+			name="idcaf"
+			bind:value={idCAF}
+			placeholder={'Ex : XXXXXXX46468'}
+			inputLabel={'Identifiant CAF'}
 			error={errors.idCAF}
 			on:input={resetFetchedUser}
-			required={true}
+			required
 		/>
 		<div class="self-center">
 			<Button outline={true} type="submit">Rechercher</Button>
