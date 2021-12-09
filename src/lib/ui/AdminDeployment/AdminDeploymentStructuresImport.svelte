@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import {
-		InsertStructureDocument,
-		InsertStructureMutation,
-		InsertStructureMutationVariables,
+		ImportStructureDocument,
+		ImportStructureMutation,
+		ImportStructureMutationVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
@@ -92,10 +92,10 @@
 	}
 
 	const insertStore: OperationStore<
-		InsertStructureMutation,
-		InsertStructureMutationVariables,
+		ImportStructureMutation,
+		ImportStructureMutationVariables,
 		Structure
-	> = operationStore(InsertStructureDocument);
+	> = operationStore(ImportStructureDocument);
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
 	let insertResult: { struct: Structure; error: string | null }[];
@@ -147,7 +147,7 @@
 			<div class="border-b border-gray-200 shadow" style="overflow-x: auto;">
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
-						<th></th>
+						<th />
 						<th>Nom*</th>
 						<th>Ville*</th>
 						<th>Code postal</th>
