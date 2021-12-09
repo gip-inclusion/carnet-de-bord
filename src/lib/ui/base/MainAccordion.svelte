@@ -8,9 +8,7 @@
 	import { ACCORDION } from './accordion';
 
 	export let title: string;
-
-	let ref = null;
-	let contentRef = null;
+ 
 	let internalItemKey = {}; // used for identify accordion
 	const accordionId = `accordion-${counter++}`;
 	const { registerAccordionItem, selectedItem, toggleAccordion } = getContext(ACCORDION);
@@ -21,8 +19,7 @@
 <li>
 	<section data-dsfr-accordion class="fr-accordion">
 		<h2 class="fr-accordion__title ">
-			<button
-				bind:this={ref}
+			<button 
 				class="fr-accordion__btn !py-6 !pl-0"
 				aria-expanded={expanded}
 				aria-controls={accordionId}
