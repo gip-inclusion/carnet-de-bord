@@ -1,0 +1,45 @@
+mutation ImportStructure(
+	$name: String
+	$phone: String
+	$email: String
+	$address1: String
+	$address2: String
+	$postalCode: String
+	$city: String
+	$website: String
+	$siret: String
+	$shortDesc: String
+	$deploymentId: uuid
+) {
+	structure: insert_structure_one(
+		object: {
+			name: $name
+			phone: $phone
+			email: $email
+			address1: $address1
+			address2: $address2
+			postalCode: $postalCode
+			city: $city
+			website: $website
+			siret: $siret
+			shortDesc: $shortDesc
+			deploymentId: $deploymentId
+		}
+	) {
+		...structureFields
+	}
+}
+
+fragment structureFields on structure {
+	id
+	name
+	phone
+	email
+	address1
+	address2
+	postalCode
+	city
+	website
+	siret
+	shortDesc
+}
