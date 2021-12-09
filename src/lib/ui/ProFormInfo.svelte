@@ -27,8 +27,8 @@
 <form on:submit|preventDefault={handleSubmit}>
 	{#if account}
 		<Input
-			bind:val={account['email']}
-			inputHint={'Ex : jb@poquelin.fr'}
+			bind:value={account['email']}
+			placeholder={'Ex : jb@poquelin.fr'}
 			inputLabel={'Courriel'}
 			error={fieldErrors['email']}
 			on:input={onInput}
@@ -37,8 +37,8 @@
 			required={true}
 		/>
 		<Input
-			bind:val={account['firstname']}
-			inputHint={'Ex : Poquelin'}
+			bind:value={account['firstname']}
+			placeholder={'Ex : Poquelin'}
 			inputLabel={'Nom'}
 			error={fieldErrors['firstname']}
 			on:input={onInput}
@@ -46,8 +46,8 @@
 			required={true}
 		/>
 		<Input
-			bind:val={account['lastname']}
-			inputHint={'Ex : Jean-Baptiste'}
+			bind:value={account['lastname']}
+			placeholder={'Ex : Jean-Baptiste'}
 			inputLabel={'Prénom'}
 			error={fieldErrors['lastname']}
 			on:input={onInput}
@@ -55,16 +55,16 @@
 			required={true}
 		/>
 		<Input
-			bind:val={account['mobileNumber']}
-			inputHint={'Ex : 0123456789'}
+			bind:value={account['mobileNumber']}
+			placeholder={'Ex : 0123456789'}
 			inputLabel={'Téléphone'}
 			error={fieldErrors['mobileNumber']}
 			on:input={onInput}
 			disabled={disabledKeys['mobileNumber']}
 		/>
 		<Input
-			bind:val={account['position']}
-			inputHint={'Ex : Conseiller en réinsertion'}
+			bind:value={account['position']}
+			placeholder={'Ex : Conseiller en réinsertion'}
 			inputLabel={'Fonction'}
 			error={fieldErrors['position']}
 			on:input={onInput}
