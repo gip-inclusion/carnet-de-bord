@@ -68,11 +68,11 @@
 			<Text classNames="mb-2" value={notebook.job} />
 		</div>
 		<div class="w-1/2">
-			<strong class="text-base text-france-blue">Zone géographique</strong>
+			<strong class="text-base text-france-blue">Zone de mobilité</strong>
 			<Text classNames="mb-2" value={geographicalAreaKeys.byKey[notebook.geographicalArea]} />
 		</div>
 		<div class="w-1/2">
-			<strong class="text-base text-france-blue">Diplôme</strong>
+			<strong class="text-base text-france-blue">Niveau de formation</strong>
 			<Text classNames="mb-2" value={educationLevelKeys.byKey[notebook.educationLevel]} />
 		</div>
 	</div>

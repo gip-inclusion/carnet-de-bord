@@ -152,7 +152,7 @@
 		{ label: 'Code postal', key: 'postalCode' },
 		{ label: 'Ville', key: 'city' },
 		{ label: 'Situation de travail', key: 'workSituation' },
-		{ label: 'N° CAF', key: 'cafNumber' },
+		{ label: 'N° CAF/MSA', key: 'cafNumber' },
 		{ label: 'N° Pôle emploi', key: 'peNumber' },
 	];
 
@@ -204,7 +204,7 @@
 						<th class="px-2 py-2">Code postal</th>
 						<th class="px-2 py-2">Ville</th>
 						<th class="px-2 py-2">Situation de travail</th>
-						<th class="px-2 py-2">N° CAF</th>
+						<th class="px-2 py-2">N° CAF/MSA</th>
 						<th class="px-2 py-2">N° Pôle emploi</th>
 						<th class="px-2 py-2">Accompagnant supplémentaire</th>
 					</thead>
