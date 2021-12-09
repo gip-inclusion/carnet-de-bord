@@ -1,3 +1,10 @@
+## [1.68.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.68.0...v1.68.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* **secu:** add network policies ([#428](https://github.com/SocialGouv/carnet-de-bord/issues/428)) ([b049adf](https://github.com/SocialGouv/carnet-de-bord/commit/b049adf6a14d2400ec8c0926e2920156a7486537))
+
 # [1.68.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.67.0...v1.68.0) (2021-12-06)
 
 
