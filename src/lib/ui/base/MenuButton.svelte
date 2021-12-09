@@ -38,7 +38,6 @@
 		closeMenu();
 	}
 	function toggleMenu() {
-		console.log('toggle menu');
 		isOpened = !isOpened;
 		if (!isOpened) {
 			$focusedItem = null;
