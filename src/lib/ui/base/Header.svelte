@@ -117,6 +117,7 @@
 		bind:this={modalEl}
 		aria-labelledby="fr-btn-menu-mobile"
 	>
+<!-- hack: @lionelb: manually close modal since it's not handle by dsfr component in a spa context    -->
 		<div class="fr-container" on:click={closeDsfrModal}>
 			<button class="fr-link--close fr-link" aria-controls="modal-menu">Fermer</button>
       <!-- hack:@lionelb: double `.fr-header__menu-links` so dsfr menu will copy the dropdown button in this first div and allow us to customize links for mobile menu links -->
