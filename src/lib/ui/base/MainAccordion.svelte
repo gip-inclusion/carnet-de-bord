@@ -26,7 +26,7 @@
 				><span class="text-france-blue text-2xl font-bold">{title}</span></button
 			>
 		</h2>
-		<div class="fr-collapse" id={accordionId} bind:this={contentRef}>
+		<div class="fr-collapse" id={accordionId}>
 			<slot />
 		</div>
 	</section>
