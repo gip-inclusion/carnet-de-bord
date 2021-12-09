@@ -30,8 +30,9 @@
 <form on:submit|preventDefault={handleSubmit} class="mb-6">
 	<div class="flex flex-row gap-6">
 		<Input
+			name="idPe"
 			bind:val={idPE}
-			inputHint={'Ex : XXXXXXX46468'}
+			placeholder={'Ex : XXXXXXX46468'}
 			inputLabel={'Identifiant Pôle emploi'}
 			error={errors.idPE}
 			on:input={resetFetchedUsers}

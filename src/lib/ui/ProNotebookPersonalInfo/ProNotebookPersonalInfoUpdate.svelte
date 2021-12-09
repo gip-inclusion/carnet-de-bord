@@ -69,73 +69,73 @@
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
 		<Input
-			bind:val={formData['firstname']}
-			inputHint={'Ex : Poquelin'}
+			bind:value={formData['firstname']}
+			placeholder={'Ex : Poquelin'}
 			inputLabel={'Nom'}
 			error={fieldErrors['firstname']}
 			required={true}
 		/>
 		<Input
-			bind:val={formData['lastname']}
-			inputHint={'Ex : Jean-Baptiste'}
+			bind:value={formData['lastname']}
+			placeholder={'Ex : Jean-Baptiste'}
 			inputLabel={'Prénom'}
 			error={fieldErrors['lastname']}
 			required={true}
 		/>
-		<Input
-			bind:val={formData['dateOfBirth']}
-			inputHint={'Ex : 21/12/1977'}
+		<!-- <Input
+			bind:value={formData['dateOfBirth']}
+			placeholder={'Ex : 21/12/1977'}
 			inputLabel={'Date de naissance (JJ/MM/AAAA)'}
 			error={fieldErrors['dateOfBirth']}
-			type={'date'}
+			type={'text'}
 			required={true}
-		/>
+		/> -->
 		<Input
-			bind:val={formData['mobileNumber']}
-			inputHint={'Ex : 0123456789'}
+			bind:value={formData['mobileNumber']}
+			placeholder={'Ex : 0123456789'}
 			inputLabel={'Téléphone'}
 			error={fieldErrors['mobileNumber']}
 		/>
 		<Input
-			bind:val={formData['email']}
-			inputHint={'Ex : jb@poquelin.fr'}
+			bind:value={formData['email']}
+			placeholder={'Ex : jb@poquelin.fr'}
 			inputLabel={'Courriel'}
 			error={fieldErrors['email']}
 			type={'email'}
 		/>
 		<Input
-			bind:val={formData['address1']}
-			inputHint={'Ex : 55-57 rue du Faubourg Saint-Honoré'}
+			bind:value={formData['address1']}
+			placeholder={'Ex : 55-57 rue du Faubourg Saint-Honoré'}
 			inputLabel={'Adresse'}
 			error={fieldErrors['address1']}
 		/>
 		<Input
-			bind:val={formData['address2']}
-			inputHint={'Ex : 1er étage'}
+			bind:value={formData['address2']}
+			placeholder={'Ex : 1er étage'}
 			inputLabel={'Adresse (complément)'}
 			error={fieldErrors['address2']}
 		/>
 		<Input
-			bind:val={formData['postalCode']}
-			inputHint={'Ex : 75 008'}
+			bind:value={formData['postalCode']}
+			placeholder={'Ex : 75 008'}
 			inputLabel={'Code postal'}
 			error={fieldErrors['postalCode']}
 		/>
 		<Input
-			bind:val={formData['city']}
-			inputHint={'Ex : Paris'}
+			bind:value={formData['city']}
+			placeholder={'Ex : Paris'}
 			inputLabel={'Ville'}
 			error={fieldErrors['city']}
 		/>
 		<Input
-			bind:val={formData['peNumber']}
-			inputHint={'Ex : 123456789A'}
+			bind:value={formData['peNumber']}
+			placeholder={'Ex : 123456789A'}
 			inputLabel={'Identifiant Pôle emploi'}
 			error={fieldErrors['peNumber']}
 		/>
 		<Input
-			bind:val={formData['cafNumber']}
-			inputHint={'Ex : 123456789A'}
+			bind:value={formData['cafNumber']}
+			placeholder={'Ex : 123456789A'}
 			inputLabel={'Identifiant CAF'}
 			error={fieldErrors['cafNumber']}
 		/>

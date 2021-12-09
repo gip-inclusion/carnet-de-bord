@@ -1,6 +1,11 @@
-import { format, intlFormat } from 'date-fns';
+import { format, intlFormat, parse } from 'date-fns';
 import fr from 'date-fns/locale/fr/index.js';
 
+export function parseDateString(value: Date, originalValue: string | Date): Date {
+	return originalValue instanceof Date
+		? originalValue
+		: parse(originalValue as string, 'dd/MM/yyyy', new Date());
+}
 export function formatDate(value: string): string {
 	if (!value) {
 		return null;

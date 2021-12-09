@@ -99,7 +99,10 @@
 		"svelecte": "^1.4.1",
 		"svelte-accessible-dialog": "^2.1.3",
 		"svelte-file-dropzone": "^0.0.15",
-		"uuid": "^8.3.2"
+		"svelte-forms-lib": "^2.0.0",
+		"uuid": "^8.3.2",
+		"yup": "^0.32.11",
+		"yup-locales": "^1.2.0"
 	},
 	"type": "module",
 	"lint-staged": {

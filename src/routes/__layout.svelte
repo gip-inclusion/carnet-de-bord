@@ -6,7 +6,8 @@
 	import redirectUrl from '$lib/utils/redirectUrl';
 	import createClient from '$lib/graphql/createClient';
 	import { offCanvas } from '$lib/stores';
-
+	import * as yup from 'yup';
+	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	import { onMount } from 'svelte';
 	import * as Matomo from '$lib/tracking/matomo';
 
@@ -29,6 +30,7 @@
 			},
 		};
 	}
+	yup.setLocale(yupFrLocale);
 </script>
 
 <script lang="ts">
