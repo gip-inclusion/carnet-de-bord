@@ -26,13 +26,33 @@
 		isModified,
 	} = formHandler;
 
+	let formRef: HTMLFormElement;
+
 	const isSubmitted = writable(false);
 
 	setContext(key, { ...formHandler, isSubmitted });
 
 	function submitHandler(e) {
 		$isSubmitted = true;
+
+		focusError();
+
 		handleSubmit(e);
+	}
+
+	function focusError() {
+		// If errors we scroll to the first error
+		// and focus the input
+		const [key] = Object.entries($errors).find(([, value]) => Boolean(value)) ?? [];
+		if (key && formRef[key]) {
+			formRef[key].focus();
+			const labelEl: HTMLLabelElement = formRef.querySelector(`label[for=${formRef[key].id}]`);
+			if (labelEl) {
+				labelEl.scrollIntoView({ behavior: 'smooth' });
+			} else {
+				formRef[key].scrollIntoView({ behavior: 'smooth' });
+			}
+		}
 	}
 
 	$: {
@@ -40,7 +60,7 @@
 	}
 </script>
 
-<form on:submit|preventDefault={submitHandler} novalidate {...$$props}>
+<form bind:this={formRef} on:submit|preventDefault={submitHandler} novalidate class={$$props.class}>
 	<slot
 		isValid={$isValid}
 		isSubmitting={$isSubmitting}

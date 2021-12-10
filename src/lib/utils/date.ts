@@ -43,3 +43,8 @@ export function formatDateTimeLocale(value: string): string {
 		{ locale: 'fr-FR' }
 	);
 }
+export function formatDateOfBirth(date: Date): string {
+	const isoDate = date.toISOString();
+	const [dateToken] = isoDate.split('T');
+	return dateToken;
+}
