@@ -32,7 +32,7 @@
 		<div class="flex w-full flex-col gap-16">
 			<div class="flex w-full flex-col gap-6">
 				<Input
-					bind:val={email}
+					bind:value={email}
 					inputLabel="Courriel"
 					inputHint="Ex : paul@cdb.fr"
 					error={requestStep === 'error'

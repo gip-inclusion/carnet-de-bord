@@ -76,7 +76,7 @@
 				options={workSituationKeys.options}
 				bind:selected={formData.workSituation}
 			/>
-			<Input bind:val={formData.workSituationDate} inputLabel="Depuis le" type="date" />
+			<Input bind:value={formData.workSituationDate} inputLabel="Depuis le" type="date" />
 		</div>
 		<Radio
 			caption={'Revenu de solidarité active (RSA)'}

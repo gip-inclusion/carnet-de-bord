@@ -1,4 +1,4 @@
-import isDate from 'date-fns/isDate';
+import { isDate } from 'date-fns';
 import * as yup from 'yup';
 
 export const beneficiaryAccountSchema = yup.object().shape({
