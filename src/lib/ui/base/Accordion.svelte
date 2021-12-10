@@ -3,14 +3,12 @@
 </script>
 
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
+	import { getContext } from 'svelte';
 
 	import { ACCORDION } from './accordion';
 
 	export let title: string;
 
-	let ref = null;
-	let contentRef = null;
 	let internalItemKey = {}; // used for identify accordion
 	const accordionId = `accordion-${counter++}`;
 	const { registerAccordionItem, selectedItem, toggleAccordion } = getContext(ACCORDION);
