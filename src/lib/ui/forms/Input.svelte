@@ -2,15 +2,14 @@
 	import type { InputType } from '$lib/types';
 	import { getContext } from 'svelte';
 	import { key } from 'svelte-forms-lib';
-	import { Input } from '../base';
+	import { Input } from '$lib/ui/base';
 
 	export let name: string;
-	export let placeholder: string;
-	export let inputLabel: string;
+	export let placeholder = '';
+	export let inputLabel = '';
 	export let inputHint: string | null = '';
 	export let type: InputType = 'text';
 	export let valid: string | null = '';
-	export let additionnalClasses = '';
 	export let disabled = false;
 	export let required = false;
 
@@ -21,15 +20,14 @@
 </script>
 
 <Input
-	{name}
 	{placeholder}
-	{type}
-	{required}
 	{inputLabel}
 	{inputHint}
+	{type}
 	{valid}
 	{disabled}
-	{additionnalClasses}
+	{required}
+	{...$$props}
 	error={hasError && error}
 	value={$form[name]}
 	on:input={handleChange}

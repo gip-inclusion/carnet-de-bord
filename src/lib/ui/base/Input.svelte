@@ -6,7 +6,15 @@
 	import type { InputType } from '$lib/types';
 
 	counter++;
-
+	function pluck(props: string[], obj: Record<string, unknown>) {
+		const result = {};
+		for (var prop in obj) {
+			if (!props.includes(prop)) {
+				result[prop] = obj[prop];
+			}
+		}
+		return result;
+	}
 	export let name = `text-input-text-${counter}`;
 	export let id: string | null = `text-input-${counter}`;
 	export let inputLabel: string | null = '';
@@ -15,17 +23,17 @@
 	export let value: string | null;
 	export let type: InputType = 'text';
 	export let required: boolean | null = false;
+	export let disabled: boolean | null = false;
 	export let error: string | null = '';
 	export let valid: string | null = '';
-	export let disabled: boolean | null = false;
-	export let additionnalClasses = '';
+	$: inputProps = pluck(['inputLabel', 'inputHint', 'value', 'error', 'valid', 'class'], $$props);
 </script>
 
 <div
 	{id}
 	class={`fr-input-group ${error ? 'fr-input-group--error' : ''} ${
 		valid ? 'fr-input-group--valid' : ''
-	} ${additionnalClasses}`}
+	} ${$$props.class}`}
 >
 	<label class="fr-label flex-grow" for={name}>
 		<div>{inputLabel}{required ? ' *' : ''}</div>
@@ -57,6 +65,7 @@
 				on:keydown
 				on:focus
 				on:blur
+				{...inputProps}
 			/>
 		{:else if type === 'email'}
 			<input
@@ -74,6 +83,7 @@
 				on:keydown
 				on:focus
 				on:blur
+				{...inputProps}
 			/>
 		{:else if type === 'number'}
 			<input
@@ -91,6 +101,7 @@
 				on:keydown
 				on:focus
 				on:blur
+				{...inputProps}
 			/>
 		{:else if type === 'date'}
 			<input
@@ -108,6 +119,7 @@
 				on:keydown
 				on:focus
 				on:blur
+				{...inputProps}
 			/>
 		{:else}
 			<input
@@ -125,6 +137,7 @@
 				on:keydown
 				on:focus
 				on:blur
+				{...inputProps}
 			/>
 		{/if}
 	</div>
