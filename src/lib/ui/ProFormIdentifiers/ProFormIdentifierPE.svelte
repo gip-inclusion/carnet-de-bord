@@ -31,7 +31,7 @@
 	<div class="flex flex-row gap-6">
 		<Input
 			name="idPe"
-			bind:val={idPE}
+			bind:value={idPE}
 			placeholder={'Ex : XXXXXXX46468'}
 			inputLabel={'Identifiant Pôle emploi'}
 			error={errors.idPE}

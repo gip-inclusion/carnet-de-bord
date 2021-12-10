@@ -43,7 +43,7 @@
 		<div class="flex w-full flex-col gap-16">
 			<div class="flex w-full flex-col gap-6">
 				<Input
-					bind:val={username}
+					bind:value={username}
 					inputLabel="Identifiant"
 					inputHint="Ex : Paul"
 					error={requestStep === 'error'
