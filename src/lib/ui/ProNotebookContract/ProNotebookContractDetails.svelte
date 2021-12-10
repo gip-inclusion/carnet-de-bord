@@ -3,6 +3,7 @@
 	import { Notebook, UpdateNotebookContractDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Button, Input, Radio } from '$lib/ui/base';
+	import { formatDateISO } from '$lib/utils/date';
 	import { mutation, operationStore } from '@urql/svelte';
 
 	export let notebook: Pick<Notebook, 'id' | 'contractType' | 'contractSignDate'>;
@@ -13,7 +14,7 @@
 	function initFormData() {
 		return {
 			contractType: notebook.contractType,
-			contractSignDate: notebook.contractSignDate,
+			contractSignDate: formatDateISO(notebook.contractSignDate),
 		};
 	}
 
@@ -33,6 +34,7 @@
 		await updateNotebookContract({
 			id: notebook.id,
 			...formData,
+			contractSignDate: new Date(formData.contractSignDate),
 		});
 		close();
 	}
@@ -55,7 +57,7 @@
 		/>
 		{#if isContract}
 			<Input
-				bind:val={formData.contractSignDate}
+				bind:value={formData.contractSignDate}
 				inputLabel="Date de signature"
 				type="date"
 				required={true}

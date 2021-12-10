@@ -49,7 +49,7 @@
 	</div>
 
 	<form class="flex flex-col gap-6" on:submit|preventDefault={handleSubmit}>
-		<Input name="account" required inputLabel="Nom du déploiement" bind:val={deployment.label} />
+		<Input name="account" required inputLabel="Nom du déploiement" bind:value={deployment.label} />
 		<div>
 			<fieldset>
 				<legend>Responsable</legend>
@@ -57,11 +57,11 @@
 					name="account"
 					required
 					inputLabel="Identifiant"
-					bind:val={manager.accounts.data.username}
+					bind:value={manager.accounts.data.username}
 				/>
-				<Input name="firstname" required inputLabel="Prénom" bind:val={manager.firstname} />
-				<Input name="lastname" required inputLabel="Nom" bind:val={manager.lastname} />
-				<Input name="email" required inputLabel="Courriel" bind:val={manager.email} />
+				<Input name="firstname" required inputLabel="Prénom" bind:value={manager.firstname} />
+				<Input name="lastname" required inputLabel="Nom" bind:value={manager.lastname} />
+				<Input name="email" required inputLabel="Courriel" bind:value={manager.email} />
 			</fieldset>
 		</div>
 		<div class="flex flex-row gap-6 mt-12">
