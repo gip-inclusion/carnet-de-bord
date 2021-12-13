@@ -34,7 +34,6 @@ export const post: RequestHandler = async (request) => {
 	const usernameResult = await client
 		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, { comp: { _eq: username } })
 		.toPromise();
-
 	if (usernameResult.error) {
 		return {
 			status: 401,
@@ -56,7 +55,8 @@ export const post: RequestHandler = async (request) => {
 				},
 			})
 			.toPromise();
-		if (emailResult.error || !usernameResult.data || usernameResult.data.account.length === 0) {
+
+		if (emailResult.error || emailResult.data.account.length === 0) {
 			return {
 				status: 401,
 				body: {
