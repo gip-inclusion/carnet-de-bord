@@ -1,3 +1,10 @@
+## [1.69.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.3...v1.69.4) (2021-12-13)
+
+
+### Bug Fixes
+
+* fix jumping header ([42ae6c7](https://github.com/SocialGouv/carnet-de-bord/commit/42ae6c7e4693376f6b216d87796699e390c7368a))
+
 ## [1.69.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.2...v1.69.3) (2021-12-13)
 
 
