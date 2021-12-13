@@ -11887,7 +11887,19 @@ export const GetLastVisitedOrUpdatedDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'professionalId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professionalId' },
+														},
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -12348,19 +12360,7 @@ export const SearchNotebookMemberDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'professionalId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' },
-														},
-													},
-												],
-											},
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 										},
 										{
 											kind: 'ObjectField',
