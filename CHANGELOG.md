@@ -1,3 +1,10 @@
+## [1.69.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.2...v1.69.3) (2021-12-13)
+
+
+### Bug Fixes
+
+* fix bad magic link url ([e85dd7e](https://github.com/SocialGouv/carnet-de-bord/commit/e85dd7e55ea6b783d481c4535caae08345e63f8a))
+
 ## [1.69.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.1...v1.69.2) (2021-12-13)
 
 
