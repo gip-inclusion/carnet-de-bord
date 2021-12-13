@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
 	import { session } from '$app/stores';
-	import { orgName } from '$lib/constants';
 	import type { MenuItem } from '$lib/types';
 
 	import { Header, MenuButton, MenuListItem, NavBar } from '$lib/ui/base';
@@ -23,7 +22,6 @@
 	siteName="Carnet de bord"
 	baseline="Faciliter la vie des personnes en insertion et de leurs accompagnants"
 >
-	<div slot="org">{@html orgName}</div>
 	<li slot="quickAccessRight">
 		{#if $session.user}
 			<MenuButton label="Mon compte" icon="fr-fi-account-line">

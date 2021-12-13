@@ -5,6 +5,7 @@
 	import { openComponent } from '$lib/stores';
 	import { Link } from '.';
 	import Disconnect from '$lib/ui/views/Disconnect.svelte';
+	import { orgName } from '$lib/constants';
 
 	/* export let withLogo: boolean | null = false; */
 	export let withSearch: boolean | null = false;
@@ -40,7 +41,7 @@
 						<div class="fr-header__logo">
 							<a href={landing} title={`Accueil - ${siteName}`}>
 								<p class="fr-logo">
-									<slot name="org" />
+									{@html orgName}
 								</p>
 							</a>
 						</div>
