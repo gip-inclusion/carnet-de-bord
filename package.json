@@ -103,7 +103,7 @@
 	},
 	"type": "module",
 	"lint-staged": {
-		"*.{ts, js, svelte, cjs, mjs}": [
+		"*.{ts,js,svelte,cjs,mjs}": [
 			"prettier --write --plugin-search-dir=.",
 			"eslint --ignore-path .eslintignore --fix ."
 		],
