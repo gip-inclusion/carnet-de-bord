@@ -1,3 +1,10 @@
+## [1.69.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.1...v1.69.2) (2021-12-13)
+
+
+### Bug Fixes
+
+* fix dsfr style conflict with tailwind ([748f99e](https://github.com/SocialGouv/carnet-de-bord/commit/748f99edb2973d2a3b09070ebbc083f4880fb541))
+
 ## [1.69.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.0...v1.69.1) (2021-12-13)
 
 
