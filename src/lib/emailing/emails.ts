@@ -20,7 +20,7 @@ type Url = {
 function createLink({ appUrl, accessKey, redirectUrl }: Url) {
 	return `${appUrl}${accessKey ? `/auth/jwt/${accessKey}` : ''}${
 		redirectUrl ? `?url=${redirectUrl}` : ''
-	}}`;
+	}`;
 }
 
 function createAccessButton(url: Url) {
