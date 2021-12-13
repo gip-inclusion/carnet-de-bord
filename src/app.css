@@ -1,22 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/*https://stackoverflow.com/questions/2436749/how-to-add-multiple-font-files-for-the-same-font/4474252#4474252*/
-@font-face {
-	font-family: 'Marianne';
-	src: url('/Marianne/Marianne-Regular.woff') format('woff');
-}
-@font-face {
-	font-family: 'Marianne';
-	src: url('/Marianne/Marianne-Bold.woff') format('woff');
-	font-weight: bold;
-}
-@font-face {
-	font-family: 'Marianne';
-	src: url('/Marianne/Marianne-Regular_Italic.woff') format('woff');
-	font-style: italic;
-}
+@import url('./tailwind.css');
+@import url('remixicon/fonts/remixicon.css');
+@import url('@gouvfr/dsfr/dist/dsfr/dsfr.min.css');
 
 .custom-svelecte .inputBox {
 	height: auto !important;

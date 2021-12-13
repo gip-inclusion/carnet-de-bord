@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import 'remixicon/fonts/remixicon.css';
 	import '../app.css';
+
 	import { setClient, Client } from '@urql/svelte';
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 	import redirectUrl from '$lib/utils/redirectUrl';
