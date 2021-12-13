@@ -171,8 +171,13 @@ select_permissions:
     - postal_code
     - updated_at
     filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
+      notebook:
+        members:
+          professional:
+            structure:
+              professionals:
+                id:
+                  _eq: X-Hasura-Professional-Id
   role: professional
 update_permissions:
 - permission:
