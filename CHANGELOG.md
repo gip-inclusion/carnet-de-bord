@@ -1,3 +1,10 @@
+## [1.69.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.0...v1.69.1) (2021-12-13)
+
+
+### Bug Fixes
+
+* allow login by email ([b239574](https://github.com/SocialGouv/carnet-de-bord/commit/b23957420e25f3d8535dc470cc211c75aa4eeebd))
+
 # [1.69.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.68.1...v1.69.0) (2021-12-09)
 
 
