@@ -7,10 +7,11 @@
 	export let boxError: string | null = null;
 	export let boxSuccess: string | null = null;
 	export let classNames = '';
+	export let onChange: () => void = null;
 </script>
 
 <div class={`fr-checkbox-group ${classNames}`}>
-	<input type="checkbox" bind:checked {disabled} id={name} {name} />
+	<input type="checkbox" bind:checked {disabled} id={name} {name} on:change={onChange} />
 	<label class="fr-label" for={name}>
 		{label}
 		{#if additionalLabel}

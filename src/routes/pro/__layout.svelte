@@ -59,7 +59,7 @@
 
 	const menuItems: MenuItem[] = [
 		{ id: 'accueil', path: '/pro/accueil', label: 'Accueil' },
-		{ id: 'annuaire', path: '/pro/annuaire', label: 'Annuaire de mes bénéficiaires' },
+		{ id: 'annuaire', path: '/pro/annuaire', label: 'Annuaire des bénéficiaires' },
 	];
 </script>
 

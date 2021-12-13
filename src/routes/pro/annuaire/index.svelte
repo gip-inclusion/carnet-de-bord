@@ -24,7 +24,7 @@
 		'12months': '12months',
 	};
 
-	function buildQueryVariables({ professionalId, search, selected }) {
+	function buildQueryVariables({ professionalId, search, selected, mineOnly }) {
 		const today = new Date();
 		let visitDate = { _gt: undefined, _lt: undefined };
 
@@ -41,7 +41,7 @@
 		}
 
 		const variables: SearchNotebookMemberQueryVariables = {
-			professionalId: !professionalId ? { _eq: professionalId } : {},
+			professionalId: mineOnly ? { _eq: professionalId } : {},
 			visitDate,
 		};
 		if (search) {
@@ -52,14 +52,14 @@
 	}
 
 	export const load: Load = async ({ page, session }) => {
+		const mineOnly = page.query.get('mine') === 'true';
 		const search = page.query.get('search');
-
 		let selected = dt.none;
 		if (page.query.get('dt') && dt[page.query.get('dt')]) {
 			selected = dt[page.query.get('dt')];
 		}
 		const { professionalId } = session.user;
-		const queryVariables = buildQueryVariables({ professionalId, search, selected });
+		const queryVariables = buildQueryVariables({ professionalId, search, selected, mineOnly });
 		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
 		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
 
@@ -70,6 +70,7 @@
 				createBeneficiaryResult,
 				professionalId,
 				selected,
+				mineOnly,
 			},
 		};
 	};
@@ -77,25 +78,28 @@
 
 <script lang="ts">
 	import { openComponent } from '$lib/stores';
+	import Checkbox from '$lib/ui/base/Checkbox.svelte';
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
 	export let professionalId: string;
 	export let selected: string;
+	export let mineOnly: boolean;
 	let searching = false;
 
 	query(result);
 
-	function updateUrl(search: string, dt: string) {
+	function updateUrl(search: string, dt: string, mineOnly: boolean) {
 		const url = new URL(window.location.toString());
-		url.searchParams.set('search', search);
+		url.searchParams.set('search', search || '');
 		url.searchParams.set('dt', dt);
+		url.searchParams.set('mine', mineOnly.toString());
 		window.history.pushState({}, '', url);
 	}
 
 	function onSelect() {
-		updateUrl(search, selected);
-		$result.variables = buildQueryVariables({ professionalId, search, selected });
+		updateUrl(search, selected, mineOnly);
+		$result.variables = buildQueryVariables({ professionalId, search, selected, mineOnly });
 		$result.reexecute();
 	}
 
@@ -108,8 +112,14 @@
 	}
 
 	function handleSubmit() {
-		updateUrl(search, selected);
-		$result.variables = buildQueryVariables({ professionalId, search, selected });
+		updateUrl(search, selected, mineOnly);
+		$result.variables = buildQueryVariables({ professionalId, search, selected, mineOnly });
+		$result.reexecute();
+	}
+
+	function handleMineOnly() {
+		updateUrl(search, selected, mineOnly);
+		$result.variables = buildQueryVariables({ professionalId, search, selected, mineOnly });
 		$result.reexecute();
 	}
 
@@ -126,38 +136,46 @@
 	<title>Annuaire - carnet de bord</title>
 </svelte:head>
 
-<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>
+<h1 class="fr-h2 float-left">Annuaire des bénéficiaires</h1>
 
-<form class="flex flex-row w-full space-x-16" on:submit|preventDefault={handleSubmit}>
-	<Select
-		on:select={onSelect}
-		options={[
-			{ name: dt.none, label: 'tous' },
-			{ name: dt['3months'], label: 'dans les 3 derniers mois' },
-			{ name: dt['3-6months'], label: 'entre les 3 et 6 derniers mois' },
+<form class="flex flex-col w-full" on:submit|preventDefault={handleSubmit}>
+	<div class="flex flex-row space-x-16">
+		<Select
+			on:select={onSelect}
+			options={[
+				{ name: dt.none, label: 'tous' },
+				{ name: dt['3months'], label: 'dans les 3 derniers mois' },
+				{ name: dt['3-6months'], label: 'entre les 3 et 6 derniers mois' },
 
-			{ name: dt['6-12months'], label: 'entre les 6 et 12 derniers mois' },
-			{ name: dt['12months'], label: 'il y a plus de 12 mois' },
-		]}
-		bind:selected
-		selectHint="Sélectionner un filtre"
-		selectLabel="Profils consultés..."
-	/>
-	<div class="mb-6 self-end">
-		<div class="fr-search-bar" role="search">
-			<label class="fr-label" for="search-beneficiary"> Rechercher un bénéficiaire </label>
-			<input
-				class="fr-input"
-				placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
-				type="search"
-				id="search-beneficiary"
-				name="search"
-				bind:value={search}
-				disabled={!handleSubmit}
-			/>
-			<button class="fr-btn" disabled={!handleSubmit || searching}> Rechercher </button>
+				{ name: dt['6-12months'], label: 'entre les 6 et 12 derniers mois' },
+				{ name: dt['12months'], label: 'il y a plus de 12 mois' },
+			]}
+			bind:selected
+			selectHint="Sélectionner un filtre"
+			selectLabel="Profils consultés..."
+		/>
+		<div class="mb-6 self-end">
+			<div class="fr-search-bar" role="search">
+				<label class="fr-label" for="search-beneficiary"> Rechercher un bénéficiaire </label>
+				<input
+					class="fr-input"
+					placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
+					type="search"
+					id="search-beneficiary"
+					name="search"
+					bind:value={search}
+					disabled={!handleSubmit}
+				/>
+				<button class="fr-btn" disabled={!handleSubmit || searching}> Rechercher </button>
+			</div>
 		</div>
 	</div>
+	<Checkbox
+		bind:checked={mineOnly}
+		label="Uniquement mes bénéficiaires"
+		name="mineOnly"
+		onChange={handleMineOnly}
+	/>
 </form>
 <LoaderIndicator {result}>
 	{#if notebooks.length === 0}
