@@ -136,7 +136,7 @@
 		<Input
 			bind:val={formData['cafNumber']}
 			inputHint={'Ex : 123456789A'}
-			inputLabel={'Identifiant CAF'}
+			inputLabel={'Identifiant CAF/MSA'}
 			error={fieldErrors['cafNumber']}
 		/>
 		<div class="flex flex-row gap-6 pt-4 pb-12">
