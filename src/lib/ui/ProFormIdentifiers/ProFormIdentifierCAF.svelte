@@ -43,7 +43,7 @@
 			name="idcaf"
 			bind:value={idCAF}
 			placeholder={'Ex : XXXXXXX46468'}
-			inputLabel={'Identifiant CAF'}
+			inputLabel={'Identifiant CAF/MSA'}
 			error={errors.idCAF}
 			on:input={resetFetchedUser}
 			required
