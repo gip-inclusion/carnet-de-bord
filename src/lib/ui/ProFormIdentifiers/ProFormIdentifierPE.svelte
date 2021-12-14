@@ -36,7 +36,7 @@
 			inputLabel={'Identifiant Pôle emploi'}
 			error={errors.idPE}
 			on:input={resetFetchedUsers}
-			required={true}
+			required
 		/>
 		<div class="self-center">
 			<Button outline={true} type="submit">Rechercher</Button>

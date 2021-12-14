@@ -14,11 +14,11 @@ import { formatDateLocale } from './date';
 
 // Based on https://github.com/jquense/yup/blob/2973d0a/src/locale.js
 export const mixed: Required<MixedLocale> = {
-	default: 'Ce champ est invalide.',
+	default: 'Ce champ est invalide',
 	defined: 'Ce champ doit être défini',
 	required: 'Ce champ est obligatoire',
-	oneOf: "Ce champ doit avoir l'une des valeurs suivantes: ${values}",
-	notOneOf: "Ce champ ne doit pas être l'une des valeurs suivantes: ${values}",
+	oneOf: "Ce champ doit avoir l'une des valeurs suivantes : ${values}",
+	notOneOf: "Ce champ ne doit pas être l'une des valeurs suivantes : ${values}",
 	notType: ({ originalValue, type }: MessageParams) => {
 		// const isCast = originalValue != null && originalValue !== value;
 		// let msg =
@@ -42,31 +42,31 @@ export const mixed: Required<MixedLocale> = {
 };
 
 export const string: Required<StringLocale> = {
-	length: 'Ce champ doit être exactement ${length} caractères',
-	min: 'Ce champ doit être au moins ${min} caractères',
-	max: 'Ce champ doit être au plus ${max} caractères',
-	matches: 'Ce champ doit correspondre au format"',
+	length: 'Ce champ doit faire exactement ${length} caractère(s)',
+	min: 'Ce champ doit faire au moins ${min} caractère(s)',
+	max: 'Ce champ doit faire au plus ${max} caractère(s)',
+	matches: 'Ce champ doit correspondre au format demandé',
 	email: 'Ce champ doit être un email valide',
 	url: 'Ce champ doit être une URL valide',
 	trim: 'Ce champ doit être une chaîne garnie',
 	uuid: 'Ce champ doit être un uuid',
-	lowercase: 'Ce champ doit être une chaîne en minuscule',
-	uppercase: 'Ce champ doit être une chaîne de majuscules',
+	lowercase: 'Ce champ doit être une chaîne en minuscules',
+	uppercase: 'Ce champ doit être une chaîne en majuscules',
 };
 
 export const number: Required<NumberLocale> = {
-	min: 'Ce champ doit être supérieure ou égale à ${min}',
+	min: 'Ce champ doit être supérieur ou égal à ${min}',
 	max: 'Ce champ doit être inférieur ou égal à ${max}',
-	lessThan: 'Ce champ doit être inférieure à ${less}',
-	moreThan: 'Ce champ doit être supérieure à ${more}',
+	lessThan: 'Ce champ doit être inférieur à ${less}',
+	moreThan: 'Ce champ doit être supérieur à ${more}',
 	positive: 'Ce champ doit être un nombre positif',
 	negative: 'Ce champ doit être un nombre négatif',
-	integer: 'Ce champ doit être un entier',
+	integer: 'Ce champ doit être un nombre entier',
 };
 
 export const date: Required<DateLocale> = {
 	min: ({ min }) =>
-		`La date être après le ${
+		`La date doit être après le ${
 			min instanceof Date ? min.toLocaleDateString('fr-FR') : formatDateLocale(min)
 		}`,
 	max: ({ max }) =>
@@ -76,7 +76,7 @@ export const date: Required<DateLocale> = {
 };
 
 export const boolean: Required<BooleanLocale> = {
-	isValue: 'Ce champs  ',
+	isValue: 'Ce champ doit être ${value} ',
 };
 
 export const object: Required<ObjectLocale> = {
@@ -84,7 +84,7 @@ export const object: Required<ObjectLocale> = {
 };
 
 export const array: Required<ArrayLocale> = {
-	length: 'Ce champ doit avoir exactement ${length} éléments',
-	min: 'Ce champ doit avoir au moins ${min} éléments',
-	max: 'Ce champ champ doit avoir inférieur ou égal à ${max} éléments',
+	length: 'Ce champ doit avoir exactement ${length} élément(s)',
+	min: 'Ce champ doit avoir au moins ${min} élément(s)',
+	max: 'Ce champ champ doit avoir au plus ${max} élément(s)',
 };

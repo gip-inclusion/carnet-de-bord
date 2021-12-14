@@ -9,10 +9,10 @@
 	import {
 		BeneficiaryAccountInput,
 		beneficiaryAccountSchema,
-	} from '../ProBeneficiaryCreate/beneficiary.schema';
-	import Form from '../forms/Form.svelte';
-	import ProBeneficiaryCreateFields from '../ProBeneficiaryCreate/ProBeneficiaryCreateFields.svelte';
-	import Input from '../forms/Input.svelte';
+	} from '$lib/ui/ProBeneficiaryCreate/beneficiary.schema';
+	import Form from '$lib/ui/forms/Form.svelte';
+	import ProBeneficiaryCreateFields from '$lib/ui/ProBeneficiaryCreate/ProBeneficiaryCreateFields.svelte';
+	import Input from '$lib/ui/forms/Input.svelte';
 
 	export let beneficiary: Pick<
 		Beneficiary,
