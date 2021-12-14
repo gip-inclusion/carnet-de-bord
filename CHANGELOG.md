@@ -1,3 +1,17 @@
+# [1.70.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.5...v1.70.0) (2021-12-14)
+
+
+### Bug Fixes
+
+* handle update beneficiary info ([e92a434](https://github.com/SocialGouv/carnet-de-bord/commit/e92a434ff025070df0f4826c4bc4ee6fcc2403d1))
+* update Input value prop name ([7b49d46](https://github.com/SocialGouv/carnet-de-bord/commit/7b49d46695d61998f259e39633451f567d03ca90))
+
+
+### Features
+
+* **form-validation:** handle create beneficiary ([439dddf](https://github.com/SocialGouv/carnet-de-bord/commit/439dddf1d12104e3724f32e5962577207740d398))
+* **form-validation:** handle create beneficiary ([526aa34](https://github.com/SocialGouv/carnet-de-bord/commit/526aa34fc29db50cac7defad440c5b3a8d3ab4a6))
+
 ## [1.69.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.4...v1.69.5) (2021-12-14)
 
 
