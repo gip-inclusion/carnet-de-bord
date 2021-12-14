@@ -1,3 +1,10 @@
+## [1.69.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.4...v1.69.5) (2021-12-14)
+
+
+### Bug Fixes
+
+* add missing MSA label ([e99333d](https://github.com/SocialGouv/carnet-de-bord/commit/e99333d92059eb843a2cbadc4207954ad76ebac5))
+
 ## [1.69.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.3...v1.69.4) (2021-12-13)
 
 
