@@ -12,9 +12,9 @@ export type Scalars = {
 	Int: number;
 	Float: number;
 	citext: string;
-	date: Date;
+	date: string;
 	jsonb: any;
-	timestamptz: any;
+	timestamptz: string;
 	uuid: string;
 };
 
@@ -5939,7 +5939,7 @@ export type GetNotebookFocusByIdQuery = {
 		situations?: Maybe<any>;
 		linkedTo?: Maybe<string>;
 		theme: string;
-		createdAt: any;
+		createdAt: string;
 		targets: Array<{
 			__typename?: 'notebook_target';
 			target: string;
@@ -5947,7 +5947,7 @@ export type GetNotebookFocusByIdQuery = {
 			actions: Array<{
 				__typename?: 'notebook_action';
 				id: string;
-				createdAt: any;
+				createdAt: string;
 				status: string;
 				action: string;
 				creator: { __typename?: 'professional'; id: string; lastname: string; firstname: string };
@@ -6128,7 +6128,7 @@ export type GetAccountByPkQuery = {
 			lastname: string;
 			email?: Maybe<string>;
 			mobileNumber?: Maybe<string>;
-			dateOfBirth: Date;
+			dateOfBirth: string;
 		}>;
 		professional?: Maybe<{
 			__typename?: 'professional';
@@ -6164,7 +6164,7 @@ export type GetNotebookInfoQuery = {
 			id: string;
 			firstname: string;
 			lastname: string;
-			dateOfBirth: Date;
+			dateOfBirth: string;
 			deployment?: Maybe<{ __typename?: 'deployment'; config?: Maybe<any> }>;
 		};
 		members: Array<{ __typename?: 'notebook_member'; professionalId: string }>;
@@ -6257,7 +6257,7 @@ export type ResetAccountAccessKeyMutationVariables = Exact<{
 
 export type ResetAccountAccessKeyMutation = {
 	__typename?: 'mutation_root';
-	update_account_by_pk?: Maybe<{ __typename?: 'account'; lastLogin?: Maybe<any> }>;
+	update_account_by_pk?: Maybe<{ __typename?: 'account'; lastLogin?: Maybe<string> }>;
 };
 
 export type GetAccountByUsernameQueryVariables = Exact<{
@@ -6521,7 +6521,7 @@ export type GetAccountsSummaryQuery = {
 		__typename?: 'account';
 		id: string;
 		username: string;
-		lastLogin?: Maybe<any>;
+		lastLogin?: Maybe<string>;
 		confirmed: boolean;
 		onboardingDone?: Maybe<boolean>;
 		professional?: Maybe<{
@@ -6553,7 +6553,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			address2?: Maybe<string>;
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
-			dateOfBirth: Date;
+			dateOfBirth: string;
 			email?: Maybe<string>;
 			firstname: string;
 			id: string;
@@ -6566,8 +6566,8 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			__typename?: 'notebook_member';
 			id: string;
 			memberType: string;
-			lastModifiedAt?: Maybe<any>;
-			lastVisitedAt?: Maybe<any>;
+			lastModifiedAt?: Maybe<string>;
+			lastVisitedAt?: Maybe<string>;
 			professional: {
 				__typename?: 'professional';
 				id: string;
@@ -6607,7 +6607,7 @@ export type GetLastVisitedOrUpdatedQuery = {
 				firstname: string;
 				lastname: string;
 				mobileNumber?: Maybe<string>;
-				dateOfBirth: Date;
+				dateOfBirth: string;
 			};
 		};
 	}>;
@@ -6622,7 +6622,7 @@ export type GetLastVisitedOrUpdatedQuery = {
 				firstname: string;
 				lastname: string;
 				mobileNumber?: Maybe<string>;
-				dateOfBirth: Date;
+				dateOfBirth: string;
 			};
 		};
 	}>;
@@ -6665,7 +6665,7 @@ export type SearchNotebookMemberQuery = {
 			id: string;
 			beneficiary: {
 				__typename?: 'beneficiary';
-				dateOfBirth: Date;
+				dateOfBirth: string;
 				firstname: string;
 				id: string;
 				lastname: string;
@@ -6686,7 +6686,7 @@ export type GetNotebookQuery = {
 	notebook?: Maybe<{
 		__typename?: 'notebook';
 		id: string;
-		workSituationDate?: Maybe<Date>;
+		workSituationDate?: Maybe<string>;
 		workSituation?: Maybe<string>;
 		rightRsa?: Maybe<string>;
 		rightRqth: boolean;
@@ -6697,14 +6697,14 @@ export type GetNotebookQuery = {
 		job?: Maybe<string>;
 		educationLevel?: Maybe<string>;
 		contractType?: Maybe<string>;
-		contractSignDate?: Maybe<Date>;
+		contractSignDate?: Maybe<string>;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: Maybe<string>;
 			address2?: Maybe<string>;
 			cafNumber?: Maybe<string>;
 			city?: Maybe<string>;
-			dateOfBirth: Date;
+			dateOfBirth: string;
 			email?: Maybe<string>;
 			firstname: string;
 			id: string;
@@ -6725,8 +6725,8 @@ export type GetNotebookQuery = {
 			__typename?: 'notebook_member';
 			id: string;
 			memberType: string;
-			lastModifiedAt?: Maybe<any>;
-			lastVisitedAt?: Maybe<any>;
+			lastModifiedAt?: Maybe<string>;
+			lastVisitedAt?: Maybe<string>;
 			professional: {
 				__typename?: 'professional';
 				id: string;
@@ -6749,7 +6749,7 @@ export type GetNotebookQuery = {
 		events: Array<{
 			__typename?: 'notebook_event';
 			id: string;
-			eventDate: Date;
+			eventDate: string;
 			event?: Maybe<string>;
 			structure?: Maybe<string>;
 			professionalId: string;
@@ -6773,7 +6773,7 @@ export type GetNotebookEventsQuery = {
 	notebook_event: Array<{
 		__typename?: 'notebook_event';
 		id: string;
-		eventDate: Date;
+		eventDate: string;
 		event?: Maybe<string>;
 		structure?: Maybe<string>;
 		professionalId: string;
@@ -6788,7 +6788,7 @@ export type GetNotebookEventsQuery = {
 export type EventFieldsFragment = {
 	__typename?: 'notebook_event';
 	id: string;
-	eventDate: Date;
+	eventDate: string;
 	event?: Maybe<string>;
 	structure?: Maybe<string>;
 	professionalId: string;

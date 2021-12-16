@@ -28,8 +28,8 @@ module.exports = {
 		},
 		scalars: {
 			defaultScalarType: 'unknown',
-			date: 'Date',
-			timestampz: 'Date',
+			date: 'string',
+			timestamptz: 'string',
 			uuid: 'string',
 			citext: 'string',
 		},

@@ -83,7 +83,7 @@
 
 	query(result);
 
-	function updateUrl(search, dt) {
+	function updateUrl(search?: string | null, dt?: string | null) {
 		const url = new URL(window.location.toString());
 		url.searchParams.set('search', search);
 		url.searchParams.set('dt', dt);
