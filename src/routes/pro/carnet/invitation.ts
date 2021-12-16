@@ -43,13 +43,13 @@ export const post: RequestHandler = async (request) => {
 	/**
 	 * If professional account is not confirmed, we don't send invitation
 	 */
-	if (professional.accounts.length > 0 && !professional.accounts[0].confirmed) {
+	if (!professional?.account?.confirmed) {
 		return {
 			status: 200,
 			body: {},
 		};
 	}
-	const result = await updateAccessKey(client, professional.accounts[0].id);
+	const result = await updateAccessKey(client, professional.account.id);
 	if (result.error) {
 		return {
 			status: 500,

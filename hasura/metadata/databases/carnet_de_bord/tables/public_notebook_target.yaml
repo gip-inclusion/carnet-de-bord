@@ -12,6 +12,9 @@ object_relationships:
 - name: focus
   using:
     foreign_key_constraint_on: focus_id
+- name: professional
+  using:
+    foreign_key_constraint_on: creator_id
 array_relationships:
 - name: actions
   using:

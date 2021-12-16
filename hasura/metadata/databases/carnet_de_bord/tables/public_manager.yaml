@@ -8,17 +8,16 @@ configuration:
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
-- name: deployment
-  using:
-    foreign_key_constraint_on: deployment_id
-array_relationships:
-- name: accounts
+- name: account
   using:
     foreign_key_constraint_on:
       column: manager_id
       table:
         name: account
         schema: public
+- name: deployment
+  using:
+    foreign_key_constraint_on: deployment_id
 insert_permissions:
 - permission:
     backend_only: false

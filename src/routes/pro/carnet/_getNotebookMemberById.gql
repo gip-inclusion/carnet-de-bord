@@ -12,7 +12,7 @@ query GetNotebookMemberById($id: uuid!) {
 			lastname
 			email
 			id
-			accounts {
+			account {
 				id
 				confirmed
 			}
