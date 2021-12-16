@@ -15,7 +15,12 @@ export const beneficiaryAccountSchema = yup.object().shape({
 	mobileNumber: yup
 		.string()
 		.test('is-phone-valid', 'Le format du téléphone est incorrect', (value) => {
-			return /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(value.trim());
+			/* TODO:
+			 * Apparently, test() seems to override nullable, so we currently accept empty
+			 * values manually, but this should be fixed cleanly later on.
+			 **/
+			const hotfix = value === '';
+			return hotfix || /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(value.trim());
 		})
 		.nullable(),
 	email: yup.string().email().nullable(),
