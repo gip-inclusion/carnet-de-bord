@@ -83,7 +83,6 @@
 		const members = [{ memberType: 'referent', professionalId }];
 		const store = await createBeneficiaryMutation({
 			...values,
-			dateOfBirth: new Date(values.dateOfBirth),
 			members,
 		});
 

@@ -2,14 +2,12 @@
 	import { Card } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { displayMobileNumber } from '$lib/ui/format';
+	import type { Beneficiary } from '$lib/graphql/_gen/typed-document-nodes';
 
-	export let beneficiary: {
-		id: string;
-		firstname: string;
-		lastname: string;
-		mobileNumber?: string;
-		dateOfBirth: string;
-	};
+	export let beneficiary: Pick<
+		Beneficiary,
+		'id' | 'firstname' | 'lastname' | 'dateOfBirth' | 'mobileNumber'
+	>;
 	export let href: string;
 </script>
 

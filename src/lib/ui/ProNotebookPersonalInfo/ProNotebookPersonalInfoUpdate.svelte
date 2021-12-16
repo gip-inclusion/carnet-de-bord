@@ -32,7 +32,6 @@
 
 	const updateStore = operationStore(UpdateBeneficiaryPersonalInfoDocument);
 	const update = mutation(updateStore);
-	console.log(beneficiary);
 
 	const initialValues = {
 		firstname: beneficiary.firstname,
@@ -52,7 +51,6 @@
 		await update({
 			id: beneficiary.id,
 			...values,
-			dateOfBirth: new Date(values.dateOfBirth),
 		});
 		openComponent.close();
 	}
@@ -71,9 +69,6 @@
 		{initialValues}
 		validationSchema={beneficiaryAccountSchema}
 		onSubmit={updateBeneficiary}
-		let:isSubmitting
-		let:isSubmitted
-		let:isValid
 	>
 		<ProBeneficiaryCreateFields />
 		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />
