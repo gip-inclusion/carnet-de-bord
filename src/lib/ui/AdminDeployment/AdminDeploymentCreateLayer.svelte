@@ -15,7 +15,7 @@
 		firstname: '',
 		lastname: '',
 		email: '',
-		accounts: {
+		account: {
 			data: {
 				username: '',
 				type: 'manager',
@@ -57,7 +57,7 @@
 					name="account"
 					required
 					inputLabel="Identifiant"
-					bind:value={manager.accounts.data.username}
+					bind:value={manager.account.data.username}
 				/>
 				<Input name="firstname" required inputLabel="Prénom" bind:value={manager.firstname} />
 				<Input name="lastname" required inputLabel="Nom" bind:value={manager.lastname} />

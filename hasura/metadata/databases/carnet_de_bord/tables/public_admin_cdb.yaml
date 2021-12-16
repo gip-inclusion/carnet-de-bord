@@ -6,8 +6,8 @@ configuration:
     created_at: createdAt
     updated_at: updatedAt
   custom_root_fields: {}
-array_relationships:
-- name: accounts
+object_relationships:
+- name: account
   using:
     foreign_key_constraint_on:
       column: admin_id

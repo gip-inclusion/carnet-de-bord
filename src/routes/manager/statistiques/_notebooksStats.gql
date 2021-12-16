@@ -66,7 +66,7 @@ query GetNotebooksAllAndRecent($afterDate: timestamptz_comparison_exp!) {
 		id
 		name
 		city
-		professionals_aggregate(where: { accounts: { lastLogin: $afterDate } }) {
+		professionals_aggregate(where: { account: { lastLogin: $afterDate } }) {
 			aggregate {
 				count(distinct: false)
 			}

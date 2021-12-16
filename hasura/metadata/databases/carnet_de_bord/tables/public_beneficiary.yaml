@@ -13,6 +13,15 @@ configuration:
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
+- name: account
+  using:
+    manual_configuration:
+      column_mapping:
+        id: beneficiary_id
+      insertion_order: null
+      remote_table:
+        name: account
+        schema: public
 - name: deployment
   using:
     foreign_key_constraint_on: deployment_id
@@ -22,14 +31,6 @@ object_relationships:
       column: beneficiary_id
       table:
         name: notebook
-        schema: public
-array_relationships:
-- name: accounts
-  using:
-    foreign_key_constraint_on:
-      column: beneficiary_id
-      table:
-        name: account
         schema: public
 insert_permissions:
 - permission:
