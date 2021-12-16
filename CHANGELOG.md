@@ -1,3 +1,10 @@
+## [1.70.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.0...v1.70.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* bad check for phone number ([861fd22](https://github.com/SocialGouv/carnet-de-bord/commit/861fd2223ad0eaf66f0b180d652dd2a511abbdfd))
+
 # [1.70.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.69.5...v1.70.0) (2021-12-14)
 
 
