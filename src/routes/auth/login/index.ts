@@ -85,7 +85,7 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 500,
 			body: {
-				errors: 'SERVER_ERRROR',
+				errors: 'SERVER_ERROR',
 			},
 		};
 	}

@@ -110,11 +110,15 @@
 			const { uid, valid, ...pro_ } = pro;
 			let error: string;
 			try {
-				await post('/inscription/request', {
+				const response = await post('/inscription/request', {
 					accountRequest: pro_,
 					structureId,
-					noCourriel: true,
+					autoConfirm: true,
 				});
+
+				if (!response.ok) {
+					error = await response.json();
+				}
 			} catch (e) {
 				error = e;
 			}

@@ -86,7 +86,7 @@ export function loginRequest({ pro, url }: { pro: Pro; url: Url }): string {
 export function forgotLoginRequest({ account, url }: { account: Account; url: Url }): string {
 	return `
     ${greeting(account)}
-    <p>Votre identifiant de connexion est <b>${account.username}</b>.</p>
+    <p>Votre identifiant de connexion est <b>${account.username}</b></p>
     ${createAccessButton(url)}
     ${footer()}
   `;
@@ -119,10 +119,21 @@ export function accountRequest({
   `;
 }
 
+export function accountCreatedByAdmin({ account, url }: { account: Account; url: Url }): string {
+	return `
+    ${greeting(account)}
+    <p>Un compte vous a été créé sur l'application Carnet de bord.</p>
+    <p>Votre identifiant de connexion est <b>${account.username}</b></p>
+    ${createAccessButton(url)}
+    ${footer()}
+  `;
+}
+
 export default {
 	notebookInvitation,
 	loginRequest,
 	forgotLoginRequest,
 	accountRequestValidate,
 	accountRequest,
+	accountCreatedByAdmin,
 };

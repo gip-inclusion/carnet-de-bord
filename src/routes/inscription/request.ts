@@ -10,6 +10,7 @@ import {
 	GetDeploymentManagersForStructureQuery,
 	InsertProfessionalAccountDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
+import { updateAccessKey } from '$lib/services/account';
 import type { AccountRequest } from '$lib/types';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
@@ -27,11 +28,11 @@ const client = createClient({
 });
 
 export const post: RequestHandler = async (request) => {
-	const { accountRequest, structureId, requester, noEmail } = request.body as unknown as {
+	const { accountRequest, structureId, requester, autoConfirm } = request.body as unknown as {
 		accountRequest: AccountRequest;
 		structureId: string;
 		requester?: { firstname: string; lastname: string };
-		noEmail?: boolean;
+		autoConfirm?: boolean;
 	};
 
 	const { email, firstname, lastname, mobileNumber, position } = accountRequest;
@@ -72,7 +73,7 @@ export const post: RequestHandler = async (request) => {
 
 	const { error, data } = await client
 		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, {
-			comp: { _like: `${username.toLowerCase()}%` },
+			comp: { _ilike: `${username.toLowerCase()}%` },
 		})
 		.toPromise();
 
@@ -100,11 +101,13 @@ export const post: RequestHandler = async (request) => {
 		}, 0);
 		username += `${index + 1}`;
 	}
+	username = username.toLowerCase();
 
 	const insertResult = await client
 		.mutation(InsertProfessionalAccountDocument, {
 			account: {
-				username: username.toLowerCase(),
+				username,
+				confirmed: Boolean(autoConfirm),
 				type: 'professional',
 				professional: {
 					data: {
@@ -121,7 +124,6 @@ export const post: RequestHandler = async (request) => {
 		.toPromise();
 
 	if (insertResult.error || !insertResult.data) {
-		console.error(insertResult);
 		return {
 			status: 500,
 			body: {
@@ -133,7 +135,43 @@ export const post: RequestHandler = async (request) => {
 	const { account } = insertResult.data;
 	const appUrl = getAppUrl();
 
-	if (!noEmail) {
+	if (autoConfirm) {
+		const result = await updateAccessKey(client, account.id);
+		if (result.error) {
+			console.error('login', result.error);
+			return {
+				status: 500,
+				body: {
+					errors: 'SERVER_ERROR',
+				},
+			};
+		}
+		const accessKey = result.data.account.accessKey;
+		try {
+			await send({
+				options: {
+					to: email,
+					subject: 'Création de compte sur Carnet de bord',
+				},
+				template: 'accountCreatedByAdmin',
+				params: [
+					{
+						account: {
+							username,
+							firstname,
+							lastname,
+						},
+						url: {
+							accessKey,
+							appUrl,
+						},
+					},
+				],
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	} else {
 		// send email to all deployment managers for the target structure
 		const { error, data } = await client
 			.query<GetDeploymentManagersForStructureQuery>(GetDeploymentManagersForStructureDocument, {
@@ -141,6 +179,8 @@ export const post: RequestHandler = async (request) => {
 			})
 			.toPromise();
 		if (error) {
+			// instead of erroring for the end-user (in spite of the accounts having been created in actuality),
+			// we should return a success and send an admin-level error to handle notifying the managers
 			return {
 				status: 500,
 				body: {
