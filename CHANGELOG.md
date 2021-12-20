@@ -1,3 +1,11 @@
+## [1.70.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.1...v1.70.2) (2021-12-20)
+
+
+### Bug Fixes
+
+* hasura types ([d7c78a8](https://github.com/SocialGouv/carnet-de-bord/commit/d7c78a8faea25bd92888b42848dc615f88e2897d))
+* update account relationships from Array to Object ([06882d0](https://github.com/SocialGouv/carnet-de-bord/commit/06882d08a5366a4d8a2fb1ef856e7ae47f029f55))
+
 ## [1.70.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.0...v1.70.1) (2021-12-16)
 
 
