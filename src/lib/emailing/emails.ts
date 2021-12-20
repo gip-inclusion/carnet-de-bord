@@ -25,7 +25,7 @@ function createLink({ appUrl, accessKey, redirectUrl }: Url) {
 
 function createAccessButton(url: Url) {
 	return `
-    <p>Pour accéder au carnet de bord, veuillez cliquer sur le lien ci-dessous:</p>
+    <p>Pour accéder à Carnet de bord, veuillez cliquer sur le lien ci-dessous&nbsp;:</p>
     <p style="padding-left: 20%">
       <a
       rel="nofollow"
