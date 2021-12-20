@@ -6358,6 +6358,7 @@ export type GetStructuresQuery = {
 		city?: Maybe<string>;
 		address1?: Maybe<string>;
 		address2?: Maybe<string>;
+		website?: Maybe<string>;
 	}>;
 };
 
@@ -10495,6 +10496,7 @@ export const GetStructuresDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 							],
 						},
 					},

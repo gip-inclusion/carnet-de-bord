@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { setContext } from 'svelte';
+	import { onDestroy, setContext } from 'svelte';
 
 	import { writable } from 'svelte/store';
 	import { createForm, key } from 'svelte-forms-lib';
@@ -32,13 +32,18 @@
 
 	setContext(key, { ...formHandler, isSubmitted });
 
+	const unsubscribeValid = isValid.subscribe((valid) => {
+		if (!valid) {
+			focusError();
+		}
+	});
 	function submitHandler(e) {
 		$isSubmitted = true;
 
-		focusError();
-
 		handleSubmit(e);
 	}
+
+	onDestroy(unsubscribeValid);
 
 	function focusError() {
 		// If errors we scroll to the first error

@@ -10,5 +10,6 @@ query GetStructures {
 		city
 		address1
 		address2
+		website
 	}
 }

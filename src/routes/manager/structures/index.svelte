@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-	import { IconButton, SearchBar } from '$lib/ui/base';
+	import { Button, SearchBar } from '$lib/ui/base';
 	import type { Structure } from '$lib/types';
 
 	export let result: OperationStore<GetStructuresQuery>;
@@ -35,14 +35,6 @@
 			props: {
 				structure: structure || {},
 				structureId: structure ? structure.id : null,
-				globalError: '',
-				fieldErrors: {},
-				confirmText: 'Enregistrer',
-				onInput: () => {
-					/* ignore */
-				},
-				disabledKeys: {},
-				onCancel: openComponent.close,
 			},
 		});
 	}
@@ -72,13 +64,16 @@
 
 <LoaderIndicator {result}>
 	<div>
-		<div class="flex flex-row justify-between">
+		<div class="flex flex-row justify-between items-center">
 			<h2 class="fr-h4 pt-4">Liste des structures</h2>
-			<IconButton
+			<Button
+				outline
+				classNames="fr-btn--icon-left fr-fi-add-circle-line"
 				on:click={() => openStructureLayer(null)}
-				icon="ri-add-circle-line"
-				ariaLabel="Ajouter un structure"
-			/>
+			>
+				<span class="" />
+				Ajouter un structure
+			</Button>
 		</div>
 
 		<div class="mb-4">
