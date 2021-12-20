@@ -32,7 +32,6 @@
 
 	const updateStore = operationStore(UpdateBeneficiaryPersonalInfoDocument);
 	const update = mutation(updateStore);
-	console.log(beneficiary);
 
 	const initialValues = {
 		firstname: beneficiary.firstname,
