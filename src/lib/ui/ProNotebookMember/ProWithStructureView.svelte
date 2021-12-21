@@ -6,7 +6,7 @@
 	export let professional: Professional;
 	export let mainTitle = 'Accompagnateur';
 	export let proFirst = false;
-	export let username = "";
+	export let username = '';
 	$: structure = professional?.structure;
 </script>
 
