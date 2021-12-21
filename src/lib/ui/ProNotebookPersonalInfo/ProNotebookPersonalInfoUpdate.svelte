@@ -65,11 +65,7 @@
 		<h1>Informations personnelles</h1>
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
-	<Form
-		{initialValues}
-		validationSchema={beneficiaryAccountSchema}
-		onSubmit={updateBeneficiary}
-	>
+	<Form {initialValues} validationSchema={beneficiaryAccountSchema} onSubmit={updateBeneficiary}>
 		<ProBeneficiaryCreateFields />
 		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />
 		<Input name="cafNumber" placeholder={'123456789A'} inputLabel={'Identifiant CAF/MSA'} />

@@ -2,23 +2,53 @@ query GetAccountByUsername($comp: String_comparison_exp!) {
 	account(where: { username: $comp }) {
 		id
 		username
-		beneficiary {firstname, lastname, email}
-		professional {firstname, lastname, email}
-		admin {firstname, lastname, email}
-		manager {firstname, lastname, email}
+		beneficiary {
+			firstname
+			lastname
+			email
+		}
+		professional {
+			firstname
+			lastname
+			email
+		}
+		admin {
+			firstname
+			lastname
+			email
+		}
+		manager {
+			firstname
+			lastname
+			email
+		}
 		confirmed
 	}
 }
 query GetAccountByEmail($criteria: account_bool_exp!) {
-	account(
-		where: $criteria
-	) {
+	account(where: $criteria) {
 		id
 		username
-		beneficiary {firstname, lastname, email}
-		professional {firstname, lastname, email}
-		admin {firstname, lastname, email}
-		manager {firstname, lastname, email}
+		beneficiary {
+			firstname
+			lastname
+			email
+		}
+		professional {
+			firstname
+			lastname
+			email
+		}
+		admin {
+			firstname
+			lastname
+			email
+		}
+		manager {
+			firstname
+			lastname
+			email
+		}
 		confirmed
 	}
 }
