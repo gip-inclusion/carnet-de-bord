@@ -1,3 +1,10 @@
+## [1.71.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.71.0...v1.71.1) (2021-12-21)
+
+
+### Bug Fixes
+
+* handle error in structure form ([#460](https://github.com/SocialGouv/carnet-de-bord/issues/460)) ([3db95c9](https://github.com/SocialGouv/carnet-de-bord/commit/3db95c913b32e8a82ac317130fa481fe9479b774))
+
 # [1.71.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.3...v1.71.0) (2021-12-21)
 
 
