@@ -6,9 +6,7 @@ export const beneficiaryAccountSchema = yup.object().shape({
 	lastname: yup.string().required(),
 	dateOfBirth: yup
 		.string()
-		.test('is-date-valid', 'Le format de la date est incorrect', (value) => {
-			return validateDateInput(value);
-		})
+		.test('is-date-valid', 'Le format de la date est incorrect', validateDateInput)
 		.required(),
 
 	mobileNumber: yup

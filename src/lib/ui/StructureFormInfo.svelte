@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import {
 		InsertStructureDocument,
 		InsertStructureMutation,
@@ -12,12 +12,9 @@
 	import { operationStore, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import * as RD from '$lib/remoteData';
-</script>
 
-<script lang="ts">
-	import Form from './forms/Form.svelte';
-	import Input from './forms/Input.svelte';
-	import { structureInputSchema } from './structure.schema';
+	import { Input, Form } from '$lib/ui/forms';
+	import { structureInputSchema } from '$lib/ui/structure.schema';
 	import { openComponent } from '$lib/stores';
 	import { filterFalsyProps } from '$lib/helpers';
 
