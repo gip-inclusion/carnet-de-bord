@@ -36,6 +36,28 @@
 		$result.reexecute({ requestPolicy: 'network-only' });
 	}
 
+	let emails: Record<string, undefined | 'ToConfirm' | 'Sending' | 'Failed' | 'Sent'> = {};
+
+	async function sendConnectionEmail(id: string, confirm?: boolean) {
+		if (!emails[id] || emails[id] === 'Failed') {
+			if (typeof confirm === 'undefined') {
+				emails[id] = 'ToConfirm';
+			}
+		} else if (emails[id] === 'ToConfirm') {
+			if (confirm) {
+				emails[id] = 'Sending';
+				const response = await post(`/manager/sendConnectionEmail`, { id });
+				if (response.ok) {
+					emails[id] = 'Sent';
+				} else {
+					emails[id] = 'Failed';
+				}
+			} else {
+				emails[id] = undefined;
+			}
+		}
+	}
+
 	let search = '';
 	let search2 = '';
 
@@ -93,6 +115,7 @@
 					<th>Identifiant</th>
 					<th>Compte</th>
 					<th>Onboarding</th>
+					<th>Email de connexion</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -122,6 +145,52 @@
 						</td>
 						<td>
 							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
+						</td>
+						<td>
+							{#if typeof emails[account.id] === 'undefined'}
+								<Button
+									on:click={() => sendConnectionEmail(account.id)}
+									classNames="!bg-france-blue"
+									icon="ri-mail-send-line"
+									title="Envoyer un email de connexion"
+								/>
+							{:else if emails[account.id] === 'ToConfirm'}
+								<div class="flex flex-row">
+									<Button
+										on:click={() => sendConnectionEmail(account.id, true)}
+										classNames="!bg-success !pl-2 !pr-2"
+										icon="ri-check-line"
+										title="Confirmer l'envoi"
+									/>
+									<Button
+										on:click={() => sendConnectionEmail(account.id, false)}
+										classNames="!bg-marianne-red !pl-2 !pr-2"
+										icon="ri-close-line"
+										title="Annuler"
+									/>
+								</div>
+							{:else if emails[account.id] === 'Sending'}
+								<Button
+									disabled={true}
+									classNames="!bg-action"
+									icon="ri-mail-send-fill"
+									title="Envoi en cours..."
+								/>
+							{:else if emails[account.id] === 'Failed'}
+								<Button
+									on:click={() => sendConnectionEmail(account.id)}
+									classNames="!bg-error"
+									icon="ri-restart-line"
+									title="Erreur ! Recommencer ?"
+								/>
+							{:else if emails[account.id] === 'Sent'}
+								<Button
+									disabled={true}
+									classNames="!bg-success !text-white"
+									icon="ri-mail-check-line"
+									title="Envoyé !"
+								/>
+							{/if}
 						</td>
 					</tr>
 				{:else}
