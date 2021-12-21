@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import {
 		InsertStructureDocument,
 		InsertStructureMutation,
@@ -7,33 +7,19 @@
 		UpdateStructureMutation,
 		UpdateStructureMutationVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import type { Structure, StructureRequest, InputItem } from '$lib/types';
-	import { Alert, Button, Input } from '$lib/ui/base';
-	import { default as deepEqual } from 'fast-deep-equal';
-	import { createEventDispatcher } from 'svelte';
+	import type { Structure, StructureRequest } from '$lib/types';
+	import { Alert, Button } from '$lib/ui/base';
 	import { operationStore, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import * as RD from '$lib/remoteData';
-</script>
 
-<script lang="ts">
+	import { Input, Form } from '$lib/ui/forms';
+	import { structureInputSchema } from '$lib/ui/structure.schema';
+	import { openComponent } from '$lib/stores';
+	import { filterFalsyProps } from '$lib/helpers';
+
 	export let structure: StructureRequest;
-	export let fieldErrors: StructureRequest;
-	export let confirmText = 'Confirmer';
-	export let onCancel: () => void | null = null;
-	export let disabledKeys: Record<InputItem['key'], boolean> = {};
 	export let structureId: string | null = null;
-
-	let originalStructure = { ...structure };
-
-	$: untouched = deepEqual(structure, originalStructure);
-	$: isValid = validateStructure(structure);
-
-	const dispatch = createEventDispatcher();
-
-	function validateStructure({ name }: StructureRequest) {
-		return Boolean(name);
-	}
 
 	const updateStore: OperationStore<
 		UpdateStructureMutation,
@@ -68,25 +54,17 @@
 		}
 	});
 
-	function onInput() {
-		mutationResult = RD.notAsked;
-	}
-
-	async function handleSubmit() {
+	async function handleSubmit(values) {
 		mutationResult = RD.loading;
 		if (structureId) {
-			updater({ ...structure, id: structureId });
+			updater({ ...filterFalsyProps(values), id: structureId });
 		} else {
-			inserter({ ...structure });
+			inserter({ ...filterFalsyProps(values) });
 		}
-		dispatch('submit', { structure });
 	}
 
 	async function handleCancel() {
-		if (onCancel) {
-			onCancel();
-		}
-		dispatch('cancel', {});
+		openComponent.close();
 	}
 </script>
 
@@ -107,101 +85,58 @@
 		<h2 class="text-france-blue fr-h4 pt-8 px-8">
 			{structureId ? 'Modification' : 'Création'} d'une structure
 		</h2>
-		<form class="w-full px-8 pb-8" on:submit|preventDefault={handleSubmit}>
+		<Form
+			initialValues={{ ...structure }}
+			validationSchema={structureInputSchema}
+			onSubmit={handleSubmit}
+			class="w-full px-8 pb-8"
+			let:isSubmitted
+			let:isSubmitting
+			let:isValid
+		>
+			<Input inputLabel="Nom" placeholder="Mission locale de Crest" name="name" required />
+			<Input inputLabel="Téléphone" placeholder="0123456789" name="phone" class="max-w-max" />
+			<Input inputLabel="Courriel" placeholder="crest@mission-locale.fr" name="email" />
 			<Input
-				bind:value={structure['name']}
-				placeholder={'Ex : Mission locale de Crest'}
-				inputLabel={'Nom'}
-				error={fieldErrors['name']}
-				on:input={onInput}
-				disabled={disabledKeys['name']}
-				required={true}
+				inputLabel="Adresse"
+				placeholder="55-57 rue du Faubourg Saint-Honoré"
+				name="address1"
+				required
 			/>
+			<Input inputLabel="Adresse (complément)" placeholder="1er étage" name="address2" />
+			<div class="fr-grid-row fr-grid-row--gutters ">
+				<Input
+					class="fr-col-3 max-w-max"
+					inputLabel="Code postal"
+					placeholder="75008"
+					name="postalCode"
+					required
+				/>
+				<Input class="fr-col-9" inputLabel="Ville" placeholder="Paris" name="city" required />
+			</div>
 			<Input
-				bind:value={structure['phone']}
-				placeholder={'Ex : 04 75 76 70 67'}
-				inputLabel={'Téléphone'}
-				error={fieldErrors['phone']}
-				on:input={onInput}
-				disabled={disabledKeys['phone']}
+				inputLabel="Site internet"
+				placeholder="https://www.mission-locale.fr/crest"
+				name="website"
 			/>
+			<Input inputLabel="Siret" placeholder="123 456 789 0123" name="siret" />
 			<Input
-				bind:value={structure['email']}
-				placeholder={'Ex : crest@mission-locale.fr'}
-				inputLabel={'Courriel'}
-				error={fieldErrors['email']}
-				on:input={onInput}
-				disabled={disabledKeys['email']}
-				type={'email'}
+				inputLabel="Description"
+				placeholder="Antenne de Crest de la Mission locale Auvergne Rhône-Alpes"
+				name="shortDesc"
 			/>
-			<Input
-				bind:value={structure['address1']}
-				placeholder={'Ex : 3 Rue des Cuiretteries'}
-				inputLabel={'Adresse'}
-				error={fieldErrors['address1']}
-				on:input={onInput}
-				disabled={disabledKeys['address1']}
-			/>
-			<Input
-				bind:value={structure['address2']}
-				placeholder={'Ex : Conseiller en réinsertion'}
-				inputLabel={'Adresse (complément)'}
-				error={fieldErrors['address2']}
-				on:input={onInput}
-				disabled={disabledKeys['address2']}
-			/>
-			<Input
-				bind:value={structure['postalCode']}
-				placeholder={'Ex : 26400'}
-				inputLabel={'Code postal'}
-				error={fieldErrors['postalCode']}
-				on:input={onInput}
-				disabled={disabledKeys['postalCode']}
-			/>
-			<Input
-				bind:value={structure['city']}
-				placeholder={'Ex : Crest'}
-				inputLabel={'Ville'}
-				error={fieldErrors['city']}
-				on:input={onInput}
-				disabled={disabledKeys['city']}
-				required={true}
-			/>
-			<Input
-				bind:value={structure['website']}
-				placeholder={'Ex : https://www.mission-locale.fr/crest'}
-				inputLabel={'Site internet'}
-				error={fieldErrors['website']}
-				on:input={onInput}
-				disabled={disabledKeys['website']}
-			/>
-			<Input
-				bind:value={structure['siret']}
-				placeholder={'Ex : XXX XXX XXX XXXXX'}
-				inputLabel={'Siret'}
-				error={fieldErrors['siret']}
-				on:input={onInput}
-				disabled={disabledKeys['siret']}
-			/>
-			<Input
-				bind:value={structure['shortDesc']}
-				placeholder={'Ex : Antenne de Crest de la Mission locale Auvergne Rhône-Alpes'}
-				inputLabel={'Description'}
-				error={fieldErrors['shortDesc']}
-				on:input={onInput}
-				disabled={disabledKeys['shortDesc']}
-			/>
+
 			{#if RD.getError(mutationResult)}
 				<div class="mb-8">
 					<Alert type="error" description={RD.getError(mutationResult)} />
 				</div>
 			{/if}
 			<div class="flex flex-row gap-6 mt-12">
-				<Button type="submit" disabled={!isValid || untouched || RD.isLoading(mutationResult)}
-					>{confirmText}</Button
+				<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}
+					>Enregistrer</Button
 				>
 				<Button outline={true} on:click={handleCancel}>Annuler</Button>
 			</div>
-		</form>
+		</Form>
 	{/if}
 </div>
