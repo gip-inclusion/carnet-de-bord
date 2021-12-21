@@ -1,52 +1,37 @@
 <script lang="ts">
-	import Svelecte from 'svelecte';
-	import type { AccountRequest } from '$lib/types';
 	import {
-		GetStructuresDocument,
-		GetStructuresQuery,
 		Professional,
 		UpdateProfessionalProfileDocument,
 		UpdateProfessionalProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
-	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
-	import { contactEmail } from '$lib/constants';
+	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
+	import { mutation, OperationStore, operationStore } from '@urql/svelte';
 	import { account, openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
+	import Alert from '../base/Alert.svelte';
+	import type { ProAccountWithStructureInput } from '../ProCreationForm/pro.schema';
 
 	export let professional: Professional | null;
+	let { email, firstname, lastname, position, mobileNumber } = professional;
+	let initialValues = {
+		email,
+		firstname,
+		lastname,
+		position,
+		mobileNumber,
+		structureId: professional.structure.id,
+	};
 
 	const updateProfileResult = operationStore(UpdateProfessionalProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
-
 	let updateResult: OperationStore<UpdateProfessionalProfileMutation>;
-	let result: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument, {});
-	query(result);
 
-	let options: { id: string }[];
-	let { firstname, lastname, mobileNumber, position, email, structure } = professional || {};
-	let structureId: string = structure?.id;
-	let selection: { id: string };
-	let acc = { firstname, lastname, mobileNumber, position, email };
-	$: {
-		options = $result?.data?.structure || [];
-		if (!selection) {
-			selection = options.filter(({ id }) => {
-				return id === structureId;
-			})[0];
-		}
-	}
+	let error;
 
-	async function handleSubmit(event: CustomEvent<{ account: AccountRequest }>) {
-		const ac = event.detail?.account;
-		const { firstname, lastname, mobileNumber, position } = ac;
+	async function handleSubmit(values: ProAccountWithStructureInput) {
 		updateResult = await updateProfile({
-			firstname,
-			lastname,
-			professionalId: professional?.id,
-			mobileNumber,
-			position,
-			structureId: selection?.id,
+			professionalId: professional.id,
+			...values,
 		});
 
 		if (updateResult.data?.updateAccount) {
@@ -59,6 +44,13 @@
 				...professional,
 			};
 		}
+		if (updateResult.error) {
+			error = "L'enregistrement a échoué. ";
+		}
+	}
+
+	function onCancel() {
+		openComponent.close();
 	}
 </script>
 
@@ -69,33 +61,16 @@
 		<div><Button on:click={openComponent.close}>J'ai compris</Button></div>
 	{:else}
 		<h1>Mettre à jour mon compte</h1>
-
-		<h2 class="text-france-blue fr-h4">Structure</h2>
-		<div class="flex flex-row w-full gap-2">
-			<div class="w-full">
-				<label class="flex-grow mb-2 fr-label" for="structureSelect">
-					<div>Sélectionnez votre structure</div>
-					<span class="fr-hint-text justify-self-stretch">
-						Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}"
-							>nous contacter</a
-						>.
-					</span>
-				</label>
-				<Svelecte
-					name="structureSelect"
-					{options}
-					placeholder=""
-					bind:selection
-					disableSifter={false}
-					class="svelecte-control custom-svelecte"
-					valueField="id"
-					labelField="name"
-					clearable={true}
-				/>
+		<ProCreationForm
+			onSubmit={handleSubmit}
+			{onCancel}
+			accountRequest={initialValues}
+			submitLabel="Mettre à jour"
+		/>
+		{#if error}
+			<div class="mb-8">
+				<Alert type="error" description={error} />
 			</div>
-		</div>
-
-		<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
-		<ProFormInfo account={acc} fieldErrors={{}} disabled={false} on:submit={handleSubmit} />
+		{/if}
 	{/if}
 </div>

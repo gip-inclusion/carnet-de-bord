@@ -2,6 +2,7 @@ mutation UpdateProfessionalProfile(
 	$firstname: String!
 	$lastname: String!
 	$mobileNumber: String!
+	$email: citext!
 	$position: String!
 	$professionalId: uuid!
 	$structureId: uuid
@@ -11,6 +12,7 @@ mutation UpdateProfessionalProfile(
 			firstname: $firstname
 			lastname: $lastname
 			position: $position
+			email: $email
 			mobileNumber: $mobileNumber
 			structureId: $structureId
 		}

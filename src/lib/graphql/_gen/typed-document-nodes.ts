@@ -6833,6 +6833,7 @@ export type UpdateProfessionalProfileMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
 	mobileNumber: Scalars['String'];
+	email: Scalars['citext'];
 	position: Scalars['String'];
 	professionalId: Scalars['uuid'];
 	structureId?: Maybe<Scalars['uuid']>;
@@ -12993,6 +12994,14 @@ export const UpdateProfessionalProfileDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
 					type: {
 						kind: 'NonNullType',
@@ -13041,6 +13050,11 @@ export const UpdateProfessionalProfileDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'position' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
 										},
 										{
 											kind: 'ObjectField',

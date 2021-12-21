@@ -8529,10 +8529,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svelecte@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/svelecte/-/svelecte-1.4.1.tgz#25cfe0226169d0a2c6f1820f2a876507246b0caf"
-  integrity sha512-l/Xd0ruZdlOvBjSNdr0QcTI2qCyWzj5cWxj1EyL3+ZerFbO7codOdkVhCvR1NdubzpwNcxfEI9M2KuRiOJLYCg==
+svelecte@^3.4.5:
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/svelecte/-/svelecte-3.4.5.tgz#31ee09194030693d16501cb0031ba50fe5d0dada"
+  integrity sha512-HVva//rlRWg5Ck2iOuHuIVYrMATxZ7D1Kr91HLpMRbPfnqqAPFto6twwJ3XvBE+O9GD/kMzcYDwQULZ0sx3w1w==
   dependencies:
     svelte-tiny-virtual-list "^1.1.7"
 
