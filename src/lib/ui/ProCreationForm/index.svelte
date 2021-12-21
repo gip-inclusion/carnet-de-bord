@@ -41,7 +41,7 @@
 				<SvelecteSFL
 					name="structureId"
 					inputLabel="Sélectionnez votre structure"
-					inputHint="Si vous ne trouvez pas votre structure, veuillez <a href='mailto:${contactEmail}'>nous contacter</a>."
+					inputHint={`Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}">nous contacter</a>`}
 					id="structureSelect"
 					{options}
 					placeholder="Pole emploi"
