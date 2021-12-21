@@ -1,3 +1,11 @@
+## [1.70.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.2...v1.70.3) (2021-12-21)
+
+
+### Bug Fixes
+
+* better email notifications and error reporting when importing Pros ([54966ef](https://github.com/SocialGouv/carnet-de-bord/commit/54966ef1f78a79e87b3181f7ec83f80e62a95d2a))
+* typo in email ([9a368bf](https://github.com/SocialGouv/carnet-de-bord/commit/9a368bf86545de9b8ae9e1b0d79362ba17f9fca8))
+
 ## [1.70.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.1...v1.70.2) (2021-12-20)
 
 
