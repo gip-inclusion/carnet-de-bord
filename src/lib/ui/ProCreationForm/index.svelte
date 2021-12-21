@@ -4,93 +4,75 @@
 		GetStructuresDocument,
 		GetStructuresQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import type { AccountRequest, Structure } from '$lib/types';
-	import ProFormInfo from '$lib/ui/ProFormInfo.svelte';
+	import type { AccountRequest } from '$lib/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { operationStore, OperationStore, query } from '@urql/svelte';
-	import Svelecte from 'svelecte';
-	import { createEventDispatcher } from 'svelte';
+
+	import Button from '../base/Button.svelte';
+	import { Form, Input, SvelecteSFL } from '../forms';
+	import { ProAccountWithStructureInput, proAccountSchemaWithStructure } from './pro.schema';
 </script>
 
 <script lang="ts">
 	export let submitLabel = 'Je valide mon inscription';
-	export let disabled = false;
-	export let errors: AccountRequest = {} as AccountRequest;
 	export let accountRequest: AccountRequest = {} as AccountRequest;
-	export let onSubmit: (s: Structure) => void = (s) => {
-		dispatch('submit', { structure: s });
-	};
-	export let onInput: () => void = () => {
-		dispatch('input', {});
-	};
-	export let onCancel: () => void = () => {
-		dispatch('cancel', {});
-	};
-
-	const dispatch = createEventDispatcher();
+	export let onSubmit: (values: ProAccountWithStructureInput) => void;
+	export let onCancel: () => void;
 
 	let result: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument, {});
 	query(result);
 
-	type StructureLight = {
-		id: string;
-		name: string;
-		label: string;
-		metadata: string[];
-	};
-
 	$: options = $result?.data?.structure;
-
-	let structure: StructureLight | null;
-
-	const isAccountRequestValid = (ar: AccountRequest) =>
-		!!ar.firstname && !!ar.lastname && !!ar.email;
-
-	$: disableSubmission = disabled || !structure || !isAccountRequestValid(accountRequest);
 </script>
 
-<div>
+<Form
+	initialValues={{ ...accountRequest }}
+	validationSchema={proAccountSchemaWithStructure}
+	{onSubmit}
+	let:isSubmitting
+	let:isSubmitted
+	let:isValid
+	let:form
+>
 	<LoaderIndicator {result}>
 		<h2 class="text-france-blue fr-h4">Structure</h2>
 		<div class="flex flex-row w-full gap-2">
 			<div class="w-full">
-				<label class="flex-grow mb-2 fr-label" for="structureSelect">
-					<div>Sélectionnez votre structure</div>
-					<span class="fr-hint-text justify-self-stretch">
-						Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}"
-							>nous contacter</a
-						>.
-					</span>
-				</label>
-				<Svelecte
-					name="structureSelect"
+				<SvelecteSFL
+					name="structureId"
+					inputLabel="Sélectionnez votre structure"
+					inputHint="Si vous ne trouvez pas votre structure, veuillez <a href='mailto:${contactEmail}'>nous contacter</a>."
+					id="structureSelect"
 					{options}
-					placeholder=""
-					bind:selection={structure}
-					disableSifter={false}
-					class="svelecte-control custom-svelecte"
+					placeholder="Pole emploi"
 					valueField="id"
 					labelField="name"
-					clearable={true}
 				/>
 			</div>
 		</div>
 		<!-- end @TODO -->
 	</LoaderIndicator>
-</div>
-{#if structure}
-	<div>
-		<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
+
+	{#if form.structureId}
 		<div>
-			<ProFormInfo
-				bind:account={accountRequest}
-				fieldErrors={errors}
-				confirmText={submitLabel}
-				disabled={disableSubmission}
-				on:submit={() => onSubmit(structure)}
-				on:cancel={onCancel}
-				{onInput}
-			/>
+			<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
+
+			<script>
+				import Input from '../forms/Input.svelte';
+			</script>
+
+			<Input placeholder="Jean Baptiste" inputLabel="Prénom" name="firstname" required />
+			<Input placeholder="Poquelin" inputLabel="Nom" name="lastname" required />
+			<Input placeholder="b@poquelin.fr" inputLabel="Courriel" name="email" required />
+			<Input placeholder="0123456789" inputLabel="Téléphone" name="mobileNumber" />
+			<Input placeholder="Conseiller en insertion" inputLabel="Fonction" name="position" />
+
+			<div class="flex flex-row gap-6 mt-12">
+				<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}
+					>{submitLabel}</Button
+				>
+				<Button outline={true} on:click={onCancel}>Annuler</Button>
+			</div>
 		</div>
-	</div>
-{/if}
+	{/if}
+</Form>

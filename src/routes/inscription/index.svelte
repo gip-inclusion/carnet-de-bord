@@ -1,39 +1,37 @@
 <script lang="ts">
-	import type { AccountRequest, RequestStep, Structure } from '$lib/types';
+	import type { RequestStep } from '$lib/types';
 	import { post } from '$lib/utils/post';
 	import { goto } from '$app/navigation';
 
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
+	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
+	import Alert from '$lib/ui/base/Alert.svelte';
 
-	let errors: AccountRequest = {} as AccountRequest;
-	let accountRequest: AccountRequest = {} as AccountRequest;
+	let error: string;
 	let requestStep: RequestStep = 'start';
 
-	async function onSubmit(structure: Structure) {
+	async function onSubmit(values: ProAccountWithStructureInput) {
+		const { structureId, ...accountRequest } = values;
 		const response = await post('/inscription/request', {
 			accountRequest,
-			structureId: structure.id,
+			structureId,
 		});
-
-		if (response.status === 400) {
-			requestStep = 'error';
-			errors = (await response.json()).errors as unknown as Record<keyof AccountRequest, string>;
-		}
-
-		if (response.status === 200) {
+		if (response.ok) {
 			requestStep = 'success';
+		} else {
+			requestStep = 'error';
+			const rawError = await response.json();
+			if (response.status === 400) {
+				error = `La creation de compte a échouée. ${rawError.errors.email}`;
+			} else {
+				error = 'La creation de compte a échouée. Veuillez contacter le support';
+			}
 		}
 	}
 
 	function onCancel() {
 		goto('/auth/login');
 	}
-
-	function onInput() {
-		requestStep = 'start';
-	}
-
-	$: disabled = requestStep === 'error';
 </script>
 
 <svelte:head>
@@ -45,7 +43,12 @@
 			<h1>Inscription au Carnet de bord</h1>
 			<p>Veuillez remplir le formulaire pour vous inscrire.</p>
 		</div>
-		<ProCreationForm {accountRequest} {errors} {disabled} {onSubmit} {onCancel} {onInput} />
+		<ProCreationForm {onSubmit} {onCancel} />
+		{#if error}
+			<div class="mb-8">
+				<Alert type="error" description={error} />
+			</div>
+		{/if}
 	{:else}
 		<div>
 			<h1>Demande d'inscription envoyée</h1>

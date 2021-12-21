@@ -10,7 +10,7 @@
 	import { openComponent } from '$lib/stores';
 	import { session } from '$app/stores';
 	import { post } from '$lib/utils/post';
-	import type { AccountRequest, Structure, SvelteEventHandler } from '$lib/types';
+	import type { SvelteEventHandler } from '$lib/types';
 	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
 	import ProNotebookMemberForm from '$lib/ui/ProNotebookMember/ProNotebookMemberForm.svelte';
 	import { trackSiteSearch } from '$lib/tracking/matomo';
@@ -65,45 +65,13 @@
 		openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: true } });
 	}
 
-	let errors: AccountRequest = {} as AccountRequest;
-	let accountRequest: AccountRequest = {} as AccountRequest;
-	let disabled = false;
-	async function onSubmit(structure: Structure) {
-		disabled = true;
-		const { firstname, lastname } = $session.user;
-		const response = await post('/inscription/request', {
-			accountRequest,
-			structureId: structure.id,
-			requester: { firstname, lastname },
-		});
-
-		if (response.status === 400) {
-			errors = (await response.json()).errors as Record<keyof AccountRequest, string>;
-		}
-
-		if (response.status === 200) {
-			const { professionalId } = await response.json();
-			await addMemberToNotebook(professionalId);
-
-			openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: false } });
-		}
-	}
-
-	function onInput() {
-		disabled = false;
-	}
-
-	function createPro() {
+	function showAddNoteBookMember() {
 		openComponent.open({
 			component: ProNotebookMemberForm,
 			props: {
-				disabled,
-				accountRequest,
-				errors,
-				onCancel,
-				onInput,
-				onSubmit,
-				name: `${beneficiaryFirstname} ${beneficiaryLastname}`,
+				firstname: beneficiaryFirstname,
+				lastname: beneficiaryLastname,
+				notebookId,
 			},
 		});
 	}
@@ -136,7 +104,9 @@
 			{#if count === 0}
 				<div class="flex flex-col gap-6">
 					<div>Aucun résultat ne correspond à votre recherche</div>
-					<div><Button on:click={createPro}>Inviter un nouvel accompagnateur</Button></div>
+					<div>
+						<Button on:click={showAddNoteBookMember}>Inviter un nouvel accompagnateur</Button>
+					</div>
 				</div>
 			{:else if count > 0}
 				<div>{count} résultats correspondent à votre recherche</div>
