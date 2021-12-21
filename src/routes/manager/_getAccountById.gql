@@ -1,6 +1,7 @@
 query GetAccountById($id: uuid!) {
 	account: account_by_pk(id: $id) {
 		id
+		username
 		confirmed
 		professional {
 			firstname

@@ -21,8 +21,9 @@
 	export let classNames: string | null = '';
 	export let outline: boolean | null = false;
 	export let icon: string | null = '';
+	export let title: string | null = '';
 	export let iconSide: 'left' | 'right' = 'left';
-	let _iconSide = icon ? (iconSide ? 'fr-btn--icon-left' : 'fr-btn--icon-right') : '';
+	let _iconSide = icon ? (iconSide ? `fr-btn--icon-${iconSide}` : 'fr-btn--icon-right') : '';
 </script>
 
 <button
@@ -30,6 +31,7 @@
 	on:click={action}
 	{type}
 	{disabled}
+	{title}
 	class={`fr-btn ${outline ? 'fr-btn--secondary' : ''} ${classNames} ${icon} ${_iconSide}`}
 >
 	<slot />
