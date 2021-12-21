@@ -190,7 +190,7 @@ export const post: RequestHandler = async (request) => {
 		}
 
 		const emails: string[] = data?.structure?.deployment?.managers?.map(({ email }) => email);
-		for (const email in emails) {
+		for (const email of emails) {
 			try {
 				await send({
 					options: {

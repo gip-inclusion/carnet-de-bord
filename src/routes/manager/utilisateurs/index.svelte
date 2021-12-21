@@ -126,7 +126,7 @@
 					</tr>
 				{:else}
 					<tr class="shadow-sm">
-						<td class="!text-center" colspan="4"> Aucun compte utilisateur. </td>
+						<td class="!text-center" colspan="4">Aucun compte utilisateur.</td>
 					</tr>
 				{/each}
 			</tbody>
