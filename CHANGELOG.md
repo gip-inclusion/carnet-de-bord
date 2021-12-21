@@ -1,3 +1,15 @@
+# [1.71.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.3...v1.71.0) (2021-12-21)
+
+
+### Bug Fixes
+
+* typo when emailing managers ([34aae8a](https://github.com/SocialGouv/carnet-de-bord/commit/34aae8a424004076dd0b4e30a5b39aca9f164457))
+
+
+### Features
+
+* update CTA link to Typeform from calendly (fixes [#458](https://github.com/SocialGouv/carnet-de-bord/issues/458)) ([6e2baf2](https://github.com/SocialGouv/carnet-de-bord/commit/6e2baf2a45eab2f8c7016c996da95c238cb94d81))
+
 ## [1.70.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.70.2...v1.70.3) (2021-12-21)
 
 
