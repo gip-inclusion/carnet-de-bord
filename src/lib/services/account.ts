@@ -15,7 +15,7 @@ export async function updateAccessKey(
 		.mutation(UpdateAccountAccessKeyDocument, {
 			id: accountId,
 			accessKey: accessKey,
-			accessKeyDate: new Date(),
+			accessKeyDate: new Date().toISOString(),
 		})
 		.toPromise();
 }
