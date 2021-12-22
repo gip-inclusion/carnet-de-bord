@@ -1,17 +1,17 @@
 <script lang="ts">
-	import type { NotebookMember } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookMemberInvitation from './ProNotebookMemberInvitation.svelte';
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
+	import type { Member } from './ProNotebookMemberView.svelte';
 
 	export let notebookId: string;
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
-	export let members: NotebookMember[];
+	export let members: Member[];
 
-	const openMemberInfo = (member: NotebookMember) => {
+	const openMemberInfo = (member: Member) => {
 		openComponent.open({ component: ProNotebookMemberView, props: { member } });
 	};
 

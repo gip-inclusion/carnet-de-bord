@@ -70,6 +70,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		};
 	}
 
+	// TODO(Augustin): actually check that we get a DeploymentConfig instead
 	const { url, callback, headers } = data.notebook.beneficiary.deployment
 		.config as DeploymentConfig;
 	const { beneficiary, members } = data.notebook;

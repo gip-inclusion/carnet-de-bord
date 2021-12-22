@@ -1,10 +1,16 @@
+<script lang="ts" context="module">
+	import type { Pro } from './ProWithStructureView.svelte';
+	export type Member = {
+		professional: Pro;
+	};
+</script>
+
 <script lang="ts">
-	import type { NotebookMember } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
 	import ProWithStructureView from './ProWithStructureView.svelte';
 
-	export let member: NotebookMember;
+	export let member: Member;
 	$: professional = member?.professional;
 </script>
 

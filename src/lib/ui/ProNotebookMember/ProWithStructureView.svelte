@@ -1,9 +1,22 @@
+<script lang="ts" context="module">
+	import type { Professional, Structure } from '$lib/graphql/_gen/typed-document-nodes';
+
+	export type Pro = Pick<
+		Professional,
+		'id' | 'firstname' | 'lastname' | 'position' | 'email' | 'mobileNumber'
+	> & {
+		structure: Pick<
+			Structure,
+			'id' | 'name' | 'address1' | 'address2' | 'postalCode' | 'city' | 'website'
+		>;
+	};
+</script>
+
 <script lang="ts">
-	import type { Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 
-	export let professional: Professional;
+	export let professional: Pro;
 	export let mainTitle = 'Accompagnateur';
 	export let proFirst = false;
 	export let username = '';
