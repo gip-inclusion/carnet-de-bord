@@ -1,5 +1,5 @@
 mutation UpdateNotebookAction($id: uuid!) {
-	updateNotebook(id: $id) {
+	updateNotebookAct(id: $id) {
 		id
 	}
 }
