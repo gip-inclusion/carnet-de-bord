@@ -1,3 +1,16 @@
+# [1.73.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.72.0...v1.73.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* review - IconButton ([1369e52](https://github.com/SocialGouv/carnet-de-bord/commit/1369e529909c599e2dcc068f19ca524d3c489409))
+* review - secure confirmPro and sendConnectionEmail routes ([42d18e8](https://github.com/SocialGouv/carnet-de-bord/commit/42d18e88532f613487b26e74fa653b499b38a8ef))
+
+
+### Features
+
+* managers can resend a connection email to a pro ([8be321a](https://github.com/SocialGouv/carnet-de-bord/commit/8be321a2df1a08d0cf9245c22ebb0a222fcb8795))
+
 # [1.72.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.71.1...v1.72.0) (2021-12-22)
 
 
