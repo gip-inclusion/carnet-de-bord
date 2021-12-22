@@ -1,3 +1,13 @@
+## [1.73.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.73.0...v1.73.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* pass svelte-check ([8349998](https://github.com/SocialGouv/carnet-de-bord/commit/834999864a8ea6e128cac4e1703201039c6206b9))
+* prettier formatting ([dd59883](https://github.com/SocialGouv/carnet-de-bord/commit/dd59883b9c7fe73db490a0b2c790964c7f077e7a))
+* rename Hasura action to prevent duplicate names ([44f4d9a](https://github.com/SocialGouv/carnet-de-bord/commit/44f4d9a11e245639c59dde347c09b7539cf37523))
+* typecheck fixes ([3b51029](https://github.com/SocialGouv/carnet-de-bord/commit/3b51029017d19f275336e2e9ce29bd57386d4703))
+
 # [1.73.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.72.0...v1.73.0) (2021-12-22)
 
 
