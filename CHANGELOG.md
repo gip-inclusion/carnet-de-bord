@@ -1,3 +1,10 @@
+# [1.72.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.71.1...v1.72.0) (2021-12-22)
+
+
+### Features
+
+* show manager stats since beginning and start of month ([8646d81](https://github.com/SocialGouv/carnet-de-bord/commit/8646d811412324a8c42b72ffe483e265b49d8542))
+
 ## [1.71.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.71.0...v1.71.1) (2021-12-21)
 
 
