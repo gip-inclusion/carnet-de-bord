@@ -40,12 +40,13 @@ export function getSmtpConfig(): {
 	};
 }
 
-export function getJwtKey(): {
+type JwtKey = {
 	key: string;
 	type: Algorithm;
-} {
+};
+export function getJwtKey(): JwtKey {
 	const hasuraJwtSecret = process.env['HASURA_GRAPHQL_JWT_SECRET'];
-	let jwtSecret;
+	let jwtSecret: JwtKey;
 	try {
 		jwtSecret = JSON.parse(hasuraJwtSecret);
 	} catch (error) {

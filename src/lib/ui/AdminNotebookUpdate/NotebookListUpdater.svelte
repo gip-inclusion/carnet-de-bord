@@ -6,6 +6,7 @@
 	import { Button } from '$lib/ui/base';
 	import Alert from '$lib/ui/base/Alert.svelte';
 	import Text from '$lib/ui/utils/Text.svelte';
+	import type { SvelteEventHandler } from '$lib/types';
 
 	type NotebooksResult = {
 		id: string;
@@ -38,13 +39,13 @@
 	let updatedNotebooks = {};
 
 	let selectedItems = notebooks.reduce((state, { id }) => ({ ...state, [id]: false }), {});
-	function selectAll(event) {
-		if (event.target.checked) {
+	const selectAll: SvelteEventHandler<HTMLInputElement> = function selectAll(event) {
+		if (event.currentTarget.checked) {
 			selectedItems = notebooks.reduce((state, { id }) => ({ ...state, [id]: true }), {});
 		} else {
 			selectedItems = notebooks.reduce((state, { id }) => ({ ...state, [id]: false }), {});
 		}
-	}
+	};
 	$: checked = Object.values(selectedItems).filter(Boolean).length === notebooks.length;
 	$: nbItemToUpdate = Object.values(selectedItems).filter(Boolean).length;
 	$: successfullUpdate = Object.values(updatedNotebooks).filter(

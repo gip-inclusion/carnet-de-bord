@@ -6,7 +6,7 @@ export type KeyType = {
 	options: { label: string; name: string }[];
 };
 
-function revertMapKeysValues(mapByKey) {
+function revertMapKeysValues(mapByKey: Record<string, string>) {
 	return Object.keys(mapByKey).reduce((map, key) => {
 		const value = mapByKey[key];
 		map[value] = key;

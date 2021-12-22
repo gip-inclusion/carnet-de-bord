@@ -54,7 +54,7 @@ export type PEResponse = {
 
 export type PEData = { idPE: string; postalCode: string };
 
-export const isCAFData = (data: unknown): data is CAFData => {
+export const isCAFData = (_data: unknown): _data is CAFData => {
 	return true;
 };
 
@@ -82,7 +82,7 @@ export const requestCAFUsers = async (
 	});
 };
 
-export const isPEData = (data: unknown): data is PEData => {
+export const isPEData = (_data: unknown): _data is PEData => {
 	return true;
 };
 

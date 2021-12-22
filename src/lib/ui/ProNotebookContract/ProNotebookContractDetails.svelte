@@ -3,7 +3,6 @@
 	import { Notebook, UpdateNotebookContractDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { Button, Input, Radio } from '$lib/ui/base';
-	import { formatDateISO } from '$lib/utils/date';
 	import { mutation, operationStore } from '@urql/svelte';
 
 	export let notebook: Pick<Notebook, 'id' | 'contractType' | 'contractSignDate'>;
@@ -14,7 +13,7 @@
 	function initFormData() {
 		return {
 			contractType: notebook.contractType,
-			contractSignDate: formatDateISO(notebook.contractSignDate),
+			contractSignDate: notebook.contractSignDate,
 		};
 	}
 
@@ -24,7 +23,7 @@
 		openComponent.close();
 	}
 
-	function onChange(event) {
+	function onChange(event: { detail: { value: string } }): void {
 		if ('no' == event.detail.value) {
 			formData.contractSignDate = null;
 		}
@@ -34,7 +33,7 @@
 		await updateNotebookContract({
 			id: notebook.id,
 			...formData,
-			contractSignDate: new Date(formData.contractSignDate),
+			contractSignDate: formData.contractSignDate,
 		});
 		close();
 	}

@@ -13,7 +13,7 @@
 
 	export let account: AccountRequest;
 	export let globalError: string | null = '';
-	export let fieldErrors: AccountRequest;
+	export let fieldErrors: Partial<AccountRequest>;
 	export let disabled: boolean;
 	export let confirmText = 'Confirmer';
 	export let onInput = undefined;
