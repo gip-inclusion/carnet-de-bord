@@ -11,7 +11,7 @@ Scénario:
 	Alors je vois "Inscription au Carnet de bord"
 	# hack @lionelb on devrait utiliser le label
 	Quand je renseigne "AF" dans le champ "Sélectionnez votre structure"
-	Quand J'appuie sur Entrée
+	Quand j'appuie sur Entrée
 	# Quand je selectionne l'option "AFPA" dans la liste "structure"
 	Alors je vois "Informations personnelles"
 	Quand je renseigne "bob" dans le champ "Prénom"
