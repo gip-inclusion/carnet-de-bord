@@ -19,11 +19,11 @@
 
 	const { form, errors, isSubmitted } = getContext(key);
 
-	function changeHandler(e) {
+	function changeHandler(event: CustomEvent<{ value: string }>) {
 		if ($$props.valueField) {
-			$form[name] = e.detail[$$props.valueField];
+			$form[name] = event.detail[$$props.valueField];
 		} else {
-			$form[name] = e.detail;
+			$form[name] = event.detail;
 		}
 	}
 	$: hasError = Boolean($errors[name]) && $isSubmitted;

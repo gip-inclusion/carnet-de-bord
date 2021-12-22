@@ -11,7 +11,7 @@
 	import Alert from '$lib/ui/base/Alert.svelte';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
 
-	export let professional: Professional | null;
+	export let professional: Professional;
 	let { email, firstname, lastname, position, mobileNumber } = professional;
 	let initialValues = {
 		email,
@@ -26,7 +26,7 @@
 	const updateProfile = mutation(updateProfileResult);
 	let updateResult: OperationStore<UpdateProfessionalProfileMutation>;
 
-	let error;
+	let error: string;
 
 	async function handleSubmit(values: ProAccountWithStructureInput) {
 		updateResult = await updateProfile({

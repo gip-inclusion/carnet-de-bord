@@ -8,6 +8,7 @@
 	import { openComponent } from '$lib/stores';
 	import ProAddedConfirmation from './ProAddedConfirmation.svelte';
 	import Alert from '$lib/ui/base/Alert.svelte';
+	import type { AccountRequest } from '$lib/types';
 
 	export let firstname: string;
 	export let lastname: string;
@@ -30,7 +31,7 @@
 		openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: true } });
 	}
 
-	async function onSubmit(values) {
+	async function onSubmit(values: AccountRequest & { structureId: string }) {
 		const { structureId, ...accountRequest } = values;
 		const response = await post('/inscription/request', {
 			accountRequest,
