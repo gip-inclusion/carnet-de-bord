@@ -8,7 +8,7 @@
 	import Svelecte from 'svelecte';
 
 	export let name = `svelect-input-${counter}`;
-	export let id = `svelect-input-${counter}`;
+	export let inputId = `svelect-input-${counter}`;
 	export let options: unknown[];
 	export let placeholder = '';
 	export let inputLabel = '';
@@ -18,10 +18,8 @@
 	export let valid: string | null = '';
 
 	const { form, errors, isSubmitted } = getContext(key);
-	console.log('render', name, form[name], options);
 
 	function changeHandler(e) {
-		console.log('change', $$props, $$props.valueField, e.detail[$$props.valueField]);
 		if ($$props.valueField) {
 			$form[name] = e.detail[$$props.valueField];
 		} else {
@@ -33,7 +31,7 @@
 </script>
 
 <div class={`fr-input-group ${hasError ? 'fr-input-group--error' : ''} ${$$props.class}`}>
-	<label class="fr-label flex-grow" for={name}>
+	<label class="fr-label flex-grow" for={inputId}>
 		<div>{inputLabel}{required ? ' *' : ''}</div>
 		{#if inputHint}
 			<span
@@ -53,7 +51,6 @@
 			{disabled}
 			{placeholder}
 			{options}
-			{id}
 			{...$$props}
 		/>
 	</div>
