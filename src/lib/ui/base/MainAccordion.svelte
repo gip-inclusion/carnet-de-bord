@@ -4,6 +4,7 @@
 
 <script lang="ts">
 	import { getContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	import { ACCORDION } from './accordion';
 
@@ -11,7 +12,11 @@
 
 	let internalItemKey = {}; // used for identify accordion
 	const accordionId = `accordion-${counter++}`;
-	const { registerAccordionItem, selectedItem } = getContext(ACCORDION);
+	const { registerAccordionItem, selectedItem } = getContext<{
+		registerAccordionItem: (accordion: Record<never, never>) => void;
+		accordionItems: Writable<Record<never, never>[]>;
+		selectedItem: Writable<Record<never, never>>;
+	}>(ACCORDION);
 	registerAccordionItem(internalItemKey);
 	$: expanded = $selectedItem === internalItemKey;
 </script>

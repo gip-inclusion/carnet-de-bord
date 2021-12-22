@@ -82,8 +82,8 @@
 
 	let toImport = [];
 
-	function handleFilesSelect(e: { detail: { acceptedFiles: Buffer[] } }): void {
-		files = e.detail.acceptedFiles;
+	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
+		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
 			const reader = new FileReader();
 			reader.onload = () => {

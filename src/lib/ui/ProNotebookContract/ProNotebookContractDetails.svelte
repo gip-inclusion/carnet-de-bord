@@ -23,7 +23,7 @@
 		openComponent.close();
 	}
 
-	function onChange(event: { detail: { value: string } }): void {
+	function onChange(event: CustomEvent<{ value: string }>): void {
 		if ('no' == event.detail.value) {
 			formData.contractSignDate = null;
 		}

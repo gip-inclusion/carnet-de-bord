@@ -60,8 +60,8 @@
 		collapsedSelection: (count: number) => `${count} éléments sélectionnés`,
 	};
 
-	function handleChange(change: CustomEvent<SvelecteItem>) {
-		current = change?.detail?.label;
+	function handleChange(event: CustomEvent<SvelecteItem>) {
+		current = event?.detail?.label;
 	}
 </script>
 

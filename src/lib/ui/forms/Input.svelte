@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { InputType } from '$lib/types';
 	import { getContext } from 'svelte';
-	import { key } from 'svelte-forms-lib';
+	import { FormProps, key } from 'svelte-forms-lib';
 	import { Input } from '$lib/ui/base';
+	import type { Writable } from 'svelte/store';
 
 	export let name: string;
 	export let placeholder = '';
@@ -13,7 +14,9 @@
 	export let disabled = false;
 	export let required = false;
 
-	const { form, handleChange, errors, isSubmitted } = getContext(key);
+	const { form, handleChange, errors, isSubmitted } = getContext<
+		{ isSubmitted: Writable<boolean> } & FormProps['context']
+	>(key);
 
 	$: hasError = Boolean($errors[name]) && $isSubmitted;
 	$: error = $errors[name];

@@ -5,7 +5,7 @@
 
 <script lang="ts">
 	import { setContext, onDestroy } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { Writable, writable } from 'svelte/store';
 	import { MENU } from './menu';
 	export let ref = null;
 	export let icon: string;
@@ -14,16 +14,16 @@
 	let buttonId = `button-${menuId}`;
 	let isOpened = false;
 
-	let selectedItem = writable(null);
-	let focusedItem = writable(null);
+	let selectedItem: Writable<Record<never, never>> = writable(null);
+	let focusedItem: Writable<Record<never, never>> = writable(null);
 
-	let menuitems: Record<never, never>[] = [];
+	let menuItems: Record<never, never>[] = [];
 	setContext(MENU, {
 		registerMenuItem: (menuItem: Record<never, never>) => {
-			menuitems.push(menuItem);
+			menuItems.push(menuItem);
 
 			onDestroy(() => {
-				menuitems = menuitems.flatMap((item) => {
+				menuItems = menuItems.flatMap((item) => {
 					return menuItem === item ? [] : item;
 				});
 				focusedItem.update((item) => (item === menuItem ? null : item));
@@ -70,20 +70,20 @@
 				break;
 			case 'ArrowDown': {
 				e.preventDefault();
-				let itemIndex = menuitems.indexOf($focusedItem) + 1;
-				if (itemIndex === menuitems.length) {
+				let itemIndex = menuItems.indexOf($focusedItem) + 1;
+				if (itemIndex === menuItems.length) {
 					itemIndex = 0;
 				}
-				focusedItem.set(menuitems[itemIndex]);
+				focusedItem.set(menuItems[itemIndex]);
 				break;
 			}
 			case 'ArrowUp': {
 				e.preventDefault();
-				let itemIndex = menuitems.indexOf($focusedItem) - 1;
+				let itemIndex = menuItems.indexOf($focusedItem) - 1;
 				if (itemIndex < 0) {
-					itemIndex = menuitems.length - 1;
+					itemIndex = menuItems.length - 1;
 				}
-				focusedItem.set(menuitems[itemIndex]);
+				focusedItem.set(menuItems[itemIndex]);
 				break;
 			}
 			case 'Escape': {
