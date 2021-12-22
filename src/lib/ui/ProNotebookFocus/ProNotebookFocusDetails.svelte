@@ -29,6 +29,7 @@
 	const deleteFocusMutation = mutation(deleteFocusStore);
 
 	$: focus = $focusStore.data?.focus;
+	// TODO(augustin): check that situations indeed parse as a string[] from jsonb
 	$: situations = (focus?.situations as string[]) || [];
 	$: targets = focus?.targets || [];
 

@@ -8,6 +8,7 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
+import * as yup from 'yup';
 
 const client = createClient({
 	fetch,
@@ -21,10 +22,29 @@ const client = createClient({
 	url: getGraphqlAPI(),
 });
 
-export const post: RequestHandler = async (request) => {
-	const { notebookMemberId } = request.body as unknown as {
-		notebookMemberId: string;
-	};
+const carnetInvitationSchema = yup.object().shape({
+	notebookMemberId: yup.string().uuid().required(),
+});
+type CarnetInvitation = yup.InferType<typeof carnetInvitationSchema>;
+
+const validateBody = (body: unknown): body is CarnetInvitation => {
+	return carnetInvitationSchema.isType(body);
+};
+
+export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
+	request
+) => {
+	const body = request.body;
+	if (!validateBody(body)) {
+		return {
+			status: 400,
+			body: {
+				errors: 'INVALID_BODY',
+			},
+		};
+	}
+
+	const { notebookMemberId } = body;
 
 	const { data, error } = await client
 		.query<GetNotebookMemberByIdQuery>(GetNotebookMemberByIdDocument, { id: notebookMemberId })

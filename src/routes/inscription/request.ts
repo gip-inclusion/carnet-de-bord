@@ -10,10 +10,10 @@ import {
 	GetDeploymentManagersForStructureQuery,
 	InsertProfessionalAccountDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
-import { updateAccessKey } from '$lib/services/account';
-import type { AccountRequest } from '$lib/types';
 import type { RequestHandler } from '@sveltejs/kit';
+import { updateAccessKey } from '$lib/services/account';
 import { createClient } from '@urql/core';
+import * as yup from 'yup';
 
 const client = createClient({
 	fetch,
@@ -27,13 +27,44 @@ const client = createClient({
 	url: getGraphqlAPI(),
 });
 
-export const post: RequestHandler = async (request) => {
-	const { accountRequest, structureId, requester, autoConfirm } = request.body as unknown as {
-		accountRequest: AccountRequest;
-		structureId: string;
-		requester?: { firstname: string; lastname: string };
-		autoConfirm?: boolean;
-	};
+const inscriptionRequestSchema = yup.object().shape({
+	accountRequest: yup.object().shape({
+		email: yup.string().required(),
+		firstname: yup.string().required(),
+		lastname: yup.string().required(),
+		mobileNumber: yup.string(),
+		position: yup.string(),
+	}),
+	structureId: yup.string().required(),
+	autoConfirm: yup.boolean().nullable(),
+	requester: yup
+		.object()
+		.shape({
+			firstname: yup.string().required(),
+			lastname: yup.string().required(),
+		})
+		.nullable(),
+});
+type InscriptionRequest = yup.InferType<typeof inscriptionRequestSchema>;
+
+const validateBody = (body: unknown): body is InscriptionRequest => {
+	return inscriptionRequestSchema.isType(body);
+};
+
+export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
+	request
+) => {
+	const body = request.body;
+	if (!validateBody(body)) {
+		return {
+			status: 400,
+			body: {
+				errors: 'INVALID_BODY',
+			},
+		};
+	}
+
+	const { accountRequest, structureId, requester, autoConfirm } = body;
 
 	const { email, firstname, lastname, mobileNumber, position } = accountRequest;
 	let [username] = email.split('@');

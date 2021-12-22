@@ -9,6 +9,7 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
 import { authorizeOnly } from '$lib/utils/security';
+import * as yup from 'yup';
 
 const client = createClient({
 	fetch,
@@ -22,7 +23,18 @@ const client = createClient({
 	url: getGraphqlAPI(),
 });
 
-export const post: RequestHandler = async (request) => {
+const confirmProSchema = yup.object().shape({
+	id: yup.string().uuid().required(),
+});
+type ConfirmPro = yup.InferType<typeof confirmProSchema>;
+
+const validateBody = (body: unknown): body is ConfirmPro => {
+	return confirmProSchema.isType(body);
+};
+
+export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
+	request
+) => {
 	try {
 		authorizeOnly(['manager'])(request);
 	} catch (e) {
@@ -31,9 +43,17 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const { id } = request.body as unknown as {
-		id: string;
-	};
+	const body = request.body;
+	if (!validateBody(body)) {
+		return {
+			status: 400,
+			body: {
+				errors: 'INVALID_BODY',
+			},
+		};
+	}
+
+	const { id } = body;
 
 	const appUrl = getAppUrl();
 

@@ -9,6 +9,7 @@ import {
 import type { ExternalUser } from '$lib/types';
 import { authorizeOnly } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
+import * as yup from 'yup';
 
 const { API_PARTICULIER_URL, API_PARTICULIER_TOKEN_CAF, API_PARTICULIER_TOKEN_PE } =
 	getApiParticulierConfig();
@@ -86,7 +87,23 @@ const getPEUsers = async (data: unknown): Promise<ExternalUser[] | null> => {
 	return null;
 };
 
-export const post: RequestHandler = async (request) => {
+const queryUserSchema = yup.object().shape({
+	service: yup.string().oneOf(['CAF', 'PE']).required(),
+	data: yup.object().defined(),
+});
+
+type QueryUser = {
+	service: 'CAF' | 'PE';
+	data: unknown;
+};
+
+const validateBody = (body: unknown): body is QueryUser => {
+	return queryUserSchema.isType(body);
+};
+
+export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
+	request
+) => {
 	try {
 		authorizeOnly(['professional'])(request);
 	} catch (e) {
@@ -95,10 +112,17 @@ export const post: RequestHandler = async (request) => {
 		};
 	}
 
-	const { service, data } = request.body as unknown as {
-		service: 'CAF' | 'PE';
-		data: unknown;
-	};
+	const body = request.body;
+	if (!validateBody(body)) {
+		return {
+			status: 400,
+			body: {
+				errors: 'INVALID_BODY',
+			},
+		};
+	}
+
+	const { service, data } = body;
 
 	let users: ExternalUser[] | null;
 
