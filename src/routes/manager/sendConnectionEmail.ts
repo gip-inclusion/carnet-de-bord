@@ -8,6 +8,7 @@ import {
 	GetAccountByIdQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
+import { authorizeOnly } from '$lib/utils/security';
 
 const client = createClient({
 	fetch,
@@ -22,6 +23,14 @@ const client = createClient({
 });
 
 export const post: RequestHandler = async (request) => {
+	try {
+		authorizeOnly(['manager'])(request);
+	} catch (e) {
+		return {
+			status: 403,
+		};
+	}
+
 	const { id } = request.body as unknown as {
 		id: string;
 	};
@@ -98,7 +107,12 @@ export const post: RequestHandler = async (request) => {
 			],
 		});
 	} catch (e) {
-		console.log(e);
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERROR',
+			},
+		};
 	}
 
 	return {
