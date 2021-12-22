@@ -27,7 +27,6 @@ Quand('je recherche {string}', (searchText) => {
 });
 
 Quand('je renseigne {string} dans le champ {string}', async (text, input) => {
-	I.resetInputFocus(input);
 	I.fillField(input, text);
 });
 
@@ -68,6 +67,18 @@ Quand('je scroll à {string}', (text) => {
 Quand('je télécharge en cliquant sur {string}', (dowloadText) => {
 	I.handleDownloads();
 	I.click(`//*[text()[starts-with(., "${dowloadText}")]]`);
+});
+
+Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select) => {
+	I.selectOption(select, option);
+});
+
+Quand("J'appuie sur Entrée", () => {
+	I.pressKey('Enter');
+});
+
+Quand("J'appuie sur {string}", (key) => {
+	I.pressKey(key);
 });
 
 //

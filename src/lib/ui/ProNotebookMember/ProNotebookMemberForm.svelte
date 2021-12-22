@@ -7,7 +7,7 @@
 	import { session } from '$app/stores';
 	import { openComponent } from '$lib/stores';
 	import ProAddedConfirmation from './ProAddedConfirmation.svelte';
-	import Alert from '../base/Alert.svelte';
+	import Alert from '$lib/ui/base/Alert.svelte';
 
 	export let firstname: string;
 	export let lastname: string;

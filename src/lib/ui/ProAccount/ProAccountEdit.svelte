@@ -8,8 +8,8 @@
 	import { mutation, OperationStore, operationStore } from '@urql/svelte';
 	import { account, openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
-	import Alert from '../base/Alert.svelte';
-	import type { ProAccountWithStructureInput } from '../ProCreationForm/pro.schema';
+	import Alert from '$lib/ui/base/Alert.svelte';
+	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
 
 	export let professional: Professional | null;
 	let { email, firstname, lastname, position, mobileNumber } = professional;
@@ -45,7 +45,7 @@
 			};
 		}
 		if (updateResult.error) {
-			error = "L'enregistrement a échoué. ";
+			error = "L'enregistrement a échoué.";
 		}
 	}
 

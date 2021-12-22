@@ -8,8 +8,8 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { operationStore, OperationStore, query } from '@urql/svelte';
 
-	import Button from '../base/Button.svelte';
-	import { Form, Input, SvelecteSFL } from '../forms';
+	import Button from '$lib/ui/base/Button.svelte';
+	import { Form, Input, SvelecteSFL } from '$lib/ui/forms';
 	import { ProAccountWithStructureInput, proAccountSchemaWithStructure } from './pro.schema';
 </script>
 
@@ -42,7 +42,7 @@
 					name="structureId"
 					inputLabel="Sélectionnez votre structure"
 					inputHint={`Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}">nous contacter</a>`}
-					id="structureSelect"
+					inputId="structure"
 					{options}
 					placeholder="Pole emploi"
 					valueField="id"
@@ -56,10 +56,6 @@
 	{#if form.structureId}
 		<div>
 			<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
-
-			<script>
-				import Input from '../forms/Input.svelte';
-			</script>
 
 			<Input placeholder="Jean Baptiste" inputLabel="Prénom" name="firstname" required />
 			<Input placeholder="Poquelin" inputLabel="Nom" name="lastname" required />

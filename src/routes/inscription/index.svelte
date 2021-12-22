@@ -22,9 +22,9 @@
 			requestStep = 'error';
 			const rawError = await response.json();
 			if (response.status === 400) {
-				error = `La creation de compte a échouée. ${rawError.errors.email}`;
+				error = `La creation de compte a échoué. ${rawError.errors.email}`;
 			} else {
-				error = 'La creation de compte a échouée. Veuillez contacter le support';
+				error = 'La creation de compte a échoué. Veuillez contacter le support.';
 			}
 		}
 	}
