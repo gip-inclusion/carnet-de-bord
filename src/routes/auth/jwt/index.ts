@@ -60,7 +60,9 @@ export const post: RequestHandler = async (request) => {
 		deploymentId,
 	});
 
-	await client.mutation(ResetAccountAccessKeyDocument, { id, now: new Date() }).toPromise();
+	await client
+		.mutation(ResetAccountAccessKeyDocument, { id, now: new Date().toISOString() })
+		.toPromise();
 
 	return {
 		headers: {
