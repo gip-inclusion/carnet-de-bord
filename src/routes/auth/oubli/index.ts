@@ -8,6 +8,7 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
+import * as yup from 'yup';
 
 const client = createClient({
 	fetch,
@@ -21,10 +22,29 @@ const client = createClient({
 	url: getGraphqlAPI(),
 });
 
-export const post: RequestHandler = async (request) => {
-	const { email } = request.body as unknown as {
-		email: string;
-	};
+const oubliSchema = yup.object().shape({
+	email: yup.string().email().required(),
+});
+type Oubli = yup.InferType<typeof oubliSchema>;
+
+const validateBody = (body: unknown): body is Oubli => {
+	return oubliSchema.isType(body);
+};
+
+export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
+	request
+) => {
+	const body = request.body;
+	if (!validateBody(body)) {
+		return {
+			status: 400,
+			body: {
+				errors: 'INVALID_BODY',
+			},
+		};
+	}
+
+	const { email } = body;
 
 	const { error, data } = await client
 		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {

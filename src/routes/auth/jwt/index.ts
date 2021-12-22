@@ -9,6 +9,7 @@ import {
 	ResetAccountAccessKeyDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { getHasuraAdminSecret } from '$lib/config/variables/private';
+import * as yup from 'yup';
 
 const client = createClient({
 	url: getGraphqlAPI(),
@@ -22,10 +23,30 @@ const client = createClient({
 	requestPolicy: 'network-only',
 });
 
-export const post: RequestHandler = async (request) => {
-	const { accessKey } = request.body as unknown as {
-		accessKey: string;
-	};
+const jwtSchema = yup.object().shape({
+	accessKey: yup.string().uuid().required(),
+});
+type Jwt = yup.InferType<typeof jwtSchema>;
+
+const validateBody = (body: unknown): body is Jwt => {
+	return jwtSchema.isType(body);
+};
+
+export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
+	request
+) => {
+	const body = request.body;
+	if (!validateBody(body)) {
+		return {
+			status: 400,
+			body: {
+				errors: 'INVALID_BODY',
+			},
+		};
+	}
+
+	const { accessKey } = body;
+
 	const { data, error } = await client
 		.query<GetAccountInfoQuery>(GetAccountInfoDocument, { accessKey })
 		.toPromise();
