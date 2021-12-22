@@ -140,20 +140,20 @@ function formatDate(date: string): string {
 	return date.split('-').reverse().join('-');
 }
 
-function upperCaseFirstLetter(s) {
+function upperCaseFirstLetter(s: string) {
 	if (s) {
 		return `${s[0].toUpperCase()}${s.slice(1)}`;
 	}
 	return '';
 }
 
-function capitalize(text) {
+function capitalize(text: string) {
 	const parts = text.split(' ');
 	return parts
-		.map((part) => {
+		.map((part: string) => {
 			const subparts = part.split('-');
 			return subparts
-				.map((s) => s.toLowerCase())
+				.map((s: string) => s.toLowerCase())
 				.map(upperCaseFirstLetter)
 				.join('-');
 		})

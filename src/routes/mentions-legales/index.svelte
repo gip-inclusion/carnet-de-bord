@@ -1,3 +1,5 @@
+<script></script>
+
 <svelte:head>
 	<title>Mentions légales - Carnet de bord</title>
 </svelte:head>

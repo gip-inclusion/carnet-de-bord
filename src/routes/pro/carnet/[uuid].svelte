@@ -111,7 +111,7 @@
 	const updateVisitDateMutation = mutation(updateVisitDateStore);
 	updateVisitDateMutation({
 		id: notebookId,
-		date: new Date(),
+		date: new Date().toISOString(),
 	});
 
 	function onSelect(event: CustomEvent<{ selected: Period }>) {

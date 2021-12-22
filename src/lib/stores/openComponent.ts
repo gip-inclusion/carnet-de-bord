@@ -19,7 +19,7 @@ function createOpenComponent() {
 	const openComponent: Writable<OpenComponentType[]> = writable(null);
 
 	const { subscribe, set } = openComponent;
-	const stack = [];
+	const stack: OpenComponentType[] = [];
 	set(stack);
 
 	return {
@@ -29,12 +29,12 @@ function createOpenComponent() {
 			set(stack);
 			offCanvas.set(stack.length > 0);
 		},
-		open: (value) => {
+		open: (value: OpenComponentType) => {
 			stack.push(value);
 			set(stack);
 			offCanvas.set(true);
 		},
-		replace: (value) => {
+		replace: (value: OpenComponentType) => {
 			stack.pop();
 			stack.push(value);
 			set(stack);

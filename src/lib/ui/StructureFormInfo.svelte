@@ -54,7 +54,7 @@
 		}
 	});
 
-	async function handleSubmit(values) {
+	async function handleSubmit(values: Partial<Parameters<typeof updater>[0]>) {
 		mutationResult = RD.loading;
 		if (structureId) {
 			updater({ ...filterFalsyProps(values), id: structureId });

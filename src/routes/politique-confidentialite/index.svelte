@@ -1,3 +1,5 @@
+<script></script>
+
 <svelte:head>
 	<title>Politique de confidentialité - Carnet de bord</title>
 </svelte:head>

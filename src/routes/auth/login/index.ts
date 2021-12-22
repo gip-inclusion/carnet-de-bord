@@ -29,8 +29,6 @@ export const post: RequestHandler = async (request) => {
 		username: string;
 	};
 
-	let account;
-
 	const usernameResult = await client
 		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, { comp: { _eq: username } })
 		.toPromise();
@@ -42,6 +40,9 @@ export const post: RequestHandler = async (request) => {
 			},
 		};
 	}
+
+	let account: typeof usernameResult.data.account[0];
+
 	if (!usernameResult.data || usernameResult.data.account.length === 0) {
 		const emailResult = await client
 			.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {

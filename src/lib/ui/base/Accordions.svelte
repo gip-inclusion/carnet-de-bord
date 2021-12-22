@@ -6,7 +6,7 @@
 	let accordionItems = writable([]);
 	let selectedItem = writable(null);
 	setContext(ACCORDION, {
-		registerAccordionItem: (accordion) => {
+		registerAccordionItem: (accordion: Record<never, never>) => {
 			accordionItems.set($accordionItems.concat(accordion));
 			onDestroy(() => {
 				if ($selectedItem === accordionItems) {

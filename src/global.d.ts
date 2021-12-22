@@ -7,3 +7,23 @@ interface ImportMeta {
 		VITE_MATOMO_SITE_ID: string;
 	};
 }
+
+// support for Crisp
+interface Window {
+	$crisp: string[];
+	CRISP_WEBSITE_ID: string;
+}
+
+// support for dsfr
+interface Window {
+	dsfr: any;
+}
+
+// support for svelecte
+declare module 'svelte-file-dropzone';
+
+// support for svelecte
+declare module 'svelte-accessible-dialog';
+
+// support for svelecte
+declare module 'svelecte';

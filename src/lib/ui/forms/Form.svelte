@@ -37,7 +37,7 @@
 			focusError();
 		}
 	});
-	function submitHandler(e) {
+	function submitHandler(e: Event) {
 		$isSubmitted = true;
 
 		handleSubmit(e);

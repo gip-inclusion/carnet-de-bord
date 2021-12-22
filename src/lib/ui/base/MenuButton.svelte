@@ -8,8 +8,8 @@
 	import { writable } from 'svelte/store';
 	import { MENU } from './menu';
 	export let ref = null;
-	export let icon;
-	export let label;
+	export let icon: string;
+	export let label: string;
 	let menuId = `menu-${counter++}`;
 	let buttonId = `button-${menuId}`;
 	let isOpened = false;
@@ -17,9 +17,9 @@
 	let selectedItem = writable(null);
 	let focusedItem = writable(null);
 
-	let menuitems = [];
+	let menuitems: Record<never, never>[] = [];
 	setContext(MENU, {
-		registerMenuItem: (menuItem) => {
+		registerMenuItem: (menuItem: Record<never, never>) => {
 			menuitems.push(menuItem);
 
 			onDestroy(() => {

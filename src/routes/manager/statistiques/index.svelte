@@ -14,10 +14,10 @@
 
 	export const load: Load = async () => {
 		const thisMonth = operationStore(GetNotebooksStatsDocument, {
-			afterDate: { _gt: startOfThisMonth },
+			afterDate: { _gt: startOfThisMonth.toISOString() },
 		});
 		const beginning = operationStore(GetNotebooksStatsDocument, {
-			afterDate: { _gt: startOfTime },
+			afterDate: { _gt: startOfTime.toISOString() },
 		});
 
 		return {
