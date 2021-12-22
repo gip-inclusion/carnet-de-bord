@@ -73,11 +73,11 @@ Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select
 	I.selectOption(select, option);
 });
 
-Quand("J'appuie sur Entrée", () => {
+Quand("j'appuie sur Entrée", () => {
 	I.pressKey('Enter');
 });
 
-Quand("J'appuie sur {string}", (key) => {
+Quand("j'appuie sur {string}", (key) => {
 	I.pressKey(key);
 });
 
