@@ -19,7 +19,7 @@
 </script>
 
 <script lang="ts">
-	import { Button, SearchBar } from '$lib/ui/base';
+	import { Button, IconButton, SearchBar } from '$lib/ui/base';
 	import { stringsMatch } from '$lib/helpers';
 	import { goto } from '$app/navigation';
 	import { Text } from '$lib/ui/utils';
@@ -148,46 +148,62 @@
 						</td>
 						<td>
 							{#if typeof emails[account.id] === 'undefined'}
-								<Button
+								<IconButton
 									on:click={() => sendConnectionEmail(account.id)}
-									classNames="!bg-france-blue"
 									icon="ri-mail-send-line"
+									textColor="text-white"
+									bgColor="bg-france-blue"
+									classNames="p-2"
+									ariaLabel="Envoyer un email de connexion"
 									title="Envoyer un email de connexion"
 								/>
 							{:else if emails[account.id] === 'ToConfirm'}
 								<div class="flex flex-row">
-									<Button
+									<IconButton
 										on:click={() => sendConnectionEmail(account.id, true)}
-										classNames="!bg-success !pl-2 !pr-2"
 										icon="ri-check-line"
+										textColor="text-white"
+										bgColor="bg-success"
+										classNames="p-2"
+										ariaLabel="Confirmer l'envoi"
 										title="Confirmer l'envoi"
 									/>
-									<Button
+									<IconButton
 										on:click={() => sendConnectionEmail(account.id, false)}
-										classNames="!bg-marianne-red !pl-2 !pr-2"
 										icon="ri-close-line"
+										textColor="text-white"
+										bgColor="bg-marianne-red"
+										classNames="p-2"
+										ariaLabel="Annuler"
 										title="Annuler"
 									/>
 								</div>
 							{:else if emails[account.id] === 'Sending'}
-								<Button
-									disabled={true}
-									classNames="!bg-action"
+								<IconButton
 									icon="ri-mail-send-fill"
+									textColor="text-white"
+									bgColor="bg-action"
+									classNames="p-2"
+									ariaLabel="Envoi en cours..."
 									title="Envoi en cours..."
 								/>
 							{:else if emails[account.id] === 'Failed'}
-								<Button
+								<IconButton
 									on:click={() => sendConnectionEmail(account.id)}
-									classNames="!bg-error"
 									icon="ri-restart-line"
+									textColor="text-white"
+									bgColor="bg-error"
+									classNames="p-2"
+									ariaLabel="Erreur ! Recommencer ?"
 									title="Erreur ! Recommencer ?"
 								/>
 							{:else if emails[account.id] === 'Sent'}
-								<Button
-									disabled={true}
-									classNames="!bg-success !text-white"
+								<IconButton
 									icon="ri-mail-check-line"
+									textColor="text-white"
+									bgColor="bg-success"
+									classNames="p-2"
+									ariaLabel="Envoyé !"
 									title="Envoyé !"
 								/>
 							{/if}

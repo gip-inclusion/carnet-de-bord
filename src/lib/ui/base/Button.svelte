@@ -23,7 +23,7 @@
 	export let icon: string | null = '';
 	export let title: string | null = '';
 	export let iconSide: 'left' | 'right' = 'left';
-	let _iconSide = icon ? (iconSide ? `fr-btn--icon-${iconSide}` : 'fr-btn--icon-right') : '';
+	let iconSideClass = icon ? `fr-btn--icon-${iconSide}` : '';
 </script>
 
 <button
@@ -32,7 +32,7 @@
 	{type}
 	{disabled}
 	{title}
-	class={`fr-btn ${outline ? 'fr-btn--secondary' : ''} ${classNames} ${icon} ${_iconSide}`}
+	class={`fr-btn ${outline ? 'fr-btn--secondary' : ''} ${classNames} ${icon} ${iconSideClass}`}
 >
 	<slot />
 </button>
