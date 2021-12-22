@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { GetAccountByPkDocument, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 </script>
 
@@ -15,7 +15,7 @@
 
 	$: acc = $getAccountStore?.data?.account_by_pk;
 
-	$: professional = acc?.professional as Professional | null;
+	$: professional = acc?.professional;
 	function editAccount() {
 		openComponent.open({
 			component: ProAccountEdit,

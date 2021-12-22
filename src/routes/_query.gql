@@ -26,6 +26,7 @@ query GetAccountByPk($accountId: uuid!) {
 				address2
 				postalCode
 				city
+				website
 			}
 		}
 	}

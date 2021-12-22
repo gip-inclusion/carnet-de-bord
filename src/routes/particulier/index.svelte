@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
 	import {
-		Beneficiary,
 		GetNotebookByBeneficiaryIdDocument,
 		GetNotebookByBeneficiaryIdQueryStore,
 	} from '$lib/graphql/_gen/typed-document-nodes';
@@ -29,7 +28,7 @@
 	query(getNotebookResult);
 
 	$: notebook = $getNotebookResult.data?.notebook[0];
-	$: beneficiary = notebook?.beneficiary as Beneficiary;
+	$: beneficiary = notebook?.beneficiary;
 	$: members = notebook?.members;
 </script>
 

@@ -1,9 +1,7 @@
 <script context="module" lang="ts">
 	import type {
-		Beneficiary,
 		GetNotebookQueryStore,
 		GetNotebookEventsQueryStore,
-		NotebookMember,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		GetNotebookDocument,
@@ -78,7 +76,7 @@
 		const notebookId = page.params.uuid;
 		const variables = { id: notebookId };
 		const selected = threeMonths;
-		const getNotebookStore = operationStore(
+		const getNotebook = operationStore(
 			GetNotebookDocument,
 			buildQueryVariables(variables, selected)
 		);
@@ -86,7 +84,7 @@
 		return {
 			props: {
 				notebookId,
-				getNotebookStore,
+				getNotebook,
 				selected,
 			},
 		};
@@ -95,18 +93,18 @@
 
 <script lang="ts">
 	export let notebookId: string;
-	export let getNotebookStore: GetNotebookQueryStore;
+	export let getNotebook: GetNotebookQueryStore;
 	export let selected: Period = threeMonths;
 
 	const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
-	let getNotebookEventsStore: GetNotebookEventsQueryStore = operationStore(
+	let getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
 		{ notebookId, eventsStart: null, eventsEnd: null },
 		{ pause: true }
 	);
 
-	query(getNotebookStore);
-	query(getNotebookEventsStore);
+	query(getNotebook);
+	query(getNotebookEvents);
 
 	const updateVisitDateMutation = mutation(updateVisitDateStore);
 	updateVisitDateMutation({
@@ -116,17 +114,16 @@
 
 	function onSelect(event: CustomEvent<{ selected: Period }>) {
 		selected = event.detail.selected;
-		$getNotebookEventsStore.context.pause = false;
+		$getNotebookEvents.context.pause = false;
 		const variables = { notebookId };
-		$getNotebookEventsStore.variables = buildQueryVariables(variables, selected);
-		$getNotebookEventsStore.reexecute();
+		$getNotebookEvents.variables = buildQueryVariables(variables, selected);
+		$getNotebookEvents.reexecute();
 	}
 
-	$: notebook = $getNotebookStore.data?.notebook;
-	$: events =
-		$getNotebookEventsStore.data?.notebook_event || $getNotebookStore.data?.notebook.events;
-	$: beneficiary = notebook?.beneficiary as Beneficiary;
-	$: members = notebook?.members as NotebookMember[];
+	$: notebook = $getNotebook.data?.notebook;
+	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook.events;
+	$: beneficiary = notebook?.beneficiary;
+	$: members = notebook?.members;
 	$: lastMember = members?.length ? members[0] : null;
 
 	let search = '';
@@ -143,7 +140,7 @@
 	<title>Carnet bénéficiaire - Carnet de bord</title>
 </svelte:head>
 
-<LoaderIndicator result={getNotebookStore}>
+<LoaderIndicator result={getNotebook}>
 	<ProNotebookPersonalInfoView
 		{beneficiary}
 		on:edit={() => alert('Not implemented!')}

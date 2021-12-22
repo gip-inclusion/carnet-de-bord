@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	import type { Professional } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import type { Load } from '@sveltejs/kit';
@@ -24,7 +23,7 @@
 	const getAccountByPkStore = operationStore(GetAccountByPkDocument, variables);
 	query(getAccountByPkStore);
 	$: acc = $getAccountByPkStore?.data?.account_by_pk;
-	$: professional = acc?.professional as Professional | null;
+	$: professional = acc?.professional;
 </script>
 
 <svelte:head>

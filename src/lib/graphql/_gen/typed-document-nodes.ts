@@ -6146,6 +6146,7 @@ export type GetAccountByPkQuery = {
 				address2?: Maybe<string>;
 				postalCode?: Maybe<string>;
 				city?: Maybe<string>;
+				website?: Maybe<string>;
 			};
 		}>;
 	}>;
@@ -6733,6 +6734,7 @@ export type GetNotebookQuery = {
 					address2?: Maybe<string>;
 					postalCode?: Maybe<string>;
 					city?: Maybe<string>;
+					website?: Maybe<string>;
 				};
 			};
 		}>;
@@ -9531,6 +9533,7 @@ export const GetAccountByPkDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 													],
 												},
 											},
@@ -12591,6 +12594,7 @@ export const GetNotebookDocument = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 																],
 															},
 														},
