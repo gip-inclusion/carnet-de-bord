@@ -3,18 +3,10 @@
 </script>
 
 <script lang="ts">
+	import { pluck } from '$lib/helpers';
 	import type { InputType } from '$lib/types';
 
 	counter++;
-	function pluck(props: string[], obj: Record<string, unknown>) {
-		const result = {};
-		for (var prop in obj) {
-			if (!props.includes(prop)) {
-				result[prop] = obj[prop];
-			}
-		}
-		return result;
-	}
 	export let name = `text-input-text-${counter}`;
 	export let id: string | null = `text-input-${counter}`;
 	export let inputLabel: string | null = '';

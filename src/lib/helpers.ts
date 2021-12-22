@@ -3,6 +3,19 @@ export const stringsMatch =
 	(haystack?: string | null): boolean =>
 		haystack && haystack.toLocaleLowerCase().includes(needle.toLocaleLowerCase());
 
+export const pluck = function pluck<T>(
+	props: string[],
+	obj: Record<string, T>
+): Record<keyof typeof obj, T> {
+	const result = {};
+	for (const prop in obj) {
+		if (!props.includes(prop)) {
+			result[prop] = obj[prop];
+		}
+	}
+	return result;
+};
+
 export function filterFalsyProps(obj: Record<string, unknown>): Record<string, unknown> {
 	const result = {};
 	for (const [k, v] of Object.entries(obj)) {
