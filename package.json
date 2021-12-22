@@ -20,13 +20,16 @@
 		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
 		"preview": "svelte-kit preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --check --plugin-search-dir=. src && eslint src .",
-		"lint:fix": "prettier --check --plugin-search-dir=. src && yarn lint --fix --cache",
-		"lint:pre-commit": "yarn lint:fix",
-		"format": "prettier --write --plugin-search-dir=. src",
-		"codegen": "yarn run graphql-codegen --config codegen.cjs",
+		"svelte-check": "svelte-check --tsconfig ./tsconfig.json",
+		"svelte-check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "yarn lint:prettier && yarn lint:eslint && yarn svelte-check",
+		"lint:prettier": "prettier --check --plugin-search-dir=. src",
+		"lint:eslint": "eslint src .",
+		"fix": "yarn fix:prettier && yarn fix:eslint",
+		"fix:prettier": "prettier --write --plugin-search-dir=. src",
+		"fix:eslint": "eslint src . --fix --cache",
+		"format": "yarn fix:prettier",
+		"codegen": "graphql-codegen --config codegen.cjs",
 		"test": "jest",
 		"test:watch": "jest --watch"
 	},
@@ -105,18 +108,12 @@
 	},
 	"type": "module",
 	"lint-staged": {
-		"*.{ts,js,svelte,cjs,mjs}": [
+		"*.{ts,js,cjs,mjs,svelte}": [
 			"prettier --write --plugin-search-dir=.",
-			"eslint --ignore-path .eslintignore --fix ."
+			"eslint --ignore-path .eslintignore --fix"
 		],
 		"*.{json,css,postcss,html,md}": [
 			"prettier --write --plugin-search-dir=."
 		]
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "yarn lint:pre-commit",
-			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-		}
 	}
 }
