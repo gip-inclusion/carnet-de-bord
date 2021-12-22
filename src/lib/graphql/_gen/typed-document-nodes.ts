@@ -1578,7 +1578,7 @@ export type MutationRoot = {
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
-	updateNotebook?: Maybe<UpdateNotebookOutput>;
+	updateNotebookAct?: Maybe<UpdateNotebookOutput>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<AccountMutationResponse>;
 	/** update single row of the table: "account" */
@@ -1998,7 +1998,7 @@ export type MutationRootInsertStructureOneArgs = {
 };
 
 /** mutation root */
-export type MutationRootUpdateNotebookArgs = {
+export type MutationRootUpdateNotebookActArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -5868,7 +5868,7 @@ export type UpdateNotebookActionMutationVariables = Exact<{
 
 export type UpdateNotebookActionMutation = {
 	__typename?: 'mutation_root';
-	updateNotebook?: Maybe<{ __typename?: 'UpdateNotebookOutput'; id: string }>;
+	updateNotebookAct?: Maybe<{ __typename?: 'UpdateNotebookOutput'; id: string }>;
 };
 
 export type AddNotebookActionMutationVariables = Exact<{
@@ -7718,7 +7718,7 @@ export const UpdateNotebookActionDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'updateNotebook' },
+						name: { kind: 'Name', value: 'updateNotebookAct' },
 						arguments: [
 							{
 								kind: 'Argument',
