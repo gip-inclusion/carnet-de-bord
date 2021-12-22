@@ -44,7 +44,7 @@
 					inputHint={`Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}">nous contacter</a>`}
 					inputId="structure"
 					{options}
-					placeholder="Pole emploi"
+					placeholder="Pôle emploi"
 					valueField="id"
 					labelField="name"
 				/>
