@@ -15,7 +15,7 @@
 
 <script lang="ts">
 	export let submitLabel = 'Je valide mon inscription';
-	export let accountRequest: AccountRequest = {} as AccountRequest;
+	export let accountRequest: Partial<AccountRequest> = {};
 	export let onSubmit: (values: ProAccountWithStructureInput) => void;
 	export let onCancel: () => void;
 

@@ -116,8 +116,8 @@
 		};
 	}
 
-	function initializeBeneficiaryAccount(evt: CustomEvent<{ value: string }>) {
-		selectedUser = userOptions.find(({ name }) => name === evt.detail.value)?.value;
+	function initializeBeneficiaryAccount(event: CustomEvent<{ value: string }>) {
+		selectedUser = userOptions.find(({ name }) => name === event.detail.value)?.value;
 		const { mobileOrPhoneNumber: mobileNumber = '', email = '', ...accountInfo } = selectedUser;
 		initialValues = {
 			...accountInfo,

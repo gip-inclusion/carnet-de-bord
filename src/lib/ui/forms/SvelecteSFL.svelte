@@ -4,8 +4,9 @@
 
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { key } from 'svelte-forms-lib';
+	import { key, FormProps } from 'svelte-forms-lib';
 	import Svelecte from 'svelecte';
+	import type { Writable } from 'svelte/store';
 
 	export let name = `svelect-input-${counter}`;
 	export let inputId = `svelect-input-${counter}`;
@@ -17,7 +18,9 @@
 	export let required = false;
 	export let valid: string | null = '';
 
-	const { form, errors, isSubmitted } = getContext(key);
+	const { form, errors, isSubmitted } = getContext<
+		{ isSubmitted: Writable<boolean> } & FormProps['context']
+	>(key);
 
 	function changeHandler(event: CustomEvent<{ value: string }>) {
 		if ($$props.valueField) {
