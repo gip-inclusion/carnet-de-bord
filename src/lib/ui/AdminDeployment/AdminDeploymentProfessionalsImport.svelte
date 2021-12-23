@@ -6,10 +6,8 @@
 	import { Text } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
-	import {
-		GetStructuresForDeploymentDocument,
-		GetStructuresForDeploymentQuery,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetStructuresForDeploymentDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { GetStructuresForDeploymentQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query } from '@urql/svelte';
 
 	export let deploymentId: string;

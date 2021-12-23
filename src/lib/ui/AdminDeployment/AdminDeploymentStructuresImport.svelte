@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import {
-		ImportStructureDocument,
+	import { ImportStructureDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
 		ImportStructureMutation,
 		ImportStructureMutationVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';

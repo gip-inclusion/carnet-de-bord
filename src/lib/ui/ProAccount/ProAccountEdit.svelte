@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {
+	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
 		Professional,
-		UpdateProfessionalProfileDocument,
 		UpdateProfessionalProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';

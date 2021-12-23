@@ -1,9 +1,7 @@
 <script context="module" lang="ts">
 	import { contactEmail } from '$lib/constants';
-	import {
-		GetStructuresDocument,
-		GetStructuresQuery,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetStructuresDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { GetStructuresQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { AccountRequest } from '$lib/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { operationStore, OperationStore, query } from '@urql/svelte';

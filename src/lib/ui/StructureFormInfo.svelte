@@ -1,9 +1,11 @@
 <script lang="ts">
 	import {
 		InsertStructureDocument,
+		UpdateStructureDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
 		InsertStructureMutation,
 		InsertStructureMutationVariables,
-		UpdateStructureDocument,
 		UpdateStructureMutation,
 		UpdateStructureMutationVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
