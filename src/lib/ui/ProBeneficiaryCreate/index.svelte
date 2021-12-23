@@ -111,7 +111,7 @@
 				externalUser.dateOfBirth,
 				externalUser.mobileOrPhoneNumber,
 			]
-				.filter(Boolean)
+				.filter((field) => Boolean(field))
 				.join('-'),
 		};
 	}
@@ -130,7 +130,9 @@
 
 	$: {
 		if (identifierType) {
-			userOptions = (RD.getData(users[identifierType]) || []).map(externalUserToOption);
+			userOptions = (RD.getData(users[identifierType]) || []).map((externalUser) =>
+				externalUserToOption(externalUser)
+			);
 		}
 	}
 

@@ -20,9 +20,11 @@ const convertCAFUserToExternalUser =
 		return user.allocataires?.map((allocataire) => {
 			const [firstname, lastname] = (allocataire.nomPrenom || '').split(' ');
 			const cpVilleMatch = user.adresse.codePostalVille.match(/^([\d]+)\s(.+)$/);
-			const address1 = [user.adresse.numeroRue, user.adresse.lieuDit].filter(Boolean).join(' - ');
+			const address1 = [user.adresse.numeroRue, user.adresse.lieuDit]
+				.filter((field) => Boolean(field))
+				.join(' - ');
 			const address2 = [user.adresse.complementIdentite, user.adresse.complementIdentiteGeo]
-				.filter(Boolean)
+				.filter((field) => Boolean(field))
 				.join(', ');
 			return {
 				firstname,
@@ -53,7 +55,7 @@ const getCAFUsers = async (data: unknown): Promise<ExternalUser[] | null> => {
 };
 const convertPEUserToExternalUser = (user: PEResponse): ExternalUser => {
 	const address2 = [user.adresse.ligneComplementDistribution, user.adresse.ligneComplementAdresse]
-		.filter(Boolean)
+		.filter((field) => Boolean(field))
 		.join(', ');
 	const address1 = user.adresse.ligneVoie;
 	return {

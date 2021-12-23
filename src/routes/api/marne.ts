@@ -154,7 +154,7 @@ function capitalize(text: string) {
 			const subparts = part.split('-');
 			return subparts
 				.map((s: string) => s.toLowerCase())
-				.map(upperCaseFirstLetter)
+				.map((s: string) => upperCaseFirstLetter(s))
 				.join('-');
 		})
 		.join(' ');

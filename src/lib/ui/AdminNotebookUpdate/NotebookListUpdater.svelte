@@ -46,8 +46,9 @@
 			selectedItems = notebooks.reduce((state, { id }) => ({ ...state, [id]: false }), {});
 		}
 	};
-	$: checked = Object.values(selectedItems).filter(Boolean).length === notebooks.length;
-	$: nbItemToUpdate = Object.values(selectedItems).filter(Boolean).length;
+	$: checked =
+		Object.values(selectedItems).filter((field) => Boolean(field)).length === notebooks.length;
+	$: nbItemToUpdate = Object.values(selectedItems).filter((field) => Boolean(field)).length;
 	$: successfullUpdate = Object.values(updatedNotebooks).filter(
 		(value) => value === 'success'
 	).length;

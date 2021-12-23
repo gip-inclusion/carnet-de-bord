@@ -54,7 +54,9 @@ export function disconnectUser(): void {
 }
 
 export function trackEvent(category: string, action: string, name?: string, value?: string): void {
-	const eventParams = ['trackEvent', category, action, name, value].filter(Boolean);
+	const eventParams = ['trackEvent', category, action, name, value].filter((field) =>
+		Boolean(field)
+	);
 	_push([...eventParams]);
 }
 

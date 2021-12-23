@@ -49,7 +49,7 @@
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Droits</strong>
 			<Text classNames="mb-2" value={rsaRightKeys.byKey[notebook.rightRsa]} />
-			{#if [notebook.rightRqth, notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter(Boolean).length > 0}
+			{#if [notebook.rightRqth, notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter( (field) => Boolean(field) ).length > 0}
 				<p>
 					{[
 						notebook.rightRqth && 'RQTH',
@@ -57,7 +57,7 @@
 						notebook.rightAss && 'ASS',
 						notebook.rightBonus && 'Bonus',
 					]
-						.filter(Boolean)
+						.filter((field) => Boolean(field))
 						.join(', ')}
 				</p>
 			{/if}

@@ -73,8 +73,10 @@
 			</div>
 			<address class="mt-2 not-italic">
 				{@html [beneficiary.address1, beneficiary.address2]
-					.filter(Boolean)
-					.concat([beneficiary.postalCode, beneficiary.city].filter(Boolean).join(' '))
+					.filter((field) => Boolean(field))
+					.concat(
+						[beneficiary.postalCode, beneficiary.city].filter((field) => Boolean(field)).join(' ')
+					)
 					.join('<br>')}
 			</address>
 		</div>

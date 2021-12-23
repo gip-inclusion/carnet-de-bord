@@ -25,7 +25,7 @@
 			<div class="flex flex-col gap-1">
 				<Text
 					value={[creator.structure?.address1, creator.structure?.address2]
-						.filter(notNullish)
+						.filter((field) => notNullish(field))
 						.join(', ')}
 				/>
 				<Text value={[creator.structure?.postalCode, creator.structure?.city].join(' - ')} />
