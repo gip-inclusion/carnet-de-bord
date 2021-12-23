@@ -1,6 +1,5 @@
 const config = {
-	mode: 'jit',
-	purge: ['./src/**/*.{html,js,svelte,ts}'],
+	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {},
 		// colors taken from https://github.com/betagouv/dora-front/blob/db82eb88f6aff6dcd59b157843e43054a0b7c6d6/tailwind.config.cjs
