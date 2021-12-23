@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 	import * as Matomo from '$lib/tracking/matomo';
 
-	export async function load({ context, page, session }: LoadInput): Promise<LoadOutput> {
+	export async function load({ page, session }: LoadInput): Promise<LoadOutput> {
 		const redirect = redirectUrl(page, session);
 		if (redirect) {
 			return {
@@ -23,9 +23,7 @@
 		const client = createClient(session);
 
 		return {
-			props: { client },
-			context: {
-				...context,
+			props: {
 				client,
 			},
 		};
