@@ -6,7 +6,7 @@ export const displayFullName = ({
 }: {
 	firstname?: string;
 	lastname?: string;
-}): string => [firstname, lastname].filter(notNullish).join(' ');
+}): string => [firstname, lastname].filter((field) => notNullish(field)).join(' ');
 
 export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string }): string | null => {
 	if (!mobileNumber) {
@@ -31,4 +31,7 @@ export const displayFullAddress = ({
 	postalCode?: string;
 	city?: string;
 }): string =>
-	[[address1, address2].filter(notNullish).join(', '), [postalCode, city].join(' - ')].join(' - ');
+	[
+		[address1, address2].filter((field) => notNullish(field)).join(', '),
+		[postalCode, city].join(' - '),
+	].join(' - ');

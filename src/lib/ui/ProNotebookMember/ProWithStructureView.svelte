@@ -30,10 +30,12 @@
 			{structure?.name}
 		</h2>
 		<div class="flex flex-col gap-1">
-			{#each [structure?.address1, structure?.address2].filter(Boolean) as line}
+			{#each [structure?.address1, structure?.address2].filter((field) => Boolean(field)) as line}
 				<Text value={line} />
 			{/each}
-			<Text value={[structure?.postalCode, structure?.city].filter(Boolean).join(' ')} />
+			<Text
+				value={[structure?.postalCode, structure?.city].filter((field) => Boolean(field)).join(' ')}
+			/>
 			<Text
 				defaultValueClassNames="italic"
 				defaultValue="Pas de site web"

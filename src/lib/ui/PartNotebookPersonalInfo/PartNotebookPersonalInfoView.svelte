@@ -62,7 +62,7 @@
 			<div>{beneficiary.email}</div>
 			<address class="mt-2 not-italic">
 				{@html [beneficiary.address1, beneficiary.address2]
-					.filter(Boolean)
+					.filter((field) => Boolean(field))
 					.concat(`${beneficiary.postalCode} ${beneficiary.city}`)
 					.join('<br>')}
 			</address>

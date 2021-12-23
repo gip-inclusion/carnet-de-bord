@@ -32,7 +32,7 @@
 			  }
 			: null;
 	}
-	let initialOptions: Array<SvelecteItem> = [selected].filter(Boolean);
+	let initialOptions: Array<SvelecteItem> = [selected].filter((field) => Boolean(field));
 
 	function postProcess(json: { data: Array<RomeItem> }): Array<SvelecteItem> {
 		return json.data.map(({ rome, text }) => ({
