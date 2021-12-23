@@ -10,5 +10,16 @@
 
 <details>
 	<summary>form details</summary>
-	<pre>{JSON.stringify({errors: $errors, state: $state, touched: $touched, isValid: $isValid, isValidating: $isValidating, isSubmitting: $isSubmitting}, null, 2)}</pre>
+	<pre>{JSON.stringify(
+			{
+				errors: $errors,
+				state: $state,
+				touched: $touched,
+				isValid: $isValid,
+				isValidating: $isValidating,
+				isSubmitting: $isSubmitting,
+			},
+			null,
+			2
+		)}</pre>
 </details>
