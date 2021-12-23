@@ -1,9 +1,6 @@
 name: Lint
 
-on:
-  push:
-    tags-ignore:
-      - v*
+on: push
 
 concurrency:
   cancel-in-progress: true
