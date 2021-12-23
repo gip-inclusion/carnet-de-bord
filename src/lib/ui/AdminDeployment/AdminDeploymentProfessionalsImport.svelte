@@ -148,7 +148,7 @@
 					<div>Choisissez la structure de rattachement</div>
 				</label>
 			</div>
-			<div class="flex items-center !flex-grow-0 w-1/2">
+			<div class="flex items-center !grow-0 w-1/2">
 				<Svelecte
 					name="structureSelect"
 					options={structures}
