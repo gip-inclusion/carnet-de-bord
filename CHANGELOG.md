@@ -1,3 +1,16 @@
+# [1.74.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.73.1...v1.74.0) (2021-12-23)
+
+
+### Bug Fixes
+
+* inputhint ([ed99a2b](https://github.com/SocialGouv/carnet-de-bord/commit/ed99a2b39dd46ae745959c45141e2cec3969497b))
+* review ([3c876fc](https://github.com/SocialGouv/carnet-de-bord/commit/3c876fcf4cc76ed374572af8831c41dbb4e57c3c))
+
+
+### Features
+
+* handle error un pro creation form ([60ed556](https://github.com/SocialGouv/carnet-de-bord/commit/60ed556155d0749432940b704472b02f08bed706))
+
 ## [1.73.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.73.0...v1.73.1) (2021-12-22)
 
 
