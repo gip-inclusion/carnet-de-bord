@@ -1,5 +1,3 @@
-<script></script>
-
 <svelte:head>
 	<title>sonde - carnet de bord</title>
 </svelte:head>
