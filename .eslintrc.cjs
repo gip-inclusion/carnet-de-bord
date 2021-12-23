@@ -1,11 +1,11 @@
 module.exports = {
-	root: true,
 	env: {
 		node: true,
 	},
-	extends: ['eslint:recommended', 'prettier'],
+	extends: ['@socialgouv/eslint-config-recommended'],
 	parserOptions: {
-		sourceType: 'module',
 		ecmaVersion: 2019,
+		sourceType: 'module',
 	},
+	root: true,
 };

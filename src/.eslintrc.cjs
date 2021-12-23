@@ -1,6 +1,6 @@
 module.exports = {
 	parser: '@typescript-eslint/parser',
-	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+	extends: ['@socialgouv/eslint-config-typescript'],
 	plugins: ['svelte3', '@typescript-eslint'],
 	ignorePatterns: ['*.cjs', 'build', '.svelte-kit', '**/_gen/**'],
 	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],

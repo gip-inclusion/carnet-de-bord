@@ -41,6 +41,8 @@
 		"@graphql-codegen/typescript": "^2.4.1",
 		"@graphql-codegen/typescript-operations": "^2.2.1",
 		"@graphql-codegen/urql-svelte-operations-store": "^1.1.8",
+		"@socialgouv/eslint-config-recommended": "^1.75.0",
+		"@socialgouv/eslint-config-typescript": "^1.100.0",
 		"@sveltejs/adapter-node": "^1.0.0-next.60",
 		"@sveltejs/kit": "^1.0.0-next.215",
 		"@tailwindcss/forms": "^0.4.0",
