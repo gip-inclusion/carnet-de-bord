@@ -4,8 +4,10 @@ import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	GetAccountByEmailDocument,
-	GetAccountByEmailQuery,
 	GetAccountByUsernameDocument,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import type {
+	GetAccountByEmailQuery,
 	GetAccountByUsernameQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { createClient } from '@urql/core';

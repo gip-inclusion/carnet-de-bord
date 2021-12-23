@@ -3,10 +3,8 @@ import send from '$lib/emailing';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { createClient } from '@urql/core';
 import { getGraphqlAPI } from '$lib/config/variables/public';
-import {
-	GetAccountByIdDocument,
-	GetAccountByIdQuery,
-} from '$lib/graphql/_gen/typed-document-nodes';
+import { GetAccountByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
+import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
 import { authorizeOnly } from '$lib/utils/security';
 import * as yup from 'yup';

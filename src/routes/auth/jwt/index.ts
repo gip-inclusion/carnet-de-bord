@@ -5,9 +5,9 @@ import { createClient } from '@urql/svelte';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	GetAccountInfoDocument,
-	GetAccountInfoQuery,
 	ResetAccountAccessKeyDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
+import type { GetAccountInfoQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { getHasuraAdminSecret } from '$lib/config/variables/private';
 import * as yup from 'yup';
 

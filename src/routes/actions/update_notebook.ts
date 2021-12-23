@@ -1,12 +1,14 @@
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
-	BeneficiarySetInput,
 	GetNotebookInfoDocument,
+	UpdateNotebookFromApiDocument,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import type {
+	BeneficiarySetInput,
 	GetNotebookInfoQuery,
 	NotebookFocusInsertInput,
 	NotebookSetInput,
-	UpdateNotebookFromApiDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { BeneficiaryAccount, DeploymentConfig } from '$lib/types';
 import { actionsGuard } from '$lib/utils/security';

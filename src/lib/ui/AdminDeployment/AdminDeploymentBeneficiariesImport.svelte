@@ -1,9 +1,11 @@
 <script lang="ts">
 	import {
 		ImportBeneficiaryDocument,
+		GetProfessionalsForDeploymentDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
 		ImportBeneficiaryMutation,
 		ImportBeneficiaryMutationVariables,
-		GetProfessionalsForDeploymentDocument,
 		GetProfessionalsForDeploymentQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query, mutation } from '@urql/svelte';

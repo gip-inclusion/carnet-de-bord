@@ -3,12 +3,14 @@ import { getGraphqlAPI } from '$lib/config/variables/public';
 import send from '$lib/emailing';
 import {
 	GetAccountByEmailDocument,
-	GetAccountByEmailQuery,
 	GetAccountByUsernameDocument,
-	GetAccountByUsernameQuery,
 	GetDeploymentManagersForStructureDocument,
-	GetDeploymentManagersForStructureQuery,
 	InsertProfessionalAccountDocument,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import type {
+	GetAccountByEmailQuery,
+	GetAccountByUsernameQuery,
+	GetDeploymentManagersForStructureQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { RequestHandler } from '@sveltejs/kit';
 import { updateAccessKey } from '$lib/services/account';

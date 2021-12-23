@@ -2,10 +2,8 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { createClient } from '@urql/core';
 import { getGraphqlAPI } from '$lib/config/variables/public';
-import {
-	GetAccountByEmailDocument,
-	GetAccountByEmailQuery,
-} from '$lib/graphql/_gen/typed-document-nodes';
+import { GetAccountByEmailDocument } from '$lib/graphql/_gen/typed-document-nodes';
+import type { GetAccountByEmailQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
