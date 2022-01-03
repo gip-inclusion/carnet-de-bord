@@ -1,12 +1,12 @@
 <script context="module" lang="ts">
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
-	export async function load({ page }: LoadInput): Promise<LoadOutput> {
-		const accessKey = page.params.uuid;
-		const url = page.query.get('url');
+	export async function load({ url, params }: LoadInput): Promise<LoadOutput> {
+		const accessKey = params.uuid;
+		const u = url.searchParams.get('url');
 		return {
 			props: {
 				accessKey,
-				url,
+				url: u,
 			},
 		};
 	}

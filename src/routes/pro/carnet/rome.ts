@@ -24,7 +24,7 @@ function filterAndFlatten(list: RomeItem[], matcher: (s: string) => boolean) {
 }
 
 export const get: RequestHandler = async (request) => {
-	const query = request.query.get('query');
+	const query = request.url.searchParams.get('query');
 	const matcher = stringsMatch(query);
 	const matchingCodes = filterAndFlatten(romeCodes, matcher);
 

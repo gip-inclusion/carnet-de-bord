@@ -44,7 +44,7 @@
 					mobileNumber,
 				};
 
-				if (!onboardingDone && $page.path !== '/particulier/moncompte') {
+				if (!onboardingDone && $page.url.pathname !== '/particulier/moncompte') {
 					goto('/particulier/moncompte');
 				}
 			}

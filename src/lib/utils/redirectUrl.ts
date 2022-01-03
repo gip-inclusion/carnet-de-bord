@@ -4,30 +4,30 @@
 import { baseUrlForRole, homeForRole } from '$lib/routes';
 
 /* should return null to indicate redirection should not occur */
-function redirectUrl(page: any, session: any): string | null {
-	if (['/healthz', '/inscription'].includes(page.path)) {
+function redirectUrl(url: URL, session: any): string | null {
+	if (['/healthz', '/inscription'].includes(url.pathname)) {
 		return null;
 	}
 
-	if (page.path === '/mentions-legales') {
+	if (url.pathname === '/mentions-legales') {
 		return null;
 	}
 
-	if (page.path === '/politique-confidentialite') {
+	if (url.pathname === '/politique-confidentialite') {
 		return null;
 	}
 
 	if (session.user) {
 		const { role } = session.user;
-		if (page.path === '/' || !page.path.startsWith(baseUrlForRole(role))) {
+		if (url.pathname === '/' || !url.pathname.startsWith(baseUrlForRole(role))) {
 			return homeForRole(role);
 		}
 		return null;
 	} else {
-		if (page.path === '/') {
+		if (url.pathname === '/') {
 			return null;
 		}
-		if (page.path.startsWith('/auth')) {
+		if (url.pathname.startsWith('/auth')) {
 			return null;
 		}
 		return '/auth/login';

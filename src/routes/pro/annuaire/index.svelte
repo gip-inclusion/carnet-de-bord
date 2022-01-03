@@ -48,12 +48,12 @@
 		return variables;
 	}
 
-	export const load: Load = async ({ page, session }) => {
-		const search = page.query.get('search');
+	export const load: Load = async ({ url, session }) => {
+		const search = url.searchParams.get('search');
 
 		let selected = dt.none;
-		if (page.query.get('dt') && dt[page.query.get('dt')]) {
-			selected = dt[page.query.get('dt')];
+		if (url.searchParams.get('dt') && dt[url.searchParams.get('dt')]) {
+			selected = dt[url.searchParams.get('dt')];
 		}
 		const { professionalId } = session.user;
 		const queryVariables = buildQueryVariables({ professionalId, search, selected });

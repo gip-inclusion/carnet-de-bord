@@ -11,8 +11,8 @@
 	import { onMount } from 'svelte';
 	import * as Matomo from '$lib/tracking/matomo';
 
-	export async function load({ page, session }: LoadInput): Promise<LoadOutput> {
-		const redirect = redirectUrl(page, session);
+	export async function load({ url, session }: LoadInput): Promise<LoadOutput> {
+		const redirect = redirectUrl(url, session);
 		if (redirect) {
 			return {
 				status: 302,
@@ -64,9 +64,9 @@
 	});
 
 	$: {
-		if ($page.path && browser && MATOMO_URL && MATOMO_SITE_ID) {
-			if ($page.query.has('search')) {
-				Matomo.trackSiteSearch($page.query.get('search'), $page.path);
+		if ($page.url.pathname && browser && MATOMO_URL && MATOMO_SITE_ID) {
+			if ($page.url.searchParams.has('search')) {
+				Matomo.trackSiteSearch($page.url.searchParams.get('search'), $page.url.pathname);
 			} else {
 				Matomo.trackPageView();
 			}
