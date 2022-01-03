@@ -103,7 +103,7 @@ jobs:
   e2e:
     name: run CodeceptJS tests
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: restore-db
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
