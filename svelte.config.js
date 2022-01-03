@@ -7,12 +7,6 @@ const config = {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
 		vite: {
-			server: {
-				hmr: {
-					protocol: 'ws',
-					port: 3001,
-				},
-			},
 			optimizeDeps: {
 				//https://formidable.com/open-source/urql/docs/basics/svelte/
 				exclude: ['@urql/svelte'],
