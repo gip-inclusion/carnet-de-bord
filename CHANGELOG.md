@@ -1,3 +1,10 @@
+## [1.74.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.1...v1.74.2) (2022-01-04)
+
+
+### Bug Fixes
+
+* validation of alphanumerical fields ([325ff51](https://github.com/SocialGouv/carnet-de-bord/commit/325ff518f31c71be505b8b41f68891e4a9546c3a))
+
 ## [1.74.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.0...v1.74.1) (2022-01-04)
 
 
