@@ -1,3 +1,10 @@
+## [1.74.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.0...v1.74.1) (2022-01-04)
+
+
+### Bug Fixes
+
+* handle error in create deployment form ([f940852](https://github.com/SocialGouv/carnet-de-bord/commit/f940852e90994729b1cfb598310c0e15c9799917))
+
 # [1.74.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.73.1...v1.74.0) (2021-12-23)
 
 
