@@ -1,10 +1,16 @@
-import { validateCodePostal, validateLuhn, validatePhoneNumber } from '$lib/validation';
+import {
+	cityOrNameValidation,
+	validateCodePostal,
+	validateLuhn,
+	validatePhoneNumber,
+} from '$lib/validation';
 import * as yup from 'yup';
 
 export const structureInputSchema = yup.object().shape({
-	name: yup.string().required('Ce champs est requis'),
+	name: yup.string().trim().required('Ce champs est requis'),
 	phone: yup
 		.string()
+		.trim()
 		.test('is-phone-valid', 'Le format du téléphone est incorrect', (value) => {
 			if (value) {
 				return validatePhoneNumber(value);
@@ -12,11 +18,12 @@ export const structureInputSchema = yup.object().shape({
 			return true;
 		})
 		.nullable(),
-	email: yup.string().email().nullable(),
-	address1: yup.string().nullable(),
-	address2: yup.string().nullable(),
+	email: yup.string().trim().email().nullable(),
+	address1: yup.string().trim().nullable(),
+	address2: yup.string().trim().nullable(),
 	postalCode: yup
 		.string()
+		.trim()
 		.test('is-cp-valid', 'Le code postal doit être composé de cinq chiffres', (value) => {
 			if (value) {
 				return validateCodePostal(value);
@@ -24,9 +31,11 @@ export const structureInputSchema = yup.object().shape({
 			return true;
 		})
 		.nullable(),
-	city: yup.string().nullable(),
+	city: cityOrNameValidation.trim().nullable(),
+
 	website: yup
 		.string()
+		.trim()
 		.test('is-website-valid', 'L’adresse du site n’est pas valide', (value) => {
 			if (value) {
 				return value.startsWith('https://') || value.startsWith('http://');
@@ -36,6 +45,7 @@ export const structureInputSchema = yup.object().shape({
 		.nullable(),
 	siret: yup
 		.string()
+		.trim()
 		.test('is-siret-valid', 'Le format du siret n’est pas valide', (value) => {
 			if (value) {
 				const cleaned = value.replace(/([^\d]|\s)/g, '');
@@ -47,6 +57,6 @@ export const structureInputSchema = yup.object().shape({
 			return true;
 		})
 		.nullable(),
-	shortDesc: yup.string().nullable(),
+	shortDesc: yup.string().trim().nullable(),
 });
 export type StructureInput = yup.InferType<typeof structureInputSchema>;
