@@ -1,4 +1,5 @@
 import { isDate } from 'date-fns';
+import { string as yupString } from 'yup';
 
 export function validateLuhn(num: string): boolean {
 	const nbDigits = num.length;
@@ -36,3 +37,8 @@ export function validateDateInput(value: string): boolean {
 	const date = new Date(value);
 	return isDate(date);
 }
+
+export const cityOrNameValidation = yupString().matches(
+	/^[A-Za-zÀ-ÖØ-öø-ÿ\- ']+$/,
+	'Seuls les espaces, les lettres, l’apostrophe et le tiret sont acceptés'
+);
