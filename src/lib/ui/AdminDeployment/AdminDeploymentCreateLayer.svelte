@@ -3,35 +3,53 @@
 	import { openComponent } from '$lib/stores';
 
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Button, Input } from '$lib/ui/base';
+	import { Alert, Button } from '$lib/ui/base';
+	import { Form, Input } from '$lib/ui/forms';
+	import { adminDeploymentSchema, AdminDeploymentType } from './adminDeployment.schema';
 
 	const deploymentStore = operationStore(CreateDeploymentDocument);
 	const insertDeployment = mutation(deploymentStore);
 
-	const deployment = {
-		label: '',
-	};
-	const manager = {
+	const initialValues = {
 		firstname: '',
 		lastname: '',
 		email: '',
-		account: {
-			data: {
-				username: '',
-				type: 'manager',
-			},
-		},
+		account: '',
+		deployment: '',
 	};
+	let errorMessage = '';
 
-	async function handleSubmit() {
-		// todo validate inputs
-		try {
-			await insertDeployment({
-				object: { label: deployment.label, managers: { data: [manager] } },
-			});
-			openComponent.close();
-		} catch (err) {
-			console.error(err);
+	async function handleSubmit(values: AdminDeploymentType) {
+		const { error } = await insertDeployment({
+			object: {
+				label: values.deployment,
+				managers: {
+					data: [
+						{
+							firstname: values.firstname,
+							lastname: values.lastname,
+							email: values.email,
+							account: {
+								data: {
+									username: values.account,
+									type: 'manager',
+								},
+							},
+						},
+					],
+				},
+			},
+		});
+		if (error) {
+			errorMessage = 'Une erreur est survenue lors de la création du déploiement.';
+			if (/uniqueness/i.test(error.message) && /manager_email_key/i.test(error.message)) {
+				errorMessage = 'Cet email est déja assigné à un manager.';
+			}
+			if (/uniqueness/i.test(error.message) && /account_username_unique/i.test(error.message)) {
+				errorMessage = 'Cet identifiant est déja assigné à un manager.';
+			}
+		} else {
+			close();
 		}
 	}
 	function close() {
@@ -48,25 +66,35 @@
 		</p>
 	</div>
 
-	<form class="flex flex-col gap-6" on:submit|preventDefault={handleSubmit}>
-		<Input name="account" required inputLabel="Nom du déploiement" bind:value={deployment.label} />
+	<Form
+		class="flex flex-col gap-6"
+		{initialValues}
+		validationSchema={adminDeploymentSchema}
+		onSubmit={handleSubmit}
+		let:isSubmitted
+		let:isSubmitting
+		let:isValid
+	>
+		<Input name="deployment" required inputLabel="Nom du déploiement" />
 		<div>
 			<fieldset>
 				<legend>Responsable</legend>
-				<Input
-					name="account"
-					required
-					inputLabel="Identifiant"
-					bind:value={manager.account.data.username}
-				/>
-				<Input name="firstname" required inputLabel="Prénom" bind:value={manager.firstname} />
-				<Input name="lastname" required inputLabel="Nom" bind:value={manager.lastname} />
-				<Input name="email" required inputLabel="Courriel" bind:value={manager.email} />
+				<Input name="account" required inputLabel="Identifiant" />
+				<Input name="firstname" required inputLabel="Prénom" />
+				<Input name="lastname" required inputLabel="Nom" />
+				<Input name="email" required inputLabel="Courriel" />
 			</fieldset>
 		</div>
+		{#if $deploymentStore.error}
+			<div class="mb-8">
+				<Alert type="error" description={errorMessage} />
+			</div>
+		{/if}
 		<div class="flex flex-row gap-6 mt-12">
-			<Button type="submit">Créer le déploiement</Button>
+			<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}
+				>Créer le déploiement</Button
+			>
 			<Button outline={true} on:click={close}>Annuler</Button>
 		</div>
-	</form>
+	</Form>
 </div>
