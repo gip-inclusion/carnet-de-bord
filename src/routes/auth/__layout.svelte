@@ -18,6 +18,7 @@
 		],
 		title: 'Découvrez Carnet de bord en vidéo !',
 		preload: 'none',
+		hideControls: true,
 		poster: '/videos/intro-cdb.png',
 	};
 </script>
@@ -26,10 +27,10 @@
 
 <div style="min-height: calc(100vh - 142.5px) flex">
 	<div class="flex flex-row">
-		<div class="w-1/2 p-20 bg-gray-bg flex items-center justify-center">
+		<div class="w-1/2 py-20 pl-20 pr-10 flex items-center justify-center">
 			<Video {...videoOptions} />
 		</div>
-		<div class="w-1/2 p-20">
+		<div class="w-1/2 py-20 pr-20 pl-10">
 			<slot />
 		</div>
 	</div>

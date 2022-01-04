@@ -17,16 +17,28 @@
 	export let title = '';
 	export let preload = 'metadata';
 	export let poster = '';
+	export let hideControls = false;
 	const videoId = `video-${counter++}`;
+
+	let hovered: boolean;
+	$: controls = !hideControls || hovered;
 </script>
 
 <div>
 	{#if title}
-		<h4 class="fr-h5 !text-france-blue">{title}</h4>
+		<h4 class="!text-france-blue">{title}</h4>
 	{/if}
 	<!-- svelte-ignore a11y-media-has-caption -->
 	<!-- see https://github.com/sveltejs/svelte/issues/5967 -->
-	<video id={videoId} controls {preload} {poster}>
+	<video
+		class="!cursor-pointer"
+		id={videoId}
+		{controls}
+		{preload}
+		{poster}
+		on:mouseenter={() => (hovered = true)}
+		on:mouseleave={() => (hovered = false)}
+	>
 		{#each sources as source}
 			<source src={source.url} type={source.type} />
 		{/each}
