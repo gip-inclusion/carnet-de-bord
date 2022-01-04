@@ -13,7 +13,7 @@
 <nav class="fr-nav" {id} role="navigation" aria-label="Menu principal">
 	<ul class="fr-nav__list">
 		{#each menuItems as menuItem (menuItem.id)}
-			<NavBarItem {menuItem} currentRoute={$page.path} />
+			<NavBarItem {menuItem} currentRoute={$page.url.pathname} />
 		{/each}
 	</ul>
 </nav>

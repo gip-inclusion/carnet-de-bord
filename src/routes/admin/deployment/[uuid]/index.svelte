@@ -3,8 +3,8 @@
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 
-	export const load: Load = ({ page }) => {
-		const deploymentId = page.params.uuid;
+	export const load: Load = ({ params }) => {
+		const deploymentId = params.uuid;
 		return {
 			props: {
 				deploymentId,

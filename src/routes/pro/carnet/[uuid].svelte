@@ -72,8 +72,8 @@
 		return variables;
 	}
 
-	export const load: Load = ({ page }) => {
-		const notebookId = page.params.uuid;
+	export const load: Load = ({ params }) => {
+		const notebookId = params.uuid;
 		const variables = { id: notebookId };
 		const selected = threeMonths;
 		const getNotebook = operationStore(

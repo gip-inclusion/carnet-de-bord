@@ -50,7 +50,7 @@
 					position,
 				};
 
-				if (!onboardingDone && $page.path !== '/pro/moncompte') {
+				if (!onboardingDone && $page.url.pathname !== '/pro/moncompte') {
 					goto('/pro/moncompte');
 				}
 			}

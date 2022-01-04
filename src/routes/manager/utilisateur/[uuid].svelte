@@ -4,8 +4,8 @@
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 
-	export const load: Load = ({ page }) => {
-		const accountId = page.params.uuid;
+	export const load: Load = ({ params }) => {
+		const accountId = params.uuid;
 
 		return {
 			props: {
