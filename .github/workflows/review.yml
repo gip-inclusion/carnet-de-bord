@@ -134,4 +134,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: screenshot
-          path: e2e/output/.failed.png
+          path: e2e/output
