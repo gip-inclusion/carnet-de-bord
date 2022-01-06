@@ -24,7 +24,7 @@
 	$: controls = !hideControls || hovered;
 </script>
 
-<div>
+<div class="flex flex-col">
 	{#if title}
 		<h4 class="!text-france-blue">{title}</h4>
 	{/if}

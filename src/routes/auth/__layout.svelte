@@ -32,12 +32,12 @@
 
 <HeaderCDB menuItems={[]} />
 
-<div style="min-height: calc(100vh - 142.5px) flex">
+<div class="fr-container" style="min-height: calc(100vh - 142.5px)">
 	<div class="flex flex-row">
-		<div class="w-1/2 py-20 pl-20 pr-10 flex items-center justify-center">
+		<div class="w-1/2 py-20 pr-10">
 			<Video {...videoOptions} />
 		</div>
-		<div class="w-1/2 py-20 pr-20 pl-10">
+		<div class="w-1/2 py-20 pl-10">
 			<slot />
 		</div>
 	</div>
