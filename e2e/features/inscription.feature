@@ -6,7 +6,7 @@ Fonctionnalité: Inscription
 	En tant que Professionnel
 	Je veux pouvoir m'inscrire
 
-Scénario:
+Scénario: Inscription d'un professionnel
 	Soit un utilisateur sur la page "/inscription"
 	Alors je vois "Inscription au Carnet de bord"
 	# hack @lionelb on devrait utiliser le label
@@ -16,7 +16,7 @@ Scénario:
 	Alors je vois "Informations personnelles"
 	Quand je renseigne "bob" dans le champ "Prénom"
 	Quand je renseigne "slaigue" dans le champ "Nom"
-	Quand je renseigne "bs@afpa.fr" dans le champ "Courriel"
+	Quand je renseigne "bobslaigue@afpa.fr" dans le champ "Courriel"
 	Quand je renseigne "0987654321" dans le champ "Téléphone"
 	Quand je renseigne "Conseiller" dans le champ "Fonction"
 	Quand je clique sur "Je valide mon inscription"
