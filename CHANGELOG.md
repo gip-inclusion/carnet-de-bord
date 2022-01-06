@@ -1,3 +1,10 @@
+## [1.74.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.2...v1.74.3) (2022-01-06)
+
+
+### Bug Fixes
+
+* add cleanup function after e2e tests ([#490](https://github.com/SocialGouv/carnet-de-bord/issues/490)) ([f50dd50](https://github.com/SocialGouv/carnet-de-bord/commit/f50dd50e072c9469c279fa8395fa6f8480f9cc36))
+
 ## [1.74.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.1...v1.74.2) (2022-01-04)
 
 
