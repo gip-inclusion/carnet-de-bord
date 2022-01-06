@@ -1,3 +1,10 @@
+# [1.75.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.3...v1.75.0) (2022-01-06)
+
+
+### Features
+
+* update landing to add Video tag ([#488](https://github.com/SocialGouv/carnet-de-bord/issues/488)) ([27b1d12](https://github.com/SocialGouv/carnet-de-bord/commit/27b1d129d52bf61d40a2f2918a5e5990cc8fc894))
+
 ## [1.74.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.2...v1.74.3) (2022-01-06)
 
 
