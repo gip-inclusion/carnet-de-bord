@@ -162,6 +162,7 @@ Alors("j'ai téléchargé le fichier {string}", (filename) => {
  */
 After(({ title }) => {
 	if (/Inscription/.test(title)) {
+		console.log('remove user bobslaigue');
 		I.sendMutation(
 			`mutation removeUser {
 			delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
