@@ -5,6 +5,14 @@ exports.config = {
 		steps: ['./step_definitions/steps.js'],
 	},
 	helpers: {
+		GraphQL: {
+			defaultHeaders: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
+			},
+			endpoint: process.env.HASURA_BASEURL || 'http://localhost:5000/v1/graphql',
+		},
 		Playwright: {
 			browser: 'chromium',
 			show: process.env.CODECEPT_UI ? true : false,

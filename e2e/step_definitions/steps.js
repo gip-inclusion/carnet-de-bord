@@ -154,3 +154,19 @@ Alors("j'ai téléchargé le fichier {string}", (filename) => {
 	I.amInPath('output/downloads');
 	I.seeFile(filename);
 });
+
+/**
+ * Dans ce hook, qui se lance après chaque test,
+ * on peut executer des mutations afin de supprimer
+ * les données générés suite aux tests.
+ */
+After(({ title }) => {
+	if (/Inscription/.test(title)) {
+		I.sendMutation(
+			`mutation removeUser {
+			delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
+			delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
+		}`
+		);
+	}
+});

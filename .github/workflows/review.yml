@@ -118,12 +118,17 @@ jobs:
           name: manifests-dev.yml
       - name: Get deployment url
         uses: mikefarah/yq@v4.16.2
-        id: url
+        id: app
         with:
-          cmd: echo $(cat manifests-dev.yml | yq eval-all '.spec.rules[]?.host' - | head -n 1)
+          cmd: echo $(cat manifests-dev.yml | yq e '.spec.rules[]?.host' - | head -n 1)
+      - name: Get hasura url
+        uses: mikefarah/yq@v4.16.2
+        id: hasura
+        with:
+          cmd: echo $(cat manifests-dev.yml | yq e '.spec.rules[]?.host' - | tail -n 1 )
       - name: Run test e2e
         run: |
-          CODECEPT_BASEURL=https://${{ steps.url.outputs.result }} yarn --cwd e2e test
+          HASURA_BASEURL=https://${{ steps.hasura.outputs.result }} CODECEPT_BASEURL=https://${{ steps.app.outputs.result }} yarn --cwd e2e test
       - name: Copy artifact
         if: failure()
         uses: actions/upload-artifact@v2
