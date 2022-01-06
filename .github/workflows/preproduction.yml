@@ -116,7 +116,7 @@ jobs:
           cmd: echo $(cat manifests-preprod.yml | yq e '.spec.rules[]?.host' - | tail -n 1)
       - name: Run test e2e
         run: |
-          HASURA_ADMIN_SECRET=${{ secrets.HASURA_ADMIN_SECRET }}  HASURA_BASEURL=https://${{ steps.hasura.outputs.result }} CODECEPT_BASEURL=https://${{ steps.app.outputs.result }} yarn --cwd e2e test
+          HASURA_ADMIN_SECRET=${{ secrets.HASURA_ADMIN_SECRET }}/v1/graphql  HASURA_BASEURL=https://${{ steps.hasura.outputs.result }} CODECEPT_BASEURL=https://${{ steps.app.outputs.result }} yarn --cwd e2e test
       - name: Copy artifact
         if: failure()
         uses: actions/upload-artifact@v2

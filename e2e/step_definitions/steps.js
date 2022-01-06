@@ -160,15 +160,13 @@ Alors("j'ai téléchargé le fichier {string}", (filename) => {
  * on peut executer des mutations afin de supprimer
  * les données générés suite aux tests.
  */
-After(async ({ title }) => {
+After(({ title }) => {
 	if (/Inscription/.test(title)) {
-		console.log('remove user bobslaigue');
-		const response = await I.sendMutation(
+		I.sendMutation(
 			`mutation removeUser {
 	delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
 	delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
 }`
 		);
-		console.log(response.data);
 	}
 });
