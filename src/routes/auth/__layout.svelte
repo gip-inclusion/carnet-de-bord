@@ -5,9 +5,16 @@
 	const videoOptions = {
 		sources: [
 			{
-				url: 'https://nextcloud.fabrique.social.gouv.fr/s/Nx3wbt6LTMrNqGE/download/intro-cdb-with-subs.mp4',
+				url: 'https://nextcloud.fabrique.social.gouv.fr/s/TtM2A7KkD55MqZ3/download/intro-cdb.mp4',
 				type: 'video/mp4',
 			},
+			/**
+			 * Video with embedded subtitles
+			 * {
+			 *   url: 'https://nextcloud.fabrique.social.gouv.fr/s/Nx3wbt6LTMrNqGE/download/intro-cdb-with-subs.mp4',
+			 *   type: 'video/mp4',
+			 * },
+			 */
 		],
 		tracks: [
 			{
