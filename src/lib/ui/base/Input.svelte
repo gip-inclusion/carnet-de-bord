@@ -25,7 +25,7 @@
 	{id}
 	class={`fr-input-group ${error ? 'fr-input-group--error' : ''} ${
 		valid ? 'fr-input-group--valid' : ''
-	} ${$$props.class}`}
+	} ${$$props.class || ''}`}
 >
 	<label class="fr-label flex-grow" for={name}>
 		<div>{inputLabel}{required ? ' *' : ''}</div>
