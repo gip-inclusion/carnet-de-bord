@@ -1,3 +1,10 @@
+## [1.75.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.75.0...v1.75.1) (2022-01-07)
+
+
+### Bug Fixes
+
+* remove undefined from input class ([fbd42df](https://github.com/SocialGouv/carnet-de-bord/commit/fbd42df02b493b5fa950ae465c64d1872fd184f0))
+
 # [1.75.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.74.3...v1.75.0) (2022-01-06)
 
 
