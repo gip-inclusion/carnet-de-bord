@@ -164,9 +164,9 @@ After(({ title }) => {
 	if (/Inscription/.test(title)) {
 		I.sendMutation(
 			`mutation removeUser {
-			delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
-			delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
-		}`
+	delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
+	delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
+}`
 		);
 	}
 });
