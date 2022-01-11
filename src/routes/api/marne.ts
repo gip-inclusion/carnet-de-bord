@@ -109,7 +109,6 @@ function parseFocuses(
 			});
 			for (const action of focus.actions) {
 				const cdbtarget = findTarget(cdbfocus, action);
-				console.log(cdbtarget);
 				if (cdbtarget) {
 					// existing target and focus
 					actions.push({

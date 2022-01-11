@@ -15,6 +15,11 @@ const config = {
 				// https://github.com/FormidableLabs/urql/issues/1819
 				noExternal: ['@urql/svelte'],
 			},
+			build: {
+				rollupOptions: {
+					external: [/\.test\.(t|j)s$/],
+				},
+			},
 		},
 		adapter: adapter({
 			// default options are shown
