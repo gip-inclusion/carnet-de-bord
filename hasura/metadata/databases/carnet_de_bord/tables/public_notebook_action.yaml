@@ -7,6 +7,7 @@ configuration:
     creator_id: creatorId
     target_id: targetId
     updated_at: updatedAt
+    initial_id: initialId
   custom_root_fields: {}
 object_relationships:
 - name: creator
