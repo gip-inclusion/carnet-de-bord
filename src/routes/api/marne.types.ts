@@ -19,20 +19,20 @@ export type MarneInput = {
 export type MarneContract = {
 	contractSignDate: string;
 	contractType: string;
+	code: number;
 };
 
 export type MarneFocus = {
 	linkedTo?: string;
 	theme: string;
-	objectifs: MarneTarget[];
-};
-
-export type MarneTarget = {
-	objectif: string;
+	code: number;
 	actions: MarneAction[];
 };
 
 export type MarneAction = {
+	objectif: string; // Peut contenir une string libre ou formattée (Frein : , Objectifs : Eng. Réf :  )
+	code: number; // valeurs : CO ou AU
+	type: string;
 	action: string;
 	dateStart: string;
 	dateEnd: string;

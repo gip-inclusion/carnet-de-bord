@@ -4,7 +4,7 @@
 	"cafNumber": "6660002",
 	"city": "châlons-en-champagne",
 	"dateOfBirth": "03/11/1980",
-	"email": null,
+	"email": "marc.sainpat@okinawa.jp",
 	"firstname": "Marc",
 	"lastname": "Sainpat",
 	"mobileNumber": "0600000911",
@@ -15,68 +15,68 @@
 	"contracts": [
 		{
 			"contractSignDate": "2012-01-01",
-			"contractType": "ppae"
+			"contractType": "ppae",
+			"code": 789101
 		},
 		{
 			"contractSignDate": "2021-10-10",
-			"contractType": "cer"
+			"contractType": "cer",
+			"code": 123456
 		}
 	],
 	"axeDeTravails": [
 		{
 			"linkedTo": "CER",
+			"code": 123456,
 			"theme": "Accès à la santé",
-			"objectifs": [
+			"actions": [
 				{
 					"objectif": "Frein : difficulté d'accès à l'emploi du fait d'un handicap\rObjectif : Suivi Santé\rEng BRSA : Prendre rendez vous pour un suivi santé\rEng. Réf :  s'assurer de la prise de rendez-vous",
-					"actions": [
-						{
-							"action": "Suivi santé",
-							"dateStart": "2021-10-18",
-							"dateEnd": "2022-04-17",
-							"status": "Traitée",
-							"structure": {
-								"address1": "2 bis RUE DE JESSAINT",
-								"address2": null,
-								"city": "CHALONS EN CHAMPAGNE",
-								"email": null,
-								"name": "ORGANISME D'ACTIONS RSA",
-								"phone": null,
-								"postalCode": "51000",
-								"shortDesc": null,
-								"siret": null,
-								"website": null
-							}
-						}
-					]
+					"action": "Suivi santé",
+					"dateStart": "2021-10-18",
+					"dateEnd": "2022-04-17",
+					"status": "Traitée",
+					"code": 188,
+					"type": "AU",
+					"structure": {
+						"address1": "2 bis RUE DE JESSAINT",
+						"address2": null,
+						"city": "CHALONS EN CHAMPAGNE",
+						"email": null,
+						"name": "ORGANISME D'ACTIONS RSA",
+						"phone": null,
+						"postalCode": "51000",
+						"shortDesc": null,
+						"siret": null,
+						"website": null
+					}
 				}
 			]
 		},
 		{
 			"theme": "Accès rapide à l'emploi",
-			"objectifs": [
+			"code": 123456,
+			"actions": [
 				{
 					"objectif": "Frein : Dernier emploi : moins de 3 mois\rObjectif:Inscription sur actif51\rEng BRSA : s'inscrire à actif51\rEng. Réf :  s'assurer de l'inscription effective et assurer le lien avec actif51",
-					"actions": [
-						{
-							"action": "PLATEFORME actif51",
-							"dateStart": "2021-10-18",
-							"dateEnd": "2022-04-17",
-							"status": "Traitée",
-							"structure": {
-								"address1": "2 bis RUE DE JESSAINT",
-								"address2": null,
-								"city": "CHALONS EN CHAMPAGNE",
-								"email": null,
-								"name": "ORGANISME D'ACTIONS RSA",
-								"phone": null,
-								"postalCode": "51000",
-								"shortDesc": null,
-								"siret": null,
-								"website": null
-							}
-						}
-					]
+					"code": 53,
+					"type": "CO",
+					"action": "PLATEFORME actif51",
+					"dateStart": "2021-10-18",
+					"dateEnd": "2022-04-17",
+					"status": "Traitée",
+					"structure": {
+						"address1": "2 bis RUE DE JESSAINT",
+						"address2": null,
+						"city": "CHALONS EN CHAMPAGNE",
+						"email": null,
+						"name": "ORGANISME D'ACTIONS RSA",
+						"phone": null,
+						"postalCode": "51000",
+						"shortDesc": null,
+						"siret": null,
+						"website": null
+					}
 				}
 			]
 		}
