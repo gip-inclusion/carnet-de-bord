@@ -112,28 +112,27 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			body: { error: 'CALLBACK_FAILED' },
 		};
 	}
-
-	try {
-		await client
-			.mutation(UpdateNotebookFromApiDocument, {
-				notebookId: input.id,
-				notebook: result.notebook,
-				beneficiaryId: beneficiary.id,
-				beneficiary: result.beneficiary,
-				focuses: result.focuses,
-				targets: result.targets,
-				actions: result.actions,
-			})
-			.toPromise();
-		return {
-			status: 200,
-			body: { id: input.id },
-		};
-	} catch (error) {
-		console.error(error);
+	console.log(result.focuses.map((focus) => focus.targets.data));
+	const updateResult = await client
+		.mutation(UpdateNotebookFromApiDocument, {
+			notebookId: input.id,
+			notebook: result.notebook,
+			beneficiaryId: beneficiary.id,
+			beneficiary: result.beneficiary,
+			focuses: result.focuses,
+			targets: result.targets,
+			actions: result.actions,
+		})
+		.toPromise();
+	if (updateResult.error) {
+		console.error(updateResult.error);
 		return {
 			status: 500,
 			body: { error: 'UPDATE_FAILED' },
 		};
 	}
+	return {
+		status: 200,
+		body: { id: input.id },
+	};
 };

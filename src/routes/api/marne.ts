@@ -144,7 +144,7 @@ function parseFocuses(
 				theme: marneThemesToCDBThemes[focus.theme] || focus.theme,
 				creatorId,
 				notebookId,
-				...(focus.linkedTo && { linkedTo: focus.linkedTo }),
+				...(focus.linkedTo && { linkedTo: focus.linkedTo.toLowerCase() }),
 				situations: parseSituations(focus.actions),
 				targets: { data: parseActions(focus, creatorId) },
 			});
@@ -183,6 +183,7 @@ function parseActions(focus: MarneFocus, creatorId: string): NotebookTargetInser
 		if (!targets[target]) {
 			targets[target] = {
 				target,
+				creatorId,
 				actions: {
 					data: [],
 				},
@@ -206,20 +207,21 @@ function marneActionToCdbAction(
 		...(targetId && { targetId }),
 		status: 'new',
 		initialId: `${focusCode}_${data.type}_${data.code}`,
+		createdAt: data.dateStart,
 	};
 }
 
 function getCdbTheme(theme: string): string {
 	const cdbTheme = marneThemesToCDBThemes[theme.trim()];
 	if (!cdbTheme) {
-		throw new Error(`Unknonw theme ${theme}`);
+		throw new Error(`Unknown theme ${theme}`);
 	}
 	return cdbTheme;
 }
 
 function getTargetFromAction(actionObj: MarneAction, cdbTheme: string): string {
 	if (!actionsToTarget[cdbTheme]) {
-		throw new Error(`Unknonw theme ${cdbTheme} for action ${actionObj.action}`);
+		throw new Error(`Unknown theme ${cdbTheme} for action ${actionObj.action}`);
 	}
 	return actionsToTarget[cdbTheme][actionObj.action];
 }
@@ -229,10 +231,11 @@ function getTargetFromAction(actionObj: MarneAction, cdbTheme: string): string {
  * @returns last contracts
  */
 function getLastContracts(data: Pick<MarneInput, 'contracts'>) {
-	const [{ contractSignDate, contractType }] = data.contracts.sort(
+	const [contract] = data.contracts.sort(
 		(a, b) => new Date(b.contractSignDate).getTime() - new Date(a.contractSignDate).getTime()
 	);
-	return { contractSignDate, contractType } ?? {};
+	if (!contract) return {};
+	return { contractSignDate: contract.contractSignDate, contractType: contract.contractType };
 }
 
 /**

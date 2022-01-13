@@ -56,6 +56,7 @@
 		{
 			"theme": "Accès rapide à l'emploi",
 			"code": 123456,
+			"linkedTo": "cer",
 			"actions": [
 				{
 					"objectif": "Frein : Dernier emploi : moins de 3 mois\rObjectif:Inscription sur actif51\rEng BRSA : s'inscrire à actif51\rEng. Réf :  s'assurer de l'inscription effective et assurer le lien avec actif51",
