@@ -1,3 +1,17 @@
+# [1.76.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.75.1...v1.76.0) (2022-01-17)
+
+
+### Bug Fixes
+
+* remove console.log ([d3a7160](https://github.com/SocialGouv/carnet-de-bord/commit/d3a71604a26752abddc3dd55735c9fb9e52f92e8))
+* update review ([f2cf975](https://github.com/SocialGouv/carnet-de-bord/commit/f2cf9756a6d4aed7ade82e2ce302c95716c866fa))
+
+
+### Features
+
+* add unique contraint on action, target ([b6e781e](https://github.com/SocialGouv/carnet-de-bord/commit/b6e781e19ef58bee3b1a20d90f5a436499687aa5))
+* update marne parse ([fda1f17](https://github.com/SocialGouv/carnet-de-bord/commit/fda1f178e4c95d293e5c4c8f4556c89f92b7875c))
+
 ## [1.75.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.75.0...v1.75.1) (2022-01-07)
 
 
