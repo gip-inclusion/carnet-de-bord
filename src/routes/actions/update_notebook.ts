@@ -106,13 +106,13 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			return Promise.reject(response.json());
 		});
 	} catch (error) {
-		console.error(error);
+		console.error(error, url, callback);
 		return {
 			status: 500,
 			body: { error: 'CALLBACK_FAILED' },
 		};
 	}
-	console.log(result.focuses.map((focus) => focus.targets.data));
+
 	const updateResult = await client
 		.mutation(UpdateNotebookFromApiDocument, {
 			notebookId: input.id,
