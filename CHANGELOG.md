@@ -1,3 +1,10 @@
+## [1.76.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.1...v1.76.2) (2022-01-17)
+
+
+### Bug Fixes
+
+* update action secret name ([#497](https://github.com/SocialGouv/carnet-de-bord/issues/497)) ([9153ccc](https://github.com/SocialGouv/carnet-de-bord/commit/9153cccb5aee19b1268897fc58e9a57b755ee791))
+
 ## [1.76.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.0...v1.76.1) (2022-01-17)
 
 
