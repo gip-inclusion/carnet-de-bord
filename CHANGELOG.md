@@ -1,3 +1,10 @@
+## [1.76.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.0...v1.76.1) (2022-01-17)
+
+
+### Bug Fixes
+
+* update marne theme mapping ([#496](https://github.com/SocialGouv/carnet-de-bord/issues/496)) ([2094517](https://github.com/SocialGouv/carnet-de-bord/commit/20945174b0bf50a0fb9bff4d73b95349bbce87a0))
+
 # [1.76.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.75.1...v1.76.0) (2022-01-17)
 
 
