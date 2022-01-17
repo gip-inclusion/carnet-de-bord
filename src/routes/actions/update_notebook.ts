@@ -101,12 +101,13 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			}),
 		}).then((response) => {
 			if (response.ok) {
+				console.log(`carnet ${input.id} mis à jour !`);
 				return response.json();
 			}
 			return Promise.reject(response.json());
 		});
 	} catch (error) {
-		console.error(error, url, callback);
+		console.error(`echec de mise à jour du carnet ${input.id}`, error, url, callback);
 		return {
 			status: 500,
 			body: { error: 'CALLBACK_FAILED' },

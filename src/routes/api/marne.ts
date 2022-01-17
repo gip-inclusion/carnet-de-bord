@@ -23,7 +23,7 @@ export const post = async (
 			if (response.ok) {
 				return response.json();
 			}
-			Promise.reject(response.json());
+			return Promise.reject(response.json());
 		});
 		return {
 			status: 200,
