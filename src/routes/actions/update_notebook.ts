@@ -2,6 +2,9 @@ import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	GetNotebookInfoDocument,
+	NotebookActionInsertInput,
+	NotebookFocus,
+	NotebookTargetInsertInput,
 	UpdateNotebookFromApiDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type {
@@ -31,6 +34,8 @@ export type ExternalDeploymentApiOutput = {
 	notebook: NotebookSetInput;
 	beneficiary: BeneficiarySetInput;
 	focuses: NotebookFocusInsertInput[];
+	targets: NotebookTargetInsertInput[];
+	actions: NotebookActionInsertInput[];
 };
 
 export type ExternalDeploymentApiBody = {
@@ -39,6 +44,7 @@ export type ExternalDeploymentApiBody = {
 	input: Pick<BeneficiaryAccount, 'firstname' | 'lastname' | 'dateOfBirth'>;
 	professionalId: string;
 	notebookId: string;
+	focuses: NotebookFocus[];
 };
 
 type Body = {
@@ -75,7 +81,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	// TODO(Augustin): actually check that we get a DeploymentConfig instead
 	const { url, callback, headers } = data.notebook.beneficiary.deployment
 		.config as DeploymentConfig;
-	const { beneficiary, members } = data.notebook;
+	const { beneficiary, members, focuses } = data.notebook;
 	const callbackUrl = `${getAppUrl()}${callback}`;
 	let result: ExternalDeploymentApiOutput;
 	try {
@@ -91,6 +97,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 				input: beneficiary,
 				notebookId: input.id,
 				professionalId: members[0]?.professionalId,
+				focuses,
 			}),
 		}).then((response) => {
 			if (response.ok) {
@@ -99,32 +106,33 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			return Promise.reject(response.json());
 		});
 	} catch (error) {
-		console.error(error);
+		console.error(error, url, callback);
 		return {
 			status: 500,
 			body: { error: 'CALLBACK_FAILED' },
 		};
 	}
 
-	try {
-		await client
-			.mutation(UpdateNotebookFromApiDocument, {
-				notebookId: input.id,
-				notebook: result.notebook,
-				beneficiaryId: beneficiary.id,
-				beneficiary: result.beneficiary,
-				focuses: result.focuses,
-			})
-			.toPromise();
-		return {
-			status: 200,
-			body: { id: input.id },
-		};
-	} catch (error) {
-		console.error(error);
+	const updateResult = await client
+		.mutation(UpdateNotebookFromApiDocument, {
+			notebookId: input.id,
+			notebook: result.notebook,
+			beneficiaryId: beneficiary.id,
+			beneficiary: result.beneficiary,
+			focuses: result.focuses,
+			targets: result.targets,
+			actions: result.actions,
+		})
+		.toPromise();
+	if (updateResult.error) {
+		console.error(updateResult.error);
 		return {
 			status: 500,
 			body: { error: 'UPDATE_FAILED' },
 		};
 	}
+	return {
+		status: 200,
+		body: { id: input.id },
+	};
 };

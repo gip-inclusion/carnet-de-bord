@@ -9,6 +9,18 @@ query GetNotebookInfo($id: uuid!) {
 				config
 			}
 		}
+		focuses {
+			id
+			theme
+			linkedTo
+			targets {
+				id
+				target
+				actions {
+					initialId
+				}
+			}
+		}
 		members(where: { memberType: { _eq: "referent" } }) {
 			professionalId
 		}

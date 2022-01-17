@@ -84,9 +84,9 @@ INSERT INTO public.notebook_event (id, notebook_id, creation_date, event_date, p
 INSERT INTO public.notebook_event (id, notebook_id, creation_date, event_date, professional_id, event, structure) VALUES ('de66b98d-cf1c-4427-8a98-80244a4edee3', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 19:02:17.79037+00', '2021-11-15', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', 'Entrée en CHRS', 'Adoma');
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('91dba199-109c-4312-93cb-bd99f579532b', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '74323049-eae6-4ccd-b596-e95514a32781', NULL, '', '2021-09-21 12:32:59.911757+00', NULL, NULL);
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('ea55bf8a-c0da-4c5f-b38c-66d57e3e18ba', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, '', '2021-09-21 12:33:10.281341+00', NULL, NULL);
-INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '2021-09-21 13:06:45.076+00', 'referent',  '2021-09-21 11:51:37.295647+00', NULL, NULL);
+INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', NULL, NULL);
 
-INSERT INTO public.beneficiary (id, email, lastname, firstname, mobile_number, date_of_birth, deployment_id) VALUES ('f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'marc@yahoo.fr', 'Marc', 'Saintpa',  '0600000000', '1982-02-01', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
+INSERT INTO public.beneficiary (id, email, lastname, firstname, mobile_number, date_of_birth, deployment_id) VALUES ('f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'marc@yahoo.fr', 'Marc', 'Saintpa', '0600000000', '1982-02-01', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.notebook (id, beneficiary_id, geographical_area, education_level, job, work_situation_date, contract_type, contract_sign_date, work_situation) VALUES ('b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'between_10_20', 'level_3', 'Aide à domicile (K1304)', '2021-09-22', 'cer', '2020-01-05', 'iae');
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visited_at, member_type) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', '9b5f4863-dd2e-4680-af40-46258c457654', '2021-09-21 13:06:45.076+00', 'referent');
 
@@ -183,7 +183,7 @@ INSERT INTO public.ref_situation (id, description, theme) VALUES ('60883f02-8e1b
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('7ca798b9-6d29-435d-8113-541e5a42baa9', 'Accès au droit', 'difficulte_administrative');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('3517133e-71a9-4e21-a62c-9bf3eed9b342', 'Manque d''autonomie et rencontrer de grandes difficultés sociales', 'difficulte_administrative');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('47ad132e-8cfb-43bc-97f8-0aff163a7db3', 'Difficulté à effectuer une démarche administrative', 'difficulte_administrative');
-INSERT INTO public.ref_situation (id, description, theme) VALUES ('23bb6e7d-6d9c-475b-a531-80922000da30', 'Autonome mais nécessitant d''être guidé dans le  cadre d''un accès aux droits', 'difficulte_administrative');
+INSERT INTO public.ref_situation (id, description, theme) VALUES ('23bb6e7d-6d9c-475b-a531-80922000da30', 'Autonome mais nécessitant d''être guidé dans le cadre d''un accès aux droits', 'difficulte_administrative');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('35c8d4f3-8ef4-4d50-9be0-93a00788ce46', 'Difficulté à effectuer une démarche administrative dématérialisée', 'difficulte_administrative');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('3053d5a6-668c-4611-8aeb-cdf1e2afff14', 'Incapacité', 'difficulte_administrative');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('1c22ac4c-abec-4da4-8757-15691057a660', 'Indisponibilité liée à l''accompagnement d''une tierce personne', 'difficulte_administrative');
@@ -206,7 +206,7 @@ INSERT INTO public.ref_situation (id, description, theme) VALUES ('b031ae9b-e58c
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('d190c844-1d0d-4094-a1ec-8b0fe278cc37', 'Prêt à l''emploi : pas n''importe quel emploi', 'emploi');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('00a60709-ab4b-47ec-a964-a65958cb97b8', 'Prêt à l''emploi : pas pour l''instant', 'emploi');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('723c2908-859b-4070-b3a4-65b9d205a192', 'Prêt à l''emploi : ne sais pas', 'emploi');
-INSERT INTO public.ref_situation (id, description, theme) VALUES ('8b4ab582-421c-40ba-8f1f-206576184bd5', 'Prêt  à suivre une formation', 'emploi');
+INSERT INTO public.ref_situation (id, description, theme) VALUES ('8b4ab582-421c-40ba-8f1f-206576184bd5', 'Prêt à suivre une formation', 'emploi');
 
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('75deb722-866b-4d7d-81c9-060f4fe3dcdd', 'Situation d''échec à l''issue d''un dispositif à vocation professionnelle', 'formation');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('8e217f12-4b94-46fa-9b03-67c4a9207d16', 'Manque de formation / qualification', 'formation');
@@ -220,7 +220,7 @@ INSERT INTO public.ref_situation (id, description, theme) VALUES ('a9b84a75-ff5c
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('62a6ad83-5242-449b-ae49-89ed2d3b7536', 'Difficulté relative à la maîtrise du français, du numérique, ou à acquérir ou développer de nouvelles compétences', 'formation');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('8bcdae49-c9c4-40f6-8944-cbd8199f0ba3', 'Jeune de moins de 26 ans ayant des difficultés à intégrer des dispositifs de droit commun ou à travailler leur insertion', 'formation');
 INSERT INTO public.ref_situation (id, description, theme) VALUES ('fd46b393-5ef5-4703-9d2e-c4c04ab2cc16', 'Moins de 26 ans ayant un manque d''expérience professionnelle et/ou de confiance en soi', 'formation');
-INSERT INTO public.ref_situation (id, description, theme) VALUES ('3c022046-4086-4ca7-8e6f-0c4a42c50bfd', 'Nécessité d''accèder à la formation comme préalable  pour accèder à l''emploi durable', 'formation');
+INSERT INTO public.ref_situation (id, description, theme) VALUES ('3c022046-4086-4ca7-8e6f-0c4a42c50bfd', 'Nécessité d''accèder à la formation comme préalable pour accèder à l''emploi durable', 'formation');
 
 --
 -- Objectifs
@@ -257,7 +257,7 @@ INSERT INTO public.ref_target (id, description, theme) VALUES ('6bbb115f-cf97-4e
 INSERT INTO public.ref_target (id, description, theme) VALUES ('31f693f2-f09e-49f8-891e-8caba59a065e', 'Réparer sa voiture', 'mobilite');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('3802e199-e182-4b9c-84be-439ad7d52881', 'Accéder à une voiture', 'mobilite');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('66f8e403-92f8-4603-8c03-1b00d170da90', 'Accès à l''emploi - demande d''aide financière', 'mobilite');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('db140feb-f428-4334-a14d-21ce11c92a1c', 'Identification et appui dans la réalisation des démarches/Relais  avec les partenaires/Mise en œuvre d''aides financières', 'mobilite');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('db140feb-f428-4334-a14d-21ce11c92a1c', 'Identification et appui dans la réalisation des démarches/Relais avec les partenaires/Mise en œuvre d''aides financières', 'mobilite');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('02d51e1f-6b96-4596-84ca-e00ee93d1cb6', 'Favoriser l''accès aux dispositifs d''insertion sociale ou professionnel', 'mobilite');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('cdf07cf9-3c04-401e-8340-bad8c2d76867', 'Bénéficier d''une aide financière pour le passage du permis de conduire ou achant de véhicule', 'mobilite');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('6da907b1-0099-4510-a331-2dbd1b45d982', 'Bénéficier d''un accompagnement permettant d''accèder à la mobilité', 'mobilite');
@@ -305,19 +305,18 @@ INSERT INTO public.ref_target (id, description, theme) VALUES ('1a6d6a1f-42c9-4b
 INSERT INTO public.ref_target (id, description, theme) VALUES ('32d53e4c-df03-4558-befd-c676e6d0cfb7','Inscription en agence d''intérim', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('184df103-bdf4-4332-a471-7ecbc50d5134','Inscription à l''agence Triangle', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('08a15f8d-10d6-4df7-997a-b78cd483b44a','Faciliter le développement et la viabilité économique de l''activité', 'emploi');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('ec0cfb4f-0261-4394-be7b-598b3eb334d0','Mise en œuvre des préconisations d''une structure d''accompagnement spécialisée de type ADIE, CCI...', 'emploi');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('79587006-03cc-4f48-8e25-79dbf7658572','Identifier ses freins liés à l''accès à l''emploi dans le domaine du sport et des loisirs.  Définir et mettre en œuvre un plan d''action permettant de lever ces freins.', 'emploi');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('ec0cfb4f-0261-4394-be7b-598b3eb334d0','Mise en œuvre des préconisations d''une structure d''accompagnement spécialisée de type ADIE, CCI..', 'emploi');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('79587006-03cc-4f48-8e25-79dbf7658572','Identifier ses freins liés à l''accès à l''emploi dans le domaine du sport et des loisirs. Définir et mettre en œuvre un plan d''action permettant de lever ces freins', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('bb9b5603-8cde-4b99-a8bc-477c53adee4a','Identifier ses atouts et ses freins dans la recherche d''emploi et définir une stratégie de recherche d''emploi en adéquation avec le marché du travail', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('8b65d7db-44d8-4ef6-8f55-d87cb10925de','Accèder rapidement à un emploi grâce à la mise en œuvre d''une stratégie de recherches d''emploi en adéquation avec le projet professionnel', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('5f65190b-f041-4fed-a367-6105283eec18','Acquérir les compétences langagières nécessaires à la reprise d''un emploi', 'emploi');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('71f9258d-ff58-44f2-adae-0dd29b79630d','Favoriser la mise en relation entre un candidat et un employeur  en aidant les bénéficiaires à mieux cibler les emplois de proximité', 'emploi');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('71f9258d-ff58-44f2-adae-0dd29b79630d','Favoriser la mise en relation entre un candidat et un employeur en aidant les bénéficiaires à mieux cibler les emplois de proximité', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('390a2669-d088-4461-acfe-10d7d1acbf6f','Faciliter l''accès à l''emploi agricole', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('43e2e0cf-dbe7-4f8f-905b-b45c50e158ab','Incription HUMANDO / SUEZ Insertion/Partage Travail', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('006ddf26-6297-4f5f-a7a9-d1a6f4b0db4e','Faciliter l''accès aux vendanges', 'emploi');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('3603b764-bc68-4246-83cf-2f7e458d57be','Proposer un accompagnement conjoint par le conseiller de Pôle emploi et le chargé de mission RSA du Département, permettant  de lever l''ensemble des freins et d''accèder à l''emploi', 'emploi');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('d74e85c2-8eae-45e6-9e99-36f9ab48e429','Accèder à une qualification en lien avec les métiers en tension  (BTP, propreté, logistique, industrie,...)', 'emploi');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('fc958583-0c5c-493c-b9af-1f5ae1cc4e15','Etre accompagné pour redéfinir un projet professionnel', 'emploi');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('ec1018e3-0978-45a0-af63-cc375459f7c9','Etre accompagné pour développer et améliorer l''activité"', 'emploi');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('3603b764-bc68-4246-83cf-2f7e458d57be','Proposer un accompagnement conjoint par le conseiller de Pôle emploi et le chargé de mission RSA du Département, permettant de lever l''ensemble des freins et d''accèder à l''emploi', 'emploi');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('d74e85c2-8eae-45e6-9e99-36f9ab48e429','Accèder à une qualification en lien avec les métiers en tension (BTP, propreté, logistique, industrie,...)', 'emploi');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('fc958583-0c5c-493c-b9af-1f5ae1cc4e15','Etre accompagné pour redéfinir un projet professionnel / être accompagné pour développer et améliorer l''activité', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('c7b37d6f-570c-4429-a032-221a11cc16e9','Evaluer ses capacités de retour à l''emploi / évaluer une orientation ESAT sur demande de la MDPH ou en amont d''une demande MDPH / bénéficier d''un accompagnement adapté à la RQTH', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('0f4e35c5-9ebd-47f4-995d-fbe3b64dd9ea','Acquérir les compétences langagières de base à une insertion', 'emploi');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('baf90a4d-befa-4c7f-86c9-44ea77f0c5bd','Accompagnement pour un placement direct à l''emploi', 'emploi');
@@ -331,11 +330,11 @@ INSERT INTO public.ref_target (id, description, theme) VALUES ('9b1dd154-4247-4b
 INSERT INTO public.ref_target (id, description, theme) VALUES ('542614f6-99b3-43bb-a405-5049441d16a2', 'Accéder à la citoyenneté par une meilleure intégration sociale et culturelle', 'formation');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('c4dbf809-d95c-41c8-94f0-e068949e4c25', 'Acquérir les compétences de base numériques permettant l''accès aux droits et favorisant l''insertion', 'formation');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('393ca2c5-ea1e-4851-a9f9-1fd0868b4dcb', 'Elaborer un parcours pédagogique favorisant l''insertion professionnelle', 'formation');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('eee45521-ae7f-4532-93fa-eca40cc28c3a', 'Remobiliser les bénéficiaires du RSA dans un parcours d''insertion socio-professionnel.', 'formation');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('eee45521-ae7f-4532-93fa-eca40cc28c3a', 'Remobiliser les bénéficiaires du RSA dans un parcours d''insertion socio-professionnel', 'formation');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('9bd4081c-e705-49e5-aff8-1366f9c89cfb', 'Améliorer la connaissance des savoirs de base ou du potentiel de bénéficiaires du RSA', 'formation');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('2c8d79f1-e90e-419f-82d5-a55dbef56543', 'Accéder au parcours d''accompagnement proposé dans le cadre de la Garantie Jeunes', 'formation');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('1eb77933-bfc0-49bb-87b2-c87c863b30db', 'Accéder à un accompagnement', 'formation');
-INSERT INTO public.ref_target (id, description, theme) VALUES ('6dd45ae0-e4d5-4253-a7c8-d4d98e41d895', 'Acquérir et/ou développer  des compétences et de l''expérience au travers d''une intégration au sein d''un collectif et d''une mission spécifique confiée aux jeunes', 'formation');
+INSERT INTO public.ref_target (id, description, theme) VALUES ('6dd45ae0-e4d5-4253-a7c8-d4d98e41d895', 'Acquérir et/ou développer des compétences et de l''expérience au travers d''une intégration au sein d''un collectif et d''une mission spécifique confiée aux jeunes', 'formation');
 INSERT INTO public.ref_target (id, description, theme) VALUES ('a6f61400-03e8-4bf0-aef8-b7e0b37eded2', 'Définition d''un parcours de formation personnalisé', 'formation');
 
 --
