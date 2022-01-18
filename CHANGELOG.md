@@ -1,3 +1,10 @@
+## [1.76.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.4...v1.76.5) (2022-01-18)
+
+
+### Bug Fixes
+
+* update parse error handling in api ([#514](https://github.com/SocialGouv/carnet-de-bord/issues/514)) ([576bc5c](https://github.com/SocialGouv/carnet-de-bord/commit/576bc5c1c8ebc825f637e3abf19f35bb4d4ae2d9))
+
 ## [1.76.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.3...v1.76.4) (2022-01-18)
 
 
