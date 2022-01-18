@@ -148,6 +148,15 @@ export function adminStructureAccountCreation(params: AdminStructureEmailParams)
   `;
 }
 
+export function managerOnboarding({ url, deployment }: { url: Url; deployment: string }): string {
+	return `
+    <p>Bonjour,</p>
+    <p>Un compte vous a été créé sur l'application Carnet de bord pour administrer le déploiement <strong>${deployment}</strong>.</p>
+    ${createAccessButton(url)}
+    ${footer()}
+  `;
+}
+
 export default {
 	notebookInvitation,
 	loginRequest,
@@ -156,4 +165,5 @@ export default {
 	accountRequest,
 	accountCreatedByAdmin,
 	adminStructureAccountCreation,
+	managerOnboarding,
 };

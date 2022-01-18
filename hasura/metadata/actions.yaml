@@ -9,10 +9,21 @@ actions:
       value_from_env: ACTION_SECRET
   permissions:
   - role: manager
+- name: createDeploymentWithEmail
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_URL}}/create_deployment'
+    forward_client_headers: true
+    headers:
+    - name: secret_token
+      value_from_env: ACTION_SECRET
+  permissions:
+  - role: admin_cdb
 - name: updateNotebookAct
   definition:
     kind: synchronous
     handler: '{{ACTION_BASE_URL}}/update_notebook'
+    forward_client_headers: true
     headers:
     - name: secret_token
       value_from_env: ACTION_SECRET
@@ -27,4 +38,5 @@ custom_types:
   objects:
   - name: UpdateNotebookOutput
   - name: InsertStructureWithAdminOutput
+  - name: CreateDeploymentOutput
   scalars: []

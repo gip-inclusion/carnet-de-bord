@@ -17,23 +17,7 @@
 	let errorMessage = '';
 
 	async function handleSubmit(values: AdminDeploymentType) {
-		const { error } = await insertDeployment({
-			object: {
-				label: values.deployment,
-				managers: {
-					data: [
-						{
-							email: values.email,
-							account: {
-								data: {
-									type: 'manager',
-								},
-							},
-						},
-					],
-				},
-			},
-		});
+		const { error } = await insertDeployment(values);
 		if (error) {
 			errorMessage = 'Une erreur est survenue lors de la création du déploiement.';
 			if (/uniqueness/i.test(error.message) && /manager_email_key/i.test(error.message)) {
