@@ -91,6 +91,7 @@
 				</td>
 			</tr>
 			<tr>
+				<th />
 				<th class="text-left">Prénom Nom</th>
 				<th class="w-2/6">Status</th>
 			</tr>
@@ -98,7 +99,7 @@
 		<tbody class="bg-white divide-y divide-gray-300">
 			{#each notebooks as notebook}
 				<tr>
-					<td class="align-middle ">
+					<td class="align-middle w-2">
 						<div class="fr-checkbox-group py-3">
 							<input
 								disabled={status !== RD.NotAsked}
@@ -107,12 +108,15 @@
 								id={`cb-${notebook.id}`}
 								name="toUpdate"
 							/>
-							<label class="fr-label" for={`cb-${notebook.id}`}>
-								{notebook.beneficiary.firstname}
-								{notebook.beneficiary.lastname}
-							</label>
+							<label for={`cb-${notebook.id}`}>&nbsp;</label>
 						</div>
-					</td>’
+					</td>
+					<td>
+						<label class="fr-label" for={`cb-${notebook.id}`}>
+							{notebook.beneficiary.firstname}
+							{notebook.beneficiary.lastname}
+						</label>
+					</td>
 					<td class="text-center">
 						{#if Object.prototype.hasOwnProperty.call(updatedNotebooks, notebook.id)}
 							{#if updatedNotebooks[notebook.id] === 'success'}
