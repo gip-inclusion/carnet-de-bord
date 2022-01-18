@@ -53,8 +53,7 @@
 		...pro,
 		name: `${displayFullName(pro)} (${pro.structure.name})`,
 	}));
-	let professional: { id: string };
-	$: professionalId = professional?.id;
+	let professionalId: string;
 
 	let files = [];
 	let beneficiaries: BeneficiaryImport[] = [];
@@ -178,7 +177,7 @@
 					name="professionalSelect"
 					options={professionals}
 					placeholder=""
-					bind:selection={professional}
+					bind:value={professionalId}
 					disableSifter={false}
 					class="svelecte-control custom-svelecte"
 					valueField="id"
