@@ -34,8 +34,7 @@
 	};
 
 	$: structures = $queryStructures.data?.structure || [];
-	let structure: { id: string };
-	$: structureId = structure?.id;
+	let structureId: string;
 
 	let files = [];
 	let pros: ProImport[] = [];
@@ -153,7 +152,7 @@
 					name="structureSelect"
 					options={structures}
 					placeholder=""
-					bind:selection={structure}
+					bind:value={structureId}
 					disableSifter={false}
 					class="svelecte-control custom-svelecte"
 					valueField="id"
