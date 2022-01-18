@@ -5,9 +5,9 @@ configuration:
   custom_column_names:
     created_at: createdAt
     creator_id: creatorId
+    initial_id: initialId
     target_id: targetId
     updated_at: updatedAt
-    initial_id: initialId
   custom_root_fields: {}
 object_relationships:
 - name: creator
