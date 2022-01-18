@@ -6434,8 +6434,7 @@ export type GetAccountByEmailQuery = {
 
 export type UpdateAccountAccessKeyMutationVariables = Exact<{
 	id: Scalars['uuid'];
-	accessKey: Scalars['String'];
-	accessKeyDate: Scalars['timestamptz'];
+	input?: InputMaybe<AccountSetInput>;
 }>;
 
 export type UpdateAccountAccessKeyMutation = {
@@ -10603,19 +10602,8 @@ export const UpdateAccountAccessKeyDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
-					},
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'account_set_input' } },
 				},
 			],
 			selectionSet: {
@@ -10643,26 +10631,7 @@ export const UpdateAccountAccessKeyDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accessKey' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accessKeyDate' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'confirmed' },
-											value: { kind: 'BooleanValue', value: true },
-										},
-									],
-								},
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
 							},
 						],
 						selectionSet: {

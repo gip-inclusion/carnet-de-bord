@@ -91,7 +91,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 
 	const result = await updateAccessKey(client, id);
 	if (result.error) {
-		console.error('login', result.error);
+		console.error('Could not update access key', { error: result.error });
 		return {
 			status: 500,
 			body: {

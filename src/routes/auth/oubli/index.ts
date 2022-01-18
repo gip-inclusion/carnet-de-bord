@@ -65,12 +65,26 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 			},
 		};
 	}
-	const { id, username, beneficiary, manager, admin, professional } = data.account[0];
+	const { id, username, beneficiary, manager, admin, professional, confirmed } = data.account[0];
+	if (!confirmed) {
+		console.error('Unconfirmed account requested magic link', {
+			email,
+		});
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERROR',
+			},
+		};
+	}
 	const user = beneficiary || manager || admin || professional;
 	const { firstname, lastname } = user;
 	const result = await updateAccessKey(client, id);
 	if (result.error) {
-		console.error('login', result.error);
+		console.error('Error updating access key for magic link', {
+			error: result.error,
+			email,
+		});
 		return {
 			status: 500,
 			body: {
