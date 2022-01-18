@@ -1,3 +1,10 @@
+## [1.76.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.3...v1.76.4) (2022-01-18)
+
+
+### Bug Fixes
+
+* svelecte binding ([#511](https://github.com/SocialGouv/carnet-de-bord/issues/511)) ([2751e2c](https://github.com/SocialGouv/carnet-de-bord/commit/2751e2c4fa20d5c583732a450771957adab32f79))
+
 ## [1.76.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.2...v1.76.3) (2022-01-17)
 
 
