@@ -1,3 +1,15 @@
+# [1.77.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.6...v1.77.0) (2022-01-20)
+
+
+### Bug Fixes
+
+* stop confirming account when updating access key ([4b3184d](https://github.com/SocialGouv/carnet-de-bord/commit/4b3184d4a536270f15f7913357be5e0a707ba26a))
+
+
+### Features
+
+* simplify account confirmation ([f821388](https://github.com/SocialGouv/carnet-de-bord/commit/f821388ec78850c581f9e2639cbfe801637dd5a6))
+
 ## [1.76.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.5...v1.76.6) (2022-01-20)
 
 
