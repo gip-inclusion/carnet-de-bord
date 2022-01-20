@@ -41,6 +41,12 @@ export type BooleanComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
+export type CreateDeploymentOutput = {
+	__typename?: 'CreateDeploymentOutput';
+	id: Scalars['uuid'];
+	label: Scalars['String'];
+};
+
 export type InsertStructureWithAdminInput = {
 	adminStructure?: InputMaybe<AdminStructureInput>;
 	forceUpdate?: InputMaybe<Scalars['Boolean']>;
@@ -2009,9 +2015,9 @@ export type Manager = {
 	deployment?: Maybe<Deployment>;
 	deploymentId?: Maybe<Scalars['uuid']>;
 	email: Scalars['citext'];
-	firstname: Scalars['String'];
+	firstname?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	lastname: Scalars['String'];
+	lastname?: Maybe<Scalars['String']>;
 	updatedAt: Scalars['timestamptz'];
 };
 
@@ -2224,6 +2230,7 @@ export enum ManagerUpdateColumn {
 /** mutation root */
 export type MutationRoot = {
 	__typename?: 'mutation_root';
+	createDeploymentWithEmail?: Maybe<CreateDeploymentOutput>;
 	/** delete data from the table: "account" */
 	delete_account?: Maybe<AccountMutationResponse>;
 	/** delete single row from the table: "account" */
@@ -2454,6 +2461,12 @@ export type MutationRoot = {
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
+};
+
+/** mutation root */
+export type MutationRootCreateDeploymentWithEmailArgs = {
+	deployment: Scalars['String'];
+	email: Scalars['citext'];
 };
 
 /** mutation root */
@@ -6887,13 +6900,14 @@ export type UuidComparisonExp = {
 };
 
 export type CreateDeploymentMutationVariables = Exact<{
-	object: DeploymentInsertInput;
+	email: Scalars['citext'];
+	deployment: Scalars['String'];
 }>;
 
 export type CreateDeploymentMutation = {
 	__typename?: 'mutation_root';
-	insert_deployment_one?:
-		| { __typename?: 'deployment'; id: string; label: string }
+	createDeploymentWithEmail?:
+		| { __typename?: 'CreateDeploymentOutput'; id: string; label: string }
 		| null
 		| undefined;
 };
@@ -6943,8 +6957,8 @@ export type GetDeploymentByIdQuery = {
 				managers: Array<{
 					__typename?: 'manager';
 					id: string;
-					firstname: string;
-					lastname: string;
+					firstname?: string | null | undefined;
+					lastname?: string | null | undefined;
 				}>;
 				beneficiaries_aggregate: {
 					__typename?: 'beneficiary_aggregate';
@@ -6977,7 +6991,13 @@ export type GetDeploymentsQuery = {
 		__typename?: 'deployment';
 		id: string;
 		label: string;
-		managers: Array<{ __typename?: 'manager'; id: string; firstname: string; lastname: string }>;
+		managers: Array<{
+			__typename?: 'manager';
+			id: string;
+			firstname?: string | null | undefined;
+			lastname?: string | null | undefined;
+			email: string;
+		}>;
 	}>;
 };
 
@@ -7334,6 +7354,26 @@ export type GetAccountByPkQuery = {
 		| undefined;
 };
 
+export type CreateDeploymentFromApiMutationVariables = Exact<{
+	object: DeploymentInsertInput;
+}>;
+
+export type CreateDeploymentFromApiMutation = {
+	__typename?: 'mutation_root';
+	insert_deployment_one?:
+		| {
+				__typename?: 'deployment';
+				id: string;
+				label: string;
+				managers: Array<{
+					__typename?: 'manager';
+					account?: { __typename?: 'account'; id: string } | null | undefined;
+				}>;
+		  }
+		| null
+		| undefined;
+};
+
 export type ListDeploymentIdQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ListDeploymentIdQuery = {
@@ -7612,7 +7652,12 @@ export type GetAccountByUsernameQuery = {
 			| null
 			| undefined;
 		manager?:
-			| { __typename?: 'manager'; firstname: string; lastname: string; email: string }
+			| {
+					__typename?: 'manager';
+					firstname?: string | null | undefined;
+					lastname?: string | null | undefined;
+					email: string;
+			  }
 			| null
 			| undefined;
 	}>;
@@ -7647,7 +7692,12 @@ export type GetAccountByEmailQuery = {
 			| null
 			| undefined;
 		manager?:
-			| { __typename?: 'manager'; firstname: string; lastname: string; email: string }
+			| {
+					__typename?: 'manager';
+					firstname?: string | null | undefined;
+					lastname?: string | null | undefined;
+					email: string;
+			  }
 			| null
 			| undefined;
 	}>;
@@ -8272,10 +8322,18 @@ export const CreateDeploymentDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'deployment_insert_input' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deployment' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 					},
 				},
 			],
@@ -8284,12 +8342,17 @@ export const CreateDeploymentDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_deployment_one' },
+						name: { kind: 'Name', value: 'createDeploymentWithEmail' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
+								name: { kind: 'Name', value: 'email' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'deployment' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'deployment' } },
 							},
 						],
 						selectionSet: {
@@ -8835,6 +8898,7 @@ export const GetDeploymentsDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 										],
 									},
 								},
@@ -11040,6 +11104,69 @@ export const GetAccountByPkDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByPkQuery, GetAccountByPkQueryVariables>;
+export const CreateDeploymentFromApiDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'CreateDeploymentFromApi' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'deployment_insert_input' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_deployment_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'managers' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	CreateDeploymentFromApiMutation,
+	CreateDeploymentFromApiMutationVariables
+>;
 export const ListDeploymentIdDocument = {
 	kind: 'Document',
 	definitions: [
@@ -15774,6 +15901,10 @@ export type GetRefTargetByFocusQueryStore = OperationStore<
 export type GetAccountByPkQueryStore = OperationStore<
 	GetAccountByPkQuery,
 	GetAccountByPkQueryVariables
+>;
+export type CreateDeploymentFromApiMutationStore = OperationStore<
+	CreateDeploymentFromApiMutation,
+	CreateDeploymentFromApiMutationVariables
 >;
 export type ListDeploymentIdQueryStore = OperationStore<
 	ListDeploymentIdQuery,
