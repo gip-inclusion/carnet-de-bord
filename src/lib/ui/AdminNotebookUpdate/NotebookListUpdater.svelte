@@ -108,7 +108,13 @@
 								id={`cb-${notebook.id}`}
 								name="toUpdate"
 							/>
-							<label for={`cb-${notebook.id}`}>&nbsp;</label>
+							<label for={`cb-${notebook.id}`}>
+								&nbsp;
+								<span class="sr-only">
+									{notebook.beneficiary.firstname}
+									{notebook.beneficiary.lastname}
+								</span>
+							</label>
 						</div>
 					</td>
 					<td>
