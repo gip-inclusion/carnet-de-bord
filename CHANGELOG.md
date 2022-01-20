@@ -1,3 +1,11 @@
+## [1.76.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.5...v1.76.6) (2022-01-20)
+
+
+### Bug Fixes
+
+* fix colspan and checkbox in Notebook Update table ([89c5f02](https://github.com/SocialGouv/carnet-de-bord/commit/89c5f02ff1a78643cc12985deed08343ede87094))
+* make checkbox friendlier to a11y ([b3d4c1d](https://github.com/SocialGouv/carnet-de-bord/commit/b3d4c1d9bda2687f1cc4e9daca19229bf7db6211))
+
 ## [1.76.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.4...v1.76.5) (2022-01-18)
 
 
