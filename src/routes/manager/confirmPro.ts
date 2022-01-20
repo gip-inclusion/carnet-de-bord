@@ -3,10 +3,14 @@ import send from '$lib/emailing';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { createClient } from '@urql/core';
 import { getGraphqlAPI } from '$lib/config/variables/public';
-import { GetAccountByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
+import {
+	ConfirmAccountByIdDocument,
+	ConfirmAccountByIdMutation,
+	GetAccountByIdDocument,
+} from '$lib/graphql/_gen/typed-document-nodes';
 import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
-import { updateAccessKey } from '$lib/services/account';
 import { authorizeOnly } from '$lib/utils/security';
+import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
 const client = createClient({
@@ -89,9 +93,16 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 
 	const { email, lastname, firstname } = data.account.professional;
 
-	const result = await updateAccessKey(client, id);
+	const result = await client
+		.mutation<ConfirmAccountByIdMutation>(ConfirmAccountByIdDocument, {
+			id,
+			accessKey: uuidv4(),
+			accessKeyDate: new Date().toISOString(),
+		})
+		.toPromise();
+
 	if (result.error) {
-		console.error('login', result.error);
+		console.error('Could not confirm pro', { id, email, firstname, lastname, error: result.error });
 		return {
 			status: 500,
 			body: {
@@ -99,6 +110,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 			},
 		};
 	}
+
 	const accessKey = result.data.account.accessKey;
 
 	// send email

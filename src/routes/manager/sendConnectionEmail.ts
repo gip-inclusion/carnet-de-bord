@@ -89,9 +89,23 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 
 	const { email, lastname, firstname } = data.account.professional;
 
+	if (!data.account.confirmed) {
+		console.error('Did not send email to unconfirmed account', {
+			email,
+			lastname,
+			firstname,
+		});
+		return {
+			status: 500,
+			body: {
+				errors: 'SERVER_ERROR',
+			},
+		};
+	}
+
 	const result = await updateAccessKey(client, id);
 	if (result.error) {
-		console.error('login', result.error);
+		console.error('Could not update access key', { error: result.error });
 		return {
 			status: 500,
 			body: {

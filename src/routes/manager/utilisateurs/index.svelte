@@ -147,65 +147,67 @@
 							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
 						</td>
 						<td>
-							{#if typeof emails[account.id] === 'undefined'}
-								<IconButton
-									on:click={() => sendConnectionEmail(account.id)}
-									icon="ri-mail-send-line"
-									textColor="text-white"
-									bgColor="bg-france-blue"
-									classNames="p-2"
-									ariaLabel="Envoyer un email de connexion"
-									title="Envoyer un email de connexion"
-								/>
-							{:else if emails[account.id] === 'ToConfirm'}
-								<div class="flex flex-row">
+							{#if account.confirmed}
+								{#if typeof emails[account.id] === 'undefined'}
 									<IconButton
-										on:click={() => sendConnectionEmail(account.id, true)}
-										icon="ri-check-line"
+										on:click={() => sendConnectionEmail(account.id)}
+										icon="ri-mail-send-line"
+										textColor="text-white"
+										bgColor="bg-france-blue"
+										classNames="p-2"
+										ariaLabel="Envoyer un email de connexion"
+										title="Envoyer un email de connexion"
+									/>
+								{:else if emails[account.id] === 'ToConfirm'}
+									<div class="flex flex-row">
+										<IconButton
+											on:click={() => sendConnectionEmail(account.id, true)}
+											icon="ri-check-line"
+											textColor="text-white"
+											bgColor="bg-success"
+											classNames="p-2"
+											ariaLabel="Confirmer l'envoi"
+											title="Confirmer l'envoi"
+										/>
+										<IconButton
+											on:click={() => sendConnectionEmail(account.id, false)}
+											icon="ri-close-line"
+											textColor="text-white"
+											bgColor="bg-marianne-red"
+											classNames="p-2"
+											ariaLabel="Annuler"
+											title="Annuler"
+										/>
+									</div>
+								{:else if emails[account.id] === 'Sending'}
+									<IconButton
+										icon="ri-mail-send-fill"
+										textColor="text-white"
+										bgColor="bg-action"
+										classNames="p-2"
+										ariaLabel="Envoi en cours..."
+										title="Envoi en cours..."
+									/>
+								{:else if emails[account.id] === 'Failed'}
+									<IconButton
+										on:click={() => sendConnectionEmail(account.id)}
+										icon="ri-restart-line"
+										textColor="text-white"
+										bgColor="bg-error"
+										classNames="p-2"
+										ariaLabel="Erreur ! Recommencer ?"
+										title="Erreur ! Recommencer ?"
+									/>
+								{:else if emails[account.id] === 'Sent'}
+									<IconButton
+										icon="ri-mail-check-line"
 										textColor="text-white"
 										bgColor="bg-success"
 										classNames="p-2"
-										ariaLabel="Confirmer l'envoi"
-										title="Confirmer l'envoi"
+										ariaLabel="Envoyé !"
+										title="Envoyé !"
 									/>
-									<IconButton
-										on:click={() => sendConnectionEmail(account.id, false)}
-										icon="ri-close-line"
-										textColor="text-white"
-										bgColor="bg-marianne-red"
-										classNames="p-2"
-										ariaLabel="Annuler"
-										title="Annuler"
-									/>
-								</div>
-							{:else if emails[account.id] === 'Sending'}
-								<IconButton
-									icon="ri-mail-send-fill"
-									textColor="text-white"
-									bgColor="bg-action"
-									classNames="p-2"
-									ariaLabel="Envoi en cours..."
-									title="Envoi en cours..."
-								/>
-							{:else if emails[account.id] === 'Failed'}
-								<IconButton
-									on:click={() => sendConnectionEmail(account.id)}
-									icon="ri-restart-line"
-									textColor="text-white"
-									bgColor="bg-error"
-									classNames="p-2"
-									ariaLabel="Erreur ! Recommencer ?"
-									title="Erreur ! Recommencer ?"
-								/>
-							{:else if emails[account.id] === 'Sent'}
-								<IconButton
-									icon="ri-mail-check-line"
-									textColor="text-white"
-									bgColor="bg-success"
-									classNames="p-2"
-									ariaLabel="Envoyé !"
-									title="Envoyé !"
-								/>
+								{/if}
 							{/if}
 						</td>
 					</tr>
