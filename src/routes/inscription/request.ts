@@ -169,7 +169,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	const appUrl = getAppUrl();
 
 	if (autoConfirm) {
-		const result = await updateAccessKey(client, account.id, true);
+		const result = await updateAccessKey(client, account.id);
 		if (result.error) {
 			console.error('login', result.error);
 			return {

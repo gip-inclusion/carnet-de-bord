@@ -8,8 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function updateAccessKey(
 	client: Client,
-	accountId: string,
-	confirmed?: boolean
+	accountId: string
 ): Promise<OperationResult<UpdateAccountAccessKeyMutation>> {
 	const accessKey = uuidv4();
 
@@ -17,9 +16,6 @@ export async function updateAccessKey(
 		accessKey,
 		accessKeyDate: new Date().toISOString(),
 	};
-	if (typeof confirmed !== 'undefined') {
-		input.confirmed = confirmed;
-	}
 	return client
 		.mutation(UpdateAccountAccessKeyDocument, {
 			id: accountId,

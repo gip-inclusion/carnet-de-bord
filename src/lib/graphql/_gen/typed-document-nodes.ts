@@ -6499,6 +6499,20 @@ export type InsertProfessionalAccountMutation = {
 		| undefined;
 };
 
+export type ConfirmAccountByIdMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	accessKey: Scalars['String'];
+	accessKeyDate: Scalars['timestamptz'];
+}>;
+
+export type ConfirmAccountByIdMutation = {
+	__typename?: 'mutation_root';
+	account?:
+		| { __typename?: 'account'; id: string; accessKey?: string | null | undefined }
+		| null
+		| undefined;
+};
+
 export type GetAccountByIdQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -10798,6 +10812,99 @@ export const InsertProfessionalAccountDocument = {
 	InsertProfessionalAccountMutation,
 	InsertProfessionalAccountMutationVariables
 >;
+export const ConfirmAccountByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'ConfirmAccountById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'account' },
+						name: { kind: 'Name', value: 'update_account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: { kind: 'BooleanValue', value: true },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKey' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accessKeyDate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'accessKey' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<ConfirmAccountByIdMutation, ConfirmAccountByIdMutationVariables>;
 export const GetAccountByIdDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13577,6 +13684,10 @@ export type GetStructuresQueryStore = OperationStore<
 export type InsertProfessionalAccountMutationStore = OperationStore<
 	InsertProfessionalAccountMutation,
 	InsertProfessionalAccountMutationVariables
+>;
+export type ConfirmAccountByIdMutationStore = OperationStore<
+	ConfirmAccountByIdMutation,
+	ConfirmAccountByIdMutationVariables
 >;
 export type GetAccountByIdQueryStore = OperationStore<
 	GetAccountByIdQuery,
