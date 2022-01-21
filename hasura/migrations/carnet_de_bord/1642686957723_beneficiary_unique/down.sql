@@ -1,5 +1,3 @@
-CREATE  INDEX "beneficiary_email_unique" on
-  "public"."beneficiary" using btree ("email");
 
 alter table "public"."beneficiary" add constraint "beneficiary_email_key" unique ("email");
 

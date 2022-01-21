@@ -4,4 +4,3 @@ alter table "public"."beneficiary" add constraint "beneficiary_pe_number_lastnam
 
 alter table "public"."beneficiary" drop constraint "beneficiary_email_unique";
 
-DROP INDEX IF EXISTS "beneficiary_email_unique";
