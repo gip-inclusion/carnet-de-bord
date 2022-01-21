@@ -157,7 +157,12 @@ function parseFocuses(
 			});
 		}
 	}
-
+	const nbFocuses = focuses.length;
+	const nbTargets = focuses.flatMap((focus) => focus.targets.data).concat(targets).length;
+	const nbActions = focuses
+		.flatMap((focus) => focus.targets.data.flatMap((target) => target.actions.data))
+		.concat(actions).length;
+	console.log(`parse: found ${nbFocuses} focus | ${nbTargets} targets | ${nbActions} actions`);
 	return {
 		focuses,
 		targets,
