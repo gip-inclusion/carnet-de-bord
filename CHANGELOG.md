@@ -1,3 +1,10 @@
+## [1.77.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.3...v1.77.4) (2022-01-21)
+
+
+### Bug Fixes
+
+* add info in console ([817b93f](https://github.com/SocialGouv/carnet-de-bord/commit/817b93f468db4364989bd915969f424d59e1fcfa))
+
 ## [1.77.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.2...v1.77.3) (2022-01-21)
 
 
