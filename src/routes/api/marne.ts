@@ -19,18 +19,25 @@ export const post = async (
 ): Promise<EndpointOutput<ExternalDeploymentApiOutput | string>> => {
 	try {
 		const { url, headers, input, professionalId, notebookId, focuses } = request.body;
-		const data: MarneInput = await fetch(`${url}${urlify(input)}`, { headers }).then((response) => {
-			if (response.ok) {
-				return response.json();
+		const data: MarneInput = await fetch(`${url}${urlify(input)}`, { headers }).then(
+			async (response) => {
+				if (response.ok) {
+					return response.json();
+				}
+				const errorMessage = await response.text();
+				return Promise.reject(
+					new Error(
+						`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
+					)
+				);
 			}
-			return Promise.reject(response.json());
-		});
+		);
 		return {
 			status: 200,
 			body: parse(data, professionalId, notebookId, focuses),
 		};
 	} catch (error) {
-		console.error(error, request.body.input);
+		console.error('[marne parser]', error, request.body.input);
 		return {
 			status: 500,
 			body: 'API PARSE ERROR',
