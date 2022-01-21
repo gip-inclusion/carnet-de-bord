@@ -1,3 +1,10 @@
+## [1.77.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.1...v1.77.2) (2022-01-21)
+
+
+### Bug Fixes
+
+* better action error debug ([69405e2](https://github.com/SocialGouv/carnet-de-bord/commit/69405e290f6793510a71df14a6ba46910be8bbdc))
+
 ## [1.77.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.0...v1.77.1) (2022-01-21)
 
 
