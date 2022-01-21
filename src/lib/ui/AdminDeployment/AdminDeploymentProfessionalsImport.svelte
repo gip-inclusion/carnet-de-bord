@@ -58,7 +58,7 @@
 				const cells = rows[i].split(',');
 				const pro = { uid: uuidv4() } as ProImport;
 				for (let j = 0; j < headers.length; j++) {
-					pro[headers[j].key] = cells[j];
+					pro[headers[j].key] = cells[j] && cells[j].trim();
 				}
 				pro.valid = validate(pro);
 				output.push(pro);
@@ -90,7 +90,7 @@
 					.reduce((acc, cur) => {
 						return [...acc, ...cur];
 					}, []);
-
+				console.log({ pros });
 				toImport = pros.filter(({ valid }) => valid).map(({ uid }) => uid);
 			};
 			reader.readAsText(files[i]);
@@ -128,7 +128,7 @@
 		{ label: 'Courriel*', key: 'email' },
 		{ label: 'Prénom*', key: 'firstname' },
 		{ label: 'Nom*', key: 'lastname' },
-		{ label: 'Téléphone', key: 'phone' },
+		{ label: 'Téléphone', key: 'mobileNumber' },
 		{ label: 'Fonction', key: 'position' },
 	];
 
