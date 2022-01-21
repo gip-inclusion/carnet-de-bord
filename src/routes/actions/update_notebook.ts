@@ -99,12 +99,13 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 				professionalId: members[0]?.professionalId,
 				focuses,
 			}),
-		}).then((response) => {
+		}).then(async (response) => {
 			if (response.ok) {
 				console.log(`carnet ${input.id} mis à jour !`);
 				return response.json();
 			}
-			return Promise.reject(response.json());
+			const errorMessage = await response.text();
+			return Promise.reject(new Error(errorMessage));
 		});
 	} catch (error) {
 		console.error(`echec de mise à jour du carnet ${input.id}`, error, url, callback);
