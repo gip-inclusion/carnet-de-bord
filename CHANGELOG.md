@@ -1,3 +1,10 @@
+## [1.77.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.0...v1.77.1) (2022-01-21)
+
+
+### Bug Fixes
+
+* use corect key for phone when import pro ([#520](https://github.com/SocialGouv/carnet-de-bord/issues/520)) ([a4188c3](https://github.com/SocialGouv/carnet-de-bord/commit/a4188c38b812ca2da12513e21f14bbfdaa06b746))
+
 # [1.77.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.76.6...v1.77.0) (2022-01-20)
 
 
