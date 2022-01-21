@@ -50,6 +50,18 @@ select_permissions:
     - id
     filter: {}
   role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
+    - label
+    - config
+    - created_at
+    - updated_at
+    - id
+    filter:
+      id:
+        _eq: X-Hasura-Deployment-Id
+  role: manager
 update_permissions:
 - permission:
     check: {}

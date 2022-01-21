@@ -79,6 +79,9 @@ export type Account = {
 	admin?: Maybe<AdminCdb>;
 	adminId?: Maybe<Scalars['uuid']>;
 	/** An object relationship */
+	admin_structure?: Maybe<AdminStructure>;
+	admin_structure_id?: Maybe<Scalars['uuid']>;
+	/** An object relationship */
 	beneficiary?: Maybe<Beneficiary>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	confirmed: Scalars['Boolean'];
@@ -127,6 +130,8 @@ export type AccountBoolExp = {
 	accessKeyDate?: InputMaybe<TimestamptzComparisonExp>;
 	admin?: InputMaybe<AdminCdbBoolExp>;
 	adminId?: InputMaybe<UuidComparisonExp>;
+	admin_structure?: InputMaybe<AdminStructureBoolExp>;
+	admin_structure_id?: InputMaybe<UuidComparisonExp>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
 	beneficiaryId?: InputMaybe<UuidComparisonExp>;
 	confirmed?: InputMaybe<BooleanComparisonExp>;
@@ -165,6 +170,8 @@ export type AccountInsertInput = {
 	accessKeyDate?: InputMaybe<Scalars['timestamptz']>;
 	admin?: InputMaybe<AdminCdbObjRelInsertInput>;
 	adminId?: InputMaybe<Scalars['uuid']>;
+	admin_structure?: InputMaybe<AdminStructureObjRelInsertInput>;
+	admin_structure_id?: InputMaybe<Scalars['uuid']>;
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	confirmed?: InputMaybe<Scalars['Boolean']>;
@@ -187,6 +194,7 @@ export type AccountMaxFields = {
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	adminId?: Maybe<Scalars['uuid']>;
+	admin_structure_id?: Maybe<Scalars['uuid']>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -204,6 +212,7 @@ export type AccountMinFields = {
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	adminId?: Maybe<Scalars['uuid']>;
+	admin_structure_id?: Maybe<Scalars['uuid']>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -244,6 +253,8 @@ export type AccountOrderBy = {
 	accessKeyDate?: InputMaybe<OrderBy>;
 	admin?: InputMaybe<AdminCdbOrderBy>;
 	adminId?: InputMaybe<OrderBy>;
+	admin_structure?: InputMaybe<AdminStructureOrderBy>;
+	admin_structure_id?: InputMaybe<OrderBy>;
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
 	beneficiaryId?: InputMaybe<OrderBy>;
 	confirmed?: InputMaybe<OrderBy>;
@@ -274,6 +285,8 @@ export enum AccountSelectColumn {
 	/** column name */
 	AdminId = 'adminId',
 	/** column name */
+	AdminStructureId = 'admin_structure_id',
+	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
 	Confirmed = 'confirmed',
@@ -302,6 +315,7 @@ export type AccountSetInput = {
 	accessKey?: InputMaybe<Scalars['String']>;
 	accessKeyDate?: InputMaybe<Scalars['timestamptz']>;
 	adminId?: InputMaybe<Scalars['uuid']>;
+	admin_structure_id?: InputMaybe<Scalars['uuid']>;
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	confirmed?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -323,6 +337,8 @@ export enum AccountUpdateColumn {
 	AccessKeyDate = 'accessKeyDate',
 	/** column name */
 	AdminId = 'adminId',
+	/** column name */
+	AdminStructureId = 'admin_structure_id',
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
@@ -351,7 +367,7 @@ export enum AccountUpdateColumn {
 export type AdminCdb = {
 	__typename?: 'admin_cdb';
 	/** An object relationship */
-	account: Account;
+	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	email: Scalars['citext'];
 	firstname: Scalars['String'];
@@ -517,6 +533,214 @@ export enum AdminCdbUpdateColumn {
 	UpdatedAt = 'updatedAt',
 }
 
+/** columns and relationships of "admin_structure" */
+export type AdminStructure = {
+	__typename?: 'admin_structure';
+	/** An object relationship */
+	account?: Maybe<Account>;
+	created_at: Scalars['timestamptz'];
+	/** An object relationship */
+	deployment: Deployment;
+	deployment_id: Scalars['uuid'];
+	email: Scalars['citext'];
+	firstname?: Maybe<Scalars['String']>;
+	id: Scalars['uuid'];
+	lastname?: Maybe<Scalars['String']>;
+	phone_numbers?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
+	updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "admin_structure" */
+export type AdminStructureAggregate = {
+	__typename?: 'admin_structure_aggregate';
+	aggregate?: Maybe<AdminStructureAggregateFields>;
+	nodes: Array<AdminStructure>;
+};
+
+/** aggregate fields of "admin_structure" */
+export type AdminStructureAggregateFields = {
+	__typename?: 'admin_structure_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<AdminStructureMaxFields>;
+	min?: Maybe<AdminStructureMinFields>;
+};
+
+/** aggregate fields of "admin_structure" */
+export type AdminStructureAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "admin_structure". All fields are combined with a logical 'AND'. */
+export type AdminStructureBoolExp = {
+	_and?: InputMaybe<Array<AdminStructureBoolExp>>;
+	_not?: InputMaybe<AdminStructureBoolExp>;
+	_or?: InputMaybe<Array<AdminStructureBoolExp>>;
+	account?: InputMaybe<AccountBoolExp>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	deployment?: InputMaybe<DeploymentBoolExp>;
+	deployment_id?: InputMaybe<UuidComparisonExp>;
+	email?: InputMaybe<CitextComparisonExp>;
+	firstname?: InputMaybe<StringComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	lastname?: InputMaybe<StringComparisonExp>;
+	phone_numbers?: InputMaybe<StringComparisonExp>;
+	position?: InputMaybe<StringComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "admin_structure" */
+export enum AdminStructureConstraint {
+	/** unique or primary key constraint */
+	AdminStructureEmailKey = 'admin_structure_email_key',
+	/** unique or primary key constraint */
+	AdminStructurePkey = 'admin_structure_pkey',
+}
+
+/** input type for inserting data into table "admin_structure" */
+export type AdminStructureInsertInput = {
+	account?: InputMaybe<AccountObjRelInsertInput>;
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	phone_numbers?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type AdminStructureMaxFields = {
+	__typename?: 'admin_structure_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	deployment_id?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	phone_numbers?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type AdminStructureMinFields = {
+	__typename?: 'admin_structure_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	deployment_id?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	phone_numbers?: Maybe<Scalars['String']>;
+	position?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "admin_structure" */
+export type AdminStructureMutationResponse = {
+	__typename?: 'admin_structure_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<AdminStructure>;
+};
+
+/** input type for inserting object relation for remote table "admin_structure" */
+export type AdminStructureObjRelInsertInput = {
+	data: AdminStructureInsertInput;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<AdminStructureOnConflict>;
+};
+
+/** on conflict condition type for table "admin_structure" */
+export type AdminStructureOnConflict = {
+	constraint: AdminStructureConstraint;
+	update_columns?: Array<AdminStructureUpdateColumn>;
+	where?: InputMaybe<AdminStructureBoolExp>;
+};
+
+/** Ordering options when selecting data from "admin_structure". */
+export type AdminStructureOrderBy = {
+	account?: InputMaybe<AccountOrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	deployment?: InputMaybe<DeploymentOrderBy>;
+	deployment_id?: InputMaybe<OrderBy>;
+	email?: InputMaybe<OrderBy>;
+	firstname?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	lastname?: InputMaybe<OrderBy>;
+	phone_numbers?: InputMaybe<OrderBy>;
+	position?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: admin_structure */
+export type AdminStructurePkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "admin_structure" */
+export enum AdminStructureSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	DeploymentId = 'deployment_id',
+	/** column name */
+	Email = 'email',
+	/** column name */
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname',
+	/** column name */
+	PhoneNumbers = 'phone_numbers',
+	/** column name */
+	Position = 'position',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "admin_structure" */
+export type AdminStructureSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	phone_numbers?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "admin_structure" */
+export enum AdminStructureUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	DeploymentId = 'deployment_id',
+	/** column name */
+	Email = 'email',
+	/** column name */
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname',
+	/** column name */
+	PhoneNumbers = 'phone_numbers',
+	/** column name */
+	Position = 'position',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
 /** columns and relationships of "beneficiary" */
 export type Beneficiary = {
 	__typename?: 'beneficiary';
@@ -538,7 +762,7 @@ export type Beneficiary = {
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
 	/** An object relationship */
-	notebook: Notebook;
+	notebook?: Maybe<Notebook>;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	updatedAt: Scalars['timestamptz'];
@@ -828,6 +1052,245 @@ export type BeneficiarySetInput = {
 	postalCode?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
+
+/** columns and relationships of "beneficiary_structure" */
+export type BeneficiaryStructure = {
+	__typename?: 'beneficiary_structure';
+	/** An object relationship */
+	beneficiary: Beneficiary;
+	beneficiary_id: Scalars['uuid'];
+	created_at?: Maybe<Scalars['timestamptz']>;
+	data: Scalars['jsonb'];
+	id: Scalars['uuid'];
+	status: Scalars['String'];
+	/** An object relationship */
+	structure: Structure;
+	structure_id: Scalars['uuid'];
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** columns and relationships of "beneficiary_structure" */
+export type BeneficiaryStructureDataArgs = {
+	path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "beneficiary_structure" */
+export type BeneficiaryStructureAggregate = {
+	__typename?: 'beneficiary_structure_aggregate';
+	aggregate?: Maybe<BeneficiaryStructureAggregateFields>;
+	nodes: Array<BeneficiaryStructure>;
+};
+
+/** aggregate fields of "beneficiary_structure" */
+export type BeneficiaryStructureAggregateFields = {
+	__typename?: 'beneficiary_structure_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<BeneficiaryStructureMaxFields>;
+	min?: Maybe<BeneficiaryStructureMinFields>;
+};
+
+/** aggregate fields of "beneficiary_structure" */
+export type BeneficiaryStructureAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "beneficiary_structure" */
+export type BeneficiaryStructureAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<BeneficiaryStructureMaxOrderBy>;
+	min?: InputMaybe<BeneficiaryStructureMinOrderBy>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type BeneficiaryStructureAppendInput = {
+	data?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** input type for inserting array relation for remote table "beneficiary_structure" */
+export type BeneficiaryStructureArrRelInsertInput = {
+	data: Array<BeneficiaryStructureInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<BeneficiaryStructureOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "beneficiary_structure". All fields are combined with a logical 'AND'. */
+export type BeneficiaryStructureBoolExp = {
+	_and?: InputMaybe<Array<BeneficiaryStructureBoolExp>>;
+	_not?: InputMaybe<BeneficiaryStructureBoolExp>;
+	_or?: InputMaybe<Array<BeneficiaryStructureBoolExp>>;
+	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
+	beneficiary_id?: InputMaybe<UuidComparisonExp>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	data?: InputMaybe<JsonbComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	status?: InputMaybe<StringComparisonExp>;
+	structure?: InputMaybe<StructureBoolExp>;
+	structure_id?: InputMaybe<UuidComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "beneficiary_structure" */
+export enum BeneficiaryStructureConstraint {
+	/** unique or primary key constraint */
+	BeneficiaryDeploymentPkey = 'beneficiary_deployment_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type BeneficiaryStructureDeleteAtPathInput = {
+	data?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type BeneficiaryStructureDeleteElemInput = {
+	data?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type BeneficiaryStructureDeleteKeyInput = {
+	data?: InputMaybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "beneficiary_structure" */
+export type BeneficiaryStructureInsertInput = {
+	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
+	beneficiary_id?: InputMaybe<Scalars['uuid']>;
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	data?: InputMaybe<Scalars['jsonb']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+	structure?: InputMaybe<StructureObjRelInsertInput>;
+	structure_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type BeneficiaryStructureMaxFields = {
+	__typename?: 'beneficiary_structure_max_fields';
+	beneficiary_id?: Maybe<Scalars['uuid']>;
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	structure_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "beneficiary_structure" */
+export type BeneficiaryStructureMaxOrderBy = {
+	beneficiary_id?: InputMaybe<OrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	structure_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type BeneficiaryStructureMinFields = {
+	__typename?: 'beneficiary_structure_min_fields';
+	beneficiary_id?: Maybe<Scalars['uuid']>;
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	structure_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "beneficiary_structure" */
+export type BeneficiaryStructureMinOrderBy = {
+	beneficiary_id?: InputMaybe<OrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	structure_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "beneficiary_structure" */
+export type BeneficiaryStructureMutationResponse = {
+	__typename?: 'beneficiary_structure_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<BeneficiaryStructure>;
+};
+
+/** on conflict condition type for table "beneficiary_structure" */
+export type BeneficiaryStructureOnConflict = {
+	constraint: BeneficiaryStructureConstraint;
+	update_columns?: Array<BeneficiaryStructureUpdateColumn>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
+/** Ordering options when selecting data from "beneficiary_structure". */
+export type BeneficiaryStructureOrderBy = {
+	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
+	beneficiary_id?: InputMaybe<OrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	data?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	structure?: InputMaybe<StructureOrderBy>;
+	structure_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: beneficiary_structure */
+export type BeneficiaryStructurePkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type BeneficiaryStructurePrependInput = {
+	data?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "beneficiary_structure" */
+export enum BeneficiaryStructureSelectColumn {
+	/** column name */
+	BeneficiaryId = 'beneficiary_id',
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Data = 'data',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Status = 'status',
+	/** column name */
+	StructureId = 'structure_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "beneficiary_structure" */
+export type BeneficiaryStructureSetInput = {
+	beneficiary_id?: InputMaybe<Scalars['uuid']>;
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	data?: InputMaybe<Scalars['jsonb']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+	structure_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "beneficiary_structure" */
+export enum BeneficiaryStructureUpdateColumn {
+	/** column name */
+	BeneficiaryId = 'beneficiary_id',
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Data = 'data',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Status = 'status',
+	/** column name */
+	StructureId = 'structure_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
 
 /** update columns of table "beneficiary" */
 export enum BeneficiaryUpdateColumn {
@@ -1247,7 +1710,7 @@ export type JsonbComparisonExp = {
 export type Manager = {
 	__typename?: 'manager';
 	/** An object relationship */
-	account: Account;
+	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	deployment?: Maybe<Deployment>;
@@ -1476,10 +1939,18 @@ export type MutationRoot = {
 	delete_admin_cdb?: Maybe<AdminCdbMutationResponse>;
 	/** delete single row from the table: "admin_cdb" */
 	delete_admin_cdb_by_pk?: Maybe<AdminCdb>;
+	/** delete data from the table: "admin_structure" */
+	delete_admin_structure?: Maybe<AdminStructureMutationResponse>;
+	/** delete single row from the table: "admin_structure" */
+	delete_admin_structure_by_pk?: Maybe<AdminStructure>;
 	/** delete data from the table: "beneficiary" */
 	delete_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** delete single row from the table: "beneficiary" */
 	delete_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** delete data from the table: "beneficiary_structure" */
+	delete_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
+	/** delete single row from the table: "beneficiary_structure" */
+	delete_beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
 	/** delete data from the table: "deployment" */
 	delete_deployment?: Maybe<DeploymentMutationResponse>;
 	/** delete single row from the table: "deployment" */
@@ -1540,10 +2011,18 @@ export type MutationRoot = {
 	insert_admin_cdb?: Maybe<AdminCdbMutationResponse>;
 	/** insert a single row into the table: "admin_cdb" */
 	insert_admin_cdb_one?: Maybe<AdminCdb>;
+	/** insert data into the table: "admin_structure" */
+	insert_admin_structure?: Maybe<AdminStructureMutationResponse>;
+	/** insert a single row into the table: "admin_structure" */
+	insert_admin_structure_one?: Maybe<AdminStructure>;
 	/** insert data into the table: "beneficiary" */
 	insert_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** insert a single row into the table: "beneficiary" */
 	insert_beneficiary_one?: Maybe<Beneficiary>;
+	/** insert data into the table: "beneficiary_structure" */
+	insert_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
+	/** insert a single row into the table: "beneficiary_structure" */
+	insert_beneficiary_structure_one?: Maybe<BeneficiaryStructure>;
 	/** insert data into the table: "deployment" */
 	insert_deployment?: Maybe<DeploymentMutationResponse>;
 	/** insert a single row into the table: "deployment" */
@@ -1605,10 +2084,18 @@ export type MutationRoot = {
 	update_admin_cdb?: Maybe<AdminCdbMutationResponse>;
 	/** update single row of the table: "admin_cdb" */
 	update_admin_cdb_by_pk?: Maybe<AdminCdb>;
+	/** update data of the table: "admin_structure" */
+	update_admin_structure?: Maybe<AdminStructureMutationResponse>;
+	/** update single row of the table: "admin_structure" */
+	update_admin_structure_by_pk?: Maybe<AdminStructure>;
 	/** update data of the table: "beneficiary" */
 	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
 	update_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** update data of the table: "beneficiary_structure" */
+	update_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
+	/** update single row of the table: "beneficiary_structure" */
+	update_beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
 	/** update data of the table: "deployment" */
 	update_deployment?: Maybe<DeploymentMutationResponse>;
 	/** update single row of the table: "deployment" */
@@ -1684,12 +2171,32 @@ export type MutationRootDeleteAdminCdbByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteAdminStructureArgs = {
+	where: AdminStructureBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteAdminStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type MutationRootDeleteBeneficiaryArgs = {
 	where: BeneficiaryBoolExp;
 };
 
 /** mutation root */
 export type MutationRootDeleteBeneficiaryByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteBeneficiaryStructureArgs = {
+	where: BeneficiaryStructureBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteBeneficiaryStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -1848,6 +2355,18 @@ export type MutationRootInsertAdminCdbOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertAdminStructureArgs = {
+	objects: Array<AdminStructureInsertInput>;
+	on_conflict?: InputMaybe<AdminStructureOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertAdminStructureOneArgs = {
+	object: AdminStructureInsertInput;
+	on_conflict?: InputMaybe<AdminStructureOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertBeneficiaryArgs = {
 	objects: Array<BeneficiaryInsertInput>;
 	on_conflict?: InputMaybe<BeneficiaryOnConflict>;
@@ -1857,6 +2376,18 @@ export type MutationRootInsertBeneficiaryArgs = {
 export type MutationRootInsertBeneficiaryOneArgs = {
 	object: BeneficiaryInsertInput;
 	on_conflict?: InputMaybe<BeneficiaryOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertBeneficiaryStructureArgs = {
+	objects: Array<BeneficiaryStructureInsertInput>;
+	on_conflict?: InputMaybe<BeneficiaryStructureOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertBeneficiaryStructureOneArgs = {
+	object: BeneficiaryStructureInsertInput;
+	on_conflict?: InputMaybe<BeneficiaryStructureOnConflict>;
 };
 
 /** mutation root */
@@ -2045,6 +2576,18 @@ export type MutationRootUpdateAdminCdbByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateAdminStructureArgs = {
+	_set?: InputMaybe<AdminStructureSetInput>;
+	where: AdminStructureBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateAdminStructureByPkArgs = {
+	_set?: InputMaybe<AdminStructureSetInput>;
+	pk_columns: AdminStructurePkColumnsInput;
+};
+
+/** mutation root */
 export type MutationRootUpdateBeneficiaryArgs = {
 	_set?: InputMaybe<BeneficiarySetInput>;
 	where: BeneficiaryBoolExp;
@@ -2054,6 +2597,28 @@ export type MutationRootUpdateBeneficiaryArgs = {
 export type MutationRootUpdateBeneficiaryByPkArgs = {
 	_set?: InputMaybe<BeneficiarySetInput>;
 	pk_columns: BeneficiaryPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateBeneficiaryStructureArgs = {
+	_append?: InputMaybe<BeneficiaryStructureAppendInput>;
+	_delete_at_path?: InputMaybe<BeneficiaryStructureDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<BeneficiaryStructureDeleteElemInput>;
+	_delete_key?: InputMaybe<BeneficiaryStructureDeleteKeyInput>;
+	_prepend?: InputMaybe<BeneficiaryStructurePrependInput>;
+	_set?: InputMaybe<BeneficiaryStructureSetInput>;
+	where: BeneficiaryStructureBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateBeneficiaryStructureByPkArgs = {
+	_append?: InputMaybe<BeneficiaryStructureAppendInput>;
+	_delete_at_path?: InputMaybe<BeneficiaryStructureDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<BeneficiaryStructureDeleteElemInput>;
+	_delete_key?: InputMaybe<BeneficiaryStructureDeleteKeyInput>;
+	_prepend?: InputMaybe<BeneficiaryStructurePrependInput>;
+	_set?: InputMaybe<BeneficiaryStructureSetInput>;
+	pk_columns: BeneficiaryStructurePkColumnsInput;
 };
 
 /** mutation root */
@@ -3804,7 +4369,7 @@ export enum OrderBy {
 export type Professional = {
 	__typename?: 'professional';
 	/** An object relationship */
-	account: Account;
+	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	email: Scalars['citext'];
 	firstname: Scalars['String'];
@@ -4212,12 +4777,24 @@ export type QueryRoot = {
 	admin_cdb_aggregate: AdminCdbAggregate;
 	/** fetch data from the table: "admin_cdb" using primary key columns */
 	admin_cdb_by_pk?: Maybe<AdminCdb>;
+	/** fetch data from the table: "admin_structure" */
+	admin_structure: Array<AdminStructure>;
+	/** fetch aggregated fields from the table: "admin_structure" */
+	admin_structure_aggregate: AdminStructureAggregate;
+	/** fetch data from the table: "admin_structure" using primary key columns */
+	admin_structure_by_pk?: Maybe<AdminStructure>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "beneficiary_structure" */
+	beneficiary_structure: Array<BeneficiaryStructure>;
+	/** fetch aggregated fields from the table: "beneficiary_structure" */
+	beneficiary_structure_aggregate: BeneficiaryStructureAggregate;
+	/** fetch data from the table: "beneficiary_structure" using primary key columns */
+	beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
 	/** fetch data from the table: "deployment" */
 	deployment: Array<Deployment>;
 	/** fetch aggregated fields from the table: "deployment" */
@@ -4338,6 +4915,26 @@ export type QueryRootAdminCdbByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootAdminStructureArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureBoolExp>;
+};
+
+export type QueryRootAdminStructureAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureBoolExp>;
+};
+
+export type QueryRootAdminStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootBeneficiaryArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -4355,6 +4952,26 @@ export type QueryRootBeneficiaryAggregateArgs = {
 };
 
 export type QueryRootBeneficiaryByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootBeneficiaryStructureArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
+export type QueryRootBeneficiaryStructureAggregateArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
+export type QueryRootBeneficiaryStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -4992,6 +5609,10 @@ export type Structure = {
 	__typename?: 'structure';
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
+	/** An array relationship */
+	beneficiaries: Array<BeneficiaryStructure>;
+	/** An aggregate relationship */
+	beneficiaries_aggregate: BeneficiaryStructureAggregate;
 	city?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
@@ -4999,7 +5620,7 @@ export type Structure = {
 	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	name: Scalars['String'];
+	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -5010,6 +5631,24 @@ export type Structure = {
 	siret?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	website?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "structure" */
+export type StructureBeneficiariesArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
+/** columns and relationships of "structure" */
+export type StructureBeneficiariesAggregateArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
 };
 
 /** columns and relationships of "structure" */
@@ -5072,6 +5711,7 @@ export type StructureBoolExp = {
 	_or?: InputMaybe<Array<StructureBoolExp>>;
 	address1?: InputMaybe<StringComparisonExp>;
 	address2?: InputMaybe<StringComparisonExp>;
+	beneficiaries?: InputMaybe<BeneficiaryStructureBoolExp>;
 	city?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment?: InputMaybe<DeploymentBoolExp>;
@@ -5100,6 +5740,7 @@ export enum StructureConstraint {
 export type StructureInsertInput = {
 	address1?: InputMaybe<Scalars['String']>;
 	address2?: InputMaybe<Scalars['String']>;
+	beneficiaries?: InputMaybe<BeneficiaryStructureArrRelInsertInput>;
 	city?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
@@ -5217,6 +5858,7 @@ export type StructureOnConflict = {
 export type StructureOrderBy = {
 	address1?: InputMaybe<OrderBy>;
 	address2?: InputMaybe<OrderBy>;
+	beneficiaries_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
 	city?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	deployment?: InputMaybe<DeploymentOrderBy>;
@@ -5334,12 +5976,24 @@ export type SubscriptionRoot = {
 	admin_cdb_aggregate: AdminCdbAggregate;
 	/** fetch data from the table: "admin_cdb" using primary key columns */
 	admin_cdb_by_pk?: Maybe<AdminCdb>;
+	/** fetch data from the table: "admin_structure" */
+	admin_structure: Array<AdminStructure>;
+	/** fetch aggregated fields from the table: "admin_structure" */
+	admin_structure_aggregate: AdminStructureAggregate;
+	/** fetch data from the table: "admin_structure" using primary key columns */
+	admin_structure_by_pk?: Maybe<AdminStructure>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "beneficiary_structure" */
+	beneficiary_structure: Array<BeneficiaryStructure>;
+	/** fetch aggregated fields from the table: "beneficiary_structure" */
+	beneficiary_structure_aggregate: BeneficiaryStructureAggregate;
+	/** fetch data from the table: "beneficiary_structure" using primary key columns */
+	beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
 	/** fetch data from the table: "deployment" */
 	deployment: Array<Deployment>;
 	/** fetch aggregated fields from the table: "deployment" */
@@ -5460,6 +6114,26 @@ export type SubscriptionRootAdminCdbByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootAdminStructureArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureBoolExp>;
+};
+
+export type SubscriptionRootAdminStructureAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureBoolExp>;
+};
+
+export type SubscriptionRootAdminStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type SubscriptionRootBeneficiaryArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -5477,6 +6151,26 @@ export type SubscriptionRootBeneficiaryAggregateArgs = {
 };
 
 export type SubscriptionRootBeneficiaryByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootBeneficiaryStructureArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
+export type SubscriptionRootBeneficiaryStructureAggregateArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
+export type SubscriptionRootBeneficiaryStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -5881,7 +6575,7 @@ export type ImportStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: string | null | undefined;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -5899,7 +6593,7 @@ export type ImportStructureMutation = {
 export type StructureFieldsFragment = {
 	__typename?: 'structure';
 	id: string;
-	name: string;
+	name?: string | null | undefined;
 	phone?: string | null | undefined;
 	email?: string | null | undefined;
 	address1?: string | null | undefined;
@@ -6036,7 +6730,7 @@ export type GetNotebookFocusByIdQuery = {
 					structure: {
 						__typename?: 'structure';
 						id: string;
-						name: string;
+						name?: string | null | undefined;
 						phone?: string | null | undefined;
 						address1?: string | null | undefined;
 						address2?: string | null | undefined;
@@ -6113,7 +6807,7 @@ export type SearchProfessionalQuery = {
 		structure: {
 			__typename?: 'structure';
 			id: string;
-			name: string;
+			name?: string | null | undefined;
 			postalCode?: string | null | undefined;
 			phone?: string | null | undefined;
 		};
@@ -6223,7 +6917,7 @@ export type GetAccountByPkQuery = {
 							structure: {
 								__typename?: 'structure';
 								id: string;
-								name: string;
+								name?: string | null | undefined;
 								address1?: string | null | undefined;
 								address2?: string | null | undefined;
 								postalCode?: string | null | undefined;
@@ -6317,7 +7011,7 @@ export type GetStructuresForDeploymentQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: string | null | undefined;
-		name: string;
+		name?: string | null | undefined;
 		shortDesc?: string | null | undefined;
 		phone?: string | null | undefined;
 		email?: string | null | undefined;
@@ -6478,7 +7172,7 @@ export type GetStructuresQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: string | null | undefined;
-		name: string;
+		name?: string | null | undefined;
 		shortDesc?: string | null | undefined;
 		phone?: string | null | undefined;
 		email?: string | null | undefined;
@@ -6541,6 +7235,23 @@ export type GetAccountByIdQuery = {
 		| undefined;
 };
 
+export type GetDeploymentInfosQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetDeploymentInfosQuery = {
+	__typename?: 'query_root';
+	deployment?: { __typename?: 'deployment'; label: string } | null | undefined;
+	beneficiaries: {
+		__typename?: 'beneficiary_aggregate';
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
+	};
+	structures: {
+		__typename?: 'structure_aggregate';
+		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
+	};
+};
+
 export type GetProfessionalsForManagerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfessionalsForManagerQuery = {
@@ -6554,7 +7265,7 @@ export type GetProfessionalsForManagerQuery = {
 		position?: string | null | undefined;
 		email: string;
 		structureId: string;
-		structure: { __typename?: 'structure'; id: string; name: string };
+		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
 };
 
@@ -6597,7 +7308,7 @@ export type GetNotebooksStatsQuery = {
 	structConnections: Array<{
 		__typename?: 'structure';
 		id: string;
-		name: string;
+		name?: string | null | undefined;
 		city?: string | null | undefined;
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
@@ -6628,7 +7339,7 @@ export type InsertStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: string | null | undefined;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -6663,7 +7374,7 @@ export type UpdateStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: string | null | undefined;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -6698,7 +7409,7 @@ export type GetAccountsSummaryQuery = {
 					position?: string | null | undefined;
 					mobileNumber?: string | null | undefined;
 					email: string;
-					structure: { __typename?: 'structure'; id: string; name: string };
+					structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 			  }
 			| null
 			| undefined;
@@ -6747,7 +7458,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				structure: {
 					__typename?: 'structure';
 					id: string;
-					name: string;
+					name?: string | null | undefined;
 					address1?: string | null | undefined;
 					address2?: string | null | undefined;
 					postalCode?: string | null | undefined;
@@ -6907,7 +7618,7 @@ export type GetNotebookQuery = {
 						structure: {
 							__typename?: 'structure';
 							id: string;
-							name: string;
+							name?: string | null | undefined;
 							address1?: string | null | undefined;
 							address2?: string | null | undefined;
 							postalCode?: string | null | undefined;
@@ -6926,7 +7637,7 @@ export type GetNotebookQuery = {
 					professional: {
 						__typename?: 'professional';
 						structureId: string;
-						structure: { __typename?: 'structure'; name: string };
+						structure: { __typename?: 'structure'; name?: string | null | undefined };
 					};
 				}>;
 		  }
@@ -6952,7 +7663,7 @@ export type GetNotebookEventsQuery = {
 		professional: {
 			__typename?: 'professional';
 			structureId: string;
-			structure: { __typename?: 'structure'; name: string };
+			structure: { __typename?: 'structure'; name?: string | null | undefined };
 		};
 	}>;
 };
@@ -6967,7 +7678,7 @@ export type EventFieldsFragment = {
 	professional: {
 		__typename?: 'professional';
 		structureId: string;
-		structure: { __typename?: 'structure'; name: string };
+		structure: { __typename?: 'structure'; name?: string | null | undefined };
 	};
 };
 
@@ -6997,7 +7708,7 @@ export type GetNotebookMemberByIdQuery = {
 					lastname: string;
 					email: string;
 					id: string;
-					account: { __typename?: 'account'; id: string; confirmed: boolean };
+					account?: { __typename?: 'account'; id: string; confirmed: boolean } | null | undefined;
 				};
 		  }
 		| null
@@ -10967,6 +11678,83 @@ export const GetAccountByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByIdQuery, GetAccountByIdQueryVariables>;
+export const GetDeploymentInfosDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentInfos' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployment' },
+						name: { kind: 'Name', value: 'deployment_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'label' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'beneficiaries' },
+						name: { kind: 'Name', value: 'beneficiary_aggregate' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structures' },
+						name: { kind: 'Name', value: 'structure_aggregate' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentInfosQuery, GetDeploymentInfosQueryVariables>;
 export const GetProfessionalsForManagerDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13738,6 +14526,10 @@ export type ConfirmAccountByIdMutationStore = OperationStore<
 export type GetAccountByIdQueryStore = OperationStore<
 	GetAccountByIdQuery,
 	GetAccountByIdQueryVariables
+>;
+export type GetDeploymentInfosQueryStore = OperationStore<
+	GetDeploymentInfosQuery,
+	GetDeploymentInfosQueryVariables
 >;
 export type GetProfessionalsForManagerQueryStore = OperationStore<
 	GetProfessionalsForManagerQuery,

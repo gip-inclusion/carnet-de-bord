@@ -18,6 +18,9 @@ object_relationships:
 - name: admin
   using:
     foreign_key_constraint_on: admin_id
+- name: admin_structure
+  using:
+    foreign_key_constraint_on: admin_structure_id
 - name: beneficiary
   using:
     foreign_key_constraint_on: beneficiary_id

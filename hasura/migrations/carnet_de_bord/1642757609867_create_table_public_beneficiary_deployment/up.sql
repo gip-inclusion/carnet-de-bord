@@ -1,0 +1,2 @@
+CREATE TABLE "public"."beneficiary_deployment" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "beneficiary_id" uuid NOT NULL, "structure_id" uuid NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), PRIMARY KEY ("id") , FOREIGN KEY ("beneficiary_id") REFERENCES "public"."beneficiary"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("structure_id") REFERENCES "public"."structure"("id") ON UPDATE restrict ON DELETE restrict);
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
