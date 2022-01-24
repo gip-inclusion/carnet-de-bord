@@ -1,3 +1,10 @@
+## [1.77.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.5...v1.77.6) (2022-01-24)
+
+
+### Bug Fixes
+
+* **secu:** use non-privilegied docker user ([#536](https://github.com/SocialGouv/carnet-de-bord/issues/536)) ([f729b3e](https://github.com/SocialGouv/carnet-de-bord/commit/f729b3e64b2cb539a38d0d3623cc00c523ff9e77))
+
 ## [1.77.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.4...v1.77.5) (2022-01-24)
 
 
