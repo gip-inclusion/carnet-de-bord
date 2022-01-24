@@ -1,6 +1,12 @@
 table:
   name: notebook_member_history
   schema: public
+configuration:
+  custom_column_names:
+    created_at: createdAt
+    ended_at: endedAt
+    notebook_member_id: notebookMemberId
+  custom_root_fields: {}
 object_relationships:
 - name: notebook_member
   using:

@@ -1,6 +1,16 @@
 table:
   name: waiting_supervision
   schema: public
+configuration:
+  custom_column_names:
+    additional_data: additionalData
+    beneficiary_id: beneficiaryId
+    created_at: createdAt
+    created_by: createdBy
+    deployment_id: deploymentId
+    structure_id: structureId
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
 - name: beneficiary
   using:
