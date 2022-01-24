@@ -606,7 +606,9 @@ export type BeneficiaryBoolExp = {
 /** unique or primary key constraints on table "beneficiary" */
 export enum BeneficiaryConstraint {
 	/** unique or primary key constraint */
-	BeneficiaryEmailUnique = 'beneficiary_email_unique',
+	BeneficiaryFirstnameCafNumberDateOfBirthLastnameDeploym = 'beneficiary_firstname_caf_number_date_of_birth_lastname_deploym',
+	/** unique or primary key constraint */
+	BeneficiaryPeNumberLastnameFirstnameDateOfBirthDeployme = 'beneficiary_pe_number_lastname_firstname_date_of_birth_deployme',
 	/** unique or primary key constraint */
 	BeneficiaryPkey = 'beneficiary_pkey',
 }
