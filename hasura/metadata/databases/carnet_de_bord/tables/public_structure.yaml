@@ -21,6 +21,13 @@ array_relationships:
       table:
         name: professional
         schema: public
+- name: waiting_supervisions
+  using:
+    foreign_key_constraint_on:
+      column: structure_id
+      table:
+        name: waiting_supervision
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false

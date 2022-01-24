@@ -32,6 +32,14 @@ object_relationships:
       table:
         name: notebook
         schema: public
+array_relationships:
+- name: waiting_supervisions
+  using:
+    foreign_key_constraint_on:
+      column: beneficiary_id
+      table:
+        name: waiting_supervision
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false

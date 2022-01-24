@@ -1,0 +1,7 @@
+table:
+  name: notebook_member_history
+  schema: public
+object_relationships:
+- name: notebook_member
+  using:
+    foreign_key_constraint_on: notebook_member_id

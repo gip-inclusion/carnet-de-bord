@@ -22,6 +22,14 @@ object_relationships:
 - name: professional
   using:
     foreign_key_constraint_on: professional_id
+array_relationships:
+- name: notebook_member_histories
+  using:
+    foreign_key_constraint_on:
+      column: notebook_member_id
+      table:
+        name: notebook_member_history
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false

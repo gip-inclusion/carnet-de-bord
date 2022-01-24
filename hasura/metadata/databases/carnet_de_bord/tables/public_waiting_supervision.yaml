@@ -1,0 +1,16 @@
+table:
+  name: waiting_supervision
+  schema: public
+object_relationships:
+- name: beneficiary
+  using:
+    foreign_key_constraint_on: beneficiary_id
+- name: deployment
+  using:
+    foreign_key_constraint_on: deployment_id
+- name: manager
+  using:
+    foreign_key_constraint_on: created_by
+- name: structure
+  using:
+    foreign_key_constraint_on: structure_id

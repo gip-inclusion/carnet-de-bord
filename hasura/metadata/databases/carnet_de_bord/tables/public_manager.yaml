@@ -18,6 +18,14 @@ object_relationships:
 - name: deployment
   using:
     foreign_key_constraint_on: deployment_id
+array_relationships:
+- name: waiting_supervisions
+  using:
+    foreign_key_constraint_on:
+      column: created_by
+      table:
+        name: waiting_supervision
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false

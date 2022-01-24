@@ -28,6 +28,13 @@ array_relationships:
       table:
         name: structure
         schema: public
+- name: waiting_supervisions
+  using:
+    foreign_key_constraint_on:
+      column: deployment_id
+      table:
+        name: waiting_supervision
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false
