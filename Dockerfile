@@ -27,4 +27,6 @@ RUN yarn build
 
 EXPOSE 3000
 
+USER 1000
+
 CMD [ "node", "build" ]
