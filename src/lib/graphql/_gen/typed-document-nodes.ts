@@ -2237,6 +2237,7 @@ export type Notebook = {
 	focuses_aggregate: NotebookFocusAggregate;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
+	internalId?: Maybe<Scalars['String']>;
 	job?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	members: Array<NotebookMember>;
@@ -2570,6 +2571,7 @@ export type NotebookBoolExp = {
 	focuses?: InputMaybe<NotebookFocusBoolExp>;
 	geographicalArea?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	internalId?: InputMaybe<StringComparisonExp>;
 	job?: InputMaybe<StringComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
 	rightAre?: InputMaybe<BooleanComparisonExp>;
@@ -2586,6 +2588,8 @@ export type NotebookBoolExp = {
 export enum NotebookConstraint {
 	/** unique or primary key constraint */
 	NotebookBeneficiaryIdKey = 'notebook_beneficiary_id_key',
+	/** unique or primary key constraint */
+	NotebookInternalIdKey = 'notebook_internal_id_key',
 	/** unique or primary key constraint */
 	NotebookPkey = 'notebook_pkey',
 }
@@ -3099,6 +3103,7 @@ export type NotebookInsertInput = {
 	focuses?: InputMaybe<NotebookFocusArrRelInsertInput>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	internalId?: InputMaybe<Scalars['String']>;
 	job?: InputMaybe<Scalars['String']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
@@ -3121,6 +3126,7 @@ export type NotebookMaxFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	internalId?: Maybe<Scalars['String']>;
 	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -3384,6 +3390,7 @@ export type NotebookMinFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	internalId?: Maybe<Scalars['String']>;
 	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -3426,6 +3433,7 @@ export type NotebookOrderBy = {
 	focuses_aggregate?: InputMaybe<NotebookFocusAggregateOrderBy>;
 	geographicalArea?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	internalId?: InputMaybe<OrderBy>;
 	job?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	rightAre?: InputMaybe<OrderBy>;
@@ -3460,6 +3468,8 @@ export enum NotebookSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	InternalId = 'internalId',
+	/** column name */
 	Job = 'job',
 	/** column name */
 	RightAre = 'rightAre',
@@ -3488,6 +3498,7 @@ export type NotebookSetInput = {
 	educationLevel?: InputMaybe<Scalars['String']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	internalId?: InputMaybe<Scalars['String']>;
 	job?: InputMaybe<Scalars['String']>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
@@ -3749,6 +3760,8 @@ export enum NotebookUpdateColumn {
 	GeographicalArea = 'geographicalArea',
 	/** column name */
 	Id = 'id',
+	/** column name */
+	InternalId = 'internalId',
 	/** column name */
 	Job = 'job',
 	/** column name */
@@ -5776,6 +5789,15 @@ export type ImportBeneficiaryMutationVariables = Exact<{
 	workSituation?: InputMaybe<Scalars['String']>;
 	cafNumber?: InputMaybe<Scalars['String']>;
 	peNumber?: InputMaybe<Scalars['String']>;
+	rightRsa?: InputMaybe<Scalars['String']>;
+	rightAre?: InputMaybe<Scalars['Boolean']>;
+	rightAss?: InputMaybe<Scalars['Boolean']>;
+	rightBonus?: InputMaybe<Scalars['Boolean']>;
+	rightRqth?: InputMaybe<Scalars['Boolean']>;
+	geographicalArea?: InputMaybe<Scalars['String']>;
+	job?: InputMaybe<Scalars['String']>;
+	educationLevel?: InputMaybe<Scalars['String']>;
+	internalId?: InputMaybe<Scalars['String']>;
 	deploymentId?: InputMaybe<Scalars['uuid']>;
 	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
 }>;
@@ -6297,6 +6319,7 @@ export type GetProfessionalsForDeploymentQuery = {
 		lastname: string;
 		mobileNumber?: string | null | undefined;
 		position?: string | null | undefined;
+		email: string;
 		structureId: string;
 		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
@@ -7226,6 +7249,51 @@ export const ImportBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'internalId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
@@ -7407,6 +7475,54 @@ export const ImportBeneficiaryDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'workSituation' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightRsa' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightAre' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightAss' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightBonus' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'rightRqth' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'geographicalArea' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'geographicalArea' },
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'job' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'educationLevel' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'internalId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'internalId' } },
 										},
 									],
 								},
@@ -10139,6 +10255,7 @@ export const GetProfessionalsForDeploymentDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
 								{
 									kind: 'Field',

@@ -2,6 +2,7 @@
 	import {
 		ImportBeneficiaryDocument,
 		GetProfessionalsForDeploymentDocument,
+		Professional,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		ImportBeneficiaryMutation,
@@ -9,13 +10,13 @@
 		GetProfessionalsForDeploymentQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query, mutation } from '@urql/svelte';
-	import Svelecte from 'svelecte';
 	import Dropzone from 'svelte-file-dropzone';
 	import Checkbox from '$lib/ui/base/GroupCheckbox.svelte';
 	import { Text } from '$lib/ui/utils';
 	import { v4 as uuidv4 } from 'uuid';
 	import { Alert, Button } from '$lib/ui/base';
-	import { displayFullName } from '../format';
+	import { displayFullName } from '$lib/ui/format';
+	import * as keys from '$lib/constants/keys';
 
 	export let deploymentId: string;
 
@@ -28,6 +29,7 @@
 	query(queryProfessionals);
 
 	type Beneficiary = {
+		internalId: string;
 		firstname: string;
 		lastname: string;
 		dateOfBirth: string;
@@ -40,20 +42,29 @@
 		workSituation?: string;
 		cafNumber?: string;
 		peNumber?: string;
+		rightRsa?: string;
+		rightAre?: string;
+		rightAss?: string;
+		rightBonus?: string;
+		rightRqth?: string;
+		geographicalArea?: string;
+		job?: string;
+		educationLevel?: string;
+		proEmails?: string;
 	};
 
 	type BeneficiaryImport = Beneficiary & {
 		valid: boolean;
 		uid: string;
-		professionalId: string;
-		additionalProfessionalId?: string;
 	};
 
-	$: professionals = ($queryProfessionals.data?.professional || []).map((pro) => ({
-		...pro,
-		name: `${displayFullName(pro)} (${pro.structure.name})`,
-	}));
-	let professionalId: string;
+	$: professionals = ($queryProfessionals.data?.professional || []).reduce(
+		(acc, cur) => ({
+			...acc,
+			[cur.email]: cur,
+		}),
+		{}
+	);
 
 	let files = [];
 	let beneficiaries: BeneficiaryImport[] = [];
@@ -120,20 +131,76 @@
 	let insertInProgress = false;
 	let insertResult: { benef: Beneficiary; error: string | null }[];
 
+	function stringToBool(s: string): boolean {
+		if (!s) {
+			return false;
+		}
+		if (['Oui', 'oui', 'O', 'o', 'OK'].includes(s.trim())) {
+			return true;
+		}
+		return false;
+	}
+
+	function stringToRightRsa(s: string): string {
+		return keys.rsaRightKeys.byValue[s] || null;
+	}
+
+	function stringToWorkSituation(s: string): string {
+		return keys.workSituationKeys.byValue[s] || null;
+	}
+
+	function stringToGeographicalArea(s: string): string {
+		return keys.geographicalAreaKeys.byValue[s] || null;
+	}
+
+	function stringToJob(s: string): string {
+		// TODO check that the code exists in our ROME codes database
+		return s;
+	}
+
+	function stringToEducationLevel(s: string): string {
+		return keys.educationLevelKeys.byValue[s] || null;
+	}
+
+	function proEmailsToPros(proEmails = ''): Professional[] {
+		const emails = proEmails.trim().split(';');
+		const pros = emails.reduce((acc, email) => {
+			const pro = professionals[email.trim()];
+			if (pro) {
+				acc.push(pro);
+			}
+			return acc;
+		}, []);
+		return pros;
+	}
+
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
 		for (const beneficiary of beneficiariesToImport) {
-			const { uid, valid, additionalProfessionalId, ...benef } = beneficiary;
-			const members = [{ memberType: 'referent', professionalId }];
-			const payload = { ...benef, deploymentId, members };
-			if (additionalProfessionalId) {
-				members.push({ memberType: '', professionalId: additionalProfessionalId });
-			}
-			await inserter(payload);
-			await new Promise((resolve) => {
-				setTimeout(resolve, 500);
-			});
+			const { uid, valid, proEmails, ...benef } = beneficiary;
+			const proIds = proEmailsToPros(proEmails).map(({ id }) => id);
+			const members = proIds.map((professionalId) => ({ memberType: 'referent', professionalId }));
+			const payload = {
+				...benef,
+				deploymentId,
+				workSituation: stringToWorkSituation(benef.workSituation),
+				rightRsa: stringToRightRsa(benef.rightRsa),
+				rightAre: stringToBool(benef.rightAre),
+				rightAss: stringToBool(benef.rightAss),
+				rightBonus: stringToBool(benef.rightBonus),
+				rightRqth: stringToBool(benef.rightRqth),
+				geographicalArea: stringToGeographicalArea(benef.geographicalArea),
+				job: stringToJob(benef.job),
+				educationLevel: stringToEducationLevel(benef.educationLevel),
+				members,
+			};
+			await Promise.all([
+				inserter(payload),
+				new Promise((resolve) => {
+					setTimeout(resolve, 500);
+				}),
+			]);
 			insertResult = [
 				...insertResult,
 				{ benef, error: insertStore.error ? insertStore.error.toString() : null },
@@ -143,6 +210,7 @@
 	}
 
 	const headers = [
+		{ label: 'Identifiant dans le SI*', key: 'internalId' },
 		{ label: 'Prénom*', key: 'firstname' },
 		{ label: 'Nom*', key: 'lastname' },
 		{ label: 'Date de naissance*', key: 'dateOfBirth' },
@@ -155,6 +223,15 @@
 		{ label: 'Situation de travail', key: 'workSituation' },
 		{ label: 'N° CAF/MSA', key: 'cafNumber' },
 		{ label: 'N° Pôle emploi', key: 'peNumber' },
+		{ label: 'Droits RSA', key: 'rightRsa' },
+		{ label: 'Droits ARE', key: 'rightAre' },
+		{ label: 'Droits ASS', key: 'rightAss' },
+		{ label: "Prime d'activité", key: 'rightBonus' },
+		{ label: 'AAH', key: 'rightRqth' },
+		{ label: 'Zone de mobilité', key: 'geographicalArea' },
+		{ label: 'Emploi recherché (code ROME)', key: 'job' },
+		{ label: 'Niveau de formation', key: 'educationLevel' },
+		{ label: "Accompagnateurs (liste d'emails séparés par des virgules)", key: 'proEmails' },
 	];
 
 	function backToFileSelect() {
@@ -166,26 +243,6 @@
 
 <div class="flex flex-col gap-6">
 	{#if insertResult === undefined}
-		<div class="flex flex-row gap-4">
-			<div class="flex items-center">
-				<label class="mb-2 fr-label" for="professionalSelect">
-					<div>Choisissez le professionnel de rattachement</div>
-				</label>
-			</div>
-			<div class="flex items-center !grow-0 w-1/2">
-				<Svelecte
-					name="professionalSelect"
-					options={professionals}
-					placeholder=""
-					bind:value={professionalId}
-					disableSifter={false}
-					class="svelecte-control custom-svelecte"
-					valueField="id"
-					labelField="name"
-					clearable={true}
-				/>
-			</div>
-		</div>
 		{#if beneficiaries.length > 0}
 			<p>
 				Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont
@@ -195,6 +252,7 @@
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
 						<th class="px-2 py-2" />
+						<th class="px-2 py-2">Identifiant dans le SI*</th>
 						<th class="px-2 py-2">Prénom*</th>
 						<th class="px-2 py-2">Nom*</th>
 						<th class="px-2 py-2">Date de naissance*</th>
@@ -207,7 +265,15 @@
 						<th class="px-2 py-2">Situation de travail</th>
 						<th class="px-2 py-2">N° CAF/MSA</th>
 						<th class="px-2 py-2">N° Pôle emploi</th>
-						<th class="px-2 py-2">Accompagnant supplémentaire</th>
+						<th class="px-2 py-2">Droits RSA</th>
+						<th class="px-2 py-2">Droits ARE</th>
+						<th class="px-2 py-2">Droits ASS</th>
+						<th class="px-2 py-2">Prime d'activité</th>
+						<th class="px-2 py-2">AAH</th>
+						<th class="px-2 py-2">Zone de mobilité</th>
+						<th class="px-2 py-2">Emploi recherché (code ROME)</th>
+						<th class="px-2 py-2">Niveau de formation</th>
+						<th class="px-2 py-2">Accompagnateurs</th>
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each beneficiaries as beneficiary}
@@ -231,6 +297,7 @@
 										/>
 									{/if}
 								</td>
+								<td class="px-2 py-2"><Text value={beneficiary.internalId} /></td>
 								<td class="px-2 py-2"><Text value={beneficiary.firstname} /></td>
 								<td class="px-2 py-2"><Text value={beneficiary.lastname} /></td>
 								<td class="px-2 py-2"><Text value={beneficiary.dateOfBirth} /></td>
@@ -243,21 +310,19 @@
 								<td class="px-2 py-2"><Text value={beneficiary.workSituation} /></td>
 								<td class="px-2 py-2"><Text value={beneficiary.cafNumber} /></td>
 								<td class="px-2 py-2"><Text value={beneficiary.peNumber} /></td>
-								<td class="px-2 py-2">
-									{#if beneficiary.valid}
-										<Svelecte
-											name={`professionalSelect-${beneficiary.firstname}-${beneficiary.lastname}`}
-											options={professionals.filter(({ id }) => id !== professionalId)}
-											placeholder=""
-											bind:value={beneficiary.additionalProfessionalId}
-											disableSifter={false}
-											class="svelecte-control custom-svelecte"
-											valueField="id"
-											labelField="name"
-											clearable={true}
-										/>
-									{/if}
-								</td>
+								<td class="px-2 py-2"><Text value={beneficiary.rightRsa} /></td>
+								<td class="px-2 py-2"><Text value={beneficiary.rightAre} /></td>
+								<td class="px-2 py-2"><Text value={beneficiary.rightAss} /></td>
+								<td class="px-2 py-2"><Text value={beneficiary.rightBonus} /></td>
+								<td class="px-2 py-2"><Text value={beneficiary.rightRqth} /></td>
+								<td class="px-2 py-2"><Text value={beneficiary.geographicalArea} /></td>
+								<td class="px-2 py-2"><Text value={beneficiary.job} /></td>
+								<td class="px-2 py-2"><Text value={beneficiary.educationLevel} /></td>
+								<td class="px-2 py-2"
+									><Text
+										value={proEmailsToPros(beneficiary.proEmails).map(displayFullName).join(', ')}
+									/></td
+								>
 							</tr>
 						{/each}
 					</tbody>
@@ -273,9 +338,7 @@
 			</div>
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<Button on:click={backToFileSelect} outline={true}>Retour</Button>
-				<Button on:click={handleSubmit} disabled={toImport.length < 1 || !professionalId}
-					>Confirmer</Button
-				>
+				<Button on:click={handleSubmit} disabled={toImport.length < 1}>Confirmer</Button>
 			</div>
 		{:else}
 			<div>

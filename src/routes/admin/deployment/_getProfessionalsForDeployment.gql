@@ -5,6 +5,7 @@ query GetProfessionalsForDeployment($deploymentId: uuid) {
 		lastname
 		mobileNumber
 		position
+		email
 		structureId
 		structure {
 			id
