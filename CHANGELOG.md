@@ -1,3 +1,11 @@
+## [1.77.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.4...v1.77.5) (2022-01-24)
+
+
+### Bug Fixes
+
+* apply suggestions from code review by Lio ([3158d3e](https://github.com/SocialGouv/carnet-de-bord/commit/3158d3e9134ea08d3c1adae35133ad1b9a9599f2))
+* replace beneficiary unique constraint ([a6df6f4](https://github.com/SocialGouv/carnet-de-bord/commit/a6df6f45c4de60c0a76b5c596850fbb7770b1708))
+
 ## [1.77.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.3...v1.77.4) (2022-01-21)
 
 
