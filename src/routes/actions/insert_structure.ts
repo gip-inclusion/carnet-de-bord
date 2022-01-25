@@ -50,10 +50,12 @@ type AdminStructureInput = {
 
 type Body = {
 	input: {
-		structure: StructureInput;
-		admin: AdminStructureInput;
-		deploymentId: string;
-		forceUpdate: boolean;
+		data: {
+			structure: StructureInput;
+			adminStructure: AdminStructureInput;
+			deploymentId: string;
+			forceUpdate: boolean;
+		};
 	};
 };
 
@@ -68,12 +70,12 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		};
 	}
 
-	const { deploymentId, structure, admin, forceUpdate } = input;
-	console.log(forceUpdate);
+	const { deploymentId, structure, adminStructure, forceUpdate } = input.data;
+	console.log({ adminStructure, structure });
 
 	const { error, data } = await client
 		.query<GetAdminStructureByEmailQuery>(GetAdminStructureByEmailDocument, {
-			id: admin.adminEmail,
+			id: adminStructure.adminEmail,
 		})
 		.toPromise();
 
@@ -81,25 +83,25 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	if (error || !data.admin_structure || data.admin_structure.length === 0) {
 		console.info(
 			'insert_structure',
-			`AdminStructure ${admin.adminEmail} not found. We will try creating it!`
+			`AdminStructure ${adminStructure.adminEmail} not found. We will try creating it!`
 		);
 
 		const { error, data } = await client
 			.mutation<InsertAdminStructureMutation>(InsertAdminStructureDocument, {
-				...admin,
+				...adminStructure,
 				deploymentId,
 			})
 			.toPromise();
 
 		if (error || !data.insert_admin_structure_one?.id) {
 			console.error('insert_structure', 'Tried creating new AdminStructure but failed', {
-				admin,
+				adminStructure,
 				deploymentId,
 				error,
 			});
 			return {
 				status: 401,
-				body: error.message,
+				body: { error: error.message },
 			};
 		}
 		adminStructureId = data.insert_admin_structure_one.id;
