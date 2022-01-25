@@ -6,6 +6,7 @@ configuration:
     access_key: accessKey
     access_key_date: accessKeyDate
     admin_id: adminId
+    admin_structure_id: adminStructureId
     beneficiary_id: beneficiaryId
     created_at: createdAt
     last_login: lastLogin

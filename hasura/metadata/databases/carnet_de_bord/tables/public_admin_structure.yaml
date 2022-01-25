@@ -1,6 +1,13 @@
 table:
   name: admin_structure
   schema: public
+configuration:
+  custom_column_names:
+    created_at: createdAt
+    deployment_id: deploymentId
+    phone_numbers: phoneNumbers
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
 - name: account
   using:
@@ -14,6 +21,14 @@ object_relationships:
 - name: deployment
   using:
     foreign_key_constraint_on: deployment_id
+array_relationships:
+- name: structures
+  using:
+    foreign_key_constraint_on:
+      column: admin_structure_id
+      table:
+        name: admin_structure_structure
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false
