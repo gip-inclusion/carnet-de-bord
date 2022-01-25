@@ -10,7 +10,7 @@
 
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import Checkbox from '$lib/ui/base/GroupCheckbox.svelte';
+	import { Checkbox, GroupCheckbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { v4 as uuidv4 } from 'uuid';
 	import { Alert, Button } from '$lib/ui/base';
@@ -27,12 +27,19 @@
 		website: string;
 		siret: string;
 		shortDesc: string;
+		adminEmail: string;
+		firstname: string;
+		lastname: string;
+		position: string;
+		phoneNumbers: string;
 	};
 
 	type StructureImport = Structure & {
 		valid: boolean;
 		uid: string;
 	};
+
+	let forceUpdate = false;
 
 	export let deploymentId: string;
 
@@ -41,10 +48,48 @@
 
 	$: structuresToImport = structures.filter(({ uid }) => toImport.includes(uid));
 
-	function validate(struct: unknown): struct is StructureImport {
-		return !!struct && !!(struct as Structure).name && !!(struct as Structure).city;
+	function validate(struct: Record<string, any>): boolean {
+		return !!struct && !!struct.name && !!struct.city;
 	}
 
+<<<<<<< HEAD
+||||||| parent of d035578 (feat: big wip)
+	function processRawCSV(data: string): StructureImport[] {
+		const output = [];
+		const rows = data.split('\n');
+		for (let i = 0; i < rows.length; i++) {
+			if (rows[i].replace(/\s/, '')) {
+				const cells = rows[i].split(',');
+				const structure = { uid: uuidv4() } as StructureImport;
+				for (let j = 0; j < headers.length; j++) {
+					structure[headers[j].key] = cells[j];
+				}
+				structure.valid = validate(structure);
+				output.push(structure);
+			}
+		}
+		return output;
+	}
+
+=======
+	function processRawCSV(data: string): StructureImport[] {
+		const output: StructureImport[] = [];
+		const rows = data.split('\n');
+		for (let i = 0; i < rows.length; i++) {
+			if (rows[i].replace(/\s/, '')) {
+				const cells = rows[i].split(',');
+				const structure = { uid: uuidv4() } as StructureImport;
+				for (let j = 0; j < headers.length; j++) {
+					structure[headers[j].key] = cells[j];
+				}
+				structure.valid = validate(structure);
+				output.push(structure);
+			}
+		}
+		return output;
+	}
+
+>>>>>>> d035578 (feat: big wip)
 	let toImport = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
@@ -89,20 +134,48 @@
 	> = operationStore(ImportStructureDocument);
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
-	let insertResult: { struct: Structure; error: string | null }[];
+	type Struct = { id: string } & Partial<
+		Pick<
+			Structure,
+			| 'name'
+			| 'phone'
+			| 'email'
+			| 'address1'
+			| 'address2'
+			| 'postalCode'
+			| 'city'
+			| 'website'
+			| 'siret'
+			| 'shortDesc'
+		>
+	>;
+	let insertResult: {
+		struct: Struct;
+		adminEmails: string[];
+		error: string | null;
+	}[];
 
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
 		for (const structure of structuresToImport) {
 			const { uid, valid, ...struct } = structure;
-			await inserter({ ...struct, deploymentId });
-			await new Promise((resolve) => {
-				setTimeout(resolve, 500);
-			});
+			const result = await inserter({ ...struct, deploymentId, forceUpdate });
+			let res: Struct, adminEmails: string[], error: string;
+			if (result && !result.error) {
+				let { adminEmails: emails, ...rest } = result.data.structure;
+				res = rest;
+				adminEmails = emails;
+			} else {
+				error = result.error.toString();
+			}
 			insertResult = [
 				...insertResult,
-				{ struct, error: insertStore.error ? insertStore.error.toString() : null },
+				{
+					struct: res,
+					adminEmails,
+					error,
+				},
 			];
 		}
 		insertInProgress = false;
@@ -119,6 +192,11 @@
 		{ label: 'Site web', key: 'website' },
 		{ label: 'SIRET', key: 'siret' },
 		{ label: 'Description', key: 'shortDesc' },
+		{ label: "Courriel de l'administrateur", key: 'adminEmail' },
+		{ label: 'Prénom', key: 'firstname' },
+		{ label: 'Nom', key: 'lastname' },
+		{ label: 'Fonction', key: 'position' },
+		{ label: 'Numéros de téléphone', key: 'phoneNumbers' },
 	];
 
 	function backToFileSelect() {
@@ -135,6 +213,13 @@
 				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
 				correctes et confirmer.
 			</p>
+			<p>
+				<Checkbox
+					name="forceUpdate"
+					label="Écraser les informations des structures existantes"
+					checked={forceUpdate}
+				/>
+			</p>
 			<div class="border-b border-gray-200 shadow" style="overflow-x: auto;">
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
@@ -149,13 +234,18 @@
 						<th>Site web</th>
 						<th>SIRET</th>
 						<th>Description</th>
+						<th>Courriel de l'administrateur</th>
+						<th>Prénom</th>
+						<th>Nom</th>
+						<th>Fonction</th>
+						<th>Numéros de téléphone</th>
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each structures as structure}
 							<tr>
 								<td class="align-middle">
 									{#if structure.valid}
-										<Checkbox
+										<GroupCheckbox
 											classNames="bottom-3 left-2"
 											bind:selectedOptions={toImport}
 											groupId={'toImport'}
@@ -182,6 +272,11 @@
 								<td class="px-2 py-2"><Text value={structure.website} /></td>
 								<td class="px-2 py-2"><Text value={structure.siret} /></td>
 								<td class="px-2 py-2"><Text value={structure.shortDesc} /></td>
+								<td class="px-2 py-2"><Text value={structure.adminEmail} /></td>
+								<td class="px-2 py-2"><Text value={structure.firstname} /></td>
+								<td class="px-2 py-2"><Text value={structure.lastname} /></td>
+								<td class="px-2 py-2"><Text value={structure.position} /></td>
+								<td class="px-2 py-2"><Text value={structure.phoneNumbers} /></td>
 							</tr>
 						{/each}
 					</tbody>

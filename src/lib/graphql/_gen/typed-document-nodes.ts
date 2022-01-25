@@ -19,6 +19,14 @@ export type Scalars = {
 	uuid: string;
 };
 
+export type AdminStructureInput = {
+	adminEmail?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+};
+
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type BooleanComparisonExp = {
 	_eq?: InputMaybe<Scalars['Boolean']>;
@@ -30,6 +38,29 @@ export type BooleanComparisonExp = {
 	_lte?: InputMaybe<Scalars['Boolean']>;
 	_neq?: InputMaybe<Scalars['Boolean']>;
 	_nin?: InputMaybe<Array<Scalars['Boolean']>>;
+};
+
+export type InsertStructureWithAdminInput = {
+	adminStructure?: InputMaybe<AdminStructureInput>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	forceUpdate?: InputMaybe<Scalars['Boolean']>;
+	structure?: InputMaybe<StructureInput>;
+};
+
+export type InsertStructureWithAdminOutput = {
+	__typename?: 'InsertStructureWithAdminOutput';
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	adminEmails?: Maybe<Array<Maybe<Scalars['String']>>>;
+	city?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
+	id: Scalars['uuid'];
+	name?: Maybe<Scalars['String']>;
+	phone?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
+	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -65,6 +96,19 @@ export type StringComparisonExp = {
 	_similar?: InputMaybe<Scalars['String']>;
 };
 
+export type StructureInput = {
+	address1?: InputMaybe<Scalars['String']>;
+	address2?: InputMaybe<Scalars['String']>;
+	city?: InputMaybe<Scalars['String']>;
+	email?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['String']>;
+	phone?: InputMaybe<Scalars['String']>;
+	postalCode?: InputMaybe<Scalars['String']>;
+	shortDesc?: InputMaybe<Scalars['String']>;
+	siret?: InputMaybe<Scalars['String']>;
+	website?: InputMaybe<Scalars['String']>;
+};
+
 export type UpdateNotebookOutput = {
 	__typename?: 'UpdateNotebookOutput';
 	id: Scalars['uuid'];
@@ -78,9 +122,9 @@ export type Account = {
 	/** An object relationship */
 	admin?: Maybe<AdminCdb>;
 	adminId?: Maybe<Scalars['uuid']>;
+	adminStructureId?: Maybe<Scalars['uuid']>;
 	/** An object relationship */
 	admin_structure?: Maybe<AdminStructure>;
-	admin_structure_id?: Maybe<Scalars['uuid']>;
 	/** An object relationship */
 	beneficiary?: Maybe<Beneficiary>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
@@ -130,8 +174,8 @@ export type AccountBoolExp = {
 	accessKeyDate?: InputMaybe<TimestamptzComparisonExp>;
 	admin?: InputMaybe<AdminCdbBoolExp>;
 	adminId?: InputMaybe<UuidComparisonExp>;
+	adminStructureId?: InputMaybe<UuidComparisonExp>;
 	admin_structure?: InputMaybe<AdminStructureBoolExp>;
-	admin_structure_id?: InputMaybe<UuidComparisonExp>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
 	beneficiaryId?: InputMaybe<UuidComparisonExp>;
 	confirmed?: InputMaybe<BooleanComparisonExp>;
@@ -170,8 +214,8 @@ export type AccountInsertInput = {
 	accessKeyDate?: InputMaybe<Scalars['timestamptz']>;
 	admin?: InputMaybe<AdminCdbObjRelInsertInput>;
 	adminId?: InputMaybe<Scalars['uuid']>;
+	adminStructureId?: InputMaybe<Scalars['uuid']>;
 	admin_structure?: InputMaybe<AdminStructureObjRelInsertInput>;
-	admin_structure_id?: InputMaybe<Scalars['uuid']>;
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	confirmed?: InputMaybe<Scalars['Boolean']>;
@@ -194,7 +238,7 @@ export type AccountMaxFields = {
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	adminId?: Maybe<Scalars['uuid']>;
-	admin_structure_id?: Maybe<Scalars['uuid']>;
+	adminStructureId?: Maybe<Scalars['uuid']>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -212,7 +256,7 @@ export type AccountMinFields = {
 	accessKey?: Maybe<Scalars['String']>;
 	accessKeyDate?: Maybe<Scalars['timestamptz']>;
 	adminId?: Maybe<Scalars['uuid']>;
-	admin_structure_id?: Maybe<Scalars['uuid']>;
+	adminStructureId?: Maybe<Scalars['uuid']>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -253,8 +297,8 @@ export type AccountOrderBy = {
 	accessKeyDate?: InputMaybe<OrderBy>;
 	admin?: InputMaybe<AdminCdbOrderBy>;
 	adminId?: InputMaybe<OrderBy>;
+	adminStructureId?: InputMaybe<OrderBy>;
 	admin_structure?: InputMaybe<AdminStructureOrderBy>;
-	admin_structure_id?: InputMaybe<OrderBy>;
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
 	beneficiaryId?: InputMaybe<OrderBy>;
 	confirmed?: InputMaybe<OrderBy>;
@@ -285,7 +329,7 @@ export enum AccountSelectColumn {
 	/** column name */
 	AdminId = 'adminId',
 	/** column name */
-	AdminStructureId = 'admin_structure_id',
+	AdminStructureId = 'adminStructureId',
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
@@ -315,7 +359,7 @@ export type AccountSetInput = {
 	accessKey?: InputMaybe<Scalars['String']>;
 	accessKeyDate?: InputMaybe<Scalars['timestamptz']>;
 	adminId?: InputMaybe<Scalars['uuid']>;
-	admin_structure_id?: InputMaybe<Scalars['uuid']>;
+	adminStructureId?: InputMaybe<Scalars['uuid']>;
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	confirmed?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -338,7 +382,7 @@ export enum AccountUpdateColumn {
 	/** column name */
 	AdminId = 'adminId',
 	/** column name */
-	AdminStructureId = 'admin_structure_id',
+	AdminStructureId = 'adminStructureId',
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
@@ -538,17 +582,39 @@ export type AdminStructure = {
 	__typename?: 'admin_structure';
 	/** An object relationship */
 	account?: Maybe<Account>;
-	created_at: Scalars['timestamptz'];
+	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	deployment: Deployment;
-	deployment_id: Scalars['uuid'];
+	deploymentId: Scalars['uuid'];
 	email: Scalars['citext'];
 	firstname?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	lastname?: Maybe<Scalars['String']>;
-	phone_numbers?: Maybe<Scalars['String']>;
+	phoneNumbers?: Maybe<Scalars['String']>;
 	position?: Maybe<Scalars['String']>;
-	updated_at: Scalars['timestamptz'];
+	/** An array relationship */
+	structures: Array<AdminStructureStructure>;
+	/** An aggregate relationship */
+	structures_aggregate: AdminStructureStructureAggregate;
+	updatedAt: Scalars['timestamptz'];
+};
+
+/** columns and relationships of "admin_structure" */
+export type AdminStructureStructuresArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
+};
+
+/** columns and relationships of "admin_structure" */
+export type AdminStructureStructuresAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
 };
 
 /** aggregated selection of "admin_structure" */
@@ -578,16 +644,17 @@ export type AdminStructureBoolExp = {
 	_not?: InputMaybe<AdminStructureBoolExp>;
 	_or?: InputMaybe<Array<AdminStructureBoolExp>>;
 	account?: InputMaybe<AccountBoolExp>;
-	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment?: InputMaybe<DeploymentBoolExp>;
-	deployment_id?: InputMaybe<UuidComparisonExp>;
+	deploymentId?: InputMaybe<UuidComparisonExp>;
 	email?: InputMaybe<CitextComparisonExp>;
 	firstname?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	lastname?: InputMaybe<StringComparisonExp>;
-	phone_numbers?: InputMaybe<StringComparisonExp>;
+	phoneNumbers?: InputMaybe<StringComparisonExp>;
 	position?: InputMaybe<StringComparisonExp>;
-	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+	structures?: InputMaybe<AdminStructureStructureBoolExp>;
+	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "admin_structure" */
@@ -601,44 +668,45 @@ export enum AdminStructureConstraint {
 /** input type for inserting data into table "admin_structure" */
 export type AdminStructureInsertInput = {
 	account?: InputMaybe<AccountObjRelInsertInput>;
-	created_at?: InputMaybe<Scalars['timestamptz']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
-	deployment_id?: InputMaybe<Scalars['uuid']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
 	email?: InputMaybe<Scalars['citext']>;
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastname?: InputMaybe<Scalars['String']>;
-	phone_numbers?: InputMaybe<Scalars['String']>;
+	phoneNumbers?: InputMaybe<Scalars['String']>;
 	position?: InputMaybe<Scalars['String']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	structures?: InputMaybe<AdminStructureStructureArrRelInsertInput>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type AdminStructureMaxFields = {
 	__typename?: 'admin_structure_max_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
-	deployment_id?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	phone_numbers?: Maybe<Scalars['String']>;
+	phoneNumbers?: Maybe<Scalars['String']>;
 	position?: Maybe<Scalars['String']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate min on columns */
 export type AdminStructureMinFields = {
 	__typename?: 'admin_structure_min_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
-	deployment_id?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastname?: Maybe<Scalars['String']>;
-	phone_numbers?: Maybe<Scalars['String']>;
+	phoneNumbers?: Maybe<Scalars['String']>;
 	position?: Maybe<Scalars['String']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** response of any mutation on the table "admin_structure" */
@@ -667,16 +735,17 @@ export type AdminStructureOnConflict = {
 /** Ordering options when selecting data from "admin_structure". */
 export type AdminStructureOrderBy = {
 	account?: InputMaybe<AccountOrderBy>;
-	created_at?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
 	deployment?: InputMaybe<DeploymentOrderBy>;
-	deployment_id?: InputMaybe<OrderBy>;
+	deploymentId?: InputMaybe<OrderBy>;
 	email?: InputMaybe<OrderBy>;
 	firstname?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
-	phone_numbers?: InputMaybe<OrderBy>;
+	phoneNumbers?: InputMaybe<OrderBy>;
 	position?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	structures_aggregate?: InputMaybe<AdminStructureStructureAggregateOrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: admin_structure */
@@ -687,9 +756,9 @@ export type AdminStructurePkColumnsInput = {
 /** select columns of table "admin_structure" */
 export enum AdminStructureSelectColumn {
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
-	DeploymentId = 'deployment_id',
+	DeploymentId = 'deploymentId',
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -699,32 +768,212 @@ export enum AdminStructureSelectColumn {
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
-	PhoneNumbers = 'phone_numbers',
+	PhoneNumbers = 'phoneNumbers',
 	/** column name */
 	Position = 'position',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "admin_structure" */
 export type AdminStructureSetInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	deployment_id?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
 	email?: InputMaybe<Scalars['citext']>;
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastname?: InputMaybe<Scalars['String']>;
-	phone_numbers?: InputMaybe<Scalars['String']>;
+	phoneNumbers?: InputMaybe<Scalars['String']>;
 	position?: InputMaybe<Scalars['String']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
+
+/**
+ * associative table between admin_structure and structure (many ot many)
+ *
+ *
+ * columns and relationships of "admin_structure_structure"
+ *
+ */
+export type AdminStructureStructure = {
+	__typename?: 'admin_structure_structure';
+	adminStructureId: Scalars['uuid'];
+	/** An object relationship */
+	admin_structure: AdminStructure;
+	createdAt: Scalars['timestamptz'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	structure: Structure;
+	structureId: Scalars['uuid'];
+};
+
+/** aggregated selection of "admin_structure_structure" */
+export type AdminStructureStructureAggregate = {
+	__typename?: 'admin_structure_structure_aggregate';
+	aggregate?: Maybe<AdminStructureStructureAggregateFields>;
+	nodes: Array<AdminStructureStructure>;
+};
+
+/** aggregate fields of "admin_structure_structure" */
+export type AdminStructureStructureAggregateFields = {
+	__typename?: 'admin_structure_structure_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<AdminStructureStructureMaxFields>;
+	min?: Maybe<AdminStructureStructureMinFields>;
+};
+
+/** aggregate fields of "admin_structure_structure" */
+export type AdminStructureStructureAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "admin_structure_structure" */
+export type AdminStructureStructureAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<AdminStructureStructureMaxOrderBy>;
+	min?: InputMaybe<AdminStructureStructureMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "admin_structure_structure" */
+export type AdminStructureStructureArrRelInsertInput = {
+	data: Array<AdminStructureStructureInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<AdminStructureStructureOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "admin_structure_structure". All fields are combined with a logical 'AND'. */
+export type AdminStructureStructureBoolExp = {
+	_and?: InputMaybe<Array<AdminStructureStructureBoolExp>>;
+	_not?: InputMaybe<AdminStructureStructureBoolExp>;
+	_or?: InputMaybe<Array<AdminStructureStructureBoolExp>>;
+	adminStructureId?: InputMaybe<UuidComparisonExp>;
+	admin_structure?: InputMaybe<AdminStructureBoolExp>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	structure?: InputMaybe<StructureBoolExp>;
+	structureId?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "admin_structure_structure" */
+export enum AdminStructureStructureConstraint {
+	/** unique or primary key constraint */
+	AdminStructureStructurePkey = 'admin_structure_structure_pkey',
+}
+
+/** input type for inserting data into table "admin_structure_structure" */
+export type AdminStructureStructureInsertInput = {
+	adminStructureId?: InputMaybe<Scalars['uuid']>;
+	admin_structure?: InputMaybe<AdminStructureObjRelInsertInput>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	structure?: InputMaybe<StructureObjRelInsertInput>;
+	structureId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type AdminStructureStructureMaxFields = {
+	__typename?: 'admin_structure_structure_max_fields';
+	adminStructureId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	structureId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "admin_structure_structure" */
+export type AdminStructureStructureMaxOrderBy = {
+	adminStructureId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	structureId?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type AdminStructureStructureMinFields = {
+	__typename?: 'admin_structure_structure_min_fields';
+	adminStructureId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	structureId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "admin_structure_structure" */
+export type AdminStructureStructureMinOrderBy = {
+	adminStructureId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	structureId?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "admin_structure_structure" */
+export type AdminStructureStructureMutationResponse = {
+	__typename?: 'admin_structure_structure_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<AdminStructureStructure>;
+};
+
+/** on conflict condition type for table "admin_structure_structure" */
+export type AdminStructureStructureOnConflict = {
+	constraint: AdminStructureStructureConstraint;
+	update_columns?: Array<AdminStructureStructureUpdateColumn>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
+};
+
+/** Ordering options when selecting data from "admin_structure_structure". */
+export type AdminStructureStructureOrderBy = {
+	adminStructureId?: InputMaybe<OrderBy>;
+	admin_structure?: InputMaybe<AdminStructureOrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	structure?: InputMaybe<StructureOrderBy>;
+	structureId?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: admin_structure_structure */
+export type AdminStructureStructurePkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "admin_structure_structure" */
+export enum AdminStructureStructureSelectColumn {
+	/** column name */
+	AdminStructureId = 'adminStructureId',
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	StructureId = 'structureId',
+}
+
+/** input type for updating data in table "admin_structure_structure" */
+export type AdminStructureStructureSetInput = {
+	adminStructureId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	structureId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "admin_structure_structure" */
+export enum AdminStructureStructureUpdateColumn {
+	/** column name */
+	AdminStructureId = 'adminStructureId',
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	StructureId = 'structureId',
+}
 
 /** update columns of table "admin_structure" */
 export enum AdminStructureUpdateColumn {
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
-	DeploymentId = 'deployment_id',
+	DeploymentId = 'deploymentId',
 	/** column name */
 	Email = 'email',
 	/** column name */
@@ -734,11 +983,11 @@ export enum AdminStructureUpdateColumn {
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
-	PhoneNumbers = 'phone_numbers',
+	PhoneNumbers = 'phoneNumbers',
 	/** column name */
 	Position = 'position',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	UpdatedAt = 'updatedAt',
 }
 
 /** columns and relationships of "beneficiary" */
@@ -1058,15 +1307,15 @@ export type BeneficiaryStructure = {
 	__typename?: 'beneficiary_structure';
 	/** An object relationship */
 	beneficiary: Beneficiary;
-	beneficiary_id: Scalars['uuid'];
-	created_at?: Maybe<Scalars['timestamptz']>;
+	beneficiaryId: Scalars['uuid'];
+	createdAt?: Maybe<Scalars['timestamptz']>;
 	data: Scalars['jsonb'];
 	id: Scalars['uuid'];
 	status: Scalars['String'];
 	/** An object relationship */
 	structure: Structure;
-	structure_id: Scalars['uuid'];
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	structureId: Scalars['uuid'];
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** columns and relationships of "beneficiary_structure" */
@@ -1120,14 +1369,14 @@ export type BeneficiaryStructureBoolExp = {
 	_not?: InputMaybe<BeneficiaryStructureBoolExp>;
 	_or?: InputMaybe<Array<BeneficiaryStructureBoolExp>>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
-	beneficiary_id?: InputMaybe<UuidComparisonExp>;
-	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	beneficiaryId?: InputMaybe<UuidComparisonExp>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	data?: InputMaybe<JsonbComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	status?: InputMaybe<StringComparisonExp>;
 	structure?: InputMaybe<StructureBoolExp>;
-	structure_id?: InputMaybe<UuidComparisonExp>;
-	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+	structureId?: InputMaybe<UuidComparisonExp>;
+	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "beneficiary_structure" */
@@ -1154,56 +1403,56 @@ export type BeneficiaryStructureDeleteKeyInput = {
 /** input type for inserting data into table "beneficiary_structure" */
 export type BeneficiaryStructureInsertInput = {
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
-	beneficiary_id?: InputMaybe<Scalars['uuid']>;
-	created_at?: InputMaybe<Scalars['timestamptz']>;
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	data?: InputMaybe<Scalars['jsonb']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
 	structure?: InputMaybe<StructureObjRelInsertInput>;
-	structure_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	structureId?: InputMaybe<Scalars['uuid']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type BeneficiaryStructureMaxFields = {
 	__typename?: 'beneficiary_structure_max_fields';
-	beneficiary_id?: Maybe<Scalars['uuid']>;
-	created_at?: Maybe<Scalars['timestamptz']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	status?: Maybe<Scalars['String']>;
-	structure_id?: Maybe<Scalars['uuid']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	structureId?: Maybe<Scalars['uuid']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "beneficiary_structure" */
 export type BeneficiaryStructureMaxOrderBy = {
-	beneficiary_id?: InputMaybe<OrderBy>;
-	created_at?: InputMaybe<OrderBy>;
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
-	structure_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	structureId?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type BeneficiaryStructureMinFields = {
 	__typename?: 'beneficiary_structure_min_fields';
-	beneficiary_id?: Maybe<Scalars['uuid']>;
-	created_at?: Maybe<Scalars['timestamptz']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	status?: Maybe<Scalars['String']>;
-	structure_id?: Maybe<Scalars['uuid']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	structureId?: Maybe<Scalars['uuid']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "beneficiary_structure" */
 export type BeneficiaryStructureMinOrderBy = {
-	beneficiary_id?: InputMaybe<OrderBy>;
-	created_at?: InputMaybe<OrderBy>;
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
-	structure_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	structureId?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "beneficiary_structure" */
@@ -1225,14 +1474,14 @@ export type BeneficiaryStructureOnConflict = {
 /** Ordering options when selecting data from "beneficiary_structure". */
 export type BeneficiaryStructureOrderBy = {
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
-	beneficiary_id?: InputMaybe<OrderBy>;
-	created_at?: InputMaybe<OrderBy>;
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
 	data?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
 	structure?: InputMaybe<StructureOrderBy>;
-	structure_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	structureId?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: beneficiary_structure */
@@ -1248,9 +1497,9 @@ export type BeneficiaryStructurePrependInput = {
 /** select columns of table "beneficiary_structure" */
 export enum BeneficiaryStructureSelectColumn {
 	/** column name */
-	BeneficiaryId = 'beneficiary_id',
+	BeneficiaryId = 'beneficiaryId',
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
 	Data = 'data',
 	/** column name */
@@ -1258,28 +1507,28 @@ export enum BeneficiaryStructureSelectColumn {
 	/** column name */
 	Status = 'status',
 	/** column name */
-	StructureId = 'structure_id',
+	StructureId = 'structureId',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "beneficiary_structure" */
 export type BeneficiaryStructureSetInput = {
-	beneficiary_id?: InputMaybe<Scalars['uuid']>;
-	created_at?: InputMaybe<Scalars['timestamptz']>;
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	data?: InputMaybe<Scalars['jsonb']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
-	structure_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	structureId?: InputMaybe<Scalars['uuid']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** update columns of table "beneficiary_structure" */
 export enum BeneficiaryStructureUpdateColumn {
 	/** column name */
-	BeneficiaryId = 'beneficiary_id',
+	BeneficiaryId = 'beneficiaryId',
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
 	Data = 'data',
 	/** column name */
@@ -1287,9 +1536,9 @@ export enum BeneficiaryStructureUpdateColumn {
 	/** column name */
 	Status = 'status',
 	/** column name */
-	StructureId = 'structure_id',
+	StructureId = 'structureId',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	UpdatedAt = 'updatedAt',
 }
 
 /** update columns of table "beneficiary" */
@@ -1943,6 +2192,10 @@ export type MutationRoot = {
 	delete_admin_structure?: Maybe<AdminStructureMutationResponse>;
 	/** delete single row from the table: "admin_structure" */
 	delete_admin_structure_by_pk?: Maybe<AdminStructure>;
+	/** delete data from the table: "admin_structure_structure" */
+	delete_admin_structure_structure?: Maybe<AdminStructureStructureMutationResponse>;
+	/** delete single row from the table: "admin_structure_structure" */
+	delete_admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
 	/** delete data from the table: "beneficiary" */
 	delete_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** delete single row from the table: "beneficiary" */
@@ -2003,6 +2256,7 @@ export type MutationRoot = {
 	delete_structure?: Maybe<StructureMutationResponse>;
 	/** delete single row from the table: "structure" */
 	delete_structure_by_pk?: Maybe<Structure>;
+	insertStructureWithAdmin?: Maybe<InsertStructureWithAdminOutput>;
 	/** insert data into the table: "account" */
 	insert_account?: Maybe<AccountMutationResponse>;
 	/** insert a single row into the table: "account" */
@@ -2015,6 +2269,10 @@ export type MutationRoot = {
 	insert_admin_structure?: Maybe<AdminStructureMutationResponse>;
 	/** insert a single row into the table: "admin_structure" */
 	insert_admin_structure_one?: Maybe<AdminStructure>;
+	/** insert data into the table: "admin_structure_structure" */
+	insert_admin_structure_structure?: Maybe<AdminStructureStructureMutationResponse>;
+	/** insert a single row into the table: "admin_structure_structure" */
+	insert_admin_structure_structure_one?: Maybe<AdminStructureStructure>;
 	/** insert data into the table: "beneficiary" */
 	insert_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** insert a single row into the table: "beneficiary" */
@@ -2088,6 +2346,10 @@ export type MutationRoot = {
 	update_admin_structure?: Maybe<AdminStructureMutationResponse>;
 	/** update single row of the table: "admin_structure" */
 	update_admin_structure_by_pk?: Maybe<AdminStructure>;
+	/** update data of the table: "admin_structure_structure" */
+	update_admin_structure_structure?: Maybe<AdminStructureStructureMutationResponse>;
+	/** update single row of the table: "admin_structure_structure" */
+	update_admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
 	/** update data of the table: "beneficiary" */
 	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
@@ -2177,6 +2439,16 @@ export type MutationRootDeleteAdminStructureArgs = {
 
 /** mutation root */
 export type MutationRootDeleteAdminStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteAdminStructureStructureArgs = {
+	where: AdminStructureStructureBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteAdminStructureStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -2331,6 +2603,11 @@ export type MutationRootDeleteStructureByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertStructureWithAdminArgs = {
+	data: InsertStructureWithAdminInput;
+};
+
+/** mutation root */
 export type MutationRootInsertAccountArgs = {
 	objects: Array<AccountInsertInput>;
 	on_conflict?: InputMaybe<AccountOnConflict>;
@@ -2364,6 +2641,18 @@ export type MutationRootInsertAdminStructureArgs = {
 export type MutationRootInsertAdminStructureOneArgs = {
 	object: AdminStructureInsertInput;
 	on_conflict?: InputMaybe<AdminStructureOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertAdminStructureStructureArgs = {
+	objects: Array<AdminStructureStructureInsertInput>;
+	on_conflict?: InputMaybe<AdminStructureStructureOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertAdminStructureStructureOneArgs = {
+	object: AdminStructureStructureInsertInput;
+	on_conflict?: InputMaybe<AdminStructureStructureOnConflict>;
 };
 
 /** mutation root */
@@ -2585,6 +2874,18 @@ export type MutationRootUpdateAdminStructureArgs = {
 export type MutationRootUpdateAdminStructureByPkArgs = {
 	_set?: InputMaybe<AdminStructureSetInput>;
 	pk_columns: AdminStructurePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateAdminStructureStructureArgs = {
+	_set?: InputMaybe<AdminStructureStructureSetInput>;
+	where: AdminStructureStructureBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateAdminStructureStructureByPkArgs = {
+	_set?: InputMaybe<AdminStructureStructureSetInput>;
+	pk_columns: AdminStructureStructurePkColumnsInput;
 };
 
 /** mutation root */
@@ -4783,6 +5084,12 @@ export type QueryRoot = {
 	admin_structure_aggregate: AdminStructureAggregate;
 	/** fetch data from the table: "admin_structure" using primary key columns */
 	admin_structure_by_pk?: Maybe<AdminStructure>;
+	/** fetch data from the table: "admin_structure_structure" */
+	admin_structure_structure: Array<AdminStructureStructure>;
+	/** fetch aggregated fields from the table: "admin_structure_structure" */
+	admin_structure_structure_aggregate: AdminStructureStructureAggregate;
+	/** fetch data from the table: "admin_structure_structure" using primary key columns */
+	admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
@@ -4932,6 +5239,26 @@ export type QueryRootAdminStructureAggregateArgs = {
 };
 
 export type QueryRootAdminStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootAdminStructureStructureArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
+};
+
+export type QueryRootAdminStructureStructureAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
+};
+
+export type QueryRootAdminStructureStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -5610,6 +5937,10 @@ export type Structure = {
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
 	/** An array relationship */
+	admins: Array<AdminStructureStructure>;
+	/** An aggregate relationship */
+	admins_aggregate: AdminStructureStructureAggregate;
+	/** An array relationship */
 	beneficiaries: Array<BeneficiaryStructure>;
 	/** An aggregate relationship */
 	beneficiaries_aggregate: BeneficiaryStructureAggregate;
@@ -5631,6 +5962,24 @@ export type Structure = {
 	siret?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	website?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "structure" */
+export type StructureAdminsArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
+};
+
+/** columns and relationships of "structure" */
+export type StructureAdminsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
 };
 
 /** columns and relationships of "structure" */
@@ -5711,6 +6060,7 @@ export type StructureBoolExp = {
 	_or?: InputMaybe<Array<StructureBoolExp>>;
 	address1?: InputMaybe<StringComparisonExp>;
 	address2?: InputMaybe<StringComparisonExp>;
+	admins?: InputMaybe<AdminStructureStructureBoolExp>;
 	beneficiaries?: InputMaybe<BeneficiaryStructureBoolExp>;
 	city?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -5740,6 +6090,7 @@ export enum StructureConstraint {
 export type StructureInsertInput = {
 	address1?: InputMaybe<Scalars['String']>;
 	address2?: InputMaybe<Scalars['String']>;
+	admins?: InputMaybe<AdminStructureStructureArrRelInsertInput>;
 	beneficiaries?: InputMaybe<BeneficiaryStructureArrRelInsertInput>;
 	city?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -5858,6 +6209,7 @@ export type StructureOnConflict = {
 export type StructureOrderBy = {
 	address1?: InputMaybe<OrderBy>;
 	address2?: InputMaybe<OrderBy>;
+	admins_aggregate?: InputMaybe<AdminStructureStructureAggregateOrderBy>;
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
 	city?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
@@ -5982,6 +6334,12 @@ export type SubscriptionRoot = {
 	admin_structure_aggregate: AdminStructureAggregate;
 	/** fetch data from the table: "admin_structure" using primary key columns */
 	admin_structure_by_pk?: Maybe<AdminStructure>;
+	/** fetch data from the table: "admin_structure_structure" */
+	admin_structure_structure: Array<AdminStructureStructure>;
+	/** fetch aggregated fields from the table: "admin_structure_structure" */
+	admin_structure_structure_aggregate: AdminStructureStructureAggregate;
+	/** fetch data from the table: "admin_structure_structure" using primary key columns */
+	admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
@@ -6131,6 +6489,26 @@ export type SubscriptionRootAdminStructureAggregateArgs = {
 };
 
 export type SubscriptionRootAdminStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootAdminStructureStructureArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
+};
+
+export type SubscriptionRootAdminStructureStructureAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
+};
+
+export type SubscriptionRootAdminStructureStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -6566,14 +6944,20 @@ export type ImportStructureMutationVariables = Exact<{
 	website?: InputMaybe<Scalars['String']>;
 	siret?: InputMaybe<Scalars['String']>;
 	shortDesc?: InputMaybe<Scalars['String']>;
+	adminEmail?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+	phoneNumbers?: InputMaybe<Scalars['String']>;
 	deploymentId?: InputMaybe<Scalars['uuid']>;
+	forceUpdate?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type ImportStructureMutation = {
 	__typename?: 'mutation_root';
 	structure?:
 		| {
-				__typename?: 'structure';
+				__typename?: 'InsertStructureWithAdminOutput';
 				id: string;
 				name?: string | null | undefined;
 				phone?: string | null | undefined;
@@ -6588,21 +6972,6 @@ export type ImportStructureMutation = {
 		  }
 		| null
 		| undefined;
-};
-
-export type StructureFieldsFragment = {
-	__typename?: 'structure';
-	id: string;
-	name?: string | null | undefined;
-	phone?: string | null | undefined;
-	email?: string | null | undefined;
-	address1?: string | null | undefined;
-	address2?: string | null | undefined;
-	postalCode?: string | null | undefined;
-	city?: string | null | undefined;
-	website?: string | null | undefined;
-	siret?: string | null | undefined;
-	shortDesc?: string | null | undefined;
 };
 
 export type GetDeploymentNotebooksQueryVariables = Exact<{
@@ -6932,6 +7301,15 @@ export type GetAccountByPkQuery = {
 		| undefined;
 };
 
+export type GetAdminStructureByEmailQueryVariables = Exact<{
+	email: Scalars['citext'];
+}>;
+
+export type GetAdminStructureByEmailQuery = {
+	__typename?: 'query_root';
+	admin_structure: Array<{ __typename?: 'admin_structure'; id: string }>;
+};
+
 export type GetNotebookInfoQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -6971,6 +7349,41 @@ export type GetNotebookInfoQuery = {
 		  }
 		| null
 		| undefined;
+};
+
+export type InsertAdminStructureMutationVariables = Exact<{
+	adminEmail?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+}>;
+
+export type InsertAdminStructureMutation = {
+	__typename?: 'mutation_root';
+	insert_admin_structure_one?: { __typename?: 'admin_structure'; id: string } | null | undefined;
+};
+
+export type InsertStructureMutationVariables = Exact<{
+	name?: InputMaybe<Scalars['String']>;
+	phone?: InputMaybe<Scalars['String']>;
+	email?: InputMaybe<Scalars['String']>;
+	address1?: InputMaybe<Scalars['String']>;
+	address2?: InputMaybe<Scalars['String']>;
+	postalCode?: InputMaybe<Scalars['String']>;
+	city?: InputMaybe<Scalars['String']>;
+	website?: InputMaybe<Scalars['String']>;
+	siret?: InputMaybe<Scalars['String']>;
+	shortDesc?: InputMaybe<Scalars['String']>;
+	adminStructureId?: InputMaybe<Scalars['uuid']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	onConflictUpdates: Array<StructureUpdateColumn> | StructureUpdateColumn;
+}>;
+
+export type InsertStructureMutation = {
+	__typename?: 'mutation_root';
+	insert_structure_one?: { __typename?: 'structure'; id: string } | null | undefined;
 };
 
 export type UpdateNotebookFromApiMutationVariables = Exact<{
@@ -7318,75 +7731,6 @@ export type GetNotebooksStatsQuery = {
 				| undefined;
 		};
 	}>;
-};
-
-export type InsertStructureMutationVariables = Exact<{
-	name?: InputMaybe<Scalars['String']>;
-	phone?: InputMaybe<Scalars['String']>;
-	email?: InputMaybe<Scalars['String']>;
-	address1?: InputMaybe<Scalars['String']>;
-	address2?: InputMaybe<Scalars['String']>;
-	postalCode?: InputMaybe<Scalars['String']>;
-	city?: InputMaybe<Scalars['String']>;
-	website?: InputMaybe<Scalars['String']>;
-	siret?: InputMaybe<Scalars['String']>;
-	shortDesc?: InputMaybe<Scalars['String']>;
-}>;
-
-export type InsertStructureMutation = {
-	__typename?: 'mutation_root';
-	structure?:
-		| {
-				__typename?: 'structure';
-				id: string;
-				name?: string | null | undefined;
-				phone?: string | null | undefined;
-				email?: string | null | undefined;
-				address1?: string | null | undefined;
-				address2?: string | null | undefined;
-				postalCode?: string | null | undefined;
-				city?: string | null | undefined;
-				website?: string | null | undefined;
-				siret?: string | null | undefined;
-				shortDesc?: string | null | undefined;
-		  }
-		| null
-		| undefined;
-};
-
-export type UpdateStructureMutationVariables = Exact<{
-	id: Scalars['uuid'];
-	name?: InputMaybe<Scalars['String']>;
-	phone?: InputMaybe<Scalars['String']>;
-	email?: InputMaybe<Scalars['String']>;
-	address1?: InputMaybe<Scalars['String']>;
-	address2?: InputMaybe<Scalars['String']>;
-	postalCode?: InputMaybe<Scalars['String']>;
-	city?: InputMaybe<Scalars['String']>;
-	website?: InputMaybe<Scalars['String']>;
-	siret?: InputMaybe<Scalars['String']>;
-	shortDesc?: InputMaybe<Scalars['String']>;
-}>;
-
-export type UpdateStructureMutation = {
-	__typename?: 'mutation_root';
-	structure?:
-		| {
-				__typename?: 'structure';
-				id: string;
-				name?: string | null | undefined;
-				phone?: string | null | undefined;
-				email?: string | null | undefined;
-				address1?: string | null | undefined;
-				address2?: string | null | undefined;
-				postalCode?: string | null | undefined;
-				city?: string | null | undefined;
-				website?: string | null | undefined;
-				siret?: string | null | undefined;
-				shortDesc?: string | null | undefined;
-		  }
-		| null
-		| undefined;
 };
 
 export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
@@ -7773,32 +8117,6 @@ export type UpdateProfessionalProfileMutation = {
 		| undefined;
 };
 
-export const StructureFieldsFragmentDoc = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'structureFields' },
-			typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'structure' } },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<StructureFieldsFragment, unknown>;
 export const EventFieldsFragmentDoc = {
 	kind: 'Document',
 	definitions: [
@@ -8481,8 +8799,38 @@ export const ImportStructureDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminEmail' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'forceUpdate' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 				},
 			],
 			selectionSet: {
@@ -8491,68 +8839,125 @@ export const ImportStructureDocument = {
 					{
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'structure' },
-						name: { kind: 'Name', value: 'insert_structure_one' },
+						name: { kind: 'Name', value: 'insertStructureWithAdmin' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
+								name: { kind: 'Name', value: 'data' },
 								value: {
 									kind: 'ObjectValue',
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'name' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+											name: { kind: 'Name', value: 'structure' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'name' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'phone' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'email' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'address1' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'address2' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'postalCode' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'postalCode' },
+														},
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'city' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'website' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'siret' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'shortDesc' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'phone' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address1' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address2' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'postalCode' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'city' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'website' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'siret' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'shortDesc' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+											name: { kind: 'Name', value: 'adminStructure' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'adminEmail' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'adminEmail' },
+														},
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'firstname' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastname' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'position' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'phoneNumbers' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'phoneNumbers' },
+														},
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'deploymentId' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'forceUpdate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'forceUpdate' } },
 										},
 									],
 								},
@@ -8561,14 +8966,23 @@ export const ImportStructureDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
 							],
 						},
 					},
 				],
 			},
 		},
-		...StructureFieldsFragmentDoc.definitions,
 	],
 } as unknown as DocumentNode<ImportStructureMutation, ImportStructureMutationVariables>;
 export const GetDeploymentNotebooksDocument = {
@@ -10523,6 +10937,64 @@ export const GetAccountByPkDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByPkQuery, GetAccountByPkQueryVariables>;
+export const GetAdminStructureByEmailDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAdminStructureByEmail' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'admin_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetAdminStructureByEmailQuery, GetAdminStructureByEmailQueryVariables>;
 export const GetNotebookInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -10654,6 +11126,318 @@ export const GetNotebookInfoDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookInfoQuery, GetNotebookInfoQueryVariables>;
+export const InsertAdminStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'InsertAdminStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminEmail' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_admin_structure_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'adminEmail' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'position' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'phoneNumbers' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<InsertAdminStructureMutation, InsertAdminStructureMutationVariables>;
+export const InsertStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'InsertStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminStructureId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'onConflictUpdates' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'structure_update_column' },
+								},
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_structure_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: { kind: 'EnumValue', value: 'structure_name_deployment_id_key' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'onConflictUpdates' },
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'name' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'phone' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address1' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'address2' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'postalCode' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'city' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'website' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'siret' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'shortDesc' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'admins' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'adminStructureId' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'adminStructureId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<InsertStructureMutation, InsertStructureMutationVariables>;
 export const UpdateNotebookFromApiDocument = {
 	kind: 'Document',
 	definitions: [
@@ -12348,308 +13132,6 @@ export const GetNotebooksStatsDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebooksStatsQuery, GetNotebooksStatsQueryVariables>;
-export const InsertStructureDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'InsertStructure' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'structure' },
-						name: { kind: 'Name', value: 'insert_structure_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'name' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'phone' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address1' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address2' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'postalCode' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'city' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'website' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'siret' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'shortDesc' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } },
-							],
-						},
-					},
-				],
-			},
-		},
-		...StructureFieldsFragmentDoc.definitions,
-	],
-} as unknown as DocumentNode<InsertStructureMutation, InsertStructureMutationVariables>;
-export const UpdateStructureDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateStructure' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'structure' },
-						name: { kind: 'Name', value: 'update_structure_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'name' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'phone' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'phone' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address1' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address2' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'postalCode' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'city' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'website' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'website' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'siret' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'siret' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'shortDesc' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'structureFields' } },
-							],
-						},
-					},
-				],
-			},
-		},
-		...StructureFieldsFragmentDoc.definitions,
-	],
-} as unknown as DocumentNode<UpdateStructureMutation, UpdateStructureMutationVariables>;
 export const GetAccountsSummaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14475,9 +14957,21 @@ export type GetAccountByPkQueryStore = OperationStore<
 	GetAccountByPkQuery,
 	GetAccountByPkQueryVariables
 >;
+export type GetAdminStructureByEmailQueryStore = OperationStore<
+	GetAdminStructureByEmailQuery,
+	GetAdminStructureByEmailQueryVariables
+>;
 export type GetNotebookInfoQueryStore = OperationStore<
 	GetNotebookInfoQuery,
 	GetNotebookInfoQueryVariables
+>;
+export type InsertAdminStructureMutationStore = OperationStore<
+	InsertAdminStructureMutation,
+	InsertAdminStructureMutationVariables
+>;
+export type InsertStructureMutationStore = OperationStore<
+	InsertStructureMutation,
+	InsertStructureMutationVariables
 >;
 export type UpdateNotebookFromApiMutationStore = OperationStore<
 	UpdateNotebookFromApiMutation,
@@ -14538,14 +15032,6 @@ export type GetProfessionalsForManagerQueryStore = OperationStore<
 export type GetNotebooksStatsQueryStore = OperationStore<
 	GetNotebooksStatsQuery,
 	GetNotebooksStatsQueryVariables
->;
-export type InsertStructureMutationStore = OperationStore<
-	InsertStructureMutation,
-	InsertStructureMutationVariables
->;
-export type UpdateStructureMutationStore = OperationStore<
-	UpdateStructureMutation,
-	UpdateStructureMutationVariables
 >;
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,

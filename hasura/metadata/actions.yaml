@@ -19,6 +19,8 @@ custom_types:
   enums: []
   input_objects:
   - name: InsertStructureWithAdminInput
+  - name: StructureInput
+  - name: AdminStructureInput
   objects:
   - name: UpdateNotebookOutput
   - name: InsertStructureWithAdminOutput

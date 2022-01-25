@@ -11,6 +11,13 @@ type Mutation {
 }
 
 input InsertStructureWithAdminInput {
+  structure: StructureInput
+  adminStructure: AdminStructureInput
+  deploymentId: uuid
+  forceUpdate: Boolean
+}
+
+input StructureInput {
   name: String
   phone: String
   email: String
@@ -21,14 +28,14 @@ input InsertStructureWithAdminInput {
   website: String
   siret: String
   shortDesc: String
+}
+
+input AdminStructureInput {
   adminEmail: citext
   firstname: String
   lastname: String
   position: String
   phoneNumbers: String
-  adminStructureId: uuid
-  deploymentId: uuid
-  forceUpdate: Boolean
 }
 
 type UpdateNotebookOutput {
@@ -37,5 +44,16 @@ type UpdateNotebookOutput {
 
 type InsertStructureWithAdminOutput {
   id: uuid!
+  name: String
+  phone: String
+  email: citext
+  address1: String
+  address2: String
+  postalCode: String
+  city: String
+  website: String
+  siret: String
+  shortDesc: String
+  adminEmails: [String]
 }
 

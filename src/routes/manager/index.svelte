@@ -8,8 +8,8 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	import { operationStore, query } from '@urql/svelte';
-	import { v4 } from 'uuid';
-	const result = operationStore(GetDeploymentInfosDocument, { id: $session.user.deploymentId });
+	const deploymentId = $session.user.deploymentId;
+	const result = operationStore(GetDeploymentInfosDocument, { id: deploymentId });
 	query(result);
 
 	function refreshStore() {
@@ -59,7 +59,7 @@
 				showButtons={false}
 				on:close={refreshStore}
 			>
-				<AdminDeploymentStructuresImport deploymentId={v4()} />
+				<AdminDeploymentStructuresImport {deploymentId} />
 			</Dialog>
 		</div>
 		<div class="fr-col-sm-6">

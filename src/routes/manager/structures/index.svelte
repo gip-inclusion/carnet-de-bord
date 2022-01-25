@@ -5,8 +5,6 @@
 	import type { OperationStore } from '@urql/svelte';
 	import { operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { openComponent } from '$lib/stores';
-	import StructureFormInfo from '$lib/ui/StructureFormInfo.svelte';
 
 	export const load: Load = async () => {
 		const result = operationStore(GetStructuresDocument, {});
@@ -20,24 +18,13 @@
 </script>
 
 <script lang="ts">
-	import { Button, SearchBar } from '$lib/ui/base';
-	import type { Structure } from '$lib/types';
+	import { SearchBar } from '$lib/ui/base';
 
 	export let result: OperationStore<GetStructuresQuery>;
 
 	query(result);
 
 	$: structures = $result.data?.structure.map(({ __typename, ...rest }) => ({ ...rest }));
-
-	function openStructureLayer(structure: Structure | null) {
-		openComponent.open({
-			component: StructureFormInfo,
-			props: {
-				structure: structure || {},
-				structureId: structure ? structure.id : null,
-			},
-		});
-	}
 
 	let search = '';
 	function handleSubmit() {
@@ -69,14 +56,6 @@
 	<div>
 		<div class="flex flex-row justify-between items-center">
 			<h2 class="fr-h4 pt-4">Liste des structures</h2>
-			<Button
-				outline
-				classNames="fr-btn--icon-left fr-fi-add-circle-line"
-				on:click={() => openStructureLayer(null)}
-			>
-				<span class="" />
-				Ajouter un structure
-			</Button>
 		</div>
 
 		<div class="mb-4">
@@ -99,7 +78,7 @@
 				</thead>
 				<tbody>
 					{#each filteredStructures as structure (structure.id)}
-						<tr class="cursor-pointer" on:click={() => openStructureLayer(structure)}>
+						<tr class="cursor-pointer">
 							<td>{structure.name}</td>
 							<td>{structure.postalCode || ''}</td>
 							<td>{structure.city || ''}</td>

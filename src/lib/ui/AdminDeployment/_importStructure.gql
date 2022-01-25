@@ -9,37 +9,49 @@ mutation ImportStructure(
 	$website: String
 	$siret: String
 	$shortDesc: String
+	$adminEmail: citext
+	$firstname: String
+	$lastname: String
+	$position: String
+	$phoneNumbers: String
 	$deploymentId: uuid
+	$forceUpdate: Boolean
 ) {
-	structure: insert_structure_one(
-		object: {
-			name: $name
-			phone: $phone
-			email: $email
-			address1: $address1
-			address2: $address2
-			postalCode: $postalCode
-			city: $city
-			website: $website
-			siret: $siret
-			shortDesc: $shortDesc
+	structure: insertStructureWithAdmin(
+		data: {
+			structure: {
+				name: $name
+				phone: $phone
+				email: $email
+				address1: $address1
+				address2: $address2
+				postalCode: $postalCode
+				city: $city
+				website: $website
+				siret: $siret
+				shortDesc: $shortDesc
+			}
+			adminStructure: {
+				adminEmail: $adminEmail
+				firstname: $firstname
+				lastname: $lastname
+				position: $position
+				phoneNumbers: $phoneNumbers
+			}
 			deploymentId: $deploymentId
+			forceUpdate: $forceUpdate
 		}
 	) {
-		...structureFields
+		id
+		name
+		phone
+		email
+		address1
+		address2
+		postalCode
+		city
+		website
+		siret
+		shortDesc
 	}
-}
-
-fragment structureFields on structure {
-	id
-	name
-	phone
-	email
-	address1
-	address2
-	postalCode
-	city
-	website
-	siret
-	shortDesc
 }
