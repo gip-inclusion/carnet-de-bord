@@ -534,6 +534,7 @@ export type Beneficiary = {
 	email?: Maybe<Scalars['citext']>;
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
+	internalId?: Maybe<Scalars['String']>;
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
 	/** An object relationship */
@@ -595,6 +596,7 @@ export type BeneficiaryBoolExp = {
 	email?: InputMaybe<CitextComparisonExp>;
 	firstname?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	internalId?: InputMaybe<StringComparisonExp>;
 	lastname?: InputMaybe<StringComparisonExp>;
 	mobileNumber?: InputMaybe<StringComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
@@ -607,6 +609,8 @@ export type BeneficiaryBoolExp = {
 export enum BeneficiaryConstraint {
 	/** unique or primary key constraint */
 	BeneficiaryFirstnameCafNumberDateOfBirthLastnameDeploym = 'beneficiary_firstname_caf_number_date_of_birth_lastname_deploym',
+	/** unique or primary key constraint */
+	BeneficiaryInternalIdKey = 'beneficiary_internal_id_key',
 	/** unique or primary key constraint */
 	BeneficiaryPeNumberLastnameFirstnameDateOfBirthDeployme = 'beneficiary_pe_number_lastname_firstname_date_of_birth_deployme',
 	/** unique or primary key constraint */
@@ -627,6 +631,7 @@ export type BeneficiaryInsertInput = {
 	email?: InputMaybe<Scalars['citext']>;
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	internalId?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
@@ -648,6 +653,7 @@ export type BeneficiaryMaxFields = {
 	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	internalId?: Maybe<Scalars['String']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
@@ -667,6 +673,7 @@ export type BeneficiaryMaxOrderBy = {
 	email?: InputMaybe<OrderBy>;
 	firstname?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	internalId?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
@@ -687,6 +694,7 @@ export type BeneficiaryMinFields = {
 	email?: Maybe<Scalars['citext']>;
 	firstname?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	internalId?: Maybe<Scalars['String']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
@@ -706,6 +714,7 @@ export type BeneficiaryMinOrderBy = {
 	email?: InputMaybe<OrderBy>;
 	firstname?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	internalId?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
@@ -750,6 +759,7 @@ export type BeneficiaryOrderBy = {
 	email?: InputMaybe<OrderBy>;
 	firstname?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	internalId?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
@@ -786,6 +796,8 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	InternalId = 'internalId',
+	/** column name */
 	Lastname = 'lastname',
 	/** column name */
 	MobileNumber = 'mobileNumber',
@@ -809,6 +821,7 @@ export type BeneficiarySetInput = {
 	email?: InputMaybe<Scalars['citext']>;
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	internalId?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	peNumber?: InputMaybe<Scalars['String']>;
@@ -838,6 +851,8 @@ export enum BeneficiaryUpdateColumn {
 	Firstname = 'firstname',
 	/** column name */
 	Id = 'id',
+	/** column name */
+	InternalId = 'internalId',
 	/** column name */
 	Lastname = 'lastname',
 	/** column name */
@@ -2237,7 +2252,6 @@ export type Notebook = {
 	focuses_aggregate: NotebookFocusAggregate;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	internalId?: Maybe<Scalars['String']>;
 	job?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	members: Array<NotebookMember>;
@@ -2571,7 +2585,6 @@ export type NotebookBoolExp = {
 	focuses?: InputMaybe<NotebookFocusBoolExp>;
 	geographicalArea?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
-	internalId?: InputMaybe<StringComparisonExp>;
 	job?: InputMaybe<StringComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
 	rightAre?: InputMaybe<BooleanComparisonExp>;
@@ -2588,8 +2601,6 @@ export type NotebookBoolExp = {
 export enum NotebookConstraint {
 	/** unique or primary key constraint */
 	NotebookBeneficiaryIdKey = 'notebook_beneficiary_id_key',
-	/** unique or primary key constraint */
-	NotebookInternalIdKey = 'notebook_internal_id_key',
 	/** unique or primary key constraint */
 	NotebookPkey = 'notebook_pkey',
 }
@@ -3103,7 +3114,6 @@ export type NotebookInsertInput = {
 	focuses?: InputMaybe<NotebookFocusArrRelInsertInput>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	internalId?: InputMaybe<Scalars['String']>;
 	job?: InputMaybe<Scalars['String']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
@@ -3126,7 +3136,6 @@ export type NotebookMaxFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	internalId?: Maybe<Scalars['String']>;
 	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -3390,7 +3399,6 @@ export type NotebookMinFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	internalId?: Maybe<Scalars['String']>;
 	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -3433,7 +3441,6 @@ export type NotebookOrderBy = {
 	focuses_aggregate?: InputMaybe<NotebookFocusAggregateOrderBy>;
 	geographicalArea?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
-	internalId?: InputMaybe<OrderBy>;
 	job?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	rightAre?: InputMaybe<OrderBy>;
@@ -3468,8 +3475,6 @@ export enum NotebookSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	InternalId = 'internalId',
-	/** column name */
 	Job = 'job',
 	/** column name */
 	RightAre = 'rightAre',
@@ -3498,7 +3503,6 @@ export type NotebookSetInput = {
 	educationLevel?: InputMaybe<Scalars['String']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	internalId?: InputMaybe<Scalars['String']>;
 	job?: InputMaybe<Scalars['String']>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
@@ -3760,8 +3764,6 @@ export enum NotebookUpdateColumn {
 	GeographicalArea = 'geographicalArea',
 	/** column name */
 	Id = 'id',
-	/** column name */
-	InternalId = 'internalId',
 	/** column name */
 	Job = 'job',
 	/** column name */
@@ -4997,7 +4999,7 @@ export type Structure = {
 	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	name?: Maybe<Scalars['String']>;
+	name: Scalars['String'];
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -5880,7 +5882,7 @@ export type ImportStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name?: string | null | undefined;
+				name: string;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -5898,7 +5900,7 @@ export type ImportStructureMutation = {
 export type StructureFieldsFragment = {
 	__typename?: 'structure';
 	id: string;
-	name?: string | null | undefined;
+	name: string;
 	phone?: string | null | undefined;
 	email?: string | null | undefined;
 	address1?: string | null | undefined;
@@ -6035,7 +6037,7 @@ export type GetNotebookFocusByIdQuery = {
 					structure: {
 						__typename?: 'structure';
 						id: string;
-						name?: string | null | undefined;
+						name: string;
 						phone?: string | null | undefined;
 						address1?: string | null | undefined;
 						address2?: string | null | undefined;
@@ -6112,7 +6114,7 @@ export type SearchProfessionalQuery = {
 		structure: {
 			__typename?: 'structure';
 			id: string;
-			name?: string | null | undefined;
+			name: string;
 			postalCode?: string | null | undefined;
 			phone?: string | null | undefined;
 		};
@@ -6222,7 +6224,7 @@ export type GetAccountByPkQuery = {
 							structure: {
 								__typename?: 'structure';
 								id: string;
-								name?: string | null | undefined;
+								name: string;
 								address1?: string | null | undefined;
 								address2?: string | null | undefined;
 								postalCode?: string | null | undefined;
@@ -6321,7 +6323,7 @@ export type GetProfessionalsForDeploymentQuery = {
 		position?: string | null | undefined;
 		email: string;
 		structureId: string;
-		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+		structure: { __typename?: 'structure'; id: string; name: string };
 	}>;
 };
 
@@ -6335,7 +6337,7 @@ export type GetStructuresForDeploymentQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: string | null | undefined;
-		name?: string | null | undefined;
+		name: string;
 		shortDesc?: string | null | undefined;
 		phone?: string | null | undefined;
 		email?: string | null | undefined;
@@ -6496,7 +6498,7 @@ export type GetStructuresQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: string | null | undefined;
-		name?: string | null | undefined;
+		name: string;
 		shortDesc?: string | null | undefined;
 		phone?: string | null | undefined;
 		email?: string | null | undefined;
@@ -6598,7 +6600,7 @@ export type GetNotebooksStatsQuery = {
 	structConnections: Array<{
 		__typename?: 'structure';
 		id: string;
-		name?: string | null | undefined;
+		name: string;
 		city?: string | null | undefined;
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
@@ -6629,7 +6631,7 @@ export type InsertStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name?: string | null | undefined;
+				name: string;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -6664,7 +6666,7 @@ export type UpdateStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name?: string | null | undefined;
+				name: string;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -6699,7 +6701,7 @@ export type GetAccountsSummaryQuery = {
 					position?: string | null | undefined;
 					mobileNumber?: string | null | undefined;
 					email: string;
-					structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+					structure: { __typename?: 'structure'; id: string; name: string };
 			  }
 			| null
 			| undefined;
@@ -6748,7 +6750,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				structure: {
 					__typename?: 'structure';
 					id: string;
-					name?: string | null | undefined;
+					name: string;
 					address1?: string | null | undefined;
 					address2?: string | null | undefined;
 					postalCode?: string | null | undefined;
@@ -6908,7 +6910,7 @@ export type GetNotebookQuery = {
 						structure: {
 							__typename?: 'structure';
 							id: string;
-							name?: string | null | undefined;
+							name: string;
 							address1?: string | null | undefined;
 							address2?: string | null | undefined;
 							postalCode?: string | null | undefined;
@@ -6927,7 +6929,7 @@ export type GetNotebookQuery = {
 					professional: {
 						__typename?: 'professional';
 						structureId: string;
-						structure: { __typename?: 'structure'; name?: string | null | undefined };
+						structure: { __typename?: 'structure'; name: string };
 					};
 				}>;
 		  }
@@ -6953,7 +6955,7 @@ export type GetNotebookEventsQuery = {
 		professional: {
 			__typename?: 'professional';
 			structureId: string;
-			structure: { __typename?: 'structure'; name?: string | null | undefined };
+			structure: { __typename?: 'structure'; name: string };
 		};
 	}>;
 };
@@ -6968,7 +6970,7 @@ export type EventFieldsFragment = {
 	professional: {
 		__typename?: 'professional';
 		structureId: string;
-		structure: { __typename?: 'structure'; name?: string | null | undefined };
+		structure: { __typename?: 'structure'; name: string };
 	};
 };
 
@@ -7437,6 +7439,14 @@ export const ImportBeneficiaryDocument = {
 																		name: { kind: 'Name', value: 'deploymentId' },
 																	},
 																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'internalId' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'internalId' },
+																	},
+																},
 															],
 														},
 													},
@@ -7518,11 +7528,6 @@ export const ImportBeneficiaryDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'educationLevel' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'internalId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'internalId' } },
 										},
 									],
 								},

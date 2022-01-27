@@ -39,6 +39,7 @@ mutation ImportBeneficiary(
 					cafNumber: $cafNumber
 					peNumber: $peNumber
 					deploymentId: $deploymentId
+					internalId: $internalId
 				}
 			}
 			events: { data: [] }
@@ -52,7 +53,6 @@ mutation ImportBeneficiary(
 			geographicalArea: $geographicalArea
 			job: $job
 			educationLevel: $educationLevel
-			internalId: $internalId
 		}
 	) {
 		id

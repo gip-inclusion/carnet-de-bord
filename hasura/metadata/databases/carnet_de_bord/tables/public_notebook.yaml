@@ -9,7 +9,6 @@ configuration:
     created_at: createdAt
     education_level: educationLevel
     geographical_area: geographicalArea
-    internal_id: internalId
     right_are: rightAre
     right_ass: rightAss
     right_bonus: rightBonus
@@ -57,7 +56,6 @@ insert_permissions:
     - education_level
     - geographical_area
     - id
-    - internal_id
     - job
     - right_are
     - right_ass

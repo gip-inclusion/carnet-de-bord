@@ -7,6 +7,7 @@ configuration:
     created_at: createdAt
     date_of_birth: dateOfBirth
     deployment_id: deploymentId
+    internal_id: internalId
     mobile_number: mobileNumber
     pe_number: peNumber
     postal_code: postalCode
