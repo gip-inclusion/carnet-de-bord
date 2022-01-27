@@ -63,15 +63,18 @@ insert_permissions:
     - address2
     - caf_number
     - city
+    - created_at
+    - date_of_birth
+    - deployment_id
     - email
     - firstname
+    - id
+    - internal_id
     - lastname
     - mobile_number
     - pe_number
     - postal_code
-    - date_of_birth
-    - deployment_id
-    - id
+    - updated_at
     set:
       deployment_id: x-hasura-Deployment-id
   role: manager

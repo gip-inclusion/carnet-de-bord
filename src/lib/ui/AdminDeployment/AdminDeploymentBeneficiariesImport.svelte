@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {
 		ImportBeneficiaryDocument,
-		GetProfessionalsForDeploymentDocument,
+		GetProfessionalsForManagerDocument,
 		Professional,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		ImportBeneficiaryMutation,
 		ImportBeneficiaryMutationVariables,
-		GetProfessionalsForDeploymentQuery,
+		GetProfessionalsForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query, mutation } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
@@ -18,13 +18,9 @@
 	import { displayFullName } from '$lib/ui/format';
 	import * as keys from '$lib/constants/keys';
 
-	export let deploymentId: string;
-
-	let queryProfessionals: OperationStore<GetProfessionalsForDeploymentQuery> = operationStore(
-		GetProfessionalsForDeploymentDocument,
-		{
-			deploymentId,
-		}
+	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
+		GetProfessionalsForManagerDocument,
+		{}
 	);
 	query(queryProfessionals);
 
@@ -183,7 +179,6 @@
 			const members = proIds.map((professionalId) => ({ memberType: 'referent', professionalId }));
 			const payload = {
 				...benef,
-				deploymentId,
 				workSituation: stringToWorkSituation(benef.workSituation),
 				rightRsa: stringToRightRsa(benef.rightRsa),
 				rightAre: stringToBool(benef.rightAre),

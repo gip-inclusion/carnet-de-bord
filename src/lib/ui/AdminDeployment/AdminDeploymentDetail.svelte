@@ -10,7 +10,6 @@
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import AdminDeploymentStructuresImport from './AdminDeploymentStructuresImport.svelte';
 	import AdminDeploymentProfessionalsImport from './AdminDeploymentProfessionalsImport.svelte';
-	import AdminDeploymentBeneficiariesImport from './AdminDeploymentBeneficiariesImport.svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import AdminNotebookUpdate from './AdminNotebookUpdate.svelte';
 
@@ -73,18 +72,6 @@
 				on:close={refreshStore}
 			>
 				<AdminDeploymentProfessionalsImport deploymentId={deployment?.id} />
-			</Dialog>
-		</div>
-		<div class="fr-col-md-3 fr-m-2v fr-p-4v">
-			<Dialog
-				label="Importer des bénéficiaires"
-				buttonLabel="Importer des bénéficiaires"
-				title="Importer des bénéficiaires"
-				size={'large'}
-				showButtons={false}
-				on:close={refreshStore}
-			>
-				<AdminDeploymentBeneficiariesImport deploymentId={deployment?.id} />
 			</Dialog>
 		</div>
 		<div class="fr-col-md-3 fr-m-2v fr-p-4v " />
