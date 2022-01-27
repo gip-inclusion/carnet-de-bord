@@ -42,15 +42,16 @@ insert_permissions:
     - address2
     - caf_number
     - city
+    - date_of_birth
+    - deployment_id
+    - email
     - firstname
+    - id
+    - internal_id
     - lastname
     - mobile_number
     - pe_number
     - postal_code
-    - date_of_birth
-    - email
-    - deployment_id
-    - id
   role: admin_cdb
 - permission:
     backend_only: false
