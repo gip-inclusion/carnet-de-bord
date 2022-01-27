@@ -73,13 +73,13 @@
 
 	function processRawCSV(data: string): BeneficiaryImport[] {
 		const output = [];
-		const rows = data.split('\n');
+		const rows = data.split('\n').map((line) => line.trim());
 		for (let i = 0; i < rows.length; i++) {
-			if (rows[i].replace(/\s/, '')) {
+			if (rows[i]) {
 				const cells = rows[i].split(',');
 				const beneficiary = { uid: uuidv4() } as BeneficiaryImport;
 				for (let j = 0; j < headers.length; j++) {
-					beneficiary[headers[j].key] = cells[j] || null;
+					beneficiary[headers[j].key] = cells[j]?.trim() || null;
 				}
 				beneficiary.valid = validate(beneficiary);
 				output.push(beneficiary);
@@ -337,12 +337,19 @@
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV avec les informations suivantes dans l'ordre,
-				séparées par des virgules (deux virgules consécutives quand il n'y a pas de valeur)&nbsp;:
-				<br /><strong>{headers.map((header) => header.label).join(', ')}</strong>
+				Veuillez fournir un fichier au format CSV.
+				<br />Vous pouvez
+				<a href="/fichiers/import_beneficiaires.csv" download>télécharger un modèle</a>
+				et
+				<a href="https://pad.incubateur.net/_v1jj-BaRVaoQckY4aN2rg?view"
+					>consulter la notice de remplissage</a
+				>.
+				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
-				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
+				<span class="cursor-default"
+					>Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.</span
+				>
 			</Dropzone>
 		{/if}
 	{:else}
