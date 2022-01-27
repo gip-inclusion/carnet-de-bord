@@ -1,3 +1,10 @@
+## [1.77.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.6...v1.77.7) (2022-01-27)
+
+
+### Bug Fixes
+
+* missing type generation ([9c996a5](https://github.com/SocialGouv/carnet-de-bord/commit/9c996a550c037e364e73213cf1f39600ea2220d9))
+
 ## [1.77.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.5...v1.77.6) (2022-01-24)
 
 
