@@ -226,7 +226,7 @@
 		{ label: 'Zone de mobilité', key: 'geographicalArea' },
 		{ label: 'Emploi recherché (code ROME)', key: 'job' },
 		{ label: 'Niveau de formation', key: 'educationLevel' },
-		{ label: "Accompagnateurs (liste d'emails séparés par des virgules)", key: 'proEmails' },
+		{ label: 'Accompagnateurs', key: 'proEmails' },
 	];
 
 	function backToFileSelect() {
@@ -247,28 +247,9 @@
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
 						<th class="px-2 py-2" />
-						<th class="px-2 py-2">Identifiant dans le SI*</th>
-						<th class="px-2 py-2">Prénom*</th>
-						<th class="px-2 py-2">Nom*</th>
-						<th class="px-2 py-2">Date de naissance*</th>
-						<th class="px-2 py-2">Téléphone</th>
-						<th class="px-2 py-2">Courriel</th>
-						<th class="px-2 py-2">Adresse</th>
-						<th class="px-2 py-2">Adresse (complément)</th>
-						<th class="px-2 py-2">Code postal</th>
-						<th class="px-2 py-2">Ville</th>
-						<th class="px-2 py-2">Situation de travail</th>
-						<th class="px-2 py-2">N° CAF/MSA</th>
-						<th class="px-2 py-2">N° Pôle emploi</th>
-						<th class="px-2 py-2">Droits RSA</th>
-						<th class="px-2 py-2">Droits ARE</th>
-						<th class="px-2 py-2">Droits ASS</th>
-						<th class="px-2 py-2">Prime d'activité</th>
-						<th class="px-2 py-2">AAH</th>
-						<th class="px-2 py-2">Zone de mobilité</th>
-						<th class="px-2 py-2">Emploi recherché (code ROME)</th>
-						<th class="px-2 py-2">Niveau de formation</th>
-						<th class="px-2 py-2">Accompagnateurs</th>
+						{#each headers as { label } (label)}
+							<th class="px-2 py-2">{label}</th>
+						{/each}
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each beneficiaries as beneficiary}
@@ -288,36 +269,27 @@
 									{:else}
 										<i
 											class="ri-alert-line text-error relative left-2"
-											title="Le bénéficiaire ne contient pas les informations obligatoires (marquées d'un astérisque)"
+											title="Le bénéficiaire ne contient pas les informations obligatoires (marquées d'un astérisque) : {headers
+												.reduce((acc, cur) => {
+													if (cur.label.endsWith('*')) {
+														acc.push(cur.label.slice(0, -1));
+													}
+													return acc;
+												}, [])
+												.join(', ')}"
 										/>
 									{/if}
 								</td>
-								<td class="px-2 py-2"><Text value={beneficiary.internalId} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.firstname} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.lastname} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.dateOfBirth} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.mobileNumber} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.email} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.address1} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.address2} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.postalCode} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.city} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.workSituation} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.cafNumber} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.peNumber} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.rightRsa} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.rightAre} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.rightAss} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.rightBonus} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.rightRqth} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.geographicalArea} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.job} /></td>
-								<td class="px-2 py-2"><Text value={beneficiary.educationLevel} /></td>
-								<td class="px-2 py-2"
-									><Text
+								{#each headers as { key } (key)}
+									{#if key !== 'proEmails'}
+										<td class="px-2 py-2"><Text value={beneficiary[key]} /></td>
+									{/if}
+								{/each}
+								<td class="px-2 py-2">
+									<Text
 										value={proEmailsToPros(beneficiary.proEmails).map(displayFullName).join(', ')}
-									/></td
-								>
+									/>
+								</td>
 							</tr>
 						{/each}
 					</tbody>
@@ -341,9 +313,12 @@
 				<br />Vous pouvez
 				<a href="/fichiers/import_beneficiaires.csv" download>télécharger un modèle</a>
 				et
-				<a href="https://pad.incubateur.net/_v1jj-BaRVaoQckY4aN2rg?view"
-					>consulter la notice de remplissage</a
-				>.
+				<a
+					href="https://pad.incubateur.net/_v1jj-BaRVaoQckY4aN2rg?view"
+					target="_blank"
+					rel="noopener noreferrer">consulter la notice de remplissage</a
+				>
+				.
 				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
