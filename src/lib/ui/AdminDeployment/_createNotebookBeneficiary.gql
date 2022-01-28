@@ -11,7 +11,15 @@ mutation ImportBeneficiary(
 	$workSituation: String
 	$cafNumber: String
 	$peNumber: String
-	$deploymentId: uuid
+	$rightRsa: String
+	$rightAre: Boolean
+	$rightAss: Boolean
+	$rightBonus: Boolean
+	$rightRqth: Boolean
+	$geographicalArea: String
+	$job: String
+	$educationLevel: String
+	$internalId: String
 	$members: [notebook_member_insert_input!]!
 ) {
 	newNotebook: insert_notebook_one(
@@ -29,12 +37,19 @@ mutation ImportBeneficiary(
 					city: $city
 					cafNumber: $cafNumber
 					peNumber: $peNumber
-					deploymentId: $deploymentId
+					internalId: $internalId
 				}
 			}
-			events: { data: [] }
 			members: { data: $members }
 			workSituation: $workSituation
+			rightRsa: $rightRsa
+			rightAre: $rightAre
+			rightAss: $rightAss
+			rightBonus: $rightBonus
+			rightRqth: $rightRqth
+			geographicalArea: $geographicalArea
+			job: $job
+			educationLevel: $educationLevel
 		}
 	) {
 		id

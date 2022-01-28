@@ -142,14 +142,15 @@ select_permissions:
     - address2
     - city
     - created_at
+    - deployment_id
     - email
     - id
-    - updated_at
     - name
     - phone
     - postal_code
     - short_desc
     - siret
+    - updated_at
     - website
     filter:
       deployment_id:

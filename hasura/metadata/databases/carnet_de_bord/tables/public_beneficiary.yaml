@@ -7,6 +7,7 @@ configuration:
     created_at: createdAt
     date_of_birth: dateOfBirth
     deployment_id: deploymentId
+    internal_id: internalId
     mobile_number: mobileNumber
     pe_number: peNumber
     postal_code: postalCode
@@ -41,15 +42,16 @@ insert_permissions:
     - address2
     - caf_number
     - city
+    - date_of_birth
+    - deployment_id
+    - email
     - firstname
+    - id
+    - internal_id
     - lastname
     - mobile_number
     - pe_number
     - postal_code
-    - date_of_birth
-    - email
-    - deployment_id
-    - id
   role: admin_cdb
 - permission:
     backend_only: false
@@ -61,15 +63,18 @@ insert_permissions:
     - address2
     - caf_number
     - city
+    - created_at
+    - date_of_birth
+    - deployment_id
     - email
     - firstname
+    - id
+    - internal_id
     - lastname
     - mobile_number
     - pe_number
     - postal_code
-    - date_of_birth
-    - deployment_id
-    - id
+    - updated_at
     set:
       deployment_id: x-hasura-Deployment-id
   role: manager

@@ -49,21 +49,21 @@ insert_permissions:
     backend_only: false
     check: {}
     columns:
-    - id
     - beneficiary_id
+    - contract_sign_date
+    - contract_type
     - created_at
-    - right_rsa
-    - right_rqth
+    - education_level
+    - geographical_area
+    - id
+    - job
     - right_are
     - right_ass
     - right_bonus
-    - geographical_area
-    - education_level
-    - job
-    - work_situation_date
-    - contract_type
-    - contract_sign_date
+    - right_rqth
+    - right_rsa
     - work_situation
+    - work_situation_date
   role: admin_cdb
 - permission:
     backend_only: false

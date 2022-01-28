@@ -1,0 +1,15 @@
+query GetProfessionalsForManager {
+	professional {
+		id
+		firstname
+		lastname
+		mobileNumber
+		position
+		email
+		structureId
+		structure {
+			id
+			name
+		}
+	}
+}

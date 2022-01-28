@@ -90,7 +90,6 @@
 					.reduce((acc, cur) => {
 						return [...acc, ...cur];
 					}, []);
-				console.log({ pros });
 				toImport = pros.filter(({ valid }) => valid).map(({ uid }) => uid);
 			};
 			reader.readAsText(files[i]);
