@@ -1,5 +1,9 @@
 <script context="module" lang="ts">
-	import { ImportStructureDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		AdminStructureInput,
+		ImportStructureDocument,
+		StructureInput,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		ImportStructureMutation,
 		ImportStructureMutationVariables,
@@ -16,32 +20,15 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 
-	type Structure = {
-		name: string;
-		phone: string;
-		email: string;
-		address1: string;
-		address2: string;
-		postalCode: string;
-		city: string;
-		website: string;
-		siret: string;
-		shortDesc: string;
-		adminEmail: string;
-		firstname: string;
-		lastname: string;
-		position: string;
-		phoneNumbers: string;
-	};
+	type StructureWithAdminInput = StructureInput & AdminStructureInput;
 
-	type StructureImport = Structure & {
+	type StructureImport = StructureWithAdminInput & {
 		valid: boolean;
 		uid: string;
 	};
 
 	let forceUpdate = false;
-
-	export let deploymentId: string;
+	let sendAccountEmail = false;
 
 	let files = [];
 	let structures: StructureImport[] = [];
@@ -49,7 +36,7 @@
 	$: structuresToImport = structures.filter(({ uid }) => toImport.includes(uid));
 
 	function validate(struct: Record<string, any>): boolean {
-		return !!struct && !!struct.name && !!struct.city;
+		return !!struct && !!struct.name && !!struct.city && !!struct.postalCode && !!struct.adminEmail;
 	}
 
 <<<<<<< HEAD
@@ -80,7 +67,7 @@
 				const cells = rows[i].split(',');
 				const structure = { uid: uuidv4() } as StructureImport;
 				for (let j = 0; j < headers.length; j++) {
-					structure[headers[j].key] = cells[j];
+					structure[headers[j].key] = cells[j]?.trim();
 				}
 				structure.valid = validate(structure);
 				output.push(structure);
@@ -130,28 +117,13 @@
 	const insertStore: OperationStore<
 		ImportStructureMutation,
 		ImportStructureMutationVariables,
-		Structure
+		StructureWithAdminInput
 	> = operationStore(ImportStructureDocument);
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
-	type Struct = { id: string } & Partial<
-		Pick<
-			Structure,
-			| 'name'
-			| 'phone'
-			| 'email'
-			| 'address1'
-			| 'address2'
-			| 'postalCode'
-			| 'city'
-			| 'website'
-			| 'siret'
-			| 'shortDesc'
-		>
-	>;
+
 	let insertResult: {
-		struct: Struct;
-		adminEmails: string[];
+		struct: StructureWithAdminInput;
 		error: string | null;
 	}[];
 
@@ -160,39 +132,36 @@
 		insertResult = [];
 		for (const structure of structuresToImport) {
 			const { uid, valid, ...struct } = structure;
-			const result = await inserter({ ...struct, deploymentId, forceUpdate });
-			let res: Struct, adminEmails: string[], error: string;
-			if (result && !result.error) {
-				let { adminEmails: emails, ...rest } = result.data.structure;
-				res = rest;
-				adminEmails = emails;
-			} else {
-				error = result.error.toString();
+			const result = await inserter({ ...struct, forceUpdate, sendAccountEmail });
+			let errorMessage = "Une erreur s'est produite, la structure n'a pas été importée.";
+			if (/uniqueness/i.test(result.error?.message)) {
+				errorMessage = 'Cette structure existe déjà.';
 			}
+
 			insertResult = [
 				...insertResult,
 				{
-					struct: res,
-					adminEmails,
-					error,
+					struct,
+					...(result.error && { error: errorMessage }),
 				},
 			];
 		}
+		console.log({ insertResult });
 		insertInProgress = false;
 	}
 
 	const headers = [
 		{ label: 'Nom*', key: 'name' },
-		{ label: 'Ville*', key: 'city' },
-		{ label: 'Code postal', key: 'postalCode' },
+		{ label: 'Description', key: 'shortDesc' },
+		{ label: 'Téléphone', key: 'phone' },
 		{ label: 'Adresse', key: 'address1' },
 		{ label: 'Adresse (complément)', key: 'address2' },
-		{ label: 'Téléphone', key: 'phone' },
-		{ label: 'Courriel', key: 'email' },
+		{ label: 'Code postal* ', key: 'postalCode' },
+		{ label: 'Ville*', key: 'city' },
 		{ label: 'Site web', key: 'website' },
+		{ label: 'Courriel', key: 'email' },
 		{ label: 'SIRET', key: 'siret' },
-		{ label: 'Description', key: 'shortDesc' },
-		{ label: "Courriel de l'administrateur", key: 'adminEmail' },
+		{ label: "Courriel de l'administrateur*", key: 'adminEmail' },
 		{ label: 'Prénom', key: 'firstname' },
 		{ label: 'Nom', key: 'lastname' },
 		{ label: 'Fonction', key: 'position' },
@@ -209,17 +178,6 @@
 <div class="flex flex-col gap-6">
 	{#if insertResult === undefined}
 		{#if structures.length > 0}
-			<p>
-				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
-				correctes et confirmer.
-			</p>
-			<p>
-				<Checkbox
-					name="forceUpdate"
-					label="Écraser les informations des structures existantes"
-					checked={forceUpdate}
-				/>
-			</p>
 			<div class="border-b border-gray-200 shadow" style="overflow-x: auto;">
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
@@ -234,7 +192,7 @@
 						<th>Site web</th>
 						<th>SIRET</th>
 						<th>Description</th>
-						<th>Courriel de l'administrateur</th>
+						<th>Courriel de l'administrateur*</th>
 						<th>Prénom</th>
 						<th>Nom</th>
 						<th>Fonction</th>
@@ -282,6 +240,22 @@
 					</tbody>
 				</table>
 			</div>
+			<p>
+				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
+				correctes et confirmer.
+			</p>
+			<p>
+				<Checkbox
+					name="forceUpdate"
+					label="Écraser les informations des structures existantes"
+					bind:checked={forceUpdate}
+				/>
+				<Checkbox
+					name="sendConfirmEmail"
+					label="Envoyer un email de creation de compte aux nouveaux gestionnaires de structure"
+					bind:checked={sendAccountEmail}
+				/>
+			</p>
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{toImport.length || 'Aucune'}
@@ -299,6 +273,7 @@
 				Veuillez fournir un fichier au format CSV avec les informations suivantes dans l'ordre,
 				séparées par des virgules (deux virgules consécutives quand il n'y a pas de valeur)&nbsp;:
 				<br /><strong>{headers.map((header) => header.label).join(', ')}</strong>
+				<a href="https://pad.incubateur.net/s/y-ZW1qQOw#">Nomenclature des champs</a>
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
@@ -342,10 +317,7 @@
 									</td>
 									<td class="px-2 py-2 ">
 										{#if structure.error}
-											<Text
-												classNames="text-error"
-												value={"Une erreur s'est produite, la structure n'a pas été importée."}
-											/>
+											<Text classNames="text-error" value={structure.error} />
 										{:else}
 											<span
 												class="fr-fi-checkbox-circle-fill text-success"

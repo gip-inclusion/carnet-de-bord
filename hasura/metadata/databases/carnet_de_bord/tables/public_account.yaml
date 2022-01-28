@@ -63,12 +63,20 @@ insert_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+      - admin_structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
     columns:
+    - access_key
+    - access_key_date
+    - admin_structure_id
     - beneficiary_id
     - id
     - professional_id
     - type
     - username
+    set:
+      confirmed: "True"
   role: manager
 select_permissions:
 - permission:

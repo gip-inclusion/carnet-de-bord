@@ -42,8 +42,8 @@ export type BooleanComparisonExp = {
 
 export type InsertStructureWithAdminInput = {
 	adminStructure?: InputMaybe<AdminStructureInput>;
-	deploymentId?: InputMaybe<Scalars['uuid']>;
 	forceUpdate?: InputMaybe<Scalars['Boolean']>;
+	sendAccountEmail?: InputMaybe<Scalars['Boolean']>;
 	structure?: InputMaybe<StructureInput>;
 };
 
@@ -6951,27 +6951,12 @@ export type ImportStructureMutationVariables = Exact<{
 	phoneNumbers?: InputMaybe<Scalars['String']>;
 	deploymentId?: InputMaybe<Scalars['uuid']>;
 	forceUpdate?: InputMaybe<Scalars['Boolean']>;
+	sendAccountEmail?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type ImportStructureMutation = {
 	__typename?: 'mutation_root';
-	structure?:
-		| {
-				__typename?: 'InsertStructureWithAdminOutput';
-				id: string;
-				name?: string | null | undefined;
-				phone?: string | null | undefined;
-				email?: string | null | undefined;
-				address1?: string | null | undefined;
-				address2?: string | null | undefined;
-				postalCode?: string | null | undefined;
-				city?: string | null | undefined;
-				website?: string | null | undefined;
-				siret?: string | null | undefined;
-				shortDesc?: string | null | undefined;
-		  }
-		| null
-		| undefined;
+	structure?: { __typename?: 'InsertStructureWithAdminOutput'; id: string } | null | undefined;
 };
 
 export type GetDeploymentNotebooksQueryVariables = Exact<{
@@ -7301,13 +7286,15 @@ export type GetAccountByPkQuery = {
 		| undefined;
 };
 
-export type GetAdminStructureByEmailQueryVariables = Exact<{
+export type GetExistingAdminStructureQueryVariables = Exact<{
 	email: Scalars['citext'];
+	name: Scalars['String'];
 }>;
 
-export type GetAdminStructureByEmailQuery = {
+export type GetExistingAdminStructureQuery = {
 	__typename?: 'query_root';
-	admin_structure: Array<{ __typename?: 'admin_structure'; id: string }>;
+	admin: Array<{ __typename?: 'admin_structure'; id: string }>;
+	structure: Array<{ __typename?: 'structure'; id: string }>;
 };
 
 export type GetNotebookInfoQueryVariables = Exact<{
@@ -7351,18 +7338,37 @@ export type GetNotebookInfoQuery = {
 		| undefined;
 };
 
-export type InsertAdminStructureMutationVariables = Exact<{
-	adminEmail?: InputMaybe<Scalars['citext']>;
+export type InsertAccountAdminStructureMutationVariables = Exact<{
+	username: Scalars['String'];
+	accessKey: Scalars['String'];
+	accessKeyDate: Scalars['timestamptz'];
+	adminEmail: Scalars['citext'];
 	firstname?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	position?: InputMaybe<Scalars['String']>;
 	phoneNumbers?: InputMaybe<Scalars['String']>;
-	deploymentId?: InputMaybe<Scalars['uuid']>;
+	structureId: Scalars['uuid'];
 }>;
 
-export type InsertAdminStructureMutation = {
+export type InsertAccountAdminStructureMutation = {
 	__typename?: 'mutation_root';
-	insert_admin_structure_one?: { __typename?: 'admin_structure'; id: string } | null | undefined;
+	account?:
+		| {
+				__typename?: 'account';
+				accessKey?: string | null | undefined;
+				admin_structure?:
+					| {
+							__typename?: 'admin_structure';
+							id: string;
+							email: string;
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+					  }
+					| null
+					| undefined;
+		  }
+		| null
+		| undefined;
 };
 
 export type InsertStructureMutationVariables = Exact<{
@@ -7376,14 +7382,25 @@ export type InsertStructureMutationVariables = Exact<{
 	website?: InputMaybe<Scalars['String']>;
 	siret?: InputMaybe<Scalars['String']>;
 	shortDesc?: InputMaybe<Scalars['String']>;
-	adminStructureId?: InputMaybe<Scalars['uuid']>;
-	deploymentId?: InputMaybe<Scalars['uuid']>;
-	onConflictUpdates: Array<StructureUpdateColumn> | StructureUpdateColumn;
+	onConflict?: InputMaybe<StructureOnConflict>;
 }>;
 
 export type InsertStructureMutation = {
 	__typename?: 'mutation_root';
-	insert_structure_one?: { __typename?: 'structure'; id: string } | null | undefined;
+	structure?: { __typename?: 'structure'; id: string } | null | undefined;
+};
+
+export type InsertStructureAdminStructureMutationVariables = Exact<{
+	structureId: Scalars['uuid'];
+	adminStructureId: Scalars['uuid'];
+}>;
+
+export type InsertStructureAdminStructureMutation = {
+	__typename?: 'mutation_root';
+	insert_admin_structure_structure_one?:
+		| { __typename?: 'admin_structure_structure'; id: string }
+		| null
+		| undefined;
 };
 
 export type UpdateNotebookFromApiMutationVariables = Exact<{
@@ -8832,6 +8849,11 @@ export const ImportStructureDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'forceUpdate' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'sendAccountEmail' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -8951,13 +8973,16 @@ export const ImportStructureDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+											name: { kind: 'Name', value: 'forceUpdate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'forceUpdate' } },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'forceUpdate' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'forceUpdate' } },
+											name: { kind: 'Name', value: 'sendAccountEmail' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'sendAccountEmail' },
+											},
 										},
 									],
 								},
@@ -8965,19 +8990,7 @@ export const ImportStructureDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
-							],
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 						},
 					},
 				],
@@ -10937,13 +10950,13 @@ export const GetAccountByPkDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByPkQuery, GetAccountByPkQueryVariables>;
-export const GetAdminStructureByEmailDocument = {
+export const GetExistingAdminStructureDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetAdminStructureByEmail' },
+			name: { kind: 'Name', value: 'GetExistingAdminStructure' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -10953,12 +10966,21 @@ export const GetAdminStructureByEmailDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'admin' },
 						name: { kind: 'Name', value: 'admin_structure' },
 						arguments: [
 							{
@@ -10990,11 +11012,48 @@ export const GetAdminStructureByEmailDocument = {
 							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 						},
 					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
+						name: { kind: 'Name', value: 'structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'name' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
 				],
 			},
 		},
 	],
-} as unknown as DocumentNode<GetAdminStructureByEmailQuery, GetAdminStructureByEmailQueryVariables>;
+} as unknown as DocumentNode<
+	GetExistingAdminStructureQuery,
+	GetExistingAdminStructureQueryVariables
+>;
 export const GetNotebookInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -11126,18 +11185,45 @@ export const GetNotebookInfoDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookInfoQuery, GetNotebookInfoQueryVariables>;
-export const InsertAdminStructureDocument = {
+export const InsertAccountAdminStructureDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'mutation',
-			name: { kind: 'Name', value: 'InsertAdminStructure' },
+			name: { kind: 'Name', value: 'InsertAccountAdminStructure' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'username' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminEmail' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
@@ -11161,8 +11247,11 @@ export const InsertAdminStructureDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
 				},
 			],
 			selectionSet: {
@@ -11170,7 +11259,8 @@ export const InsertAdminStructureDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_admin_structure_one' },
+						alias: { kind: 'Name', value: 'account' },
+						name: { kind: 'Name', value: 'insert_account_one' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -11180,33 +11270,107 @@ export const InsertAdminStructureDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'adminEmail' } },
+											name: { kind: 'Name', value: 'username' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'username' } },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+											name: { kind: 'Name', value: 'type' },
+											value: { kind: 'StringValue', value: 'admin_structure', block: false },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+											name: { kind: 'Name', value: 'accessKey' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'position' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'position' } },
+											name: { kind: 'Name', value: 'accessKeyDate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accessKeyDate' } },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'phoneNumbers' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+											name: { kind: 'Name', value: 'admin_structure' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'email' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'adminEmail' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'firstname' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'firstname' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'lastname' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'lastname' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'position' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'position' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'phoneNumbers' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'phoneNumbers' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'structures' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'data' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'structureId' },
+																							value: {
+																								kind: 'Variable',
+																								name: { kind: 'Name', value: 'structureId' },
+																							},
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
 										},
 									],
 								},
@@ -11214,14 +11378,32 @@ export const InsertAdminStructureDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'accessKey' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'admin_structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+							],
 						},
 					},
 				],
 			},
 		},
 	],
-} as unknown as DocumentNode<InsertAdminStructureMutation, InsertAdminStructureMutationVariables>;
+} as unknown as DocumentNode<
+	InsertAccountAdminStructureMutation,
+	InsertAccountAdminStructureMutationVariables
+>;
 export const InsertStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -11282,30 +11464,8 @@ export const InsertStructureDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminStructureId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'onConflictUpdates' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'structure_update_column' },
-								},
-							},
-						},
-					},
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'onConflict' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'structure_on_conflict' } },
 				},
 			],
 			selectionSet: {
@@ -11313,29 +11473,13 @@ export const InsertStructureDocument = {
 				selections: [
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
 						name: { kind: 'Name', value: 'insert_structure_one' },
 						arguments: [
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'on_conflict' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: { kind: 'EnumValue', value: 'structure_name_deployment_id_key' },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'onConflictUpdates' },
-											},
-										},
-									],
-								},
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'onConflict' } },
 							},
 							{
 								kind: 'Argument',
@@ -11393,37 +11537,6 @@ export const InsertStructureDocument = {
 											name: { kind: 'Name', value: 'shortDesc' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'shortDesc' } },
 										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'admins' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'data' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'adminStructureId' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'adminStructureId' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-										},
 									],
 								},
 							},
@@ -11438,6 +11551,74 @@ export const InsertStructureDocument = {
 		},
 	],
 } as unknown as DocumentNode<InsertStructureMutation, InsertStructureMutationVariables>;
+export const InsertStructureAdminStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'InsertStructureAdminStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminStructureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_admin_structure_structure_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'adminStructureId' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'adminStructureId' },
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	InsertStructureAdminStructureMutation,
+	InsertStructureAdminStructureMutationVariables
+>;
 export const UpdateNotebookFromApiDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14957,21 +15138,25 @@ export type GetAccountByPkQueryStore = OperationStore<
 	GetAccountByPkQuery,
 	GetAccountByPkQueryVariables
 >;
-export type GetAdminStructureByEmailQueryStore = OperationStore<
-	GetAdminStructureByEmailQuery,
-	GetAdminStructureByEmailQueryVariables
+export type GetExistingAdminStructureQueryStore = OperationStore<
+	GetExistingAdminStructureQuery,
+	GetExistingAdminStructureQueryVariables
 >;
 export type GetNotebookInfoQueryStore = OperationStore<
 	GetNotebookInfoQuery,
 	GetNotebookInfoQueryVariables
 >;
-export type InsertAdminStructureMutationStore = OperationStore<
-	InsertAdminStructureMutation,
-	InsertAdminStructureMutationVariables
+export type InsertAccountAdminStructureMutationStore = OperationStore<
+	InsertAccountAdminStructureMutation,
+	InsertAccountAdminStructureMutationVariables
 >;
 export type InsertStructureMutationStore = OperationStore<
 	InsertStructureMutation,
 	InsertStructureMutationVariables
+>;
+export type InsertStructureAdminStructureMutationStore = OperationStore<
+	InsertStructureAdminStructureMutation,
+	InsertStructureAdminStructureMutationVariables
 >;
 export type UpdateNotebookFromApiMutationStore = OperationStore<
 	UpdateNotebookFromApiMutation,

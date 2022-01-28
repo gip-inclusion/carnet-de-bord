@@ -1,5 +1,0 @@
-query GetAdminStructureByEmail($email: citext!) {
-	admin_structure(where: { email: { _eq: $email } }) {
-		id
-	}
-}

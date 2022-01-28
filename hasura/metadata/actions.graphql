@@ -13,8 +13,8 @@ type Mutation {
 input InsertStructureWithAdminInput {
   structure: StructureInput
   adminStructure: AdminStructureInput
-  deploymentId: uuid
   forceUpdate: Boolean
+  sendAccountEmail: Boolean
 }
 
 input StructureInput {

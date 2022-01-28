@@ -9,15 +9,10 @@ mutation InsertStructure(
 	$website: String
 	$siret: String
 	$shortDesc: String
-	$adminStructureId: uuid
-	$deploymentId: uuid
-	$onConflictUpdates: [structure_update_column!]!
+	$onConflict: structure_on_conflict
 ) {
-	insert_structure_one(
-		on_conflict: {
-			constraint: structure_name_deployment_id_key
-			update_columns: $onConflictUpdates
-		}
+	structure: insert_structure_one(
+		on_conflict: $onConflict
 		object: {
 			name: $name
 			phone: $phone
@@ -29,8 +24,6 @@ mutation InsertStructure(
 			website: $website
 			siret: $siret
 			shortDesc: $shortDesc
-			admins: { data: { adminStructureId: $adminStructureId } }
-			deploymentId: $deploymentId
 		}
 	) {
 		id

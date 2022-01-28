@@ -16,6 +16,7 @@ mutation ImportStructure(
 	$phoneNumbers: String
 	$deploymentId: uuid
 	$forceUpdate: Boolean
+	$sendAccountEmail: Boolean
 ) {
 	structure: insertStructureWithAdmin(
 		data: {
@@ -38,20 +39,20 @@ mutation ImportStructure(
 				position: $position
 				phoneNumbers: $phoneNumbers
 			}
-			deploymentId: $deploymentId
 			forceUpdate: $forceUpdate
+			sendAccountEmail: $sendAccountEmail
 		}
 	) {
 		id
-		name
-		phone
-		email
-		address1
-		address2
-		postalCode
-		city
-		website
-		siret
-		shortDesc
+		# name
+		# phone
+		# email
+		# address1
+		# address2
+		# postalCode
+		# city
+		# website
+		# siret
+		# shortDesc
 	}
 }
