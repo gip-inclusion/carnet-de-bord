@@ -68,18 +68,26 @@
 	$: beneficiariesToImport = beneficiaries.filter(({ uid }) => toImport.includes(uid));
 
 	function validate(benef: unknown): benef is BeneficiaryImport {
-		return !!benef && !!(benef as Beneficiary).firstname && !!(benef as Beneficiary).lastname;
+		return (
+			!!benef &&
+			!!(benef as Beneficiary).firstname &&
+			!!(benef as Beneficiary).lastname &&
+			!!(benef as Beneficiary).dateOfBirth
+		);
 	}
 
 	function processRawCSV(data: string): BeneficiaryImport[] {
 		const output = [];
-		const rows = data.split('\n').map((line) => line.trim());
+		const rows = data
+			.split('\n')
+			.slice(1)
+			.map((line) => line.trim());
 		for (let i = 0; i < rows.length; i++) {
 			if (rows[i]) {
 				const cells = rows[i].split(',');
 				const beneficiary = { uid: uuidv4() } as BeneficiaryImport;
 				for (let j = 0; j < headers.length; j++) {
-					beneficiary[headers[j].key] = cells[j]?.trim() || null;
+					beneficiary[headers[j].key] = cells[j]?.trim();
 				}
 				beneficiary.valid = validate(beneficiary);
 				output.push(beneficiary);
@@ -174,7 +182,7 @@
 		insertInProgress = true;
 		insertResult = [];
 		for (const beneficiary of beneficiariesToImport) {
-			const { uid, valid, proEmails, ...benef } = beneficiary;
+			const { uid, valid, proEmails = '', ...benef } = beneficiary;
 			const proIds = proEmailsToPros(proEmails).map(({ id }) => id);
 			const members = proIds.map((professionalId) => ({ memberType: 'referent', professionalId }));
 			const payload = {
@@ -334,7 +342,7 @@
 					type="info"
 					title={`Ajout de${toImport.length > 1 ? 's' : ' la'} bénéficiaire${
 						toImport.length > 1 ? 's' : ''
-					} en cours...`}
+					} en cours... ${insertResult.length}/${toImport.length}`}
 				/>
 			{:else}
 				<Alert
@@ -346,53 +354,55 @@
 					demandé${toImport.length > 1 ? 's' : ''}.`}
 				/>
 			{/if}
-			{#key insertResult}
-				<div class="border-b border-gray-200 shadow">
-					<table class="w-full divide-y divide-gray-300">
-						<thead class="px-2 py-2">
-							<th>Prénom</th>
-							<th>Nom</th>
-							<th>Date de naissance</th>
-						</thead>
-						<tbody class="bg-white divide-y divide-gray-300">
-							{#each insertResult as beneficiary}
-								<tr>
-									<td class="px-2 py-2 ">
-										<Text value={beneficiary.benef.firstname} />
-									</td>
-									<td class="px-2 py-2 ">
-										<Text value={beneficiary.benef.lastname} />
-									</td>
-									<td class="px-2 py-2 ">
-										<Text value={beneficiary.benef.dateOfBirth} />
-									</td>
-									<td class="px-2 py-2 ">
-										{#if beneficiary.error}
-											<Text
-												classNames="text-error"
-												value={"Une erreur s'est produite, le bénéficiaire n'a pas été importé."}
-											/>
-										{:else}
-											<span
-												class="fr-fi-checkbox-circle-fill text-success"
-												aria-hidden="true"
-												style="margin: 0 50%;"
-											/>
-										{/if}
-									</td>
-								</tr>
-							{/each}
-							{#if insertInProgress}
-								<tr>
-									<td colspan="3">
-										<i class="ri-loader-2-fill" style="margin: 0 50%;" />
-									</td>
-								</tr>
-							{/if}
-						</tbody>
-					</table>
-				</div>
-			{/key}
+			{#if toImport.length < 100}
+				{#key insertResult}
+					<div class="border-b border-gray-200 shadow">
+						<table class="w-full divide-y divide-gray-300">
+							<thead class="px-2 py-2">
+								<th>Prénom</th>
+								<th>Nom</th>
+								<th>Date de naissance</th>
+							</thead>
+							<tbody class="bg-white divide-y divide-gray-300">
+								{#each insertResult as beneficiary}
+									<tr>
+										<td class="px-2 py-2 ">
+											<Text value={beneficiary.benef.firstname} />
+										</td>
+										<td class="px-2 py-2 ">
+											<Text value={beneficiary.benef.lastname} />
+										</td>
+										<td class="px-2 py-2 ">
+											<Text value={beneficiary.benef.dateOfBirth} />
+										</td>
+										<td class="px-2 py-2 ">
+											{#if beneficiary.error}
+												<Text
+													classNames="text-error"
+													value={"Une erreur s'est produite, le bénéficiaire n'a pas été importé."}
+												/>
+											{:else}
+												<span
+													class="fr-fi-checkbox-circle-fill text-success"
+													aria-hidden="true"
+													style="margin: 0 50%;"
+												/>
+											{/if}
+										</td>
+									</tr>
+								{/each}
+								{#if insertInProgress}
+									<tr>
+										<td colspan="3">
+											<i class="ri-loader-2-fill" style="margin: 0 50%;" />
+										</td>
+									</tr>
+								{/if}
+							</tbody>
+						</table>
+					</div>
+				{/key}
+			{/if}
 		</div>
 	{/if}
 </div>
