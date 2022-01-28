@@ -1,3 +1,20 @@
+# [1.78.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.7...v1.78.0) (2022-01-28)
+
+
+### Bug Fixes
+
+* add insert beneficiary permission for admin cdb ([a6f9b9e](https://github.com/SocialGouv/carnet-de-bord/commit/a6f9b9eeaf4dd099c992822385c366f8b81108b2))
+* clean internal_id ([274c56d](https://github.com/SocialGouv/carnet-de-bord/commit/274c56d5c0f5370c4dca47b7ba5b1b9190b0b995))
+* fixes ([f04478c](https://github.com/SocialGouv/carnet-de-bord/commit/f04478c9133105d1f448ce897a2e38d714a785ec))
+* handle large insert ([bf4e3bb](https://github.com/SocialGouv/carnet-de-bord/commit/bf4e3bba4e91008917f951492d13f938893ae795))
+
+
+### Features
+
+* add CSV model and instructions ([ad99658](https://github.com/SocialGouv/carnet-de-bord/commit/ad99658af42cf7ccd394f3375657c097d8eabefd))
+* import beneficiary moved from Admin CdB to Manager/Admin PDI ([c8402de](https://github.com/SocialGouv/carnet-de-bord/commit/c8402de197003fddda65a08b6bd2d808168f7b11))
+* import brsa now matches new columns ([90ab06d](https://github.com/SocialGouv/carnet-de-bord/commit/90ab06d6c2e0b7e6e0ff5ee89df08a37da3ac0b0))
+
 ## [1.77.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.6...v1.77.7) (2022-01-27)
 
 
