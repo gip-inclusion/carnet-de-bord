@@ -3,6 +3,7 @@
 	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
 
 	const menuItems: MenuItem[] = [
+		{ id: 'home', path: '/manager', label: 'Accueil' },
 		{ id: 'beneficiaires', path: '/manager/beneficiaires', label: 'BRSA' },
 		{
 			id: 'utilisateurs',
