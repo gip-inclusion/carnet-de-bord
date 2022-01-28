@@ -61,7 +61,7 @@
 =======
 	function processRawCSV(data: string): StructureImport[] {
 		const output: StructureImport[] = [];
-		const rows = data.split('\n');
+		const rows = data.split('\n').slice(1);
 		for (let i = 0; i < rows.length; i++) {
 			if (rows[i].replace(/\s/, '')) {
 				const cells = rows[i].split(',');
@@ -270,10 +270,14 @@
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV avec les informations suivantes dans l'ordre,
-				séparées par des virgules (deux virgules consécutives quand il n'y a pas de valeur)&nbsp;:
-				<br /><strong>{headers.map((header) => header.label).join(', ')}</strong>
-				<a href="https://pad.incubateur.net/s/y-ZW1qQOw#">Nomenclature des champs</a>
+				Veuillez fournir un fichier au format CSV.
+				<br />Vous pouvez
+				<a href="/fichiers/import_structures.csv" download>télécharger un modèle</a>
+				et
+				<a href="https://pad.incubateur.net/s/y-ZW1qQOw#" target="_blank" rel="noopener noreferrer"
+					>consulter la notice de remplissage</a
+				>
+				.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
