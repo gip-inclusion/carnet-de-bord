@@ -1,3 +1,10 @@
+# [1.79.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.78.0...v1.79.0) (2022-01-28)
+
+
+### Features
+
+* email is now the default way to log in ([7dfc9ed](https://github.com/SocialGouv/carnet-de-bord/commit/7dfc9ed48e16aab250c7df6d98fd1aa9a48f7b8c))
+
 # [1.78.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.77.7...v1.78.0) (2022-01-28)
 
 
