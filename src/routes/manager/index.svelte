@@ -59,7 +59,7 @@
 				showButtons={false}
 				on:close={refreshStore}
 			>
-				<AdminDeploymentStructuresImport {deploymentId} />
+				<AdminDeploymentStructuresImport />
 			</Dialog>
 		</div>
 		<div class="fr-col-sm-6">
