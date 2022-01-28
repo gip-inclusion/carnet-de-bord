@@ -39,24 +39,24 @@
 		<div>au Carnet de bord</div>
 	</h1>
 	<form class="flex w-full flex-col space-y-6" on:submit|preventDefault={handleSubmit}>
-		<div>Veuillez saisir votre identifiant pour recevoir votre lien de connexion.</div>
-		<div class="flex w-full flex-col gap-16">
-			<div class="flex w-full flex-col gap-6">
+		<div>Veuillez saisir votre adresse de courriel pour recevoir votre lien de connexion.</div>
+		<div class="flex w-full flex-col gap-8">
+			<div class="flex w-full flex-col gap-4">
 				<Input
+					class="!mb-0"
 					bind:value={username}
-					inputLabel="Identifiant"
-					inputHint="Ex : Paul"
+					inputLabel="Courriel"
+					placeholder="nour@social.gouv.fr"
 					error={requestStep === 'error'
-						? "Ce nom d'utilisateur n'est pas rattaché à un compte existant"
+						? "Ce courriel n'est pas rattaché à un compte existant"
 						: ''}
 					required={true}
 				/>
-				<div><Link href="/auth/oubli">J'ai oublié mon identifiant</Link></div>
 				<div>
 					<Button type="submit" disabled={!username}>Se connecter</Button>
 				</div>
 			</div>
-			<div class="flex flex-col gap-6">
+			<div class="flex flex-col gap-4">
 				<div class="text-sm font-bold">Vous n’êtes pas encore inscrit ?</div>
 				<div>
 					<Button outline={true} on:click={registration}>Je m'inscris</Button>
