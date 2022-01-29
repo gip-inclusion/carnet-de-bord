@@ -1,3 +1,10 @@
+# [1.80.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.79.0...v1.80.0) (2022-01-29)
+
+
+### Features
+
+* add tracking events ([54e6ba4](https://github.com/SocialGouv/carnet-de-bord/commit/54e6ba4fe9299aeae160e93b3f970ad9341c0e7f))
+
 # [1.79.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.78.0...v1.79.0) (2022-01-28)
 
 
