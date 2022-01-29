@@ -21,6 +21,7 @@
 	import Form from '$lib/ui/forms/Form.svelte';
 	import ProBeneficiaryCreateFields from './ProBeneficiaryCreateFields.svelte';
 	import { BeneficiaryAccountInput, beneficiaryAccountSchema } from './beneficiary.schema';
+	import { trackEvent } from '$lib/tracking/matomo';
 
 	const { professionalId } = $session.user;
 
@@ -80,6 +81,7 @@
 	let submissionError = '';
 
 	async function createBeneficiary(values: BeneficiaryAccountInput) {
+		trackEvent('pro', 'brsa', `create from ${identifierType}`);
 		const members = [{ memberType: 'referent', professionalId }];
 		const store = await createBeneficiaryMutation({
 			...values,

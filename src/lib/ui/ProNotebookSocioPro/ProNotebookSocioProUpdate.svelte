@@ -7,6 +7,7 @@
 	} from '$lib/constants/keys';
 	import { Notebook, UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
+	import { trackEvent } from '$lib/tracking/matomo';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button, Checkbox, Input, Radio, Select } from '../base';
 	import ProNotebookSocioProRome from './ProNotebookSocioProROME.svelte';
@@ -52,6 +53,7 @@
 	}
 
 	async function handleSubmit() {
+		trackEvent('pro', 'notebook', 'update socio pro info');
 		await updateSocioPro({
 			id: notebook.id,
 			...formData,

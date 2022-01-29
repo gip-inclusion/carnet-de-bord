@@ -13,7 +13,7 @@
 	import type { SvelteEventHandler } from '$lib/types';
 	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
 	import ProNotebookMemberForm from '$lib/ui/ProNotebookMember/ProNotebookMemberForm.svelte';
-	import { trackSiteSearch } from '$lib/tracking/matomo';
+	import { trackEvent, trackSiteSearch } from '$lib/tracking/matomo';
 
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
@@ -43,6 +43,7 @@
 	query(searchProfessionalResult);
 
 	function onSearch() {
+		selectedProfessionalId = null;
 		$searchProfessionalResult.context.pause = false;
 		$searchProfessionalResult.variables = {
 			search: `%${search}%`,
@@ -53,6 +54,7 @@
 	}
 
 	async function addMemberToNotebook(professionalId: string) {
+		trackEvent('pro', 'members', 'member added');
 		// TODO(tglatt): should wrap into a hasura action
 		const store = await addNotebookMember({
 			professionalId,
@@ -112,7 +114,7 @@
 				<div>{count} résultats correspondent à votre recherche</div>
 			{/if}
 			{#each professionals as professional (professional.id)}
-				<label for={professional.id} class="flex flex-row gap-2 justify-between items-center py-4">
+				<div class="fr-radio-group">
 					<input
 						on:change={onChange}
 						type="radio"
@@ -120,11 +122,13 @@
 						name="professional"
 						value={professional.id}
 					/>
-					<div class="w-2/6">{professional.structure.name}</div>
-					<div class="w-2/6">{professional.firstname} {professional.lastname}</div>
-					<div class="w-1/6">{professional.structure.phone || ''}</div>
-					<div class="w-1/6">{professional.structure.postalCode || ''}</div>
-				</label>
+					<label for={professional.id} class="flex flex-row justify-between items-center py-4">
+						<div class="w-2/6">{professional.structure.name}</div>
+						<div class="w-2/6">{professional.firstname} {professional.lastname}</div>
+						<div class="w-1/6">{professional.structure.phone || ''}</div>
+						<div class="w-1/6">{professional.structure.postalCode || ''}</div>
+					</label>
+				</div>
 			{/each}
 		</LoaderIndicator>
 	</div>

@@ -2,6 +2,7 @@
 	import { contractTypeFullKeys } from '$lib/constants/keys';
 	import { Notebook, UpdateNotebookContractDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
+	import { trackEvent } from '$lib/tracking/matomo';
 	import { Button, Input, Radio } from '$lib/ui/base';
 	import { mutation, operationStore } from '@urql/svelte';
 
@@ -30,6 +31,7 @@
 	}
 
 	async function saveContract() {
+		trackEvent('pro', 'notebook', `update contract type`);
 		await updateNotebookContract({
 			id: notebook.id,
 			...formData,

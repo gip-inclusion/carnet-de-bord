@@ -8,7 +8,7 @@
 	import { offCanvas } from '$lib/stores';
 	import * as yup from 'yup';
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import * as Matomo from '$lib/tracking/matomo';
 
 	export async function load({ url, session }: LoadInput): Promise<LoadOutput> {
@@ -43,7 +43,7 @@
 	const MATOMO_SITE_ID = getMatomoSiteId();
 
 	let scrollbarWidth = '0';
-
+	let unsubscribe;
 	onMount(() => {
 		const { body } = document;
 		const scrollDiv = document.createElement('div');
@@ -59,19 +59,28 @@
 		// Remove element
 		body.removeChild(scrollDiv);
 		body.style.setProperty('--scrollbarWidth', scrollbarWidth);
-
 		Matomo.load(MATOMO_URL, MATOMO_SITE_ID);
 	});
 
-	$: {
-		if ($page.url.pathname && browser && MATOMO_URL && MATOMO_SITE_ID) {
-			if ($page.url.searchParams.has('search')) {
-				Matomo.trackSiteSearch($page.url.searchParams.get('search'), $page.url.pathname);
-			} else {
-				Matomo.trackPageView();
-			}
+	unsubscribe = page.subscribe(({ url }) => {
+		if (!browser || !url.pathname || !MATOMO_URL || !MATOMO_SITE_ID) {
+			return;
 		}
-	}
+		// we don't want to track /auth/jwt
+		if (/auth\/jwt/.test(url.pathname)) {
+			return;
+		}
+		// Hack @lionelb: use a settimeout in order to get the correct
+		// value of document.title once navigation occured
+		setTimeout(() => {
+			if (url.searchParams.has('search')) {
+				Matomo.trackSiteSearch(url.searchParams.get('search'), url.pathname);
+			} else {
+				Matomo.trackPageView(url.href, document.title);
+			}
+		}, 10);
+	});
+	onDestroy(unsubscribe);
 </script>
 
 <svelte:head>

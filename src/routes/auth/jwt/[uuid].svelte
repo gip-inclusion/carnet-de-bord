@@ -18,6 +18,8 @@
 	import { onMount } from 'svelte';
 	import jwtDecode from 'jwt-decode';
 	import { session } from '$app/stores';
+	import * as Matomo from '$lib/tracking/matomo';
+	import { homeForRole } from '$lib/routes';
 
 	export let accessKey: string;
 	export let url: string;
@@ -39,7 +41,11 @@
 			const user = jwtDecode(jwt);
 			$session.user = user;
 			$session.token = jwt;
-			goto(url ? url : '/');
+			Matomo.setCustomDimension(Matomo.CustomDimensions.Role, $session.user.role);
+			if ($session.user.deploymentId) {
+				Matomo.setCustomDimension(Matomo.CustomDimensions.Deployment, $session.user.deploymentId);
+			}
+			goto(url ? url : homeForRole($session.user.role));
 		} else {
 			displayError = true;
 		}

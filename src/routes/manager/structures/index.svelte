@@ -62,6 +62,9 @@
 	$: filteredStructures = structures;
 </script>
 
+<svelte:head>
+	<title>Liste des structures - Carnet de bord</title>
+</svelte:head>
 <LoaderIndicator {result}>
 	<div>
 		<div class="flex flex-row justify-between items-center">

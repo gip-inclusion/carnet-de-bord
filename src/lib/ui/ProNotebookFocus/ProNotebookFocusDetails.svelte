@@ -5,6 +5,7 @@
 		GetNotebookFocusByIdDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
+	import { trackEvent } from '$lib/tracking/matomo';
 	import { Accordion, Accordions, Button, Card } from '$lib/ui/base';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { displayFullName } from '$lib/ui/format';
@@ -48,6 +49,7 @@
 	}
 
 	async function removeFocus() {
+		trackEvent('pro', 'notebook', `remove focus`);
 		await deleteFocusMutation({ id: focus.id });
 		openComponent.close();
 	}

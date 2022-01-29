@@ -5,6 +5,7 @@
 	import ProNotebookMemberInvitation from './ProNotebookMemberInvitation.svelte';
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
 	import type { Member } from './ProNotebookMemberView.svelte';
+	import { trackEvent } from '$lib/tracking/matomo';
 
 	export let notebookId: string;
 	export let beneficiaryFirstname: string;
@@ -12,10 +13,12 @@
 	export let members: Member[];
 
 	const openMemberInfo = (member: Member) => {
+		trackEvent('pro', 'members', 'view info');
 		openComponent.open({ component: ProNotebookMemberView, props: { member } });
 	};
 
 	const openInviteMember = () => {
+		trackEvent('pro', 'members', 'add new member form');
 		openComponent.open({
 			component: ProNotebookMemberInvitation,
 			props: {

@@ -7,6 +7,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { Button, Select } from '$lib/ui/base';
+	import { trackEvent } from '$lib/tracking/matomo';
 
 	export let target: Pick<NotebookTarget, 'id' | 'target'>;
 	export let theme: string;
@@ -34,6 +35,7 @@
 	let formData = initFormData();
 
 	async function createAction() {
+		trackEvent('pro', 'notebook', `add action ${formData.action}`);
 		await createActionMutation({
 			action: formData.action,
 			targetId: target.id,
