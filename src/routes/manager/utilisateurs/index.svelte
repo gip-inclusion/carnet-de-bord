@@ -93,7 +93,7 @@
 </script>
 
 <svelte:head>
-	<title>Gestion des utilisateurs - carnet de bord</title>
+	<title>Gestion des professionnels - carnet de bord</title>
 </svelte:head>
 
 <LoaderIndicator {result}>

@@ -6,6 +6,7 @@
 		GetRefSituationsDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
+	import { trackEvent } from '$lib/tracking/matomo';
 	import { Button, Checkboxes, Radio, Select } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { buildSituationOptions } from './focusOptionsBuilder';
@@ -36,6 +37,7 @@
 	let disabled = !formData.theme && !formData.linkedTo && formData.situations?.length > 0;
 
 	async function createFocus() {
+		trackEvent('pro', 'notebook', `add focus ${formData.theme}`);
 		const store = await addNotebookFocus({
 			notebookId,
 			theme: formData.theme,

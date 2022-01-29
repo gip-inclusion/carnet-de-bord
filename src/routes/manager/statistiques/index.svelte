@@ -73,6 +73,10 @@
 		.sort(by(({ count }) => count, 'DESC'));
 </script>
 
+<svelte:head>
+	<title>Statistiques - Carnet de bord</title>
+</svelte:head>
+
 <div>
 	<div class="flex flex-col gap-4">
 		<h2 class="pt-4">Statistiques d'utilisation</h2>

@@ -4,6 +4,7 @@
 		GetRefTargetByFocusDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
+	import { trackEvent } from '$lib/tracking/matomo';
 	import { Button, Select } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
 
@@ -29,6 +30,7 @@
 	const formData = initFormData();
 
 	async function createTarget() {
+		trackEvent('pro', 'notebook', `add target ${formData.target}`);
 		await addNotebookTarget({
 			focusId,
 			target: formData.target,

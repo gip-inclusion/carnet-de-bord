@@ -6,6 +6,7 @@
 		UpdateNotebookFocusDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
+	import { trackEvent } from '$lib/tracking/matomo';
 	import { Button, Checkboxes, Radio } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { buildSituationOptions } from './focusOptionsBuilder';
@@ -30,6 +31,7 @@
 	$: disabled = !formData.linkedTo && formData.situations?.length > 0;
 
 	async function updateFocus() {
+		trackEvent('pro', 'notebook', `update focus`);
 		await updateNotebookFocus({
 			id: focus.id,
 			situations: formData.situations,

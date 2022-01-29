@@ -13,6 +13,7 @@
 	import Form from '$lib/ui/forms/Form.svelte';
 	import ProBeneficiaryCreateFields from '$lib/ui/ProBeneficiaryCreate/ProBeneficiaryCreateFields.svelte';
 	import Input from '$lib/ui/forms/Input.svelte';
+	import { trackEvent } from '$lib/tracking/matomo';
 
 	export let beneficiary: Pick<
 		Beneficiary,
@@ -48,6 +49,7 @@
 	};
 
 	async function updateBeneficiary(values: BeneficiaryAccountInput) {
+		trackEvent('pro', 'notebook', 'update personnal info');
 		await update({
 			id: beneficiary.id,
 			...values,

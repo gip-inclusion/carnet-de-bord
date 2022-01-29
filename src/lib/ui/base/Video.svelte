@@ -3,6 +3,8 @@
 </script>
 
 <script lang="ts">
+	import { trackEvent } from '$lib/tracking/matomo';
+
 	type Source = {
 		url: string;
 		type: string;
@@ -19,6 +21,15 @@
 	export let poster = '';
 	export let hideControls = false;
 	const videoId = `video-${counter++}`;
+
+	let tracked = false;
+
+	function trackVideo() {
+		if (!tracked) {
+			tracked = true;
+			trackEvent('media', 'video', 'play');
+		}
+	}
 
 	let hovered: boolean;
 	$: controls = !hideControls || hovered;
@@ -38,6 +49,7 @@
 		{poster}
 		on:mouseenter={() => (hovered = true)}
 		on:mouseleave={() => (hovered = false)}
+		on:click={trackVideo}
 	>
 		{#each sources as source}
 			<source src={source.url} type={source.type} />

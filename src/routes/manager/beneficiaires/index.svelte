@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Gestion des bénéficiaires - Carnet de bord</title>
+	<title>Import des bénéficiaires - Carnet de bord</title>
 </svelte:head>
 
 <div>
