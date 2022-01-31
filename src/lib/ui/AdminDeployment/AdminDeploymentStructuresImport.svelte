@@ -49,7 +49,7 @@
 		const rows = data.split('\n');
 		for (let i = 0; i < rows.length; i++) {
 			if (rows[i].replace(/\s/, '')) {
-				const cells = rows[i].split(',');
+				const cells = rows[i].split(';');
 				const structure = { uid: uuidv4() } as StructureImport;
 				for (let j = 0; j < headers.length; j++) {
 					structure[headers[j].key] = cells[j];

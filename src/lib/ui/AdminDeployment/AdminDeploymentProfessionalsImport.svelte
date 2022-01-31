@@ -55,7 +55,7 @@
 		const rows = data.split('\n');
 		for (let i = 0; i < rows.length; i++) {
 			if (rows[i].replace(/\s/, '')) {
-				const cells = rows[i].split(',');
+				const cells = rows[i].split(';');
 				const pro = { uid: uuidv4() } as ProImport;
 				for (let j = 0; j < headers.length; j++) {
 					pro[headers[j].key] = cells[j] && cells[j].trim();

@@ -84,7 +84,7 @@
 			.map((line) => line.trim());
 		for (let i = 0; i < rows.length; i++) {
 			if (rows[i]) {
-				const cells = rows[i].split(',');
+				const cells = rows[i].split(';');
 				const beneficiary = { uid: uuidv4() } as BeneficiaryImport;
 				for (let j = 0; j < headers.length; j++) {
 					beneficiary[headers[j].key] = cells[j]?.trim();
@@ -167,7 +167,7 @@
 	}
 
 	function proEmailsToPros(proEmails = ''): Professional[] {
-		const emails = proEmails.trim().split(';');
+		const emails = proEmails.trim().split(',');
 		const pros = emails.reduce((acc, email) => {
 			const pro = professionals[email.trim()];
 			if (pro) {
