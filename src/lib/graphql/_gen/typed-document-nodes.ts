@@ -411,7 +411,7 @@ export enum AccountUpdateColumn {
 export type AdminCdb = {
 	__typename?: 'admin_cdb';
 	/** An object relationship */
-	account?: Maybe<Account>;
+	account: Account;
 	createdAt: Scalars['timestamptz'];
 	email: Scalars['citext'];
 	firstname: Scalars['String'];
@@ -1011,7 +1011,7 @@ export type Beneficiary = {
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
 	/** An object relationship */
-	notebook?: Maybe<Notebook>;
+	notebook: Notebook;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	updatedAt: Scalars['timestamptz'];
@@ -1959,7 +1959,7 @@ export type JsonbComparisonExp = {
 export type Manager = {
 	__typename?: 'manager';
 	/** An object relationship */
-	account?: Maybe<Account>;
+	account: Account;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	deployment?: Maybe<Deployment>;
@@ -4670,7 +4670,7 @@ export enum OrderBy {
 export type Professional = {
 	__typename?: 'professional';
 	/** An object relationship */
-	account?: Maybe<Account>;
+	account: Account;
 	createdAt: Scalars['timestamptz'];
 	email: Scalars['citext'];
 	firstname: Scalars['String'];
@@ -8069,7 +8069,7 @@ export type GetNotebookMemberByIdQuery = {
 					lastname: string;
 					email: string;
 					id: string;
-					account?: { __typename?: 'account'; id: string; confirmed: boolean } | null | undefined;
+					account: { __typename?: 'account'; id: string; confirmed: boolean };
 				};
 		  }
 		| null
