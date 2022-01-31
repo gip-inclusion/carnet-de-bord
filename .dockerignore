@@ -1,6 +1,7 @@
 .svelte-kit
 .husky
 build
+e2e
 Dockerfile
 .eslintcache
 node_modules
