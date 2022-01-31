@@ -36,7 +36,7 @@ export function load(url: string, siteId: string): void {
 	}
 }
 
-export function trackPageView(url, title): void {
+export function trackPageView(url: string, title: string): void {
 	_push(['setCustomUrl', url]);
 	_push(['setDocumentTitle', title]);
 	_push(['trackPageView']);
