@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v2.1.1.cli-migrations-v3
+FROM hasura/graphql-engine:v2.0.10.cli-migrations-v3
 
 ENV HASURA_GRAPHQL_V1_BOOLEAN_NULL_COLLAPSE=true
 
