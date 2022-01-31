@@ -44,6 +44,7 @@
 
 	let scrollbarWidth = '0';
 	let unsubscribe;
+
 	onMount(() => {
 		const { body } = document;
 		const scrollDiv = document.createElement('div');
@@ -59,9 +60,9 @@
 		// Remove element
 		body.removeChild(scrollDiv);
 		body.style.setProperty('--scrollbarWidth', scrollbarWidth);
+
 		Matomo.load(MATOMO_URL, MATOMO_SITE_ID);
 	});
-
 	unsubscribe = page.subscribe(({ url }) => {
 		if (!browser || !url.pathname || !MATOMO_URL || !MATOMO_SITE_ID) {
 			return;
@@ -78,8 +79,9 @@
 			} else {
 				Matomo.trackPageView(url.href, document.title);
 			}
-		}, 10);
+		}, 100);
 	});
+
 	onDestroy(unsubscribe);
 </script>
 
