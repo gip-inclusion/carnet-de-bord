@@ -1,3 +1,11 @@
+## [1.80.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.0...v1.80.1) (2022-01-31)
+
+
+### Bug Fixes
+
+* update delay after page change for trackPageview ([c91558e](https://github.com/SocialGouv/carnet-de-bord/commit/c91558e7c6525e7a83305b0ffd6f635c2f8654e6))
+* use ; as csv delimiter ([8f84074](https://github.com/SocialGouv/carnet-de-bord/commit/8f84074220f7e1f86ee09ab54a6e62045e854897))
+
 # [1.80.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.79.0...v1.80.0) (2022-01-29)
 
 
