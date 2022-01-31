@@ -1,3 +1,10 @@
+## [1.80.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.1...v1.80.2) (2022-01-31)
+
+
+### Bug Fixes
+
+* use a csv parser lib ([40e7541](https://github.com/SocialGouv/carnet-de-bord/commit/40e75418e0133dc5cd4fe239c71e5f32c3b82bde))
+
 ## [1.80.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.0...v1.80.1) (2022-01-31)
 
 
