@@ -14,6 +14,7 @@
 	import { Text } from '$lib/ui/utils';
 	import { v4 as uuidv4 } from 'uuid';
 	import { Alert, Button } from '$lib/ui/base';
+	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 
 	type Structure = {
 		name: string;
@@ -44,23 +45,6 @@
 		return !!struct && !!(struct as Structure).name && !!(struct as Structure).city;
 	}
 
-	function processRawCSV(data: string): StructureImport[] {
-		const output = [];
-		const rows = data.split('\n');
-		for (let i = 0; i < rows.length; i++) {
-			if (rows[i].replace(/\s/, '')) {
-				const cells = rows[i].split(';');
-				const structure = { uid: uuidv4() } as StructureImport;
-				for (let j = 0; j < headers.length; j++) {
-					structure[headers[j].key] = cells[j];
-				}
-				structure.valid = validate(structure);
-				output.push(structure);
-			}
-		}
-		return output;
-	}
-
 	let toImport = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
@@ -69,9 +53,16 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-				structures = processRawCSV(binaryStr.toString())
+				structures = csvParse(binaryStr.toString(), {
+					from: 2,
+					columns: headers.map(({ key }) => key),
+					trim: true,
+					skip_empty_lines: true,
+				})
 					.reduce(
 						([valid, invalid], cur) => {
+							cur.uid = uuidv4();
+							cur.valid = validate(cur);
 							if (cur.valid) {
 								valid.push(cur);
 							} else {

@@ -18,6 +18,8 @@
 	import { displayFullName } from '$lib/ui/format';
 	import * as keys from '$lib/constants/keys';
 
+	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
+
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
 		{}
@@ -76,26 +78,6 @@
 		);
 	}
 
-	function processRawCSV(data: string): BeneficiaryImport[] {
-		const output = [];
-		const rows = data
-			.split('\n')
-			.slice(1)
-			.map((line) => line.trim());
-		for (let i = 0; i < rows.length; i++) {
-			if (rows[i]) {
-				const cells = rows[i].split(';');
-				const beneficiary = { uid: uuidv4() } as BeneficiaryImport;
-				for (let j = 0; j < headers.length; j++) {
-					beneficiary[headers[j].key] = cells[j]?.trim();
-				}
-				beneficiary.valid = validate(beneficiary);
-				output.push(beneficiary);
-			}
-		}
-		return output;
-	}
-
 	let toImport = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
@@ -104,9 +86,16 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-				beneficiaries = processRawCSV(binaryStr.toString())
+				beneficiaries = csvParse(binaryStr.toString(), {
+					from: 2,
+					columns: headers.map(({ key }) => key),
+					trim: true,
+					skip_empty_lines: true,
+				})
 					.reduce(
 						([valid, invalid], cur) => {
+							cur.uid = uuidv4();
+							cur.valid = validate(cur);
 							if (cur.valid) {
 								valid.push(cur);
 							} else {

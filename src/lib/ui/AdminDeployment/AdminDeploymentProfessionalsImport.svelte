@@ -9,6 +9,7 @@
 	import { GetStructuresForDeploymentDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { GetStructuresForDeploymentQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query } from '@urql/svelte';
+	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 
 	export let deploymentId: string;
 
@@ -50,23 +51,6 @@
 		);
 	}
 
-	function processRawCSV(data: string): ProImport[] {
-		const output = [];
-		const rows = data.split('\n');
-		for (let i = 0; i < rows.length; i++) {
-			if (rows[i].replace(/\s/, '')) {
-				const cells = rows[i].split(';');
-				const pro = { uid: uuidv4() } as ProImport;
-				for (let j = 0; j < headers.length; j++) {
-					pro[headers[j].key] = cells[j] && cells[j].trim();
-				}
-				pro.valid = validate(pro);
-				output.push(pro);
-			}
-		}
-		return output;
-	}
-
 	let toImport = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
@@ -75,9 +59,16 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-				pros = processRawCSV(binaryStr.toString())
+				pros = csvParse(binaryStr.toString(), {
+					from: 2,
+					columns: headers.map(({ key }) => key),
+					trim: true,
+					skip_empty_lines: true,
+				})
 					.reduce(
 						([valid, invalid], cur) => {
+							cur.uid = uuidv4();
+							cur.valid = validate(cur);
 							if (cur.valid) {
 								valid.push(cur);
 							} else {
