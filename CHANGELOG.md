@@ -1,3 +1,10 @@
+## [1.80.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.3...v1.80.4) (2022-02-01)
+
+
+### Bug Fixes
+
+* update matomo dimension id ([d64bf10](https://github.com/SocialGouv/carnet-de-bord/commit/d64bf10587c41cb41b8826ba4c7ac529dc39ed71))
+
 ## [1.80.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.2...v1.80.3) (2022-02-01)
 
 
