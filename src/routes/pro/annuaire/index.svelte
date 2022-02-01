@@ -157,10 +157,12 @@
 			<div class="text-france-blue font-bold">
 				Désolé, aucun bénéficiaire ne correspond à votre recherche.
 			</div>
-			<div>Veuillez cliquer sur le bouton ci-dessous pour ajouter un bénéficiaire.</div>
-			<div class="pt-4">
-				<Button on:click={addBeneficiary} iconSide="right">Ajouter un bénéficiaire</Button>
-			</div>
+			{#if false}
+				<div>Veuillez cliquer sur le bouton ci-dessous pour ajouter un bénéficiaire.</div>
+				<div class="pt-4">
+					<Button on:click={addBeneficiary} iconSide="right">Ajouter un bénéficiaire</Button>
+				</div>
+			{/if}
 		</div>
 	{:else}
 		<div class="flex flex-row flex-wrap justify-between gap-1">
@@ -171,8 +173,10 @@
 			{/each}
 		</div>
 		<!-- {/if} -->
-		<div>
-			<Button outline={true} on:click={addBeneficiary}>Ajouter un nouveau bénéficiaire</Button>
-		</div>
+		{#if false}
+			<div>
+				<Button outline={true} on:click={addBeneficiary}>Ajouter un nouveau bénéficiaire</Button>
+			</div>
+		{/if}
 	{/if}
 </LoaderIndicator>
