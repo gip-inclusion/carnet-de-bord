@@ -39,44 +39,6 @@
 		return !!struct && !!struct.name && !!struct.city && !!struct.postalCode && !!struct.adminEmail;
 	}
 
-<<<<<<< HEAD
-||||||| parent of d035578 (feat: big wip)
-	function processRawCSV(data: string): StructureImport[] {
-		const output = [];
-		const rows = data.split('\n');
-		for (let i = 0; i < rows.length; i++) {
-			if (rows[i].replace(/\s/, '')) {
-				const cells = rows[i].split(',');
-				const structure = { uid: uuidv4() } as StructureImport;
-				for (let j = 0; j < headers.length; j++) {
-					structure[headers[j].key] = cells[j];
-				}
-				structure.valid = validate(structure);
-				output.push(structure);
-			}
-		}
-		return output;
-	}
-
-=======
-	function processRawCSV(data: string): StructureImport[] {
-		const output: StructureImport[] = [];
-		const rows = data.split('\n').slice(1);
-		for (let i = 0; i < rows.length; i++) {
-			if (rows[i].replace(/\s/, '')) {
-				const cells = rows[i].split(',');
-				const structure = { uid: uuidv4() } as StructureImport;
-				for (let j = 0; j < headers.length; j++) {
-					structure[headers[j].key] = cells[j]?.trim();
-				}
-				structure.valid = validate(structure);
-				output.push(structure);
-			}
-		}
-		return output;
-	}
-
->>>>>>> d035578 (feat: big wip)
 	let toImport = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
