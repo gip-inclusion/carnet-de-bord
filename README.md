@@ -119,10 +119,33 @@ Les modifications apportées au code doivent passer par des PR qui seront valid�
 
 Dans le cas où une personne de l'équipe de dev est seule, elle peut valider sa PR elle-même pour pouvoir avancer.
 
-## howto
+## Howto
 
-executer un fichier de migration directement via postgres
+### Exécuter un fichier de migration directement via postgres
 
 ```sh
 docker-compose exec -T db psql --dbname carnet_de_bord --user cdb  < hasura/migrations/carnet_de_bord/${migration_name}/${up|down}.sql
+```
+
+### Faire une requête GraphQL portant sur une absence de relation
+
+Si la table `account` peut porter un `professional_id`, il n'est pas possible de faire la requête suivante, pourtant valide pour des propriétés "internes" :
+```graphql
+query GetProfessionalsNotLinkedFromAccount {
+  professional_aggregate(where: { account: { _is_null: true } }) {
+    aggregate {
+      count
+    }
+  }
+}
+```
+Il faut la formuler comme suit :
+```graphql
+query GetProfessionalsNotLinkedFromAccount {
+  professional_aggregate(where: { _not: { account: {} } }) {
+    aggregate {
+      count
+    }
+  }
+}
 ```
