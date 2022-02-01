@@ -1,3 +1,10 @@
+# [1.82.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.81.1...v1.82.0) (2022-02-01)
+
+
+### Features
+
+* suspend BRSA creation by Pros ([#585](https://github.com/SocialGouv/carnet-de-bord/issues/585)) ([553167a](https://github.com/SocialGouv/carnet-de-bord/commit/553167ad36a7bd67ab4c0fbc077364ac384d97a4))
+
 ## [1.81.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.81.0...v1.81.1) (2022-02-01)
 
 
