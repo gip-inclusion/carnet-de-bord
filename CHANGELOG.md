@@ -1,3 +1,10 @@
+## [1.81.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.81.0...v1.81.1) (2022-02-01)
+
+
+### Bug Fixes
+
+* add scheduled event to send matomo stat ([#581](https://github.com/SocialGouv/carnet-de-bord/issues/581)) ([d374b3f](https://github.com/SocialGouv/carnet-de-bord/commit/d374b3fb0fb1dc338b0a3d923e04b8b003f1f7e9))
+
 # [1.81.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.4...v1.81.0) (2022-02-01)
 
 
