@@ -26,7 +26,7 @@
 
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { account } from '$lib/stores';
+	import { account, crispData } from '$lib/stores';
 
 	export let result: OperationStore<GetAccountByPkQuery>;
 
@@ -37,7 +37,7 @@
 			const acc = result.data.account_by_pk;
 			if (acc) {
 				const { username, onboardingDone, confirmed, id } = acc;
-				const { firstname, lastname, email, mobileNumber, position } = acc.professional;
+				const { firstname, lastname, email, mobileNumber, position, structure } = acc.professional;
 				$account = {
 					id,
 					username,
@@ -49,6 +49,7 @@
 					mobileNumber,
 					position,
 				};
+				$crispData = { username, firstname, lastname, email, mobileNumber, position, structure };
 
 				if (!onboardingDone && $page.url.pathname !== '/pro/moncompte') {
 					goto('/pro/moncompte');
