@@ -1,3 +1,10 @@
+## [1.80.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.2...v1.80.3) (2022-02-01)
+
+
+### Bug Fixes
+
+* yarn lock conflict resolve ([5580515](https://github.com/SocialGouv/carnet-de-bord/commit/55805153e4a4c9a4ca111a767d7928d5e8cc6fb7))
+
 ## [1.80.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.1...v1.80.2) (2022-01-31)
 
 
