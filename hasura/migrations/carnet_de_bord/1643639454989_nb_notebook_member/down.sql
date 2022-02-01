@@ -1,8 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- CREATE OR REPLACE FUNCTION nb_member(notebook_row notebook)
--- RETURNS bigint AS $$
---     SELECT count(*)
---     FROM notebook_member A
---     WHERE A.notebook_id = notebook_row.id
--- $$ LANGUAGE sql STABLE;
+DROP FUNCTION IF EXISTS nb_member;
