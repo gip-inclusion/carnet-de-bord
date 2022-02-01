@@ -43,7 +43,7 @@
 	const MATOMO_SITE_ID = getMatomoSiteId();
 
 	let scrollbarWidth = '0';
-	let unsubscribe;
+	let unsubscribe: () => void;
 
 	onMount(() => {
 		const { body } = document;

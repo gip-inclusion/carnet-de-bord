@@ -9,7 +9,7 @@ const config = {
 		vite: {
 			optimizeDeps: {
 				//https://formidable.com/open-source/urql/docs/basics/svelte/
-				exclude: ['@urql/svelte'],
+				exclude: ['@urql/svelte', 'matomo-tracker'],
 			},
 			ssr: {
 				// https://github.com/FormidableLabs/urql/issues/1819

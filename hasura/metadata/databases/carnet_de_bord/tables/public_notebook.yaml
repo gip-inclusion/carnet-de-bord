@@ -44,6 +44,13 @@ array_relationships:
       table:
         name: notebook_member
         schema: public
+computed_fields:
+- comment: return the number of professionnal for a notebook
+  definition:
+    function:
+      name: nb_member
+      schema: public
+  name: nbMembers
 insert_permissions:
 - permission:
     backend_only: false

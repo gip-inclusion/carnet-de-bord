@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS nb_member;

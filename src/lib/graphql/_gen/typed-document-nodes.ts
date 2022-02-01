@@ -12,6 +12,7 @@ export type Scalars = {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
+	bigint: any;
 	citext: string;
 	date: string;
 	jsonb: any;
@@ -351,7 +352,7 @@ export enum AccountUpdateColumn {
 export type AdminCdb = {
 	__typename?: 'admin_cdb';
 	/** An object relationship */
-	account: Account;
+	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	email: Scalars['citext'];
 	firstname: Scalars['String'];
@@ -538,7 +539,7 @@ export type Beneficiary = {
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
 	/** An object relationship */
-	notebook: Notebook;
+	notebook?: Maybe<Notebook>;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	updatedAt: Scalars['timestamptz'];
@@ -864,6 +865,19 @@ export enum BeneficiaryUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+export type BigintComparisonExp = {
+	_eq?: InputMaybe<Scalars['bigint']>;
+	_gt?: InputMaybe<Scalars['bigint']>;
+	_gte?: InputMaybe<Scalars['bigint']>;
+	_in?: InputMaybe<Array<Scalars['bigint']>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_lt?: InputMaybe<Scalars['bigint']>;
+	_lte?: InputMaybe<Scalars['bigint']>;
+	_neq?: InputMaybe<Scalars['bigint']>;
+	_nin?: InputMaybe<Array<Scalars['bigint']>>;
+};
 
 /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
 export type CitextComparisonExp = {
@@ -1247,7 +1261,7 @@ export type JsonbComparisonExp = {
 export type Manager = {
 	__typename?: 'manager';
 	/** An object relationship */
-	account: Account;
+	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	deployment?: Maybe<Deployment>;
@@ -2257,6 +2271,8 @@ export type Notebook = {
 	members: Array<NotebookMember>;
 	/** An aggregate relationship */
 	members_aggregate: NotebookMemberAggregate;
+	/** A computed field, executes function "nb_member" */
+	nbMembers?: Maybe<Scalars['bigint']>;
 	rightAre: Scalars['Boolean'];
 	rightAss?: Maybe<Scalars['Boolean']>;
 	rightBonus: Scalars['Boolean'];
@@ -2587,6 +2603,7 @@ export type NotebookBoolExp = {
 	id?: InputMaybe<UuidComparisonExp>;
 	job?: InputMaybe<StringComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
+	nbMembers?: InputMaybe<BigintComparisonExp>;
 	rightAre?: InputMaybe<BooleanComparisonExp>;
 	rightAss?: InputMaybe<BooleanComparisonExp>;
 	rightBonus?: InputMaybe<BooleanComparisonExp>;
@@ -3443,6 +3460,7 @@ export type NotebookOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	job?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
+	nbMembers?: InputMaybe<OrderBy>;
 	rightAre?: InputMaybe<OrderBy>;
 	rightAss?: InputMaybe<OrderBy>;
 	rightBonus?: InputMaybe<OrderBy>;
@@ -3804,7 +3822,7 @@ export enum OrderBy {
 export type Professional = {
 	__typename?: 'professional';
 	/** An object relationship */
-	account: Account;
+	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	email: Scalars['citext'];
 	firstname: Scalars['String'];
@@ -4999,7 +5017,7 @@ export type Structure = {
 	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	name: Scalars['String'];
+	name?: Maybe<Scalars['String']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -5881,7 +5899,7 @@ export type ImportStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: string | null | undefined;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -5899,7 +5917,7 @@ export type ImportStructureMutation = {
 export type StructureFieldsFragment = {
 	__typename?: 'structure';
 	id: string;
-	name: string;
+	name?: string | null | undefined;
 	phone?: string | null | undefined;
 	email?: string | null | undefined;
 	address1?: string | null | undefined;
@@ -6036,7 +6054,7 @@ export type GetNotebookFocusByIdQuery = {
 					structure: {
 						__typename?: 'structure';
 						id: string;
-						name: string;
+						name?: string | null | undefined;
 						phone?: string | null | undefined;
 						address1?: string | null | undefined;
 						address2?: string | null | undefined;
@@ -6113,7 +6131,7 @@ export type SearchProfessionalQuery = {
 		structure: {
 			__typename?: 'structure';
 			id: string;
-			name: string;
+			name?: string | null | undefined;
 			postalCode?: string | null | undefined;
 			phone?: string | null | undefined;
 		};
@@ -6223,7 +6241,7 @@ export type GetAccountByPkQuery = {
 							structure: {
 								__typename?: 'structure';
 								id: string;
-								name: string;
+								name?: string | null | undefined;
 								address1?: string | null | undefined;
 								address2?: string | null | undefined;
 								postalCode?: string | null | undefined;
@@ -6236,6 +6254,48 @@ export type GetAccountByPkQuery = {
 		  }
 		| null
 		| undefined;
+};
+
+export type ListDeploymentIdQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ListDeploymentIdQuery = {
+	__typename?: 'query_root';
+	deployments: Array<{ __typename?: 'deployment'; id: string }>;
+};
+
+export type GetDeploymentStatForDayQueryVariables = Exact<{
+	day: Scalars['timestamptz'];
+	deploymentId: Scalars['uuid'];
+}>;
+
+export type GetDeploymentStatForDayQuery = {
+	__typename?: 'query_root';
+	created: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
+	lastVisited: {
+		__typename?: 'notebook_member_aggregate';
+		aggregate?:
+			| { __typename?: 'notebook_member_aggregate_fields'; count: number }
+			| null
+			| undefined;
+	};
+	lastModified: {
+		__typename?: 'notebook_member_aggregate';
+		aggregate?:
+			| { __typename?: 'notebook_member_aggregate_fields'; count: number }
+			| null
+			| undefined;
+	};
+	withMembers: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
+	withActions: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
 };
 
 export type GetNotebookInfoQueryVariables = Exact<{
@@ -6317,7 +6377,7 @@ export type GetStructuresForDeploymentQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: string | null | undefined;
-		name: string;
+		name?: string | null | undefined;
 		shortDesc?: string | null | undefined;
 		phone?: string | null | undefined;
 		email?: string | null | undefined;
@@ -6478,7 +6538,7 @@ export type GetStructuresQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: string | null | undefined;
-		name: string;
+		name?: string | null | undefined;
 		shortDesc?: string | null | undefined;
 		phone?: string | null | undefined;
 		email?: string | null | undefined;
@@ -6554,7 +6614,7 @@ export type GetProfessionalsForManagerQuery = {
 		position?: string | null | undefined;
 		email: string;
 		structureId: string;
-		structure: { __typename?: 'structure'; id: string; name: string };
+		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
 };
 
@@ -6597,7 +6657,7 @@ export type GetNotebooksStatsQuery = {
 	structConnections: Array<{
 		__typename?: 'structure';
 		id: string;
-		name: string;
+		name?: string | null | undefined;
 		city?: string | null | undefined;
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
@@ -6628,7 +6688,7 @@ export type InsertStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: string | null | undefined;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -6663,7 +6723,7 @@ export type UpdateStructureMutation = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name: string;
+				name?: string | null | undefined;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -6698,7 +6758,7 @@ export type GetAccountsSummaryQuery = {
 					position?: string | null | undefined;
 					mobileNumber?: string | null | undefined;
 					email: string;
-					structure: { __typename?: 'structure'; id: string; name: string };
+					structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 			  }
 			| null
 			| undefined;
@@ -6747,7 +6807,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				structure: {
 					__typename?: 'structure';
 					id: string;
-					name: string;
+					name?: string | null | undefined;
 					address1?: string | null | undefined;
 					address2?: string | null | undefined;
 					postalCode?: string | null | undefined;
@@ -6907,7 +6967,7 @@ export type GetNotebookQuery = {
 						structure: {
 							__typename?: 'structure';
 							id: string;
-							name: string;
+							name?: string | null | undefined;
 							address1?: string | null | undefined;
 							address2?: string | null | undefined;
 							postalCode?: string | null | undefined;
@@ -6926,7 +6986,7 @@ export type GetNotebookQuery = {
 					professional: {
 						__typename?: 'professional';
 						structureId: string;
-						structure: { __typename?: 'structure'; name: string };
+						structure: { __typename?: 'structure'; name?: string | null | undefined };
 					};
 				}>;
 		  }
@@ -6952,7 +7012,7 @@ export type GetNotebookEventsQuery = {
 		professional: {
 			__typename?: 'professional';
 			structureId: string;
-			structure: { __typename?: 'structure'; name: string };
+			structure: { __typename?: 'structure'; name?: string | null | undefined };
 		};
 	}>;
 };
@@ -6967,7 +7027,7 @@ export type EventFieldsFragment = {
 	professional: {
 		__typename?: 'professional';
 		structureId: string;
-		structure: { __typename?: 'structure'; name: string };
+		structure: { __typename?: 'structure'; name?: string | null | undefined };
 	};
 };
 
@@ -6997,7 +7057,7 @@ export type GetNotebookMemberByIdQuery = {
 					lastname: string;
 					email: string;
 					id: string;
-					account: { __typename?: 'account'; id: string; confirmed: boolean };
+					account?: { __typename?: 'account'; id: string; confirmed: boolean } | null | undefined;
 				};
 		  }
 		| null
@@ -9812,6 +9872,553 @@ export const GetAccountByPkDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByPkQuery, GetAccountByPkQueryVariables>;
+export const ListDeploymentIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'ListDeploymentId' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployments' },
+						name: { kind: 'Name', value: 'deployment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'createdAt' },
+											value: { kind: 'EnumValue', value: 'desc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<ListDeploymentIdQuery, ListDeploymentIdQueryVariables>;
+export const GetDeploymentStatForDayDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentStatForDay' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'created' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'createdAt' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_gte' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'lastVisited' },
+						name: { kind: 'Name', value: 'notebook_member_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professional' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'structure' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deploymentId' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'deploymentId' },
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastVisitedAt' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_gte' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'lastModified' },
+						name: { kind: 'Name', value: 'notebook_member_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professional' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'structure' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deploymentId' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'deploymentId' },
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastModifiedAt' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_gte' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'withMembers' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'nbMembers' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_gte' },
+														value: { kind: 'IntValue', value: '2' },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'withActions' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'focuses' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_or' },
+														value: {
+															kind: 'ListValue',
+															values: [
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'createdAt' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_gte' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'day' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'targets' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_or' },
+																						value: {
+																							kind: 'ListValue',
+																							values: [
+																								{
+																									kind: 'ObjectValue',
+																									fields: [
+																										{
+																											kind: 'ObjectField',
+																											name: { kind: 'Name', value: 'createdAt' },
+																											value: {
+																												kind: 'ObjectValue',
+																												fields: [
+																													{
+																														kind: 'ObjectField',
+																														name: { kind: 'Name', value: '_gte' },
+																														value: {
+																															kind: 'Variable',
+																															name: { kind: 'Name', value: 'day' },
+																														},
+																													},
+																												],
+																											},
+																										},
+																									],
+																								},
+																								{
+																									kind: 'ObjectValue',
+																									fields: [
+																										{
+																											kind: 'ObjectField',
+																											name: { kind: 'Name', value: 'actions' },
+																											value: {
+																												kind: 'ObjectValue',
+																												fields: [
+																													{
+																														kind: 'ObjectField',
+																														name: {
+																															kind: 'Name',
+																															value: 'createdAt',
+																														},
+																														value: {
+																															kind: 'ObjectValue',
+																															fields: [
+																																{
+																																	kind: 'ObjectField',
+																																	name: {
+																																		kind: 'Name',
+																																		value: '_gte',
+																																	},
+																																	value: {
+																																		kind: 'Variable',
+																																		name: {
+																																			kind: 'Name',
+																																			value: 'day',
+																																		},
+																																	},
+																																},
+																															],
+																														},
+																													},
+																												],
+																											},
+																										},
+																									],
+																								},
+																							],
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentStatForDayQuery, GetDeploymentStatForDayQueryVariables>;
 export const GetNotebookInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13686,6 +14293,14 @@ export type GetRefTargetByFocusQueryStore = OperationStore<
 export type GetAccountByPkQueryStore = OperationStore<
 	GetAccountByPkQuery,
 	GetAccountByPkQueryVariables
+>;
+export type ListDeploymentIdQueryStore = OperationStore<
+	ListDeploymentIdQuery,
+	ListDeploymentIdQueryVariables
+>;
+export type GetDeploymentStatForDayQueryStore = OperationStore<
+	GetDeploymentStatForDayQuery,
+	GetDeploymentStatForDayQueryVariables
 >;
 export type GetNotebookInfoQueryStore = OperationStore<
 	GetNotebookInfoQuery,

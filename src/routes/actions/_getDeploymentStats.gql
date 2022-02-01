@@ -1,0 +1,55 @@
+query GetDeploymentStatForDay($day: timestamptz!, $deploymentId: uuid!) {
+	created: notebook_aggregate(
+		where: { beneficiary: { deploymentId: { _eq: $deploymentId } }, createdAt: { _gte: $day } }
+	) {
+		aggregate {
+			count
+		}
+	}
+	lastVisited: notebook_member_aggregate(
+		where: {
+			professional: { structure: { deploymentId: { _eq: $deploymentId } } }
+			lastVisitedAt: { _gte: $day }
+		}
+	) {
+		aggregate {
+			count
+		}
+	}
+	lastModified: notebook_member_aggregate(
+		where: {
+			professional: { structure: { deploymentId: { _eq: $deploymentId } } }
+			lastModifiedAt: { _gte: $day }
+		}
+	) {
+		aggregate {
+			count
+		}
+	}
+	withMembers: notebook_aggregate(
+		where: { nbMembers: { _gte: 2 }, beneficiary: { deploymentId: { _eq: $deploymentId } } }
+	) {
+		aggregate {
+			count
+		}
+	}
+	withActions: notebook_aggregate(
+		where: {
+			beneficiary: { deploymentId: { _eq: $deploymentId } }
+			focuses: {
+				_or: [
+					{ createdAt: { _gte: $day } }
+					{
+						targets: {
+							_or: [{ createdAt: { _gte: $day } }, { actions: { createdAt: { _gte: $day } } }]
+						}
+					}
+				]
+			}
+		}
+	) {
+		aggregate {
+			count
+		}
+	}
+}
