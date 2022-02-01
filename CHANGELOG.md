@@ -1,3 +1,10 @@
+# [1.81.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.4...v1.81.0) (2022-02-01)
+
+
+### Features
+
+* strict constraint for account creation ([13388d9](https://github.com/SocialGouv/carnet-de-bord/commit/13388d97bae0d24e41902e85dc7d328efd155807))
+
 ## [1.80.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.80.3...v1.80.4) (2022-02-01)
 
 
