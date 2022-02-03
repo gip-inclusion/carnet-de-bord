@@ -1,4 +1,4 @@
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { getAppUrl } from '$lib/config/variables/private';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import send from '$lib/emailing';
 import { CreateDeploymentFromApiDocument } from '$lib/graphql/_gen/typed-document-nodes';
@@ -6,18 +6,6 @@ import { updateAccessKey } from '$lib/services/account';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
-
-const client = createClient({
-	fetch,
-	fetchOptions: {
-		headers: {
-			'Content-Type': 'application/json',
-			'x-hasura-admin-secret': getHasuraAdminSecret(),
-		},
-	},
-	requestPolicy: 'network-only',
-	url: getGraphqlAPI(),
-});
 
 type Body = {
 	input: {
@@ -40,6 +28,18 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		};
 	}
 
+	const client = createClient({
+		fetch,
+		fetchOptions: {
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: request.headers['authorization'],
+			},
+		},
+		requestPolicy: 'network-only',
+		url: getGraphqlAPI(),
+	});
+
 	const {
 		input: { deployment, email },
 	} = request.body;
@@ -53,9 +53,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 						{
 							email,
 							account: {
-								data: {
-									type: 'manager',
-								},
+								data: {},
 							},
 						},
 					],

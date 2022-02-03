@@ -7932,7 +7932,15 @@ export type GetDeploymentInfosQuery = {
 		__typename?: 'beneficiary_aggregate';
 		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
 	};
+	beneficiariesWithNoStructure: {
+		__typename?: 'beneficiary_aggregate';
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
+	};
 	structures: {
+		__typename?: 'structure_aggregate';
+		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
+	};
+	structuresWithNoBeneficiary: {
 		__typename?: 'structure_aggregate';
 		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
 	};
@@ -13681,8 +13689,94 @@ export const GetDeploymentInfosDocument = {
 					},
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'beneficiariesWithNoStructure' },
+						name: { kind: 'Name', value: 'beneficiary_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_not' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'structures' },
+														value: { kind: 'ObjectValue', fields: [] },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
 						alias: { kind: 'Name', value: 'structures' },
 						name: { kind: 'Name', value: 'structure_aggregate' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structuresWithNoBeneficiary' },
+						name: { kind: 'Name', value: 'structure_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_not' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiaries' },
+														value: { kind: 'ObjectValue', fields: [] },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [

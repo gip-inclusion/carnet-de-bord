@@ -36,7 +36,7 @@ custom_types:
   - name: StructureInput
   - name: AdminStructureInput
   objects:
-  - name: UpdateNotebookOutput
-  - name: InsertStructureWithAdminOutput
   - name: CreateDeploymentOutput
+  - name: InsertStructureWithAdminOutput
+  - name: UpdateNotebookOutput
   scalars: []

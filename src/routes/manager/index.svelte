@@ -31,7 +31,7 @@
 		</div>
 		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3 ">
 			<strong class="block text-center fr-h3">
-				{deploymentInfo.beneficiaries.aggregate.count}
+				{deploymentInfo.beneficiariesWithNoStructure.aggregate.count}
 			</strong>
 			<p class="text-center">Nombre de bénéficiaires sans structure</p>
 		</div>
@@ -43,7 +43,7 @@
 		</div>
 		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
 			<strong class="block text-center fr-h3">
-				{deploymentInfo.structures.aggregate.count}
+				{deploymentInfo.structuresWithNoBeneficiary.aggregate.count}
 			</strong>
 			<p class="text-center">Nombre de structures sans bénéficiaires</p>
 		</div>

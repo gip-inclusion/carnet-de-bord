@@ -32,3 +32,23 @@ insert_permissions:
     - status
     - structure_id
   role: manager
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - beneficiary_id
+    - structure_id
+    - status
+    - data
+    - created_at
+    - updated_at
+    filter:
+      _and:
+      - beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: manager

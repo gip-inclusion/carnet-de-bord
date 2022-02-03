@@ -45,8 +45,9 @@ input AdminStructureInput {
   phoneNumbers: String
 }
 
-type UpdateNotebookOutput {
+type CreateDeploymentOutput {
   id: uuid!
+  label: String!
 }
 
 type InsertStructureWithAdminOutput {
@@ -64,8 +65,6 @@ type InsertStructureWithAdminOutput {
   adminEmails: [String]
 }
 
-type CreateDeploymentOutput {
+type UpdateNotebookOutput {
   id: uuid!
-  label: String!
 }
-
