@@ -4,7 +4,7 @@
 	import { GetAccountsSummaryDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import type { OperationStore } from '@urql/svelte';
-	import { operationStore, query } from '@urql/svelte';
+	import { operationStore } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	export const load: Load = async () => {
@@ -25,8 +25,7 @@
 	import { Text } from '$lib/ui/utils';
 
 	export let result: OperationStore<GetAccountsSummaryQuery>;
-
-	query(result);
+	/* query(result); */
 
 	let accounts: GetAccountsSummaryQuery['accounts'];
 	$: accounts = $result.data?.accounts || [];
@@ -96,127 +95,131 @@
 	<title>Gestion des professionnels - carnet de bord</title>
 </svelte:head>
 
-<LoaderIndicator {result}>
-	<SearchBar
-		bind:search
-		inputLabel="Rechercher un compte"
-		inputHint="Nom, prénom, email, téléphone"
-		btnLabel="Rechercher"
-		{handleSubmit}
-	/>
-	<div class={`w-full fr-table fr-table--layout-fixed`}>
-		<table>
-			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>Prénom</th>
-					<th>Mobile</th>
-					<th>Structure</th>
-					<th>Identifiant</th>
-					<th>Compte</th>
-					<th>Onboarding</th>
-					<th>Email de connexion</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each filteredAccounts as account (account.id)}
-					<tr class="cursor-pointer">
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.lastname} />
-						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.firstname} />
-						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.mobileNumber} />
-						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.structure.name} />
-						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.username} />
-						</td>
-						<td>
-							{#if !account.confirmed}
-								<Button on:click={() => confirmAccount(account.id)}>Activer</Button>
-							{:else}
-								Actif
-							{/if}
-						</td>
-						<td>
-							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
-						</td>
-						<td>
-							{#if account.confirmed}
-								{#if typeof emails[account.id] === 'undefined'}
-									<IconButton
-										on:click={() => sendConnectionEmail(account.id)}
-										icon="ri-mail-send-line"
-										textColor="text-white"
-										bgColor="bg-france-blue"
-										classNames="p-2"
-										ariaLabel="Envoyer un email de connexion"
-										title="Envoyer un email de connexion"
-									/>
-								{:else if emails[account.id] === 'ToConfirm'}
-									<div class="flex flex-row">
+{#if false}
+	<LoaderIndicator {result}>
+		<SearchBar
+			bind:search
+			inputLabel="Rechercher un compte"
+			inputHint="Nom, prénom, email, téléphone"
+			btnLabel="Rechercher"
+			{handleSubmit}
+		/>
+		<div class={`w-full fr-table fr-table--layout-fixed`}>
+			<table>
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Mobile</th>
+						<th>Structure</th>
+						<th>Identifiant</th>
+						<th>Compte</th>
+						<th>Onboarding</th>
+						<th>Email de connexion</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each filteredAccounts as account (account.id)}
+						<tr class="cursor-pointer">
+							<td on:click={() => openProInfo(account)}>
+								<Text value={account.professional.lastname} />
+							</td>
+							<td on:click={() => openProInfo(account)}>
+								<Text value={account.professional.firstname} />
+							</td>
+							<td on:click={() => openProInfo(account)}>
+								<Text value={account.professional.mobileNumber} />
+							</td>
+							<td on:click={() => openProInfo(account)}>
+								<Text value={account.professional.structure.name} />
+							</td>
+							<td on:click={() => openProInfo(account)}>
+								<Text value={account.username} />
+							</td>
+							<td>
+								{#if !account.confirmed}
+									<Button on:click={() => confirmAccount(account.id)}>Activer</Button>
+								{:else}
+									Actif
+								{/if}
+							</td>
+							<td>
+								<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
+							</td>
+							<td>
+								{#if account.confirmed}
+									{#if typeof emails[account.id] === 'undefined'}
 										<IconButton
-											on:click={() => sendConnectionEmail(account.id, true)}
-											icon="ri-check-line"
+											on:click={() => sendConnectionEmail(account.id)}
+											icon="ri-mail-send-line"
+											textColor="text-white"
+											bgColor="bg-france-blue"
+											classNames="p-2"
+											ariaLabel="Envoyer un email de connexion"
+											title="Envoyer un email de connexion"
+										/>
+									{:else if emails[account.id] === 'ToConfirm'}
+										<div class="flex flex-row">
+											<IconButton
+												on:click={() => sendConnectionEmail(account.id, true)}
+												icon="ri-check-line"
+												textColor="text-white"
+												bgColor="bg-success"
+												classNames="p-2"
+												ariaLabel="Confirmer l'envoi"
+												title="Confirmer l'envoi"
+											/>
+											<IconButton
+												on:click={() => sendConnectionEmail(account.id, false)}
+												icon="ri-close-line"
+												textColor="text-white"
+												bgColor="bg-marianne-red"
+												classNames="p-2"
+												ariaLabel="Annuler"
+												title="Annuler"
+											/>
+										</div>
+									{:else if emails[account.id] === 'Sending'}
+										<IconButton
+											icon="ri-mail-send-fill"
+											textColor="text-white"
+											bgColor="bg-action"
+											classNames="p-2"
+											ariaLabel="Envoi en cours..."
+											title="Envoi en cours..."
+										/>
+									{:else if emails[account.id] === 'Failed'}
+										<IconButton
+											on:click={() => sendConnectionEmail(account.id)}
+											icon="ri-restart-line"
+											textColor="text-white"
+											bgColor="bg-error"
+											classNames="p-2"
+											ariaLabel="Erreur ! Recommencer ?"
+											title="Erreur ! Recommencer ?"
+										/>
+									{:else if emails[account.id] === 'Sent'}
+										<IconButton
+											icon="ri-mail-check-line"
 											textColor="text-white"
 											bgColor="bg-success"
 											classNames="p-2"
-											ariaLabel="Confirmer l'envoi"
-											title="Confirmer l'envoi"
+											ariaLabel="Envoyé !"
+											title="Envoyé !"
 										/>
-										<IconButton
-											on:click={() => sendConnectionEmail(account.id, false)}
-											icon="ri-close-line"
-											textColor="text-white"
-											bgColor="bg-marianne-red"
-											classNames="p-2"
-											ariaLabel="Annuler"
-											title="Annuler"
-										/>
-									</div>
-								{:else if emails[account.id] === 'Sending'}
-									<IconButton
-										icon="ri-mail-send-fill"
-										textColor="text-white"
-										bgColor="bg-action"
-										classNames="p-2"
-										ariaLabel="Envoi en cours..."
-										title="Envoi en cours..."
-									/>
-								{:else if emails[account.id] === 'Failed'}
-									<IconButton
-										on:click={() => sendConnectionEmail(account.id)}
-										icon="ri-restart-line"
-										textColor="text-white"
-										bgColor="bg-error"
-										classNames="p-2"
-										ariaLabel="Erreur ! Recommencer ?"
-										title="Erreur ! Recommencer ?"
-									/>
-								{:else if emails[account.id] === 'Sent'}
-									<IconButton
-										icon="ri-mail-check-line"
-										textColor="text-white"
-										bgColor="bg-success"
-										classNames="p-2"
-										ariaLabel="Envoyé !"
-										title="Envoyé !"
-									/>
+									{/if}
 								{/if}
-							{/if}
-						</td>
-					</tr>
-				{:else}
-					<tr class="shadow-sm">
-						<td class="!text-center" colspan="8">Aucun compte utilisateur.</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
-</LoaderIndicator>
+							</td>
+						</tr>
+					{:else}
+						<tr class="shadow-sm">
+							<td class="!text-center" colspan="8">Aucun compte utilisateur.</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	</LoaderIndicator>
+{:else}
+	<div>Cette page n'est pas disponible pour l'instant.</div>
+{/if}
