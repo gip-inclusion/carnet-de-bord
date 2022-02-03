@@ -127,7 +127,7 @@
 		if (!s) {
 			return false;
 		}
-		if (['Oui', 'oui', 'O', 'o', 'OK'].includes(s.trim())) {
+		if ('Oui' === s.trim()) {
 			return true;
 		}
 		return false;
