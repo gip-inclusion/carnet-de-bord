@@ -11,42 +11,17 @@
 	const insertDeployment = mutation(deploymentStore);
 
 	const initialValues = {
-		firstname: '',
-		lastname: '',
 		email: '',
-		account: '',
 		deployment: '',
 	};
 	let errorMessage = '';
 
 	async function handleSubmit(values: AdminDeploymentType) {
-		const { error } = await insertDeployment({
-			object: {
-				label: values.deployment,
-				managers: {
-					data: [
-						{
-							firstname: values.firstname,
-							lastname: values.lastname,
-							email: values.email,
-							account: {
-								data: {
-									username: values.account,
-									type: 'manager',
-								},
-							},
-						},
-					],
-				},
-			},
-		});
+		const { error } = await insertDeployment(values);
 		if (error) {
 			errorMessage = 'Une erreur est survenue lors de la création du déploiement.';
 			if (/uniqueness/i.test(error.message) && /manager_email_key/i.test(error.message)) {
 				errorMessage = 'Cet email est déja assigné à un manager.';
-			}
-			if (/uniqueness/i.test(error.message) && /account_username_unique/i.test(error.message)) {
-				errorMessage = 'Cet identifiant est déja assigné à un manager.';
 			}
 		} else {
 			close();
@@ -62,7 +37,11 @@
 		<h1>Ajouter un Déploiement</h1>
 		<p class="mb-0">
 			Veuillez renseigner les informations ci-dessous pour créer un nouveau déploiement. Un
-			déploiement permet de rattacher des structures, professionnels et bénéficiaires.
+			déploiement permet de rattacher des structures et des bénéficiaires.
+		</p>
+		<p class="mb-0">
+			Un email sera envoyé au responsable du déploiement pour qu'il crée son compte sur Carnet de
+			bord.
 		</p>
 	</div>
 
@@ -76,15 +55,7 @@
 		let:isValid
 	>
 		<Input name="deployment" required inputLabel="Nom du déploiement" />
-		<div>
-			<fieldset>
-				<legend>Responsable</legend>
-				<Input name="account" required inputLabel="Identifiant" />
-				<Input name="firstname" required inputLabel="Prénom" />
-				<Input name="lastname" required inputLabel="Nom" />
-				<Input name="email" required inputLabel="Courriel" />
-			</fieldset>
-		</div>
+		<Input name="email" required inputLabel="Courriel du gestionnaire" />
 		{#if $deploymentStore.error}
 			<div class="mb-8">
 				<Alert type="error" description={errorMessage} />

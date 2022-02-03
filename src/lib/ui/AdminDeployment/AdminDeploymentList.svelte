@@ -12,7 +12,7 @@
 </script>
 
 <LoaderIndicator result={deploymentsStore}>
-	<div class={`w-full fr-table fr-table--layout-fixed`}>
+	<div class="w-full fr-table fr-table--layout-fixed">
 		<table>
 			<thead>
 				<tr>
@@ -25,7 +25,9 @@
 					<tr>
 						<td><a href={`/admin/deployment/${deployment.id}`}>{deployment.label}</a></td>
 						<td>
-							{deployment.managers.map((manager) => displayFullName(manager)).join(', ')}
+							{deployment.managers
+								.map((manager) => (displayFullName(manager) || '-') + ' (' + manager.email + ')')
+								.join(', ')}
 						</td>
 					</tr>
 				{/each}

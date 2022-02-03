@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-	<title>Accueil Professionnel - carnet de bord</title>
+	<title>Accueil Professionnel - Carnet de bord</title>
 </svelte:head>
 
 <h1 class="fr-h2">Rechercher un bénéficiaire</h1>

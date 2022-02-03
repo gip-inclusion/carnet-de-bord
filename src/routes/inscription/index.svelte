@@ -35,7 +35,7 @@
 </script>
 
 <svelte:head>
-	<title>Inscription - carnet de bord</title>
+	<title>Inscription - Carnet de bord</title>
 </svelte:head>
 <div class="flex flex-col gap-8 px-40 mt-8">
 	{#if requestStep !== 'success'}

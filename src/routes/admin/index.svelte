@@ -31,7 +31,9 @@
 <Breadcrumbs segments={breadcrumbs} />
 
 <div class="flex flex-col gap-8">
-	<Button on:click={onAddDeployementClick}>Ajouter un Déploiement</Button>
+	<h1 class="fr-h4">Liste des déploiements</h1>
+
+	<div><Button on:click={onAddDeployementClick}>Ajouter un Déploiement</Button></div>
 
 	<AdminDeploymentList {deploymentsStore} />
 </div>

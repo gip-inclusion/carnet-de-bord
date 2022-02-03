@@ -115,7 +115,7 @@
 </script>
 
 <svelte:head>
-	<title>Annuaire - carnet de bord</title>
+	<title>Annuaire - Carnet de bord</title>
 </svelte:head>
 
 <h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>

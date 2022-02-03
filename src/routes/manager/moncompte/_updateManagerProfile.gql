@@ -1,0 +1,29 @@
+mutation UpdateManagerProfile(
+	$firstname: String!
+	$lastname: String!
+	$email: citext!
+	$managerId: uuid!
+) {
+	updateManager: update_manager(
+		_set: { firstname: $firstname, lastname: $lastname, email: $email }
+		where: { id: { _eq: $managerId } }
+	) {
+		affected_rows
+	}
+	updateAccount: update_account(
+		where: { managerId: { _eq: $managerId } }
+		_set: { onboardingDone: true }
+	) {
+		returning {
+			id
+			onboardingDone
+			confirmed
+			username
+			manager {
+				firstname
+				lastname
+				email
+			}
+		}
+	}
+}

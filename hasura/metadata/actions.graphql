@@ -5,6 +5,13 @@ type Mutation {
 }
 
 type Mutation {
+  createDeploymentWithEmail(
+    email: citext!
+    deployment: String!
+  ): CreateDeploymentOutput
+}
+
+type Mutation {
   updateNotebookAct(
     id: uuid!
   ): UpdateNotebookOutput
@@ -57,3 +64,7 @@ type InsertStructureWithAdminOutput {
   adminEmails: [String]
 }
 
+type CreateDeploymentOutput {
+  id: uuid!
+  label: String!
+}

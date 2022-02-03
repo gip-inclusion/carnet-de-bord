@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-	<title>Connexion - carnet de bord</title>
+	<title>Connexion - Carnet de bord</title>
 </svelte:head>
 
 {#if requestStep !== 'success'}
@@ -78,7 +78,7 @@
 					</div>
 					-->
 			{#if magicLink}
-				<div><Link href={magicLink}>Ouvrir carnet de bord</Link></div>
+				<div><Link href={magicLink}>Ouvrir Carnet de bord</Link></div>
 			{/if}
 		</div>
 		<div class="flex flex-col gap-6">
