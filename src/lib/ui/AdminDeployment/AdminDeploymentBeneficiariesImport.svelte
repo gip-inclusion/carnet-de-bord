@@ -69,13 +69,8 @@
 
 	$: beneficiariesToImport = beneficiaries.filter(({ uid }) => toImport.includes(uid));
 
-	function validate(benef: unknown): benef is BeneficiaryImport {
-		return (
-			!!benef &&
-			!!(benef as Beneficiary).firstname &&
-			!!(benef as Beneficiary).lastname &&
-			!!(benef as Beneficiary).dateOfBirth
-		);
+	function validate(benef: null | undefined | Record<string, any>): boolean {
+		return !!benef && !!benef.firstname && !!benef.lastname && !!benef.dateOfBirth;
 	}
 
 	let toImport = [];
@@ -94,19 +89,22 @@
 					delimiter: ';',
 				})
 					.reduce(
-						([valid, invalid], cur) => {
+						(
+							[valid, invalid]: [BeneficiaryImport[], BeneficiaryImport[]],
+							cur: Record<string, any>
+						) => {
 							cur.uid = uuidv4();
 							cur.valid = validate(cur);
 							if (cur.valid) {
-								valid.push(cur);
+								valid.push(cur as BeneficiaryImport);
 							} else {
-								invalid.push(cur);
+								invalid.push(cur as BeneficiaryImport);
 							}
 							return [valid, invalid];
 						},
-						<[BeneficiaryImport[], BeneficiaryImport[]]>[[], []]
+						[[], []]
 					)
-					.reduce((acc, cur) => {
+					.reduce((acc: BeneficiaryImport[], cur: BeneficiaryImport[]) => {
 						return [...acc, ...cur];
 					}, []);
 
