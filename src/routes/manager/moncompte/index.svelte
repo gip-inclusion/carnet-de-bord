@@ -7,25 +7,25 @@
 <script lang="ts">
 	import { session } from '$app/stores';
 	import { account, openComponent } from '$lib/stores';
-	import ProAccountEdit from '$lib/ui/ProAccount/ProAccountEdit.svelte';
-	import ProWithStructureView from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
+	import ManagerAccountEdit from '$lib/ui/ManagerAccount/ManagerAccountEdit.svelte';
+	import ManagerView from '$lib/ui/ManagerView.svelte';
 	import { Button } from '$lib/ui/base';
 
-	let professional: GetAccountByPkQuery['account_by_pk']['professional'];
+	let manager: GetAccountByPkQuery['account_by_pk']['manager'];
 	const getAccountStore = operationStore(GetAccountByPkDocument, { accountId: $session?.user?.id });
 	query(getAccountStore);
 
-	$: professional = $getAccountStore?.data?.account_by_pk?.professional;
+	$: manager = $getAccountStore?.data?.account_by_pk?.manager;
 	function editAccount() {
 		openComponent.open({
-			component: ProAccountEdit,
-			props: { professional },
+			component: ManagerAccountEdit,
+			props: { manager },
 		});
 	}
 </script>
 
 <svelte:head>
-	<title>Mon compte - carnet de bord</title>
+	<title>Mon compte - Carnet de bord</title>
 </svelte:head>
 
 {#if $account}
@@ -40,13 +40,8 @@
 			Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 		</p>
 	{/if}
-	{#if professional}
-		<ProWithStructureView
-			{professional}
-			proFirst={true}
-			mainTitle="Informations personnelles"
-			username={$account?.username}
-		/>
+	{#if manager}
+		<ManagerView {manager} />
 	{/if}
 	<div>
 		<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
