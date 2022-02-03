@@ -47,39 +47,39 @@ insert_permissions:
         - config
     role: admin_cdb
 select_permissions:
-  - permission:
-      allow_aggregations: true
-      columns:
-        - label
-        - config
-        - created_at
-        - updated_at
-        - id
-      filter: {}
-    role: admin_cdb
-  - permission:
-      allow_aggregations: true
-      columns:
-        - config
-        - created_at
-        - id
-        - label
-        - updated_at
-      filter:
-        id:
-          _eq: X-Hasura-Deployment-Id
-    role: manager
-  - permission:
-      allow_aggregations: true
-      columns:
-        - created_at
-        - id
-        - label
-        - updated_at
-      filter:
-        id:
-          _eq: X-Hasura-Deployment-Id
-    role: professional
+- permission:
+    allow_aggregations: true
+    columns:
+    - label
+    - config
+    - created_at
+    - updated_at
+    - id
+    filter: {}
+  role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
+    - config
+    - created_at
+    - id
+    - label
+    - updated_at
+    filter:
+      id:
+        _eq: X-Hasura-Deployment-Id
+  role: manager
+- permission:
+    allow_aggregations: true
+    columns:
+    - created_at
+    - id
+    - label
+    - updated_at
+    filter:
+      id:
+        _eq: X-Hasura-Deployment-Id
+  role: professional
 update_permissions:
   - permission:
       check: {}

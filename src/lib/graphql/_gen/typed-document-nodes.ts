@@ -11298,6 +11298,16 @@ export const GetAccountByPkDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'deployment' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
 													],
 												},
 											},
