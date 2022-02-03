@@ -27,3 +27,6 @@ declare module 'svelte-accessible-dialog';
 
 // support for svelecte
 declare module 'svelecte';
+
+// support for matomo-tracker
+declare module 'matomo-tracker';

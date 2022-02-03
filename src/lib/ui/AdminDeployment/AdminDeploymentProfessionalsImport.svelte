@@ -42,13 +42,8 @@
 
 	$: prosToImport = pros.filter(({ uid }) => toImport.includes(uid));
 
-	function validate(struct: unknown): struct is ProImport {
-		return (
-			!!struct &&
-			!!(struct as Pro).email &&
-			!!(struct as Pro).firstname &&
-			!!(struct as Pro).lastname
-		);
+	function validate(pro: null | undefined | Record<string, any>): boolean {
+		return !!pro && !!pro.email && !!pro.firstname && !!pro.lastname;
 	}
 
 	let toImport = [];
@@ -66,19 +61,19 @@
 					skip_empty_lines: true,
 				})
 					.reduce(
-						([valid, invalid], cur) => {
+						([valid, invalid]: [ProImport[], ProImport[]], cur: Record<string, any>) => {
 							cur.uid = uuidv4();
 							cur.valid = validate(cur);
 							if (cur.valid) {
-								valid.push(cur);
+								valid.push(cur as ProImport);
 							} else {
-								invalid.push(cur);
+								invalid.push(cur as ProImport);
 							}
 							return [valid, invalid];
 						},
-						<[ProImport[], ProImport[]]>[[], []]
+						[[], []]
 					)
-					.reduce((acc, cur) => {
+					.reduce((acc: ProImport[], cur: ProImport[]) => {
 						return [...acc, ...cur];
 					}, []);
 				toImport = pros.filter(({ valid }) => valid).map(({ uid }) => uid);
