@@ -92,7 +92,7 @@
 </script>
 
 <svelte:head>
-	<title>Gestion des professionnels - carnet de bord</title>
+	<title>Gestion des professionnels - Carnet de bord</title>
 </svelte:head>
 
 {#if false}
