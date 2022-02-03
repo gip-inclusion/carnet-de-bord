@@ -49,8 +49,7 @@
 					mobileNumber,
 					position,
 				};
-				$crispData = { username, firstname, lastname, email, mobileNumber, position, structure };
-
+				crispData.set({ username, firstname, lastname, email, mobileNumber, position, structure });
 				if (!onboardingDone && $page.url.pathname !== '/pro/moncompte') {
 					goto('/pro/moncompte');
 				}
