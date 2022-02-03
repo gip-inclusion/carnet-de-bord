@@ -27,7 +27,7 @@
 </script>
 
 <svelte:head>
-	<title>Fiche professionnel - carnet de bord</title>
+	<title>Fiche professionnel - Carnet de bord</title>
 </svelte:head>
 
 <LoaderIndicator result={getAccountByPkStore}>
