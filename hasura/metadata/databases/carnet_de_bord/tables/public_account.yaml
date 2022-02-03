@@ -190,6 +190,7 @@ update_permissions:
     columns:
     - access_key
     - access_key_date
+    - onboarding_done
     - username
     filter:
       _or:

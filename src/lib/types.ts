@@ -7,8 +7,8 @@ export type Account = AccountRequest & {
 
 export interface AccountRequest {
 	email: string;
-	firstname: string;
-	lastname: string;
+	firstname?: string;
+	lastname?: string;
 	mobileNumber?: string;
 	position?: string;
 }
