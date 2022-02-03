@@ -27,27 +27,30 @@
 
 		const crisp = window.$crisp;
 		const { username, firstname, lastname, email, mobileNumber, structure } = data;
-		const { name, city } = structure ?? {};
+		const { name, deployment } = structure ?? {};
+
+		//Available fields user:email, user:phone, user:nickname, user:avatar, user:company
 		crisp.push(['set', 'user:nickname', [displayFullName({ firstname, lastname })]]);
-		if (username) {
-			crisp.push(['set', 'user:description', [`nom d'utilisateur : ${username}`]]);
-		}
 		if (email) {
 			crisp.push(['set', 'user:email', [`${email}`]]);
 		}
 		if (mobileNumber) {
 			crisp.push(['set', 'user:phone', [`${mobileNumber}`]]);
 		}
-		/* if (label) { */
-		/*   crisp.push(["set", "user:phone", [`${mobileNumber}`]]); */
-		/* } */
 		if (name) {
-			const extra = {} as Record<string, string[]>;
-			if (city) {
-				extra.geolocation = [`${city}`];
-			}
 			crisp.push(['set', 'user:company', [`${name}`]]);
 		}
+		// additionnal data in session:data
+		crisp.push([
+			'set',
+			'session:data',
+			[
+				[
+					['username', username],
+					['deployment', deployment.label],
+				],
+			],
+		]);
 	});
 	onDestroy(unsubscribe);
 </script>
