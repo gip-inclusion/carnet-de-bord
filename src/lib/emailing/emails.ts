@@ -49,7 +49,7 @@ function createAccessButton(url: Url) {
 }
 
 function greeting(person?: Person) {
-	return `<p>Bonjour ${person ? ` ${displayFullName(person)}` : ''},</p>`;
+	return `<p>Bonjour${person ? ` ${displayFullName(person)}` : ''},</p>`;
 }
 
 function footer() {
@@ -129,6 +129,25 @@ export function accountCreatedByAdmin({ account, url }: { account: Account; url:
   `;
 }
 
+type AdminStructureEmailParams = {
+	email: string;
+	account: Person;
+	structure: string;
+	url: Url;
+};
+
+export function adminStructureAccountCreation(params: AdminStructureEmailParams): string {
+	return `
+    ${greeting(params.account)}
+    <p>Un compte vous a été créé sur l'application Carnet de bord pour administrer la structure ${
+			params.structure
+		}.</p>
+    <p>Votre identifiant de connexion est <b>${params.email}</b></p>
+    ${createAccessButton(params.url)}
+    ${footer()}
+  `;
+}
+
 export default {
 	notebookInvitation,
 	loginRequest,
@@ -136,4 +155,5 @@ export default {
 	accountRequestValidate,
 	accountRequest,
 	accountCreatedByAdmin,
+	adminStructureAccountCreation,
 };

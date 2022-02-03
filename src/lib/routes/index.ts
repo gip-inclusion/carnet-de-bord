@@ -19,7 +19,7 @@ const adminHome: Route = {
 };
 
 const managerHome: Route = {
-	path: '/manager/utilisateurs',
+	path: '/manager',
 };
 
 const beneficiaryHome: Route = {

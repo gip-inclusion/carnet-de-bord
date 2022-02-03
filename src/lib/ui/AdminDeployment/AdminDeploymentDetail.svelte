@@ -8,7 +8,6 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '$lib/ui/format';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import AdminDeploymentStructuresImport from './AdminDeploymentStructuresImport.svelte';
 	import AdminDeploymentProfessionalsImport from './AdminDeploymentProfessionalsImport.svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import AdminNotebookUpdate from './AdminNotebookUpdate.svelte';
@@ -50,18 +49,6 @@
 		</div>
 	</div>
 	<div class="fr-grid-row fr-grid-row--gutters">
-		<div class="fr-col-md-3 fr-m-2v fr-p-4v">
-			<Dialog
-				label="Importer des structures"
-				buttonLabel="Importer des structures"
-				title="Importer des structures"
-				size={'large'}
-				showButtons={false}
-				on:close={refreshStore}
-			>
-				<AdminDeploymentStructuresImport deploymentId={deployment?.id} />
-			</Dialog>
-		</div>
 		<div class="fr-col-md-3 fr-m-2v fr-p-4v">
 			<Dialog
 				label="Importer des professionnels"

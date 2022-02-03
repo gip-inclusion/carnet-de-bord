@@ -1,10 +1,59 @@
 type Mutation {
+  insertStructureWithAdmin(
+    data: InsertStructureWithAdminInput!
+  ): InsertStructureWithAdminOutput
+}
+
+type Mutation {
   updateNotebookAct(
     id: uuid!
   ): UpdateNotebookOutput
 }
 
+input InsertStructureWithAdminInput {
+  structure: StructureInput
+  adminStructure: AdminStructureInput
+  forceUpdate: Boolean
+  sendAccountEmail: Boolean
+}
+
+input StructureInput {
+  name: String
+  phone: String
+  email: String
+  address1: String
+  address2: String
+  postalCode: String
+  city: String
+  website: String
+  siret: String
+  shortDesc: String
+}
+
+input AdminStructureInput {
+  adminEmail: citext
+  firstname: String
+  lastname: String
+  position: String
+  phoneNumbers: String
+}
+
 type UpdateNotebookOutput {
   id: uuid!
+}
+
+type InsertStructureWithAdminOutput {
+  id: uuid!
+  name: String
+  phone: String
+  email: citext
+  address1: String
+  address2: String
+  postalCode: String
+  city: String
+  website: String
+  siret: String
+  shortDesc: String
+  adminEmails: [String]
 }
 

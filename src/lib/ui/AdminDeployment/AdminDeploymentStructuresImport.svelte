@@ -1,5 +1,9 @@
 <script context="module" lang="ts">
-	import { ImportStructureDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		AdminStructureInput,
+		ImportStructureDocument,
+		StructureInput,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		ImportStructureMutation,
 		ImportStructureMutationVariables,
@@ -10,39 +14,29 @@
 
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import Checkbox from '$lib/ui/base/GroupCheckbox.svelte';
+	import { Checkbox, GroupCheckbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { v4 as uuidv4 } from 'uuid';
 	import { Alert, Button } from '$lib/ui/base';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 
-	type Structure = {
-		name: string;
-		phone: string;
-		email: string;
-		address1: string;
-		address2: string;
-		postalCode: string;
-		city: string;
-		website: string;
-		siret: string;
-		shortDesc: string;
-	};
+	type StructureWithAdminInput = StructureInput & AdminStructureInput;
 
-	type StructureImport = Structure & {
+	type StructureImport = StructureWithAdminInput & {
 		valid: boolean;
 		uid: string;
 	};
 
-	export let deploymentId: string;
+	let forceUpdate = false;
+	let sendAccountEmail = false;
 
 	let files = [];
 	let structures: StructureImport[] = [];
 
 	$: structuresToImport = structures.filter(({ uid }) => toImport.includes(uid));
 
-	function validate(struct: unknown): struct is StructureImport {
-		return !!struct && !!(struct as Structure).name && !!(struct as Structure).city;
+	function validate(struct: Record<string, any>): boolean {
+		return !!struct && !!struct.name && !!struct.city && !!struct.postalCode && !!struct.adminEmail;
 	}
 
 	let toImport = [];
@@ -86,40 +80,55 @@
 	const insertStore: OperationStore<
 		ImportStructureMutation,
 		ImportStructureMutationVariables,
-		Structure
+		StructureWithAdminInput
 	> = operationStore(ImportStructureDocument);
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
-	let insertResult: { struct: Structure; error: string | null }[];
+
+	let insertResult: {
+		struct: StructureWithAdminInput;
+		error: string | null;
+	}[];
 
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
 		for (const structure of structuresToImport) {
 			const { uid, valid, ...struct } = structure;
-			await inserter({ ...struct, deploymentId });
-			await new Promise((resolve) => {
-				setTimeout(resolve, 500);
-			});
+			const result = await inserter({ ...struct, forceUpdate, sendAccountEmail });
+			let errorMessage = "Une erreur s'est produite, la structure n'a pas été importée.";
+			if (/uniqueness/i.test(result.error?.message)) {
+				errorMessage = 'Cette structure existe déjà.';
+			}
+
 			insertResult = [
 				...insertResult,
-				{ struct, error: insertStore.error ? insertStore.error.toString() : null },
+				{
+					struct,
+					...(result.error && { error: errorMessage }),
+				},
 			];
 		}
+		console.log({ insertResult });
 		insertInProgress = false;
 	}
 
 	const headers = [
 		{ label: 'Nom*', key: 'name' },
-		{ label: 'Ville*', key: 'city' },
-		{ label: 'Code postal', key: 'postalCode' },
+		{ label: 'Description', key: 'shortDesc' },
+		{ label: 'Téléphone', key: 'phone' },
 		{ label: 'Adresse', key: 'address1' },
 		{ label: 'Adresse (complément)', key: 'address2' },
-		{ label: 'Téléphone', key: 'phone' },
-		{ label: 'Courriel', key: 'email' },
+		{ label: 'Code postal* ', key: 'postalCode' },
+		{ label: 'Ville*', key: 'city' },
 		{ label: 'Site web', key: 'website' },
+		{ label: 'Courriel', key: 'email' },
 		{ label: 'SIRET', key: 'siret' },
-		{ label: 'Description', key: 'shortDesc' },
+		{ label: "Courriel de l'administrateur*", key: 'adminEmail' },
+		{ label: 'Prénom', key: 'firstname' },
+		{ label: 'Nom', key: 'lastname' },
+		{ label: 'Fonction', key: 'position' },
+		{ label: 'Numéros de téléphone', key: 'phoneNumbers' },
 	];
 
 	function backToFileSelect() {
@@ -132,10 +141,6 @@
 <div class="flex flex-col gap-6">
 	{#if insertResult === undefined}
 		{#if structures.length > 0}
-			<p>
-				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
-				correctes et confirmer.
-			</p>
 			<div class="border-b border-gray-200 shadow" style="overflow-x: auto;">
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
@@ -150,13 +155,18 @@
 						<th>Site web</th>
 						<th>SIRET</th>
 						<th>Description</th>
+						<th>Courriel de l'administrateur*</th>
+						<th>Prénom</th>
+						<th>Nom</th>
+						<th>Fonction</th>
+						<th>Numéros de téléphone</th>
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each structures as structure}
 							<tr>
 								<td class="align-middle">
 									{#if structure.valid}
-										<Checkbox
+										<GroupCheckbox
 											classNames="bottom-3 left-2"
 											bind:selectedOptions={toImport}
 											groupId={'toImport'}
@@ -183,11 +193,32 @@
 								<td class="px-2 py-2"><Text value={structure.website} /></td>
 								<td class="px-2 py-2"><Text value={structure.siret} /></td>
 								<td class="px-2 py-2"><Text value={structure.shortDesc} /></td>
+								<td class="px-2 py-2"><Text value={structure.adminEmail} /></td>
+								<td class="px-2 py-2"><Text value={structure.firstname} /></td>
+								<td class="px-2 py-2"><Text value={structure.lastname} /></td>
+								<td class="px-2 py-2"><Text value={structure.position} /></td>
+								<td class="px-2 py-2"><Text value={structure.phoneNumbers} /></td>
 							</tr>
 						{/each}
 					</tbody>
 				</table>
 			</div>
+			<p>
+				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
+				correctes et confirmer.
+			</p>
+			<p>
+				<Checkbox
+					name="forceUpdate"
+					label="Écraser les informations des structures existantes"
+					bind:checked={forceUpdate}
+				/>
+				<Checkbox
+					name="sendConfirmEmail"
+					label="Envoyer un email de creation de compte aux nouveaux gestionnaires de structure"
+					bind:checked={sendAccountEmail}
+				/>
+			</p>
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{toImport.length || 'Aucune'}
@@ -202,9 +233,14 @@
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV avec les informations suivantes dans l'ordre,
-				séparées par des virgules (deux virgules consécutives quand il n'y a pas de valeur)&nbsp;:
-				<br /><strong>{headers.map((header) => header.label).join(', ')}</strong>
+				Veuillez fournir un fichier au format CSV.
+				<br />Vous pouvez
+				<a href="/fichiers/import_structures.csv" download>télécharger un modèle</a>
+				et
+				<a href="https://pad.incubateur.net/s/y-ZW1qQOw#" target="_blank" rel="noopener noreferrer"
+					>consulter la notice de remplissage</a
+				>
+				.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
@@ -248,10 +284,7 @@
 									</td>
 									<td class="px-2 py-2 ">
 										{#if structure.error}
-											<Text
-												classNames="text-error"
-												value={"Une erreur s'est produite, la structure n'a pas été importée."}
-											/>
+											<Text classNames="text-error" value={structure.error} />
 										{:else}
 											<span
 												class="fr-fi-checkbox-circle-fill text-success"

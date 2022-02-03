@@ -1,0 +1,7 @@
+mutation InsertStructureAdminStructure($structureId: uuid!, $adminStructureId: uuid!) {
+	insert_admin_structure_structure_one(
+		object: { adminStructureId: $adminStructureId, structureId: $structureId }
+	) {
+		id
+	}
+}

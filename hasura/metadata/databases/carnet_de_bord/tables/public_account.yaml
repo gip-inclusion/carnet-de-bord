@@ -6,6 +6,7 @@ configuration:
     access_key: accessKey
     access_key_date: accessKeyDate
     admin_id: adminId
+    admin_structure_id: adminStructureId
     beneficiary_id: beneficiaryId
     created_at: createdAt
     last_login: lastLogin
@@ -18,6 +19,9 @@ object_relationships:
 - name: admin
   using:
     foreign_key_constraint_on: admin_id
+- name: admin_structure
+  using:
+    foreign_key_constraint_on: admin_structure_id
 - name: beneficiary
   using:
     foreign_key_constraint_on: beneficiary_id
@@ -59,12 +63,20 @@ insert_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+      - admin_structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
     columns:
+    - access_key
+    - access_key_date
+    - admin_structure_id
     - beneficiary_id
     - id
     - professional_id
     - type
     - username
+    set:
+      confirmed: "True"
   role: manager
 select_permissions:
 - permission:
