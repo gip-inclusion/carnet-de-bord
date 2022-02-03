@@ -7327,6 +7327,16 @@ export type GetAccountByPkQuery = {
 					  }
 					| null
 					| undefined;
+				manager?:
+					| {
+							__typename?: 'manager';
+							id: string;
+							email: string;
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -7838,6 +7848,43 @@ export type GetProfessionalsForManagerQuery = {
 		structureId: string;
 		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
+};
+
+export type UpdateManagerProfileMutationVariables = Exact<{
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	email: Scalars['citext'];
+	managerId: Scalars['uuid'];
+}>;
+
+export type UpdateManagerProfileMutation = {
+	__typename?: 'mutation_root';
+	updateManager?:
+		| { __typename?: 'manager_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	updateAccount?:
+		| {
+				__typename?: 'account_mutation_response';
+				returning: Array<{
+					__typename?: 'account';
+					id: string;
+					onboardingDone?: boolean | null | undefined;
+					confirmed: boolean;
+					username: string;
+					manager?:
+						| {
+								__typename?: 'manager';
+								firstname?: string | null | undefined;
+								lastname?: string | null | undefined;
+								email: string;
+						  }
+						| null
+						| undefined;
+				}>;
+		  }
+		| null
+		| undefined;
 };
 
 export type GetNotebooksStatsQueryVariables = Exact<{
@@ -11068,6 +11115,19 @@ export const GetAccountByPkDocument = {
 								},
 								{
 									kind: 'Field',
+									name: { kind: 'Name', value: 'manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },
 									selectionSet: {
 										kind: 'SelectionSet',
@@ -13530,6 +13590,187 @@ export const GetProfessionalsForManagerDocument = {
 	GetProfessionalsForManagerQuery,
 	GetProfessionalsForManagerQueryVariables
 >;
+export const UpdateManagerProfileDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateManagerProfile' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'managerId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateManager' },
+						name: { kind: 'Name', value: 'update_manager' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'managerId' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateAccount' },
+						name: { kind: 'Name', value: 'update_account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'managerId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'managerId' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'onboardingDone' },
+											value: { kind: 'BooleanValue', value: true },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateManagerProfileMutation, UpdateManagerProfileMutationVariables>;
 export const GetNotebooksStatsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -15990,6 +16231,10 @@ export type GetDeploymentInfosQueryStore = OperationStore<
 export type GetProfessionalsForManagerQueryStore = OperationStore<
 	GetProfessionalsForManagerQuery,
 	GetProfessionalsForManagerQueryVariables
+>;
+export type UpdateManagerProfileMutationStore = OperationStore<
+	UpdateManagerProfileMutation,
+	UpdateManagerProfileMutationVariables
 >;
 export type GetNotebooksStatsQueryStore = OperationStore<
 	GetNotebooksStatsQuery,
