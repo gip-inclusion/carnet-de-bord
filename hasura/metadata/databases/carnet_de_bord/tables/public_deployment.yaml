@@ -36,16 +36,16 @@ array_relationships:
         name: structure
         schema: public
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: {}
-      columns:
-        - id
-        - label
-        - created_at
-        - updated_at
-        - config
-    role: admin_cdb
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - id
+    - label
+    - created_at
+    - updated_at
+    - config
+  role: admin_cdb
 select_permissions:
 - permission:
     allow_aggregations: true
@@ -81,13 +81,13 @@ select_permissions:
         _eq: X-Hasura-Deployment-Id
   role: professional
 update_permissions:
-  - permission:
-      check: {}
-      columns:
-        - label
-        - config
-        - created_at
-        - updated_at
-        - id
-      filter: {}
-    role: admin_cdb
+- permission:
+    check: {}
+    columns:
+    - label
+    - config
+    - created_at
+    - updated_at
+    - id
+    filter: {}
+  role: admin_cdb

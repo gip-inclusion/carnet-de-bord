@@ -26,7 +26,7 @@
 						<td><a href={`/admin/deployment/${deployment.id}`}>{deployment.label}</a></td>
 						<td>
 							{deployment.managers
-								.map((manager) => (displayFullName(manager) || '-') + ' (' + manager.email + ')')
+								.map((manager) => `${displayFullName(manager)} (${manager.email})`)
 								.join(', ')}
 						</td>
 					</tr>

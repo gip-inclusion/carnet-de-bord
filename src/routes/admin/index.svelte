@@ -12,7 +12,15 @@
 	query(deploymentsStore);
 
 	function onAddDeployementClick() {
-		openComponent.open({ component: AdminDeploymentCreateLayer });
+		openComponent.open({
+			component: AdminDeploymentCreateLayer,
+			props: {
+				onSuccessHandler: refreshStore,
+			},
+		});
+	}
+	function refreshStore() {
+		$deploymentsStore.reexecute({ requestPolicy: 'cache-and-network' });
 	}
 
 	const breadcrumbs: Segment[] = [

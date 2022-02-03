@@ -16,6 +16,8 @@
 	};
 	let errorMessage = '';
 
+	export let onSuccessHandler: () => void;
+
 	async function handleSubmit(values: AdminDeploymentType) {
 		const { error } = await insertDeployment(values);
 		if (error) {
@@ -25,6 +27,9 @@
 			}
 		} else {
 			close();
+			if (onSuccessHandler) {
+				onSuccessHandler();
+			}
 		}
 	}
 	function close() {
