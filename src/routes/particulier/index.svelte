@@ -33,7 +33,7 @@
 </script>
 
 <svelte:head>
-	<title>Accueil particulier - carnet de bord</title>
+	<title>Accueil particulier - Carnet de bord</title>
 </svelte:head>
 <LoaderIndicator result={getNotebookResult}>
 	<div class="flex flex-col px-40 space-y-8">

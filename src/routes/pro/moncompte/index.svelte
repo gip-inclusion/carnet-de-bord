@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-	<title>Mon compte - carnet de bord</title>
+	<title>Mon compte - Carnet de bord</title>
 </svelte:head>
 
 {#if $account}
