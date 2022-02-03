@@ -35,7 +35,7 @@
 
 	$: structuresToImport = structures.filter(({ uid }) => toImport.includes(uid));
 
-	function validate(struct: Record<string, any>): boolean {
+	function validate(struct: null | undefined | Record<string, any>): boolean {
 		return !!struct && !!struct.name && !!struct.city && !!struct.postalCode && !!struct.adminEmail;
 	}
 
@@ -54,19 +54,22 @@
 					skip_empty_lines: true,
 				})
 					.reduce(
-						([valid, invalid], cur) => {
+						(
+							[valid, invalid]: [StructureImport[], StructureImport[]],
+							cur: Record<string, any>
+						) => {
 							cur.uid = uuidv4();
 							cur.valid = validate(cur);
 							if (cur.valid) {
-								valid.push(cur);
+								valid.push(cur as StructureImport);
 							} else {
-								invalid.push(cur);
+								invalid.push(cur as StructureImport);
 							}
 							return [valid, invalid];
 						},
-						<[StructureImport[], StructureImport[]]>[[], []]
+						[[], []]
 					)
-					.reduce((acc, cur) => {
+					.reduce((acc: StructureImport[], cur: StructureImport[]) => {
 						return [...acc, ...cur];
 					}, []);
 
