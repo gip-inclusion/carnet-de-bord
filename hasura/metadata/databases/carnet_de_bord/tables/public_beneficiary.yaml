@@ -33,6 +33,14 @@ object_relationships:
       table:
         name: notebook
         schema: public
+array_relationships:
+- name: structures
+  using:
+    foreign_key_constraint_on:
+      column: beneficiary_id
+      table:
+        name: beneficiary_structure
+        schema: public
 insert_permissions:
 - permission:
     backend_only: false
