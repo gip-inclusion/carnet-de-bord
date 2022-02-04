@@ -1,6 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import { crispData } from '$lib/stores';
+	import { displayFullName } from '$lib/ui/format';
+	import { browser } from '$app/env';
 	export let websiteId: string;
+
+	let unsubscribe: () => void;
 
 	onMount(async () => {
 		window.$crisp = [];
@@ -14,6 +19,40 @@
 			d.getElementsByTagName('head')[0].appendChild(s);
 		})();
 	});
+
+	unsubscribe = crispData.subscribe((data) => {
+		if (!data || !browser) {
+			return;
+		}
+
+		const crisp = window.$crisp;
+		const { username, firstname, lastname, email, mobileNumber, structure } = data;
+		const { name, deployment } = structure ?? {};
+
+		//Available fields user:email, user:phone, user:nickname, user:avatar, user:company
+		crisp.push(['set', 'user:nickname', [displayFullName({ firstname, lastname })]]);
+		if (email) {
+			crisp.push(['set', 'user:email', [`${email}`]]);
+		}
+		if (mobileNumber) {
+			crisp.push(['set', 'user:phone', [`${mobileNumber}`]]);
+		}
+		if (name) {
+			crisp.push(['set', 'user:company', [`${name}`]]);
+		}
+		// additionnal data in session:data
+		crisp.push([
+			'set',
+			'session:data',
+			[
+				[
+					['username', username],
+					['deployment', deployment.label],
+				],
+			],
+		]);
+	});
+	onDestroy(unsubscribe);
 </script>
 
 <svelte:head />

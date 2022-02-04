@@ -112,6 +112,12 @@
 	/* TODO: find a way without cheating on that type */
 	$: members = ($result.data ? $result.data.notebook_member : []) as NotebookMember[];
 	$: notebooks = members ? members.map((m) => m.notebook) : [];
+
+	function openCrisp() {
+		if (window.$crisp) {
+			window.$crisp.push(['do', 'chat:open']);
+		}
+	}
 </script>
 
 <svelte:head>
@@ -162,6 +168,12 @@
 				<div class="pt-4">
 					<Button on:click={addBeneficiary} iconSide="right">Ajouter un bénéficiaire</Button>
 				</div>
+			{:else}
+				<p>
+					Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+						>contactez-nous par tchat</button
+					>.
+				</p>
 			{/if}
 		</div>
 	{:else}
@@ -177,6 +189,12 @@
 			<div>
 				<Button outline={true} on:click={addBeneficiary}>Ajouter un nouveau bénéficiaire</Button>
 			</div>
+		{:else}
+			<p>
+				Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+					>contactez-nous par tchat</button
+				>.
+			</p>
 		{/if}
 	{/if}
 </LoaderIndicator>

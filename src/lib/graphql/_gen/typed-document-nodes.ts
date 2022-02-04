@@ -6247,6 +6247,7 @@ export type GetAccountByPkQuery = {
 								postalCode?: string | null | undefined;
 								city?: string | null | undefined;
 								website?: string | null | undefined;
+								deployment?: { __typename?: 'deployment'; label: string } | null | undefined;
 							};
 					  }
 					| null
@@ -9858,6 +9859,16 @@ export const GetAccountByPkDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'deployment' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
 													],
 												},
 											},
