@@ -69,6 +69,27 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    columns:
+    - firstname
+    - lastname
+    - phone_numbers
+    - position
+    - created_at
+    - updated_at
+    - email
+    - deployment_id
+    - id
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: admin_structure
+- permission:
+    columns: []
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: beneficiary
+- permission:
     allow_aggregations: true
     columns:
     - firstname
@@ -82,6 +103,21 @@ select_permissions:
       deployment_id:
         _eq: X-Hasura-Deployment-Id
   role: manager
+- permission:
+    columns:
+    - firstname
+    - lastname
+    - phone_numbers
+    - position
+    - created_at
+    - updated_at
+    - email
+    - deployment_id
+    - id
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: professional
 update_permissions:
 - permission:
     check: {}

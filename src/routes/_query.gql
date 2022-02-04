@@ -38,5 +38,12 @@ query GetAccountByPk($accountId: uuid!) {
 				}
 			}
 		}
+		admin_structure {
+			id
+			email
+			firstname
+			lastname
+			phoneNumbers
+		}
 	}
 }

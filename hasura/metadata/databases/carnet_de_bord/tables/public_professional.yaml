@@ -107,6 +107,22 @@ select_permissions:
   role: admin_cdb
 - permission:
     columns:
+    - id
+    - structure_id
+    - email
+    - lastname
+    - firstname
+    - position
+    - mobile_number
+    - created_at
+    - updated_at
+    filter:
+      structure:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  role: admin_structure
+- permission:
+    columns:
     - email
     - firstname
     - id

@@ -102,6 +102,27 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    columns:
+    - confirmed
+    - onboarding_done
+    - access_key
+    - type
+    - username
+    - access_key_date
+    - created_at
+    - last_login
+    - updated_at
+    - admin_id
+    - admin_structure_id
+    - beneficiary_id
+    - id
+    - manager_id
+    - professional_id
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: admin_structure
+- permission:
     allow_aggregations: true
     columns:
     - id
@@ -124,6 +145,7 @@ select_permissions:
     - access_key
     - access_key_date
     - admin_id
+    - admin_structure_id
     - beneficiary_id
     - confirmed
     - created_at
@@ -149,6 +171,7 @@ select_permissions:
   role: manager
 - permission:
     columns:
+    - admin_structure_id
     - beneficiary_id
     - confirmed
     - created_at
@@ -179,6 +202,14 @@ update_permissions:
     - professional_id
     filter: {}
   role: admin_cdb
+- permission:
+    check: null
+    columns:
+    - onboarding_done
+    filter:
+      admin_structure_id:
+        _eq: X-Hasura-AdminStructure-Id
+  role: admin_structure
 - permission:
     check: null
     columns:

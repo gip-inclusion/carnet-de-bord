@@ -62,7 +62,7 @@
 			class="p-2 px-4 border-2 text-center border-accent text-accent rounded hover:bg-accent hover:text-white"
 			href="/auth/login"
 		>
-			accéder à la page de connexion
+			Accéder à la page de connexion
 		</a>
 	</div>
 {/if}
