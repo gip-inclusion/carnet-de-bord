@@ -1,3 +1,18 @@
+# [1.83.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.82.0...v1.83.0) (2022-02-04)
+
+
+### Bug Fixes
+
+* allow pro to access deployement label ([027d21b](https://github.com/SocialGouv/carnet-de-bord/commit/027d21b87161f4052975e18f18bf3fc9bee2ab97))
+* udpate crisp metadata ([8ace9d7](https://github.com/SocialGouv/carnet-de-bord/commit/8ace9d7c78dcac4eea7f75a240cde1392124d830))
+* workflow + onDestroy ([136d420](https://github.com/SocialGouv/carnet-de-bord/commit/136d4201febbbeea6e988fa31da26ac75b1c6222))
+
+
+### Features
+
+* add link to open chat for pros who don't find their BRSA ([63ba412](https://github.com/SocialGouv/carnet-de-bord/commit/63ba4122d05bd5e8b9275a08f8a55703a24c0a71))
+* crisp data store ([e70d1ec](https://github.com/SocialGouv/carnet-de-bord/commit/e70d1eca3436a8b50d059e6c1fb1472fef5357fc))
+
 # [1.82.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.81.1...v1.82.0) (2022-02-01)
 
 
