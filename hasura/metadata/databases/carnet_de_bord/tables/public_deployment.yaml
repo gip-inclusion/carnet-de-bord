@@ -7,6 +7,13 @@ configuration:
     updated_at: updatedAt
   custom_root_fields: {}
 array_relationships:
+- name: admin_structures
+  using:
+    foreign_key_constraint_on:
+      column: deployment_id
+      table:
+        name: admin_structure
+        schema: public
 - name: beneficiaries
   using:
     foreign_key_constraint_on:

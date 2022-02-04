@@ -52,6 +52,8 @@
 					columns: headers.map(({ key }) => key),
 					trim: true,
 					skip_empty_lines: true,
+					delimiter: ';',
+					quote: null,
 				})
 					.reduce(
 						(
