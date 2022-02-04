@@ -21,6 +21,7 @@ mutation ImportBeneficiary(
 	$educationLevel: String
 	$internalId: String
 	$members: [notebook_member_insert_input!]!
+	$structures: [beneficiary_structure_insert_input!]!
 ) {
 	newNotebook: insert_notebook_one(
 		object: {
@@ -38,6 +39,7 @@ mutation ImportBeneficiary(
 					cafNumber: $cafNumber
 					peNumber: $peNumber
 					internalId: $internalId
+					structures: { data: $structures }
 				}
 			}
 			members: { data: $members }

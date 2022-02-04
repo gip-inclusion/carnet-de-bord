@@ -19,10 +19,16 @@
 
 <script lang="ts">
 	import { SearchBar } from '$lib/ui/base';
+	import Dialog from '$lib/ui/Dialog.svelte';
+	import AdminDeploymentStructuresImport from '$lib/ui/AdminDeployment/AdminDeploymentStructuresImport.svelte';
 
 	export let result: OperationStore<GetStructuresQuery>;
 
 	query(result);
+
+	function refreshStore() {
+		$result.reexecute({ requestPolicy: 'network-only' });
+	}
 
 	$: structures = $result.data?.structure.map(({ __typename, ...rest }) => ({ ...rest }));
 
@@ -56,6 +62,16 @@
 	<div>
 		<div class="flex flex-row justify-between items-center">
 			<h2 class="fr-h4 pt-4">Liste des structures</h2>
+			<Dialog
+				label="Importer des structures"
+				buttonLabel="Importer des structures"
+				title="Importer des structures"
+				size={'large'}
+				showButtons={false}
+				on:close={refreshStore}
+			>
+				<AdminDeploymentStructuresImport />
+			</Dialog>
 		</div>
 
 		<div class="mb-4">

@@ -2,8 +2,8 @@
 	import { session } from '$app/stores';
 
 	import { GetDeploymentInfosDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import AdminDeploymentBeneficiariesImport from '$lib/ui/AdminDeployment/AdminDeploymentBeneficiariesImport.svelte';
 	import AdminDeploymentStructuresImport from '$lib/ui/AdminDeployment/AdminDeploymentStructuresImport.svelte';
-	import Button from '$lib/ui/base/Button.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
@@ -63,7 +63,16 @@
 			</Dialog>
 		</div>
 		<div class="fr-col-sm-6">
-			<Button>Importer des bénéficiaires</Button>
+			<Dialog
+				label="Importer des bénéficiaires"
+				buttonLabel="Importer des bénéficiaires"
+				title="Importer des bénéficiaires"
+				size={'large'}
+				showButtons={false}
+				on:close={refreshStore}
+			>
+				<AdminDeploymentBeneficiariesImport />
+			</Dialog>
 		</div>
 	</div>
 </LoaderIndicator>

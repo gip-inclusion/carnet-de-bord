@@ -3,11 +3,14 @@
 		ImportBeneficiaryDocument,
 		GetProfessionalsForManagerDocument,
 		Professional,
+		GetStructuresForManagerDocument,
+		Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		ImportBeneficiaryMutation,
 		ImportBeneficiaryMutationVariables,
 		GetProfessionalsForManagerQuery,
+		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query, mutation } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
@@ -25,6 +28,12 @@
 		{}
 	);
 	query(queryProfessionals);
+
+	let queryStructures: OperationStore<GetStructuresForManagerQuery> = operationStore(
+		GetStructuresForManagerDocument,
+		{}
+	);
+	query(queryStructures);
 
 	type Beneficiary = {
 		internalId: string;
@@ -48,6 +57,7 @@
 		geographicalArea?: string;
 		job?: string;
 		educationLevel?: string;
+		structureNames?: string;
 		proEmails?: string;
 	};
 
@@ -60,6 +70,14 @@
 		(acc, cur) => ({
 			...acc,
 			[cur.email]: cur,
+		}),
+		{}
+	);
+
+	$: structures = ($queryStructures.data?.structure || []).reduce(
+		(acc, cur) => ({
+			...acc,
+			[cur.name]: cur,
 		}),
 		{}
 	);
@@ -87,6 +105,7 @@
 					trim: true,
 					skip_empty_lines: true,
 					delimiter: ';',
+					quote: null,
 				})
 					.reduce(
 						(
@@ -154,6 +173,18 @@
 		return keys.educationLevelKeys.byValue[s] || null;
 	}
 
+	function structureNamesToStructure(structureNames = ''): Structure[] {
+		const names = structureNames.trim().split(',');
+		const structs = names.reduce((acc, name) => {
+			const struct = structures[name.trim()];
+			if (struct) {
+				acc.push(struct);
+			}
+			return acc;
+		}, []);
+		return structs;
+	}
+
 	function proEmailsToPros(proEmails = ''): Professional[] {
 		const emails = proEmails.trim().split(',');
 		const pros = emails.reduce((acc, email) => {
@@ -170,9 +201,11 @@
 		insertInProgress = true;
 		insertResult = [];
 		for (const beneficiary of beneficiariesToImport) {
-			const { uid, valid, proEmails = '', ...benef } = beneficiary;
+			const { uid, valid, proEmails = '', structureNames = '', ...benef } = beneficiary;
 			const proIds = proEmailsToPros(proEmails).map(({ id }) => id);
 			const members = proIds.map((professionalId) => ({ memberType: 'referent', professionalId }));
+			const structureIds = structureNamesToStructure(structureNames).map(({ id }) => id);
+			const structs = structureIds.map((structureId) => ({ structureId }));
 			const payload = {
 				...benef,
 				workSituation: stringToWorkSituation(benef.workSituation),
@@ -185,6 +218,7 @@
 				job: stringToJob(benef.job),
 				educationLevel: stringToEducationLevel(benef.educationLevel),
 				members,
+				structures: structs,
 			};
 			await Promise.all([
 				inserter(payload),
@@ -222,6 +256,7 @@
 		{ label: 'Zone de mobilité', key: 'geographicalArea' },
 		{ label: 'Emploi recherché (code ROME)', key: 'job' },
 		{ label: 'Niveau de formation', key: 'educationLevel' },
+		{ label: 'Structure', key: 'structureNames' },
 		{ label: 'Accompagnateurs', key: 'proEmails' },
 	];
 
@@ -277,10 +312,17 @@
 									{/if}
 								</td>
 								{#each headers as { key } (key)}
-									{#if key !== 'proEmails'}
+									{#if key !== 'proEmails' && key !== 'structureNames'}
 										<td class="px-2 py-2"><Text value={beneficiary[key]} /></td>
 									{/if}
 								{/each}
+								<td class="px-2 py-2">
+									<Text
+										value={structureNamesToStructure(beneficiary.structureNames)
+											.map((s) => s.name)
+											.join(', ')}
+									/>
+								</td>
 								<td class="px-2 py-2">
 									<Text
 										value={proEmailsToPros(beneficiary.proEmails).map(displayFullName).join(', ')}
@@ -309,10 +351,8 @@
 				<br />Vous pouvez
 				<a href="/fichiers/import_beneficiaires.csv" download>télécharger un modèle</a>
 				et
-				<a
-					href="https://pad.incubateur.net/_v1jj-BaRVaoQckY4aN2rg?view"
-					target="_blank"
-					rel="noopener noreferrer">consulter la notice de remplissage</a
+				<a href="https://pad.incubateur.net/s/0xXN_2Gna#" target="_blank" rel="noopener noreferrer"
+					>consulter la notice de remplissage</a
 				>
 				.
 				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.

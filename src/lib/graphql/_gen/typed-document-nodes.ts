@@ -204,6 +204,8 @@ export enum AccountConstraint {
 	/** unique or primary key constraint */
 	AccountAdminIdKey = 'account_admin_id_key',
 	/** unique or primary key constraint */
+	AccountAdminStructureIdKey = 'account_admin_structure_id_key',
+	/** unique or primary key constraint */
 	AccountBeneficiaryIdKey = 'account_beneficiary_id_key',
 	/** unique or primary key constraint */
 	AccountManagerIdKey = 'account_manager_id_key',
@@ -663,6 +665,20 @@ export type AdminStructureAggregateFieldsCountArgs = {
 	distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "admin_structure" */
+export type AdminStructureAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<AdminStructureMaxOrderBy>;
+	min?: InputMaybe<AdminStructureMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "admin_structure" */
+export type AdminStructureArrRelInsertInput = {
+	data: Array<AdminStructureInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<AdminStructureOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "admin_structure". All fields are combined with a logical 'AND'. */
 export type AdminStructureBoolExp = {
 	_and?: InputMaybe<Array<AdminStructureBoolExp>>;
@@ -720,6 +736,19 @@ export type AdminStructureMaxFields = {
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
+/** order by max() on columns of table "admin_structure" */
+export type AdminStructureMaxOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	deploymentId?: InputMaybe<OrderBy>;
+	email?: InputMaybe<OrderBy>;
+	firstname?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	lastname?: InputMaybe<OrderBy>;
+	phoneNumbers?: InputMaybe<OrderBy>;
+	position?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type AdminStructureMinFields = {
 	__typename?: 'admin_structure_min_fields';
@@ -732,6 +761,19 @@ export type AdminStructureMinFields = {
 	phoneNumbers?: Maybe<Scalars['String']>;
 	position?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "admin_structure" */
+export type AdminStructureMinOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	deploymentId?: InputMaybe<OrderBy>;
+	email?: InputMaybe<OrderBy>;
+	firstname?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	lastname?: InputMaybe<OrderBy>;
+	phoneNumbers?: InputMaybe<OrderBy>;
+	position?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "admin_structure" */
@@ -1039,7 +1081,29 @@ export type Beneficiary = {
 	notebook?: Maybe<Notebook>;
 	peNumber?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
+	/** An array relationship */
+	structures: Array<BeneficiaryStructure>;
+	/** An aggregate relationship */
+	structures_aggregate: BeneficiaryStructureAggregate;
 	updatedAt: Scalars['timestamptz'];
+};
+
+/** columns and relationships of "beneficiary" */
+export type BeneficiaryStructuresArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
+/** columns and relationships of "beneficiary" */
+export type BeneficiaryStructuresAggregateArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryStructureOrderBy>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
 };
 
 /** aggregated selection of "beneficiary" */
@@ -1100,6 +1164,7 @@ export type BeneficiaryBoolExp = {
 	notebook?: InputMaybe<NotebookBoolExp>;
 	peNumber?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
+	structures?: InputMaybe<BeneficiaryStructureBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
@@ -1135,6 +1200,7 @@ export type BeneficiaryInsertInput = {
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	peNumber?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
+	structures?: InputMaybe<BeneficiaryStructureArrRelInsertInput>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -1263,6 +1329,7 @@ export type BeneficiaryOrderBy = {
 	notebook?: InputMaybe<NotebookOrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
+	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
@@ -1683,6 +1750,10 @@ export type DateComparisonExp = {
 export type Deployment = {
 	__typename?: 'deployment';
 	/** An array relationship */
+	admin_structures: Array<AdminStructure>;
+	/** An aggregate relationship */
+	admin_structures_aggregate: AdminStructureAggregate;
+	/** An array relationship */
 	beneficiaries: Array<Beneficiary>;
 	/** An aggregate relationship */
 	beneficiaries_aggregate: BeneficiaryAggregate;
@@ -1699,6 +1770,36 @@ export type Deployment = {
 	/** An aggregate relationship */
 	structures_aggregate: StructureAggregate;
 	updatedAt: Scalars['timestamptz'];
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentAdminStructuresArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureBoolExp>;
+};
+
+/**
+ * list of carnet-de-bord deployments
+ *
+ *
+ * columns and relationships of "deployment"
+ *
+ */
+export type DeploymentAdminStructuresAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AdminStructureOrderBy>>;
+	where?: InputMaybe<AdminStructureBoolExp>;
 };
 
 /**
@@ -1833,6 +1934,7 @@ export type DeploymentBoolExp = {
 	_and?: InputMaybe<Array<DeploymentBoolExp>>;
 	_not?: InputMaybe<DeploymentBoolExp>;
 	_or?: InputMaybe<Array<DeploymentBoolExp>>;
+	admin_structures?: InputMaybe<AdminStructureBoolExp>;
 	beneficiaries?: InputMaybe<BeneficiaryBoolExp>;
 	config?: InputMaybe<JsonbComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -1866,6 +1968,7 @@ export type DeploymentDeleteKeyInput = {
 
 /** input type for inserting data into table "deployment" */
 export type DeploymentInsertInput = {
+	admin_structures?: InputMaybe<AdminStructureArrRelInsertInput>;
 	beneficiaries?: InputMaybe<BeneficiaryArrRelInsertInput>;
 	config?: InputMaybe<Scalars['jsonb']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -1919,6 +2022,7 @@ export type DeploymentOnConflict = {
 
 /** Ordering options when selecting data from "deployment". */
 export type DeploymentOrderBy = {
+	admin_structures_aggregate?: InputMaybe<AdminStructureAggregateOrderBy>;
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryAggregateOrderBy>;
 	config?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
@@ -6935,6 +7039,7 @@ export type ImportBeneficiaryMutationVariables = Exact<{
 	educationLevel?: InputMaybe<Scalars['String']>;
 	internalId?: InputMaybe<Scalars['String']>;
 	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	structures: Array<BeneficiaryStructureInsertInput> | BeneficiaryStructureInsertInput;
 }>;
 
 export type ImportBeneficiaryMutation = {
@@ -7850,6 +7955,13 @@ export type GetProfessionalsForManagerQuery = {
 	}>;
 };
 
+export type GetStructuresForManagerQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetStructuresForManagerQuery = {
+	__typename?: 'query_root';
+	structure: Array<{ __typename?: 'structure'; id: string; name?: string | null | undefined }>;
+};
+
 export type UpdateManagerProfileMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
@@ -8556,6 +8668,23 @@ export const ImportBeneficiaryDocument = {
 						},
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structures' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'beneficiary_structure_insert_input' },
+								},
+							},
+						},
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -8677,6 +8806,23 @@ export const ImportBeneficiaryDocument = {
 																	value: {
 																		kind: 'Variable',
 																		name: { kind: 'Name', value: 'internalId' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'structures' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'data' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'structures' },
+																				},
+																			},
+																		],
 																	},
 																},
 															],
@@ -13591,6 +13737,32 @@ export const GetProfessionalsForManagerDocument = {
 	GetProfessionalsForManagerQuery,
 	GetProfessionalsForManagerQueryVariables
 >;
+export const GetStructuresForManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructuresForManager' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetStructuresForManagerQuery, GetStructuresForManagerQueryVariables>;
 export const UpdateManagerProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -16233,6 +16405,10 @@ export type GetDeploymentInfosQueryStore = OperationStore<
 export type GetProfessionalsForManagerQueryStore = OperationStore<
 	GetProfessionalsForManagerQuery,
 	GetProfessionalsForManagerQueryVariables
+>;
+export type GetStructuresForManagerQueryStore = OperationStore<
+	GetStructuresForManagerQuery,
+	GetStructuresForManagerQueryVariables
 >;
 export type UpdateManagerProfileMutationStore = OperationStore<
 	UpdateManagerProfileMutation,

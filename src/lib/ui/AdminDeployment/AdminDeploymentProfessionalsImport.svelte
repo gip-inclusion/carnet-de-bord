@@ -60,6 +60,7 @@
 					trim: true,
 					skip_empty_lines: true,
 					delimiter: ';',
+					quote: null,
 				})
 					.reduce(
 						([valid, invalid]: [ProImport[], ProImport[]], cur: Record<string, any>) => {
