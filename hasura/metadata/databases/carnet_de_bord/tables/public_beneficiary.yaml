@@ -127,6 +127,28 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    columns:
+    - id
+    - email
+    - lastname
+    - firstname
+    - caf_number
+    - pe_number
+    - postal_code
+    - city
+    - address1
+    - address2
+    - mobile_number
+    - date_of_birth
+    - deployment_id
+    - created_at
+    - updated_at
+    - internal_id
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: admin_structure
+- permission:
     allow_aggregations: true
     columns:
     - id

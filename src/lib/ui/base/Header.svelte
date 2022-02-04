@@ -126,7 +126,7 @@
 			<div class="fr-header__menu-links">
 				{#if $session.user}
 					<ul class="fr-links-group">
-						{#if ['manager', 'particulier', 'professional'].includes($session.user.role)}
+						{#if ['manager', 'particulier', 'professional', 'admin_structure'].includes($session.user.role)}
 							<li>
 								<Link classNames="fr-link" href={`${baseUrlForRole($session.user.role)}/moncompte`}
 									>Mon Compte</Link

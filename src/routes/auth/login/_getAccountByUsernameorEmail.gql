@@ -22,6 +22,11 @@ query GetAccountByUsername($comp: String_comparison_exp!) {
 			lastname
 			email
 		}
+		admin_structure {
+			firstname
+			lastname
+			email
+		}
 		confirmed
 	}
 }
@@ -45,6 +50,11 @@ query GetAccountByEmail($criteria: account_bool_exp!) {
 			email
 		}
 		manager {
+			firstname
+			lastname
+			email
+		}
+		admin_structure {
 			firstname
 			lastname
 			email

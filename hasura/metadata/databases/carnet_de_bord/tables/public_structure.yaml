@@ -131,6 +131,26 @@ select_permissions:
     - updated_at
     - website
     - deployment_id
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: admin_structure
+- permission:
+    columns:
+    - id
+    - siret
+    - name
+    - short_desc
+    - phone
+    - email
+    - postal_code
+    - city
+    - address1
+    - address2
+    - created_at
+    - updated_at
+    - website
+    - deployment_id
     filter: {}
   role: anonymous
 - permission:

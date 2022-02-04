@@ -62,13 +62,15 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 			},
 		};
 	}
-	const { id, type, username, beneficiaryId, managerId, professionalId, professional, manager } =
+	const { id, type, username, beneficiaryId, managerId, professionalId, adminStructureId, professional, manager, admin_structure: adminStructure } =
 		data.account[0];
 	let deploymentId = null;
 	if (professional) {
 		deploymentId = professional.structure.deploymentId;
 	} else if (manager) {
 		deploymentId = manager.deploymentId;
+	} else if (adminStructure) {
+		deploymentId =adminStructure.deploymentId;
 	}
 
 	const user = getJwtUser({
@@ -79,6 +81,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		managerId,
 		beneficiaryId,
 		deploymentId,
+		adminStructureId,
 	});
 
 	await client

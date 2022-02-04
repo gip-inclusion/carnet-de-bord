@@ -61,6 +61,19 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    columns:
+    - id
+    - email
+    - firstname
+    - lastname
+    - deployment_id
+    - created_at
+    - updated_at
+    filter:
+      deployment_id:
+        _eq: X-Hasura-Deployment-Id
+  role: admin_structure
+- permission:
     allow_aggregations: true
     columns:
     - created_at

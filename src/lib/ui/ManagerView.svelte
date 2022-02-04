@@ -16,7 +16,7 @@
 	const result = operationStore(GetDeploymentInfosDocument, { id: deploymentId });
 	query(result);
 	export let manager: Mana;
-	export let mainTitle = `Manager du déploiement`;
+	export let mainTitle = 'Manager du déploiement';
 </script>
 
 <div class="w-1/2 flex flex-col">

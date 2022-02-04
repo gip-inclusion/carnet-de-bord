@@ -1,0 +1,31 @@
+mutation UpdateAdminStructureProfile(
+	$firstname: String!
+	$lastname: String!
+	$email: citext!
+	$phoneNumbers: String
+	$adminStructureId: uuid!
+) {
+	updateAdminStructure: update_admin_structure(
+		_set: { firstname: $firstname, lastname: $lastname, email: $email, phoneNumbers: $phoneNumbers }
+		where: { id: { _eq: $adminStructureId } }
+	) {
+		affected_rows
+	}
+	updateAccount: update_account(
+		where: { adminStructureId: { _eq: $adminStructureId } }
+		_set: { onboardingDone: true }
+	) {
+		returning {
+			id
+			onboardingDone
+			confirmed
+			username
+			admin_structure {
+				firstname
+				lastname
+				email
+				phoneNumbers
+			}
+		}
+	}
+}

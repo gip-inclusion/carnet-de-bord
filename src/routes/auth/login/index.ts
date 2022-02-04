@@ -59,6 +59,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 					{ professional: { email: { _eq: username } } },
 					{ manager: { email: { _eq: username } } },
 					{ admin: { email: { _eq: username } } },
+					{ admin_structure: { email: { _eq: username } } },
 				],
 			},
 		})
@@ -112,8 +113,8 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		};
 	}
 
-	const { id, beneficiary, manager, admin, professional } = account;
-	const user = beneficiary || manager || admin || professional;
+	const { id, beneficiary, manager, admin, professional, admin_structure } = account;
+	const user = beneficiary || manager || admin || professional || admin_structure;
 
 	const result = await updateAccessKey(client, id);
 
