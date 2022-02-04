@@ -48,7 +48,7 @@
 	<div class="flex flex-row flex-wrap">
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Droits</strong>
-			<Text classNames="mb-2" value={rsaRightKeys.byKey[notebook.rightRsa]} />
+			<Text classNames="mb-2" value={`RSA - ${rsaRightKeys.byKey[notebook.rightRsa]}`} />
 			{#if [notebook.rightRqth, notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter( (field) => Boolean(field) ).length > 0}
 				<p>
 					{[
