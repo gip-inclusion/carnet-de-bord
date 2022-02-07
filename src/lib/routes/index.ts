@@ -27,7 +27,7 @@ const beneficiaryHome: Route = {
 };
 
 const adminStructureHome: Route = {
-	path: '/admin_structure',
+	path: '/structures',
 };
 
 type AppRoles = 'professional' | 'admin_cdb' | 'beneficiary' | 'manager' | 'admin_structure';
@@ -57,7 +57,7 @@ export const baseUrlForRole = (role: AppRoles): string => {
 	} else if (role === 'manager') {
 		return '/manager';
 	} else if (role === 'admin_structure') {
-		return '/admin_structure';
+		return '/structures';
 	}
 	throw new Error(`role ${role} is not handled!`);
 };

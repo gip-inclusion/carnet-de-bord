@@ -40,6 +40,21 @@ insert_permissions:
 - permission:
     backend_only: false
     check:
+      professional:
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-adminStructure-Id
+    columns:
+    - member_type
+    - notebook_id
+    - professional_id
+    set:
+      invitation_sent_at: now()
+  role: admin_structure
+- permission:
+    backend_only: false
+    check:
       notebook:
         beneficiary:
           deployment_id:
@@ -82,6 +97,25 @@ select_permissions:
     - professional_id
     filter: {}
   role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - notebook_id
+    - professional_id
+    - last_visited_at
+    - member_type
+    - last_modified_at
+    - created_at
+    - creator_id
+    - invitation_sent_at
+    filter:
+      professional:
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-adminStructure-Id
+  role: admin_structure
 - permission:
     columns:
     - created_at

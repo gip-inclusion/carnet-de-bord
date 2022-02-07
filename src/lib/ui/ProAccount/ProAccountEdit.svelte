@@ -30,14 +30,15 @@
 
 	async function handleSubmit(values: ProAccountWithStructureInput) {
 		updateResult = await updateProfile({
-			professionalId: professional.id,
+			id: professional.id,
+			accountId: $account.accountId,
 			...values,
 		});
 
 		if (updateResult.data?.updateAccount) {
-			const { confirmed, onboardingDone, username, professional } =
-				updateResult.data.updateAccount.returning[0];
+			const { confirmed, onboardingDone, username, professional } = updateResult.data.updateAccount;
 			$account = {
+				...$account,
 				confirmed,
 				onboardingDone,
 				username,

@@ -1,12 +1,13 @@
-mutation UpdateManagerProfile(
+mutation UpdateAdminStructureProfile(
 	$firstname: String!
 	$lastname: String!
 	$email: citext!
+	$phoneNumbers: String
 	$id: uuid!
 	$accountId: uuid!
 ) {
-	updateManager: update_manager_by_pk(
-		_set: { firstname: $firstname, lastname: $lastname, email: $email }
+	updateAdminStructure: update_admin_structure_by_pk(
+		_set: { firstname: $firstname, lastname: $lastname, email: $email, phoneNumbers: $phoneNumbers }
 		pk_columns: { id: $id }
 	) {
 		id
@@ -19,11 +20,12 @@ mutation UpdateManagerProfile(
 		onboardingDone
 		confirmed
 		username
-		manager {
+		admin_structure {
 			id
 			firstname
 			lastname
 			email
+			phoneNumbers
 		}
 	}
 }

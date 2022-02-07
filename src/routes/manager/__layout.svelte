@@ -33,9 +33,11 @@
 		if (result.data) {
 			const acc = result.data.account_by_pk;
 			if (acc) {
-				const { username, onboardingDone, confirmed, id } = acc;
-				const { firstname, lastname, email } = acc.manager;
+				const { username, onboardingDone, confirmed, id: accountId } = acc;
+				const { id, firstname, lastname, email } = acc.manager;
 				$account = {
+					type: 'manager',
+					accountId,
 					id,
 					username,
 					onboardingDone,

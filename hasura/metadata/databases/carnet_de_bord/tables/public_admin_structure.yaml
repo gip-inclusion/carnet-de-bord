@@ -143,6 +143,18 @@ update_permissions:
     - lastname
     - phone_numbers
     - position
+    filter:
+      id:
+        _eq: X-Hasura-adminStructure-Id
+  role: admin_structure
+- permission:
+    check: null
+    columns:
+    - email
+    - firstname
+    - lastname
+    - phone_numbers
+    - position
     - updated_at
     filter:
       deployment_id:

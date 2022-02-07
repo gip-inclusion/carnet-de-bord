@@ -3,6 +3,7 @@
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 	export type StructureCard = {
+		id: string;
 		name: string;
 		city: string;
 		nbAdmin: number;
@@ -21,31 +22,48 @@
 </script>
 
 <script lang="ts">
+	import { account } from '$lib/stores';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-
-	import StructureList from './StructureList.svelte';
+	import StructureList from '../../lib/ui/AdminStructureList/StructureList.svelte';
+	import { baseUrlForRole, homeForRole, Segment } from '$lib/routes';
+	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	export let structureResult = operationStore(GetManagedStructuresDocument, {});
 
 	query(structureResult);
 
 	$: structures = $structureResult.data?.structures.map((data) => ({
+		id: data.id,
 		name: data.name,
 		city: data.city,
 		nbAdmin: data.admins_aggregate.aggregate.count,
 		nbBeneficiary: data.beneficiaries_aggregate.aggregate.count,
 		nbProfessional: data.professionals_aggregate.aggregate.count,
 	}));
+
+	const breadcrumbs: Segment[] = [
+		{
+			name: 'accueil',
+			path: homeForRole('admin_structure'),
+			label: 'Accueil',
+		},
+	];
+
+	onMount(() => {
+		if (!$account.onboardingDone) {
+			goto(`${baseUrlForRole('admin_structure')}/bienvenue`);
+		}
+	});
 </script>
 
 <svelte:head>
 	<title>Gestion des structures - Carnet de bord</title>
 </svelte:head>
 
+<Breadcrumbs segments={breadcrumbs} />
 <LoaderIndicator result={structureResult}>
-	<div class="flex flex-col gap-8">
-		<h1 class="fr-h4">Mes structures</h1>
-
-		<StructureList {structures} />
-	</div>
+	<h1>Mes structures</h1>
+	<StructureList {structures} />
 </LoaderIndicator>
