@@ -106,6 +106,7 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    allow_aggregations: true
     columns:
     - id
     - structure_id
@@ -118,8 +119,9 @@ select_permissions:
     - updated_at
     filter:
       structure:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
+        admins:
+          admin_structure_id:
+            _eq: X-Hasura-adminStructure-Id
   role: admin_structure
 - permission:
     columns:

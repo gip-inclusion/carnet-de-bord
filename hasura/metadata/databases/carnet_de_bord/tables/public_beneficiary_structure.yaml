@@ -34,6 +34,26 @@ insert_permissions:
   role: manager
 select_permissions:
 - permission:
+    columns: []
+    filter: {}
+  role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - beneficiary_id
+    - structure_id
+    - status
+    - data
+    - created_at
+    - updated_at
+    filter:
+      structure:
+        admins:
+          admin_structure_id:
+            _eq: X-Hasura-adminStructure-Id
+  role: admin_structure
+- permission:
     allow_aggregations: true
     columns:
     - id

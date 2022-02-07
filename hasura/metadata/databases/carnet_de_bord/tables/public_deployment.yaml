@@ -60,6 +60,17 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - created_at
+    - id
+    - label
+    - updated_at
+    filter:
+      id:
+        _eq: X-Hasura-Deployment-Id
+  role: admin_structure
+- permission:
+    allow_aggregations: true
+    columns:
     - config
     - created_at
     - id

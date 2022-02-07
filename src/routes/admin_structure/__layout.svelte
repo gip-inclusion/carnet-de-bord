@@ -17,38 +17,31 @@
 		};
 	};
 </script>
+
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { account } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
+	import { onDestroy } from 'svelte';
 
 	export let result: OperationStore<GetAccountByPkQuery>;
 
 	query(result);
 
-	result.subscribe((result) => {
-		if (result.data) {
-			const acc = result.data.account_by_pk;
-			if (acc) {
-				const { username, onboardingDone, confirmed, id } = acc;
-				const { firstname, lastname, email } = acc.admin_structure;
-				$account = {
-					id,
-					username,
-					onboardingDone,
-					confirmed,
-					firstname,
-					lastname,
-					email,
-				};
-
-				if (!onboardingDone && $page.url.pathname !== '/manager/moncompte') {
-					goto('/manager/moncompte');
-				}
+	const unsubscribe = result.subscribe((result) => {
+		if (result.data?.account_by_pk.admin_structure) {
+			const { username, onboardingDone, confirmed, id } = result.data.account_by_pk;
+			if (!onboardingDone && $page.url.pathname !== '/manager/moncompte') {
+				goto('/manager/moncompte');
 			}
+			const { firstname, lastname, email } = result.data.account_by_pk.admin_structure;
+			$account = { id, username, onboardingDone, confirmed, firstname, lastname, email };
 		}
 	});
+
+	onDestroy(unsubscribe);
+
 	const menuItems: MenuItem[] = [
 		{
 			id: 'accueil',
