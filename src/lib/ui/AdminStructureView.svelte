@@ -26,6 +26,10 @@
 		<Text defaultValueClassNames="italic" defaultValue="Pas d'email" value={adminStructure.email} />
 	</div>
 	<div class="flex flex-col gap-1">
-		<Text defaultValueClassNames="italic" defaultValue="Pas de numéro de téléphone" value={adminStructure.phoneNumbers} />
+		<Text
+			defaultValueClassNames="italic"
+			defaultValue="Pas de numéro de téléphone"
+			value={adminStructure.phoneNumbers}
+		/>
 	</div>
 </div>

@@ -27,7 +27,15 @@ export function getJwtUser({
 	token: string;
 	type: string;
 } {
-	const token = getJwt({ id, type, beneficiaryId, professionalId, managerId, deploymentId, adminStructureId });
+	const token = getJwt({
+		id,
+		type,
+		beneficiaryId,
+		professionalId,
+		managerId,
+		deploymentId,
+		adminStructureId,
+	});
 	return {
 		id: id,
 		username: username,
