@@ -7709,6 +7709,39 @@ export type GetStructuresForDeploymentQuery = {
 	}>;
 };
 
+export type GetManagedStructuresQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetManagedStructuresQuery = {
+	__typename?: 'query_root';
+	structures: Array<{
+		__typename?: 'structure';
+		id: string;
+		city?: string | null | undefined;
+		name?: string | null | undefined;
+		beneficiaries_aggregate: {
+			__typename?: 'beneficiary_structure_aggregate';
+			aggregate?:
+				| { __typename?: 'beneficiary_structure_aggregate_fields'; count: number }
+				| null
+				| undefined;
+		};
+		professionals_aggregate: {
+			__typename?: 'professional_aggregate';
+			aggregate?:
+				| { __typename?: 'professional_aggregate_fields'; count: number }
+				| null
+				| undefined;
+		};
+		admins_aggregate: {
+			__typename?: 'admin_structure_structure_aggregate';
+			aggregate?:
+				| { __typename?: 'admin_structure_structure_aggregate_fields'; count: number }
+				| null
+				| undefined;
+		};
+	}>;
+};
+
 export type UpdateAdminStructureProfileMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
@@ -12986,6 +13019,85 @@ export const GetStructuresForDeploymentDocument = {
 	GetStructuresForDeploymentQuery,
 	GetStructuresForDeploymentQueryVariables
 >;
+export const GetManagedStructuresDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetManagedStructures' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structures' },
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professionals_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'admins_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetManagedStructuresQuery, GetManagedStructuresQueryVariables>;
 export const UpdateAdminStructureProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -16777,6 +16889,10 @@ export type UpdateNotebookFromApiMutationStore = OperationStore<
 export type GetStructuresForDeploymentQueryStore = OperationStore<
 	GetStructuresForDeploymentQuery,
 	GetStructuresForDeploymentQueryVariables
+>;
+export type GetManagedStructuresQueryStore = OperationStore<
+	GetManagedStructuresQuery,
+	GetManagedStructuresQueryVariables
 >;
 export type UpdateAdminStructureProfileMutationStore = OperationStore<
 	UpdateAdminStructureProfileMutation,

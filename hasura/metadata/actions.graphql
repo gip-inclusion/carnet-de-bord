@@ -68,3 +68,4 @@ type InsertStructureWithAdminOutput {
 type UpdateNotebookOutput {
   id: uuid!
 }
+
