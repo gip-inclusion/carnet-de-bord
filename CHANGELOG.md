@@ -1,3 +1,10 @@
+## [1.83.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.83.0...v1.83.1) (2022-02-07)
+
+
+### Bug Fixes
+
+* add more context to RSA rights ([ff74131](https://github.com/SocialGouv/carnet-de-bord/commit/ff741310c6553d1c522713074cd5d3a8f7d917e2))
+
 # [1.83.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.82.0...v1.83.0) (2022-02-04)
 
 
