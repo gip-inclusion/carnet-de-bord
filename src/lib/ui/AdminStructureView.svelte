@@ -1,21 +1,14 @@
-<script lang="ts" context="module">
-	import type { AdminStructure } from '$lib/graphql/_gen/typed-document-nodes';
-
-	export type Admin = Pick<
-		AdminStructure,
-		'id' | 'firstname' | 'lastname' | 'email' | 'phoneNumbers'
-	>;
-</script>
-
 <script lang="ts">
+	import type { ConnectedAdminStructure } from '$lib/stores/account';
+
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 
-	export let adminStructure: Admin;
+	export let adminStructure: ConnectedAdminStructure;
 	export let mainTitle = 'Gestionnaire de structure';
 </script>
 
-<div class="w-1/2 flex flex-col">
+<div class="w-1/2 flex flex-col gap-4">
 	<span class="mb-1 text-sm">
 		{mainTitle}
 	</span>

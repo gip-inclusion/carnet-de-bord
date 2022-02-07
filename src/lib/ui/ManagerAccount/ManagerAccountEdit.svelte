@@ -27,14 +27,15 @@
 
 	async function handleSubmit(values: ManagerAccountInput) {
 		updateResult = await updateProfile({
-			managerId: manager.id,
+			id: manager.id,
+			accountId: $account.accountId,
 			...values,
 		});
 
 		if (updateResult.data?.updateAccount) {
-			const { confirmed, onboardingDone, username, manager } =
-				updateResult.data.updateAccount.returning[0];
+			const { confirmed, onboardingDone, username, manager } = updateResult.data.updateAccount;
 			$account = {
+				...$account,
 				confirmed,
 				onboardingDone,
 				username,

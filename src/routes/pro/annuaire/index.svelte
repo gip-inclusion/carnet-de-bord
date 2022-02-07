@@ -74,6 +74,7 @@
 
 <script lang="ts">
 	import { openComponent } from '$lib/stores';
+	import { browser } from '$app/env';
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
@@ -114,7 +115,7 @@
 	$: notebooks = members ? members.map((m) => m.notebook) : [];
 
 	function openCrisp() {
-		if (window.$crisp) {
+		if (browser && window.$crisp) {
 			window.$crisp.push(['do', 'chat:open']);
 		}
 	}

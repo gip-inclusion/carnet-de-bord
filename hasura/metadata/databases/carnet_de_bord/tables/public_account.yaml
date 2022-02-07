@@ -205,10 +205,12 @@ update_permissions:
 - permission:
     check: null
     columns:
+    - access_key
+    - access_key_date
     - onboarding_done
     filter:
-      admin_structure_id:
-        _eq: X-Hasura-AdminStructure-Id
+      id:
+        _eq: X-Hasura-User-Id
   role: admin_structure
 - permission:
     check: null

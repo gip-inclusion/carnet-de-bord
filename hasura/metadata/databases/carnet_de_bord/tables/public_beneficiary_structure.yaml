@@ -72,3 +72,15 @@ select_permissions:
           deployment_id:
             _eq: X-Hasura-Deployment-Id
   role: manager
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - data
+    - status
+    filter:
+      structure:
+        admins:
+          admin_structure_id:
+            _eq: X-Hasura-adminStructure-Id
+  role: admin_structure
