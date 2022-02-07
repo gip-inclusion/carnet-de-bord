@@ -6,7 +6,7 @@
 		name: string;
 		city: string;
 		nbAdmin: number;
-		nbProfessionnal: number;
+		nbProfessional: number;
 		nbBeneficiary: number;
 	};
 	export const load: Load = async () => {
@@ -32,9 +32,9 @@
 	$: structures = $structureResult.data?.structures.map((data) => ({
 		name: data.name,
 		city: data.city,
-		nbAdmins: data.admins_aggregate.aggregate.count,
+		nbAdmin: data.admins_aggregate.aggregate.count,
 		nbBeneficiary: data.beneficiaries_aggregate.aggregate.count,
-		nbProfessionnal: data.professionals_aggregate.aggregate.count,
+		nbProfessional: data.professionals_aggregate.aggregate.count,
 	}));
 </script>
 
