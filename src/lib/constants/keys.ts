@@ -62,12 +62,23 @@ export const contractTypeFullKeys = buildKeys({
 });
 
 export const educationLevelKeys = buildKeys({
-	level_3: 'Niveau 3 : CAP/BEP',
-	level_4: 'Niveau 4 : Bac ou équivalent',
-	level_5: 'Niveau 5 : Bac +2',
-	level_6: 'Niveau 6 : Bac +3 / +4',
-	level_7: 'Niveau 7 : Maîtrise / Master / DEA / DESS / DI',
-	level_8: 'Niveau 8 : Doctorat / HDR',
+	// deprecated
+	// level_3: 'Niveau 3: CAP/BEP',
+	// level_4: 'Niveau 4: Bac ou équivalent',
+	// level_5: 'Niveau 5: Bac +2',
+	// level_6: 'Niveau 6: Bac +3 / +4',
+	// level_7: 'Niveau 7: Maîtrise / Master / DEA / DESS / DI',
+	// level_8: 'Niveau 8: Doctorat / HDR',
+	AFS: 'Aucune formation scolaire',
+	C12: '2nd ou 1ère achevée',
+	C3A: 'BEPC ou 3ème achevée',
+	CFG: '4ème achevée',
+	CP4: 'Primaire à 4ème',
+	NV5: 'CAP, BEP ou équivalent',
+	NV4: 'Bac ou équivalent',
+	NV3: 'Bac+2 ou équivalent',
+	NV2: 'Bac+3, Bac+4 ou équivalent',
+	NV1: 'Bac+5 et plus ou équivalent',
 });
 
 /* ----------------------------------------------- */
