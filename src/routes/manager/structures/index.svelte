@@ -94,7 +94,7 @@
 				</thead>
 				<tbody>
 					{#each filteredStructures as structure (structure.id)}
-						<tr class="cursor-pointer">
+						<tr>
 							<td>{structure.name}</td>
 							<td>{structure.postalCode || ''}</td>
 							<td>{structure.city || ''}</td>
