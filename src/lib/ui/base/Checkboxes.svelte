@@ -34,7 +34,6 @@
 		${inline ? 'fr-fieldset--inline' : ''}
 		${globalError ? 'fr-fieldset--error' : ''}
 		${globalSuccess ? 'fr-fieldset--valid' : ''}`}
-		role="group"
 		aria-labelledby={`
 		${globalError ? 'checkboxes-error-legend checkboxes-error-desc-error' : ''}
 		${globalSuccess ? 'checkboxes-success-legend checkboxes-success-desc-success' : ''}
