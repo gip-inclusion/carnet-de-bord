@@ -1,3 +1,4 @@
+UPDATE notebook SET education_level='NV5' where education_level='level_3';
 UPDATE notebook SET education_level='NV4' where education_level='level_4';
 UPDATE notebook SET education_level='NV3' where education_level='level_5';
 UPDATE notebook SET education_level='NV2' where education_level='level_6';
