@@ -1,3 +1,10 @@
+# [1.84.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.83.1...v1.84.0) (2022-02-10)
+
+
+### Features
+
+* education level ([#610](https://github.com/SocialGouv/carnet-de-bord/issues/610)) ([5d96cec](https://github.com/SocialGouv/carnet-de-bord/commit/5d96cecaa65f4ddfd5cf5075a2f7f874b1a20817))
+
 ## [1.83.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.83.0...v1.83.1) (2022-02-07)
 
 
