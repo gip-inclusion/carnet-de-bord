@@ -1,3 +1,15 @@
+# [1.85.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.84.0...v1.85.0) (2022-02-11)
+
+
+### Bug Fixes
+
+* dev mail secrets ([#617](https://github.com/SocialGouv/carnet-de-bord/issues/617)) ([47e47d1](https://github.com/SocialGouv/carnet-de-bord/commit/47e47d1611779a4e7034bb1fc4c0cb6c850ef970))
+
+
+### Features
+
+* switch to another mailtrap account ([80f2990](https://github.com/SocialGouv/carnet-de-bord/commit/80f29909c8986adb011bfa385f24388708c0a462))
+
 # [1.84.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.83.1...v1.84.0) (2022-02-10)
 
 
