@@ -31,6 +31,7 @@
 	import AdminStructureProfessionalsImport from '$lib/ui/AdminStructureImportPro/AdminStructureProfessionalsImport.svelte';
 	import AdminStructureImportNotebookMembers from '$lib/ui/AdminStructureImportNotebookMembers/index.svelte';
 	import { browser } from '$app/env';
+	import { pluralize } from '$lib/helpers';
 
 	export let structureId: string;
 	export let getStructure: GetStructureQueryStore;
@@ -58,10 +59,22 @@
 		},
 	];
 	$: metrics = [
-		{ label: 'Professionnels', amount: structure?.professionals_aggregate?.aggregate?.count ?? 0 },
-		{ label: 'Bénéficiaires accompagnés', amount: beneficiaries },
 		{
-			label: 'Bénéficiaires non rattachés',
+			label: pluralize('Professionnel', structure?.professionals_aggregate?.aggregate?.count ?? 0),
+			amount: structure?.professionals_aggregate?.aggregate?.count ?? 0,
+		},
+		{
+			label: `${pluralize('Bénéficiaire', beneficiaries)} ${pluralize(
+				'accompagné',
+				beneficiaries
+			)}`,
+			amount: beneficiaries,
+		},
+		{
+			label: `${pluralize(
+				'Bénéficiaire',
+				structure?.pendingBeneficiaries?.aggregate?.count ?? 0
+			)} non ${pluralize('rattaché', structure?.pendingBeneficiaries?.aggregate?.count ?? 0)}`,
 			amount: structure?.pendingBeneficiaries?.aggregate?.count ?? 0,
 			classNames:
 				structure?.pendingBeneficiaries?.aggregate?.count > 0
@@ -191,7 +204,7 @@
 			</div>
 		</div>
 		<div>
-			<h2 class="fr-h4 !text-france-blue">Gestionnaire{members.length > 1 ? 's' : ''}</h2>
+			<h2 class="fr-h4 !text-france-blue">{pluralize('Gestionnaire', members.length)}</h2>
 			<div class="fr-grid-row fr-grid-row--gutters">
 				<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
 					{#each members as member (member.id)}

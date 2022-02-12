@@ -7,6 +7,7 @@
 	import Alert from '$lib/ui/base/Alert.svelte';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import type { SvelteEventHandler } from '$lib/types';
+	import { pluralize } from '$lib/helpers';
 
 	type NotebooksResult = {
 		id: string;
@@ -59,18 +60,19 @@
 		<Alert
 			type={successfullUpdate > 0 ? 'success' : 'error'}
 			title={`${successfullUpdate || 'Aucun'}
-		carnet${successfullUpdate > 1 ? 's' : ''}
-		mis à jour
-		sur ${Object.values(updatedNotebooks).length}
-		demandé${Object.values(updatedNotebooks).length > 1 ? 's' : ''}.`}
+				${pluralize('carnet', successfullUpdate)}
+				mis à jour
+				sur ${Object.values(updatedNotebooks).length}
+				${pluralize('demandé', Object.values(updatedNotebooks).length)}.`}
 		/>
 	{/if}
 	{#if status === RD.Loading}
 		<Alert
 			type="info"
-			title={`Mise à jour ${
-				Object.values(updatedNotebooks).length > 1 ? 'des carnets' : 'du carnet'
-			} en cours...`}
+			title={`Mise à jour
+			${pluralize('du', Object.values(updatedNotebooks).length, 'des')}
+			${pluralize('carnet', Object.values(updatedNotebooks).length)}
+			en cours...`}
 		/>
 	{/if}
 	<table summary={`${notebooks.length} carnets`} class="w-full divide-y divide-gray-300">

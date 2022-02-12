@@ -10,6 +10,7 @@
 	import type { GetStructuresForDeploymentQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query } from '@urql/svelte';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
+	import { pluralize } from '$lib/helpers';
 
 	export let deploymentId: string;
 
@@ -198,8 +199,8 @@
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{toImport.length || 'Aucun'}
-					professionnel{toImport.length > 1 ? 's' : ''}
-					sélectionné{toImport.length > 1 ? 's' : ''}
+					{pluralize('professionnel', toImport.length)}
+					{pluralize('sélectionné', toImport.length)}
 					sur {pros.length}
 				</span>
 			</div>
@@ -224,18 +225,19 @@
 			{#if insertInProgress}
 				<Alert
 					type="info"
-					title={`Ajout ${toImport.length > 1 ? 'des' : ' d’un'} professionnel${
-						toImport.length > 1 ? 's' : ''
-					} en cours...`}
+					title={`Ajout ${pluralize("d'un", toImport.length, 'des')} ${pluralize(
+						'professionnel',
+						toImport.length
+					)} en cours...`}
 				/>
 			{:else}
 				<Alert
 					type={successfulImports ? 'success' : 'error'}
 					title={`${successfulImports || 'Aucun'}
-					professionnel${successfulImports > 1 ? 's' : ''}
-					importé${successfulImports > 1 ? 's' : ''}
+					${pluralize('professionnel', successfulImports)}
+					${pluralize('importé', successfulImports)}
 					sur ${toImport.length}
-					demandé${toImport.length > 1 ? 's' : ''}.`}
+					${pluralize('demandé', toImport.length)}.`}
 				/>
 			{/if}
 			{#key insertResult}

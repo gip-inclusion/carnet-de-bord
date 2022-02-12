@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { by } from '$lib/helpers';
+	import { by, pluralize } from '$lib/helpers';
 	import type { GetNotebooksStatsQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetNotebooksStatsDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
@@ -86,31 +86,34 @@
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyCreated}</h3>
 					<div class="text-center">
-						carnet{recentlyCreated > 1 ? 's' : ''} créé{recentlyCreated > 1 ? 's' : ''}
+						{pluralize('carnet', recentlyCreated)}
+						{pluralize('créé', recentlyCreated)}
 					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyShared}</h3>
 					<div class="text-center">
-						carnet{recentlyShared > 1 ? 's' : ''} avec 2 accompagnants ou plus
+						{pluralize('carnet', recentlyShared)}
 					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyOpen}</h3>
 					<div class="text-center">
-						carnet{recentlyOpen > 1 ? 's' : ''} ouvert{recentlyOpen > 1 ? 's' : ''}
+						{pluralize('carnet', recentlyOpen)}
+						{pluralize('ouvert', recentlyOpen)}
 					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyModified}</h3>
 					<div class="text-center">
-						carnet{recentlyModified > 1 ? 's' : ''} modifié{recentlyModified > 1 ? 's' : ''}
+						{pluralize('carnet', recentlyModified)}
+						{pluralize('modifié', recentlyModified)}
 					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{recentlyInfoAdded}</h3>
 					<div class="text-center">
-						carnet{recentlyInfoAdded > 1 ? 's' : ''} avec ajout d'axe/objectif/action
+						{pluralize('carnet', recentlyInfoAdded)} avec ajout d'axe/objectif/action
 					</div>
 				</div>
 			</div>
@@ -120,7 +123,12 @@
 					<tr>
 						<th>Nom</th>
 						<th>Ville</th>
-						<th>Comptes actifs depuis le<br />{formatDate(startOfThisMonth.toString())}</th>
+						<th>
+							{pluralize('Compte', recentConnections.length)}
+							{pluralize('actif', recentConnections.length)} depuis le<br />{formatDate(
+								startOfThisMonth.toString()
+							)}
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -141,27 +149,34 @@
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{created}</h3>
 					<div class="text-center">
-						carnet{created > 1 ? 's' : ''} créé{created > 1 ? 's' : ''} au total
+						{pluralize('carnet', created)}
+						{pluralize('créé', created)} au total
 					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{shared}</h3>
-					<div class="text-center">carnet{shared > 1 ? 's' : ''} avec 2 accompagnants ou plus</div>
+					<div class="text-center">
+						{pluralize('carnet', shared)} avec 2 accompagnants ou plus
+					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{open}</h3>
-					<div class="text-center">carnet{open > 1 ? 's' : ''} ouvert{open > 1 ? 's' : ''}</div>
+					<div class="text-center">
+						{pluralize('carnet', open)}
+						{pluralize('ouvert', open)}
+					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{modified}</h3>
 					<div class="text-center">
-						carnet{modified > 1 ? 's' : ''} modifié{modified > 1 ? 's' : ''}
+						{pluralize('carnet', modified)}
+						{pluralize('modifié', modified)}
 					</div>
 				</div>
 				<div class="w-1/4">
 					<h3 class="fr-h5 !mt-4 !mb-2 text-center">{infoAdded}</h3>
 					<div class="text-center">
-						carnet{infoAdded > 1 ? 's' : ''} avec ajout d'axe/objectif/action
+						{pluralize('carnet', infoAdded)} avec ajout d'axe/objectif/action
 					</div>
 				</div>
 			</div>
@@ -171,7 +186,10 @@
 					<tr>
 						<th>Nom</th>
 						<th>Ville</th>
-						<th>Comptes actifs depuis le<br />début</th>
+						<th>
+							{pluralize('Compte', connections.length)}
+							{pluralize('actif', connections.length)} depuis le<br />début
+						</th>
 					</tr>
 				</thead>
 				<tbody>

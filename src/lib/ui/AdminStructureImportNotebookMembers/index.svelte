@@ -17,6 +17,7 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import { page } from '$app/stores';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
+	import { pluralize } from '$lib/helpers';
 
 	type NotebookMemberInput = {
 		notebookId: string;
@@ -157,8 +158,11 @@
 	{#if insertResult === undefined}
 		{#if members.length > 0}
 			<p>
-				Vous allez importer les groupes de suivis suivants. Veuillez vérifier que les données sont
-				correctes et confirmer.
+				Vous allez importer {pluralize('le', members.length)}
+				{pluralize('groupe', members.length)} de
+				{pluralize('suivi', members.length)}
+				{pluralize('suivant', members.length)}. Veuillez vérifier que les données sont correctes et
+				confirmer.
 			</p>
 			<div class="border-b border-gray-200 shadow">
 				<table class="w-full divide-y divide-gray-300">
@@ -201,8 +205,8 @@
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{uidToImport.length || 'Aucun'}
-					rattachement{uidToImport.length > 1 ? 's' : ''}
-					sélectionné{uidToImport.length > 1 ? 's' : ''}
+					{pluralize('rattachement', uidToImport.length)}
+					{pluralize('sélectionné', uidToImport.length)}
 					sur {members.length}
 				</span>
 			</div>
@@ -230,18 +234,19 @@
 			{#if insertInProgress}
 				<Alert
 					type="info"
-					title={`Ajout ${uidToImport.length > 1 ? 'des' : ' d’un'} rattachement{
-						uidToImport.length > 1 ? 's' : ''
-					} en cours...`}
+					title={`Ajout ${pluralize("d'un", uidToImport.length, 'des')} ${pluralize(
+						'rattachement',
+						uidToImport.length
+					)} en cours...`}
 				/>
 			{:else}
 				<Alert
 					type={successfulImports ? 'success' : 'error'}
 					title={`${successfulImports || 'Aucun'}
-					rattachement${successfulImports > 1 ? 's' : ''}
-					importé${successfulImports > 1 ? 's' : ''}
+					${pluralize('rattachement', successfulImports)}
+					${pluralize('importé', successfulImports)}
 					sur ${uidToImport.length}
-					demandé${uidToImport.length > 1 ? 's' : ''}.`}
+					${pluralize('demandé', uidToImport.length)}.`}
 				/>
 			{/if}
 			{#key insertResult}

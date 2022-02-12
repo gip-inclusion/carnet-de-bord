@@ -22,6 +22,7 @@
 	import * as keys from '$lib/constants/keys';
 
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
+	import { pluralize } from '$lib/helpers';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
@@ -271,7 +272,9 @@
 	{#if insertResult === undefined}
 		{#if beneficiaries.length > 0}
 			<p>
-				Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont
+				Vous allez importer {pluralize('le', beneficiaries.length)}
+				{pluralize('bénéficiaire', beneficiaries.length)}
+				{pluralize('suivant', beneficiaries.length)}. Veuillez vérifier que les données sont
 				correctes et confirmer.
 			</p>
 			<div class="border-b border-gray-200 shadow" style="overflow-x: auto;">
@@ -336,8 +339,8 @@
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{toImport.length || 'Aucune'}
-					bénéficiaire{toImport.length > 1 ? 's' : ''}
-					sélectionné{toImport.length > 1 ? 's' : ''}
+					{pluralize('bénéficiaire', toImport.length)}
+					{pluralize('sélectionné', toImport.length)}
 					sur {beneficiaries.length}
 				</span>
 			</div>
@@ -368,18 +371,19 @@
 			{#if insertInProgress}
 				<Alert
 					type="info"
-					title={`Ajout de${toImport.length > 1 ? 's' : ' la'} bénéficiaire${
-						toImport.length > 1 ? 's' : ''
-					} en cours... ${insertResult.length}/${toImport.length}`}
+					title={`Ajout ${pluralize("d'un", toImport.length, 'des')} ${pluralize(
+						'bénéficiaire',
+						toImport.length
+					)} en cours... ${insertResult.length}/${toImport.length}`}
 				/>
 			{:else}
 				<Alert
 					type={successfulImports ? 'success' : 'error'}
 					title={`${successfulImports || 'Aucune'}
-					bénéficiaire${successfulImports > 1 ? 's' : ''}
-					importé${successfulImports > 1 ? 's' : ''}
+					${pluralize('bénéficiaire', successfulImports)}
+					${pluralize('importé', successfulImports)}
 					sur ${toImport.length}
-					demandé${toImport.length > 1 ? 's' : ''}.`}
+					${pluralize('demandé', toImport.length)}.`}
 				/>
 			{/if}
 			{#if toImport.length < 100}

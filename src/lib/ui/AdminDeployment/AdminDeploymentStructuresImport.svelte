@@ -19,6 +19,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { Alert, Button } from '$lib/ui/base';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
+	import { pluralize } from '$lib/helpers';
 
 	type StructureWithAdminInput = StructureInput & AdminStructureInput;
 
@@ -226,8 +227,8 @@
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{toImport.length || 'Aucune'}
-					structure{toImport.length > 1 ? 's' : ''}
-					sélectionnée{toImport.length > 1 ? 's' : ''}
+					{pluralize('structure', toImport.length)}
+					{pluralize('sélectionnée', toImport.length)}
 					sur {structures.length}
 				</span>
 			</div>
@@ -255,18 +256,20 @@
 			{#if insertInProgress}
 				<Alert
 					type="info"
-					title={`Ajout de${toImport.length > 1 ? 's' : ' la'} structure${
-						toImport.length > 1 ? 's' : ''
-					} en cours...`}
+					title={`Ajout ${pluralize('de la', toImport.length, 'des')} ${pluralize(
+						'structure',
+						toImport.length
+					)} en cours... ${insertResult.length}/${toImport.length}`}
 				/>
 			{:else}
 				<Alert
 					type={successfulImports ? 'success' : 'error'}
 					title={`${successfulImports || 'Aucune'}
-					structure${successfulImports > 1 ? 's' : ''}
-					importée${successfulImports > 1 ? 's' : ''}
+					${pluralize('structure', successfulImports)}
+					${pluralize('importée', successfulImports)}
 					sur ${toImport.length}
-					demandée${toImport.length > 1 ? 's' : ''}.`}
+					${pluralize('demandée', toImport.length)}
+					.`}
 				/>
 			{/if}
 			{#key insertResult}

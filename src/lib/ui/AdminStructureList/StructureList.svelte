@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { pluralize } from '$lib/helpers';
+
 	import { baseUrlForRole } from '$lib/routes';
 
 	import type { StructureCard } from '../../../routes/structures/index.svelte';
@@ -17,11 +19,12 @@
 						>
 					</h4>
 					<ul class="list-none pl-0 fr-card__desc">
-						<li>{structure.nbAdmin} administrateur{structure.nbAdmin > 1 ? 's' : ''}</li>
+						<li>{structure.nbAdmin} {pluralize('administrateur', structure.nbAdmin)}</li>
 						<li>
-							{structure.nbProfessional} accompagnateur{structure.nbProfessional > 1 ? 's' : ''}
+							{structure.nbProfessional}
+							{pluralize('accompagnateur', structure.nbProfessional)}
 						</li>
-						<li>{structure.nbBeneficiary} bénéficiaire{structure.nbBeneficiary > 1 ? 's' : ''}</li>
+						<li>{structure.nbBeneficiary} {pluralize('bénéficiaire', structure.nbBeneficiary)}</li>
 					</ul>
 					<p class="fr-card__detail">{structure.city}</p>
 				</div>

@@ -7,6 +7,7 @@
 	import { post } from '$lib/utils/post';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { ProAccountInput, proAccountSchema } from '../ProCreationForm/pro.schema';
+	import { pluralize } from '$lib/helpers';
 
 	type ProImport = ProAccountInput & {
 		valid: boolean;
@@ -163,8 +164,8 @@
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{uidToImport.length || 'Aucun'}
-					professionnel{uidToImport.length > 1 ? 's' : ''}
-					sélectionné{uidToImport.length > 1 ? 's' : ''}
+					{pluralize('professionnel', uidToImport.length)}
+					{pluralize('sélectionné', uidToImport.length)}
 					sur {pros.length}
 				</span>
 			</div>
@@ -194,18 +195,19 @@
 			{#if insertInProgress}
 				<Alert
 					type="info"
-					title={`Ajout ${uidToImport.length > 1 ? 'des' : ' d’un'} professionnel${
-						uidToImport.length > 1 ? 's' : ''
-					} en cours...`}
+					title={`Ajout ${pluralize("d'un", uidToImport.length, 'des')} ${pluralize(
+						'professionnel',
+						uidToImport.length
+					)} en cours...`}
 				/>
 			{:else}
 				<Alert
 					type={successfulImports ? 'success' : 'error'}
 					title={`${successfulImports || 'Aucun'}
-					professionnel${successfulImports > 1 ? 's' : ''}
-					importé${successfulImports > 1 ? 's' : ''}
+					${pluralize('professionnel', successfulImports)}
+					${pluralize('importé', successfulImports)}
 					sur ${uidToImport.length}
-					demandé${uidToImport.length > 1 ? 's' : ''}.`}
+					${pluralize('demandé', uidToImport.length)}`}
 				/>
 			{/if}
 			{#key insertResult}
