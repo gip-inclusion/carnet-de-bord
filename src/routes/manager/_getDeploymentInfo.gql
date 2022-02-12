@@ -7,17 +7,24 @@ query GetDeploymentInfos($id: uuid!) {
 			count
 		}
 	}
-	beneficiariesWithNoStructure: beneficiary_aggregate(where: { _not: { structures: {} } }) {
+	beneficiariesWithNoStructure: beneficiary_aggregate(
+		where: { _and: [{ _not: { structures: {} } }, { notebook: { members: { _not: {} } } }] }
+	) {
 		aggregate {
 			count
 		}
 	}
-	structures: structure_aggregate {
+	structures: structure_aggregate(where: { deploymentId: { _eq: $id } }) {
 		aggregate {
 			count
 		}
 	}
-	structuresWithNoBeneficiary: structure_aggregate(where: { _not: { beneficiaries: {} } }) {
+	structuresWithNoBeneficiary: structure_aggregate(
+		where: {
+			deploymentId: { _eq: $id }
+			_not: { _or: [{ beneficiaries: {} }, { professionals: { notebooksWhereMember: {} } }] }
+		}
+	) {
 		aggregate {
 			count
 		}
