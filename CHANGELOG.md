@@ -1,3 +1,10 @@
+## [1.85.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.85.0...v1.85.1) (2022-02-12)
+
+
+### Bug Fixes
+
+* add 'Aucune' option for geo mobility ([3fbe2a3](https://github.com/SocialGouv/carnet-de-bord/commit/3fbe2a30b2eb8ed54a87dcfac19eb43f7b2500c4))
+
 # [1.85.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.84.0...v1.85.0) (2022-02-11)
 
 
