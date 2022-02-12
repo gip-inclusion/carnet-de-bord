@@ -58,8 +58,8 @@
 		},
 	];
 	$: metrics = [
-		{ label: 'Bénéficiaires', amount: beneficiaries },
 		{ label: 'Professionnels', amount: structure?.professionals_aggregate?.aggregate?.count ?? 0 },
+		{ label: 'Bénéficiaires accompagnés', amount: beneficiaries },
 		{
 			label: 'Bénéficiaires non rattachés',
 			amount: structure?.pendingBeneficiaries?.aggregate?.count ?? 0,
