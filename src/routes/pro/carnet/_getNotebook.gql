@@ -42,6 +42,7 @@ query GetNotebook($id: uuid!, $eventsStart: date, $eventsEnd: date) {
 			memberType
 			lastModifiedAt
 			lastVisitedAt
+			createdAt
 			professional {
 				id
 				lastname
