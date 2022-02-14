@@ -1,6 +1,8 @@
-import type { UpdateAccountAccessKeyMutationVariables } from '$lib/graphql/_gen/typed-document-nodes';
+import type {
+	UpdateAccountAccessKeyMutation,
+	UpdateAccountAccessKeyMutationVariables,
+} from '$lib/graphql/_gen/typed-document-nodes';
 import { UpdateAccountAccessKeyDocument } from '$lib/graphql/_gen/typed-document-nodes';
-import type { UpdateAccountAccessKeyMutation } from '$lib/graphql/_gen/typed-document-nodes';
 import type { Client, OperationResult } from '@urql/core';
 import { v4 as uuidv4 } from 'uuid';
 
