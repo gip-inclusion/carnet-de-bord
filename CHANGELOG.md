@@ -1,3 +1,10 @@
+## [1.86.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.2...v1.86.3) (2022-02-14)
+
+
+### Bug Fixes
+
+* duplicate type import ([a5a1f90](https://github.com/SocialGouv/carnet-de-bord/commit/a5a1f904e9da789e8d226c77819baa3a16a041a2))
+
 ## [1.86.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.1...v1.86.2) (2022-02-14)
 
 
