@@ -6957,6 +6957,7 @@ export type GetNotebookQuery = {
 					memberType: string;
 					lastModifiedAt?: string | null | undefined;
 					lastVisitedAt?: string | null | undefined;
+					createdAt: string;
 					professional: {
 						__typename?: 'professional';
 						id: string;
@@ -13591,6 +13592,7 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastVisitedAt' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
