@@ -1,3 +1,10 @@
+## [1.85.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.85.1...v1.85.2) (2022-02-14)
+
+
+### Bug Fixes
+
+* correct SonarCloud config ([b02d22c](https://github.com/SocialGouv/carnet-de-bord/commit/b02d22c0a030bbce2a7d7484cc0c4f12ee65d030))
+
 ## [1.85.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.85.0...v1.85.1) (2022-02-12)
 
 
