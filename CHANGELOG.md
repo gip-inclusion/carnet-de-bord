@@ -1,3 +1,10 @@
+# [1.86.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.85.2...v1.86.0) (2022-02-14)
+
+
+### Features
+
+* add created_at to notebook member detail ([2d21da8](https://github.com/SocialGouv/carnet-de-bord/commit/2d21da88dd405a82e74130d12fb8419da90171a1))
+
 ## [1.85.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.85.1...v1.85.2) (2022-02-14)
 
 
