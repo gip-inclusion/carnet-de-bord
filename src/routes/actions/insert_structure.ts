@@ -31,7 +31,7 @@ type Body = {
 	};
 };
 
-function actionError(status = 400, message: string): EndpointOutput {
+function actionError(message: string, status = 400): EndpointOutput {
 	return {
 		status,
 		body: {
@@ -43,8 +43,8 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	const { input } = request.body;
 	try {
 		actionsGuard(request.headers);
-	} catch (error) {
-		return actionError(401, 'unauthorized');
+	} catch (_e) {
+		return actionError('unauthorized', 401);
 	}
 
 	const client = createClient({
@@ -64,7 +64,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	// Ensure we have minimal data before starting
 	if (!adminStructure.adminEmail || !structure.name || !structure.city || !structure.postalCode) {
 		console.log(input);
-		return actionError(401, 'missing mandatory fields');
+		return actionError('missing mandatory fields', 401);
 	}
 
 	const { error, data } = await client
@@ -76,7 +76,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 
 	if (error) {
 		console.error('get existing entities', error);
-		return actionError(400, 'fetch existing entities failed');
+		return actionError('fetch existing entities failed', 400);
 	}
 	const [existingStructure] = data.structure;
 	const [existingAdmin] = data.admin;
@@ -113,7 +113,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		.toPromise();
 	if (insertStructureResult.error) {
 		console.error(insertStructureResult.error);
-		return actionError(400, insertStructureResult.error.message);
+		return actionError(insertStructureResult.error.message, 400);
 	}
 
 	if (existingStructure) {
@@ -128,7 +128,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	const structureId = insertStructureResult.data.structure.id || existingStructure.id;
 	const accessKey = v4();
 	if (!existingAdmin) {
-		const { error } = await client
+		const { error: err } = await client
 			.mutation<InsertAccountAdminStructureMutation>(InsertAccountAdminStructureDocument, {
 				...adminStructure,
 				structureId,
@@ -137,9 +137,9 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 				accessKeyDate: new Date(),
 			})
 			.toPromise();
-		if (error) {
-			console.error(error);
-			return actionError(400, 'Insert admin_structure failed');
+		if (err) {
+			console.error({ err });
+			return actionError('Insert admin_structure failed', 400);
 		}
 		if (sendAccountEmail)
 			try {
@@ -189,7 +189,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		.toPromise();
 	if (insertStructureAdminStructureResult.error) {
 		console.error(insertStructureAdminStructureResult.error);
-		return actionError(400, 'Insert admin_structure_structure relation failed');
+		return actionError('Insert admin_structure_structure relation failed', 400);
 	}
 
 	return {
