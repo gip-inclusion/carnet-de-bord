@@ -1,3 +1,10 @@
+## [1.86.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.0...v1.86.1) (2022-02-14)
+
+
+### Bug Fixes
+
+* restore semicolon delimiter for parsing ([04b4403](https://github.com/SocialGouv/carnet-de-bord/commit/04b4403dc0475a80947a45e6cd37f7ad2d3d416f))
+
 # [1.86.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.85.2...v1.86.0) (2022-02-14)
 
 
