@@ -5,10 +5,12 @@ import { createClient } from '@urql/core';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	ConfirmAccountByIdDocument,
-	ConfirmAccountByIdMutation,
 	GetAccountByIdDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
-import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
+import type {
+	ConfirmAccountByIdMutation,
+	GetAccountByIdQuery,
+} from '$lib/graphql/_gen/typed-document-nodes';
 import { authorizeOnly } from '$lib/utils/security';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
