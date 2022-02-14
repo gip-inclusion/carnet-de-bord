@@ -8,6 +8,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -31,6 +32,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/carnet-de-bord
@@ -116,6 +118,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -157,6 +160,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -187,6 +191,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -211,6 +216,7 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -247,6 +253,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -270,6 +277,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/carnet-de-bord
@@ -313,11 +321,14 @@ spec:
               cpu: 100m
               memory: 64Mi
           startupProbe:
-            failureThreshold: 12
+            failureThreshold: 20
             httpGet:
               path: /healthz
               port: http
-            periodSeconds: 5
+            periodSeconds: 10
+            initialDelaySeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
           envFrom:
             - secretRef:
                 name: azure-pg-user
@@ -349,6 +360,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -376,6 +388,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/tags/v1.2.3
         app.github.com/repo: socialgouv/carnet-de-bord
@@ -396,6 +409,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -430,6 +444,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -454,6 +469,7 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/tags/v1.2.3
     app.github.com/repo: socialgouv/carnet-de-bord
