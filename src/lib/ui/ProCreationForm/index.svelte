@@ -16,6 +16,7 @@
 	export let accountRequest: Partial<AccountRequest> = {};
 	export let onSubmit: (values: ProAccountWithStructureInput) => void;
 	export let onCancel: () => void;
+	export let hiddenFields: Partial<Record<keyof AccountRequest, boolean>> = {};
 
 	let result: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument, {});
 	query(result);
@@ -32,34 +33,62 @@
 	let:isValid
 	let:form
 >
-	<LoaderIndicator {result}>
-		<h2 class="text-france-blue fr-h4">Structure</h2>
-		<div class="flex flex-row w-full gap-2">
-			<div class="w-full">
-				<SvelecteSFL
-					name="structureId"
-					inputLabel="Sélectionnez votre structure"
-					inputHint={`Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}">nous contacter</a>`}
-					inputId="structure"
-					{options}
-					placeholder="Pôle emploi"
-					valueField="id"
-					labelField="name"
-				/>
+	{#if !form.structureId}
+		<LoaderIndicator {result}>
+			<h2 class="text-france-blue fr-h4">Structure</h2>
+			<div class="flex flex-row w-full gap-2">
+				<div class="w-full">
+					<SvelecteSFL
+						name="structureId"
+						inputLabel="Sélectionnez votre structure"
+						inputHint={`Si vous ne trouvez pas votre structure, veuillez <a href="mailto:${contactEmail}">nous contacter</a>`}
+						inputId="structure"
+						{options}
+						placeholder="Pôle emploi"
+						valueField="id"
+						labelField="name"
+					/>
+				</div>
 			</div>
-		</div>
-		<!-- end @TODO -->
-	</LoaderIndicator>
-
-	{#if form.structureId}
+			<!-- end @TODO -->
+		</LoaderIndicator>
+	{:else}
 		<div>
 			<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
 
-			<Input placeholder="Jean Baptiste" inputLabel="Prénom" name="firstname" required />
-			<Input placeholder="Poquelin" inputLabel="Nom" name="lastname" required />
-			<Input placeholder="b@poquelin.fr" inputLabel="Courriel" name="email" required />
-			<Input placeholder="0123456789" inputLabel="Téléphone" name="mobileNumber" />
-			<Input placeholder="Conseiller en insertion" inputLabel="Fonction" name="position" />
+			<Input
+				placeholder="Jean Baptiste"
+				inputLabel="Prénom"
+				name="firstname"
+				required
+				class={hiddenFields.firstname ? 'hidden' : ''}
+			/>
+			<Input
+				placeholder="Poquelin"
+				inputLabel="Nom"
+				name="lastname"
+				required
+				class={hiddenFields.lastname ? 'hidden' : ''}
+			/>
+			<Input
+				placeholder="b@poquelin.fr"
+				inputLabel="Courriel"
+				name="email"
+				required
+				class={hiddenFields.email ? 'hidden' : ''}
+			/>
+			<Input
+				placeholder="0123456789"
+				inputLabel="Téléphone"
+				name="mobileNumber"
+				class={hiddenFields.mobileNumber ? 'hidden' : ''}
+			/>
+			<Input
+				placeholder="Conseiller en insertion"
+				inputLabel="Fonction"
+				name="position"
+				class={hiddenFields.position ? 'hidden' : ''}
+			/>
 
 			<div class="flex flex-row gap-6 mt-12">
 				<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}

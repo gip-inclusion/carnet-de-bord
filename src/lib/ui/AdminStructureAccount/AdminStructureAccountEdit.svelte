@@ -53,6 +53,8 @@
 	function onCancel() {
 		openComponent.close();
 	}
+
+	const hiddenFields = { email: true };
 </script>
 
 <div class="flex flex-col gap-4">
@@ -67,6 +69,7 @@
 			{onCancel}
 			accountRequest={initialValues}
 			submitLabel="Mettre à jour"
+			{hiddenFields}
 		/>
 		{#if error}
 			<div class="mb-8">

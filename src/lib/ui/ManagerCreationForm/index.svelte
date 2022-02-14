@@ -11,6 +11,7 @@
 	export let accountRequest: Partial<AccountRequest> = {};
 	export let onSubmit: (values: ManagerAccountInput) => void;
 	export let onCancel: () => void;
+	export let hiddenFields: Partial<Record<keyof AccountRequest, boolean>> = {};
 </script>
 
 <Form
@@ -24,9 +25,27 @@
 	<div>
 		<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
 
-		<Input placeholder="Jean Baptiste" inputLabel="Prénom" name="firstname" required />
-		<Input placeholder="Poquelin" inputLabel="Nom" name="lastname" required />
-		<Input placeholder="b@poquelin.fr" inputLabel="Courriel" name="email" required />
+		<Input
+			placeholder="Jean Baptiste"
+			inputLabel="Prénom"
+			name="firstname"
+			required
+			class={hiddenFields.firstname ? 'hidden' : ''}
+		/>
+		<Input
+			placeholder="Poquelin"
+			inputLabel="Nom"
+			name="lastname"
+			required
+			class={hiddenFields.lastname ? 'hidden' : ''}
+		/>
+		<Input
+			placeholder="b@poquelin.fr"
+			inputLabel="Courriel"
+			name="email"
+			required
+			class={hiddenFields.email ? 'hidden' : ''}
+		/>
 
 		<div class="flex flex-row gap-6 mt-12">
 			<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}

@@ -11,6 +11,9 @@
 	export let accountRequest: Partial<AccountRequest> & { phoneNumbers?: string } = {};
 	export let onSubmit: (values: AdminStructureAccountInput) => void;
 	export let onCancel: () => void = null;
+	export let hiddenFields: Partial<
+		Record<keyof (AccountRequest & { phoneNumbers?: string }), boolean>
+	> = {};
 </script>
 
 <Form
@@ -24,14 +27,33 @@
 	<div class="max-w-sm">
 		<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
 
-		<Input placeholder="Jean Baptiste" inputLabel="Prénom" name="firstname" required />
-		<Input placeholder="Poquelin" inputLabel="Nom" name="lastname" required />
-		<Input placeholder="b@poquelin.fr" inputLabel="Courriel" name="email" required />
+		<Input
+			placeholder="Jean Baptiste"
+			inputLabel="Prénom"
+			name="firstname"
+			required
+			class={hiddenFields.firstname ? 'hidden' : ''}
+		/>
+		<Input
+			placeholder="Poquelin"
+			inputLabel="Nom"
+			name="lastname"
+			required
+			class={hiddenFields.lastname ? 'hidden' : ''}
+		/>
+		<Input
+			placeholder="b@poquelin.fr"
+			inputLabel="Courriel"
+			name="email"
+			required
+			class={hiddenFields.email ? 'hidden' : ''}
+		/>
 		<Input
 			placeholder="0123456789, 0789542136"
 			inputLabel="Numéros de téléphone"
 			name="phoneNumbers"
 			required
+			class={hiddenFields.phoneNumbers ? 'hidden' : ''}
 		/>
 
 		<div class="flex flex-row gap-6 mt-12">
