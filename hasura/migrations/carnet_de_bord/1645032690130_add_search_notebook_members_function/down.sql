@@ -1,6 +1,6 @@
 -- Could not auto-generate a down migration.
 -- Please write an appropriate down migration for the SQL below:
--- CREATE FUNCTION search_beneficiaries(search text)
+-- CREATE FUNCTION search_notebook_members(search text)
 -- RETURNS SETOF notebook_member AS $$
 --   SELECT notebook_member.*
 --   FROM notebook_member

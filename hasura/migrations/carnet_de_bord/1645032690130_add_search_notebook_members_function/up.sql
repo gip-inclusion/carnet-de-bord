@@ -1,4 +1,4 @@
-CREATE FUNCTION search_beneficiaries(search text)
+CREATE FUNCTION search_notebook_members(search text)
 RETURNS SETOF notebook_member AS $$
   SELECT notebook_member.*
   FROM notebook_member

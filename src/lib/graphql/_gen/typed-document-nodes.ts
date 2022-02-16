@@ -5339,10 +5339,10 @@ export type QueryRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
-	/** execute function "search_beneficiaries" which returns "beneficiary" */
-	search_beneficiaries: Array<Beneficiary>;
-	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
-	search_beneficiaries_aggregate: BeneficiaryAggregate;
+	/** execute function "search_notebook_members" which returns "notebook_member" */
+	search_notebook_members: Array<NotebookMember>;
+	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
+	search_notebook_members_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -5711,22 +5711,22 @@ export type QueryRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type QueryRootSearchBeneficiariesArgs = {
-	args: SearchBeneficiariesArgs;
-	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+export type QueryRootSearchNotebookMembersArgs = {
+	args: SearchNotebookMembersArgs;
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
-	where?: InputMaybe<BeneficiaryBoolExp>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
 };
 
-export type QueryRootSearchBeneficiariesAggregateArgs = {
-	args: SearchBeneficiariesArgs;
-	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+export type QueryRootSearchNotebookMembersAggregateArgs = {
+	args: SearchNotebookMembersArgs;
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
-	where?: InputMaybe<BeneficiaryBoolExp>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
 };
 
 export type QueryRootStructureArgs = {
@@ -6118,7 +6118,7 @@ export enum RefTargetUpdateColumn {
 	Theme = 'theme',
 }
 
-export type SearchBeneficiariesArgs = {
+export type SearchNotebookMembersArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
 
@@ -6615,10 +6615,10 @@ export type SubscriptionRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
-	/** execute function "search_beneficiaries" which returns "beneficiary" */
-	search_beneficiaries: Array<Beneficiary>;
-	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
-	search_beneficiaries_aggregate: BeneficiaryAggregate;
+	/** execute function "search_notebook_members" which returns "notebook_member" */
+	search_notebook_members: Array<NotebookMember>;
+	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
+	search_notebook_members_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -6987,22 +6987,22 @@ export type SubscriptionRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type SubscriptionRootSearchBeneficiariesArgs = {
-	args: SearchBeneficiariesArgs;
-	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+export type SubscriptionRootSearchNotebookMembersArgs = {
+	args: SearchNotebookMembersArgs;
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
-	where?: InputMaybe<BeneficiaryBoolExp>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
 };
 
-export type SubscriptionRootSearchBeneficiariesAggregateArgs = {
-	args: SearchBeneficiariesArgs;
-	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+export type SubscriptionRootSearchNotebookMembersAggregateArgs = {
+	args: SearchNotebookMembersArgs;
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
-	where?: InputMaybe<BeneficiaryBoolExp>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
 };
 
 export type SubscriptionRootStructureArgs = {
@@ -8300,7 +8300,7 @@ export type SearchNotebookMemberQueryVariables = Exact<{
 
 export type SearchNotebookMemberQuery = {
 	__typename?: 'query_root';
-	notebook_member: Array<{
+	search_notebook_members: Array<{
 		__typename?: 'notebook_member';
 		id: string;
 		notebook: {
@@ -15881,8 +15881,22 @@ export const SearchNotebookMemberDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'notebook_member' },
+						name: { kind: 'Name', value: 'search_notebook_members' },
 						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+										},
+									],
+								},
+							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'where' },
@@ -15901,121 +15915,6 @@ export const SearchNotebookMemberDocument = {
 														value: {
 															kind: 'Variable',
 															name: { kind: 'Name', value: 'professionalId' },
-														},
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'beneficiary' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_or' },
-																	value: {
-																		kind: 'ListValue',
-																		values: [
-																			{
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: 'peNumber' },
-																						value: {
-																							kind: 'ObjectValue',
-																							fields: [
-																								{
-																									kind: 'ObjectField',
-																									name: { kind: 'Name', value: '_ilike' },
-																									value: {
-																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' },
-																									},
-																								},
-																							],
-																						},
-																					},
-																				],
-																			},
-																			{
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: 'cafNumber' },
-																						value: {
-																							kind: 'ObjectValue',
-																							fields: [
-																								{
-																									kind: 'ObjectField',
-																									name: { kind: 'Name', value: '_ilike' },
-																									value: {
-																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' },
-																									},
-																								},
-																							],
-																						},
-																					},
-																				],
-																			},
-																			{
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: 'lastname' },
-																						value: {
-																							kind: 'ObjectValue',
-																							fields: [
-																								{
-																									kind: 'ObjectField',
-																									name: { kind: 'Name', value: '_ilike' },
-																									value: {
-																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' },
-																									},
-																								},
-																							],
-																						},
-																					},
-																				],
-																			},
-																			{
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: 'mobileNumber' },
-																						value: {
-																							kind: 'ObjectValue',
-																							fields: [
-																								{
-																									kind: 'ObjectField',
-																									name: { kind: 'Name', value: '_ilike' },
-																									value: {
-																										kind: 'Variable',
-																										name: { kind: 'Name', value: 'filter' },
-																									},
-																								},
-																							],
-																						},
-																					},
-																				],
-																			},
-																		],
-																	},
-																},
-															],
 														},
 													},
 												],
