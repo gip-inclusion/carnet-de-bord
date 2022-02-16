@@ -65,6 +65,7 @@ jobs:
           environment: 'preprod'
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          pgUserSecretPrefix: pg-user
 
   ##############################################################################
   ## DEPLOY PREPRODUCTION APPLICATION
