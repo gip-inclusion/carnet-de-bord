@@ -7,3 +7,4 @@
       isolation_level: read-committed
       use_prepared_statements: false
   tables: "!include carnet_de_bord/tables/tables.yaml"
+  functions: "!include carnet_de_bord/functions/functions.yaml"
