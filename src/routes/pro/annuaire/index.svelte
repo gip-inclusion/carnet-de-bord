@@ -42,7 +42,7 @@
 
 		const variables: SearchNotebookMemberQueryVariables = { professionalId, visitDate };
 		if (search) {
-			variables.filter = `%${search}%`;
+			variables.filter = `${search}`;
 		}
 
 		return variables;
@@ -110,7 +110,7 @@
 	}
 
 	/* TODO: find a way without cheating on that type */
-	$: members = ($result.data ? $result.data.notebook_member : []) as NotebookMember[];
+	$: members = ($result.data ? $result.data.search_notebook_members : []) as NotebookMember[];
 	$: notebooks = members ? members.map((m) => m.notebook) : [];
 
 	function openCrisp() {
