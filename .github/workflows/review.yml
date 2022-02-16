@@ -12,6 +12,20 @@ concurrency:
   group: review-${{ github.ref }}
 
 jobs:
+
+  ##############################################################################
+  ## CREATE POSTGRES DATABASE
+  ##############################################################################
+  create-db:
+    name: Create postgres database
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: SocialGouv/actions/autodevops-create-db@v1
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+
   ##############################################################################
   ## BUILD AND REGISTER APP IMAGE
   ##############################################################################
@@ -66,6 +80,7 @@ jobs:
           environment: 'dev'
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          pgUserSecretPrefix: pg-user
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
