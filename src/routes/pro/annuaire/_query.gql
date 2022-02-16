@@ -5,10 +5,7 @@ query SearchNotebookMember(
 ) {
 	search_notebook_members(
 		args: { search: $filter }
-		where: {
-			professionalId: { _eq: $professionalId }
-			lastVisitedAt: $visitDate
-		}
+		where: { professionalId: { _eq: $professionalId }, lastVisitedAt: $visitDate }
 		order_by: { lastModifiedAt: desc_nulls_first }
 	) {
 		id
