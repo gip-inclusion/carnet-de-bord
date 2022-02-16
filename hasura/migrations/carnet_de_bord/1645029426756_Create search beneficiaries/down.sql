@@ -1,0 +1,12 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- CREATE FUNCTION search_beneficiaries(search text)
+-- RETURNS SETOF beneficiary AS $$
+--     SELECT *
+--     FROM beneficiary
+--     WHERE
+--     unaccent(search) <% lastname
+--     OR search <% pe_number
+--     OR search <% caf_number
+--     OR search <% mobile_number
+-- $$ LANGUAGE sql STABLE;

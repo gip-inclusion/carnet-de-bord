@@ -5339,6 +5339,10 @@ export type QueryRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** execute function "search_beneficiaries" which returns "beneficiary" */
+	search_beneficiaries: Array<Beneficiary>;
+	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
+	search_beneficiaries_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -5705,6 +5709,24 @@ export type QueryRootRefTargetAggregateArgs = {
 
 export type QueryRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootSearchBeneficiariesArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type QueryRootSearchBeneficiariesAggregateArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
 export type QueryRootStructureArgs = {
@@ -6095,6 +6117,10 @@ export enum RefTargetUpdateColumn {
 	/** column name */
 	Theme = 'theme',
 }
+
+export type SearchBeneficiariesArgs = {
+	search?: InputMaybe<Scalars['String']>;
+};
 
 /** columns and relationships of "structure" */
 export type Structure = {
@@ -6589,6 +6615,10 @@ export type SubscriptionRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** execute function "search_beneficiaries" which returns "beneficiary" */
+	search_beneficiaries: Array<Beneficiary>;
+	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
+	search_beneficiaries_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -6955,6 +6985,24 @@ export type SubscriptionRootRefTargetAggregateArgs = {
 
 export type SubscriptionRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootSearchBeneficiariesArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type SubscriptionRootSearchBeneficiariesAggregateArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
 export type SubscriptionRootStructureArgs = {
