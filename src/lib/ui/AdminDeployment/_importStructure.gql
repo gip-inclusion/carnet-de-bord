@@ -14,7 +14,6 @@ mutation ImportStructure(
 	$lastname: String
 	$position: String
 	$phoneNumbers: String
-	$deploymentId: uuid
 	$forceUpdate: Boolean
 	$sendAccountEmail: Boolean
 ) {

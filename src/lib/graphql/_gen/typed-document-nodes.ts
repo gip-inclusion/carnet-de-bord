@@ -7122,7 +7122,6 @@ export type ImportStructureMutationVariables = Exact<{
 	lastname?: InputMaybe<Scalars['String']>;
 	position?: InputMaybe<Scalars['String']>;
 	phoneNumbers?: InputMaybe<Scalars['String']>;
-	deploymentId?: InputMaybe<Scalars['uuid']>;
 	forceUpdate?: InputMaybe<Scalars['Boolean']>;
 	sendAccountEmail?: InputMaybe<Scalars['Boolean']>;
 }>;
@@ -9388,11 +9387,6 @@ export const ImportStructureDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
 				{
 					kind: 'VariableDefinition',
@@ -13940,14 +13934,56 @@ export const GetDeploymentInfosDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_not' },
+											name: { kind: 'Name', value: '_and' },
 											value: {
-												kind: 'ObjectValue',
-												fields: [
+												kind: 'ListValue',
+												values: [
 													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'structures' },
-														value: { kind: 'ObjectValue', fields: [] },
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: '_not' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'structures' },
+																			value: { kind: 'ObjectValue', fields: [] },
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebook' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'members' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_not' },
+																						value: { kind: 'ObjectValue', fields: [] },
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 												],
 											},
@@ -13974,6 +14010,31 @@ export const GetDeploymentInfosDocument = {
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'structures' },
 						name: { kind: 'Name', value: 'structure_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
@@ -14001,14 +14062,61 @@ export const GetDeploymentInfosDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
 											name: { kind: 'Name', value: '_not' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'beneficiaries' },
-														value: { kind: 'ObjectValue', fields: [] },
+														name: { kind: 'Name', value: '_or' },
+														value: {
+															kind: 'ListValue',
+															values: [
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'beneficiaries' },
+																			value: { kind: 'ObjectValue', fields: [] },
+																		},
+																	],
+																},
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'professionals' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'notebooksWhereMember' },
+																						value: { kind: 'ObjectValue', fields: [] },
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															],
+														},
 													},
 												],
 											},
