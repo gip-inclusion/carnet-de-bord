@@ -7,7 +7,11 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	export const load: Load = async () => {
-		const result = operationStore(GetStructuresDocument, {});
+		const result = operationStore(
+			GetStructuresDocument,
+			{},
+			{ requestPolicy: 'cache-and-network' }
+		);
 
 		return {
 			props: {
