@@ -63,7 +63,7 @@ const cronjob = new CronJob({
 const cronJobConfigMap = new ConfigMap({
 	data: {
 		'seed-data.sql': readFileSync(
-			path.join(__dirname, '..', '..', 'hasura', 'seeds', 'carnet_de_bord', 'seed-data.sql')
+			path.join(__dirname, '..', 'seed-data.sql')
 		).toString(),
 	},
 	metadata: {

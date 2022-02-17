@@ -1,0 +1,1 @@
+../hasura/seeds/carnet_de_bord/seed-data.sql
