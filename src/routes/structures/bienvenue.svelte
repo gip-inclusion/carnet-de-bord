@@ -65,7 +65,7 @@
 		<h1>Création de mon compte Gestionnaire de structure</h1>
 		<p>
 			Vous avez été invité(e) à créer votre compte de Gestionnaire de structures.
-			<br /> Il ne reste plus que quelques étapes pour accéder à tous les services proposés !
+			<br />Il ne reste plus que quelques étapes pour accéder à tous les services proposés !
 		</p>
 		<AdminStructureCreationForm
 			onSubmit={handleSubmit}
@@ -74,9 +74,9 @@
 		/>
 	{/if}
 	{#if $updateResult?.data}
-		<h1>Votre compte a été créé avec succès !</h1>
+		<h1>Votre compte a été créé avec succès !</h1>
 		<p>
-			Bienvenue à bord !<br />
+			Bienvenue à bord !<br />
 			Cliquez sur le bouton ci-dessous pour accéder à votre compte.
 		</p>
 		<div>
