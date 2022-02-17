@@ -2,6 +2,7 @@
 	import { session } from '$app/stores';
 
 	import { GetDeploymentInfosDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { pluralize } from '$lib/helpers';
 	import AdminDeploymentBeneficiariesImport from '$lib/ui/AdminDeployment/AdminDeploymentBeneficiariesImport.svelte';
 	import AdminDeploymentStructuresImport from '$lib/ui/AdminDeployment/AdminDeploymentStructuresImport.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
@@ -17,6 +18,11 @@
 	}
 
 	$: deploymentInfo = $result.data;
+
+	function colorize(quantity: number, flip = false) {
+		const success = flip ? quantity === 0 : quantity !== 0;
+		return success ? '!text-success' : '!text-marianne-red';
+	}
 </script>
 
 <LoaderIndicator {result}>
@@ -27,25 +33,54 @@
 			<strong class="block text-center fr-h3">
 				{deploymentInfo.beneficiaries.aggregate.count}
 			</strong>
-			<p class="text-center">Nombre de bénéficiares importés sur le territoire</p>
+			<p class="text-center">
+				{pluralize('bénéficiaire', deploymentInfo.beneficiaries.aggregate.count)} sur le territoire
+			</p>
 		</div>
 		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3 ">
-			<strong class="block text-center fr-h3">
+			<strong
+				class="block text-center fr-h3 {colorize(
+					deploymentInfo.beneficiariesWithNoStructure.aggregate.count,
+					true
+				)}"
+			>
 				{deploymentInfo.beneficiariesWithNoStructure.aggregate.count}
 			</strong>
-			<p class="text-center">Nombre de bénéficiaires sans structure</p>
+			<p
+				class="text-center {colorize(
+					deploymentInfo.beneficiariesWithNoStructure.aggregate.count,
+					true
+				)}"
+			>
+				{pluralize('bénéficiaire', deploymentInfo.beneficiariesWithNoStructure.aggregate.count)} sans
+				structure
+			</p>
 		</div>
 		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
 			<strong class="block text-center fr-h3">
 				{deploymentInfo.structures.aggregate.count}
 			</strong>
-			<p class="text-center">Nombre de structures importées sur le territoire</p>
+			<p class="text-center">
+				{pluralize('structure', deploymentInfo.structures.aggregate.count)} sur le territoire
+			</p>
 		</div>
 		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
-			<strong class="block text-center fr-h3">
+			<strong
+				class="block text-center fr-h3 {colorize(
+					deploymentInfo.structuresWithNoBeneficiary.aggregate.count,
+					true
+				)}"
+			>
 				{deploymentInfo.structuresWithNoBeneficiary.aggregate.count}
 			</strong>
-			<p class="text-center">Nombre de structures sans bénéficiaires</p>
+			<p
+				class="text-center {colorize(
+					deploymentInfo.structuresWithNoBeneficiary.aggregate.count,
+					true
+				)}"
+			>
+				{pluralize('structure', deploymentInfo.structuresWithNoBeneficiary.aggregate.count)} sans bénéficiaires
+			</p>
 		</div>
 	</div>
 	<h2 class="fr-h4">Importer des fichiers</h2>
