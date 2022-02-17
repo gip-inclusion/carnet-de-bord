@@ -29,6 +29,7 @@
 	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { pluralize } from '$lib/helpers';
 
 	export let structureResult = operationStore(GetManagedStructuresDocument, {});
 
@@ -64,6 +65,6 @@
 
 <Breadcrumbs segments={breadcrumbs} />
 <LoaderIndicator result={structureResult}>
-	<h1>Mes structures</h1>
+	<h1>{pluralize('Ma', structures.length, 'Mes')} {pluralize('structure', structures.length)}</h1>
 	<StructureList {structures} />
 </LoaderIndicator>
