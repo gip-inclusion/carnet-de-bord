@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Use autodevops manifests generation
-        uses: SocialGouv/actions/k8s-manifests@v1
+        uses: SocialGouv/actions/autodevops-manifests@v1
         with:
           environment: 'dev'
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
@@ -111,6 +111,7 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          pgUserSecretPrefix: pg-user
 
   ##############################################################################
   ## End To End Tests running on all branches
