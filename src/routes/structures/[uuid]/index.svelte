@@ -24,12 +24,12 @@
 </script>
 
 <script lang="ts">
-	import AdminStructureCard from '$lib/ui/AdminStructureCard.svelte';
+	import AdminStructureCard from '$lib/ui/AdminStructure/Card.svelte';
 	import Tile from '$lib/ui/base/Tile.svelte';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import AdminStructureProfessionalsImport from '$lib/ui/AdminStructureImportPro/AdminStructureProfessionalsImport.svelte';
-	import AdminStructureImportNotebookMembers from '$lib/ui/AdminStructureImportNotebookMembers/index.svelte';
+	import AdminStructureProfessionalsImport from '$lib/ui/AdminStructure/ImportProfessionals.svelte';
+	import AdminStructureImportNotebookMembers from '$lib/ui/AdminStructure/ImportNotebookMembers.svelte';
 	import { browser } from '$app/env';
 	import { pluralize } from '$lib/helpers';
 

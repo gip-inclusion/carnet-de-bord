@@ -24,9 +24,9 @@
 <script lang="ts">
 	import { account } from '$lib/stores';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import StructureList from '../../lib/ui/AdminStructureList/StructureList.svelte';
+	import StructureList from '$lib/ui/AdminStructure/StructureList.svelte';
 	import { baseUrlForRole, homeForRole, Segment } from '$lib/routes';
-	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
+	import { Breadcrumbs } from '$lib/ui/base';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { pluralize } from '$lib/helpers';

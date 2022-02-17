@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { AccountRequest } from '$lib/types';
 
-	import Button from '$lib/ui/base/Button.svelte';
+	import { Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
 	import { adminStructureAccountSchema, AdminStructureAccountInput } from './adminStructure.schema';
 </script>

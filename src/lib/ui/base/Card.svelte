@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Link from '$lib/ui/base/Link.svelte';
+	import { Link } from '$lib/ui/base';
 
 	export let horizontal = false;
 	export let imageUrl = '';

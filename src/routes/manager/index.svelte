@@ -3,8 +3,8 @@
 
 	import { GetDeploymentInfosDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { pluralize } from '$lib/helpers';
-	import AdminDeploymentBeneficiariesImport from '$lib/ui/AdminDeployment/AdminDeploymentBeneficiariesImport.svelte';
-	import AdminDeploymentStructuresImport from '$lib/ui/AdminDeployment/AdminDeploymentStructuresImport.svelte';
+	import ImportBeneficiaries from '$lib/ui/Manager/ImportBeneficiaries.svelte';
+	import ImportStructures from '$lib/ui/Manager/ImportStructures.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
@@ -94,7 +94,7 @@
 				showButtons={false}
 				on:close={refreshStore}
 			>
-				<AdminDeploymentStructuresImport />
+				<ImportStructures />
 			</Dialog>
 		</div>
 		<div class="fr-col-sm-6">
@@ -106,7 +106,7 @@
 				showButtons={false}
 				on:close={refreshStore}
 			>
-				<AdminDeploymentBeneficiariesImport />
+				<ImportBeneficiaries />
 			</Dialog>
 		</div>
 	</div>

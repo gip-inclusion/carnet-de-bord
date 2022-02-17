@@ -7,8 +7,8 @@
 <script lang="ts">
 	import { session } from '$app/stores';
 	import { account, openComponent } from '$lib/stores';
-	import ManagerAccountEdit from '$lib/ui/ManagerAccount/ManagerAccountEdit.svelte';
-	import ManagerView from '$lib/ui/ManagerView.svelte';
+	import ManagerAccountEdit from '$lib/ui/Manager/AccountEdit.svelte';
+	import ManagerView from '$lib/ui/Manager/View.svelte';
 	import { Button } from '$lib/ui/base';
 
 	let manager: GetAccountByPkQuery['account_by_pk']['manager'];

@@ -24,7 +24,7 @@
 <script lang="ts">
 	import { SearchBar } from '$lib/ui/base';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import AdminDeploymentStructuresImport from '$lib/ui/AdminDeployment/AdminDeploymentStructuresImport.svelte';
+	import AdminDeploymentStructuresImport from '$lib/ui/Manager/ImportStructures.svelte';
 
 	export let result: OperationStore<GetStructuresQuery>;
 

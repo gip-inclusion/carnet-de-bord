@@ -6,7 +6,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import Button from '$lib/ui/base/Button.svelte';
+	import { Button } from '$lib/ui/base';
 	import { openComponent } from '$lib/stores';
 	import { session } from '$app/stores';
 	import { post } from '$lib/utils/post';

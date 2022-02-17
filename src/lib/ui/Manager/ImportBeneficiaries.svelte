@@ -14,7 +14,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, OperationStore, query, mutation } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
-	import Checkbox from '$lib/ui/base/GroupCheckbox.svelte';
+	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { v4 as uuidv4 } from 'uuid';
 	import { Alert, Button } from '$lib/ui/base';

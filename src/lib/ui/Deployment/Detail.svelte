@@ -8,9 +8,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '$lib/ui/format';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import AdminDeploymentProfessionalsImport from './AdminDeploymentProfessionalsImport.svelte';
-	import type { OperationStore } from '@urql/svelte';
-	import AdminNotebookUpdate from './AdminNotebookUpdate.svelte';
+	import AdminNotebookUpdate from './NotebookUpdate.svelte';
 
 	type StructureAggregateSub = Pick<StructureAggregate, 'aggregate'>;
 	type BeneficiariesAggregateSub = Pick<BeneficiaryAggregate, 'aggregate'>;
@@ -25,11 +23,6 @@
 	type ProfessionalAggregateSub = Pick<ProfessionalAggregate, 'aggregate'>;
 
 	export let professional_aggregate: ProfessionalAggregateSub;
-	export let store: OperationStore;
-
-	function refreshStore() {
-		$store.reexecute({ requestPolicy: 'network-only' });
-	}
 </script>
 
 <h1 class="fr-h2">
@@ -49,19 +42,6 @@
 		</div>
 	</div>
 	<div class="fr-grid-row fr-grid-row--gutters">
-		<div class="fr-col-md-3 fr-m-2v fr-p-4v">
-			<Dialog
-				label="Importer des professionnels"
-				buttonLabel="Importer des professionnels"
-				title="Importer des professionnels"
-				size={'large'}
-				showButtons={false}
-				on:close={refreshStore}
-			>
-				<AdminDeploymentProfessionalsImport deploymentId={deployment?.id} />
-			</Dialog>
-		</div>
-		<div class="fr-col-md-3 fr-m-2v fr-p-4v " />
 		<div class="fr-col-md-3 fr-m-2v fr-p-4v">
 			<div class="flex">
 				{#if deployment?.config?.url && deployment?.config?.callback}

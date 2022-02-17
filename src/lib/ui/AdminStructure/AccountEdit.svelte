@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { UpdateAdminStructureProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { UpdateAdminStructureProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
-	import AdminStructureCreationForm from '$lib/ui/AdminStructureCreationForm/index.svelte';
+	import AdminStructureCreationForm from '$lib/ui/AdminStructure/CreationForm.svelte';
 	import { mutation, OperationStore, operationStore } from '@urql/svelte';
 	import { account, openComponent } from '$lib/stores';
-	import { Button } from '$lib/ui/base';
-	import Alert from '$lib/ui/base/Alert.svelte';
-	import type { AdminStructureAccountInput } from '$lib/ui/AdminStructureCreationForm/adminStructure.schema';
+	import { Alert, Button } from '$lib/ui/base';
+	import type { AdminStructureAccountInput } from './adminStructure.schema';
 	import type { ConnectedAdminStructure } from '$lib/stores/account';
 
 	export let adminStructure: ConnectedAdminStructure;

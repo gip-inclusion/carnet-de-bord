@@ -7,8 +7,7 @@
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import { mutation, OperationStore, operationStore } from '@urql/svelte';
 	import { account, openComponent } from '$lib/stores';
-	import { Button } from '$lib/ui/base';
-	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Alert, Button } from '$lib/ui/base';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
 
 	export let professional: Professional;

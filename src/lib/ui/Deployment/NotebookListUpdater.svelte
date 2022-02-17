@@ -3,8 +3,7 @@
 	import { RemoteDataC as RD } from '$lib/remoteData';
 
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Button } from '$lib/ui/base';
-	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Alert, Button } from '$lib/ui/base';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import type { SvelteEventHandler } from '$lib/types';
 	import { pluralize } from '$lib/helpers';

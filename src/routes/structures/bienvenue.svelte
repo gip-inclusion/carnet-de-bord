@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { account } from '$lib/stores/account';
-	import AdminStructureCreationForm from '$lib/ui/AdminStructureCreationForm/index.svelte';
-
+	import AdminStructureCreationForm from '$lib/ui/AdminStructure/CreationForm.svelte';
 	import {
 		UpdateAdminStructureProfileDocument,
 		UpdateAdminStructureProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, OperationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
-	import Alert from '$lib/ui/base/Alert.svelte';
-	import type { AdminStructureAccountInput } from '$lib/ui/AdminStructureCreationForm/adminStructure.schema';
+	import { Alert } from '$lib/ui/base';
+	import type { AdminStructureAccountInput } from '$lib/ui/AdminStructure/adminStructure.schema';
 
 	const updateProfileResult = operationStore(UpdateAdminStructureProfileDocument);
 	const updateProfile = mutation(updateProfileResult);

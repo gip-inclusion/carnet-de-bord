@@ -6,7 +6,7 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { operationStore, OperationStore, query } from '@urql/svelte';
 
-	import Button from '$lib/ui/base/Button.svelte';
+	import { Button } from '$lib/ui/base';
 	import { Form, Input, SvelecteSFL } from '$lib/ui/forms';
 	import { ProAccountWithStructureInput, proAccountSchemaWithStructure } from './pro.schema';
 </script>

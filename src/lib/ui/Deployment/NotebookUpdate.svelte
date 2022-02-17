@@ -6,7 +6,7 @@
 
 <script lang="ts">
 	import { LoaderIndicator } from '$lib/ui/utils';
-	import NotebookListUpdater from '$lib/ui/AdminNotebookUpdate/NotebookListUpdater.svelte';
+	import NotebookListUpdater from './NotebookListUpdater.svelte';
 
 	export let deploymentId: string;
 	const getDeploymentStore = operationStore(GetDeploymentNotebooksDocument, { deploymentId });

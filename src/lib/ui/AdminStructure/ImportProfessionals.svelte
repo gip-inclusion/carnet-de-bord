@@ -1,9 +1,8 @@
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
 	import { v4 as uuidv4 } from 'uuid';
-	import Checkbox from '$lib/ui/base/GroupCheckbox.svelte';
 	import { Text } from '$lib/ui/utils';
-	import { Alert, Button } from '$lib/ui/base';
+	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { ProAccountInput, proAccountSchema } from '../ProCreationForm/pro.schema';

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { account, openComponent } from '$lib/stores';
-	import AdminStructureAccountEdit from '$lib/ui/AdminStructureAccount/AdminStructureAccountEdit.svelte';
-	import AdminStructureView from '$lib/ui/AdminStructureView.svelte';
+	import AdminStructureAccountEdit from '$lib/ui/AdminStructure/AccountEdit.svelte';
+	import AdminStructureView from '$lib/ui/AdminStructure/View.svelte';
 	import { Button } from '$lib/ui/base';
-	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
+	import { Breadcrumbs } from '$lib/ui/base';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import type { ConnectedAdminStructure, ConnectedUser } from '$lib/stores/account';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AdminDeploymentBeneficiariesImport from '$lib/ui/AdminDeployment/AdminDeploymentBeneficiariesImport.svelte';
+	import ImportBeneficiaries from '$lib/ui/Manager/ImportBeneficiaries.svelte';
 
 	import Dialog from '$lib/ui/Dialog.svelte';
 </script>
@@ -18,7 +18,7 @@
 			size={'large'}
 			showButtons={false}
 		>
-			<AdminDeploymentBeneficiariesImport />
+			<ImportBeneficiaries />
 		</Dialog>
 	</div>
 </div>

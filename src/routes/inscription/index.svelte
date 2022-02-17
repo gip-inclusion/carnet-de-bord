@@ -5,7 +5,7 @@
 
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
-	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Alert } from '$lib/ui/base';
 
 	let error: string;
 	let requestStep: RequestStep = 'start';
