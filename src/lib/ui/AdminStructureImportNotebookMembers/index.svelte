@@ -195,8 +195,11 @@
 									{/if}
 								</td>
 								{#each headers as header (header.key)}
-									<td class="px-2 py-2"><Text value={member[header.key]} /></td>
+									{#if header.key !== 'proEmails'}
+										<td class="px-2 py-2"><Text value={member[header.key]} /></td>
+									{/if}
 								{/each}
+								<td class="px-2 py-2"><Text value={member.proEmails.split(',').join(', ')} /></td>
 							</tr>
 						{/each}
 					</tbody>
@@ -219,11 +222,9 @@
 				Veuillez fournir un fichier au format CSV. Les adresses email des accompagnateurs doivent
 				être séparées par des virgules.
 				<br />Vous pouvez
-
 				<a href={`${$page.params.uuid}/beneficiaires_en_attente`} download
 					>télécharger la liste des bénéficiaires en attente de rattachement</a
-				>
-				.
+				>.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.

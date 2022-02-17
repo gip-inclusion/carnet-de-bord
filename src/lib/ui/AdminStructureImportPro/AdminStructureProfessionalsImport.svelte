@@ -183,8 +183,7 @@
 				et
 				<a href="https://pad.incubateur.net/s/oQ_2Zj9jT#" target="_blank" rel="noopener noreferrer"
 					>consulter la notice de remplissage</a
-				>
-				.
+				>.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.

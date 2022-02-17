@@ -356,8 +356,7 @@
 				et
 				<a href="https://pad.incubateur.net/s/0xXN_2Gna#" target="_blank" rel="noopener noreferrer"
 					>consulter la notice de remplissage</a
-				>
-				.
+				>.
 				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
