@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-
-	import type { RequestStep } from '$lib/types';
 	import { Button, Input, Link } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
+	import type { RequestStep } from '$lib/types';
 
-	let requestStep: RequestStep = 'start';
+	let request: RequestStep = 'start';
 	let username: string;
 
 	let magicLink = '';
@@ -15,14 +14,15 @@
 	}
 
 	async function handleSubmit() {
+		request = 'loading';
 		const response = await post('/auth/login', { username });
 		if (response.status === 401) {
-			requestStep = 'error';
+			request = 'error';
 		}
 		if (response.status === 200) {
 			const { accessUrl } = await response.json();
 			magicLink = accessUrl;
-			requestStep = 'success';
+			request = 'success';
 		} else {
 			magicLink = '';
 		}
@@ -33,7 +33,7 @@
 	<title>Connexion - Carnet de bord</title>
 </svelte:head>
 
-{#if requestStep !== 'success'}
+{#if request !== 'success'}
 	<h1>
 		<div>Se connecter</div>
 		<div>au Carnet de bord</div>
@@ -47,17 +47,21 @@
 					bind:value={username}
 					inputLabel="Courriel"
 					placeholder="nour@social.gouv.fr"
-					error={requestStep === 'error'
-						? "Ce courriel n'est pas rattaché à un compte existant"
-						: ''}
+					error={request === 'error' ? "Ce courriel n'est pas rattaché à un compte existant" : ''}
 					required={true}
 				/>
 				<div>
-					<Button type="submit" disabled={!username}>Se connecter</Button>
+					<Button type="submit" disabled={!username || request === 'loading'}>
+						{#if request === 'loading'}
+							<span class="ri ri-refresh-line" /> Connexion...
+						{:else}
+							Se connecter
+						{/if}
+					</Button>
 				</div>
 			</div>
 			<div class="flex flex-col gap-4">
-				<div class="text-sm font-bold">Vous n’êtes pas encore inscrit ?</div>
+				<div class="text-sm font-bold">Vous n’êtes pas encore inscrit ?</div>
 				<div>
 					<Button outline={true} on:click={registration}>Je m'inscris</Button>
 				</div>

@@ -12,6 +12,7 @@
 
 	async function onSubmit(values: ProAccountWithStructureInput) {
 		const { structureId, ...accountRequest } = values;
+		requestStep = 'loading';
 		const response = await post('/inscription/request', {
 			accountRequest,
 			structureId,
