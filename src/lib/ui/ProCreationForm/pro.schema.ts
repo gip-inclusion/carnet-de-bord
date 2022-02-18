@@ -1,4 +1,7 @@
-import { cityOrNameValidation, validatePhoneNumber } from '$lib/validation';
+import {
+	cityOrNameValidation,
+	// validatePhoneNumber,
+} from '$lib/validation';
 import * as yup from 'yup';
 
 export const proAccountSchema = yup.object().shape({
@@ -8,12 +11,12 @@ export const proAccountSchema = yup.object().shape({
 	mobileNumber: yup
 		.string()
 		.trim()
-		.test('is-phone-valid', 'Le format du téléphone est incorrect', (value) => {
-			if (value) {
-				return validatePhoneNumber(value);
-			}
-			return true;
-		})
+		// .test('is-phone-valid', 'Le format du téléphone est incorrect', (value) => {
+		//   if (value) {
+		//     return validatePhoneNumber(value);
+		//   }
+		//   return true;
+		// })
 		.nullable(),
 	position: yup.string().trim().nullable(),
 });
