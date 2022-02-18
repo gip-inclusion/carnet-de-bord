@@ -41,12 +41,7 @@
 		</p>
 	{/if}
 	{#if professional}
-		<ProWithStructureView
-			{professional}
-			proFirst={true}
-			mainTitle="Informations personnelles"
-			username={$account?.username}
-		/>
+		<ProWithStructureView {professional} proFirst={true} mainTitle="Informations personnelles" />
 	{/if}
 	<div>
 		<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
