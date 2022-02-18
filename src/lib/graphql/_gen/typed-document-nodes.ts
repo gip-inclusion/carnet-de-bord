@@ -7003,6 +7003,23 @@ export type UuidComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
+export type AddNotebookMembersMutationVariables = Exact<{
+	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	notebookId: Scalars['uuid'];
+}>;
+
+export type AddNotebookMembersMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	update_beneficiary_structure?:
+		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
 export type CreateDeploymentMutationVariables = Exact<{
 	email: Scalars['citext'];
 	deployment: Scalars['String'];
@@ -7014,37 +7031,6 @@ export type CreateDeploymentMutation = {
 		| { __typename?: 'CreateDeploymentOutput'; id: string; label: string }
 		| null
 		| undefined;
-};
-
-export type ImportBeneficiaryMutationVariables = Exact<{
-	firstname: Scalars['String'];
-	lastname: Scalars['String'];
-	dateOfBirth: Scalars['date'];
-	mobileNumber?: InputMaybe<Scalars['String']>;
-	email?: InputMaybe<Scalars['citext']>;
-	address1?: InputMaybe<Scalars['String']>;
-	address2?: InputMaybe<Scalars['String']>;
-	postalCode?: InputMaybe<Scalars['String']>;
-	city?: InputMaybe<Scalars['String']>;
-	workSituation?: InputMaybe<Scalars['String']>;
-	cafNumber?: InputMaybe<Scalars['String']>;
-	peNumber?: InputMaybe<Scalars['String']>;
-	rightRsa?: InputMaybe<Scalars['String']>;
-	rightAre?: InputMaybe<Scalars['Boolean']>;
-	rightAss?: InputMaybe<Scalars['Boolean']>;
-	rightBonus?: InputMaybe<Scalars['Boolean']>;
-	rightRqth?: InputMaybe<Scalars['Boolean']>;
-	geographicalArea?: InputMaybe<Scalars['String']>;
-	job?: InputMaybe<Scalars['String']>;
-	educationLevel?: InputMaybe<Scalars['String']>;
-	internalId?: InputMaybe<Scalars['String']>;
-	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-	structures: Array<BeneficiaryStructureInsertInput> | BeneficiaryStructureInsertInput;
-}>;
-
-export type ImportBeneficiaryMutation = {
-	__typename?: 'mutation_root';
-	newNotebook?: { __typename?: 'notebook'; id: string } | null | undefined;
 };
 
 export type GetDeploymentByIdQueryVariables = Exact<{
@@ -7106,6 +7092,60 @@ export type GetDeploymentsQuery = {
 	}>;
 };
 
+export type GetDeploymentNotebooksQueryVariables = Exact<{
+	deploymentId: Scalars['uuid'];
+}>;
+
+export type GetDeploymentNotebooksQuery = {
+	__typename?: 'query_root';
+	deployment?: { __typename?: 'deployment'; label: string; id: string } | null | undefined;
+	notebooks: Array<{
+		__typename?: 'notebook';
+		id: string;
+		beneficiary: { __typename?: 'beneficiary'; firstname: string; lastname: string };
+	}>;
+};
+
+export type UpdateNotebookActionMutationVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type UpdateNotebookActionMutation = {
+	__typename?: 'mutation_root';
+	updateNotebookAct?: { __typename?: 'UpdateNotebookOutput'; id: string } | null | undefined;
+};
+
+export type ImportBeneficiaryMutationVariables = Exact<{
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	dateOfBirth: Scalars['date'];
+	mobileNumber?: InputMaybe<Scalars['String']>;
+	email?: InputMaybe<Scalars['citext']>;
+	address1?: InputMaybe<Scalars['String']>;
+	address2?: InputMaybe<Scalars['String']>;
+	postalCode?: InputMaybe<Scalars['String']>;
+	city?: InputMaybe<Scalars['String']>;
+	workSituation?: InputMaybe<Scalars['String']>;
+	cafNumber?: InputMaybe<Scalars['String']>;
+	peNumber?: InputMaybe<Scalars['String']>;
+	rightRsa?: InputMaybe<Scalars['String']>;
+	rightAre?: InputMaybe<Scalars['Boolean']>;
+	rightAss?: InputMaybe<Scalars['Boolean']>;
+	rightBonus?: InputMaybe<Scalars['Boolean']>;
+	rightRqth?: InputMaybe<Scalars['Boolean']>;
+	geographicalArea?: InputMaybe<Scalars['String']>;
+	job?: InputMaybe<Scalars['String']>;
+	educationLevel?: InputMaybe<Scalars['String']>;
+	internalId?: InputMaybe<Scalars['String']>;
+	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	structures: Array<BeneficiaryStructureInsertInput> | BeneficiaryStructureInsertInput;
+}>;
+
+export type ImportBeneficiaryMutation = {
+	__typename?: 'mutation_root';
+	newNotebook?: { __typename?: 'notebook'; id: string } | null | undefined;
+};
+
 export type ImportStructureMutationVariables = Exact<{
 	name?: InputMaybe<Scalars['String']>;
 	phone?: InputMaybe<Scalars['String']>;
@@ -7131,27 +7171,37 @@ export type ImportStructureMutation = {
 	structure?: { __typename?: 'InsertStructureWithAdminOutput'; id: string } | null | undefined;
 };
 
-export type GetDeploymentNotebooksQueryVariables = Exact<{
-	deploymentId: Scalars['uuid'];
-}>;
-
-export type GetDeploymentNotebooksQuery = {
-	__typename?: 'query_root';
-	deployment?: { __typename?: 'deployment'; label: string; id: string } | null | undefined;
-	notebooks: Array<{
-		__typename?: 'notebook';
-		id: string;
-		beneficiary: { __typename?: 'beneficiary'; firstname: string; lastname: string };
-	}>;
-};
-
-export type UpdateNotebookActionMutationVariables = Exact<{
+export type UpdateManagerProfileMutationVariables = Exact<{
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	email: Scalars['citext'];
 	id: Scalars['uuid'];
+	accountId: Scalars['uuid'];
 }>;
 
-export type UpdateNotebookActionMutation = {
+export type UpdateManagerProfileMutation = {
 	__typename?: 'mutation_root';
-	updateNotebookAct?: { __typename?: 'UpdateNotebookOutput'; id: string } | null | undefined;
+	updateManager?: { __typename?: 'manager'; id: string } | null | undefined;
+	updateAccount?:
+		| {
+				__typename?: 'account';
+				id: string;
+				onboardingDone?: boolean | null | undefined;
+				confirmed: boolean;
+				username: string;
+				manager?:
+					| {
+							__typename?: 'manager';
+							id: string;
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+							email: string;
+					  }
+					| null
+					| undefined;
+		  }
+		| null
+		| undefined;
 };
 
 export type AddNotebookActionMutationVariables = Exact<{
@@ -7549,7 +7599,11 @@ export type GetExistingAdminStructureQueryVariables = Exact<{
 
 export type GetExistingAdminStructureQuery = {
 	__typename?: 'query_root';
-	admin: Array<{ __typename?: 'admin_structure'; id: string }>;
+	admin: Array<{
+		__typename?: 'admin_structure';
+		id: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
+	}>;
 	structure: Array<{ __typename?: 'structure'; id: string }>;
 };
 
@@ -8000,39 +8054,6 @@ export type GetStructuresForManagerQuery = {
 	structure: Array<{ __typename?: 'structure'; id: string; name?: string | null | undefined }>;
 };
 
-export type UpdateManagerProfileMutationVariables = Exact<{
-	firstname: Scalars['String'];
-	lastname: Scalars['String'];
-	email: Scalars['citext'];
-	id: Scalars['uuid'];
-	accountId: Scalars['uuid'];
-}>;
-
-export type UpdateManagerProfileMutation = {
-	__typename?: 'mutation_root';
-	updateManager?: { __typename?: 'manager'; id: string } | null | undefined;
-	updateAccount?:
-		| {
-				__typename?: 'account';
-				id: string;
-				onboardingDone?: boolean | null | undefined;
-				confirmed: boolean;
-				username: string;
-				manager?:
-					| {
-							__typename?: 'manager';
-							id: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							email: string;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
-};
-
 export type GetNotebooksStatsQueryVariables = Exact<{
 	afterDate: TimestamptzComparisonExp;
 }>;
@@ -8465,23 +8486,6 @@ export type UpdateProfessionalProfileMutation = {
 		| undefined;
 };
 
-export type AddNotebookMembersMutationVariables = Exact<{
-	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-	notebookId: Scalars['uuid'];
-}>;
-
-export type AddNotebookMembersMutation = {
-	__typename?: 'mutation_root';
-	insert_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	update_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-};
-
 export type GetPendingBeneficiariesQueryVariables = Exact<{
 	structureId: Scalars['uuid'];
 }>;
@@ -8673,6 +8677,131 @@ export const EventFieldsFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<EventFieldsFragment, unknown>;
+export const AddNotebookMembersDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookMembers' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_member_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'notebook' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'id' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'notebookId' },
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'done', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<AddNotebookMembersMutation, AddNotebookMembersMutationVariables>;
 export const CreateDeploymentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -8729,6 +8858,347 @@ export const CreateDeploymentDocument = {
 		},
 	],
 } as unknown as DocumentNode<CreateDeploymentMutation, CreateDeploymentMutationVariables>;
+export const GetDeploymentByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployment' },
+						name: { kind: 'Name', value: 'deployment_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'config' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'managers' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structures_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structure' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentByIdQuery, GetDeploymentByIdQueryVariables>;
+export const GetDeploymentsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeployments' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployments' },
+						name: { kind: 'Name', value: 'deployment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'createdAt' },
+											value: { kind: 'EnumValue', value: 'desc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'managers' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentsQuery, GetDeploymentsQueryVariables>;
+export const GetDeploymentNotebooksDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentNotebooks' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deployment' },
+						name: { kind: 'Name', value: 'deployment_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'notebooks' },
+						name: { kind: 'Name', value: 'notebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetDeploymentNotebooksQuery, GetDeploymentNotebooksQueryVariables>;
+export const UpdateNotebookActionDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateNotebookAction' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'updateNotebookAct' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateNotebookActionMutation, UpdateNotebookActionMutationVariables>;
 export const ImportBeneficiaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -9107,204 +9577,6 @@ export const ImportBeneficiaryDocument = {
 		},
 	],
 } as unknown as DocumentNode<ImportBeneficiaryMutation, ImportBeneficiaryMutationVariables>;
-export const GetDeploymentByIdDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetDeploymentById' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'deployment' },
-						name: { kind: 'Name', value: 'deployment_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'config' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'managers' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
-												},
-											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'structures_aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'professional_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'structure' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'deploymentId' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetDeploymentByIdQuery, GetDeploymentByIdQueryVariables>;
-export const GetDeploymentsDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetDeployments' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'deployments' },
-						name: { kind: 'Name', value: 'deployment' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'createdAt' },
-											value: { kind: 'EnumValue', value: 'desc' },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'managers' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetDeploymentsQuery, GetDeploymentsQueryVariables>;
 export const ImportStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -9542,17 +9814,49 @@ export const ImportStructureDocument = {
 		},
 	],
 } as unknown as DocumentNode<ImportStructureMutation, ImportStructureMutationVariables>;
-export const GetDeploymentNotebooksDocument = {
+export const UpdateManagerProfileDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetDeploymentNotebooks' },
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateManagerProfile' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
@@ -9564,59 +9868,82 @@ export const GetDeploymentNotebooksDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'deployment' },
-						name: { kind: 'Name', value: 'deployment_by_pk' },
+						alias: { kind: 'Name', value: 'updateManager' },
+						name: { kind: 'Name', value: 'update_manager_by_pk' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'notebooks' },
-						name: { kind: 'Name', value: 'notebook' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
+								name: { kind: 'Name', value: '_set' },
 								value: {
 									kind: 'ObjectValue',
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiary' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'deploymentId' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'deploymentId' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateAccount' },
+						name: { kind: 'Name', value: 'update_account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'onboardingDone' },
+											value: { kind: 'BooleanValue', value: true },
 										},
 									],
 								},
@@ -9626,14 +9953,19 @@ export const GetDeploymentNotebooksDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiary' },
+									name: { kind: 'Name', value: 'manager' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 										],
 									},
 								},
@@ -9644,47 +9976,7 @@ export const GetDeploymentNotebooksDocument = {
 			},
 		},
 	],
-} as unknown as DocumentNode<GetDeploymentNotebooksQuery, GetDeploymentNotebooksQueryVariables>;
-export const UpdateNotebookActionDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateNotebookAction' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'updateNotebookAct' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<UpdateNotebookActionMutation, UpdateNotebookActionMutationVariables>;
+} as unknown as DocumentNode<UpdateManagerProfileMutation, UpdateManagerProfileMutationVariables>;
 export const AddNotebookActionDocument = {
 	kind: 'Document',
 	definitions: [
@@ -12200,7 +12492,17 @@ export const GetExistingAdminStructureDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
 						},
 					},
 					{
@@ -14215,169 +14517,6 @@ export const GetStructuresForManagerDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetStructuresForManagerQuery, GetStructuresForManagerQueryVariables>;
-export const UpdateManagerProfileDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateManagerProfile' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'updateManager' },
-						name: { kind: 'Name', value: 'update_manager_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'updateAccount' },
-						name: { kind: 'Name', value: 'update_account_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'onboardingDone' },
-											value: { kind: 'BooleanValue', value: true },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'manager' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<UpdateManagerProfileMutation, UpdateManagerProfileMutationVariables>;
 export const GetNotebooksStatsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -16636,131 +16775,6 @@ export const UpdateProfessionalProfileDocument = {
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
 >;
-export const AddNotebookMembersDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookMembers' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_member_insert_input' },
-								},
-							},
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiary' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'notebook' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'id' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'notebookId' },
-																				},
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'StringValue', value: 'done', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<AddNotebookMembersMutation, AddNotebookMembersMutationVariables>;
 export const GetPendingBeneficiariesDocument = {
 	kind: 'Document',
 	definitions: [
@@ -17355,13 +17369,13 @@ export const UpdateAdminStructureProfileDocument = {
 	UpdateAdminStructureProfileMutation,
 	UpdateAdminStructureProfileMutationVariables
 >;
+export type AddNotebookMembersMutationStore = OperationStore<
+	AddNotebookMembersMutation,
+	AddNotebookMembersMutationVariables
+>;
 export type CreateDeploymentMutationStore = OperationStore<
 	CreateDeploymentMutation,
 	CreateDeploymentMutationVariables
->;
-export type ImportBeneficiaryMutationStore = OperationStore<
-	ImportBeneficiaryMutation,
-	ImportBeneficiaryMutationVariables
 >;
 export type GetDeploymentByIdQueryStore = OperationStore<
 	GetDeploymentByIdQuery,
@@ -17371,10 +17385,6 @@ export type GetDeploymentsQueryStore = OperationStore<
 	GetDeploymentsQuery,
 	GetDeploymentsQueryVariables
 >;
-export type ImportStructureMutationStore = OperationStore<
-	ImportStructureMutation,
-	ImportStructureMutationVariables
->;
 export type GetDeploymentNotebooksQueryStore = OperationStore<
 	GetDeploymentNotebooksQuery,
 	GetDeploymentNotebooksQueryVariables
@@ -17382,6 +17392,18 @@ export type GetDeploymentNotebooksQueryStore = OperationStore<
 export type UpdateNotebookActionMutationStore = OperationStore<
 	UpdateNotebookActionMutation,
 	UpdateNotebookActionMutationVariables
+>;
+export type ImportBeneficiaryMutationStore = OperationStore<
+	ImportBeneficiaryMutation,
+	ImportBeneficiaryMutationVariables
+>;
+export type ImportStructureMutationStore = OperationStore<
+	ImportStructureMutation,
+	ImportStructureMutationVariables
+>;
+export type UpdateManagerProfileMutationStore = OperationStore<
+	UpdateManagerProfileMutation,
+	UpdateManagerProfileMutationVariables
 >;
 export type AddNotebookActionMutationStore = OperationStore<
 	AddNotebookActionMutation,
@@ -17539,10 +17561,6 @@ export type GetStructuresForManagerQueryStore = OperationStore<
 	GetStructuresForManagerQuery,
 	GetStructuresForManagerQueryVariables
 >;
-export type UpdateManagerProfileMutationStore = OperationStore<
-	UpdateManagerProfileMutation,
-	UpdateManagerProfileMutationVariables
->;
 export type GetNotebooksStatsQueryStore = OperationStore<
 	GetNotebooksStatsQuery,
 	GetNotebooksStatsQueryVariables
@@ -17583,10 +17601,6 @@ export type UpdateNotebookVisitDateMutationStore = OperationStore<
 export type UpdateProfessionalProfileMutationStore = OperationStore<
 	UpdateProfessionalProfileMutation,
 	UpdateProfessionalProfileMutationVariables
->;
-export type AddNotebookMembersMutationStore = OperationStore<
-	AddNotebookMembersMutation,
-	AddNotebookMembersMutationVariables
 >;
 export type GetPendingBeneficiariesQueryStore = OperationStore<
 	GetPendingBeneficiariesQuery,

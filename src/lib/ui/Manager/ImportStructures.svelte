@@ -114,7 +114,6 @@
 				},
 			];
 		}
-		console.log({ insertResult });
 		insertInProgress = false;
 	}
 

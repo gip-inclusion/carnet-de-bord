@@ -67,7 +67,7 @@ export function notebookInvitation({
 }): string {
 	return `
     ${greeting(pro)}
-    <p>Votre avez été invité à rejoindre un carnet de bord par <b>${displayFullName(
+    <p>Vous avez été invité(e) à rejoindre un carnet de bord par <b>${displayFullName(
 			creator
 		)}</b> .</p>
     ${createAccessButton(url)}
@@ -148,6 +148,16 @@ export function adminStructureAccountCreation(params: AdminStructureEmailParams)
   `;
 }
 
+export function adminStructureAddedToStructure(params: AdminStructureEmailParams): string {
+	return `
+    ${greeting(params.account)}
+    <p>Vous pouvez désormais administrer la structure ${params.structure}.</p>
+    <p>Votre identifiant de connexion est <b>${params.email}</b></p>
+    ${createAccessButton(params.url)}
+    ${footer()}
+  `;
+}
+
 export function managerOnboarding({ url, deployment }: { url: Url; deployment: string }): string {
 	return `
     <p>Bonjour,</p>
@@ -165,5 +175,6 @@ export default {
 	accountRequest,
 	accountCreatedByAdmin,
 	adminStructureAccountCreation,
+	adminStructureAddedToStructure,
 	managerOnboarding,
 };

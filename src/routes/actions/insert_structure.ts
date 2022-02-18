@@ -19,6 +19,7 @@ import { createClient } from '@urql/core';
 import { v4 } from 'uuid';
 import send from '$lib/emailing';
 import { getAppUrl } from '$lib/config/variables/private';
+import { updateAccessKey } from '$lib/services/account';
 
 type Body = {
 	input: {
@@ -63,7 +64,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 
 	// Ensure we have minimal data before starting
 	if (!adminStructure.adminEmail || !structure.name || !structure.city || !structure.postalCode) {
-		console.log(input);
+		console.log("insert_structure called without minimal data", { input });
 		return actionError('missing mandatory fields', 401);
 	}
 
@@ -126,8 +127,8 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	}
 
 	const structureId = insertStructureResult.data.structure.id || existingStructure.id;
-	const accessKey = v4();
 	if (!existingAdmin) {
+		const accessKey = v4();
 		const { error: err } = await client
 			.mutation<InsertAccountAdminStructureMutation>(InsertAccountAdminStructureDocument, {
 				...adminStructure,
@@ -141,7 +142,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			console.error({ err });
 			return actionError('Insert admin_structure failed', 400);
 		}
-		if (sendAccountEmail)
+		if (sendAccountEmail) {
 			try {
 				let account = null;
 				if (adminStructure.firstname && adminStructure.lastname) {
@@ -171,6 +172,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 					`Could not send email to email ${adminStructure.adminEmail}`
 				);
 			}
+		}
 
 		return {
 			status: 200,
@@ -190,6 +192,48 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	if (insertStructureAdminStructureResult.error) {
 		console.error(insertStructureAdminStructureResult.error);
 		return actionError('Insert admin_structure_structure relation failed', 400);
+	}
+
+	if (sendAccountEmail) {
+		const accountId = existingAdmin.account.id;
+		const result = await updateAccessKey(client, accountId);
+		if (result.error) {
+			console.error('Could not update access key', { error: result.error });
+			return actionError(
+				"Insert admin_structure failed, could not update existing account's accessKey",
+				500
+			);
+		}
+		const accessKey = result.data.account.accessKey;
+		try {
+			let account = null;
+			if (adminStructure.firstname && adminStructure.lastname) {
+				account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
+			}
+			await send({
+				options: {
+					to: adminStructure.adminEmail,
+					subject: `Vous pouvez désormais administrer ${structure.name ? `la structure ${structure.name}` : "une structure"}`,
+				},
+				template: 'adminStructureAddedToStructure',
+				params: [
+					{
+						account,
+						structure: structure.name,
+						url: {
+							accessKey: accessKey,
+							appUrl: getAppUrl(),
+						},
+						email: adminStructure.adminEmail,
+					},
+				],
+			});
+		} catch (e) {
+			console.error(
+				'InsertStructureWithAdmin',
+				`Could not send email to email ${adminStructure.adminEmail}`
+			);
+		}
 	}
 
 	return {
