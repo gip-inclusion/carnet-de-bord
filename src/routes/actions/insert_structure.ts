@@ -17,7 +17,7 @@ import type {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { actionsGuard } from '$lib/utils/security';
 import type { EndpointOutput, RequestHandler } from '@sveltejs/kit';
-import { createClient } from '@urql/core';
+import { Client, createClient } from '@urql/core';
 import { v4 } from 'uuid';
 import send from '$lib/emailing';
 import { getAppUrl } from '$lib/config/variables/private';
@@ -66,7 +66,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 
 	// Ensure we have minimal data before starting
 	if (!adminStructure.adminEmail || !structure.name || !structure.city || !structure.postalCode) {
-		console.log("insert_structure called without minimal data", { input });
+		console.log('insert_structure called without minimal data', { input });
 		return actionError('missing mandatory fields', 401);
 	}
 
@@ -120,24 +120,22 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	}
 
 	if (existingStructure) {
-		return {
-			status: 200,
-			body: {
-				id: existingStructure.id,
-			},
-		};
+		return actionSuccess(existingStructure.id);
 	}
 
 	const structureId = insertStructureResult.data.structure.id || existingStructure.id;
+
 	if (!existingAdmin) {
 		const accessKey = v4();
+		const username = v4();
+		const accessKeyDate = new Date();
 		const { error: err } = await client
 			.mutation<InsertAccountAdminStructureMutation>(InsertAccountAdminStructureDocument, {
 				...adminStructure,
 				structureId,
-				username: v4(),
+				username,
 				accessKey,
-				accessKeyDate: new Date(),
+				accessKeyDate,
 			})
 			.toPromise();
 		if (err) {
@@ -145,43 +143,10 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			return actionError('Insert admin_structure failed', 400);
 		}
 		if (sendAccountEmail) {
-			try {
-				let account = null;
-				if (adminStructure.firstname && adminStructure.lastname) {
-					account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
-				}
-				await send({
-					options: {
-						to: adminStructure.adminEmail,
-						subject: 'Bienvenue sur Carnet de bord',
-					},
-					template: 'adminStructureAccountCreation',
-					params: [
-						{
-							account,
-							structure: structure.name,
-							url: {
-								accessKey: accessKey,
-								appUrl: getAppUrl(),
-							},
-							email: adminStructure.adminEmail,
-						},
-					],
-				});
-			} catch (e) {
-				console.error(
-					'InsertStructureWithAdmin',
-					`Could not send email to email ${adminStructure.adminEmail}`
-				);
-			}
+			await sendEmailNewAccount(adminStructure, structure, accessKey);
 		}
 
-		return {
-			status: 200,
-			body: {
-				id: structureId,
-			},
-		};
+		return actionSuccess(structureId);
 	}
 
 	const adminStructureId = existingAdmin.id;
@@ -197,6 +162,62 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	}
 
 	if (sendAccountEmail) {
+		await sendEmailAddStructure(client, existingAdmin, adminStructure, structure);
+	}
+
+	return actionSuccess(structureId);
+};
+
+function actionSuccess(structureId: string) {
+	return {
+		status: 200,
+		body: { id: structureId },
+	};
+}
+
+async function sendEmailNewAccount(
+	adminStructure: AdminStructureInput,
+	structure: StructureInput,
+	accessKey: string
+) {
+	try {
+		let account = null;
+		if (adminStructure.firstname && adminStructure.lastname) {
+			account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
+		}
+		await send({
+			options: {
+				to: adminStructure.adminEmail,
+				subject: 'Bienvenue sur Carnet de bord',
+			},
+			template: 'adminStructureAccountCreation',
+			params: [
+				{
+					account,
+					structure: structure.name,
+					url: {
+						accessKey: accessKey,
+						appUrl: getAppUrl(),
+					},
+					email: adminStructure.adminEmail,
+				},
+			],
+		});
+	} catch (e) {
+		console.error(
+			'InsertStructureWithAdmin',
+			`Could not send email to email ${adminStructure.adminEmail}`
+		);
+	}
+}
+
+async function sendEmailAddStructure(
+	client: Client,
+	existingAdmin: GetExistingAdminStructureQuery['admin'][0],
+	adminStructure: AdminStructureInput,
+	structure: StructureInput
+) {
+	try {
 		const accountId = existingAdmin.account.id;
 		const result = await updateAccessKey(client, accountId);
 		if (result.error) {
@@ -207,39 +228,34 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			);
 		}
 		const accessKey = result.data.account.accessKey;
-		try {
-			let account = null;
-			if (adminStructure.firstname && adminStructure.lastname) {
-				account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
-			}
-			await send({
-				options: {
-					to: adminStructure.adminEmail,
-					subject: `Vous pouvez désormais administrer ${structure.name ? `la structure ${structure.name}` : "une structure"}`,
-				},
-				template: 'adminStructureAddedToStructure',
-				params: [
-					{
-						account,
-						structure: structure.name,
-						url: {
-							accessKey: accessKey,
-							appUrl: getAppUrl(),
-						},
-						email: adminStructure.adminEmail,
-					},
-				],
-			});
-		} catch (e) {
-			console.error(
-				'InsertStructureWithAdmin',
-				`Could not send email to email ${adminStructure.adminEmail}`
-			);
+		let account = null;
+		if (adminStructure.firstname && adminStructure.lastname) {
+			account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
 		}
+		const structureName = structure.name ? `la structure ${structure.name}` : 'une structure';
+		const subject = `Vous pouvez désormais administrer ${structureName}`;
+		await send({
+			options: {
+				to: adminStructure.adminEmail,
+				subject,
+			},
+			template: 'adminStructureAddedToStructure',
+			params: [
+				{
+					account,
+					structure: structure.name,
+					url: {
+						accessKey: accessKey,
+						appUrl: getAppUrl(),
+					},
+					email: adminStructure.adminEmail,
+				},
+			],
+		});
+	} catch (e) {
+		console.error(
+			'InsertStructureWithAdmin',
+			`Could not send email to email ${adminStructure.adminEmail}`
+		);
 	}
-
-	return {
-		status: 200,
-		body: { id: structureId },
-	};
-};
+}
