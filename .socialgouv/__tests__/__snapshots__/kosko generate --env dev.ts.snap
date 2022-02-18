@@ -528,26 +528,5 @@ spec:
     - hosts:
         - hasura-carnet-de-bord-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: netpol-carnet-de-bord-mybranch
-  namespace: carnet-de-bord-mybranch
-spec:
-  ingress:
-    - from:
-        - podSelector: {}
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              network-policy/source: ingress-controller
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              network-policy/source: monitoring
-  podSelector: {}
-  policyTypes:
-    - Ingress
 "
 `;
