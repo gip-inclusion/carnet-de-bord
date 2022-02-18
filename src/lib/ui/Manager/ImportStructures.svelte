@@ -1,12 +1,10 @@
 <script context="module" lang="ts">
-	import {
-		AdminStructureInput,
-		ImportStructureDocument,
-		StructureInput,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { ImportStructureDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
+		AdminStructureInput,
 		ImportStructureMutation,
 		ImportStructureMutationVariables,
+		StructureInput,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';

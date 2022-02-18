@@ -2,16 +2,18 @@ import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	InsertStructureDocument,
 	StructureUpdateColumn,
-	StructureInput,
-	AdminStructureInput,
 	InsertAccountAdminStructureDocument,
-	InsertAccountAdminStructureMutation,
-	GetExistingAdminStructureQuery,
 	GetExistingAdminStructureDocument,
-	InsertStructureAdminStructureMutation,
 	InsertStructureAdminStructureDocument,
-	StructureOnConflict,
 	StructureConstraint,
+} from '$lib/graphql/_gen/typed-document-nodes';
+import type {
+	AdminStructureInput,
+	GetExistingAdminStructureQuery,
+	InsertAccountAdminStructureMutation,
+	InsertStructureAdminStructureMutation,
+	StructureInput,
+	StructureOnConflict,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { actionsGuard } from '$lib/utils/security';
 import type { EndpointOutput, RequestHandler } from '@sveltejs/kit';
