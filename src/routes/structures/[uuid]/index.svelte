@@ -28,8 +28,8 @@
 	import Tile from '$lib/ui/base/Tile.svelte';
 	import Text from '$lib/ui/utils/Text.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import AdminStructureProfessionalsImport from '$lib/ui/AdminStructure/ImportProfessionals.svelte';
-	import AdminStructureImportNotebookMembers from '$lib/ui/AdminStructure/ImportNotebookMembers.svelte';
+	import ProfessionalsImport from '$lib/ui/AdminStructure/ImportProfessionals.svelte';
+	import ImportNotebookMembers from '$lib/ui/AdminStructure/ImportNotebookMembers.svelte';
 	import { browser } from '$app/env';
 	import { pluralize } from '$lib/helpers';
 
@@ -180,7 +180,7 @@
 							<svelte:fragment slot="buttonLabel"
 								>Importer une liste<br />de professionnels</svelte:fragment
 							>
-							<AdminStructureProfessionalsImport {structureId} />
+							<ProfessionalsImport {structureId} />
 						</Dialog>
 					</Tile>
 				</div>
@@ -197,7 +197,7 @@
 							<svelte:fragment slot="buttonLabel">
 								Importer une liste<br />de rattachement
 							</svelte:fragment>
-							<AdminStructureImportNotebookMembers {professionals} />
+							<ImportNotebookMembers {professionals} />
 						</Dialog>
 					</Tile>
 				</div>

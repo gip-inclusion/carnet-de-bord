@@ -19,6 +19,18 @@ query GetDeploymentInfos($id: uuid!) {
 			count
 		}
 	}
+	structuresWithPros: structure(where: { deploymentId: { _eq: $id } }) {
+		id
+		name
+		professionals_aggregate {
+			nodes {
+				id
+				email
+				firstname
+				lastname
+			}
+		}
+	}
 	structuresWithNoBeneficiary: structure_aggregate(
 		where: {
 			deploymentId: { _eq: $id }

@@ -191,3 +191,11 @@ update_permissions:
       professional_id:
         _eq: X-Hasura-Professional-Id
   role: professional
+delete_permissions:
+- permission:
+    filter:
+      notebook:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: manager

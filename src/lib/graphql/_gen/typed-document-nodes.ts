@@ -7068,6 +7068,54 @@ export type AddNotebookMembersMutation = {
 		| undefined;
 };
 
+export type AddNotebookMemberBatchMutationVariables = Exact<{
+	member: NotebookMemberInsertInput;
+	structure: BeneficiaryStructureBoolExp;
+}>;
+
+export type AddNotebookMemberBatchMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	update_beneficiary_structure?:
+		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
+export type GetNotebookForBeneficiaryQueryVariables = Exact<{
+	array?: InputMaybe<Array<NotebookBoolExp> | NotebookBoolExp>;
+}>;
+
+export type GetNotebookForBeneficiaryQuery = {
+	__typename?: 'query_root';
+	notebook: Array<{
+		__typename?: 'notebook';
+		id: string;
+		beneficiaryId: string;
+		beneficiary: {
+			__typename?: 'beneficiary';
+			firstname: string;
+			lastname: string;
+			dateOfBirth: string;
+		};
+	}>;
+};
+
+export type RemoveNotebookMembersMutationVariables = Exact<{
+	remove: NotebookMemberBoolExp;
+}>;
+
+export type RemoveNotebookMembersMutation = {
+	__typename?: 'mutation_root';
+	delete_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
 export type CreateDeploymentMutationVariables = Exact<{
 	email: Scalars['citext'];
 	deployment: Scalars['String'];
@@ -7161,6 +7209,19 @@ export type UpdateNotebookActionMutationVariables = Exact<{
 export type UpdateNotebookActionMutation = {
 	__typename?: 'mutation_root';
 	updateNotebookAct?: { __typename?: 'UpdateNotebookOutput'; id: string } | null | undefined;
+};
+
+export type AttachBeneficiaryToStructureMutationVariables = Exact<{
+	beneficiaryId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+}>;
+
+export type AttachBeneficiaryToStructureMutation = {
+	__typename?: 'mutation_root';
+	insert_beneficiary_structure_one?:
+		| { __typename?: 'beneficiary_structure'; id: string }
+		| null
+		| undefined;
 };
 
 export type ImportBeneficiaryMutationVariables = Exact<{
@@ -8072,6 +8133,21 @@ export type GetDeploymentInfosQuery = {
 		__typename?: 'structure_aggregate';
 		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
 	};
+	structuresWithPros: Array<{
+		__typename?: 'structure';
+		id: string;
+		name?: string | null | undefined;
+		professionals_aggregate: {
+			__typename?: 'professional_aggregate';
+			nodes: Array<{
+				__typename?: 'professional';
+				id: string;
+				email: string;
+				firstname: string;
+				lastname: string;
+			}>;
+		};
+	}>;
 	structuresWithNoBeneficiary: {
 		__typename?: 'structure_aggregate';
 		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
@@ -8850,6 +8926,205 @@ export const AddNotebookMembersDocument = {
 		},
 	],
 } as unknown as DocumentNode<AddNotebookMembersMutation, AddNotebookMembersMutationVariables>;
+export const AddNotebookMemberBatchDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookMemberBatch' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'notebook_member_insert_input' },
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'beneficiary_structure_bool_exp' },
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: {
+									kind: 'ListValue',
+									values: [{ kind: 'Variable', name: { kind: 'Name', value: 'member' } }],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'done', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	AddNotebookMemberBatchMutation,
+	AddNotebookMemberBatchMutationVariables
+>;
+export const GetNotebookForBeneficiaryDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookForBeneficiary' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'array' } },
+					type: {
+						kind: 'ListType',
+						type: {
+							kind: 'NonNullType',
+							type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_bool_exp' } },
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'notebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'array' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetNotebookForBeneficiaryQuery,
+	GetNotebookForBeneficiaryQueryVariables
+>;
+export const RemoveNotebookMembersDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'RemoveNotebookMembers' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'remove' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_member_bool_exp' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'delete_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'remove' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<RemoveNotebookMembersMutation, RemoveNotebookMembersMutationVariables>;
 export const CreateDeploymentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -9247,6 +9522,71 @@ export const UpdateNotebookActionDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateNotebookActionMutation, UpdateNotebookActionMutationVariables>;
+export const AttachBeneficiaryToStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AttachBeneficiaryToStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_beneficiary_structure_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	AttachBeneficiaryToStructureMutation,
+	AttachBeneficiaryToStructureMutationVariables
+>;
 export const ImportBeneficiaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14401,6 +14741,65 @@ export const GetDeploymentInfosDocument = {
 					},
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'structuresWithPros' },
+						name: { kind: 'Name', value: 'structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professionals_aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'nodes' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
 						alias: { kind: 'Name', value: 'structuresWithNoBeneficiary' },
 						name: { kind: 'Name', value: 'structure_aggregate' },
 						arguments: [
@@ -17320,6 +17719,18 @@ export type AddNotebookMembersMutationStore = OperationStore<
 	AddNotebookMembersMutation,
 	AddNotebookMembersMutationVariables
 >;
+export type AddNotebookMemberBatchMutationStore = OperationStore<
+	AddNotebookMemberBatchMutation,
+	AddNotebookMemberBatchMutationVariables
+>;
+export type GetNotebookForBeneficiaryQueryStore = OperationStore<
+	GetNotebookForBeneficiaryQuery,
+	GetNotebookForBeneficiaryQueryVariables
+>;
+export type RemoveNotebookMembersMutationStore = OperationStore<
+	RemoveNotebookMembersMutation,
+	RemoveNotebookMembersMutationVariables
+>;
 export type CreateDeploymentMutationStore = OperationStore<
 	CreateDeploymentMutation,
 	CreateDeploymentMutationVariables
@@ -17339,6 +17750,10 @@ export type GetDeploymentNotebooksQueryStore = OperationStore<
 export type UpdateNotebookActionMutationStore = OperationStore<
 	UpdateNotebookActionMutation,
 	UpdateNotebookActionMutationVariables
+>;
+export type AttachBeneficiaryToStructureMutationStore = OperationStore<
+	AttachBeneficiaryToStructureMutation,
+	AttachBeneficiaryToStructureMutationVariables
 >;
 export type ImportBeneficiaryMutationStore = OperationStore<
 	ImportBeneficiaryMutation,
