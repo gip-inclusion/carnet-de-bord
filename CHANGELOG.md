@@ -1,3 +1,10 @@
+## [1.86.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.3...v1.86.4) (2022-02-21)
+
+
+### Bug Fixes
+
+* fix marne api tests ([#645](https://github.com/SocialGouv/carnet-de-bord/issues/645)) ([605c936](https://github.com/SocialGouv/carnet-de-bord/commit/605c93625e1a853cb4ab25568dfc85916c0a1506))
+
 ## [1.86.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.2...v1.86.3) (2022-02-14)
 
 
