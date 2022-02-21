@@ -8,6 +8,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -32,6 +33,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/heads/mybranch
         app.github.com/repo: socialgouv/carnet-de-bord
@@ -121,6 +123,7 @@ metadata:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -156,6 +159,7 @@ spec:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/heads/mybranch
         app.github.com/repo: socialgouv/carnet-de-bord
@@ -177,6 +181,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -210,6 +215,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -232,6 +238,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -269,6 +276,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -293,6 +301,7 @@ spec:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/heads/mybranch
         app.github.com/repo: socialgouv/carnet-de-bord
@@ -338,11 +347,14 @@ spec:
               cpu: 100m
               memory: 64Mi
           startupProbe:
-            failureThreshold: 12
+            failureThreshold: 20
             httpGet:
               path: /healthz
               port: http
-            periodSeconds: 5
+            periodSeconds: 10
+            initialDelaySeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
           envFrom:
             - secretRef:
                 name: azure-pg-user-mybranch
@@ -375,6 +387,7 @@ metadata:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -402,6 +415,7 @@ spec:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
+        kapp.k14s.io/delete-strategy: orphan
         app.github.com/job: '5678'
         app.github.com/ref: refs/heads/mybranch
         app.github.com/repo: socialgouv/carnet-de-bord
@@ -423,6 +437,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -459,6 +474,7 @@ metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -481,6 +497,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
+    kapp.k14s.io/delete-strategy: orphan
     app.github.com/job: '5678'
     app.github.com/ref: refs/heads/mybranch
     app.github.com/repo: socialgouv/carnet-de-bord
@@ -511,109 +528,5 @@ spec:
     - hosts:
         - hasura-carnet-de-bord-mybranch.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: netpol-carnet-de-bord-mybranch
-  namespace: carnet-de-bord-mybranch
-spec:
-  ingress:
-    - from:
-        - podSelector: {}
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              network-policy/source: ingress-controller
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              network-policy/source: monitoring
-  podSelector: {}
-  policyTypes:
-    - Ingress
----
-apiVersion: batch/v1
-kind: Job
-spec:
-  backoffLimit: 5
-  template:
-    spec:
-      containers:
-        - command:
-            - create-db-user
-          env:
-            - name: NEW_DB_NAME
-              value: autodevops_mybranch
-            - name: NEW_USER
-              value: user_mybranch
-            - name: NEW_PASSWORD
-              value: password_mybranch
-            - name: NEW_DB_EXTENSIONS
-              value: hstore pgcrypto citext uuid-ossp
-          envFrom:
-            - secretRef:
-                name: azure-pg-admin-user
-          image: ghcr.io/socialgouv/docker/azure-db:6.56.1
-          imagePullPolicy: IfNotPresent
-          name: create-db-user
-          resources:
-            limits:
-              cpu: 300m
-              memory: 256Mi
-            requests:
-              cpu: 100m
-              memory: 64Mi
-      restartPolicy: Never
-  ttlSecondsAfterFinished: 86400
-metadata:
-  annotations:
-    kapp.k14s.io/update-strategy: skip
-    app.github.com/job: '5678'
-    app.github.com/ref: refs/heads/mybranch
-    app.github.com/repo: socialgouv/carnet-de-bord
-    app.github.com/run: '1234'
-    app.github.com/sha: '0123456'
-  labels:
-    application: carnet-de-bord
-    component: carnet-de-bord
-    owner: carnet-de-bord
-    team: carnet-de-bord
-    cert: wildcard
-  name: create-db-job-mybranch
-  namespace: carnet-de-bord-mybranch
----
-apiVersion: v1
-kind: Secret
-stringData:
-  DATABASE_URL: >-
-    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
-  DB_URI: >-
-    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
-  HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
-  PGDATABASE: autodevops_mybranch
-  PGHOST: carnetdeborddevserver.postgres.database.azure.com
-  PGPASSWORD: password_mybranch
-  PGRST_DB_URI: >-
-    postgresql://user_mybranch%40carnetdeborddevserver.postgres.database.azure.com:password_mybranch@carnetdeborddevserver.postgres.database.azure.com/autodevops_mybranch?sslmode=require
-  PGSSLMODE: require
-  PGUSER: user_mybranch@carnetdeborddevserver.postgres.database.azure.com
-metadata:
-  annotations:
-    kapp.k14s.io/update-strategy: skip
-    app.github.com/job: '5678'
-    app.github.com/ref: refs/heads/mybranch
-    app.github.com/repo: socialgouv/carnet-de-bord
-    app.github.com/run: '1234'
-    app.github.com/sha: '0123456'
-  labels:
-    application: carnet-de-bord
-    component: carnet-de-bord
-    owner: carnet-de-bord
-    team: carnet-de-bord
-    cert: wildcard
-  name: azure-pg-user-mybranch
-  namespace: carnet-de-bord-mybranch
 "
 `;

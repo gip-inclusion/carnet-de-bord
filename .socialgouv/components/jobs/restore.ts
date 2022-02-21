@@ -7,8 +7,8 @@ const pgParams = getDevDatabaseParameters({ suffix: ciEnv.branchSlug });
 
 const job = new Job({
 	metadata: {
-		name: 'restore-db',
-		namespace: ciEnv.metadata.namespace.name,
+		name: 'restore-db-' + (new Date()).getTime(),
+		namespace: 'carnet-de-bord-ci',
 		labels: ciEnv.metadata.labels,
 		annotations: ciEnv.metadata.annotations,
 	},

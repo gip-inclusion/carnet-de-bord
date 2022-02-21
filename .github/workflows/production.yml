@@ -63,11 +63,12 @@ jobs:
       url: https://carnet-de-bord.fabrique.social.gouv.fr/
     steps:
       - name: Use autodevops manifests generation
-        uses: SocialGouv/actions/k8s-manifests@v1
+        uses: SocialGouv/actions/autodevops-manifests@v1
         with:
           environment: 'prod'
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          pgUserSecretPrefix: pg-user
 
       - name: Use autodevops deployment
         uses: SocialGouv/actions/autodevops-deploy@v1

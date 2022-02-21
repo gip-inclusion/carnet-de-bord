@@ -12,6 +12,20 @@ concurrency:
   group: review-${{ github.ref }}
 
 jobs:
+
+  ##############################################################################
+  ## CREATE POSTGRES DATABASE
+  ##############################################################################
+  create-db:
+    name: Create postgres database
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: SocialGouv/actions/autodevops-create-db@v1
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+
   ##############################################################################
   ## BUILD AND REGISTER APP IMAGE
   ##############################################################################
@@ -61,11 +75,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Use autodevops manifests generation
-        uses: SocialGouv/actions/k8s-manifests@v1
+        uses: SocialGouv/actions/autodevops-manifests@v1
         with:
           environment: 'dev'
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          pgUserSecretPrefix: pg-user
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -73,7 +88,7 @@ jobs:
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [register-app, register-hasura, manifests]
+    needs: [create-db, register-app, register-hasura, manifests]
     steps:
       - name: Use autodevops deployment
         uses: SocialGouv/actions/autodevops-deploy@v1
@@ -96,6 +111,8 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          pgUserSecretPrefix: pg-user
+          jobNamespace: carnet-de-bord-ci
 
   ##############################################################################
   ## End To End Tests running on all branches
