@@ -112,6 +112,7 @@ jobs:
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
           pgUserSecretPrefix: pg-user
+          jobNamespace: carnet-de-bord-ci
 
   ##############################################################################
   ## End To End Tests running on all branches
