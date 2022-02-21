@@ -1,1 +1,3 @@
 DROP FUNCTION IF EXISTS search_notebook_members;
+DROP EXTENSION IF EXISTS pg_trgm;
+DROP EXTENSION IF EXISTS unaccent;
