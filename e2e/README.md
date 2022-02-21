@@ -23,7 +23,7 @@ Pour lancer les tests:
 
 ```sh
 cd e2e
-yarn test
+yarn && yarn test
 ```
 
 Par défaut, les tests se lancent en mode headless mais on peut aussi les lancer avec l'interface de codecept en utilisant
