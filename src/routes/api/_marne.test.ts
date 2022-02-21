@@ -30,7 +30,6 @@ describe('marne request handler', () => {
 			headers: { Authorization: 'bearer 1234567890' },
 		});
 	});
-
 	test('should parse the data and create new focuses', async () => {
 		const expectedBody = {
 			notebook: {
@@ -54,19 +53,21 @@ describe('marne request handler', () => {
 			focuses: [
 				{
 					theme: 'sante',
-					creatorId: 'uuid',
-					notebookId: 'notebookId',
-					linkedTo: 'CER',
+					creatorId: 'creator-uuid',
+					notebookId: 'notebook-uuid',
+					linkedTo: 'cer',
 					situations: ["Difficulté d'accès à l'emploi du fait d'un handicap"],
 					targets: {
 						data: [
 							{
+								creatorId: 'creator-uuid',
 								target: 'Bénéficier de soins',
 								actions: {
 									data: [
 										{
 											action: 'Suivi santé',
-											creatorId: 'uuid',
+											createdAt: '2021-10-18',
+											creatorId: 'creator-uuid',
 											initialId: '123456_AU_188',
 											status: 'new',
 										},
@@ -78,21 +79,24 @@ describe('marne request handler', () => {
 				},
 				{
 					theme: 'emploi',
-					notebookId: 'notebookId',
-					creatorId: 'uuid',
+					linkedTo: 'cer',
+					notebookId: 'notebook-uuid',
+					creatorId: 'creator-uuid',
 					situations: ['Dernier emploi : moins de 3 mois'],
 					targets: {
 						data: [
 							{
+								creatorId: 'creator-uuid',
 								target:
-									'Favoriser la mise en relation entre un candidat et un employeur  en aidant les bénéficiaires à mieux cibler les emplois de proximité',
+									'Favoriser la mise en relation entre un candidat et un employeur en aidant les bénéficiaires à mieux cibler les emplois de proximité',
 								actions: {
 									data: [
 										{
 											action: 'PLATEFORME actif51',
+											createdAt: '2021-10-18',
 											initialId: '123456_CO_53',
 											status: 'new',
-											creatorId: 'uuid',
+											creatorId: 'creator-uuid',
 										},
 									],
 								},
@@ -113,8 +117,8 @@ describe('marne request handler', () => {
 					lastname: 'be',
 					dateOfBirth: '2000-12-01',
 				},
-				notebookId: 'notebookId',
-				professionalId: 'uuid',
+				notebookId: 'notebook-uuid',
+				professionalId: 'creator-uuid',
 				focuses: [],
 			},
 		} as unknown as ServerRequest<unknown, ExternalDeploymentApiBody>);
@@ -151,6 +155,7 @@ describe('marne request handler', () => {
 					situations: ['previous situation', "Difficulté d'accès à l'emploi du fait d'un handicap"],
 				},
 				{
+					linkedTo: 'cer',
 					theme: 'emploi',
 					notebookId: 'notebookId',
 					creatorId: 'uuid',
@@ -158,12 +163,14 @@ describe('marne request handler', () => {
 					targets: {
 						data: [
 							{
+								creatorId: 'uuid',
 								target:
-									'Favoriser la mise en relation entre un candidat et un employeur  en aidant les bénéficiaires à mieux cibler les emplois de proximité',
+									'Favoriser la mise en relation entre un candidat et un employeur en aidant les bénéficiaires à mieux cibler les emplois de proximité',
 								actions: {
 									data: [
 										{
 											action: 'PLATEFORME actif51',
+											createdAt: '2021-10-18',
 											creatorId: 'uuid',
 											initialId: '123456_CO_53',
 											status: 'new',
@@ -183,6 +190,7 @@ describe('marne request handler', () => {
 					actions: {
 						data: [
 							{
+								createdAt: '2021-10-18',
 								action: 'Suivi santé',
 								creatorId: 'uuid',
 								initialId: '123456_AU_188',
@@ -258,15 +266,18 @@ describe('marne request handler', () => {
 					theme: 'emploi',
 					notebookId: 'notebookId',
 					creatorId: 'uuid',
+					linkedTo: 'cer',
 					situations: ['Dernier emploi : moins de 3 mois'],
 					targets: {
 						data: [
 							{
+								creatorId: 'uuid',
 								target:
-									'Favoriser la mise en relation entre un candidat et un employeur  en aidant les bénéficiaires à mieux cibler les emplois de proximité',
+									'Favoriser la mise en relation entre un candidat et un employeur en aidant les bénéficiaires à mieux cibler les emplois de proximité',
 								actions: {
 									data: [
 										{
+											createdAt: '2021-10-18',
 											action: 'PLATEFORME actif51',
 											creatorId: 'uuid',
 											initialId: '123456_CO_53',

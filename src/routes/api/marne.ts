@@ -158,11 +158,14 @@ function parseFocuses(
 		}
 	}
 	const nbFocuses = focuses.length;
-	const nbTargets = focuses.flatMap((focus) => focus.targets.data).concat(targets).length;
+	const nbTargets = focuses.flatMap((focus) => focus.targets?.data ?? []).concat(targets).length;
 	const nbActions = focuses
-		.flatMap((focus) => focus.targets.data.flatMap((target) => target.actions.data))
+		.flatMap((focus) => focus.targets?.data.flatMap((target) => target.actions?.data ?? []) ?? [])
+		.concat(targets.flatMap((target) => target.actions.data ?? []))
 		.concat(actions).length;
+
 	console.log(`parse: found ${nbFocuses} focus | ${nbTargets} targets | ${nbActions} actions`);
+
 	return {
 		focuses,
 		targets,
@@ -396,7 +399,7 @@ const actionsToTarget = {
 		'RSA et Vendanges en Champagne': "Faciliter l'accès aux vendanges",
 		'Accompagnement des TNS': "Faciliter le développement et la viabilité économique de l'activité",
 		'PLATEFORME actif51':
-			'Favoriser la mise en relation entre un candidat et un employeur  en aidant les bénéficiaires à mieux cibler les emplois de proximité',
+			'Favoriser la mise en relation entre un candidat et un employeur en aidant les bénéficiaires à mieux cibler les emplois de proximité',
 		'Coaching ':
 			"Identifier ses atouts et ses freins dans la recherche d'emploi et définir une stratégie de recherche d'emploi en adéquation avec le marché du travail",
 		'Coaching dipômés':
