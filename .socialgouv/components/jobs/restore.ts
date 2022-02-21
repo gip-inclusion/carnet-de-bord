@@ -53,7 +53,7 @@ const job = new Job({
 						envFrom: [
 							{
 								secretRef: {
-									name: 'pg-admin-user',
+									name: 'azure-pg-admin-user',
 								},
 							},
 						],
