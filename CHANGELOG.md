@@ -1,3 +1,10 @@
+## [1.86.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.4...v1.86.5) (2022-02-21)
+
+
+### Bug Fixes
+
+* **k8s:** use pg-user ([#636](https://github.com/SocialGouv/carnet-de-bord/issues/636)) ([b982770](https://github.com/SocialGouv/carnet-de-bord/commit/b9827700d5c365cabb0a7e997d2d520ddf023e38))
+
 ## [1.86.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.3...v1.86.4) (2022-02-21)
 
 
