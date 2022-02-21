@@ -5,3 +5,8 @@ build
 .eslintcache
 .env
 output
+
+
+# IDE
+
+.idea/
