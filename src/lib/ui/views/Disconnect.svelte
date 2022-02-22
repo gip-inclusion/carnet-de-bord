@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { openComponent } from '$lib/stores';
-	import Button from '$lib/ui/base/Button.svelte';
+	import { Button } from '$lib/ui/base';
 	import * as Matomo from '$lib/tracking/matomo';
 
 	function closeLayer() {

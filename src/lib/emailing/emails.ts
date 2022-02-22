@@ -49,7 +49,7 @@ function createAccessButton(url: Url) {
 }
 
 function greeting(person?: Person) {
-	return `<p>Bonjour ${person ? ` ${displayFullName(person)}` : ''},</p>`;
+	return `<p>Bonjour${person ? ` ${displayFullName(person)}` : ''},</p>`;
 }
 
 function footer() {
@@ -67,7 +67,7 @@ export function notebookInvitation({
 }): string {
 	return `
     ${greeting(pro)}
-    <p>Votre avez été invité à rejoindre un carnet de bord par <b>${displayFullName(
+    <p>Vous avez été invité(e) à rejoindre un carnet de bord par <b>${displayFullName(
 			creator
 		)}</b> .</p>
     ${createAccessButton(url)}
@@ -129,6 +129,44 @@ export function accountCreatedByAdmin({ account, url }: { account: Account; url:
   `;
 }
 
+type AdminStructureEmailParams = {
+	email: string;
+	account: Person;
+	structure: string;
+	url: Url;
+};
+
+export function adminStructureAccountCreation(params: AdminStructureEmailParams): string {
+	return `
+    ${greeting(params.account)}
+    <p>Un compte vous a été créé sur l'application Carnet de bord pour administrer la structure ${
+			params.structure
+		}.</p>
+    <p>Votre identifiant de connexion est <b>${params.email}</b></p>
+    ${createAccessButton(params.url)}
+    ${footer()}
+  `;
+}
+
+export function adminStructureAddedToStructure(params: AdminStructureEmailParams): string {
+	return `
+    ${greeting(params.account)}
+    <p>Vous pouvez désormais administrer la structure ${params.structure}.</p>
+    <p>Votre identifiant de connexion est <b>${params.email}</b></p>
+    ${createAccessButton(params.url)}
+    ${footer()}
+  `;
+}
+
+export function managerOnboarding({ url, deployment }: { url: Url; deployment: string }): string {
+	return `
+    <p>Bonjour,</p>
+    <p>Un compte vous a été créé sur l'application Carnet de bord pour administrer le déploiement <strong>${deployment}</strong>.</p>
+    ${createAccessButton(url)}
+    ${footer()}
+  `;
+}
+
 export default {
 	notebookInvitation,
 	loginRequest,
@@ -136,4 +174,7 @@ export default {
 	accountRequestValidate,
 	accountRequest,
 	accountCreatedByAdmin,
+	adminStructureAccountCreation,
+	adminStructureAddedToStructure,
+	managerOnboarding,
 };

@@ -1,0 +1,17 @@
+query GetPendingBeneficiaries($structureId: uuid!) {
+	structure_by_pk(id: $structureId) {
+		beneficiaries(
+			where: { status: { _eq: "pending" } }
+			order_by: { beneficiary: { lastname: asc } }
+		) {
+			beneficiary {
+				firstname
+				lastname
+				dateOfBirth
+				notebook {
+					id
+				}
+			}
+		}
+	}
+}

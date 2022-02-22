@@ -3,16 +3,23 @@
 	import type { Segment } from '$lib/routes';
 
 	import { openComponent } from '$lib/stores';
-	import { AdminDeploymentList, AdminDeploymentCreateLayer } from '$lib/ui/AdminDeployment';
-	import { Button } from '$lib/ui/base';
-	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
+	import { AdminDeploymentList, AdminDeploymentCreateLayer } from '$lib/ui/Deployment';
+	import { Breadcrumbs, Button } from '$lib/ui/base';
 	import { operationStore, query } from '@urql/svelte';
 
 	const deploymentsStore = operationStore(GetDeploymentsDocument);
 	query(deploymentsStore);
 
 	function onAddDeployementClick() {
-		openComponent.open({ component: AdminDeploymentCreateLayer });
+		openComponent.open({
+			component: AdminDeploymentCreateLayer,
+			props: {
+				onSuccessHandler: refreshStore,
+			},
+		});
+	}
+	function refreshStore() {
+		$deploymentsStore.reexecute({ requestPolicy: 'cache-and-network' });
 	}
 
 	const breadcrumbs: Segment[] = [
@@ -31,7 +38,9 @@
 <Breadcrumbs segments={breadcrumbs} />
 
 <div class="flex flex-col gap-8">
-	<Button on:click={onAddDeployementClick}>Ajouter un Déploiement</Button>
+	<h1 class="fr-h4">Liste des déploiements</h1>
+
+	<div><Button on:click={onAddDeployementClick}>Ajouter un Déploiement</Button></div>
 
 	<AdminDeploymentList {deploymentsStore} />
 </div>

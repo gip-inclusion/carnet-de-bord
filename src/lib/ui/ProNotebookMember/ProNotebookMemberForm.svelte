@@ -7,7 +7,7 @@
 	import { session } from '$app/stores';
 	import { openComponent } from '$lib/stores';
 	import ProAddedConfirmation from './ProAddedConfirmation.svelte';
-	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Alert } from '$lib/ui/base';
 	import type { AccountRequest } from '$lib/types';
 
 	export let firstname: string;

@@ -1,31 +1,31 @@
 <script context="module" lang="ts">
+	import type { GetAccountByPkQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 </script>
 
 <script lang="ts">
+	import { session } from '$app/stores';
 	import { account, openComponent } from '$lib/stores';
 	import ProAccountEdit from '$lib/ui/ProAccount/ProAccountEdit.svelte';
 	import ProWithStructureView from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
 	import { Button } from '$lib/ui/base';
 
-	const variables = { accountId: $account?.id };
-	const getAccountStore = operationStore(GetAccountByPkDocument, variables);
+	let professional: GetAccountByPkQuery['account_by_pk']['professional'];
+	const getAccountStore = operationStore(GetAccountByPkDocument, { accountId: $session?.user?.id });
 	query(getAccountStore);
 
-	$: acc = $getAccountStore?.data?.account_by_pk;
-
-	$: professional = acc?.professional;
+	$: professional = $getAccountStore?.data?.account_by_pk?.professional;
 	function editAccount() {
 		openComponent.open({
 			component: ProAccountEdit,
-			props: { professional: professional },
+			props: { professional },
 		});
 	}
 </script>
 
 <svelte:head>
-	<title>Mon compte - carnet de bord</title>
+	<title>Mon compte - Carnet de bord</title>
 </svelte:head>
 
 {#if $account}
@@ -40,12 +40,9 @@
 			Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 		</p>
 	{/if}
-	<ProWithStructureView
-		{professional}
-		proFirst={true}
-		mainTitle="Informations personnelles"
-		username={acc?.username}
-	/>
+	{#if professional}
+		<ProWithStructureView {professional} proFirst={true} mainTitle="Informations personnelles" />
+	{/if}
 	<div>
 		<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
 	</div>

@@ -10,7 +10,7 @@
 	export let menuItems: MenuItem[] | null = [];
 </script>
 
-<nav class="fr-nav" {id} role="navigation" aria-label="Menu principal">
+<nav class="fr-nav" {id} aria-label="Menu principal">
 	<ul class="fr-nav__list">
 		{#each menuItems as menuItem (menuItem.id)}
 			<NavBarItem {menuItem} currentRoute={$page.url.pathname} />

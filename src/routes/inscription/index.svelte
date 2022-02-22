@@ -5,13 +5,14 @@
 
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
-	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Alert } from '$lib/ui/base';
 
 	let error: string;
 	let requestStep: RequestStep = 'start';
 
 	async function onSubmit(values: ProAccountWithStructureInput) {
 		const { structureId, ...accountRequest } = values;
+		requestStep = 'loading';
 		const response = await post('/inscription/request', {
 			accountRequest,
 			structureId,
@@ -35,7 +36,7 @@
 </script>
 
 <svelte:head>
-	<title>Inscription - carnet de bord</title>
+	<title>Inscription - Carnet de bord</title>
 </svelte:head>
 <div class="flex flex-col gap-8 px-40 mt-8">
 	{#if requestStep !== 'success'}

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Link from '$lib/ui/base/Link.svelte';
+	import { Link } from '$lib/ui/base';
 	export let landing: string | null = '/';
 </script>
 
-<footer class="fr-footer mt-8" role="contentinfo" id="footer">
+<footer class="fr-footer mt-8" id="footer">
 	<div class="fr-container">
 		<div class="fr-footer__body">
 			<div class="fr-footer__brand fr-enlarge-link">

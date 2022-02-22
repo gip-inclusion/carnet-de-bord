@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import type { Option } from '$lib/types';
-	import Checkbox from '$lib/ui/base/GroupCheckbox.svelte';
+	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	export let selectedOptions: string[] | null;
 	export let options: Option[];
 	export let caption: string | null = null;
@@ -34,7 +34,6 @@
 		${inline ? 'fr-fieldset--inline' : ''}
 		${globalError ? 'fr-fieldset--error' : ''}
 		${globalSuccess ? 'fr-fieldset--valid' : ''}`}
-		role="group"
 		aria-labelledby={`
 		${globalError ? 'checkboxes-error-legend checkboxes-error-desc-error' : ''}
 		${globalSuccess ? 'checkboxes-success-legend checkboxes-success-desc-success' : ''}

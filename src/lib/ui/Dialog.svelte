@@ -8,6 +8,7 @@
 	export let size: 'small' | 'medium' | 'large' = 'medium';
 	export let buttonLabel: string = label;
 	export let confirmLabel: string = label;
+	export let outlineButton = true;
 	export let title: string;
 
 	let medCol = '';
@@ -48,7 +49,13 @@
 	};
 </script>
 
-<Button outline on:click={open}>{buttonLabel}</Button>
+<Button outline={outlineButton} on:click={open}>
+	{#if $$slots.buttonLabel}
+		<slot name="buttonLabel" />
+	{:else}
+		{buttonLabel}
+	{/if}
+</Button>
 <DialogOverlay {isOpen} onDismiss={close}>
 	<DialogContent aria-label={title}>
 		<div class="fr-container fr-container--fluid fr-container-md">
@@ -70,7 +77,9 @@
 							<slot />
 							{#if showButtons}
 								<div class="flex mt-4 gap-6">
-									<Button on:click={confirm}>{confirmLabel}</Button>
+									<Button on:click={confirm}>
+										{confirmLabel}
+									</Button>
 									<Button outline on:click={close}>Annuler</Button>
 								</div>
 							{/if}

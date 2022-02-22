@@ -7,11 +7,13 @@ export type Account = AccountRequest & {
 
 export interface AccountRequest {
 	email: string;
-	firstname: string;
-	lastname: string;
+	firstname?: string;
+	lastname?: string;
 	mobileNumber?: string;
 	position?: string;
 }
+
+export type RequestStep = 'start' | 'loading' | 'success' | 'error';
 
 export type Structure = StructureRequest & { id: string };
 
@@ -47,8 +49,6 @@ export interface LabelName {
 }
 
 export type InputType = 'email' | 'text' | 'password' | 'number' | 'date';
-
-export type RequestStep = 'start' | 'success' | 'error';
 
 export type ExternalUser = {
 	firstname: string;

@@ -32,7 +32,7 @@
 	}
 </script>
 
-<header role="banner" class="fr-header">
+<header class="fr-header">
 	<div class="fr-header__body">
 		<div class="fr-container">
 			<div class="fr-header__body-row">
@@ -126,7 +126,7 @@
 			<div class="fr-header__menu-links">
 				{#if $session.user}
 					<ul class="fr-links-group">
-						{#if ['professional', 'particulier'].includes($session.user.role)}
+						{#if ['manager', 'particulier', 'professional', 'admin_structure'].includes($session.user.role)}
 							<li>
 								<Link classNames="fr-link" href={`${baseUrlForRole($session.user.role)}/moncompte`}
 									>Mon Compte</Link

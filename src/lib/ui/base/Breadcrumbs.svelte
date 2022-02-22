@@ -13,7 +13,7 @@
 	$: [links, current] = [segments.slice(0, -1), segments.slice(-1)[0]];
 </script>
 
-<nav role="navigation" class="fr-breadcrumb" aria-label="Vous êtes ici :">
+<nav class="fr-breadcrumb" aria-label="Vous êtes ici :">
 	<button class="fr-breadcrumb__button" aria-expanded="false" aria-controls={id}
 		>Voir le fil d’Ariane</button
 	>

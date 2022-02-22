@@ -12,6 +12,12 @@ query GetAccountByPk($accountId: uuid!) {
 			mobileNumber
 			dateOfBirth
 		}
+		manager {
+			id
+			email
+			firstname
+			lastname
+		}
 		professional {
 			id
 			firstname
@@ -31,6 +37,13 @@ query GetAccountByPk($accountId: uuid!) {
 					label
 				}
 			}
+		}
+		admin_structure {
+			id
+			email
+			firstname
+			lastname
+			phoneNumbers
 		}
 	}
 }

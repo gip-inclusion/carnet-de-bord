@@ -4,10 +4,11 @@ mutation UpdateProfessionalProfile(
 	$mobileNumber: String!
 	$email: citext!
 	$position: String!
-	$professionalId: uuid!
+	$id: uuid!
 	$structureId: uuid
+	$accountId: uuid!
 ) {
-	updateProfessional: update_professional(
+	updateProfessional: update_professional_by_pk(
 		_set: {
 			firstname: $firstname
 			lastname: $lastname
@@ -16,26 +17,25 @@ mutation UpdateProfessionalProfile(
 			mobileNumber: $mobileNumber
 			structureId: $structureId
 		}
-		where: { id: { _eq: $professionalId } }
+		pk_columns: { id: $id }
 	) {
-		affected_rows
+		id
 	}
-	updateAccount: update_account(
-		where: { professionalId: { _eq: $professionalId } }
+	updateAccount: update_account_by_pk(
+		pk_columns: { id: $accountId }
 		_set: { onboardingDone: true }
 	) {
-		returning {
+		id
+		onboardingDone
+		confirmed
+		username
+		professional {
 			id
-			onboardingDone
-			confirmed
-			username
-			professional {
-				firstname
-				lastname
-				mobileNumber
-				email
-				position
-			}
+			firstname
+			lastname
+			mobileNumber
+			email
+			position
 		}
 	}
 }

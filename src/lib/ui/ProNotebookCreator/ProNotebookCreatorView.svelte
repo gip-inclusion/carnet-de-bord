@@ -3,7 +3,7 @@
 	import { displayFullName, notNullish } from '$lib/ui/format';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Text } from '$lib/ui/utils';
-	import Button from '../base/Button.svelte';
+	import { Button } from '$lib/ui/base';
 	import { openComponent } from '$lib/stores';
 
 	export let creator: Pick<

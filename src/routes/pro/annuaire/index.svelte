@@ -74,6 +74,7 @@
 
 <script lang="ts">
 	import { openComponent } from '$lib/stores';
+	import { browser } from '$app/env';
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
@@ -114,14 +115,14 @@
 	$: notebooks = members ? members.map((m) => m.notebook) : [];
 
 	function openCrisp() {
-		if (window.$crisp) {
+		if (browser && window.$crisp) {
 			window.$crisp.push(['do', 'chat:open']);
 		}
 	}
 </script>
 
 <svelte:head>
-	<title>Annuaire - carnet de bord</title>
+	<title>Annuaire - Carnet de bord</title>
 </svelte:head>
 
 <h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>

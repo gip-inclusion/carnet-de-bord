@@ -1,0 +1,22 @@
+query GetManagedStructures {
+	structures: structure {
+		id
+		city
+		name
+		beneficiaries_aggregate {
+			aggregate {
+				count
+			}
+		}
+		professionals_aggregate {
+			aggregate {
+				count
+			}
+		}
+		admins_aggregate {
+			aggregate {
+				count
+			}
+		}
+	}
+}

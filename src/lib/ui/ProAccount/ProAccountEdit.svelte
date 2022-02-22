@@ -7,8 +7,7 @@
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import { mutation, OperationStore, operationStore } from '@urql/svelte';
 	import { account, openComponent } from '$lib/stores';
-	import { Button } from '$lib/ui/base';
-	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Alert, Button } from '$lib/ui/base';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
 
 	export let professional: Professional;
@@ -30,14 +29,15 @@
 
 	async function handleSubmit(values: ProAccountWithStructureInput) {
 		updateResult = await updateProfile({
-			professionalId: professional.id,
+			id: professional.id,
+			accountId: $account.accountId,
 			...values,
 		});
 
 		if (updateResult.data?.updateAccount) {
-			const { confirmed, onboardingDone, username, professional } =
-				updateResult.data.updateAccount.returning[0];
+			const { confirmed, onboardingDone, username, professional } = updateResult.data.updateAccount;
 			$account = {
+				...$account,
 				confirmed,
 				onboardingDone,
 				username,
@@ -52,6 +52,8 @@
 	function onCancel() {
 		openComponent.close();
 	}
+
+	const hiddenFields = { email: true };
 </script>
 
 <div class="flex flex-col gap-4">
@@ -66,6 +68,7 @@
 			{onCancel}
 			accountRequest={initialValues}
 			submitLabel="Mettre à jour"
+			{hiddenFields}
 		/>
 		{#if error}
 			<div class="mb-8">

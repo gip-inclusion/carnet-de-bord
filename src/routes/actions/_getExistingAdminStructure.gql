@@ -1,0 +1,11 @@
+query GetExistingAdminStructure($email: citext!, $name: String!) {
+	admin: admin_structure(where: { email: { _eq: $email } }) {
+		id
+		account {
+			id
+		}
+	}
+	structure: structure(where: { name: { _eq: $name } }) {
+		id
+	}
+}

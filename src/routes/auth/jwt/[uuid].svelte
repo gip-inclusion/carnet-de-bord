@@ -53,7 +53,7 @@
 </script>
 
 <svelte:head>
-	<title>validation du token de connexion - carnet de bord</title>
+	<title>Validation du token de connexion - Carnet de bord</title>
 </svelte:head>
 {#if displayError}
 	<div class="pt-28 flex flex-col justify-items-center">
@@ -62,7 +62,7 @@
 			class="p-2 px-4 border-2 text-center border-accent text-accent rounded hover:bg-accent hover:text-white"
 			href="/auth/login"
 		>
-			accéder à la page de connexion
+			Accéder à la page de connexion
 		</a>
 	</div>
 {/if}

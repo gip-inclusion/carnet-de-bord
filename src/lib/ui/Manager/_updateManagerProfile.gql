@@ -1,0 +1,29 @@
+mutation UpdateManagerProfile(
+	$firstname: String!
+	$lastname: String!
+	$email: citext!
+	$id: uuid!
+	$accountId: uuid!
+) {
+	updateManager: update_manager_by_pk(
+		_set: { firstname: $firstname, lastname: $lastname, email: $email }
+		pk_columns: { id: $id }
+	) {
+		id
+	}
+	updateAccount: update_account_by_pk(
+		pk_columns: { id: $accountId }
+		_set: { onboardingDone: true }
+	) {
+		id
+		onboardingDone
+		confirmed
+		username
+		manager {
+			id
+			firstname
+			lastname
+			email
+		}
+	}
+}

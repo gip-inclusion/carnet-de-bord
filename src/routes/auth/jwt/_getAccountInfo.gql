@@ -6,12 +6,16 @@ query GetAccountInfo($accessKey: String!) {
 		beneficiaryId
 		professionalId
 		managerId
+		adminStructureId
 		professional {
 			structure {
 				deploymentId
 			}
 		}
 		manager {
+			deploymentId
+		}
+		admin_structure {
 			deploymentId
 		}
 	}

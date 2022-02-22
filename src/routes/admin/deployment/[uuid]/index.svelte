@@ -14,9 +14,9 @@
 </script>
 
 <script lang="ts">
-	import { AdminDeploymentDetail } from '$lib/ui/AdminDeployment';
+	import { AdminDeploymentDetail } from '$lib/ui/Deployment';
 	import { LoaderIndicator } from '$lib/ui/utils';
-	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
+	import { Breadcrumbs } from '$lib/ui/base';
 
 	export let deploymentId: string;
 	const getDeploymentStore = operationStore(
@@ -49,6 +49,6 @@
 <LoaderIndicator result={getDeploymentStore}>
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col gap-8">
-		<AdminDeploymentDetail {deployment} {professional_aggregate} store={getDeploymentStore} />
+		<AdminDeploymentDetail {deployment} {professional_aggregate} />
 	</div>
 </LoaderIndicator>

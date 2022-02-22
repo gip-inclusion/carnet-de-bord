@@ -19,7 +19,6 @@
 	export let professional: Pro;
 	export let mainTitle = 'Accompagnateur';
 	export let proFirst = false;
-	export let username = '';
 	$: structure = professional?.structure;
 </script>
 
@@ -61,9 +60,6 @@
 				value={professional.mobileNumber}
 			/>
 			<Text defaultValueClassNames="italic" defaultValue="Pas d'email" value={professional.email} />
-			{#if username}
-				<Text defaultValue="" value={`Identifiant : ${username}`} />
-			{/if}
 		</div>
 	</div>
 </div>

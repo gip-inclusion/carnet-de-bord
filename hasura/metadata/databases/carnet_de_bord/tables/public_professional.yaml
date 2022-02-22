@@ -106,6 +106,24 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - structure_id
+    - email
+    - lastname
+    - firstname
+    - position
+    - mobile_number
+    - created_at
+    - updated_at
+    filter:
+      structure:
+        admins:
+          admin_structure_id:
+            _eq: X-Hasura-adminStructure-Id
+  role: admin_structure
+- permission:
     columns:
     - email
     - firstname
