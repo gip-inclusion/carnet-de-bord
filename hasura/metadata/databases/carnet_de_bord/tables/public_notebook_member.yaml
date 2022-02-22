@@ -60,15 +60,16 @@ insert_permissions:
           deployment_id:
             _eq: X-Hasura-Deployment-Id
     columns:
-    - id
-    - notebook_id
-    - professional_id
-    - last_visited_at
-    - member_type
-    - last_modified_at
+    - active
     - created_at
     - creator_id
+    - id
     - invitation_sent_at
+    - last_modified_at
+    - last_visited_at
+    - member_type
+    - notebook_id
+    - professional_id
   role: manager
 - permission:
     backend_only: false
@@ -133,15 +134,16 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - id
-    - notebook_id
-    - professional_id
-    - last_visited_at
-    - member_type
-    - last_modified_at
+    - active
     - created_at
     - creator_id
+    - id
     - invitation_sent_at
+    - last_modified_at
+    - last_visited_at
+    - member_type
+    - notebook_id
+    - professional_id
     filter:
       notebook:
         beneficiary:
@@ -161,10 +163,13 @@ select_permissions:
     - last_visited_at
     - professional_id
     filter:
-      notebook:
-        members:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
+      _and:
+      - notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+      - active:
+          _eq: true
   role: professional
 update_permissions:
 - permission:
@@ -181,6 +186,16 @@ update_permissions:
     - professional_id
     filter: {}
   role: admin_cdb
+- permission:
+    check: null
+    columns:
+    - active
+    filter:
+      notebook:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: manager
 - permission:
     check: null
     columns:

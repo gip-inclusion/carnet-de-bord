@@ -22,19 +22,22 @@ query GetDeploymentInfos($id: uuid!) {
 	structuresWithPros: structure(where: { deploymentId: { _eq: $id } }) {
 		id
 		name
-		professionals_aggregate {
-			nodes {
-				id
-				email
-				firstname
-				lastname
-			}
+		professionals {
+			id
+			email
+			firstname
+			lastname
 		}
 	}
 	structuresWithNoBeneficiary: structure_aggregate(
 		where: {
 			deploymentId: { _eq: $id }
-			_not: { _or: [{ beneficiaries: {} }, { professionals: { notebooksWhereMember: {} } }] }
+			_not: {
+				_or: [
+					{ beneficiaries: { status: { _eq: "pending" } } }
+					{ professionals: { notebooksWhereMember: { active: { _eq: true } } } }
+				]
+			}
 		}
 	) {
 		aggregate {
