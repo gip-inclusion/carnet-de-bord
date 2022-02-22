@@ -6,10 +6,10 @@
 		Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import {
-		AddNotebookMemberBatchDocument,
+		AddNotebookMemberWithBeneficiaryStructureUpdateDocument,
 		AttachBeneficiaryToStructureDocument,
 		GetNotebookForBeneficiaryDocument,
-		RemoveNotebookMembersDocument,
+		DeactivateNotebookMemberDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, mutation, query } from '@urql/svelte';
 </script>
@@ -48,10 +48,10 @@
 	);
 	query(notebookStore);
 
-	const insertStore = operationStore(AddNotebookMemberBatchDocument);
+	const insertStore = operationStore(AddNotebookMemberWithBeneficiaryStructureUpdateDocument);
 	const inserter = mutation(insertStore);
 
-	const removeStore = operationStore(RemoveNotebookMembersDocument);
+	const removeStore = operationStore(DeactivateNotebookMemberDocument);
 	const remover = mutation(removeStore);
 
 	const attachStore = operationStore(AttachBeneficiaryToStructureDocument);
@@ -81,6 +81,7 @@
 			insert: { pro: ProLight; error: string }[];
 			remove: { pro: ProLight; error: string }[];
 			structures: { structure: StructureLight; error: string }[];
+			error: string;
 		}
 	> = {};
 	let files = [];
@@ -182,6 +183,7 @@
 		(pro: ProLight) => ({
 			professionalId: { _eq: pro.id },
 			notebookId: { _eq: benefToNotebookId(benefKeyToNotebook)(beneficiary) },
+			active: { _eq: true },
 		});
 
 	const createMemberItem =
@@ -191,6 +193,7 @@
 			professionalId: pro.id,
 			notebookId: benefToNotebookId(benefKeyToNotebook)(beneficiary),
 			memberType: 'referent',
+			active: true,
 		});
 
 	async function handleSubmit() {
@@ -206,37 +209,51 @@
 		$notebookStore.variables = { array: beneficiariesArray };
 		$notebookStore.context.pause = false;
 		$notebookStore.reexecute();
-		$notebookStore.subscribe(async () => {
+		const unsubscribe = $notebookStore.subscribe(async () => {
 			if (!$notebookStore.data) {
 				return;
 			}
 			const notebooks = $notebookStore.data.notebook;
 			const benefKeyToNotebook = notebooks.reduce((acc, notebook) => {
 				return { ...acc, [benefToKey(notebook.beneficiary)]: notebook };
-			}, {});
+			}, {} as Record<string, NotebookLight>);
 
-			const insertPayload = beneficiariesToImport
-				.map((beneficiary) =>
-					(beneficiary.addEmails || '')
-						.split(',')
-						.map((s) => s.trim())
-						.map(proEmailToPro)
-						.filter(Boolean)
-						.map((pro) => ({
-							pro,
-							beneficiary,
-							beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
-							add: {
-								...createMemberItem(benefKeyToNotebook)(beneficiary)(pro),
-							},
-							structure: {
-								beneficiaryId: { _eq: benefKeyToBenefId(benefKeyToNotebook)(beneficiary) },
-								structureId: { _eq: pro.structureId },
-							},
-						}))
-				)
-				.flat();
+			const beneficiariesWithNotebook = beneficiariesToImport.reduce((acc, csvBeneficiary) => {
+				if (benefKeyToNotebook[benefToKey(csvBeneficiary)]) {
+					return [...acc, csvBeneficiary];
+				} else {
+					insertSummary[benefToKey(csvBeneficiary)] = {
+						beneficiary: csvBeneficiary,
+						insert: [],
+						remove: [],
+						structures: [],
+						error: 'Ce bénéficiaire est introuvable.',
+					};
+					return acc;
+				}
+			}, []);
 
+			const insertPayload = beneficiariesWithNotebook.flatMap((csvBeneficiary) =>
+				(csvBeneficiary.addEmails || '')
+					.split(',')
+					.map((s) => s.trim())
+					.map(proEmailToPro)
+					.filter(Boolean)
+					.map((pro) => ({
+						pro,
+						beneficiary: csvBeneficiary,
+						beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary),
+						add: {
+							...createMemberItem(benefKeyToNotebook)(csvBeneficiary)(pro),
+						},
+						structure: {
+							status: { _eq: 'pending' },
+							beneficiaryId: { _eq: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary) },
+							structureId: { _eq: pro.structureId },
+						},
+					}))
+			);
+			console.log({ insertPayload });
 			insertResult = [];
 			for (const payload of insertPayload) {
 				const result = await inserter({ member: payload.add, structure: payload.structure });
@@ -258,33 +275,30 @@
 				];
 			}
 
-			const removePayload = beneficiariesToImport
-				.map((beneficiary) =>
-					(beneficiary.removeEmails || '')
-						.split(',')
-						.map((s) => s.trim())
-						.map(proEmailToPro)
-						.filter(Boolean)
-						.map((pro) => ({
-							pro,
-							beneficiary,
-							beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
-							remove: createMemberMatch(benefKeyToNotebook)(beneficiary)(pro),
-						}))
-				)
-				.flat();
-
+			const removePayload = beneficiariesWithNotebook.flatMap((beneficiary) =>
+				(beneficiary.removeEmails || '')
+					.split(',')
+					.map((s) => s.trim())
+					.map(proEmailToPro)
+					.filter(Boolean)
+					.map((pro) => ({
+						pro,
+						beneficiary,
+						beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
+						member: createMemberMatch(benefKeyToNotebook)(beneficiary)(pro),
+					}))
+			);
+			console.log({ removePayload });
 			removeResult = [];
 			for (const payload of removePayload) {
-				const result = await remover({ remove: payload.remove });
+				const result = await remover({ member: payload.member });
 				let error = false;
 				let errorMessage = '';
 
 				if (result.error) {
 					error = true;
 					errorMessage = "Une erreur s'est produite, le rattachement n'a pas été supprimé.";
-				}
-				if (result.data.delete_notebook_member.affected_rows === 0) {
+				} else if (result.data.update_notebook_member.affected_rows === 0) {
 					error = true;
 					errorMessage = "Le bénéficiaire n'était pas suivi par cette personne.";
 				}
@@ -302,7 +316,7 @@
 				];
 			}
 
-			const structuresPayload = beneficiariesToImport
+			const structuresPayload = beneficiariesWithNotebook
 				.map((beneficiary) =>
 					(beneficiary.addStructures || '')
 						.split(',')
@@ -317,7 +331,7 @@
 						}))
 				)
 				.flat();
-
+			console.log({ structuresPayload });
 			structuresResult = [];
 			for (const payload of structuresPayload) {
 				const result = await attacher({
@@ -340,49 +354,53 @@
 			}
 
 			insertResult.forEach((insert) => {
-				let current = insertSummary[insert.input_.beneficiaryId];
+				let current = insertSummary[benefToKey(insert.input_.beneficiary)];
 				if (!current) {
-					insertSummary[insert.input_.beneficiaryId] = {
+					insertSummary[benefToKey(insert.input_.beneficiary)] = {
 						beneficiary: insert.input_.beneficiary,
 						insert: [],
 						remove: [],
 						structures: [],
+						error: null,
 					};
-					current = insertSummary[insert.input_.beneficiaryId];
+					current = insertSummary[benefToKey(insert.input_.beneficiary)];
 				}
 				current.insert.push({ pro: insert.input_.pro, error: insert.error });
 			});
 
 			removeResult.forEach((remove) => {
-				let current = insertSummary[remove.input_.beneficiaryId];
+				let current = insertSummary[benefToKey(remove.input_.beneficiary)];
 				if (!current) {
-					insertSummary[remove.input_.beneficiaryId] = {
+					insertSummary[benefToKey(remove.input_.beneficiary)] = {
 						beneficiary: remove.input_.beneficiary,
 						insert: [],
 						remove: [],
 						structures: [],
+						error: null,
 					};
-					current = insertSummary[remove.input_.beneficiaryId];
+					current = insertSummary[benefToKey(remove.input_.beneficiary)];
 				}
 				current.remove.push({ pro: remove.input_.pro, error: remove.error });
 			});
 
 			structuresResult.forEach((structure) => {
-				let current = insertSummary[structure.input_.beneficiaryId];
+				let current = insertSummary[benefToKey(structure.input_.beneficiary)];
 				if (!current) {
-					insertSummary[structure.input_.beneficiaryId] = {
+					insertSummary[benefToKey(structure.input_.beneficiary)] = {
 						beneficiary: structure.input_.beneficiary,
 						insert: [],
 						remove: [],
 						structures: [],
+						error: null,
 					};
-					current = insertSummary[structure.input_.beneficiaryId];
+					current = insertSummary[benefToKey(structure.input_.beneficiary)];
 				}
 				current.structures.push({ structure: structure.input_.structure, error: structure.error });
 			});
 
 			insertInProgress = false;
 		});
+		unsubscribe();
 	}
 
 	function backToFileSelect() {
@@ -543,45 +561,51 @@
 									<td class="px-2 py-2 ">
 										<Text value={result.beneficiary.dateOfBirth} />
 									</td>
-									<td class="px-2 py-2 ">
-										{#each result.insert as { pro, error }}
-											<Tag
-												classNames={error ? 'text-marianne-red' : 'text-success'}
-												title={error || 'Ajout effectué !'}
-											>
-												<i class="ri-{error ? 'close' : 'checkbox'}-circle-line text-xl" />
-												{displayFullName(pro)}
-											</Tag>
-										{:else}
-											&mdash;
-										{/each}
-									</td>
-									<td class="px-2 py-2 ">
-										{#each result.remove as { pro, error }}
-											<Tag
-												classNames={error ? 'text-marianne-red' : 'text-success'}
-												title={error || 'Suppression effectuée'}
-											>
-												<i class="ri-{error ? 'close' : 'checkbox'}-circle-line text-xl" />
-												{displayFullName(pro)}
-											</Tag>
-										{:else}
-											&mdash;
-										{/each}
-									</td>
-									<td class="px-2 py-2 ">
-										{#each result.structures as { structure, error }}
-											<Tag
-												classNames={error ? 'text-marianne-red' : 'text-success'}
-												title={error || 'Rattachement effectué !'}
-											>
-												<i class="ri-{error ? 'close' : 'checkbox'}-circle-line text-xl" />
-												{structure.name}
-											</Tag>
-										{:else}
-											&mdash;
-										{/each}
-									</td>
+									{#if result.error}
+										<td class="p-2 text text-marianne-red">
+											{result.error}
+										</td>
+									{:else}
+										<td class="px-2 py-2 ">
+											{#each result.insert as { pro, error }}
+												<Tag
+													classNames={error ? 'text-marianne-red' : 'text-success'}
+													title={error || 'Ajout effectué !'}
+												>
+													<i class="ri-{error ? 'close' : 'checkbox'}-circle-line text-xl" />
+													{displayFullName(pro)}
+												</Tag>
+											{:else}
+												&mdash;
+											{/each}
+										</td>
+										<td class="px-2 py-2 ">
+											{#each result.remove as { pro, error }}
+												<Tag
+													classNames={error ? 'text-marianne-red' : 'text-success'}
+													title={error || 'Suppression effectuée'}
+												>
+													<i class="ri-{error ? 'close' : 'checkbox'}-circle-line text-xl" />
+													{displayFullName(pro)}
+												</Tag>
+											{:else}
+												&mdash;
+											{/each}
+										</td>
+										<td class="px-2 py-2 ">
+											{#each result.structures as { structure, error }}
+												<Tag
+													classNames={error ? 'text-marianne-red' : 'text-success'}
+													title={error || 'Rattachement effectué !'}
+												>
+													<i class="ri-{error ? 'close' : 'checkbox'}-circle-line text-xl" />
+													{structure.name}
+												</Tag>
+											{:else}
+												&mdash;
+											{/each}
+										</td>
+									{/if}
 								</tr>
 							{/each}
 							{#if insertInProgress}

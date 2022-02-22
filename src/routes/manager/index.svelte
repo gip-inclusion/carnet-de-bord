@@ -20,14 +20,13 @@
 
 	$: deploymentInfo = $result.data;
 	$: structures = deploymentInfo?.structuresWithPros;
-	$: professionals = structures?.reduce((acc, structure) => {
+	$: professionals = structures?.flatMap((structure) => {
 		const structureId = structure.id;
-		const prosForStructure = structure.professionals_aggregate.nodes.map((pro) => ({
+		return structure.professionals.map((pro) => ({
 			...pro,
 			structureId,
 		}));
-		return [...acc, ...prosForStructure];
-	}, []);
+	});
 
 	function colorize(quantity: number, flip = false) {
 		const success = flip ? quantity === 0 : quantity !== 0;
