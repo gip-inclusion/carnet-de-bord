@@ -92,6 +92,9 @@
 </script>
 
 <script lang="ts">
+	import Alert from '$lib/ui/base/Alert.svelte';
+	import { baseUrlForRole } from '$lib/routes';
+
 	export let notebookId: string;
 	export let getNotebook: GetNotebookQueryStore;
 	export let selected: Period = threeMonths;
@@ -121,7 +124,7 @@
 	}
 
 	$: notebook = $getNotebook.data?.notebook;
-	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook.events;
+	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook?.events;
 	$: beneficiary = notebook?.beneficiary;
 	$: members = notebook?.members;
 	$: lastMember = members?.length ? members[0] : null;
@@ -141,84 +144,93 @@
 </svelte:head>
 
 <LoaderIndicator result={getNotebook}>
-	<ProNotebookPersonalInfoView
-		{beneficiary}
-		on:edit={() => alert('Not implemented!')}
-		on:print={() => alert('Not implemented!')}
-		lastUpdateDate={lastMember?.lastModifiedAt}
-		lastUpdateFrom={lastMember?.professional}
-	/>
-	<Accordions>
-		<MainAccordion title="Situation socioprofessionnelle">
-			<ProNotebookSocioProView {notebook} />
-		</MainAccordion>
-		<MainAccordion title="Groupe de suivi">
-			<ProNotebookMembersView
-				{members}
-				notebookId={notebook.id}
-				beneficiaryFirstname={beneficiary.firstname}
-				beneficiaryLastname={beneficiary.lastname}
-			/>
-		</MainAccordion>
-		<MainAccordion title="Axes de travail">
-			<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
-		</MainAccordion>
-		<MainAccordion title="Historique de parcours">
-			<div class="flex flex-row justify-between mb-2">
-				<Select
-					on:select={onSelect}
-					options={[
-						{ name: allEvents, label: 'Tous les évènements' },
-						{ name: threeMonths, label: 'Dans les 3 derniers mois' },
-						{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
-						{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
-						{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
-					]}
-					{selected}
-					selectHint="Sélectionner un filtre"
-					selectLabel="Période"
-					classNames="self-center"
-					twWidthClass="w-5/12"
+	{#if !notebook}
+		<Alert type="info" title="erreur"
+			>Carnet introuvable. Essayer de passer par <a
+				href={`${baseUrlForRole('professional')}/annuaire`}
+				title="Rechercher un bénéficiaire">l'annuaire</a
+			> pour rechercher le bénéficiaire.</Alert
+		>
+	{:else}
+		<ProNotebookPersonalInfoView
+			{beneficiary}
+			on:edit={() => alert('Not implemented!')}
+			on:print={() => alert('Not implemented!')}
+			lastUpdateDate={lastMember?.lastModifiedAt}
+			lastUpdateFrom={lastMember?.professional}
+		/>
+		<Accordions>
+			<MainAccordion title="Situation socioprofessionnelle">
+				<ProNotebookSocioProView {notebook} />
+			</MainAccordion>
+			<MainAccordion title="Groupe de suivi">
+				<ProNotebookMembersView
+					{members}
+					notebookId={notebook.id}
+					beneficiaryFirstname={beneficiary.firstname}
+					beneficiaryLastname={beneficiary.lastname}
 				/>
-				<SearchBar
-					inputLabel=""
-					inputHint="Axe de travail, action, structure"
-					bind:search
-					handleSubmit={handleSearch}
-					classNames="self-center"
-					twWidthClass="w-5/12"
-				/>
-			</div>
-			<div class={`w-full fr-table fr-table--layout-fixed`}>
-				<table class="w-full">
-					<thead>
-						<tr>
-							<th>Date</th>
-							<th>Évènements</th>
-							<th>Auteurs</th>
-						</tr>
-					</thead>
-					<tbody class="w-full">
-						{#each filteredEvents || [] as event (event.id)}
+			</MainAccordion>
+			<MainAccordion title="Axes de travail">
+				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
+			</MainAccordion>
+			<MainAccordion title="Historique de parcours">
+				<div class="flex flex-row justify-between mb-2">
+					<Select
+						on:select={onSelect}
+						options={[
+							{ name: allEvents, label: 'Tous les évènements' },
+							{ name: threeMonths, label: 'Dans les 3 derniers mois' },
+							{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
+							{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
+							{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
+						]}
+						{selected}
+						selectHint="Sélectionner un filtre"
+						selectLabel="Période"
+						classNames="self-center"
+						twWidthClass="w-5/12"
+					/>
+					<SearchBar
+						inputLabel=""
+						inputHint="Axe de travail, action, structure"
+						bind:search
+						handleSubmit={handleSearch}
+						classNames="self-center"
+						twWidthClass="w-5/12"
+					/>
+				</div>
+				<div class={`w-full fr-table fr-table--layout-fixed`}>
+					<table class="w-full">
+						<thead>
 							<tr>
-								<td>{formatDateLocale(event.eventDate)} </td>
-								<td>{event.event}</td>
-								<td>{event.structure} </td>
+								<th>Date</th>
+								<th>Évènements</th>
+								<th>Auteurs</th>
 							</tr>
-						{:else}
-							<tr class="shadow-sm">
-								<td class="!text-center" colspan="3">
-									{#if events.length > 0}
-										Aucun évènement ne correspond à votre recherche.
-									{:else}
-										Aucun évènement pour le moment.
-									{/if}
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-			</div>
-		</MainAccordion>
-	</Accordions>
+						</thead>
+						<tbody class="w-full">
+							{#each filteredEvents || [] as event (event.id)}
+								<tr>
+									<td>{formatDateLocale(event.eventDate)} </td>
+									<td>{event.event}</td>
+									<td>{event.structure} </td>
+								</tr>
+							{:else}
+								<tr class="shadow-sm">
+									<td class="!text-center" colspan="3">
+										{#if events.length > 0}
+											Aucun évènement ne correspond à votre recherche.
+										{:else}
+											Aucun évènement pour le moment.
+										{/if}
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			</MainAccordion>
+		</Accordions>
+	{/if}
 </LoaderIndicator>

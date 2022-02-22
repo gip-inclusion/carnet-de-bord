@@ -27,4 +27,7 @@
 	{#if description}
 		<p>{description}</p>
 	{/if}
+	{#if $$slots}
+		<slot />
+	{/if}
 </div>
