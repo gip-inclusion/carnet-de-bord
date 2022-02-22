@@ -1,3 +1,39 @@
+# [1.87.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.5...v1.87.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* add SonarCloud fixes ([6c247a1](https://github.com/SocialGouv/carnet-de-bord/commit/6c247a1b1c0425dac61fc380c3813dcc0dee560b))
+* allow pro to access deployement label ([ad31141](https://github.com/SocialGouv/carnet-de-bord/commit/ad31141d45de850863676b9dfb87e940c2923f59))
+* better wording for beneficiaries supervised by a structure ([37bf6e9](https://github.com/SocialGouv/carnet-de-bord/commit/37bf6e949f81c27cdeca8ba1709f9dc06b5d0e29))
+* correctly import types as types ([32b0596](https://github.com/SocialGouv/carnet-de-bord/commit/32b0596b88e07169176be3c1fae1e856476fe427))
+* force refetch of structure list after import ([0e68bf8](https://github.com/SocialGouv/carnet-de-bord/commit/0e68bf8c258f868d1ea24e0e1d72fd5813fc0b6a))
+* handle structure list ([eb2416d](https://github.com/SocialGouv/carnet-de-bord/commit/eb2416d52d016f9cbef3ecb7ba12eaf8bab283b8))
+* hide email from forms when editing existing accounts ([a984fd7](https://github.com/SocialGouv/carnet-de-bord/commit/a984fd71f4b7b69e167f28406321ae9763e8b9cd))
+* minor gql request error ([e4047f3](https://github.com/SocialGouv/carnet-de-bord/commit/e4047f3583808ecb6f0d475edeb27e96033fadf5))
+* minor typos ([73c779a](https://github.com/SocialGouv/carnet-de-bord/commit/73c779a2aeeecaa10c4653d040cd29bed16a27d2))
+* plural and color for Admin PDI dashboard ([f55b84e](https://github.com/SocialGouv/carnet-de-bord/commit/f55b84ed8b8586902f605978bd898abf5d55f068))
+* plural for Admin structure landing ([0579721](https://github.com/SocialGouv/carnet-de-bord/commit/0579721874c5fe8b01d83d983ff22c4bafc35cef))
+* remove display of pro username ([f8ec337](https://github.com/SocialGouv/carnet-de-bord/commit/f8ec337c79ea7f24783ed5a8b3e1ae5de1c08b06))
+* remove extraneous ending character in import benef template ([171b94c](https://github.com/SocialGouv/carnet-de-bord/commit/171b94caf270d8d102e2e3a7250121d57861ab5d))
+* stats request for admin pdi ([9d9da8a](https://github.com/SocialGouv/carnet-de-bord/commit/9d9da8acf889d24e29922b7cc4b7bf4d0ca02656))
+* suspend phone validation while we figure out how to do it correctly in imports ([012953b](https://github.com/SocialGouv/carnet-de-bord/commit/012953b72b27d64eccd338c9f8d614fbd275de41))
+* various admin fixes ([f613e60](https://github.com/SocialGouv/carnet-de-bord/commit/f613e602e04465c426e592292d3458d811d17f42))
+
+
+### Features
+
+* admin dpi ([18dabb7](https://github.com/SocialGouv/carnet-de-bord/commit/18dabb7e41a9eb269c58b9eab0e5bfb37c33bf08))
+* admin structure ([a008504](https://github.com/SocialGouv/carnet-de-bord/commit/a008504666e8e5798bcad04d32f471304c30506b))
+* admin structure ([6e9c27b](https://github.com/SocialGouv/carnet-de-bord/commit/6e9c27bd290a6655169e5dc917fa260675a7b46d))
+* clean up Create Deployment ([4364b91](https://github.com/SocialGouv/carnet-de-bord/commit/4364b9152a69722abc5f88f3e2b562e383820cf0))
+* disable Login button when clicked to prevent double key ([17bd618](https://github.com/SocialGouv/carnet-de-bord/commit/17bd6181366c45457fea8a489378fbfd975105ed))
+* insert beneficiary and assign to structure ([d02705a](https://github.com/SocialGouv/carnet-de-bord/commit/d02705a1500e4fd695a54d79659870ffd63184b5))
+* onboarding manager ([4893e33](https://github.com/SocialGouv/carnet-de-bord/commit/4893e33c35416772fc5547d557bc52c5ab8ff86e))
+* pluralize ([c99dd6c](https://github.com/SocialGouv/carnet-de-bord/commit/c99dd6c326f1442522296665db860e403b3a7211))
+* send email to newly created manager when deployment is added by Admin CdB ([4288fc9](https://github.com/SocialGouv/carnet-de-bord/commit/4288fc9c9d90282c89f2e0b56e5b18b304643b14))
+* send email when admin is attached to structure ([0c42745](https://github.com/SocialGouv/carnet-de-bord/commit/0c42745e77b30214cdf59c938299fbc846823520))
+
 ## [1.86.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.4...v1.86.5) (2022-02-21)
 
 
