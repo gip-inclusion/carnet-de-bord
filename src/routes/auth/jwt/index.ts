@@ -100,7 +100,8 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 
 	return {
 		headers: {
-			'set-cookie': `jwt=${user.token}; Path=/; HttpOnly; SameSite=Strict`,
+			'Cache-Control': 'private',
+			'set-cookie': `jwt=${user.token}; Path=/; HttpOnly; Secure; SameSite=Strict`,
 		},
 		body: {
 			jwt: user.token,
