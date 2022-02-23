@@ -14879,7 +14879,28 @@ export const GetDeploymentInfosDocument = {
 																					{
 																						kind: 'ObjectField',
 																						name: { kind: 'Name', value: '_not' },
-																						value: { kind: 'ObjectValue', fields: [] },
+																						value: {
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: 'active' },
+																									value: {
+																										kind: 'ObjectValue',
+																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: { kind: 'Name', value: '_eq' },
+																												value: {
+																													kind: 'BooleanValue',
+																													value: true,
+																												},
+																											},
+																										],
+																									},
+																								},
+																							],
+																						},
 																					},
 																				],
 																			},
@@ -14914,31 +14935,6 @@ export const GetDeploymentInfosDocument = {
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'structures' },
 						name: { kind: 'Name', value: 'structure_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
@@ -14957,31 +14953,6 @@ export const GetDeploymentInfosDocument = {
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'structuresWithPros' },
 						name: { kind: 'Name', value: 'structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
@@ -15014,20 +14985,6 @@ export const GetDeploymentInfosDocument = {
 								value: {
 									kind: 'ObjectValue',
 									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-													},
-												],
-											},
-										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: '_not' },

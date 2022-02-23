@@ -198,7 +198,6 @@
 
 	async function handleSubmit() {
 		insertInProgress = true;
-
 		const beneficiariesArray = beneficiariesToImport.map((beneficiary) => ({
 			beneficiary: {
 				firstname: { _ilike: beneficiary.firstname },
@@ -213,6 +212,7 @@
 			if (!$notebookStore.data) {
 				return;
 			}
+			unsubscribe();
 			const notebooks = $notebookStore.data.notebook;
 			const benefKeyToNotebook = notebooks.reduce((acc, notebook) => {
 				return { ...acc, [benefToKey(notebook.beneficiary)]: notebook };
@@ -253,7 +253,6 @@
 						},
 					}))
 			);
-			console.log({ insertPayload });
 			insertResult = [];
 			for (const payload of insertPayload) {
 				const result = await inserter({ member: payload.add, structure: payload.structure });
@@ -288,7 +287,6 @@
 						member: createMemberMatch(benefKeyToNotebook)(beneficiary)(pro),
 					}))
 			);
-			console.log({ removePayload });
 			removeResult = [];
 			for (const payload of removePayload) {
 				const result = await remover({ member: payload.member });
@@ -316,22 +314,7 @@
 				];
 			}
 
-			const structuresPayload = beneficiariesWithNotebook
-				.map((beneficiary) =>
-					(beneficiary.addStructures || '')
-						.split(',')
-						.map((s) => s.trim())
-						.map(structureNameToStructure)
-						.filter(Boolean)
-						.map((structure) => ({
-							structure,
-							beneficiary,
-							beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
-							structureId: structure.id,
-						}))
-				)
-				.flat();
-			console.log({ structuresPayload });
+			const structuresPayload = beneficiariesWithNotebook;
 			structuresResult = [];
 			for (const payload of structuresPayload) {
 				const result = await attacher({
@@ -400,7 +383,6 @@
 
 			insertInProgress = false;
 		});
-		unsubscribe();
 	}
 
 	function backToFileSelect() {

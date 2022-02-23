@@ -48,10 +48,10 @@ export const get: RequestHandler = async (request) => {
 	const data = result.data.structure_by_pk.beneficiaries
 		.map(
 			({ beneficiary }) =>
-				`${beneficiary.notebook?.id};${beneficiary.lastname};${beneficiary.firstname};${beneficiary.dateOfBirth}`
+				`${beneficiary.notebook?.id};${beneficiary.lastname};${beneficiary.firstname};${beneficiary.dateOfBirth};`
 		)
 		.join('\n');
-	const csv = `id; nom; prénom; date de naissance; emails des professionnels\n${data}`;
+	const csv = `id; nom; prénom; date de naissance; emails des professionnels\n${data}\n`;
 	return {
 		status: 200,
 		headers: {

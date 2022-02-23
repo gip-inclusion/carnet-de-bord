@@ -94,7 +94,7 @@
 	</div>
 	<h2 class="fr-h4">Importer des fichiers</h2>
 	<div class="fr-grid-row fr-grid-row--gutters">
-		<div class="fr-col-sm-6">
+		<div class="fr-col-sm-4 flex">
 			<Dialog
 				label="Importer des structures"
 				buttonLabel="Importer des structures"
@@ -106,7 +106,7 @@
 				<ImportStructures />
 			</Dialog>
 		</div>
-		<div class="fr-col-sm-6">
+		<div class="fr-col-sm-4 flex">
 			<Dialog
 				label="Importer des bénéficiaires"
 				buttonLabel="Importer des bénéficiaires"
@@ -118,9 +118,8 @@
 				<ImportBeneficiaries />
 			</Dialog>
 		</div>
-		<div class="fr-col-sm-6">
+		<div class="fr-col-sm-4 flex">
 			<Dialog
-				outlineButton={false}
 				label="Procéder à des réorientations"
 				title="Procéder à des réorientations"
 				size={'large'}
