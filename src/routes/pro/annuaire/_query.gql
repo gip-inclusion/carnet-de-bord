@@ -3,21 +3,9 @@ query SearchNotebookMember(
 	$filter: String
 	$visitDate: timestamptz_comparison_exp!
 ) {
-	notebook_member(
-		where: {
-			professionalId: { _eq: $professionalId }
-			notebook: {
-				beneficiary: {
-					_or: [
-						{ peNumber: { _ilike: $filter } }
-						{ cafNumber: { _ilike: $filter } }
-						{ lastname: { _ilike: $filter } }
-						{ mobileNumber: { _ilike: $filter } }
-					]
-				}
-			}
-			lastVisitedAt: $visitDate
-		}
+	search_notebook_members(
+		args: { search: $filter }
+		where: { professionalId: { _eq: $professionalId }, lastVisitedAt: $visitDate }
 		order_by: { lastModifiedAt: desc_nulls_first }
 	) {
 		id
