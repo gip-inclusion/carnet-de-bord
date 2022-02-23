@@ -16,10 +16,16 @@ export default (session: any) => {
 			const token = getToken(session);
 			if (token) {
 				return {
-					headers: { authorization: token ? `Bearer ${token}` : '' },
+					headers: {
+						Accept: 'application/json; version=1.0',
+						'Content-Type': 'application/json',
+						authorization: token ? `Bearer ${token}` : '',
+					},
 				};
 			}
 			return {
+				Accept: 'application/json; version=1.0',
+				'Content-Type': 'application/json',
 				headers: { 'X-Hasura-Role': 'anonymous' },
 			};
 		},
