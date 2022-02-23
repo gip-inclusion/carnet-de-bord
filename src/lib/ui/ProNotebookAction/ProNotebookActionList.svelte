@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { formatDateLocale } from '$lib/utils/date';
-	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 
+	import { UpdateActionStatusDocument } from '$lib/graphql/_gen/typed-document-nodes';
+
+	import type { UpdateNotebookActionMutation } from '$lib/graphql/_gen/typed-document-nodes';
+
+	import { mutation, OperationStore, operationStore } from '@urql/svelte';
+	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
+	import { Alert, Select } from '$lib/ui/base';
+	import { ActionStatus } from '$lib/enums';
 	type NotebookActionListType = {
 		target: string;
 		id: string;
@@ -14,6 +21,38 @@
 		}>;
 	};
 
+	const statusValues = [
+		{
+			label: 'En cours',
+			name: ActionStatus.InProgress,
+		},
+		{
+			label: 'Réalisée',
+			name: ActionStatus.Done,
+		},
+		{
+			label: 'Abandonnée',
+			name: ActionStatus.Abandoned,
+		},
+	];
+
+	const updateNotebookActionResult = operationStore(UpdateActionStatusDocument);
+	const updateNotebookAction = mutation(updateNotebookActionResult);
+	let updateResult: OperationStore<UpdateNotebookActionMutation>;
+
+	let error: string;
+
+	async function onChange(event, action_id: string) {
+		updateResult = await updateNotebookAction({
+			id: action_id,
+			status: event.detail.selected,
+		});
+
+		if (updateResult.error) {
+			error = "Erreur lors de la mise à jour de l'action.";
+		}
+	}
+
 	export let target: NotebookActionListType;
 	export let theme: string;
 </script>
@@ -23,8 +62,9 @@
 		<table class="w-full">
 			<thead>
 				<tr>
-					<th class="min-w-min w-3/5">Action</th>
+					<th class="min-w-min w-2/5">Action</th>
 					<th class="min-w-min">Créée par</th>
+					<th class="min-w-min">Statut</th>
 					<th class="min-w-min !text-right">Date de création</th>
 				</tr>
 			</thead>
@@ -36,7 +76,13 @@
 							<div>{action.creator.firstname}</div>
 							<div>{action.creator.lastname}</div>
 						</td>
-						<td class="!text-right">{formatDateLocale(action.createdAt)} </td>
+						<td
+							><Select
+								options={statusValues}
+								selected={action.status}
+								on:select={(event) => onChange(event, action.id)}
+							/>
+						</td><td class="!text-right">{formatDateLocale(action.createdAt)} </td>
 					</tr>
 				{:else}
 					<tr class="shadow-sm">
@@ -46,6 +92,12 @@
 			</tbody>
 		</table>
 	</div>
+
+	{#if error}
+		<div class="mb-8">
+			<Alert type="error" description={error} />
+		</div>
+	{/if}
 	<div class="py-1">
 		<ProNotebookActionCreate {target} {theme} />
 	</div>

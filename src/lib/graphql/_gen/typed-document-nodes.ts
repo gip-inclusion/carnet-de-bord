@@ -7383,6 +7383,16 @@ export type GetRefActionsQuery = {
 	refActions: Array<{ __typename?: 'ref_action'; id: string; description: string }>;
 };
 
+export type UpdateActionStatusMutationVariables = Exact<{
+	status: Scalars['String'];
+	id: Scalars['uuid'];
+}>;
+
+export type UpdateActionStatusMutation = {
+	__typename?: 'mutation_root';
+	updateStatus?: { __typename?: 'notebook_action'; id: string } | null | undefined;
+};
+
 export type UpdateNotebookContractMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	contractType: Scalars['String'];
@@ -10809,6 +10819,78 @@ export const GetRefActionsDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetRefActionsQuery, GetRefActionsQueryVariables>;
+export const UpdateActionStatusDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateActionStatus' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateStatus' },
+						name: { kind: 'Name', value: 'update_notebook_action_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateActionStatusMutation, UpdateActionStatusMutationVariables>;
 export const UpdateNotebookContractDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18340,6 +18422,10 @@ export type AddNotebookActionMutationStore = OperationStore<
 export type GetRefActionsQueryStore = OperationStore<
 	GetRefActionsQuery,
 	GetRefActionsQueryVariables
+>;
+export type UpdateActionStatusMutationStore = OperationStore<
+	UpdateActionStatusMutation,
+	UpdateActionStatusMutationVariables
 >;
 export type UpdateNotebookContractMutationStore = OperationStore<
 	UpdateNotebookContractMutation,
