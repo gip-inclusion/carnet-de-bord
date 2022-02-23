@@ -1,3 +1,10 @@
+# [1.88.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.87.0...v1.88.0) (2022-02-23)
+
+
+### Features
+
+* enhance full text search ([#637](https://github.com/SocialGouv/carnet-de-bord/issues/637)) ([7b7d3c9](https://github.com/SocialGouv/carnet-de-bord/commit/7b7d3c96bdaa7ad0096a2299175a07cff6602b1e))
+
 # [1.87.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.86.5...v1.87.0) (2022-02-22)
 
 
