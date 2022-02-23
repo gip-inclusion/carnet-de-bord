@@ -13,13 +13,13 @@ Soit('un utilisateur sur la page {string}', (page) => {
 });
 
 Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
-	const token = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
+	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 	await I.sendMutation(
 		`mutation setAccessToken {
-			update_account(where: {beneficiary: {email: {_eq: "${email}"}}} _set: {accessKey: "${token}"}) { affected_rows }
+			update_account(where: {beneficiary: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
 	}`
 	);
-	I.amOnPage(`/auth/jwt/${token}`);
+	I.amOnPage(`/auth/jwt/${fakeToken}`);
 });
 
 //
