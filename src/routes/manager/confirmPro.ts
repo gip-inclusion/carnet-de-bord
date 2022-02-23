@@ -36,9 +36,7 @@ const validateBody = (body: unknown): body is ConfirmPro => {
 	return confirmProSchema.isType(body);
 };
 
-export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
-	request
-) => {
+export const post: RequestHandler = async ({ request }) => {
 	try {
 		authorizeOnly(['manager'])(request);
 	} catch (e) {
@@ -47,7 +45,8 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		};
 	}
 
-	const body = request.body;
+	const body = await request.json();
+
 	if (!validateBody(body)) {
 		return {
 			status: 400,

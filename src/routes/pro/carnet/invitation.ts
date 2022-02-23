@@ -29,10 +29,9 @@ const validateBody = (body: unknown): body is CarnetInvitation => {
 	return carnetInvitationSchema.isType(body);
 };
 
-export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
-	request
-) => {
-	const body = request.body;
+export const post: RequestHandler = async ({ request }) => {
+	const body = await request.json();
+
 	if (!validateBody(body)) {
 		return {
 			status: 400,

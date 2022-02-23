@@ -7,20 +7,14 @@ import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 
-type Body = {
-	input: {
-		email: string;
-		deployment: string;
-	};
-};
-
-export const post: RequestHandler<unknown, Body> = async (request) => {
+export const post: RequestHandler = async ({ request }) => {
+	const body = await request.json();
 	try {
 		actionsGuard(request.headers);
 	} catch (error) {
 		console.error(
 			'Rejected access to actions/create_deployment because request lacked proper headers',
-			{ headers: request.headers, body: request.body }
+			{ headers: request.headers, body }
 		);
 		return {
 			status: 401,
@@ -42,7 +36,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 
 	const {
 		input: { deployment, email },
-	} = request.body;
+	} = body;
 
 	const updateResult = await client
 		.mutation(CreateDeploymentFromApiDocument, {

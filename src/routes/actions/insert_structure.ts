@@ -42,8 +42,8 @@ function actionError(message: string, status = 400): EndpointOutput {
 		},
 	};
 }
-export const post: RequestHandler<unknown, Body> = async (request) => {
-	const { input } = request.body;
+export const post: RequestHandler = async ({ request }) => {
+	const { input } = (await request.json()) as Body;
 	try {
 		actionsGuard(request.headers);
 	} catch (_e) {

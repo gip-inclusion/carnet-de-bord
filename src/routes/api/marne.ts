@@ -6,19 +6,17 @@ import type {
 	NotebookTargetInsertInput,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { BeneficiaryAccount } from '$lib/types';
-import type { EndpointOutput } from '@sveltejs/kit';
-import type { ServerRequest } from '@sveltejs/kit/types/hooks';
+import type { RequestHandler } from '@sveltejs/kit';
 import type {
 	ExternalDeploymentApiBody,
 	ExternalDeploymentApiOutput,
 } from '../actions/update_notebook';
 import type { MarneInput, MarneAction, MarneFocus } from './marne.types';
 
-export const post = async (
-	request: ServerRequest<unknown, ExternalDeploymentApiBody>
-): Promise<EndpointOutput<ExternalDeploymentApiOutput | string>> => {
+export const post: RequestHandler = async ({ request }) => {
+	const { url, headers, input, professionalId, notebookId, focuses } =
+		(await request.json()) as ExternalDeploymentApiBody;
 	try {
-		const { url, headers, input, professionalId, notebookId, focuses } = request.body;
 		const data: MarneInput = await fetch(`${url}${urlify(input)}`, { headers }).then(
 			async (response) => {
 				if (response.ok) {
@@ -37,7 +35,7 @@ export const post = async (
 			body: parse(data, professionalId, notebookId, focuses),
 		};
 	} catch (error) {
-		console.error('[marne parser]', error, request.body.input);
+		console.error('[marne parser]', error, input);
 		return {
 			status: 500,
 			body: 'API PARSE ERROR',
