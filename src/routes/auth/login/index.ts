@@ -40,26 +40,13 @@ const validateBody = (body: unknown): body is Login => {
 	return loginSchema.isType(body);
 };
 
-<<<<<<< HEAD
 /**
  * Process
  * - try to find an account by email
  * - try to find an account by username (deprecated)
  */
-export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
-	request
-) => {
-	const body = request.body;
-||||||| parent of 371c2aef (chore: udpate sveltekit)
-export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
-	request
-) => {
-	const body = request.body;
-=======
 export const post: RequestHandler = async ({ request }) => {
 	const body = await request.json();
-	console.log({ body });
->>>>>>> 371c2aef (chore: udpate sveltekit)
 	if (!validateBody(body)) {
 		return {
 			status: 400,

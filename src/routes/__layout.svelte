@@ -46,6 +46,11 @@
 	let unsubscribe: () => void;
 
 	onMount(() => {
+		window.dsfr = {
+			verbose: false,
+			mode: 'loaded',
+		};
+
 		const { body } = document;
 		const scrollDiv = document.createElement('div');
 
@@ -96,4 +101,22 @@
 		</style>
 	{/if}
 </svelte:head>
+
 <slot />
+
+<style>
+	:global(body::after) {
+		content: 'BETA';
+		color: #fff;
+		background: #d63626;
+		text-align: center;
+		font-size: 1.2rem;
+		font-weight: bold;
+		padding: 0.2rem 1.9rem;
+		position: fixed;
+		z-index: 2;
+		top: 0.3rem;
+		left: -1.8rem;
+		transform: rotate(-45deg);
+	}
+</style>

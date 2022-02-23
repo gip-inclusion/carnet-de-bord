@@ -1,9 +1,5 @@
-import type { EndpointOutput } from '@sveltejs/kit';
-import type { ServerRequest } from '@sveltejs/kit/types/hooks';
-import type {
-	ExternalDeploymentApiBody,
-	ExternalDeploymentApiOutput,
-} from '../actions/update_notebook';
+import type { EndpointOutput, RequestEvent } from '@sveltejs/kit';
+import type { ExternalDeploymentApiOutput } from '../actions/update_notebook';
 import fixtures from './fixtures.json';
 import { post } from './marne';
 
@@ -11,10 +7,42 @@ global.fetch = jest
 	.fn()
 	.mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(fixtures) }));
 
+function mockRequest(data): RequestEvent {
+	return {
+		url: new URL('https://io.io'),
+		locals: {},
+		params: {},
+		platform: 'test',
+		request: {
+			formData: null,
+			cache: 'default',
+			credentials: 'include',
+			destination: null,
+			headers: null,
+			integrity: '',
+			keepalive: true,
+			method: 'GET',
+			mode: 'cors',
+			redirect: 'manual',
+			referrer: '',
+			referrerPolicy: 'origin',
+			signal: null,
+			clone: () => null,
+			body: null,
+			bodyUsed: false,
+			url: '',
+			arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+			blob: () => Promise.resolve(new Blob()),
+			text: () => Promise.resolve(`${data}`),
+			json: () => Promise.resolve(data),
+		},
+	};
+}
+
 describe('marne request handler', () => {
 	test('should call the correct url', async () => {
-		await post({
-			body: {
+		await post(
+			mockRequest({
 				url: 'service.url',
 				headers: { Authorization: 'bearer 1234567890' },
 				input: {
@@ -24,8 +52,8 @@ describe('marne request handler', () => {
 				},
 				professionalId: 'uuid',
 				focuses: [],
-			},
-		} as unknown as ServerRequest<unknown, ExternalDeploymentApiBody>);
+			})
+		);
 		expect(global.fetch).toHaveBeenCalledWith('service.url/BE/LIONEL/01-12-2000', {
 			headers: { Authorization: 'bearer 1234567890' },
 		});
@@ -108,8 +136,9 @@ describe('marne request handler', () => {
 			targets: [],
 			actions: [],
 		};
-		const result = await post({
-			body: {
+
+		const result = await post(
+			mockRequest({
 				url: 'service.url',
 				headers: { Authorization: 'bearer 1234567890' },
 				input: {
@@ -120,8 +149,8 @@ describe('marne request handler', () => {
 				notebookId: 'notebook-uuid',
 				professionalId: 'creator-uuid',
 				focuses: [],
-			},
-		} as unknown as ServerRequest<unknown, ExternalDeploymentApiBody>);
+			})
+		);
 
 		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
 			status: 200,
@@ -202,8 +231,8 @@ describe('marne request handler', () => {
 			],
 			actions: [],
 		};
-		const result = await post({
-			body: {
+		const result = await post(
+			mockRequest({
 				url: 'service.url',
 				headers: { Authorization: 'bearer 1234567890' },
 				input: {
@@ -228,8 +257,8 @@ describe('marne request handler', () => {
 						],
 					},
 				],
-			},
-		} as unknown as ServerRequest<unknown, ExternalDeploymentApiBody>);
+			})
+		);
 
 		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
 			status: 200,
@@ -302,8 +331,8 @@ describe('marne request handler', () => {
 			],
 		};
 
-		const result = await post({
-			body: {
+		const result = await post(
+			mockRequest({
 				url: 'service.url',
 				headers: { Authorization: 'bearer 1234567890' },
 				input: {
@@ -328,8 +357,8 @@ describe('marne request handler', () => {
 						],
 					},
 				],
-			},
-		} as unknown as ServerRequest<unknown, ExternalDeploymentApiBody>);
+			})
+		);
 
 		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
 			status: 200,

@@ -42,6 +42,18 @@ function actionError(message: string, status = 400): EndpointOutput {
 		},
 	};
 }
+
+/**
+ *
+ * Action appellée lors de l'import d'une structure
+ * Plusieurs cas possible
+ * 1 - la structure existe deja, dans ce cas on met à jour les infos si le parametre `forUpdate` est présent
+ *     sinon on renvoie une erreur
+ * 2 - la structure n'existe pas, dans ce cas on regarde si l'admin de structure existe.
+ *     si il existe on ne fait que le rattaché et on lui envoi un mail
+ *     sinon on crée le compte admin de structure et on envoi un mail
+ */
+
 export const post: RequestHandler = async ({ request }) => {
 	const { input } = (await request.json()) as Body;
 	try {
@@ -175,7 +187,7 @@ function actionSuccess(structureId: string) {
 	};
 }
 
-async function sendEmailNewAccount(
+function sendEmailNewAccount(
 	adminStructure: AdminStructureInput,
 	structure: StructureInput,
 	accessKey: string

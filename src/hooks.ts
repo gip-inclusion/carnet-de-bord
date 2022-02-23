@@ -14,26 +14,22 @@ export const handle: Handle = async ({ event, resolve }) => {
 		try {
 			const { key, type } = getJwtKey();
 			const user = jwt.verify(cookies.jwt, key, { algorithms: [type] });
-			event.locals = { user, token: cookies.jwt };
+			event.locals = { user, token: cookies.jwt, getGraphqlAPI: getGraphqlAPI() };
 		} catch (error) {
 			event.locals = { user: null, token: null };
 		}
 	} else {
 		event.locals = { user: null, token: null };
 	}
-	return await resolve(event);
+	return resolve(event);
 };
 
 export const getSession: GetSession = async (event) => {
-	const session = event.locals['user']
-		? {
-				user: event.locals['user'],
-				token: event.locals['token'],
-				graphqlAPI: getGraphqlAPI(),
-		  }
-		: {};
-
-	return session;
+	return {
+		user: event.locals['user'],
+		token: event.locals['token'],
+		graphqlAPI: getGraphqlAPI(),
+	};
 };
 
 export async function serverFetch(request: Request): Promise<Response> {

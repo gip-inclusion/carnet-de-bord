@@ -24,9 +24,11 @@ export default (session: any) => {
 				};
 			}
 			return {
-				Accept: 'application/json; version=1.0',
-				'Content-Type': 'application/json',
-				headers: { 'X-Hasura-Role': 'anonymous' },
+				headers: {
+					Accept: 'application/json; version=1.0',
+					'Content-Type': 'application/json',
+					'X-Hasura-Role': 'anonymous',
+				},
 			};
 		},
 	});

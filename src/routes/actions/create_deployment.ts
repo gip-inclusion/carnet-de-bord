@@ -114,6 +114,7 @@ export const post: RequestHandler = async ({ request }) => {
 	}).catch((emailError) => {
 		console.error('Could not send email', { error: emailError, email, deployment });
 	});
+
 	return {
 		status: 200,
 		body: {
