@@ -1,3 +1,10 @@
+## [1.88.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.88.0...v1.88.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* update pg ([#651](https://github.com/SocialGouv/carnet-de-bord/issues/651)) ([db3d040](https://github.com/SocialGouv/carnet-de-bord/commit/db3d04038e4bcdeee2bdf9838cb9b327524bbb50))
+
 # [1.88.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.87.0...v1.88.0) (2022-02-23)
 
 
