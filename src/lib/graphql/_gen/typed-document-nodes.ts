@@ -1486,8 +1486,6 @@ export type BeneficiaryStructureBoolExp = {
 /** unique or primary key constraints on table "beneficiary_structure" */
 export enum BeneficiaryStructureConstraint {
 	/** unique or primary key constraint */
-	BeneficiaryStructureBeneficiaryIdStructureIdStatusKey = 'beneficiary_structure_beneficiary_id_structure_id_status_key',
-	/** unique or primary key constraint */
 	BeneficiaryStructurePkey = 'beneficiary_structure_pkey',
 }
 
@@ -4178,7 +4176,6 @@ export type NotebookMaxFields = {
 /** columns and relationships of "notebook_member" */
 export type NotebookMember = {
 	__typename?: 'notebook_member';
-	active?: Maybe<Scalars['Boolean']>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	creator?: Maybe<Professional>;
@@ -4236,7 +4233,6 @@ export type NotebookMemberBoolExp = {
 	_and?: InputMaybe<Array<NotebookMemberBoolExp>>;
 	_not?: InputMaybe<NotebookMemberBoolExp>;
 	_or?: InputMaybe<Array<NotebookMemberBoolExp>>;
-	active?: InputMaybe<BooleanComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	creator?: InputMaybe<ProfessionalBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
@@ -4261,7 +4257,6 @@ export enum NotebookMemberConstraint {
 
 /** input type for inserting data into table "notebook_member" */
 export type NotebookMemberInsertInput = {
-	active?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	creator?: InputMaybe<ProfessionalObjRelInsertInput>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
@@ -4348,7 +4343,6 @@ export type NotebookMemberOnConflict = {
 
 /** Ordering options when selecting data from "notebook_member". */
 export type NotebookMemberOrderBy = {
-	active?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	creator?: InputMaybe<ProfessionalOrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
@@ -4371,8 +4365,6 @@ export type NotebookMemberPkColumnsInput = {
 /** select columns of table "notebook_member" */
 export enum NotebookMemberSelectColumn {
 	/** column name */
-	Active = 'active',
-	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
 	CreatorId = 'creatorId',
@@ -4394,7 +4386,6 @@ export enum NotebookMemberSelectColumn {
 
 /** input type for updating data in table "notebook_member" */
 export type NotebookMemberSetInput = {
-	active?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
@@ -4408,8 +4399,6 @@ export type NotebookMemberSetInput = {
 
 /** update columns of table "notebook_member" */
 export enum NotebookMemberUpdateColumn {
-	/** column name */
-	Active = 'active',
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
@@ -8099,6 +8088,17 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		__typename?: 'notebook';
 		id: string;
 		workSituation?: string | null | undefined;
+		workSituationDate?: string | null | undefined;
+		rightAre: boolean;
+		rightAss?: boolean | null | undefined;
+		rightRsa?: string | null | undefined;
+		rightRqth: boolean;
+		rightBonus: boolean;
+		contractType?: string | null | undefined;
+		contractSignDate?: string | null | undefined;
+		educationLevel?: string | null | undefined;
+		job?: string | null | undefined;
+		geographicalArea?: string | null | undefined;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: string | null | undefined;
@@ -8138,6 +8138,40 @@ export type GetNotebookByBeneficiaryIdQuery = {
 					city?: string | null | undefined;
 				};
 			};
+		}>;
+		focuses: Array<{
+			__typename?: 'notebook_focus';
+			theme: string;
+			situations?: any | null | undefined;
+			professional: {
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				structure: { __typename?: 'structure'; name?: string | null | undefined };
+			};
+			targets: Array<{
+				__typename?: 'notebook_target';
+				target: string;
+				createdAt: string;
+				professional: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name?: string | null | undefined };
+				};
+				actions: Array<{
+					__typename?: 'notebook_action';
+					action: string;
+					createdAt: string;
+					status: string;
+					creator: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name?: string | null | undefined };
+					};
+				}>;
+			}>;
 		}>;
 	}>;
 };
@@ -14698,6 +14732,17 @@ export const GetNotebookByBeneficiaryIdDocument = {
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'workSituationDate' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightAre' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightRqth' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'job' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
@@ -14769,6 +14814,128 @@ export const GetNotebookByBeneficiaryIdDocument = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'focuses' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'createdAt' },
+														value: { kind: 'EnumValue', value: 'desc_nulls_first' },
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																],
+															},
+														},
+													],
+												},
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'targets' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'professional' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'structure' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'actions' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'action' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'creator' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'structure' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'name' },
+																							},
+																						],
+																					},
+																				},
+																			],
+																		},
+																	},
 																],
 															},
 														},

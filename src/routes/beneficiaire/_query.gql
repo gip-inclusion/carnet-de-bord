@@ -2,6 +2,17 @@ query getNotebookByBeneficiaryId($id: uuid!) {
 	notebook(where: { beneficiaryId: { _eq: $id } }) {
 		id
 		workSituation
+		workSituationDate
+		rightAre
+		rightAss
+		rightRsa
+		rightRqth
+		rightBonus
+		contractType
+		contractSignDate
+		educationLevel
+		job
+		geographicalArea
 		beneficiary {
 			address1
 			address2
@@ -35,6 +46,40 @@ query getNotebookByBeneficiaryId($id: uuid!) {
 					address2
 					postalCode
 					city
+				}
+			}
+		}
+		focuses(order_by: { createdAt: desc_nulls_first }) {
+			theme
+			situations
+			professional {
+				firstname
+				lastname
+				structure {
+					name
+				}
+			}
+			targets {
+				target
+				createdAt
+				professional {
+					firstname
+					lastname
+					structure {
+						name
+					}
+				}
+				actions {
+					action
+					createdAt
+					status
+					creator {
+						firstname
+						lastname
+						structure {
+							name
+						}
+					}
 				}
 			}
 		}

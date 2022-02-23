@@ -4,9 +4,11 @@
 		GetNotebookByBeneficiaryIdQueryStore,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Accordion, Accordions } from '$lib/ui/base';
-	import { PartNotebookPersonalInfoView } from '$lib/ui/PartNotebookPersonalInfo';
+	import MainAccordion from '$lib/ui/base/MainAccordion.svelte';
+	import NotebookMembers from '$lib/ui/Beneficiary/NotebookMembers.svelte';
+	import BeneficiaryPersonalInfoView from '$lib/ui/Beneficiary/PersonnalInfoView.svelte';
+	import SocioProView from '$lib/ui/Beneficiary/SocioProView.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import Text from '$lib/ui/utils/Text.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 
@@ -23,6 +25,10 @@
 </script>
 
 <script lang="ts">
+	import { focusThemeKeys } from '$lib/constants/keys';
+	import { displayFullName } from '$lib/ui/format';
+	import { formatDateLocale } from '$lib/utils/date';
+
 	export let getNotebookResult: GetNotebookByBeneficiaryIdQueryStore;
 
 	query(getNotebookResult);
@@ -36,48 +42,48 @@
 	<title>Accueil Bénéficiaire - Carnet de bord</title>
 </svelte:head>
 <LoaderIndicator result={getNotebookResult}>
-	<div class="flex flex-col px-40 space-y-8">
-		<PartNotebookPersonalInfoView
-			{beneficiary}
-			on:edit={() => alert('Not implemented!')}
-			on:print={() => window.print()}
-			lastUpdateDate={members[0].lastModifiedAt}
-			lastUpdateFrom={members[0].professional}
-		/>
+	<BeneficiaryPersonalInfoView
+		{beneficiary}
+		lastUpdateDate={members[0].lastModifiedAt}
+		lastUpdateFrom={members[0].professional}
+	/>
 
-		<Accordions>
-			<Accordion title="Groupe de suivi">
-				{#each members as member, i}
-					<div
-						class:bg-gray-100={i % 2 === 0}
-						class="flex w-full gap-2 p-2 mb-2 border-l-2 cursor-pointer hover:ml-2 border-france-blue"
-					>
-						<div class="flex flex-col w-1/2 min-w-0">
-							<div class="text-gray-text-alt">Structure</div>
-							<Text
-								classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-								value={member.professional.structure.name}
-							/>
+	<Accordions>
+		<MainAccordion title="Situation socioprofessionnelle">
+			<SocioProView {notebook} />
+		</MainAccordion>
+		<MainAccordion title="Groupe de suivi">
+			<NotebookMembers members={notebook.members} />
+		</MainAccordion>
+		<MainAccordion title="Plan d'action">
+			<ul class="list-none pl-0">
+				{#each notebook.focuses as focus}
+					<li>
+						<h3 class="fr-h4">
+							<span><span class="fr-fi-arrow-right-s-line" aria-hidden="true" /></span
+							>{focusThemeKeys.byKey[focus.theme]}
+						</h3>
+						<p>{focus.situations.join('<br/>')}</p>
+						<div class="py-4">
+							<Accordions>
+								{#each focus.targets as target}
+									<Accordion title={target.target}>
+										<ul>
+											{#each target.actions as action}
+												<li>
+													{action.action}
+													créé le {formatDateLocale(action.createdAt)}
+													par {displayFullName(action.creator)}
+												</li>
+											{/each}
+										</ul>
+									</Accordion>
+								{/each}
+							</Accordions>
 						</div>
-						<div class="flex flex-col w-1/4 min-w-0">
-							<div class="text-gray-text-alt">Accompagnateur</div>
-							<div
-								class="flex flex-row gap-2 overflow-hidden font-bold overflow-ellipsis whitespace-nowrap"
-							>
-								<Text classNames="font-bold" value={member.professional.firstname} />
-								<Text classNames="font-bold" value={member.professional.lastname} />
-							</div>
-						</div>
-						<div class="flex flex-col w-1/4 min-w-0">
-							<div class="text-gray-text-alt">Fonction</div>
-							<Text
-								classNames="font-bold overflow-ellipsis overflow-hidden whitespace-nowrap"
-								value={member.professional.position}
-							/>
-						</div>
-					</div>
+					</li>
 				{/each}
-			</Accordion>
-		</Accordions>
-	</div>
+			</ul>
+		</MainAccordion>
+	</Accordions>
 </LoaderIndicator>
