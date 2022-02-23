@@ -23,14 +23,14 @@ const managerHome: Route = {
 };
 
 const beneficiaryHome: Route = {
-	path: '/particulier',
+	path: '/beneficiaire',
 };
 
 const adminStructureHome: Route = {
 	path: '/structures',
 };
 
-type AppRoles = 'professional' | 'admin_cdb' | 'beneficiary' | 'manager' | 'admin_structure';
+export type AppRoles = 'professional' | 'admin_cdb' | 'beneficiary' | 'manager' | 'admin_structure';
 
 const homes: Record<AppRoles, Route> = {
 	professional: proHome,
@@ -53,7 +53,7 @@ export const baseUrlForRole = (role: AppRoles): string => {
 	} else if (role === 'admin_cdb') {
 		return '/admin';
 	} else if (role === 'beneficiary') {
-		return '/particulier';
+		return '/beneficiaire';
 	} else if (role === 'manager') {
 		return '/manager';
 	} else if (role === 'admin_structure') {

@@ -71,6 +71,21 @@ select_permissions:
 - permission:
     columns:
     - created_at
+    - creator_id
+    - id
+    - linked_to
+    - notebook_id
+    - situations
+    - theme
+    - updated_at
+    filter:
+      notebook:
+        beneficiary_id:
+          _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
+- permission:
+    columns:
+    - created_at
     - updated_at
     filter:
       notebook:

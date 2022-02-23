@@ -1,0 +1,12 @@
+mutation CreateBeneficiaryAccount($username: String!, $beneficiaryId: uuid!) {
+	insert_account_one(
+		object: {
+			username: $username
+			beneficiaryId: $beneficiaryId
+			type: "beneficiary"
+			confirmed: true
+		}
+	) {
+		id
+	}
+}

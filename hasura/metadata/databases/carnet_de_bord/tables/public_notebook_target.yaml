@@ -64,6 +64,20 @@ select_permissions:
 - permission:
     columns:
     - created_at
+    - creator_id
+    - focus_id
+    - id
+    - target
+    - updated_at
+    filter:
+      focus:
+        notebook:
+          beneficiary_id:
+            _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
+- permission:
+    columns:
+    - created_at
     - updated_at
     filter:
       focus:

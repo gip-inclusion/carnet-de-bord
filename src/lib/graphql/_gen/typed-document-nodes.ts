@@ -7957,6 +7957,16 @@ export type ResetAccountAccessKeyMutation = {
 		| undefined;
 };
 
+export type CreateBeneficiaryAccountMutationVariables = Exact<{
+	username: Scalars['String'];
+	beneficiaryId: Scalars['uuid'];
+}>;
+
+export type CreateBeneficiaryAccountMutation = {
+	__typename?: 'mutation_root';
+	insert_account_one?: { __typename?: 'account'; id: string } | null | undefined;
+};
+
 export type GetAccountByUsernameQueryVariables = Exact<{
 	comp: StringComparisonExp;
 }>;
@@ -8055,6 +8065,20 @@ export type GetAccountByEmailQuery = {
 	}>;
 };
 
+export type GetBenefiaryByEmailQueryVariables = Exact<{
+	email: Scalars['citext'];
+}>;
+
+export type GetBenefiaryByEmailQuery = {
+	__typename?: 'query_root';
+	beneficiary: Array<{
+		__typename?: 'beneficiary';
+		firstname: string;
+		lastname: string;
+		id: string;
+	}>;
+};
+
 export type UpdateAccountAccessKeyMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	input?: InputMaybe<AccountSetInput>;
@@ -8063,6 +8087,59 @@ export type UpdateAccountAccessKeyMutationVariables = Exact<{
 export type UpdateAccountAccessKeyMutation = {
 	__typename?: 'mutation_root';
 	account?: { __typename?: 'account'; accessKey?: string | null | undefined } | null | undefined;
+};
+
+export type GetNotebookByBeneficiaryIdQueryVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type GetNotebookByBeneficiaryIdQuery = {
+	__typename?: 'query_root';
+	notebook: Array<{
+		__typename?: 'notebook';
+		id: string;
+		workSituation?: string | null | undefined;
+		beneficiary: {
+			__typename?: 'beneficiary';
+			address1?: string | null | undefined;
+			address2?: string | null | undefined;
+			cafNumber?: string | null | undefined;
+			city?: string | null | undefined;
+			dateOfBirth: string;
+			email?: string | null | undefined;
+			firstname: string;
+			id: string;
+			lastname: string;
+			mobileNumber?: string | null | undefined;
+			peNumber?: string | null | undefined;
+			postalCode?: string | null | undefined;
+		};
+		members: Array<{
+			__typename?: 'notebook_member';
+			id: string;
+			memberType: string;
+			lastModifiedAt?: string | null | undefined;
+			lastVisitedAt?: string | null | undefined;
+			professional: {
+				__typename?: 'professional';
+				id: string;
+				lastname: string;
+				firstname: string;
+				position?: string | null | undefined;
+				email: string;
+				mobileNumber?: string | null | undefined;
+				structure: {
+					__typename?: 'structure';
+					id: string;
+					name?: string | null | undefined;
+					address1?: string | null | undefined;
+					address2?: string | null | undefined;
+					postalCode?: string | null | undefined;
+					city?: string | null | undefined;
+				};
+			};
+		}>;
+	}>;
 };
 
 export type GetDeploymentManagersForStructureQueryVariables = Exact<{
@@ -8293,59 +8370,6 @@ export type GetAccountsSummaryQuery = {
 			  }
 			| null
 			| undefined;
-	}>;
-};
-
-export type GetNotebookByBeneficiaryIdQueryVariables = Exact<{
-	id: Scalars['uuid'];
-}>;
-
-export type GetNotebookByBeneficiaryIdQuery = {
-	__typename?: 'query_root';
-	notebook: Array<{
-		__typename?: 'notebook';
-		id: string;
-		workSituation?: string | null | undefined;
-		beneficiary: {
-			__typename?: 'beneficiary';
-			address1?: string | null | undefined;
-			address2?: string | null | undefined;
-			cafNumber?: string | null | undefined;
-			city?: string | null | undefined;
-			dateOfBirth: string;
-			email?: string | null | undefined;
-			firstname: string;
-			id: string;
-			lastname: string;
-			mobileNumber?: string | null | undefined;
-			peNumber?: string | null | undefined;
-			postalCode?: string | null | undefined;
-		};
-		members: Array<{
-			__typename?: 'notebook_member';
-			id: string;
-			memberType: string;
-			lastModifiedAt?: string | null | undefined;
-			lastVisitedAt?: string | null | undefined;
-			professional: {
-				__typename?: 'professional';
-				id: string;
-				lastname: string;
-				firstname: string;
-				position?: string | null | undefined;
-				email: string;
-				mobileNumber?: string | null | undefined;
-				structure: {
-					__typename?: 'structure';
-					id: string;
-					name?: string | null | undefined;
-					address1?: string | null | undefined;
-					address2?: string | null | undefined;
-					postalCode?: string | null | undefined;
-					city?: string | null | undefined;
-				};
-			};
-		}>;
 	}>;
 };
 
@@ -14190,6 +14214,81 @@ export const ResetAccountAccessKeyDocument = {
 		},
 	],
 } as unknown as DocumentNode<ResetAccountAccessKeyMutation, ResetAccountAccessKeyMutationVariables>;
+export const CreateBeneficiaryAccountDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'CreateBeneficiaryAccount' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'username' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_account_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'username' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'username' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'type' },
+											value: { kind: 'StringValue', value: 'beneficiary', block: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: { kind: 'BooleanValue', value: true },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	CreateBeneficiaryAccountMutation,
+	CreateBeneficiaryAccountMutationVariables
+>;
 export const GetAccountByUsernameDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14407,6 +14506,82 @@ export const GetAccountByEmailDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>;
+export const GetBenefiaryByEmailDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetBenefiaryByEmail' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'beneficiary' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_not' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'account' },
+														value: { kind: 'ObjectValue', fields: [] },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetBenefiaryByEmailQuery, GetBenefiaryByEmailQueryVariables>;
 export const UpdateAccountAccessKeyDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14469,6 +14644,150 @@ export const UpdateAccountAccessKeyDocument = {
 } as unknown as DocumentNode<
 	UpdateAccountAccessKeyMutation,
 	UpdateAccountAccessKeyMutationVariables
+>;
+export const GetNotebookByBeneficiaryIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'getNotebookByBeneficiaryId' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'notebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'members' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastModifiedAt' },
+														value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastVisitedAt' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetNotebookByBeneficiaryIdQuery,
+	GetNotebookByBeneficiaryIdQueryVariables
 >;
 export const GetDeploymentManagersForStructureDocument = {
 	kind: 'Document',
@@ -15826,150 +16145,6 @@ export const GetAccountsSummaryDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
-export const GetNotebookByBeneficiaryIdDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'getNotebookByBeneficiaryId' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'notebook' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiaryId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiary' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'cafNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'members' },
-									arguments: [
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'order_by' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'lastModifiedAt' },
-														value: { kind: 'EnumValue', value: 'desc_nulls_last' },
-													},
-												],
-											},
-										},
-									],
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastVisitedAt' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'professional' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'structure' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetNotebookByBeneficiaryIdQuery,
-	GetNotebookByBeneficiaryIdQueryVariables
->;
 export const GetLastVisitedOrUpdatedDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18092,6 +18267,10 @@ export type ResetAccountAccessKeyMutationStore = OperationStore<
 	ResetAccountAccessKeyMutation,
 	ResetAccountAccessKeyMutationVariables
 >;
+export type CreateBeneficiaryAccountMutationStore = OperationStore<
+	CreateBeneficiaryAccountMutation,
+	CreateBeneficiaryAccountMutationVariables
+>;
 export type GetAccountByUsernameQueryStore = OperationStore<
 	GetAccountByUsernameQuery,
 	GetAccountByUsernameQueryVariables
@@ -18100,9 +18279,17 @@ export type GetAccountByEmailQueryStore = OperationStore<
 	GetAccountByEmailQuery,
 	GetAccountByEmailQueryVariables
 >;
+export type GetBenefiaryByEmailQueryStore = OperationStore<
+	GetBenefiaryByEmailQuery,
+	GetBenefiaryByEmailQueryVariables
+>;
 export type UpdateAccountAccessKeyMutationStore = OperationStore<
 	UpdateAccountAccessKeyMutation,
 	UpdateAccountAccessKeyMutationVariables
+>;
+export type GetNotebookByBeneficiaryIdQueryStore = OperationStore<
+	GetNotebookByBeneficiaryIdQuery,
+	GetNotebookByBeneficiaryIdQueryVariables
 >;
 export type GetDeploymentManagersForStructureQueryStore = OperationStore<
 	GetDeploymentManagersForStructureQuery,
@@ -18143,10 +18330,6 @@ export type GetNotebooksStatsQueryStore = OperationStore<
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
 	GetAccountsSummaryQueryVariables
->;
-export type GetNotebookByBeneficiaryIdQueryStore = OperationStore<
-	GetNotebookByBeneficiaryIdQuery,
-	GetNotebookByBeneficiaryIdQueryVariables
 >;
 export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,
