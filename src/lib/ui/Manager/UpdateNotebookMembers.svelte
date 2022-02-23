@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
 	import type {
 		Beneficiary,
+		GetNotebookForBeneficiaryQuery,
 		Notebook,
 		Professional,
 		Structure,
@@ -11,7 +12,7 @@
 		GetNotebookForBeneficiaryDocument,
 		DeactivateNotebookMemberDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, mutation, query } from '@urql/svelte';
+	import { operationStore, mutation, getClient } from '@urql/svelte';
 </script>
 
 <script lang="ts">
@@ -23,6 +24,7 @@
 	import { pluralize } from '$lib/helpers';
 	import { displayFullName } from '$lib/ui/format';
 	import Tag from '../Tag.svelte';
+	const client = getClient();
 
 	type NotebookMemberInput = {
 		firstname: string;
@@ -40,13 +42,6 @@
 	type BeneficiaryLight = Pick<Beneficiary, 'firstname' | 'lastname' | 'dateOfBirth'>;
 	type StructureLight = Pick<Structure, 'id' | 'name'>;
 	type NotebookLight = Pick<Notebook, 'id' | 'beneficiaryId'>;
-
-	const notebookStore = operationStore(
-		GetNotebookForBeneficiaryDocument,
-		{ array: [] },
-		{ pause: true }
-	);
-	query(notebookStore);
 
 	const insertStore = operationStore(AddNotebookMemberWithBeneficiaryStructureUpdateDocument);
 	const inserter = mutation(insertStore);
@@ -198,6 +193,7 @@
 
 	async function handleSubmit() {
 		insertInProgress = true;
+
 		const beneficiariesArray = beneficiariesToImport.map((beneficiary) => ({
 			beneficiary: {
 				firstname: { _ilike: beneficiary.firstname },
@@ -205,184 +201,190 @@
 				dateOfBirth: { _eq: beneficiary.dateOfBirth },
 			},
 		}));
-		$notebookStore.variables = { array: beneficiariesArray };
-		$notebookStore.context.pause = false;
-		$notebookStore.reexecute();
-		const unsubscribe = $notebookStore.subscribe(async () => {
-			if (!$notebookStore.data) {
-				return;
+		const notebookResult = await client
+			.query<GetNotebookForBeneficiaryQuery>(GetNotebookForBeneficiaryDocument, {
+				array: beneficiariesArray,
+			})
+			.toPromise();
+
+		const notebooks = notebookResult.data.notebook;
+		const benefKeyToNotebook = notebooks.reduce((acc, notebook) => {
+			return { ...acc, [benefToKey(notebook.beneficiary)]: notebook };
+		}, {} as Record<string, NotebookLight>);
+		const beneficiariesWithNotebook = beneficiariesToImport.reduce((acc, csvBeneficiary) => {
+			if (benefKeyToNotebook[benefToKey(csvBeneficiary)]) {
+				return [...acc, csvBeneficiary];
+			} else {
+				insertSummary[benefToKey(csvBeneficiary)] = {
+					beneficiary: csvBeneficiary,
+					insert: [],
+					remove: [],
+					structures: [],
+					error: 'Ce bénéficiaire est introuvable.',
+				};
+				return acc;
 			}
-			unsubscribe();
-			const notebooks = $notebookStore.data.notebook;
-			const benefKeyToNotebook = notebooks.reduce((acc, notebook) => {
-				return { ...acc, [benefToKey(notebook.beneficiary)]: notebook };
-			}, {} as Record<string, NotebookLight>);
+		}, []);
 
-			const beneficiariesWithNotebook = beneficiariesToImport.reduce((acc, csvBeneficiary) => {
-				if (benefKeyToNotebook[benefToKey(csvBeneficiary)]) {
-					return [...acc, csvBeneficiary];
-				} else {
-					insertSummary[benefToKey(csvBeneficiary)] = {
-						beneficiary: csvBeneficiary,
-						insert: [],
-						remove: [],
-						structures: [],
-						error: 'Ce bénéficiaire est introuvable.',
-					};
-					return acc;
-				}
-			}, []);
-
-			const insertPayload = beneficiariesWithNotebook.flatMap((csvBeneficiary) =>
-				(csvBeneficiary.addEmails || '')
-					.split(',')
-					.map((s) => s.trim())
-					.map(proEmailToPro)
-					.filter(Boolean)
-					.map((pro) => ({
-						pro,
-						beneficiary: csvBeneficiary,
-						beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary),
-						add: {
-							...createMemberItem(benefKeyToNotebook)(csvBeneficiary)(pro),
-						},
-						structure: {
-							status: { _eq: 'pending' },
-							beneficiaryId: { _eq: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary) },
-							structureId: { _eq: pro.structureId },
-						},
-					}))
-			);
-			insertResult = [];
-			for (const payload of insertPayload) {
-				const result = await inserter({ member: payload.add, structure: payload.structure });
-				let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";
-				if (/uniqueness/i.test(result.error?.message)) {
-					errorMessage = 'Ce rattachement existe déjà.';
-				}
-
-				insertResult = [
-					...insertResult,
-					{
-						input_: {
-							pro: payload.pro,
-							beneficiary: payload.beneficiary,
-							beneficiaryId: payload.beneficiaryId,
-						},
-						...(result.error && { error: errorMessage }),
+		const insertPayload = beneficiariesWithNotebook.flatMap((csvBeneficiary) =>
+			(csvBeneficiary.addEmails || '')
+				.split(',')
+				.map((s) => s.trim())
+				.map(proEmailToPro)
+				.filter(Boolean)
+				.map((pro) => ({
+					pro,
+					beneficiary: csvBeneficiary,
+					beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary),
+					add: {
+						...createMemberItem(benefKeyToNotebook)(csvBeneficiary)(pro),
 					},
-				];
-			}
-
-			const removePayload = beneficiariesWithNotebook.flatMap((beneficiary) =>
-				(beneficiary.removeEmails || '')
-					.split(',')
-					.map((s) => s.trim())
-					.map(proEmailToPro)
-					.filter(Boolean)
-					.map((pro) => ({
-						pro,
-						beneficiary,
-						beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
-						member: createMemberMatch(benefKeyToNotebook)(beneficiary)(pro),
-					}))
-			);
-			removeResult = [];
-			for (const payload of removePayload) {
-				const result = await remover({ member: payload.member });
-				let error = false;
-				let errorMessage = '';
-
-				if (result.error) {
-					error = true;
-					errorMessage = "Une erreur s'est produite, le rattachement n'a pas été supprimé.";
-				} else if (result.data.update_notebook_member.affected_rows === 0) {
-					error = true;
-					errorMessage = "Le bénéficiaire n'était pas suivi par cette personne.";
-				}
-
-				removeResult = [
-					...removeResult,
-					{
-						input_: {
-							beneficiary: payload.beneficiary,
-							pro: payload.pro,
-							beneficiaryId: payload.beneficiaryId,
-						},
-						...(error && { error: errorMessage }),
+					structure: {
+						status: { _eq: 'pending' },
+						beneficiaryId: { _eq: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary) },
+						structureId: { _eq: pro.structureId },
 					},
-				];
+				}))
+		);
+		insertResult = [];
+		for (const payload of insertPayload) {
+			const result = await inserter({ member: payload.add, structure: payload.structure });
+			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";
+			if (/uniqueness/i.test(result.error?.message)) {
+				errorMessage = 'Ce rattachement existe déjà.';
 			}
 
-			const structuresPayload = beneficiariesWithNotebook;
-			structuresResult = [];
-			for (const payload of structuresPayload) {
-				const result = await attacher({
-					beneficiaryId: payload.beneficiaryId,
-					structureId: payload.structureId,
-				});
-				let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été fait.";
-
-				structuresResult = [
-					...structuresResult,
-					{
-						input_: {
-							structure: payload.structure,
-							beneficiary: payload.beneficiary,
-							beneficiaryId: payload.beneficiaryId,
-						},
-						...(result.error && { error: errorMessage }),
+			insertResult = [
+				...insertResult,
+				{
+					input_: {
+						pro: payload.pro,
+						beneficiary: payload.beneficiary,
+						beneficiaryId: payload.beneficiaryId,
 					},
-				];
+					...(result.error && { error: errorMessage }),
+				},
+			];
+		}
+
+		const removePayload = beneficiariesWithNotebook.flatMap((beneficiary) =>
+			(beneficiary.removeEmails || '')
+				.split(',')
+				.map((s) => s.trim())
+				.map(proEmailToPro)
+				.filter(Boolean)
+				.map((pro) => ({
+					pro,
+					beneficiary,
+					beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
+					member: createMemberMatch(benefKeyToNotebook)(beneficiary)(pro),
+				}))
+		);
+		removeResult = [];
+		for (const payload of removePayload) {
+			const result = await remover({ member: payload.member });
+			let error = false;
+			let errorMessage = '';
+
+			if (result.error) {
+				error = true;
+				errorMessage = "Une erreur s'est produite, le rattachement n'a pas été supprimé.";
+			} else if (result.data.update_notebook_member.affected_rows === 0) {
+				error = true;
+				errorMessage = "Le bénéficiaire n'était pas suivi par cette personne.";
 			}
 
-			insertResult.forEach((insert) => {
-				let current = insertSummary[benefToKey(insert.input_.beneficiary)];
-				if (!current) {
-					insertSummary[benefToKey(insert.input_.beneficiary)] = {
-						beneficiary: insert.input_.beneficiary,
-						insert: [],
-						remove: [],
-						structures: [],
-						error: null,
-					};
-					current = insertSummary[benefToKey(insert.input_.beneficiary)];
-				}
-				current.insert.push({ pro: insert.input_.pro, error: insert.error });
-			});
+			removeResult = [
+				...removeResult,
+				{
+					input_: {
+						beneficiary: payload.beneficiary,
+						pro: payload.pro,
+						beneficiaryId: payload.beneficiaryId,
+					},
+					...(error && { error: errorMessage }),
+				},
+			];
+		}
 
-			removeResult.forEach((remove) => {
-				let current = insertSummary[benefToKey(remove.input_.beneficiary)];
-				if (!current) {
-					insertSummary[benefToKey(remove.input_.beneficiary)] = {
-						beneficiary: remove.input_.beneficiary,
-						insert: [],
-						remove: [],
-						structures: [],
-						error: null,
-					};
-					current = insertSummary[benefToKey(remove.input_.beneficiary)];
-				}
-				current.remove.push({ pro: remove.input_.pro, error: remove.error });
+		const structuresPayload = beneficiariesWithNotebook.flatMap((beneficiary) =>
+			(beneficiary.addStructures || '')
+				.split(',')
+				.map((s) => s.trim())
+				.map(structureNameToStructure)
+				.filter(Boolean)
+				.map((structure) => ({
+					structure,
+					beneficiary,
+					beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
+					structureId: structure.id,
+				}))
+		);
+		structuresResult = [];
+		for (const payload of structuresPayload) {
+			const result = await attacher({
+				beneficiaryId: payload.beneficiaryId,
+				structureId: payload.structureId,
 			});
+			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été fait.";
 
-			structuresResult.forEach((structure) => {
-				let current = insertSummary[benefToKey(structure.input_.beneficiary)];
-				if (!current) {
-					insertSummary[benefToKey(structure.input_.beneficiary)] = {
-						beneficiary: structure.input_.beneficiary,
-						insert: [],
-						remove: [],
-						structures: [],
-						error: null,
-					};
-					current = insertSummary[benefToKey(structure.input_.beneficiary)];
-				}
-				current.structures.push({ structure: structure.input_.structure, error: structure.error });
-			});
-
-			insertInProgress = false;
+			structuresResult = [
+				...structuresResult,
+				{
+					input_: {
+						structure: payload.structure,
+						beneficiary: payload.beneficiary,
+						beneficiaryId: payload.beneficiaryId,
+					},
+					...(result.error && { error: errorMessage }),
+				},
+			];
+		}
+		insertResult.forEach((insert) => {
+			let current = insertSummary[benefToKey(insert.input_.beneficiary)];
+			if (!current) {
+				insertSummary[benefToKey(insert.input_.beneficiary)] = {
+					beneficiary: insert.input_.beneficiary,
+					insert: [],
+					remove: [],
+					structures: [],
+					error: null,
+				};
+				current = insertSummary[benefToKey(insert.input_.beneficiary)];
+			}
+			current.insert.push({ pro: insert.input_.pro, error: insert.error });
 		});
+
+		removeResult.forEach((remove) => {
+			let current = insertSummary[benefToKey(remove.input_.beneficiary)];
+			if (!current) {
+				insertSummary[benefToKey(remove.input_.beneficiary)] = {
+					beneficiary: remove.input_.beneficiary,
+					insert: [],
+					remove: [],
+					structures: [],
+					error: null,
+				};
+				current = insertSummary[benefToKey(remove.input_.beneficiary)];
+			}
+			current.remove.push({ pro: remove.input_.pro, error: remove.error });
+		});
+
+		structuresResult.forEach((structure) => {
+			let current = insertSummary[benefToKey(structure.input_.beneficiary)];
+			if (!current) {
+				insertSummary[benefToKey(structure.input_.beneficiary)] = {
+					beneficiary: structure.input_.beneficiary,
+					insert: [],
+					remove: [],
+					structures: [],
+					error: null,
+				};
+				current = insertSummary[benefToKey(structure.input_.beneficiary)];
+			}
+			current.structures.push({ structure: structure.input_.structure, error: structure.error });
+		});
+		insertInProgress = false;
 	}
 
 	function backToFileSelect() {
