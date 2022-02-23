@@ -8344,9 +8344,9 @@ supports-preserve-symlinks-flag@^1.0.0:
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
 svelecte@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/svelecte/-/svelecte-3.5.1.tgz#f1c15b97714998086c63d1e8a11bfe89040628dc"
-  integrity sha512-27SaDRMMZD1oEjNF7ngvFTxAwPEtNA8QmuHcBDYrAnTs4MP8bvqpy69StZdt9liuCQ3VC/6vUYgxWxN2z/JKpw==
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/svelecte/-/svelecte-3.6.0.tgz#f7598036751500d57a5dba6ee2d35f1e5ff6c652"
+  integrity sha512-l/c194+B7U8N+nFiaX1y9wZDrU/lTzfEz4rM8Ldcw5JDxWwIENCD+Ma/khd8xY44XdoB1FO9ojchVM1PWgFbNA==
   dependencies:
     svelte-tiny-virtual-list "^1.1.7"
 
