@@ -1,1 +1,1 @@
-UPDATE notebook_action set status='in_progress';
+UPDATE notebook_action set status='in_progress' where status='new';
