@@ -1,14 +1,14 @@
 #language: fr
 
 @beneficiary
-Fonctionnalité: Page d'accueil beneficiary
+Fonctionnalité: login beneficiaire
 	Pour pouvoir voir mon carnet de bord
 	En tant que beneficiaire
 	Je veux pouvoir me connecter à l'application carnet de bord
 
-Scénario:
+Scénario: login beneficiaire
 	Soit un utilisateur sur la page "/auth/login"
-	Quand je renseigne "stifour93@yahoo.fr" dans le champs "Courriel"
-	Quand Je clique sur "se connecter"
+	Quand je renseigne "stifour93@yahoo.fr" dans le champ "Courriel"
+	Quand je clique sur "Se connecter"
 	Alors je vois "Un lien vous a été envoyé pour vous connecter au Carnet de bord."
 
