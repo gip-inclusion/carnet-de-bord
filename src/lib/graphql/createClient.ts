@@ -9,6 +9,7 @@ function getToken(session: { token?: string }) {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default (session: any) => {
 	const graphqlAPI = session.graphqlAPI ? session.graphqlAPI : getGraphqlAPI();
+	console.log('createClient', { graphqlAPI, session, fn: getGraphqlAPI() });
 	return createClient({
 		url: graphqlAPI,
 		fetch,

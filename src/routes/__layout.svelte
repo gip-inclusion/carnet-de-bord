@@ -21,6 +21,7 @@
 		}
 
 		const client = createClient(session);
+		console.log({ client, session });
 
 		return {
 			props: {
