@@ -49,7 +49,7 @@
 	};
 </script>
 
-<Button outline={outlineButton} on:click={open}>
+<Button outline={outlineButton} on:click={open} classNames="flex-1 justify-center">
 	{#if $$slots.buttonLabel}
 		<slot name="buttonLabel" />
 	{:else}

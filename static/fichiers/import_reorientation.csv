@@ -1,0 +1,8 @@
+Prénom*;Nom*;Date de naissance*;Accompagnateurs à ajouter;Accompagnateurs à supprimer;Structures à rattacher
+Charlie;Fondue;1997-04-22;;;CD 26
+Charlie;Fondue;1997-04-22;sofia@cd26.fr;;
+Charlie;Fondue;1997-04-22;;sofia@cd26.fr;
+Charlie;Fondue;1997-04-22;salome@cd26.fr;;
+Charlie;Fondue;1997-04-22;;salome@cd26.fr;
+Charlie;Fondue;1997-04-22;salome@cd26.fr;sofia@cd26.fr;
+Charlie;Fondue;1997-04-22;sofia@cd26.fr;salome@cd26.fr;

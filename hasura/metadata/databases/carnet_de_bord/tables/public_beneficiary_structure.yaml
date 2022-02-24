@@ -84,3 +84,22 @@ update_permissions:
           admin_structure_id:
             _eq: X-Hasura-adminStructure-Id
   role: admin_structure
+- permission:
+    check: null
+    columns:
+    - id
+    - beneficiary_id
+    - structure_id
+    - status
+    - data
+    - created_at
+    - updated_at
+    filter:
+      _and:
+      - beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: manager

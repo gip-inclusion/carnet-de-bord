@@ -34,5 +34,5 @@
 	{title}
 	class={`fr-btn ${outline ? 'fr-btn--secondary' : ''} ${classNames} ${icon} ${iconSideClass}`}
 >
-	<slot />
+	<span><slot /></span>
 </button>

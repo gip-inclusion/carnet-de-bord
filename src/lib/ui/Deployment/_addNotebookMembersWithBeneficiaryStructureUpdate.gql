@@ -1,0 +1,19 @@
+mutation AddNotebookMemberWithBeneficiaryStructureUpdate(
+	$member: notebook_member_insert_input!
+	$structure: beneficiary_structure_bool_exp!
+) {
+	insert_notebook_member_one(
+		object: $member
+		on_conflict: {
+			constraint: notebook_member_notebook_id_professional_id_key
+			update_columns: active
+		}
+	) {
+		notebook {
+			beneficiaryId
+		}
+	}
+	update_beneficiary_structure(where: $structure, _set: { status: "done" }) {
+		affected_rows
+	}
+}
