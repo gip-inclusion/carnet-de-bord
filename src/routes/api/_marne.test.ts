@@ -1,4 +1,5 @@
-import type { EndpointOutput, RequestEvent } from '@sveltejs/kit';
+import type { EndpointOutput } from '@sveltejs/kit';
+import { request } from 'src/tests/mockRequest';
 import type { ExternalDeploymentApiOutput } from '../actions/update_notebook';
 import fixtures from './fixtures.json';
 import { post } from './marne';
@@ -7,53 +8,19 @@ global.fetch = jest
 	.fn()
 	.mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(fixtures) }));
 
-function mockRequest(data): RequestEvent {
-	return {
-		url: new URL('https://io.io'),
-		locals: {},
-		params: {},
-		platform: 'test',
-		request: {
-			formData: null,
-			cache: 'default',
-			credentials: 'include',
-			destination: null,
-			headers: null,
-			integrity: '',
-			keepalive: true,
-			method: 'GET',
-			mode: 'cors',
-			redirect: 'manual',
-			referrer: '',
-			referrerPolicy: 'origin',
-			signal: null,
-			clone: () => null,
-			body: null,
-			bodyUsed: false,
-			url: '',
-			arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
-			blob: () => Promise.resolve(new Blob()),
-			text: () => Promise.resolve(`${data}`),
-			json: () => Promise.resolve(data),
-		},
-	};
-}
-
 describe('marne request handler', () => {
 	test('should call the correct url', async () => {
-		await post(
-			mockRequest({
-				url: 'service.url',
-				headers: { Authorization: 'bearer 1234567890' },
-				input: {
-					firstname: 'lionel',
-					lastname: 'be',
-					dateOfBirth: '2000-12-01',
-				},
-				professionalId: 'uuid',
-				focuses: [],
-			})
-		);
+		await request(post, {
+			url: 'service.url',
+			headers: { Authorization: 'bearer 1234567890' },
+			input: {
+				firstname: 'lionel',
+				lastname: 'be',
+				dateOfBirth: '2000-12-01',
+			},
+			professionalId: 'uuid',
+			focuses: [],
+		});
 		expect(global.fetch).toHaveBeenCalledWith('service.url/BE/LIONEL/01-12-2000', {
 			headers: { Authorization: 'bearer 1234567890' },
 		});
@@ -137,20 +104,18 @@ describe('marne request handler', () => {
 			actions: [],
 		};
 
-		const result = await post(
-			mockRequest({
-				url: 'service.url',
-				headers: { Authorization: 'bearer 1234567890' },
-				input: {
-					firstname: 'lionel',
-					lastname: 'be',
-					dateOfBirth: '2000-12-01',
-				},
-				notebookId: 'notebook-uuid',
-				professionalId: 'creator-uuid',
-				focuses: [],
-			})
-		);
+		const result = await request(post, {
+			url: 'service.url',
+			headers: { Authorization: 'bearer 1234567890' },
+			input: {
+				firstname: 'lionel',
+				lastname: 'be',
+				dateOfBirth: '2000-12-01',
+			},
+			notebookId: 'notebook-uuid',
+			professionalId: 'creator-uuid',
+			focuses: [],
+		});
 
 		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
 			status: 200,
@@ -231,34 +196,32 @@ describe('marne request handler', () => {
 			],
 			actions: [],
 		};
-		const result = await post(
-			mockRequest({
-				url: 'service.url',
-				headers: { Authorization: 'bearer 1234567890' },
-				input: {
-					firstname: 'lionel',
-					lastname: 'be',
-					dateOfBirth: '2000-12-01',
+		const result = await request(post, {
+			url: 'service.url',
+			headers: { Authorization: 'bearer 1234567890' },
+			input: {
+				firstname: 'lionel',
+				lastname: 'be',
+				dateOfBirth: '2000-12-01',
+			},
+			notebookId: 'notebookId',
+			professionalId: 'uuid',
+			focuses: [
+				{
+					id: 'focus_uuid',
+					linkedTo: 'cer',
+					theme: 'sante',
+					situations: ['previous situation'],
+					targets: [
+						{
+							id: 'target_uuid',
+							target: 'Bilan de santé CMPS',
+							actions: [],
+						},
+					],
 				},
-				notebookId: 'notebookId',
-				professionalId: 'uuid',
-				focuses: [
-					{
-						id: 'focus_uuid',
-						linkedTo: 'cer',
-						theme: 'sante',
-						situations: ['previous situation'],
-						targets: [
-							{
-								id: 'target_uuid',
-								target: 'Bilan de santé CMPS',
-								actions: [],
-							},
-						],
-					},
-				],
-			})
-		);
+			],
+		});
 
 		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
 			status: 200,
@@ -331,34 +294,32 @@ describe('marne request handler', () => {
 			],
 		};
 
-		const result = await post(
-			mockRequest({
-				url: 'service.url',
-				headers: { Authorization: 'bearer 1234567890' },
-				input: {
-					firstname: 'lionel',
-					lastname: 'be',
-					dateOfBirth: '2000-12-01',
+		const result = await request(post, {
+			url: 'service.url',
+			headers: { Authorization: 'bearer 1234567890' },
+			input: {
+				firstname: 'lionel',
+				lastname: 'be',
+				dateOfBirth: '2000-12-01',
+			},
+			notebookId: 'notebookId',
+			professionalId: 'uuid',
+			focuses: [
+				{
+					id: 'focus_uuid',
+					linkedTo: 'cer',
+					theme: 'sante',
+					situations: ['previous situation'],
+					targets: [
+						{
+							id: 'target_uuid',
+							target: 'Bénéficier de soins',
+							actions: [],
+						},
+					],
 				},
-				notebookId: 'notebookId',
-				professionalId: 'uuid',
-				focuses: [
-					{
-						id: 'focus_uuid',
-						linkedTo: 'cer',
-						theme: 'sante',
-						situations: ['previous situation'],
-						targets: [
-							{
-								id: 'target_uuid',
-								target: 'Bénéficier de soins',
-								actions: [],
-							},
-						],
-					},
-				],
-			})
-		);
+			],
+		});
 
 		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
 			status: 200,
