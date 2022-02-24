@@ -1,17 +1,13 @@
-<script context="module">
-	let counter = 0;
-</script>
-
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	import { ACCORDION } from './accordion';
+	import { ACCORDION, accordionCounter } from './accordion';
 
 	export let title: string;
 
 	let internalItemKey = {}; // used for identify accordion
-	const accordionId = `accordion-${counter++}`;
+	const accordionId = `main-accordion-${$accordionCounter++}`;
 	const { registerAccordionItem, selectedItem } = getContext<{
 		registerAccordionItem: (accordion: Record<never, never>) => void;
 		accordionItems: Writable<Record<never, never>[]>;
