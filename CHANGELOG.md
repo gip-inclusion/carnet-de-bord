@@ -1,3 +1,20 @@
+# [1.89.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.88.1...v1.89.0) (2022-02-24)
+
+
+### Bug Fixes
+
+* handle no access for past notebook member ([d6d1ebd](https://github.com/SocialGouv/carnet-de-bord/commit/d6d1ebd57ee275de6d7d39df3afc68b89a5e83d3))
+* update permission and query using active ([f5edcf6](https://github.com/SocialGouv/carnet-de-bord/commit/f5edcf610c5382612496379d6e40bab21fe9d676))
+* use query to retrieve once notebook list ([a696784](https://github.com/SocialGouv/carnet-de-bord/commit/a696784e81b8222abdc495988426c700dd435b5f))
+
+
+### Features
+
+* add active field on notebook member ([c91c7e9](https://github.com/SocialGouv/carnet-de-bord/commit/c91c7e9a1f48b9f941ad665091b783f9cc098db2))
+* batch notebook member update ([5bc4ce0](https://github.com/SocialGouv/carnet-de-bord/commit/5bc4ce0d007f25a572d2bfb7dd2d51e0b6da5f5f))
+* reorientation for Manager ([90ae40c](https://github.com/SocialGouv/carnet-de-bord/commit/90ae40c7c6ee0fb52a12d3267d3c77edd81cc458))
+* reorientation v0 (merge pr [#643](https://github.com/SocialGouv/carnet-de-bord/issues/643)) ([667a1d0](https://github.com/SocialGouv/carnet-de-bord/commit/667a1d0ccb8e464dc16a5cd313453dae08938345))
+
 ## [1.88.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.88.0...v1.88.1) (2022-02-23)
 
 
