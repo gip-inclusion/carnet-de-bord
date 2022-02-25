@@ -8747,6 +8747,18 @@ export type SearchNotebookMemberQuery = {
 	}>;
 };
 
+export type AddRomesMutationVariables = Exact<{
+	codes: Array<RomeCodesInsertInput> | RomeCodesInsertInput;
+}>;
+
+export type AddRomesMutation = {
+	__typename?: 'mutation_root';
+	insert_rome_codes?:
+		| { __typename?: 'rome_codes_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
 export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
 	eventsStart?: InputMaybe<Scalars['date']>;
@@ -17252,6 +17264,55 @@ export const SearchNotebookMemberDocument = {
 		},
 	],
 } as unknown as DocumentNode<SearchNotebookMemberQuery, SearchNotebookMemberQueryVariables>;
+export const AddRomesDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddRomes' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'codes' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'rome_codes_insert_input' },
+								},
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_rome_codes' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'codes' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<AddRomesMutation, AddRomesMutationVariables>;
 export const GetNotebookDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18841,6 +18902,7 @@ export type SearchNotebookMemberQueryStore = OperationStore<
 	SearchNotebookMemberQuery,
 	SearchNotebookMemberQueryVariables
 >;
+export type AddRomesMutationStore = OperationStore<AddRomesMutation, AddRomesMutationVariables>;
 export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type GetNotebookEventsQueryStore = OperationStore<
 	GetNotebookEventsQuery,
