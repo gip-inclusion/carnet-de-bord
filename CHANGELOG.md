@@ -1,3 +1,18 @@
+# [1.90.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.89.2...v1.90.0) (2022-02-25)
+
+
+### Bug Fixes
+
+* change token name ([bbbebac](https://github.com/SocialGouv/carnet-de-bord/commit/bbbebac029042ca577e656b51b4501c6db5c0259))
+* update test ([320561f](https://github.com/SocialGouv/carnet-de-bord/commit/320561ff7c370409d437eceaba20fc5f01ca116a))
+
+
+### Features
+
+* add beneficiary entry ([498f256](https://github.com/SocialGouv/carnet-de-bord/commit/498f256f8d019d878ac50ea1f9c6363064ab0c3a))
+* allow beneficiary to login ([3f7ee72](https://github.com/SocialGouv/carnet-de-bord/commit/3f7ee72b6f89b76dee79d3535716a54f258194f0))
+* allow beneficiary to login (merge [#649](https://github.com/SocialGouv/carnet-de-bord/issues/649)) ([f6040cd](https://github.com/SocialGouv/carnet-de-bord/commit/f6040cd000ba2bb78aa3c62c38cd98dc7a70895e))
+
 ## [1.89.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.89.1...v1.89.2) (2022-02-25)
 
 
