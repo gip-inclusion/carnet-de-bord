@@ -206,12 +206,12 @@
 		<div>
 			<h2 class="fr-h4 !text-france-blue">{pluralize('Gestionnaire', members.length)}</h2>
 			<div class="fr-grid-row fr-grid-row--gutters">
-				<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
-					{#each members as member (member.id)}
+				{#each members as member (member.id)}
+					<div class="fr-col-6 fr-col-md-4">
 						<AdminStructureCard adminStructure={member} href="" />
-					{/each}
-				</div>
+					</div>
+				{/each}
 			</div>
 		</div>
-	</div></LoaderIndicator
->
+	</div>
+</LoaderIndicator>

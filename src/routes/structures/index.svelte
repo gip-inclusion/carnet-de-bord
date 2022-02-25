@@ -2,14 +2,6 @@
 	import { GetManagedStructuresDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
-	export type StructureCard = {
-		id: string;
-		name: string;
-		city: string;
-		nbAdmin: number;
-		nbProfessional: number;
-		nbBeneficiary: number;
-	};
 	export const load: Load = async () => {
 		const result = operationStore(GetManagedStructuresDocument, {});
 
