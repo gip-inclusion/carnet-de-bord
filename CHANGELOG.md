@@ -1,3 +1,10 @@
+## [1.91.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.1...v1.91.2) (2022-02-25)
+
+
+### Bug Fixes
+
+* restore missing generated types ([a40f65e](https://github.com/SocialGouv/carnet-de-bord/commit/a40f65eeca4fa63d39ae6eefeaf21c9e6a63b62c))
+
 ## [1.91.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.0...v1.91.1) (2022-02-25)
 
 
