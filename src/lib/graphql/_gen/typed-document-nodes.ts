@@ -1486,6 +1486,8 @@ export type BeneficiaryStructureBoolExp = {
 /** unique or primary key constraints on table "beneficiary_structure" */
 export enum BeneficiaryStructureConstraint {
 	/** unique or primary key constraint */
+	BeneficiaryStructureBeneficiaryIdStructureIdStatusKey = 'beneficiary_structure_beneficiary_id_structure_id_status_key',
+	/** unique or primary key constraint */
 	BeneficiaryStructurePkey = 'beneficiary_structure_pkey',
 }
 
@@ -4176,6 +4178,7 @@ export type NotebookMaxFields = {
 /** columns and relationships of "notebook_member" */
 export type NotebookMember = {
 	__typename?: 'notebook_member';
+	active?: Maybe<Scalars['Boolean']>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	creator?: Maybe<Professional>;
@@ -4233,6 +4236,7 @@ export type NotebookMemberBoolExp = {
 	_and?: InputMaybe<Array<NotebookMemberBoolExp>>;
 	_not?: InputMaybe<NotebookMemberBoolExp>;
 	_or?: InputMaybe<Array<NotebookMemberBoolExp>>;
+	active?: InputMaybe<BooleanComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	creator?: InputMaybe<ProfessionalBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
@@ -4257,6 +4261,7 @@ export enum NotebookMemberConstraint {
 
 /** input type for inserting data into table "notebook_member" */
 export type NotebookMemberInsertInput = {
+	active?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	creator?: InputMaybe<ProfessionalObjRelInsertInput>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
@@ -4343,6 +4348,7 @@ export type NotebookMemberOnConflict = {
 
 /** Ordering options when selecting data from "notebook_member". */
 export type NotebookMemberOrderBy = {
+	active?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	creator?: InputMaybe<ProfessionalOrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
@@ -4365,6 +4371,8 @@ export type NotebookMemberPkColumnsInput = {
 /** select columns of table "notebook_member" */
 export enum NotebookMemberSelectColumn {
 	/** column name */
+	Active = 'active',
+	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
 	CreatorId = 'creatorId',
@@ -4386,6 +4394,7 @@ export enum NotebookMemberSelectColumn {
 
 /** input type for updating data in table "notebook_member" */
 export type NotebookMemberSetInput = {
+	active?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
@@ -4399,6 +4408,8 @@ export type NotebookMemberSetInput = {
 
 /** update columns of table "notebook_member" */
 export enum NotebookMemberUpdateColumn {
+	/** column name */
+	Active = 'active',
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
