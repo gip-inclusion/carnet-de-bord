@@ -1,0 +1,13 @@
+table:
+  name: rome_codes
+  schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - id
+    - code
+    - description
+    - label
+  role: professional
