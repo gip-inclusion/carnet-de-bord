@@ -117,7 +117,6 @@
 					trim: true,
 					skip_empty_lines: true,
 					delimiter: ';',
-					quote: null,
 				});
 				beneficiaries = membersDataRaw
 					.reduce(

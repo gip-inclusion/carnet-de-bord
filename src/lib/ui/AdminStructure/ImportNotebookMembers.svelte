@@ -78,7 +78,6 @@
 					trim: true,
 					skip_empty_lines: true,
 					delimiter: ';',
-					quote: null,
 				});
 				members = membersDataRaw
 					.reduce(
