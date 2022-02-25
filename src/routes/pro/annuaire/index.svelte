@@ -41,10 +41,7 @@
 		}
 
 		const variables: SearchNotebookMemberQueryVariables = { professionalId, visitDate };
-		if (search) {
-			variables.filter = `${search}`;
-		}
-
+		variables.filter = `${search ?? ''}`;
 		return variables;
 	}
 

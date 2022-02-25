@@ -62,7 +62,7 @@
 
 	$: structuresByName = structures.reduce(
 		(acc, structure) => ({ ...acc, [structure.name]: structure }),
-		{}
+		<Record<string, StructureLight>>{}
 	);
 
 	function proEmailToPro(email: string | null): ProLight | undefined {
@@ -224,7 +224,7 @@
 				};
 				return acc;
 			}
-		}, []);
+		}, <NotebookMemberImport[]>[]);
 
 		const insertPayload = beneficiariesWithNotebook.flatMap((csvBeneficiary) =>
 			(csvBeneficiary.addEmails || '')

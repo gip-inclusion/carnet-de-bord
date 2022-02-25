@@ -15,7 +15,6 @@
 
 <script lang="ts">
 	import { goto } from '$app/navigation';
-
 	import { onMount } from 'svelte';
 	import jwtDecode from 'jwt-decode';
 	import { session } from '$app/stores';
@@ -24,7 +23,7 @@
 
 	export let accessKey: string;
 	export let url: string;
-	export let displayError: boolean;
+	export let displayError = false;
 
 	onMount(async () => {
 		const response: Response = await fetch(`/auth/jwt`, {
