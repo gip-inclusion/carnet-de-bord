@@ -1,0 +1,7 @@
+query GetBenefiaryByEmail($email: citext!) {
+	beneficiary(where: { email: { _eq: $email }, _not: { account: {} } }) {
+		firstname
+		lastname
+		id
+	}
+}

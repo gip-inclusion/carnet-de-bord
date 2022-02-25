@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import type { JwtPayload } from '$lib/utils/getJwt';
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 	export async function load({ url, params }: LoadInput): Promise<LoadOutput> {
 		const accessKey = params.uuid;
@@ -38,7 +39,7 @@
 		});
 		if (response.ok) {
 			const { jwt } = await response.json();
-			const user = jwtDecode(jwt);
+			const user = jwtDecode<JwtPayload>(jwt);
 			$session.user = user;
 			$session.token = jwt;
 			Matomo.setCustomDimension(Matomo.CustomDimensions.Role, $session.user.role);

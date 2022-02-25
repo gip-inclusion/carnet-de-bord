@@ -1,4 +1,4 @@
-import { getJwtUser } from '$lib/utils/getJwt';
+import { createJwt } from '$lib/utils/getJwt';
 import type { RequestHandler } from '@sveltejs/kit';
 
 import { createClient } from '@urql/svelte';
@@ -83,7 +83,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		deploymentId = adminStructure.deploymentId;
 	}
 
-	const user = getJwtUser({
+	const token = createJwt({
 		id,
 		type,
 		username,
@@ -101,10 +101,10 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	return {
 		headers: {
 			'Cache-Control': 'private',
-			'set-cookie': `jwt=${user.token}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+			'set-cookie': `jwt=${token}; Path=/; HttpOnly; Secure; SameSite=Strict`,
 		},
 		body: {
-			jwt: user.token,
+			jwt: token,
 		},
 		status: 200,
 	};

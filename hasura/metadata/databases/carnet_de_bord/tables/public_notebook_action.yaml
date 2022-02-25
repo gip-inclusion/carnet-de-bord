@@ -53,6 +53,23 @@ select_permissions:
   role: admin_cdb
 - permission:
     columns:
+    - id
+    - action
+    - target_id
+    - status
+    - creator_id
+    - created_at
+    - updated_at
+    - initial_id
+    filter:
+      target:
+        focus:
+          notebook:
+            beneficiary_id:
+              _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
+- permission:
+    columns:
     - created_at
     - updated_at
     filter:

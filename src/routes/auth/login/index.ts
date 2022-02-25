@@ -1,10 +1,14 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import crypto from 'crypto';
 
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
+	CreateBeneficiaryAccountDocument,
 	GetAccountByEmailDocument,
 	GetAccountByUsernameDocument,
+	GetBenefiaryByEmailDocument,
+	GetBenefiaryByEmailQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type {
 	GetAccountByEmailQuery,
@@ -36,6 +40,11 @@ const validateBody = (body: unknown): body is Login => {
 	return loginSchema.isType(body);
 };
 
+/**
+ * Process
+ * - try to find an account by email
+ * - try to find an account by username (deprecated)
+ */
 export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async (
 	request
 ) => {
@@ -50,6 +59,42 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	}
 
 	const { username } = body;
+
+	const beneficiaryResult = await client
+		.query<GetBenefiaryByEmailQuery>(GetBenefiaryByEmailDocument, {
+			email: username,
+		})
+		.toPromise();
+
+	if (beneficiaryResult.error) {
+		console.error(beneficiaryResult.error);
+		return {
+			status: 500,
+			body: {
+				error: 'SERVER_ERROR',
+			},
+		};
+	}
+
+	if (beneficiaryResult.data.beneficiary.length === 1) {
+		const [{ id, firstname, lastname }] = beneficiaryResult.data.beneficiary;
+		console.info(`beneficiary found with email ${username}`);
+		const result = await client
+			.mutation(CreateBeneficiaryAccountDocument, {
+				username: `${firstname}.${lastname}.${crypto.randomBytes(6).toString('hex')}`,
+				beneficiaryId: id,
+			})
+			.toPromise();
+		if (result.error) {
+			console.error(`account creation for beneficiary ${username} (${id}) failed`);
+			return {
+				status: 500,
+				body: {
+					error: 'SERVER_ERROR',
+				},
+			};
+		}
+	}
 
 	const emailResult = await client
 		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
