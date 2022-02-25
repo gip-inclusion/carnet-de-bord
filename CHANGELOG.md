@@ -1,3 +1,11 @@
+## [1.91.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.0...v1.91.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* correct display several structure admins ([c4a9bae](https://github.com/SocialGouv/carnet-de-bord/commit/c4a9bae7c6a7cf0db537bddfe33135442e094b41))
+* expand access of Admin Structure to other admins of their structures ([25faa26](https://github.com/SocialGouv/carnet-de-bord/commit/25faa26c5d8acb0d2311326d834690c565713044))
+
 # [1.91.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.90.0...v1.91.0) (2022-02-25)
 
 
