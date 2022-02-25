@@ -5,7 +5,7 @@
 	import type { RequestStep } from '$lib/types';
 
 	let request: RequestStep = 'start';
-	let username: string;
+	let username = '';
 
 	let magicLink = '';
 
