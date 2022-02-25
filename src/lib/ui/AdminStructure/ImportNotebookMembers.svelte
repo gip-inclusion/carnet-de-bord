@@ -16,7 +16,7 @@
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { page } from '$app/stores';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
-	import { pluralize } from '$lib/helpers';
+	import { detectEncoding, pluralize } from '$lib/helpers';
 	import { csvParseConfig } from '$lib/csvParseConfig';
 
 	type NotebookMemberInput = {
@@ -72,9 +72,11 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
+				const fileContent = binaryStr.toString();
+				const encoding = detectEncoding(fileContent);
 				const membersDataRaw: Record<string, unknown>[] = csvParse(
 					binaryStr.toString(),
-					csvParseConfig(headers)
+					csvParseConfig(headers, encoding)
 				);
 				members = membersDataRaw
 					.reduce(

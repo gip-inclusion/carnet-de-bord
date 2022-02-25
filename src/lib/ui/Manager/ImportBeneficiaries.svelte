@@ -22,7 +22,7 @@
 	import * as keys from '$lib/constants/keys';
 
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
-	import { pluralize } from '$lib/helpers';
+	import { detectEncoding, pluralize } from '$lib/helpers';
 	import { csvParseConfig } from '$lib/csvParseConfig';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
@@ -101,7 +101,9 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-				beneficiaries = csvParse(binaryStr.toString(), csvParseConfig(headers))
+				const fileContent = binaryStr.toString();
+				const encoding = detectEncoding(fileContent);
+				beneficiaries = csvParse(binaryStr.toString(), csvParseConfig(headers, encoding))
 					.reduce(
 						(
 							[valid, invalid]: [BeneficiaryImport[], BeneficiaryImport[]],
@@ -124,7 +126,9 @@
 
 				toImport = beneficiaries.filter(({ valid }) => valid).map(({ uid }) => uid);
 			};
-			reader.readAsText(files[i]);
+			console.log("gonna read");
+			reader.readAsBinaryString(files[i]);
+			console.log("started reading");
 		}
 	}
 

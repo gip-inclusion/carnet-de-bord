@@ -1,3 +1,5 @@
+import * as encodingDetector from 'jschardet';
+
 export const stringsMatch =
 	(needle: string) =>
 	(haystack?: string | null): boolean =>
@@ -41,4 +43,10 @@ export function pluralize(word: string, quantity: number, plural?: string): stri
 		return plural ?? `${word}s`;
 	}
 	return word;
+}
+
+export function detectEncoding(content: string): 'latin1' | 'utf8' {
+	const detection = encodingDetector.detect(content);
+	const encoding = detection.encoding === 'window-1252' ? 'latin1' : 'utf8';
+	return encoding;
 }
