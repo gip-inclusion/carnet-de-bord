@@ -6,7 +6,5 @@ build
 .env
 output
 
-
 # IDE
-
 .idea/

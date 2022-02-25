@@ -8,23 +8,14 @@ Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
 });
 
-Soit('un administrateur CdB authentifié sur la page {string}', async (page) => {
+Soit('un utilisateur authentifié de type {string}', async (userType) => {
 	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 	await I.sendMutation(
 		`mutation setAccessToken {
-				update_account(where: {admin: {type: {_eq: "admin_cdb"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+				update_account(where: {admin: {type: {_eq: "${userType}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
 		}`
 	);
-	const cookieStub = {
-		domain: 'localhost:3000',
-		name: 'jwt',
-		path: '/',
-		value:
-			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiYWRtaW5fY2RiIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImFkbWluX2NkYiIsIngtaGFzdXJhLXVzZXItaWQiOiI5ZWVlOWZlYS1iZjNlLTRlYjgtOGY0My1kOWI3ZmQ2ZmFlNzYiLCJ4LWhhc3VyYS1wcm9mZXNzaW9uYWwtaWQiOiJudWxsIiwieC1oYXN1cmEtYmVuZWZpY2lhcnktaWQiOiJudWxsIiwieC1oYXN1cmEtbWFuYWdlci1pZCI6Im51bGwiLCJ4LWhhc3VyYS1hZG1pblN0cnVjdHVyZS1pZCI6Im51bGwiLCJ4LWhhc3VyYS1kZXBsb3ltZW50LWlkIjoibnVsbCJ9LCJpZCI6IjllZWU5ZmVhLWJmM2UtNGViOC04ZjQzLWQ5YjdmZDZmYWU3NiIsInJvbGUiOiJhZG1pbl9jZGIiLCJiZW5lZmljaWFyeUlkIjpudWxsLCJwcm9mZXNzaW9uYWxJZCI6bnVsbCwiZGVwbG95bWVudElkIjpudWxsLCJtYW5hZ2VySWQiOm51bGwsImlhdCI6MTY0NTcwMDc3MiwiZXhwIjoxNjQ4MjkyNzcyLCJzdWIiOiI5ZWVlOWZlYS1iZjNlLTRlYjgtOGY0My1kOWI3ZmQ2ZmFlNzYifQ.0hYFK-dZ0SVEs6hyvkxJDjCTm-H8F7YZ0DPsNTekwtM',
-	};
-
-	I.setCookie(cookieStub);
-	I.amOnPage(`${page}`);
+	I.amOnPage(`/auth/jwt/${fakeToken}`);
 });
 
 Soit('un utilisateur sur la page {string}', (page) => {
