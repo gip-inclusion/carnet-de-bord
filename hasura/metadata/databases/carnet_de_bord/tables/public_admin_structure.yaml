@@ -82,8 +82,10 @@ select_permissions:
     - id
     filter:
       structures:
-        admin_structure_id:
-          _eq: X-Hasura-adminStructure-Id
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-adminStructure-Id
   role: admin_structure
 - permission:
     columns: []
