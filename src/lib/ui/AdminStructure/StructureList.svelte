@@ -3,8 +3,14 @@
 
 	import { baseUrlForRole } from '$lib/routes';
 
-	import type { StructureCard } from '../../../routes/structures/index.svelte';
-
+	type StructureCard = {
+		id: string;
+		name: string;
+		city: string;
+		nbAdmin: number;
+		nbProfessional: number;
+		nbBeneficiary: number;
+	};
 	export let structures: StructureCard[];
 </script>
 
