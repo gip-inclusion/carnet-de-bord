@@ -1,3 +1,19 @@
+# [1.91.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.90.0...v1.91.0) (2022-02-25)
+
+
+### Bug Fixes
+
+* fix missing prop in auth/jwt/uuid ([0d32541](https://github.com/SocialGouv/carnet-de-bord/commit/0d32541723c2f693b2f5496e3d560e3ae1dbbbe9))
+* missing prop in Input on login page ([0548df6](https://github.com/SocialGouv/carnet-de-bord/commit/0548df68704c899c436ee33ae266961b4cf01dde))
+* rename query/mutation ([f7fb7df](https://github.com/SocialGouv/carnet-de-bord/commit/f7fb7df7ae625d33daf72a9303d162732c14a968))
+* text search returns everything on empty string (merge [#659](https://github.com/SocialGouv/carnet-de-bord/issues/659))  ([4900acb](https://github.com/SocialGouv/carnet-de-bord/commit/4900acba07048bd0af4d1ba4f706c135990c2832))
+* type inference broken ([e80af98](https://github.com/SocialGouv/carnet-de-bord/commit/e80af9897170b4634333c40a4d249b30de00d06d))
+
+
+### Features
+
+* update search to match all on empty search ([800b762](https://github.com/SocialGouv/carnet-de-bord/commit/800b762af22e93b9fdfe282c55da165426025931))
+
 # [1.90.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.89.2...v1.90.0) (2022-02-25)
 
 
