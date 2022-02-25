@@ -1,3 +1,10 @@
+## [1.89.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.89.1...v1.89.2) (2022-02-25)
+
+
+### Bug Fixes
+
+* use unique counter for accordion ([#655](https://github.com/SocialGouv/carnet-de-bord/issues/655)) ([0e649d9](https://github.com/SocialGouv/carnet-de-bord/commit/0e649d9086121c74e69d8e769dab1454cc4e6e08))
+
 ## [1.89.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.89.0...v1.89.1) (2022-02-25)
 
 
