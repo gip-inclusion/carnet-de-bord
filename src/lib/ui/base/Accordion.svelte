@@ -1,15 +1,11 @@
-<script context="module">
-	let counter = 0;
-</script>
-
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { ACCORDION } from './accordion';
+	import { ACCORDION, accordionCounter } from './accordion';
 
 	export let title: string;
 
 	let internalItemKey = {}; // used for identify accordion
-	const accordionId = `accordion-${counter++}`;
+	const accordionId = `accordion-${$accordionCounter++}`;
 	const { registerAccordionItem, selectedItem } = getContext(ACCORDION);
 	registerAccordionItem(internalItemKey);
 	$: expanded = $selectedItem === internalItemKey;
