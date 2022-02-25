@@ -7,17 +7,16 @@ type RomeItem = {
 	rome?: string;
 	children?: RomeItem[];
 };
-
 function filterAndFlatten(list: RomeItem[], matcher: (s: string) => boolean) {
 	return list.reduce((acc, { children, rome, text }) => {
 		//HACK: create ROM table and prevent query from front if query.length < 3
-		// if (acc && acc.length > 20) {
-		//   return acc;
-		// }
+		if (acc && acc.length > 20) {
+			return acc;
+		}
 		let codes = [];
 		if (children) {
 			codes = filterAndFlatten(children, matcher);
-		} else {
+		} else if (rome && (matcher(text) || matcher(rome))) {
 			codes = [{ rome, text }];
 		}
 		return [...acc, ...codes];

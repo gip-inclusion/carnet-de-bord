@@ -1,5 +1,0 @@
-mutation AddRomes($codes: [rome_codes_insert_input!]!) {
-  insert_rome_codes(objects: $codes) {
-    affected_rows
-  }
-}

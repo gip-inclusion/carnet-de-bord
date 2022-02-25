@@ -1,27 +1,19 @@
 <script context="module" lang="ts">
 	import { goto } from '$app/navigation';
 	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
-	import {
-		AddRomesDocument,
-		GetLastVisitedOrUpdatedDocument,
-	} from '$lib/graphql/_gen/typed-document-nodes';
-	import type {
-		AddRomesMutationStore,
-		GetLastVisitedOrUpdatedQueryStore,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetLastVisitedOrUpdatedDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { GetLastVisitedOrUpdatedQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
-	import { mutation, operationStore, query } from '@urql/svelte';
+	import { operationStore, query } from '@urql/svelte';
 
 	export const load: Load = async ({ session }) => {
 		const { professionalId } = session.user;
 		/* @TODO this request does not error in Hasura when called with a professional that's null; instead it matches on all, which is obviously not what we want */
 		const result = operationStore(GetLastVisitedOrUpdatedDocument, { professionalId });
-		const addRomesStore = operationStore(AddRomesDocument);
 
 		return {
 			props: {
 				result,
-				addRomesStore,
 			},
 		};
 	};
@@ -31,21 +23,6 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	export let result: GetLastVisitedOrUpdatedQueryStore;
-	export let addRomesStore: AddRomesMutationStore;
-	const exporter = mutation(addRomesStore);
-
-	const romeToDbRome = ({ rome, text }) => {
-		return {
-			code: rome,
-			description: text.split('(')[0].trim(),
-			label: text,
-		};
-	};
-
-	fetch('/pro/carnet/rome')
-		.then((response) => response.json())
-		.then(({ data }) => data.map(romeToDbRome))
-		.then((codes) => exporter({ codes }));
 
 	query(result);
 
