@@ -1,3 +1,10 @@
+## [1.89.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.89.0...v1.89.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* update cookie cache control ([#652](https://github.com/SocialGouv/carnet-de-bord/issues/652)) ([e49cb82](https://github.com/SocialGouv/carnet-de-bord/commit/e49cb8245ae86a5389f3bf36101f18cb9720c77b))
+
 # [1.89.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.88.1...v1.89.0) (2022-02-24)
 
 
