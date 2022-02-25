@@ -1,8 +1,10 @@
 <script lang="ts" context="module">
 	import Svelecte, { addFormatter, config } from 'svelecte';
 	type RomeItem = {
-		rome: string;
-		text: string;
+		id: string;
+		code: string;
+		description: string;
+		label: string;
 	};
 	type SvelecteItem = {
 		value: string;
@@ -35,12 +37,12 @@
 	let initialOptions: Array<SvelecteItem> = [selected].filter((field) => Boolean(field));
 
 	function postProcess(json: { data: Array<RomeItem> }): Array<SvelecteItem> {
-		return json.data.map(({ rome, text }) => ({
-			value: rome,
-			id: rome,
-			label: text,
-			title: text,
-			name: text,
+		return json.data.map(({ id, code, label }) => ({
+			value: code,
+			id,
+			label,
+			title: label,
+			name: label,
 		}));
 	}
 
@@ -75,8 +77,8 @@
 	fetchCallback={postProcess}
 	renderer="renderRome"
 	class="svelecte-control custom-svelecte cursor-pointer"
-	valueField="rome"
-	labelField="text"
+	valueField="code"
+	labelField="label"
 	clearable={true}
 	on:change={handleChange}
 />

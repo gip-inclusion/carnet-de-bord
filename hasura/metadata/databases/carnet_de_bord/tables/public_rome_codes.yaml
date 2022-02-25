@@ -11,3 +11,12 @@ insert_permissions:
     - description
     - label
   role: professional
+select_permissions:
+- permission:
+    columns:
+    - id
+    - code
+    - description
+    - label
+    filter: {}
+  role: professional

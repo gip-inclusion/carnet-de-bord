@@ -5406,6 +5406,10 @@ export type QueryRoot = {
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
+	/** execute function "search_rome_codes" which returns "rome_codes" */
+	search_rome_codes: Array<RomeCodes>;
+	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_codes" */
+	search_rome_codes_aggregate: RomeCodesAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -5810,6 +5814,24 @@ export type QueryRootSearchNotebookMembersAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
 	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+export type QueryRootSearchRomeCodesArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type QueryRootSearchRomeCodesAggregateArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
 };
 
 export type QueryRootStructureArgs = {
@@ -6341,6 +6363,10 @@ export type SearchNotebookMembersArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
 
+export type SearchRomeCodesArgs = {
+	search?: InputMaybe<Scalars['String']>;
+};
+
 /** columns and relationships of "structure" */
 export type Structure = {
 	__typename?: 'structure';
@@ -6844,6 +6870,10 @@ export type SubscriptionRoot = {
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
+	/** execute function "search_rome_codes" which returns "rome_codes" */
+	search_rome_codes: Array<RomeCodes>;
+	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_codes" */
+	search_rome_codes_aggregate: RomeCodesAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -7248,6 +7278,24 @@ export type SubscriptionRootSearchNotebookMembersAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
 	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+export type SubscriptionRootSearchRomeCodesArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type SubscriptionRootSearchRomeCodesAggregateArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
 };
 
 export type SubscriptionRootStructureArgs = {
@@ -8907,6 +8955,21 @@ export type GetNotebookMemberByIdQuery = {
 		  }
 		| null
 		| undefined;
+};
+
+export type GetRomeCodesQueryVariables = Exact<{
+	search: Scalars['String'];
+}>;
+
+export type GetRomeCodesQuery = {
+	__typename?: 'query_root';
+	search_rome_codes: Array<{
+		__typename?: 'rome_codes';
+		id: string;
+		code: string;
+		description: string;
+		label: string;
+	}>;
 };
 
 export type UpdateNotebookVisitDateMutationVariables = Exact<{
@@ -17690,6 +17753,65 @@ export const GetNotebookMemberByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookMemberByIdQuery, GetNotebookMemberByIdQueryVariables>;
+export const GetRomeCodesDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetRomeCodes' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'search_rome_codes' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'IntValue', value: '20' },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'code' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetRomeCodesQuery, GetRomeCodesQueryVariables>;
 export const UpdateNotebookVisitDateDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18850,6 +18972,7 @@ export type GetNotebookMemberByIdQueryStore = OperationStore<
 	GetNotebookMemberByIdQuery,
 	GetNotebookMemberByIdQueryVariables
 >;
+export type GetRomeCodesQueryStore = OperationStore<GetRomeCodesQuery, GetRomeCodesQueryVariables>;
 export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
