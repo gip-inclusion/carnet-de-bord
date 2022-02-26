@@ -8,11 +8,11 @@ Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
 });
 
-Soit('un utilisateur authentifié de type {string}', async (userType) => {
+Soit("un utilisateur de type {string} authentifié avec l'email {string}", async (type, email) => {
 	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 	await I.sendMutation(
 		`mutation setAccessToken {
-				update_account(where: {admin: {type: {_eq: "${userType}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+				update_account(where: {${type}: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
 		}`
 	);
 	I.amOnPage(`/auth/jwt/${fakeToken}`);
