@@ -22,4 +22,7 @@ Fonctionnalité: Parcours Manager
 		Quand je vois "État du territoire"
 		Quand je clique sur "Importer des structures"
 		Alors je vois "Veuillez fournir un fichier au format CSV."
-		Quand je clique sur "Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur"
+		Quand je téléverse le fichier "/resources/import_structures.csv"
+		Alors je vois "Vous allez importer les structures suivantes. Veuillez vérifier que les données sont correctes et confirmer."
+		Quand je clique sur "Confirmer"
+		Alors je vois "1 structure importée sur 1 demandée."

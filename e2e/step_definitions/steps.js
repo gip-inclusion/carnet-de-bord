@@ -195,6 +195,10 @@ Alors("j'ai téléchargé le fichier {string}", (filename) => {
 	I.seeFile(filename);
 });
 
+Quand('je téléverse le fichier {string}', (filename) => {
+	I.attachFile('.dropzone input[type=file]', filename);
+});
+
 /**
  * Dans ce hook, qui se lance après chaque test,
  * on peut executer des mutations afin de supprimer
