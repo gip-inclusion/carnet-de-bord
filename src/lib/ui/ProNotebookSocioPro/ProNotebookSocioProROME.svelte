@@ -16,6 +16,9 @@
 </script>
 
 <script lang="ts">
+	import { GetRomeCodesDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { getClient } from '@urql/svelte';
+
 	export let current: string;
 	let selectedRome: string, selected: SvelecteItem;
 	$: {
@@ -36,8 +39,8 @@
 	}
 	let initialOptions: Array<SvelecteItem> = [selected].filter((field) => Boolean(field));
 
-	function postProcess(json: { data: Array<RomeItem> }): Array<SvelecteItem> {
-		return json.data.map(({ id, code, label }) => ({
+	function postProcess(data: Array<RomeItem>): Array<SvelecteItem> {
+		return data.map(({ id, code, label }) => ({
 			value: code,
 			id,
 			label,
@@ -65,13 +68,28 @@
 	function handleChange(event: CustomEvent<SvelecteItem>) {
 		current = event?.detail?.label;
 	}
+	const client = getClient();
+	const fetch: (search: string) => Promise<Array<SvelecteItem>> = (search) =>
+		client
+			.query(GetRomeCodesDocument, { search })
+			.toPromise()
+			.then(({ data, error }) => {
+				if (error) {
+					throw Error(error.toString());
+				}
+				return postProcess(data.search_rome_codes);
+			})
+			.catch((error) => {
+				console.log('Error fetching ROME codes', { error, search });
+				return [];
+			});
 </script>
 
 <Svelecte
 	options={initialOptions}
 	bind:selection={selected}
 	placeholder="Recherchez un métier ou un code ROME"
-	fetch="/pro/carnet/rome?query=[query]"
+	{fetch}
 	disableSifter={true}
 	fetchResetOnBlur={false}
 	fetchCallback={postProcess}
