@@ -62,9 +62,9 @@
 		<table class="w-full">
 			<thead>
 				<tr>
-					<th class="min-w-min w-2/5">Action</th>
+					<th class="min-w-min">Action</th>
 					<th class="min-w-min">Créée par</th>
-					<th class="min-w-min">Statut</th>
+					<th>Statut</th>
 					<th class="min-w-min !text-right">Date de création</th>
 				</tr>
 			</thead>
