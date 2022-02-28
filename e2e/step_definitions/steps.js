@@ -1,18 +1,18 @@
-const { Alors, Quand, Soit } = require('./fr');
+const { Step } = require('./fr');
 
 const { I } = inject();
 
 //
 
-Soit("un utilisateur sur la page d'accueil", () => {
+Step("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
 });
 
-Soit('un utilisateur sur la page {string}', (page) => {
+Step('un utilisateur sur la page {string}', (page) => {
 	I.amOnPage(`${page}`);
 });
 
-Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
+Step('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
 	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 	await I.sendMutation(
 		`mutation setAccessToken {
@@ -22,110 +22,139 @@ Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async 
 	I.amOnPage(`/auth/jwt/${fakeToken}`);
 });
 
+const loginPro = async (email) => {
+	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
+	await I.sendMutation(
+		`mutation setAccessToken {
+			update_account(where: {professional: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+	}`
+	);
+	I.amOnPage(`/auth/jwt/${fakeToken}`);
+};
+
+const goToNotebookForLastname = async (lastname) => {
+	const result = await I.sendQuery(
+		`
+			query GetNotebook($lastname: String!) {
+				notebook(where: { beneficiary: { lastname: { _eq: $lastname } } }) {
+					id
+				}
+			}
+		`,
+		{ lastname }
+	);
+	const notebookId = result.data.data.notebook[0].id;
+	I.amOnPage(`/pro/carnet/${notebookId}`);
+};
+
+Step('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
+	await loginPro(email);
+});
+
 //
 
-Quand("j'attends {int} secondes", (num) => {
+Step("j'attends {int} secondes", (num) => {
 	I.wait(num);
 });
 
-Quand('je pause le test', () => {
+Step('je pause le test', () => {
 	pause();
 });
 
-Quand('je recherche {string}', (searchText) => {
+Step('je recherche {string}', (searchText) => {
 	I.fillField('q', searchText);
 });
 
-Quand('je renseigne {string} dans le champ {string}', async (text, input) => {
+Step('je renseigne {string} dans le champ {string}', async (text, input) => {
 	I.fillField(input, text);
 });
 
-Quand('je clique sur {string}', async (text) => {
+Step('je clique sur {string}', async (text) => {
 	I.click(text);
 });
 
-Quand('je choisis {string}', (text) => {
+Step('je choisis {string}', (text) => {
 	I.checkOption(text);
 });
 
-Quand('je ferme la modale', () => {
+Step('je ferme la modale', () => {
 	I.click('button[title="fermer la modale"]');
 });
 
-Quand("j'attends que les suggestions apparaissent", () => {
+Step("j'attends que les suggestions apparaissent", () => {
 	I.waitForElement("//ul[@role='listbox']", 3);
 });
 
-Quand("j'attends que les résultats de recherche apparaissent", () => {
+Step("j'attends que les résultats de recherche apparaissent", () => {
 	I.waitForElement("[aria-label^='Résultats de recherche']", 10);
 });
 
-Quand("j'attends que le titre de page {string} apparaisse", (title) => {
+Step("j'attends que le titre de page {string} apparaisse", (title) => {
 	I.scrollPageToTop();
 	I.waitForElement(`//h1[contains(., "${title}")]`, 10);
 });
 
-Quand("j'attend que le texte {string} apparaisse", (text) => {
+Step("j'attend que le texte {string} apparaisse", (text) => {
 	I.waitForText(text, 5);
 	I.scrollTo(`//*[text()[starts-with(., "${text}")]]`, 0, -100);
 });
 
-Quand('je scroll à {string}', (text) => {
+Step('je scroll à {string}', (text) => {
 	I.scrollTo(`//*[text()[starts-with(., "${text}")]]`, 0, -140);
 });
 
-Quand('je télécharge en cliquant sur {string}', (dowloadText) => {
+Step('je télécharge en cliquant sur {string}', (dowloadText) => {
 	I.handleDownloads();
 	I.click(`//*[text()[starts-with(., "${dowloadText}")]]`);
 });
 
-Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select) => {
+Step(`je selectionne l'option {string} dans la liste {string}`, (option, select) => {
 	I.selectOption(select, option);
 });
 
-Quand("j'appuie sur Entrée", () => {
+Step("j'appuie sur Entrée", () => {
 	I.pressKey('Enter');
 });
 
-Quand("j'appuie sur {string}", (key) => {
+Step("j'appuie sur {string}", (key) => {
 	I.pressKey(key);
 });
 
 //
 
-Alors('je vois {string}', (text) => {
+Step('je vois {string}', (text) => {
 	I.see(text);
 });
 
-Alors('je ne vois pas {string}', (text) => {
+Step('je ne vois pas {string}', (text) => {
 	I.dontSee(text);
 });
 
-Alors('je vois le bouton {string}', (text) => {
+Step('je vois le bouton {string}', (text) => {
 	I.seeElement(`//button[text()="${text}"]`);
 });
 
-Alors('je vois le lien {string}', (text) => {
+Step('je vois le lien {string}', (text) => {
 	I.seeElement(`//a[contains(., "${text}")]`);
 });
 
-Alors('je vois que bouton {string} est désactivé', (text) => {
+Step('je vois que bouton {string} est désactivé', (text) => {
 	I.seeElement(`//button[text()="${text}" and @disabled]`);
 });
 
-Alors('le lien {string} pointe sur {string}', (text, url) => {
+Step('le lien {string} pointe sur {string}', (text, url) => {
 	I.seeElement(`//a[contains(., "${text}") and contains(@href, "${url}")]`);
 });
 
-Alors('je vois {string} fois le {string} {string}', (num, element, text) => {
+Step('je vois {string} fois le {string} {string}', (num, element, text) => {
 	I.seeNumberOfVisibleElements(`//${element}[contains(., "${text}")]`, parseInt(num, 10));
 });
 
-Alors('je vois {string} suggestions', (num) => {
+Step('je vois {string} suggestions', (num) => {
 	I.seeNumberOfVisibleElements("//ul[@role='listbox']//li", parseInt(num, 10));
 });
 
-Alors('je vois {string} résultats sous le texte {string}', (num, title) => {
+Step('je vois {string} résultats sous le texte {string}', (num, title) => {
 	const target = `following-sibling::*//li//a`;
 	const textMatcher = `text()[starts-with(., "${title}")]`;
 	I.seeNumberOfVisibleElements(
@@ -134,7 +163,7 @@ Alors('je vois {string} résultats sous le texte {string}', (num, title) => {
 	);
 });
 
-Alors('je vois {string} tuiles sous le texte {string}', (num, title) => {
+Step('je vois {string} tuiles sous le texte {string}', (num, title) => {
 	const target = `following-sibling::*//div//a`;
 	const textMatcher = `text()[starts-with(., "${title}")]`;
 	I.seeNumberOfVisibleElements(
@@ -143,15 +172,15 @@ Alors('je vois {string} tuiles sous le texte {string}', (num, title) => {
 	);
 });
 
-Alors('je vois le thème {string}', (theme) => {
+Step('je vois le thème {string}', (theme) => {
 	I.seeElement(`//a[text()="${theme}" and starts-with(@href, "/themes/")]`);
 });
 
-Alors('je ne vois pas le thème {string}', (theme) => {
+Step('je ne vois pas le thème {string}', (theme) => {
 	I.dontSeeElement(`//a[text()="${theme}" and starts-with(@href, "/themes/")]`);
 });
 
-Alors('je suis redirigé vers la page : {string}', (url) => {
+Step('je suis redirigé vers la page : {string}', (url) => {
 	// also check search and hash
 	I.waitForFunction(
 		(url) => window.location.pathname + window.location.search + window.location.hash === url,
@@ -160,7 +189,7 @@ Alors('je suis redirigé vers la page : {string}', (url) => {
 	);
 });
 
-Alors("j'ai téléchargé le fichier {string}", (filename) => {
+Step("j'ai téléchargé le fichier {string}", (filename) => {
 	I.amInPath('output/downloads');
 	I.seeFile(filename);
 });
