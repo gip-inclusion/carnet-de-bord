@@ -2,8 +2,7 @@
 	"name": "carnet-de-bord",
 	"version": "1.91.2",
 	"engines": {
-		"node": "16",
-		"npm": "7"
+		"node": "16"
 	},
 	"private": true,
 	"repository": "git@github.com:SocialGouv/carnet-de-bord.git",
