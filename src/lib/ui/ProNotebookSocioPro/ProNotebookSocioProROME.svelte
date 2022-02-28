@@ -20,6 +20,8 @@
 	import { getClient } from '@urql/svelte';
 
 	export let current: string;
+	export let romeSelectorId: string;
+
 	let selectedRome: string, selected: SvelecteItem;
 	$: {
 		selectedRome = current
@@ -89,6 +91,7 @@
 	options={initialOptions}
 	bind:selection={selected}
 	placeholder="Recherchez un métier ou un code ROME"
+	inputId={romeSelectorId}
 	{fetch}
 	disableSifter={true}
 	fetchResetOnBlur={false}

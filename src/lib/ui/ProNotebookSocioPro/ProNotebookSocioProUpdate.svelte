@@ -60,6 +60,8 @@
 		});
 		close();
 	}
+
+	const romeSelectorId = 'romeSelectorId';
 </script>
 
 <section class="flex flex-col w-full">
@@ -92,8 +94,10 @@
 		</div>
 
 		<div class="fr-form-group">
-			<div class="pb-2 font-bold">Emploi recherché</div>
-			<ProNotebookSocioProRome bind:current={formData.job} />
+			<div class="!pb-2 font-bold">
+				<label for={romeSelectorId}>Emploi recherché</label>
+			</div>
+			<ProNotebookSocioProRome bind:current={formData.job} {romeSelectorId} />
 		</div>
 
 		<Radio
