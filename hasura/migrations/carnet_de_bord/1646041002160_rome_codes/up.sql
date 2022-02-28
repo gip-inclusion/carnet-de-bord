@@ -1,3 +1,20 @@
+CREATE TABLE "public"."rome_codes" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "code" text NOT NULL, "description" text NOT NULL, "label" text NOT NULL, PRIMARY KEY ("id") , UNIQUE ("id"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+alter table "public"."rome_codes" add constraint "rome_codes_label_key" unique ("label");
+
+CREATE OR REPLACE FUNCTION public.search_rome_codes(search text)
+ RETURNS SETOF rome_codes
+ LANGUAGE sql
+ STABLE
+AS $function$
+  SELECT *
+  FROM rome_codes
+  WHERE
+    unaccent(search) <% label
+  ORDER BY unaccent(search) <<-> label ASC
+$function$;
+
 INSERT INTO public.rome_codes (code, description, label) VALUES ('A1101','Chauffeur / Chauffeuse de machines agricoles','Chauffeur / Chauffeuse de machines agricoles (A1101)');
 INSERT INTO public.rome_codes (code, description, label) VALUES ('A1101','Conducteur / Conductrice d''abatteuses','Conducteur / Conductrice d''abatteuses (A1101)');
 INSERT INTO public.rome_codes (code, description, label) VALUES ('A1101','Conducteur / Conductrice d''automoteur de récolte','Conducteur / Conductrice d''automoteur de récolte (A1101)');
