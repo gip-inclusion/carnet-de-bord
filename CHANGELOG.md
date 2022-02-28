@@ -1,3 +1,15 @@
+# [1.92.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.4...v1.92.0) (2022-02-28)
+
+
+### Bug Fixes
+
+* support escape quotes in CSV files ([3f97d2e](https://github.com/SocialGouv/carnet-de-bord/commit/3f97d2e22b04244c047524de876ee88b9f8db9c8))
+
+
+### Features
+
+* extract csvParseConfig ([926a3cd](https://github.com/SocialGouv/carnet-de-bord/commit/926a3cd571649daacb29cdf34f0b8408cbec2d2a))
+
 ## [1.91.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.3...v1.91.4) (2022-02-28)
 
 
