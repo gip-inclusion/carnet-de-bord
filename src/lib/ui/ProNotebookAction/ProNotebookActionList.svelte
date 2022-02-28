@@ -64,7 +64,7 @@
 				<tr>
 					<th class="min-w-min">Action</th>
 					<th class="min-w-min">Créée par</th>
-					<th>Statut</th>
+					<th class="w-40">Statut</th>
 					<th class="min-w-min !text-right">Date de création</th>
 				</tr>
 			</thead>
