@@ -18,6 +18,7 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { pluralize } from '$lib/helpers';
+	import { csvParseConfig } from '$lib/csvParseConfig';
 
 	type StructureWithAdminInput = StructureInput & AdminStructureInput;
 
@@ -46,14 +47,7 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-				structures = csvParse(binaryStr.toString(), {
-					from: 2,
-					columns: headers.map(({ key }) => key),
-					trim: true,
-					skip_empty_lines: true,
-					delimiter: ';',
-					quote: null,
-				})
+				structures = csvParse(binaryStr.toString(), csvParseConfig(headers))
 					.reduce(
 						(
 							[valid, invalid]: [StructureImport[], StructureImport[]],

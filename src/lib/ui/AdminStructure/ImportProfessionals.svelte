@@ -7,6 +7,7 @@
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { ProAccountInput, proAccountSchema } from '../ProCreationForm/pro.schema';
 	import { pluralize } from '$lib/helpers';
+	import { csvParseConfig } from '$lib/csvParseConfig';
 
 	type ProImport = ProAccountInput & {
 		valid: boolean;
@@ -37,15 +38,10 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-
-				const prosDataRaw: Record<string, unknown>[] = csvParse(binaryStr.toString(), {
-					from: 2,
-					columns: headers.map(({ key }) => key),
-					trim: true,
-					skip_empty_lines: true,
-					delimiter: ';',
-					quote: null,
-				});
+				const prosDataRaw: Record<string, unknown>[] = csvParse(
+					binaryStr.toString(),
+					csvParseConfig(headers)
+				);
 				pros = prosDataRaw
 					.reduce(
 						([valid, invalid]: [ProImport[], ProImport[]], cur: Record<string, any>) => {
