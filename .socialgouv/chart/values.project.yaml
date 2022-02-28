@@ -5,6 +5,7 @@ components:
   hasura: true
 
 app:
+  imagePackage: app
   probesPath: /healthz
   envFrom:
     - secretRef:
