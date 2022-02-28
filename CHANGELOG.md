@@ -1,3 +1,10 @@
+## [1.91.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.3...v1.91.4) (2022-02-28)
+
+
+### Bug Fixes
+
+* revert uniqueness on beneficiary_structure to exclude status ([f445085](https://github.com/SocialGouv/carnet-de-bord/commit/f445085db626687ba265b4fb354160ff55cfd735))
+
 ## [1.91.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.2...v1.91.3) (2022-02-28)
 
 
