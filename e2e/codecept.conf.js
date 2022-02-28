@@ -5,6 +5,7 @@ exports.config = {
 		steps: ['./step_definitions/steps.js'],
 	},
 	helpers: {
+		FileSystem: {},
 		GraphQL: {
 			defaultHeaders: {
 				Accept: 'application/json',
