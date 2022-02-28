@@ -1,6 +1,6 @@
 #language: fr
 
-@deploiement
+@manager
 Fonctionnalité: Parcours Manager
 	Pour pouvoir administrer un déploiement
 	En tant que manager d'un déploiement
@@ -9,7 +9,7 @@ Fonctionnalité: Parcours Manager
 	Scénario: Première connexion - Mise à jour profil
 		Soit un utilisateur de type "manager" authentifié avec l'email "experimentation-e2e@noreply.beta.gouv.fr"
 		Quand je vois "Première connexion à Carnet de bord"
-		Quand je vois "Manager du déploiement expérimentation e2e"
+		Quand je vois "Manager du déploiement"
 		Quand je clique sur "Mettre à jour"
 		Alors je vois "Mettre à jour mon compte"
 		Quand je renseigne "José" dans le champ "Prénom"
@@ -36,7 +36,7 @@ Fonctionnalité: Parcours Manager
 		Quand je vois "État du territoire"
 		Quand je clique sur "Importer des bénéficiaires"
 		Alors je vois "Veuillez fournir un fichier au format CSV."
-		Alors le lien "consulter la notice de remplissage" pointe sur "httpshttps://pad.incubateur.net/s/0xXN_2Gna#"
+		Alors le lien "consulter la notice de remplissage" pointe sur "https://pad.incubateur.net/s/0xXN_2Gna#"
 		Quand je télécharge en cliquant sur "télécharger un modèle"
 		Alors j'ai téléchargé le fichier "import_beneficiaires.csv"
 		Quand je téléverse le fichier "/resources/import_beneficiaires.csv"

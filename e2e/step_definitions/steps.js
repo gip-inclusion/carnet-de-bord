@@ -60,11 +60,16 @@ Quand('je recherche {string}', (searchText) => {
 	I.fillField('q', searchText);
 });
 
-Quand('je renseigne {string} dans le champ {string}', async (text, input) => {
+Quand('je renseigne {string} dans le champ {string}', (text, input) => {
 	I.fillField(input, text);
 });
 
-Quand('je clique sur {string}', async (text) => {
+Alors('je vois {string} dans le champ {string}', async (value, fieldLabel) => {
+	const fieldId = await I.grabAttributeFrom(`//label[contains(., "${fieldLabel}")]`, 'for');
+	I.seeInField(`#${fieldId}`, value);
+});
+
+Quand('je clique sur {string}', (text) => {
 	I.click(text);
 });
 
@@ -104,9 +109,9 @@ Quand('je scroll à {string}', (text) => {
 	I.scrollTo(`//*[text()[starts-with(., "${text}")]]`, 0, -140);
 });
 
-Quand('je télécharge en cliquant sur {string}', (dowloadText) => {
+Quand('je télécharge en cliquant sur {string}', (downloadText) => {
 	I.handleDownloads();
-	I.click(`//*[text()[starts-with(., "${dowloadText}")]]`);
+	I.click(`//*[text()[starts-with(., "${downloadText}")]]`);
 });
 
 Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select) => {
@@ -208,9 +213,9 @@ After(({ title }) => {
 	if (/Inscription/.test(title)) {
 		I.sendMutation(
 			`mutation removeUser {
-	delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
-	delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
-}`
+				delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
+				delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
+			}`
 		);
 	}
 });

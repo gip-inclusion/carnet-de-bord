@@ -7,8 +7,6 @@ Fonctionnalité: Page d'accueil
 	Je veux pouvoir consulter la page d'accueil
 
 Scénario: Home CdB
->>>>>>> 7631534... test: fix home page test description
 	Soit un utilisateur sur la page d'accueil
 	Alors je vois "La nouvelle version du Carnet de bord est en ligne"
 	Alors le lien "Accéder à mon compte" pointe sur "/auth/login"
-
