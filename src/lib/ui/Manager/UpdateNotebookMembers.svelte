@@ -24,6 +24,7 @@
 	import { pluralize } from '$lib/helpers';
 	import { displayFullName } from '$lib/ui/format';
 	import Tag from '../Tag.svelte';
+	import { csvParseConfig } from '$lib/csvParseConfig';
 	const client = getClient();
 
 	type NotebookMemberInput = {
@@ -110,14 +111,10 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-
-				const membersDataRaw: Record<string, unknown>[] = csvParse(binaryStr.toString(), {
-					from: 2,
-					columns: headers.map(({ key }) => key),
-					trim: true,
-					skip_empty_lines: true,
-					delimiter: ';',
-				});
+				const membersDataRaw: Record<string, unknown>[] = csvParse(
+					binaryStr.toString(),
+					csvParseConfig(headers)
+				);
 				beneficiaries = membersDataRaw
 					.reduce(
 						(

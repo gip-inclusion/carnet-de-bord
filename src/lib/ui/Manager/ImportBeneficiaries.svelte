@@ -23,6 +23,7 @@
 
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { pluralize } from '$lib/helpers';
+	import { csvParseConfig } from '$lib/csvParseConfig';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
@@ -100,13 +101,7 @@
 			const reader = new FileReader();
 			reader.onload = () => {
 				const binaryStr = reader.result;
-				beneficiaries = csvParse(binaryStr.toString(), {
-					from: 2,
-					columns: headers.map(({ key }) => key),
-					trim: true,
-					skip_empty_lines: true,
-					delimiter: ';',
-				})
+				beneficiaries = csvParse(binaryStr.toString(), csvParseConfig(headers))
 					.reduce(
 						(
 							[valid, invalid]: [BeneficiaryImport[], BeneficiaryImport[]],
