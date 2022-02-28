@@ -32,21 +32,6 @@ const loginPro = async (email) => {
 	I.amOnPage(`/auth/jwt/${fakeToken}`);
 };
 
-const goToNotebookForLastname = async (lastname) => {
-	const result = await I.sendQuery(
-		`
-			query GetNotebook($lastname: String!) {
-				notebook(where: { beneficiary: { lastname: { _eq: $lastname } } }) {
-					id
-				}
-			}
-		`,
-		{ lastname }
-	);
-	const notebookId = result.data.data.notebook[0].id;
-	I.amOnPage(`/pro/carnet/${notebookId}`);
-};
-
 Step('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	await loginPro(email);
 });
@@ -71,6 +56,12 @@ Step('je renseigne {string} dans le champ {string}', async (text, input) => {
 
 Step('je clique sur {string}', async (text) => {
 	I.click(text);
+});
+
+Step('je clique sur le texte {string}', async (text) => {
+	const item = `//*[text()[contains(., "${text}")]]`;
+
+	I.click(item);
 });
 
 Step('je choisis {string}', (text) => {
@@ -208,4 +199,32 @@ After(({ title }) => {
 }`
 		);
 	}
+});
+
+const goToNotebookForLastname = async (lastname) => {
+	const result = await I.sendQuery(
+		`
+			query GetNotebook($lastname: String!) {
+				notebook(where: { beneficiary: { lastname: { _eq: $lastname } } }) {
+					id
+				}
+			}
+		`,
+		{ lastname }
+	);
+	const notebookId = result.data.data.notebook[0].id;
+	I.amOnPage(`/pro/carnet/${notebookId}`);
+};
+
+Step('le pro {string} sur le carnet de {string}', async (email, lastname) => {
+	await loginPro(email);
+	await goToNotebookForLastname(lastname);
+});
+
+Step('je clique sur {string} sous le titre {string}', async (target, header) => {
+	const item = locate('*')
+		.after(locate('h2').withText(header))
+		.find(`//*[text()[contains(.,'${target}')]]`);
+
+	I.click(item);
 });
