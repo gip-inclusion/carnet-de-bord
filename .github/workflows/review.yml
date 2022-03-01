@@ -58,12 +58,28 @@ jobs:
           imageName: carnet-de-bord/hasura
 
   ##############################################################################
+  ## RESTORE DATABASE
+  ##############################################################################
+  restore-db:
+    name: Restore database
+    runs-on: ubuntu-latest
+    needs: [create-db]
+    steps:
+      - uses: SocialGouv/actions/k8s-restore-db@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+          pgUserSecretPrefix: pg-user
+          jobNamespace: carnet-de-bord-ci
+
+  ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
   ##############################################################################
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [create-db, register-app, register-hasura]
+    needs: [register-app, register-hasura, restore-db]
     steps:
       - name: Use autodevops deployment
         uses: SocialGouv/actions/autodevops-helm-deploy@v1
@@ -74,22 +90,6 @@ jobs:
           rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
           socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
           imageName: carnet-de-bord
-
-  ##############################################################################
-  ## RESTORE DATABASE
-  ##############################################################################
-  restore-db:
-    name: Restore database
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - uses: SocialGouv/actions/k8s-restore-db@v1
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-          pgUserSecretPrefix: pg-user
-          jobNamespace: carnet-de-bord-ci
 
   ##############################################################################
   ## End To End Tests running on all branches
