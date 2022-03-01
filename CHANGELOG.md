@@ -1,3 +1,10 @@
+## [1.94.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.0...v1.94.1) (2022-03-01)
+
+
+### Bug Fixes
+
+* add correct return for create deployment action ([#686](https://github.com/SocialGouv/carnet-de-bord/issues/686)) ([e4beb59](https://github.com/SocialGouv/carnet-de-bord/commit/e4beb59352d4a382111909331d7d0f81ba83bf3c))
+
 # [1.94.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.93.0...v1.94.0) (2022-03-01)
 
 
