@@ -1,3 +1,10 @@
+# [1.93.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.92.2...v1.93.0) (2022-03-01)
+
+
+### Features
+
+* add status update for notebook action ([#650](https://github.com/SocialGouv/carnet-de-bord/issues/650)) ([82226c1](https://github.com/SocialGouv/carnet-de-bord/commit/82226c1ccd358b3a7e5476c7dc1214152406d782))
+
 ## [1.92.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.92.1...v1.92.2) (2022-03-01)
 
 
