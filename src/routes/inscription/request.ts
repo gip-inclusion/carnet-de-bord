@@ -2,6 +2,7 @@ import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import send from '$lib/emailing';
 import {
+	Account,
 	GetAccountByEmailDocument,
 	GetAccountByUsernameDocument,
 	GetDeploymentManagersForStructureDocument,
@@ -121,18 +122,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	}
 
 	if (data.account.length > 0) {
-		const matcher = new RegExp(`^${username}(\\d*)$`);
-		const index = data.account.reduce((maxIndex, item) => {
-			const matched = item.username.match(matcher);
-			if (!matched) {
-				return maxIndex;
-			}
-			if (isNaN(parseInt(matched[1]))) {
-				return maxIndex;
-			}
-			return Math.max(parseInt(matched[1]), maxIndex);
-		}, 0);
-		username += `${index + 1}`;
+		username = createUsername(data.account, username);
 	}
 	username = username.toLowerCase();
 
@@ -166,7 +156,6 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	}
 
 	const { account } = insertResult.data;
-	const appUrl = getAppUrl();
 
 	if (autoConfirm) {
 		const result = await updateAccessKey(client, account.id);
@@ -180,30 +169,28 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 			};
 		}
 		const accessKey = result.data.account.accessKey;
-		try {
-			await send({
-				options: {
-					to: email,
-					subject: 'Création de compte sur Carnet de bord',
-				},
-				template: 'accountCreatedByAdmin',
-				params: [
-					{
-						account: {
-							username,
-							firstname,
-							lastname,
-						},
-						url: {
-							accessKey,
-							appUrl,
-						},
+		send({
+			options: {
+				to: email,
+				subject: 'Création de compte sur Carnet de bord',
+			},
+			template: 'accountCreatedByAdmin',
+			params: [
+				{
+					account: {
+						username,
+						firstname,
+						lastname,
 					},
-				],
-			});
-		} catch (e) {
-			console.log(e);
-		}
+					url: {
+						accessKey,
+						appUrl: getAppUrl(),
+					},
+				},
+			],
+		}).catch((emailError) => {
+			console.error(emailError);
+		});
 	} else {
 		// send email to all deployment managers for the target structure
 		const { error, data } = await client
@@ -223,31 +210,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		}
 
 		const emails: string[] = data?.structure?.deployment?.managers?.map(({ email }) => email);
-		for (const email of emails) {
-			try {
-				await send({
-					options: {
-						to: email,
-						subject: 'Demande de création de compte',
-					},
-					template: 'accountRequest',
-					params: [
-						{
-							pro: {
-								firstname,
-								lastname,
-							},
-							url: {
-								appUrl,
-							},
-							requester,
-						},
-					],
-				});
-			} catch (e) {
-				console.log(e);
-			}
-		}
+		sendEmailNotifications(emails, accountRequest, requester);
 	}
 
 	return {
@@ -255,3 +218,49 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		body: { professionalId: account.professional.id },
 	};
 };
+
+function createUsername(accounts: Pick<Account, 'username'>[], username: string): string {
+	const matcher = new RegExp(`^${username}(\\d*)$`);
+	const index = accounts.reduce((maxIndex, item) => {
+		const matched = item.username.match(matcher);
+		if (!matched) {
+			return maxIndex;
+		}
+		if (isNaN(parseInt(matched[1]))) {
+			return maxIndex;
+		}
+		return Math.max(parseInt(matched[1]), maxIndex);
+	}, 0);
+	return `${username}${index + 1}`;
+}
+
+function sendEmailNotifications(
+	emails: string[],
+	accountRequest: InscriptionRequest['accountRequest'],
+	requester: InscriptionRequest['requester']
+) {
+	const appUrl = getAppUrl();
+	for (const email of emails) {
+		send({
+			options: {
+				to: email,
+				subject: 'Demande de création de compte',
+			},
+			template: 'accountRequest',
+			params: [
+				{
+					pro: {
+						firstname: accountRequest.firstname,
+						lastname: accountRequest.lastname,
+					},
+					url: {
+						appUrl,
+					},
+					requester,
+				},
+			],
+		}).catch((emailError) => {
+			console.error(emailError);
+		});
+	}
+}

@@ -80,24 +80,22 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	const appUrl = getAppUrl();
 
 	// send email
-	try {
-		await send({
-			options: {
-				to: professional.email,
-				subject: 'Invitation à rejoindre un carnet de bord',
+	send({
+		options: {
+			to: professional.email,
+			subject: 'Invitation à rejoindre un carnet de bord',
+		},
+		template: 'notebookInvitation',
+		params: [
+			{
+				pro: professional,
+				creator,
+				url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
 			},
-			template: 'notebookInvitation',
-			params: [
-				{
-					pro: professional,
-					creator,
-					url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
-				},
-			],
-		});
-	} catch (e) {
-		console.log(e);
-	}
+		],
+	}).catch((emailError) => {
+		console.error(emailError);
+	});
 
 	return {
 		status: 200,

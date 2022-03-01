@@ -182,29 +182,27 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	const appUrl = getAppUrl();
 
 	// send email
-	try {
-		await send({
-			options: {
-				to: email,
-				subject: 'Accédez à Carnet de bord',
-			},
-			template: 'loginRequest',
-			params: [
-				{
-					pro: {
-						firstname,
-						lastname,
-					},
-					url: {
-						accessKey,
-						appUrl,
-					},
+	send({
+		options: {
+			to: email,
+			subject: 'Accédez à Carnet de bord',
+		},
+		template: 'loginRequest',
+		params: [
+			{
+				pro: {
+					firstname,
+					lastname,
 				},
-			],
-		});
-	} catch (error) {
-		console.error('Failed sending login email', { error, id, username, email });
-	}
+				url: {
+					accessKey,
+					appUrl,
+				},
+			},
+		],
+	}).catch((emailError) => {
+		console.error('Failed sending login email', { emailError, id, username, email });
+	});
 
 	return {
 		status: 200,

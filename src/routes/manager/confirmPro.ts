@@ -116,29 +116,27 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	const accessKey = result.data.account.accessKey;
 
 	// send email
-	try {
-		await send({
-			options: {
-				to: email,
-				subject: "Votre demande d'inscription à Carnet de Bord est validée",
-			},
-			template: 'accountRequestValidate',
-			params: [
-				{
-					pro: {
-						firstname,
-						lastname,
-					},
-					url: {
-						accessKey,
-						appUrl,
-					},
+	send({
+		options: {
+			to: email,
+			subject: "Votre demande d'inscription à Carnet de Bord est validée",
+		},
+		template: 'accountRequestValidate',
+		params: [
+			{
+				pro: {
+					firstname,
+					lastname,
 				},
-			],
-		});
-	} catch (e) {
-		console.log(e);
-	}
+				url: {
+					accessKey,
+					appUrl,
+				},
+			},
+		],
+	}).catch((emailError) => {
+		console.error(emailError);
+	});
 
 	return {
 		status: 200,

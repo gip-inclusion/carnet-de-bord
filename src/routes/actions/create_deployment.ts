@@ -102,38 +102,22 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	const appUrl = getAppUrl();
 
 	// send email
-	try {
-		await send({
-			options: {
-				to: email,
-				subject: 'Bienvenue sur Carnet de bord',
-			},
-			template: 'managerOnboarding',
-			params: [
-				{
-					url: {
-						accessKey,
-						appUrl,
-					},
-					deployment,
-				},
-			],
-		});
-	} catch (e) {
-		console.error('Could not send email', { error: e, email, deployment });
-		return {
-			status: 500,
-			body: {
-				errors: 'SERVER_ERROR',
-			},
-		};
-	}
-
-	return {
-		status: 200,
-		body: {
-			id: updateResult.data?.insert_deployment_one?.id,
-			label: updateResult.data?.insert_deployment_one?.label,
+	send({
+		options: {
+			to: email,
+			subject: 'Bienvenue sur Carnet de bord',
 		},
-	};
+		template: 'managerOnboarding',
+		params: [
+			{
+				url: {
+					accessKey,
+					appUrl,
+				},
+				deployment,
+			},
+		],
+	}).catch((emailError) => {
+		console.error('Could not send email', { error: emailError, email, deployment });
+	});
 };
