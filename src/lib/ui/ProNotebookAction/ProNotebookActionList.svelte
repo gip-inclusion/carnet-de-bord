@@ -80,6 +80,7 @@
 							><Select
 								options={statusValues}
 								selected={action.status}
+								selectLabel=""
 								on:select={(event) => onChange(event, action.id)}
 							/>
 						</td><td class="!text-right">{formatDateLocale(action.createdAt)} </td>
