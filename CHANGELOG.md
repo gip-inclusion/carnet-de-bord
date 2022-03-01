@@ -1,3 +1,10 @@
+## [1.92.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.92.0...v1.92.1) (2022-03-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to v16 ([#675](https://github.com/SocialGouv/carnet-de-bord/issues/675)) ([ab3bf2b](https://github.com/SocialGouv/carnet-de-bord/commit/ab3bf2b846bd09aef84e62e849c13d478965b717))
+
 # [1.92.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.91.4...v1.92.0) (2022-02-28)
 
 
