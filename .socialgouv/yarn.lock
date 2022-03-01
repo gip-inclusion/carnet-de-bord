@@ -547,16 +547,16 @@
     tslib "^2.1.0"
     type-fest "^0.20.2"
 
-"@kosko/env@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@kosko/env/-/env-2.0.1.tgz#b6b4ca0278a6b5633346afa13f9c58f8146e2da5"
-  integrity sha512-4XsKXKppgyrM35HwD1nAUWbb3wxCc89Aec6s+onSbiL4B7jesDI8n/pSQZEBbn5MePJh5O0DTEjCnIBEjzdCaQ==
+"@kosko/env@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@kosko/env/-/env-3.0.1.tgz#80f746352a7d3b0339bea116339ec0e42f5f9778"
+  integrity sha512-//a0c0nwFiJtpP/pS6e0xkmc+2RUKlo2AfkEkUYrtzPsWZfK4G/4yC/zYcQ0Yv1q4bpdylHA495fqZ1sF8+7Wg==
   dependencies:
-    "@kosko/require" "2.0.2"
-    debug "^4.3.1"
+    "@kosko/log" "^0.1.0"
+    "@kosko/require" "^3.0.0"
     deepmerge "^4.2.2"
     is-plain-object "^5.0.0"
-    tslib "^2.1.0"
+    tslib "^2.3.1"
 
 "@kosko/generate@1.2.1":
   version "1.2.1"
@@ -569,6 +569,16 @@
     fs-extra "^9.1.0"
     js-yaml "^4.0.0"
     tslib "^2.1.0"
+
+"@kosko/log@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kosko/log/-/log-0.1.0.tgz#390133f79e52b2a72eec49faa45c1c24001a7b77"
+  integrity sha512-SGHOCV2K+Gr7HEQ/BqDQ2Qn1We289hML7o3ZVItrDKnOqzgOJv6eb1F3edZTpHvM3IpePMfWTqavcrKQrjVhlQ==
+  dependencies:
+    clean-stack "^3.0.1"
+    fast-safe-stringify "^2.1.1"
+    picocolors "^1.0.0"
+    tslib "^2.3.1"
 
 "@kosko/migrate@2.0.2":
   version "2.0.2"
@@ -585,6 +595,13 @@
   integrity sha512-pewGQxNtaj/piJYHbiV4jXXRVS+Hcz9wv0bVNwOL1lz1IqlKS20tsjvkuzENQG2MMX2cJq3JDQ3RYNPrN32Q3Q==
   dependencies:
     resolve "^1.19.0"
+
+"@kosko/require@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@kosko/require/-/require-3.0.0.tgz#4e946346c2e9201ba23b1bc6aa13f576618b185f"
+  integrity sha512-vOe5N63q680c7FwktHJLN9+JlJv0uBVR5M1i5B615MnwL3cl9j1xCq21g9W/K5roXKj+5V56HsclEBqD5tj+9g==
+  dependencies:
+    resolve "^1.20.0"
 
 "@kosko/yaml@1.0.2":
   version "1.0.2"
@@ -1466,6 +1483,11 @@ fast-levenshtein@~2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
+
+fast-safe-stringify@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz#c406a83b6e70d9e35ce3b30a81141df30aeba884"
+  integrity sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==
 
 fastq@^1.6.0:
   version "1.12.0"
@@ -2638,6 +2660,11 @@ path-parse@^1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
   integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
+
+picocolors@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
+  integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
 picomatch@^2.0.4, picomatch@^2.2.3:
   version "2.3.0"
