@@ -1,3 +1,10 @@
+## [1.92.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.92.1...v1.92.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* use async mail ([#683](https://github.com/SocialGouv/carnet-de-bord/issues/683)) ([db30273](https://github.com/SocialGouv/carnet-de-bord/commit/db30273f1971943792b7ec457d011d4250fadd68))
+
 ## [1.92.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.92.0...v1.92.1) (2022-03-01)
 
 
