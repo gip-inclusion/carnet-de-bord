@@ -117,35 +117,28 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	const username = data.account.username;
 
 	// send email
-	try {
-		await send({
-			options: {
-				to: email,
-				subject: 'Accédez à votre espace Carnet de bord',
-			},
-			template: 'forgotLoginRequest',
-			params: [
-				{
-					account: {
-						firstname,
-						lastname,
-						username,
-					},
-					url: {
-						accessKey,
-						appUrl,
-					},
+	send({
+		options: {
+			to: email,
+			subject: 'Accédez à votre espace Carnet de bord',
+		},
+		template: 'forgotLoginRequest',
+		params: [
+			{
+				account: {
+					firstname,
+					lastname,
+					username,
 				},
-			],
-		});
-	} catch (e) {
-		return {
-			status: 500,
-			body: {
-				errors: 'SERVER_ERROR',
+				url: {
+					accessKey,
+					appUrl,
+				},
 			},
-		};
-	}
+		],
+	}).catch((emailError) => {
+		console.error(emailError);
+	});
 
 	return {
 		status: 200,

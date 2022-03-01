@@ -143,7 +143,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			return actionError('Insert admin_structure failed', 400);
 		}
 		if (sendAccountEmail) {
-			await sendEmailNewAccount(adminStructure, structure, accessKey);
+			sendEmailNewAccount(adminStructure, structure, accessKey);
 		}
 
 		return actionSuccess(structureId);
@@ -162,7 +162,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	}
 
 	if (sendAccountEmail) {
-		await sendEmailAddStructure(client, existingAdmin, adminStructure, structure);
+		sendEmailAddStructure(client, existingAdmin, adminStructure, structure);
 	}
 
 	return actionSuccess(structureId);
@@ -180,35 +180,34 @@ async function sendEmailNewAccount(
 	structure: StructureInput,
 	accessKey: string
 ) {
-	try {
-		let account = null;
-		if (adminStructure.firstname && adminStructure.lastname) {
-			account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
-		}
-		await send({
-			options: {
-				to: adminStructure.adminEmail,
-				subject: 'Bienvenue sur Carnet de bord',
-			},
-			template: 'adminStructureAccountCreation',
-			params: [
-				{
-					account,
-					structure: structure.name,
-					url: {
-						accessKey: accessKey,
-						appUrl: getAppUrl(),
-					},
-					email: adminStructure.adminEmail,
+	let account = null;
+	if (adminStructure.firstname && adminStructure.lastname) {
+		account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
+	}
+	send({
+		options: {
+			to: adminStructure.adminEmail,
+			subject: 'Bienvenue sur Carnet de bord',
+		},
+		template: 'adminStructureAccountCreation',
+		params: [
+			{
+				account,
+				structure: structure.name,
+				url: {
+					accessKey: accessKey,
+					appUrl: getAppUrl(),
 				},
-			],
-		});
-	} catch (e) {
+				email: adminStructure.adminEmail,
+			},
+		],
+	}).catch((emailError) => {
 		console.error(
 			'InsertStructureWithAdmin',
-			`Could not send email to email ${adminStructure.adminEmail}`
+			`Could not send email for new account (email ${adminStructure.adminEmail})`,
+			emailError
 		);
-	}
+	});
 }
 
 async function sendEmailAddStructure(
@@ -217,45 +216,44 @@ async function sendEmailAddStructure(
 	adminStructure: AdminStructureInput,
 	structure: StructureInput
 ) {
-	try {
-		const accountId = existingAdmin.account.id;
-		const result = await updateAccessKey(client, accountId);
-		if (result.error) {
-			console.error('Could not update access key', { error: result.error });
-			return actionError(
-				"Insert admin_structure failed, could not update existing account's accessKey",
-				500
-			);
-		}
-		const accessKey = result.data.account.accessKey;
-		let account = null;
-		if (adminStructure.firstname && adminStructure.lastname) {
-			account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
-		}
-		const structureName = structure.name ? `la structure ${structure.name}` : 'une structure';
-		const subject = `Vous pouvez désormais administrer ${structureName}`;
-		await send({
-			options: {
-				to: adminStructure.adminEmail,
-				subject,
-			},
-			template: 'adminStructureAddedToStructure',
-			params: [
-				{
-					account,
-					structure: structure.name,
-					url: {
-						accessKey: accessKey,
-						appUrl: getAppUrl(),
-					},
-					email: adminStructure.adminEmail,
-				},
-			],
-		});
-	} catch (e) {
-		console.error(
-			'InsertStructureWithAdmin',
-			`Could not send email to email ${adminStructure.adminEmail}`
+	const accountId = existingAdmin.account.id;
+	const result = await updateAccessKey(client, accountId);
+	if (result.error) {
+		console.error('Could not update access key', { error: result.error });
+		return actionError(
+			"Insert admin_structure failed, could not update existing account's accessKey",
+			500
 		);
 	}
+	const accessKey = result.data.account.accessKey;
+	let account = null;
+	if (adminStructure.firstname && adminStructure.lastname) {
+		account = { firstname: adminStructure.firstname, lastname: adminStructure.lastname };
+	}
+	const structureName = structure.name ? `la structure ${structure.name}` : 'une structure';
+	const subject = `Vous pouvez désormais administrer ${structureName}`;
+	send({
+		options: {
+			to: adminStructure.adminEmail,
+			subject,
+		},
+		template: 'adminStructureAddedToStructure',
+		params: [
+			{
+				account,
+				structure: structure.name,
+				url: {
+					accessKey: accessKey,
+					appUrl: getAppUrl(),
+				},
+				email: adminStructure.adminEmail,
+			},
+		],
+	}).catch((emailError) => {
+		console.error(
+			'InsertStructureWithAdmin',
+			`Could not send email that admin of ${structure.name} (email ${adminStructure.adminEmail})`,
+			emailError
+		);
+	});
 }
