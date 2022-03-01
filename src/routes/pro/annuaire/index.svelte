@@ -141,7 +141,7 @@
 	/>
 	<div class="mb-6 self-end">
 		<div class="fr-search-bar" role="search">
-			<label class="fr-label" for="search-beneficiary"> Rechercher un bénéficiaire </label>
+			<label class="fr-label" for="search-beneficiary">Rechercher un bénéficiaire</label>
 			<input
 				class="fr-input"
 				placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
@@ -151,7 +151,7 @@
 				bind:value={search}
 				disabled={!handleSubmit}
 			/>
-			<button class="fr-btn" disabled={!handleSubmit || searching}> Rechercher </button>
+			<button class="fr-btn" disabled={!handleSubmit || searching}>Rechercher</button>
 		</div>
 	</div>
 </form>
