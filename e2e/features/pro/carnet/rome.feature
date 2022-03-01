@@ -5,7 +5,7 @@ Fonctionnalité: Ajout de code ROME dans un carnet de bénéficiaire
 	En tant que pro
 	Je veux pouvoir modifier le code ROME d'un carnet
 
-Scénario: Recherche correcte
+Scénario: Recherche correcte de rome
 	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
 	Quand je clique sur "Situation socioprofessionnelle"
 	Quand je clique sur "Mettre à jour" sous le titre "Situation socioprofessionnelle"

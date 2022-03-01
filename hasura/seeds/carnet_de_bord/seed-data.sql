@@ -4,16 +4,30 @@ BEGIN
 END
 $$;
 
+TRUNCATE public.admin_structure_structure CASCADE;
+TRUNCATE public.beneficiary_structure CASCADE;
 TRUNCATE public.structure CASCADE;
-TRUNCATE public.deployment CASCADE;
-TRUNCATE public.manager CASCADE;
-TRUNCATE public.beneficiary CASCADE;
+
+
+TRUNCATE public.notebook_focus CASCADE;
+TRUNCATE public.notebook_target CASCADE;
+TRUNCATE public.notebook_action CASCADE;
+TRUNCATE public.notebook_event CASCADE;
+TRUNCATE public.notebook_member CASCADE;
+
 TRUNCATE public.admin_cdb CASCADE;
+TRUNCATE public.manager CASCADE;
+TRUNCATE public.admin_structure CASCADE;
 TRUNCATE public.professional CASCADE;
+TRUNCATE public.beneficiary CASCADE;
 TRUNCATE public.notebook CASCADE;
+ 
+TRUNCATE public.deployment CASCADE;
 TRUNCATE public.ref_target CASCADE;
 TRUNCATE public.ref_situation CASCADE;
 TRUNCATE public.ref_action CASCADE;
+
+TRUNCATE public.account CASCADE;
 
 SET check_function_bodies = false;
 INSERT INTO public.admin_cdb (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Carnet de Bord', 'Administrateur');
