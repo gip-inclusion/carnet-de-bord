@@ -4617,6 +4617,7 @@ export type NotebookTarget = {
 	id: Scalars['uuid'];
 	/** An object relationship */
 	professional: Professional;
+	status: Scalars['String'];
 	target: Scalars['String'];
 	updatedAt: Scalars['timestamptz'];
 };
@@ -4686,6 +4687,7 @@ export type NotebookTargetBoolExp = {
 	focusId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	professional?: InputMaybe<ProfessionalBoolExp>;
+	status?: InputMaybe<StringComparisonExp>;
 	target?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
@@ -4707,6 +4709,7 @@ export type NotebookTargetInsertInput = {
 	focusId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
+	status?: InputMaybe<Scalars['String']>;
 	target?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -4718,6 +4721,7 @@ export type NotebookTargetMaxFields = {
 	creatorId?: Maybe<Scalars['uuid']>;
 	focusId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
 	target?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -4728,6 +4732,7 @@ export type NotebookTargetMaxOrderBy = {
 	creatorId?: InputMaybe<OrderBy>;
 	focusId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
 	target?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -4739,6 +4744,7 @@ export type NotebookTargetMinFields = {
 	creatorId?: Maybe<Scalars['uuid']>;
 	focusId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
 	target?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -4749,6 +4755,7 @@ export type NotebookTargetMinOrderBy = {
 	creatorId?: InputMaybe<OrderBy>;
 	focusId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
 	target?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -4785,6 +4792,7 @@ export type NotebookTargetOrderBy = {
 	focusId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	professional?: InputMaybe<ProfessionalOrderBy>;
+	status?: InputMaybe<OrderBy>;
 	target?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -4805,6 +4813,8 @@ export enum NotebookTargetSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	Status = 'status',
+	/** column name */
 	Target = 'target',
 	/** column name */
 	UpdatedAt = 'updatedAt',
@@ -4816,6 +4826,7 @@ export type NotebookTargetSetInput = {
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	focusId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
 	target?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -4830,6 +4841,8 @@ export enum NotebookTargetUpdateColumn {
 	FocusId = 'focusId',
 	/** column name */
 	Id = 'id',
+	/** column name */
+	Status = 'status',
 	/** column name */
 	Target = 'target',
 	/** column name */
