@@ -258,8 +258,7 @@
 					${pluralize('structure', successfulImports)}
 					${pluralize('importée', successfulImports)}
 					sur ${toImport.length}
-					${pluralize('demandée', toImport.length)}
-					.`}
+					${pluralize('demandée', toImport.length)}.`}
 				/>
 			{/if}
 			{#key insertResult}

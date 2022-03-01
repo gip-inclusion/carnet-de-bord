@@ -8,6 +8,16 @@ Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
 });
 
+Soit("un utilisateur de type {string} authentifié avec l'email {string}", async (type, email) => {
+	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
+	await I.sendMutation(
+		`mutation setAccessToken {
+				update_account(where: {${type}: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+		}`
+	);
+	I.amOnPage(`/auth/jwt/${fakeToken}`);
+});
+
 Soit('un utilisateur sur la page {string}', (page) => {
 	I.amOnPage(`${page}`);
 });
@@ -50,11 +60,16 @@ Quand('je recherche {string}', (searchText) => {
 	I.fillField('q', searchText);
 });
 
-Quand('je renseigne {string} dans le champ {string}', async (text, input) => {
+Quand('je renseigne {string} dans le champ {string}', (text, input) => {
 	I.fillField(input, text);
 });
 
-Quand('je clique sur {string}', async (text) => {
+Alors('je vois {string} dans le champ {string}', async (value, fieldLabel) => {
+	const fieldId = await I.grabAttributeFrom(`//label[contains(., "${fieldLabel}")]`, 'for');
+	I.seeInField(`#${fieldId}`, value);
+});
+
+Quand('je clique sur {string}', (text) => {
 	I.click(text);
 });
 
@@ -94,9 +109,9 @@ Quand('je scroll à {string}', (text) => {
 	I.scrollTo(`//*[text()[starts-with(., "${text}")]]`, 0, -140);
 });
 
-Quand('je télécharge en cliquant sur {string}', (dowloadText) => {
+Quand('je télécharge en cliquant sur {string}', (downloadText) => {
 	I.handleDownloads();
-	I.click(`//*[text()[starts-with(., "${dowloadText}")]]`);
+	I.click(`//*[text()[starts-with(., "${downloadText}")]]`);
 });
 
 Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select) => {
@@ -185,6 +200,10 @@ Alors("j'ai téléchargé le fichier {string}", (filename) => {
 	I.seeFile(filename);
 });
 
+Quand('je téléverse le fichier {string}', (filename) => {
+	I.attachFile('.dropzone input[type=file]', filename);
+});
+
 /**
  * Dans ce hook, qui se lance après chaque test,
  * on peut executer des mutations afin de supprimer
@@ -194,9 +213,9 @@ After(({ title }) => {
 	if (/Inscription/.test(title)) {
 		I.sendMutation(
 			`mutation removeUser {
-	delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
-	delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
-}`
+				delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
+				delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
+			}`
 		);
 	}
 });

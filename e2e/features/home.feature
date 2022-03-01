@@ -6,8 +6,7 @@ Fonctionnalité: Page d'accueil
 	En tant que visiteur
 	Je veux pouvoir consulter la page d'accueil
 
-Scénario: home cdb
+Scénario: Home CdB
 	Soit un utilisateur sur la page d'accueil
 	Alors je vois "La nouvelle version du Carnet de bord est en ligne"
 	Alors le lien "Accéder à mon compte" pointe sur "/auth/login"
-
