@@ -1,3 +1,25 @@
+# [1.94.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.93.0...v1.94.0) (2022-03-01)
+
+
+### Bug Fixes
+
+* typo and missing codegen ([88e7e83](https://github.com/SocialGouv/carnet-de-bord/commit/88e7e83a6fe524bb520432fcb980e79661bb0a24))
+
+
+### Features
+
+* add rome_codes table and source sql ([397787b](https://github.com/SocialGouv/carnet-de-bord/commit/397787b31951faf3df3cd5223c206bc5a817cc10))
+* fuzzy search on rome_code table ([f3f28e9](https://github.com/SocialGouv/carnet-de-bord/commit/f3f28e9be1f975ee36821cd7ebe8cc5fcbd08277))
+* test for notebook search for pro ([bdb87ef](https://github.com/SocialGouv/carnet-de-bord/commit/bdb87ef64701ff2f08fa0bc7c531c70947a547ca))
+* test ROME selector ([6cb1ca2](https://github.com/SocialGouv/carnet-de-bord/commit/6cb1ca283ece3b13e9a9793660c0316b4ebfddb9))
+* use GQL + PGSQL instead of custom search ([55b6d07](https://github.com/SocialGouv/carnet-de-bord/commit/55b6d079078db02386ba80135ce90ea9cc302ed1))
+
+
+### Reverts
+
+* Revert "chore: use generic Step instead of Soit/Quand/Alors" ([645625c](https://github.com/SocialGouv/carnet-de-bord/commit/645625c1f78b392e9969c87bc305115e29157210))
+* Revert "chore: temporary code to query rome codes - to remove" ([cca74ce](https://github.com/SocialGouv/carnet-de-bord/commit/cca74ce672ac7f644ec0cd9916d4d8a34300f770))
+
 # [1.93.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.92.2...v1.93.0) (2022-03-01)
 
 
