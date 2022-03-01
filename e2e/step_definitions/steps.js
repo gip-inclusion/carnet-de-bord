@@ -3,6 +3,7 @@ const { Alors, Quand, Soit } = require('./fr');
 const { I } = inject();
 
 //
+const uuid = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 
 Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
@@ -23,27 +24,25 @@ Soit('un utilisateur sur la page {string}', (page) => {
 });
 
 Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
-	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 	await I.sendMutation(
 		`mutation setAccessToken {
-			update_account(where: {beneficiary: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+			update_account(where: {beneficiary: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
 	}`
 	);
-	I.amOnPage(`/auth/jwt/${fakeToken}`);
+	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
 const loginPro = async (email) => {
-	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
-	await I.sendMutation(
+	return I.sendMutation(
 		`mutation setAccessToken {
-			update_account(where: {professional: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+			update_account(where: {professional: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
 	}`
 	);
-	I.amOnPage(`/auth/jwt/${fakeToken}`);
 };
 
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	await loginPro(email);
+	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
 //
@@ -231,13 +230,13 @@ const goToNotebookForLastname = async (lastname) => {
 		`,
 		{ lastname }
 	);
-	const notebookId = result.data.data.notebook[0].id;
-	I.amOnPage(`/pro/carnet/${notebookId}`);
+	return result.data.data.notebook[0].id;
 };
 
 Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	await loginPro(email);
-	await goToNotebookForLastname(lastname);
+	const notebookId = await goToNotebookForLastname(lastname);
+	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
 });
 
 Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
