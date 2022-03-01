@@ -22,6 +22,20 @@ Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async 
 	I.amOnPage(`/auth/jwt/${fakeToken}`);
 });
 
+const loginPro = async (email) => {
+	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
+	await I.sendMutation(
+		`mutation setAccessToken {
+			update_account(where: {professional: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+	}`
+	);
+	I.amOnPage(`/auth/jwt/${fakeToken}`);
+};
+
+Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
+	await loginPro(email);
+});
+
 //
 
 Quand("j'attends {int} secondes", (num) => {
@@ -42,6 +56,12 @@ Quand('je renseigne {string} dans le champ {string}', async (text, input) => {
 
 Quand('je clique sur {string}', async (text) => {
 	I.click(text);
+});
+
+Quand('je clique sur le texte {string}', async (text) => {
+	const item = `//*[text()[contains(., "${text}")]]`;
+
+	I.click(item);
 });
 
 Quand('je choisis {string}', (text) => {
@@ -179,4 +199,32 @@ After(({ title }) => {
 }`
 		);
 	}
+});
+
+const goToNotebookForLastname = async (lastname) => {
+	const result = await I.sendQuery(
+		`
+			query GetNotebook($lastname: String!) {
+				notebook(where: { beneficiary: { lastname: { _eq: $lastname } } }) {
+					id
+				}
+			}
+		`,
+		{ lastname }
+	);
+	const notebookId = result.data.data.notebook[0].id;
+	I.amOnPage(`/pro/carnet/${notebookId}`);
+};
+
+Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
+	await loginPro(email);
+	await goToNotebookForLastname(lastname);
+});
+
+Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
+	const item = locate('*')
+		.after(locate('h2').withText(header))
+		.find(`//*[text()[contains(.,'${target}')]]`);
+
+	I.click(item);
 });

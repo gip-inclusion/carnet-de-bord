@@ -1,8 +1,10 @@
 <script lang="ts" context="module">
 	import Svelecte, { addFormatter, config } from 'svelecte';
 	type RomeItem = {
-		rome: string;
-		text: string;
+		id: string;
+		code: string;
+		description: string;
+		label: string;
 	};
 	type SvelecteItem = {
 		value: string;
@@ -14,7 +16,12 @@
 </script>
 
 <script lang="ts">
+	import { GetRomeCodesDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { getClient } from '@urql/svelte';
+
 	export let current: string;
+	export let romeSelectorId: string;
+
 	let selectedRome: string, selected: SvelecteItem;
 	$: {
 		selectedRome = current
@@ -34,13 +41,13 @@
 	}
 	let initialOptions: Array<SvelecteItem> = [selected].filter((field) => Boolean(field));
 
-	function postProcess(json: { data: Array<RomeItem> }): Array<SvelecteItem> {
-		return json.data.map(({ rome, text }) => ({
-			value: rome,
-			id: rome,
-			label: text,
-			title: text,
-			name: text,
+	function postProcess(data: Array<RomeItem>): Array<SvelecteItem> {
+		return data.map(({ id, code, label }) => ({
+			value: code,
+			id,
+			label,
+			title: label,
+			name: label,
 		}));
 	}
 
@@ -63,20 +70,36 @@
 	function handleChange(event: CustomEvent<SvelecteItem>) {
 		current = event?.detail?.label;
 	}
+	const client = getClient();
+	const fetch: (search: string) => Promise<Array<SvelecteItem>> = (search) =>
+		client
+			.query(GetRomeCodesDocument, { search })
+			.toPromise()
+			.then(({ data, error }) => {
+				if (error) {
+					throw Error(error.toString());
+				}
+				return postProcess(data.search_rome_codes);
+			})
+			.catch((error) => {
+				console.log('Error fetching ROME codes', { error, search });
+				return [];
+			});
 </script>
 
 <Svelecte
 	options={initialOptions}
 	bind:selection={selected}
 	placeholder="Recherchez un métier ou un code ROME"
-	fetch="/pro/carnet/rome?query=[query]"
+	inputId={romeSelectorId}
+	{fetch}
 	disableSifter={true}
 	fetchResetOnBlur={false}
 	fetchCallback={postProcess}
 	renderer="renderRome"
 	class="svelecte-control custom-svelecte cursor-pointer"
-	valueField="rome"
-	labelField="text"
+	valueField="code"
+	labelField="label"
 	clearable={true}
 	on:change={handleChange}
 />

@@ -7,12 +7,12 @@ import {
 	CreateBeneficiaryAccountDocument,
 	GetAccountByEmailDocument,
 	GetAccountByUsernameDocument,
-	GetBenefiaryByEmailDocument,
-	GetBenefiaryByEmailQuery,
+	GetBeneficiaryByEmailDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type {
 	GetAccountByEmailQuery,
 	GetAccountByUsernameQuery,
+	GetBeneficiaryByEmailQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { createClient } from '@urql/core';
 import { updateAccessKey } from '$lib/services/account';
@@ -61,7 +61,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	const { username } = body;
 
 	const beneficiaryResult = await client
-		.query<GetBenefiaryByEmailQuery>(GetBenefiaryByEmailDocument, {
+		.query<GetBeneficiaryByEmailQuery>(GetBeneficiaryByEmailDocument, {
 			email: username,
 		})
 		.toPromise();

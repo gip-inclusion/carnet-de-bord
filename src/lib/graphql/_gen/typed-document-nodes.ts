@@ -1486,9 +1486,9 @@ export type BeneficiaryStructureBoolExp = {
 /** unique or primary key constraints on table "beneficiary_structure" */
 export enum BeneficiaryStructureConstraint {
 	/** unique or primary key constraint */
-	BeneficiaryStructureBeneficiaryIdStructureIdStatusKey = 'beneficiary_structure_beneficiary_id_structure_id_status_key',
-	/** unique or primary key constraint */
 	BeneficiaryStructurePkey = 'beneficiary_structure_pkey',
+	/** unique or primary key constraint */
+	BeneficiaryStructureStructureIdBeneficiaryIdKey = 'beneficiary_structure_structure_id_beneficiary_id_key',
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -2409,6 +2409,10 @@ export type MutationRoot = {
 	delete_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** delete single row from the table: "ref_target" */
 	delete_ref_target_by_pk?: Maybe<RefTarget>;
+	/** delete data from the table: "rome_codes" */
+	delete_rome_codes?: Maybe<RomeCodesMutationResponse>;
+	/** delete single row from the table: "rome_codes" */
+	delete_rome_codes_by_pk?: Maybe<RomeCodes>;
 	/** delete data from the table: "structure" */
 	delete_structure?: Maybe<StructureMutationResponse>;
 	/** delete single row from the table: "structure" */
@@ -2486,6 +2490,10 @@ export type MutationRoot = {
 	insert_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** insert a single row into the table: "ref_target" */
 	insert_ref_target_one?: Maybe<RefTarget>;
+	/** insert data into the table: "rome_codes" */
+	insert_rome_codes?: Maybe<RomeCodesMutationResponse>;
+	/** insert a single row into the table: "rome_codes" */
+	insert_rome_codes_one?: Maybe<RomeCodes>;
 	/** insert data into the table: "structure" */
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
@@ -2563,6 +2571,10 @@ export type MutationRoot = {
 	update_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** update single row of the table: "ref_target" */
 	update_ref_target_by_pk?: Maybe<RefTarget>;
+	/** update data of the table: "rome_codes" */
+	update_rome_codes?: Maybe<RomeCodesMutationResponse>;
+	/** update single row of the table: "rome_codes" */
+	update_rome_codes_by_pk?: Maybe<RomeCodes>;
 	/** update data of the table: "structure" */
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
@@ -2752,6 +2764,16 @@ export type MutationRootDeleteRefTargetArgs = {
 
 /** mutation root */
 export type MutationRootDeleteRefTargetByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRomeCodesArgs = {
+	where: RomeCodesBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRomeCodesByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -2984,6 +3006,18 @@ export type MutationRootInsertRefTargetArgs = {
 export type MutationRootInsertRefTargetOneArgs = {
 	object: RefTargetInsertInput;
 	on_conflict?: InputMaybe<RefTargetOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRomeCodesArgs = {
+	objects: Array<RomeCodesInsertInput>;
+	on_conflict?: InputMaybe<RomeCodesOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRomeCodesOneArgs = {
+	object: RomeCodesInsertInput;
+	on_conflict?: InputMaybe<RomeCodesOnConflict>;
 };
 
 /** mutation root */
@@ -3247,6 +3281,18 @@ export type MutationRootUpdateRefTargetArgs = {
 export type MutationRootUpdateRefTargetByPkArgs = {
 	_set?: InputMaybe<RefTargetSetInput>;
 	pk_columns: RefTargetPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRomeCodesArgs = {
+	_set?: InputMaybe<RomeCodesSetInput>;
+	where: RomeCodesBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRomeCodesByPkArgs = {
+	_set?: InputMaybe<RomeCodesSetInput>;
+	pk_columns: RomeCodesPkColumnsInput;
 };
 
 /** mutation root */
@@ -5350,10 +5396,20 @@ export type QueryRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** fetch data from the table: "rome_codes" */
+	rome_codes: Array<RomeCodes>;
+	/** fetch aggregated fields from the table: "rome_codes" */
+	rome_codes_aggregate: RomeCodesAggregate;
+	/** fetch data from the table: "rome_codes" using primary key columns */
+	rome_codes_by_pk?: Maybe<RomeCodes>;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
+	/** execute function "search_rome_codes" which returns "rome_codes" */
+	search_rome_codes: Array<RomeCodes>;
+	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_codes" */
+	search_rome_codes_aggregate: RomeCodesAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -5722,6 +5778,26 @@ export type QueryRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootRomeCodesArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type QueryRootRomeCodesAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type QueryRootRomeCodesByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootSearchNotebookMembersArgs = {
 	args: SearchNotebookMembersArgs;
 	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
@@ -5738,6 +5814,24 @@ export type QueryRootSearchNotebookMembersAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
 	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+export type QueryRootSearchRomeCodesArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type QueryRootSearchRomeCodesAggregateArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
 };
 
 export type QueryRootStructureArgs = {
@@ -6129,7 +6223,147 @@ export enum RefTargetUpdateColumn {
 	Theme = 'theme',
 }
 
+/** columns and relationships of "rome_codes" */
+export type RomeCodes = {
+	__typename?: 'rome_codes';
+	code: Scalars['String'];
+	description: Scalars['String'];
+	id: Scalars['uuid'];
+	label: Scalars['String'];
+};
+
+/** aggregated selection of "rome_codes" */
+export type RomeCodesAggregate = {
+	__typename?: 'rome_codes_aggregate';
+	aggregate?: Maybe<RomeCodesAggregateFields>;
+	nodes: Array<RomeCodes>;
+};
+
+/** aggregate fields of "rome_codes" */
+export type RomeCodesAggregateFields = {
+	__typename?: 'rome_codes_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RomeCodesMaxFields>;
+	min?: Maybe<RomeCodesMinFields>;
+};
+
+/** aggregate fields of "rome_codes" */
+export type RomeCodesAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rome_codes". All fields are combined with a logical 'AND'. */
+export type RomeCodesBoolExp = {
+	_and?: InputMaybe<Array<RomeCodesBoolExp>>;
+	_not?: InputMaybe<RomeCodesBoolExp>;
+	_or?: InputMaybe<Array<RomeCodesBoolExp>>;
+	code?: InputMaybe<StringComparisonExp>;
+	description?: InputMaybe<StringComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	label?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "rome_codes" */
+export enum RomeCodesConstraint {
+	/** unique or primary key constraint */
+	RomeCodesLabelKey = 'rome_codes_label_key',
+	/** unique or primary key constraint */
+	RomeCodesPkey = 'rome_codes_pkey',
+}
+
+/** input type for inserting data into table "rome_codes" */
+export type RomeCodesInsertInput = {
+	code?: InputMaybe<Scalars['String']>;
+	description?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type RomeCodesMaxFields = {
+	__typename?: 'rome_codes_max_fields';
+	code?: Maybe<Scalars['String']>;
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type RomeCodesMinFields = {
+	__typename?: 'rome_codes_min_fields';
+	code?: Maybe<Scalars['String']>;
+	description?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rome_codes" */
+export type RomeCodesMutationResponse = {
+	__typename?: 'rome_codes_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<RomeCodes>;
+};
+
+/** on conflict condition type for table "rome_codes" */
+export type RomeCodesOnConflict = {
+	constraint: RomeCodesConstraint;
+	update_columns?: Array<RomeCodesUpdateColumn>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+/** Ordering options when selecting data from "rome_codes". */
+export type RomeCodesOrderBy = {
+	code?: InputMaybe<OrderBy>;
+	description?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	label?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: rome_codes */
+export type RomeCodesPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "rome_codes" */
+export enum RomeCodesSelectColumn {
+	/** column name */
+	Code = 'code',
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
+/** input type for updating data in table "rome_codes" */
+export type RomeCodesSetInput = {
+	code?: InputMaybe<Scalars['String']>;
+	description?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "rome_codes" */
+export enum RomeCodesUpdateColumn {
+	/** column name */
+	Code = 'code',
+	/** column name */
+	Description = 'description',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
 export type SearchNotebookMembersArgs = {
+	search?: InputMaybe<Scalars['String']>;
+};
+
+export type SearchRomeCodesArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
 
@@ -6626,10 +6860,20 @@ export type SubscriptionRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** fetch data from the table: "rome_codes" */
+	rome_codes: Array<RomeCodes>;
+	/** fetch aggregated fields from the table: "rome_codes" */
+	rome_codes_aggregate: RomeCodesAggregate;
+	/** fetch data from the table: "rome_codes" using primary key columns */
+	rome_codes_by_pk?: Maybe<RomeCodes>;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
+	/** execute function "search_rome_codes" which returns "rome_codes" */
+	search_rome_codes: Array<RomeCodes>;
+	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_codes" */
+	search_rome_codes_aggregate: RomeCodesAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
@@ -6998,6 +7242,26 @@ export type SubscriptionRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootRomeCodesArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type SubscriptionRootRomeCodesAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type SubscriptionRootRomeCodesByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type SubscriptionRootSearchNotebookMembersArgs = {
 	args: SearchNotebookMembersArgs;
 	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
@@ -7014,6 +7278,24 @@ export type SubscriptionRootSearchNotebookMembersAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
 	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+export type SubscriptionRootSearchRomeCodesArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
+};
+
+export type SubscriptionRootSearchRomeCodesAggregateArgs = {
+	args: SearchRomeCodesArgs;
+	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
+	where?: InputMaybe<RomeCodesBoolExp>;
 };
 
 export type SubscriptionRootStructureArgs = {
@@ -8075,11 +8357,11 @@ export type GetAccountByEmailQuery = {
 	}>;
 };
 
-export type GetBenefiaryByEmailQueryVariables = Exact<{
+export type GetBeneficiaryByEmailQueryVariables = Exact<{
 	email: Scalars['citext'];
 }>;
 
-export type GetBenefiaryByEmailQuery = {
+export type GetBeneficiaryByEmailQuery = {
 	__typename?: 'query_root';
 	beneficiary: Array<{
 		__typename?: 'beneficiary';
@@ -8673,6 +8955,21 @@ export type GetNotebookMemberByIdQuery = {
 		  }
 		| null
 		| undefined;
+};
+
+export type GetRomeCodesQueryVariables = Exact<{
+	search: Scalars['String'];
+}>;
+
+export type GetRomeCodesQuery = {
+	__typename?: 'query_root';
+	search_rome_codes: Array<{
+		__typename?: 'rome_codes';
+		id: string;
+		code: string;
+		description: string;
+		label: string;
+	}>;
 };
 
 export type UpdateNotebookVisitDateMutationVariables = Exact<{
@@ -14633,13 +14930,13 @@ export const GetAccountByEmailDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>;
-export const GetBenefiaryByEmailDocument = {
+export const GetBeneficiaryByEmailDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetBenefiaryByEmail' },
+			name: { kind: 'Name', value: 'GetBeneficiaryByEmail' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -14708,7 +15005,7 @@ export const GetBenefiaryByEmailDocument = {
 			},
 		},
 	],
-} as unknown as DocumentNode<GetBenefiaryByEmailQuery, GetBenefiaryByEmailQueryVariables>;
+} as unknown as DocumentNode<GetBeneficiaryByEmailQuery, GetBeneficiaryByEmailQueryVariables>;
 export const UpdateAccountAccessKeyDocument = {
 	kind: 'Document',
 	definitions: [
@@ -17456,6 +17753,65 @@ export const GetNotebookMemberByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookMemberByIdQuery, GetNotebookMemberByIdQueryVariables>;
+export const GetRomeCodesDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetRomeCodes' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'search_rome_codes' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'IntValue', value: '20' },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'code' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetRomeCodesQuery, GetRomeCodesQueryVariables>;
 export const UpdateNotebookVisitDateDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18543,9 +18899,9 @@ export type GetAccountByEmailQueryStore = OperationStore<
 	GetAccountByEmailQuery,
 	GetAccountByEmailQueryVariables
 >;
-export type GetBenefiaryByEmailQueryStore = OperationStore<
-	GetBenefiaryByEmailQuery,
-	GetBenefiaryByEmailQueryVariables
+export type GetBeneficiaryByEmailQueryStore = OperationStore<
+	GetBeneficiaryByEmailQuery,
+	GetBeneficiaryByEmailQueryVariables
 >;
 export type UpdateAccountAccessKeyMutationStore = OperationStore<
 	UpdateAccountAccessKeyMutation,
@@ -18616,6 +18972,7 @@ export type GetNotebookMemberByIdQueryStore = OperationStore<
 	GetNotebookMemberByIdQuery,
 	GetNotebookMemberByIdQueryVariables
 >;
+export type GetRomeCodesQueryStore = OperationStore<GetRomeCodesQuery, GetRomeCodesQueryVariables>;
 export type UpdateNotebookVisitDateMutationStore = OperationStore<
 	UpdateNotebookVisitDateMutation,
 	UpdateNotebookVisitDateMutationVariables
