@@ -1486,9 +1486,9 @@ export type BeneficiaryStructureBoolExp = {
 /** unique or primary key constraints on table "beneficiary_structure" */
 export enum BeneficiaryStructureConstraint {
 	/** unique or primary key constraint */
-	BeneficiaryStructureBeneficiaryIdStructureIdStatusKey = 'beneficiary_structure_beneficiary_id_structure_id_status_key',
-	/** unique or primary key constraint */
 	BeneficiaryStructurePkey = 'beneficiary_structure_pkey',
+	/** unique or primary key constraint */
+	BeneficiaryStructureStructureIdBeneficiaryIdKey = 'beneficiary_structure_structure_id_beneficiary_id_key',
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -8357,11 +8357,11 @@ export type GetAccountByEmailQuery = {
 	}>;
 };
 
-export type GetBenefiaryByEmailQueryVariables = Exact<{
+export type GetBeneficiaryByEmailQueryVariables = Exact<{
 	email: Scalars['citext'];
 }>;
 
-export type GetBenefiaryByEmailQuery = {
+export type GetBeneficiaryByEmailQuery = {
 	__typename?: 'query_root';
 	beneficiary: Array<{
 		__typename?: 'beneficiary';
@@ -14930,13 +14930,13 @@ export const GetAccountByEmailDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountByEmailQuery, GetAccountByEmailQueryVariables>;
-export const GetBenefiaryByEmailDocument = {
+export const GetBeneficiaryByEmailDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'GetBenefiaryByEmail' },
+			name: { kind: 'Name', value: 'GetBeneficiaryByEmail' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -15005,7 +15005,7 @@ export const GetBenefiaryByEmailDocument = {
 			},
 		},
 	],
-} as unknown as DocumentNode<GetBenefiaryByEmailQuery, GetBenefiaryByEmailQueryVariables>;
+} as unknown as DocumentNode<GetBeneficiaryByEmailQuery, GetBeneficiaryByEmailQueryVariables>;
 export const UpdateAccountAccessKeyDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18899,9 +18899,9 @@ export type GetAccountByEmailQueryStore = OperationStore<
 	GetAccountByEmailQuery,
 	GetAccountByEmailQueryVariables
 >;
-export type GetBenefiaryByEmailQueryStore = OperationStore<
-	GetBenefiaryByEmailQuery,
-	GetBenefiaryByEmailQueryVariables
+export type GetBeneficiaryByEmailQueryStore = OperationStore<
+	GetBeneficiaryByEmailQuery,
+	GetBeneficiaryByEmailQueryVariables
 >;
 export type UpdateAccountAccessKeyMutationStore = OperationStore<
 	UpdateAccountAccessKeyMutation,
