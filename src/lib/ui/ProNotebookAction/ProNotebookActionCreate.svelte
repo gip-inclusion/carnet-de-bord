@@ -8,6 +8,7 @@
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { Button, Select } from '$lib/ui/base';
 	import { trackEvent } from '$lib/tracking/matomo';
+	import { ActionStatus } from '$lib/enums';
 
 	export let target: Pick<NotebookTarget, 'id' | 'target'>;
 	export let theme: string;
@@ -39,7 +40,7 @@
 		await createActionMutation({
 			action: formData.action,
 			targetId: target.id,
-			status: 'new',
+			status: ActionStatus.InProgress,
 		});
 		formData = initFormData();
 	}
