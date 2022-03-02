@@ -12,7 +12,7 @@ Scénario: Annuaire des bénéficiaires
 	Alors je vois "Sophie"
 	Alors je vois "Tifour"
 
-Scénario: Recherche correcte de carnet existant
+Scénario: Recherche d'un carnet existant depuis l'annuaire
 	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
 	Quand je clique sur "Annuaire de mes bénéficiaires"
 	Quand je renseigne "Tifour" dans le champ "Rechercher un bénéficiaire"
@@ -21,9 +21,10 @@ Scénario: Recherche correcte de carnet existant
 	Alors je vois "Tifour"
 
 
-Scénario: Recherche correcte de carnet inexistant
+Scénario: Recherche de carnet inexistant depuis l'annuaire
 	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
 	Quand je clique sur "Annuaire de mes bénéficiaires"
-	Quand je renseigne "Inconnu" dans le champ "Rechercher un bénéficiaire"
+	Quand je renseigne "Connor" dans le champ "Rechercher un bénéficiaire"
+	Alors je vois "Connor" dans le champ "Rechercher un bénéficiaire"
 	Quand je clique sur "Rechercher"
 	Alors je vois "aucun bénéficiaire"
