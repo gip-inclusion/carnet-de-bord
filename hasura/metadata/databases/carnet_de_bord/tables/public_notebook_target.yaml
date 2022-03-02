@@ -93,6 +93,7 @@ select_permissions:
     - creator_id
     - focus_id
     - id
+    - status
     - target
     - updated_at
     filter:
@@ -112,3 +113,14 @@ update_permissions:
     - id
     filter: {}
   role: admin_cdb
+- permission:
+    check: null
+    columns:
+    - status
+    filter:
+      focus:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+  role: professional
