@@ -86,12 +86,12 @@ jobs:
         uses: mikefarah/yq@v4.19.1
         id: app
         with:
-          cmd: echo $(cat manifests-preprod.yaml | yq e '.spec.rules[]?.host' - | head -n 1)
+          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1)
       - name: Get hasura url
         uses: mikefarah/yq@v4.19.1
         id: hasura
         with:
-          cmd: echo $(cat manifests-preprod.yaml | yq e '.spec.rules[]?.host' - | tail -n 1)
+          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | tail -n 1)
       - name: Run test e2e
         run: |
           HASURA_ADMIN_SECRET=${{ secrets.HASURA_ADMIN_SECRET }}  HASURA_BASEURL=https://${{ steps.hasura.outputs.result }}/v1/graphql CODECEPT_BASEURL=https://${{ steps.app.outputs.result }} yarn --cwd e2e test
