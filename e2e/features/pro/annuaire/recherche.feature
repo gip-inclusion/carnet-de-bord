@@ -26,4 +26,4 @@ Scénario: Recherche correcte de carnet inexistant
 	Quand je clique sur "Annuaire de mes bénéficiaires"
 	Quand je renseigne "Inconnu" dans le champ "Rechercher un bénéficiaire"
 	Quand je clique sur "Rechercher"
-	Alors je vois "Désolé, aucun bénéficiaire"
+	Alors je vois "aucun bénéficiaire"
