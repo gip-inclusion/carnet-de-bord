@@ -7737,6 +7737,7 @@ export type GetNotebookFocusByIdQuery = {
 				targets: Array<{
 					__typename?: 'notebook_target';
 					target: string;
+					status: string;
 					id: string;
 					actions: Array<{
 						__typename?: 'notebook_action';
@@ -11476,6 +11477,7 @@ export const GetNotebookFocusByIdDocument = {
 										kind: 'SelectionSet',
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{
 												kind: 'Field',

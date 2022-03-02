@@ -6,7 +6,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { Accordion, Accordions, Button, Card } from '$lib/ui/base';
+	import { Accordion, Accordions, Button, Card, Select } from '$lib/ui/base';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
@@ -15,6 +15,7 @@
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
+	import { ActionStatus } from '$lib/enums';
 
 	export let focusId: string;
 
@@ -47,6 +48,21 @@
 			props: { creator: focus?.professional, createdAt: focus?.createdAt },
 		});
 	}
+
+	const statusValues = [
+		{
+			label: 'En cours',
+			name: ActionStatus.InProgress,
+		},
+		{
+			label: 'Réalisée',
+			name: ActionStatus.Done,
+		},
+		{
+			label: 'Abandonnée',
+			name: ActionStatus.Abandoned,
+		},
+	];
 
 	async function removeFocus() {
 		trackEvent('pro', 'notebook', `remove focus`);
@@ -90,7 +106,18 @@
 			<div>
 				<Accordions>
 					{#each targets as target (target.id)}
-						<Accordion title={target.target}>
+						<Accordion
+							title={'<span>' +
+								target.target +
+								' - <em>' +
+								statusValues.find((value) => value.name == target.status)?.label +
+								'</em></span>'}
+						>
+							<Select
+								selectLabel={"Statut global de l'objectif"}
+								options={statusValues}
+								selected={target.status}
+							/>
 							<ProNotebookActionList {target} theme={focus.theme} />
 						</Accordion>
 					{:else}

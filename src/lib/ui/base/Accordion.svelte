@@ -15,7 +15,7 @@
 	<section data-dsfr-accordion class="fr-accordion">
 		<h3 class="fr-accordion__title">
 			<button class="fr-accordion__btn" aria-expanded={expanded} aria-controls={accordionId}
-				>{title}</button
+				>{@html title}</button
 			>
 		</h3>
 		<div class="fr-collapse" id={accordionId}>
