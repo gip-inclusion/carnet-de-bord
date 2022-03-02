@@ -42,7 +42,7 @@
 
 	let error: string;
 
-	async function onChange(event, action_id: string) {
+	async function onChangeActionStatus(event, action_id: string) {
 		updateResult = await updateNotebookAction({
 			id: action_id,
 			status: event.detail.selected,
@@ -81,7 +81,7 @@
 								options={statusValues}
 								selected={action.status}
 								selectLabel=""
-								on:select={(event) => onChange(event, action.id)}
+								on:select={(event) => onChangeActionStatus(event, action.id)}
 							/>
 						</td><td class="!text-right">{formatDateLocale(action.createdAt)} </td>
 					</tr>
