@@ -1,3 +1,18 @@
+## [1.94.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.1...v1.94.2) (2022-03-02)
+
+
+### Bug Fixes
+
+* **ci:** helm-deploy ([ee87761](https://github.com/SocialGouv/carnet-de-bord/commit/ee87761379c3c4da0e85599cd5681aec09218a28))
+* **helm-deploy:** implements ([4184800](https://github.com/SocialGouv/carnet-de-bord/commit/4184800f70df0876e563ce43332d97ba9e796c3b))
+* **helm-deploy:** wip ([cc8303b](https://github.com/SocialGouv/carnet-de-bord/commit/cc8303bfe8ac9a3df95ea89f24b13299ccad365a))
+* **helm-deploy:** wip ([5c82289](https://github.com/SocialGouv/carnet-de-bord/commit/5c822893e29fa75068659b8519f1b5e92835eb09))
+* **helm-deploy:** wip ([1239fe7](https://github.com/SocialGouv/carnet-de-bord/commit/1239fe7aa85da7d216faf1467ceffad2471018e1))
+* **helm-deploy:** wip ([5e8ee84](https://github.com/SocialGouv/carnet-de-bord/commit/5e8ee8492a28ae30f86526514de0ac968f67bed1))
+* **helm-deploy:** wip ([c08e8ff](https://github.com/SocialGouv/carnet-de-bord/commit/c08e8ff50935a94affd83b24c0152b7b43b1e6f6))
+* **helm-deploy:** wip ([8c11629](https://github.com/SocialGouv/carnet-de-bord/commit/8c11629edfc96971fb95eae38a5bf00926d7eebf))
+* **helm-deploy:** wip ([db986db](https://github.com/SocialGouv/carnet-de-bord/commit/db986dbfe41a9b9fa3c8a109abbbde741a2d4657))
+
 ## [1.94.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.0...v1.94.1) (2022-03-01)
 
 
