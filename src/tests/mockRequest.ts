@@ -1,10 +1,10 @@
-import type { RequestEvent } from '@sveltejs/kit';
+import type { RequestEvent, RequestHandler } from '@sveltejs/kit';
 
-export function request(fn, data) {
+export function request(fn: RequestHandler, data: unknown) {
 	return fn(mockRequest(data));
 }
 
-export function mockRequest(data): RequestEvent {
+export function mockRequest(data: unknown): RequestEvent {
 	return {
 		url: new URL('https://io.io'),
 		locals: {},

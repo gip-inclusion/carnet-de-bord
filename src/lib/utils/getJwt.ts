@@ -10,7 +10,6 @@ export type JwtAccount = Pick<
 > & { deploymentId: string };
 
 export type JwtPayload = {
-	'https://hasura.io/jwt/claims': HasuraClaims;
 	id: string;
 	role: AppRoles;
 	beneficiaryId?: string;

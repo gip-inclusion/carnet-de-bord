@@ -58,40 +58,16 @@ export const post: RequestHandler = async ({ request }) => {
 
 	const { username } = body;
 
-	const beneficiaryResult = await client
-		.query<GetBeneficiaryByEmailQuery>(GetBeneficiaryByEmailDocument, {
-			email: username,
-		})
-		.toPromise();
-
-	if (beneficiaryResult.error) {
-		console.error(beneficiaryResult.error);
+	try {
+		await createBeneficiaryIfNotExist(username);
+	} catch (error) {
+		console.error(`account creation for beneficiary ${username} failed`);
 		return {
 			status: 500,
 			body: {
 				error: 'SERVER_ERROR',
 			},
 		};
-	}
-
-	if (beneficiaryResult.data.beneficiary.length === 1) {
-		const [{ id, firstname, lastname }] = beneficiaryResult.data.beneficiary;
-		console.info(`beneficiary found with email ${username}`);
-		const result = await client
-			.mutation(CreateBeneficiaryAccountDocument, {
-				username: `${firstname}.${lastname}.${crypto.randomBytes(6).toString('hex')}`,
-				beneficiaryId: id,
-			})
-			.toPromise();
-		if (result.error) {
-			console.error(`account creation for beneficiary ${username} (${id}) failed`);
-			return {
-				status: 500,
-				body: {
-					error: 'SERVER_ERROR',
-				},
-			};
-		}
 	}
 
 	const emailResult = await client
@@ -211,3 +187,39 @@ export const post: RequestHandler = async ({ request }) => {
 		},
 	};
 };
+
+async function createBeneficiaryIfNotExist(username: string) {
+	return client
+		.query<GetBeneficiaryByEmailQuery>(GetBeneficiaryByEmailDocument, {
+			email: username,
+		})
+		.toPromise()
+		.then((response) => {
+			if (response.error) {
+				return Promise.reject(
+					new Error(`GetBeneficiaryByEmailDocument errror for ${username} ${response.error}`)
+				);
+			}
+			return response.data;
+		})
+		.then(({ beneficiary }: GetBeneficiaryByEmailQuery) => {
+			const [{ id, firstname, lastname }] = beneficiary;
+			console.info(`beneficiary found with email ${username}`);
+			return client
+				.mutation(CreateBeneficiaryAccountDocument, {
+					username: `${firstname}.${lastname}.${crypto.randomBytes(6).toString('hex')}`,
+					beneficiaryId: id,
+				})
+				.toPromise()
+				.then((response) => {
+					if (response.error) {
+						return Promise.reject(
+							new Error(
+								`CreateBeneficiaryAccountDocument errror for beneficiary ${id} ${response.error}`
+							)
+						);
+					}
+					return response.data;
+				});
+		});
+}

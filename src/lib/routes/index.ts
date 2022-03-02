@@ -40,11 +40,11 @@ const homes: Record<AppRoles, Route> = {
 	admin_structure: adminStructureHome,
 };
 
-export const homeForRole = (role: AppRoles): string => {
+export const homeForRole = (role: string): string => {
 	return (homes[role] || login).path;
 };
 
-export const baseUrlForRole = (role: AppRoles): string => {
+export const baseUrlForRole = (role: string): string => {
 	if (!role) {
 		return '/';
 	}
