@@ -1,0 +1,31 @@
+global: {}
+
+components:
+  app: true
+  hasura: true
+
+app:
+  imagePackage: app
+  probesPath: /healthz
+  env:
+    - name: APP_URL
+      value: https://{{ .Values.global.host }}
+    - name: VITE_GRAPHQL_API_URL
+      value: https://hasura-{{ .Values.global.host }}/v1/graphql
+  envFrom:
+    - secretRef:
+        name: pg-user-{{ .Values.global.branchSlug }}
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+
+hasura:
+  containerPort: 80
+  envFrom:
+    - secretRef:
+        name: pg-user-{{ .Values.global.branchSlug }}
+    - secretRef:
+        name: hasura-sealed-secret
+    - configMapRef:
+        name: hasura-configmap
