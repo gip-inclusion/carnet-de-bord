@@ -75,6 +75,7 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           seedPath: hasura/seeds/carnet_de_bord/seed-data.sql
+          environment: preprod
 
   ##############################################################################
   ## End To End Tests running on all branches
