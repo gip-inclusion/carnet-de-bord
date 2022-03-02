@@ -14,7 +14,7 @@ app:
       value: https://hasura-{{ .Values.global.host }}/v1/graphql
   envFrom:
     - secretRef:
-        name: pg-user-{{ .Values.global.branchSlug }}
+        name: pg-user
     - secretRef:
         name: app-sealed-secret
     - configMapRef:
@@ -24,7 +24,7 @@ hasura:
   containerPort: 80
   envFrom:
     - secretRef:
-        name: pg-user-{{ .Values.global.branchSlug }}
+        name: pg-user
     - secretRef:
         name: hasura-sealed-secret
     - configMapRef:
