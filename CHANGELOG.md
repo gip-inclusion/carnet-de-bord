@@ -1,3 +1,10 @@
+## [1.94.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.3...v1.94.4) (2022-03-02)
+
+
+### Bug Fixes
+
+* **seed-db:** preprod ([#694](https://github.com/SocialGouv/carnet-de-bord/issues/694)) ([93a61a9](https://github.com/SocialGouv/carnet-de-bord/commit/93a61a9895757c67e47e6320316b74856f12bf1d))
+
 ## [1.94.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.2...v1.94.3) (2022-03-02)
 
 
