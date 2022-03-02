@@ -4,13 +4,17 @@
 		DeleteNotebookFocusByIdDocument,
 		GetNotebookFocusByIdDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+
+	import { UpdateTargetStatusDocument } from '$lib/graphql/_gen/typed-document-nodes';
+
+	import type { UpdateTargetStatusMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { Accordion, Accordions, Button, Card, Select } from '$lib/ui/base';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
-	import { mutation, operationStore, query } from '@urql/svelte';
+	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
@@ -63,6 +67,23 @@
 			name: ActionStatus.Abandoned,
 		},
 	];
+
+	const updateNotebookTargetStatusResult = operationStore(UpdateTargetStatusDocument);
+	const updateNotebookTargetStatus = mutation(updateNotebookTargetStatusResult);
+	let updateResult: OperationStore<UpdateTargetStatusMutation>;
+
+	let error: string;
+
+	async function onChangeTargetStatus(event, target_id: string) {
+		updateResult = await updateNotebookTargetStatus({
+			id: target_id,
+			status: event.detail.selected,
+		});
+
+		if (updateResult.error) {
+			error = "Erreur lors de la mise à jour de l'objectif.";
+		}
+	}
 
 	async function removeFocus() {
 		trackEvent('pro', 'notebook', `remove focus`);
@@ -117,6 +138,7 @@
 								selectLabel={"Statut global de l'objectif"}
 								options={statusValues}
 								selected={target.status}
+								on:select={(event) => onChangeTargetStatus(event, target.id)}
 							/>
 							<ProNotebookActionList {target} theme={focus.theme} />
 						</Accordion>

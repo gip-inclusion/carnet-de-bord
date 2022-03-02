@@ -7815,6 +7815,16 @@ export type UpdateNotebookFocusMutation = {
 	update_notebook_focus_by_pk?: { __typename?: 'notebook_focus'; id: string } | null | undefined;
 };
 
+export type UpdateTargetStatusMutationVariables = Exact<{
+	status: Scalars['String'];
+	id: Scalars['uuid'];
+}>;
+
+export type UpdateTargetStatusMutation = {
+	__typename?: 'mutation_root';
+	updateStatus?: { __typename?: 'notebook_target'; id: string } | null | undefined;
+};
+
 export type AddNotebookMemberMutationVariables = Exact<{
 	creatorId: Scalars['uuid'];
 	professionalId: Scalars['uuid'];
@@ -11751,6 +11761,78 @@ export const UpdateNotebookFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateNotebookFocusMutation, UpdateNotebookFocusMutationVariables>;
+export const UpdateTargetStatusDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateTargetStatus' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateStatus' },
+						name: { kind: 'Name', value: 'update_notebook_target_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateTargetStatusMutation, UpdateTargetStatusMutationVariables>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18825,6 +18907,10 @@ export type GetRefSituationsByThemeQueryStore = OperationStore<
 export type UpdateNotebookFocusMutationStore = OperationStore<
 	UpdateNotebookFocusMutation,
 	UpdateNotebookFocusMutationVariables
+>;
+export type UpdateTargetStatusMutationStore = OperationStore<
+	UpdateTargetStatusMutation,
+	UpdateTargetStatusMutationVariables
 >;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
