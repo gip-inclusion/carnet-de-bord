@@ -1,3 +1,11 @@
+## [1.94.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.2...v1.94.3) (2022-03-02)
+
+
+### Bug Fixes
+
+* **helm-deploy:** preprod and prod ([5ab8696](https://github.com/SocialGouv/carnet-de-bord/commit/5ab8696a6a15c88fac54f79a24b5d7ab7f1bcaaa))
+* **helm-deploy:** preprod and prod pg-user ([8707ab4](https://github.com/SocialGouv/carnet-de-bord/commit/8707ab48510c3d557be727891a2648c239d3038e))
+
 ## [1.94.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.1...v1.94.2) (2022-03-02)
 
 
