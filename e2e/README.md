@@ -63,3 +63,7 @@ Fonctionnalité: Mon test
     Quand je pause le test
     Alors je vois "foo"
 ```
+
+## links
+
+- [xpath cheatsheet](https://devhints.io/xpath)

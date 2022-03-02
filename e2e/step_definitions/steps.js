@@ -3,19 +3,19 @@ const { Alors, Quand, Soit } = require('./fr');
 const { I } = inject();
 
 //
+const uuid = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 
 Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
 });
 
 Soit("un utilisateur de type {string} authentifié avec l'email {string}", async (type, email) => {
-	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 	await I.sendMutation(
 		`mutation setAccessToken {
-				update_account(where: {${type}: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+				update_account(where: {${type}: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
 		}`
 	);
-	I.amOnPage(`/auth/jwt/${fakeToken}`);
+	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
 Soit('un utilisateur sur la page {string}', (page) => {
@@ -23,30 +23,33 @@ Soit('un utilisateur sur la page {string}', (page) => {
 });
 
 Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
-	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 	await I.sendMutation(
 		`mutation setAccessToken {
-			update_account(where: {beneficiary: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
+			update_account(where: {beneficiary: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
 	}`
 	);
-	I.amOnPage(`/auth/jwt/${fakeToken}`);
+	I.amOnPage(`/auth/jwt/${uuid}`);
 });
-
-const loginPro = async (email) => {
-	const fakeToken = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
-	await I.sendMutation(
-		`mutation setAccessToken {
-			update_account(where: {professional: {email: {_eq: "${email}"}}} _set: {accessKey: "${fakeToken}"}) { affected_rows }
-	}`
-	);
-	I.amOnPage(`/auth/jwt/${fakeToken}`);
-};
 
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	await loginPro(email);
+	I.amOnPage(`/auth/jwt/${uuid}`);
+});
+
+Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
+	await loginPro(email);
+	const notebookId = await goToNotebookForLastname(lastname);
+	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
 });
 
 //
+Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
+	const item = locate('*')
+		.after(locate('h2').withText(header))
+		.find(`//*[text()[contains(.,'${target}')]]`);
+
+	I.click(item);
+});
 
 Quand("j'attends {int} secondes", (num) => {
 	I.wait(num);
@@ -220,6 +223,14 @@ After(({ title }) => {
 	}
 });
 
+const loginPro = async (email) => {
+	return I.sendMutation(
+		`mutation setAccessToken {
+			update_account(where: {professional: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
+	}`
+	);
+};
+
 const goToNotebookForLastname = async (lastname) => {
 	const result = await I.sendQuery(
 		`
@@ -231,19 +242,5 @@ const goToNotebookForLastname = async (lastname) => {
 		`,
 		{ lastname }
 	);
-	const notebookId = result.data.data.notebook[0].id;
-	I.amOnPage(`/pro/carnet/${notebookId}`);
+	return result.data.data.notebook[0].id;
 };
-
-Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
-	await loginPro(email);
-	await goToNotebookForLastname(lastname);
-});
-
-Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
-	const item = locate('*')
-		.after(locate('h2').withText(header))
-		.find(`//*[text()[contains(.,'${target}')]]`);
-
-	I.click(item);
-});
