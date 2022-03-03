@@ -1,9 +1,24 @@
+<script context="module" lang="ts">
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = ({ url }) => {
+		const alert = url.searchParams.get('reason') ?? null;
+		return {
+			props: {
+				alert,
+			},
+		};
+	};
+</script>
+
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { Button, Input, Link } from '$lib/ui/base';
+	import { Alert, Button, Input, Link } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
 	import type { RequestStep } from '$lib/types';
 
+	export let alert: string | null = null;
+	console.log({ alert });
 	let request: RequestStep = 'start';
 	let username = '';
 
@@ -32,6 +47,10 @@
 <svelte:head>
 	<title>Connexion - Carnet de bord</title>
 </svelte:head>
+
+{#if alert === 'expired'}
+	<Alert type="info">Votre session a expiré, veuillez vous reconnecter.</Alert>
+{/if}
 
 {#if request !== 'success'}
 	<h1>
