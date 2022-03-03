@@ -5,6 +5,7 @@ query GetNotebookFocusById($id: uuid!) {
 		linkedTo
 		targets(order_by: { createdAt: desc }) {
 			target
+			status
 			id
 			actions(order_by: { createdAt: desc }) {
 				id

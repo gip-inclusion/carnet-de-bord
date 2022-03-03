@@ -4617,6 +4617,7 @@ export type NotebookTarget = {
 	id: Scalars['uuid'];
 	/** An object relationship */
 	professional: Professional;
+	status: Scalars['String'];
 	target: Scalars['String'];
 	updatedAt: Scalars['timestamptz'];
 };
@@ -4686,6 +4687,7 @@ export type NotebookTargetBoolExp = {
 	focusId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	professional?: InputMaybe<ProfessionalBoolExp>;
+	status?: InputMaybe<StringComparisonExp>;
 	target?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
@@ -4707,6 +4709,7 @@ export type NotebookTargetInsertInput = {
 	focusId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
+	status?: InputMaybe<Scalars['String']>;
 	target?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -4718,6 +4721,7 @@ export type NotebookTargetMaxFields = {
 	creatorId?: Maybe<Scalars['uuid']>;
 	focusId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
 	target?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -4728,6 +4732,7 @@ export type NotebookTargetMaxOrderBy = {
 	creatorId?: InputMaybe<OrderBy>;
 	focusId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
 	target?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -4739,6 +4744,7 @@ export type NotebookTargetMinFields = {
 	creatorId?: Maybe<Scalars['uuid']>;
 	focusId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
 	target?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -4749,6 +4755,7 @@ export type NotebookTargetMinOrderBy = {
 	creatorId?: InputMaybe<OrderBy>;
 	focusId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
 	target?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -4785,6 +4792,7 @@ export type NotebookTargetOrderBy = {
 	focusId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	professional?: InputMaybe<ProfessionalOrderBy>;
+	status?: InputMaybe<OrderBy>;
 	target?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -4805,6 +4813,8 @@ export enum NotebookTargetSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	Status = 'status',
+	/** column name */
 	Target = 'target',
 	/** column name */
 	UpdatedAt = 'updatedAt',
@@ -4816,6 +4826,7 @@ export type NotebookTargetSetInput = {
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	focusId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
 	target?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -4830,6 +4841,8 @@ export enum NotebookTargetUpdateColumn {
 	FocusId = 'focusId',
 	/** column name */
 	Id = 'id',
+	/** column name */
+	Status = 'status',
 	/** column name */
 	Target = 'target',
 	/** column name */
@@ -7724,6 +7737,7 @@ export type GetNotebookFocusByIdQuery = {
 				targets: Array<{
 					__typename?: 'notebook_target';
 					target: string;
+					status: string;
 					id: string;
 					actions: Array<{
 						__typename?: 'notebook_action';
@@ -7799,6 +7813,16 @@ export type UpdateNotebookFocusMutationVariables = Exact<{
 export type UpdateNotebookFocusMutation = {
 	__typename?: 'mutation_root';
 	update_notebook_focus_by_pk?: { __typename?: 'notebook_focus'; id: string } | null | undefined;
+};
+
+export type UpdateTargetStatusMutationVariables = Exact<{
+	status: Scalars['String'];
+	id: Scalars['uuid'];
+}>;
+
+export type UpdateTargetStatusMutation = {
+	__typename?: 'mutation_root';
+	updateStatus?: { __typename?: 'notebook_target'; id: string } | null | undefined;
 };
 
 export type AddNotebookMemberMutationVariables = Exact<{
@@ -11463,6 +11487,7 @@ export const GetNotebookFocusByIdDocument = {
 										kind: 'SelectionSet',
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{
 												kind: 'Field',
@@ -11736,6 +11761,78 @@ export const UpdateNotebookFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateNotebookFocusMutation, UpdateNotebookFocusMutationVariables>;
+export const UpdateTargetStatusDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateTargetStatus' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateStatus' },
+						name: { kind: 'Name', value: 'update_notebook_target_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateTargetStatusMutation, UpdateTargetStatusMutationVariables>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18810,6 +18907,10 @@ export type GetRefSituationsByThemeQueryStore = OperationStore<
 export type UpdateNotebookFocusMutationStore = OperationStore<
 	UpdateNotebookFocusMutation,
 	UpdateNotebookFocusMutationVariables
+>;
+export type UpdateTargetStatusMutationStore = OperationStore<
+	UpdateTargetStatusMutation,
+	UpdateTargetStatusMutationVariables
 >;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
