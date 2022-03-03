@@ -1,4 +1,4 @@
-const { Alors, Quand, Soit } = require('./fr');
+const { Alors, Quand, Soit, USER_TYPES } = require('./fr');
 
 const { I } = inject();
 
@@ -9,12 +9,8 @@ Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
 });
 
-Soit("un utilisateur de type {string} authentifié avec l'email {string}", async (type, email) => {
-	await I.sendMutation(
-		`mutation setAccessToken {
-				update_account(where: {${type}: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
-		}`
-	);
+Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
+	await loginStub(userType, email);
 	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
@@ -23,21 +19,17 @@ Soit('un utilisateur sur la page {string}', (page) => {
 });
 
 Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
-	await I.sendMutation(
-		`mutation setAccessToken {
-			update_account(where: {beneficiary: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
-	}`
-	);
+	await loginStub('bénéficiaire', email);
 	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
-	await loginPro(email);
+	await loginStub('pro', email);
 	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
 Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
-	await loginPro(email);
+	await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastname(lastname);
 	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
 });
@@ -267,13 +259,14 @@ After(({ title }) => {
 	}
 });
 
-const loginPro = async (email) => {
-	return I.sendMutation(
+async function loginStub(userType, email) {
+	const type = USER_TYPES.filter((t) => t.value === userType)[0];
+	I.sendMutation(
 		`mutation setAccessToken {
-			update_account(where: {professional: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
-	}`
+				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
+		}`
 	);
-};
+}
 
 const goToNotebookForLastname = async (lastname) => {
 	const result = await I.sendQuery(
