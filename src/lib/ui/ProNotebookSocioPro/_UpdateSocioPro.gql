@@ -7,9 +7,9 @@ mutation UpdateSocioPro(
 	$rightAss: Boolean
 	$rightRqth: Boolean
 	$rightBonus: Boolean
-	$job: String
 	$geographicalArea: String
 	$educationLevel: String
+	$wantedJobs: [wanted_job_insert_input!]!
 ) {
 	update: update_notebook_by_pk(
 		pk_columns: { id: $id }
@@ -21,11 +21,16 @@ mutation UpdateSocioPro(
 			rightAss: $rightAss
 			rightRqth: $rightRqth
 			rightBonus: $rightBonus
-			job: $job
 			geographicalArea: $geographicalArea
 			educationLevel: $educationLevel
 		}
 	) {
 		id
+	}
+	delete_wanted_job(where: { notebook_id: { _eq: $id } }) {
+		affected_rows
+	}
+	insert_wanted_job(objects: $wantedJobs) {
+		affected_rows
 	}
 }

@@ -6,6 +6,7 @@
 		workSituationKeys,
 	} from '$lib/constants/keys';
 	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { pluralize } from '$lib/helpers';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Text } from '../utils';
 
@@ -40,8 +41,14 @@
 		</div>
 
 		<div class="w-1/2">
-			<strong class="text-base text-france-blue">Emploi recherché</strong>
-			<Text classNames="mb-2" value={notebook.job} />
+			<strong class="text-base text-france-blue">
+				{pluralize('Emploi', notebook.wantedJobs.length)}
+				{pluralize('recherché', notebook.wantedJobs.length)}
+			</strong>
+			<Text
+				classNames="mb-2"
+				value={notebook.wantedJobs.map(({ rome_code }) => rome_code.label).join(', ')}
+			/>
 		</div>
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Zone de mobilité</strong>

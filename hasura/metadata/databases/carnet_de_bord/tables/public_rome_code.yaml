@@ -27,4 +27,12 @@ select_permissions:
     - description
     - label
     filter: {}
+  role: manager
+- permission:
+    columns:
+    - id
+    - code
+    - description
+    - label
+    filter: {}
   role: professional
