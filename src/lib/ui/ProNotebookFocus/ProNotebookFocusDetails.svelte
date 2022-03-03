@@ -72,7 +72,7 @@
 	const updateNotebookTargetStatus = mutation(updateNotebookTargetStatusResult);
 	let updateResult: OperationStore<UpdateTargetStatusMutation>;
 
-	let errors: Record<string, string | undefined> = {};
+	const errors: Record<string, string | undefined> = {};
 
 	async function onChangeTargetStatus(event: CustomEvent<{ selected: string }>, target_id: string) {
 		errors[target_id] = undefined;

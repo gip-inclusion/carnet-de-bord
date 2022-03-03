@@ -26,7 +26,7 @@ const carnetInvitationSchema = yup.object().shape({
 type CarnetInvitation = yup.InferType<typeof carnetInvitationSchema>;
 
 const validateBody = (body: unknown): body is CarnetInvitation => {
-	return carnetInvitationSchema.isType(body);
+	return carnetInvitationSchema.isValidSync(body);
 };
 
 export const post: RequestHandler = async ({ request }) => {

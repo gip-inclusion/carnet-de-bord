@@ -15,15 +15,13 @@
 
 	async function handleSubmit() {
 		request = 'loading';
-		const response = await post('/auth/login', { username });
-		if (response.status === 401) {
-			request = 'error';
-		}
+		const response = await post('/auth/loginCheck', { username });
 		if (response.status === 200) {
 			const { accessUrl } = await response.json();
 			magicLink = accessUrl;
 			request = 'success';
 		} else {
+			request = 'error';
 			magicLink = '';
 		}
 	}
@@ -47,7 +45,9 @@
 					bind:value={username}
 					inputLabel="Courriel"
 					placeholder="nour@social.gouv.fr"
-					error={request === 'error' ? "Ce courriel n'est pas rattaché à un compte existant" : ''}
+					error={request === 'error'
+						? "Une erreur inconnue s'est produite, veuillez réessayer ou nous contacter"
+						: ''}
 					required={true}
 				/>
 				<div>
@@ -75,12 +75,9 @@
 				<div>Connectez-vous</div>
 				<div>au Carnet de bord</div>
 			</h1>
-			<div>Un lien vous a été envoyé pour vous connecter au Carnet de bord.</div>
-			<!-- @TODO what is this button supposed to do?
-					<div>
-						<Button>J'ai compris</Button>
-					</div>
-					-->
+			<div>
+				Si le compte existe, un lien vous a été envoyé pour vous connecter au Carnet de bord.
+			</div>
 			{#if magicLink}
 				<div><Link href={magicLink}>Ouvrir Carnet de bord</Link></div>
 			{/if}

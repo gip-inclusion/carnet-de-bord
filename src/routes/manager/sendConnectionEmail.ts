@@ -27,7 +27,7 @@ const sendConnectionEmailSchema = yup.object().shape({
 type SendConnectionEmail = yup.InferType<typeof sendConnectionEmailSchema>;
 
 const validateBody = (body: unknown): body is SendConnectionEmail => {
-	return sendConnectionEmailSchema.isType(body);
+	return sendConnectionEmailSchema.isValidSync(body);
 };
 
 export const post: RequestHandler = async ({ request }) => {

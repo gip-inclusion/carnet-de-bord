@@ -33,7 +33,7 @@ const confirmProSchema = yup.object().shape({
 type ConfirmPro = yup.InferType<typeof confirmProSchema>;
 
 const validateBody = (body: unknown): body is ConfirmPro => {
-	return confirmProSchema.isType(body);
+	return confirmProSchema.isValidSync(body);
 };
 
 export const post: RequestHandler = async ({ request }) => {

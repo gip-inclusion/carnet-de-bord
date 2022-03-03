@@ -51,7 +51,7 @@ const inscriptionRequestSchema = yup.object().shape({
 type InscriptionRequest = yup.InferType<typeof inscriptionRequestSchema>;
 
 const validateBody = (body: unknown): body is InscriptionRequest => {
-	return inscriptionRequestSchema.isType(body);
+	return inscriptionRequestSchema.isValidSync(body);
 };
 
 export const post: RequestHandler = async ({ request }) => {

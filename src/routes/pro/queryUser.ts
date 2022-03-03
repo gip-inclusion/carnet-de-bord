@@ -100,7 +100,7 @@ type QueryUser = {
 };
 
 const validateBody = (body: unknown): body is QueryUser => {
-	return queryUserSchema.isType(body);
+	return queryUserSchema.isValidSync(body);
 };
 
 export const post: RequestHandler = async ({ request }) => {

@@ -29,7 +29,7 @@ const jwtSchema = yup.object().shape({
 type Jwt = yup.InferType<typeof jwtSchema>;
 
 const validateBody = (body: unknown): body is Jwt => {
-	return jwtSchema.isType(body);
+	return jwtSchema.isValidSync(body);
 };
 
 export const post: RequestHandler = async ({ request }) => {
