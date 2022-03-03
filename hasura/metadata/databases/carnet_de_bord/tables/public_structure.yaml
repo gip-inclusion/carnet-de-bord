@@ -170,7 +170,13 @@ select_permissions:
     - created_at
     - updated_at
     - id
-    filter: {}
+    filter:
+      professionals:
+        notebooksWhereMember:
+          notebook:
+            beneficiary:
+              id:
+                _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
 - permission:
     allow_aggregations: true

@@ -125,13 +125,21 @@ select_permissions:
   role: admin_structure
 - permission:
     columns:
+    - created_at
     - email
     - firstname
     - id
     - lastname
     - mobile_number
     - position
-    filter: {}
+    - structure_id
+    - updated_at
+    filter:
+      notebooksWhereMember:
+        notebook:
+          beneficiary:
+            id:
+              _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
 - permission:
     allow_aggregations: true
