@@ -1,3 +1,18 @@
+# [1.95.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.4...v1.95.0) (2022-03-03)
+
+
+### Bug Fixes
+
+* add missing down migration ([f4cb0e2](https://github.com/SocialGouv/carnet-de-bord/commit/f4cb0e204d05a1e6a023d529f961d3a5bf5e8ae9))
+* update permissions for status ([58ee047](https://github.com/SocialGouv/carnet-de-bord/commit/58ee047e0c9fdab91a0e9844693155c08c51a9f5))
+
+
+### Features
+
+* add migrations ([43a45e2](https://github.com/SocialGouv/carnet-de-bord/commit/43a45e2d2f2e36ecd04d1d545a015db9b1d4fedc))
+* add target status update ([410dc48](https://github.com/SocialGouv/carnet-de-bord/commit/410dc485dab9d68e15f406f2475ad11e19288e0b))
+* display target status ([cac92bb](https://github.com/SocialGouv/carnet-de-bord/commit/cac92bb461eb17f8d5d9aaf4100c894dfd631544))
+
 ## [1.94.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.3...v1.94.4) (2022-03-02)
 
 
