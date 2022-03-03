@@ -18,3 +18,4 @@
 - "!include public_ref_target.yaml"
 - "!include public_rome_code.yaml"
 - "!include public_structure.yaml"
+- "!include public_wanted_job.yaml"
