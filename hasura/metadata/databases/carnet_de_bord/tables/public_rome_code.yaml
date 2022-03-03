@@ -1,5 +1,5 @@
 table:
-  name: rome_codes
+  name: rome_code
   schema: public
 insert_permissions:
 - permission:
