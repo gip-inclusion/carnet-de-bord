@@ -1,0 +1,10 @@
+table:
+  name: wanted_job
+  schema: public
+object_relationships:
+- name: notebook
+  using:
+    foreign_key_constraint_on: notebook_id
+- name: rome_code
+  using:
+    foreign_key_constraint_on: rome_code_id
