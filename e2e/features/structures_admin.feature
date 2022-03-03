@@ -7,7 +7,7 @@ Fonctionnalité: Parcours Administrateur de structures
 	Je veux pouvoir gérer les structures qui me sont attribuées
 
 	Scénario: Première connexion - Mise à jour profil
-		Soit un utilisateur de type "admin_structure" authentifié avec l'email "jean.paul@drome.fr"
+		Soit un "administrateur de structures" authentifié avec l'email "jean.paul@drome.fr"
 		Quand je vois "Création de mon compte Gestionnaire de structure"
 		Alors je vois "jean" dans le champ "Prénom"
 		Alors je vois "paul" dans le champ "Nom"
