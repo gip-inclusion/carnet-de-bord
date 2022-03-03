@@ -10,7 +10,7 @@
 	import type { UpdateTargetStatusMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { Accordion, Accordions, Button, Card, Select } from '$lib/ui/base';
+	import { Accordion, Accordions, Alert, Button, Card, Select } from '$lib/ui/base';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
@@ -72,16 +72,17 @@
 	const updateNotebookTargetStatus = mutation(updateNotebookTargetStatusResult);
 	let updateResult: OperationStore<UpdateTargetStatusMutation>;
 
-	let error: string;
+	let errors: Record<string, string | undefined> = {};
 
-	async function onChangeTargetStatus(event, target_id: string) {
+	async function onChangeTargetStatus(event: CustomEvent<{ selected: string }>, target_id: string) {
+		errors[target_id] = undefined;
 		updateResult = await updateNotebookTargetStatus({
 			id: target_id,
 			status: event.detail.selected,
 		});
 
 		if (updateResult.error) {
-			error = "Erreur lors de la mise à jour de l'objectif.";
+			errors[target_id] = "Erreur lors de la mise à jour de l'objectif.";
 		}
 	}
 
@@ -134,6 +135,11 @@
 								statusValues.find((value) => value.name == target.status)?.label +
 								'</em></span>'}
 						>
+							{#if errors[target.id]}
+								<div class="mb-8">
+									<Alert type="error" description={errors[target.id]} />
+								</div>
+							{/if}
 							<Select
 								selectLabel={"Statut global de l'objectif"}
 								options={statusValues}
