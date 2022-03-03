@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."notebook_target" add column "status" varchar
---  not null default 'in_progress';
+alter table "public"."notebook_target" drop column "status";
