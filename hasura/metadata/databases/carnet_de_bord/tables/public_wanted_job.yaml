@@ -8,3 +8,48 @@ object_relationships:
 - name: rome_code
   using:
     foreign_key_constraint_on: rome_code_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      notebook:
+        beneficiary:
+          deployment:
+            managers:
+              id:
+                _eq: X-Hasura-Manager-Id
+    columns:
+    - notebook_id
+    - rome_code_id
+  role: manager
+- permission:
+    backend_only: false
+    check:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+    columns:
+    - notebook_id
+    - rome_code_id
+  role: professional
+select_permissions:
+- permission:
+    columns:
+    - id
+    - notebook_id
+    - rome_code_id
+    filter:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+  role: professional
+delete_permissions:
+- permission:
+    filter:
+      notebook:
+        members:
+          professional_id:
+            _eq: X-Hasura-Professional-Id
+  role: professional
