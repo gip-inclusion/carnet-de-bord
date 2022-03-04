@@ -125,13 +125,44 @@ select_permissions:
   role: admin_structure
 - permission:
     columns:
+    - created_at
     - email
     - firstname
     - id
     - lastname
     - mobile_number
     - position
-    filter: {}
+    - structure_id
+    - updated_at
+    filter:
+      _or:
+      - notebookActionsCreated:
+          target:
+            focus:
+              notebook:
+                beneficiary_id:
+                  _eq: X-Hasura-Beneficiary-Id
+      - notebooksWhereMember:
+          notebook:
+            beneficiary_id:
+              _eq: X-Hasura-Beneficiary-Id
+      - notebookTargetsCreated:
+          focus:
+            notebook:
+              beneficiary_id:
+                _eq: X-Hasura-Beneficiary-Id
+      - notebookFocusesCreated:
+          notebook:
+            beneficiary_id:
+              _eq: X-Hasura-Beneficiary-Id
+      - notebookEventsCreated:
+          notebook:
+            beneficiary_id:
+              _eq: X-Hasura-Beneficiary-Id
+      - notebooksCreated:
+          notebook:
+            beneficiary_id:
+              _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
 - permission:
     allow_aggregations: true
