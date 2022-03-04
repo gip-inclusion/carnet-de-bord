@@ -7,10 +7,10 @@ import {
 	GetAccountInfoByRefreshTokenDocument,
 	ResetAccountAccessKeyDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
-import type { GetAccountInfoQuery } from '$lib/graphql/_gen/typed-document-nodes';
+import type { GetAccountInfoByRefreshTokenQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { getHasuraAdminSecret } from '$lib/config/variables/private';
 import * as yup from 'yup';
-import {v4} from 'uuid';
+import { v4 } from 'uuid';
 
 const client = createClient({
 	url: getGraphqlAPI(),
@@ -49,7 +49,9 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	const { refreshToken } = body;
 
 	const { data, error } = await client
-		.query<GetAccountInfoQuery>(GetAccountInfoByRefreshTokenDocument, { refreshToken })
+		.query<GetAccountInfoByRefreshTokenQuery>(GetAccountInfoByRefreshTokenDocument, {
+			refreshToken,
+		})
 		.toPromise();
 
 	if (error || !data || data.account.length === 0) {
@@ -98,7 +100,11 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	});
 
 	await client
-		.mutation(ResetAccountAccessKeyDocument, { id, now: new Date().toISOString(), refreshToken: newRefreshToken })
+		.mutation(ResetAccountAccessKeyDocument, {
+			id,
+			now: new Date().toISOString(),
+			refreshToken: newRefreshToken,
+		})
 		.toPromise();
 
 	return {

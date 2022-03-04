@@ -1,5 +1,5 @@
-query GetAccountInfoByRefreshToken($accessKey: String!) {
-	account(where: { refreshToken: { _eq: refreshToken } }) {
+query GetAccountInfoByRefreshToken($refreshToken: uuid!) {
+	account(where: { refreshToken: { _eq: $refreshToken } }) {
 		id
 		type
 		username

@@ -8284,7 +8284,7 @@ export type GetAccountInfoQuery = {
 };
 
 export type GetAccountInfoByRefreshTokenQueryVariables = Exact<{
-	accessKey: Scalars['String'];
+	refreshToken: Scalars['uuid'];
 }>;
 
 export type GetAccountInfoByRefreshTokenQuery = {
@@ -14719,10 +14719,10 @@ export const GetAccountInfoByRefreshTokenDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'refreshToken' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
 			],
@@ -14748,7 +14748,10 @@ export const GetAccountInfoByRefreshTokenDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'EnumValue', value: 'refreshToken' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'refreshToken' },
+														},
 													},
 												],
 											},

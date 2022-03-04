@@ -11,8 +11,7 @@ function closeLayer() {
 	openComponent.close();
 }
 
-async function logout(who: string) {
-	console.log('logging out for', who);
+async function logout() {
 	Matomo.logout();
 	window.location.href = '/auth/logout';
 	closeLayer();
@@ -25,10 +24,8 @@ const getAuth =
 		const refreshToken = session?.user?.refreshToken;
 		if (!authState) {
 			if (token && refreshToken) {
-				console.log('first', { token, refreshToken });
 				return { token, refreshToken };
 			}
-			console.log('second', { token, refreshToken });
 			return null;
 		}
 
@@ -52,15 +49,14 @@ const getAuth =
 			if (session.user.deploymentId) {
 				Matomo.setCustomDimension(Matomo.CustomDimensions.Deployment, session.user.deploymentId);
 			}
-			console.log('third', { token, refreshToken });
+			// TODO set the jwt in the cookie
 			return {
 				token: session.token,
 				refreshToken: session.user.refreshToken,
 			};
 		}
 
-		console.log('fourth', { token, refreshToken });
-		logout('getAuth');
+		logout();
 		return null;
 	};
 
@@ -75,13 +71,10 @@ const addAuthToOperation = ({ authState, operation }) => {
 			: operation.context.fetchOptions || {};
 
 	const token = authState.token;
-	let header;
-	if (token) {
-		header = { Authorization: token ? `Bearer ${token}` : '' };
-	}
-	header = { 'X-Hasura-Role': 'anonymous' };
+	const header = token
+		? { Authorization: token ? `Bearer ${token}` : '' }
+		: { 'X-Hasura-Role': 'anonymous' };
 
-	console.log({ header, token });
 	return makeOperation(operation.kind, operation, {
 		...operation.context,
 		fetchOptions: {
@@ -94,15 +87,14 @@ const addAuthToOperation = ({ authState, operation }) => {
 	});
 };
 
-const didAuthError = ({
-	error,
-	authState,
-}: {
-	error: CombinedError;
-	authState: { token: string; refreshToken: string };
-}): boolean => {
-	console.log('error', { authState, error: error.toString() });
+const didAuthError = ({ error }: { error: CombinedError }): boolean => {
 	return error.graphQLErrors.some((e) => e.extensions?.code === 'invalid-jwt');
+};
+
+const willAuthError = ({ authState }) => {
+	if (!authState) return true;
+	// e.g. check for expiration, existence of auth etc
+	return false;
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -121,11 +113,11 @@ export default (session) => {
 					);
 
 					if (isAuthError) {
-						logout('errorExchange');
+						logout();
 					}
 				},
 			}),
-			authExchange({ addAuthToOperation, getAuth: getAuth(session), didAuthError }),
+			authExchange({ addAuthToOperation, getAuth: getAuth(session), didAuthError, willAuthError }),
 			fetchExchange,
 		],
 	});
