@@ -1,3 +1,10 @@
+## [1.95.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.0...v1.95.1) (2022-03-04)
+
+
+### Bug Fixes
+
+* correct select permissions for beneficiary ([#695](https://github.com/SocialGouv/carnet-de-bord/issues/695)) ([1a629b0](https://github.com/SocialGouv/carnet-de-bord/commit/1a629b0d3fe69ec871126bab027cd7f54d80408f))
+
 # [1.95.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.94.4...v1.95.0) (2022-03-03)
 
 
