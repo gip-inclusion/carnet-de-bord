@@ -54,17 +54,20 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		})
 		.toPromise();
 
+	const fail = () => ({
+		status: 401,
+		body: {
+			errors: `no account for refreshToken ${refreshToken}`,
+		},
+	});
+
 	if (error || !data || data.account.length === 0) {
 		if (error) {
 			console.error(error);
 		}
-		return {
-			status: 401,
-			body: {
-				errors: `no account for refreshToken ${refreshToken}`,
-			},
-		};
+		return fail();
 	}
+
 	const {
 		id,
 		type,
@@ -76,7 +79,19 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		professional,
 		manager,
 		admin_structure: adminStructure,
+		refreshTokenDate,
 	} = data.account[0];
+
+	const isExpired = (tokenDate) => {
+		const duration = 1000 * 60 * 60 * 24 * 30; // 30 days
+		const offset = new Date().getTime() - new Date(tokenDate).getTime();
+		const expired = duration < offset;
+		return expired;
+	};
+	if (!refreshTokenDate || isExpired(refreshTokenDate)) {
+		return fail();
+	}
+
 	let deploymentId = null;
 	if (professional) {
 		deploymentId = professional.structure.deploymentId;

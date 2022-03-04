@@ -18,7 +18,6 @@
 	import type { RequestStep } from '$lib/types';
 
 	export let alert: string | null = null;
-	console.log({ alert });
 	let request: RequestStep = 'start';
 	let username = '';
 

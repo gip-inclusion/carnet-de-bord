@@ -39,7 +39,6 @@
 		if (response.ok) {
 			const { jwt } = await response.json();
 			const user = jwtDecode<JwtPayload>(jwt);
-			console.log({ user });
 			$session.user = user;
 			$session.token = jwt;
 			Matomo.setCustomDimension(Matomo.CustomDimensions.Role, $session.user.role);

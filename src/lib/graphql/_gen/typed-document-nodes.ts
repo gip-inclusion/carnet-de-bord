@@ -8298,6 +8298,7 @@ export type GetAccountInfoByRefreshTokenQuery = {
 		professionalId?: string | null | undefined;
 		managerId?: string | null | undefined;
 		adminStructureId?: string | null | undefined;
+		refreshTokenDate?: string | null | undefined;
 		professional?:
 			| {
 					__typename?: 'professional';
@@ -14770,6 +14771,7 @@ export const GetAccountInfoByRefreshTokenDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'adminStructureId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'refreshTokenDate' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },
