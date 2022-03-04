@@ -13,6 +13,8 @@ configuration:
     manager_id: managerId
     onboarding_done: onboardingDone
     professional_id: professionalId
+    refresh_token: refreshToken
+    refresh_token_date: refreshTokenDate
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
@@ -178,6 +180,7 @@ select_permissions:
     - id
     - onboarding_done
     - professional_id
+    - refresh_token
     - updated_at
     - username
     filter:

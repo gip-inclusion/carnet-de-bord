@@ -7,11 +7,12 @@ import jwt from 'jsonwebtoken';
 export type JwtAccount = Pick<
 	Account,
 	'id' | 'type' | 'username' | 'managerId' | 'beneficiaryId' | 'adminStructureId' | 'professionalId'
-> & { deploymentId: string };
+> & { deploymentId: string; refreshToken: string };
 
 export type JwtPayload = {
 	'https://hasura.io/jwt/claims': HasuraClaims;
 	id: string;
+	refreshToken: string;
 	role: AppRoles;
 	beneficiaryId?: string;
 	professionalId?: string;
@@ -32,18 +33,27 @@ export type HasuraClaims = {
 };
 
 export function createJwt(account: JwtAccount): string {
-	const { id, type, managerId, professionalId, beneficiaryId, deploymentId, adminStructureId } =
-		account;
+	const {
+		id,
+		refreshToken,
+		type,
+		managerId,
+		professionalId,
+		beneficiaryId,
+		deploymentId,
+		adminStructureId,
+	} = account;
 
 	const signOptions: SignOptions = {
 		algorithm: 'HS256',
-		expiresIn: '12h',
+		expiresIn: '12s',
 		subject: id,
 	};
 
 	const claim = {
 		'https://hasura.io/jwt/claims': getHasuraClaims(account),
-		id: id,
+		id,
+		refreshToken,
 		role: type,
 		...(beneficiaryId && { beneficiaryId }),
 		...(professionalId && { professionalId }),

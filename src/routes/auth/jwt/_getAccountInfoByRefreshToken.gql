@@ -1,5 +1,5 @@
-query GetAccountInfo($accessKey: String!) {
-	account(where: { accessKey: { _eq: $accessKey } }) {
+query GetAccountInfoByRefreshToken($accessKey: String!) {
+	account(where: { refreshToken: { _eq: refreshToken } }) {
 		id
 		type
 		username
@@ -7,7 +7,6 @@ query GetAccountInfo($accessKey: String!) {
 		professionalId
 		managerId
 		adminStructureId
-		refreshToken
 		professional {
 			structure {
 				deploymentId

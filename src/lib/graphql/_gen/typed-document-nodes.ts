@@ -146,6 +146,8 @@ export type Account = {
 	/** An object relationship */
 	professional?: Maybe<Professional>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	refreshToken?: Maybe<Scalars['uuid']>;
+	refreshTokenDate?: Maybe<Scalars['timestamptz']>;
 	type: Scalars['String'];
 	updatedAt: Scalars['timestamptz'];
 	username: Scalars['String'];
@@ -194,6 +196,8 @@ export type AccountBoolExp = {
 	onboardingDone?: InputMaybe<BooleanComparisonExp>;
 	professional?: InputMaybe<ProfessionalBoolExp>;
 	professionalId?: InputMaybe<UuidComparisonExp>;
+	refreshToken?: InputMaybe<UuidComparisonExp>;
+	refreshTokenDate?: InputMaybe<TimestamptzComparisonExp>;
 	type?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 	username?: InputMaybe<StringComparisonExp>;
@@ -236,6 +240,8 @@ export type AccountInsertInput = {
 	onboardingDone?: InputMaybe<Scalars['Boolean']>;
 	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
+	refreshToken?: InputMaybe<Scalars['uuid']>;
+	refreshTokenDate?: InputMaybe<Scalars['timestamptz']>;
 	type?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	username?: InputMaybe<Scalars['String']>;
@@ -254,6 +260,8 @@ export type AccountMaxFields = {
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	managerId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	refreshToken?: Maybe<Scalars['uuid']>;
+	refreshTokenDate?: Maybe<Scalars['timestamptz']>;
 	type?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	username?: Maybe<Scalars['String']>;
@@ -272,6 +280,8 @@ export type AccountMinFields = {
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	managerId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
+	refreshToken?: Maybe<Scalars['uuid']>;
+	refreshTokenDate?: Maybe<Scalars['timestamptz']>;
 	type?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	username?: Maybe<Scalars['String']>;
@@ -319,6 +329,8 @@ export type AccountOrderBy = {
 	onboardingDone?: InputMaybe<OrderBy>;
 	professional?: InputMaybe<ProfessionalOrderBy>;
 	professionalId?: InputMaybe<OrderBy>;
+	refreshToken?: InputMaybe<OrderBy>;
+	refreshTokenDate?: InputMaybe<OrderBy>;
 	type?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 	username?: InputMaybe<OrderBy>;
@@ -356,6 +368,10 @@ export enum AccountSelectColumn {
 	/** column name */
 	ProfessionalId = 'professionalId',
 	/** column name */
+	RefreshToken = 'refreshToken',
+	/** column name */
+	RefreshTokenDate = 'refreshTokenDate',
+	/** column name */
 	Type = 'type',
 	/** column name */
 	UpdatedAt = 'updatedAt',
@@ -377,6 +393,8 @@ export type AccountSetInput = {
 	managerId?: InputMaybe<Scalars['uuid']>;
 	onboardingDone?: InputMaybe<Scalars['Boolean']>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
+	refreshToken?: InputMaybe<Scalars['uuid']>;
+	refreshTokenDate?: InputMaybe<Scalars['timestamptz']>;
 	type?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	username?: InputMaybe<Scalars['String']>;
@@ -408,6 +426,10 @@ export enum AccountUpdateColumn {
 	OnboardingDone = 'onboardingDone',
 	/** column name */
 	ProfessionalId = 'professionalId',
+	/** column name */
+	RefreshToken = 'refreshToken',
+	/** column name */
+	RefreshTokenDate = 'refreshTokenDate',
 	/** column name */
 	Type = 'type',
 	/** column name */
@@ -8245,6 +8267,37 @@ export type GetAccountInfoQuery = {
 		professionalId?: string | null | undefined;
 		managerId?: string | null | undefined;
 		adminStructureId?: string | null | undefined;
+		refreshToken?: string | null | undefined;
+		professional?:
+			| {
+					__typename?: 'professional';
+					structure: { __typename?: 'structure'; deploymentId?: string | null | undefined };
+			  }
+			| null
+			| undefined;
+		manager?:
+			| { __typename?: 'manager'; deploymentId?: string | null | undefined }
+			| null
+			| undefined;
+		admin_structure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
+	}>;
+};
+
+export type GetAccountInfoByRefreshTokenQueryVariables = Exact<{
+	accessKey: Scalars['String'];
+}>;
+
+export type GetAccountInfoByRefreshTokenQuery = {
+	__typename?: 'query_root';
+	account: Array<{
+		__typename?: 'account';
+		id: string;
+		type: string;
+		username: string;
+		beneficiaryId?: string | null | undefined;
+		professionalId?: string | null | undefined;
+		managerId?: string | null | undefined;
+		adminStructureId?: string | null | undefined;
 		professional?:
 			| {
 					__typename?: 'professional';
@@ -8263,6 +8316,7 @@ export type GetAccountInfoQuery = {
 export type ResetAccountAccessKeyMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	now: Scalars['timestamptz'];
+	refreshToken: Scalars['uuid'];
 }>;
 
 export type ResetAccountAccessKeyMutation = {
@@ -14611,6 +14665,7 @@ export const GetAccountInfoDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'adminStructureId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },
@@ -14654,6 +14709,110 @@ export const GetAccountInfoDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountInfoQuery, GetAccountInfoQueryVariables>;
+export const GetAccountInfoByRefreshTokenDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountInfoByRefreshToken' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accessKey' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'refreshToken' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'EnumValue', value: 'refreshToken' },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'adminStructureId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } },
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'admin_structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetAccountInfoByRefreshTokenQuery,
+	GetAccountInfoByRefreshTokenQueryVariables
+>;
 export const ResetAccountAccessKeyDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14676,6 +14835,14 @@ export const ResetAccountAccessKeyDocument = {
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'refreshToken' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
 			],
@@ -14719,6 +14886,16 @@ export const ResetAccountAccessKeyDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'lastLogin' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'refreshToken' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'refreshToken' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'refreshTokenDate' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
 										},
 									],
@@ -18983,6 +19160,10 @@ export type GetStructuresForDeploymentQueryStore = OperationStore<
 export type GetAccountInfoQueryStore = OperationStore<
 	GetAccountInfoQuery,
 	GetAccountInfoQueryVariables
+>;
+export type GetAccountInfoByRefreshTokenQueryStore = OperationStore<
+	GetAccountInfoByRefreshTokenQuery,
+	GetAccountInfoByRefreshTokenQueryVariables
 >;
 export type ResetAccountAccessKeyMutationStore = OperationStore<
 	ResetAccountAccessKeyMutation,

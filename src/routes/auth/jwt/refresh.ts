@@ -4,13 +4,13 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/svelte';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
-	GetAccountInfoDocument,
+	GetAccountInfoByRefreshTokenDocument,
 	ResetAccountAccessKeyDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { GetAccountInfoQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { getHasuraAdminSecret } from '$lib/config/variables/private';
 import * as yup from 'yup';
-import { v4 } from 'uuid';
+import {v4} from 'uuid';
 
 const client = createClient({
 	url: getGraphqlAPI(),
@@ -25,7 +25,7 @@ const client = createClient({
 });
 
 const jwtSchema = yup.object().shape({
-	accessKey: yup.string().uuid().required(),
+	refreshToken: yup.string().uuid().required(),
 });
 type Jwt = yup.InferType<typeof jwtSchema>;
 
@@ -46,10 +46,10 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		};
 	}
 
-	const { accessKey } = body;
+	const { refreshToken } = body;
 
 	const { data, error } = await client
-		.query<GetAccountInfoQuery>(GetAccountInfoDocument, { accessKey })
+		.query<GetAccountInfoQuery>(GetAccountInfoByRefreshTokenDocument, { refreshToken })
 		.toPromise();
 
 	if (error || !data || data.account.length === 0) {
@@ -59,7 +59,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 		return {
 			status: 401,
 			body: {
-				errors: `no account for key ${accessKey}`,
+				errors: `no account for refreshToken ${refreshToken}`,
 			},
 		};
 	}
@@ -98,11 +98,7 @@ export const post: RequestHandler<Record<string, unknown>, Record<string, unknow
 	});
 
 	await client
-		.mutation(ResetAccountAccessKeyDocument, {
-			id,
-			now: new Date().toISOString(),
-			refreshToken: newRefreshToken,
-		})
+		.mutation(ResetAccountAccessKeyDocument, { id, now: new Date().toISOString(), refreshToken: newRefreshToken })
 		.toPromise();
 
 	return {
