@@ -2,10 +2,10 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = ({ url }) => {
-		const alert = url.searchParams.get('reason') ?? null;
+		const alertMessage = url.searchParams.get('reason') ?? null;
 		return {
 			props: {
-				alert,
+				alertMessage,
 			},
 		};
 	};
@@ -17,7 +17,7 @@
 	import { post } from '$lib/utils/post';
 	import type { RequestStep } from '$lib/types';
 
-	export let alert: string | null = null;
+	export let alertMessage: string | null = null;
 	let request: RequestStep = 'start';
 	let username = '';
 
@@ -28,6 +28,7 @@
 	}
 
 	async function handleSubmit() {
+		alertMessage = null;
 		request = 'loading';
 		const response = await post('/auth/login', { username });
 		if (response.status === 401) {
@@ -47,7 +48,7 @@
 	<title>Connexion - Carnet de bord</title>
 </svelte:head>
 
-{#if alert === 'expired'}
+{#if alertMessage === 'expired'}
 	<Alert type="info">Votre session a expiré, veuillez vous reconnecter.</Alert>
 {/if}
 
@@ -94,11 +95,6 @@
 				<div>au Carnet de bord</div>
 			</h1>
 			<div>Un lien vous a été envoyé pour vous connecter au Carnet de bord.</div>
-			<!-- @TODO what is this button supposed to do?
-					<div>
-						<Button>J'ai compris</Button>
-					</div>
-					-->
 			{#if magicLink}
 				<div><Link href={magicLink}>Ouvrir Carnet de bord</Link></div>
 			{/if}
