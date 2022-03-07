@@ -13,7 +13,7 @@ function closeLayer() {
 
 async function logout() {
 	Matomo.logout();
-	window.location.href = '/auth/logout';
+	window.location.href = '/auth/logout?reason=expired';
 	closeLayer();
 }
 
