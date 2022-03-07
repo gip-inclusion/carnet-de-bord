@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import { session } from '$app/stores';
 	import { post } from '$lib/utils/post';
 	import type { GetAccountsSummaryQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountsSummaryDocument } from '$lib/graphql/_gen/typed-document-nodes';
@@ -31,7 +32,7 @@
 	$: accounts = $result.data?.accounts || [];
 
 	async function confirmAccount(id: string) {
-		await post(`/manager/confirmPro`, { id });
+		await post(`/manager/confirmPro`, { id }, $session.token);
 		$result.reexecute({ requestPolicy: 'network-only' });
 	}
 
@@ -45,7 +46,7 @@
 		} else if (emails[id] === 'ToConfirm') {
 			if (confirm) {
 				emails[id] = 'Sending';
-				const response = await post(`/manager/sendConnectionEmail`, { id });
+				const response = await post(`/manager/sendConnectionEmail`, { id }, $session.token);
 				if (response.ok) {
 					emails[id] = 'Sent';
 				} else {

@@ -63,7 +63,7 @@
 		});
 		const { id: notebookMemberId } = store.data.newMember;
 		//send email
-		post('/pro/carnet/invitation', { notebookMemberId });
+		post('/pro/carnet/invitation', { notebookMemberId }, $session.token);
 		openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: true } });
 	}
 

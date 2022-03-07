@@ -2,6 +2,7 @@
 	import type { RequestStep } from '$lib/types';
 	import { post } from '$lib/utils/post';
 	import { goto } from '$app/navigation';
+	import { session } from '$app/stores';
 
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
@@ -13,10 +14,14 @@
 	async function onSubmit(values: ProAccountWithStructureInput) {
 		const { structureId, ...accountRequest } = values;
 		requestStep = 'loading';
-		const response = await post('/inscription/request', {
-			accountRequest,
-			structureId,
-		});
+		const response = await post(
+			'/inscription/request',
+			{
+				accountRequest,
+				structureId,
+			},
+			$session.token
+		);
 		if (response.ok) {
 			requestStep = 'success';
 		} else {

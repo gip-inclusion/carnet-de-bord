@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { ExternalUser } from '$lib/types';
-
 	import * as RD from '$lib/remoteData';
 	import { Button, Input } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
+	import { session } from '$app/stores';
 
 	async function handleSubmit() {
 		users = RD.loading;
-		const response = await post('/pro/queryUser', { service: 'CAF', data: { postalCode, idCAF } });
+		const response = await post('/pro/queryUser', { service: 'CAF', data: { postalCode, idCAF } }, $session.token);
 		if (response.status >= 400) {
 			users = RD.failure((await response.json()).error);
 		}

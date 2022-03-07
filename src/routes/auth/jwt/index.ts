@@ -56,11 +56,17 @@ const validateBody = (body: unknown): body is Jwt => {
 	return jwtSchema.isType(body);
 };
 
+const duration = 1000 * 60 * 60 * 24 * 30; // 30 days
+
+export function makeCookie(value, expires) {
+	return `refresh=${value}; Expires=${expires}; Path=/; HttpOnly; Secure; SameSite=Strict`;
+}
+
 async function fail(errors) {
 	return {
 		status: 401,
 		headers: {
-			'set-cookie': 'refresh=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT',
+			'set-cookie': makeCookie('deleted', new Date(0).toUTCString()),
 		},
 		body: {
 			errors,
@@ -114,10 +120,11 @@ async function createTokenFromAccount(
 		})
 		.toPromise();
 
+	const expirationDate = new Date(new Date().getTime() + duration).toUTCString();
 	return {
 		headers: {
 			'Cache-Control': 'private',
-			'set-cookie': `refresh=${refreshToken}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+			'set-cookie': makeCookie(refreshToken, expirationDate),
 		},
 		body: {
 			jwt: token,
@@ -171,7 +178,6 @@ async function checkRefreshToken(body): Promise<EndpointOutput<DefaultBody>> {
 		return fail(`refreshTokenDate for ${refreshToken} not found`);
 	}
 
-	const duration = 1000 * 60 * 60 * 24 * 30; // 30 days
 	const offset = new Date().getTime() - new Date(refreshTokenDate).getTime();
 
 	if (duration < offset) {

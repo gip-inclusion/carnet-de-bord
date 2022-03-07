@@ -34,6 +34,8 @@ export const authenticateWithBody = async (body: string, session: Session, prefi
 		}
 		// if it worked, we pass the headers in case we did this in XHR and need the actual request to correctly set the refresh cookie
 		return { headers: response.headers };
+	} else {
+		console.log({ error: response.text() });
 	}
 
 	return null;

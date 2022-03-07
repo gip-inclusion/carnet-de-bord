@@ -4,6 +4,7 @@
 	import { Text } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
+	import { session } from '$app/stores';
 	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { ProAccountInput, proAccountSchema } from '../ProCreationForm/pro.schema';
 	import { pluralize } from '$lib/helpers';
@@ -75,11 +76,15 @@
 			const { uid, valid, ...pro_ } = pro;
 			let error: string;
 			try {
-				const response = await post('/inscription/request', {
-					accountRequest: pro_,
-					structureId,
-					autoConfirm: true,
-				});
+				const response = await post(
+					'/inscription/request',
+					{
+						accountRequest: pro_,
+						structureId,
+						autoConfirm: true,
+					},
+					$session.token
+				);
 
 				if (!response.ok) {
 					error = await response.json();

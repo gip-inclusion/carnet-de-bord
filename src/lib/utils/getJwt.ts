@@ -46,7 +46,7 @@ export function createJwt(account: JwtAccount): string {
 
 	const signOptions: SignOptions = {
 		algorithm: 'HS256',
-		expiresIn: '15m',
+		expiresIn: '15s',
 		subject: id,
 	};
 

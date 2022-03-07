@@ -11,7 +11,7 @@ config();
 
 export const handle: Handle = async ({ request, resolve }) => {
 	// do nothing for login and auth routes
-	if (['/auth/jwt', '/auth/login'].includes(request.url.pathname)) {
+	if (['/auth/jwt', 'auth/logout'].includes(request.url.pathname)) {
 		return await resolve(request);
 	}
 	// const userAgent = request.headers['user-agent'];
