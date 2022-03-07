@@ -29,7 +29,7 @@ const getAuth =
 			return null;
 		}
 
-		const response: Response = await fetch(`/auth/jwt/refresh`, {
+		const response: Response = await fetch(`/auth/jwt`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json; version=1.0',
@@ -49,7 +49,6 @@ const getAuth =
 			if (session.user.deploymentId) {
 				Matomo.setCustomDimension(Matomo.CustomDimensions.Deployment, session.user.deploymentId);
 			}
-			// TODO set the jwt in the cookie
 			return {
 				token: session.token,
 				refreshToken: session.user.refreshToken,
