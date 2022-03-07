@@ -65,7 +65,9 @@ async function fail(errors) {
 	};
 }
 
-async function createTokenFromData(data): Promise<EndpointOutput<DefaultBody>> {
+async function createTokenFromAccount(
+	account: GetAccountInfoQuery['account'][0] | GetAccountInfoByRefreshTokenQuery['account'][0]
+): Promise<EndpointOutput<DefaultBody>> {
 	const {
 		id,
 		type,
@@ -77,7 +79,7 @@ async function createTokenFromData(data): Promise<EndpointOutput<DefaultBody>> {
 		professional,
 		manager,
 		admin_structure: adminStructure,
-	} = data.account[0];
+	} = account;
 
 	let deploymentId = null;
 	if (professional) {
@@ -140,7 +142,7 @@ async function checkAccessKey(body): Promise<EndpointOutput<DefaultBody>> {
 		};
 	}
 
-	return createTokenFromData(data);
+	return createTokenFromAccount(data.account[0]);
 }
 
 async function checkRefreshToken(body): Promise<EndpointOutput<DefaultBody>> {
@@ -163,7 +165,7 @@ async function checkRefreshToken(body): Promise<EndpointOutput<DefaultBody>> {
 	const refreshTokenDate = data?.account[0]?.refreshTokenDate;
 
 	if (!refreshTokenDate) {
-		return fail(`refreshToken ${refreshToken} not found`);
+		return fail(`refreshTokenDate for ${refreshToken} not found`);
 	}
 
 	const duration = 1000 * 60 * 60 * 24 * 30; // 30 days
@@ -173,7 +175,7 @@ async function checkRefreshToken(body): Promise<EndpointOutput<DefaultBody>> {
 		return fail(`refreshToken ${refreshToken} expired`);
 	}
 
-	return createTokenFromData(data);
+	return createTokenFromAccount(data.account[0]);
 }
 
 export const post: RequestHandler<Record<string, unknown>, Record<string, unknown>> = async ({

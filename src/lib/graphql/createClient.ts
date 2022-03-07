@@ -4,8 +4,7 @@ import { authExchange } from '@urql/exchange-auth';
 import { getGraphqlAPI } from '$lib/config/variables/public';
 import { openComponent } from '$lib/stores';
 import * as Matomo from '$lib/tracking/matomo';
-import jwtDecode from 'jwt-decode';
-import type { JwtPayload } from '$lib/utils/getJwt';
+import { authenticateWithBody } from '$lib/utils/session';
 
 function closeLayer() {
 	openComponent.close();
@@ -29,26 +28,11 @@ const getAuth =
 			return null;
 		}
 
-		const response: Response = await fetch(`/auth/jwt`, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json; version=1.0',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				refreshToken,
-			}),
+		const body = JSON.stringify({
+			refreshToken,
 		});
 
-		if (response.ok) {
-			const { jwt } = await response.json();
-			const user = jwtDecode<JwtPayload>(jwt);
-			session.user = user;
-			session.token = jwt;
-			Matomo.setCustomDimension(Matomo.CustomDimensions.Role, session.user.role);
-			if (session.user.deploymentId) {
-				Matomo.setCustomDimension(Matomo.CustomDimensions.Deployment, session.user.deploymentId);
-			}
+		if (await authenticateWithBody(body, session)) {
 			return {
 				token: session.token,
 				refreshToken: session.user.refreshToken,

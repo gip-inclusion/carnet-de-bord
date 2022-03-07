@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { JwtPayload } from '$lib/utils/getJwt';
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
+	import { authenticateWithBody } from '$lib/utils/session';
 	export async function load({ url, params }: LoadInput): Promise<LoadOutput> {
 		const accessKey = params.uuid;
 		const u = url.searchParams.get('url');
@@ -16,9 +16,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import jwtDecode from 'jwt-decode';
 	import { session } from '$app/stores';
-	import * as Matomo from '$lib/tracking/matomo';
 	import { homeForRole } from '$lib/routes';
 
 	export let accessKey: string;
@@ -26,25 +24,11 @@
 	export let displayError = false;
 
 	onMount(async () => {
-		const response: Response = await fetch(`/auth/jwt`, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json; version=1.0',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				accessKey,
-			}),
+		const body = JSON.stringify({
+			accessKey,
 		});
-		if (response.ok) {
-			const { jwt } = await response.json();
-			const user = jwtDecode<JwtPayload>(jwt);
-			$session.user = user;
-			$session.token = jwt;
-			Matomo.setCustomDimension(Matomo.CustomDimensions.Role, $session.user.role);
-			if ($session.user.deploymentId) {
-				Matomo.setCustomDimension(Matomo.CustomDimensions.Deployment, $session.user.deploymentId);
-			}
+
+		if (await authenticateWithBody(body, $session)) {
 			goto(url ? url : homeForRole($session.user.role));
 		} else {
 			displayError = true;
