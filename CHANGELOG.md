@@ -1,3 +1,10 @@
+## [1.95.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.1...v1.95.2) (2022-03-07)
+
+
+### Bug Fixes
+
+* update matomo endpoint from get to post ([#708](https://github.com/SocialGouv/carnet-de-bord/issues/708)) ([da7f726](https://github.com/SocialGouv/carnet-de-bord/commit/da7f7262c80e3f50f38b682f8a6dd3ce99086bb9))
+
 ## [1.95.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.0...v1.95.1) (2022-03-04)
 
 
