@@ -59,6 +59,9 @@ const validateBody = (body: unknown): body is Jwt => {
 async function fail(errors) {
 	return {
 		status: 401,
+		headers: {
+			'set-cookie': 'refresh=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT',
+		},
 		body: {
 			errors,
 		},
@@ -114,7 +117,7 @@ async function createTokenFromAccount(
 	return {
 		headers: {
 			'Cache-Control': 'private',
-			'set-cookie': `jwt=${token}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+			'set-cookie': `refresh=${refreshToken}; Path=/; HttpOnly; Secure; SameSite=Strict`,
 		},
 		body: {
 			jwt: token,

@@ -85,8 +85,10 @@ export function deleteCustomDimension(id: CustomDimensions): void {
  *
  */
 export function _push(params: string[]): void {
-	if (!window._paq) {
-		window._paq = [];
+	if (typeof window !== 'undefined') {
+		if (!window._paq) {
+			window._paq = [];
+		}
+		window._paq.push(params);
 	}
-	window._paq.push(params);
 }
