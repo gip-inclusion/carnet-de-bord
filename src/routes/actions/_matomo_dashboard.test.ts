@@ -44,7 +44,7 @@ global.fetch = jest.fn().mockImplementation((_, params) =>
 describe('matomo_dashboard', () => {
 	test('should return 401 if action does have secret token', async () => {
 		const response = await post({
-			url: new URL('http://test.url'),
+			url: new URL('https://this.is.a.test.url.fr'),
 			params: {},
 			locals: {},
 			rawBody: new Uint8Array(),
@@ -59,7 +59,7 @@ describe('matomo_dashboard', () => {
 	});
 	test('should return 200', async () => {
 		const response = await post({
-			url: new URL('http://test.url'),
+			url: new URL('https://this.is.a.test.url.fr'),
 			params: {},
 			locals: {},
 			rawBody: new Uint8Array(),
