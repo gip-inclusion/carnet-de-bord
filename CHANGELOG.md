@@ -1,3 +1,10 @@
+## [1.95.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.2...v1.95.3) (2022-03-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dotenv to v16 ([#677](https://github.com/SocialGouv/carnet-de-bord/issues/677)) ([3219bbb](https://github.com/SocialGouv/carnet-de-bord/commit/3219bbb368ba3a7b24eba098648f907b350c2cb0))
+
 ## [1.95.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.1...v1.95.2) (2022-03-07)
 
 
