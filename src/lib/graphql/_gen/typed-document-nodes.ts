@@ -8027,34 +8027,49 @@ export type ListDeploymentIdQuery = {
 
 export type GetDeploymentStatForDayQueryVariables = Exact<{
 	day: Scalars['timestamptz'];
+	last30Days: Scalars['timestamptz'];
 	deploymentId: Scalars['uuid'];
 }>;
 
 export type GetDeploymentStatForDayQuery = {
 	__typename?: 'query_root';
-	created: {
+	nbNotebooks: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
 	};
-	lastVisited: {
-		__typename?: 'notebook_member_aggregate';
-		aggregate?:
-			| { __typename?: 'notebook_member_aggregate_fields'; count: number }
-			| null
-			| undefined;
+	nbStructures: {
+		__typename?: 'structure_aggregate';
+		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
 	};
-	lastModified: {
-		__typename?: 'notebook_member_aggregate';
-		aggregate?:
-			| { __typename?: 'notebook_member_aggregate_fields'; count: number }
-			| null
-			| undefined;
+	nbProfessionals: {
+		__typename?: 'structure_aggregate';
+		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
 	};
-	withMembers: {
+	nbNotebookWithActions: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
 	};
-	withActions: {
+	nbNotebookModifiedSince30d: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
+	nbNotebookCreatedToday: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
+	nbNotebookVisitedToday: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
+	nbNotebookModifiedToday: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
+	nbNotbookWith2MembersOrMore: {
+		__typename?: 'notebook_aggregate';
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+	};
+	nbNotebookWithActionsCreated: {
 		__typename?: 'notebook_aggregate';
 		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
 	};
@@ -13091,6 +13106,14 @@ export const GetDeploymentStatForDayDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'last30Days' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
 					type: {
 						kind: 'NonNullType',
@@ -13103,7 +13126,320 @@ export const GetDeploymentStatForDayDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'created' },
+						alias: { kind: 'Name', value: 'nbNotebooks' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'nbStructures' },
+						name: { kind: 'Name', value: 'structure_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'deploymentId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'nbProfessionals' },
+						name: { kind: 'Name', value: 'structure_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'deploymentId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'nbNotebookWithActions' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'focuses' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'targets' },
+																			value: { kind: 'ObjectValue', fields: [] },
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'focuses' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'targets' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'actions' },
+																						value: { kind: 'ObjectValue', fields: [] },
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'nbNotebookModifiedSince30d' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiary' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'members' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastModifiedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_gte' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'last30Days' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'nbNotebookCreatedToday' },
 						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
 							{
@@ -13172,8 +13508,8 @@ export const GetDeploymentStatForDayDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'lastVisited' },
-						name: { kind: 'Name', value: 'notebook_member_aggregate' },
+						alias: { kind: 'Name', value: 'nbNotebookVisitedToday' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -13183,31 +13519,22 @@ export const GetDeploymentStatForDayDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professional' },
+											name: { kind: 'Name', value: 'beneficiary' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'structure' },
+														name: { kind: 'Name', value: 'deploymentId' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'deploymentId' },
+																	name: { kind: 'Name', value: '_eq' },
 																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'deploymentId' },
-																				},
-																			},
-																		],
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
 																	},
 																},
 															],
@@ -13218,14 +13545,23 @@ export const GetDeploymentStatForDayDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastVisitedAt' },
+											name: { kind: 'Name', value: 'members' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_gte' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+														name: { kind: 'Name', value: 'lastVisitedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_gte' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+																},
+															],
+														},
 													},
 												],
 											},
@@ -13250,8 +13586,8 @@ export const GetDeploymentStatForDayDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'lastModified' },
-						name: { kind: 'Name', value: 'notebook_member_aggregate' },
+						alias: { kind: 'Name', value: 'nbNotebookModifiedToday' },
+						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -13261,31 +13597,22 @@ export const GetDeploymentStatForDayDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professional' },
+											name: { kind: 'Name', value: 'beneficiary' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'structure' },
+														name: { kind: 'Name', value: 'deploymentId' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'deploymentId' },
+																	name: { kind: 'Name', value: '_eq' },
 																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'deploymentId' },
-																				},
-																			},
-																		],
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
 																	},
 																},
 															],
@@ -13296,14 +13623,23 @@ export const GetDeploymentStatForDayDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastModifiedAt' },
+											name: { kind: 'Name', value: 'members' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_gte' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+														name: { kind: 'Name', value: 'lastModifiedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_gte' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'day' } },
+																},
+															],
+														},
 													},
 												],
 											},
@@ -13328,7 +13664,7 @@ export const GetDeploymentStatForDayDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'withMembers' },
+						alias: { kind: 'Name', value: 'nbNotbookWith2MembersOrMore' },
 						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
 							{
@@ -13397,7 +13733,7 @@ export const GetDeploymentStatForDayDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'withActions' },
+						alias: { kind: 'Name', value: 'nbNotebookWithActionsCreated' },
 						name: { kind: 'Name', value: 'notebook_aggregate' },
 						arguments: [
 							{
