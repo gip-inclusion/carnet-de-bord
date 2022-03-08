@@ -1,3 +1,10 @@
+# [1.96.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.3...v1.96.0) (2022-03-08)
+
+
+### Features
+
+* add stat to matomo_dashboard ([#709](https://github.com/SocialGouv/carnet-de-bord/issues/709)) ([18f1477](https://github.com/SocialGouv/carnet-de-bord/commit/18f1477e8059a0a482f6fe35e7768c731dac82ec))
+
 ## [1.95.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.2...v1.95.3) (2022-03-08)
 
 
