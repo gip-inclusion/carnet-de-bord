@@ -11,8 +11,8 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 import MatomoTracker from 'matomo-tracker';
 import { subDays } from 'date-fns';
+
 const client = createClient({
-	fetch,
 	fetchOptions: {
 		headers: {
 			'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const post: RequestHandler = async (request) => {
 	} catch (error) {
 		return {
 			status: 401,
-			body: error.message,
+			body: `[STAT action] ${error.message}`,
 		};
 	}
 
