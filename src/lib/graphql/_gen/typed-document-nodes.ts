@@ -18595,14 +18595,56 @@ export const GetPendingBeneficiariesDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'status' },
+														name: { kind: 'Name', value: 'beneficiary' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: { kind: 'StringValue', value: 'pending', block: false },
+																	name: { kind: 'Name', value: 'notebook' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'members' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'professional' },
+																							value: {
+																								kind: 'ObjectValue',
+																								fields: [
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: 'structureId' },
+																										value: {
+																											kind: 'ObjectValue',
+																											fields: [
+																												{
+																													kind: 'ObjectField',
+																													name: { kind: 'Name', value: '_neq' },
+																													value: {
+																														kind: 'Variable',
+																														name: {
+																															kind: 'Name',
+																															value: 'structureId',
+																														},
+																													},
+																												},
+																											],
+																										},
+																									},
+																								],
+																							},
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
 																},
 															],
 														},
@@ -18789,14 +18831,56 @@ export const GetStructureDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'status' },
+														name: { kind: 'Name', value: 'beneficiary' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: { kind: 'StringValue', value: 'pending', block: false },
+																	name: { kind: 'Name', value: 'notebook' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'members' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'professional' },
+																							value: {
+																								kind: 'ObjectValue',
+																								fields: [
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: 'structureId' },
+																										value: {
+																											kind: 'ObjectValue',
+																											fields: [
+																												{
+																													kind: 'ObjectField',
+																													name: { kind: 'Name', value: '_neq' },
+																													value: {
+																														kind: 'Variable',
+																														name: {
+																															kind: 'Name',
+																															value: 'structureId',
+																														},
+																													},
+																												},
+																											],
+																										},
+																									},
+																								],
+																							},
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
 																},
 															],
 														},
