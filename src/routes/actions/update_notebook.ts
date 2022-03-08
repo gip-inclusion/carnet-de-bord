@@ -110,7 +110,7 @@ export const post: RequestHandler = async ({ request }) => {
 	} catch (error) {
 		console.error(`echec de mise à jour du carnet ${input.id}`, error, url, callback);
 		return {
-			status: 500,
+			status: 400,
 			body: { error: 'CALLBACK_FAILED' },
 		};
 	}

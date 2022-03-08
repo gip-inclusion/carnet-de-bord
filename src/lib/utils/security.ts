@@ -6,7 +6,7 @@ import { getActionSecret, getJwtKey } from '$lib/config/variables/private';
 export const authorizeOnly =
 	(roles: string[]) =>
 	(request: Request): void => {
-		const cookies = cookie.parse(request.headers['cookie'] || '');
+		const cookies = cookie.parse(request.headers.get('cookie') || '');
 		if (!cookies.jwt) {
 			throw Error('Unauthorized access');
 		}
@@ -21,7 +21,7 @@ export const authorizeOnly =
 
 export const actionsGuard = (headers: Headers): void => {
 	const actionSecret = getActionSecret();
-	if (actionSecret !== headers['secret_token']) {
+	if (actionSecret !== headers.get('secret_token')) {
 		throw Error('ACTION_SECRET header not match');
 	}
 };

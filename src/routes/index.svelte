@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { dev } from '$app/env';
 	import { FooterCDB, HeaderCDB } from '$lib/ui';
 	import { Link } from '$lib/ui/base';
 </script>
@@ -10,12 +9,6 @@
 		name="description"
 		content="Partager le parcours pour faciliter les avancées des personnes en insertion et de leurs accompagnateurs."
 	/>
-	{#if dev}
-		<meta
-			http-equiv="Content-Security-Policy"
-			content="connect-src matomo.fabrique.social.gouv.fr  ws://localhost:*"
-		/>
-	{/if}
 </svelte:head>
 
 <HeaderCDB menuItems={[]} />

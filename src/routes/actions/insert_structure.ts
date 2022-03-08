@@ -16,12 +16,13 @@ import type {
 	StructureOnConflict,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { actionsGuard } from '$lib/utils/security';
-import type { EndpointOutput, RequestHandler } from '@sveltejs/kit';
+import type { RequestHandler } from '@sveltejs/kit';
 import { Client, createClient } from '@urql/core';
 import { v4 } from 'uuid';
 import send from '$lib/emailing';
 import { getAppUrl } from '$lib/config/variables/private';
 import { updateAccessKey } from '$lib/services/account';
+import { actionError } from '$lib/utils/actions';
 
 type Body = {
 	input: {
@@ -33,15 +34,6 @@ type Body = {
 		};
 	};
 };
-
-function actionError(message: string, status = 400): EndpointOutput {
-	return {
-		status,
-		body: {
-			message: message,
-		},
-	};
-}
 
 /**
  *
@@ -67,7 +59,7 @@ export const post: RequestHandler = async ({ request }) => {
 		fetchOptions: {
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: request.headers['authorization'],
+				authorization: request.headers.get('authorization'),
 			},
 		},
 		requestPolicy: 'network-only',
