@@ -1,39 +1,73 @@
-query GetDeploymentStatForDay($day: timestamptz!, $deploymentId: uuid!) {
-	created: notebook_aggregate(
+query GetDeploymentStatForDay($day: timestamptz!, $last30Days: timestamptz!, $deploymentId: uuid!) {
+	nbNotebooks: notebook_aggregate(
+		where: { beneficiary: { deploymentId: { _eq: $deploymentId } } }
+	) {
+		aggregate {
+			count
+		}
+	}
+	nbStructures: structure_aggregate(where: { deploymentId: { _eq: $deploymentId } }) {
+		aggregate {
+			count
+		}
+	}
+	nbProfessionals: structure_aggregate(where: { deploymentId: { _eq: $deploymentId } }) {
+		aggregate {
+			count
+		}
+	}
+	nbNotebookWithActions: notebook_aggregate(
+		where: { _or: [{ focuses: { targets: {} } }, { focuses: { targets: { actions: {} } } }] }
+	) {
+		aggregate {
+			count
+		}
+	}
+	nbNotebookModifiedSince30d: notebook_aggregate(
+		where: {
+			beneficiary: { deploymentId: { _eq: $deploymentId } }
+			members: { lastModifiedAt: { _gte: $last30Days } }
+		}
+	) {
+		aggregate {
+			count
+		}
+	}
+	nbNotebookCreatedToday: notebook_aggregate(
 		where: { beneficiary: { deploymentId: { _eq: $deploymentId } }, createdAt: { _gte: $day } }
 	) {
 		aggregate {
 			count
 		}
 	}
-	lastVisited: notebook_member_aggregate(
+	nbNotebookVisitedToday: notebook_aggregate(
 		where: {
-			professional: { structure: { deploymentId: { _eq: $deploymentId } } }
-			lastVisitedAt: { _gte: $day }
+			beneficiary: { deploymentId: { _eq: $deploymentId } }
+			members: { lastVisitedAt: { _gte: $day } }
 		}
 	) {
 		aggregate {
 			count
 		}
 	}
-	lastModified: notebook_member_aggregate(
+	nbNotebookModifiedToday: notebook_aggregate(
 		where: {
-			professional: { structure: { deploymentId: { _eq: $deploymentId } } }
-			lastModifiedAt: { _gte: $day }
+			beneficiary: { deploymentId: { _eq: $deploymentId } }
+			members: { lastModifiedAt: { _gte: $day } }
 		}
 	) {
 		aggregate {
 			count
 		}
 	}
-	withMembers: notebook_aggregate(
+	nbNotbookWith2MembersOrMore: notebook_aggregate(
 		where: { nbMembers: { _gte: 2 }, beneficiary: { deploymentId: { _eq: $deploymentId } } }
 	) {
 		aggregate {
 			count
 		}
 	}
-	withActions: notebook_aggregate(
+	nbNotebookWithActionsCreated: notebook_aggregate(
 		where: {
 			beneficiary: { deploymentId: { _eq: $deploymentId } }
 			focuses: {

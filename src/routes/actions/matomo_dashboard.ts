@@ -10,9 +10,9 @@ import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 import MatomoTracker from 'matomo-tracker';
+import { subDays } from 'date-fns';
 
 const client = createClient({
-	fetch,
 	fetchOptions: {
 		headers: {
 			'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const post: RequestHandler = async (request) => {
 	} catch (error) {
 		return {
 			status: 401,
-			body: error.message,
+			body: `[STAT action] ${error.message}`,
 		};
 	}
 
@@ -53,45 +53,78 @@ export const post: RequestHandler = async (request) => {
 		return {
 			status: 400,
 			body: {
-				message: 'Error retrieving deployment',
+				message: '[STATS action] Error retrieving deployment',
 			},
 		};
 	}
+	const day = formatDateISO(new Date());
+	const last30Days = formatDateISO(subDays(new Date(), 30));
 	for (const { id } of deploymentResult.data.deployments) {
 		const statResult = await client
-			.query(GetDeploymentStatForDayDocument, { deploymentId: id, day: formatDateISO(new Date()) })
+			.query(GetDeploymentStatForDayDocument, { deploymentId: id, day, last30Days })
 			.toPromise();
 		if (statResult.error) {
 			console.error(statResult.error);
 			return {
 				status: 400,
 				body: {
-					message: `Error retrieving deployment ${id} stats`,
+					message: `[STATS action] Error retrieving deployment ${id} stats`,
 				},
 			};
 		}
 
-		const { created, lastModified, lastVisited, withActions, withMembers } = statResult.data;
+		const {
+			nbNotebooks,
+			nbProfessionals,
+			nbStructures,
+			nbNotebookWithActions,
+			nbNotebookModifiedSince30d,
+			nbNotebookCreatedToday,
+			nbNotebookModifiedToday,
+			nbNotebookVisitedToday,
+			nbNotebookWithActionsCreated,
+			nbNotbookWith2MembersOrMore,
+		} = statResult.data;
 		const stats = [
 			{
-				label: 'created',
-				value: created.aggregate.count,
+				label: 'nbNotebookCreatedToday',
+				value: nbNotebookCreatedToday.aggregate.count,
 			},
 			{
-				label: 'lastVisited',
-				value: lastVisited.aggregate.count,
+				label: 'nbNotebookVisitedToday',
+				value: nbNotebookVisitedToday.aggregate.count,
 			},
 			{
-				label: 'lastModified',
-				value: lastModified.aggregate.count,
+				label: 'nbNotebookModifiedToday',
+				value: nbNotebookModifiedToday.aggregate.count,
 			},
 			{
-				label: 'withActions',
-				value: withActions.aggregate.count,
+				label: 'nbNotebookWithActionsCreated',
+				value: nbNotebookWithActionsCreated.aggregate.count,
 			},
 			{
-				label: 'withMembers',
-				value: withMembers.aggregate.count,
+				label: 'nbNotbookWith2MembersOrMore',
+				value: nbNotbookWith2MembersOrMore.aggregate.count,
+			},
+			{
+				label: 'nbNotebooks',
+				value: nbNotebooks.aggregate.count,
+			},
+			{
+				label: 'nbProfessionals',
+				value: nbProfessionals.aggregate.count,
+			},
+			{
+				label: 'nbStructures',
+				value: nbStructures.aggregate.count,
+			},
+			{
+				label: 'nbNotebookWithActions',
+				value: nbNotebookWithActions.aggregate.count,
+			},
+			{
+				label: 'nbNotebookModifiedSince30d',
+				value: nbNotebookModifiedSince30d.aggregate.count,
 			},
 		];
 		for (const { label, value } of stats) {
