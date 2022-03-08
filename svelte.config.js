@@ -9,9 +9,9 @@ const config = {
 			directives: {
 				'default-src': ['self', '*.fabrique.social.gouv.fr', 'client.crisp.chat'],
 				'font-src': ['self', 'data:', 'blob:', 'client.crisp.chat'],
-				'img-src': ['self', 'data:', 'matomo.fabrique.social.gouv.fr', 'client.crisp.chat'],
+				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', 'client.crisp.chat'],
 				'style-src': ['self', 'client.crisp.chat', 'unsafe-inline'],
-				'connect-src': ['self', 'matomo.fabrique.social.gouv.fr', 'localhost:*'],
+				'connect-src': ['self', '*.fabrique.social.gouv.fr', 'localhost:*'],
 			},
 		},
 		vite: {
