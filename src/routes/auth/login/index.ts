@@ -203,6 +203,9 @@ async function createBeneficiaryIfNotExist(username: string) {
 			return response.data;
 		})
 		.then(({ beneficiary }: GetBeneficiaryByEmailQuery) => {
+			if (beneficiary.length === 0) {
+				return;
+			}
 			const [{ id, firstname, lastname }] = beneficiary;
 			console.info(`beneficiary found with email ${username}`);
 			return client
