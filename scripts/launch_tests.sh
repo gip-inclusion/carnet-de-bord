@@ -49,14 +49,13 @@ else
     echo ""
     echo "    docker-compose -f docker-compose-test.yaml stop"
     echo ""
-    echo "in $ROOT_DIR to stop it."
+    echo "in $ROOT_DIR if you want to stop it."
     echo ""
-    exit 1
 fi
 
 # Wait for Hasura
 # Keep pinging Hasura until it's ready to accept commands
-until curl http://localhost:5001; do
+until curl -s http://localhost:5001 > /dev/null ; do
   >&2 echo "-> Hasura is still unavailable - sleeping"
   sleep 1
 done
