@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db_test:
+    image: cdb_pg
+    build:
+      context: ./postgres-dev
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DB=carnet_de_bord_test
+      - POSTGRES_USER=cdb
+      - POSTGRES_PASSWORD=test
+    ports:
+      # Use another port than the default pg one to
+      # be able to run tests while running the dev server
+      - '5433:5432'
+    volumes:
+      - cdb-pgdata-test:/var/lib/postgresql/data
+    restart: always
+
+  hasura_test:
+    image: cdb_hasura
+    build:
+      context: .
+      dockerfile: ./hasura/Dockerfile
+    extra_hosts:
+      host.docker.internal: host-gateway
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+    ports:
+      - '5000:80'
+    depends_on:
+      - 'db_test'
+    restart: always
+    env_file:
+      - .env.test
+    environment:
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ENABLE_TELEMETRY: 'false'
+
+volumes:
+  cdb-pgdata-test:
