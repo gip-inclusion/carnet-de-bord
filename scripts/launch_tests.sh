@@ -49,7 +49,27 @@ else
     echo ""
     echo "    docker-compose -f docker-compose-test.yaml stop"
     echo ""
-    echo "to stop it."
+    echo "in $ROOT_DIR to stop it."
     echo ""
     exit 1
 fi
+
+# Wait for postgres
+# Keep pinging Postgres until it's ready to accept commands
+until psql $DATABASE_URL -c '\q'; do
+  >&2 echo "Postgres is still unavailable - sleeping"
+  sleep 1
+done
+
+>&2 echo "Postgres is up and running on port 5433!"
+
+# Wait for Hasura
+# Keep pinging Hasura until it's ready to accept commands
+until curl http://localhost:5001; do
+  >&2 echo "Hasura is still unavailable - sleeping"
+  sleep 1
+done
+
+
+>&2 echo ""
+>&2 echo "Hasura is up and running on port 5001!"
