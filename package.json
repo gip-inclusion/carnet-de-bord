@@ -30,7 +30,8 @@
 		"format": "yarn fix:prettier",
 		"codegen": "graphql-codegen --config codegen.cjs",
 		"test": "jest",
-		"test:watch": "jest --watch"
+		"test:watch": "jest --watch",
+		"test:experimental": "./scripts/launch_tests.sh"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^16.0.0",
@@ -64,6 +65,7 @@
 		"eslint": "^8.5.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
+		"isomorphic-fetch": "^3.0.0",
 		"hasura-cli": "^2.0.9",
 		"husky": "^7.0.4",
 		"jest": "^27.4.5",

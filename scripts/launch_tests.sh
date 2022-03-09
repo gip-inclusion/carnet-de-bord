@@ -59,7 +59,7 @@ fi
 
 # Wait for Hasura
 # Keep pinging Hasura until it's ready to accept commands
-until curl -s http://localhost:5001 > /dev/null ; do
+until curl -s http://localhost:5001/healthz > /dev/null ; do
   >&2 echo "-> Hasura is still unavailable - sleeping"
   sleep 1
 done
@@ -69,5 +69,21 @@ done
 
 cd hasura && hasura seed apply --database-name carnet_de_bord
 cd $ROOT_DIR
+
+
+>&2 echo "-> Starting Svelte kit"
 # Start dev server
-npx svelte-kit dev --port 3001
+npx svelte-kit dev --port 3001 &
+
+
+until curl -s http://localhost:3001/ > /dev/null ; do
+  >&2 echo "-> Svelte kit is still unavailable - sleeping"
+  sleep 1
+done
+
+>&2 echo ""
+>&2 echo "-> Svelte kit is up and running on port 3001!"
+
+
+>&2 echo "-> Starting Jest tests"
+npx jest
