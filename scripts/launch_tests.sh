@@ -21,7 +21,7 @@ then
   eval "$($SCRIPT_DIR/shdotenv --env .env.test)"
 else
 
-  echo >&2 "Missing .env.test file."
+  echo >&2 "Missing .env.test file. Copy the one from .env.test.sample to .env.test."
   exit 1
 fi
 
@@ -84,10 +84,5 @@ done
 >&2 echo ""
 >&2 echo "-> Svelte kit is up and running on port 3001!"
 
-#sleep infinity
-
-#>&2 echo "-> Starting Jest tests"
-npx jest __tests__/annuaire_search.test.ts
-
-
-sleep infinity
+>&2 echo "-> Starting Jest tests"
+npx jest
