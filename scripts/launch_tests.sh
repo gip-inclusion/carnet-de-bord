@@ -47,7 +47,7 @@ if [ ! "$(docker ps -q -f name=db_test)" ] && [ ! "$(docker ps -q -f name=hasura
         docker volume rm carnet-de-bord_cdb-pgdata-test
     fi
     echo "-> Starting docker"
-    docker-compose -f docker-compose-test.yaml up -d
+    docker-compose -f docker-compose-test.yaml up --build -d
 else
     echo "Docker test env already started. Use: "
     echo ""
