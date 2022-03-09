@@ -2,6 +2,10 @@
 
 set -eo pipefail
 
+# Exit everything when this shell exits
+trap "exit" INT TERM
+trap "kill 0" EXIT
+
 if ! [ -x "$(command -v docker-compose)" ]; then
   echo >&2 "Error: `docker-compose` is not installed."
   exit 1
@@ -62,3 +66,6 @@ done
 
 >&2 echo ""
 >&2 echo "-> Hasura is up and running on port 5001!"
+
+# Start dev server
+npx svelte-kit dev --port 3001 &
