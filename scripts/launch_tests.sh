@@ -84,6 +84,10 @@ done
 >&2 echo ""
 >&2 echo "-> Svelte kit is up and running on port 3001!"
 
+#sleep infinity
 
->&2 echo "-> Starting Jest tests"
-npx jest
+#>&2 echo "-> Starting Jest tests"
+npx jest __tests__/annuaire_search.test.ts
+
+
+sleep infinity
