@@ -29,7 +29,7 @@ do
   if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
       CONTAINER=$(docker ps -aq -f status=exited -f name=$CONTAINER_NAME)
       if [ "$CONTAINER" ]; then
-          echo "Cleaning already existing container $CONTAINER_NAME - $CONTAINER";
+          echo "-> Cleaning already existing container $CONTAINER_NAME - $CONTAINER";
           docker rm $CONTAINER
       fi
   fi
@@ -54,22 +54,12 @@ else
     exit 1
 fi
 
-# Wait for postgres
-# Keep pinging Postgres until it's ready to accept commands
-until psql $DATABASE_URL -c '\q'; do
-  >&2 echo "Postgres is still unavailable - sleeping"
-  sleep 1
-done
-
->&2 echo "Postgres is up and running on port 5433!"
-
 # Wait for Hasura
 # Keep pinging Hasura until it's ready to accept commands
 until curl http://localhost:5001; do
-  >&2 echo "Hasura is still unavailable - sleeping"
+  >&2 echo "-> Hasura is still unavailable - sleeping"
   sleep 1
 done
 
-
 >&2 echo ""
->&2 echo "Hasura is up and running on port 5001!"
+>&2 echo "-> Hasura is up and running on port 5001!"
