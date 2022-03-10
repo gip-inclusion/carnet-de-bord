@@ -5,16 +5,14 @@
 		Professional,
 		GetStructuresForManagerDocument,
 		Structure,
-		GetRomeCodesDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		ImportBeneficiaryMutation,
 		ImportBeneficiaryMutationVariables,
 		GetProfessionalsForManagerQuery,
-		GetRomeCodesQuery,
 		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, OperationStore, query, mutation, getClient } from '@urql/svelte';
+	import { operationStore, OperationStore, query, mutation } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
@@ -59,7 +57,7 @@
 		rightBonus?: string;
 		rightRqth?: string;
 		geographicalArea?: string;
-		wantedJobs?: string;
+		job?: string;
 		educationLevel?: string;
 		structureNames?: string;
 		proEmails?: string;
@@ -161,10 +159,9 @@
 		return keys.geographicalAreaKeys.byValue[s] || null;
 	}
 
-	function stringToRomeCode(map: Record<string, string>) {
-		return function (s: string): string {
-			return map[s] || null;
-		};
+	function stringToJob(s: string): string {
+		// TODO check that the code exists in our ROME codes database
+		return s;
 	}
 
 	function stringToEducationLevel(s: string): string {
@@ -202,23 +199,9 @@
 		return 'pending';
 	}
 
-	const client = getClient();
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
-
-		const labels = beneficiariesToImport.flatMap(
-			(beneficiary) => beneficiary.wantedJobs?.split(',').map((s) => s.trim()) ?? []
-		);
-		const romeCodesResult = await client
-			.query<GetRomeCodesQuery>(GetRomeCodesDocument, { search: '', labels })
-			.toPromise();
-
-		const labelToRomeCode = romeCodesResult.data?.batch.reduce(
-			(acc, { id, label }) => ({ ...acc, [label]: id }),
-			{}
-		);
-		const romeCodeMatcher = stringToRomeCode(labelToRomeCode);
 		for (const beneficiary of beneficiariesToImport) {
 			const { uid, valid, proEmails = '', structureNames = '', ...benef } = beneficiary;
 			const proIds = proEmailsToPros(proEmails).map(({ id }) => id);
@@ -237,17 +220,10 @@
 				rightBonus: stringToBool(benef.rightBonus),
 				rightRqth: stringToBool(benef.rightRqth),
 				geographicalArea: stringToGeographicalArea(benef.geographicalArea),
+				job: stringToJob(benef.job),
 				educationLevel: stringToEducationLevel(benef.educationLevel),
 				members,
 				structures: structs,
-				wantedJobs: beneficiary.wantedJobs
-					.split(',')
-					.map((s) => s.trim())
-					.map(romeCodeMatcher)
-					.filter(Boolean)
-					.map((rome_code_id) => ({
-						rome_code_id,
-					})),
 			};
 			await Promise.all([
 				inserter(payload),
@@ -283,7 +259,7 @@
 		{ label: "Prime d'activité", key: 'rightBonus' },
 		{ label: 'AAH', key: 'rightRqth' },
 		{ label: 'Zone de mobilité', key: 'geographicalArea' },
-		{ label: 'Emplois recherchés (texte + code ROME)', key: 'wantedJobs' },
+		{ label: 'Emploi recherché (code ROME)', key: 'job' },
 		{ label: 'Niveau de formation', key: 'educationLevel' },
 		{ label: 'Structure', key: 'structureNames' },
 		{ label: 'Accompagnateurs', key: 'proEmails' },

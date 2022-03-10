@@ -6,7 +6,6 @@
 		workSituationKeys,
 	} from '$lib/constants/keys';
 	import type { Notebook } from '$lib/graphql/_gen/typed-document-nodes';
-	import { pluralize } from '$lib/helpers';
 	import { openComponent } from '$lib/stores';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Button } from '../base';
@@ -23,18 +22,15 @@
 		| 'rightRqth'
 		| 'rightRsa'
 		| 'geographicalArea'
+		| 'job'
 		| 'educationLevel'
-	> & { wantedJobs: { rome_code: { label: string; id: string } }[] };
+	>;
 
 	const editSocioProSituation = () => {
 		openComponent.open({
 			component: ProCarnetSocioProUpdate,
 			props: {
-				notebook: {
-					...notebook,
-					wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.id),
-				},
-				options: notebook.wantedJobs.map(({ rome_code }) => rome_code),
+				notebook,
 			},
 		});
 	};
@@ -68,14 +64,8 @@
 		</div>
 
 		<div class="w-1/2">
-			<strong class="text-base text-france-blue">
-				{pluralize('Emploi', notebook.wantedJobs.length)}
-				{pluralize('recherché', notebook.wantedJobs.length)}
-			</strong>
-			<Text
-				classNames="mb-2"
-				value={notebook.wantedJobs.map(({ rome_code }) => rome_code.label).join(', ')}
-			/>
+			<strong class="text-base text-france-blue">Emploi recherché</strong>
+			<Text classNames="mb-2" value={notebook.job} />
 		</div>
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Zone de mobilité</strong>

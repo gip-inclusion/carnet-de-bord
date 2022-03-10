@@ -9,15 +9,10 @@ query GetNotebook($id: uuid!, $eventsStart: date, $eventsEnd: date) {
 		rightAss
 		rightBonus
 		geographicalArea
+		job
 		educationLevel
 		contractType
 		contractSignDate
-		wantedJobs {
-			rome_code {
-				id
-				label
-			}
-		}
 		beneficiary {
 			address1
 			address2
