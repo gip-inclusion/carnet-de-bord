@@ -1,6 +1,6 @@
 import type { EndpointOutput } from '@sveltejs/kit';
-import { request } from 'src/tests/mockRequest';
 import type { ExternalDeploymentApiOutput } from '../actions/update_notebook';
+import mockRequest from '$lib/tests/mockRequest';
 import fixtures from './fixtures.json';
 import { post } from './marne';
 
@@ -10,7 +10,7 @@ global.fetch = jest
 
 describe('marne request handler', () => {
 	test('should call the correct url', async () => {
-		await request(post, {
+		await mockRequest(post, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {
@@ -104,7 +104,7 @@ describe('marne request handler', () => {
 			actions: [],
 		};
 
-		const result = await request(post, {
+		const result = await mockRequest(post, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {
@@ -196,7 +196,7 @@ describe('marne request handler', () => {
 			],
 			actions: [],
 		};
-		const result = await request(post, {
+		const result = await mockRequest(post, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {
@@ -294,7 +294,7 @@ describe('marne request handler', () => {
 			],
 		};
 
-		const result = await request(post, {
+		const result = await mockRequest(post, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {

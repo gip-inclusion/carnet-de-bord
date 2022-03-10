@@ -1,6 +1,7 @@
 import { post } from './matomo_dashboard';
 import Matomo from 'matomo-tracker';
 import type { EndpointOutput } from '@sveltejs/kit';
+import mockRequest from '$lib/tests/mockRequest';
 
 jest.mock('matomo-tracker');
 
@@ -42,31 +43,15 @@ global.fetch = jest.fn().mockImplementation((_, params) =>
 );
 
 describe('matomo_dashboard', () => {
-	test('should return 401 if action does have secret token', async () => {
-		const response = await post({
-			url: new URL('https://this.is.a.test.url.fr'),
-			params: {},
-			locals: {},
-			rawBody: new Uint8Array(),
-			method: '',
-			headers: {},
-			body: '',
-		});
+	test('should return 401 if action does not have secret token', async () => {
+		const response = await mockRequest(post, {});
 		expect(response).toEqual<EndpointOutput>({
 			status: 401,
 			body: '[STAT action] ACTION_SECRET header not match',
 		});
 	});
 	test('should return 200', async () => {
-		const response = await post({
-			url: new URL('https://this.is.a.test.url.fr'),
-			params: {},
-			locals: {},
-			rawBody: new Uint8Array(),
-			method: '',
-			headers: { secret_token: process.env.ACTION_SECRET },
-			body: '',
-		});
+		const response = await mockRequest(post, {}, { secret_token: process.env.ACTION_SECRET });
 		expect(response).toEqual<EndpointOutput>({
 			status: 200,
 			body: { message: 'stats sent successfully' },

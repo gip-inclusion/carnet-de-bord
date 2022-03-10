@@ -1,10 +1,19 @@
 import type { RequestEvent, RequestHandler } from '@sveltejs/kit';
 
-export function request(fn: RequestHandler, data: unknown) {
-	return fn(mockRequest(data));
+export default function mockRequest(
+	fn: RequestHandler,
+	data: unknown,
+	headers: Record<string, string> = {}
+) {
+	return fn(_mockRequest(data, headers));
 }
 
-export function mockRequest(data: unknown): RequestEvent {
+const mockHeader = (headers: Record<string, string> = {}) => {
+	const map = new Map(Object.entries(headers));
+	return Object.assign(map, { append: () => ({}) });
+};
+
+function _mockRequest(data: unknown, headers: Record<string, string> = {}): RequestEvent {
 	return {
 		url: new URL('https://io.io'),
 		locals: {},
@@ -15,7 +24,7 @@ export function mockRequest(data: unknown): RequestEvent {
 			cache: 'default',
 			credentials: 'include',
 			destination: null,
-			headers: null,
+			headers: mockHeader(headers) as unknown as Headers,
 			integrity: '',
 			keepalive: true,
 			method: 'GET',
