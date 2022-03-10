@@ -1,3 +1,10 @@
+## [1.96.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.96.0...v1.96.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* **ci:** prod crt ([6d1f905](https://github.com/SocialGouv/carnet-de-bord/commit/6d1f90571df40073870a66e19a39705c0d367ea5))
+
 # [1.96.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.95.3...v1.96.0) (2022-03-08)
 
 
