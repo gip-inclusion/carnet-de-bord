@@ -17,11 +17,11 @@ mutation ImportBeneficiary(
 	$rightBonus: Boolean
 	$rightRqth: Boolean
 	$geographicalArea: String
+	$job: String
 	$educationLevel: String
 	$internalId: String
 	$members: [notebook_member_insert_input!]!
 	$structures: [beneficiary_structure_insert_input!]!
-	$wantedJobs: [wanted_job_insert_input!]!
 ) {
 	newNotebook: insert_notebook_one(
 		object: {
@@ -50,8 +50,8 @@ mutation ImportBeneficiary(
 			rightBonus: $rightBonus
 			rightRqth: $rightRqth
 			geographicalArea: $geographicalArea
+			job: $job
 			educationLevel: $educationLevel
-			wantedJobs: { data: $wantedJobs }
 		}
 	) {
 		id

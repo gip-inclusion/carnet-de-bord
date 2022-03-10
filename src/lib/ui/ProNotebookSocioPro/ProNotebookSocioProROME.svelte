@@ -2,7 +2,16 @@
 	import Svelecte, { addFormatter, config } from 'svelecte';
 	type RomeItem = {
 		id: string;
+		code: string;
+		description: string;
 		label: string;
+	};
+	type SvelecteItem = {
+		value: string;
+		id: string;
+		label: string;
+		title: string;
+		name: string;
 	};
 </script>
 
@@ -10,12 +19,40 @@
 	import { GetRomeCodesDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { getClient } from '@urql/svelte';
 
-	export let value: string[];
-	export let options: RomeItem[];
+	export let current: string;
 	export let romeSelectorId: string;
 
-	function romeRenderer(item: RomeItem, isSelected: boolean) {
-		return `<span class="${isSelected ? 'font-bold' : ''}" title="${item.label}" >
+	let selectedRome: string, selected: SvelecteItem;
+	$: {
+		selectedRome = current
+			? current.split(' ').slice(-1)[0].replace('(', '').replace(')', '')
+			: null;
+	}
+	$: {
+		selected = current
+			? {
+					value: selectedRome,
+					id: selectedRome,
+					label: current,
+					title: current,
+					name: current,
+			  }
+			: null;
+	}
+	let initialOptions: Array<SvelecteItem> = [selected].filter((field) => Boolean(field));
+
+	function postProcess(data: Array<RomeItem>): Array<SvelecteItem> {
+		return data.map(({ id, code, label }) => ({
+			value: code,
+			id,
+			label,
+			title: label,
+			name: label,
+		}));
+	}
+
+	function romeRenderer(item: Record<string, string>, isSelected: boolean) {
+		return `<span class="${isSelected ? 'font-bold' : ''}" title="${item.title}" >
 				${item.label}
 		</span>`;
 	}
@@ -30,16 +67,19 @@
 		collapsedSelection: (count: number) => `${count} éléments sélectionnés`,
 	};
 
+	function handleChange(event: CustomEvent<SvelecteItem>) {
+		current = event?.detail?.label;
+	}
 	const client = getClient();
-	const fetch: (search: string) => Promise<RomeItem[]> = (search) =>
+	const fetch: (search: string) => Promise<Array<SvelecteItem>> = (search) =>
 		client
-			.query(GetRomeCodesDocument, { search, labels: [] })
+			.query(GetRomeCodesDocument, { search })
 			.toPromise()
 			.then(({ data, error }) => {
 				if (error) {
 					throw Error(error.toString());
 				}
-				return data.search_rome_codes;
+				return postProcess(data.search_rome_codes);
 			})
 			.catch((error) => {
 				console.log('Error fetching ROME codes', { error, search });
@@ -48,19 +88,18 @@
 </script>
 
 <Svelecte
-	{options}
-	bind:value
+	options={initialOptions}
+	bind:selection={selected}
 	placeholder="Recherchez un métier ou un code ROME"
 	inputId={romeSelectorId}
 	{fetch}
 	disableSifter={true}
 	fetchResetOnBlur={false}
+	fetchCallback={postProcess}
 	renderer="renderRome"
 	class="svelecte-control custom-svelecte cursor-pointer"
-	valueField="id"
+	valueField="code"
 	labelField="label"
 	clearable={true}
-	multiple={true}
-	max={3}
-	name="wantedJob[]"
+	on:change={handleChange}
 />

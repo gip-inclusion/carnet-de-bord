@@ -11,12 +11,7 @@ query getNotebookByBeneficiaryId($id: uuid!) {
 		contractType
 		contractSignDate
 		educationLevel
-		wantedJobs {
-			rome_code {
-				id
-				label
-			}
-		}
+		job
 		geographicalArea
 		beneficiary {
 			address1

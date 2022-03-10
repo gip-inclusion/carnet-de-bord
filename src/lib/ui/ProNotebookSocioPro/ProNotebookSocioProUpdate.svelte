@@ -12,7 +12,6 @@
 	import { Button, Checkbox, Input, Radio, Select } from '../base';
 	import ProNotebookSocioProRome from './ProNotebookSocioProROME.svelte';
 
-	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
 		Notebook,
 		| 'id'
@@ -25,7 +24,8 @@
 		| 'rightRqth'
 		| 'educationLevel'
 		| 'geographicalArea'
-	> & { wantedJobs: string[] };
+		| 'job'
+	>;
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -40,7 +40,7 @@
 			rightAss: notebook.rightAss,
 			rightRqth: notebook.rightRqth,
 			rightBonus: notebook.rightBonus,
-			wantedJobs: notebook.wantedJobs,
+			job: notebook.job,
 			geographicalArea: notebook.geographicalArea,
 			educationLevel: notebook.educationLevel,
 		};
@@ -57,10 +57,6 @@
 		await updateSocioPro({
 			id: notebook.id,
 			...formData,
-			wantedJobs: formData.wantedJobs.map((rome_code_id) => ({
-				notebook_id: notebook.id,
-				rome_code_id,
-			})),
 		});
 		close();
 	}
@@ -101,7 +97,7 @@
 			<div class="!pb-2 font-bold">
 				<label for={romeSelectorId}>Emploi recherché</label>
 			</div>
-			<ProNotebookSocioProRome bind:value={formData.wantedJobs} {options} {romeSelectorId} />
+			<ProNotebookSocioProRome bind:current={formData.job} {romeSelectorId} />
 		</div>
 
 		<Radio

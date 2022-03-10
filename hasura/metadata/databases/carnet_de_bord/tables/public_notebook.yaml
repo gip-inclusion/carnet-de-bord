@@ -44,13 +44,6 @@ array_relationships:
       table:
         name: notebook_member
         schema: public
-- name: wantedJobs
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: wanted_job
-        schema: public
 computed_fields:
 - comment: return the number of professionnal for a notebook
   definition:
@@ -70,6 +63,7 @@ insert_permissions:
     - education_level
     - geographical_area
     - id
+    - job
     - right_are
     - right_ass
     - right_bonus
@@ -92,6 +86,7 @@ insert_permissions:
     - education_level
     - geographical_area
     - id
+    - job
     - right_are
     - right_ass
     - right_bonus
@@ -110,6 +105,7 @@ insert_permissions:
     - created_at
     - education_level
     - geographical_area
+    - job
     - right_are
     - right_ass
     - right_bonus
@@ -129,6 +125,7 @@ select_permissions:
     - education_level
     - geographical_area
     - id
+    - job
     - right_are
     - right_ass
     - right_bonus
@@ -173,6 +170,7 @@ select_permissions:
     - education_level
     - geographical_area
     - id
+    - job
     - right_are
     - right_ass
     - right_bonus
@@ -197,6 +195,7 @@ select_permissions:
     - education_level
     - geographical_area
     - id
+    - job
     - right_are
     - right_ass
     - right_bonus
@@ -220,6 +219,7 @@ select_permissions:
     - education_level
     - geographical_area
     - id
+    - job
     - right_are
     - right_ass
     - right_bonus
@@ -228,8 +228,6 @@ select_permissions:
     - updated_at
     - work_situation
     - work_situation_date
-    computed_fields:
-    - nbMembers
     filter:
       members:
         _and:
@@ -249,6 +247,7 @@ update_permissions:
     - contract_type
     - education_level
     - geographical_area
+    - job
     - right_rsa
     - work_situation
     - contract_sign_date
@@ -266,6 +265,7 @@ update_permissions:
     - created_at
     - education_level
     - geographical_area
+    - job
     - right_are
     - right_ass
     - right_bonus
