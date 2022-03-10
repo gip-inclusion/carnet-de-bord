@@ -8,7 +8,6 @@ TRUNCATE public.admin_structure_structure CASCADE;
 TRUNCATE public.beneficiary_structure CASCADE;
 TRUNCATE public.structure CASCADE;
 
-
 TRUNCATE public.notebook_focus CASCADE;
 TRUNCATE public.notebook_target CASCADE;
 TRUNCATE public.notebook_action CASCADE;
@@ -21,7 +20,7 @@ TRUNCATE public.admin_structure CASCADE;
 TRUNCATE public.professional CASCADE;
 TRUNCATE public.beneficiary CASCADE;
 TRUNCATE public.notebook CASCADE;
- 
+
 TRUNCATE public.deployment CASCADE;
 TRUNCATE public.ref_target CASCADE;
 TRUNCATE public.ref_situation CASCADE;
@@ -60,7 +59,8 @@ INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8173-40160958a33d', 'thierry.dunord', 'professional', NULL, NULL, '2021-08-23 07:59:48.689+00', NULL, 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, true, true);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'c0b8aee3-c061-4023-b57e-92880627d589', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
-INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, job, work_situation_date, contract_type, contract_sign_date, work_situation) VALUES ('9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', '2021-09-21 11:51:37.295647+00', 'rsa_droit_ouvert_et_suspendu', false, false, false, false, 'between_10_20', 'level_3', 'Aide à domicile (K1304)', '2021-09-22', 'cer', '2020-01-05', 'iae');
+INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation) VALUES ('9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', '2021-09-21 11:51:37.295647+00', 'rsa_droit_ouvert_et_suspendu', false, false, false, false, 'between_10_20', 'level_3', '2021-09-22', 'cer', '2020-01-05', 'iae');
+INSERT INTO public.wanted_job (rome_code_id, notebook_id) VALUES ((SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'), '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d');
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('a55d1dd2-2b09-4456-bcc5-1412695f684f', 'logement', '["Chez un tiers"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:15:54.752334+00', 'cer');
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('19911b5c-e614-450d-bbeb-eba0d8ae1e18', 'difficulte_administrative', '["Accès au droit"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:26:42.939011+00', 'cer');
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('d4bf4811-bbce-4f99-8b57-358187653b59', 'emploi', '["En construction de projet"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:33:16.96523+00', 'cer');
@@ -101,7 +101,8 @@ INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visit
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', NULL, NULL);
 
 INSERT INTO public.beneficiary (id, email, lastname, firstname, mobile_number, date_of_birth, deployment_id) VALUES ('f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'marc@yahoo.fr', 'Marc', 'Saintpa', '0600000000', '1982-02-01', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
-INSERT INTO public.notebook (id, beneficiary_id, geographical_area, education_level, job, work_situation_date, contract_type, contract_sign_date, work_situation) VALUES ('b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'between_10_20', 'level_3', 'Aide à domicile (K1304)', '2021-09-22', 'cer', '2020-01-05', 'iae');
+INSERT INTO public.notebook (id, beneficiary_id, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation) VALUES ('b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'between_10_20', 'level_3', '2021-09-22', 'cer', '2020-01-05', 'iae');
+INSERT INTO public.wanted_job (rome_code_id, notebook_id) VALUES ((SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'), 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0');
 INSERT INTO public.notebook_member (id, notebook_id, professional_id, last_visited_at, member_type) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', '9b5f4863-dd2e-4680-af40-46258c457654', '2021-09-21 13:06:45.076+00', 'referent');
 
 --

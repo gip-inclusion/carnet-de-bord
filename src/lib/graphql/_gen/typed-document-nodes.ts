@@ -2409,14 +2409,18 @@ export type MutationRoot = {
 	delete_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** delete single row from the table: "ref_target" */
 	delete_ref_target_by_pk?: Maybe<RefTarget>;
-	/** delete data from the table: "rome_codes" */
-	delete_rome_codes?: Maybe<RomeCodesMutationResponse>;
-	/** delete single row from the table: "rome_codes" */
-	delete_rome_codes_by_pk?: Maybe<RomeCodes>;
+	/** delete data from the table: "rome_code" */
+	delete_rome_code?: Maybe<RomeCodeMutationResponse>;
+	/** delete single row from the table: "rome_code" */
+	delete_rome_code_by_pk?: Maybe<RomeCode>;
 	/** delete data from the table: "structure" */
 	delete_structure?: Maybe<StructureMutationResponse>;
 	/** delete single row from the table: "structure" */
 	delete_structure_by_pk?: Maybe<Structure>;
+	/** delete data from the table: "wanted_job" */
+	delete_wanted_job?: Maybe<WantedJobMutationResponse>;
+	/** delete single row from the table: "wanted_job" */
+	delete_wanted_job_by_pk?: Maybe<WantedJob>;
 	insertStructureWithAdmin?: Maybe<InsertStructureWithAdminOutput>;
 	/** insert data into the table: "account" */
 	insert_account?: Maybe<AccountMutationResponse>;
@@ -2490,14 +2494,18 @@ export type MutationRoot = {
 	insert_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** insert a single row into the table: "ref_target" */
 	insert_ref_target_one?: Maybe<RefTarget>;
-	/** insert data into the table: "rome_codes" */
-	insert_rome_codes?: Maybe<RomeCodesMutationResponse>;
-	/** insert a single row into the table: "rome_codes" */
-	insert_rome_codes_one?: Maybe<RomeCodes>;
+	/** insert data into the table: "rome_code" */
+	insert_rome_code?: Maybe<RomeCodeMutationResponse>;
+	/** insert a single row into the table: "rome_code" */
+	insert_rome_code_one?: Maybe<RomeCode>;
 	/** insert data into the table: "structure" */
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
+	/** insert data into the table: "wanted_job" */
+	insert_wanted_job?: Maybe<WantedJobMutationResponse>;
+	/** insert a single row into the table: "wanted_job" */
+	insert_wanted_job_one?: Maybe<WantedJob>;
 	updateNotebookAct?: Maybe<UpdateNotebookOutput>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<AccountMutationResponse>;
@@ -2571,14 +2579,18 @@ export type MutationRoot = {
 	update_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** update single row of the table: "ref_target" */
 	update_ref_target_by_pk?: Maybe<RefTarget>;
-	/** update data of the table: "rome_codes" */
-	update_rome_codes?: Maybe<RomeCodesMutationResponse>;
-	/** update single row of the table: "rome_codes" */
-	update_rome_codes_by_pk?: Maybe<RomeCodes>;
+	/** update data of the table: "rome_code" */
+	update_rome_code?: Maybe<RomeCodeMutationResponse>;
+	/** update single row of the table: "rome_code" */
+	update_rome_code_by_pk?: Maybe<RomeCode>;
 	/** update data of the table: "structure" */
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
+	/** update data of the table: "wanted_job" */
+	update_wanted_job?: Maybe<WantedJobMutationResponse>;
+	/** update single row of the table: "wanted_job" */
+	update_wanted_job_by_pk?: Maybe<WantedJob>;
 };
 
 /** mutation root */
@@ -2768,12 +2780,12 @@ export type MutationRootDeleteRefTargetByPkArgs = {
 };
 
 /** mutation root */
-export type MutationRootDeleteRomeCodesArgs = {
-	where: RomeCodesBoolExp;
+export type MutationRootDeleteRomeCodeArgs = {
+	where: RomeCodeBoolExp;
 };
 
 /** mutation root */
-export type MutationRootDeleteRomeCodesByPkArgs = {
+export type MutationRootDeleteRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -2784,6 +2796,16 @@ export type MutationRootDeleteStructureArgs = {
 
 /** mutation root */
 export type MutationRootDeleteStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteWantedJobArgs = {
+	where: WantedJobBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteWantedJobByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -3009,15 +3031,15 @@ export type MutationRootInsertRefTargetOneArgs = {
 };
 
 /** mutation root */
-export type MutationRootInsertRomeCodesArgs = {
-	objects: Array<RomeCodesInsertInput>;
-	on_conflict?: InputMaybe<RomeCodesOnConflict>;
+export type MutationRootInsertRomeCodeArgs = {
+	objects: Array<RomeCodeInsertInput>;
+	on_conflict?: InputMaybe<RomeCodeOnConflict>;
 };
 
 /** mutation root */
-export type MutationRootInsertRomeCodesOneArgs = {
-	object: RomeCodesInsertInput;
-	on_conflict?: InputMaybe<RomeCodesOnConflict>;
+export type MutationRootInsertRomeCodeOneArgs = {
+	object: RomeCodeInsertInput;
+	on_conflict?: InputMaybe<RomeCodeOnConflict>;
 };
 
 /** mutation root */
@@ -3030,6 +3052,18 @@ export type MutationRootInsertStructureArgs = {
 export type MutationRootInsertStructureOneArgs = {
 	object: StructureInsertInput;
 	on_conflict?: InputMaybe<StructureOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertWantedJobArgs = {
+	objects: Array<WantedJobInsertInput>;
+	on_conflict?: InputMaybe<WantedJobOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertWantedJobOneArgs = {
+	object: WantedJobInsertInput;
+	on_conflict?: InputMaybe<WantedJobOnConflict>;
 };
 
 /** mutation root */
@@ -3284,15 +3318,15 @@ export type MutationRootUpdateRefTargetByPkArgs = {
 };
 
 /** mutation root */
-export type MutationRootUpdateRomeCodesArgs = {
-	_set?: InputMaybe<RomeCodesSetInput>;
-	where: RomeCodesBoolExp;
+export type MutationRootUpdateRomeCodeArgs = {
+	_set?: InputMaybe<RomeCodeSetInput>;
+	where: RomeCodeBoolExp;
 };
 
 /** mutation root */
-export type MutationRootUpdateRomeCodesByPkArgs = {
-	_set?: InputMaybe<RomeCodesSetInput>;
-	pk_columns: RomeCodesPkColumnsInput;
+export type MutationRootUpdateRomeCodeByPkArgs = {
+	_set?: InputMaybe<RomeCodeSetInput>;
+	pk_columns: RomeCodePkColumnsInput;
 };
 
 /** mutation root */
@@ -3305,6 +3339,18 @@ export type MutationRootUpdateStructureArgs = {
 export type MutationRootUpdateStructureByPkArgs = {
 	_set?: InputMaybe<StructureSetInput>;
 	pk_columns: StructurePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateWantedJobArgs = {
+	_set?: InputMaybe<WantedJobSetInput>;
+	where: WantedJobBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateWantedJobByPkArgs = {
+	_set?: InputMaybe<WantedJobSetInput>;
+	pk_columns: WantedJobPkColumnsInput;
 };
 
 /** columns and relationships of "notebook" */
@@ -3327,7 +3373,6 @@ export type Notebook = {
 	focuses_aggregate: NotebookFocusAggregate;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	job?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	members: Array<NotebookMember>;
 	/** An aggregate relationship */
@@ -3340,6 +3385,10 @@ export type Notebook = {
 	rightRqth: Scalars['Boolean'];
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt: Scalars['timestamptz'];
+	/** An array relationship */
+	wantedJobs: Array<WantedJob>;
+	/** An aggregate relationship */
+	wantedJobs_aggregate: WantedJobAggregate;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
 };
@@ -3396,6 +3445,24 @@ export type NotebookMembersAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
 	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookWantedJobsArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookWantedJobsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
 };
 
 /** columns and relationships of "notebook_action" */
@@ -3662,7 +3729,6 @@ export type NotebookBoolExp = {
 	focuses?: InputMaybe<NotebookFocusBoolExp>;
 	geographicalArea?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
-	job?: InputMaybe<StringComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
 	nbMembers?: InputMaybe<BigintComparisonExp>;
 	rightAre?: InputMaybe<BooleanComparisonExp>;
@@ -3671,6 +3737,7 @@ export type NotebookBoolExp = {
 	rightRqth?: InputMaybe<BooleanComparisonExp>;
 	rightRsa?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+	wantedJobs?: InputMaybe<WantedJobBoolExp>;
 	workSituation?: InputMaybe<StringComparisonExp>;
 	workSituationDate?: InputMaybe<DateComparisonExp>;
 };
@@ -4192,7 +4259,6 @@ export type NotebookInsertInput = {
 	focuses?: InputMaybe<NotebookFocusArrRelInsertInput>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	job?: InputMaybe<Scalars['String']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
@@ -4200,6 +4266,7 @@ export type NotebookInsertInput = {
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
 	rightRsa?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	wantedJobs?: InputMaybe<WantedJobArrRelInsertInput>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
 };
@@ -4214,7 +4281,6 @@ export type NotebookMaxFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
@@ -4486,7 +4552,6 @@ export type NotebookMinFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	job?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
@@ -4528,7 +4593,6 @@ export type NotebookOrderBy = {
 	focuses_aggregate?: InputMaybe<NotebookFocusAggregateOrderBy>;
 	geographicalArea?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
-	job?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	nbMembers?: InputMaybe<OrderBy>;
 	rightAre?: InputMaybe<OrderBy>;
@@ -4537,6 +4601,7 @@ export type NotebookOrderBy = {
 	rightRqth?: InputMaybe<OrderBy>;
 	rightRsa?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
+	wantedJobs_aggregate?: InputMaybe<WantedJobAggregateOrderBy>;
 	workSituation?: InputMaybe<OrderBy>;
 	workSituationDate?: InputMaybe<OrderBy>;
 };
@@ -4562,8 +4627,6 @@ export enum NotebookSelectColumn {
 	GeographicalArea = 'geographicalArea',
 	/** column name */
 	Id = 'id',
-	/** column name */
-	Job = 'job',
 	/** column name */
 	RightAre = 'rightAre',
 	/** column name */
@@ -4591,7 +4654,6 @@ export type NotebookSetInput = {
 	educationLevel?: InputMaybe<Scalars['String']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	job?: InputMaybe<Scalars['String']>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
@@ -4865,8 +4927,6 @@ export enum NotebookUpdateColumn {
 	GeographicalArea = 'geographicalArea',
 	/** column name */
 	Id = 'id',
-	/** column name */
-	Job = 'job',
 	/** column name */
 	RightAre = 'rightAre',
 	/** column name */
@@ -5409,26 +5469,32 @@ export type QueryRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
-	/** fetch data from the table: "rome_codes" */
-	rome_codes: Array<RomeCodes>;
-	/** fetch aggregated fields from the table: "rome_codes" */
-	rome_codes_aggregate: RomeCodesAggregate;
-	/** fetch data from the table: "rome_codes" using primary key columns */
-	rome_codes_by_pk?: Maybe<RomeCodes>;
+	/** fetch data from the table: "rome_code" */
+	rome_code: Array<RomeCode>;
+	/** fetch aggregated fields from the table: "rome_code" */
+	rome_code_aggregate: RomeCodeAggregate;
+	/** fetch data from the table: "rome_code" using primary key columns */
+	rome_code_by_pk?: Maybe<RomeCode>;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
-	/** execute function "search_rome_codes" which returns "rome_codes" */
-	search_rome_codes: Array<RomeCodes>;
-	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_codes" */
-	search_rome_codes_aggregate: RomeCodesAggregate;
+	/** execute function "search_rome_codes" which returns "rome_code" */
+	search_rome_codes: Array<RomeCode>;
+	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_code" */
+	search_rome_codes_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
 	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
+	/** fetch data from the table: "wanted_job" */
+	wanted_job: Array<WantedJob>;
+	/** fetch aggregated fields from the table: "wanted_job" */
+	wanted_job_aggregate: WantedJobAggregate;
+	/** fetch data from the table: "wanted_job" using primary key columns */
+	wanted_job_by_pk?: Maybe<WantedJob>;
 };
 
 export type QueryRootAccountArgs = {
@@ -5791,23 +5857,23 @@ export type QueryRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type QueryRootRomeCodesArgs = {
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+export type QueryRootRomeCodeArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
-export type QueryRootRomeCodesAggregateArgs = {
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+export type QueryRootRomeCodeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
-export type QueryRootRomeCodesByPkArgs = {
+export type QueryRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -5831,20 +5897,20 @@ export type QueryRootSearchNotebookMembersAggregateArgs = {
 
 export type QueryRootSearchRomeCodesArgs = {
 	args: SearchRomeCodesArgs;
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
 export type QueryRootSearchRomeCodesAggregateArgs = {
 	args: SearchRomeCodesArgs;
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
 export type QueryRootStructureArgs = {
@@ -5864,6 +5930,26 @@ export type QueryRootStructureAggregateArgs = {
 };
 
 export type QueryRootStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootWantedJobArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
+};
+
+export type QueryRootWantedJobAggregateArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
+};
+
+export type QueryRootWantedJobByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -6236,66 +6322,90 @@ export enum RefTargetUpdateColumn {
 	Theme = 'theme',
 }
 
-/** columns and relationships of "rome_codes" */
-export type RomeCodes = {
-	__typename?: 'rome_codes';
+/** columns and relationships of "rome_code" */
+export type RomeCode = {
+	__typename?: 'rome_code';
 	code: Scalars['String'];
 	description: Scalars['String'];
 	id: Scalars['uuid'];
 	label: Scalars['String'];
+	/** An array relationship */
+	wanted_by: Array<WantedJob>;
+	/** An aggregate relationship */
+	wanted_by_aggregate: WantedJobAggregate;
 };
 
-/** aggregated selection of "rome_codes" */
-export type RomeCodesAggregate = {
-	__typename?: 'rome_codes_aggregate';
-	aggregate?: Maybe<RomeCodesAggregateFields>;
-	nodes: Array<RomeCodes>;
+/** columns and relationships of "rome_code" */
+export type RomeCodeWantedByArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
 };
 
-/** aggregate fields of "rome_codes" */
-export type RomeCodesAggregateFields = {
-	__typename?: 'rome_codes_aggregate_fields';
+/** columns and relationships of "rome_code" */
+export type RomeCodeWantedByAggregateArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
+};
+
+/** aggregated selection of "rome_code" */
+export type RomeCodeAggregate = {
+	__typename?: 'rome_code_aggregate';
+	aggregate?: Maybe<RomeCodeAggregateFields>;
+	nodes: Array<RomeCode>;
+};
+
+/** aggregate fields of "rome_code" */
+export type RomeCodeAggregateFields = {
+	__typename?: 'rome_code_aggregate_fields';
 	count: Scalars['Int'];
-	max?: Maybe<RomeCodesMaxFields>;
-	min?: Maybe<RomeCodesMinFields>;
+	max?: Maybe<RomeCodeMaxFields>;
+	min?: Maybe<RomeCodeMinFields>;
 };
 
-/** aggregate fields of "rome_codes" */
-export type RomeCodesAggregateFieldsCountArgs = {
-	columns?: InputMaybe<Array<RomeCodesSelectColumn>>;
+/** aggregate fields of "rome_code" */
+export type RomeCodeAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
-/** Boolean expression to filter rows from the table "rome_codes". All fields are combined with a logical 'AND'. */
-export type RomeCodesBoolExp = {
-	_and?: InputMaybe<Array<RomeCodesBoolExp>>;
-	_not?: InputMaybe<RomeCodesBoolExp>;
-	_or?: InputMaybe<Array<RomeCodesBoolExp>>;
+/** Boolean expression to filter rows from the table "rome_code". All fields are combined with a logical 'AND'. */
+export type RomeCodeBoolExp = {
+	_and?: InputMaybe<Array<RomeCodeBoolExp>>;
+	_not?: InputMaybe<RomeCodeBoolExp>;
+	_or?: InputMaybe<Array<RomeCodeBoolExp>>;
 	code?: InputMaybe<StringComparisonExp>;
 	description?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
+	wanted_by?: InputMaybe<WantedJobBoolExp>;
 };
 
-/** unique or primary key constraints on table "rome_codes" */
-export enum RomeCodesConstraint {
+/** unique or primary key constraints on table "rome_code" */
+export enum RomeCodeConstraint {
 	/** unique or primary key constraint */
 	RomeCodesLabelKey = 'rome_codes_label_key',
 	/** unique or primary key constraint */
 	RomeCodesPkey = 'rome_codes_pkey',
 }
 
-/** input type for inserting data into table "rome_codes" */
-export type RomeCodesInsertInput = {
+/** input type for inserting data into table "rome_code" */
+export type RomeCodeInsertInput = {
 	code?: InputMaybe<Scalars['String']>;
 	description?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	label?: InputMaybe<Scalars['String']>;
+	wanted_by?: InputMaybe<WantedJobArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
-export type RomeCodesMaxFields = {
-	__typename?: 'rome_codes_max_fields';
+export type RomeCodeMaxFields = {
+	__typename?: 'rome_code_max_fields';
 	code?: Maybe<Scalars['String']>;
 	description?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -6303,45 +6413,53 @@ export type RomeCodesMaxFields = {
 };
 
 /** aggregate min on columns */
-export type RomeCodesMinFields = {
-	__typename?: 'rome_codes_min_fields';
+export type RomeCodeMinFields = {
+	__typename?: 'rome_code_min_fields';
 	code?: Maybe<Scalars['String']>;
 	description?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	label?: Maybe<Scalars['String']>;
 };
 
-/** response of any mutation on the table "rome_codes" */
-export type RomeCodesMutationResponse = {
-	__typename?: 'rome_codes_mutation_response';
+/** response of any mutation on the table "rome_code" */
+export type RomeCodeMutationResponse = {
+	__typename?: 'rome_code_mutation_response';
 	/** number of rows affected by the mutation */
 	affected_rows: Scalars['Int'];
 	/** data from the rows affected by the mutation */
-	returning: Array<RomeCodes>;
+	returning: Array<RomeCode>;
 };
 
-/** on conflict condition type for table "rome_codes" */
-export type RomeCodesOnConflict = {
-	constraint: RomeCodesConstraint;
-	update_columns?: Array<RomeCodesUpdateColumn>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+/** input type for inserting object relation for remote table "rome_code" */
+export type RomeCodeObjRelInsertInput = {
+	data: RomeCodeInsertInput;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<RomeCodeOnConflict>;
 };
 
-/** Ordering options when selecting data from "rome_codes". */
-export type RomeCodesOrderBy = {
+/** on conflict condition type for table "rome_code" */
+export type RomeCodeOnConflict = {
+	constraint: RomeCodeConstraint;
+	update_columns?: Array<RomeCodeUpdateColumn>;
+	where?: InputMaybe<RomeCodeBoolExp>;
+};
+
+/** Ordering options when selecting data from "rome_code". */
+export type RomeCodeOrderBy = {
 	code?: InputMaybe<OrderBy>;
 	description?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	label?: InputMaybe<OrderBy>;
+	wanted_by_aggregate?: InputMaybe<WantedJobAggregateOrderBy>;
 };
 
-/** primary key columns input for table: rome_codes */
-export type RomeCodesPkColumnsInput = {
+/** primary key columns input for table: rome_code */
+export type RomeCodePkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
-/** select columns of table "rome_codes" */
-export enum RomeCodesSelectColumn {
+/** select columns of table "rome_code" */
+export enum RomeCodeSelectColumn {
 	/** column name */
 	Code = 'code',
 	/** column name */
@@ -6352,16 +6470,16 @@ export enum RomeCodesSelectColumn {
 	Label = 'label',
 }
 
-/** input type for updating data in table "rome_codes" */
-export type RomeCodesSetInput = {
+/** input type for updating data in table "rome_code" */
+export type RomeCodeSetInput = {
 	code?: InputMaybe<Scalars['String']>;
 	description?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	label?: InputMaybe<Scalars['String']>;
 };
 
-/** update columns of table "rome_codes" */
-export enum RomeCodesUpdateColumn {
+/** update columns of table "rome_code" */
+export enum RomeCodeUpdateColumn {
 	/** column name */
 	Code = 'code',
 	/** column name */
@@ -6873,26 +6991,32 @@ export type SubscriptionRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
-	/** fetch data from the table: "rome_codes" */
-	rome_codes: Array<RomeCodes>;
-	/** fetch aggregated fields from the table: "rome_codes" */
-	rome_codes_aggregate: RomeCodesAggregate;
-	/** fetch data from the table: "rome_codes" using primary key columns */
-	rome_codes_by_pk?: Maybe<RomeCodes>;
+	/** fetch data from the table: "rome_code" */
+	rome_code: Array<RomeCode>;
+	/** fetch aggregated fields from the table: "rome_code" */
+	rome_code_aggregate: RomeCodeAggregate;
+	/** fetch data from the table: "rome_code" using primary key columns */
+	rome_code_by_pk?: Maybe<RomeCode>;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
-	/** execute function "search_rome_codes" which returns "rome_codes" */
-	search_rome_codes: Array<RomeCodes>;
-	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_codes" */
-	search_rome_codes_aggregate: RomeCodesAggregate;
+	/** execute function "search_rome_codes" which returns "rome_code" */
+	search_rome_codes: Array<RomeCode>;
+	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_code" */
+	search_rome_codes_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "structure" */
 	structure: Array<Structure>;
 	/** fetch aggregated fields from the table: "structure" */
 	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
+	/** fetch data from the table: "wanted_job" */
+	wanted_job: Array<WantedJob>;
+	/** fetch aggregated fields from the table: "wanted_job" */
+	wanted_job_aggregate: WantedJobAggregate;
+	/** fetch data from the table: "wanted_job" using primary key columns */
+	wanted_job_by_pk?: Maybe<WantedJob>;
 };
 
 export type SubscriptionRootAccountArgs = {
@@ -7255,23 +7379,23 @@ export type SubscriptionRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
-export type SubscriptionRootRomeCodesArgs = {
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+export type SubscriptionRootRomeCodeArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
-export type SubscriptionRootRomeCodesAggregateArgs = {
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+export type SubscriptionRootRomeCodeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
-export type SubscriptionRootRomeCodesByPkArgs = {
+export type SubscriptionRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -7295,20 +7419,20 @@ export type SubscriptionRootSearchNotebookMembersAggregateArgs = {
 
 export type SubscriptionRootSearchRomeCodesArgs = {
 	args: SearchRomeCodesArgs;
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
 export type SubscriptionRootSearchRomeCodesAggregateArgs = {
 	args: SearchRomeCodesArgs;
-	distinct_on?: InputMaybe<Array<RomeCodesSelectColumn>>;
+	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<RomeCodesOrderBy>>;
-	where?: InputMaybe<RomeCodesBoolExp>;
+	order_by?: InputMaybe<Array<RomeCodeOrderBy>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
 export type SubscriptionRootStructureArgs = {
@@ -7328,6 +7452,26 @@ export type SubscriptionRootStructureAggregateArgs = {
 };
 
 export type SubscriptionRootStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootWantedJobArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
+};
+
+export type SubscriptionRootWantedJobAggregateArgs = {
+	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
+	where?: InputMaybe<WantedJobBoolExp>;
+};
+
+export type SubscriptionRootWantedJobByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -7356,6 +7500,175 @@ export type UuidComparisonExp = {
 	_neq?: InputMaybe<Scalars['uuid']>;
 	_nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
+
+/**
+ * Stores the jobs wanted for a notebook beneficiary
+ *
+ *
+ * columns and relationships of "wanted_job"
+ *
+ */
+export type WantedJob = {
+	__typename?: 'wanted_job';
+	id: Scalars['uuid'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebook_id: Scalars['uuid'];
+	/** An object relationship */
+	rome_code: RomeCode;
+	rome_code_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "wanted_job" */
+export type WantedJobAggregate = {
+	__typename?: 'wanted_job_aggregate';
+	aggregate?: Maybe<WantedJobAggregateFields>;
+	nodes: Array<WantedJob>;
+};
+
+/** aggregate fields of "wanted_job" */
+export type WantedJobAggregateFields = {
+	__typename?: 'wanted_job_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<WantedJobMaxFields>;
+	min?: Maybe<WantedJobMinFields>;
+};
+
+/** aggregate fields of "wanted_job" */
+export type WantedJobAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<WantedJobSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "wanted_job" */
+export type WantedJobAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<WantedJobMaxOrderBy>;
+	min?: InputMaybe<WantedJobMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "wanted_job" */
+export type WantedJobArrRelInsertInput = {
+	data: Array<WantedJobInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<WantedJobOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "wanted_job". All fields are combined with a logical 'AND'. */
+export type WantedJobBoolExp = {
+	_and?: InputMaybe<Array<WantedJobBoolExp>>;
+	_not?: InputMaybe<WantedJobBoolExp>;
+	_or?: InputMaybe<Array<WantedJobBoolExp>>;
+	id?: InputMaybe<UuidComparisonExp>;
+	notebook?: InputMaybe<NotebookBoolExp>;
+	notebook_id?: InputMaybe<UuidComparisonExp>;
+	rome_code?: InputMaybe<RomeCodeBoolExp>;
+	rome_code_id?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "wanted_job" */
+export enum WantedJobConstraint {
+	/** unique or primary key constraint */
+	WantedJobNotebookIdRomeCodeIdKey = 'wanted_job_notebook_id_rome_code_id_key',
+	/** unique or primary key constraint */
+	WantedJobPkey = 'wanted_job_pkey',
+}
+
+/** input type for inserting data into table "wanted_job" */
+export type WantedJobInsertInput = {
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook?: InputMaybe<NotebookObjRelInsertInput>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	rome_code?: InputMaybe<RomeCodeObjRelInsertInput>;
+	rome_code_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type WantedJobMaxFields = {
+	__typename?: 'wanted_job_max_fields';
+	id?: Maybe<Scalars['uuid']>;
+	notebook_id?: Maybe<Scalars['uuid']>;
+	rome_code_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "wanted_job" */
+export type WantedJobMaxOrderBy = {
+	id?: InputMaybe<OrderBy>;
+	notebook_id?: InputMaybe<OrderBy>;
+	rome_code_id?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type WantedJobMinFields = {
+	__typename?: 'wanted_job_min_fields';
+	id?: Maybe<Scalars['uuid']>;
+	notebook_id?: Maybe<Scalars['uuid']>;
+	rome_code_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "wanted_job" */
+export type WantedJobMinOrderBy = {
+	id?: InputMaybe<OrderBy>;
+	notebook_id?: InputMaybe<OrderBy>;
+	rome_code_id?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "wanted_job" */
+export type WantedJobMutationResponse = {
+	__typename?: 'wanted_job_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<WantedJob>;
+};
+
+/** on conflict condition type for table "wanted_job" */
+export type WantedJobOnConflict = {
+	constraint: WantedJobConstraint;
+	update_columns?: Array<WantedJobUpdateColumn>;
+	where?: InputMaybe<WantedJobBoolExp>;
+};
+
+/** Ordering options when selecting data from "wanted_job". */
+export type WantedJobOrderBy = {
+	id?: InputMaybe<OrderBy>;
+	notebook?: InputMaybe<NotebookOrderBy>;
+	notebook_id?: InputMaybe<OrderBy>;
+	rome_code?: InputMaybe<RomeCodeOrderBy>;
+	rome_code_id?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: wanted_job */
+export type WantedJobPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "wanted_job" */
+export enum WantedJobSelectColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebook_id',
+	/** column name */
+	RomeCodeId = 'rome_code_id',
+}
+
+/** input type for updating data in table "wanted_job" */
+export type WantedJobSetInput = {
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	rome_code_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "wanted_job" */
+export enum WantedJobUpdateColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebook_id',
+	/** column name */
+	RomeCodeId = 'rome_code_id',
+}
 
 export type AddNotebookMembersMutationVariables = Exact<{
 	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
@@ -7581,11 +7894,11 @@ export type ImportBeneficiaryMutationVariables = Exact<{
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
-	job?: InputMaybe<Scalars['String']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
 	internalId?: InputMaybe<Scalars['String']>;
 	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
 	structures: Array<BeneficiaryStructureInsertInput> | BeneficiaryStructureInsertInput;
+	wantedJobs: Array<WantedJobInsertInput> | WantedJobInsertInput;
 }>;
 
 export type ImportBeneficiaryMutation = {
@@ -7895,14 +8208,22 @@ export type UpdateSocioProMutationVariables = Exact<{
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
-	job?: InputMaybe<Scalars['String']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
+	wantedJobs: Array<WantedJobInsertInput> | WantedJobInsertInput;
 }>;
 
 export type UpdateSocioProMutation = {
 	__typename?: 'mutation_root';
 	update?: { __typename?: 'notebook'; id: string } | null | undefined;
+	delete_wanted_job?:
+		| { __typename?: 'wanted_job_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	insert_wanted_job?:
+		| { __typename?: 'wanted_job_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
 };
 
 export type AddNotebookTargetMutationVariables = Exact<{
@@ -8439,8 +8760,11 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		contractType?: string | null | undefined;
 		contractSignDate?: string | null | undefined;
 		educationLevel?: string | null | undefined;
-		job?: string | null | undefined;
 		geographicalArea?: string | null | undefined;
+		wantedJobs: Array<{
+			__typename?: 'wanted_job';
+			rome_code: { __typename?: 'rome_code'; id: string; label: string };
+		}>;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: string | null | undefined;
@@ -8854,10 +9178,13 @@ export type GetNotebookQuery = {
 				rightAss?: boolean | null | undefined;
 				rightBonus: boolean;
 				geographicalArea?: string | null | undefined;
-				job?: string | null | undefined;
 				educationLevel?: string | null | undefined;
 				contractType?: string | null | undefined;
 				contractSignDate?: string | null | undefined;
+				wantedJobs: Array<{
+					__typename?: 'wanted_job';
+					rome_code: { __typename?: 'rome_code'; id: string; label: string };
+				}>;
 				beneficiary: {
 					__typename?: 'beneficiary';
 					address1?: string | null | undefined;
@@ -8998,12 +9325,20 @@ export type GetNotebookMemberByIdQuery = {
 
 export type GetRomeCodesQueryVariables = Exact<{
 	search: Scalars['String'];
+	labels?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
 export type GetRomeCodesQuery = {
 	__typename?: 'query_root';
 	search_rome_codes: Array<{
-		__typename?: 'rome_codes';
+		__typename?: 'rome_code';
+		id: string;
+		code: string;
+		description: string;
+		label: string;
+	}>;
+	batch: Array<{
+		__typename?: 'rome_code';
 		id: string;
 		code: string;
 		description: string;
@@ -10325,11 +10660,6 @@ export const ImportBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
@@ -10367,6 +10697,23 @@ export const ImportBeneficiaryDocument = {
 								type: {
 									kind: 'NamedType',
 									name: { kind: 'Name', value: 'beneficiary_structure_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'wantedJobs' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'wanted_job_insert_input' },
 								},
 							},
 						},
@@ -10572,13 +10919,25 @@ export const ImportBeneficiaryDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'job' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
+											name: { kind: 'Name', value: 'educationLevel' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'educationLevel' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+											name: { kind: 'Name', value: 'wantedJobs' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'data' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'wantedJobs' },
+														},
+													},
+												],
+											},
 										},
 									],
 								},
@@ -12610,11 +12969,6 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
@@ -12622,6 +12976,23 @@ export const UpdateSocioProDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'wantedJobs' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'wanted_job_insert_input' },
+								},
+							},
+						},
+					},
 				},
 			],
 			selectionSet: {
@@ -12692,11 +13063,6 @@ export const UpdateSocioProDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'job' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'job' } },
-										},
-										{
-											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'geographicalArea' },
 											value: {
 												kind: 'Variable',
@@ -12715,6 +13081,54 @@ export const UpdateSocioProDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'delete_wanted_job' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook_id' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_wanted_job' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'wantedJobs' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
 						},
 					},
 				],
@@ -15564,7 +15978,26 @@ export const GetNotebookByBeneficiaryIdDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'job' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'wantedJobs' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'rome_code' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+													],
+												},
+											},
+										],
+									},
+								},
 								{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
 								{
 									kind: 'Field',
@@ -17801,10 +18234,29 @@ export const GetNotebookDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'job' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'wantedJobs' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'rome_code' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+													],
+												},
+											},
+										],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
@@ -18202,6 +18654,17 @@ export const GetRomeCodesDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'labels' } },
+					type: {
+						kind: 'ListType',
+						type: {
+							kind: 'NonNullType',
+							type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+						},
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -18228,6 +18691,45 @@ export const GetRomeCodesDocument = {
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'limit' },
 								value: { kind: 'IntValue', value: '20' },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'code' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'batch' },
+						name: { kind: 'Name', value: 'rome_code' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'label' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_in' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'labels' } },
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 						],
 						selectionSet: {
