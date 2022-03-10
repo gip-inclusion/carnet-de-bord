@@ -1,3 +1,10 @@
+## [1.99.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.99.0...v1.99.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* update wanted jobs failing migration ([f3a417a](https://github.com/SocialGouv/carnet-de-bord/commit/f3a417ac9e2ded6bb9f0dc4246cdfadb22112a6b))
+
 # [1.99.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.98.1...v1.99.0) (2022-03-10)
 
 
