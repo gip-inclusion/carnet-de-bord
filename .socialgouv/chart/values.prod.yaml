@@ -1,0 +1,5 @@
+app:
+  certSecretName: app-crt
+
+hasura:
+  certSecretName: hasura-crt
