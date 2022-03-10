@@ -127,6 +127,7 @@
 			}));
 			const result = await inserter({ objects, notebookId });
 			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";
+			console.log('---', result.error?.message);
 			if (/uniqueness/i.test(result.error?.message)) {
 				errorMessage = 'Ce rattachement existe déjà.';
 			}
@@ -275,10 +276,7 @@
 									</td>
 									<td class="px-2 py-2 ">
 										{#if member.error}
-											<Text
-												classNames="text-error"
-												value={"Une erreur s'est produite, le rattachement n'a pas été importé."}
-											/>
+											<Text classNames="text-error" value={member.error} />
 										{:else}
 											<span
 												class="fr-fi-checkbox-circle-fill text-success"

@@ -18,6 +18,7 @@ query GetStructure($structureId: uuid!) {
 		website
 		pendingBeneficiaries: beneficiaries_aggregate(
 			where: {
+				status: { _eq: "pending" }
 				beneficiary: {
 					notebook: { members: { professional: { structureId: { _neq: $structureId } } } }
 				}

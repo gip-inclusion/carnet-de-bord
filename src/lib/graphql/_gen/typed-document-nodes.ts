@@ -18595,6 +18595,20 @@ export const GetPendingBeneficiariesDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'StringValue', value: 'pending', block: false },
+																},
+															],
+														},
+													},
+													{
+														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'beneficiary' },
 														value: {
 															kind: 'ObjectValue',
@@ -18829,6 +18843,20 @@ export const GetStructureDocument = {
 											value: {
 												kind: 'ObjectValue',
 												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'StringValue', value: 'pending', block: false },
+																},
+															],
+														},
+													},
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'beneficiary' },

@@ -192,6 +192,13 @@
 		return pros;
 	}
 
+	function getStatusForStructureAssignement(structureId: string, pros: Professional[]): string {
+		if (pros.map((pro) => pro.structureId).includes(structureId)) {
+			return 'done';
+		}
+		return 'pending';
+	}
+
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
@@ -200,7 +207,10 @@
 			const proIds = proEmailsToPros(proEmails).map(({ id }) => id);
 			const members = proIds.map((professionalId) => ({ memberType: 'referent', professionalId }));
 			const structureIds = structureNamesToStructure(structureNames).map(({ id }) => id);
-			const structs = structureIds.map((structureId) => ({ structureId }));
+			const structs = structureIds.map((structureId) => ({
+				structureId,
+				status: getStatusForStructureAssignement(structureId, proEmailsToPros(proEmails)),
+			}));
 			const payload = {
 				...benef,
 				workSituation: stringToWorkSituation(benef.workSituation),
