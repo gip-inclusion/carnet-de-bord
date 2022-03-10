@@ -16,7 +16,14 @@ query GetStructure($structureId: uuid!) {
 		postalCode
 		city
 		website
-		pendingBeneficiaries: beneficiaries_aggregate(where: { status: { _eq: "pending" } }) {
+		pendingBeneficiaries: beneficiaries_aggregate(
+			where: {
+				status: { _eq: "pending" }
+				beneficiary: {
+					notebook: { members: { professional: { structureId: { _neq: $structureId } } } }
+				}
+			}
+		) {
 			aggregate {
 				count
 			}
