@@ -1,3 +1,10 @@
+# [1.97.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.96.1...v1.97.0) (2022-03-10)
+
+
+### Features
+
+* add csp policy ([#653](https://github.com/SocialGouv/carnet-de-bord/issues/653)) ([36c2b6e](https://github.com/SocialGouv/carnet-de-bord/commit/36c2b6e5e934acbfde59ce24de6643368265e33e))
+
 ## [1.96.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.96.0...v1.96.1) (2022-03-10)
 
 
