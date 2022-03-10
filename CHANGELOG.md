@@ -1,3 +1,10 @@
+# [1.99.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.98.1...v1.99.0) (2022-03-10)
+
+
+### Features
+
+* allow multiple wanted jobs ([#722](https://github.com/SocialGouv/carnet-de-bord/issues/722)) ([b26ca7e](https://github.com/SocialGouv/carnet-de-bord/commit/b26ca7e8b3f405e61f1988de641c613956d02696))
+
 ## [1.98.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.98.0...v1.98.1) (2022-03-10)
 
 
