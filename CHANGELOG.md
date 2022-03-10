@@ -1,3 +1,10 @@
+## [1.97.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.97.0...v1.97.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* look in members to find pending beneficiary ([#713](https://github.com/SocialGouv/carnet-de-bord/issues/713)) ([3bdc116](https://github.com/SocialGouv/carnet-de-bord/commit/3bdc116b95640e37a6e608d606e258e31639a945))
+
 # [1.97.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.96.1...v1.97.0) (2022-03-10)
 
 
