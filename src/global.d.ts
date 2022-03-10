@@ -30,3 +30,11 @@ declare module 'svelecte';
 
 // support for matomo-tracker
 declare module 'matomo-tracker';
+
+declare namespace App {
+	interface Session {
+		user?: Record<string, import('$lib/routes').AppRoles | string>;
+		token?: string;
+		graphqlAPI?: string;
+	}
+}

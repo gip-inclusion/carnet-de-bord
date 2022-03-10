@@ -4,8 +4,16 @@ import adapter from '@sveltejs/adapter-node';
 
 const config = {
 	kit: {
-		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte',
+		csp: {
+			mode: 'auto',
+			directives: {
+				'default-src': ['self', '*.fabrique.social.gouv.fr', 'client.crisp.chat'],
+				'font-src': ['self', 'data:', 'blob:', 'client.crisp.chat'],
+				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', 'client.crisp.chat'],
+				'style-src': ['self', 'client.crisp.chat', 'unsafe-inline'],
+				'connect-src': ['self', '*.fabrique.social.gouv.fr', 'localhost:*'],
+			},
+		},
 		vite: {
 			optimizeDeps: {
 				//https://formidable.com/open-source/urql/docs/basics/svelte/
@@ -25,10 +33,6 @@ const config = {
 			// default options are shown
 			out: 'build',
 			precompress: false,
-			env: {
-				// host: 'HOST',
-				// port: 'PORT'
-			},
 		}),
 	},
 

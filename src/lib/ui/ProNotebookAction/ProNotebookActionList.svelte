@@ -42,7 +42,7 @@
 
 	let error: string;
 
-	async function onChangeActionStatus(event, action_id: string) {
+	async function onChangeActionStatus(event: CustomEvent<{ selected: string }>, action_id: string) {
 		updateResult = await updateNotebookAction({
 			id: action_id,
 			status: event.detail.selected,

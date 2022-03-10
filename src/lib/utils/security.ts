@@ -1,13 +1,12 @@
 import cookie from 'cookie';
 // jsonwebtoken is cjs module and has no  verify named export
 import jwt from 'jsonwebtoken';
-import type { RequestHandler } from '@sveltejs/kit';
 import { getActionSecret, getJwtKey } from '$lib/config/variables/private';
 
 export const authorizeOnly =
 	(roles: string[]) =>
-	(request: Parameters<RequestHandler>[0]): void => {
-		const cookies = cookie.parse(request.headers.cookie || '');
+	(request: Request): void => {
+		const cookies = cookie.parse(request.headers.get('cookie') || '');
 		if (!cookies.jwt) {
 			throw Error('Unauthorized access');
 		}
@@ -20,9 +19,9 @@ export const authorizeOnly =
 		}
 	};
 
-export const actionsGuard = (headers: Record<string, string>): void => {
+export const actionsGuard = (headers: Headers): void => {
 	const actionSecret = getActionSecret();
-	if (actionSecret !== headers.secret_token) {
+	if (actionSecret !== headers.get('secret_token')) {
 		throw Error('ACTION_SECRET header not match');
 	}
 };

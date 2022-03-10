@@ -8,33 +8,28 @@ import jwt from 'jsonwebtoken';
 
 config();
 
-export const handle: Handle = async ({ request, resolve }) => {
-	const cookies = cookie.parse(request.headers.cookie || '');
+export const handle: Handle = async ({ event, resolve }) => {
+	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 	if (cookies.jwt) {
 		try {
 			const { key, type } = getJwtKey();
 			const user = jwt.verify(cookies.jwt, key, { algorithms: [type] });
-			request.locals.user = user;
-			request.locals.token = cookies.jwt;
+			event.locals = { user, token: cookies.jwt, getGraphqlAPI: getGraphqlAPI() };
 		} catch (error) {
-			request.locals.user = null;
-			request.locals.token = null;
+			event.locals = { user: null, token: null };
 		}
 	} else {
-		request.locals.user = null;
-		request.locals.token = null;
+		event.locals = { user: null, token: null };
 	}
-	return await resolve(request);
+	return resolve(event);
 };
 
-export const getSession: GetSession = async ({ locals }) => {
-	const session = {
-		user: locals.user,
-		token: locals.token,
+export const getSession: GetSession = async (event) => {
+	return {
+		user: event.locals['user'],
+		token: event.locals['token'],
 		graphqlAPI: getGraphqlAPI(),
 	};
-
-	return session;
 };
 
 export async function serverFetch(request: Request): Promise<Response> {

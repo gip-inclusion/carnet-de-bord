@@ -128,9 +128,9 @@
 					<ul class="fr-links-group">
 						{#if ['manager', 'particulier', 'professional', 'admin_structure'].includes($session.user.role)}
 							<li>
-								<Link classNames="fr-link" href={`${baseUrlForRole($session.user.role)}/moncompte`}
-									>Mon Compte</Link
-								>
+								<Link classNames="fr-link" href={`${baseUrlForRole($session.user.role)}/moncompte`}>
+									Mon Compte
+								</Link>
 							</li>
 						{/if}
 						<li><button class="fr-link" on:click={logout}>Déconnexion</button></li>

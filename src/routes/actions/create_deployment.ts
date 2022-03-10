@@ -3,29 +3,22 @@ import { getGraphqlAPI } from '$lib/config/variables/public';
 import send from '$lib/emailing';
 import { CreateDeploymentFromApiDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
+import { actionError } from '$lib/utils/actions';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 
-type Body = {
-	input: {
-		email: string;
-		deployment: string;
-	};
-};
-
-export const post: RequestHandler<unknown, Body> = async (request) => {
+export const post: RequestHandler = async ({ request }) => {
+	const body = await request.json();
 	try {
 		actionsGuard(request.headers);
 	} catch (error) {
 		console.error(
 			'Rejected access to actions/create_deployment because request lacked proper headers',
-			{ headers: request.headers, body: request.body }
+			{ headers: request.headers, body },
+			error
 		);
-		return {
-			status: 401,
-			body: error.message,
-		};
+		return actionError(error.message, 401);
 	}
 
 	const client = createClient({
@@ -33,7 +26,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 		fetchOptions: {
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: request.headers['authorization'],
+				authorization: request.headers.get('authorization'),
 			},
 		},
 		requestPolicy: 'network-only',
@@ -42,7 +35,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 
 	const {
 		input: { deployment, email },
-	} = request.body;
+	} = body;
 
 	const updateResult = await client
 		.mutation(CreateDeploymentFromApiDocument, {
@@ -67,20 +60,14 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			email,
 			deployment,
 		});
-		return {
-			status: 500,
-			body: { error: 'UPDATE_FAILED' },
-		};
+		return actionError(updateResult.error.message, 400);
 	}
 
 	const id = updateResult.data?.insert_deployment_one?.managers[0]?.account?.id;
 
 	if (!id) {
 		console.error('Could not get id of newly created manager', { email, deployment });
-		return {
-			status: 500,
-			body: { error: 'UPDATE_FAILED' },
-		};
+		return actionError(`[createDeployement] update failed`, 400);
 	}
 
 	const result = await updateAccessKey(client, id);
@@ -90,12 +77,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 			email,
 			deployment,
 		});
-		return {
-			status: 500,
-			body: {
-				errors: 'SERVER_ERROR',
-			},
-		};
+		return actionError(`[createDeployement] Error updating access key for magic link`, 400);
 	}
 
 	const accessKey = result.data.account.accessKey;
@@ -120,6 +102,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	}).catch((emailError) => {
 		console.error('Could not send email', { error: emailError, email, deployment });
 	});
+
 	return {
 		status: 200,
 		body: {

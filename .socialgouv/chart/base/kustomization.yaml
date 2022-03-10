@@ -1,0 +1,14 @@
+resources:
+  - ../autodevops/base
+
+patches:
+  - target:
+      kind: Ingress
+    patch: |
+      - op: add
+        path: "/metadata/annotations"
+        value:
+          "nginx.ingress.kubernetes.io/configuration-snippet": |
+            more_set_headers "X-Frame-Options: deny";
+            more_set_headers "X-XSS-Protection: 1; mode=block";
+            more_set_headers "X-Content-Type-Options: nosniff";

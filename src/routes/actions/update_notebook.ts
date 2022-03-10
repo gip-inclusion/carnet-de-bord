@@ -53,8 +53,8 @@ type Body = {
 	};
 };
 
-export const post: RequestHandler<unknown, Body> = async (request) => {
-	const { input } = request.body;
+export const post: RequestHandler = async ({ request }) => {
+	const { input } = (await request.json()) as Body;
 	try {
 		actionsGuard(request.headers);
 	} catch (error) {
@@ -110,7 +110,7 @@ export const post: RequestHandler<unknown, Body> = async (request) => {
 	} catch (error) {
 		console.error(`echec de mise à jour du carnet ${input.id}`, error, url, callback);
 		return {
-			status: 500,
+			status: 400,
 			body: { error: 'CALLBACK_FAILED' },
 		};
 	}

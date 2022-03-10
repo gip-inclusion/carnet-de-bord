@@ -5,7 +5,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 import { parse } from 'cookie';
 
-export const get: RequestHandler = async (request) => {
+export const get: RequestHandler = async ({ request, params }) => {
 	try {
 		authorizeOnly(['admin_structure'])(request);
 	} catch (e) {
@@ -17,8 +17,8 @@ export const get: RequestHandler = async (request) => {
 			},
 		};
 	}
-	const cookie = parse(request.headers.cookie);
-	console.log(cookie);
+	const cookie = parse(request.headers.get('cookie'));
+
 	const client = createClient({
 		fetch,
 		fetchOptions: {
@@ -31,7 +31,7 @@ export const get: RequestHandler = async (request) => {
 		url: getGraphqlAPI(),
 	});
 
-	const structureId = request.params.uuid;
+	const structureId = params.uuid;
 
 	const result = await client.query(GetPendingBeneficiariesDocument, { structureId }).toPromise();
 	if (result.error) {
@@ -43,7 +43,6 @@ export const get: RequestHandler = async (request) => {
 			body: { error: 'error retriving pending beneficiaries' },
 		};
 	}
-	console.log(result.data.structure_by_pk.beneficiaries);
 
 	const data = result.data.structure_by_pk.beneficiaries
 		.map(
