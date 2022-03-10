@@ -22,6 +22,14 @@ insert_permissions:
 select_permissions:
 - permission:
     columns:
+    - code
+    - description
+    - id
+    - label
+    filter: {}
+  role: beneficiary
+- permission:
+    columns:
     - id
     - code
     - description
