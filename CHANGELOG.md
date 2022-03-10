@@ -1,3 +1,10 @@
+## [1.98.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.98.0...v1.98.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* revert rome code ([#720](https://github.com/SocialGouv/carnet-de-bord/issues/720)) ([e9a76c6](https://github.com/SocialGouv/carnet-de-bord/commit/e9a76c62506473b6ed0f35111d08cfd1ec2377cf)), closes [#696](https://github.com/SocialGouv/carnet-de-bord/issues/696)
+
 ## [1.97.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.97.0...v1.97.1) (2022-03-10)
 
 
