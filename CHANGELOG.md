@@ -1,10 +1,3 @@
-# [1.98.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.97.1...v1.98.0) (2022-03-10)
-
-
-### Features
-
-* add more wanted jobs to notebook ([#696](https://github.com/SocialGouv/carnet-de-bord/issues/696)) ([17eb886](https://github.com/SocialGouv/carnet-de-bord/commit/17eb886d575937d1e749e451834d9cfae975f8a8))
-
 ## [1.97.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.97.0...v1.97.1) (2022-03-10)
 
 
