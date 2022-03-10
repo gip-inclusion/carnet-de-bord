@@ -35,6 +35,17 @@ insert_permissions:
   role: professional
 select_permissions:
 - permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - notebook_id
+    - rome_code_id
+    filter:
+      notebook:
+        beneficiary_id:
+          _eq: X-Hasura-Beneficiary-Id
+  role: beneficiary
+- permission:
     columns:
     - id
     - notebook_id
