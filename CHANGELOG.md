@@ -1,3 +1,10 @@
+## [1.99.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.99.1...v1.99.2) (2022-03-11)
+
+
+### Bug Fixes
+
+* update professionals count ([fff19fc](https://github.com/SocialGouv/carnet-de-bord/commit/fff19fcd37e328e886b0c84642806a2e81a80b75))
+
 ## [1.99.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.99.0...v1.99.1) (2022-03-10)
 
 
