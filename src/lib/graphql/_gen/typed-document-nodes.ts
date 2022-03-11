@@ -8363,8 +8363,8 @@ export type GetDeploymentStatForDayQuery = {
 		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
 	};
 	nbProfessionals: {
-		__typename?: 'structure_aggregate';
-		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
+		__typename?: 'professional_aggregate';
+		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null | undefined;
 	};
 	nbNotebookWithActions: {
 		__typename?: 'notebook_aggregate';
@@ -13642,7 +13642,7 @@ export const GetDeploymentStatForDayDocument = {
 					{
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'nbProfessionals' },
-						name: { kind: 'Name', value: 'structure_aggregate' },
+						name: { kind: 'Name', value: 'professional_aggregate' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -13652,16 +13652,25 @@ export const GetDeploymentStatForDayDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentId' },
+											name: { kind: 'Name', value: 'structure' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
+														name: { kind: 'Name', value: 'deploymentId' },
 														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'deploymentId' },
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
 														},
 													},
 												],

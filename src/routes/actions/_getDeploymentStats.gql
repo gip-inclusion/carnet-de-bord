@@ -11,7 +11,9 @@ query GetDeploymentStatForDay($day: timestamptz!, $last30Days: timestamptz!, $de
 			count
 		}
 	}
-	nbProfessionals: structure_aggregate(where: { deploymentId: { _eq: $deploymentId } }) {
+	nbProfessionals: professional_aggregate(
+		where: { structure: { deploymentId: { _eq: $deploymentId } } }
+	) {
 		aggregate {
 			count
 		}
