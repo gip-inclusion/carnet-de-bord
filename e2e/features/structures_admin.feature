@@ -15,6 +15,14 @@ Fonctionnalité: Parcours Administrateur de structures
 		Alors je vois "061234567, 091234567" dans le champ "Numéros de téléphone"
 		Alors je clique sur "Créer mon compte"
 
+	Scénario: Import liste de professionnels
+		Soit un "administrateur de structures" authentifié avec l'email "jean.paul@drome.fr"
+		Alors je vois "Ma structure"
+		Alors je vois "Loriol sur Drôme"
+		Quand je clique sur "CD 26"
+		Alors je vois "Portefeuille de la structure"
+		Quand je clique sur "Importer une liste de professionnels"
+
 	Scénario: Modifier plusieurs rattachements de bénéficiaires
 		Soit un utilisateur de type "admin_structure" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
 		Quand je vois "Groupe NS"
