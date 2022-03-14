@@ -45,7 +45,7 @@ export function getFirstBeneficiary({ data }) {
 }
 
 export function createBeneficiaryAccount(beneficiary, username) {
-	const [{ id, firstname, lastname }] = beneficiary;
+	const { id, firstname, lastname } = beneficiary;
 	console.info(`beneficiary found with email ${username}`);
 	return client
 		.mutation(CreateBeneficiaryAccountDocument, {
