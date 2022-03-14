@@ -11,6 +11,11 @@ let emailerSpy: jest.SpyInstance<Promise<SMTPTransport.SentMessageInfo>, any>;
 
 const toGqlError = (e: string) => new CombinedError({ networkError: Error(e) });
 const err = toGqlError('fake error');
+const makeBody: (body: Record<string, unknown>) => { request: Request } = (
+	body: Record<string, unknown>
+) => ({
+	request: { json: () => Promise.resolve(body) } as Request,
+});
 
 const toResult = (data: any, error = null) => ({
 	toPromise: () => Promise.resolve({ data, error }),
@@ -32,9 +37,11 @@ describe('/auth/login', () => {
 	test.each([undefined, null, '', 0, 1, [], {}])(
 		'should respond 400 when the request is malformed: %p',
 		async (username) => {
-			const result = await loginCheck.post({
-				body: { username },
-			} as unknown as Request);
+			const result = await loginCheck.post(
+				makeBody({
+					username,
+				})
+			);
 
 			expect(result).toEqual<EndpointOutput<Data | Error>>({
 				status: 400,
@@ -50,9 +57,11 @@ describe('/auth/login', () => {
 		}));
 
 		const username = 'test';
-		const result = await loginCheck.post({
-			body: { username },
-		} as unknown as Request);
+		const result = await loginCheck.post(
+			makeBody({
+				username,
+			})
+		);
 
 		expect(result).toEqual<EndpointOutput<Data | Error>>({
 			status: 500,
@@ -72,9 +81,11 @@ describe('/auth/login', () => {
 			mutation: jest.fn().mockReturnValueOnce(createBeneficiaryError),
 		}));
 
-		const result = await loginCheck.post({
-			body: { username },
-		} as unknown as Request);
+		const result = await loginCheck.post(
+			makeBody({
+				username,
+			})
+		);
 
 		expect(result).toEqual<EndpointOutput<Data | Error>>({
 			status: 500,
@@ -102,9 +113,11 @@ describe('/auth/login', () => {
 			mutation: jest.fn().mockReturnValueOnce(updatedAccount),
 		}));
 
-		const result = await loginCheck.post({
-			body: { username },
-		} as unknown as Request);
+		const result = await loginCheck.post(
+			makeBody({
+				username,
+			})
+		);
 
 		expect(result).toEqual<EndpointOutput<Data | Error>>({
 			status: 500,
@@ -172,9 +185,11 @@ describe('/auth/login', () => {
 					.mockImplementation(() => Promise.reject('fake failure'));
 			}
 
-			const result = await loginCheck.post({
-				body: { username },
-			} as unknown as Request);
+			const result = await loginCheck.post(
+				makeBody({
+					username,
+				})
+			);
 
 			expect(result).toEqual<EndpointOutput<Data | Error>>({
 				status: 200,

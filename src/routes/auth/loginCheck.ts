@@ -145,8 +145,12 @@ export function sendNotification({ user, accessKey, id, username }) {
  * - try to find an account by email
  * - try to find an account by username (deprecated)
  */
-export const post = async (request: Request): Promise<EndpointOutput<Data | Error>> => {
-	const body = request.body;
+export const post = async ({
+	request,
+}: {
+	request: Request;
+}): Promise<EndpointOutput<Data | Error>> => {
+	const body = await request.json();
 	if (!loginSchema.isValidSync(body)) {
 		return return400();
 	}
