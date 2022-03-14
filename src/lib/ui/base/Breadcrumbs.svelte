@@ -18,7 +18,6 @@
 		>Voir le fil d’Ariane</button
 	>
 	<div class="fr-collapse" {id}>
-		Vous êtes ici :
 		<ol class="fr-breadcrumb__list">
 			{#each links as segment (segment.name)}
 				<li>

@@ -1,0 +1,35 @@
+query GetBeneficiaries($offset: Int!, $limit: Int!, $withMembers: beneficiary_bool_exp!) {
+	beneficiary_aggregate(where: $withMembers) {
+		aggregate {
+			count
+		}
+	}
+	beneficiaries: beneficiary(
+		limit: $limit
+		offset: $offset
+		order_by: [{ lastname: asc }, { firstname: asc }]
+		where: $withMembers
+	) {
+		id
+		firstname
+		lastname
+		structures {
+			structure {
+				id
+				name
+			}
+		}
+		notebook {
+			id
+			members {
+				id
+				createdAt
+				professional {
+					id
+					firstname
+					lastname
+				}
+			}
+		}
+	}
+}
