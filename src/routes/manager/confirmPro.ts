@@ -1,8 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import send from '$lib/emailing';
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { createClient } from '@urql/core';
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getAppUrl } from '$lib/config/variables/private';
 import {
 	ConfirmAccountByIdDocument,
 	GetAccountByIdDocument,
@@ -14,18 +12,7 @@ import type {
 import { authorizeOnly } from '$lib/utils/security';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
-
-const client = createClient({
-	fetch,
-	fetchOptions: {
-		headers: {
-			'Content-Type': 'application/json',
-			'x-hasura-admin-secret': getHasuraAdminSecret(),
-		},
-	},
-	requestPolicy: 'network-only',
-	url: getGraphqlAPI(),
-});
+import { adminClient } from '$lib/graphql/createClient';
 
 const confirmProSchema = yup.object().shape({
 	id: yup.string().uuid().required(),
@@ -59,6 +46,8 @@ export const post: RequestHandler = async ({ request }) => {
 	const { id } = body;
 
 	const appUrl = getAppUrl();
+
+	const client = adminClient();
 
 	const { error, data } = await client
 		.query<GetAccountByIdQuery>(GetAccountByIdDocument, { id })

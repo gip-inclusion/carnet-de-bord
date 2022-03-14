@@ -6,7 +6,7 @@ import { updateAccessKey } from '$lib/services/account';
 import { actionError } from '$lib/utils/actions';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
-import { createClient } from '@urql/core';
+import { userClient } from '$lib/graphql/createClient';
 
 export const post: RequestHandler = async ({ request }) => {
 	const body = await request.json();
@@ -21,17 +21,7 @@ export const post: RequestHandler = async ({ request }) => {
 		return actionError(error.message, 401);
 	}
 
-	const client = createClient({
-		fetch,
-		fetchOptions: {
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: request.headers.get('authorization'),
-			},
-		},
-		requestPolicy: 'network-only',
-		url: getGraphqlAPI(),
-	});
+	const client = userClient(request.headers.get('authorization'));
 
 	const {
 		input: { deployment, email },

@@ -1,24 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { createClient } from '@urql/core';
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getAppUrl } from '$lib/config/variables/private';
 import { GetNotebookMemberByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import type { GetNotebookMemberByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
-
-const client = createClient({
-	fetch,
-	fetchOptions: {
-		headers: {
-			'Content-Type': 'application/json',
-			'x-hasura-admin-secret': getHasuraAdminSecret(),
-		},
-	},
-	requestPolicy: 'network-only',
-	url: getGraphqlAPI(),
-});
+import { adminClient } from '$lib/graphql/createClient';
 
 const carnetInvitationSchema = yup.object().shape({
 	notebookMemberId: yup.string().uuid().required(),
@@ -42,6 +29,8 @@ export const post: RequestHandler = async ({ request }) => {
 	}
 
 	const { notebookMemberId } = body;
+
+	const client = adminClient();
 
 	const { data, error } = await client
 		.query<GetNotebookMemberByIdQuery>(GetNotebookMemberByIdDocument, { id: notebookMemberId })

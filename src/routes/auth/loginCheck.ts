@@ -1,7 +1,5 @@
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { getAppUrl } from '$lib/config/variables/private';
 import crypto from 'crypto';
-
-import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	CreateBeneficiaryAccountDocument,
 	GetAccountByEmailDocument,
@@ -13,23 +11,15 @@ import type {
 	GetAccountByUsernameQuery,
 	GetBeneficiaryByEmailQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
-import { createClient } from '@urql/core';
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
 import type { ServerRequest } from '@sveltejs/kit/types/hooks';
 import type { EndpointOutput } from '@sveltejs/kit';
+import { adminClient } from '$lib/graphql/createClient';
+import type { Client } from '@urql/core';
 
-const client = createClient({
-	fetchOptions: {
-		headers: {
-			'Content-Type': 'application/json',
-			'x-hasura-admin-secret': getHasuraAdminSecret(),
-		},
-	},
-	requestPolicy: 'network-only',
-	url: getGraphqlAPI(),
-});
+let client: Client;
 
 const loginSchema = yup
 	.object()
@@ -46,11 +36,12 @@ export function getBeneficiaryForEmail(email) {
 		.query<GetBeneficiaryByEmailQuery>(GetBeneficiaryByEmailDocument, {
 			email,
 		})
-		.toPromise();
+		.toPromise()
+		.then(({ data, error }) => ({ data, error }));
 }
 
-export function getFirstBeneficiary(result) {
-	return (result.data?.beneficiary ?? [])[0];
+export function getFirstBeneficiary({ data }) {
+	return (data?.beneficiary ?? [])[0];
 }
 
 export function createBeneficiaryAccount(beneficiary, username) {
@@ -61,7 +52,8 @@ export function createBeneficiaryAccount(beneficiary, username) {
 			username: `${firstname}.${lastname}.${crypto.randomBytes(6).toString('hex')}`,
 			beneficiaryId: id,
 		})
-		.toPromise();
+		.toPromise()
+		.then(({ data, error }) => ({ data, error }));
 }
 
 export function getAccountByEmail(email) {
@@ -77,14 +69,15 @@ export function getAccountByEmail(email) {
 				],
 			},
 		})
-		.toPromise();
+		.toPromise()
+		.then(({ data, error }) => ({ data, error }));
 }
 
 export function getAccountByUsername(username) {
-	const usernameResult = client
+	return client
 		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, { comp: { _eq: username } })
-		.toPromise();
-	return usernameResult;
+		.toPromise()
+		.then(({ data, error }) => ({ data, error }));
 }
 
 export function getFirstAccount(result) {
@@ -153,17 +146,16 @@ export function sendNotification({ user, accessKey, id, username }) {
 export const post = async (
 	request: ServerRequest<unknown, unknown>
 ): Promise<EndpointOutput<Data | Error>> => {
-	console.log("here");
 	const body = request.body;
 	if (!loginSchema.isValidSync(body)) {
 		return return400();
 	}
 
+	client = adminClient();
+
 	const { username } = body;
-	console.log("here");
 
 	const beneficiaryWithoutAccountResult = await getBeneficiaryForEmail(username);
-	console.log({ beneficiaryWithoutAccountResult, getBeneficiaryForEmail });
 
 	if (beneficiaryWithoutAccountResult.error) {
 		return return500();

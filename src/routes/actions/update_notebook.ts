@@ -1,5 +1,4 @@
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getAppUrl } from '$lib/config/variables/private';
 import {
 	GetNotebookInfoDocument,
 	UpdateNotebookFromApiDocument,
@@ -16,19 +15,7 @@ import type {
 import type { BeneficiaryAccount, DeploymentConfig } from '$lib/types';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
-import { createClient } from '@urql/core';
-
-const client = createClient({
-	fetch,
-	fetchOptions: {
-		headers: {
-			'Content-Type': 'application/json',
-			'x-hasura-admin-secret': getHasuraAdminSecret(),
-		},
-	},
-	requestPolicy: 'network-only',
-	url: getGraphqlAPI(),
-});
+import { adminClient } from '$lib/graphql/createClient';
 
 export type ExternalDeploymentApiOutput = {
 	notebook: NotebookSetInput;
@@ -63,6 +50,8 @@ export const post: RequestHandler = async ({ request }) => {
 			body: error.message,
 		};
 	}
+
+	const client = adminClient();
 
 	const { error, data } = await client
 		.query<GetNotebookInfoQuery>(GetNotebookInfoDocument, { id: input.id })

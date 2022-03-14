@@ -1,15 +1,13 @@
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { userClient } from '$lib/graphql/createClient';
 import { GetPendingBeneficiariesDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import { authorizeOnly } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
-import { createClient } from '@urql/core';
 import { parse } from 'cookie';
 
 export const get: RequestHandler = async ({ request, params }) => {
 	try {
 		authorizeOnly(['admin_structure'])(request);
 	} catch (e) {
-		console.log('pag');
 		return {
 			status: 403,
 			body: {
@@ -19,16 +17,8 @@ export const get: RequestHandler = async ({ request, params }) => {
 	}
 	const cookie = parse(request.headers.get('cookie'));
 
-	const client = createClient({
-		fetch,
-		fetchOptions: {
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: `Bearer ${cookie.jwt}`,
-			},
-		},
-		requestPolicy: 'network-only',
-		url: getGraphqlAPI(),
+	const client = userClient({
+		authorization: `Bearer ${cookie.jwt}`,
 	});
 
 	const structureId = params.uuid;

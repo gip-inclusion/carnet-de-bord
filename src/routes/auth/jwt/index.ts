@@ -1,27 +1,12 @@
 import { createJwt } from '$lib/utils/getJwt';
 import type { RequestHandler } from '@sveltejs/kit';
-
-import { createClient } from '@urql/svelte';
-import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	GetAccountInfoDocument,
 	ResetAccountAccessKeyDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { GetAccountInfoQuery } from '$lib/graphql/_gen/typed-document-nodes';
-import { getHasuraAdminSecret } from '$lib/config/variables/private';
 import * as yup from 'yup';
-
-const client = createClient({
-	url: getGraphqlAPI(),
-	fetch,
-	fetchOptions: {
-		headers: {
-			'Content-Type': 'application/json',
-			'x-hasura-admin-secret': getHasuraAdminSecret(),
-		},
-	},
-	requestPolicy: 'network-only',
-});
+import { adminClient } from '$lib/graphql/createClient';
 
 const jwtSchema = yup.object().shape({
 	accessKey: yup.string().uuid().required(),
@@ -45,6 +30,8 @@ export const post: RequestHandler = async ({ request }) => {
 	}
 
 	const { accessKey } = body;
+
+	const client = adminClient();
 
 	const { data, error } = await client
 		.query<GetAccountInfoQuery>(GetAccountInfoDocument, { accessKey })

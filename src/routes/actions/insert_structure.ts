@@ -1,4 +1,3 @@
-import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	InsertStructureDocument,
 	StructureUpdateColumn,
@@ -17,12 +16,13 @@ import type {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
-import { Client, createClient } from '@urql/core';
+import type { EndpointOutput, RequestHandler } from '@sveltejs/kit';
 import { v4 } from 'uuid';
 import send from '$lib/emailing';
 import { getAppUrl } from '$lib/config/variables/private';
 import { updateAccessKey } from '$lib/services/account';
 import { actionError } from '$lib/utils/actions';
+import { userClient } from '$lib/graphql/createClient';
 
 type Body = {
 	input: {
@@ -54,17 +54,7 @@ export const post: RequestHandler = async ({ request }) => {
 		return actionError('unauthorized', 401);
 	}
 
-	const client = createClient({
-		fetch,
-		fetchOptions: {
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: request.headers.get('authorization'),
-			},
-		},
-		requestPolicy: 'network-only',
-		url: getGraphqlAPI(),
-	});
+	const client = userClient(request.headers.get('authorization'));
 
 	const { structure, adminStructure, forceUpdate, sendAccountEmail } = input.data;
 

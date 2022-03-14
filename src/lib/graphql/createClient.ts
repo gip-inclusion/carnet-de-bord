@@ -1,10 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@urql/svelte';
 import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getHasuraAdminSecret } from '$lib/config/variables/private';
 
 function getToken(session: { token?: string }) {
 	return session.token;
 }
+
+export const adminClient = () => {
+	return client({
+		'x-hasura-admin-secret': getHasuraAdminSecret(),
+	});
+};
+
+export const userClient = (authorizationHeader) => {
+	return client({
+		authorization: authorizationHeader,
+	});
+};
+
+const client = (headers: Record<string, string>) =>
+	createClient({
+		fetch,
+		fetchOptions: {
+			headers: {
+				'Content-Type': 'application/json',
+				...headers,
+			},
+		},
+		requestPolicy: 'network-only',
+		url: getGraphqlAPI(),
+	});
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default (session: any) => {
