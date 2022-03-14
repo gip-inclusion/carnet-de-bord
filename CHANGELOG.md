@@ -1,3 +1,10 @@
+# [1.100.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.99.2...v1.100.0) (2022-03-14)
+
+
+### Features
+
+* add new referentiel ([aec39a8](https://github.com/SocialGouv/carnet-de-bord/commit/aec39a8dc916989ce8457088d29c77149fa1f7fa))
+
 ## [1.99.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.99.1...v1.99.2) (2022-03-11)
 
 
