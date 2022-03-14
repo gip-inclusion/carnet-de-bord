@@ -17,9 +17,7 @@ export const get: RequestHandler = async ({ request, params }) => {
 	}
 	const cookie = parse(request.headers.get('cookie'));
 
-	const client = userClient({
-		authorization: `Bearer ${cookie.jwt}`,
-	});
+	const client = userClient(`Bearer ${cookie.jwt}`);
 
 	const structureId = params.uuid;
 

@@ -14,10 +14,9 @@ import type {
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
-import type { ServerRequest } from '@sveltejs/kit/types/hooks';
 import type { EndpointOutput } from '@sveltejs/kit';
 import { adminClient } from '$lib/graphql/createClient';
-import type { Client } from '@urql/core';
+import type { Client, CombinedError } from '@urql/core';
 
 let client: Client;
 
@@ -31,7 +30,7 @@ export type Login = yup.InferType<typeof loginSchema>;
 export type Data = { accessUrl?: string };
 export type Error = { error: string };
 
-export function getBeneficiaryForEmail(email) {
+export async function getBeneficiaryForEmail(email: string) {
 	return client
 		.query<GetBeneficiaryByEmailQuery>(GetBeneficiaryByEmailDocument, {
 			email,
@@ -44,7 +43,10 @@ export function getFirstBeneficiary({ data }) {
 	return (data?.beneficiary ?? [])[0];
 }
 
-export function createBeneficiaryAccount(beneficiary, username) {
+export async function createBeneficiaryAccount(
+	beneficiary: GetBeneficiaryByEmailQuery['beneficiary'][0],
+	username: string
+) {
 	const { id, firstname, lastname } = beneficiary;
 	console.info(`beneficiary found with email ${username}`);
 	return client
@@ -56,7 +58,7 @@ export function createBeneficiaryAccount(beneficiary, username) {
 		.then(({ data, error }) => ({ data, error }));
 }
 
-export function getAccountByEmail(email) {
+export async function getAccountByEmail(email: string) {
 	return client
 		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
 			criteria: {
@@ -73,14 +75,14 @@ export function getAccountByEmail(email) {
 		.then(({ data, error }) => ({ data, error }));
 }
 
-export function getAccountByUsername(username) {
+export async function getAccountByUsername(username: string) {
 	return client
 		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, { comp: { _eq: username } })
 		.toPromise()
 		.then(({ data, error }) => ({ data, error }));
 }
 
-export function getFirstAccount(result) {
+export function getFirstAccount(result: { data: GetAccountByEmailQuery; error: CombinedError }) {
 	return (result.data?.account ?? [])[0];
 }
 
@@ -102,7 +104,7 @@ function return500() {
 	};
 }
 
-function return200(body = {}) {
+function return200(body: Record<string, string> = {}) {
 	return {
 		status: 200,
 		body,
@@ -143,9 +145,7 @@ export function sendNotification({ user, accessKey, id, username }) {
  * - try to find an account by email
  * - try to find an account by username (deprecated)
  */
-export const post = async (
-	request: ServerRequest<unknown, unknown>
-): Promise<EndpointOutput<Data | Error>> => {
+export const post = async (request: Request): Promise<EndpointOutput<Data | Error>> => {
 	const body = request.body;
 	if (!loginSchema.isValidSync(body)) {
 		return return400();

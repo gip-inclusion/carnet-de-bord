@@ -1,18 +1,20 @@
 import * as client from '$lib/graphql/createClient';
 import * as emailing from '$lib/emailing';
 import type { EndpointOutput } from '@sveltejs/kit';
-import type { ServerRequest } from '@sveltejs/kit/types/hooks';
-import { CombinedError } from '@urql/core';
-import type { Login, Data, Error } from './loginCheck';
+import { Client, CombinedError } from '@urql/core';
+import type { Data, Error } from './loginCheck';
 import * as loginCheck from './loginCheck';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-let clientSpy;
-let emailerSpy;
+let clientSpy: jest.SpyInstance<Partial<Client>, any>;
+let emailerSpy: jest.SpyInstance<Promise<SMTPTransport.SentMessageInfo>, any>;
 
-const toGqlError = (e) => new CombinedError({ networkError: Error(e) });
-const error = toGqlError('fake error');
+const toGqlError = (e: string) => new CombinedError({ networkError: Error(e) });
+const err = toGqlError('fake error');
 
-const toResult = (data, error = null) => ({ toPromise: () => Promise.resolve({ data, error }) });
+const toResult = (data: any, error = null) => ({
+	toPromise: () => Promise.resolve({ data, error }),
+});
 
 beforeEach(() => {
 	jest.restoreAllMocks();
@@ -32,7 +34,7 @@ describe('/auth/login', () => {
 		async (username) => {
 			const result = await loginCheck.post({
 				body: { username },
-			} as unknown as ServerRequest<unknown, Login>);
+			} as unknown as Request);
 
 			expect(result).toEqual<EndpointOutput<Data | Error>>({
 				status: 400,
@@ -42,7 +44,7 @@ describe('/auth/login', () => {
 	);
 
 	test('should respond 500 when there is an error creating a beneficiary for a beneficiary without an account', async () => {
-		const beneficiaryForUsernameError = toResult(null, error);
+		const beneficiaryForUsernameError = toResult(null, err);
 		clientSpy.mockImplementation(() => ({
 			query: jest.fn().mockReturnValueOnce(beneficiaryForUsernameError),
 		}));
@@ -50,7 +52,7 @@ describe('/auth/login', () => {
 		const username = 'test';
 		const result = await loginCheck.post({
 			body: { username },
-		} as unknown as ServerRequest<unknown, Login>);
+		} as unknown as Request);
 
 		expect(result).toEqual<EndpointOutput<Data | Error>>({
 			status: 500,
@@ -63,7 +65,7 @@ describe('/auth/login', () => {
 
 		const beneficiaryWithoutAccount = {};
 		const beneficiaryForUsernameNone = toResult({ beneficiary: [beneficiaryWithoutAccount] });
-		const createBeneficiaryError = toResult(null, error);
+		const createBeneficiaryError = toResult(null, err);
 
 		clientSpy.mockImplementation(() => ({
 			query: jest.fn().mockReturnValueOnce(beneficiaryForUsernameNone),
@@ -72,7 +74,7 @@ describe('/auth/login', () => {
 
 		const result = await loginCheck.post({
 			body: { username },
-		} as unknown as ServerRequest<unknown, Login>);
+		} as unknown as Request);
 
 		expect(result).toEqual<EndpointOutput<Data | Error>>({
 			status: 500,
@@ -89,7 +91,7 @@ describe('/auth/login', () => {
 		const accountByUsernameConfirmed = toResult({
 			account: [accountConfirmed],
 		});
-		const updatedAccount = toResult(null, error);
+		const updatedAccount = toResult(null, err);
 
 		clientSpy.mockImplementation(() => ({
 			query: jest
@@ -102,7 +104,7 @@ describe('/auth/login', () => {
 
 		const result = await loginCheck.post({
 			body: { username },
-		} as unknown as ServerRequest<unknown, Login>);
+		} as unknown as Request);
 
 		expect(result).toEqual<EndpointOutput<Data | Error>>({
 			status: 500,
@@ -163,7 +165,6 @@ describe('/auth/login', () => {
 				emailerSpy = jest
 					.spyOn(emailing, 'default')
 					.mockImplementation(() => Promise.resolve(null));
-				emailingCalls = 1;
 			} else if (sendEmail === 'fails') {
 				emailingCalls = 1;
 				emailerSpy = jest
@@ -173,7 +174,7 @@ describe('/auth/login', () => {
 
 			const result = await loginCheck.post({
 				body: { username },
-			} as unknown as ServerRequest<unknown, Login>);
+			} as unknown as Request);
 
 			expect(result).toEqual<EndpointOutput<Data | Error>>({
 				status: 200,

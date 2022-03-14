@@ -1,5 +1,4 @@
 import { getAppUrl } from '$lib/config/variables/private';
-import { getGraphqlAPI } from '$lib/config/variables/public';
 import send from '$lib/emailing';
 import { CreateDeploymentFromApiDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';

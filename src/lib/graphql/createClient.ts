@@ -13,7 +13,7 @@ export const adminClient = () => {
 	});
 };
 
-export const userClient = (authorizationHeader) => {
+export const userClient = (authorizationHeader: string) => {
 	return client({
 		authorization: authorizationHeader,
 	});
