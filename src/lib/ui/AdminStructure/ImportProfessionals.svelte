@@ -20,7 +20,7 @@
 
 	$: prosToImport = pros.filter(({ uid }) => uidToImport.includes(uid));
 
-	function validate(pro: null | undefined | Record<string, any>): boolean {
+	function validate(pro: null | undefined | Record<string, unknown>): boolean {
 		try {
 			proAccountSchema.validateSync(pro);
 			return true;
@@ -44,7 +44,7 @@
 				);
 				pros = prosDataRaw
 					.reduce(
-						([valid, invalid]: [ProImport[], ProImport[]], cur: Record<string, any>) => {
+						([valid, invalid]: [ProImport[], ProImport[]], cur: Record<string, unknown>) => {
 							cur.uid = uuidv4();
 							cur.valid = validate(cur);
 							if (cur.valid) {

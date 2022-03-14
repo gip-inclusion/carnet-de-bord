@@ -91,7 +91,7 @@
 
 	$: beneficiariesToImport = beneficiaries.filter(({ uid }) => toImport.includes(uid));
 
-	function validate(benef: null | undefined | Record<string, any>): boolean {
+	function validate(benef: null | undefined | Record<string, unknown>): boolean {
 		return !!benef && !!benef.firstname && !!benef.lastname && !!benef.dateOfBirth;
 	}
 
@@ -107,7 +107,7 @@
 					.reduce(
 						(
 							[valid, invalid]: [BeneficiaryImport[], BeneficiaryImport[]],
-							cur: Record<string, any>
+							cur: Record<string, unknown>
 						) => {
 							cur.uid = uuidv4();
 							cur.valid = validate(cur);

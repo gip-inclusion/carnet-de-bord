@@ -85,7 +85,7 @@
 
 	$: beneficiariesToImport = beneficiaries.filter(({ uid }) => uidToImport.includes(uid));
 
-	function validate(input: null | undefined | Record<string, any>): boolean {
+	function validate(input: null | undefined | Record<string, unknown>): boolean {
 		try {
 			return !!input && !!input.firstname && !!input.lastname && !!input.dateOfBirth;
 		} catch (error) {
@@ -119,7 +119,7 @@
 					.reduce(
 						(
 							[valid, invalid]: [NotebookMemberImport[], NotebookMemberImport[]],
-							cur: Record<string, any>
+							cur: Record<string, unknown>
 						) => {
 							cur.uid = uuidv4();
 							cur.valid = validate(cur);

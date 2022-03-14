@@ -10,7 +10,7 @@ interface ImportMeta {
 
 // support for Crisp
 interface Window {
-	$crisp: any;
+	$crisp: unknown[];
 	CRISP_WEBSITE_ID: string;
 }
 

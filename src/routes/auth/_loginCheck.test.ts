@@ -6,8 +6,8 @@ import type { Data, Error } from './loginCheck';
 import * as loginCheck from './loginCheck';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-let clientSpy: jest.SpyInstance<Partial<Client>, any>;
-let emailerSpy: jest.SpyInstance<Promise<SMTPTransport.SentMessageInfo>, any>;
+let clientSpy: jest.SpyInstance<Partial<Client>, unknown[]>;
+let emailerSpy: jest.SpyInstance<Promise<SMTPTransport.SentMessageInfo>, unknown[]>;
 
 const toGqlError = (e: string) => new CombinedError({ networkError: Error(e) });
 const err = toGqlError('fake error');
@@ -17,7 +17,7 @@ const makeBody: (body: Record<string, unknown>) => { request: Request } = (
 	request: { json: () => Promise.resolve(body) } as Request,
 });
 
-const toResult = (data: any, error = null) => ({
+const toResult = (data: unknown, error = null) => ({
 	toPromise: () => Promise.resolve({ data, error }),
 });
 
