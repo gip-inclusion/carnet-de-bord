@@ -15,7 +15,7 @@ import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
 import type { EndpointOutput } from '@sveltejs/kit';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 import type { Client, CombinedError } from '@urql/core';
 
 let client: Client;

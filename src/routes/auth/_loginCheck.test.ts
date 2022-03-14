@@ -1,4 +1,4 @@
-import * as client from '$lib/graphql/createClient';
+import * as client from '$lib/graphql/adminClient';
 import * as emailing from '$lib/emailing';
 import type { EndpointOutput } from '@sveltejs/kit';
 import { Client, CombinedError } from '@urql/core';

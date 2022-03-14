@@ -6,7 +6,7 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { GetAccountInfoQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import * as yup from 'yup';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 
 const jwtSchema = yup.object().shape({
 	accessKey: yup.string().uuid().required(),

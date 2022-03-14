@@ -10,7 +10,7 @@ import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import MatomoTracker from 'matomo-tracker';
 import { subDays } from 'date-fns';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 
 const Matomo = new MatomoTracker(getMatomoSiteId(), `${getMatomoUrl()}/matomo.php`);
 

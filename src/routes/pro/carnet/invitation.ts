@@ -5,7 +5,7 @@ import type { GetNotebookMemberByIdQuery } from '$lib/graphql/_gen/typed-documen
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 
 const carnetInvitationSchema = yup.object().shape({
 	notebookMemberId: yup.string().uuid().required(),

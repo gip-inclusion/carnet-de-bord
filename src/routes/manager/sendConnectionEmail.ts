@@ -6,7 +6,7 @@ import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes
 import { updateAccessKey } from '$lib/services/account';
 import { authorizeOnly } from '$lib/utils/security';
 import * as yup from 'yup';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 
 const sendConnectionEmailSchema = yup.object().shape({
 	id: yup.string().uuid().required(),

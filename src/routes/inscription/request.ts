@@ -15,7 +15,7 @@ import type {
 import type { RequestHandler } from '@sveltejs/kit';
 import { updateAccessKey } from '$lib/services/account';
 import * as yup from 'yup';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 
 const inscriptionRequestSchema = yup.object().shape({
 	accountRequest: yup.object().shape({

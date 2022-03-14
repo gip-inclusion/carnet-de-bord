@@ -15,7 +15,7 @@ import type {
 import type { BeneficiaryAccount, DeploymentConfig } from '$lib/types';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 
 export type ExternalDeploymentApiOutput = {
 	notebook: NotebookSetInput;

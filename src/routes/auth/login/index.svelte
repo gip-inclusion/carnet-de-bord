@@ -6,7 +6,6 @@
 
 	let request: RequestStep = 'start';
 	let username = '';
-
 	let magicLink = '';
 
 	async function registration() {

@@ -12,7 +12,7 @@ import type {
 import { authorizeOnly } from '$lib/utils/security';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
-import { adminClient } from '$lib/graphql/createClient';
+import { adminClient } from '$lib/graphql/adminClient';
 
 const confirmProSchema = yup.object().shape({
 	id: yup.string().uuid().required(),

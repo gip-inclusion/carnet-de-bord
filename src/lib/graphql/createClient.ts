@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@urql/svelte';
 import { getGraphqlAPI } from '$lib/config/variables/public';
-import { getHasuraAdminSecret } from '$lib/config/variables/private';
 
 function getToken(session: { token?: string }) {
 	return session.token;
 }
-
-export const adminClient = () => {
-	return client({
-		'x-hasura-admin-secret': getHasuraAdminSecret(),
-	});
-};
 
 export const userClient = (authorizationHeader: string) => {
 	return client({
@@ -19,7 +12,7 @@ export const userClient = (authorizationHeader: string) => {
 	});
 };
 
-const client = (headers: Record<string, string>) =>
+export const client = (headers: Record<string, string>) =>
 	createClient({
 		fetch,
 		fetchOptions: {
