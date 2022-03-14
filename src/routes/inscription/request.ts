@@ -27,13 +27,10 @@ const inscriptionRequestSchema = yup.object().shape({
 	}),
 	structureId: yup.string().required(),
 	autoConfirm: yup.boolean().nullable(),
-	requester: yup
-		.object()
-		.shape({
-			firstname: yup.string().required(),
-			lastname: yup.string().required(),
-		})
-		.nullable(),
+	requester: yup.object().optional().nullable().shape({
+		firstname: yup.string(),
+		lastname: yup.string(),
+	}),
 });
 type InscriptionRequest = yup.InferType<typeof inscriptionRequestSchema>;
 
