@@ -1,3 +1,10 @@
+## [1.100.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.0...v1.100.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* remove duplicate data after referentiel migration ([87b49c1](https://github.com/SocialGouv/carnet-de-bord/commit/87b49c16092c291a3149315d2c54e9852e23ead2))
+
 # [1.100.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.99.2...v1.100.0) (2022-03-14)
 
 
