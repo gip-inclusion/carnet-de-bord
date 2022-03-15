@@ -67,7 +67,7 @@ done
 >&2 echo ""
 >&2 echo "-> Hasura is up and running on port 5001!"
 
-cd hasura && hasura seed apply --database-name carnet_de_bord
+cd hasura && HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --database-name carnet_de_bord
 cd $ROOT_DIR
 
 
