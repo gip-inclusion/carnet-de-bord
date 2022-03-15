@@ -159,4 +159,4 @@ jobs:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | tail -n 1 )
       - name: Run test e2e
         run: |
-          HASURA_ADMIN_SECRET=${{ secrets.HASURA_ADMIN_SECRET }} HASURA_BASEURL=https://${{ steps.hasura.outputs.result }}/v1/graphql CODECEPT_BASEURL=https://${{ steps.app.outputs.result }} yarn --cwd . test
+          HASURA_ADMIN_SECRET=${{ secrets.HASURA_ADMIN_SECRET }} HASURA_BASEURL=https://${{ steps.hasura.outputs.result }}/v1/graphql VITE_GRAPHQL_API_URL=https://${{ steps.hasura.outputs.result }}/v1/graphql CODECEPT_BASEURL=https://${{ steps.app.outputs.result }} yarn --cwd . test
