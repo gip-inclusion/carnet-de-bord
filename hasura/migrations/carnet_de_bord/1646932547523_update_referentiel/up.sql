@@ -3,85 +3,90 @@
 --
 -- update migrations
 --
- UPDATE notebook_focus set situations = situations - 'S''occuper d''un proche à temps plein' || '["Aidant familial ( s’occuper d’un proche )"]'::jsonb  WHERE situations ? 'S''occuper d''un proche à temps plein';
- UPDATE notebook_focus set situations = situations - 'Soutien familial' || '["Aidant familial ( s’occuper d’un proche )"]'::jsonb  WHERE situations ? 'Soutien familial';
- UPDATE notebook_focus set situations = situations - 'Absence de mode de garde entravant l''accès à l''emploi ou à un dispositif d''insertion sociale ou professionnelle' || '["Contrainte horaires"]'::jsonb  WHERE situations ? 'Absence de mode de garde entravant l''accès à l''emploi ou à un dispositif d''insertion sociale ou professionnelle';
- UPDATE notebook_focus set situations = situations - 'Pas de carte d''identité' || '["Sans papiers d’identités, titre de séjour…"]'::jsonb  WHERE situations ? 'Pas de carte d''identité';
- UPDATE notebook_focus set situations = situations - 'Pas d''avis d''impot' || '["Sans avis d’imposition"]'::jsonb  WHERE situations ? 'Pas d''avis d''impot';
- UPDATE notebook_focus set situations = situations - 'Pas de titre de séjour à jour' || '["Sans papiers d’identités, titre de séjour…"]'::jsonb  WHERE situations ? 'Pas de titre de séjour à jour';
- UPDATE notebook_focus set situations = situations - 'Pas de sécurité sociale à jour' || '["Pas de sécurité sociale à jour"]'::jsonb  WHERE situations ? 'Pas de sécurité sociale à jour';
- UPDATE notebook_focus set situations = situations - 'Manque d''autonomie et rencontrer de grandes difficultés sociales' || '["Rencontre des difficultés sociales"]'::jsonb  WHERE situations ? 'Manque d''autonomie et rencontrer de grandes difficultés sociales';
- UPDATE notebook_focus set situations = situations - 'Difficulté à effectuer une démarche administrative dématérialisée' || '["Difficulté à effectuer une démarche administrative"]'::jsonb  WHERE situations ? 'Difficulté à effectuer une démarche administrative dématérialisée';
- UPDATE notebook_focus set situations = situations - 'Incapacité' || '["Besoin d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Incapacité';
- UPDATE notebook_focus set situations = situations - 'Indisponibilité liée à l''accompagnement d''une tierce personne' || '["Besoin d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Indisponibilité liée à l''accompagnement d''une tierce personne';
- UPDATE notebook_focus set situations = situations - 'Accès au droit' || '["Besoin d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Accès au droit';
- UPDATE notebook_focus set situations = situations - 'Autonome mais nécessitant d''être guidé dans le cadre d''un accès aux droits' || '["Autonome mais nécessitant d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Autonome mais nécessitant d''être guidé dans le cadre d''un accès aux droits';
- UPDATE notebook_focus set situations = situations - 'Difficulté à effectuer une démarche administrative' || '["Difficulté à effectuer une démarche administrative"]'::jsonb  WHERE situations ? 'Difficulté à effectuer une démarche administrative';
- UPDATE notebook_focus set situations = situations - 'Difficultés juridiques' || '["Rencontre des difficultés juridiques"]'::jsonb  WHERE situations ? 'Difficultés juridiques';
- UPDATE notebook_focus set situations = situations - 'Pas de CCS' || '["Pas de mutuelle à jour"]'::jsonb  WHERE situations ? 'Pas de CCS';
- UPDATE notebook_focus set situations = situations - 'Aucune ressource' || '["Sans aucune ressource"]'::jsonb  WHERE situations ? 'Aucune ressource';
- UPDATE notebook_focus set situations = situations - 'Surrendettement' || '["En situation de surendettement"]'::jsonb  WHERE situations ? 'Surrendettement';
- UPDATE notebook_focus set situations = situations - 'Manque d''autonomie et rencontrer de grandes difficultés sociales' || '["Difficulté dans la gestion d''un budget"]'::jsonb  WHERE situations ? 'Manque d''autonomie et rencontrer de grandes difficultés sociales';
- UPDATE notebook_focus set situations = situations - 'Difficultés budgétaires ne permettant pas de rétablir l''équilibre financier' || '["Inadéquation charges / ressources"]'::jsonb  WHERE situations ? 'Difficultés budgétaires ne permettant pas de rétablir l''équilibre financier';
- UPDATE notebook_focus set situations = situations - 'Difficulté budgétaire ne permettant pas l''accès à l''achat de denrées alimentaires' || '["Rupture alimentaire"]'::jsonb  WHERE situations ? 'Difficulté budgétaire ne permettant pas l''accès à l''achat de denrées alimentaires';
- UPDATE notebook_focus set situations = situations - 'Difficultés financières' || '["Inadéquation charges / ressources"]'::jsonb  WHERE situations ? 'Difficultés financières';
- UPDATE notebook_focus set situations = situations - 'Dernier emploi : moins de 3 mois' || '["Moins de 6 mois sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : moins de 3 mois';
- UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 3 mois' || '["Moins de 6 mois sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 3 mois';
- UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 6 mois' || '["Plus de 6 mois sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 6 mois';
- UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus d''un an' || '["Plus d''1 an sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus d''un an';
- UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 2 ans' || '["Plus de 2 ans sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 2 ans';
- UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 5 ans' || '["Plus de 5 ans sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 5 ans';
- UPDATE notebook_focus set situations = situations - 'Dernier emploi : jamais travaillé' || '["Jamais travaillé"]'::jsonb  WHERE situations ? 'Dernier emploi : jamais travaillé';
- UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : immédiatement' || '["Disponible immédiatement"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : immédiatement';
- UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : a temps partiel' || '["Disponible à temps partiel"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : a temps partiel';
- UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : avec formations / accompagnement' || '["Prêt pour un emploi avec formations / accompagnement"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : avec formations / accompagnement';
- UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : pas n''importe quel emploi' || '["Prêt mais pas pour n''importe quel emploi"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : pas n''importe quel emploi';
- UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : pas pour l''instant' || '["Pas prêt pour un emploi"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : pas pour l''instant';
- UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : ne sais pas' || '["Ne sais pas s''il est prêt pour un emploi"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : ne sais pas';
- UPDATE notebook_focus set situations = situations - 'En construction de projet' || '["Prêt  à suivre une formation"]'::jsonb  WHERE situations ? 'En construction de projet';
- UPDATE notebook_focus set situations = situations - 'Situation d''échec à l''issue d''un dispositif à vocation professionnelle' || '["Prêt à en parler"]'::jsonb  WHERE situations ? 'Situation d''échec à l''issue d''un dispositif à vocation professionnelle';
- UPDATE notebook_focus set situations = situations - 'Manque de formation / qualification' || '["Prêt pour une formation"]'::jsonb  WHERE situations ? 'Manque de formation / qualification';
- UPDATE notebook_focus set situations = situations - 'Public de moins de 30 ans ayant un manque de formation/ de compétences ou d''expérience professionnelle' || '["Prêt pour une formation"]'::jsonb  WHERE situations ? 'Public de moins de 30 ans ayant un manque de formation/ de compétences ou d''expérience professionnelle';
- UPDATE notebook_focus set situations = situations - 'Absence de maîtrise de la langue française' || '["Prêt pour une formation avec un accompagnement"]'::jsonb  WHERE situations ? 'Absence de maîtrise de la langue française';
- UPDATE notebook_focus set situations = situations - 'Eloignement du service public pour l''emploi' || '["Prêt pour un accompagnement"]'::jsonb  WHERE situations ? 'Eloignement du service public pour l''emploi';
- UPDATE notebook_focus set situations = situations - 'Manque d''intégration sociale lié à un mode de vie' || '["Ne sais pas s''il est prêt"]'::jsonb  WHERE situations ? 'Manque d''intégration sociale lié à un mode de vie';
- UPDATE notebook_focus set situations = situations - 'Moins de 30 ans n''ayant accompli que le premier cycle de l''enseignement secondaire (3ème)' || '["Prêt pour un accompagnement"]'::jsonb  WHERE situations ? 'Moins de 30 ans n''ayant accompli que le premier cycle de l''enseignement secondaire (3ème)';
- UPDATE notebook_focus set situations = situations - 'Difficulté face à l’intégration du marché du travail du fait de difficultés sociales' || '["Prêt pour un accompagnement"]'::jsonb  WHERE situations ? 'Difficulté face à l’intégration du marché du travail du fait de difficultés sociales';
- UPDATE notebook_focus set situations = situations - 'Jeune de moins de 26 ans ayant des difficultés à intégrer des dispositifs de droit commun ou à travailler leur insertion' || '["Ne sais pas s''il est prêt"]'::jsonb  WHERE situations ? 'Jeune de moins de 26 ans ayant des difficultés à intégrer des dispositifs de droit commun ou à travailler leur insertion';
- UPDATE notebook_focus set situations = situations - 'Moins de 26 ans ayant un manque d''expérience professionnelle et/ou de confiance en soi' || '["Prêt à en parler"]'::jsonb  WHERE situations ? 'Moins de 26 ans ayant un manque d''expérience professionnelle et/ou de confiance en soi';
- UPDATE notebook_focus set situations = situations - 'Nécessité d''accèder à la formation comme préalable  pour accèder à l''emploi durable' || '["A déjà identifié une formation"]'::jsonb  WHERE situations ? 'Nécessité d''accèder à la formation comme préalable  pour accèder à l''emploi durable';
- UPDATE notebook_focus set situations = situations - 'Bail glissant' || '["Autre type de logement ( hôtel… )"]'::jsonb  WHERE situations ? 'Bail glissant';
- UPDATE notebook_focus set situations = situations - 'Appartement relais' || '["Autre type de logement ( hôtel… )"]'::jsonb  WHERE situations ? 'Appartement relais';
- UPDATE notebook_focus set situations = situations - 'Expulsion en cours' || '["Doit quitter le logement"]'::jsonb  WHERE situations ? 'Expulsion en cours';
- UPDATE notebook_focus set situations = situations - 'Hotel' || '["Autre type de logement ( hôtel… )"]'::jsonb  WHERE situations ? 'Hotel';
- UPDATE notebook_focus set situations = situations - 'Locataire' || '["Locataire parc privé"]'::jsonb  WHERE situations ? 'Locataire';
- UPDATE notebook_focus set situations = situations - 'CHRS' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'CHRS';
- UPDATE notebook_focus set situations = situations - 'Hotel social' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Hotel social';
- UPDATE notebook_focus set situations = situations - 'Foyer d''urgence' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Foyer d''urgence';
- UPDATE notebook_focus set situations = situations - 'Foyer Jeune Travailleur' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Foyer Jeune Travailleur';
- UPDATE notebook_focus set situations = situations - 'ALTHO' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'ALTHO';
- UPDATE notebook_focus set situations = situations - 'Structure d''hébergement d''urgence' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Structure d''hébergement d''urgence';
- UPDATE notebook_focus set situations = situations - 'Chez un tiers' || '["Hébergé chez un tiers"]'::jsonb  WHERE situations ? 'Chez un tiers';
- UPDATE notebook_focus set situations = situations - 'Code' || '["Code obtenu"]'::jsonb  WHERE situations ? 'Code';
- UPDATE notebook_focus set situations = situations - 'Permis en cours' || '["Permis ou/et code en cours"]'::jsonb  WHERE situations ? 'Permis en cours';
- UPDATE notebook_focus set situations = situations - 'Pas de permis valide' || '["Dépendant des transports en communs"]'::jsonb  WHERE situations ? 'Pas de permis valide';
- UPDATE notebook_focus set situations = situations - 'Vélo' || '["Vélo ou trottinette électrique"]'::jsonb  WHERE situations ? 'Vélo';
- UPDATE notebook_focus set situations = situations - 'Transport en commun' || '["Dépendant des transports en communs"]'::jsonb  WHERE situations ? 'Transport en commun';
- UPDATE notebook_focus set situations = situations - 'Permis mais pas de voiture' || '["Permis B"]'::jsonb  WHERE situations ? 'Permis mais pas de voiture';
- UPDATE notebook_focus set situations = situations - 'Pas d''accès aux transports en commun' || '["Aucun moyen de transport à disposition"]'::jsonb  WHERE situations ? 'Pas d''accès aux transports en commun';
- UPDATE notebook_focus set situations = situations - 'Permis B mais sans véhicule' || '["Permis B"]'::jsonb  WHERE situations ? 'Permis B mais sans véhicule';
- UPDATE notebook_focus set situations = situations - 'Mobile à vélo' || '["Vélo ou trottinette électrique"]'::jsonb  WHERE situations ? 'Mobile à vélo';
- UPDATE notebook_focus set situations = situations - 'Pas de permis' || '["Dépendant des transports en communs"]'::jsonb  WHERE situations ? 'Pas de permis';
- UPDATE notebook_focus set situations = situations - 'Voiture' || '["Véhicule ( voiture, moto, scooter )"]'::jsonb  WHERE situations ? 'Voiture';
- UPDATE notebook_focus set situations = situations - 'Moto' || '["Véhicule ( voiture, moto, scooter )"]'::jsonb  WHERE situations ? 'Moto';
- UPDATE notebook_focus set situations = situations - 'Permis et voiture' || '["Véhicule ( voiture, moto, scooter )"]'::jsonb  WHERE situations ? 'Permis et voiture';
- UPDATE notebook_focus set situations = situations - 'Couverture sociale' || '["Absence de couverture / complémentaire sociale santé ( CSS, PUMa… )"]'::jsonb  WHERE situations ? 'Couverture sociale';
- UPDATE notebook_focus set situations = situations - 'Prestation liée à la MDPH' || '["Problème de santé déclaré entravant l’exercice de certains métiers"]'::jsonb  WHERE situations ? 'Prestation liée à la MDPH';
- UPDATE notebook_focus set situations = situations - 'Juste quelques soucis de santé' || '["Problème de santé déclaré n’entravant pas la reprise d’une activité professionnelle"]'::jsonb  WHERE situations ? 'Juste quelques soucis de santé';
- UPDATE notebook_focus set situations = situations - 'Ne peux plus exercer certains métiers' || '["Problème de santé déclaré entravant l’exercice de certains métiers"]'::jsonb  WHERE situations ? 'Ne peux plus exercer certains métiers';
- UPDATE notebook_focus set situations = situations - 'Oui mais une activité adaptée' || '["Problème de santé déclaré entravant l’exercice de certains métiers"]'::jsonb  WHERE situations ? 'Oui mais une activité adaptée';
- UPDATE notebook_focus set situations = situations - 'Oui mais doit souvent s''absenter' || '["Problème de santé déclaré entrainant des absences régulières"]'::jsonb  WHERE situations ? 'Oui mais doit souvent s''absenter';
- UPDATE notebook_focus set situations = situations - 'Non ne peux pas reprendre une activité' || '["Problème de santé déclaré ne permettant plus d’exercer une activité professionnelle"]'::jsonb  WHERE situations ? 'Non ne peux pas reprendre une activité';
+UPDATE notebook_focus set situations = situations - 'S''occuper d''un proche à temps plein' || '["Aidant familial ( s’occuper d’un proche )"]'::jsonb  WHERE situations ? 'S''occuper d''un proche à temps plein';
+UPDATE notebook_focus set situations = situations - 'Soutien familial' || '["Aidant familial ( s’occuper d’un proche )"]'::jsonb  WHERE situations ? 'Soutien familial';
+UPDATE notebook_focus set situations = situations - 'Absence de mode de garde entravant l''accès à l''emploi ou à un dispositif d''insertion sociale ou professionnelle' || '["Contrainte horaires"]'::jsonb  WHERE situations ? 'Absence de mode de garde entravant l''accès à l''emploi ou à un dispositif d''insertion sociale ou professionnelle';
+UPDATE notebook_focus set situations = situations - 'Pas de carte d''identité' || '["Sans papiers d’identités, titre de séjour…"]'::jsonb  WHERE situations ? 'Pas de carte d''identité';
+UPDATE notebook_focus set situations = situations - 'Pas d''avis d''impot' || '["Sans avis d’imposition"]'::jsonb  WHERE situations ? 'Pas d''avis d''impot';
+UPDATE notebook_focus set situations = situations - 'Pas de titre de séjour à jour' || '["Sans papiers d’identités, titre de séjour…"]'::jsonb  WHERE situations ? 'Pas de titre de séjour à jour';
+UPDATE notebook_focus set situations = situations - 'Pas de sécurité sociale à jour' || '["Pas de sécurité sociale à jour"]'::jsonb  WHERE situations ? 'Pas de sécurité sociale à jour';
+UPDATE notebook_focus set situations = situations - 'Manque d''autonomie et rencontrer de grandes difficultés sociales' || '["Rencontre des difficultés sociales"]'::jsonb  WHERE situations ? 'Manque d''autonomie et rencontrer de grandes difficultés sociales';
+UPDATE notebook_focus set situations = situations - 'Difficulté à effectuer une démarche administrative dématérialisée' || '["Difficulté à effectuer une démarche administrative"]'::jsonb  WHERE situations ? 'Difficulté à effectuer une démarche administrative dématérialisée';
+UPDATE notebook_focus set situations = situations - 'Incapacité' || '["Besoin d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Incapacité';
+UPDATE notebook_focus set situations = situations - 'Indisponibilité liée à l''accompagnement d''une tierce personne' || '["Besoin d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Indisponibilité liée à l''accompagnement d''une tierce personne';
+UPDATE notebook_focus set situations = situations - 'Accès au droit' || '["Besoin d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Accès au droit';
+UPDATE notebook_focus set situations = situations - 'Autonome mais nécessitant d''être guidé dans le cadre d''un accès aux droits' || '["Autonome mais nécessitant d''être guidé dans le cadre d''un accès aux droits"]'::jsonb  WHERE situations ? 'Autonome mais nécessitant d''être guidé dans le cadre d''un accès aux droits';
+UPDATE notebook_focus set situations = situations - 'Difficulté à effectuer une démarche administrative' || '["Difficulté à effectuer une démarche administrative"]'::jsonb  WHERE situations ? 'Difficulté à effectuer une démarche administrative';
+UPDATE notebook_focus set situations = situations - 'Difficultés juridiques' || '["Rencontre des difficultés juridiques"]'::jsonb  WHERE situations ? 'Difficultés juridiques';
+UPDATE notebook_focus set situations = situations - 'Pas de CCS' || '["Pas de mutuelle à jour"]'::jsonb  WHERE situations ? 'Pas de CCS';
+UPDATE notebook_focus set situations = situations - 'Aucune ressource' || '["Sans aucune ressource"]'::jsonb  WHERE situations ? 'Aucune ressource';
+UPDATE notebook_focus set situations = situations - 'Surrendettement' || '["En situation de surendettement"]'::jsonb  WHERE situations ? 'Surrendettement';
+UPDATE notebook_focus set situations = situations - 'Manque d''autonomie et rencontrer de grandes difficultés sociales' || '["Difficulté dans la gestion d''un budget"]'::jsonb  WHERE situations ? 'Manque d''autonomie et rencontrer de grandes difficultés sociales';
+UPDATE notebook_focus set situations = situations - 'Difficultés budgétaires ne permettant pas de rétablir l''équilibre financier' || '["Inadéquation charges / ressources"]'::jsonb  WHERE situations ? 'Difficultés budgétaires ne permettant pas de rétablir l''équilibre financier';
+UPDATE notebook_focus set situations = situations - 'Difficulté budgétaire ne permettant pas l''accès à l''achat de denrées alimentaires' || '["Rupture alimentaire"]'::jsonb  WHERE situations ? 'Difficulté budgétaire ne permettant pas l''accès à l''achat de denrées alimentaires';
+UPDATE notebook_focus set situations = situations - 'Difficultés financières' || '["Inadéquation charges / ressources"]'::jsonb  WHERE situations ? 'Difficultés financières';
+UPDATE notebook_focus set situations = situations - 'Dernier emploi : moins de 3 mois' || '["Moins de 6 mois sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : moins de 3 mois';
+UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 3 mois' || '["Moins de 6 mois sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 3 mois';
+UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 6 mois' || '["Plus de 6 mois sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 6 mois';
+UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus d''un an' || '["Plus d''1 an sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus d''un an';
+UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 2 ans' || '["Plus de 2 ans sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 2 ans';
+UPDATE notebook_focus set situations = situations - 'Dernier emploi : plus de 5 ans' || '["Plus de 5 ans sans emploi"]'::jsonb  WHERE situations ? 'Dernier emploi : plus de 5 ans';
+UPDATE notebook_focus set situations = situations - 'Dernier emploi : jamais travaillé' || '["Jamais travaillé"]'::jsonb  WHERE situations ? 'Dernier emploi : jamais travaillé';
+UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : immédiatement' || '["Disponible immédiatement"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : immédiatement';
+UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : a temps partiel' || '["Disponible à temps partiel"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : a temps partiel';
+UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : avec formations / accompagnement' || '["Prêt pour un emploi avec formations / accompagnement"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : avec formations / accompagnement';
+UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : pas n''importe quel emploi' || '["Prêt mais pas pour n''importe quel emploi"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : pas n''importe quel emploi';
+UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : pas pour l''instant' || '["Pas prêt pour un emploi"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : pas pour l''instant';
+UPDATE notebook_focus set situations = situations - 'Prêt à l''emploi : ne sais pas' || '["Ne sais pas s''il est prêt pour un emploi"]'::jsonb  WHERE situations ? 'Prêt à l''emploi : ne sais pas';
+UPDATE notebook_focus set situations = situations - 'En construction de projet' || '["Prêt  à suivre une formation"]'::jsonb  WHERE situations ? 'En construction de projet';
+UPDATE notebook_focus set situations = situations - 'Situation d''échec à l''issue d''un dispositif à vocation professionnelle' || '["Prêt à en parler"]'::jsonb  WHERE situations ? 'Situation d''échec à l''issue d''un dispositif à vocation professionnelle';
+UPDATE notebook_focus set situations = situations - 'Manque de formation / qualification' || '["Prêt pour une formation"]'::jsonb  WHERE situations ? 'Manque de formation / qualification';
+UPDATE notebook_focus set situations = situations - 'Public de moins de 30 ans ayant un manque de formation/ de compétences ou d''expérience professionnelle' || '["Prêt pour une formation"]'::jsonb  WHERE situations ? 'Public de moins de 30 ans ayant un manque de formation/ de compétences ou d''expérience professionnelle';
+UPDATE notebook_focus set situations = situations - 'Absence de maîtrise de la langue française' || '["Prêt pour une formation avec un accompagnement"]'::jsonb  WHERE situations ? 'Absence de maîtrise de la langue française';
+UPDATE notebook_focus set situations = situations - 'Eloignement du service public pour l''emploi' || '["Prêt pour un accompagnement"]'::jsonb  WHERE situations ? 'Eloignement du service public pour l''emploi';
+UPDATE notebook_focus set situations = situations - 'Manque d''intégration sociale lié à un mode de vie' || '["Ne sais pas s''il est prêt"]'::jsonb  WHERE situations ? 'Manque d''intégration sociale lié à un mode de vie';
+UPDATE notebook_focus set situations = situations - 'Moins de 30 ans n''ayant accompli que le premier cycle de l''enseignement secondaire (3ème)' || '["Prêt pour un accompagnement"]'::jsonb  WHERE situations ? 'Moins de 30 ans n''ayant accompli que le premier cycle de l''enseignement secondaire (3ème)';
+UPDATE notebook_focus set situations = situations - 'Difficulté face à l’intégration du marché du travail du fait de difficultés sociales' || '["Prêt pour un accompagnement"]'::jsonb  WHERE situations ? 'Difficulté face à l’intégration du marché du travail du fait de difficultés sociales';
+UPDATE notebook_focus set situations = situations - 'Jeune de moins de 26 ans ayant des difficultés à intégrer des dispositifs de droit commun ou à travailler leur insertion' || '["Ne sais pas s''il est prêt"]'::jsonb  WHERE situations ? 'Jeune de moins de 26 ans ayant des difficultés à intégrer des dispositifs de droit commun ou à travailler leur insertion';
+UPDATE notebook_focus set situations = situations - 'Moins de 26 ans ayant un manque d''expérience professionnelle et/ou de confiance en soi' || '["Prêt à en parler"]'::jsonb  WHERE situations ? 'Moins de 26 ans ayant un manque d''expérience professionnelle et/ou de confiance en soi';
+UPDATE notebook_focus set situations = situations - 'Nécessité d''accèder à la formation comme préalable  pour accèder à l''emploi durable' || '["A déjà identifié une formation"]'::jsonb  WHERE situations ? 'Nécessité d''accèder à la formation comme préalable  pour accèder à l''emploi durable';
+UPDATE notebook_focus set situations = situations - 'Bail glissant' || '["Autre type de logement ( hôtel… )"]'::jsonb  WHERE situations ? 'Bail glissant';
+UPDATE notebook_focus set situations = situations - 'Appartement relais' || '["Autre type de logement ( hôtel… )"]'::jsonb  WHERE situations ? 'Appartement relais';
+UPDATE notebook_focus set situations = situations - 'Expulsion en cours' || '["Doit quitter le logement"]'::jsonb  WHERE situations ? 'Expulsion en cours';
+UPDATE notebook_focus set situations = situations - 'Hotel' || '["Autre type de logement ( hôtel… )"]'::jsonb  WHERE situations ? 'Hotel';
+UPDATE notebook_focus set situations = situations - 'Locataire' || '["Locataire parc privé"]'::jsonb  WHERE situations ? 'Locataire';
+UPDATE notebook_focus set situations = situations - 'CHRS' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'CHRS';
+UPDATE notebook_focus set situations = situations - 'Hotel social' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Hotel social';
+UPDATE notebook_focus set situations = situations - 'Foyer d''urgence' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Foyer d''urgence';
+UPDATE notebook_focus set situations = situations - 'Foyer Jeune Travailleur' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Foyer Jeune Travailleur';
+UPDATE notebook_focus set situations = situations - 'ALTHO' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'ALTHO';
+UPDATE notebook_focus set situations = situations - 'Structure d''hébergement d''urgence' || '["Hébergement collectif de type ( CHRS, CHU, CPH, CADA… )"]'::jsonb  WHERE situations ? 'Structure d''hébergement d''urgence';
+UPDATE notebook_focus set situations = situations - 'Chez un tiers' || '["Hébergé chez un tiers"]'::jsonb  WHERE situations ? 'Chez un tiers';
+UPDATE notebook_focus set situations = situations - 'Code' || '["Code obtenu"]'::jsonb  WHERE situations ? 'Code';
+UPDATE notebook_focus set situations = situations - 'Permis en cours' || '["Permis ou/et code en cours"]'::jsonb  WHERE situations ? 'Permis en cours';
+UPDATE notebook_focus set situations = situations - 'Pas de permis valide' || '["Dépendant des transports en communs"]'::jsonb  WHERE situations ? 'Pas de permis valide';
+UPDATE notebook_focus set situations = situations - 'Vélo' || '["Vélo ou trottinette électrique"]'::jsonb  WHERE situations ? 'Vélo';
+UPDATE notebook_focus set situations = situations - 'Transport en commun' || '["Dépendant des transports en communs"]'::jsonb  WHERE situations ? 'Transport en commun';
+UPDATE notebook_focus set situations = situations - 'Permis mais pas de voiture' || '["Permis B"]'::jsonb  WHERE situations ? 'Permis mais pas de voiture';
+UPDATE notebook_focus set situations = situations - 'Pas d''accès aux transports en commun' || '["Aucun moyen de transport à disposition"]'::jsonb  WHERE situations ? 'Pas d''accès aux transports en commun';
+UPDATE notebook_focus set situations = situations - 'Permis B mais sans véhicule' || '["Permis B"]'::jsonb  WHERE situations ? 'Permis B mais sans véhicule';
+UPDATE notebook_focus set situations = situations - 'Mobile à vélo' || '["Vélo ou trottinette électrique"]'::jsonb  WHERE situations ? 'Mobile à vélo';
+UPDATE notebook_focus set situations = situations - 'Pas de permis' || '["Dépendant des transports en communs"]'::jsonb  WHERE situations ? 'Pas de permis';
+UPDATE notebook_focus set situations = situations - 'Voiture' || '["Véhicule ( voiture, moto, scooter )"]'::jsonb  WHERE situations ? 'Voiture';
+UPDATE notebook_focus set situations = situations - 'Moto' || '["Véhicule ( voiture, moto, scooter )"]'::jsonb  WHERE situations ? 'Moto';
+UPDATE notebook_focus set situations = situations - 'Permis et voiture' || '["Véhicule ( voiture, moto, scooter )"]'::jsonb  WHERE situations ? 'Permis et voiture';
+UPDATE notebook_focus set situations = situations - 'Couverture sociale' || '["Absence de couverture / complémentaire sociale santé ( CSS, PUMa… )"]'::jsonb  WHERE situations ? 'Couverture sociale';
+UPDATE notebook_focus set situations = situations - 'Prestation liée à la MDPH' || '["Problème de santé déclaré entravant l’exercice de certains métiers"]'::jsonb  WHERE situations ? 'Prestation liée à la MDPH';
+UPDATE notebook_focus set situations = situations - 'Juste quelques soucis de santé' || '["Problème de santé déclaré n’entravant pas la reprise d’une activité professionnelle"]'::jsonb  WHERE situations ? 'Juste quelques soucis de santé';
+UPDATE notebook_focus set situations = situations - 'Ne peux plus exercer certains métiers' || '["Problème de santé déclaré entravant l’exercice de certains métiers"]'::jsonb  WHERE situations ? 'Ne peux plus exercer certains métiers';
+UPDATE notebook_focus set situations = situations - 'Oui mais une activité adaptée' || '["Problème de santé déclaré entravant l’exercice de certains métiers"]'::jsonb  WHERE situations ? 'Oui mais une activité adaptée';
+UPDATE notebook_focus set situations = situations - 'Oui mais doit souvent s''absenter' || '["Problème de santé déclaré entrainant des absences régulières"]'::jsonb  WHERE situations ? 'Oui mais doit souvent s''absenter';
+UPDATE notebook_focus set situations = situations - 'Non ne peux pas reprendre une activité' || '["Problème de santé déclaré ne permettant plus d’exercer une activité professionnelle"]'::jsonb  WHERE situations ? 'Non ne peux pas reprendre une activité';
+
+
+-- remove contraints during migration operation
+alter table "public"."notebook_target" drop constraint "notebook_target_focus_id_target_key";
+ 
 UPDATE public.notebook_target SET target='Travailler l’accès à une prestation' WHERE target= 'Prestation liées à la CAF';
 UPDATE public.notebook_target SET target='Travailler l’accès à la citoyenneté' WHERE target= 'Titre de séjour et pièces d''identité';
 UPDATE public.notebook_target SET target='Travailler l’accès à une prestation' WHERE target= 'Prestation liées à la Sécurité sociale';
@@ -272,6 +277,26 @@ UPDATE public.notebook_action SET action='Demander des chèques de mobilité' WH
 UPDATE public.notebook_action SET action='Mise en place du co-voiturage' WHERE action= 'co-voiturage';
 UPDATE public.notebook_action SET action='Constitution d’un dossier d’aide à la mobilité ( permis B, poids lourds… )' WHERE action= 'aide à la mobilité du CCAS';
 UPDATE public.notebook_action SET action='Constitution d’un dossier MDPH' WHERE action= 'Accompagnement à l''emploi de la pers. handicapée';
+
+DELETE FROM notebook_target
+WHERE ID in (
+    SELECT ID FROM
+    (SELECT id, ROW_NUMBER() OVER (partition BY target ORDER by id) AS nb FROM notebook_target) 
+    T WHERE T.nb > 1
+);
+ 
+
+DELETE FROM notebook_action
+WHERE ID in (
+    SELECT ID FROM
+    (SELECT id, ROW_NUMBER() OVER (partition BY action ORDER by id) AS nb FROM notebook_action) 
+    A WHERE A.nb > 1
+);
+ 
+
+-- Add constraint to avoid duplication action
+alter table "public"."notebook_action" add constraint "notebook_action_target_id_action_key" unique ("target_id", "action");
+alter table "public"."notebook_target" add constraint "notebook_target_focus_id_target_key" unique ("focus_id", "target");
 
 --
 -- insert migrations
