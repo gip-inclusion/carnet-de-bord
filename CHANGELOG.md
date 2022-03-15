@@ -1,3 +1,10 @@
+## [1.100.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.1...v1.100.2) (2022-03-15)
+
+
+### Bug Fixes
+
+* revert migration ref ([d3fd084](https://github.com/SocialGouv/carnet-de-bord/commit/d3fd08481d7603f95cc02438275944de84df3786))
+
 ## [1.100.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.0...v1.100.1) (2022-03-15)
 
 
