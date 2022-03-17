@@ -5475,6 +5475,10 @@ export type QueryRoot = {
 	rome_code_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "rome_code" using primary key columns */
 	rome_code_by_pk?: Maybe<RomeCode>;
+	/** execute function "search_beneficiaries" which returns "beneficiary" */
+	search_beneficiaries: Array<Beneficiary>;
+	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
+	search_beneficiaries_aggregate: BeneficiaryAggregate;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
@@ -5875,6 +5879,24 @@ export type QueryRootRomeCodeAggregateArgs = {
 
 export type QueryRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootSearchBeneficiariesArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type QueryRootSearchBeneficiariesAggregateArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
 export type QueryRootSearchNotebookMembersArgs = {
@@ -6490,6 +6512,10 @@ export enum RomeCodeUpdateColumn {
 	Label = 'label',
 }
 
+export type SearchBeneficiariesArgs = {
+	search?: InputMaybe<Scalars['String']>;
+};
+
 export type SearchNotebookMembersArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
@@ -6997,6 +7023,10 @@ export type SubscriptionRoot = {
 	rome_code_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "rome_code" using primary key columns */
 	rome_code_by_pk?: Maybe<RomeCode>;
+	/** execute function "search_beneficiaries" which returns "beneficiary" */
+	search_beneficiaries: Array<Beneficiary>;
+	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
+	search_beneficiaries_aggregate: BeneficiaryAggregate;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
@@ -7397,6 +7427,24 @@ export type SubscriptionRootRomeCodeAggregateArgs = {
 
 export type SubscriptionRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootSearchBeneficiariesArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type SubscriptionRootSearchBeneficiariesAggregateArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
 export type SubscriptionRootSearchNotebookMembersArgs = {
@@ -8975,11 +9023,12 @@ export type GetBeneficiariesQueryVariables = Exact<{
 	offset: Scalars['Int'];
 	limit: Scalars['Int'];
 	withMembers: BeneficiaryBoolExp;
+	search: Scalars['String'];
 }>;
 
 export type GetBeneficiariesQuery = {
 	__typename?: 'query_root';
-	beneficiary_aggregate: {
+	search_beneficiaries_aggregate: {
 		__typename?: 'beneficiary_aggregate';
 		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
 	};
@@ -16923,14 +16972,36 @@ export const GetBeneficiariesDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_bool_exp' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'beneficiary_aggregate' },
+						name: { kind: 'Name', value: 'search_beneficiaries_aggregate' },
 						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'where' },
@@ -16954,8 +17025,22 @@ export const GetBeneficiariesDocument = {
 					{
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'beneficiaries' },
-						name: { kind: 'Name', value: 'beneficiary' },
+						name: { kind: 'Name', value: 'search_beneficiaries' },
 						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'limit' },
@@ -16970,17 +17055,27 @@ export const GetBeneficiariesDocument = {
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },
 								value: {
-									kind: 'ObjectValue',
-									fields: [
+									kind: 'ListValue',
+									values: [
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'EnumValue', value: 'asc' },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'lastname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
 										},
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'EnumValue', value: 'asc' },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'firstname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
 										},
 									],
 								},

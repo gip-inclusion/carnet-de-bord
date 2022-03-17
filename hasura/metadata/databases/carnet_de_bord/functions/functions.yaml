@@ -1,2 +1,3 @@
+- "!include public_search_beneficiaries.yaml"
 - "!include public_search_notebook_members.yaml"
 - "!include public_search_rome_codes.yaml"

@@ -14,7 +14,6 @@
 		urlParams.set('page', pageIndex.toString());
 		return `?${urlParams.toString()}`;
 	}
-	console.log({ currentPage, count, pageSize });
 	let rangeStartIndex = Math.min(
 		Math.max(0, currentPage - Math.floor(nbVisible / 2)),
 		Math.max(nbPages - nbVisible - 1, 0)

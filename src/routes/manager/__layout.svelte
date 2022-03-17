@@ -56,7 +56,7 @@
 
 	const menuItems: MenuItem[] = [
 		{ id: 'home', path: '/manager', label: 'Accueil' },
-		{ id: 'beneficiaires', path: '/manager/beneficiaires', label: 'BRSA' },
+		{ id: 'beneficiaires', path: '/manager/beneficiaires', label: 'Bénéficiaires' },
 		/* { */
 		/*   id: 'utilisateurs', */
 		/*   path: '/manager/utilisateurs', */
