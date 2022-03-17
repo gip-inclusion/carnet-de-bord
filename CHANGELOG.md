@@ -1,3 +1,10 @@
+## [1.100.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.3...v1.100.4) (2022-03-17)
+
+
+### Bug Fixes
+
+* remove constraint on notebook_actions ([8ddf50a](https://github.com/SocialGouv/carnet-de-bord/commit/8ddf50a37f92aaded04161101bc36007628c0411))
+
 ## [1.100.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.2...v1.100.3) (2022-03-17)
 
 
