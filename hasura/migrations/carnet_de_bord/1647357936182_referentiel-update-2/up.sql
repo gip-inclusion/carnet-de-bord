@@ -1,5 +1,3 @@
-alter table "public"."notebook_target" drop constraint "notebook_target_focus_id_target_key";
- 
 UPDATE public.notebook_target SET target='Travailler l’accès à une prestation' WHERE target= 'Prestation liées à la CAF';
 UPDATE public.notebook_target SET target='Travailler l’accès à la citoyenneté' WHERE target= 'Titre de séjour et pièces d''identité';
 UPDATE public.notebook_target SET target='Travailler l’accès à une prestation' WHERE target= 'Prestation liées à la Sécurité sociale';
