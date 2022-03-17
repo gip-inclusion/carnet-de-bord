@@ -225,7 +225,6 @@ WHERE ID in (
 
 
 -- Add constraint to avoid duplication action
-alter table "public"."notebook_action" add constraint "notebook_action_target_id_action_key" unique ("target_id", "action");
 alter table "public"."notebook_target" add constraint "notebook_target_focus_id_target_key" unique ("focus_id", "target");
 -- Add default value to status
 alter table "public"."notebook_action" alter column "status" set default 'in_progress';
