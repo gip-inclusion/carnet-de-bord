@@ -157,6 +157,11 @@ jobs:
         id: hasura
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | tail -n 1 )
+      - name: wait
+        run: |
+          echo ${{ steps.app.outputs.result }}
+          echo ${{ steps.hasura.outputs.result }}
+          sleep 60        
       - name: Run functionnal tests
         run: |
           HASURA_ADMIN_SECRET=${{ secrets.HASURA_ADMIN_SECRET }} HASURA_BASEURL=https://${{ steps.hasura.outputs.result }}/v1/graphql VITE_GRAPHQL_API_URL=https://${{ steps.hasura.outputs.result }}/v1/graphql HASURA_GRAPHQL_ENDPOINT=https://${{ steps.hasura.outputs.result }} CODECEPT_BASEURL=https://${{ steps.app.outputs.result }} ACTION_SECRET=${{ secrets.ACTION_SECRET }} yarn --cwd . test
