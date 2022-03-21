@@ -12,11 +12,10 @@
 	<caption class="sr-only">Liste des bénéficiaires</caption>
 	<thead>
 		<tr>
-			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
 			<th class="text-left">Structure</th>
-			<th class="text-left">Suivi par</th>
+			<th class="text-left"><span class="fr-tag no-bg">Suivi par</span></th>
 			<th class="text-left">Depuis le</th>
 			<th class="text-center">
 				<!-- Voir le carnet -->
@@ -26,17 +25,6 @@
 	<tbody>
 		{#each beneficiaries as beneficiary}
 			<tr>
-				<td>
-					<!-- <GroupCheckbox
-						selectedOptions={selectedBeneficiaries}
-						classNames="bottom-3 left-3"
-						groupId={'suivi'}
-						option={{ name: beneficiary.id, label: '' }}
-						title={`${
-							selectedBeneficiaries.includes(beneficiary.id) ? 'Désélectionner' : 'Sélectionner'
-						} le suivi`}
-					/> -->
-				</td>
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
@@ -48,9 +36,11 @@
 				</td>
 				<td>
 					{#if beneficiary.notebook.members.length > 0}
-						{displayFullName(beneficiary.notebook.members[0].professional)}
+						<span class="fr-tag no-bg">
+							{displayFullName(beneficiary.notebook.members[0].professional)}
+						</span>
 					{:else}
-						non suivi
+						<span class="fr-tag red-tag"> Non rattaché </span>
 					{/if}
 				</td>
 				<td>
@@ -68,3 +58,13 @@
 		{/if}
 	</tbody>
 </table>
+
+<style>
+	.red-tag {
+		background: var(--red-marianne-main-472);
+		color: white;
+	}
+	.no-bg {
+		background: none;
+	}
+</style>

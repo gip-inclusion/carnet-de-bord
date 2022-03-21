@@ -57,13 +57,7 @@
 	const menuItems: MenuItem[] = [
 		{ id: 'home', path: '/manager', label: 'Accueil' },
 		{ id: 'beneficiaires', path: '/manager/beneficiaires', label: 'Bénéficiaires' },
-		/* { */
-		/*   id: 'utilisateurs', */
-		/*   path: '/manager/utilisateurs', */
-		/*   label: 'Utilisateurs', */
-		/* }, */
 		{ id: 'structures', path: '/manager/structures', label: 'Structures' },
-		// { id: 'statistiques', path: '/manager/statistiques', label: 'Statistiques' },
 	];
 </script>
 

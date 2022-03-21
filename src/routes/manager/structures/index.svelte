@@ -63,19 +63,21 @@
 	<title>Liste des structures - Carnet de bord</title>
 </svelte:head>
 <LoaderIndicator {result}>
-	<div>
+	<div class="fr-mt-6w">
 		<div class="flex flex-row justify-between items-center">
 			<h2 class="fr-h4 pt-4">Liste des structures</h2>
-			<Dialog
-				label="Importer des structures"
-				buttonLabel="Importer des structures"
-				title="Importer des structures"
-				size={'large'}
-				showButtons={false}
-				on:close={refreshStore}
-			>
-				<AdminDeploymentStructuresImport />
-			</Dialog>
+			<div>
+				<Dialog
+					label="Importer des structures"
+					buttonLabel="Importer des structures"
+					title="Importer des structures"
+					size={'large'}
+					showButtons={false}
+					on:close={refreshStore}
+				>
+					<AdminDeploymentStructuresImport />
+				</Dialog>
+			</div>
 		</div>
 
 		<div class="mb-4">

@@ -6,9 +6,7 @@
 	export type MemberFilter = AllFilter | Nomember | Withmember;
 
 	export function getFilter(filter: string): MemberFilter {
-		if (filter === 'nomember') return 'nomember';
-		if (filter === 'withmember') return 'withmember';
-		return 'all';
+		return filter === 'nomember' || filter === 'withmember' ? filter : 'all';
 	}
 </script>
 
@@ -47,7 +45,7 @@
 			classNames="!mb-0"
 			name="filter"
 		/>
-		<div class="fr-search-bar  " role="search">
+		<div class="fr-search-bar" role="search">
 			<label class="fr-label sr-only" for="search-beneficiary-input">
 				rechercher des beneficiaire
 			</label>

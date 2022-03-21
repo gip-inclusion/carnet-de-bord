@@ -35,7 +35,7 @@
 </script>
 
 <LoaderIndicator {result}>
-	<h1 class="fr-h2">{deploymentInfo.deployment.label}</h1>
+	<h1 class="fr-h2 fr-mt-6w">{deploymentInfo.deployment.label}</h1>
 	<h2 class="fr-h4">État du territoire</h2>
 	<div class="fr-grid-row fr-grid-row--gutters">
 		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
