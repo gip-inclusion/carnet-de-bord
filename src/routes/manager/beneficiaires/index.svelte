@@ -40,10 +40,10 @@
 	export let search: string;
 
 	function getWithMemberFilter(filter: MemberFilter): BeneficiaryBoolExp {
-		if (filter === 'nomember') {
+		if (filter === 'noMember') {
 			return { notebook: { _not: { members: {} } } };
 		}
-		if (filter === 'withmember') {
+		if (filter === 'withMember') {
 			return { notebook: { members: {} } };
 		}
 		return {};

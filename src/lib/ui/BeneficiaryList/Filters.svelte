@@ -1,29 +1,29 @@
 <script lang="ts" context="module">
 	export type AllFilter = 'all';
-	export type Nomember = 'nomember';
-	export type Withmember = 'withmember';
+	export type noMember = 'noMember';
+	export type withMember = 'withMember';
 
-	export type MemberFilter = AllFilter | Nomember | Withmember;
+	export type MemberFilter = AllFilter | noMember | withMember;
 
 	export function getFilter(filter: string): MemberFilter {
-		return filter === 'nomember' || filter === 'withmember' ? filter : 'all';
+		return filter === 'noMember' || filter === 'withMember' ? filter : 'all';
 	}
 </script>
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import Select from '../base/Select.svelte';
+	import { Select } from '$lib/ui/base';
 
-	export let filter;
-	export let search;
+	export let filter: string;
+	export let search: string;
 
 	const dispatch = createEventDispatcher();
 
 	let filterOptions: { label: string; name: MemberFilter }[] = [
 		{ label: 'Tous', name: 'all' },
-		{ label: 'Suivi', name: 'withmember' },
-		{ label: 'Non suivi', name: 'nomember' },
+		{ label: 'Suivi', name: 'withMember' },
+		{ label: 'Non suivi', name: 'noMember' },
 	];
 
 	function onSubmit() {
@@ -47,7 +47,7 @@
 		/>
 		<div class="fr-search-bar" role="search">
 			<label class="fr-label sr-only" for="search-beneficiary-input">
-				rechercher des beneficiaire
+				Rechercher des beneficiaire
 			</label>
 			<input
 				class="fr-input"

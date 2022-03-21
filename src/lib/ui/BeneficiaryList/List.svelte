@@ -2,8 +2,7 @@
 	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateISO } from '$lib/utils/date';
 	import type { OperationStore } from '@urql/svelte';
-	import { displayFullName } from '../format';
-	// import GroupCheckbox from '$lib/ui/base/GroupCheckbox.svelte';
+	import { displayFullName } from '$lib/ui/format';
 
 	export let beneficiaries: OperationStore<GetBeneficiariesQuery>['data']['beneficiaries'];
 </script>
