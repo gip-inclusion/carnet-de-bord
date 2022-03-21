@@ -40,6 +40,11 @@ query GetNotebook($id: uuid!, $eventsStart: date, $eventsEnd: date) {
 			targets {
 				id
 				target
+				actions_aggregate {
+					aggregate {
+						count
+					}
+				}
 			}
 		}
 		members(order_by: { lastModifiedAt: desc_nulls_last }) {

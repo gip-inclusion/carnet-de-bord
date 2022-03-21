@@ -81,6 +81,7 @@ select_permissions:
                 _eq: X-Hasura-Deployment-Id
   role: manager
 - permission:
+    allow_aggregations: true
     columns:
     - action
     - created_at
