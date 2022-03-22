@@ -7,11 +7,11 @@ const config = {
 		csp: {
 			mode: 'auto',
 			directives: {
-				'default-src': ['self', '*.fabrique.social.gouv.fr', 'client.crisp.chat'],
-				'font-src': ['self', 'data:', 'blob:', 'client.crisp.chat'],
-				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', 'client.crisp.chat'],
-				'style-src': ['self', 'client.crisp.chat', 'unsafe-inline'],
-				'connect-src': ['self', '*.fabrique.social.gouv.fr', 'localhost:*'],
+				'default-src': ['self', '*.fabrique.social.gouv.fr', '*.crisp.chat'],
+				'font-src': ['self', 'data:', 'blob:', '*.crisp.chat'],
+				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', '*.crisp.chat'],
+				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
+				'connect-src': ['self', '*.fabrique.social.gouv.fr', 'localhost:*', '*.crisp.chat'],
 			},
 		},
 		vite: {
