@@ -180,7 +180,7 @@
 							on:close={refreshStore}
 						>
 							<svelte:fragment slot="buttonLabel"
-								>Importer une liste<br />de professionnels</svelte:fragment
+								>Importer une liste de professionnels</svelte:fragment
 							>
 							<ProfessionalsImport {structureId} />
 						</Dialog>
@@ -197,7 +197,7 @@
 							on:close={refreshStore}
 						>
 							<svelte:fragment slot="buttonLabel">
-								Importer une liste<br />de rattachement
+								Importer une liste de rattachement
 							</svelte:fragment>
 							<ImportNotebookMembers {professionals} />
 						</Dialog>

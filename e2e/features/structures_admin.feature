@@ -7,21 +7,23 @@ Fonctionnalité: Parcours Administrateur de structures
 	Je veux pouvoir gérer les structures qui me sont attribuées
 
 	Scénario: Première connexion - Mise à jour profil
-		Soit un "administrateur de structures" authentifié avec l'email "jean.paul@drome.fr"
+		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
 		Quand je vois "Création de mon compte Gestionnaire de structure"
-		Alors je vois "jean" dans le champ "Prénom"
-		Alors je vois "paul" dans le champ "Nom"
-		Alors je vois "jean.paul@drome.fr" dans le champ "Courriel"
-		Alors je vois "061234567, 091234567" dans le champ "Numéros de téléphone"
-		Alors je clique sur "Créer mon compte"
+		Alors je vois "Jacques" dans le champ "Prénom"
+		Alors je vois "Célaire" dans le champ "Nom"
+		Alors je vois "jacques.celaire@beta.gouv.fr" dans le champ "Courriel"
+		Alors je vois "0102030405" dans le champ "Numéros de téléphone"
+		Quand je clique sur "Créer mon compte"
+		Alors je vois "Votre compte a été créé avec succès"
 
 	Scénario: Import liste de professionnels
-		Soit un "administrateur de structures" authentifié avec l'email "jean.paul@drome.fr"
+		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
 		Alors je vois "Ma structure"
-		Alors je vois "Loriol sur Drôme"
-		Quand je clique sur "CD 26"
+		Alors je vois "Saint Denis"
+		Alors je vois "Centre Communal d'action social Livry-Gargan"
+		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je vois "Portefeuille de la structure"
-		Quand je clique sur "Importer une liste de professionnels"
+		Quand je clique sur "Importer une liste"
 
 	Scénario: Modifier plusieurs rattachements de bénéficiaires
 		Soit un utilisateur de type "admin_structure" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
