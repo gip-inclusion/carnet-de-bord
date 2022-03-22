@@ -13,6 +13,8 @@ const config = {
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
 				'connect-src': [
 					'self',
+					'wss:',
+					'https:',
 					'*.fabrique.social.gouv.fr',
 					'localhost:*',
 					'client.relay.crisp.chat',
