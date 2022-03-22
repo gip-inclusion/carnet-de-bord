@@ -10,6 +10,7 @@
 	export let confirmLabel: string = label;
 	export let outlineButton = true;
 	export let title: string;
+	export let buttonCssClasses = '';
 
 	let medCol = '';
 	let lgCol = '';
@@ -49,7 +50,11 @@
 	};
 </script>
 
-<Button outline={outlineButton} on:click={open} classNames="flex-1 justify-center">
+<Button
+	outline={outlineButton}
+	on:click={open}
+	classNames="flex-1 justify-center {buttonCssClasses}"
+>
 	{#if $$slots.buttonLabel}
 		<slot name="buttonLabel" />
 	{:else}
@@ -100,5 +105,9 @@
 		padding: 0 !important;
 		background-color: transparent !important;
 		width: 100% !important;
+	}
+
+	:global(.mw-200px) {
+		max-width: 200px;
 	}
 </style>

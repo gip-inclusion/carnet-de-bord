@@ -177,6 +177,7 @@
 							title="Importer des professionnels"
 							size={'large'}
 							showButtons={false}
+							buttonCssClasses="mw-200px"
 							on:close={refreshStore}
 						>
 							<svelte:fragment slot="buttonLabel"
@@ -194,6 +195,7 @@
 							title="Rattacher des professionnels"
 							size={'large'}
 							showButtons={false}
+							buttonCssClasses="mw-200px"
 							on:close={refreshStore}
 						>
 							<svelte:fragment slot="buttonLabel">

@@ -21,7 +21,6 @@ Fonctionnalité: Parcours Manager
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
 		Alors je vois "État du territoire"
 		Quand je clique sur "Importer des structures"
-		#TODO remplacer par "je vois le titre"
 		Alors je vois "Importer des structures"
 		Alors le lien "consulter la notice de remplissage" pointe sur "https://pad.incubateur.net/s/y-ZW1qQOw#"
 		Quand je télécharge en cliquant sur "télécharger un modèle"
