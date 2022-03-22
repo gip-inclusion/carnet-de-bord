@@ -11,7 +11,12 @@ const config = {
 				'font-src': ['self', 'data:', 'blob:', '*.crisp.chat'],
 				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', '*.crisp.chat'],
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
-				'connect-src': ['self', '*.fabrique.social.gouv.fr', 'localhost:*', '*.crisp.chat'],
+				'connect-src': [
+					'self',
+					'*.fabrique.social.gouv.fr',
+					'localhost:*',
+					'client.relay.crisp.chat',
+				],
 			},
 		},
 		vite: {
