@@ -1,3 +1,10 @@
+## [1.100.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.5...v1.100.6) (2022-03-22)
+
+
+### Bug Fixes
+
+* add crisp to csp wss ([#735](https://github.com/SocialGouv/carnet-de-bord/issues/735)) ([8975d18](https://github.com/SocialGouv/carnet-de-bord/commit/8975d184e3d526e3ebe82af20c59c6abf13bcd5d))
+
 ## [1.100.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.4...v1.100.5) (2022-03-17)
 
 
