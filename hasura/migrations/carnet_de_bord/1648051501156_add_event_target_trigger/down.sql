@@ -1,0 +1,2 @@
+DROP TRIGGER record_notebook_target_event_update_trigger;
+DROP FUNCTION public.record_notebook_target_event();
