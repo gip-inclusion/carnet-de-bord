@@ -6,7 +6,14 @@
 	export type MemberFilter = AllFilter | noMember | withMember;
 
 	export function getFilter(filter: string): MemberFilter {
-		return filter === 'noMember' || filter === 'withMember' ? filter : 'all';
+		switch (filter) {
+			case 'noMember':
+			case 'withMember':
+			case 'all':
+				return filter;
+			default:
+				return 'all';
+		}
 	}
 </script>
 

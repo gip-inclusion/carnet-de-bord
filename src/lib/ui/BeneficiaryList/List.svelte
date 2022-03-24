@@ -35,11 +35,11 @@
 				</td>
 				<td>
 					{#if beneficiary.notebook.members.length > 0}
-						<span class="fr-tag no-bg">
+						<span class="fr-tag bg-transparent">
 							{displayFullName(beneficiary.notebook.members[0].professional)}
 						</span>
 					{:else}
-						<span class="fr-tag red-tag"> Non rattaché </span>
+						<span class="fr-tag bg-marianne-red text-white"> Non rattaché </span>
 					{/if}
 				</td>
 				<td>
@@ -57,13 +57,3 @@
 		{/if}
 	</tbody>
 </table>
-
-<style>
-	.red-tag {
-		background: var(--red-marianne-main-472);
-		color: white;
-	}
-	.no-bg {
-		background: none;
-	}
-</style>
