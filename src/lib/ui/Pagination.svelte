@@ -7,7 +7,7 @@
 	export let nbVisible = 4;
 
 	const TOLERANCE = 2;
-	const nbPages = Math.floor(count / pageSize);
+	const nbPages = Math.ceil(count / pageSize);
 
 	function getPaginationHref(pageIndex: number): string {
 		const urlParams = new URLSearchParams([...$page.url.searchParams.entries()]);
