@@ -4,7 +4,12 @@ query GetPendingBeneficiaries($structureId: uuid!) {
 			where: {
 				status: { _eq: "pending" }
 				beneficiary: {
-					notebook: { members: { professional: { structureId: { _neq: $structureId } } } }
+					notebook: {
+						_or: [
+							{ _not: { members: {} } }
+							{ members: { professional: { structureId: { _neq: $structureId } } } }
+						]
+					}
 				}
 			}
 			order_by: { beneficiary: { lastname: asc } }
