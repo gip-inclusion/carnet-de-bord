@@ -46,11 +46,6 @@
 	let unsubscribe: () => void;
 
 	onMount(() => {
-		window.dsfr = {
-			verbose: false,
-			mode: 'loaded',
-		};
-
 		const { body } = document;
 		const scrollDiv = document.createElement('div');
 
