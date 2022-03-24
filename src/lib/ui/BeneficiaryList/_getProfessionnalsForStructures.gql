@@ -1,0 +1,15 @@
+query GetProfessionalsFromStructures($structures: [uuid!]!) {
+	professional(where: { structureId: { _in: $structures } }) {
+		id
+		firstname
+		lastname
+		mobileNumber
+		position
+		email
+		structureId
+		structure {
+			id
+			name
+		}
+	}
+}

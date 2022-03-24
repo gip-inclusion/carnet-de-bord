@@ -24,6 +24,7 @@
 
 	import { page } from '$app/stores';
 	import { account } from '$lib/stores';
+	import { baseUrlForRole, homeForRole } from '$lib/routes';
 
 	export let result: OperationStore<GetAccountByPkQuery>;
 
@@ -55,9 +56,13 @@
 	});
 
 	const menuItems: MenuItem[] = [
-		{ id: 'home', path: '/manager', label: 'Accueil' },
-		{ id: 'beneficiaires', path: '/manager/beneficiaires', label: 'Bénéficiaires' },
-		{ id: 'structures', path: '/manager/structures', label: 'Structures' },
+		{ id: 'home', path: homeForRole('manager'), label: 'Accueil' },
+		{
+			id: 'beneficiaires',
+			path: `${baseUrlForRole('manager')}/beneficiaires`,
+			label: 'Bénéficiaires',
+		},
+		{ id: 'structures', path: `${baseUrlForRole('manager')}/structures`, label: 'Structures' },
 	];
 </script>
 

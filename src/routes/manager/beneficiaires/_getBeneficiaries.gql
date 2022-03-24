@@ -27,7 +27,7 @@ query GetBeneficiaries(
 		}
 		notebook {
 			id
-			members {
+			members(where: { memberType: { _eq: "referent" } }, order_by: { createdAt: desc }) {
 				id
 				createdAt
 				professional {

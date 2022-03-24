@@ -1,0 +1,25 @@
+mutation UpdateReferent($notebook: uuid!, $referent: uuid!) {
+	insert_notebook_member_one(
+		object: {
+			notebookId: $notebook
+			professionalId: $referent
+			memberType: "referent"
+			active: true
+		}
+		on_conflict: {
+			constraint: notebook_member_notebook_id_professional_id_key
+			update_columns: [memberType, active]
+		}
+	) {
+		id
+	}
+}
+
+mutation RemoveReferent($notebook: uuid!) {
+	update_notebook_member(
+		_set: { memberType: "no_referent", active: false }
+		where: { notebookId: { _eq: $notebook } }
+	) {
+		affected_rows
+	}
+}

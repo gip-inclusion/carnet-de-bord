@@ -1,5 +1,7 @@
 @import url('./tailwind.css');
+
 @import url('remixicon/fonts/remixicon.css');
+
 @import url('@gouvfr/dsfr/dist/dsfr/dsfr.min.css');
 
 .custom-svelecte .inputBox {
