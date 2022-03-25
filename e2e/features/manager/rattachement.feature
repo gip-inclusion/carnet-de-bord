@@ -9,8 +9,7 @@ Fonctionnalité: Rattachement pro
 	Scénario: Modifier le rattachement d'un bénéficiaire
 		Soit un utilisateur de type "manager" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
-		Alors je vois "Sophie"
-		Alors je vois "Tifour"
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je vois "Pierre Chevalier"
 		Quand je clique sur "Pierre Chevalier"
 		Alors je vois "Rattacher des bénéficiaires"
