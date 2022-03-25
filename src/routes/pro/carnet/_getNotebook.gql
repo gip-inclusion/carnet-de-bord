@@ -40,7 +40,7 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 			targets {
 				id
 				target
-				actions_aggregate {
+        actions_aggregate(where: {status: {_eq: "in_progress"}}) {
 					aggregate {
 						count
 					}

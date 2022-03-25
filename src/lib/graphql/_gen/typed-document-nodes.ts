@@ -20066,6 +20066,35 @@ export const GetNotebookDocument = {
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'actions_aggregate' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'where' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'status' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: {
+																								kind: 'StringValue',
+																								value: 'in_progress',
+																								block: false,
+																							},
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
