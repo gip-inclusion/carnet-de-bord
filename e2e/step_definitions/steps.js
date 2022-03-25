@@ -220,6 +220,12 @@ After(({ title }) => {
 				delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
 			}`
 		);
+	} else if (/Modifier le rattachement d'un bénéficiaire/.test(title)) {
+		I.sendMutation(`
+			mutation ResetReferent {
+				delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
+				insert_notebook_member_one(object: { notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", professionalId:"1a5b817b-6b81-4a4d-9953-26707a54e0e9" }) { id }
+			}`);
 	}
 });
 
