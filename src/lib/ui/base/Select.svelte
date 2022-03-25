@@ -9,6 +9,7 @@
 
 	counter++;
 	let uniqueId = `select-input-${counter}`;
+	export let name = `select-${counter}`;
 	export let id: string | null = `select-${counter}`;
 	export let selectHint: string | null = '';
 	export let selectLabel: string | null;
@@ -55,7 +56,7 @@
 		}`}
 		value={selected || selectHintOption}
 		id={uniqueId}
-		name={uniqueId}
+		{name}
 		on:change={handleSelect}
 		{disabled}
 	>

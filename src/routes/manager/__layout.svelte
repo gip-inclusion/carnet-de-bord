@@ -24,6 +24,7 @@
 
 	import { page } from '$app/stores';
 	import { account } from '$lib/stores';
+	import { baseUrlForRole, homeForRole } from '$lib/routes';
 
 	export let result: OperationStore<GetAccountByPkQuery>;
 
@@ -55,24 +56,20 @@
 	});
 
 	const menuItems: MenuItem[] = [
-		{ id: 'home', path: '/manager', label: 'Accueil' },
-		// { id: 'beneficiaires', path: '/manager/beneficiaires', label: 'BRSA' },
-		/* { */
-		/*   id: 'utilisateurs', */
-		/*   path: '/manager/utilisateurs', */
-		/*   label: 'Utilisateurs', */
-		/* }, */
-		{ id: 'structures', path: '/manager/structures', label: 'Structures' },
-		// { id: 'statistiques', path: '/manager/statistiques', label: 'Statistiques' },
+		{ id: 'home', path: homeForRole('manager'), label: 'Accueil' },
+		{
+			id: 'beneficiaires',
+			path: `${baseUrlForRole('manager')}/beneficiaires`,
+			label: 'Bénéficiaires',
+		},
+		{ id: 'structures', path: `${baseUrlForRole('manager')}/structures`, label: 'Structures' },
 	];
 </script>
 
 <HeaderCDB {menuItems} />
 
-<div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
-	<div class="flex flex-col gap-8 md:px-40 sm:px-20 px-10">
-		<slot />
-	</div>
+<div class="fr-container fr-pb-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
+	<slot />
 	<LayerCDB />
 </div>
 

@@ -5475,6 +5475,10 @@ export type QueryRoot = {
 	rome_code_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "rome_code" using primary key columns */
 	rome_code_by_pk?: Maybe<RomeCode>;
+	/** execute function "search_beneficiaries" which returns "beneficiary" */
+	search_beneficiaries: Array<Beneficiary>;
+	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
+	search_beneficiaries_aggregate: BeneficiaryAggregate;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
@@ -5875,6 +5879,24 @@ export type QueryRootRomeCodeAggregateArgs = {
 
 export type QueryRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootSearchBeneficiariesArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type QueryRootSearchBeneficiariesAggregateArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
 export type QueryRootSearchNotebookMembersArgs = {
@@ -6490,6 +6512,10 @@ export enum RomeCodeUpdateColumn {
 	Label = 'label',
 }
 
+export type SearchBeneficiariesArgs = {
+	search?: InputMaybe<Scalars['String']>;
+};
+
 export type SearchNotebookMembersArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
@@ -6997,6 +7023,10 @@ export type SubscriptionRoot = {
 	rome_code_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "rome_code" using primary key columns */
 	rome_code_by_pk?: Maybe<RomeCode>;
+	/** execute function "search_beneficiaries" which returns "beneficiary" */
+	search_beneficiaries: Array<Beneficiary>;
+	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
+	search_beneficiaries_aggregate: BeneficiaryAggregate;
 	/** execute function "search_notebook_members" which returns "notebook_member" */
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
@@ -7399,6 +7429,24 @@ export type SubscriptionRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootSearchBeneficiariesArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type SubscriptionRootSearchBeneficiariesAggregateArgs = {
+	args: SearchBeneficiariesArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
 export type SubscriptionRootSearchNotebookMembersArgs = {
 	args: SearchNotebookMembersArgs;
 	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
@@ -7730,6 +7778,47 @@ export type RemoveNotebookMembersMutationVariables = Exact<{
 export type RemoveNotebookMembersMutation = {
 	__typename?: 'mutation_root';
 	delete_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
+export type GetProfessionalsFromStructuresQueryVariables = Exact<{
+	structures: Array<Scalars['uuid']> | Scalars['uuid'];
+}>;
+
+export type GetProfessionalsFromStructuresQuery = {
+	__typename?: 'query_root';
+	professional: Array<{
+		__typename?: 'professional';
+		id: string;
+		firstname: string;
+		lastname: string;
+		mobileNumber?: string | null | undefined;
+		position?: string | null | undefined;
+		email: string;
+		structureId: string;
+		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+	}>;
+};
+
+export type UpdateReferentMutationVariables = Exact<{
+	notebook: Scalars['uuid'];
+	referent: Scalars['uuid'];
+}>;
+
+export type UpdateReferentMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_member_one?: { __typename?: 'notebook_member'; id: string } | null | undefined;
+};
+
+export type RemoveReferentMutationVariables = Exact<{
+	notebook: Scalars['uuid'];
+}>;
+
+export type RemoveReferentMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?:
 		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
 		| null
 		| undefined;
@@ -8971,6 +9060,49 @@ export type GetDeploymentInfosQuery = {
 	};
 };
 
+export type GetBeneficiariesQueryVariables = Exact<{
+	offset: Scalars['Int'];
+	limit: Scalars['Int'];
+	withMembers: BeneficiaryBoolExp;
+	search: Scalars['String'];
+}>;
+
+export type GetBeneficiariesQuery = {
+	__typename?: 'query_root';
+	search_beneficiaries_aggregate: {
+		__typename?: 'beneficiary_aggregate';
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
+	};
+	beneficiaries: Array<{
+		__typename?: 'beneficiary';
+		id: string;
+		firstname: string;
+		lastname: string;
+		structures: Array<{
+			__typename?: 'beneficiary_structure';
+			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+		}>;
+		notebook?:
+			| {
+					__typename?: 'notebook';
+					id: string;
+					members: Array<{
+						__typename?: 'notebook_member';
+						id: string;
+						createdAt: string;
+						professional: {
+							__typename?: 'professional';
+							id: string;
+							firstname: string;
+							lastname: string;
+						};
+					}>;
+			  }
+			| null
+			| undefined;
+	}>;
+};
+
 export type GetProfessionalsForManagerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfessionalsForManagerQuery = {
@@ -9915,6 +10047,272 @@ export const RemoveNotebookMembersDocument = {
 		},
 	],
 } as unknown as DocumentNode<RemoveNotebookMembersMutation, RemoveNotebookMembersMutationVariables>;
+export const GetProfessionalsFromStructuresDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetProfessionalsFromStructures' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structures' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_in' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'structures' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetProfessionalsFromStructuresQuery,
+	GetProfessionalsFromStructuresQueryVariables
+>;
+export const UpdateReferentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateReferent' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'referent' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professionalId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'referent' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'referent', block: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: true },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: {
+												kind: 'EnumValue',
+												value: 'notebook_member_notebook_id_professional_id_key',
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{ kind: 'EnumValue', value: 'memberType' },
+													{ kind: 'EnumValue', value: 'active' },
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateReferentMutation, UpdateReferentMutationVariables>;
+export const RemoveReferentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'RemoveReferent' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'no_referent', block: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<RemoveReferentMutation, RemoveReferentMutationVariables>;
 export const DeactivateNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -16849,6 +17247,262 @@ export const GetDeploymentInfosDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetDeploymentInfosQuery, GetDeploymentInfosQueryVariables>;
+export const GetBeneficiariesDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetBeneficiaries' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_bool_exp' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'search_beneficiaries_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'beneficiaries' },
+						name: { kind: 'Name', value: 'search_beneficiaries' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'offset' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ListValue',
+									values: [
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'lastname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
+										},
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'firstname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structures' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'notebook' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'members' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'memberType' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'StringValue',
+																					value: 'referent',
+																					block: false,
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'professional' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetBeneficiariesQuery, GetBeneficiariesQueryVariables>;
 export const GetProfessionalsForManagerDocument = {
 	kind: 'Document',
 	definitions: [
@@ -19132,38 +19786,80 @@ export const GetPendingBeneficiariesDocument = {
 																		fields: [
 																			{
 																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: 'members' },
+																				name: { kind: 'Name', value: '_or' },
 																				value: {
-																					kind: 'ObjectValue',
-																					fields: [
+																					kind: 'ListValue',
+																					values: [
 																						{
-																							kind: 'ObjectField',
-																							name: { kind: 'Name', value: 'professional' },
-																							value: {
-																								kind: 'ObjectValue',
-																								fields: [
-																									{
-																										kind: 'ObjectField',
-																										name: { kind: 'Name', value: 'structureId' },
-																										value: {
-																											kind: 'ObjectValue',
-																											fields: [
-																												{
-																													kind: 'ObjectField',
-																													name: { kind: 'Name', value: '_neq' },
-																													value: {
-																														kind: 'Variable',
-																														name: {
-																															kind: 'Name',
-																															value: 'structureId',
-																														},
-																													},
-																												},
-																											],
-																										},
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_not' },
+																									value: {
+																										kind: 'ObjectValue',
+																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: { kind: 'Name', value: 'members' },
+																												value: { kind: 'ObjectValue', fields: [] },
+																											},
+																										],
 																									},
-																								],
-																							},
+																								},
+																							],
+																						},
+																						{
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: 'members' },
+																									value: {
+																										kind: 'ObjectValue',
+																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: {
+																													kind: 'Name',
+																													value: 'professional',
+																												},
+																												value: {
+																													kind: 'ObjectValue',
+																													fields: [
+																														{
+																															kind: 'ObjectField',
+																															name: {
+																																kind: 'Name',
+																																value: 'structureId',
+																															},
+																															value: {
+																																kind: 'ObjectValue',
+																																fields: [
+																																	{
+																																		kind: 'ObjectField',
+																																		name: {
+																																			kind: 'Name',
+																																			value: '_neq',
+																																		},
+																																		value: {
+																																			kind: 'Variable',
+																																			name: {
+																																				kind: 'Name',
+																																				value: 'structureId',
+																																			},
+																																		},
+																																	},
+																																],
+																															},
+																														},
+																													],
+																												},
+																											},
+																										],
+																									},
+																								},
+																							],
 																						},
 																					],
 																				},
@@ -19382,38 +20078,80 @@ export const GetStructureDocument = {
 																		fields: [
 																			{
 																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: 'members' },
+																				name: { kind: 'Name', value: '_or' },
 																				value: {
-																					kind: 'ObjectValue',
-																					fields: [
+																					kind: 'ListValue',
+																					values: [
 																						{
-																							kind: 'ObjectField',
-																							name: { kind: 'Name', value: 'professional' },
-																							value: {
-																								kind: 'ObjectValue',
-																								fields: [
-																									{
-																										kind: 'ObjectField',
-																										name: { kind: 'Name', value: 'structureId' },
-																										value: {
-																											kind: 'ObjectValue',
-																											fields: [
-																												{
-																													kind: 'ObjectField',
-																													name: { kind: 'Name', value: '_neq' },
-																													value: {
-																														kind: 'Variable',
-																														name: {
-																															kind: 'Name',
-																															value: 'structureId',
-																														},
-																													},
-																												},
-																											],
-																										},
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_not' },
+																									value: {
+																										kind: 'ObjectValue',
+																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: { kind: 'Name', value: 'members' },
+																												value: { kind: 'ObjectValue', fields: [] },
+																											},
+																										],
 																									},
-																								],
-																							},
+																								},
+																							],
+																						},
+																						{
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: 'members' },
+																									value: {
+																										kind: 'ObjectValue',
+																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: {
+																													kind: 'Name',
+																													value: 'professional',
+																												},
+																												value: {
+																													kind: 'ObjectValue',
+																													fields: [
+																														{
+																															kind: 'ObjectField',
+																															name: {
+																																kind: 'Name',
+																																value: 'structureId',
+																															},
+																															value: {
+																																kind: 'ObjectValue',
+																																fields: [
+																																	{
+																																		kind: 'ObjectField',
+																																		name: {
+																																			kind: 'Name',
+																																			value: '_neq',
+																																		},
+																																		value: {
+																																			kind: 'Variable',
+																																			name: {
+																																				kind: 'Name',
+																																				value: 'structureId',
+																																			},
+																																		},
+																																	},
+																																],
+																															},
+																														},
+																													],
+																												},
+																											},
+																										],
+																									},
+																								},
+																							],
 																						},
 																					],
 																				},
@@ -19783,6 +20521,18 @@ export type RemoveNotebookMembersMutationStore = OperationStore<
 	RemoveNotebookMembersMutation,
 	RemoveNotebookMembersMutationVariables
 >;
+export type GetProfessionalsFromStructuresQueryStore = OperationStore<
+	GetProfessionalsFromStructuresQuery,
+	GetProfessionalsFromStructuresQueryVariables
+>;
+export type UpdateReferentMutationStore = OperationStore<
+	UpdateReferentMutation,
+	UpdateReferentMutationVariables
+>;
+export type RemoveReferentMutationStore = OperationStore<
+	RemoveReferentMutation,
+	RemoveReferentMutationVariables
+>;
 export type DeactivateNotebookMemberMutationStore = OperationStore<
 	DeactivateNotebookMemberMutation,
 	DeactivateNotebookMemberMutationVariables
@@ -19994,6 +20744,10 @@ export type GetAccountByIdQueryStore = OperationStore<
 export type GetDeploymentInfosQueryStore = OperationStore<
 	GetDeploymentInfosQuery,
 	GetDeploymentInfosQueryVariables
+>;
+export type GetBeneficiariesQueryStore = OperationStore<
+	GetBeneficiariesQuery,
+	GetBeneficiariesQueryVariables
 >;
 export type GetProfessionalsForManagerQueryStore = OperationStore<
 	GetProfessionalsForManagerQuery,

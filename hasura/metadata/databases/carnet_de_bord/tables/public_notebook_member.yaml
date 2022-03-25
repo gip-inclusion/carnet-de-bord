@@ -193,6 +193,7 @@ update_permissions:
     check: null
     columns:
     - active
+    - member_type
     filter:
       notebook:
         beneficiary:
