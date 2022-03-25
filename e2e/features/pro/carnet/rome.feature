@@ -32,4 +32,5 @@ Scénario: Ajout de plusieurs métiers
 	Alors je vois "Agent / Agente de production de matériels électroniques"
 	Alors je vois "Agent / Agente de production laitière (A1302)"
 	Quand je clique sur "Enregistrer"
-	Alors je vois "Agent / Agente de production laitière (A1302), Agent / Agente de production de matériels électroniques"
+	Alors je vois "Agent / Agente de production laitière (A1302)"
+	Alors je vois "Agent / Agente de production de matériels électroniques (H2604)"
