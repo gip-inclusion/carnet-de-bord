@@ -85,8 +85,8 @@ UPDATE notebook_focus set situations = situations - 'Non ne peux pas reprendre u
 
 
 -- remove contraints during migration operation
--- alter table "public"."notebook_target" drop constraint "notebook_target_focus_id_target_key";
- 
+alter table "public"."notebook_target" drop constraint "notebook_target_focus_id_target_key";
+
 UPDATE public.notebook_target SET target='Travailler l’accès à une prestation' WHERE target= 'Prestation liées à la CAF';
 UPDATE public.notebook_target SET target='Travailler l’accès à la citoyenneté' WHERE target= 'Titre de séjour et pièces d''identité';
 UPDATE public.notebook_target SET target='Travailler l’accès à une prestation' WHERE target= 'Prestation liées à la Sécurité sociale';
@@ -281,21 +281,21 @@ UPDATE public.notebook_action SET action='Constitution d’un dossier MDPH' WHER
 -- DELETE FROM notebook_target
 -- WHERE ID in (
 --     SELECT ID FROM
---     (SELECT id, ROW_NUMBER() OVER (partition BY target ORDER by id) AS nb FROM notebook_target) 
+--     (SELECT id, ROW_NUMBER() OVER (partition BY target ORDER by id) AS nb FROM notebook_target)
 --     T WHERE T.nb > 1
 -- );
- 
+
 
 -- DELETE FROM notebook_action
 -- WHERE ID in (
 --     SELECT ID FROM
---     (SELECT id, ROW_NUMBER() OVER (partition BY action ORDER by id) AS nb FROM notebook_action) 
+--     (SELECT id, ROW_NUMBER() OVER (partition BY action ORDER by id) AS nb FROM notebook_action)
 --     A WHERE A.nb > 1
 -- );
- 
+
 
 -- Add constraint to avoid duplication action
--- alter table "public"."notebook_action" add constraint "notebook_action_target_id_action_key" unique ("target_id", "action");
+alter table "public"."notebook_action" add constraint "notebook_action_target_id_action_key" unique ("target_id", "action");
 -- alter table "public"."notebook_target" add constraint "notebook_target_focus_id_target_key" unique ("focus_id", "target");
 
 --
