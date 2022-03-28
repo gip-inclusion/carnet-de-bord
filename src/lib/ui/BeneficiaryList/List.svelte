@@ -21,7 +21,7 @@
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
 				structuresId: beneficiary.structures.map(({ structure }) => structure.id),
 				member: beneficiary.notebook.members[0]?.professional.id ?? null,
-				showResetMember: Boolean(beneficiary.notebook.members[0]),
+				showResetMembers: beneficiary.notebook.members.length > 0,
 			},
 		});
 	}
