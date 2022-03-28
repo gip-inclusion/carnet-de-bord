@@ -20,13 +20,11 @@ insert_permissions:
     backend_only: false
     check: {}
     columns:
-    - id
-    - notebook_id
     - creation_date
     - event_date
+    - id
+    - notebook_id
     - professional_id
-    - event
-    - structure
   role: admin_cdb
 - permission:
     backend_only: false
@@ -47,10 +45,8 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - event
-    - structure
-    - event_date
     - creation_date
+    - event_date
     - id
     - notebook_id
     - professional_id
@@ -60,12 +56,10 @@ select_permissions:
     allow_aggregations: true
     columns:
     - creation_date
-    - event
     - event_date
     - id
     - notebook_id
     - professional_id
-    - structure
     filter:
       notebook:
         members:
@@ -76,10 +70,8 @@ update_permissions:
 - permission:
     check: {}
     columns:
-    - event
-    - structure
-    - event_date
     - creation_date
+    - event_date
     - id
     - notebook_id
     - professional_id
