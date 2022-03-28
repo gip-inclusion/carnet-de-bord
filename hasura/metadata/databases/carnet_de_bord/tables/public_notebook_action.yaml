@@ -52,6 +52,35 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - action
+    - target_id
+    - status
+    - creator_id
+    - created_at
+    - updated_at
+    - initial_id
+    filter:
+      target:
+        focus:
+          notebook:
+            _or:
+            - members:
+                professional:
+                  structure:
+                    admins:
+                      admin_structure_id:
+                        _eq: X-Hasura-AdminStructure-Id
+            - beneficiary:
+                structures:
+                  structure:
+                    admins:
+                      admin_structure_id:
+                        _eq: X-Hasura-AdminStructure-Id
+  role: admin_structure
+- permission:
     columns:
     - id
     - action

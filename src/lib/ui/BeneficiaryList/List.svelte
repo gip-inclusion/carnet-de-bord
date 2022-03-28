@@ -1,25 +1,34 @@
 <script lang="ts">
 	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateISO } from '$lib/utils/date';
-	import type { OperationStore } from '@urql/svelte';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
 	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 	import { pluralize } from '$lib/helpers';
+	import { getContext } from 'svelte';
+	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 
-	export let beneficiaries: OperationStore<GetBeneficiariesQuery>['data']['beneficiaries'];
+	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
+
+	export let beneficiaries: Beneficiary[];
 	export let hideStructure = false;
-	function openEditLayer(
-		beneficiary: OperationStore<GetBeneficiariesQuery>['data']['beneficiaries'][0]
-	) {
+	export let showNotebook = false;
+
+	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
 			component: AddProfessionnalForm,
 			props: {
-				notebookId: beneficiary.notebook.id,
+				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
 				structuresId: beneficiary.structures.map(({ structure }) => structure.id),
-				member: beneficiary.notebook.members[0] ?? null,
+				member: beneficiary.notebook.members[0]?.professional.id ?? null,
+				showResetMember: Boolean(beneficiary.notebook.members[0]),
 			},
 		});
+	}
+	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
+
+	function updateSelection(beneficiary: Beneficiary) {
+		selectionStore.toggle(beneficiary.notebook.id, beneficiary);
 	}
 </script>
 
@@ -27,19 +36,32 @@
 	<caption class="sr-only">Liste des bénéficiaires</caption>
 	<thead>
 		<tr>
+			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
 			{#if !hideStructure}<th class="text-left">Structure</th>{/if}
 			<th class="text-left"><span class="fr-tag no-bg">Suivi par</span></th>
 			<th class="text-left">Depuis le</th>
-			<th class="text-center">
-				<!-- Voir le carnet -->
-			</th>
+			{#if showNotebook}<th class="!text-center">Voir le carnet</th>{/if}
 		</tr>
 	</thead>
 	<tbody>
 		{#each beneficiaries as beneficiary}
 			<tr>
+				<td class="align-middle">
+					<div class={`fr-checkbox-group bottom-3 left-3`}>
+						<input
+							type="checkbox"
+							checked={$selectionStore[beneficiary.notebook.id] ? true : false}
+							on:change={() => updateSelection(beneficiary)}
+							id={beneficiary.id}
+							name="selection"
+						/>
+						<label class="fr-label" for={beneficiary.id}>
+							<span class="sr-only"> Selectionner {displayFullName(beneficiary)}</span>
+						</label>
+					</div>
+				</td>
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				{#if !hideStructure}
@@ -85,7 +107,17 @@
 						-
 					{/if}
 				</td>
-				<td />
+				{#if showNotebook}<td class="!text-center">
+						<a
+							href={`carnets/${beneficiary.notebook.id}`}
+							class="fr-link"
+							target="_blank"
+							title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
+						>
+							<span class="fr-fi-file-line" aria-hidden />
+						</a>
+					</td>
+				{/if}
 			</tr>
 		{/each}
 		{#if beneficiaries.length === 0}

@@ -1,13 +1,15 @@
 <script lang="ts" context="module">
 	import type { Load } from '@sveltejs/kit';
 
-	export const load: Load = async ({ url }) => {
-		const params = url.searchParams;
+	export const load: Load = async ({ params, url }) => {
+		const searchParams = url.searchParams;
+		const structureId = params.uuid;
 		return {
 			props: {
-				currentPage: parseInt(params.get('page') ?? '1', 10),
-				filter: getFilter(params.get('filter')),
-				search: params.get('search') ?? '',
+				structureId,
+				currentPage: parseInt(searchParams.get('page') ?? '1', 10),
+				filter: getFilter(searchParams.get('filter')),
+				search: searchParams.get('search') ?? '',
 			},
 		};
 	};
@@ -24,21 +26,34 @@
 	} from '$lib/ui/BeneficiaryList/MultipageSelectionStore';
 	import Container from '$lib/ui/BeneficiaryList/Container.svelte';
 	import { setContext } from 'svelte';
+	import { operationStore, query } from '@urql/svelte';
+	import { GetStructureDocument } from '$lib/graphql/_gen/typed-document-nodes';
 
 	export let search: string;
 	export let filter: MemberFilter;
 	export let currentPage: number;
+	export let structureId: string;
 
-	let breadcrumbs = [
+	const getStructure = operationStore(GetStructureDocument, { structureId });
+	query(getStructure);
+
+	$: structure = $getStructure.data?.structure_by_pk;
+
+	$: breadcrumbs = [
 		{
 			name: 'accueil',
-			path: homeForRole('manager'),
+			path: homeForRole('admin_structure'),
 			label: 'Accueil',
 		},
 		{
 			name: 'structure',
+			path: `${homeForRole('admin_structure')}/${structureId}`,
+			label: `${structure?.name ?? ''}`,
+		},
+		{
+			name: 'bénéficiaires',
 			path: '',
-			label: `bénéficiaires`,
+			label: `Bénéficiaires`,
 		},
 	];
 	setContext(selectionContextKey, createSelectionStore());
@@ -49,4 +64,4 @@
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
 <h1>Bénéficiaires</h1>
-<Container {filter} {search} {currentPage} />
+<Container {filter} {search} hideStructure {currentPage} showNotebook />

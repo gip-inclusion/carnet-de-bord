@@ -69,6 +69,7 @@
 				beneficiaries
 			)}`,
 			amount: beneficiaries,
+			link: `${structureId}/beneficiaires`,
 		},
 		{
 			label: `${pluralize(
@@ -145,7 +146,7 @@
 				<div class="fr-grid-row fr-grid-row--gutters">
 					{#each metrics as item (item.label)}
 						<div class="fr-col-sm-6 fr-col-md-4 fr-col-lg-4">
-							<Card horizontal={true} hideArrow={true}>
+							<Card horizontal={true} hideArrow={!item.link} href={item.link}>
 								<span slot="title">
 									<div
 										class={`pb-1 flex flex-row font-bold text-3xl tracking-wider ${

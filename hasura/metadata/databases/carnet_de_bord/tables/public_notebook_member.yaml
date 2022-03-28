@@ -46,11 +46,10 @@ insert_permissions:
             admin_structure_id:
               _eq: X-Hasura-adminStructure-Id
     columns:
+    - active
     - member_type
     - notebook_id
     - professional_id
-    set:
-      invitation_sent_at: now()
   role: admin_structure
 - permission:
     backend_only: false
@@ -189,6 +188,18 @@ update_permissions:
     - professional_id
     filter: {}
   role: admin_cdb
+- permission:
+    check: null
+    columns:
+    - active
+    - member_type
+    filter:
+      professional:
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-adminStructure-Id
+  role: admin_structure
 - permission:
     check: null
     columns:

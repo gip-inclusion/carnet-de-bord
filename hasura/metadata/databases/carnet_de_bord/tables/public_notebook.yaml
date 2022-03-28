@@ -143,10 +143,20 @@ select_permissions:
     allow_aggregations: true
     columns:
     - beneficiary_id
+    - contract_sign_date
     - contract_type
     - created_at
+    - education_level
+    - geographical_area
     - id
+    - right_are
+    - right_ass
+    - right_bonus
+    - right_rqth
+    - right_rsa
     - updated_at
+    - work_situation
+    - work_situation_date
     computed_fields:
     - nbMembers
     filter:
