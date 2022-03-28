@@ -10,9 +10,9 @@ BEGIN
   WHERE notebook_focus.id = NEW.focus_id;
 
   INSERT INTO notebook_event
-  (notebook_id, event_date, professional_id, event)
+  (notebook_id, event_date, professional_id, event, event_type)
   VALUES
-  (new_notebook_id, now(), NEW.creator_id, 'target.status.' || NEW.status);
+  (new_notebook_id, now(), NEW.creator_id, ('{ "type": "status_changed", "old": "' || OLD.status || '", "new": "' || NEW.status || '"}')::jsonb, 'target');
   RETURN NEW;
 END;
 $$

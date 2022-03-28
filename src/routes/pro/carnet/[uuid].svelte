@@ -213,8 +213,8 @@
 							{#each filteredEvents || [] as event (event.id)}
 								<tr>
 									<td>{formatDateLocale(event.eventDate)} </td>
-									<td>{event.event}</td>
-									<td>{event.structure} </td>
+									<td>{event.event.type}</td>
+									<td>{event.professional.structure.name} </td>
 								</tr>
 							{:else}
 								<tr class="shadow-sm">
