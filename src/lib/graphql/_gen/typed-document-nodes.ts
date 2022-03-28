@@ -2381,6 +2381,10 @@ export type MutationRoot = {
 	delete_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** delete single row from the table: "notebook_event" */
 	delete_notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** delete data from the table: "notebook_event_type" */
+	delete_notebook_event_type?: Maybe<NotebookEventTypeMutationResponse>;
+	/** delete single row from the table: "notebook_event_type" */
+	delete_notebook_event_type_by_pk?: Maybe<NotebookEventType>;
 	/** delete data from the table: "notebook_focus" */
 	delete_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
 	/** delete single row from the table: "notebook_focus" */
@@ -2464,6 +2468,10 @@ export type MutationRoot = {
 	insert_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** insert a single row into the table: "notebook_event" */
 	insert_notebook_event_one?: Maybe<NotebookEvent>;
+	/** insert data into the table: "notebook_event_type" */
+	insert_notebook_event_type?: Maybe<NotebookEventTypeMutationResponse>;
+	/** insert a single row into the table: "notebook_event_type" */
+	insert_notebook_event_type_one?: Maybe<NotebookEventType>;
 	/** insert data into the table: "notebook_focus" */
 	insert_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
 	/** insert a single row into the table: "notebook_focus" */
@@ -2551,6 +2559,10 @@ export type MutationRoot = {
 	update_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** update single row of the table: "notebook_event" */
 	update_notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** update data of the table: "notebook_event_type" */
+	update_notebook_event_type?: Maybe<NotebookEventTypeMutationResponse>;
+	/** update single row of the table: "notebook_event_type" */
+	update_notebook_event_type_by_pk?: Maybe<NotebookEventType>;
 	/** update data of the table: "notebook_focus" */
 	update_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
 	/** update single row of the table: "notebook_focus" */
@@ -2707,6 +2719,16 @@ export type MutationRootDeleteNotebookEventArgs = {
 /** mutation root */
 export type MutationRootDeleteNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookEventTypeArgs = {
+	where: NotebookEventTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookEventTypeByPkArgs = {
+	value: Scalars['String'];
 };
 
 /** mutation root */
@@ -2938,6 +2960,18 @@ export type MutationRootInsertNotebookEventArgs = {
 export type MutationRootInsertNotebookEventOneArgs = {
 	object: NotebookEventInsertInput;
 	on_conflict?: InputMaybe<NotebookEventOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookEventTypeArgs = {
+	objects: Array<NotebookEventTypeInsertInput>;
+	on_conflict?: InputMaybe<NotebookEventTypeOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookEventTypeOneArgs = {
+	object: NotebookEventTypeInsertInput;
+	on_conflict?: InputMaybe<NotebookEventTypeOnConflict>;
 };
 
 /** mutation root */
@@ -3213,14 +3247,36 @@ export type MutationRootUpdateNotebookByPkArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookEventArgs = {
+	_append?: InputMaybe<NotebookEventAppendInput>;
+	_delete_at_path?: InputMaybe<NotebookEventDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<NotebookEventDeleteElemInput>;
+	_delete_key?: InputMaybe<NotebookEventDeleteKeyInput>;
+	_prepend?: InputMaybe<NotebookEventPrependInput>;
 	_set?: InputMaybe<NotebookEventSetInput>;
 	where: NotebookEventBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateNotebookEventByPkArgs = {
+	_append?: InputMaybe<NotebookEventAppendInput>;
+	_delete_at_path?: InputMaybe<NotebookEventDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<NotebookEventDeleteElemInput>;
+	_delete_key?: InputMaybe<NotebookEventDeleteKeyInput>;
+	_prepend?: InputMaybe<NotebookEventPrependInput>;
 	_set?: InputMaybe<NotebookEventSetInput>;
 	pk_columns: NotebookEventPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookEventTypeArgs = {
+	_set?: InputMaybe<NotebookEventTypeSetInput>;
+	where: NotebookEventTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookEventTypeByPkArgs = {
+	_set?: InputMaybe<NotebookEventTypeSetInput>;
+	pk_columns: NotebookEventTypePkColumnsInput;
 };
 
 /** mutation root */
@@ -3540,6 +3596,8 @@ export enum NotebookActionConstraint {
 	NotebookActionInitialIdKey = 'notebook_action_initial_id_key',
 	/** unique or primary key constraint */
 	NotebookActionPkey = 'notebook_action_pkey',
+	/** unique or primary key constraint */
+	NotebookActionTargetIdActionKey = 'notebook_action_target_id_action_key',
 }
 
 /** input type for inserting data into table "notebook_action" */
@@ -3754,8 +3812,9 @@ export enum NotebookConstraint {
 export type NotebookEvent = {
 	__typename?: 'notebook_event';
 	creationDate: Scalars['timestamptz'];
-	event?: Maybe<Scalars['String']>;
-	eventDate: Scalars['date'];
+	event: Scalars['jsonb'];
+	eventDate: Scalars['timestamptz'];
+	event_type: NotebookEventTypeEnum;
 	id: Scalars['uuid'];
 	/** An object relationship */
 	notebook: Notebook;
@@ -3763,7 +3822,11 @@ export type NotebookEvent = {
 	/** An object relationship */
 	professional: Professional;
 	professionalId: Scalars['uuid'];
-	structure?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "notebook_event" */
+export type NotebookEventEventArgs = {
+	path?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregated selection of "notebook_event" */
@@ -3794,6 +3857,11 @@ export type NotebookEventAggregateOrderBy = {
 	min?: InputMaybe<NotebookEventMinOrderBy>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type NotebookEventAppendInput = {
+	event?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** input type for inserting array relation for remote table "notebook_event" */
 export type NotebookEventArrRelInsertInput = {
 	data: Array<NotebookEventInsertInput>;
@@ -3807,14 +3875,14 @@ export type NotebookEventBoolExp = {
 	_not?: InputMaybe<NotebookEventBoolExp>;
 	_or?: InputMaybe<Array<NotebookEventBoolExp>>;
 	creationDate?: InputMaybe<TimestamptzComparisonExp>;
-	event?: InputMaybe<StringComparisonExp>;
-	eventDate?: InputMaybe<DateComparisonExp>;
+	event?: InputMaybe<JsonbComparisonExp>;
+	eventDate?: InputMaybe<TimestamptzComparisonExp>;
+	event_type?: InputMaybe<NotebookEventTypeEnumComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
 	professional?: InputMaybe<ProfessionalBoolExp>;
 	professionalId?: InputMaybe<UuidComparisonExp>;
-	structure?: InputMaybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_event" */
@@ -3823,63 +3891,70 @@ export enum NotebookEventConstraint {
 	NotebookEventPkey = 'notebook_event_pkey',
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type NotebookEventDeleteAtPathInput = {
+	event?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type NotebookEventDeleteElemInput = {
+	event?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type NotebookEventDeleteKeyInput = {
+	event?: InputMaybe<Scalars['String']>;
+};
+
 /** input type for inserting data into table "notebook_event" */
 export type NotebookEventInsertInput = {
 	creationDate?: InputMaybe<Scalars['timestamptz']>;
-	event?: InputMaybe<Scalars['String']>;
-	eventDate?: InputMaybe<Scalars['date']>;
+	event?: InputMaybe<Scalars['jsonb']>;
+	eventDate?: InputMaybe<Scalars['timestamptz']>;
+	event_type?: InputMaybe<NotebookEventTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
-	structure?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type NotebookEventMaxFields = {
 	__typename?: 'notebook_event_max_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	event?: Maybe<Scalars['String']>;
-	eventDate?: Maybe<Scalars['date']>;
+	eventDate?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
-	structure?: Maybe<Scalars['String']>;
 };
 
 /** order by max() on columns of table "notebook_event" */
 export type NotebookEventMaxOrderBy = {
 	creationDate?: InputMaybe<OrderBy>;
-	event?: InputMaybe<OrderBy>;
 	eventDate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	professionalId?: InputMaybe<OrderBy>;
-	structure?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type NotebookEventMinFields = {
 	__typename?: 'notebook_event_min_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
-	event?: Maybe<Scalars['String']>;
-	eventDate?: Maybe<Scalars['date']>;
+	eventDate?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
-	structure?: Maybe<Scalars['String']>;
 };
 
 /** order by min() on columns of table "notebook_event" */
 export type NotebookEventMinOrderBy = {
 	creationDate?: InputMaybe<OrderBy>;
-	event?: InputMaybe<OrderBy>;
 	eventDate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	professionalId?: InputMaybe<OrderBy>;
-	structure?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_event" */
@@ -3903,17 +3978,22 @@ export type NotebookEventOrderBy = {
 	creationDate?: InputMaybe<OrderBy>;
 	event?: InputMaybe<OrderBy>;
 	eventDate?: InputMaybe<OrderBy>;
+	event_type?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	professional?: InputMaybe<ProfessionalOrderBy>;
 	professionalId?: InputMaybe<OrderBy>;
-	structure?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_event */
 export type NotebookEventPkColumnsInput = {
 	id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type NotebookEventPrependInput = {
+	event?: InputMaybe<Scalars['jsonb']>;
 };
 
 /** select columns of table "notebook_event" */
@@ -3925,25 +4005,153 @@ export enum NotebookEventSelectColumn {
 	/** column name */
 	EventDate = 'eventDate',
 	/** column name */
+	EventType = 'event_type',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
 	ProfessionalId = 'professionalId',
-	/** column name */
-	Structure = 'structure',
 }
 
 /** input type for updating data in table "notebook_event" */
 export type NotebookEventSetInput = {
 	creationDate?: InputMaybe<Scalars['timestamptz']>;
-	event?: InputMaybe<Scalars['String']>;
-	eventDate?: InputMaybe<Scalars['date']>;
+	event?: InputMaybe<Scalars['jsonb']>;
+	eventDate?: InputMaybe<Scalars['timestamptz']>;
+	event_type?: InputMaybe<NotebookEventTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
-	structure?: InputMaybe<Scalars['String']>;
 };
+
+/** columns and relationships of "notebook_event_type" */
+export type NotebookEventType = {
+	__typename?: 'notebook_event_type';
+	comment: Scalars['String'];
+	value: Scalars['String'];
+};
+
+/** aggregated selection of "notebook_event_type" */
+export type NotebookEventTypeAggregate = {
+	__typename?: 'notebook_event_type_aggregate';
+	aggregate?: Maybe<NotebookEventTypeAggregateFields>;
+	nodes: Array<NotebookEventType>;
+};
+
+/** aggregate fields of "notebook_event_type" */
+export type NotebookEventTypeAggregateFields = {
+	__typename?: 'notebook_event_type_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookEventTypeMaxFields>;
+	min?: Maybe<NotebookEventTypeMinFields>;
+};
+
+/** aggregate fields of "notebook_event_type" */
+export type NotebookEventTypeAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<NotebookEventTypeSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_event_type". All fields are combined with a logical 'AND'. */
+export type NotebookEventTypeBoolExp = {
+	_and?: InputMaybe<Array<NotebookEventTypeBoolExp>>;
+	_not?: InputMaybe<NotebookEventTypeBoolExp>;
+	_or?: InputMaybe<Array<NotebookEventTypeBoolExp>>;
+	comment?: InputMaybe<StringComparisonExp>;
+	value?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_event_type" */
+export enum NotebookEventTypeConstraint {
+	/** unique or primary key constraint */
+	NotebookEventTypePkey = 'notebook_event_type_pkey',
+}
+
+export enum NotebookEventTypeEnum {
+	/** Action d'un objectif */
+	Action = 'action',
+	/** Objectif d'un parcours */
+	Target = 'target',
+}
+
+/** Boolean expression to compare columns of type "notebook_event_type_enum". All fields are combined with logical 'AND'. */
+export type NotebookEventTypeEnumComparisonExp = {
+	_eq?: InputMaybe<NotebookEventTypeEnum>;
+	_in?: InputMaybe<Array<NotebookEventTypeEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<NotebookEventTypeEnum>;
+	_nin?: InputMaybe<Array<NotebookEventTypeEnum>>;
+};
+
+/** input type for inserting data into table "notebook_event_type" */
+export type NotebookEventTypeInsertInput = {
+	comment?: InputMaybe<Scalars['String']>;
+	value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type NotebookEventTypeMaxFields = {
+	__typename?: 'notebook_event_type_max_fields';
+	comment?: Maybe<Scalars['String']>;
+	value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type NotebookEventTypeMinFields = {
+	__typename?: 'notebook_event_type_min_fields';
+	comment?: Maybe<Scalars['String']>;
+	value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "notebook_event_type" */
+export type NotebookEventTypeMutationResponse = {
+	__typename?: 'notebook_event_type_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookEventType>;
+};
+
+/** on conflict condition type for table "notebook_event_type" */
+export type NotebookEventTypeOnConflict = {
+	constraint: NotebookEventTypeConstraint;
+	update_columns?: Array<NotebookEventTypeUpdateColumn>;
+	where?: InputMaybe<NotebookEventTypeBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_event_type". */
+export type NotebookEventTypeOrderBy = {
+	comment?: InputMaybe<OrderBy>;
+	value?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_event_type */
+export type NotebookEventTypePkColumnsInput = {
+	value: Scalars['String'];
+};
+
+/** select columns of table "notebook_event_type" */
+export enum NotebookEventTypeSelectColumn {
+	/** column name */
+	Comment = 'comment',
+	/** column name */
+	Value = 'value',
+}
+
+/** input type for updating data in table "notebook_event_type" */
+export type NotebookEventTypeSetInput = {
+	comment?: InputMaybe<Scalars['String']>;
+	value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "notebook_event_type" */
+export enum NotebookEventTypeUpdateColumn {
+	/** column name */
+	Comment = 'comment',
+	/** column name */
+	Value = 'value',
+}
 
 /** update columns of table "notebook_event" */
 export enum NotebookEventUpdateColumn {
@@ -3954,13 +4162,13 @@ export enum NotebookEventUpdateColumn {
 	/** column name */
 	EventDate = 'eventDate',
 	/** column name */
+	EventType = 'event_type',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
 	ProfessionalId = 'professionalId',
-	/** column name */
-	Structure = 'structure',
 }
 
 /** columns and relationships of "notebook_focus" */
@@ -5427,6 +5635,12 @@ export type QueryRoot = {
 	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
 	notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** fetch data from the table: "notebook_event_type" */
+	notebook_event_type: Array<NotebookEventType>;
+	/** fetch aggregated fields from the table: "notebook_event_type" */
+	notebook_event_type_aggregate: NotebookEventTypeAggregate;
+	/** fetch data from the table: "notebook_event_type" using primary key columns */
+	notebook_event_type_by_pk?: Maybe<NotebookEventType>;
 	/** fetch data from the table: "notebook_focus" */
 	notebook_focus: Array<NotebookFocus>;
 	/** fetch aggregated fields from the table: "notebook_focus" */
@@ -5719,6 +5933,26 @@ export type QueryRootNotebookEventAggregateArgs = {
 
 export type QueryRootNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootNotebookEventTypeArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventTypeOrderBy>>;
+	where?: InputMaybe<NotebookEventTypeBoolExp>;
+};
+
+export type QueryRootNotebookEventTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventTypeOrderBy>>;
+	where?: InputMaybe<NotebookEventTypeBoolExp>;
+};
+
+export type QueryRootNotebookEventTypeByPkArgs = {
+	value: Scalars['String'];
 };
 
 export type QueryRootNotebookFocusArgs = {
@@ -6975,6 +7209,12 @@ export type SubscriptionRoot = {
 	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
 	notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** fetch data from the table: "notebook_event_type" */
+	notebook_event_type: Array<NotebookEventType>;
+	/** fetch aggregated fields from the table: "notebook_event_type" */
+	notebook_event_type_aggregate: NotebookEventTypeAggregate;
+	/** fetch data from the table: "notebook_event_type" using primary key columns */
+	notebook_event_type_by_pk?: Maybe<NotebookEventType>;
 	/** fetch data from the table: "notebook_focus" */
 	notebook_focus: Array<NotebookFocus>;
 	/** fetch aggregated fields from the table: "notebook_focus" */
@@ -7267,6 +7507,26 @@ export type SubscriptionRootNotebookEventAggregateArgs = {
 
 export type SubscriptionRootNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootNotebookEventTypeArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventTypeOrderBy>>;
+	where?: InputMaybe<NotebookEventTypeBoolExp>;
+};
+
+export type SubscriptionRootNotebookEventTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventTypeOrderBy>>;
+	where?: InputMaybe<NotebookEventTypeBoolExp>;
+};
+
+export type SubscriptionRootNotebookEventTypeByPkArgs = {
+	value: Scalars['String'];
 };
 
 export type SubscriptionRootNotebookFocusArgs = {
@@ -9292,8 +9552,8 @@ export type SearchNotebookMemberQuery = {
 
 export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
-	eventsStart?: InputMaybe<Scalars['date']>;
-	eventsEnd?: InputMaybe<Scalars['date']>;
+	eventsStart?: InputMaybe<Scalars['timestamptz']>;
+	eventsEnd?: InputMaybe<Scalars['timestamptz']>;
 }>;
 
 export type GetNotebookQuery = {
@@ -9371,8 +9631,7 @@ export type GetNotebookQuery = {
 					__typename?: 'notebook_event';
 					id: string;
 					eventDate: string;
-					event?: string | null | undefined;
-					structure?: string | null | undefined;
+					event: any;
 					professionalId: string;
 					professional: {
 						__typename?: 'professional';
@@ -9386,8 +9645,8 @@ export type GetNotebookQuery = {
 };
 
 export type GetNotebookEventsQueryVariables = Exact<{
-	eventsStart?: InputMaybe<Scalars['date']>;
-	eventsEnd?: InputMaybe<Scalars['date']>;
+	eventsStart?: InputMaybe<Scalars['timestamptz']>;
+	eventsEnd?: InputMaybe<Scalars['timestamptz']>;
 	notebookId: Scalars['uuid'];
 }>;
 
@@ -9397,8 +9656,7 @@ export type GetNotebookEventsQuery = {
 		__typename?: 'notebook_event';
 		id: string;
 		eventDate: string;
-		event?: string | null | undefined;
-		structure?: string | null | undefined;
+		event: any;
 		professionalId: string;
 		professional: {
 			__typename?: 'professional';
@@ -9412,8 +9670,7 @@ export type EventFieldsFragment = {
 	__typename?: 'notebook_event';
 	id: string;
 	eventDate: string;
-	event?: string | null | undefined;
-	structure?: string | null | undefined;
+	event: any;
 	professionalId: string;
 	professional: {
 		__typename?: 'professional';
@@ -9698,7 +9955,6 @@ export const EventFieldsFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'event' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'structure' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 					{
 						kind: 'Field',
@@ -18863,12 +19119,12 @@ export const GetNotebookDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
 				},
 			],
 			selectionSet: {
@@ -19122,12 +19378,12 @@ export const GetNotebookEventsDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
 				},
 				{
 					kind: 'VariableDefinition',
