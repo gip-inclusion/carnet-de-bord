@@ -8,6 +8,7 @@ Fonctionnalité: Rattachement des bénéficiaires
 
 	Scénario: Import liste de rattachement
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
+		Soit un "administrateur de structures" "jacques.celaire@beta.gouv.fr" ayant déjà fait son onboarding
 		Soit un utilisateur sur la page "/structures/1c52e5ad-e0b9-48b9-a490-105a4effaaea"
 		Alors je vois "Portefeuille de la structure"
 		Quand je clique sur "Importer une liste de rattachement"

@@ -34,12 +34,12 @@ Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
 });
 
-Soit("l'admin structure {string} est onboardé", async (email) => {
-	await onboardingSetup(email, 'admin_structure', true);
+Soit('un {string} {string} ayant déjà fait son onboarding', async (userType, email) => {
+	await onboardingSetup(email, userType, true);
 });
 
-Soit("l'admin structure {string} n'est pas onboardé", async (email) => {
-	await onboardingSetup(email, 'admin_structure', false);
+Soit('un {string} {string} se connectant pour la première fois', async (userType, email) => {
+	await onboardingSetup(email, userType, false);
 });
 
 //
@@ -234,6 +234,9 @@ Before(async (params) => {
 	if (params.tags.indexOf('@deploiement') >= 0) {
 		await clearDeployment();
 	}
+	if (params.tags.indexOf('@onboarding_admin_structure') >= 0) {
+		await clearStructures();
+	}
 });
 
 After((params) => {
@@ -300,10 +303,11 @@ const goToNotebookForLastname = async (lastname) => {
 	return result.data.data.notebook[0].id;
 };
 
-async function onboardingSetup(email, type, onboardingDone) {
+async function onboardingSetup(email, userType, onboardingDone) {
+	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	return await I.sendMutation(
 		`mutation SetupOnboardingFlag {
-		  update_account(where: {${type}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onboardingDone}}) {
+		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onboardingDone}}) {
 		    affected_rows
 		  }
 		}`
@@ -333,6 +337,23 @@ async function clearDeployment() {
 		    affected_rows
 		  }
 		  delete_deployment(where: {label: {_eq: "expérimentation e2e"}}) {
+		    affected_rows
+		  }
+		}`
+	);
+}
+
+// TODO delete admin_structure_structure before structure
+async function clearStructures() {
+	return await I.sendMutation(
+		`mutation ClearStructures {
+		  delete_account(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
+		    affected_rows
+		  }
+		  delete_admin_structure(where: {email: {_eq: "jean.paul@drome.fr"}}) {
+		    affected_rows
+		  }
+		  delete_structure(where: {name: {_eq: "CD 26"}}) {
 		    affected_rows
 		  }
 		}`

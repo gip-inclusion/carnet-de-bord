@@ -8,7 +8,7 @@ Fonctionnalité: Onboarding administrateur de structure
 
 	Scénario: Première connexion - Mise à jour profil
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
-		Soit l'admin structure "jacques.celaire@beta.gouv.fr" n'est pas onboardé
+		Soit un "administrateur de structures" "jacques.celaire@beta.gouv.fr" se connectant pour la première fois
 		Quand je vois "Création de mon compte Gestionnaire de structure"
 		Alors je vois "Jacques" dans le champ "Prénom"
 		Alors je vois "Célaire" dans le champ "Nom"
