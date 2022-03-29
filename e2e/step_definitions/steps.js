@@ -226,8 +226,18 @@ Quand('je téléverse le fichier {string}', (filename) => {
  * on peut executer des mutations afin de supprimer
  * les données générés suite aux tests.
  */
-After(({ title }) => {
-	if (/Inscription/.test(title)) {
+
+Before(async (params) => {
+	if (params.tags.indexOf('@import_pro') >= 0) {
+		await clearProfessionals();
+	}
+	if (params.tags.indexOf('@deploiement') >= 0) {
+		await clearDeployment();
+	}
+});
+
+After((params) => {
+	if (/Inscription/.test(params.title)) {
 		I.sendMutation(
 			`mutation removeUser {
 				delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
@@ -292,8 +302,37 @@ const goToNotebookForLastname = async (lastname) => {
 
 async function onboardingSetup(email, type, onboardingDone) {
 	return await I.sendMutation(
-		`mutation AdminStructureByEmail {
+		`mutation SetupOnboardingFlag {
 		  update_account(where: {${type}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onboardingDone}}) {
+		    affected_rows
+		  }
+		}`
+	);
+}
+
+async function clearProfessionals() {
+	return await I.sendMutation(
+		`mutation ClearProfessionals {
+		  delete_account(where: {professional: {email: {_in: ["salome@cd26.fr", "sofia@cd26.fr"]}}}) {
+		    affected_rows
+		  }
+		  delete_professional(where: {email: {_in: ["salome@cd26.fr", "sofia@cd26.fr"]}}) {
+		    affected_rows
+		  }
+		}`
+	);
+}
+
+async function clearDeployment() {
+	return await I.sendMutation(
+		`mutation ClearDeployment {
+		  delete_account(where: {manager: {email: {_eq: "experimentation-e2e@noreply.beta.gouv.fr"}}}) {
+		    affected_rows
+		  }
+		  delete_manager(where: {email: {_eq: "experimentation-e2e@noreply.beta.gouv.fr"}}) {
+		    affected_rows
+		  }
+		  delete_deployment(where: {label: {_eq: "expérimentation e2e"}}) {
 		    affected_rows
 		  }
 		}`
