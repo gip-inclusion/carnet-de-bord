@@ -94,6 +94,7 @@ select_permissions:
     - creator_id
     - focus_id
     - id
+    - status
     - target
     - updated_at
     filter:
