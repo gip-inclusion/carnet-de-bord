@@ -69,7 +69,7 @@
 				beneficiaries
 			)}`,
 			amount: beneficiaries,
-			link: `${structureId}/beneficiaires`,
+			link: `${structureId}/beneficiaires?filter=withMember`,
 		},
 		{
 			label: `${pluralize(
@@ -81,6 +81,7 @@
 				structure?.pendingBeneficiaries?.aggregate?.count > 0
 					? 'text-marianne-red'
 					: 'text-success',
+			link: `${structureId}/beneficiaires?filter=noMember`,
 		},
 	];
 

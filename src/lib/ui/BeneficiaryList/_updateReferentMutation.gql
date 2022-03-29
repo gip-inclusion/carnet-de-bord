@@ -9,6 +9,14 @@ mutation UpdateReferent(
 	) {
 		affected_rows
 	}
+
+	update_notebook_member(
+		_set: { memberType: "no_referent" }
+		where: { notebook: { beneficiaryId: { _in: $beneficiaries } } }
+	) {
+		affected_rows
+	}
+
 	insert_notebook_member(
 		objects: $objects
 		on_conflict: {
@@ -23,7 +31,7 @@ mutation UpdateReferent(
 mutation RemoveReferent($notebooks: [uuid!]!) {
 	update_notebook_member(
 		_set: { memberType: "no_referent", active: false }
-		where: { notebookId: { _in: $notebooks } }
+		where: { notebookId: { _in: $notebooks }, memberType: { _eq: "referent" } }
 	) {
 		affected_rows
 	}

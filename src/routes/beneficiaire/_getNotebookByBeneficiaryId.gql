@@ -43,7 +43,7 @@ fragment notebookFragment on notebook {
 		peNumber
 		postalCode
 	}
-	members(order_by: { lastModifiedAt: desc_nulls_last }) {
+	members(where: { active: { _eq: true } }, order_by: { lastModifiedAt: desc_nulls_last }) {
 		id
 		memberType
 		lastModifiedAt
@@ -75,7 +75,7 @@ fragment notebookFragment on notebook {
 				name
 			}
 		}
-		targets {
+		targets(where: { status: { _eq: "in_progress" } }, order_by: { createdAt: desc_nulls_first }) {
 			target
 			createdAt
 			professional {
@@ -85,7 +85,10 @@ fragment notebookFragment on notebook {
 					name
 				}
 			}
-			actions {
+			actions(
+				where: { status: { _eq: "in_progress" } }
+				order_by: { createdAt: desc_nulls_first }
+			) {
 				action
 				createdAt
 				status

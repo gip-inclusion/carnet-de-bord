@@ -7816,6 +7816,10 @@ export type UpdateReferentMutation = {
 		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
 		| null
 		| undefined;
+	update_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
 	insert_notebook_member?:
 		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
 		| null
@@ -9959,6 +9963,29 @@ export const NotebookFragmentFragmentDoc = {
 						arguments: [
 							{
 								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },
 								value: {
 									kind: 'ObjectValue',
@@ -10058,6 +10085,49 @@ export const NotebookFragmentFragmentDoc = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'targets' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'StringValue',
+																		value: 'in_progress',
+																		block: false,
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'createdAt' },
+														value: { kind: 'EnumValue', value: 'desc_nulls_first' },
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -10087,6 +10157,49 @@ export const NotebookFragmentFragmentDoc = {
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'actions' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'status' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'StringValue',
+																					value: 'in_progress',
+																					block: false,
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc_nulls_first' },
+																},
+															],
+														},
+													},
+												],
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
@@ -10699,6 +10812,65 @@ export const UpdateReferentDocument = {
 					},
 					{
 						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'no_referent', block: false },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiaryId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_in' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'beneficiaries' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
 						name: { kind: 'Name', value: 'insert_notebook_member' },
 						arguments: [
 							{
@@ -10810,6 +10982,20 @@ export const RemoveReferentDocument = {
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_in' },
 														value: { kind: 'Variable', name: { kind: 'Name', value: 'notebooks' } },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'referent', block: false },
 													},
 												],
 											},
