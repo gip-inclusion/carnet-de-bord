@@ -1,7 +1,6 @@
 const { Alors, Quand, Soit, USER_TYPES } = require('./fr');
 
 const { I } = inject();
-const { CdbFixtures } = require('../fixtures/fixtures');
 
 //
 const uuid = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
@@ -33,6 +32,14 @@ Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastname(lastname);
 	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
+});
+
+Soit("l'admin structure {string} est onboardé", async (email) => {
+	await onboardingSetup(email, 'admin_structure', true);
+});
+
+Soit("l'admin structure {string} n'est pas onboardé", async (email) => {
+	await onboardingSetup(email, 'admin_structure', false);
 });
 
 //
@@ -214,10 +221,6 @@ Quand('je téléverse le fichier {string}', (filename) => {
 	I.attachFile('.dropzone input[type=file]', filename);
 });
 
-Before((params) => {
-	CdbFixtures.setupByTags(I, params.tags);
-});
-
 /**
  * Dans ce hook, qui se lance après chaque test,
  * on peut executer des mutations afin de supprimer
@@ -266,7 +269,7 @@ After(({ title }) => {
 
 async function loginStub(userType, email) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
-	I.sendMutation(
+	await I.sendMutation(
 		`mutation setAccessToken {
 				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
 		}`
@@ -286,3 +289,13 @@ const goToNotebookForLastname = async (lastname) => {
 	);
 	return result.data.data.notebook[0].id;
 };
+
+async function onboardingSetup(email, type, onboardingDone) {
+	return await I.sendMutation(
+		`mutation AdminStructureByEmail {
+		  update_account(where: {${type}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onboardingDone}}) {
+		    affected_rows
+		  }
+		}`
+	);
+}
