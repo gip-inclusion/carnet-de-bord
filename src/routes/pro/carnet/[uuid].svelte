@@ -15,6 +15,7 @@
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import { LoaderIndicator } from '$lib/ui/utils';
+	import { statusValues } from '$lib/constants';
 	import { formatDateLocale } from '$lib/utils/date';
 	import type { Load } from '@sveltejs/kit';
 	import { mutation, operationStore, query } from '@urql/svelte';
@@ -39,6 +40,23 @@
 		const dd = date.getDate().toString().padStart(2, '0');
 
 		return `${yyyy}-${mm}-${dd}`;
+	}
+
+	function eventToString(event: any): string {
+		if (event.type == 'status_changed') {
+			return (
+				'Status changé de ' +
+				statusToString(event.old, statusValues) +
+				' à ' +
+				statusToString(event.new, statusValues)
+			);
+		}
+	}
+
+	function statusToString(status: string, statusValues: { label: string; name: string }[]): string {
+		let status_string: { label: string; name: string } = statusValues.find((v) => v.name == status);
+
+		return status_string ? status_string.label : 'Inconnu';
 	}
 
 	function buildQueryVariables<Vars>(
@@ -213,7 +231,7 @@
 							{#each filteredEvents || [] as event (event.id)}
 								<tr>
 									<td>{formatDateLocale(event.eventDate)} </td>
-									<td>{event.event.type}</td>
+									<td>{eventToString(event.event)}</td>
 									<td>{event.professional.structure.name} </td>
 								</tr>
 							{:else}

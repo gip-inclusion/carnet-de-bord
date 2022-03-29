@@ -19,7 +19,7 @@
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
-	import { ActionStatus } from '$lib/enums';
+	import { statusValues } from '$lib/constants';
 
 	export let focusId: string;
 
@@ -52,21 +52,6 @@
 			props: { creator: focus?.professional, createdAt: focus?.createdAt },
 		});
 	}
-
-	const statusValues = [
-		{
-			label: 'En cours',
-			name: ActionStatus.InProgress,
-		},
-		{
-			label: 'Réalisée',
-			name: ActionStatus.Done,
-		},
-		{
-			label: 'Abandonnée',
-			name: ActionStatus.Abandoned,
-		},
-	];
 
 	const updateNotebookTargetStatusResult = operationStore(UpdateTargetStatusDocument);
 	const updateNotebookTargetStatus = mutation(updateNotebookTargetStatusResult);
