@@ -1,4 +1,4 @@
-import { ActionStatus } from '$lib/enums';
+import { ActionStatus, EventType } from '$lib/enums';
 
 export const orgName = "Ministère<br />du Travail,<br />de l'Emploi<br />et de l'Insertion";
 
@@ -17,5 +17,16 @@ export const statusValues: { label: string; name: string }[] = [
 	{
 		label: 'Abandonnée',
 		name: ActionStatus.Abandoned,
+	},
+];
+
+export const eventTypes: { label: string; name: string }[] = [
+	{
+		label: 'Action',
+		name: EventType.Action,
+	},
+	{
+		label: 'Objectif',
+		name: EventType.Target,
 	},
 ];
