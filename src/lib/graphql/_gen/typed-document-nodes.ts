@@ -10173,10 +10173,6 @@ export const NotebookFragmentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'event' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'eventType' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 					{
 						kind: 'Field',
 						name: { kind: 'Name', value: 'wantedJobs' },
@@ -10516,7 +10512,7 @@ export const EventFieldsFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'event' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'structure' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'eventType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 					{
 						kind: 'Field',
