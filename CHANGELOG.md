@@ -1,3 +1,10 @@
+# [1.103.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.102.0...v1.103.0) (2022-03-30)
+
+
+### Features
+
+* add target and action events ([#736](https://github.com/SocialGouv/carnet-de-bord/issues/736)) ([c429d1b](https://github.com/SocialGouv/carnet-de-bord/commit/c429d1bb13791d769eaeb4ebfc39365d4ef1e58a))
+
 # [1.102.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.101.0...v1.102.0) (2022-03-30)
 
 
