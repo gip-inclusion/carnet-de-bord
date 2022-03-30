@@ -1,9 +1,16 @@
-const { Alors, Quand, Soit, USER_TYPES } = require('./fr');
+const {
+	UUID,
+	loginStub,
+	setupFixturesByTags,
+	onBoardingSetup,
+	goToNotebookForLastName,
+	removeProfessionalAccount,
+} = require('./fixtures');
+const { Alors, Quand, Soit } = require('./fr');
 
 const { I } = inject();
 
 //
-const uuid = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 
 Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
@@ -11,7 +18,7 @@ Soit("un utilisateur sur la page d'accueil", () => {
 
 Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
 	await loginStub(userType, email);
-	I.amOnPage(`/auth/jwt/${uuid}`);
+	I.amOnPage(`/auth/jwt/${UUID}`);
 });
 
 Soit('un utilisateur sur la page {string}', (page) => {
@@ -20,26 +27,26 @@ Soit('un utilisateur sur la page {string}', (page) => {
 
 Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
 	await loginStub('bénéficiaire', email);
-	I.amOnPage(`/auth/jwt/${uuid}`);
+	I.amOnPage(`/auth/jwt/${UUID}`);
 });
 
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	await loginStub('pro', email);
-	I.amOnPage(`/auth/jwt/${uuid}`);
+	I.amOnPage(`/auth/jwt/${UUID}`);
 });
 
 Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	await loginStub('pro', email);
-	const notebookId = await goToNotebookForLastname(lastname);
-	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
+	const notebookId = await goToNotebookForLastName(lastname);
+	I.amOnPage(`/auth/jwt/${UUID}?url=/pro/carnet/${notebookId}`);
 });
 
 Soit('un {string} {string} ayant déjà fait son onboarding', async (userType, email) => {
-	await onboardingSetup(email, userType, true);
+	await onBoardingSetup(email, userType, true);
 });
 
 Soit('un {string} {string} se connectant pour la première fois', async (userType, email) => {
-	await onboardingSetup(email, userType, false);
+	await onBoardingSetup(email, userType, false);
 });
 
 //
@@ -227,33 +234,15 @@ Quand('je téléverse le fichier {string}', (filename) => {
  * les données générés suite aux tests.
  */
 
-Before(async (params) => {
-	if (params.tags.indexOf('@import_pro') >= 0) {
-		await removeProfessionalsFixture();
-	}
-	if (params.tags.indexOf('@deploiement') >= 0) {
-		await removeDeploymentFixture();
-	}
-	if (params.tags.indexOf('@import_structures') >= 0) {
-		await removeStructuresFixture();
-	}
-	if (params.tags.indexOf('@import_beneficiaires') >= 0) {
-		await removeBeneficiariesFixture();
-	}
-	if (params.tags.indexOf('@rattachement_beneficiaires') >= 0) {
-		await removeNotebookMemberFixture();
-	}
+Before(async ({ tags }) => {
+	setupFixturesByTags(tags);
 });
 
 After((params) => {
 	if (/Inscription/.test(params.title)) {
-		I.sendMutation(
-			`mutation removeUser {
-				delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
-				delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
-			}`
-		);
-	} else if (/Modifier le rattachement d'un bénéficiaire/.test(title)) {
+		removeProfessionalAccount();
+	}
+	if (/Modifier le rattachement d'un bénéficiaire/.test(title)) {
 		I.sendMutation(`
 			mutation ResetReferent {
 				delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
@@ -285,115 +274,3 @@ After((params) => {
 		`);
 	}
 });
-
-async function loginStub(userType, email) {
-	const type = USER_TYPES.filter((t) => t.value === userType)[0];
-	await I.sendMutation(
-		`mutation setAccessToken {
-				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
-		}`
-	);
-}
-
-const goToNotebookForLastname = async (lastname) => {
-	const result = await I.sendQuery(
-		`
-			query GetNotebook($lastname: String!) {
-				notebook(where: { beneficiary: { lastname: { _eq: $lastname } } }) {
-					id
-				}
-			}
-		`,
-		{ lastname }
-	);
-	return result.data.data.notebook[0].id;
-};
-
-async function onboardingSetup(email, userType, onboardingDone) {
-	const type = USER_TYPES.filter((t) => t.value === userType)[0];
-	return await I.sendMutation(
-		`mutation SetupOnboardingFlag {
-		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onboardingDone}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeProfessionalsFixture() {
-	return await I.sendMutation(
-		`mutation RemoveProfessionalsFixture {
-		  delete_account(where: {professional: {email: {_in: ["salome@cd26.fr", "sofia@cd26.fr"]}}}) {
-		    affected_rows
-		  }
-		  delete_professional(where: {email: {_in: ["salome@cd26.fr", "sofia@cd26.fr"]}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeDeploymentFixture() {
-	return await I.sendMutation(
-		`mutation RemoveDeploymentFixture {
-		  delete_account(where: {manager: {email: {_eq: "experimentation-e2e@noreply.beta.gouv.fr"}}}) {
-		    affected_rows
-		  }
-		  delete_manager(where: {email: {_eq: "experimentation-e2e@noreply.beta.gouv.fr"}}) {
-		    affected_rows
-		  }
-		  delete_deployment(where: {label: {_eq: "expérimentation e2e"}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeStructuresFixture() {
-	await removeBeneficiariesFixture();
-	return await I.sendMutation(
-		`mutation RemoveStructuresFixture {
-	    delete_admin_structure_structure(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
-		    affected_rows
-		  }
-		  delete_structure(where: {name: {_eq: "CD 26"}}) {
-		    affected_rows
-		  }
-		  delete_account(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
-		    affected_rows
-		  }
-		  delete_admin_structure(where: {email: {_eq: "jean.paul@drome.fr"}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeBeneficiariesFixture() {
-	return await I.sendMutation(
-		`mutation RemoveBeneficiariesFixture {
-		  delete_wanted_job(where: {notebook: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}}) {
-		    affected_rows
-		  }
-		  delete_notebook(where: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}) {
-		    affected_rows
-		  }
-		  delete_beneficiary_structure(where: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}) {
-		    affected_rows
-		  }
-		  delete_beneficiary(where: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeNotebookMemberFixture() {
-	return await I.sendMutation(
-		`mutation RemoveNotebookMemberFixture {
-		  delete_notebook_member(where: {professional: {email: {_eq: "pierre.chevalier@livry-gargan.fr"}}, notebookId: {_eq: "b7e43c7c-7c3e-464b-80de-f4926d4bb1e0"}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
