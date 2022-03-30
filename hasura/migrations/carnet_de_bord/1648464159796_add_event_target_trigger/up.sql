@@ -29,6 +29,13 @@ AFTER UPDATE ON public.notebook_target
 ;
 
 
+CREATE TRIGGER record_notebook_target_event_init_trigger
+AFTER INSERT ON public.notebook_target
+    FOR EACH ROW
+    EXECUTE PROCEDURE public.record_notebook_target_event()
+;
+
+
 CREATE OR REPLACE FUNCTION public.record_notebook_action_event() RETURNS trigger AS
 $$
 DECLARE
@@ -57,5 +64,12 @@ AFTER UPDATE ON public.notebook_action
     WHEN ((OLD.status)
        IS DISTINCT FROM
       (NEW.status))
+    EXECUTE PROCEDURE public.record_notebook_action_event()
+;
+
+
+CREATE TRIGGER record_notebook_action_event_init_trigger
+AFTER INSERT ON public.notebook_action
+    FOR EACH ROW
     EXECUTE PROCEDURE public.record_notebook_action_event()
 ;
