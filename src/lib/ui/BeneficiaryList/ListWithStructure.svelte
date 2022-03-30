@@ -11,7 +11,6 @@
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	export let beneficiaries: Beneficiary[];
-	export let structureId: string;
 
 	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
@@ -38,6 +37,7 @@
 			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
+			<th class="text-left">Structure</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
 			<th class="!text-center">Voir le carnet</th>
@@ -63,12 +63,21 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
+					{#if beneficiary.structures.length > 0}
+						{beneficiary.structures[0].structure.name}
+						{#if beneficiary.structures.length > 1}
+							<span>
+								et {beneficiary.structures.length - 1}
+								{pluralize('structure', beneficiary.structures.length - 1)}
+							</span>
+						{/if}
+					{:else}
+						-
+					{/if}
+				</td>
+				<td>
 					{#if beneficiary.notebook.members.length > 0}
-						<button
-							class="fr-tag fr-tag-sm"
-							on:click={() => openEditLayer(beneficiary)}
-							disabled={beneficiary.structures.every((item) => item.structure.id !== structureId)}
-						>
+						<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
 							{displayFullName(beneficiary.notebook.members[0].professional)}
 						</button>
 						{#if beneficiary.notebook.members.length > 1}

@@ -15,6 +15,8 @@
 
 	import BeneficiaryFilterView from './Filters.svelte';
 	import BeneficiaryList from '$lib/ui/BeneficiaryList/List.svelte';
+	import BeneficiaryListWithStructure from '$lib/ui/BeneficiaryList/ListWithStructure.svelte';
+
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
@@ -24,9 +26,10 @@
 	export let search: string;
 	export let filter: MemberFilter;
 	export let currentPage: number;
-	export let structureId: string;
-	export let hideStructure = false;
-	export let showNotebook = false;
+
+	export let structureId: string = null;
+	export let withStructureEdit = false;
+
 	const pageSize = 10;
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
@@ -104,7 +107,6 @@
 			// so we preselect member in the pro list
 			member = memberSet.values().next().value;
 		}
-		console.log(member, memberSet);
 		openComponent.open({
 			component: AddProfessionnalForm,
 			props: {
@@ -125,12 +127,11 @@
 <div class="flex flex-col gap-8">
 	<BeneficiaryFilterView {filter} {search} on:filter-update={updateFilters} />
 	<LoaderIndicator {result}>
-		<BeneficiaryList
-			beneficiaries={$result.data.beneficiaries}
-			{hideStructure}
-			{showNotebook}
-			{structureId}
-		/>
+		{#if withStructureEdit}
+			<BeneficiaryListWithStructure beneficiaries={$result.data.beneficiaries} />
+		{:else}
+			<BeneficiaryList beneficiaries={$result.data.beneficiaries} {structureId} />
+		{/if}
 		<div class="flex justify-center">
 			<Pagination
 				{currentPage}

@@ -19,8 +19,8 @@
 
 <BeneficiaryPersonalInfoView
 	{beneficiary}
-	lastUpdateDate={members[0].lastModifiedAt}
-	lastUpdateFrom={members[0].professional}
+	lastUpdateDate={members[0]?.lastModifiedAt}
+	lastUpdateFrom={members[0]?.professional}
 />
 <div class="py-8">
 	<Accordions>

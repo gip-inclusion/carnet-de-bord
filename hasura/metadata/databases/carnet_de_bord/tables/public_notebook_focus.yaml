@@ -111,8 +111,15 @@ select_permissions:
           _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
 - permission:
+    allow_aggregations: true
     columns:
+    - id
+    - theme
+    - situations
+    - creator_id
+    - notebook_id
     - created_at
+    - linked_to
     - updated_at
     filter:
       notebook:

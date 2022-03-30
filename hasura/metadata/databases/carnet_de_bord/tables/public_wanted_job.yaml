@@ -68,6 +68,18 @@ select_permissions:
           _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
 - permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - notebook_id
+    - rome_code_id
+    filter:
+      notebook:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: manager
+- permission:
     columns:
     - id
     - notebook_id

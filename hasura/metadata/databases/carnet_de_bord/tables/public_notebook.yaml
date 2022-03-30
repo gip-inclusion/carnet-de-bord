@@ -215,6 +215,8 @@ select_permissions:
     - updated_at
     - work_situation
     - work_situation_date
+    computed_fields:
+    - nbMembers
     filter:
       beneficiary:
         deployment_id:
