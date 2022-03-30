@@ -28,7 +28,7 @@
 		transition:fly={{ duration: 300, x: 300 }}
 		class="!m-0 top-0 right-0 w-1/2 bg-white fixed h-full overflow-y-scroll layer overscroll-contain"
 	>
-		<div class="flex flex-col gap-6 mx-14 mt-28 mb-14">
+		<div class="flex flex-col gap-6 mx-14 mt-28 mb-14" role="dialog" tabindex="-1">
 			<svelte:component this={currentLayer.component} {...currentLayer.props} />
 		</div>
 		<IconButton

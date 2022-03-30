@@ -24,9 +24,9 @@
 	export let search: string;
 	export let filter: MemberFilter;
 	export let currentPage: number;
+	export let structureId: string;
 	export let hideStructure = false;
 	export let showNotebook = false;
-
 	const pageSize = 10;
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
@@ -49,7 +49,7 @@
 			limit: pageSize,
 			withMembers: getWithMemberFilter(filter),
 		},
-		{ additionalTypenames: ['beneficiary'], requestPolicy: 'cache-and-network' }
+		{ additionalTypenames: ['beneficiary', 'notebook_member'], requestPolicy: 'cache-and-network' }
 	);
 
 	query(result);
@@ -125,7 +125,12 @@
 <div class="flex flex-col gap-8">
 	<BeneficiaryFilterView {filter} {search} on:filter-update={updateFilters} />
 	<LoaderIndicator {result}>
-		<BeneficiaryList beneficiaries={$result.data.beneficiaries} {hideStructure} {showNotebook} />
+		<BeneficiaryList
+			beneficiaries={$result.data.beneficiaries}
+			{hideStructure}
+			{showNotebook}
+			{structureId}
+		/>
 		<div class="flex justify-center">
 			<Pagination
 				{currentPage}

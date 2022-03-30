@@ -148,7 +148,7 @@
 					{#each metrics as item (item.label)}
 						<div class="fr-col-sm-6 fr-col-md-4 fr-col-lg-4">
 							<Card horizontal={true} hideArrow={!item.link} href={item.link}>
-								<span slot="title">
+								<div slot="title">
 									<div
 										class={`pb-1 flex flex-row font-bold text-3xl tracking-wider ${
 											item.classNames || ''
@@ -156,10 +156,10 @@
 									>
 										{item.amount}
 									</div>
-								</span>
-								<span slot="description">
-									<span class={item.classNames || ''}>{item.label}</span>
-								</span>
+									<span class={`font-normal leading-6 text-sm ${item.classNames}`}
+										>{item.label}</span
+									>
+								</div>
 							</Card>
 						</div>
 					{/each}

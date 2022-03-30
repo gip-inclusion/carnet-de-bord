@@ -17,7 +17,7 @@
 		</thead>
 		<tbody>
 			{#each members as member}
-				<tr>
+				<tr class:font-bold={member.memberType === 'referent'}>
 					<td>
 						<Text value={member.professional.structure.name} />
 					</td>
@@ -25,6 +25,9 @@
 						<div class="flex flex-row gap-2">
 							<Text value={member.professional.firstname} />
 							<Text value={member.professional.lastname} />
+							{#if member.memberType === 'referent'}
+								(référent)
+							{/if}
 						</div>
 					</td>
 					<td>

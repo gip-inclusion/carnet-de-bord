@@ -13,6 +13,7 @@
 	export let beneficiaries: Beneficiary[];
 	export let hideStructure = false;
 	export let showNotebook = false;
+	export let structureId: string;
 
 	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
@@ -58,7 +59,7 @@
 							name="selection"
 						/>
 						<label class="fr-label" for={beneficiary.id}>
-							<span class="sr-only"> Selectionner {displayFullName(beneficiary)}</span>
+							<span class="sr-only">Sélectionner {displayFullName(beneficiary)}</span>
 						</label>
 					</div>
 				</td>
@@ -81,7 +82,11 @@
 				{/if}
 				<td>
 					{#if beneficiary.notebook.members.length > 0}
-						<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
+						<button
+							class="fr-tag fr-tag-sm"
+							on:click={() => openEditLayer(beneficiary)}
+							disabled={beneficiary.structures.every((item) => item.structure.id !== structureId)}
+						>
 							{displayFullName(beneficiary.notebook.members[0].professional)}
 						</button>
 						{#if beneficiary.notebook.members.length > 1}
