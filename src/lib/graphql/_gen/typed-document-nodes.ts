@@ -7786,7 +7786,7 @@ export type RemoveNotebookMembersMutation = {
 };
 
 export type GetProfessionalsFromStructuresQueryVariables = Exact<{
-	structures: Array<Scalars['uuid']> | Scalars['uuid'];
+	criteria: ProfessionalBoolExp;
 }>;
 
 export type GetProfessionalsFromStructuresQuery = {
@@ -10613,16 +10613,10 @@ export const GetProfessionalsFromStructuresDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structures' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'criteria' } },
 					type: {
 						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-							},
-						},
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'professional_bool_exp' } },
 					},
 				},
 			],
@@ -10636,28 +10630,7 @@ export const GetProfessionalsFromStructuresDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'structureId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_in' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'structures' },
-														},
-													},
-												],
-											},
-										},
-									],
-								},
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'criteria' } },
 							},
 						],
 						selectionSet: {

@@ -2,6 +2,7 @@
 	import {
 		GetProfessionalsFromStructuresDocument,
 		GetProfessionalsFromStructuresQuery,
+		ProfessionalBoolExp,
 		RemoveReferentDocument,
 		UpdateReferentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
@@ -16,13 +17,13 @@
 
 	export let member: string = null;
 	export let notebooks: { beneficiaryId: string; notebookId: string }[];
-	export let structuresId: string[] = [];
+	export let criteria: ProfessionalBoolExp = {};
 	export let showResetMembers = false;
 	export let onClose: () => void;
 
 	let professionalStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
 		GetProfessionalsFromStructuresDocument,
-		{ structures: structuresId }
+		{ criteria }
 	);
 	query(professionalStore);
 

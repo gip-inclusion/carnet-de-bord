@@ -133,8 +133,9 @@ select_permissions:
     - website
     - deployment_id
     filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
+      admins:
+        admin_structure_id:
+          _eq: X-Hasura-AdminStructure-Id
   role: admin_structure
 - permission:
     columns:
