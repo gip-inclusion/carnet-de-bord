@@ -88,6 +88,7 @@ fragment eventFields on notebook_event {
 	id
 	eventDate
 	event
+	eventType
 	professionalId
 	professional {
 		structureId

@@ -5,6 +5,7 @@ configuration:
   custom_column_names:
     creation_date: creationDate
     event_date: eventDate
+    event_type: eventType
     notebook_id: notebookId
     professional_id: professionalId
   custom_root_fields: {}

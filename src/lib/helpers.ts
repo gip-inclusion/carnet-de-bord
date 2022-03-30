@@ -1,7 +1,11 @@
 export const stringsMatch =
 	(needle: string) =>
-	(haystack?: string | null): boolean =>
-		haystack && haystack.toLocaleLowerCase().includes(needle.toLocaleLowerCase());
+	(haystack?: string | null): boolean => {
+		if (!needle) {
+			return true;
+		}
+		return haystack && haystack.toLocaleLowerCase().includes(needle.toLocaleLowerCase());
+	};
 
 export const pluck = function pluck<T>(
 	props: string[],

@@ -3814,7 +3814,7 @@ export type NotebookEvent = {
 	creationDate: Scalars['timestamptz'];
 	event: Scalars['jsonb'];
 	eventDate: Scalars['timestamptz'];
-	event_type: NotebookEventTypeEnum;
+	eventType: NotebookEventTypeEnum;
 	id: Scalars['uuid'];
 	/** An object relationship */
 	notebook: Notebook;
@@ -3877,7 +3877,7 @@ export type NotebookEventBoolExp = {
 	creationDate?: InputMaybe<TimestamptzComparisonExp>;
 	event?: InputMaybe<JsonbComparisonExp>;
 	eventDate?: InputMaybe<TimestamptzComparisonExp>;
-	event_type?: InputMaybe<NotebookEventTypeEnumComparisonExp>;
+	eventType?: InputMaybe<NotebookEventTypeEnumComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
@@ -3911,7 +3911,7 @@ export type NotebookEventInsertInput = {
 	creationDate?: InputMaybe<Scalars['timestamptz']>;
 	event?: InputMaybe<Scalars['jsonb']>;
 	eventDate?: InputMaybe<Scalars['timestamptz']>;
-	event_type?: InputMaybe<NotebookEventTypeEnum>;
+	eventType?: InputMaybe<NotebookEventTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
@@ -3978,7 +3978,7 @@ export type NotebookEventOrderBy = {
 	creationDate?: InputMaybe<OrderBy>;
 	event?: InputMaybe<OrderBy>;
 	eventDate?: InputMaybe<OrderBy>;
-	event_type?: InputMaybe<OrderBy>;
+	eventType?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
@@ -4005,7 +4005,7 @@ export enum NotebookEventSelectColumn {
 	/** column name */
 	EventDate = 'eventDate',
 	/** column name */
-	EventType = 'event_type',
+	EventType = 'eventType',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -4019,7 +4019,7 @@ export type NotebookEventSetInput = {
 	creationDate?: InputMaybe<Scalars['timestamptz']>;
 	event?: InputMaybe<Scalars['jsonb']>;
 	eventDate?: InputMaybe<Scalars['timestamptz']>;
-	event_type?: InputMaybe<NotebookEventTypeEnum>;
+	eventType?: InputMaybe<NotebookEventTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
@@ -4162,7 +4162,7 @@ export enum NotebookEventUpdateColumn {
 	/** column name */
 	EventDate = 'eventDate',
 	/** column name */
-	EventType = 'event_type',
+	EventType = 'eventType',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -9839,6 +9839,7 @@ export type GetNotebookQuery = {
 					id: string;
 					eventDate: string;
 					event: any;
+					eventType: NotebookEventTypeEnum;
 					professionalId: string;
 					professional: {
 						__typename?: 'professional';
@@ -9864,6 +9865,7 @@ export type GetNotebookEventsQuery = {
 		id: string;
 		eventDate: string;
 		event: any;
+		eventType: NotebookEventTypeEnum;
 		professionalId: string;
 		professional: {
 			__typename?: 'professional';
@@ -9878,6 +9880,7 @@ export type EventFieldsFragment = {
 	id: string;
 	eventDate: string;
 	event: any;
+	eventType: NotebookEventTypeEnum;
 	professionalId: string;
 	professional: {
 		__typename?: 'professional';
@@ -10172,6 +10175,7 @@ export const NotebookFragmentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'event' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'eventType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 					{
 						kind: 'Field',

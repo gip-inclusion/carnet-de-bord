@@ -15,11 +15,13 @@
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import { LoaderIndicator } from '$lib/ui/utils';
-	import { statusValues } from '$lib/constants';
+	import { statusValues, eventTypes } from '$lib/constants';
+	import { EventType } from '$lib/enums';
 	import { formatDateLocale } from '$lib/utils/date';
 	import type { Load } from '@sveltejs/kit';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
+	import { focusThemeKeys } from '$lib/constants/keys';
 
 	type Period =
 		| typeof allEvents
@@ -42,18 +44,22 @@
 		return `${yyyy}-${mm}-${dd}`;
 	}
 
-	function eventToString(event: any): string {
-		if (event.type == 'status_changed') {
+	function eventCategory(event): string {
+		if (event.eventType == EventType.Action || event.eventType == EventType.Target) {
 			return (
-				'Status changé de ' +
-				statusToString(event.old, statusValues) +
-				' à ' +
-				statusToString(event.new, statusValues)
+				constantToString(event.eventType, eventTypes) +
+				' ' +
+				focusThemeKeys.byKey[event.event.category]
 			);
+		} else {
+			return 'Inconnue';
 		}
 	}
 
-	function statusToString(status: string, statusValues: { label: string; name: string }[]): string {
+	function constantToString(
+		status: string,
+		statusValues: { label: string; name: string }[]
+	): string {
 		let status_string: { label: string; name: string } = statusValues.find((v) => v.name == status);
 
 		return status_string ? status_string.label : 'Inconnu';
@@ -153,7 +159,13 @@
 
 	function handleSearch() {
 		const matcher = stringsMatch(search);
-		filteredEvents = events?.filter(({ event, structure }) => matcher(event) || matcher(structure));
+		filteredEvents = events?.filter(
+			(filtered_event) =>
+				matcher(filtered_event.event.event_label) ||
+				matcher(filtered_event.professional.structure.name) ||
+				matcher(eventCategory(filtered_event)) ||
+				matcher(constantToString(filtered_event.event.status, statusValues))
+		);
 	}
 </script>
 
@@ -223,20 +235,24 @@
 						<thead>
 							<tr>
 								<th>Date</th>
+								<th>Catégorie</th>
 								<th>Évènements</th>
-								<th>Auteurs</th>
+								<th>Structure</th>
+								<th>Statut</th>
 							</tr>
 						</thead>
 						<tbody class="w-full">
 							{#each filteredEvents || [] as event (event.id)}
 								<tr>
 									<td>{formatDateLocale(event.eventDate)} </td>
-									<td>{eventToString(event.event)}</td>
+									<td>{eventCategory(event)}</td>
+									<td>{event.event.event_label}</td>
 									<td>{event.professional.structure.name} </td>
+									<td>{constantToString(event.event.status, statusValues)}</td>
 								</tr>
 							{:else}
 								<tr class="shadow-sm">
-									<td class="!text-center" colspan="3">
+									<td class="!text-center" colspan="5">
 										{#if events.length > 0}
 											Aucun évènement ne correspond à votre recherche.
 										{:else}
