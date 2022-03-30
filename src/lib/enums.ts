@@ -3,3 +3,8 @@ export enum ActionStatus {
 	Done = 'done',
 	Abandoned = 'abandoned',
 }
+
+export enum EventType {
+	Target = 'target',
+	Action = 'action',
+}

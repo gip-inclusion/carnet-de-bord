@@ -5,6 +5,7 @@ configuration:
   custom_column_names:
     creation_date: creationDate
     event_date: eventDate
+    event_type: eventType
     notebook_id: notebookId
     professional_id: professionalId
   custom_root_fields: {}
@@ -20,13 +21,13 @@ insert_permissions:
     backend_only: false
     check: {}
     columns:
+    - creation_date
+    - event
+    - event_date
+    - event_type
     - id
     - notebook_id
-    - creation_date
-    - event_date
     - professional_id
-    - event
-    - structure
   role: admin_cdb
 - permission:
     backend_only: false
@@ -37,9 +38,12 @@ insert_permissions:
             _eq: X-Hasura-Professional-Id
     columns:
     - creation_date
+    - event
     - event_date
+    - event_type
     - id
     - notebook_id
+    - professional_id
     set:
       professional_id: x-hasura-Professional-Id
   role: professional
@@ -47,10 +51,10 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - event
-    - structure
-    - event_date
     - creation_date
+    - event
+    - event_date
+    - event_type
     - id
     - notebook_id
     - professional_id
@@ -62,10 +66,10 @@ select_permissions:
     - creation_date
     - event
     - event_date
+    - event_type
     - id
     - notebook_id
     - professional_id
-    - structure
     filter:
       notebook:
         members:
@@ -76,10 +80,10 @@ update_permissions:
 - permission:
     check: {}
     columns:
-    - event
-    - structure
-    - event_date
     - creation_date
+    - event
+    - event_date
+    - event_type
     - id
     - notebook_id
     - professional_id
@@ -87,8 +91,7 @@ update_permissions:
   role: admin_cdb
 - permission:
     check: null
-    columns:
-    - event_date
+    columns: []
     filter:
       professional_id:
         _eq: X-Hasura-Professional-Id

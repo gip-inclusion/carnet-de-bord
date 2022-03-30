@@ -9,6 +9,7 @@
 - "!include public_notebook.yaml"
 - "!include public_notebook_action.yaml"
 - "!include public_notebook_event.yaml"
+- "!include public_notebook_event_type.yaml"
 - "!include public_notebook_focus.yaml"
 - "!include public_notebook_member.yaml"
 - "!include public_notebook_target.yaml"
