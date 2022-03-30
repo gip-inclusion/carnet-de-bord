@@ -22,42 +22,48 @@
 	lastUpdateDate={members[0].lastModifiedAt}
 	lastUpdateFrom={members[0].professional}
 />
-
-<Accordions>
-	<MainAccordion title="Situation socioprofessionnelle">
-		<SocioProView {notebook} />
-	</MainAccordion>
-	<MainAccordion title="Groupe de suivi">
-		<NotebookMembers members={notebook.members} />
-	</MainAccordion>
-	<MainAccordion title="Plan d'action">
-		<ul class="list-none pl-0">
-			{#each notebook.focuses as focus}
-				<li>
-					<h3 class="fr-h4">
-						<span><span class="fr-fi-arrow-right-s-line" aria-hidden="true" /></span>{focusThemeKeys
-							.byKey[focus.theme]}
-					</h3>
-					<p>{focus.situations.join('<br/>')}</p>
-					<div class="py-4">
-						<Accordions>
-							{#each focus.targets as target}
-								<Accordion title={target.target}>
-									<ul>
-										{#each target.actions as action}
-											<li>
-												{action.action}
-												créé le {formatDateLocale(action.createdAt)}
-												par {displayFullName(action.creator)}
-											</li>
-										{/each}
-									</ul>
-								</Accordion>
-							{/each}
-						</Accordions>
-					</div>
-				</li>
-			{/each}
-		</ul>
-	</MainAccordion>
-</Accordions>
+<div class="py-8">
+	<Accordions>
+		<MainAccordion title="Situation socioprofessionnelle">
+			<SocioProView {notebook} />
+		</MainAccordion>
+		<MainAccordion title="Groupe de suivi">
+			<NotebookMembers members={notebook.members} />
+		</MainAccordion>
+		<MainAccordion title="Plan d'action">
+			{#if notebook.focuses.length === 0}
+				Pas d'actions en cours
+			{/if}
+			<ul class="list-none pl-0">
+				{#each notebook.focuses as focus}
+					<li>
+						<h3 class="fr-h4">
+							<span><span class="fr-fi-arrow-right-s-line" aria-hidden="true" /></span
+							>{focusThemeKeys.byKey[focus.theme]}
+						</h3>
+						<p>{focus.situations.join('<br/>')}</p>
+						<div class="py-4">
+							<Accordions>
+								{#each focus.targets as target}
+									<Accordion title={target.target}>
+										<ul>
+											{#each target.actions as action}
+												<li>
+													{action.action}
+													créé le {formatDateLocale(action.createdAt)}
+													{#if action.creator}
+														par {displayFullName(action.creator)}
+													{/if}
+												</li>
+											{/each}
+										</ul>
+									</Accordion>
+								{/each}
+							</Accordions>
+						</div>
+					</li>
+				{/each}
+			</ul>
+		</MainAccordion>
+	</Accordions>
+</div>

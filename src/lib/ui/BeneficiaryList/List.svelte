@@ -40,7 +40,7 @@
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
 			{#if !hideStructure}<th class="text-left">Structure</th>{/if}
-			<th class="text-left"><span class="fr-tag no-bg">Suivi par</span></th>
+			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
 			{#if showNotebook}<th class="!text-center">Voir le carnet</th>{/if}
 		</tr>

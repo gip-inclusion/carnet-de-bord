@@ -12,6 +12,7 @@
 	import Button from '../base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import Alert from '../base/Alert.svelte';
+	import { pluralize } from '$lib/helpers';
 
 	export let member: string = null;
 	export let notebooks: { beneficiaryId: string; notebookId: string }[];
@@ -80,7 +81,13 @@
 <section class="flex flex-col w-full">
 	<div class="pb-8">
 		<h1>Rattacher des bénéficiaires</h1>
-		<p class="mb-0">Veuillez sélectionner le professionnel à rattacher aux bénéficiaires.</p>
+		<p class="mb-0">
+			Veuillez sélectionner le nouveau référent unique à rattacher {pluralize(
+				'aux',
+				notebooks.length
+			)}
+			{pluralize('bénéficiaires', notebooks.length)}.
+		</p>
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
 		<Select
@@ -93,7 +100,7 @@
 		/>
 		{#if showResetMembers}
 			<Checkbox
-				label="Retirer les anciens accompagnateurs du groupe de suivi."
+				label="Retirer l'ancien référent du groupe de suivi."
 				name="reset"
 				bind:checked={resetMembers}
 			/>
