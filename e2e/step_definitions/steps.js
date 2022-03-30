@@ -229,17 +229,19 @@ Quand('je téléverse le fichier {string}', (filename) => {
 
 Before(async (params) => {
 	if (params.tags.indexOf('@import_pro') >= 0) {
-		await clearProfessionals();
+		await removeProfessionalsFixture();
 	}
 	if (params.tags.indexOf('@deploiement') >= 0) {
-		await clearDeployment();
+		await removeDeploymentFixture();
 	}
 	if (params.tags.indexOf('@import_structures') >= 0) {
-		await clearStructures();
+		await removeStructuresFixture();
 	}
-
 	if (params.tags.indexOf('@import_beneficiaires') >= 0) {
-		await clearBeneficiaries();
+		await removeBeneficiariesFixture();
+	}
+	if (params.tags.indexOf('@rattachement_beneficiaires') >= 0) {
+		await removeNotebookMemberFixture();
 	}
 });
 
@@ -318,9 +320,9 @@ async function onboardingSetup(email, userType, onboardingDone) {
 	);
 }
 
-async function clearProfessionals() {
+async function removeProfessionalsFixture() {
 	return await I.sendMutation(
-		`mutation ClearProfessionals {
+		`mutation RemoveProfessionalsFixture {
 		  delete_account(where: {professional: {email: {_in: ["salome@cd26.fr", "sofia@cd26.fr"]}}}) {
 		    affected_rows
 		  }
@@ -331,9 +333,9 @@ async function clearProfessionals() {
 	);
 }
 
-async function clearDeployment() {
+async function removeDeploymentFixture() {
 	return await I.sendMutation(
-		`mutation ClearDeployment {
+		`mutation RemoveDeploymentFixture {
 		  delete_account(where: {manager: {email: {_eq: "experimentation-e2e@noreply.beta.gouv.fr"}}}) {
 		    affected_rows
 		  }
@@ -347,10 +349,10 @@ async function clearDeployment() {
 	);
 }
 
-async function clearStructures() {
-	await clearBeneficiaries();
+async function removeStructuresFixture() {
+	await removeBeneficiariesFixture();
 	return await I.sendMutation(
-		`mutation ClearStructures {
+		`mutation RemoveStructuresFixture {
 	    delete_admin_structure_structure(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
 		    affected_rows
 		  }
@@ -367,9 +369,9 @@ async function clearStructures() {
 	);
 }
 
-async function clearBeneficiaries() {
+async function removeBeneficiariesFixture() {
 	return await I.sendMutation(
-		`mutation ClearBeneficiaries {
+		`mutation RemoveBeneficiariesFixture {
 		  delete_wanted_job(where: {notebook: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}}) {
 		    affected_rows
 		  }
@@ -380,6 +382,16 @@ async function clearBeneficiaries() {
 		    affected_rows
 		  }
 		  delete_beneficiary(where: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}) {
+		    affected_rows
+		  }
+		}`
+	);
+}
+
+async function removeNotebookMemberFixture() {
+	return await I.sendMutation(
+		`mutation RemoveNotebookMemberFixture {
+		  delete_notebook_member(where: {professional: {email: {_eq: "pierre.chevalier@livry-gargan.fr"}}, notebookId: {_eq: "b7e43c7c-7c3e-464b-80de-f4926d4bb1e0"}}) {
 		    affected_rows
 		  }
 		}`
