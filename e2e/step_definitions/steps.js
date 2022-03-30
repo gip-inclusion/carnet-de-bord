@@ -234,7 +234,7 @@ Before(async (params) => {
 	if (params.tags.indexOf('@deploiement') >= 0) {
 		await clearDeployment();
 	}
-	if (params.tags.indexOf('@onboarding_admin_structure') >= 0) {
+	if (params.tags.indexOf('@import_structures') >= 0) {
 		await clearStructures();
 	}
 });
@@ -347,13 +347,16 @@ async function clearDeployment() {
 async function clearStructures() {
 	return await I.sendMutation(
 		`mutation ClearStructures {
+	    delete_admin_structure_structure(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
+		    affected_rows
+		  }
+		  delete_structure(where: {name: {_eq: "CD 26"}}) {
+		    affected_rows
+		  }
 		  delete_account(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
 		    affected_rows
 		  }
 		  delete_admin_structure(where: {email: {_eq: "jean.paul@drome.fr"}}) {
-		    affected_rows
-		  }
-		  delete_structure(where: {name: {_eq: "CD 26"}}) {
 		    affected_rows
 		  }
 		}`
