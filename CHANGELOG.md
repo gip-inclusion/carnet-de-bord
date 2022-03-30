@@ -1,3 +1,10 @@
+# [1.102.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.101.0...v1.102.0) (2022-03-30)
+
+
+### Features
+
+* beneficiary view for admin structure ([#739](https://github.com/SocialGouv/carnet-de-bord/issues/739)) ([3ba0286](https://github.com/SocialGouv/carnet-de-bord/commit/3ba02863336fa010471a68f399ee4b3cc525e161))
+
 # [1.101.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.100.6...v1.101.0) (2022-03-25)
 
 
