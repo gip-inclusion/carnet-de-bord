@@ -43,7 +43,6 @@ INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('c0b8aee3-c061-4023-b57e-92880627d589', NULL, 'Interlogement 51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 
 -- Beneficiary
-SET check_function_bodies = false;
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, deployment_id, created_at, updated_at, internal_id) VALUES ('c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', 'stifour93@yahoo.fr', 'Tifour', 'Sophie', '2055990', '300000L', '93190', 'Livry-Gargan', '7 chemin du soleil', NULL, '0606060606', '1982-02-01', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:02:50.597956+00', '2022-03-30 09:02:50.597956+00', NULL);
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, deployment_id, created_at, updated_at, internal_id) VALUES ('f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'marc@yahoo.fr', 'Marc', 'Saintpa', NULL, NULL, NULL, NULL, NULL, NULL, '0600000000', '1982-02-01', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', '2022-03-30 09:02:50.597956+00', '2022-03-30 09:02:50.597956+00', NULL);
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, deployment_id, created_at, updated_at, internal_id) VALUES ('3c1a9fdf-a231-4659-9a91-630ff12c5774', 'etta.bullock@aute.com', 'Bullock', 'Etta', '2089564M', '7670083', '88619', 'Gila', '778 Tech Place', '', '0543607681', '1973-07-21', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:36.22194+00', '2022-03-30 09:29:36.22194+00', 'de4ee6bf-2586-4831-9f22-484cda7b1b65');
@@ -103,7 +102,6 @@ INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_n
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, deployment_id, created_at, updated_at, internal_id) VALUES ('ba6dc97e-05dd-4053-a810-b12605a11bba', 'keller.noel@fugiat.fr', 'Noel', 'Keller', '3067049O', '5891832', '69995', 'Cucumber', '533 Trucklemans Lane', '', '0487512876', '1977-03-23', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:30:25.617229+00', '2022-03-30 09:30:25.617229+00', '47207b54-1f06-4532-a498-f21fccbff699');
 
 -- beneficiary_structure
-SET check_function_bodies = false;
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('5b7c51b1-b738-4805-bc06-a4119527f3f9', 'c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'done', '{}', '2022-03-24 17:22:38.219997+00', '2022-03-24 17:22:38.219997+00');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('3fc2023c-fe66-46cc-8775-d70537436a0c', 'f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', 'c0b8aee3-c061-4023-b57e-92880627d589', 'done', '{}', '2022-03-24 17:22:38.219997+00', '2022-03-24 17:22:38.219997+00');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('3ddbf920-20db-4a7c-8c6e-8ae080c5ce4e', '3c1a9fdf-a231-4659-9a91-630ff12c5774', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:36.22194+00', '2022-03-30 09:29:36.22194+00');
@@ -163,8 +161,6 @@ INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, stat
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('703ff102-ff41-4fc5-b66f-1fe608b2a71f', 'ba6dc97e-05dd-4053-a810-b12605a11bba', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:30:25.617229+00', '2022-03-30 09:30:25.617229+00');
 
 -- notebook
-SET check_function_bodies = false;
-
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at) VALUES ('9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', '2021-09-21 11:51:37.295647+00', 'rsa_droit_ouvert_et_suspendu', false, false, false, false, 'between_10_20', 'level_3', '2021-09-22', 'cer', '2020-01-05', 'iae', '2022-03-30 09:17:52.320373+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at) VALUES ('b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'f3e4dd0f-7746-44f6-a5f1-29059a88aa5a', '2022-03-30 09:17:52.320373+00', NULL, false, false, false, false, 'between_10_20', 'level_3', '2021-09-22', 'cer', '2020-01-05', 'iae', '2022-03-30 09:17:52.320373+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at) VALUES ('24e335cb-4e2b-481b-84b7-617d77f60f56', '3c1a9fdf-a231-4659-9a91-630ff12c5774', '2022-03-30 09:29:36.22194+00', NULL, false, false, true, false, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:36.22194+00');
@@ -224,8 +220,6 @@ INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rq
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at) VALUES ('a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8', 'ba6dc97e-05dd-4053-a810-b12605a11bba', '2022-03-30 09:30:25.617229+00', NULL, true, true, true, true, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:30:25.617229+00');
 
 -- wanted_jobs
-
-SET check_function_bodies = false;
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('539675a3-ca5b-4fa7-8a34-1c988ac383f3', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '7d458742-3eae-4f3e-8a07-7eef35e375ae');
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('35b20f9d-f593-4062-8ceb-f97d5aba7c97', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', '7d458742-3eae-4f3e-8a07-7eef35e375ae');
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('3c311b20-98f5-4d7c-8394-a125cf1f0a1e', 'fb1c7e3b-a1ac-4b15-82cd-8306a405a3a1', '706f7743-8fa3-4817-82e2-bb3ea0d81c96');
@@ -261,9 +255,7 @@ INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('e9070329-
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('07a24076-f0f9-4e99-8767-d7201d41fbc4', 'a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8', '706f7743-8fa3-4817-82e2-bb3ea0d81c96');
 
 
-
--- SET check_function_bodies = false;
-
+-- Other account and notebook data
 INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('c2a346cd-b3dd-4892-a33d-7ada82654f97', 'vincent.timaitre@beta.gouv.fr', 'Vincent', 'Timaitre', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('1a19d72c-7fb1-4cdb-aa47-853b83239c98', 'vincent.timaitre', 'admin_structure', 'c2a346cd-b3dd-4892-a33d-7ada82654f97', true, true);
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('3b1082e7-7ccd-4857-a4ae-924b5314b2e4', 'c2a346cd-b3dd-4892-a33d-7ada82654f97', '8b71184c-6479-4440-aa89-15da704cc792');
@@ -289,7 +281,7 @@ INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('d211a3b8-346c-4f77-a570-bc1c9240e744', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'sandie.manchet@livry-gargan.fr', 'Manchet', 'Sandie', 'Conseillere sociale', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('6338f969-c881-41d7-9af8-9f5c92f7ac67', 'sandie.manchet', 'professional', 'd211a3b8-346c-4f77-a570-bc1c9240e744', true, false);
--- INSERT INTO public.wanted_job (rome_code_id, notebook_id) VALUES ((SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'), '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d');
+
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('a55d1dd2-2b09-4456-bcc5-1412695f684f', 'logement', '["Hébergé chez un tiers"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:15:54.752334+00', 'cer');
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('19911b5c-e614-450d-bbeb-eba0d8ae1e18', 'difficulte_administrative', '["Besoin d''être guidé dans le cadre d''un accès aux droits"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:26:42.939011+00', 'cer');
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('d4bf4811-bbce-4f99-8b57-358187653b59', 'emploi', '["Prêt  à suivre une formation"]', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:33:16.96523+00', 'cer');

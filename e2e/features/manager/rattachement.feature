@@ -11,11 +11,11 @@ Fonctionnalité: Rattachement pro
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je recherche "tif"
-		Quand je clique sur "rechercher"
+		Quand je clique sur "Rechercher"
 		Alors je vois "Pierre Chevalier" sur la ligne "Tifour"
 		Quand je clique sur "Pierre Chevalier"
 		Alors je vois "Rattacher des bénéficiaires"
-		Alors je selectionne l'option "Sandie Manchet" dans la liste "Nom du référent"
+		Alors je selectionne l'option "Sandie Manchet" dans la liste "Nom du nouveau référent unique"
 		Alors je choisis "Retirer l'ancien référent du groupe de suivi."
 		Quand je clique sur "Rattacher"
 		Alors je vois "Sandie Manchet" sur la ligne "Tifour"

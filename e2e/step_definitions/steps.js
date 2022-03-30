@@ -60,7 +60,7 @@ Quand('je pause le test', () => {
 });
 
 Quand('je recherche {string}', (searchText) => {
-	I.fillField('q', searchText);
+	I.fillField('search', searchText);
 });
 
 Quand('je renseigne {string} dans le champ {string}', (text, input) => {

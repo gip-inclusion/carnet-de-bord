@@ -84,17 +84,18 @@
 		<h1>Rattacher des bénéficiaires</h1>
 		<p class="mb-0">
 			Veuillez sélectionner le nouveau référent unique à rattacher {pluralize(
-				'aux',
-				notebooks.length
+				'du',
+				notebooks.length,
+				'des'
 			)}
-			{pluralize('bénéficiaires', notebooks.length)}.
+			{pluralize('bénéficiaire', notebooks.length)}.
 		</p>
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
 		<Select
 			bind:selected={selectedMember}
-			selectLabel={member ? 'Nom du nouveau professionnel' : 'Nom du référent'}
-			selectHint="Sélectionner un professionel"
+			selectLabel={member ? 'Nom du nouveau référent unique' : 'Nom du référent unique'}
+			selectHint="Sélectionner un professionnel"
 			options={professionalOptions}
 			name="professional"
 			id="professional"
