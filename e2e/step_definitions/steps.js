@@ -237,6 +237,10 @@ Before(async (params) => {
 	if (params.tags.indexOf('@import_structures') >= 0) {
 		await clearStructures();
 	}
+
+	if (params.tags.indexOf('@import_beneficiaires') >= 0) {
+		await clearBeneficiaries();
+	}
 });
 
 After((params) => {
@@ -343,8 +347,8 @@ async function clearDeployment() {
 	);
 }
 
-// TODO delete admin_structure_structure before structure
 async function clearStructures() {
+	await clearBeneficiaries();
 	return await I.sendMutation(
 		`mutation ClearStructures {
 	    delete_admin_structure_structure(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
@@ -357,6 +361,25 @@ async function clearStructures() {
 		    affected_rows
 		  }
 		  delete_admin_structure(where: {email: {_eq: "jean.paul@drome.fr"}}) {
+		    affected_rows
+		  }
+		}`
+	);
+}
+
+async function clearBeneficiaries() {
+	return await I.sendMutation(
+		`mutation ClearBeneficiaries {
+		  delete_wanted_job(where: {notebook: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}}) {
+		    affected_rows
+		  }
+		  delete_notebook(where: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}) {
+		    affected_rows
+		  }
+		  delete_beneficiary_structure(where: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}) {
+		    affected_rows
+		  }
+		  delete_beneficiary(where: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}) {
 		    affected_rows
 		  }
 		}`
