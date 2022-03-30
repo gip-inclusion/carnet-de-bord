@@ -21,6 +21,15 @@ insert_permissions:
   role: professional
 select_permissions:
 - permission:
+    allow_aggregations: true
+    columns:
+    - code
+    - description
+    - label
+    - id
+    filter: {}
+  role: admin_structure
+- permission:
     columns:
     - id
     - code

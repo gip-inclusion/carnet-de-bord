@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {
-		GetBeneficiariesQuery,
 		GetProfessionalsFromStructuresDocument,
 		GetProfessionalsFromStructuresQuery,
+		ProfessionalBoolExp,
 		RemoveReferentDocument,
 		UpdateReferentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
@@ -13,14 +13,17 @@
 	import Button from '../base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import Alert from '../base/Alert.svelte';
+	import { pluralize } from '$lib/helpers';
 
-	export let member: OperationStore<GetBeneficiariesQuery>['data']['beneficiaries'][0]['notebook']['members'][0];
-	export let notebookId: string;
-	export let structuresId: string[] = [];
+	export let member: string = null;
+	export let notebooks: { beneficiaryId: string; notebookId: string }[];
+	export let criteria: ProfessionalBoolExp = {};
+	export let showResetMembers = false;
+	export let onClose: () => void;
 
 	let professionalStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
 		GetProfessionalsFromStructuresDocument,
-		{ structures: structuresId }
+		{ criteria }
 	);
 	query(professionalStore);
 
@@ -29,33 +32,45 @@
 			name: pro.id,
 			label: displayFullName(pro),
 		})) ?? [];
-
 	const deleteReferent = mutation({ query: RemoveReferentDocument });
 	const updateReferent = mutation({ query: UpdateReferentDocument });
 
-	let selectedMember = member ? member.professional.id : null;
+	let selectedMember = member;
 	let resetMembers: boolean;
 	let error = false;
 
 	async function handleSubmit() {
-		console.log('submit', { member, selectedMember, resetMembers });
 		if (resetMembers) {
-			const deleteResponse = await deleteReferent({ notebook: notebookId });
+			const deleteResponse = await deleteReferent({
+				notebooks: notebooks.map(({ notebookId }) => notebookId),
+			});
 			if (deleteResponse.error) {
 				error = true;
 				console.log(deleteResponse.error);
 				return;
 			}
 		}
-		const updateResponse = await updateReferent({
-			notebook: notebookId,
-			referent: selectedMember,
-		});
+
+		const updateResponse = await updateReferent(
+			{
+				objects: notebooks.map(({ notebookId }) => ({
+					notebookId,
+					memberType: 'referent',
+					professionalId: selectedMember,
+					active: true,
+				})),
+				structureId: professionalStore.data.professional.find(({ id }) => id === selectedMember)
+					?.structure.id,
+				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),
+			},
+			{ additionalTypenames: ['notebook_member'] }
+		);
 		if (updateResponse.error) {
 			error = true;
 			console.log(updateResponse.error);
 			return;
 		}
+		if (onClose) onClose();
 		openComponent.close();
 	}
 
@@ -67,20 +82,27 @@
 <section class="flex flex-col w-full">
 	<div class="pb-8">
 		<h1>Rattacher des bénéficiaires</h1>
-		<p class="mb-0">Veuillez sélectionner le professionnel à rattacher aux bénéficiaires.</p>
+		<p class="mb-0">
+			Veuillez sélectionner le nouveau référent unique à rattacher {pluralize(
+				'du',
+				notebooks.length,
+				'des'
+			)}
+			{pluralize('bénéficiaire', notebooks.length)}.
+		</p>
 	</div>
 	<form on:submit|preventDefault={handleSubmit}>
 		<Select
 			bind:selected={selectedMember}
-			selectLabel={member ? 'Nom du nouveau professionnel' : 'Nom du référent'}
-			selectHint="Sélectionner un professionel"
+			selectLabel={member ? 'Nom du nouveau référent unique' : 'Nom du référent unique'}
+			selectHint="Sélectionner un professionnel"
 			options={professionalOptions}
 			name="professional"
 			id="professional"
 		/>
-		{#if member}
+		{#if showResetMembers}
 			<Checkbox
-				label="Retirer les anciens accompagnateurs du groupe de suivi."
+				label="Retirer l'ancien référent du groupe de suivi."
 				name="reset"
 				bind:checked={resetMembers}
 			/>

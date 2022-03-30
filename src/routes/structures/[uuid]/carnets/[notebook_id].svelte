@@ -2,33 +2,35 @@
 	import NotebookView from '$lib/ui/views/NotebookView.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { Load } from '@sveltejs/kit';
-	import { GetNotebookByBeneficiaryIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetNotebookByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 
-	export const load: Load = ({ session }) => {
-		const beneficiaryId = session.user.beneficiaryId;
+	export const load: Load = ({ params }) => {
+		const notebookId = params.notebook_id;
 
 		return {
 			props: {
-				beneficiaryId,
+				notebookId,
 			},
 		};
 	};
 </script>
 
 <script lang="ts">
-	export let beneficiaryId: string;
+	export let notebookId: string;
 
-	const getNotebookResult = operationStore(GetNotebookByBeneficiaryIdDocument, {
-		id: beneficiaryId,
+	const getNotebookResult = operationStore(GetNotebookByIdDocument, {
+		id: notebookId,
 	});
 	query(getNotebookResult);
 </script>
 
 <svelte:head>
-	<title>Accueil Bénéficiaire - Carnet de bord</title>
+	<title>Carnet {notebookId} - Carnet de bord</title>
 </svelte:head>
 
 <LoaderIndicator result={getNotebookResult}>
-	<NotebookView notebook={getNotebookResult.data.notebook[0]} />
+	<div class="my-6">
+		<NotebookView notebook={getNotebookResult.data.notebook[0]} />
+	</div>
 </LoaderIndicator>

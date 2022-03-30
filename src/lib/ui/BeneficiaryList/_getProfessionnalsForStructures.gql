@@ -1,5 +1,5 @@
-query GetProfessionalsFromStructures($structures: [uuid!]!) {
-	professional(where: { structureId: { _in: $structures } }) {
+query GetProfessionalsFromStructures($criteria: professional_bool_exp!) {
+	professional(where: $criteria) {
 		id
 		firstname
 		lastname

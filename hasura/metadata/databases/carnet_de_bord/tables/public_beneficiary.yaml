@@ -127,6 +127,7 @@ select_permissions:
     filter: {}
   role: admin_cdb
 - permission:
+    allow_aggregations: true
     columns:
     - id
     - email
@@ -145,8 +146,19 @@ select_permissions:
     - updated_at
     - internal_id
     filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
+      _or:
+      - structures:
+          structure:
+            admins:
+              admin_structure_id:
+                _eq: X-Hasura-AdminStructure-Id
+      - notebook:
+          members:
+            professional:
+              structure:
+                admins:
+                  admin_structure_id:
+                    _eq: X-Hasura-AdminStructure-Id
   role: admin_structure
 - permission:
     allow_aggregations: true

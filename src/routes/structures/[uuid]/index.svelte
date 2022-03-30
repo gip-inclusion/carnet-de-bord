@@ -69,6 +69,7 @@
 				beneficiaries
 			)}`,
 			amount: beneficiaries,
+			link: `${structureId}/beneficiaires?filter=withMember`,
 		},
 		{
 			label: `${pluralize(
@@ -80,6 +81,7 @@
 				structure?.pendingBeneficiaries?.aggregate?.count > 0
 					? 'text-marianne-red'
 					: 'text-success',
+			link: `${structureId}/beneficiaires?filter=noMember`,
 		},
 	];
 
@@ -145,8 +147,8 @@
 				<div class="fr-grid-row fr-grid-row--gutters">
 					{#each metrics as item (item.label)}
 						<div class="fr-col-sm-6 fr-col-md-4 fr-col-lg-4">
-							<Card horizontal={true} hideArrow={true}>
-								<span slot="title">
+							<Card horizontal={true} hideArrow={!item.link} href={item.link}>
+								<div slot="title">
 									<div
 										class={`pb-1 flex flex-row font-bold text-3xl tracking-wider ${
 											item.classNames || ''
@@ -154,10 +156,10 @@
 									>
 										{item.amount}
 									</div>
-								</span>
-								<span slot="description">
-									<span class={item.classNames || ''}>{item.label}</span>
-								</span>
+									<span class={`font-normal leading-6 text-sm ${item.classNames}`}
+										>{item.label}</span
+									>
+								</div>
 							</Card>
 						</div>
 					{/each}
