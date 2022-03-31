@@ -10106,7 +10106,9 @@ export type GetStructureQuery = {
 		| undefined;
 };
 
-export type GetManagedStructuresQueryVariables = Exact<{ [key: string]: never }>;
+export type GetManagedStructuresQueryVariables = Exact<{
+	adminId: Scalars['uuid'];
+}>;
 
 export type GetManagedStructuresQuery = {
 	__typename?: 'query_root';
@@ -21080,6 +21082,16 @@ export const GetManagedStructuresDocument = {
 			kind: 'OperationDefinition',
 			operation: 'query',
 			name: { kind: 'Name', value: 'GetManagedStructures' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
@@ -21087,6 +21099,43 @@ export const GetManagedStructuresDocument = {
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'structures' },
 						name: { kind: 'Name', value: 'structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'admins' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'adminStructureId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'adminId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
