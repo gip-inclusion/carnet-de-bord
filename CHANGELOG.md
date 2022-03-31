@@ -1,3 +1,10 @@
+## [1.103.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.103.0...v1.103.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* debug pending_beneficiary endpoint ([fa919a7](https://github.com/SocialGouv/carnet-de-bord/commit/fa919a7e2c6c749980b984cf2cef789a7f61b195))
+
 # [1.103.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.102.0...v1.103.0) (2022-03-30)
 
 
