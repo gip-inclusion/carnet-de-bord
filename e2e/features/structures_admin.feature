@@ -32,3 +32,20 @@ Fonctionnalité: Parcours Administrateur de structures
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"
 		Alors je vois "Simon Anka" sur la ligne "Benjamin"
+
+	Scénario: Définir le référent d'un bénéficiaire
+		Soit un utilisateur de type "admin_structure" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
+		Quand je vois "Groupe NS"
+		Alors je clique sur "Groupe NS"
+		Alors je vois "21" dans la tuile "Bénéficiaires non rattachés"
+		Alors je clique sur "Bénéficiaires non rattachés"
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
+		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
+		Quand je recherche "Beach"
+		Quand je clique sur "Rechercher"
+		Alors je vois "Non rattaché" sur la ligne "Beach"
+		Quand je clique sur "Non rattaché"
+		Alors je vois "Rattacher des bénéficiaires"
+		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
+		Quand je clique sur "Rattacher" dans le volet
+		Alors je vois "Simon Anka" sur la ligne "Beach"

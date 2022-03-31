@@ -8044,7 +8044,7 @@ export type RemoveNotebookMembersMutation = {
 };
 
 export type GetProfessionalsFromStructuresQueryVariables = Exact<{
-	criteria: ProfessionalBoolExp;
+	id: Scalars['uuid'];
 }>;
 
 export type GetProfessionalsFromStructuresQuery = {
@@ -8086,11 +8086,33 @@ export type GetStructuresWithProQuery = {
 
 export type UpdateReferentMutationVariables = Exact<{
 	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-	structureId: Scalars['uuid'];
 	beneficiaries: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
 export type UpdateReferentMutation = {
+	__typename?: 'mutation_root';
+	update_beneficiary_structure?:
+		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	update_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	insert_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
+export type UpdateReferentWithStructureMutationVariables = Exact<{
+	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	structureId: Scalars['uuid'];
+	beneficiaries: Array<Scalars['uuid']> | Scalars['uuid'];
+	status: Scalars['String'];
+}>;
+
+export type UpdateReferentWithStructureMutation = {
 	__typename?: 'mutation_root';
 	update_beneficiary_structure?:
 		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
@@ -10895,10 +10917,10 @@ export const GetProfessionalsFromStructuresDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'criteria' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'professional_bool_exp' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
 			],
@@ -10912,7 +10934,25 @@ export const GetProfessionalsFromStructuresDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'criteria' } },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 						],
 						selectionSet: {
@@ -11027,14 +11067,6 @@ export const UpdateReferentDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaries' } },
 					type: {
 						kind: 'NonNullType',
@@ -11091,6 +11123,222 @@ export const UpdateReferentDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'status' },
 											value: { kind: 'StringValue', value: 'done', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'no_referent', block: false },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiaryId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_in' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'beneficiaries' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: {
+												kind: 'EnumValue',
+												value: 'notebook_member_notebook_id_professional_id_key',
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{ kind: 'EnumValue', value: 'memberType' },
+													{ kind: 'EnumValue', value: 'active' },
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateReferentMutation, UpdateReferentMutationVariables>;
+export const UpdateReferentWithStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateReferentWithStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_member_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaries' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_in' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'beneficiaries' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -11212,7 +11460,10 @@ export const UpdateReferentDocument = {
 			},
 		},
 	],
-} as unknown as DocumentNode<UpdateReferentMutation, UpdateReferentMutationVariables>;
+} as unknown as DocumentNode<
+	UpdateReferentWithStructureMutation,
+	UpdateReferentWithStructureMutationVariables
+>;
 export const RemoveReferentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -21405,6 +21656,10 @@ export type GetStructuresWithProQueryStore = OperationStore<
 export type UpdateReferentMutationStore = OperationStore<
 	UpdateReferentMutation,
 	UpdateReferentMutationVariables
+>;
+export type UpdateReferentWithStructureMutationStore = OperationStore<
+	UpdateReferentWithStructureMutation,
+	UpdateReferentWithStructureMutationVariables
 >;
 export type RemoveReferentMutationStore = OperationStore<
 	RemoveReferentMutation,

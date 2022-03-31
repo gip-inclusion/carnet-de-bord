@@ -238,6 +238,7 @@ After(({ title }) => {
 		I.sendMutation(`
 			mutation ResetReferent {
 				delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
+				update_beneficiary_structure(_set: {structureId: "1c52e5ad-e0b9-48b9-a490-105a4effaaea"} where: { beneficiary: { notebook: {id: {_eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"} } } }) { affected_rows }
 				insert_notebook_member_one(object: { notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", professionalId:"1a5b817b-6b81-4a4d-9953-26707a54e0e9" }) { id }
 			}`);
 	} else if (/Modifier plusieurs rattachements de bénéficiaires/.test(title)) {
@@ -248,6 +249,21 @@ After(({ title }) => {
 				_set: {status: "pending" }) { affected_rows }
 			}
 			`);
+	} else if (/Ré-orienter des bénéficiaires/i.test(title)) {
+		I.sendMutation(`
+		mutation ResetReferents {
+			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["fb1f9810-f219-4555-9025-4126cb0684d6", "d235c967-29dc-47bc-b2f3-43aa46c9f54f"] } } } }
+			_set: {status: "pending", structureId: "8b71184c-6479-4440-aa89-15da704cc792"}) { affected_rows }
+		}
+		`);
+	} else if (/Définir le référent d'un bénéficiaire/i.test(title)) {
+		I.sendMutation(`
+		mutation ResetReferents {
+			delete_notebook_member(where: { notebookId: { _in: ["7262db31-bd98-436c-a690-f2a717085c86"] } }) { affected_rows }
+			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["7262db31-bd98-436c-a690-f2a717085c86"] } } } }
+			_set: {status: "pending" }) { affected_rows }
+		}
+		`);
 	}
 });
 

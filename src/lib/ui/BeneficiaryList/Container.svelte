@@ -113,9 +113,11 @@
 			component: withStructureEdit ? AddStructureProfessionnalForm : AddProfessionnalForm,
 			props: {
 				notebooks,
-				structuresId: [...new Set(structuresId)],
 				member: member,
 				showResetMembers: memberSet.size > 0,
+				...(withStructureEdit
+					? { structuresId: [...new Set(structuresId)] }
+					: { structureId: new Set(structuresId).values().next().value }),
 				onClose: () => {
 					selectionStore.reset();
 				},

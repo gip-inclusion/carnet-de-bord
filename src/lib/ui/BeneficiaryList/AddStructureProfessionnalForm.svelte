@@ -3,7 +3,7 @@
 		GetStructuresWithProDocument,
 		GetStructuresWithProQuery,
 		RemoveReferentDocument,
-		UpdateReferentDocument,
+		UpdateReferentWithStructureDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Checkbox, Select } from '../base';
 	import { displayFullName } from '../format';
@@ -15,13 +15,14 @@
 	import { pluralize } from '$lib/helpers';
 
 	export let member: string = null;
-	export let structuresId: string[] = [];
 	export let notebooks: { beneficiaryId: string; notebookId: string }[];
 	export let showResetMembers = false;
+	export let structuresId: string[] = [];
+
 	export let onClose: () => void;
 
 	const deleteReferent = mutation({ query: RemoveReferentDocument });
-	const updateReferent = mutation({ query: UpdateReferentDocument });
+	const updateReferent = mutation({ query: UpdateReferentWithStructureDocument });
 	let structures: OperationStore<GetStructuresWithProQuery> = operationStore(
 		GetStructuresWithProDocument
 	);
@@ -69,6 +70,7 @@
 					  }))
 					: [],
 				structureId: selectedStructure,
+				status: selectedMember ? 'done' : 'pending',
 				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),
 			},
 			{ additionalTypenames: ['notebook_member'] }
