@@ -8062,6 +8062,28 @@ export type GetProfessionalsFromStructuresQuery = {
 	}>;
 };
 
+export type GetStructuresWithProQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetStructuresWithProQuery = {
+	__typename?: 'query_root';
+	structure: Array<{
+		__typename?: 'structure';
+		id: string;
+		name?: string | null | undefined;
+		professionals: Array<{
+			__typename?: 'professional';
+			id: string;
+			firstname: string;
+			lastname: string;
+			mobileNumber?: string | null | undefined;
+			position?: string | null | undefined;
+			email: string;
+			structureId: string;
+			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+		}>;
+	}>;
+};
+
 export type UpdateReferentMutationVariables = Exact<{
 	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
 	structureId: Scalars['uuid'];
@@ -10923,6 +10945,59 @@ export const GetProfessionalsFromStructuresDocument = {
 	GetProfessionalsFromStructuresQuery,
 	GetProfessionalsFromStructuresQueryVariables
 >;
+export const GetStructuresWithProDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructuresWithPro' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professionals' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetStructuresWithProQuery, GetStructuresWithProQueryVariables>;
 export const UpdateReferentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -21285,6 +21360,10 @@ export type RemoveNotebookMembersMutationStore = OperationStore<
 export type GetProfessionalsFromStructuresQueryStore = OperationStore<
 	GetProfessionalsFromStructuresQuery,
 	GetProfessionalsFromStructuresQueryVariables
+>;
+export type GetStructuresWithProQueryStore = OperationStore<
+	GetStructuresWithProQuery,
+	GetStructuresWithProQueryVariables
 >;
 export type UpdateReferentMutationStore = OperationStore<
 	UpdateReferentMutation,

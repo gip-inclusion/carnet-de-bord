@@ -1,0 +1,19 @@
+query GetStructuresWithPro {
+	structure {
+		id
+		name
+		professionals {
+			id
+			firstname
+			lastname
+			mobileNumber
+			position
+			email
+			structureId
+			structure {
+				id
+				name
+			}
+		}
+	}
+}
