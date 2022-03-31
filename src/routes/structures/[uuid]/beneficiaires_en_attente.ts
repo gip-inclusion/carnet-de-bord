@@ -6,6 +6,7 @@ import { createClient } from '@urql/core';
 import { parse } from 'cookie';
 
 export const get: RequestHandler = async ({ request, params }) => {
+	console.log('list beneficiary');
 	try {
 		authorizeOnly(['admin_structure'])(request);
 	} catch (e) {
@@ -33,6 +34,8 @@ export const get: RequestHandler = async ({ request, params }) => {
 
 	const structureId = params.uuid;
 
+	console.log(`[get pending beneficiary for structure] ${params.uuid}`);
+
 	const result = await client.query(GetPendingBeneficiariesDocument, { structureId }).toPromise();
 	if (result.error) {
 		console.error(`Error query pending beneficiary for structure ${structureId}`, {
@@ -51,6 +54,9 @@ export const get: RequestHandler = async ({ request, params }) => {
 		)
 		.join('\n');
 	const csv = `id; nom; prénom; date de naissance; emails des professionnels\n${data}\n`;
+	console.log(
+		`${result.data.structure_by_pk.beneficiaries.length} en attente - taille ${csv.length}o`
+	);
 	return {
 		status: 200,
 		headers: {
