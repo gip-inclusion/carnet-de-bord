@@ -1,8 +1,7 @@
 <script lang="ts">
 	import {
-		GetProfessionalsFromStructuresDocument,
-		GetProfessionalsFromStructuresQuery,
-		ProfessionalBoolExp,
+		GetStructuresWithProDocument,
+		GetStructuresWithProQuery,
 		RemoveReferentDocument,
 		UpdateReferentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
@@ -16,25 +15,33 @@
 	import { pluralize } from '$lib/helpers';
 
 	export let member: string = null;
+	export let structuresId: string[] = [];
 	export let notebooks: { beneficiaryId: string; notebookId: string }[];
-	export let criteria: ProfessionalBoolExp = {};
 	export let showResetMembers = false;
 	export let onClose: () => void;
 
-	let professionalStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
-		GetProfessionalsFromStructuresDocument,
-		{ criteria }
+	const deleteReferent = mutation({ query: RemoveReferentDocument });
+	const updateReferent = mutation({ query: UpdateReferentDocument });
+	let structures: OperationStore<GetStructuresWithProQuery> = operationStore(
+		GetStructuresWithProDocument
 	);
-	query(professionalStore);
+
+	query(structures);
+
+	$: structureOptions =
+		$structures.data?.structure.map(({ id, name }) => ({
+			name: id,
+			label: name,
+		})) ?? [];
+
+	$: structure = $structures.data?.structure.find(({ id }) => id === selectedStructure) ?? null;
 
 	$: professionalOptions =
-		$professionalStore.data?.professional.map((pro) => ({
+		structure?.professionals.map((pro) => ({
 			name: pro.id,
 			label: displayFullName(pro),
 		})) ?? [];
-	const deleteReferent = mutation({ query: RemoveReferentDocument });
-	const updateReferent = mutation({ query: UpdateReferentDocument });
-
+	let selectedStructure = structuresId.length === 1 ? structuresId[0] : null;
 	let selectedMember = member;
 	let resetMembers: boolean;
 	let error = false;
@@ -53,14 +60,15 @@
 
 		const updateResponse = await updateReferent(
 			{
-				objects: notebooks.map(({ notebookId }) => ({
-					notebookId,
-					memberType: 'referent',
-					professionalId: selectedMember,
-					active: true,
-				})),
-				structureId: professionalStore.data.professional.find(({ id }) => id === selectedMember)
-					?.structure.id,
+				objects: selectedMember
+					? notebooks.map(({ notebookId }) => ({
+							notebookId,
+							memberType: 'referent',
+							professionalId: selectedMember,
+							active: true,
+					  }))
+					: [],
+				structureId: selectedStructure,
 				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),
 			},
 			{ additionalTypenames: ['notebook_member'] }
@@ -82,37 +90,49 @@
 <section class="flex flex-col w-full">
 	<div class="pb-8">
 		<h1>Rattacher des bénéficiaires</h1>
-		<p class="mb-0">
-			Veuillez sélectionner le nouveau référent unique à rattacher {pluralize(
-				'du',
-				notebooks.length,
-				'des'
-			)}
-			{pluralize('bénéficiaire', notebooks.length)}.
-		</p>
-	</div>
-	<form on:submit|preventDefault={handleSubmit}>
-		<Select
-			bind:selected={selectedMember}
-			selectLabel={member ? 'Nom du nouveau référent unique' : 'Nom du référent unique'}
-			selectHint="Sélectionner un professionnel"
-			options={professionalOptions}
-			name="professional"
-			id="professional"
-		/>
-		{#if showResetMembers}
-			<Checkbox
-				label="Retirer l'ancien référent du groupe de suivi."
-				name="reset"
-				bind:checked={resetMembers}
+		<form on:submit|preventDefault={handleSubmit}>
+			<p>Veuillez sélectionner la structure d'accueil.</p>
+			<Select
+				bind:selected={selectedStructure}
+				selectLabel="Nom de la structure"
+				selectHint="Sélectionner une structure"
+				options={structureOptions}
+				name="structure"
+				id="structure"
+				on:select={() => {
+					selectedMember = null;
+				}}
 			/>
-		{/if}
-		{#if error}
-			<Alert type="error" size="sm">Impossible de modifier le rattachement</Alert>
-		{/if}
-		<div>
-			<Button type="submit">Rattacher</Button>
-			<Button outline on:click={close}>Annuler</Button>
-		</div>
-	</form>
+
+			<p>
+				Veuillez sélectionner le nouveau référent unique {pluralize('du', notebooks.length, 'des')}
+				{pluralize('bénéficiaire', notebooks.length)}.
+			</p>
+			<!-- <pre>{JSON.stringify(structure?.professionals, null, 2)}</pre> -->
+			<Select
+				bind:selected={selectedMember}
+				selectLabel={member ? 'Nom du nouveau référent unique' : 'Nom du référent unique'}
+				selectHint="Sélectionner un professionnel"
+				additionalLabel="La sélection du professionnel n’est pas obligatoire."
+				options={professionalOptions}
+				name="professional"
+				id="professional"
+				disabled={!selectedStructure}
+			/>
+			{#if showResetMembers}
+				<Checkbox
+					label="Retirer l'ancien référent du groupe de suivi."
+					name="reset"
+					bind:checked={resetMembers}
+				/>
+			{/if}
+			{#if error}
+				<Alert type="error" size="sm">Impossible de modifier le rattachement</Alert>
+			{/if}
+			<div class="pt-4">
+				<Button type="submit">Rattacher</Button>
+				<Button outline on:click={close}>Annuler</Button>
+			</div>
+		</form>
+	</div>
 </section>

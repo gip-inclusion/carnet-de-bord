@@ -11076,23 +11076,6 @@ export const UpdateReferentDocument = {
 												],
 											},
 										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'structureId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'structureId' },
-														},
-													},
-												],
-											},
-										},
 									],
 								},
 							},
@@ -11106,6 +11089,11 @@ export const UpdateReferentDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'status' },
 											value: { kind: 'StringValue', value: 'done', block: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
 										},
 									],
 								},

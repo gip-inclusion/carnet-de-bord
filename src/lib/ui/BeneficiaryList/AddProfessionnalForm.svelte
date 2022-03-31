@@ -50,7 +50,7 @@
 				return;
 			}
 		}
-
+		const pro = $professionalStore.data.professional.find(({ id }) => id === selectedMember);
 		const updateResponse = await updateReferent(
 			{
 				objects: notebooks.map(({ notebookId }) => ({
@@ -59,8 +59,7 @@
 					professionalId: selectedMember,
 					active: true,
 				})),
-				structureId: professionalStore.data.professional.find(({ id }) => id === selectedMember)
-					?.structure.id,
+				structureId: pro.structure.id,
 				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),
 			},
 			{ additionalTypenames: ['notebook_member'] }
@@ -83,11 +82,7 @@
 	<div class="pb-8">
 		<h1>Rattacher des bénéficiaires</h1>
 		<p class="mb-0">
-			Veuillez sélectionner le nouveau référent unique à rattacher {pluralize(
-				'du',
-				notebooks.length,
-				'des'
-			)}
+			Veuillez sélectionner le nouveau référent unique {pluralize('du', notebooks.length, 'des')}
 			{pluralize('bénéficiaire', notebooks.length)}.
 		</p>
 	</div>

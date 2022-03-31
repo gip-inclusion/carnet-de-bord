@@ -4,8 +4,8 @@ mutation UpdateReferent(
 	$beneficiaries: [uuid!]!
 ) {
 	update_beneficiary_structure(
-		where: { beneficiaryId: { _in: $beneficiaries }, structureId: { _eq: $structureId } }
-		_set: { status: "done" }
+		where: { beneficiaryId: { _in: $beneficiaries } }
+		_set: { status: "done", structureId: $structureId }
 	) {
 		affected_rows
 	}
