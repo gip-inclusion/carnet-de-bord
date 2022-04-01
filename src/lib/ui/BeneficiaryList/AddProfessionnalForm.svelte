@@ -2,7 +2,6 @@
 	import {
 		GetProfessionalsFromStructuresDocument,
 		GetProfessionalsFromStructuresQuery,
-		ProfessionalBoolExp,
 		RemoveReferentDocument,
 		UpdateReferentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
@@ -17,13 +16,14 @@
 
 	export let member: string = null;
 	export let notebooks: { beneficiaryId: string; notebookId: string }[];
-	export let criteria: ProfessionalBoolExp = {};
 	export let showResetMembers = false;
+	export let structureId: string = null;
+
 	export let onClose: () => void;
 
 	let professionalStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
 		GetProfessionalsFromStructuresDocument,
-		{ criteria }
+		{ id: structureId }
 	);
 	query(professionalStore);
 
@@ -50,7 +50,6 @@
 				return;
 			}
 		}
-
 		const updateResponse = await updateReferent(
 			{
 				objects: notebooks.map(({ notebookId }) => ({
@@ -59,8 +58,6 @@
 					professionalId: selectedMember,
 					active: true,
 				})),
-				structureId: professionalStore.data.professional.find(({ id }) => id === selectedMember)
-					?.structure.id,
 				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),
 			},
 			{ additionalTypenames: ['notebook_member'] }
@@ -81,13 +78,10 @@
 
 <section class="flex flex-col w-full">
 	<div class="pb-8">
+		{JSON.stringify(structureId, null, 2)}
 		<h1>Rattacher des bénéficiaires</h1>
 		<p class="mb-0">
-			Veuillez sélectionner le nouveau référent unique à rattacher {pluralize(
-				'du',
-				notebooks.length,
-				'des'
-			)}
+			Veuillez sélectionner le nouveau référent unique {pluralize('du', notebooks.length, 'des')}
 			{pluralize('bénéficiaire', notebooks.length)}.
 		</p>
 	</div>
@@ -110,7 +104,7 @@
 		{#if error}
 			<Alert type="error" size="sm">Impossible de modifier le rattachement</Alert>
 		{/if}
-		<div>
+		<div class="pt-4">
 			<Button type="submit">Rattacher</Button>
 			<Button outline on:click={close}>Annuler</Button>
 		</div>

@@ -1,11 +1,38 @@
-mutation UpdateReferent(
+mutation UpdateReferent($objects: [notebook_member_insert_input!]!, $beneficiaries: [uuid!]!) {
+	update_beneficiary_structure(
+		where: { beneficiaryId: { _in: $beneficiaries } }
+		_set: { status: "done" }
+	) {
+		affected_rows
+	}
+
+	update_notebook_member(
+		_set: { memberType: "no_referent" }
+		where: { notebook: { beneficiaryId: { _in: $beneficiaries } } }
+	) {
+		affected_rows
+	}
+
+	insert_notebook_member(
+		objects: $objects
+		on_conflict: {
+			constraint: notebook_member_notebook_id_professional_id_key
+			update_columns: [memberType, active]
+		}
+	) {
+		affected_rows
+	}
+}
+
+mutation UpdateReferentWithStructure(
 	$objects: [notebook_member_insert_input!]!
 	$structureId: uuid!
 	$beneficiaries: [uuid!]!
+	$status: String!
 ) {
 	update_beneficiary_structure(
-		where: { beneficiaryId: { _in: $beneficiaries }, structureId: { _eq: $structureId } }
-		_set: { status: "done" }
+		where: { beneficiaryId: { _in: $beneficiaries } }
+		_set: { status: $status, structureId: $structureId }
 	) {
 		affected_rows
 	}

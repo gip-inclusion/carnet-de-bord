@@ -22,6 +22,7 @@
 	import Button from '$lib/ui/base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
+	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 
 	export let search: string;
 	export let filter: MemberFilter;
@@ -93,6 +94,7 @@
 		const structuresId = selectedBeneficiaries.flatMap((beneficiary) =>
 			beneficiary.structures.map(({ structure }) => structure.id)
 		);
+
 		const members = selectedBeneficiaries.flatMap((beneficiary) =>
 			beneficiary.notebook.members.map((member) => member.professional.id)
 		);
@@ -108,12 +110,14 @@
 			member = memberSet.values().next().value;
 		}
 		openComponent.open({
-			component: AddProfessionnalForm,
+			component: withStructureEdit ? AddStructureProfessionnalForm : AddProfessionnalForm,
 			props: {
 				notebooks,
-				structuresId,
 				member: member,
 				showResetMembers: memberSet.size > 0,
+				...(withStructureEdit
+					? { structuresId: [...new Set(structuresId)] }
+					: { structureId: new Set(structuresId).values().next().value }),
 				onClose: () => {
 					selectionStore.reset();
 				},

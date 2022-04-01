@@ -1,19 +1,6 @@
-<script lang="ts" context="module">
-	import { GetManagedStructuresDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { Load } from '@sveltejs/kit';
-	import { operationStore, query } from '@urql/svelte';
-	export const load: Load = async () => {
-		const result = operationStore(GetManagedStructuresDocument, {});
-
-		return {
-			props: {
-				result,
-			},
-		};
-	};
-</script>
-
 <script lang="ts">
+	import { GetManagedStructuresDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { operationStore, query } from '@urql/svelte';
 	import { account } from '$lib/stores';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import StructureList from '$lib/ui/AdminStructure/StructureList.svelte';
@@ -23,7 +10,9 @@
 	import { onMount } from 'svelte';
 	import { pluralize } from '$lib/helpers';
 
-	export let structureResult = operationStore(GetManagedStructuresDocument, {});
+	export let structureResult = operationStore(GetManagedStructuresDocument, {
+		adminId: $account.id,
+	});
 
 	query(structureResult);
 

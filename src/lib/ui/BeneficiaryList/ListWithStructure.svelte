@@ -3,10 +3,10 @@
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
-	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
+	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
@@ -14,11 +14,11 @@
 
 	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
-			component: AddProfessionnalForm,
+			component: AddStructureProfessionnalForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				structuresId: beneficiary.structures.map(({ structure }) => structure.id),
 				member: beneficiary.notebook.members[0]?.professional.id ?? null,
+				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
 				showResetMembers: beneficiary.notebook.members.length > 0,
 			},
 		});
