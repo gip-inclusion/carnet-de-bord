@@ -1,3 +1,10 @@
+# [1.104.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.103.2...v1.104.0) (2022-04-01)
+
+
+### Features
+
+* handle structure orientation ([#748](https://github.com/SocialGouv/carnet-de-bord/issues/748)) ([ac4fb3e](https://github.com/SocialGouv/carnet-de-bord/commit/ac4fb3e7bd3d52ce0f073cb3e6c59b16a99ffd60))
+
 ## [1.103.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.103.1...v1.103.2) (2022-03-31)
 
 
