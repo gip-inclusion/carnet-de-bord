@@ -8,7 +8,7 @@ app:
         name: app-configmap
 
 hasura:
-  needs: [seed]
+  needs: [db]
   envFrom:
     - secretRef:
         name: pg-user-{{ .Values.global.branchSlug }}
@@ -32,7 +32,7 @@ jobs:
       with:
         pgAdminSecretRefName: azure-pg-admin-user
     - name: seed
-      needs: [db]
+      needs: [hasura]
       use: SocialGouv/kube-workflow/jobs/seed-db@seed
       with:
         seedPath: hasura/seeds/carnet_de_bord/seed-data.sql
