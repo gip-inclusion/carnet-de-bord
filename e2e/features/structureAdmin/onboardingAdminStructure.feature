@@ -7,8 +7,7 @@ Fonctionnalité: Onboarding administrateur de structure
 	Je veux pouvoir saisir et valider mes informations personnelles
 
 	Scénario: Première connexion - Mise à jour profil
-		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
-		Soit un "administrateur de structures" "jacques.celaire@beta.gouv.fr" se connectant pour la première fois
+		Soit un "administrateur de structures" authentifié pour la première fois avec l'email "jacques.celaire@beta.gouv.fr"
 		Quand je vois "Création de mon compte Gestionnaire de structure"
 		Alors je vois "Jacques" dans le champ "Prénom"
 		Alors je vois "Célaire" dans le champ "Nom"

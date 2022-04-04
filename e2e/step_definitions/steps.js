@@ -1,10 +1,10 @@
 const {
 	UUID,
 	loginStub,
-	setupFixturesByTags,
+	setupBeforeFixturesByTags,
+	setupAfterFixturesByTags,
 	onBoardingSetup,
 	goToNotebookForLastName,
-	removeProfessionalAccount,
 } = require('./fixtures');
 const { Alors, Quand, Soit } = require('./fr');
 
@@ -17,9 +17,19 @@ Soit("un utilisateur sur la page d'accueil", () => {
 });
 
 Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
+	await onBoardingSetup(userType, email, true);
 	await loginStub(userType, email);
 	I.amOnPage(`/auth/jwt/${UUID}`);
 });
+
+Soit(
+	"un {string} authentifié pour la première fois avec l'email {string}",
+	async (userType, email) => {
+		await onBoardingSetup(userType, email, false);
+		await loginStub(userType, email);
+		I.amOnPage(`/auth/jwt/${UUID}`);
+	}
+);
 
 Soit('un utilisateur sur la page {string}', (page) => {
 	I.amOnPage(`${page}`);
@@ -39,14 +49,6 @@ Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastName(lastname);
 	I.amOnPage(`/auth/jwt/${UUID}?url=/pro/carnet/${notebookId}`);
-});
-
-Soit('un {string} {string} ayant déjà fait son onboarding', async (userType, email) => {
-	await onBoardingSetup(email, userType, true);
-});
-
-Soit('un {string} {string} se connectant pour la première fois', async (userType, email) => {
-	await onBoardingSetup(email, userType, false);
 });
 
 //
@@ -235,13 +237,10 @@ Quand('je téléverse le fichier {string}', (filename) => {
  */
 
 Before(async ({ tags }) => {
-	setupFixturesByTags(tags);
+	setupBeforeFixturesByTags(tags);
 });
 
 After((params) => {
-	if (/Inscription/.test(params.title)) {
-		removeProfessionalAccount();
-	}
 	if (/Modifier le rattachement d'un bénéficiaire/.test(title)) {
 		I.sendMutation(`
 			mutation ResetReferent {
@@ -273,4 +272,5 @@ After((params) => {
 		}
 		`);
 	}
+	setupAfterFixturesByTags(params.tags);
 });

@@ -7,8 +7,7 @@ Fonctionnalité: Onboarding manager
 	Je veux pouvoir saisir et valider mes informations personnelles
 
 	Scénario: Première connexion - Mise à jour profil
-		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
-		Soit un "administrateur pdi" "support.carnet-de-bord@fabrique.social.gouv.fr" se connectant pour la première fois
+		Soit un "administrateur pdi" authentifié pour la première fois avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
 		Quand je vois "Première connexion à Carnet de bord"
 		Quand je vois "Manager du déploiement"
 		Quand je clique sur "Mettre à jour"

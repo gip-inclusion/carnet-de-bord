@@ -4,6 +4,7 @@ const { USER_TYPES } = require('./fr');
 const UUID = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 
 async function loginStub(userType, email) {
+	console.log(userType);
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	await I.sendMutation(
 		`mutation setAccessToken {
@@ -12,7 +13,7 @@ async function loginStub(userType, email) {
 	);
 }
 
-async function setupFixturesByTags(tags) {
+async function setupBeforeFixturesByTags(tags) {
 	if (tags.indexOf('@import_pro') >= 0) {
 		await removeProfessionalsFixture();
 	}
@@ -25,12 +26,21 @@ async function setupFixturesByTags(tags) {
 	if (tags.indexOf('@import_beneficiaires') >= 0) {
 		await removeBeneficiariesFixture();
 	}
-	if (tags.indexOf('@rattachement_beneficiaires') >= 0) {
+	if (tags.indexOf('@rattachement_liste_beneficiaires') >= 0) {
 		await removeNotebookMemberFixture();
 	}
 }
 
-async function onBoardingSetup(email, userType, onboardingDone) {
+function setupAfterFixturesByTags(tags) {
+	if (tags.indexOf('@modifier_rattachement_beneficiaire') >= 0) {
+		removeBeneficiaryLink();
+	}
+	if (tags.indexOf('@inscription') >= 0) {
+		removeProfessionalAccount();
+	}
+}
+
+async function onBoardingSetup(userType, email, onboardingDone) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	return await I.sendMutation(
 		`mutation SetupOnboardingFlag {
@@ -136,9 +146,18 @@ const goToNotebookForLastName = async (lastname) => {
 function removeProfessionalAccount() {
 	I.sendMutation(
 		`mutation removeUser {
-				delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
-				delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
-			}`
+			delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
+			delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
+		}`
+	);
+}
+
+function removeBeneficiaryLink() {
+	I.sendMutation(
+		`mutation ResetReferent {
+			delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
+			insert_notebook_member_one(object: { notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", professionalId:"1a5b817b-6b81-4a4d-9953-26707a54e0e9" }) { id }
+		}`
 	);
 }
 
@@ -147,6 +166,6 @@ module.exports = {
 	goToNotebookForLastName,
 	loginStub,
 	onBoardingSetup,
-	removeProfessionalAccount,
-	setupFixturesByTags,
+	setupAfterFixturesByTags,
+	setupBeforeFixturesByTags,
 };
