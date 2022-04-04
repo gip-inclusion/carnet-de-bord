@@ -16,7 +16,7 @@ hasura:
     - configMapRef:
         name: hasura-configmap
 
-api:
+app-api:
   envFrom:
     - secretRef:
         name: app-sealed-secret

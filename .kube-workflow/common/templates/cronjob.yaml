@@ -1,0 +1,34 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    component: {{ .Values.component }}
+    application: {{ .Values.component }}
+  name: {{ .Values.component }}
+  namespace: {{ .Values.namespace }}
+spec:
+  schedule: 0 * * * *
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            component: {{ .Values.component }}
+            application: {{ .Values.component }}
+          name: {{ .Values.component }}
+          namespace: {{ .Values.namespace }}
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: {{ .Values.component }}-container
+              image: node:14-alpine
+              command:
+                - echo
+                - "hello, world"
+              envFrom:
+                - secretRef:
+                    name: {{ .Values.component }}-cronjob
+              env:
+                - name: hello
+                  value: world
