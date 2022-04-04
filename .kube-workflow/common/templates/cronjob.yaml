@@ -2,10 +2,9 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   labels:
-    component: {{ .Values.component }}
-    application: {{ .Values.component }}
-  name: {{ .Values.component }}
-  namespace: {{ .Values.namespace }}
+    component: pe-cronjob
+    application: carnet-de-bord
+  name: pe-cronjob
 spec:
   schedule: 0 * * * *
   concurrencyPolicy: Forbid
@@ -14,21 +13,20 @@ spec:
       template:
         metadata:
           labels:
-            component: {{ .Values.component }}
-            application: {{ .Values.component }}
-          name: {{ .Values.component }}
-          namespace: {{ .Values.namespace }}
+            component: pe-cronjob
+            application: carnet-de-bord
+          name: pe-cronjob
         spec:
           restartPolicy: OnFailure
           containers:
-            - name: {{ .Values.component }}-container
+            - name: cronjob-container
               image: ghcr.io/socialgouv/carnet-de-bord/api
               command:
                 - echo
                 - "hello, world"
               envFrom:
-                - secretRef:
-                    name: {{ .Values.component }}-cronjob
+                # - secretRef:
+                #     name: {{ .Values.component }}-cronjob
               env:
                 - name: hello
                   value: world
