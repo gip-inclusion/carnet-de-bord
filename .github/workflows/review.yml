@@ -35,6 +35,7 @@ jobs:
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
           dockerfile: api/Dockerfile
+          dockercontext: api
           imageName: carnet-de-bord/api
           token: ${{ secrets.GITHUB_TOKEN }}
 
