@@ -3,3 +3,6 @@ app:
 
 hasura:
   certSecretName: hasura-crt
+
+api:
+  certSecretName: api-crt

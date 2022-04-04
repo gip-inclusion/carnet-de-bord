@@ -12,7 +12,6 @@ concurrency:
   group: review-${{ github.ref }}
 
 jobs:
-
   ##############################################################################
   ## CREATE POSTGRES DATABASE
   ##############################################################################
@@ -20,11 +19,24 @@ jobs:
     name: Create postgres database
     runs-on: ubuntu-latest
     steps:
+      - uses: SocialGouv/actions/autodevops-create-db@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
 
-    - uses: SocialGouv/actions/autodevops-create-db@v1
-      with:
-        kubeconfig: ${{ secrets.KUBECONFIG }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+  ##############################################################################
+  ## BUILD AND REGISTER API IMAGE
+  ##############################################################################
+  register-api:
+    name: Build & Register api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          dockerfile: api/Dockerfile
+          imageName: carnet-de-bord/api
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   ##############################################################################
   ## BUILD AND REGISTER APP IMAGE
@@ -63,7 +75,7 @@ jobs:
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [register-app, register-hasura, create-db]
+    needs: [register-app, register-hasura, register-api, create-db]
     steps:
       - name: Use autodevops deployment
         uses: SocialGouv/actions/autodevops-helm-deploy@v1
@@ -126,7 +138,6 @@ jobs:
         with:
           name: screenshot
           path: e2e/output
-
 
   ##############################################################################
   ## Fonctionnal Tests (endpoints & hasura) running on all branches
