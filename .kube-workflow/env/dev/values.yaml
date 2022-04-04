@@ -29,6 +29,8 @@ jobs:
   runs:
     - name: db
       use: SocialGouv/kube-workflow/jobs/create-db
+      with:
+        pgAdminSecretRefName: azure-pg-admin-user
     - name: seed
       needs: [db]
       use: SocialGouv/kube-workflow/jobs/seed-db@seed
