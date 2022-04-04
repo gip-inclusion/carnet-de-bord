@@ -33,6 +33,6 @@ jobs:
         pgAdminSecretRefName: azure-pg-admin-user
     - name: seed
       needs: [hasura]
-      use: SocialGouv/kube-workflow/jobs/seed-db@seed
+      use: SocialGouv/kube-workflow/jobs/seed-db@v1
       with:
         seedPath: hasura/seeds/carnet_de_bord/seed-data.sql
