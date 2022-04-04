@@ -29,6 +29,9 @@ async function setupBeforeFixturesByTags(tags) {
 	if (tags.indexOf('@rattachement_liste_beneficiaires') >= 0) {
 		await removeNotebookMemberFixture();
 	}
+	if (tags.indexOf('@pro_recherche_ajout_metiers') >= 0) {
+		await removeWantedJobs();
+	}
 }
 
 function setupAfterFixturesByTags(tags) {
@@ -157,6 +160,14 @@ function removeBeneficiaryLink() {
 		`mutation ResetReferent {
 			delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
 			insert_notebook_member_one(object: { notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", professionalId:"1a5b817b-6b81-4a4d-9953-26707a54e0e9" }) { id }
+		}`
+	);
+}
+
+function removeWantedJobs() {
+	I.sendMutation(
+		`mutation RemoveWantedJobs {
+		  delete_wanted_job(where: {notebook_id: {_eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"}}) { __typename }
 		}`
 	);
 }
