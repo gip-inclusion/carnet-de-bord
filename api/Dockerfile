@@ -12,5 +12,5 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Run the application:
-COPY app app
+COPY app /app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "4000"]

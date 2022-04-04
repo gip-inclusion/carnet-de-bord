@@ -32,6 +32,7 @@ app-api:
   enabled: true
   imagePackage: api
   probesPath: /healthz
+  containerPort: 4000
   env:
     - name: APP_URL
       value: https://{{ .Values.global.host }}
