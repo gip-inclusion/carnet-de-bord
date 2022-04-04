@@ -22,7 +22,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: {{ .Values.component }}-container
-              image: node:14-alpine
+              image: ghcr.io/socialgouv/carnet-de-bord/api
               command:
                 - echo
                 - "hello, world"
