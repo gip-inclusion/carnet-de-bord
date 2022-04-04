@@ -10,6 +10,20 @@ concurrency:
 
 jobs:
   ##############################################################################
+  ## BUILD AND REGISTER API IMAGE
+  ##############################################################################
+  register-api:
+    name: Build & Register api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
+        with:
+          dockerfile: api/Dockerfile
+          imageName: carnet-de-bord/api
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  ##############################################################################
   ## BUILD AND REGISTER APPLICATION IMAGE
   ##############################################################################
   register-app:
@@ -48,7 +62,7 @@ jobs:
   deploy:
     name: Deploy preproduction
     runs-on: ubuntu-latest
-    needs: [register-app, register-hasura]
+    needs: [register-app, register-hasura, register-api]
     environment:
       name: preproduction
       url: https://carnet-de-bord-preprod.dev.fabrique.social.gouv.fr/

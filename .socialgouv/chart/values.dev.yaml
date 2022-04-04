@@ -15,3 +15,10 @@ hasura:
         name: hasura-sealed-secret
     - configMapRef:
         name: hasura-configmap
+
+api:
+  envFrom:
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
