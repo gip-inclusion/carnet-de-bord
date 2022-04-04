@@ -2,7 +2,7 @@
 	<title>Politique de confidentialité - Carnet de bord</title>
 </svelte:head>
 <div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
-	<div class="flex flex-col gap-8 px-40">
+	<div class="flex flex-col gap-8">
 		<h1>Politique de confidentialité</h1>
 
 		<h2>Traitement des données à caractère personnel</h2>

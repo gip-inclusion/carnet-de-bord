@@ -2,7 +2,7 @@
 	<title>Mentions légales - Carnet de bord</title>
 </svelte:head>
 <div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
-	<div class="flex flex-col gap-8 px-40">
+	<div class="flex flex-col gap-8">
 		<h1>Mentions légales</h1>
 
 		<h2>Éditeur</h2>
