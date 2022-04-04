@@ -23,7 +23,7 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "Groupe NS" sur la ligne "Tifour"
 
 	Scénario: Ré-orienter des bénéficiaires
-		Soit un utilisateur de type "manager" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je clique sur "Sélectionner Corinne Cash"
