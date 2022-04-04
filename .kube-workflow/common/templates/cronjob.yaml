@@ -20,7 +20,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: cronjob-container
-              image: ghcr.io/socialgouv/carnet-de-bord/api
+              image: ghcr.io/socialgouv/carnet-de-bord/api:{{ .Values.global.imageTag }}
               command:
                 - echo
                 - "hello, world"
