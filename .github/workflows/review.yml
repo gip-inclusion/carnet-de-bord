@@ -65,7 +65,7 @@ jobs:
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [register-app, register-hasura, register-api, create-db]
+    needs: [register-app, register-hasura, register-api]
     steps:
       - name: Use kube-workflow deployment
         uses: SocialGouv/kube-workflow@v1
