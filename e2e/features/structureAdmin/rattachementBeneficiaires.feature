@@ -1,15 +1,14 @@
 #language: fr
 
-@rattachement_beneficiaires
-Fonctionnalité: Rattachement des bénéficiaires
+@rattachement_liste_beneficiaires
+Fonctionnalité: Rattachement liste de bénéficiaires
 	Pour permettre aux professionnels de gérer leurs bénéficiaires
 	En tant qu'administrateur de structures
 	Je veux pouvoir rattacher les bénéficiaires de ma strucutre aux pro correspondants
 
 	Scénario: Import liste de rattachement
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
-		Soit un "administrateur de structures" "jacques.celaire@beta.gouv.fr" ayant déjà fait son onboarding
-		Soit un utilisateur sur la page "/structures/1c52e5ad-e0b9-48b9-a490-105a4effaaea"
+		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je vois "Portefeuille de la structure"
 		Quand je clique sur "Importer une liste de rattachement"
 		Alors je vois "Rattacher des professionnels"

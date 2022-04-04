@@ -8,7 +8,6 @@ Fonctionnalité: Import structures
 
 	Scénario: Import de structures
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
-		Soit un "administrateur pdi" "support.carnet-de-bord@fabrique.social.gouv.fr" ayant déjà fait son onboarding
 		Alors je vois "État du territoire"
 		Quand je clique sur "Importer des structures"
 		Alors je vois "Importer des structures"

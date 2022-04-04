@@ -1,13 +1,13 @@
 #language: fr
 
-@manager
+@modifier_rattachement_beneficiaire
 Fonctionnalité: Rattachement pro
 	Pour pouvoir gérer les réorientation
 	En tant que manager d'un déploiement
 	Je veux pouvoir assigner de nouveaux référents aux bénéficiaires
 
 	Scénario: Modifier le rattachement d'un bénéficiaire
-		Soit un utilisateur de type "manager" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je recherche "tif"
