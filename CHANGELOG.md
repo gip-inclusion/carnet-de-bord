@@ -1,3 +1,10 @@
+# [1.106.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.105.0...v1.106.0) (2022-04-05)
+
+
+### Features
+
+* view number of actions on Focus block in Notebook ([#728](https://github.com/SocialGouv/carnet-de-bord/issues/728)) ([0b9ea09](https://github.com/SocialGouv/carnet-de-bord/commit/0b9ea094801ab68ba282263c2390b52f05cea16a))
+
 # [1.105.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.104.0...v1.105.0) (2022-04-05)
 
 
