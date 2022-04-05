@@ -53,14 +53,17 @@ export const get: RequestHandler = async ({ request, params }) => {
 				`${beneficiary.notebook?.id};${beneficiary.lastname};${beneficiary.firstname};${beneficiary.dateOfBirth};`
 		)
 		.join('\n');
-	const csv = `id; nom; prénom; date de naissance; emails des professionnels\n${data}\n`;
+	const encoder = new TextEncoder();
+	const csv = encoder.encode(
+		`\ufeffid; nom; prénom; date de naissance; emails des professionnels\n${data}\n`
+	);
 	console.log(
 		`${result.data.structure_by_pk.beneficiaries.length} en attente - taille ${csv.length}o`
 	);
 	return {
 		status: 200,
 		headers: {
-			'Content-Type': 'application/octet-stream',
+			'Content-Type': 'data:text/csv;charset=UTF-8',
 			'Content-Disposition': 'attachment;filename=beneficiaires_en_attente.csv',
 			'Content-Length': `${csv.length}`,
 		},

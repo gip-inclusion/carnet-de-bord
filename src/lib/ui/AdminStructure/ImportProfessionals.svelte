@@ -1,13 +1,11 @@
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import { v4 as uuidv4 } from 'uuid';
-	import { Text } from '$lib/ui/utils';
+	import { Text, ImportParserError } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
-	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
-	import { ProAccountInput, proAccountSchema } from '../ProCreationForm/pro.schema';
+	import type { ProAccountInput } from '../ProCreationForm/pro.schema';
 	import { pluralize } from '$lib/helpers';
-	import { csvParseConfig } from '$lib/csvParseConfig';
+	import { parseEntities } from '$lib/utils/importFileParser';
 
 	type ProImport = ProAccountInput & {
 		valid: boolean;
@@ -20,48 +18,22 @@
 
 	$: prosToImport = pros.filter(({ uid }) => uidToImport.includes(uid));
 
-	function validate(pro: null | undefined | Record<string, any>): boolean {
-		try {
-			proAccountSchema.validateSync(pro);
-			return true;
-		} catch (error) {
-			console.error(error);
-		}
-		return false;
-	}
-
 	let uidToImport = [];
+	let parseErrors = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				const binaryStr = reader.result;
-				const prosDataRaw: Record<string, unknown>[] = csvParse(
-					binaryStr.toString(),
-					csvParseConfig(headers)
-				);
-				pros = prosDataRaw
-					.reduce(
-						([valid, invalid]: [ProImport[], ProImport[]], cur: Record<string, any>) => {
-							cur.uid = uuidv4();
-							cur.valid = validate(cur);
-							if (cur.valid) {
-								valid.push(cur as ProImport);
-							} else {
-								invalid.push(cur as ProImport);
-							}
-							console.log({ valid, invalid });
-							return [valid, invalid];
-						},
-						[[], []]
-					)
-					.flat();
-
-				uidToImport = pros.filter(({ valid }) => valid).map(({ uid }) => uid);
-			};
-			reader.readAsText(files[i]);
+			parseEntities(
+				files[i],
+				'ProImport',
+				headers,
+				({ entities, idToImport }: Record<string, unknown>, errors: string[]): void => {
+					pros = entities as ProImport[];
+					uidToImport = idToImport as string[];
+					parseErrors = errors;
+				}
+			);
 		}
 	}
 
@@ -102,6 +74,7 @@
 
 	function backToFileSelect() {
 		pros = [];
+		parseErrors = [];
 	}
 
 	$: successfulImports = (insertResult || []).filter(({ error }) => !error).length;
@@ -146,16 +119,27 @@
 										/>
 									{/if}
 								</td>
-								<td class="px-2 py-2"><Text value={pro.email} /></td>
-								<td class="px-2 py-2"><Text value={pro.firstname} /></td>
-								<td class="px-2 py-2"><Text value={pro.lastname} /></td>
-								<td class="px-2 py-2"><Text value={pro.mobileNumber} /></td>
-								<td class="px-2 py-2"><Text value={pro.position} /></td>
+								<td class="px-2 py-2">
+									<Text value={pro.email} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={pro.firstname} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={pro.lastname} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={pro.mobileNumber} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={pro.position} />
+								</td>
 							</tr>
 						{/each}
 					</tbody>
 				</table>
 			</div>
+			<ImportParserError {parseErrors} />
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{uidToImport.length || 'Aucun'}
@@ -167,12 +151,12 @@
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<Button on:click={backToFileSelect} outline={true}>Retour</Button>
 				<Button on:click={handleSubmit} disabled={uidToImport.length < 1 || !structureId}
-					>Confirmer</Button
-				>
+					>Confirmer
+				</Button>
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV.
+				Veuillez fournir un fichier au format EXCEL ou CSV.
 				<br />Vous pouvez
 				<a href="/fichiers/import_professionnels.csv" download>télécharger un modèle</a>
 				et
@@ -180,9 +164,10 @@
 					>consulter la notice de remplissage</a
 				>.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
+			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
+			<ImportParserError {parseErrors} />
 		{/if}
 	{:else}
 		<div class="flex flex-col gap-4">

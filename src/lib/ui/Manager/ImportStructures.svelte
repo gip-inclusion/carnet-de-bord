@@ -13,12 +13,10 @@
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
 	import { Checkbox, GroupCheckbox } from '$lib/ui/base';
-	import { Text } from '$lib/ui/utils';
-	import { v4 as uuidv4 } from 'uuid';
+	import { Text, ImportParserError } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
-	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { pluralize } from '$lib/helpers';
-	import { csvParseConfig } from '$lib/csvParseConfig';
+	import { parseEntities } from '$lib/utils/importFileParser';
 
 	type StructureWithAdminInput = StructureInput & AdminStructureInput;
 
@@ -33,44 +31,25 @@
 	let files = [];
 	let structures: StructureImport[] = [];
 
-	$: structuresToImport = structures.filter(({ uid }) => toImport.includes(uid));
+	let parseErrors = [];
 
-	function validate(struct: null | undefined | Record<string, any>): boolean {
-		return !!struct && !!struct.name && !!struct.city && !!struct.postalCode && !!struct.adminEmail;
-	}
+	$: structuresToImport = structures.filter(({ uid }) => toImport.includes(uid));
 
 	let toImport = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				const binaryStr = reader.result;
-				structures = csvParse(binaryStr.toString(), csvParseConfig(headers))
-					.reduce(
-						(
-							[valid, invalid]: [StructureImport[], StructureImport[]],
-							cur: Record<string, any>
-						) => {
-							cur.uid = uuidv4();
-							cur.valid = validate(cur);
-							if (cur.valid) {
-								valid.push(cur as StructureImport);
-							} else {
-								invalid.push(cur as StructureImport);
-							}
-							return [valid, invalid];
-						},
-						[[], []]
-					)
-					.reduce((acc: StructureImport[], cur: StructureImport[]) => {
-						return [...acc, ...cur];
-					}, []);
-
-				toImport = structures.filter(({ valid }) => valid).map(({ uid }) => uid);
-			};
-			reader.readAsText(files[i]);
+			parseEntities(
+				files[i],
+				'StructureImport',
+				headers,
+				({ entities, idToImport }: Record<string, unknown>, errors: string[]): void => {
+					structures = entities as StructureImport[];
+					toImport = idToImport as string[];
+					parseErrors = errors;
+				}
+			);
 		}
 	}
 
@@ -129,6 +108,7 @@
 
 	function backToFileSelect() {
 		structures = [];
+		parseErrors = [];
 	}
 
 	$: successfulImports = (insertResult || []).filter(({ error }) => !error).length;
@@ -179,26 +159,57 @@
 										/>
 									{/if}
 								</td>
-								<td class="px-2 py-2"><Text value={structure.name} /></td>
-								<td class="px-2 py-2"><Text value={structure.city} /></td>
-								<td class="px-2 py-2"><Text value={structure.postalCode} /></td>
-								<td class="px-2 py-2"><Text value={structure.address1} /></td>
-								<td class="px-2 py-2"><Text value={structure.address2} /></td>
-								<td class="px-2 py-2"><Text value={structure.phone} /></td>
-								<td class="px-2 py-2"><Text value={structure.email} /></td>
-								<td class="px-2 py-2"><Text value={structure.website} /></td>
-								<td class="px-2 py-2"><Text value={structure.siret} /></td>
-								<td class="px-2 py-2"><Text value={structure.shortDesc} /></td>
-								<td class="px-2 py-2"><Text value={structure.adminEmail} /></td>
-								<td class="px-2 py-2"><Text value={structure.firstname} /></td>
-								<td class="px-2 py-2"><Text value={structure.lastname} /></td>
-								<td class="px-2 py-2"><Text value={structure.position} /></td>
-								<td class="px-2 py-2"><Text value={structure.phoneNumbers} /></td>
+								<td class="px-2 py-2">
+									<Text value={structure.name} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.city} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.postalCode} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.address1} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.address2} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.phone} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.email} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.website} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.siret} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.shortDesc} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.adminEmail} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.firstname} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.lastname} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.position} />
+								</td>
+								<td class="px-2 py-2">
+									<Text value={structure.phoneNumbers} />
+								</td>
 							</tr>
 						{/each}
 					</tbody>
 				</table>
 			</div>
+			<ImportParserError {parseErrors} />
 			<p>
 				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
 				correctes et confirmer.
@@ -229,7 +240,7 @@
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV.
+				Veuillez fournir un fichier au format EXCEL ou CSV.
 				<br />Vous pouvez
 				<a href="/fichiers/import_structures.csv" download>télécharger un modèle</a>
 				et
@@ -237,9 +248,10 @@
 					>consulter la notice de remplissage</a
 				>.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
+			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
+			<ImportParserError {parseErrors} />
 		{/if}
 	{:else}
 		<div class="flex flex-col gap-4">

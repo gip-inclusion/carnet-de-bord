@@ -17,15 +17,13 @@
 	import { operationStore, OperationStore, query, mutation, getClient } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
-	import { Text } from '$lib/ui/utils';
-	import { v4 as uuidv4 } from 'uuid';
+	import { Text, ImportParserError } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
 	import { displayFullName } from '$lib/ui/format';
 	import * as keys from '$lib/constants/keys';
-
-	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
+	import { parseEntities } from '$lib/utils/importFileParser';
 	import { pluralize } from '$lib/helpers';
-	import { csvParseConfig } from '$lib/csvParseConfig';
+	import { formatDateLocale } from '$lib/utils/date';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
@@ -91,42 +89,22 @@
 
 	$: beneficiariesToImport = beneficiaries.filter(({ uid }) => toImport.includes(uid));
 
-	function validate(benef: null | undefined | Record<string, any>): boolean {
-		return !!benef && !!benef.firstname && !!benef.lastname && !!benef.dateOfBirth;
-	}
-
 	let toImport = [];
+	let parseErrors = [];
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				const binaryStr = reader.result;
-				beneficiaries = csvParse(binaryStr.toString(), csvParseConfig(headers))
-					.reduce(
-						(
-							[valid, invalid]: [BeneficiaryImport[], BeneficiaryImport[]],
-							cur: Record<string, any>
-						) => {
-							cur.uid = uuidv4();
-							cur.valid = validate(cur);
-							if (cur.valid) {
-								valid.push(cur as BeneficiaryImport);
-							} else {
-								invalid.push(cur as BeneficiaryImport);
-							}
-							return [valid, invalid];
-						},
-						[[], []]
-					)
-					.reduce((acc: BeneficiaryImport[], cur: BeneficiaryImport[]) => {
-						return [...acc, ...cur];
-					}, []);
-
-				toImport = beneficiaries.filter(({ valid }) => valid).map(({ uid }) => uid);
-			};
-			reader.readAsText(files[i]);
+			parseEntities(
+				files[i],
+				'BeneficiaryImport',
+				headers,
+				({ entities, idToImport }: Record<string, unknown>, errors: string[]): void => {
+					beneficiaries = entities as BeneficiaryImport[];
+					toImport = idToImport as string[];
+					parseErrors = errors;
+				}
+			);
 		}
 	}
 
@@ -203,6 +181,7 @@
 	}
 
 	const client = getClient();
+
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
@@ -291,6 +270,7 @@
 
 	function backToFileSelect() {
 		beneficiaries = [];
+		parseErrors = [];
 	}
 
 	$: successfulImports = (insertResult || []).filter(({ error }) => !error).length;
@@ -344,7 +324,13 @@
 								</td>
 								{#each headers as { key } (key)}
 									{#if key !== 'proEmails' && key !== 'structureNames'}
-										<td class="px-2 py-2"><Text value={beneficiary[key]} /></td>
+										<td class="px-2 py-2">
+											{#if key === 'dateOfBirth'}
+												<Text value={formatDateLocale(beneficiary[key])} />
+											{:else}
+												<Text value={beneficiary[key]} />
+											{/if}
+										</td>
 									{/if}
 								{/each}
 								<td class="px-2 py-2">
@@ -364,6 +350,7 @@
 					</tbody>
 				</table>
 			</div>
+			<ImportParserError {parseErrors} />
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{toImport.length || 'Aucune'}
@@ -378,7 +365,7 @@
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV.
+				Veuillez fournir un fichier au format EXCEL ou CSV.
 				<br />Vous pouvez
 				<a href="/fichiers/import_beneficiaires.csv" download>télécharger un modèle</a>
 				et
@@ -387,7 +374,7 @@
 				>.
 				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
+			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
 				<span class="cursor-default"
 					>Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.</span
 				>
@@ -432,7 +419,7 @@
 											<Text value={beneficiary.benef.lastname} />
 										</td>
 										<td class="px-2 py-2 ">
-											<Text value={beneficiary.benef.dateOfBirth} />
+											<Text value={formatDateLocale(beneficiary.benef.dateOfBirth)} />
 										</td>
 										<td class="px-2 py-2 ">
 											{#if beneficiary.error}
