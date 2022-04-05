@@ -1,3 +1,10 @@
+# [1.105.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.104.0...v1.105.0) (2022-04-05)
+
+
+### Features
+
+* remove useless padding ([#759](https://github.com/SocialGouv/carnet-de-bord/issues/759)) ([ef8a13d](https://github.com/SocialGouv/carnet-de-bord/commit/ef8a13da943e19e4791fb4d50a39f38a743154ee))
+
 # [1.104.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.103.2...v1.104.0) (2022-04-01)
 
 
