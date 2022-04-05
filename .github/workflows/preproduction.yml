@@ -75,7 +75,7 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
           rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
-              
+
   ##############################################################################
   ## SEED DATABASE
   ##############################################################################
@@ -113,7 +113,7 @@ jobs:
         uses: mikefarah/yq@v4.24.2
         id: app
         with:
-          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1)
+          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
       - name: Get hasura url
         uses: mikefarah/yq@v4.24.2
         id: hasura
