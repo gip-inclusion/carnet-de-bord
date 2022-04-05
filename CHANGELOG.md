@@ -1,3 +1,10 @@
+## [1.106.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.106.0...v1.106.1) (2022-04-05)
+
+
+### Bug Fixes
+
+* add laoder indicator on view with store ([#764](https://github.com/SocialGouv/carnet-de-bord/issues/764)) ([503fe06](https://github.com/SocialGouv/carnet-de-bord/commit/503fe06bbfc6c2f5864aef06dff8832dfb36c279))
+
 # [1.106.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.105.0...v1.106.0) (2022-04-05)
 
 
