@@ -4,7 +4,6 @@ const { USER_TYPES } = require('./fr');
 const UUID = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 
 async function loginStub(userType, email) {
-	console.log(userType);
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	await I.sendMutation(
 		`mutation setAccessToken {
@@ -14,48 +13,58 @@ async function loginStub(userType, email) {
 }
 
 async function setupBeforeFixturesByTags(tags) {
-	if (tags.indexOf('@import_pro') >= 0) {
-		await removeProfessionalsFixture();
-	}
-	if (tags.indexOf('@deploiement') >= 0) {
-		await removeDeploymentFixture();
-	}
-	if (tags.indexOf('@import_structures') >= 0) {
-		await removeStructuresFixture();
-	}
-	if (tags.indexOf('@import_beneficiaires') >= 0) {
-		await removeBeneficiariesFixture();
-	}
-	if (tags.indexOf('@rattachement_beneficiaires_via_admin_structure') >= 0) {
-		await removeNotebookMemberFixture();
-	}
-	if (tags.indexOf('@pro_recherche_ajout_metiers') >= 0) {
-		await removeWantedJobs();
-	}
+	tags.forEach(async (tag) => {
+		switch (tag) {
+			case '@import_pro':
+				await removeProfessionalsFixture();
+				break;
+			case '@deploiement':
+				await removeDeploymentFixture();
+				break;
+			case '@import_structures':
+				await removeStructuresFixture();
+				break;
+			case '@import_beneficiaires':
+				await removeBeneficiariesFixture();
+				break;
+			case '@rattachement_beneficiaires_via_admin_structure':
+				await removeNotebookMemberFixture();
+				break;
+			case '@pro_recherche_ajout_metiers':
+				await removeWantedJobs();
+				break;
+			default:
+				return;
+		}
+	});
 }
 
 function setupAfterFixturesByTags(tags) {
-	if (tags.indexOf('@modifier_rattachement_beneficiaire') >= 0) {
-		removeBeneficiaryLink();
-	}
-	if (tags.indexOf('@inscription') >= 0) {
-		removeProfessionalAccount();
-	}
-	if (tags.indexOf('@modifier_rattachement_beneficiaire') >= 0) {
-		resetReferent();
-		resetBeneficiaryReorientation();
-	}
-	if (tags.indexOf('@rattachement_beneficiaires_via_admin_structure') >= 0) {
-		removeBeneficiaryLinkByAdminStructure();
-		removeBeneficiaryReferent();
-	}
+	tags.forEach((tag) => {
+		switch (tag) {
+			case '@modifier_rattachement_beneficiaire':
+				removeBeneficiaryLink();
+				resetReferent();
+				resetBeneficiaryReorientation();
+				break;
+			case '@inscription':
+				removeProfessionalAccount();
+				break;
+			case '@rattachement_beneficiaires_via_admin_structure':
+				removeBeneficiaryLinkByAdminStructure();
+				removeBeneficiaryReferent();
+				break;
+			default:
+				return;
+		}
+	});
 }
 
-async function onBoardingSetup(userType, email, onboardingDone) {
+async function onBoardingSetup(userType, email, onBoardingDone) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	return await I.sendMutation(
 		`mutation SetupOnboardingFlag {
-		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onboardingDone}}) {
+		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onBoardingDone}}) {
 		    affected_rows
 		  }
 		}`
