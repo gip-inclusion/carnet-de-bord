@@ -15,6 +15,7 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "Pierre Chevalier" sur la ligne "Tifour"
 		Quand je clique sur "Pierre Chevalier"
 		Alors je vois "Rattacher des bénéficiaires"
+		Alors j'attends que le texte "Veuillez sélectionner la structure d'accueil" apparaisse
 		Alors je selectionne l'option "Groupe NS" dans la liste "Nom de la structure"
 		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du nouveau référent unique"
 		Alors je choisis "Retirer l'ancien référent du groupe de suivi."
@@ -31,6 +32,7 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher des bénéficiaires"
+		Alors j'attends que le texte "Veuillez sélectionner la structure d'accueil" apparaisse
 		Alors je selectionne l'option "Service Social Départemental" dans la liste "Nom de la structure"
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Non rattaché" sur la ligne "Cash"
