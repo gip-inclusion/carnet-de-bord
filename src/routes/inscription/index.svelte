@@ -38,7 +38,7 @@
 <svelte:head>
 	<title>Inscription - Carnet de bord</title>
 </svelte:head>
-<div class="flex flex-col gap-8 px-40 mt-8">
+<div class="flex flex-col gap-8 mt-8">
 	{#if requestStep !== 'success'}
 		<div>
 			<h1>Inscription au Carnet de bord</h1>
