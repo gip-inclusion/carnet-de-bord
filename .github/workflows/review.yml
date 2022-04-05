@@ -97,23 +97,23 @@ jobs:
     needs: [seed-db]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Yarn cache setup
         uses: c-hive/gha-yarn-cache@v2
       - name: Install dependencies
         run: |
           yarn --cwd e2e install --prefer-offline --frozen-lockfile
       - name: Download k8s manifests
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: manifests-dev.yaml
       - name: Get deployment url
-        uses: mikefarah/yq@v4.21.1
+        uses: mikefarah/yq@v4.24.2
         id: app
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1)
       - name: Get hasura url
-        uses: mikefarah/yq@v4.21.1
+        uses: mikefarah/yq@v4.24.2
         id: hasura
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | tail -n 1 )
@@ -137,23 +137,23 @@ jobs:
     needs: [e2e]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Yarn cache setup
         uses: c-hive/gha-yarn-cache@v2
       - name: Install dependencies
         run: |
           yarn install --prefer-offline --frozen-lockfile
       - name: Download k8s manifests
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: manifests-dev.yaml
       - name: Get deployment url
-        uses: mikefarah/yq@v4.21.1
+        uses: mikefarah/yq@v4.24.2
         id: app
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1)
       - name: Get hasura url
-        uses: mikefarah/yq@v4.21.1
+        uses: mikefarah/yq@v4.24.2
         id: hasura
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | tail -n 1 )
