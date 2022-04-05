@@ -97,7 +97,7 @@ jobs:
     needs: [seed-db]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Yarn cache setup
         uses: c-hive/gha-yarn-cache@v2
       - name: Install dependencies
@@ -137,7 +137,7 @@ jobs:
     needs: [e2e]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Yarn cache setup
         uses: c-hive/gha-yarn-cache@v2
       - name: Install dependencies
