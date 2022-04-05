@@ -1,0 +1,32 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    component: pe-cronjob
+    application: carnet-de-bord
+  name: pe-cronjob
+spec:
+  schedule: 0 * * * *
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            component: pe-cronjob
+            application: carnet-de-bord
+          name: pe-cronjob
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: cronjob-container
+              image: ghcr.io/socialgouv/carnet-de-bord/api:{{ .Values.global.imageTag }}
+              command:
+                - echo
+                - "hello, world"
+              envFrom:
+                # - secretRef:
+                #     name: {{ .Values.component }}-cronjob
+              env:
+                - name: hello
+                  value: world
