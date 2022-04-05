@@ -23,7 +23,6 @@ app:
         more_set_headers "X-XSS-Protection: 1; mode=block";
         more_set_headers "X-Content-Type-Options: nosniff";
 
-
 hasura:
   enabled: true
   containerPort: 80
@@ -36,6 +35,7 @@ hasura:
         name: hasura-configmap
 
 app-api:
+  host: 'api-{{ .Values.global.host }}'
   enabled: true
   imagePackage: api
   probesPath: /healthz
