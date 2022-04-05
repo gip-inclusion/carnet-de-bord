@@ -1,22 +1,27 @@
 #language: fr
 
-@admin_structures
-Fonctionnalité: Parcours Administrateur de structures
-	Pour pouvoir administrer mes structures
+@rattachement_beneficiaires_via_admin_structure
+Fonctionnalité: Rattachement liste de bénéficiaires
+	Pour permettre aux professionnels de gérer leurs bénéficiaires
 	En tant qu'administrateur de structures
-	Je veux pouvoir gérer les structures qui me sont attribuées
+	Je veux pouvoir rattacher les bénéficiaires de ma strucutre aux pro correspondants
 
-	Scénario: Première connexion - Mise à jour profil
-		Soit un utilisateur de type "admin_structure" authentifié avec l'email "jean.paul@drome.fr"
-		Quand je vois "Création de mon compte Gestionnaire de structure"
-		Alors je vois "jean" dans le champ "Prénom"
-		Alors je vois "paul" dans le champ "Nom"
-		Alors je vois "jean.paul@drome.fr" dans le champ "Courriel"
-		Alors je vois "061234567, 091234567" dans le champ "Numéros de téléphone"
-		Alors je clique sur "Créer mon compte"
+	Scénario: Import liste de rattachement
+		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
+		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
+		Alors je vois "Portefeuille de la structure"
+		Quand je clique sur "Importer une liste de rattachement"
+		Alors je vois "Rattacher des professionnels"
+		Quand je télécharge en cliquant sur "télécharger la liste des bénéficiaires en attente de rattachement"
+		Alors j'ai téléchargé le fichier "beneficiaires_en_attente.csv"
+		Quand je téléverse le fichier "/resources/beneficiaires_en_attente.csv"
+		Alors je vois "Vous allez importer le groupe de suivi suivant. Veuillez vérifier que les données sont correctes et confirmer."
+		Alors je vois "1 rattachement sélectionné sur 1"
+		Quand je clique sur "Confirmer"
+		Alors je vois "1 rattachement importé sur 1 demandé."
 
 	Scénario: Modifier plusieurs rattachements de bénéficiaires
-		Soit un utilisateur de type "admin_structure" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
+		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
 		Alors je vois "21" dans la tuile "Bénéficiaires non rattachés"
@@ -28,13 +33,14 @@ Fonctionnalité: Parcours Administrateur de structures
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher des bénéficiaires"
+		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique" apparaisse
 		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"
 		Alors je vois "Simon Anka" sur la ligne "Benjamin"
 
 	Scénario: Définir le référent d'un bénéficiaire
-		Soit un utilisateur de type "admin_structure" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
+		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
 		Alors je vois "21" dans la tuile "Bénéficiaires non rattachés"
@@ -46,6 +52,7 @@ Fonctionnalité: Parcours Administrateur de structures
 		Alors je vois "Non rattaché" sur la ligne "Beach"
 		Quand je clique sur "Non rattaché"
 		Alors je vois "Rattacher des bénéficiaires"
+		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique" apparaisse
 		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"

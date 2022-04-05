@@ -1,6 +1,7 @@
 #language: fr
 
 @home
+@_loginStructureAdmin
 Fonctionnalité: Page d'accueil
 	Pour pouvoir me renseigner sur carnet de bord
 	En tant que visiteur
