@@ -9849,7 +9849,18 @@ export type GetNotebookQuery = {
 					theme: string;
 					situations?: any | null | undefined;
 					linkedTo?: string | null | undefined;
-					targets: Array<{ __typename?: 'notebook_target'; id: string; target: string }>;
+					targets: Array<{
+						__typename?: 'notebook_target';
+						id: string;
+						target: string;
+						actions_aggregate: {
+							__typename?: 'notebook_action_aggregate';
+							aggregate?:
+								| { __typename?: 'notebook_action_aggregate_fields'; count: number }
+								| null
+								| undefined;
+						};
+					}>;
 				}>;
 				members: Array<{
 					__typename?: 'notebook_member';
@@ -20052,6 +20063,54 @@ export const GetNotebookDocument = {
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'actions_aggregate' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'where' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'status' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: {
+																								kind: 'StringValue',
+																								value: 'in_progress',
+																								block: false,
+																							},
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'aggregate' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'count' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
 													],
 												},
 											},
