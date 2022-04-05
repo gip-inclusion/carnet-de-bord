@@ -13,6 +13,7 @@
 	import { openComponent } from '$lib/stores';
 	import Alert from '../base/Alert.svelte';
 	import { pluralize } from '$lib/helpers';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	export let member: string = null;
 	export let notebooks: { beneficiaryId: string; notebookId: string }[];
@@ -77,36 +78,35 @@
 </script>
 
 <section class="flex flex-col w-full">
-	<div class="pb-8">
-		{JSON.stringify(structureId, null, 2)}
-		<h1>Rattacher des bénéficiaires</h1>
-		<p class="mb-0">
-			Veuillez sélectionner le nouveau référent unique {pluralize('du', notebooks.length, 'des')}
-			{pluralize('bénéficiaire', notebooks.length)}.
-		</p>
-	</div>
+	<h1>Rattacher des bénéficiaires</h1>
 	<form on:submit|preventDefault={handleSubmit}>
-		<Select
-			bind:selected={selectedMember}
-			selectLabel={member ? 'Nom du nouveau référent unique' : 'Nom du référent unique'}
-			selectHint="Sélectionner un professionnel"
-			options={professionalOptions}
-			name="professional"
-			id="professional"
-		/>
-		{#if showResetMembers}
-			<Checkbox
-				label="Retirer l'ancien référent du groupe de suivi."
-				name="reset"
-				bind:checked={resetMembers}
+		<LoaderIndicator result={professionalStore}>
+			<p>
+				Veuillez sélectionner le nouveau référent unique {pluralize('du', notebooks.length, 'des')}
+				{pluralize('bénéficiaire', notebooks.length)}.
+			</p>
+			<Select
+				bind:selected={selectedMember}
+				selectLabel={member ? 'Nom du nouveau référent unique' : 'Nom du référent unique'}
+				selectHint="Sélectionner un professionnel"
+				options={professionalOptions}
+				name="professional"
+				id="professional"
 			/>
-		{/if}
-		{#if error}
-			<Alert type="error" size="sm">Impossible de modifier le rattachement</Alert>
-		{/if}
-		<div class="pt-4">
-			<Button type="submit">Rattacher</Button>
-			<Button outline on:click={close}>Annuler</Button>
-		</div>
+			{#if showResetMembers}
+				<Checkbox
+					label="Retirer l'ancien référent du groupe de suivi."
+					name="reset"
+					bind:checked={resetMembers}
+				/>
+			{/if}
+			{#if error}
+				<Alert type="error" size="sm">Impossible de modifier le rattachement</Alert>
+			{/if}
+			<div class="pt-4">
+				<Button type="submit">Rattacher</Button>
+				<Button outline on:click={close}>Annuler</Button>
+			</div>
+		</LoaderIndicator>
 	</form>
 </section>

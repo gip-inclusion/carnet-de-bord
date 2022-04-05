@@ -33,6 +33,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher des bénéficiaires"
+		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique" apparaisse
 		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"
@@ -51,6 +52,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je vois "Non rattaché" sur la ligne "Beach"
 		Quand je clique sur "Non rattaché"
 		Alors je vois "Rattacher des bénéficiaires"
+		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique" apparaisse
 		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"
