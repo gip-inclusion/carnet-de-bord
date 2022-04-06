@@ -189,17 +189,17 @@ UPDATE public.notebook_action SET action='Mise en place du co-voiturage' WHERE a
 UPDATE public.notebook_action SET action='Constitution d’un dossier d’aide à la mobilité ( permis B, poids lourds… )' WHERE action= 'aide à la mobilité du CCAS';
 UPDATE public.notebook_action SET action='Constitution d’un dossier MDPH' WHERE action= 'Accompagnement à l''emploi de la pers. handicapée';
 
--- Copy actions from targets soon-to-be-removed duplicated targets 
-INSERT INTO notebook_action(action, target_id, creator_id, status) 
+-- Copy actions from targets soon-to-be-removed duplicated targets
+INSERT INTO notebook_action(action, target_id, creator_id, status)
 SELECT A.action, Tg2.id, A.creator_id, 'in_progress'
-FROM notebook_action A, notebook_target T, notebook_focus F, notebook_target Tg2 
+FROM notebook_action A, notebook_target T, notebook_focus F, notebook_target Tg2
 WHERE A.target_id in (
     SELECT ID FROM
-    (SELECT id, ROW_NUMBER() OVER (partition BY target, focus_id ORDER by id) AS nb FROM notebook_target) 
+    (SELECT id, ROW_NUMBER() OVER (partition BY target, focus_id ORDER by id) AS nb FROM notebook_target)
     T2 WHERE T2.nb > 1
-) 
-AND F.id = T.focus_id 
-AND T.id = A.target_id 
+)
+AND F.id = T.focus_id
+AND T.id = A.target_id
 AND Tg2.focus_id = F.id
 AND T.target = Tg2.target
 AND T.id <> tg2.id;
@@ -208,7 +208,7 @@ AND T.id <> tg2.id;
 DELETE FROM notebook_action
 WHERE ID in (
     SELECT ID FROM
-    (SELECT id, ROW_NUMBER() OVER (partition BY action, target_id ORDER by id) AS nb FROM notebook_action) 
+    (SELECT id, ROW_NUMBER() OVER (partition BY action, target_id ORDER by id) AS nb FROM notebook_action)
     A WHERE A.nb > 1
 );
 
@@ -216,10 +216,10 @@ WHERE ID in (
 DELETE FROM notebook_target
 WHERE ID in (
     SELECT ID FROM
-    (SELECT id, ROW_NUMBER() OVER (partition BY target, focus_id ORDER by id) AS nb FROM notebook_target) 
+    (SELECT id, ROW_NUMBER() OVER (partition BY target, focus_id ORDER by id) AS nb FROM notebook_target)
     T WHERE T.nb > 1
 );
- 
+
 
 
 -- Add constraint to avoid duplication action

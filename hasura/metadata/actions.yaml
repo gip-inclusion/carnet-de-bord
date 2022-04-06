@@ -1,42 +1,42 @@
 actions:
-- name: createDeploymentWithEmail
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_URL}}/create_deployment'
-    forward_client_headers: true
-    headers:
-    - name: secret_token
-      value_from_env: ACTION_SECRET
-  permissions:
-  - role: admin_cdb
-- name: insertStructureWithAdmin
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_URL}}/insert_structure'
-    forward_client_headers: true
-    headers:
-    - name: secret_token
-      value_from_env: ACTION_SECRET
-  permissions:
-  - role: manager
-- name: updateNotebookAct
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_URL}}/update_notebook'
-    forward_client_headers: true
-    headers:
-    - name: secret_token
-      value_from_env: ACTION_SECRET
-  permissions:
-  - role: admin_cdb
+  - name: createDeploymentWithEmail
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/create_deployment'
+      forward_client_headers: true
+      headers:
+        - name: secret_token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: admin_cdb
+  - name: insertStructureWithAdmin
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/insert_structure'
+      forward_client_headers: true
+      headers:
+        - name: secret_token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: manager
+  - name: updateNotebookAct
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/update_notebook'
+      forward_client_headers: true
+      headers:
+        - name: secret_token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: admin_cdb
 custom_types:
   enums: []
   input_objects:
-  - name: InsertStructureWithAdminInput
-  - name: StructureInput
-  - name: AdminStructureInput
+    - name: InsertStructureWithAdminInput
+    - name: StructureInput
+    - name: AdminStructureInput
   objects:
-  - name: CreateDeploymentOutput
-  - name: InsertStructureWithAdminOutput
-  - name: UpdateNotebookOutput
+    - name: CreateDeploymentOutput
+    - name: InsertStructureWithAdminOutput
+    - name: UpdateNotebookOutput
   scalars: []
