@@ -12,10 +12,6 @@ interface ImportMeta {
 interface Window {
 	$crisp: any;
 	CRISP_WEBSITE_ID: string;
-}
-
-// support for dsfr
-interface Window {
 	dsfr: any;
 }
 
