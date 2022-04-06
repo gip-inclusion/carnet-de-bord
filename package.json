@@ -67,7 +67,6 @@
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
 		"hasura-cli": "^2.0.9",
-		"husky": "^7.0.4",
 		"isomorphic-fetch": "^3.0.0",
 		"jest": "^27.4.5",
 		"lint-staged": "^12.1.3",

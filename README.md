@@ -19,7 +19,6 @@ cd carnet-de-bord
 
 #installer les dépendances
 yarn
-yarn run husky install
 pre-commit install
 ```
 
