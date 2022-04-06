@@ -28,9 +28,9 @@ jobs:
         run: |
           yarn lint
 
-    pre-commit:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v2
-        - uses: pre-commit/action@v2.0.3
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+      - uses: pre-commit/action@v2.0.3
