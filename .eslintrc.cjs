@@ -5,7 +5,7 @@ module.exports = {
 		jest: true,
 	},
 	plugins: ['svelte3', '@typescript-eslint'],
-	extends: ['eslint:recommended', 'prettier'],
+	extends: ['eslint:recommended'],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		sourceType: 'module',
