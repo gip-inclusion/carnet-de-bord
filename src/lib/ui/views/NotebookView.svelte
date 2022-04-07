@@ -41,7 +41,13 @@
 							<span><span class="fr-fi-arrow-right-s-line" aria-hidden="true" /></span
 							>{focusThemeKeys.byKey[focus.theme]}
 						</h3>
-						<p>{focus.situations.join('<br/>')}</p>
+						{#if focus.situations.length > 0}
+							<ul class="list-none pl-0">
+								{#each focus.situations as situation}
+									<li>{situation}</li>
+								{/each}
+							</ul>
+						{/if}
 						<div class="py-4">
 							<Accordions>
 								{#each focus.targets as target}
