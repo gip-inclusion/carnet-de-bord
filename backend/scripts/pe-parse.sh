@@ -8,7 +8,7 @@ trap "kill 0" EXIT
 
 echo "dump private keys to files."
 
-echo -e "$PE_SERVER_KEY" > pr_server.pem
+echo -e "$PE_SERVER_KEY" > pe_server.pem
 echo -e "$PE_FILE_KEY" > pe_file.pem
 
 echo "download files."
