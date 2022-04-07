@@ -32,11 +32,11 @@ FROM base as builder
 # System deps:
 RUN set -x \
   && apt-get update \
-  && apt-get install --no-install-recommends --yes curl build-essential openssh-client \
+  && apt-get install --no-install-recommends --yes curl build-essential \
   && rm -rf /var/lib/apt/lists/*
 
 # install poetry - respects $POETRY_VERSION & $POETRY_HOME
-RUN curl -sSL 	https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py  | python
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py  | python
 
 # copy project requirement files here to ensure they will be cached.
 WORKDIR $PYSETUP_PATH
@@ -48,6 +48,11 @@ RUN poetry install --no-dev
 
 # `production` image used for runtime
 FROM base as production
+
+RUN set -x \
+  && apt-get update \
+  && apt-get install --no-install-recommends --yes openssh-client \
+  && rm -rf /var/lib/apt/lists/*
 
 ENV FASTAPI_ENV=production
 
