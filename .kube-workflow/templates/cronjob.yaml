@@ -22,7 +22,7 @@ spec:
             - name: cronjob-container
               image: ghcr.io/socialgouv/carnet-de-bord/backend:{{ .Values.global.imageTag }}
               command:
-                - sh
+                - bash
                 - 'scripts/pe-parse.sh'
               envFrom:
                 # - secretRef:
