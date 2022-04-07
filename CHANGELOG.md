@@ -1,9 +1,8 @@
 ## [1.106.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.106.1...v1.106.2) (2022-04-07)
 
-
 ### Bug Fixes
 
-* remove <br> from  situation display ([#768](https://github.com/SocialGouv/carnet-de-bord/issues/768)) ([8924cab](https://github.com/SocialGouv/carnet-de-bord/commit/8924cab518e723a59443a258c2a3e03a32c94c26)), closes [#765](https://github.com/SocialGouv/carnet-de-bord/issues/765)
+- remove <br> from situation display ([#768](https://github.com/SocialGouv/carnet-de-bord/issues/768)) ([8924cab](https://github.com/SocialGouv/carnet-de-bord/commit/8924cab518e723a59443a258c2a3e03a32c94c26)), closes [#765](https://github.com/SocialGouv/carnet-de-bord/issues/765)
 
 ## [1.106.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.106.0...v1.106.1) (2022-04-05)
 
