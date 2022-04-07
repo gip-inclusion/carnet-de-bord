@@ -47,6 +47,6 @@ app-backend:
       value: https://hasura-{{ .Values.global.host }}/v1/graphql
   envFrom:
     - secretRef:
-        name: app-sealed-secret
+        name: backend-sealed-secret
     - configMapRef:
-        name: app-configmap
+        name: backend-configmap
