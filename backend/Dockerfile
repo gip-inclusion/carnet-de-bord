@@ -32,7 +32,7 @@ FROM base as builder
 # System deps:
 RUN set -x \
   && apt-get update \
-  && apt-get install --no-install-recommends --yes curl build-essential openssl sftpclient \
+  && apt-get install --no-install-recommends --yes curl build-essential openssh-client \
   && rm -rf /var/lib/apt/lists/*
 
 # install poetry - respects $POETRY_VERSION & $POETRY_HOME
