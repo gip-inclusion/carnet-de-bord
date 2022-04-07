@@ -17,12 +17,14 @@ hasura:
     - configMapRef:
         name: hasura-configmap
 
-app-api:
+app-backend:
   envFrom:
     - secretRef:
-        name: app-sealed-secret
+        name: pg-user-{{ .Values.global.branchSlug }}
+    - secretRef:
+        name: backend-sealed-secret
     - configMapRef:
-        name: app-configmap
+        name: backend-configmap
 
 jobs:
   enabled: true

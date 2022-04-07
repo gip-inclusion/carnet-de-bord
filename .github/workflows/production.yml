@@ -11,17 +11,17 @@ concurrency:
 
 jobs:
   ##############################################################################
-  ## BUILD AND REGISTER API IMAGE
+  ## BUILD AND REGISTER BACKEND IMAGE
   ##############################################################################
-  register-api:
-    name: Build & Register api
+  register-backend:
+    name: Build & Register backend
     runs-on: ubuntu-latest
     steps:
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          dockerfile: api/Dockerfile
-          imageName: carnet-de-bord/api
+          dockerfile: backend/Dockerfile
+          imageName: carnet-de-bord/backend
           token: ${{ secrets.GITHUB_TOKEN }}
 
   ##############################################################################
@@ -61,7 +61,7 @@ jobs:
   deploy-prod:
     name: Deploy production
     runs-on: ubuntu-latest
-    needs: [register-app, register-hasura, register-api]
+    needs: [register-app, register-hasura, register-backend]
     environment:
       name: production
       url: https://carnet-de-bord.fabrique.social.gouv.fr/
@@ -74,4 +74,3 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
           rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
-              

@@ -20,10 +20,10 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: cronjob-container
-              image: ghcr.io/socialgouv/carnet-de-bord/api:{{ .Values.global.imageTag }}
+              image: ghcr.io/socialgouv/carnet-de-bord/backend:{{ .Values.global.imageTag }}
               command:
-                - echo
-                - "hello, world"
+                - sh
+                - 'scripts/pe-parse.sh'
               envFrom:
                 # - secretRef:
                 #     name: {{ .Values.component }}-cronjob

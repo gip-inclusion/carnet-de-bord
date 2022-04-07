@@ -34,10 +34,10 @@ hasura:
     - configMapRef:
         name: hasura-configmap
 
-app-api:
+app-backend:
   host: 'api-{{ .Values.global.host }}'
   enabled: true
-  imagePackage: api
+  imagePackage: backend
   probesPath: /healthz
   containerPort: 4000
   env:
