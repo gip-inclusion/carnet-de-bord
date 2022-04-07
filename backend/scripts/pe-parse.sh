@@ -6,11 +6,12 @@ set -eo pipefail
 trap "exit" INT TERM
 trap "kill 0" EXIT
 
-echo $PE_SERVER_KEY > pr_server.pem
-echo $PE_FILE_KEY > pe_file.pem
+echo "dump private keys to files."
 
-echo "PE FETCH AND PARSE env:$hello"
+echo -e "$PE_SERVER_KEY" > pr_server.pem
+echo -e "$PE_FILE_KEY" > pe_file.pem
 
+echo "download files."
 
 sftp  -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE/principal .
 sftp  -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE/actions .
