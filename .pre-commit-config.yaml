@@ -42,7 +42,7 @@ repos:
       - id: eslint
         types: [file]
         files: \.(svelte|js|ts)$
-        args: [-c=.eslintrc.cjs, --ignore-path=.eslintignore]
+        args: [-c=.eslintrc.cjs, --ignore-path=.eslintignore, --ignore-pattern e2e, src, .]
         additional_dependencies:
           - eslint
           - svelte
