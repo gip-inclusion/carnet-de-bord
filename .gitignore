@@ -6,5 +6,9 @@ build
 .env
 output
 
+# Python
+__pycache__/
+*.pyc
+
 # IDE
 .idea/
