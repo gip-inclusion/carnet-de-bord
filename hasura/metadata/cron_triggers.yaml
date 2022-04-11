@@ -4,6 +4,6 @@
   include_in_metadata: true
   payload: {}
   headers:
-  - name: secret_token
-    value_from_env: ACTION_SECRET
+    - name: secret_token
+      value_from_env: ACTION_SECRET
   comment: dahsboard report to matomo

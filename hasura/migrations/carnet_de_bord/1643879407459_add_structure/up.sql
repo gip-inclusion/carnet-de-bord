@@ -27,9 +27,9 @@ CREATE TRIGGER "set_public_beneficiary_structure_updated_at" BEFORE
 UPDATE ON "public"."beneficiary_structure" FOR EACH ROW EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
 COMMENT ON TRIGGER "set_public_beneficiary_structure_updated_at" ON "public"."beneficiary_structure" IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
--- 
+--
 -- Admin structure
--- 
+--
 CREATE TABLE "public"."admin_structure" (
 	"id" uuid NOT NULL DEFAULT gen_random_uuid(),
 	"firstname" varchar,
@@ -75,6 +75,3 @@ CREATE TABLE "public"."admin_structure_structure" (
 	FOREIGN KEY ("structure_id") REFERENCES "public"."structure"("id") ON UPDATE restrict ON DELETE restrict
 );
 COMMENT ON TABLE "public"."admin_structure_structure" IS E'associative table between admin_structure and structure (many ot many)';
-
-
-

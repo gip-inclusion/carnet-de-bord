@@ -2,17 +2,15 @@ name: Deactivate
 
 on:
   pull_request:
-    types: [ closed ]
-    
-jobs:
+    types: [closed]
 
+jobs:
   deactivate:
     name: Deactivate review branch
     runs-on: ubuntu-latest
     steps:
-
-    - uses: SocialGouv/actions/autodevops-deactivate@v1
-      with:
-        kube-config: ${{ secrets.KUBECONFIG }}
-        rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-        socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
+      - uses: SocialGouv/actions/autodevops-deactivate@v1
+        with:
+          kube-config: ${{ secrets.KUBECONFIG }}
+          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}

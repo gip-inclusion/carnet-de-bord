@@ -30,6 +30,10 @@
 		!notebook.contractType || 'no' === notebook.contractType
 			? 'Rattacher un contrat au carnet de bord'
 			: contractTypeFullKeys.byKey[notebook.contractType];
+
+	/* eslint-disable */
+	// See : https://stackoverflow.com/questions/68762690/svelte-disable-eslint-rule
+	// Otherwise we have an error on the @nbActions definition below
 </script>
 
 <div class="flex flex-col gap-4">

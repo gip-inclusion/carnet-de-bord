@@ -8,11 +8,11 @@ alter table "public"."notebook_target"
   references "public"."professional"
   ("id") on update restrict on delete restrict;
 
-update notebook_target 
-set creator_id 
+update notebook_target
+set creator_id
 = (
     SELECT creator_id "creator"
-    FROM notebook_focus "focus" 
+    FROM notebook_focus "focus"
     WHERE id = notebook_target.focus_id
 );
 

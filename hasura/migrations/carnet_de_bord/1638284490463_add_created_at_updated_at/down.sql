@@ -17,7 +17,7 @@ BEGIN
   RETURN NEW;
 END;
 $$;
- 
+
 CREATE OR REPLACE FUNCTION public.notebook_focus_modification_date()
   RETURNS TRIGGER
   LANGUAGE PLPGSQL
@@ -38,7 +38,7 @@ BEGIN
 END;
 $$;
 
- 
+
 CREATE OR REPLACE FUNCTION public.notebook_target_modification_date()
   RETURNS TRIGGER
   LANGUAGE PLPGSQL
@@ -60,7 +60,7 @@ BEGIN
   RETURN NEW;
 END;
 $$;
- 
+
 CREATE OR REPLACE FUNCTION public.notebook_action_modification_date()
   RETURNS TRIGGER
   LANGUAGE PLPGSQL
@@ -85,7 +85,7 @@ BEGIN
 END;
 $$;
 
- 
+
 
 alter table "public"."notebook_member" rename column "invitation_sent_at" to "invitation_send_date";
 
@@ -109,7 +109,7 @@ drop trigger if exists "set_public_notebook_target_updated_at" on "public"."note
 alter table "public"."notebook_target" drop column "updated_at";
 
 alter table "public"."notebook_target" rename column "created_at" to "creation_date";
- 
+
 alter table "public"."notebook_member" rename column "last_modified_at" to "notebook_modification_date";
 
 alter table "public"."notebook_member" rename column "last_visited_at" to "notebook_visit_date";

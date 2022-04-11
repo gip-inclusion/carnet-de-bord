@@ -2,24 +2,24 @@ table:
   name: ref_target
   schema: public
 select_permissions:
-- permission:
-    columns:
-    - description
-    - theme
-    - id
-    filter: {}
-  role: admin_cdb
-- permission:
-    columns:
-    - id
-    - description
-    - theme
-    filter: {}
-  role: manager
-- permission:
-    columns:
-    - description
-    - id
-    - theme
-    filter: {}
-  role: professional
+  - permission:
+      columns:
+        - description
+        - theme
+        - id
+      filter: {}
+    role: admin_cdb
+  - permission:
+      columns:
+        - id
+        - description
+        - theme
+      filter: {}
+    role: manager
+  - permission:
+      columns:
+        - description
+        - id
+        - theme
+      filter: {}
+    role: professional

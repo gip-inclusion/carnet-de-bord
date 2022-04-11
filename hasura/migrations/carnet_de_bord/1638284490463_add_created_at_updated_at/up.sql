@@ -20,7 +20,7 @@ CREATE TRIGGER "set_public_account_updated_at"
 BEFORE UPDATE ON "public"."account"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_account_updated_at" ON "public"."account" 
+COMMENT ON TRIGGER "set_public_account_updated_at" ON "public"."account"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."admin_cdb" add column "created_at" timestamptz
@@ -43,7 +43,7 @@ CREATE TRIGGER "set_public_admin_cdb_updated_at"
 BEFORE UPDATE ON "public"."admin_cdb"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_admin_cdb_updated_at" ON "public"."admin_cdb" 
+COMMENT ON TRIGGER "set_public_admin_cdb_updated_at" ON "public"."admin_cdb"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."beneficiary" add column "created_at" timestamptz
@@ -66,7 +66,7 @@ CREATE TRIGGER "set_public_beneficiary_updated_at"
 BEFORE UPDATE ON "public"."beneficiary"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_beneficiary_updated_at" ON "public"."beneficiary" 
+COMMENT ON TRIGGER "set_public_beneficiary_updated_at" ON "public"."beneficiary"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."notebook" rename column "creation_date" to "created_at";
@@ -88,7 +88,7 @@ CREATE TRIGGER "set_public_notebook_updated_at"
 BEFORE UPDATE ON "public"."notebook"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_notebook_updated_at" ON "public"."notebook" 
+COMMENT ON TRIGGER "set_public_notebook_updated_at" ON "public"."notebook"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."notebook_action" rename column "creation_date" to "created_at";
@@ -110,7 +110,7 @@ CREATE TRIGGER "set_public_notebook_action_updated_at"
 BEFORE UPDATE ON "public"."notebook_action"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_notebook_action_updated_at" ON "public"."notebook_action" 
+COMMENT ON TRIGGER "set_public_notebook_action_updated_at" ON "public"."notebook_action"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."notebook_focus" rename column "creation_date" to "created_at";
@@ -132,7 +132,7 @@ CREATE TRIGGER "set_public_notebook_focus_updated_at"
 BEFORE UPDATE ON "public"."notebook_focus"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_notebook_focus_updated_at" ON "public"."notebook_focus" 
+COMMENT ON TRIGGER "set_public_notebook_focus_updated_at" ON "public"."notebook_focus"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."notebook_member" rename column "creation_date" to "created_at";
@@ -160,7 +160,7 @@ CREATE TRIGGER "set_public_notebook_target_updated_at"
 BEFORE UPDATE ON "public"."notebook_target"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_notebook_target_updated_at" ON "public"."notebook_target" 
+COMMENT ON TRIGGER "set_public_notebook_target_updated_at" ON "public"."notebook_target"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."professional" add column "created_at" timestamptz
@@ -183,7 +183,7 @@ CREATE TRIGGER "set_public_professional_updated_at"
 BEFORE UPDATE ON "public"."professional"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_professional_updated_at" ON "public"."professional" 
+COMMENT ON TRIGGER "set_public_professional_updated_at" ON "public"."professional"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."structure" rename column "creation_date" to "created_at";
@@ -205,7 +205,7 @@ CREATE TRIGGER "set_public_structure_updated_at"
 BEFORE UPDATE ON "public"."structure"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
-COMMENT ON TRIGGER "set_public_structure_updated_at" ON "public"."structure" 
+COMMENT ON TRIGGER "set_public_structure_updated_at" ON "public"."structure"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 alter table "public"."structure" alter column "created_at" set default now();
@@ -232,7 +232,7 @@ BEGIN
   RETURN NEW;
 END;
 $$;
- 
+
 CREATE OR REPLACE FUNCTION public.notebook_focus_modification_date()
   RETURNS TRIGGER
   LANGUAGE PLPGSQL
@@ -252,7 +252,7 @@ BEGIN
   RETURN NEW;
 END;
 $$;
- 
+
 
 CREATE OR REPLACE FUNCTION public.notebook_target_modification_date()
   RETURNS TRIGGER
@@ -276,7 +276,7 @@ BEGIN
 END;
 $$;
 
- 
+
 CREATE OR REPLACE FUNCTION public.notebook_action_modification_date()
   RETURNS TRIGGER
   LANGUAGE PLPGSQL
@@ -300,4 +300,3 @@ BEGIN
   RETURN NEW;
 END;
 $$;
- 

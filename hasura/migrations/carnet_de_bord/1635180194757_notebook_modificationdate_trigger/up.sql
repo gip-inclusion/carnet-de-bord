@@ -109,4 +109,3 @@ CREATE TRIGGER set_notebook_action_modification_date
   ON public.notebook_action
   FOR EACH ROW
   EXECUTE PROCEDURE public.notebook_action_modification_date();
-

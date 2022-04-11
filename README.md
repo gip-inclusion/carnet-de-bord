@@ -8,6 +8,7 @@
 - docker-compose (version 1.29.0)
 - node (version 16)
 - hasura-cli (version 2.0.2)
+- pre-commit https://pre-commit.com
 
 **initialiser le projet**
 
@@ -18,7 +19,7 @@ cd carnet-de-bord
 
 #installer les dépendances
 yarn
-yarn run husky install
+pre-commit install
 ```
 
 **lancer en local**
@@ -130,22 +131,25 @@ docker-compose exec -T db psql --dbname carnet_de_bord --user cdb  < hasura/migr
 ### Faire une requête GraphQL portant sur une absence de relation
 
 Si la table `account` peut porter un `professional_id`, il n'est pas possible de faire la requête suivante, pourtant valide pour des propriétés "internes" :
+
 ```graphql
 query GetProfessionalsNotLinkedFromAccount {
-  professional_aggregate(where: { account: { _is_null: true } }) {
-    aggregate {
-      count
-    }
-  }
+	professional_aggregate(where: { account: { _is_null: true } }) {
+		aggregate {
+			count
+		}
+	}
 }
 ```
+
 Il faut la formuler comme suit :
+
 ```graphql
 query GetProfessionalsNotLinkedFromAccount {
-  professional_aggregate(where: { _not: { account: {} } }) {
-    aggregate {
-      count
-    }
-  }
+	professional_aggregate(where: { _not: { account: {} } }) {
+		aggregate {
+			count
+		}
+	}
 }
 ```

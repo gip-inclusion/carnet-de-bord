@@ -10,20 +10,21 @@ jobs:
   ##############################################################################
   ## Full linting/checking running on all branches
   ##############################################################################
-  lint:
-    name: run full linting on project
+  pre-commit:
+    name: run full linting on project using pre-commit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Setup python for pre-commit
+        uses: actions/setup-python@v2
       - name: Yarn cache setup
         uses: c-hive/gha-yarn-cache@v2
       - name: Install dependencies
         run: |
           yarn install --prefer-offline --frozen-lockfile
-      - name: Install e2e dependencies
-        run: |
           yarn --cwd e2e install --prefer-offline --frozen-lockfile
-      - name: Run full linting
+          pip install pre-commit
+      - name: Run linting
         run: |
           yarn lint
