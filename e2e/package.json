@@ -19,10 +19,11 @@
 		"codeceptjs": "^3.3.0"
 	},
 	"devDependencies": {
-		"@socialgouv/eslint-config-recommended": "^1.75.0",
-		"eslint": "^8.0.0",
+		"@socialgouv/eslint-config-recommended": "^1.109.0",
+		"eslint": "^8.13.0",
 		"lint-staged": "^12.0.0",
-		"playwright": "^1"
+		"playwright": "^1",
+		"prettier": "^2.6.2"
 	},
 	"lint-staged": {
 		"*.{ts,js}": [
