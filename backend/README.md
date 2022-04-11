@@ -1,16 +1,15 @@
-# CDB PYTHON BACKEND
+# CdB Python Backend
 
-You will need python3 to be installer
-The backend sue poetry to manage its deps and env
-To install poetry, you can refer to the [poetry documentation](https://python-poetry.org/docs/#installation)
+Vous allez avoir besoin de python 3.9+ d'installé. Le backend utilise `poetry` pour gérer ses dépendances et ses environnements.
+Pour installer `poetry`, référez-vous aux instructions de la [documentatino poetry](https://python-poetry.org/docs/#installation)
 
-## Install
+## Installation
 
 ```sh
 poetry install
 ```
 
-## Development
+## Développement
 
 ```sh
 poetry run uvicorn --reload api.main:app
@@ -18,17 +17,17 @@ poetry run uvicorn --reload api.main:app
 
 ## Documentation
 
-Thanks to fastapi, you can find an up-to-date swagger documentation on http://localhost:8000/docs
+Grâce à FastAPI, vous pouvez trouver une documentation swagger à jour sur l'URL http://localhost:8000/docs
 
 ## docker cheatsheet
 
-build the image
+Construire l'image
 
 ```sh
 docker build . -t cdb_backend:local
 ```
 
-Run the image on port 4000
+Lancer l'image sur le port 4000
 
 ```sh
 docker run --rm -p 4000:4000 --name cdb_backend cdb_backend:local
