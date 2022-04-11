@@ -69,4 +69,3 @@ RUN chown -R 1000:1000 /app
 USER 1000
 
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "4000"]
-
