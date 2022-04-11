@@ -19,6 +19,7 @@ jobs:
       - name: Use autodevops build and register
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
+          environment: preprod
           dockerfile: backend/Dockerfile
           dockercontext: backend
           imageName: carnet-de-bord/backend

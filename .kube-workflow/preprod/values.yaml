@@ -1,0 +1,8 @@
+jobs:
+  enabled: true
+  runs:
+    - name: seed
+      needs: [hasura]
+      use: SocialGouv/kube-workflow/jobs/seed-db@v1
+      with:
+        seedPath: hasura/seeds/carnet_de_bord/seed-data.sql
