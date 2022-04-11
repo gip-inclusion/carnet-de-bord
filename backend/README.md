@@ -1,7 +1,7 @@
 # CdB Python Backend
 
 Vous allez avoir besoin de python 3.9+ d'installé. Le backend utilise `poetry` pour gérer ses dépendances et ses environnements.
-Pour installer `poetry`, référez-vous aux instructions de la [documentatino poetry](https://python-poetry.org/docs/#installation)
+Pour installer `poetry`, référez-vous aux instructions de la [documentation poetry](https://python-poetry.org/docs/#installation)
 
 ## Installation
 
