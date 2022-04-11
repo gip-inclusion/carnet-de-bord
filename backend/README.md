@@ -9,17 +9,17 @@ Pour installer `poetry`, référez-vous aux instructions de la [documentation po
 poetry install
 ```
 
-## Développement
+## Api
 
 ```sh
 poetry run uvicorn --reload api.main:app
 ```
 
-## Documentation
+### Documentation
 
 Grâce à FastAPI, vous pouvez trouver une documentation swagger à jour sur l'URL http://localhost:8000/docs
 
-## docker cheatsheet
+### docker cheatsheet
 
 Construire l'image
 
@@ -32,3 +32,7 @@ Lancer l'image sur le port 4000
 ```sh
 docker run --rm -p 4000:4000 --name cdb_backend cdb_backend:local
 ```
+
+## Scripts
+
+    HASURA_GRAPHQL_DATABASE_URL=postgres://cdb:test@localhost:5432/carnet_de_bord poetry run python scripts/connect_to_db.py
