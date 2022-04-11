@@ -6,3 +6,6 @@ Dockerfile
 .eslintcache
 node_modules
 .editorconfig
+**/__pycache__
+*.pyc
+.venv

@@ -13,16 +13,19 @@ concurrency:
 
 jobs:
   ##############################################################################
-  ## CREATE POSTGRES DATABASE
+  ## BUILD AND REGISTER BACKEND IMAGE
   ##############################################################################
-  create-db:
-    name: Create postgres database
+  register-backend:
+    name: Build & Register backend
     runs-on: ubuntu-latest
     steps:
-      - uses: SocialGouv/actions/autodevops-create-db@v1
+      - name: Use autodevops build and register
+        uses: SocialGouv/actions/autodevops-build-register@v1
         with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
+          dockerfile: backend/Dockerfile
+          dockercontext: backend
+          imageName: carnet-de-bord/backend
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   ##############################################################################
   ## BUILD AND REGISTER APP IMAGE
@@ -61,30 +64,16 @@ jobs:
   deploy:
     name: Deploy review branch
     runs-on: ubuntu-latest
-    needs: [register-app, register-hasura, create-db]
+    needs: [register-app, register-hasura, register-backend]
     steps:
-      - name: Use autodevops deployment
-        uses: SocialGouv/actions/autodevops-helm-deploy@v1
+      - name: Use kube-workflow deployment
+        uses: SocialGouv/kube-workflow@v1
         with:
-          environment: 'dev'
+          environment: dev
           token: ${{ secrets.GITHUB_TOKEN }}
           kubeconfig: ${{ secrets.KUBECONFIG }}
-          rancherId: ${{ secrets.RANCHER_PROJECT_ID }}
-          socialgouvBaseDomain: ${{ secrets.SOCIALGOUV_BASE_DOMAIN }}
-          imageName: carnet-de-bord
-
-  ##############################################################################
-  ## SEED DATABASE
-  ##############################################################################
-  seed-db:
-    name: Seed database
-    runs-on: ubuntu-latest
-    needs: [deploy]
-    steps:
-      - uses: SocialGouv/actions/autodevops-seed-db@v1
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          seedPath: hasura/seeds/carnet_de_bord/seed-data.sql
+          rancherProjectId: ${{ secrets.RANCHER_PROJECT_ID }}
+          rancherProjectName: ${{ secrets.RANCHER_PROJECT_NAME }}
 
   ##############################################################################
   ## End To End Tests running on all branches
@@ -92,7 +81,7 @@ jobs:
   e2e:
     name: run CodeceptJS tests
     runs-on: ubuntu-latest
-    needs: [seed-db]
+    needs: [deploy]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -109,7 +98,7 @@ jobs:
         uses: mikefarah/yq@v4.24.2
         id: app
         with:
-          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1)
+          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
       - name: Get hasura url
         uses: mikefarah/yq@v4.24.2
         id: hasura
@@ -148,7 +137,7 @@ jobs:
         uses: mikefarah/yq@v4.24.2
         id: app
         with:
-          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1)
+          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
       - name: Get hasura url
         uses: mikefarah/yq@v4.24.2
         id: hasura

@@ -1,0 +1,52 @@
+global: {}
+
+app:
+  enabled: true
+  imagePackage: app
+  probesPath: /healthz
+  env:
+    - name: APP_URL
+      value: https://{{ .Values.global.host }}
+    - name: VITE_GRAPHQL_API_URL
+      value: https://hasura-{{ .Values.global.host }}/v1/graphql
+  envFrom:
+    - secretRef:
+        name: pg-user
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        more_set_headers "X-Frame-Options: deny";
+        more_set_headers "X-XSS-Protection: 1; mode=block";
+        more_set_headers "X-Content-Type-Options: nosniff";
+
+hasura:
+  enabled: true
+  containerPort: 80
+  envFrom:
+    - secretRef:
+        name: pg-user
+    - secretRef:
+        name: hasura-sealed-secret
+    - configMapRef:
+        name: hasura-configmap
+
+app-backend:
+  host: 'api-{{ .Values.global.host }}'
+  enabled: true
+  imagePackage: backend
+  probesPath: /healthz
+  containerPort: 4000
+  env:
+    - name: APP_URL
+      value: https://{{ .Values.global.host }}
+    - name: VITE_GRAPHQL_API_URL
+      value: https://hasura-{{ .Values.global.host }}/v1/graphql
+  envFrom:
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
