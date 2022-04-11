@@ -1,6 +1,5 @@
 import asyncio
 import logging
-from pprint import pp
 
 import asyncpg
 from api.core.settings import settings
