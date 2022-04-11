@@ -1,13 +1,16 @@
 import asyncio
+import logging
 from pprint import pp
 
 import asyncpg
 from api.core.settings import settings
 
+logging.basicConfig(level=logging.INFO)
+
 
 async def main():
 
-    print(f"Database URL: {settings.hasura_graphql_database_url}")
+    logging.info(f"Using Database URL: {settings.hasura_graphql_database_url}")
 
     pool = await asyncpg.create_pool(settings.hasura_graphql_database_url)
 
@@ -19,7 +22,7 @@ async def main():
             #
             beneficiaries = await connection.fetch("SELECT * FROM public.beneficiary")
 
-            pp(beneficiaries)
+            logging.info(beneficiaries)
 
 
 if __name__ == "__main__":
