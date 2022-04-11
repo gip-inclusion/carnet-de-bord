@@ -1,3 +1,10 @@
+# [1.107.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.106.2...v1.107.0) (2022-04-11)
+
+
+### Features
+
+* add python api ([#756](https://github.com/SocialGouv/carnet-de-bord/issues/756)) ([e0813ec](https://github.com/SocialGouv/carnet-de-bord/commit/e0813ec7858dcfa8d6e64c41b9123e2410a70a7e)), closes [#757](https://github.com/SocialGouv/carnet-de-bord/issues/757)
+
 ## [1.106.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.106.1...v1.106.2) (2022-04-07)
 
 ### Bug Fixes
