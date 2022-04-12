@@ -14,13 +14,18 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
 
 
-# By default, load the file of the parent project
-env_path = os.path.join(dir_path, "..", "..", "..", ".env")
-
+# By default, load the file of the parent project if the ENV_FILE
+# variable doesn't exist
+#
 # If you want to specify a specific env file, you can setup
 # the ENV_FILE variable value
 #
 # Something like that: ENV_FILE="../.env" python scripts/connect_to_db.py
-settings = Settings(
-    _env_file=os.getenv("ENV_FILE", env_path), _env_file_encoding="utf-8"
-)
+
+env_file_path = os.getenv("ENV_FILE", os.path.join(dir_path, "..", "..", "..", ".env"))
+
+
+if os.path.exists(env_file_path):
+    settings = Settings(_env_file=env_file_path, _env_file_encoding="utf-8")
+else:
+    settings = Settings()
