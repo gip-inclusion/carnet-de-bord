@@ -1,3 +1,10 @@
+# [1.108.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.107.1...v1.108.0) (2022-04-12)
+
+
+### Features
+
+* add PG connection to Python scripts ([#777](https://github.com/SocialGouv/carnet-de-bord/issues/777)) ([3e6b13a](https://github.com/SocialGouv/carnet-de-bord/commit/3e6b13a8042af40531674d9a9f3963b1367e61ad))
+
 ## [1.107.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.107.0...v1.107.1) (2022-04-12)
 
 ### Bug Fixes
