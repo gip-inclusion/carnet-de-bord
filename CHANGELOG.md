@@ -1,9 +1,8 @@
 ## [1.107.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.107.0...v1.107.1) (2022-04-12)
 
-
 ### Bug Fixes
 
-* udpate backend-secret ([#779](https://github.com/SocialGouv/carnet-de-bord/issues/779)) ([22e62aa](https://github.com/SocialGouv/carnet-de-bord/commit/22e62aad7fcf36ae560b69bb5aa248e6d2dfdad9))
+- udpate backend-secret ([#779](https://github.com/SocialGouv/carnet-de-bord/issues/779)) ([22e62aa](https://github.com/SocialGouv/carnet-de-bord/commit/22e62aad7fcf36ae560b69bb5aa248e6d2dfdad9))
 
 # [1.107.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.106.2...v1.107.0) (2022-04-11)
 
