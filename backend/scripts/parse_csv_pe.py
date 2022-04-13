@@ -1,3 +1,5 @@
+import asyncio
+
 import typer
 from cdb_csv import pe
 
@@ -12,7 +14,7 @@ def action_file(pe_action_file: str):
 @app.command()
 def principal_file(pe_principal_file: str):
     typer.echo(f"Parsing principal file {pe_principal_file}")
-    pe.parse_principal_csv(pe_principal_file)
+    asyncio.run(pe.parse_principal_csv(pe_principal_file))
 
 
 if __name__ == "__main__":
