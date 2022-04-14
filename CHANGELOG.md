@@ -1,3 +1,10 @@
+## [1.108.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.0...v1.108.1) (2022-04-14)
+
+
+### Bug Fixes
+
+* fix rattachement on beneficiary with multiple structure ([33f6e87](https://github.com/SocialGouv/carnet-de-bord/commit/33f6e8720d36368593d0c9c0513bbb197f583fe6))
+
 # [1.108.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.107.1...v1.108.0) (2022-04-12)
 
 
