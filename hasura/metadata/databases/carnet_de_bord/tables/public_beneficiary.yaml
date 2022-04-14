@@ -10,6 +10,7 @@ configuration:
     internal_id: internalId
     mobile_number: mobileNumber
     pe_number: peNumber
+    place_of_birth: placeOfBirth
     postal_code: postalCode
     updated_at: updatedAt
   custom_root_fields: {}
