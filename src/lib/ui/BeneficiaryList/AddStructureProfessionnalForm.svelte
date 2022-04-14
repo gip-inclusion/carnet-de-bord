@@ -70,8 +70,11 @@
 							active: true,
 					  }))
 					: [],
-				structureId: selectedStructure,
-				status: selectedMember ? 'done' : 'pending',
+				beneficiaryStructureObjects: notebooks.map(({ beneficiaryId }) => ({
+					beneficiaryId,
+					structureId: selectedStructure,
+					status: selectedMember ? 'done' : 'pending',
+				})),
 				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),
 			},
 			{ additionalTypenames: ['notebook_member'] }

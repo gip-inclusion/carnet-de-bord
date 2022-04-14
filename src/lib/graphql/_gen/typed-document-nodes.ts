@@ -8107,14 +8107,19 @@ export type UpdateReferentMutation = {
 
 export type UpdateReferentWithStructureMutationVariables = Exact<{
 	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-	structureId: Scalars['uuid'];
+	beneficiaryStructureObjects:
+		| Array<BeneficiaryStructureInsertInput>
+		| BeneficiaryStructureInsertInput;
 	beneficiaries: Array<Scalars['uuid']> | Scalars['uuid'];
-	status: Scalars['String'];
 }>;
 
 export type UpdateReferentWithStructureMutation = {
 	__typename?: 'mutation_root';
-	update_beneficiary_structure?:
+	delete_beneficiary_structure?:
+		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	insert_beneficiary_structure?:
 		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
 		| null
 		| undefined;
@@ -11278,10 +11283,22 @@ export const UpdateReferentWithStructureDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'beneficiaryStructureObjects' },
+					},
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'beneficiary_structure_insert_input' },
+								},
+							},
+						},
 					},
 				},
 				{
@@ -11298,21 +11315,13 @@ export const UpdateReferentWithStructureDocument = {
 						},
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						name: { kind: 'Name', value: 'delete_beneficiary_structure' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -11340,23 +11349,22 @@ export const UpdateReferentWithStructureDocument = {
 									],
 								},
 							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_beneficiary_structure' },
+						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
+								name: { kind: 'Name', value: 'objects' },
 								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'structureId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
-										},
-									],
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'beneficiaryStructureObjects' },
 								},
 							},
 						],
@@ -11389,6 +11397,20 @@ export const UpdateReferentWithStructureDocument = {
 								value: {
 									kind: 'ObjectValue',
 									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'referent', block: false },
+													},
+												],
+											},
+										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebook' },

@@ -103,3 +103,14 @@ update_permissions:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
     role: manager
+delete_permissions:
+  - permission:
+      filter:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+    role: manager
