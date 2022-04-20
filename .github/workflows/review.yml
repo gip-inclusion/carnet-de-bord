@@ -92,8 +92,13 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: 1.1.13
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: poetry install
       - name: Run pytest
-        run: (cd backend && poetry run pytest)
+        working-directory: ./backend
+        run: poetry run pytest
 
   e2e:
     name: run CodeceptJS tests
