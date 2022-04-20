@@ -26,9 +26,15 @@ async def parse_principal_csv(principal_csv: str):
 
                 csv_row: PrincipalCsvRow = await map_principal_row(row)
 
-                beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
-                    connection, csv_row
-                )
+                if csv_row.brsa:
+
+                    beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
+                        connection, csv_row
+                    )
+
+                    if beneficiary:
+                        # Check ROME code
+                        logging.info(f"Checking ROME code for {beneficiary}")
 
     else:
         logging.error("Unable to acquire connection from DB pool")
@@ -46,4 +52,5 @@ async def map_principal_row(row: Series) -> PrincipalCsvRow:
         rome_1_label=row["appelation_rome_1"],
         rome_2=row["rome_2"],
         rome_2_label=row["appelation_rome_2"],
+        brsa=row["brsa"],
     )

@@ -14,6 +14,14 @@ class PrincipalCsvRow(BaseModel):
     rome_1_label: str
     rome_2: str
     rome_2_label: str
+    brsa: bool
+
+    @validator("brsa", pre=True)
+    def parse_brsa(cls, value):
+        if value == "O":
+            return True
+        else:
+            return False
 
     @validator("date_of_birth", pre=True)
     def parse_birthdate(cls, value):
