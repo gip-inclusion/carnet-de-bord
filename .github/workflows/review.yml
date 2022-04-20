@@ -98,7 +98,7 @@ jobs:
         run: poetry install
       - name: Run pytest
         working-directory: ./backend
-        run: poetry run pytest
+        run: HASURA_GRAPHQL_DATABASE_URL=postgres://cdb:test@localhost:5432/carnet_de_bord poetry run pytest
 
   e2e:
     name: run CodeceptJS tests
