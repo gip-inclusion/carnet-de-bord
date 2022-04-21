@@ -11,13 +11,12 @@
 
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import { v4 as uuidv4 } from 'uuid';
-	import { Text } from '$lib/ui/utils';
+	import { Text, ImportParserError } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { page } from '$app/stores';
-	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { pluralize } from '$lib/helpers';
-	import { csvParseConfig } from '$lib/csvParseConfig';
+	import { parseEntities } from '$lib/utils/importFileParser';
+	import { formatDateLocale } from '$lib/utils/date';
 
 	type NotebookMemberInput = {
 		notebookId: string;
@@ -26,7 +25,7 @@
 		dateOfBirth?: string;
 		proEmails: string;
 	};
-	type NotebookMemberImport = NotebookMemberInput & {
+	type NotebookMemberBinding = NotebookMemberInput & {
 		valid: boolean;
 		uid: string;
 	};
@@ -35,28 +34,22 @@
 
 	$: proDictEmailToId = professionals.reduce((acc, { id, email }) => ({ ...acc, [email]: id }), {});
 	$: proDictIdToEmail = professionals.reduce((acc, { id, email }) => ({ ...acc, [id]: email }), {});
+
 	function proEmailToProId(email: string | null): string | undefined {
 		return proDictEmailToId[email];
 	}
+
 	function proIdToProEmail(id: string | null): string | undefined {
 		return proDictIdToEmail[id];
 	}
 
 	let files = [];
-	let members: NotebookMemberImport[] = [];
+	let members: NotebookMemberBinding[] = [];
 
 	$: membersToImport = members.filter(({ uid }) => uidToImport.includes(uid));
 
-	function validate(input: null | undefined | Record<string, any>): boolean {
-		try {
-			return !!input && !!input.notebookId && !!input.proEmails;
-		} catch (error) {
-			console.error(error);
-		}
-		return false;
-	}
-
 	let uidToImport = [];
+	let parseErrors = [];
 
 	const headers = [
 		{ label: 'Identifiant Carnet de bord*', key: 'notebookId' },
@@ -69,35 +62,16 @@
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				const binaryStr = reader.result;
-				const membersDataRaw: Record<string, unknown>[] = csvParse(
-					binaryStr.toString(),
-					csvParseConfig(headers)
-				);
-				members = membersDataRaw
-					.reduce(
-						(
-							[valid, invalid]: [NotebookMemberImport[], NotebookMemberImport[]],
-							cur: Record<string, any>
-						) => {
-							cur.uid = uuidv4();
-							cur.valid = validate(cur);
-							if (cur.valid) {
-								valid.push(cur as NotebookMemberImport);
-							} else {
-								invalid.push(cur as NotebookMemberImport);
-							}
-							return [valid, invalid];
-						},
-						[[], []]
-					)
-					.flat();
-
-				uidToImport = members.filter(({ valid }) => valid).map(({ uid }) => uid);
-			};
-			reader.readAsText(files[i]);
+			parseEntities(
+				files[i],
+				'NotebookMemberBinding',
+				headers,
+				({ entities, idToImport }: Record<string, unknown>, errors: string[]): void => {
+					members = entities as NotebookMemberBinding[];
+					uidToImport = idToImport as string[];
+					parseErrors = errors;
+				}
+			);
 		}
 	}
 
@@ -144,6 +118,7 @@
 
 	function backToFileSelect() {
 		members = [];
+		parseErrors = [];
 	}
 
 	$: successfulImports = (insertResult || []).filter(({ error }) => !error).length;
@@ -191,15 +166,24 @@
 								</td>
 								{#each headers as header (header.key)}
 									{#if header.key !== 'proEmails'}
-										<td class="px-2 py-2"><Text value={member[header.key]} /></td>
+										<td class="px-2 py-2">
+											{#if header.key === 'dateOfBirth'}
+												<Text value={formatDateLocale(member[header.key])} />
+											{:else}
+												<Text value={member[header.key]} />
+											{/if}
+										</td>
 									{/if}
 								{/each}
-								<td class="px-2 py-2"><Text value={member.proEmails.split(',').join(', ')} /></td>
+								<td class="px-2 py-2">
+									<Text value={member.proEmails.split(',').join(', ')} />
+								</td>
 							</tr>
 						{/each}
 					</tbody>
 				</table>
 			</div>
+			<ImportParserError {parseErrors} />
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{uidToImport.length || 'Aucun'}
@@ -214,16 +198,17 @@
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV. Les adresses email des accompagnateurs doivent
-				être séparées par des virgules.
+				Veuillez fournir un fichier au format EXCEL ou CSV. Les adresses email des accompagnateurs
+				doivent être séparées par des virgules.
 				<br />Vous pouvez
 				<a href={`${$page.params.uuid}/beneficiaires_en_attente`} download
 					>télécharger la liste des bénéficiaires en attente de rattachement</a
 				>.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
+			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
+			<ImportParserError {parseErrors} />
 		{/if}
 	{:else}
 		<div class="flex flex-col gap-4">
@@ -268,7 +253,7 @@
 										<Text value={member.input_.lastname} />
 									</td>
 									<td class="px-2 py-2 ">
-										<Text value={member.input_.dateOfBirth} />
+										<Text value={formatDateLocale(member.input_.dateOfBirth)} />
 									</td>
 									<td class="px-2 py-2 ">
 										<Text value={member.input_.proEmails} />

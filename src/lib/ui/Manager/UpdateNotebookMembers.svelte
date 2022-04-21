@@ -17,14 +17,13 @@
 
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import { v4 as uuidv4 } from 'uuid';
-	import { Text } from '$lib/ui/utils';
+	import { Text, ImportParserError } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
-	import { parse as csvParse } from 'csv-parse/browser/esm/sync';
 	import { pluralize } from '$lib/helpers';
 	import { displayFullName } from '$lib/ui/format';
 	import Tag from '../Tag.svelte';
-	import { csvParseConfig } from '$lib/csvParseConfig';
+	import { parseEntities } from '$lib/utils/importFileParser';
+
 	const client = getClient();
 
 	type NotebookMemberInput = {
@@ -85,16 +84,8 @@
 
 	$: beneficiariesToImport = beneficiaries.filter(({ uid }) => uidToImport.includes(uid));
 
-	function validate(input: null | undefined | Record<string, any>): boolean {
-		try {
-			return !!input && !!input.firstname && !!input.lastname && !!input.dateOfBirth;
-		} catch (error) {
-			console.error(error);
-		}
-		return false;
-	}
-
 	let uidToImport = [];
+	let parseErrors = [];
 
 	const headers = [
 		{ label: 'Prénom*', key: 'firstname' },
@@ -108,35 +99,16 @@
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
-			const reader = new FileReader();
-			reader.onload = () => {
-				const binaryStr = reader.result;
-				const membersDataRaw: Record<string, unknown>[] = csvParse(
-					binaryStr.toString(),
-					csvParseConfig(headers)
-				);
-				beneficiaries = membersDataRaw
-					.reduce(
-						(
-							[valid, invalid]: [NotebookMemberImport[], NotebookMemberImport[]],
-							cur: Record<string, any>
-						) => {
-							cur.uid = uuidv4();
-							cur.valid = validate(cur);
-							if (cur.valid) {
-								valid.push(cur as NotebookMemberImport);
-							} else {
-								invalid.push(cur as NotebookMemberImport);
-							}
-							return [valid, invalid];
-						},
-						[[], []]
-					)
-					.flat();
-
-				uidToImport = beneficiaries.filter(({ valid }) => valid).map(({ uid }) => uid);
-			};
-			reader.readAsText(files[i]);
+			parseEntities(
+				files[i],
+				'NotebookMemberImport',
+				headers,
+				({ entities, idToImport }: Record<string, unknown>, errors: string[]): void => {
+					beneficiaries = entities as NotebookMemberImport[];
+					uidToImport = idToImport as string[];
+					parseErrors = errors;
+				}
+			);
 		}
 	}
 
@@ -385,6 +357,7 @@
 
 	function backToFileSelect() {
 		beneficiaries = [];
+		parseErrors = [];
 	}
 
 	$: requestedUpdates = (insertResult || []).concat(removeResult || []);
@@ -432,11 +405,13 @@
 								</td>
 								{#each headers as header (header.key)}
 									{#if !['addEmails', 'removeEmails', 'addStructures'].includes(header.key)}
-										<td class="px-2 py-2"><Text value={member[header.key]} /></td>
+										<td class="px-2 py-2">
+											<Text value={member[header.key]} />
+										</td>
 									{/if}
 								{/each}
-								<td class="px-2 py-2"
-									><Text
+								<td class="px-2 py-2">
+									<Text
 										value={member.addEmails
 											.split(',')
 											.map((s) => s.trim())
@@ -444,10 +419,10 @@
 											.filter(Boolean)
 											.map((pro) => `${pro?.firstname} ${pro?.lastname}`)
 											.join(', ')}
-									/></td
-								>
-								<td class="px-2 py-2"
-									><Text
+									/>
+								</td>
+								<td class="px-2 py-2">
+									<Text
 										value={member.removeEmails
 											.split(',')
 											.map((s) => s.trim())
@@ -455,10 +430,10 @@
 											.filter(Boolean)
 											.map((pro) => `${pro?.firstname} ${pro?.lastname}`)
 											.join(', ')}
-									/></td
-								>
-								<td class="px-2 py-2"
-									><Text
+									/>
+								</td>
+								<td class="px-2 py-2">
+									<Text
 										value={member.addStructures
 											.split(',')
 											.map((s) => s.trim())
@@ -466,13 +441,14 @@
 											.filter(Boolean)
 											.map((structure) => structure.name)
 											.join(', ')}
-									/></td
-								>
+									/>
+								</td>
 							</tr>
 						{/each}
 					</tbody>
 				</table>
 			</div>
+			<ImportParserError {parseErrors} />
 			<div class="mt-6 flex justify-end flex-row gap-4">
 				<span>
 					{uidToImport.length || 'Aucun'}
@@ -487,7 +463,7 @@
 			</div>
 		{:else}
 			<div>
-				Veuillez fournir un fichier au format CSV.
+				Veuillez fournir un fichier au format EXCEL ou CSV.
 				<br />Vous pouvez
 				<a href="/fichiers/import_reorientation.csv" download>télécharger un modèle</a>
 				et
@@ -495,9 +471,10 @@
 					>consulter la notice de remplissage</a
 				>.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv">
+			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
+			<ImportParserError {parseErrors} />
 		{/if}
 	{:else}
 		<div class="flex flex-col gap-4">
