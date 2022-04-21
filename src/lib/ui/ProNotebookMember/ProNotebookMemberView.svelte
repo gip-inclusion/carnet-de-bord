@@ -12,8 +12,10 @@
 	import { openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
 	import ProWithStructureView from './ProWithStructureView.svelte';
+	import ProAppointment from '$lib/ui/ProNotebookMember/ProAppointment.svelte';
 
 	export let member: Member;
+	export let notebookId: string;
 	$: professional = member?.professional;
 	$: createdAt = member?.createdAt;
 </script>
@@ -22,6 +24,7 @@
 	<h1>Membre du groupe de suivi</h1>
 	<p>Membre depuis le {formatDateLocale(createdAt)}</p>
 	<ProWithStructureView {professional} />
+	<ProAppointment {professional} {notebookId} />
 	<div class="mt-6">
 		<Button
 			on:click={() => {

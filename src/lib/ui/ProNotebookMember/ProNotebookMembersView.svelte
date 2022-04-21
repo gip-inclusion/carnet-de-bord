@@ -14,7 +14,7 @@
 
 	const openMemberInfo = (member: Member) => {
 		trackEvent('pro', 'members', 'view info');
-		openComponent.open({ component: ProNotebookMemberView, props: { member } });
+		openComponent.open({ component: ProNotebookMemberView, props: { member, notebookId } });
 	};
 
 	const openInviteMember = () => {

@@ -1,0 +1,50 @@
+table:
+  name: notebook_appointment
+  schema: public
+object_relationships:
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id
+insert_permissions:
+  - permission:
+      backend_only: false
+      check:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+      columns:
+        - date
+        - status
+      set:
+        professional_id: x-hasura-Professional-Id
+    role: professional
+select_permissions:
+  - permission:
+      columns:
+        - date
+        - id
+        - notebook_id
+        - professional_id
+        - status
+      filter:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+    role: professional
+update_permissions:
+  - permission:
+      check: null
+      columns:
+        - date
+        - status
+      filter:
+        notebook:
+          members:
+            professional_id:
+              _eq: X-Hasura-Professional-Id
+    role: professional
