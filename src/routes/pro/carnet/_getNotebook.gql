@@ -54,6 +54,7 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 			lastVisitedAt
 			createdAt
 			account {
+				id
 				professional {
 					id
 					lastname
@@ -72,6 +73,14 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 					}
 				}
 			}
+		}
+		appointments(
+			where: { notebookId: { _eq: $id } }
+			distinct_on: memberAccountId
+			order_by: [{memberAccountId: asc }, { date: desc }]
+		) {
+			date
+			memberAccountId
 		}
 		events(
 			order_by: { eventDate: desc_nulls_first }

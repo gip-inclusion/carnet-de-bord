@@ -37,6 +37,7 @@ const config = {
 		},
 	},
 	plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+	important: true,
 };
 
 module.exports = config;

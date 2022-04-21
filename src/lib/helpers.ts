@@ -1,3 +1,5 @@
+import type { AppointmentUI } from '$lib/models/Appointment';
+
 export const stringsMatch =
 	(needle: string) =>
 	(haystack?: string | null): boolean => {
@@ -45,4 +47,10 @@ export function pluralize(word: string, quantity: number, plural?: string): stri
 		return plural ?? `${word}s`;
 	}
 	return word;
+}
+
+export function jsonCopy(
+	object: Record<string, unknown> | Array<Record<string, unknown>> | AppointmentUI | AppointmentUI[]
+) {
+	return JSON.parse(JSON.stringify(object));
 }

@@ -40,7 +40,7 @@
 		{/if}
 	</label>
 	<!-- https://github.com/sveltejs/svelte/issues/3921 -->
-	<div class="justify-self-end">
+	<div class={`justify-self-end ${type === 'date' ? 'fr-input-wrap fr-fi-calendar-line m-0' : ''}`}>
 		{#if type === 'password'}
 			<input
 				type="password"
@@ -145,3 +145,15 @@
 		</p>
 	{/if}
 </div>
+
+<style>
+	.fr-input[type='date'] {
+		padding-right: 0.7em;
+	}
+	.no-label .fr-label {
+		display: none;
+	}
+	.no-label .fr-label + .fr-select {
+		margin: 0;
+	}
+</style>

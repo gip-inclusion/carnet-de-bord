@@ -23,6 +23,13 @@ object_relationships:
   using:
     foreign_key_constraint_on: beneficiary_id
 array_relationships:
+- name: appointments
+  using:
+    foreign_key_constraint_on:
+      column: notebook_id
+      table:
+        name: notebook_appointment
+        schema: public
 - name: events
   using:
     foreign_key_constraint_on:

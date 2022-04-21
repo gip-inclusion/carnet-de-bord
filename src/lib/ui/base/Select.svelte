@@ -77,3 +77,12 @@
 		</p>
 	{/if}
 </div>
+
+<style>
+	.no-label .fr-label {
+		display: none;
+	}
+	.no-label .fr-label + .fr-select {
+		margin: 0;
+	}
+</style>

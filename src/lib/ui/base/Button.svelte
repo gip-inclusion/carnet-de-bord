@@ -36,3 +36,13 @@
 >
 	<span><slot /></span>
 </button>
+
+<style>
+	.edit-btn {
+		padding: 8px 16px;
+		font-size: 14px;
+		width: 100%;
+		text-align: center;
+		display: inline-block;
+	}
+</style>
