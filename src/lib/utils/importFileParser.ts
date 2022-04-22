@@ -96,7 +96,6 @@ export function parseEntities(
 	reader.onload = () => {
 		try {
 			const result = parseFile(reader, file.type);
-			console.log(result);
 			const validationErrors = [];
 			validateImportFileShape(result, headers);
 			const records: object[] = mapToHeaders(result, headers);
@@ -131,7 +130,6 @@ function validate(entity: null | undefined | Record<string, unknown>, entityType
 	if (entity.dateOfBirth) {
 		entity.dateOfBirth = localeDateToIso(entity.dateOfBirth as string);
 	}
-	console.log(entity);
 	switch (entityType) {
 		case 'BeneficiaryImport':
 			return !!entity && !!entity.firstname && !!entity.lastname && !!entity.dateOfBirth;
