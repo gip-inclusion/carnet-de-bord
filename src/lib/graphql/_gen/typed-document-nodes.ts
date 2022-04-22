@@ -2388,6 +2388,10 @@ export type MutationRoot = {
 	delete_notebook_action?: Maybe<NotebookActionMutationResponse>;
 	/** delete single row from the table: "notebook_action" */
 	delete_notebook_action_by_pk?: Maybe<NotebookAction>;
+	/** delete data from the table: "notebook_appointment" */
+	delete_notebook_appointment?: Maybe<NotebookAppointmentMutationResponse>;
+	/** delete single row from the table: "notebook_appointment" */
+	delete_notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** delete single row from the table: "notebook" */
 	delete_notebook_by_pk?: Maybe<Notebook>;
 	/** delete data from the table: "notebook_event" */
@@ -2477,6 +2481,10 @@ export type MutationRoot = {
 	insert_notebook_action?: Maybe<NotebookActionMutationResponse>;
 	/** insert a single row into the table: "notebook_action" */
 	insert_notebook_action_one?: Maybe<NotebookAction>;
+	/** insert data into the table: "notebook_appointment" */
+	insert_notebook_appointment?: Maybe<NotebookAppointmentMutationResponse>;
+	/** insert a single row into the table: "notebook_appointment" */
+	insert_notebook_appointment_one?: Maybe<NotebookAppointment>;
 	/** insert data into the table: "notebook_event" */
 	insert_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** insert a single row into the table: "notebook_event" */
@@ -2566,6 +2574,10 @@ export type MutationRoot = {
 	update_notebook_action?: Maybe<NotebookActionMutationResponse>;
 	/** update single row of the table: "notebook_action" */
 	update_notebook_action_by_pk?: Maybe<NotebookAction>;
+	/** update data of the table: "notebook_appointment" */
+	update_notebook_appointment?: Maybe<NotebookAppointmentMutationResponse>;
+	/** update single row of the table: "notebook_appointment" */
+	update_notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** update single row of the table: "notebook" */
 	update_notebook_by_pk?: Maybe<Notebook>;
 	/** update data of the table: "notebook_event" */
@@ -2716,6 +2728,16 @@ export type MutationRootDeleteNotebookActionArgs = {
 
 /** mutation root */
 export type MutationRootDeleteNotebookActionByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookAppointmentArgs = {
+	where: NotebookAppointmentBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookAppointmentByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -2961,6 +2983,18 @@ export type MutationRootInsertNotebookActionArgs = {
 export type MutationRootInsertNotebookActionOneArgs = {
 	object: NotebookActionInsertInput;
 	on_conflict?: InputMaybe<NotebookActionOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookAppointmentArgs = {
+	objects: Array<NotebookAppointmentInsertInput>;
+	on_conflict?: InputMaybe<NotebookAppointmentOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookAppointmentOneArgs = {
+	object: NotebookAppointmentInsertInput;
+	on_conflict?: InputMaybe<NotebookAppointmentOnConflict>;
 };
 
 /** mutation root */
@@ -3250,6 +3284,18 @@ export type MutationRootUpdateNotebookActionArgs = {
 export type MutationRootUpdateNotebookActionByPkArgs = {
 	_set?: InputMaybe<NotebookActionSetInput>;
 	pk_columns: NotebookActionPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookAppointmentArgs = {
+	_set?: InputMaybe<NotebookAppointmentSetInput>;
+	where: NotebookAppointmentBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookAppointmentByPkArgs = {
+	_set?: InputMaybe<NotebookAppointmentSetInput>;
+	pk_columns: NotebookAppointmentPkColumnsInput;
 };
 
 /** mutation root */
@@ -3784,6 +3830,161 @@ export type NotebookAggregateFieldsCountArgs = {
 	columns?: InputMaybe<Array<NotebookSelectColumn>>;
 	distinct?: InputMaybe<Scalars['Boolean']>;
 };
+
+/** columns and relationships of "notebook_appointment" */
+export type NotebookAppointment = {
+	__typename?: 'notebook_appointment';
+	date: Scalars['date'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebook_id: Scalars['uuid'];
+	/** An object relationship */
+	professional: Professional;
+	professional_id: Scalars['uuid'];
+	status: Scalars['String'];
+};
+
+/** aggregated selection of "notebook_appointment" */
+export type NotebookAppointmentAggregate = {
+	__typename?: 'notebook_appointment_aggregate';
+	aggregate?: Maybe<NotebookAppointmentAggregateFields>;
+	nodes: Array<NotebookAppointment>;
+};
+
+/** aggregate fields of "notebook_appointment" */
+export type NotebookAppointmentAggregateFields = {
+	__typename?: 'notebook_appointment_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookAppointmentMaxFields>;
+	min?: Maybe<NotebookAppointmentMinFields>;
+};
+
+/** aggregate fields of "notebook_appointment" */
+export type NotebookAppointmentAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_appointment". All fields are combined with a logical 'AND'. */
+export type NotebookAppointmentBoolExp = {
+	_and?: InputMaybe<Array<NotebookAppointmentBoolExp>>;
+	_not?: InputMaybe<NotebookAppointmentBoolExp>;
+	_or?: InputMaybe<Array<NotebookAppointmentBoolExp>>;
+	date?: InputMaybe<DateComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	notebook?: InputMaybe<NotebookBoolExp>;
+	notebook_id?: InputMaybe<UuidComparisonExp>;
+	professional?: InputMaybe<ProfessionalBoolExp>;
+	professional_id?: InputMaybe<UuidComparisonExp>;
+	status?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_appointment" */
+export enum NotebookAppointmentConstraint {
+	/** unique or primary key constraint */
+	NotebookAppointmentPkey = 'notebook_appointment_pkey',
+}
+
+/** input type for inserting data into table "notebook_appointment" */
+export type NotebookAppointmentInsertInput = {
+	date?: InputMaybe<Scalars['date']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook?: InputMaybe<NotebookObjRelInsertInput>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type NotebookAppointmentMaxFields = {
+	__typename?: 'notebook_appointment_max_fields';
+	date?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebook_id?: Maybe<Scalars['uuid']>;
+	professional_id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type NotebookAppointmentMinFields = {
+	__typename?: 'notebook_appointment_min_fields';
+	date?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebook_id?: Maybe<Scalars['uuid']>;
+	professional_id?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "notebook_appointment" */
+export type NotebookAppointmentMutationResponse = {
+	__typename?: 'notebook_appointment_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookAppointment>;
+};
+
+/** on conflict condition type for table "notebook_appointment" */
+export type NotebookAppointmentOnConflict = {
+	constraint: NotebookAppointmentConstraint;
+	update_columns?: Array<NotebookAppointmentUpdateColumn>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_appointment". */
+export type NotebookAppointmentOrderBy = {
+	date?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebook?: InputMaybe<NotebookOrderBy>;
+	notebook_id?: InputMaybe<OrderBy>;
+	professional?: InputMaybe<ProfessionalOrderBy>;
+	professional_id?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_appointment */
+export type NotebookAppointmentPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "notebook_appointment" */
+export enum NotebookAppointmentSelectColumn {
+	/** column name */
+	Date = 'date',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebook_id',
+	/** column name */
+	ProfessionalId = 'professional_id',
+	/** column name */
+	Status = 'status',
+}
+
+/** input type for updating data in table "notebook_appointment" */
+export type NotebookAppointmentSetInput = {
+	date?: InputMaybe<Scalars['date']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "notebook_appointment" */
+export enum NotebookAppointmentUpdateColumn {
+	/** column name */
+	Date = 'date',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebook_id',
+	/** column name */
+	ProfessionalId = 'professional_id',
+	/** column name */
+	Status = 'status',
+}
 
 /** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
 export type NotebookBoolExp = {
@@ -5640,6 +5841,12 @@ export type QueryRoot = {
 	notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
+	/** fetch data from the table: "notebook_appointment" */
+	notebook_appointment: Array<NotebookAppointment>;
+	/** fetch aggregated fields from the table: "notebook_appointment" */
+	notebook_appointment_aggregate: NotebookAppointmentAggregate;
+	/** fetch data from the table: "notebook_appointment" using primary key columns */
+	notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
 	/** fetch data from the table: "notebook_event" */
@@ -5922,6 +6129,26 @@ export type QueryRootNotebookAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookOrderBy>>;
 	where?: InputMaybe<NotebookBoolExp>;
+};
+
+export type QueryRootNotebookAppointmentArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type QueryRootNotebookAppointmentAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type QueryRootNotebookAppointmentByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type QueryRootNotebookByPkArgs = {
@@ -7214,6 +7441,12 @@ export type SubscriptionRoot = {
 	notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
+	/** fetch data from the table: "notebook_appointment" */
+	notebook_appointment: Array<NotebookAppointment>;
+	/** fetch aggregated fields from the table: "notebook_appointment" */
+	notebook_appointment_aggregate: NotebookAppointmentAggregate;
+	/** fetch data from the table: "notebook_appointment" using primary key columns */
+	notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
 	/** fetch data from the table: "notebook_event" */
@@ -7496,6 +7729,26 @@ export type SubscriptionRootNotebookAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookOrderBy>>;
 	where?: InputMaybe<NotebookBoolExp>;
+};
+
+export type SubscriptionRootNotebookAppointmentArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type SubscriptionRootNotebookAppointmentAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type SubscriptionRootNotebookAppointmentByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type SubscriptionRootNotebookByPkArgs = {
@@ -8562,6 +8815,24 @@ export type UpdateTargetStatusMutation = {
 	updateStatus?: { __typename?: 'notebook_target'; id: string } | null | undefined;
 };
 
+export type AddNotebookAppointmentMutationVariables = Exact<{
+	date?: InputMaybe<Scalars['date']>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+}>;
+
+export type AddNotebookAppointmentMutation = {
+	__typename?: 'mutation_root';
+	addAppointment?:
+		| {
+				__typename?: 'notebook_appointment_mutation_response';
+				returning: Array<{ __typename?: 'notebook_appointment'; id: string }>;
+		  }
+		| null
+		| undefined;
+};
+
 export type AddNotebookMemberMutationVariables = Exact<{
 	creatorId: Scalars['uuid'];
 	professionalId: Scalars['uuid'];
@@ -8571,6 +8842,21 @@ export type AddNotebookMemberMutationVariables = Exact<{
 export type AddNotebookMemberMutation = {
 	__typename?: 'mutation_root';
 	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
+};
+
+export type GetNotebookAppointmentsQueryVariables = Exact<{
+	professional_id?: InputMaybe<Scalars['uuid']>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+}>;
+
+export type GetNotebookAppointmentsQuery = {
+	__typename?: 'query_root';
+	getNotebookAppointments: Array<{
+		__typename?: 'notebook_appointment';
+		date: string;
+		id: string;
+		status: string;
+	}>;
 };
 
 export type SearchProfessionalQueryVariables = Exact<{
@@ -13913,6 +14199,95 @@ export const UpdateTargetStatusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateTargetStatusMutation, UpdateTargetStatusMutationVariables>;
+export const AddNotebookAppointmentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookAppointment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook_id' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professional_id' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'addAppointment' },
+						name: { kind: 'Name', value: 'insert_notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook_id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook_id' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professional_id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'professional_id' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	AddNotebookAppointmentMutation,
+	AddNotebookAppointmentMutationVariables
+>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13994,6 +14369,91 @@ export const AddNotebookMemberDocument = {
 		},
 	],
 } as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
+export const GetNotebookAppointmentsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookAppointments' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professional_id' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook_id' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'getNotebookAppointments' },
+						name: { kind: 'Name', value: 'notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professional_id' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professional_id' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook_id' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'notebook_id' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
 export const SearchProfessionalDocument = {
 	kind: 'Document',
 	definitions: [
@@ -21861,9 +22321,17 @@ export type UpdateTargetStatusMutationStore = OperationStore<
 	UpdateTargetStatusMutation,
 	UpdateTargetStatusMutationVariables
 >;
+export type AddNotebookAppointmentMutationStore = OperationStore<
+	AddNotebookAppointmentMutation,
+	AddNotebookAppointmentMutationVariables
+>;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
 	AddNotebookMemberMutationVariables
+>;
+export type GetNotebookAppointmentsQueryStore = OperationStore<
+	GetNotebookAppointmentsQuery,
+	GetNotebookAppointmentsQueryVariables
 >;
 export type SearchProfessionalQueryStore = OperationStore<
 	SearchProfessionalQuery,

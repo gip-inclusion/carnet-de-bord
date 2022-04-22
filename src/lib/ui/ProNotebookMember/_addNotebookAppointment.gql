@@ -1,11 +1,14 @@
 mutation AddNotebookAppointment($date: date, $notebook_id: uuid, $professional_id: uuid, $status: String) {
-  insert_notebook_appointment(
+  addAppointment: insert_notebook_appointment(
   	objects: {
   		date: $date,
   		notebook_id: $notebook_id,
   		professional_id: $professional_id,
-  		status: $status}
+  		status: $status
+    }
   ) {
-    id
+    returning {
+      id
+    }
   }
 }
