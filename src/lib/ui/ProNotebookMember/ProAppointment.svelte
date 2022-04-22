@@ -1,12 +1,24 @@
 <script lang="ts">
 	import type Pro from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
 	import { Button } from '$lib/ui/base/index';
+	import { operationStore, query } from '@urql/svelte';
+	import { GetNotebookAppointmentsDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { Appointment } from '$lib/models/Appointment';
+	import { formatDateLocale } from '$lib/utils/date';
+	import { AppointmentsMapping } from '$lib/constants/keys';
 
 	export let professional: Pro;
 	export let notebookId: string;
 
-	console.log(professional);
-	console.log(notebookId);
+	const getAppointmentStore = operationStore(GetNotebookAppointmentsDocument, {
+		professional_id: professional.id,
+		notebook_id: notebookId,
+	});
+	query(getAppointmentStore);
+
+	let appointments: Array<Appointment> = [];
+
+	$: appointments = $getAppointmentStore.data?.getNotebookAppointments ?? [];
 </script>
 
 <div id="appointments">
@@ -27,14 +39,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>01/01/2022</td>
-					<td>Présent</td>
-				</tr>
-				<tr>
-					<td>01/01/2022</td>
-					<td>Présent</td>
-				</tr>
+				{#if appointments.length === 0}
+					<tr>
+						<td colspan="2">Aucun rendez-vous n'a été pris pour le moment.</td>
+					</tr>
+				{:else}
+					{#each appointments as appointment}
+						<tr>
+							<td>{formatDateLocale(appointment.date)}</td>
+							<td>{AppointmentsMapping[appointment.status] ?? '--'}</td>
+						</tr>
+					{/each}
+				{/if}
 			</tbody>
 		</table>
 	</div>
