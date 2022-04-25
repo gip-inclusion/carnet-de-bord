@@ -9,7 +9,7 @@ from dask.dataframe.core import DataFrame
 test_dir = os.path.dirname(os.path.realpath(__file__))
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def seed_filepath() -> str:
     return os.path.join(
         test_dir, "..", "..", "hasura", "seeds", "carnet_de_bord", "seed-data.sql"
@@ -31,7 +31,7 @@ def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
     return dd.read_csv(pe_principal_csv_filepath, sep=";")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture
 @pytest.mark.asyncio
 async def db_connection(db_pool, seed_filepath):
     # Take a connection from the pool.
@@ -54,7 +54,7 @@ async def db_connection(db_pool, seed_filepath):
             await connection.execute(f"DROP DATABASE IF EXISTS carnet_de_bord_test;")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture
 @pytest.mark.asyncio
 async def db_pool():
     yield await get_connection_pool(
@@ -65,7 +65,7 @@ async def db_pool():
     )
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture
 def event_loop():
     # See https://github.com/pytest-dev/pytest-asyncio/pull/214/files
     # https://github.com/MagicStack/asyncpg/issues/293
