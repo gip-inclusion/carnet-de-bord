@@ -31,6 +31,7 @@ repos:
     hooks:
       - id: prettier
         args: [--config, .prettierrc, --write] # edit files in-place
+        files: \.(svelte|js|ts)$
         additional_dependencies:
           - prettier
           - prettier-plugin-svelte
