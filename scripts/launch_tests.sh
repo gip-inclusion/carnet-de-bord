@@ -14,6 +14,19 @@ fi
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 ROOT_DIR=$( dirname $SCRIPT_DIR )
 
+ACTION=$1
+RUN="all"
+
+if [ ! -z "$ACTION" ]
+then
+      if [ "$ACTION" != "all" ] || [ "$ACTION" != "python" ] || [ "$ACTION" != "js" ]; then
+        echo "Bad parameter value: '$ACTION'"
+        echo ""
+        echo "Usage : $0 [all|python|js]"
+        exit
+      fi
+fi
+
 # Load the env variables from .env file
 if [ -f ".env.test" ]
 then
