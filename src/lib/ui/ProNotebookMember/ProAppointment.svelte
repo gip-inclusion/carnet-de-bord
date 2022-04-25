@@ -4,7 +4,7 @@
 	import { operationStore, query } from '@urql/svelte';
 	import { GetNotebookAppointmentsDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Appointment } from '$lib/models/Appointment';
-	import { formatDateLocale } from '$lib/utils/date';
+	import { formatDateLocale, formatDateISO } from '$lib/utils/date';
 	import { AppointmentsMapping } from '$lib/constants/keys';
 
 	export let professional: Pro;
@@ -19,6 +19,13 @@
 	let appointments: Array<Appointment> = [];
 
 	$: appointments = $getAppointmentStore.data?.getNotebookAppointments ?? [];
+
+	function setupNewAppointment() {
+		const newAppointment: Appointment = { id: '1', date: formatDateISO(new Date()), status: null };
+		let newAppointments: Appointment[] = appointments;
+		newAppointments.unshift(newAppointment);
+		appointments = newAppointments;
+	}
 </script>
 
 <div id="appointments">
@@ -27,27 +34,31 @@
 			<h4 class="text-france-blue m-0">Rendez-vous</h4>
 		</div>
 		<div class="fr-col-6 text-right">
-			<Button>Ajouter un rendez-vous</Button>
+			<Button on:click={setupNewAppointment}>Ajouter un rendez-vous</Button>
 		</div>
 	</div>
 	<div class="fr-table fr-table--layout-fixed blue-france-950">
 		<table>
 			<thead class="--bg-blue-france-975">
 				<tr>
-					<th style="width: 50%">Date</th>
-					<th style="width: 50%">Présence</th>
+					<th>Date</th>
+					<th>Présence</th>
+					<th />
+					<th />
 				</tr>
 			</thead>
 			<tbody>
 				{#if appointments.length === 0}
 					<tr>
-						<td colspan="2">Aucun rendez-vous n'a été pris pour le moment.</td>
+						<td colspan="4">Aucun rendez-vous n'a été pris avec cet accompagnateur.</td>
 					</tr>
 				{:else}
 					{#each appointments as appointment}
 						<tr>
 							<td>{formatDateLocale(appointment.date)}</td>
 							<td>{AppointmentsMapping[appointment.status] ?? '--'}</td>
+							<td />
+							<td />
 						</tr>
 					{/each}
 				{/if}
