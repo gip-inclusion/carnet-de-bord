@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."beneficiary" add column "place_of_birth" varchar
---  null;
+alter table "public"."beneficiary" drop column "place_of_birth";
