@@ -1,3 +1,10 @@
+# [1.109.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.2...v1.109.0) (2022-04-25)
+
+
+### Features
+
+* add placeOfBirth in data model ([#782](https://github.com/SocialGouv/carnet-de-bord/issues/782)) ([1107466](https://github.com/SocialGouv/carnet-de-bord/commit/1107466a4aac82e6317272454c7a341baf5f4b37))
+
 ## [1.108.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.1...v1.108.2) (2022-04-21)
 
 ### Bug Fixes
