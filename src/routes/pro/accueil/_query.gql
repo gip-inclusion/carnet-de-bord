@@ -18,7 +18,7 @@ query GetLastVisitedOrUpdated($professionalId: uuid!) {
 	lastUpdated: notebook_member(
 		order_by: { lastModifiedAt: desc_nulls_last }
 		limit: 3
-		where: { professionalId: { _neq: $professionalId }, lastModifiedAt: { _is_null: false } }
+		where: { professionalId: { _eq: $professionalId }, lastModifiedAt: { _is_null: false } }
 	) {
 		notebook {
 			id
