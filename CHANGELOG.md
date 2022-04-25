@@ -1,9 +1,8 @@
 ## [1.108.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.1...v1.108.2) (2022-04-21)
 
-
 ### Bug Fixes
 
-* handle import errors & support XLS files ([1991c74](https://github.com/SocialGouv/carnet-de-bord/commit/1991c7495664a54d726596ecdff438ebf26afdb6))
+- handle import errors & support XLS files ([1991c74](https://github.com/SocialGouv/carnet-de-bord/commit/1991c7495664a54d726596ecdff438ebf26afdb6))
 
 ## [1.108.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.0...v1.108.1) (2022-04-14)
 
