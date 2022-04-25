@@ -381,6 +381,7 @@
 					>Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.</span
 				>
 			</Dropzone>
+			<ImportParserError {parseErrors} />
 		{/if}
 	{:else}
 		<div class="flex flex-col gap-4">
