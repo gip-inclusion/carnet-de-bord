@@ -42,6 +42,7 @@
 		firstname: string;
 		lastname: string;
 		dateOfBirth: string;
+		placeOfBirth: string;
 		mobileNumber?: string;
 		email?: string;
 		address1?: string;
@@ -247,6 +248,7 @@
 		{ label: 'Prénom*', key: 'firstname' },
 		{ label: 'Nom*', key: 'lastname' },
 		{ label: 'Date de naissance*', key: 'dateOfBirth' },
+		{ label: 'Lieu de naissance*', key: 'placeOfBirth' },
 		{ label: 'Téléphone', key: 'mobileNumber' },
 		{ label: 'Courriel', key: 'email' },
 		{ label: 'Adresse', key: 'address1' },
@@ -369,7 +371,7 @@
 				<br />Vous pouvez
 				<a href="/fichiers/import_beneficiaires.csv" download>télécharger un modèle</a>
 				et
-				<a href="https://pad.incubateur.net/s/0xXN_2Gna#" target="_blank" rel="noopener noreferrer"
+				<a href="https://pad.incubateur.net/s/VSXZgm8fy#" target="_blank" rel="noopener noreferrer"
 					>consulter la notice de remplissage</a
 				>.
 				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
@@ -408,6 +410,7 @@
 								<th>Prénom</th>
 								<th>Nom</th>
 								<th>Date de naissance</th>
+								<th>Lieu de naissance</th>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-300">
 								{#each insertResult as beneficiary}
@@ -420,6 +423,9 @@
 										</td>
 										<td class="px-2 py-2 ">
 											<Text value={formatDateLocale(beneficiary.benef.dateOfBirth)} />
+										</td>
+										<td class="px-2 py-2 ">
+											<Text value={beneficiary.benef.placeOfBirth} />
 										</td>
 										<td class="px-2 py-2 ">
 											{#if beneficiary.error}

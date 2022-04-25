@@ -10,6 +10,7 @@ configuration:
     internal_id: internalId
     mobile_number: mobileNumber
     pe_number: peNumber
+    place_of_birth: placeOfBirth
     postal_code: postalCode
     updated_at: updatedAt
   custom_root_fields: {}
@@ -59,6 +60,7 @@ insert_permissions:
         - lastname
         - mobile_number
         - pe_number
+        - place_of_birth
         - postal_code
     role: admin_cdb
   - permission:
@@ -81,6 +83,7 @@ insert_permissions:
         - lastname
         - mobile_number
         - pe_number
+        - place_of_birth
         - postal_code
         - updated_at
       set:
@@ -122,6 +125,7 @@ select_permissions:
         - lastname
         - mobile_number
         - pe_number
+        - place_of_birth
         - postal_code
         - updated_at
       filter: {}
@@ -195,6 +199,7 @@ select_permissions:
         - lastname
         - mobile_number
         - pe_number
+        - place_of_birth
         - postal_code
         - updated_at
       filter:
@@ -228,19 +233,20 @@ update_permissions:
   - permission:
       check: {}
       columns:
-        - id
-        - email
-        - lastname
-        - firstname
-        - caf_number
-        - pe_number
-        - postal_code
-        - city
         - address1
         - address2
-        - mobile_number
+        - caf_number
+        - city
         - date_of_birth
         - deployment_id
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - pe_number
+        - place_of_birth
+        - postal_code
       filter: {}
     role: admin_cdb
   - permission:
@@ -272,6 +278,7 @@ update_permissions:
         - lastname
         - mobile_number
         - pe_number
+        - place_of_birth
         - postal_code
       filter:
         deployment_id:

@@ -1080,6 +1080,7 @@ export type Beneficiary = {
 	/** An object relationship */
 	notebook?: Maybe<Notebook>;
 	peNumber?: Maybe<Scalars['String']>;
+	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	structures: Array<BeneficiaryStructure>;
@@ -1163,6 +1164,7 @@ export type BeneficiaryBoolExp = {
 	mobileNumber?: InputMaybe<StringComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	peNumber?: InputMaybe<StringComparisonExp>;
+	placeOfBirth?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
 	structures?: InputMaybe<BeneficiaryStructureBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -1199,6 +1201,7 @@ export type BeneficiaryInsertInput = {
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	peNumber?: InputMaybe<Scalars['String']>;
+	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	structures?: InputMaybe<BeneficiaryStructureArrRelInsertInput>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -1221,6 +1224,7 @@ export type BeneficiaryMaxFields = {
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
+	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -1241,6 +1245,7 @@ export type BeneficiaryMaxOrderBy = {
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
+	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -1262,6 +1267,7 @@ export type BeneficiaryMinFields = {
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
+	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -1282,6 +1288,7 @@ export type BeneficiaryMinOrderBy = {
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
+	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -1328,6 +1335,7 @@ export type BeneficiaryOrderBy = {
 	mobileNumber?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
+	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
@@ -1369,6 +1377,8 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
+	PlaceOfBirth = 'placeOfBirth',
+	/** column name */
 	PostalCode = 'postalCode',
 	/** column name */
 	UpdatedAt = 'updatedAt',
@@ -1390,6 +1400,7 @@ export type BeneficiarySetInput = {
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	peNumber?: InputMaybe<Scalars['String']>;
+	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -1677,6 +1688,8 @@ export enum BeneficiaryUpdateColumn {
 	MobileNumber = 'mobileNumber',
 	/** column name */
 	PeNumber = 'peNumber',
+	/** column name */
+	PlaceOfBirth = 'placeOfBirth',
 	/** column name */
 	PostalCode = 'postalCode',
 	/** column name */
@@ -8289,6 +8302,7 @@ export type ImportBeneficiaryMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
 	dateOfBirth: Scalars['date'];
+	placeOfBirth: Scalars['String'];
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	email?: InputMaybe<Scalars['citext']>;
 	address1?: InputMaybe<Scalars['String']>;
@@ -12264,6 +12278,14 @@ export const ImportBeneficiaryDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'placeOfBirth' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
@@ -12447,6 +12469,14 @@ export const ImportBeneficiaryDocument = {
 																	value: {
 																		kind: 'Variable',
 																		name: { kind: 'Name', value: 'dateOfBirth' },
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'placeOfBirth' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'placeOfBirth' },
 																	},
 																},
 																{
