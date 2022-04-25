@@ -31,11 +31,14 @@ def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
     return dd.read_csv(pe_principal_csv_filepath, sep=";")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 @pytest.mark.asyncio
 async def db_connection(db_pool, seed_filepath):
     # Take a connection from the pool.
     if db_pool:
+        async with db_pool.acquire() as connection:
+            await connection.execute(f"DROP DATABASE IF EXISTS carnet_de_bord_test;")
+
         async with db_pool.acquire() as connection:
             # Open a transaction.
             await connection.execute(f"CREATE DATABASE carnet_de_bord_test;")
@@ -51,7 +54,7 @@ async def db_connection(db_pool, seed_filepath):
             await connection.execute(f"DROP DATABASE IF EXISTS carnet_de_bord_test;")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 @pytest.mark.asyncio
 async def db_pool():
     yield await get_connection_pool(
@@ -62,7 +65,7 @@ async def db_pool():
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def event_loop():
     # See https://github.com/pytest-dev/pytest-asyncio/pull/214/files
     # https://github.com/MagicStack/asyncpg/issues/293
