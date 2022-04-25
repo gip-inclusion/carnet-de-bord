@@ -37,9 +37,6 @@ async def db_connection(db_pool, seed_filepath):
     # Take a connection from the pool.
     if db_pool:
         async with db_pool.acquire() as connection:
-            await connection.execute(f"DROP DATABASE IF EXISTS carnet_de_bord_test;")
-
-        async with db_pool.acquire() as connection:
             # Open a transaction.
             await connection.execute(f"CREATE DATABASE carnet_de_bord_test;")
 
@@ -49,6 +46,9 @@ async def db_connection(db_pool, seed_filepath):
                 await connection.execute(data)
 
             yield connection
+
+        async with db_pool.acquire() as connection:
+            await connection.execute(f"DROP DATABASE IF EXISTS carnet_de_bord_test;")
 
 
 @pytest.fixture(scope="session")
