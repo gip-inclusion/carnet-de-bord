@@ -1,3 +1,10 @@
+## [1.109.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.0...v1.109.1) (2022-04-25)
+
+
+### Bug Fixes
+
+* run prettier only on JS files ([#787](https://github.com/SocialGouv/carnet-de-bord/issues/787)) ([ceef43c](https://github.com/SocialGouv/carnet-de-bord/commit/ceef43c175c9210133162c88bba8df881314e9a4))
+
 # [1.109.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.2...v1.109.0) (2022-04-25)
 
 
