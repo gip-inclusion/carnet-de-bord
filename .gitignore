@@ -4,6 +4,7 @@ node_modules
 build
 .eslintcache
 .env
+.env.test
 output
 
 # Python
