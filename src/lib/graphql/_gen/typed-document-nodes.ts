@@ -19524,7 +19524,7 @@ export const GetLastVisitedOrUpdatedDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_neq' },
+														name: { kind: 'Name', value: '_eq' },
 														value: {
 															kind: 'Variable',
 															name: { kind: 'Name', value: 'professionalId' },
