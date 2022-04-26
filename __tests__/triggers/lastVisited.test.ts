@@ -109,6 +109,9 @@ describe('lastModified trigger', () => {
 			path.join(__dirname, '../../src/lib/ui/ProNotebookSocioPro/', '_UpdateSocioPro.gql'),
 			'utf8'
 		);
+		const wantedjobQuery = `query {wanted_job(where: {notebook_id: {_eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"}}){notebook_id, rome_code_id}}`;
+		const wantedJobsPayload = await graphqlPro(wantedjobQuery);
+
 		await graphqlPro(updateSocioProMutation, {
 			educationLevel: 'NV4',
 			geographicalArea: 'between_10_20',
@@ -118,18 +121,9 @@ describe('lastModified trigger', () => {
 			rightBonus: false,
 			rightRqth: false,
 			rightRsa: 'rsa_droit_ouvert_et_suspendu',
-			wantedJobs: [
-				{
-					notebook_id: '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d',
-					rome_code_id: '5188bf9c-70a8-437d-8415-73189caca8ca',
-				},
-				{
-					notebook_id: '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d',
-					rome_code_id: '039a362a-43b3-4b46-9ae5-8276c99e6aa9',
-				},
-			],
+			wantedJobs: wantedJobsPayload.data.wanted_job,
 			workSituation: 'iae',
-			workSituationDate: '2021-09-22',
+			workSituationDate: '2021-10-22',
 		});
 
 		const payload = await graphqlPro(lastModifiedQuery);
