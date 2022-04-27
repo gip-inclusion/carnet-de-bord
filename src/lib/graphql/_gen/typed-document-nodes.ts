@@ -3838,10 +3838,10 @@ export type NotebookAppointment = {
 	id: Scalars['uuid'];
 	/** An object relationship */
 	notebook: Notebook;
-	notebook_id: Scalars['uuid'];
+	notebookId: Scalars['uuid'];
 	/** An object relationship */
 	professional: Professional;
-	professional_id: Scalars['uuid'];
+	professionalId: Scalars['uuid'];
 	status: Scalars['String'];
 };
 
@@ -3874,9 +3874,9 @@ export type NotebookAppointmentBoolExp = {
 	date?: InputMaybe<DateComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
-	notebook_id?: InputMaybe<UuidComparisonExp>;
+	notebookId?: InputMaybe<UuidComparisonExp>;
 	professional?: InputMaybe<ProfessionalBoolExp>;
-	professional_id?: InputMaybe<UuidComparisonExp>;
+	professionalId?: InputMaybe<UuidComparisonExp>;
 	status?: InputMaybe<StringComparisonExp>;
 };
 
@@ -3891,9 +3891,9 @@ export type NotebookAppointmentInsertInput = {
 	date?: InputMaybe<Scalars['date']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
 	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
-	professional_id?: InputMaybe<Scalars['uuid']>;
+	professionalId?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
 };
 
@@ -3902,8 +3902,8 @@ export type NotebookAppointmentMaxFields = {
 	__typename?: 'notebook_appointment_max_fields';
 	date?: Maybe<Scalars['date']>;
 	id?: Maybe<Scalars['uuid']>;
-	notebook_id?: Maybe<Scalars['uuid']>;
-	professional_id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
 	status?: Maybe<Scalars['String']>;
 };
 
@@ -3912,8 +3912,8 @@ export type NotebookAppointmentMinFields = {
 	__typename?: 'notebook_appointment_min_fields';
 	date?: Maybe<Scalars['date']>;
 	id?: Maybe<Scalars['uuid']>;
-	notebook_id?: Maybe<Scalars['uuid']>;
-	professional_id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	professionalId?: Maybe<Scalars['uuid']>;
 	status?: Maybe<Scalars['String']>;
 };
 
@@ -3938,9 +3938,9 @@ export type NotebookAppointmentOrderBy = {
 	date?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
-	notebook_id?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
 	professional?: InputMaybe<ProfessionalOrderBy>;
-	professional_id?: InputMaybe<OrderBy>;
+	professionalId?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
 };
 
@@ -3956,9 +3956,9 @@ export enum NotebookAppointmentSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	NotebookId = 'notebook_id',
+	NotebookId = 'notebookId',
 	/** column name */
-	ProfessionalId = 'professional_id',
+	ProfessionalId = 'professionalId',
 	/** column name */
 	Status = 'status',
 }
@@ -3967,8 +3967,8 @@ export enum NotebookAppointmentSelectColumn {
 export type NotebookAppointmentSetInput = {
 	date?: InputMaybe<Scalars['date']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
-	professional_id?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	professionalId?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
 };
 
@@ -3979,9 +3979,9 @@ export enum NotebookAppointmentUpdateColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
-	NotebookId = 'notebook_id',
+	NotebookId = 'notebookId',
 	/** column name */
-	ProfessionalId = 'professional_id',
+	ProfessionalId = 'professionalId',
 	/** column name */
 	Status = 'status',
 }
@@ -14249,12 +14249,12 @@ export const AddNotebookAppointmentDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook_id' },
+											name: { kind: 'Name', value: 'notebookId' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professional_id' },
+											name: { kind: 'Name', value: 'professionalId' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 										},
 										{
@@ -14404,7 +14404,7 @@ export const GetNotebookAppointmentsDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professional_id' },
+											name: { kind: 'Name', value: 'professionalId' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
@@ -14421,7 +14421,7 @@ export const GetNotebookAppointmentsDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook_id' },
+											name: { kind: 'Name', value: 'notebookId' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [

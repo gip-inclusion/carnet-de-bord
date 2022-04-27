@@ -7,8 +7,8 @@ mutation AddNotebookAppointment(
 	addAppointment: insert_notebook_appointment(
 		objects: {
 			date: $date
-			notebook_id: $notebookId
-			professional_id: $professionalId
+			notebookId: $notebookId
+			professionalId: $professionalId
 			status: $status
 		}
 	) {

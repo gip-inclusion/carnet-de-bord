@@ -1,6 +1,11 @@
 table:
   name: notebook_appointment
   schema: public
+configuration:
+  custom_column_names:
+    notebook_id: notebookId
+    professional_id: professionalId
+  custom_root_fields: {}
 object_relationships:
   - name: notebook
     using:
