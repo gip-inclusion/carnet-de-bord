@@ -101,6 +101,18 @@ jobs:
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
+      hasura:
+        image: hasura/graphql-engine:latest
+        env:
+          HASURA_GRAPHQL_DATABASE_URL: postgres://cdb:test@postgres:5432/carnet_de_bord
+          HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+          HASURA_GRAPHQL_DEV_MODE: 'true'
+          HASURA_GRAPHQL_LOG_LEVEL: debug
+          HASURA_GRAPHQL_ENABLED_APIS: 'metadata,graphql'
+          HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+          HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
+        ports:
+          - 8080:8080
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -118,6 +130,43 @@ jobs:
       - name: Apply seed
         working-directory: ./hasura
         run: hasura seed apply --database-name carnet_de_bord
+
+      - name: Hasura CI/CD
+        uses: browniefed/hasura-runner@master
+        with:
+          args: metadata apply
+        env:
+          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
+          HASURA_ENDPOINT: http://172.17.0.1:8080
+          HASURA_ADMIN_SECRET: admin_secret
+
+      - name: Hasura CI/CD
+        uses: browniefed/hasura-runner@master
+        with:
+          args: migrate apply --database-name default
+        env:
+          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
+          HASURA_ENDPOINT: http://172.17.0.1:8080
+          HASURA_ADMIN_SECRET: admin_secret
+
+      - name: Hasura CI/CD
+        uses: browniefed/hasura-runner@master
+        with:
+          args: metadata reload
+        env:
+          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
+          HASURA_ENDPOINT: http://172.17.0.1:8080
+          HASURA_ADMIN_SECRET: admin_secret
+
+      - name: Hasura CI/CD
+        uses: browniefed/hasura-runner@master
+        with:
+          args: seeds apply --database-name carnet_de_bord
+        env:
+          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
+          HASURA_ENDPOINT: http://172.17.0.1:8080
+          HASURA_ADMIN_SECRET: admin_secret
+
       - name: Run pytest
         working-directory: ./backend
         run: HASURA_GRAPHQL_DATABASE_URL=postgres://cdb:test@localhost:5432/carnet_de_bord poetry run pytest
