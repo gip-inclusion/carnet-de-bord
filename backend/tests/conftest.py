@@ -1,5 +1,6 @@
 import asyncio
 import os
+import sys
 
 import dask.dataframe as dd
 import pytest
@@ -36,22 +37,15 @@ def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 async def db_connection(db_pool, seed_filepath):
     # Take a connection from the pool.
     if db_pool:
-        async with db_pool.acquire() as connection:
-            await connection.execute(f"DROP DATABASE IF EXISTS carnet_de_bord_test;")
 
         async with db_pool.acquire() as connection:
-            # Open a transaction.
-            await connection.execute(f"CREATE DATABASE carnet_de_bord_test;")
-
             # Load the seeds
+
             with open(seed_filepath, "r") as file:
                 data = file.read()
                 await connection.execute(data)
 
             yield connection
-
-        async with db_pool.acquire() as connection:
-            await connection.execute(f"DROP DATABASE IF EXISTS carnet_de_bord_test;")
 
 
 @pytest.fixture
@@ -60,7 +54,10 @@ async def db_pool():
     yield await get_connection_pool(
         os.getenv(
             "HASURA_GRAPHQL_DATABASE_URL",
-            "postgres://cdb:test@localhost:5432/carnet_de_bord_test",
+            # You can't name your test database as you want. It has to be
+            # carnet_de_bord otherwise you will not be able to apply
+            # migrations with hasura
+            "postgres://cdb:test@localhost:5433/carnet_de_bord",
         )
     )
 
