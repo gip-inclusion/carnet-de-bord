@@ -1,16 +1,9 @@
-query GetNotebookAppointments($professional_id: uuid, $notebook_id: uuid) {
-  getNotebookAppointments: notebook_appointment(
-  	where: {
-  		professional_id: {
-  			_eq: $professional_id
-  		},
-  		notebook_id: {
-  			_eq: $notebook_id
-  		}
-  	}
-  ) {
+query GetNotebookAppointments($professionalId: uuid, $notebookId: uuid) {
+	getNotebookAppointments: notebook_appointment(
+		where: { professional_id: { _eq: $professionalId }, notebook_id: { _eq: $notebookId } }
+	) {
 		date
 		id
 		status
-  }
+	}
 }

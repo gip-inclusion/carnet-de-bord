@@ -8817,8 +8817,8 @@ export type UpdateTargetStatusMutation = {
 
 export type AddNotebookAppointmentMutationVariables = Exact<{
 	date?: InputMaybe<Scalars['date']>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
-	professional_id?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	professionalId?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
 }>;
 
@@ -8845,8 +8845,8 @@ export type AddNotebookMemberMutation = {
 };
 
 export type GetNotebookAppointmentsQueryVariables = Exact<{
-	professional_id?: InputMaybe<Scalars['uuid']>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
+	professionalId?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
 }>;
 
 export type GetNotebookAppointmentsQuery = {
@@ -14214,12 +14214,12 @@ export const AddNotebookAppointmentDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook_id' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professional_id' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
 				{
@@ -14250,12 +14250,12 @@ export const AddNotebookAppointmentDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebook_id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook_id' } },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'professional_id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'professional_id' } },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -14379,12 +14379,12 @@ export const GetNotebookAppointmentsDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professional_id' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook_id' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 				},
 			],
@@ -14413,7 +14413,7 @@ export const GetNotebookAppointmentsDocument = {
 														name: { kind: 'Name', value: '_eq' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'professional_id' },
+															name: { kind: 'Name', value: 'professionalId' },
 														},
 													},
 												],
@@ -14430,7 +14430,7 @@ export const GetNotebookAppointmentsDocument = {
 														name: { kind: 'Name', value: '_eq' },
 														value: {
 															kind: 'Variable',
-															name: { kind: 'Name', value: 'notebook_id' },
+															name: { kind: 'Name', value: 'notebookId' },
 														},
 													},
 												],
