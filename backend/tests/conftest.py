@@ -1,6 +1,5 @@
 import asyncio
 import os
-import sys
 
 import dask.dataframe as dd
 import pytest
