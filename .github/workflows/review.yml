@@ -140,7 +140,7 @@ jobs:
       - name: Hasura CI/CD
         uses: browniefed/hasura-runner@master
         with:
-          args: migrate apply --database-name default
+          args: migrate apply --database-name carnet_de_bord
         env:
           PATH_TO_HASURA_PROJECT_ROOT: ./hasura
           HASURA_ENDPOINT: http://172.17.0.1:8080
