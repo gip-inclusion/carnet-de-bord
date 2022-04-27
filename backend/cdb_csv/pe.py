@@ -4,7 +4,7 @@ import dask.dataframe as dd
 from api.core.db import get_connection_pool
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_from_csv
-from api.db.crud.rome_code import get_rome_code_by_label
+from api.db.crud.rome_code import get_rome_code_by_label_and_code
 from api.db.models.beneficiary import Beneficiary
 from cdb_csv.csv_row import PrincipalCsvRow
 from pandas.core.series import Series
@@ -35,12 +35,14 @@ async def parse_principal_csv(principal_csv: str):
 
                     if beneficiary:
                         # Check ROME code
-                        logging.info(f"Checking ROME code for {beneficiary}")
-                        rome_code_1 = await get_rome_code_by_label(
-                            connection, csv_row.rome_1_label
+                        logging.info(
+                            f"Checking ROME code for {beneficiary.id} - {csv_row}"
                         )
-                        rome_code_2 = await get_rome_code_by_label(
-                            connection, csv_row.rome_2_label
+                        rome_code_1 = await get_rome_code_by_label_and_code(
+                            connection, csv_row.rome_1_label, csv_row.rome_1
+                        )
+                        rome_code_2 = await get_rome_code_by_label_and_code(
+                            connection, csv_row.rome_2_label, csv_row.rome_2
                         )
 
                         logging.info(rome_code_1)
