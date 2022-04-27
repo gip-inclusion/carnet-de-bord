@@ -89,7 +89,7 @@ jobs:
         image: postgres
         # Provide the password for postgres
         env:
-          POSTGRES_DB: carnet_de_bord_test
+          POSTGRES_DB: carnet_de_bord
           POSTGRES_USER: cdb
           POSTGRES_PASSWORD: test
         # Set health checks to wait until postgres has started
@@ -115,6 +115,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install
+      - name: Apply seed
+        working-directory: ./hasura
+        run: hasura seed apply --database-name carnet_de_bord
       - name: Run pytest
         working-directory: ./backend
         run: HASURA_GRAPHQL_DATABASE_URL=postgres://cdb:test@localhost:5432/carnet_de_bord poetry run pytest
