@@ -127,9 +127,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install
-      - name: Apply seed
-        working-directory: ./hasura
-        run: hasura seed apply --database-name carnet_de_bord
 
       - name: Hasura CI/CD
         uses: browniefed/hasura-runner@master
