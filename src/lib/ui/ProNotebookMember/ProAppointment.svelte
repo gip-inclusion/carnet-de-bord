@@ -26,24 +26,31 @@
 	const setAppointmentMutation = mutation(operationStore(AddNotebookAppointmentDocument));
 	const updateAppointmentMutation = mutation(operationStore(UpdateNotebookAppointmentDocument));
 
-	let appointments: Array<Appointment & { isEdited: boolean }> = [];
+	let appointments: Array<Appointment> = [];
+	let appointmentsBuffer: Array<Appointment> = [];
 
 	const appointmentOptions: Option = Object.keys(AppointmentsMapping).map((key) => ({
 		label: AppointmentsMapping[key],
 		name: key,
 	})) as Option;
 
-	$: appointments = $getAppointmentStore.data?.getNotebookAppointments ?? [];
+	$: appointmentsBuffer = $getAppointmentStore.data?.getNotebookAppointments ?? [];
+
+	$getAppointmentStore.subscribe((resp: unknown) => {
+		appointmentsBuffer = resp.data?.getNotebookAppointments ?? [];
+		appointments = JSON.parse(JSON.stringify(appointmentsBuffer));
+	});
 
 	function setupNewAppointment() {
 		if (appointments.length === 0 || appointments[0].id != null) {
-			const newAppointment: Appointment & { isEdited: boolean } = {
+			const newAppointment: Appointment = {
 				id: null,
 				date: null,
 				status: null,
 				isEdited: true,
+				dirty: false,
 			};
-			let newAppointments: Array<Appointment & { isEdited: boolean }> = appointments;
+			let newAppointments: Array<Appointment> = appointments;
 			newAppointments.unshift(newAppointment);
 			appointments = newAppointments;
 		}
@@ -51,39 +58,44 @@
 
 	function cancelEdition(index: number) {
 		if (appointments[index].id) {
+			appointments[index] = JSON.parse(JSON.stringify(appointmentsBuffer[index]));
 			appointments[index].isEdited = false;
+			appointmentsBuffer[index].isEdited = false;
 		} else {
-			appointments = appointments.slice(1, appointments.length - 1);
+			appointments = appointments.slice(1, appointments.length);
 		}
 	}
 
 	function editAppointment(index: number) {
 		appointments[index].isEdited = true;
+		appointmentsBuffer[index].isEdited = true;
 	}
 
 	async function validateAppointment(index: number) {
-		appointments[index].isEdited = false;
 		let result;
-		if (appointments[index].id) {
-			result = await updateAppointmentMutation({
-				id: appointments[index].id,
-				status: appointments[index].status,
-				date: appointments[index].date,
-			});
-		} else {
-			result = await setAppointmentMutation({
-				professionalId: professional.id,
-				notebookId: notebookId,
-				status: appointments[index].status,
-				date: appointments[index].date,
-			});
-		}
-		if (result.error) {
-			query(getAppointmentStore);
-			console.log(result.error);
-		} else {
-			console.log('ADDED');
-			appointments = appointments;
+		appointments[index].dirty = true;
+
+		if (appointments[index].date && appointments[index].status) {
+			if (appointments[index].id) {
+				result = await updateAppointmentMutation({
+					id: appointments[index].id,
+					status: appointments[index].status,
+					date: appointments[index].date,
+				});
+			} else {
+				result = await setAppointmentMutation({
+					professionalId: professional.id,
+					notebookId: notebookId,
+					status: appointments[index].status,
+					date: appointments[index].date,
+				});
+			}
+			if (result.error) {
+				query(getAppointmentStore);
+			} else {
+				appointments[index].dirty = false;
+				appointments[index].isEdited = false;
+			}
 		}
 	}
 </script>
@@ -117,13 +129,19 @@
 						<tr>
 							{#if appointment.isEdited}
 								<td>
-									<Input class="date-input" type="date" bind:value={appointment.date} />
+									<Input
+										class="date-input"
+										type="date"
+										bind:value={appointment.date}
+										error={!appointment.date && appointment.dirty}
+									/>
 								</td>
 								<td>
 									<Select
 										name={appointment.id}
 										options={appointmentOptions}
 										bind:selected={appointment.status}
+										error={!appointment.status && appointment.dirty}
 									/>
 								</td>
 								<td class="block">
@@ -173,5 +191,8 @@
 		width: 100%;
 		text-align: center;
 		display: inline-block;
+	}
+	:global(.fr-error-text) {
+		display: none;
 	}
 </style>
