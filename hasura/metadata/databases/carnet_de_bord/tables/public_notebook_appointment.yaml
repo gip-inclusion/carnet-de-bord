@@ -3,8 +3,10 @@ table:
   schema: public
 configuration:
   custom_column_names:
+    created_at: createdAt
     notebook_id: notebookId
     professional_id: professionalId
+    updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
   - name: notebook
@@ -30,6 +32,7 @@ insert_permissions:
 select_permissions:
   - permission:
       columns:
+        - created_at
         - date
         - id
         - notebook_id

@@ -1,6 +1,7 @@
 query GetNotebookAppointments($professionalId: uuid, $notebookId: uuid) {
 	getNotebookAppointments: notebook_appointment(
 		where: { professionalId: { _eq: $professionalId }, notebookId: { _eq: $notebookId } }
+		order_by: { createdAt: desc }
 	) {
 		date
 		id

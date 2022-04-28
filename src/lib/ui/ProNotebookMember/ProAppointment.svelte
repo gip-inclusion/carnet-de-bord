@@ -5,6 +5,7 @@
 	import {
 		AddNotebookAppointmentDocument,
 		GetNotebookAppointmentsDocument,
+		UpdateNotebookAppointmentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Appointment } from '$lib/models/Appointment';
 	import { formatDateLocale } from '$lib/utils/date';
@@ -23,6 +24,7 @@
 	query(getAppointmentStore);
 
 	const setAppointmentMutation = mutation(operationStore(AddNotebookAppointmentDocument));
+	const updateAppointmentMutation = mutation(operationStore(UpdateNotebookAppointmentDocument));
 
 	let appointments: Array<Appointment & { isEdited: boolean }> = [];
 
@@ -61,13 +63,23 @@
 
 	async function validateAppointment(index: number) {
 		appointments[index].isEdited = false;
-		const result = await setAppointmentMutation({
-			professionalId: professional.id,
-			notebookId: notebookId,
-			status: appointments[index].status,
-			date: appointments[index].date,
-		});
+		let result;
+		if (appointments[index].id) {
+			result = await updateAppointmentMutation({
+				id: appointments[index].id,
+				status: appointments[index].status,
+				date: appointments[index].date,
+			});
+		} else {
+			result = await setAppointmentMutation({
+				professionalId: professional.id,
+				notebookId: notebookId,
+				status: appointments[index].status,
+				date: appointments[index].date,
+			});
+		}
 		if (result.error) {
+			query(getAppointmentStore);
 			console.log(result.error);
 		} else {
 			console.log('ADDED');
