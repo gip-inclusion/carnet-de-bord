@@ -23,9 +23,9 @@ insert_permissions:
               _eq: X-Hasura-Professional-Id
       columns:
         - date
+        - notebook_id
+        - professional_id
         - status
-      set:
-        professional_id: x-hasura-Professional-Id
     role: professional
 select_permissions:
   - permission:
