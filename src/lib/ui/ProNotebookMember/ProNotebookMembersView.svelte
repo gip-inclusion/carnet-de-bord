@@ -6,11 +6,14 @@
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
 	import type { Member } from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
+	import type { Appointment } from '$lib/models/Appointment';
+	import { formatDateLocale } from '$lib/utils/date';
 
 	export let notebookId: string;
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
 	export let members: Member[];
+	export let appointments: Appointment[];
 
 	const openMemberInfo = (member: Member) => {
 		trackEvent('pro', 'members', 'view info');
@@ -29,6 +32,14 @@
 			},
 		});
 	};
+
+	function getAppointmentByProId(professionalId: string): string {
+		const proAppointment: Appointment = appointments.filter(
+			(appoint) => appoint.professionalId === professionalId
+		)[0];
+
+		return proAppointment ? formatDateLocale(proAppointment.date) : '';
+	}
 </script>
 
 <div class="pb-6">
@@ -42,10 +53,11 @@
 	<table>
 		<thead>
 			<tr>
-				<th style="width: 40%">Structure</th>
-				<th style="width: 30%">Accompagnateur</th>
-				<th style="width: 20%">Fonction</th>
-				<th style="width: 10%" />
+				<th style="width: 30%">Structure</th>
+				<th style="">Accompagnateur</th>
+				<th style="">Fonction</th>
+				<th style="">Rendez-vous</th>
+				<th style="width: 10%" class="text-center">Voir plus</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -64,6 +76,9 @@
 						<Text value={member.professional.position} />
 					</td>
 					<td>
+						<Text value={getAppointmentByProId(member.professional.id)} />
+					</td>
+					<td class="text-center">
 						<button>
 							<i class="text-2xl text-france-blue ri-arrow-right-line" />
 						</button>

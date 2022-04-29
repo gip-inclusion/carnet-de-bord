@@ -3471,6 +3471,10 @@ export type MutationRootUpdateWantedJobByPkArgs = {
 /** columns and relationships of "notebook" */
 export type Notebook = {
 	__typename?: 'notebook';
+	/** An array relationship */
+	appointments: Array<NotebookAppointment>;
+	/** An aggregate relationship */
+	appointments_aggregate: NotebookAppointmentAggregate;
 	/** An object relationship */
 	beneficiary: Beneficiary;
 	beneficiaryId: Scalars['uuid'];
@@ -3506,6 +3510,24 @@ export type Notebook = {
 	wantedJobs_aggregate: WantedJobAggregate;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookAppointmentsArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookAppointmentsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
 };
 
 /** columns and relationships of "notebook" */
@@ -3868,6 +3890,20 @@ export type NotebookAppointmentAggregateFieldsCountArgs = {
 	distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "notebook_appointment" */
+export type NotebookAppointmentAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<NotebookAppointmentMaxOrderBy>;
+	min?: InputMaybe<NotebookAppointmentMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "notebook_appointment" */
+export type NotebookAppointmentArrRelInsertInput = {
+	data: Array<NotebookAppointmentInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<NotebookAppointmentOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "notebook_appointment". All fields are combined with a logical 'AND'. */
 export type NotebookAppointmentBoolExp = {
 	_and?: InputMaybe<Array<NotebookAppointmentBoolExp>>;
@@ -3915,6 +3951,17 @@ export type NotebookAppointmentMaxFields = {
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
+/** order by max() on columns of table "notebook_appointment" */
+export type NotebookAppointmentMaxOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	date?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	professionalId?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type NotebookAppointmentMinFields = {
 	__typename?: 'notebook_appointment_min_fields';
@@ -3925,6 +3972,17 @@ export type NotebookAppointmentMinFields = {
 	professionalId?: Maybe<Scalars['uuid']>;
 	status?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "notebook_appointment" */
+export type NotebookAppointmentMinOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	date?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	professionalId?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_appointment" */
@@ -4013,6 +4071,7 @@ export type NotebookBoolExp = {
 	_and?: InputMaybe<Array<NotebookBoolExp>>;
 	_not?: InputMaybe<NotebookBoolExp>;
 	_or?: InputMaybe<Array<NotebookBoolExp>>;
+	appointments?: InputMaybe<NotebookAppointmentBoolExp>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
 	beneficiaryId?: InputMaybe<UuidComparisonExp>;
 	contractSignDate?: InputMaybe<DateComparisonExp>;
@@ -4693,6 +4752,7 @@ export enum NotebookFocusUpdateColumn {
 
 /** input type for inserting data into table "notebook" */
 export type NotebookInsertInput = {
+	appointments?: InputMaybe<NotebookAppointmentArrRelInsertInput>;
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	contractSignDate?: InputMaybe<Scalars['date']>;
@@ -5027,6 +5087,7 @@ export type NotebookOnConflict = {
 
 /** Ordering options when selecting data from "notebook". */
 export type NotebookOrderBy = {
+	appointments_aggregate?: InputMaybe<NotebookAppointmentAggregateOrderBy>;
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
 	beneficiaryId?: InputMaybe<OrderBy>;
 	contractSignDate?: InputMaybe<OrderBy>;
@@ -10229,6 +10290,11 @@ export type GetNotebookQuery = {
 							website?: string | null | undefined;
 						};
 					};
+				}>;
+				appointments: Array<{
+					__typename?: 'notebook_appointment';
+					date: string;
+					professionalId: string;
 				}>;
 				events: Array<{
 					__typename?: 'notebook_event';
@@ -20821,6 +20887,66 @@ export const GetNotebookDocument = {
 													],
 												},
 											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'appointments' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'notebookId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'date' },
+														value: { kind: 'EnumValue', value: 'desc' },
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'professionalId' },
+														value: { kind: 'EnumValue', value: 'asc' },
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'distinct_on' },
+											value: { kind: 'EnumValue', value: 'professionalId' },
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 										],
 									},
 								},

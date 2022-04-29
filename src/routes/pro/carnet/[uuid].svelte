@@ -199,6 +199,7 @@
 					notebookId={notebook.id}
 					beneficiaryFirstname={beneficiary.firstname}
 					beneficiaryLastname={beneficiary.lastname}
+					appointments={notebook.appointments}
 				/>
 			</MainAccordion>
 			<MainAccordion title="Axes de travail">

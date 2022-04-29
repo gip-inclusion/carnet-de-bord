@@ -91,10 +91,11 @@
 				});
 			}
 			if (result.error) {
-				query(getAppointmentStore);
+				$getAppointmentStore.reexecute();
 			} else {
 				appointments[index].dirty = false;
 				appointments[index].isEdited = false;
+				appointmentsBuffer[index] = appointments[index];
 			}
 		}
 	}

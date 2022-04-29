@@ -71,6 +71,14 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 				}
 			}
 		}
+		appointments(
+			where: { notebookId: { _eq: $id } }
+			order_by: { date: desc, professionalId: asc }
+			distinct_on: professionalId
+		) {
+			date
+			professionalId
+		}
 		events(
 			order_by: { eventDate: desc_nulls_first }
 			where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd } }
