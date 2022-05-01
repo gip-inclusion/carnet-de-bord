@@ -46,3 +46,7 @@ export function pluralize(word: string, quantity: number, plural?: string): stri
 	}
 	return word;
 }
+
+export function jsonCopy(object: Record<string, unknown>) {
+	return JSON.parse(JSON.stringify(object));
+}

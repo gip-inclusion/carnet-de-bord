@@ -4,5 +4,6 @@ export interface Appointment {
 	date?: string;
 	status?: string;
 	isEdited?: boolean;
+	isDisabled?: boolean;
 	dirty?: boolean;
 }

@@ -151,6 +151,7 @@
 	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook?.events;
 	$: beneficiary = notebook?.beneficiary;
 	$: members = notebook?.members;
+	$: appointments = notebook?.appointments;
 	$: lastMember = members?.length ? members[0] : null;
 
 	let search = '';
@@ -199,7 +200,7 @@
 					notebookId={notebook.id}
 					beneficiaryFirstname={beneficiary.firstname}
 					beneficiaryLastname={beneficiary.lastname}
-					appointments={notebook.appointments}
+					{appointments}
 				/>
 			</MainAccordion>
 			<MainAccordion title="Axes de travail">

@@ -8910,7 +8910,7 @@ export type AddNotebookAppointmentMutation = {
 	addAppointment?:
 		| {
 				__typename?: 'notebook_appointment_mutation_response';
-				returning: Array<{ __typename?: 'notebook_appointment'; id: string }>;
+				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
 		  }
 		| null
 		| undefined;
@@ -8977,7 +8977,10 @@ export type UpdateNotebookAppointmentMutationVariables = Exact<{
 export type UpdateNotebookAppointmentMutation = {
 	__typename?: 'mutation_root';
 	update_notebook_appointment?:
-		| { __typename?: 'notebook_appointment_mutation_response'; affected_rows: number }
+		| {
+				__typename?: 'notebook_appointment_mutation_response';
+				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
+		  }
 		| null
 		| undefined;
 };
@@ -14376,7 +14379,10 @@ export const AddNotebookAppointmentDocument = {
 									name: { kind: 'Name', value: 'returning' },
 									selectionSet: {
 										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
 									},
 								},
 							],
@@ -15045,7 +15051,19 @@ export const UpdateNotebookAppointmentDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
+									},
+								},
+							],
 						},
 					},
 				],

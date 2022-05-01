@@ -13,6 +13,7 @@
 	import { AppointmentsMapping } from '$lib/constants/keys';
 	import type { Option } from '$lib/types';
 	import { Text } from '$lib/ui/utils/index';
+	import { jsonCopy } from '$lib/helpers';
 
 	export let professional: Pro;
 	export let notebookId: string;
@@ -34,15 +35,18 @@
 		name: key,
 	})) as Option;
 
-	$: appointmentsBuffer = $getAppointmentStore.data?.getNotebookAppointments ?? [];
-
 	$getAppointmentStore.subscribe((resp: unknown) => {
-		appointmentsBuffer = resp.data?.getNotebookAppointments ?? [];
-		appointments = JSON.parse(JSON.stringify(appointmentsBuffer));
+		appointments = resp.data?.getNotebookAppointments ?? [];
+		appointmentsBuffer = jsonCopy(appointments);
 	});
 
 	function setupNewAppointment() {
 		if (appointments.length === 0 || appointments[0].id != null) {
+			appointments = jsonCopy(appointmentsBuffer).map((appointment) => {
+				appointment.isDisabled = true;
+				appointment.isEdited = false;
+				return appointment;
+			});
 			const newAppointment: Appointment = {
 				id: null,
 				date: null,
@@ -50,25 +54,31 @@
 				isEdited: true,
 				dirty: false,
 			};
-			let newAppointments: Array<Appointment> = appointments;
-			newAppointments.unshift(newAppointment);
-			appointments = newAppointments;
+			appointments.unshift(newAppointment);
 		}
 	}
 
-	function cancelEdition(index: number) {
-		if (appointments[index].id) {
-			appointments[index] = JSON.parse(JSON.stringify(appointmentsBuffer[index]));
-			appointments[index].isEdited = false;
-			appointmentsBuffer[index].isEdited = false;
-		} else {
+	function cancelEdition() {
+		appointments = appointments.map((appointment) => {
+			appointment.isEdited = false;
+			appointment.isDisabled = false;
+			return appointment;
+		});
+		if (!appointments[0].id) {
 			appointments = appointments.slice(1, appointments.length);
 		}
 	}
 
 	function editAppointment(index: number) {
+		appointments = appointments.map((appointment, i) => {
+			if (i === index) {
+				appointment.isEdited = true;
+			} else {
+				appointment.isDisabled = true;
+			}
+			return appointment;
+		});
 		appointments[index].isEdited = true;
-		appointmentsBuffer[index].isEdited = true;
 	}
 
 	async function validateAppointment(index: number) {
@@ -95,7 +105,6 @@
 			} else {
 				appointments[index].dirty = false;
 				appointments[index].isEdited = false;
-				appointmentsBuffer[index] = appointments[index];
 			}
 		}
 	}
@@ -147,15 +156,13 @@
 								</td>
 								<td class="block">
 									<Button classNames="edit-btn" on:click={() => validateAppointment(index)}
-										>Valider</Button
-									>
+										>Valider
+									</Button>
 								</td>
 								<td>
-									<Button
-										classNames="self-start edit-btn"
-										on:click={() => cancelEdition(index)}
-										outline>Annuler</Button
-									>
+									<Button classNames="self-start edit-btn" on:click={() => cancelEdition()} outline
+										>Annuler
+									</Button>
 								</td>
 							{:else}
 								<td>
@@ -168,9 +175,11 @@
 								<td>
 									<Button
 										classNames="self-start edit-btn"
+										disabled={appointment.isDisabled}
 										on:click={() => editAppointment(index)}
-										outline>Modifier</Button
-									>
+										outline
+										>Modifier
+									</Button>
 								</td>
 							{/if}
 						</tr>
@@ -186,6 +195,7 @@
 		margin-top: 40px;
 		margin-bottom: 8px;
 	}
+
 	:global(.edit-btn) {
 		padding: 8px 16px;
 		font-size: 14px;
@@ -193,6 +203,7 @@
 		text-align: center;
 		display: inline-block;
 	}
+
 	:global(.fr-error-text) {
 		display: none;
 	}

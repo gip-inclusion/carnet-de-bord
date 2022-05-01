@@ -1,5 +1,8 @@
 mutation UpdateNotebookAppointment($date: date, $status: String, $id: uuid) {
 	update_notebook_appointment(where: { id: { _eq: $id } }, _set: { date: $date, status: $status }) {
-		affected_rows
+		returning {
+			id
+			notebookId
+		}
 	}
 }
