@@ -8,8 +8,8 @@ build
 output
 
 # Python
-__pycache__/
+__pycache__
 *.pyc
 
 # IDE
-.idea/
+.idea
