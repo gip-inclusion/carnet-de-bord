@@ -27,8 +27,8 @@ insert_permissions:
       check:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
       columns:
         - notebook_id
         - rome_code_id
@@ -44,11 +44,12 @@ select_permissions:
         notebook:
           _or:
             - members:
-                professional:
-                  structure:
-                    admins:
-                      admin_structure_id:
-                        _eq: X-Hasura-AdminStructure-Id
+                account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
             - beneficiary:
                 structures:
                   structure:
@@ -87,14 +88,14 @@ select_permissions:
       filter:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
     role: professional
 delete_permissions:
   - permission:
       filter:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
     role: professional

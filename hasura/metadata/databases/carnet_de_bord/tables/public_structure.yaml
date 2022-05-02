@@ -75,7 +75,7 @@ insert_permissions:
         - siret
         - website
       set:
-        deployment_id: x-hasura-Deployment-Id
+        deployment_id: X-Hasura-Deployment-Id
     role: manager
   - permission:
       backend_only: false
@@ -171,11 +171,12 @@ select_permissions:
         - id
       filter:
         professionals:
-          notebooksWhereMember:
-            notebook:
-              beneficiary:
-                id:
-                  _eq: X-Hasura-Beneficiary-Id
+          account:
+            notebooksWhereMember:
+              notebook:
+                beneficiary:
+                  id:
+                    _eq: X-Hasura-Beneficiary-Id
     role: beneficiary
   - permission:
       allow_aggregations: true

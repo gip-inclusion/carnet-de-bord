@@ -13,7 +13,7 @@ object_relationships:
   - name: notebook
     using:
       foreign_key_constraint_on: notebook_id
-  - name: professional
+  - name: creator
     using:
       foreign_key_constraint_on: creator_id
 array_relationships:
@@ -42,8 +42,8 @@ insert_permissions:
       check:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
       columns:
         - creator_id
         - id
@@ -52,7 +52,7 @@ insert_permissions:
         - situations
         - theme
       set:
-        creator_id: x-hasura-Professional-Id
+        creator_id: X-Hasura-User-Id
     role: professional
 select_permissions:
   - permission:
@@ -83,11 +83,12 @@ select_permissions:
         notebook:
           _or:
             - members:
-                professional:
-                  structure:
-                    admins:
-                      admin_structure_id:
-                        _eq: X-Hasura-AdminStructure-Id
+                account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
             - beneficiary:
                 structures:
                   structure:
@@ -141,8 +142,8 @@ select_permissions:
       filter:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
     role: professional
 update_permissions:
   - permission:
@@ -169,12 +170,12 @@ update_permissions:
       filter:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
     role: professional
 delete_permissions:
   - permission:
       filter:
         creator_id:
-          _eq: X-Hasura-Professional-Id
+          _eq: X-Hasura-User-Id
     role: professional

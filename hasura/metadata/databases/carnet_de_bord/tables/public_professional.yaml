@@ -19,49 +19,6 @@ object_relationships:
   - name: structure
     using:
       foreign_key_constraint_on: structure_id
-array_relationships:
-  - name: notebookActionsCreated
-    using:
-      foreign_key_constraint_on:
-        column: creator_id
-        table:
-          name: notebook_action
-          schema: public
-  - name: notebookEventsCreated
-    using:
-      foreign_key_constraint_on:
-        column: professional_id
-        table:
-          name: notebook_event
-          schema: public
-  - name: notebookFocusesCreated
-    using:
-      foreign_key_constraint_on:
-        column: creator_id
-        table:
-          name: notebook_focus
-          schema: public
-  - name: notebookTargetsCreated
-    using:
-      foreign_key_constraint_on:
-        column: creator_id
-        table:
-          name: notebook_target
-          schema: public
-  - name: notebooksCreated
-    using:
-      foreign_key_constraint_on:
-        column: creator_id
-        table:
-          name: notebook_member
-          schema: public
-  - name: notebooksWhereMember
-    using:
-      foreign_key_constraint_on:
-        column: professional_id
-        table:
-          name: notebook_member
-          schema: public
 insert_permissions:
   - permission:
       backend_only: false
@@ -135,33 +92,39 @@ select_permissions:
         - updated_at
       filter:
         _or:
-          - notebookActionsCreated:
-              target:
+          - account:
+              notebookActionsCreated:
+                target:
+                  focus:
+                    notebook:
+                      beneficiary_id:
+                        _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebooksWhereMember:
+                notebook:
+                  beneficiary_id:
+                    _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebookTargetsCreated:
                 focus:
                   notebook:
                     beneficiary_id:
                       _eq: X-Hasura-Beneficiary-Id
-          - notebooksWhereMember:
-              notebook:
-                beneficiary_id:
-                  _eq: X-Hasura-Beneficiary-Id
-          - notebookTargetsCreated:
-              focus:
+          - account:
+              notebookFocusesCreated:
                 notebook:
                   beneficiary_id:
                     _eq: X-Hasura-Beneficiary-Id
-          - notebookFocusesCreated:
-              notebook:
-                beneficiary_id:
-                  _eq: X-Hasura-Beneficiary-Id
-          - notebookEventsCreated:
-              notebook:
-                beneficiary_id:
-                  _eq: X-Hasura-Beneficiary-Id
-          - notebooksCreated:
-              notebook:
-                beneficiary_id:
-                  _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebookEventsCreated:
+                notebook:
+                  beneficiary_id:
+                    _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebooksCreated:
+                notebook:
+                  beneficiary_id:
+                    _eq: X-Hasura-Beneficiary-Id
     role: beneficiary
   - permission:
       allow_aggregations: true

@@ -12,7 +12,7 @@ object_relationships:
   - name: focus
     using:
       foreign_key_constraint_on: focus_id
-  - name: professional
+  - name: creator
     using:
       foreign_key_constraint_on: creator_id
 array_relationships:
@@ -39,15 +39,15 @@ insert_permissions:
         focus:
           notebook:
             members:
-              professional_id:
-                _eq: X-Hasura-Professional-Id
+              account_id:
+                _eq: X-Hasura-User-Id
       columns:
         - id
         - focus_id
         - target
         - created_at
       set:
-        creator_id: x-hasura-Professional-Id
+        creator_id: X-Hasura-User-Id
     role: professional
 select_permissions:
   - permission:
@@ -76,11 +76,12 @@ select_permissions:
           notebook:
             _or:
               - members:
-                  professional:
-                    structure:
-                      admins:
-                        admin_structure_id:
-                          _eq: X-Hasura-AdminStructure-Id
+                  account:
+                    professional:
+                      structure:
+                        admins:
+                          admin_structure_id:
+                            _eq: X-Hasura-AdminStructure-Id
               - beneficiary:
                   structures:
                     structure:
@@ -134,8 +135,8 @@ select_permissions:
         focus:
           notebook:
             members:
-              professional_id:
-                _eq: X-Hasura-Professional-Id
+              account_id:
+                _eq: X-Hasura-User-Id
     role: professional
 update_permissions:
   - permission:
@@ -155,6 +156,6 @@ update_permissions:
         focus:
           notebook:
             members:
-              professional_id:
-                _eq: X-Hasura-Professional-Id
+              account_id:
+                _eq: X-Hasura-User-Id
     role: professional

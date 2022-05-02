@@ -53,7 +53,7 @@ insert_permissions:
         - position
         - updated_at
       set:
-        deployment_id: x-hasura-Deployment-id
+        deployment_id: X-Hasura-Deployment-id
     role: manager
 select_permissions:
   - permission:
@@ -147,7 +147,7 @@ update_permissions:
         - position
       filter:
         id:
-          _eq: X-Hasura-adminStructure-Id
+          _eq: X-Hasura-AdminStructure-Id
     role: admin_structure
   - permission:
       check: null

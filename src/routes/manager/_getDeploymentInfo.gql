@@ -39,7 +39,7 @@ query GetDeploymentInfos($id: uuid!) {
 			_not: {
 				_or: [
 					{ beneficiaries: { status: { _eq: "pending" } } }
-					{ professionals: { notebooksWhereMember: { active: { _eq: true } } } }
+					{ professionals: { account: { notebooksWhereMember: { active: { _eq: true } } } } }
 				]
 			}
 		}

@@ -31,6 +31,50 @@ object_relationships:
   - name: professional
     using:
       foreign_key_constraint_on: professional_id
+array_relationships:
+  - name: notebookActionsCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          name: notebook_action
+          schema: public
+  - name: notebookEventsCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          name: notebook_event
+          schema: public
+  - name: notebookFocusesCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          name: notebook_focus
+          schema: public
+  - name: notebookTargetsCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          name: notebook_target
+          schema: public
+  - name: notebooksCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          name: notebook_member
+          schema: public
+  - name: notebooksWhereMember
+    using:
+      foreign_key_constraint_on:
+        column: account_id
+        table:
+          name: notebook_member
+          schema: public
+
 insert_permissions:
   - permission:
       backend_only: false

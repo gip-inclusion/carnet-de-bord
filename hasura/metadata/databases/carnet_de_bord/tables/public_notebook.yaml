@@ -162,11 +162,12 @@ select_permissions:
       filter:
         _or:
           - members:
-              professional:
-                structure:
-                  admins:
-                    admin_structure_id:
-                      _eq: X-Hasura-AdminStructure-Id
+              account:
+                professional:
+                  structure:
+                    admins:
+                      admin_structure_id:
+                        _eq: X-Hasura-AdminStructure-Id
           - beneficiary:
               structures:
                 structure:
@@ -243,8 +244,8 @@ select_permissions:
       filter:
         members:
           _and:
-            - professional_id:
-                _eq: X-Hasura-Professional-Id
+            - account_id:
+                _eq: X-Hasura-User-Id
             - active:
                 _eq: true
     role: professional
@@ -286,8 +287,8 @@ update_permissions:
       filter:
         members:
           _and:
-            - professional_id:
-                _eq: X-Hasura-Professional-Id
+            - account_id:
+                _eq: X-Hasura-User-Id
             - active:
                 _eq: true
     role: professional

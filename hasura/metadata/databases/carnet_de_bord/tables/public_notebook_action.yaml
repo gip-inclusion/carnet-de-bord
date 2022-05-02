@@ -36,7 +36,7 @@ insert_permissions:
         - status
         - target_id
       set:
-        creator_id: x-hasura-Professional-Id
+        creator_id: X-Hasura-User-Id
     role: professional
 select_permissions:
   - permission:
@@ -68,11 +68,12 @@ select_permissions:
             notebook:
               _or:
                 - members:
-                    professional:
-                      structure:
-                        admins:
-                          admin_structure_id:
-                            _eq: X-Hasura-AdminStructure-Id
+                    account:
+                      professional:
+                        structure:
+                          admins:
+                            admin_structure_id:
+                              _eq: X-Hasura-AdminStructure-Id
                 - beneficiary:
                     structures:
                       structure:
@@ -131,8 +132,8 @@ select_permissions:
           focus:
             notebook:
               members:
-                professional_id:
-                  _eq: X-Hasura-Professional-Id
+                account_id:
+                  _eq: X-Hasura-User-Id
     role: professional
 update_permissions:
   - permission:
@@ -156,6 +157,6 @@ update_permissions:
           focus:
             notebook:
               members:
-                professional_id:
-                  _eq: X-Hasura-Professional-Id
+                account_id:
+                  _eq: X-Hasura-USer-Id
     role: professional

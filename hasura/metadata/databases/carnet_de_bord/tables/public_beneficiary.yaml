@@ -87,7 +87,7 @@ insert_permissions:
         - postal_code
         - updated_at
       set:
-        deployment_id: x-hasura-Deployment-id
+        deployment_id: X-Hasura-Deployment-id
     role: manager
   - permission:
       backend_only: false
@@ -106,7 +106,7 @@ insert_permissions:
         - pe_number
         - postal_code
       set:
-        deployment_id: x-hasura-Deployment-id
+        deployment_id: X-Hasura-Deployment-id
     role: professional
 select_permissions:
   - permission:
@@ -158,11 +158,12 @@ select_permissions:
                     _eq: X-Hasura-AdminStructure-Id
           - notebook:
               members:
-                professional:
-                  structure:
-                    admins:
-                      admin_structure_id:
-                        _eq: X-Hasura-AdminStructure-Id
+                account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
     role: admin_structure
   - permission:
       allow_aggregations: true
@@ -226,8 +227,8 @@ select_permissions:
       filter:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
     role: professional
 update_permissions:
   - permission:
@@ -302,6 +303,6 @@ update_permissions:
       filter:
         notebook:
           members:
-            professional_id:
-              _eq: X-Hasura-Professional-Id
+            account_id:
+              _eq: X-Hasura-User-Id
     role: professional

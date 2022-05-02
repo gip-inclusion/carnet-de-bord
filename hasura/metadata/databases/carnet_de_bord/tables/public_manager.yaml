@@ -87,17 +87,6 @@ select_permissions:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
     role: manager
-  - permission:
-      columns:
-        - email
-        - firstname
-        - id
-        - lastname
-      filter:
-        account:
-          professional_id:
-            _eq: X-Hasura-Professional-Id
-    role: professional
 update_permissions:
   - permission:
       check: {}
