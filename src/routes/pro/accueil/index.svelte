@@ -7,9 +7,9 @@
 	import { operationStore, query } from '@urql/svelte';
 
 	export const load: Load = async ({ session }) => {
-		const { professionalId } = session.user;
+		const { id } = session.user;
 		/* @TODO this request does not error in Hasura when called with a professional that's null; instead it matches on all, which is obviously not what we want */
-		const result = operationStore(GetLastVisitedOrUpdatedDocument, { professionalId });
+		const result = operationStore(GetLastVisitedOrUpdatedDocument, { accountId: id });
 
 		return {
 			props: {

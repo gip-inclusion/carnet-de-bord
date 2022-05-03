@@ -18,7 +18,7 @@ describe('marne request handler', () => {
 				lastname: 'be',
 				dateOfBirth: '2000-12-01',
 			},
-			professionalId: 'uuid',
+			accountId: 'uuid',
 			focuses: [],
 		});
 		expect(global.fetch).toHaveBeenCalledWith('service.url/BE/LIONEL/01-12-2000', {
@@ -113,7 +113,7 @@ describe('marne request handler', () => {
 				dateOfBirth: '2000-12-01',
 			},
 			notebookId: 'notebook-uuid',
-			professionalId: 'creator-uuid',
+			accountId: 'creator-uuid',
 			focuses: [],
 		});
 

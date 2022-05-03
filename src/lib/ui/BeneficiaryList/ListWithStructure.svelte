@@ -17,7 +17,7 @@
 			component: AddStructureProfessionnalForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member: beneficiary.notebook.members[0]?.professional.id ?? null,
+				member: beneficiary.notebook.members[0]?.account?.professional.id ?? null,
 				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
 				showResetMembers: beneficiary.notebook.members.length > 0,
 			},
@@ -78,7 +78,7 @@
 				<td>
 					{#if beneficiary.notebook.members.length > 0}
 						<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
-							{displayFullName(beneficiary.notebook.members[0].professional)}
+							{displayFullName(beneficiary.notebook.members[0].account?.professional)}
 						</button>
 						{#if beneficiary.notebook.members.length > 1}
 							<span>

@@ -20,7 +20,7 @@
 <BeneficiaryPersonalInfoView
 	{beneficiary}
 	lastUpdateDate={members[0]?.lastModifiedAt}
-	lastUpdateFrom={members[0]?.professional}
+	lastUpdateFrom={members[0]?.account?.professional}
 />
 <div class="py-8">
 	<Accordions>
@@ -58,7 +58,7 @@
 													{action.action}
 													créé le {formatDateLocale(action.createdAt)}
 													{#if action.creator}
-														par {displayFullName(action.creator)}
+														par {displayFullName(action.creator?.professional)}
 													{/if}
 												</li>
 											{/each}

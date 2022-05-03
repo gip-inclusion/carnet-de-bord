@@ -162,7 +162,7 @@
 		filteredEvents = events?.filter(
 			(filtered_event) =>
 				matcher(filtered_event.event.event_label) ||
-				matcher(filtered_event.professional.structure.name) ||
+				matcher(filtered_event.creator?.professional.structure.name) ||
 				matcher(eventCategory(filtered_event)) ||
 				matcher(constantToString(filtered_event.event.status, statusValues))
 		);
@@ -187,7 +187,7 @@
 			on:edit={() => alert('Not implemented!')}
 			on:print={() => alert('Not implemented!')}
 			lastUpdateDate={lastMember?.lastModifiedAt}
-			lastUpdateFrom={lastMember?.professional}
+			lastUpdateFrom={lastMember?.account?.professional}
 		/>
 		<Accordions>
 			<MainAccordion title="Situation socioprofessionnelle">
@@ -247,7 +247,7 @@
 									<td>{formatDateLocale(event.eventDate)} </td>
 									<td>{eventCategory(event)}</td>
 									<td>{event.event.event_label}</td>
-									<td>{event.professional.structure.name} </td>
+									<td>{event.creator?.professional.structure.name} </td>
 									<td>{constantToString(event.event.status, statusValues)}</td>
 								</tr>
 							{:else}

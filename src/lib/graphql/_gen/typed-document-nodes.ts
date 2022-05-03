@@ -8599,6 +8599,7 @@ export type SearchProfessionalQuery = {
 			postalCode?: string | null | undefined;
 			phone?: string | null | undefined;
 		};
+		account?: { __typename?: 'account'; id: string } | null | undefined;
 	}>;
 	count: {
 		__typename?: 'professional_aggregate';
@@ -9587,14 +9588,7 @@ export type InsertProfessionalAccountMutationVariables = Exact<{
 
 export type InsertProfessionalAccountMutation = {
 	__typename?: 'mutation_root';
-	account?:
-		| {
-				__typename?: 'account';
-				id: string;
-				professional?: { __typename?: 'professional'; id: string } | null | undefined;
-		  }
-		| null
-		| undefined;
+	account?: { __typename?: 'account'; id: string } | null | undefined;
 };
 
 export type ConfirmAccountByIdMutationVariables = Exact<{
@@ -10095,6 +10089,8 @@ export type GetNotebookMemberByIdQuery = {
 					| undefined;
 				account: {
 					__typename?: 'account';
+					id: string;
+					confirmed: boolean;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -10102,10 +10098,6 @@ export type GetNotebookMemberByIdQuery = {
 								lastname: string;
 								email: string;
 								id: string;
-								account?:
-									| { __typename?: 'account'; id: string; confirmed: boolean }
-									| null
-									| undefined;
 						  }
 						| null
 						| undefined;
@@ -14402,6 +14394,14 @@ export const SearchProfessionalDocument = {
 										],
 									},
 								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
 							],
 						},
 					},
@@ -18083,17 +18083,7 @@ export const InsertProfessionalAccountDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-									},
-								},
-							],
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 						},
 					},
 				],
@@ -20702,6 +20692,8 @@ export const GetNotebookMemberByIdDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
@@ -20712,17 +20704,6 @@ export const GetNotebookMemberByIdDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'account' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
-																],
-															},
-														},
 													],
 												},
 											},

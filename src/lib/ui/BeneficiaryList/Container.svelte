@@ -96,7 +96,7 @@
 		);
 
 		const members = selectedBeneficiaries.flatMap((beneficiary) =>
-			beneficiary.notebook.members.map((member) => member.professional.id)
+			beneficiary.notebook.members.map((member) => member.account?.professional.id)
 		);
 		const memberSet = new Set(members);
 		let member = null;

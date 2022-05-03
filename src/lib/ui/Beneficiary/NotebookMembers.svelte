@@ -19,19 +19,19 @@
 			{#each members as member}
 				<tr class:font-bold={member.memberType === 'referent'}>
 					<td>
-						<Text value={member.professional.structure.name} />
+						<Text value={member.account?.professional.structure.name} />
 					</td>
 					<td>
 						<div class="flex flex-row gap-2">
-							<Text value={member.professional.firstname} />
-							<Text value={member.professional.lastname} />
+							<Text value={member.account?.professional.firstname} />
+							<Text value={member.account?.professional.lastname} />
 							{#if member.memberType === 'referent'}
 								(référent)
 							{/if}
 						</div>
 					</td>
 					<td>
-						<Text value={member.professional.position} />
+						<Text value={member.account?.professional.position} />
 					</td>
 				</tr>
 			{/each}

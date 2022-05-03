@@ -21,10 +21,10 @@
 	export let professionalIds: string[];
 
 	let search: string | null;
-	let selectedProfessionalId: string | null;
+	let selectedAccountId: string | null;
 
 	const onChange: SvelteEventHandler<HTMLInputElement> = function (event) {
-		selectedProfessionalId = event.currentTarget.value;
+		selectedAccountId = event.currentTarget.value;
 	};
 
 	function onCancel() {
@@ -43,7 +43,7 @@
 	query(searchProfessionalResult);
 
 	function onSearch() {
-		selectedProfessionalId = null;
+		selectedAccountId = null;
 		$searchProfessionalResult.context.pause = false;
 		$searchProfessionalResult.variables = {
 			search: `%${search}%`,
@@ -53,13 +53,13 @@
 		trackSiteSearch(search, '/pro/notebook/member');
 	}
 
-	async function addMemberToNotebook(professionalId: string) {
+	async function addMemberToNotebook(accountId: string) {
 		trackEvent('pro', 'members', 'member added');
 		// TODO(tglatt): should wrap into a hasura action
 		const store = await addNotebookMember({
-			professionalId,
+			accountId,
 			notebookId: notebookId,
-			creatorId: $session.user.professionalId,
+			creatorId: $session.user.id,
 		});
 		const { id: notebookMemberId } = store.data.newMember;
 		//send email
@@ -118,9 +118,9 @@
 					<input
 						on:change={onChange}
 						type="radio"
-						id={professional.id}
+						id={professional.account.id}
 						name="professional"
-						value={professional.id}
+						value={professional.account.id}
 					/>
 					<label for={professional.id} class="flex flex-row justify-between items-center py-4">
 						<div class="w-2/6">{professional.structure.name}</div>
@@ -134,9 +134,8 @@
 	</div>
 	<!-- bas -->
 	<div class="flex-shrink py-4 flex flex-row gap-6">
-		<Button
-			on:click={() => addMemberToNotebook(selectedProfessionalId)}
-			disabled={!selectedProfessionalId}>Envoyer</Button
+		<Button on:click={() => addMemberToNotebook(selectedAccountId)} disabled={!selectedAccountId}
+			>Envoyer</Button
 		>
 		<Button on:click={onCancel} outline>Annuler</Button>
 	</div>

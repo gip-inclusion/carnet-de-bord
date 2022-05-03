@@ -214,7 +214,7 @@ export const post: RequestHandler = async ({ request }) => {
 
 	return {
 		status: 200,
-		body: { professionalId: account.professional.id },
+		body: { accountId: account.id },
 	};
 };
 
