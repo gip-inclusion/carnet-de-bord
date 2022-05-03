@@ -102,7 +102,8 @@
 		const selected = threeMonths;
 		const getNotebook = operationStore(
 			GetNotebookDocument,
-			buildQueryVariables(variables, selected)
+			buildQueryVariables(variables, selected),
+			{ additionalTypenames: ['notebook_appointment'] }
 		);
 
 		return {

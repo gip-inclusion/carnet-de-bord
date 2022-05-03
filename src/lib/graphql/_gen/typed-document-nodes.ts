@@ -14555,7 +14555,7 @@ export const GetNotebookAppointmentsDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'createdAt' },
+											name: { kind: 'Name', value: 'date' },
 											value: { kind: 'EnumValue', value: 'desc' },
 										},
 									],

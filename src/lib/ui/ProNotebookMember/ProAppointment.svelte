@@ -18,10 +18,14 @@
 	export let professional: Pro;
 	export let notebookId: string;
 
-	const getAppointmentStore = operationStore(GetNotebookAppointmentsDocument, {
-		professionalId: professional.id,
-		notebookId: notebookId,
-	});
+	const getAppointmentStore = operationStore(
+		GetNotebookAppointmentsDocument,
+		{
+			professionalId: professional.id,
+			notebookId: notebookId,
+		},
+		{ additionalTypenames: ['notebook_appointment'] }
+	);
 	query(getAppointmentStore);
 
 	const setAppointmentMutation = mutation(operationStore(AddNotebookAppointmentDocument));
@@ -36,8 +40,10 @@
 	})) as Option;
 
 	$getAppointmentStore.subscribe((resp: unknown) => {
-		appointments = resp.data?.getNotebookAppointments ?? [];
-		appointmentsBuffer = jsonCopy(appointments);
+		if (resp.data) {
+			appointments = jsonCopy(resp.data?.getNotebookAppointments) ?? [];
+			appointmentsBuffer = jsonCopy(appointments);
+		}
 	});
 
 	function setupNewAppointment() {
@@ -59,14 +65,11 @@
 	}
 
 	function cancelEdition() {
-		appointments = appointments.map((appointment) => {
-			appointment.isEdited = false;
+		appointments = jsonCopy(appointmentsBuffer).map((appointment) => {
 			appointment.isDisabled = false;
+			appointment.isEdited = false;
 			return appointment;
 		});
-		if (!appointments[0].id) {
-			appointments = appointments.slice(1, appointments.length);
-		}
 	}
 
 	function editAppointment(index: number) {
@@ -101,10 +104,7 @@
 				});
 			}
 			if (result.error) {
-				$getAppointmentStore.reexecute();
-			} else {
-				appointments[index].dirty = false;
-				appointments[index].isEdited = false;
+				console.error(result.error);
 			}
 		}
 	}
