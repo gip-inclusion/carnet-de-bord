@@ -1,11 +1,11 @@
 query SearchNotebookMember(
-	$professionalId: uuid!
+	$accountId: uuid!
 	$filter: String
 	$visitDate: timestamptz_comparison_exp!
 ) {
 	search_notebook_members(
 		args: { search: $filter }
-		where: { professionalId: { _eq: $professionalId }, lastVisitedAt: $visitDate }
+		where: { accountId: { _eq: $accountId }, lastVisitedAt: $visitDate }
 		order_by: { lastModifiedAt: desc_nulls_first }
 	) {
 		id

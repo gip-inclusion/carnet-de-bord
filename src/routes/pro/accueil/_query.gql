@@ -1,8 +1,8 @@
-query GetLastVisitedOrUpdated($professionalId: uuid!) {
+query GetLastVisitedOrUpdated($accountId: uuid!) {
 	lastVisited: notebook_member(
 		order_by: { lastVisitedAt: desc_nulls_last }
 		limit: 3
-		where: { professionalId: { _eq: $professionalId }, lastVisitedAt: { _is_null: false } }
+		where: { accountId: { _eq: $accountId }, lastVisitedAt: { _is_null: false } }
 	) {
 		notebook {
 			id
@@ -18,7 +18,7 @@ query GetLastVisitedOrUpdated($professionalId: uuid!) {
 	lastUpdated: notebook_member(
 		order_by: { lastModifiedAt: desc_nulls_last }
 		limit: 3
-		where: { professionalId: { _eq: $professionalId }, lastModifiedAt: { _is_null: false } }
+		where: { accountId: { _eq: $accountId }, lastModifiedAt: { _is_null: false } }
 	) {
 		notebook {
 			id
