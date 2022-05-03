@@ -1,13 +1,18 @@
 import logging
 
 import dask.dataframe as dd
+from pandas.core.series import Series
+
 from api.core.db import get_connection_pool
 from api.core.settings import settings
-from api.db.crud.beneficiary import get_beneficiary_from_csv
+from api.db.crud.beneficiary import (
+    find_wanted_job_for_beneficiary,
+    get_beneficiary_from_csv,
+)
 from api.db.crud.rome_code import get_rome_code_by_label_and_code
 from api.db.models.beneficiary import Beneficiary
+from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
-from pandas.core.series import Series
 
 logging.basicConfig(level=logging.INFO)
 
@@ -34,19 +39,23 @@ async def parse_principal_csv(principal_csv: str):
                     )
 
                     if beneficiary:
-                        # Check ROME code
-                        logging.info(
-                            f"Checking ROME code for {beneficiary.id} - {csv_row}"
-                        )
-                        rome_code_1 = await get_rome_code_by_label_and_code(
-                            connection, csv_row.rome_1_label, csv_row.rome_1
-                        )
-                        rome_code_2 = await get_rome_code_by_label_and_code(
-                            connection, csv_row.rome_2_label, csv_row.rome_2
+                        wanted_job_1: WantedJob | None = (
+                            await find_wanted_job_for_beneficiary(
+                                beneficiary, csv_row.rome_1, csv_row.rome_1_label
+                            )
                         )
 
-                        logging.info(rome_code_1)
-                        logging.info(rome_code_2)
+                        wanted_job_2: WantedJob | None = (
+                            await find_wanted_job_for_beneficiary(
+                                beneficiary, csv_row.rome_2, csv_row.rome_2_label
+                            )
+                        )
+
+                        if not wanted_job_1:
+                            pass
+
+                        if not wanted_job_2:
+                            pass
 
     else:
         logging.error("Unable to acquire connection from DB pool")
