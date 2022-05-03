@@ -1,4 +1,4 @@
--- REMOVE CONSTRAINTS 
+-- REMOVE CONSTRAINTS
 ALTER TABLE ONLY public.notebook_member DROP CONSTRAINT notebook_member_notebook_id_professional_id_key;
 ALTER TABLE ONLY public.notebook_member DROP CONSTRAINT notebook_member_professional_id_fkey;
 ALTER TABLE ONLY public.notebook_member DROP CONSTRAINT notebook_member_creator_id_fkey;
@@ -38,7 +38,7 @@ WHERE  public.notebook_event.professional_id = public.account.professional_id;
 ALTER TABLE ONLY public.notebook_member RENAME COLUMN professional_id TO account_id;
 ALTER TABLE ONLY public.notebook_event RENAME COLUMN professional_id TO creator_id;
 
--- RE-APPLY CONSTRAINTS 
+-- RE-APPLY CONSTRAINTS
 ALTER TABLE ONLY public.notebook_member
     ADD CONSTRAINT notebook_member_notebook_id_account_id_key unique ("notebook_id", "account_id");
 
