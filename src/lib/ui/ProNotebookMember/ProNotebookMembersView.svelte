@@ -4,7 +4,6 @@
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookMemberInvitation from './ProNotebookMemberInvitation.svelte';
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
-	import type { Member } from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
