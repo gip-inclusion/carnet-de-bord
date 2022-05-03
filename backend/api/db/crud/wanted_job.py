@@ -1,8 +1,9 @@
 from uuid import UUID
 
-from api.db.models.wanted_job import WantedJob
 from asyncpg import Record
 from asyncpg.connection import Connection
+
+from api.db.models.wanted_job import WantedJob
 
 
 async def get_wanted_job_by_beneficiary_id(

@@ -1,6 +1,7 @@
-from api.db.models.rome_code import RomeCode
 from asyncpg import Record
 from asyncpg.connection import Connection
+
+from api.db.models.rome_code import RomeCode
 
 
 async def get_rome_code_by_label_and_code(

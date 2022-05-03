@@ -1,8 +1,9 @@
 from datetime import date, datetime
 from uuid import UUID
 
-from api.db.models.notebook import Notebook
 from pydantic import BaseModel
+
+from api.db.models.notebook import Notebook
 
 
 class Beneficiary(BaseModel):

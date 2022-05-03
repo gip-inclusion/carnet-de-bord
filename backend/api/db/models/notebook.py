@@ -1,8 +1,9 @@
 from typing import List
 from uuid import UUID
 
-from api.db.models.wanted_job import WantedJob
 from pydantic import BaseModel
+
+from api.db.models.wanted_job import WantedJob
 
 
 class Notebook(BaseModel):

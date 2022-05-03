@@ -3,8 +3,9 @@ import os
 
 import dask.dataframe as dd
 import pytest
-from api.core.db import get_connection_pool
 from dask.dataframe.core import DataFrame
+
+from api.core.db import get_connection_pool
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
 
