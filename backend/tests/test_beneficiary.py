@@ -6,15 +6,11 @@ from cdb_csv import pe
 from cdb_csv.csv_row import PrincipalCsvRow
 
 
-async def test_db_pool(pe_principal_csv_series, db_connection):
+async def test_get_beneficiary_with_wanted_jobs(pe_principal_csv_series, db_connection):
 
     # Get the first row
     _, series = next(pe_principal_csv_series.iterrows())
     csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
-
-    from pprint import pp
-
-    pp(csv_row)
 
     beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
         db_connection, csv_row
@@ -28,3 +24,27 @@ async def test_db_pool(pe_principal_csv_series, db_connection):
         assert beneficiary.date_of_birth == date(1982, 2, 1)
         assert beneficiary.notebook is not None
         assert len(beneficiary.notebook.wanted_jobs) == 2
+
+
+async def test_get_beneficiary_without_wanted_jobs(
+    pe_principal_csv_series, db_connection
+):
+
+    for idx, series in pe_principal_csv_series.iterrows():
+        # Get the second element
+        if idx == 1:
+
+            csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
+
+            beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
+                db_connection, csv_row
+            )
+
+            assert beneficiary is not None
+
+            if beneficiary:
+                assert beneficiary.lastname == "Dorsey"
+                assert beneficiary.firstname == "Hendrix"
+                assert beneficiary.date_of_birth == date(1976, 12, 18)
+                assert beneficiary.notebook is not None
+                assert len(beneficiary.notebook.wanted_jobs) == 0

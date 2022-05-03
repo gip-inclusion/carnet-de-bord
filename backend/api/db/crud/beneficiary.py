@@ -38,7 +38,7 @@ async def get_beneficiary_from_csv(
                 if beneficiary is None:
                     beneficiary = Beneficiary.parse_obj(beneficiary_record)
 
-                if "notebook_id" in beneficiary_record:
+                if beneficiary_record["notebook_id"] is not None:
                     if beneficiary.notebook is None:
                         beneficiary.notebook = Notebook(
                             id=beneficiary_record["notebook_id"],
@@ -46,7 +46,7 @@ async def get_beneficiary_from_csv(
                             wanted_jobs=[],
                         )
 
-                    if "rome_code_id" in beneficiary_record:
+                    if beneficiary_record["rome_code_id"] is not None:
                         beneficiary.notebook.wanted_jobs.append(
                             WantedJob(
                                 id=beneficiary_record["wanted_job_id"],
