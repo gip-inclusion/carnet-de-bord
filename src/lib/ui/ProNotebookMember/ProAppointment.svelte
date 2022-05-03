@@ -7,7 +7,7 @@
 		GetNotebookAppointmentsDocument,
 		UpdateNotebookAppointmentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import type { Appointment } from '$lib/models/Appointment';
+	import { Appointment } from '$lib/models/Appointment';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Input, Select } from '$lib/ui/base/index';
 	import { AppointmentsMapping } from '$lib/constants/keys';
@@ -49,39 +49,27 @@
 	function setupNewAppointment() {
 		if (appointments.length === 0 || appointments[0].id != null) {
 			appointments = jsonCopy(appointmentsBuffer).map((appointment) => {
-				appointment.isDisabled = true;
-				appointment.isEdited = false;
+				appointment.disable();
 				return appointment;
 			});
-			const newAppointment: Appointment = {
-				id: null,
-				date: null,
-				status: null,
-				isEdited: true,
-				dirty: false,
-			};
+			const newAppointment: Appointment = new Appointment();
 			appointments.unshift(newAppointment);
 		}
 	}
 
 	function cancelEdition() {
-		appointments = jsonCopy(appointmentsBuffer).map((appointment) => {
-			appointment.isDisabled = false;
-			appointment.isEdited = false;
+		appointments = jsonCopy(appointmentsBuffer).map((appointment: Appointment) => {
+			appointment.cancelEdition();
 			return appointment;
 		});
 	}
 
 	function editAppointment(index: number) {
-		appointments = appointments.map((appointment, i) => {
-			if (i === index) {
-				appointment.isEdited = true;
-			} else {
-				appointment.isDisabled = true;
-			}
+		appointments = appointments.map((appointment) => {
+			appointment.disable();
 			return appointment;
 		});
-		appointments[index].isEdited = true;
+		appointments[index].toggleEdit();
 	}
 
 	async function validateAppointment(index: number) {
