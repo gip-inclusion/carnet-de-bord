@@ -63,3 +63,22 @@ async def test_get_beneficiary_without_wanted_jobs(
                         beneficiary, csv_row.rome_1, csv_row.rome_1_label
                     )
                 ) is None
+
+
+async def test_get_beneficiary_without_notebook(pe_principal_csv_series, db_connection):
+
+    for idx, series in pe_principal_csv_series.iterrows():
+        # Get the second element
+        if idx == 2:
+
+            csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
+
+            print(csv_row)
+            beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
+                db_connection, csv_row
+            )
+
+            assert beneficiary is not None
+
+            if beneficiary:
+                assert beneficiary.notebook is None
