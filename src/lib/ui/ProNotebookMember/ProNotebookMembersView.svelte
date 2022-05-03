@@ -68,8 +68,7 @@
 					</td>
 					<td>
 						<div class="flex flex-row gap-2">
-							<Text value={member.professional.firstname} />
-							<Text value={member.professional.lastname} />
+							<Text value={`${member.professional.firstname} ${member.professional.lastname}`} />
 						</div>
 					</td>
 					<td>

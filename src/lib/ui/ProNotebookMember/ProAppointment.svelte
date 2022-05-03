@@ -48,7 +48,7 @@
 
 	function setupNewAppointment() {
 		if (appointments.length === 0 || appointments[0].id != null) {
-			appointments = jsonCopy(appointmentsBuffer).map((appointment) => {
+			appointments = jsonCopy(appointmentsBuffer).map((appointment: Appointment) => {
 				appointment.disable();
 				return appointment;
 			});
@@ -65,7 +65,7 @@
 	}
 
 	function editAppointment(index: number) {
-		appointments = appointments.map((appointment) => {
+		appointments = appointments.map((appointment: Appointment) => {
 			appointment.disable();
 			return appointment;
 		});
@@ -128,6 +128,7 @@
 							{#if appointment.isEdited}
 								<td>
 									<Input
+										inputLabel="Date de rendez-vous"
 										class="date-input"
 										type="date"
 										bind:value={appointment.date}
@@ -136,6 +137,7 @@
 								</td>
 								<td>
 									<Select
+										selectLabel="Statut du rendez-vous"
 										name={appointment.id}
 										options={appointmentOptions}
 										bind:selected={appointment.status}
