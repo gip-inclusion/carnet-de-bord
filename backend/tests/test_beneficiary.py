@@ -1,6 +1,9 @@
 from datetime import date
 
-from api.db.crud.beneficiary import get_beneficiary_from_csv
+from api.db.crud.beneficiary import (
+    find_wanted_job_for_beneficiary,
+    get_beneficiary_from_csv,
+)
 from api.db.models.beneficiary import Beneficiary
 from cdb_csv import pe
 from cdb_csv.csv_row import PrincipalCsvRow
@@ -25,6 +28,12 @@ async def test_get_beneficiary_with_wanted_jobs(pe_principal_csv_series, db_conn
         assert beneficiary.notebook is not None
         assert len(beneficiary.notebook.wanted_jobs) == 2
 
+        assert (
+            await find_wanted_job_for_beneficiary(
+                beneficiary, csv_row.rome_1, csv_row.rome_1_label
+            )
+        ) is not None
+
 
 async def test_get_beneficiary_without_wanted_jobs(
     pe_principal_csv_series, db_connection
@@ -48,3 +57,9 @@ async def test_get_beneficiary_without_wanted_jobs(
                 assert beneficiary.date_of_birth == date(1976, 12, 18)
                 assert beneficiary.notebook is not None
                 assert len(beneficiary.notebook.wanted_jobs) == 0
+
+                assert (
+                    await find_wanted_job_for_beneficiary(
+                        beneficiary, csv_row.rome_1, csv_row.rome_1_label
+                    )
+                ) is None
