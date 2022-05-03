@@ -22,10 +22,9 @@ async def test_db_pool(pe_principal_csv_series, db_connection):
 
     assert beneficiary is not None
 
-    # @TODO: Check if it works whene there are multiple wanted jobs
     if beneficiary:
         assert beneficiary.lastname == "Tifour"
         assert beneficiary.firstname == "Sophie"
         assert beneficiary.date_of_birth == date(1982, 2, 1)
         assert beneficiary.notebook is not None
-        assert len(beneficiary.notebook.wanted_jobs) == 1
+        assert len(beneficiary.notebook.wanted_jobs) == 2

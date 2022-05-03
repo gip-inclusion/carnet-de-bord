@@ -1,3 +1,5 @@
+from typing import List
+
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.notebook import Notebook
 from api.db.models.wanted_job import WantedJob
@@ -14,10 +16,7 @@ async def get_beneficiary_from_csv(
 
         beneficiary = None
 
-        # @TODO: modifiy fetchrow to fetch all rows when we have multiple
-        # wanted jobs
-
-        beneficiary_record: Record | None = await connection.fetchrow(
+        beneficiary_records: List[Record] = await connection.fetch(
             "SELECT public.beneficiary.*, public.wanted_job.rome_code_id, public.wanted_job.id as wanted_job_id, public.notebook.id as notebook_id "
             "FROM public.beneficiary "
             "LEFT JOIN public.notebook "
@@ -32,26 +31,28 @@ async def get_beneficiary_from_csv(
             csv_row.date_of_birth,
         )
 
-        if beneficiary_record:
+        if len(beneficiary_records) > 0:
 
-            if beneficiary is None:
-                beneficiary = Beneficiary.parse_obj(beneficiary_record)
+            for beneficiary_record in beneficiary_records:
 
-            if "notebook_id" in beneficiary_record:
-                if beneficiary.notebook is None:
-                    beneficiary.notebook = Notebook(
-                        id=beneficiary_record["notebook_id"],
-                        beneficiary_id=beneficiary_record["id"],
-                        wanted_jobs=[],
-                    )
+                if beneficiary is None:
+                    beneficiary = Beneficiary.parse_obj(beneficiary_record)
 
-                if "rome_code_id" in beneficiary_record:
-                    beneficiary.notebook.wanted_jobs.append(
-                        WantedJob(
-                            id=beneficiary_record["wanted_job_id"],
-                            notebook_id=beneficiary_record["notebook_id"],
-                            rome_code_id=beneficiary_record["rome_code_id"],
+                if "notebook_id" in beneficiary_record:
+                    if beneficiary.notebook is None:
+                        beneficiary.notebook = Notebook(
+                            id=beneficiary_record["notebook_id"],
+                            beneficiary_id=beneficiary_record["id"],
+                            wanted_jobs=[],
                         )
-                    )
 
-            return beneficiary
+                    if "rome_code_id" in beneficiary_record:
+                        beneficiary.notebook.wanted_jobs.append(
+                            WantedJob(
+                                id=beneficiary_record["wanted_job_id"],
+                                notebook_id=beneficiary_record["notebook_id"],
+                                rome_code_id=beneficiary_record["rome_code_id"],
+                            )
+                        )
+
+        return beneficiary

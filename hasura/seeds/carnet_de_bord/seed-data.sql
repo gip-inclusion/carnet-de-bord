@@ -223,6 +223,7 @@ INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rq
 
 -- wanted_jobs
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('539675a3-ca5b-4fa7-8a34-1c988ac383f3', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'));
+INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('4e86e0dc-f6ae-4818-8649-e23248273145', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Conducteur / Conductrice d''engins d''exploitation agricole (A1101)'));
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('35b20f9d-f593-4062-8ceb-f97d5aba7c97', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'));
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('3c311b20-98f5-4d7c-8394-a125cf1f0a1e', 'fb1c7e3b-a1ac-4b15-82cd-8306a405a3a1', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Formateur / Formatrice (K2111)'));
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('f8d3141a-fb87-4076-8e48-dbb93f4e3ccf', '2faa4460-feaf-48dc-8adf-bcb224b1554f', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'));
