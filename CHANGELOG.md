@@ -56,32 +56,28 @@
 
 ## [1.109.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.2...v1.109.3) (2022-04-26)
 
-
 ### Bug Fixes
 
-* update codegen ([8513096](https://github.com/SocialGouv/carnet-de-bord/commit/85130968c41eea24bb2f23e0b481dd11e60d1dc0))
+- update codegen ([8513096](https://github.com/SocialGouv/carnet-de-bord/commit/85130968c41eea24bb2f23e0b481dd11e60d1dc0))
 
 ## [1.109.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.1...v1.109.2) (2022-04-25)
 
-
 ### Bug Fixes
 
-* minor fixes after review ([#786](https://github.com/SocialGouv/carnet-de-bord/issues/786)) ([9d46b34](https://github.com/SocialGouv/carnet-de-bord/commit/9d46b34a97760f402f49e0cc8a2753a17615239e))
-* replace _neq by _eq in get last updated ([#789](https://github.com/SocialGouv/carnet-de-bord/issues/789)) ([3509d0d](https://github.com/SocialGouv/carnet-de-bord/commit/3509d0d1e2b52409012da8ef1c81364daf82dd6c))
+- minor fixes after review ([#786](https://github.com/SocialGouv/carnet-de-bord/issues/786)) ([9d46b34](https://github.com/SocialGouv/carnet-de-bord/commit/9d46b34a97760f402f49e0cc8a2753a17615239e))
+- replace \_neq by \_eq in get last updated ([#789](https://github.com/SocialGouv/carnet-de-bord/issues/789)) ([3509d0d](https://github.com/SocialGouv/carnet-de-bord/commit/3509d0d1e2b52409012da8ef1c81364daf82dd6c))
 
 ## [1.109.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.0...v1.109.1) (2022-04-25)
 
-
 ### Bug Fixes
 
-* run prettier only on JS files ([#787](https://github.com/SocialGouv/carnet-de-bord/issues/787)) ([ceef43c](https://github.com/SocialGouv/carnet-de-bord/commit/ceef43c175c9210133162c88bba8df881314e9a4))
+- run prettier only on JS files ([#787](https://github.com/SocialGouv/carnet-de-bord/issues/787)) ([ceef43c](https://github.com/SocialGouv/carnet-de-bord/commit/ceef43c175c9210133162c88bba8df881314e9a4))
 
 # [1.109.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.2...v1.109.0) (2022-04-25)
 
-
 ### Features
 
-* add placeOfBirth in data model ([#782](https://github.com/SocialGouv/carnet-de-bord/issues/782)) ([1107466](https://github.com/SocialGouv/carnet-de-bord/commit/1107466a4aac82e6317272454c7a341baf5f4b37))
+- add placeOfBirth in data model ([#782](https://github.com/SocialGouv/carnet-de-bord/issues/782)) ([1107466](https://github.com/SocialGouv/carnet-de-bord/commit/1107466a4aac82e6317272454c7a341baf5f4b37))
 
 ## [1.108.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.108.1...v1.108.2) (2022-04-21)
 
