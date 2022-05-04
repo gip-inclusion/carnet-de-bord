@@ -1,3 +1,5 @@
+import type { Appointment } from '$lib/models/Appointment';
+
 export const stringsMatch =
 	(needle: string) =>
 	(haystack?: string | null): boolean => {
@@ -47,6 +49,8 @@ export function pluralize(word: string, quantity: number, plural?: string): stri
 	return word;
 }
 
-export function jsonCopy(object: Record<string, unknown>) {
+export function jsonCopy(
+	object: Record<string, unknown> | Array<Record<string, unknown>> | Appointment | Appointment[]
+) {
 	return JSON.parse(JSON.stringify(object));
 }

@@ -1,10 +1,12 @@
 <script lang="ts">
-	import type Pro from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
+	import type { Pro } from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
 	import { Button } from '$lib/ui/base/index';
-	import { mutation, operationStore, query } from '@urql/svelte';
+	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
 	import {
 		AddNotebookAppointmentDocument,
 		GetNotebookAppointmentsDocument,
+		GetNotebookAppointmentsQuery,
+		GetNotebookAppointmentsQueryVariables,
 		UpdateNotebookAppointmentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Appointment } from '$lib/models/Appointment';
@@ -34,17 +36,25 @@
 	let appointments: Array<Appointment> = [];
 	let appointmentsBuffer: Array<Appointment> = [];
 
-	const appointmentOptions: Option = Object.keys(AppointmentsMapping).map((key) => ({
+	const appointmentOptions: Option[] = Object.keys(AppointmentsMapping).map((key) => ({
 		label: AppointmentsMapping[key],
 		name: key,
-	})) as Option;
+	}));
 
-	$getAppointmentStore.subscribe((resp: unknown) => {
-		if (resp.data) {
-			appointments = jsonCopy(resp.data?.getNotebookAppointments) ?? [];
-			appointmentsBuffer = jsonCopy(appointments);
+	$getAppointmentStore.subscribe(
+		(
+			resp: OperationStore<
+				GetNotebookAppointmentsQuery,
+				GetNotebookAppointmentsQueryVariables,
+				GetNotebookAppointmentsQuery
+			>
+		) => {
+			if (resp.data) {
+				appointments = jsonCopy(resp.data.getNotebookAppointments) ?? [];
+				appointmentsBuffer = jsonCopy(appointments);
+			}
 		}
-	});
+	);
 
 	function setupNewAppointment() {
 		if (appointments.length === 0 || appointments[0].id != null) {
@@ -138,8 +148,9 @@
 									<Input
 										inputLabel="Date de rendez-vous"
 										type="date"
+										required
 										bind:value={appointment.date}
-										error={!appointment.date && appointment.dirty}
+										error={!appointment.status && appointment.dirty ? 'Erreur' : null}
 									/>
 								</td>
 								<td>
@@ -148,7 +159,7 @@
 										name={appointment.id}
 										options={appointmentOptions}
 										bind:selected={appointment.status}
-										error={!appointment.status && appointment.dirty}
+										error={!appointment.status && appointment.dirty ? 'Erreur' : null}
 									/>
 								</td>
 								<td class="block">
@@ -211,6 +222,6 @@
 		margin: 0;
 	}
 	:global(.fr-input[type='date']) {
-		padding-right: 1.7em;
+		padding-right: 0.7em;
 	}
 </style>
