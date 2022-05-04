@@ -3,12 +3,41 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
+from api.db.crud.rome_code import get_rome_code_by_description_and_code
+from api.db.models.beneficiary import Beneficiary
+from api.db.models.notebook import Notebook
+from api.db.models.rome_code import RomeCode
 from api.db.models.wanted_job import WantedJob
 
 
-async def get_wanted_job_by_beneficiary_id(
-    connection: Connection, b_id: UUID
+async def find_wanted_job_for_beneficiary(
+    beneficiary: Beneficiary, rome_code_id: str, description: str
 ) -> WantedJob | None:
+    if beneficiary.notebook is not None:
+        for wanted_job in beneficiary.notebook.wanted_jobs:
+            if (
+                wanted_job.rome_code.code == rome_code_id
+                and wanted_job.rome_code.description == description
+            ):
+                return wanted_job
 
-    async with connection.transaction():
-        return None
+
+async def insert_wanted_job_for_notebook(
+    connection: Connection,
+    notebook: Notebook,
+    rome_code_id: str,
+    description: str,
+) -> WantedJob | None:
+    rome_code: RomeCode | None = await get_rome_code_by_description_and_code(
+        connection, description, rome_code_id
+    )
+
+    if rome_code:
+        await connection.execute(
+            """
+            INSERT INTO public.wanted_job (notebook_id, rome_code_id)
+            VALUES ($1, $2)
+            """,
+            notebook.id,
+            rome_code_id,
+        )

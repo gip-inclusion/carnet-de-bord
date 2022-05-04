@@ -10,20 +10,6 @@ from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
 
 
-async def find_wanted_job_for_beneficiary(
-    beneficiary: Beneficiary, rome_code_id: str, description: str
-) -> WantedJob | None:
-    if beneficiary.notebook is not None:
-        for wanted_job in beneficiary.notebook.wanted_jobs:
-            print(f"{wanted_job.rome_code.code} == {rome_code_id}")
-            print(f"{wanted_job.rome_code.description} == {description}")
-            if (
-                wanted_job.rome_code.code == rome_code_id
-                and wanted_job.rome_code.description == description
-            ):
-                return wanted_job
-
-
 async def get_beneficiary_from_csv(
     connection: Connection, csv_row: PrincipalCsvRow
 ) -> Beneficiary | None:

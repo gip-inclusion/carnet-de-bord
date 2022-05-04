@@ -1,9 +1,7 @@
 from datetime import date
 
-from api.db.crud.beneficiary import (
-    find_wanted_job_for_beneficiary,
-    get_beneficiary_from_csv,
-)
+from api.db.crud.beneficiary import get_beneficiary_from_csv
+from api.db.crud.wanted_job import find_wanted_job_for_beneficiary
 from api.db.models.beneficiary import Beneficiary
 from cdb_csv import pe
 from cdb_csv.csv_row import PrincipalCsvRow
