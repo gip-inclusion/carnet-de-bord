@@ -137,7 +137,6 @@
 								<td>
 									<Input
 										inputLabel="Date de rendez-vous"
-										class="date-input"
 										type="date"
 										bind:value={appointment.date}
 										error={!appointment.date && appointment.dirty}
@@ -210,5 +209,8 @@
 	}
 	:global(.fr-label + .fr-select) {
 		margin: 0;
+	}
+	:global(.fr-input[type='date']) {
+		padding-right: 1.7em;
 	}
 </style>
