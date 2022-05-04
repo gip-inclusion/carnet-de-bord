@@ -1,6 +1,3 @@
-from uuid import UUID
-
-from asyncpg import Record
 from asyncpg.connection import Connection
 
 from api.db.crud.rome_code import get_rome_code_by_description_and_code
