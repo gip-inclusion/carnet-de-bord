@@ -7,7 +7,7 @@
 		GetNotebookAppointmentsDocument,
 		UpdateNotebookAppointmentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { Appointment } from '$lib/models/Appointment';
+	import type { Appointment } from '$lib/models/Appointment';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Input, Select } from '$lib/ui/base/index';
 	import { AppointmentsMapping } from '$lib/constants/keys';
@@ -49,27 +49,35 @@
 	function setupNewAppointment() {
 		if (appointments.length === 0 || appointments[0].id != null) {
 			appointments = jsonCopy(appointmentsBuffer).map((appointment: Appointment) => {
-				appointment.disable();
+				appointment.isDisabled = true;
+				appointment.isEdited = false;
 				return appointment;
 			});
-			const newAppointment: Appointment = new Appointment();
+			const newAppointment: Appointment = {
+				isEdited: true,
+				isDisabled: false,
+				dirty: false,
+			};
 			appointments.unshift(newAppointment);
 		}
 	}
 
 	function cancelEdition() {
 		appointments = jsonCopy(appointmentsBuffer).map((appointment: Appointment) => {
-			appointment.cancelEdition();
+			appointment.isDisabled = false;
+			appointment.isEdited = false;
 			return appointment;
 		});
 	}
 
 	function editAppointment(index: number) {
 		appointments = appointments.map((appointment: Appointment) => {
-			appointment.disable();
+			appointment.isDisabled = true;
+			appointment.isEdited = false;
 			return appointment;
 		});
-		appointments[index].toggleEdit();
+		appointments[index].isDisabled = false;
+		appointments[index].isEdited = true;
 	}
 
 	async function validateAppointment(index: number) {
@@ -196,5 +204,11 @@
 
 	:global(.fr-error-text) {
 		display: none;
+	}
+	:global(.fr-label) {
+		display: none;
+	}
+	:global(.fr-label + .fr-select) {
+		margin: 0;
 	}
 </style>
