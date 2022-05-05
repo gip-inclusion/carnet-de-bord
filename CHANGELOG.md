@@ -1,3 +1,10 @@
+## [1.109.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.6...v1.109.7) (2022-05-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @codeceptjs/helper to v2 ([#799](https://github.com/SocialGouv/carnet-de-bord/issues/799)) ([24d8657](https://github.com/SocialGouv/carnet-de-bord/commit/24d86576be0b3f5b6d5c5b4dd84de3a3d1d44cb6))
+
 ## [1.109.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.5...v1.109.6) (2022-05-05)
 
 
