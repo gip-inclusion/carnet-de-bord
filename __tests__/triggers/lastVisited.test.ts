@@ -19,6 +19,7 @@ const graphqlAdmin = graphql({
 });
 
 let account, token, graphqlPro, lastModifiedQuery;
+const sofieTifourNotebookId = '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d';
 
 beforeAll(async () => {
 	const data = await getAccountAndJwtForUser('pierre.chevalier');
@@ -27,7 +28,7 @@ beforeAll(async () => {
 	graphqlPro = graphql({
 		authorization: `Bearer ${token}`,
 	});
-	lastModifiedQuery = `query { notebook_member(where: {accountId: {_eq: "${account.id}" }}){ lastModifiedAt } }`;
+	lastModifiedQuery = `query { notebook_member(where: { notebookId: {_eq: "${sofieTifourNotebookId}" } accountId: {_eq: "${account.id}" }}){ lastModifiedAt } }`;
 });
 
 describe('lastModified trigger', () => {
@@ -44,7 +45,7 @@ describe('lastModified trigger', () => {
 			'utf8'
 		);
 		const addFocusPayload = await graphqlPro(addFocusMutation, {
-			notebookId: '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d',
+			notebookId: sofieTifourNotebookId,
 			situations: {},
 			theme: 'logement',
 			linkedTo: '',
@@ -70,7 +71,7 @@ describe('lastModified trigger', () => {
 			focusId: 'a55d1dd2-2b09-4456-bcc5-1412695f684f',
 			target: 'test',
 		});
-
+		console.log(addTargetPayload);
 		const payload = await graphqlPro(lastModifiedQuery);
 		const [member] = payload.data.notebook_member;
 		expect(formatDateISO(new Date(member?.lastModifiedAt))).toEqual(formatDateISO(new Date()));
@@ -109,13 +110,13 @@ describe('lastModified trigger', () => {
 			path.join(__dirname, '../../src/lib/ui/ProNotebookSocioPro/', '_UpdateSocioPro.gql'),
 			'utf8'
 		);
-		const wantedjobQuery = `query {wanted_job(where: {notebook_id: {_eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"}}){notebook_id, rome_code_id}}`;
+		const wantedjobQuery = `query {wanted_job(where: {notebook_id: {_eq: "${sofieTifourNotebookId}"}}){notebook_id, rome_code_id}}`;
 		const wantedJobsPayload = await graphqlPro(wantedjobQuery);
 
 		await graphqlPro(updateSocioProMutation, {
 			educationLevel: 'NV4',
 			geographicalArea: 'between_10_20',
-			id: '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d',
+			id: sofieTifourNotebookId,
 			rightAre: false,
 			rightAss: false,
 			rightBonus: false,
