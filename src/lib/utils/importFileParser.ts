@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { proAccountSchema } from '$lib/ui/ProCreationForm/pro.schema';
 import * as XLSX from 'xlsx/xlsx.mjs';
-import { localeDateToIso } from './date';
+import { parseImportedDate } from './date';
 
 interface ImportParsingException {
 	code: string;
@@ -128,7 +128,7 @@ export function parseEntities(
 
 function validate(entity: null | undefined | Record<string, unknown>, entityType: string): boolean {
 	if (entity.dateOfBirth) {
-		entity.dateOfBirth = localeDateToIso(entity.dateOfBirth as string);
+		entity.dateOfBirth = parseImportedDate(entity.dateOfBirth as string);
 	}
 	switch (entityType) {
 		case 'BeneficiaryImport':
