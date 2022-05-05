@@ -35,6 +35,9 @@ query GetStructure($structureId: uuid!) {
 		}
 		professionals {
 			id
+			account {
+				id
+			}
 			email
 			firstname
 			lastname

@@ -17,7 +17,7 @@
 			component: AddStructureProfessionnalForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member: beneficiary.notebook.members[0]?.account?.professional.id ?? null,
+				member: beneficiary.notebook.members[0]?.account.id ?? null,
 				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
 				showResetMembers: beneficiary.notebook.members.length > 0,
 			},

@@ -30,7 +30,7 @@
 
 	$: professionalOptions =
 		$professionalStore.data?.professional.map((pro) => ({
-			name: pro.id,
+			name: pro.account.id,
 			label: displayFullName(pro),
 		})) ?? [];
 	const deleteReferent = mutation({ query: RemoveReferentDocument });
@@ -56,7 +56,7 @@
 				objects: notebooks.map(({ notebookId }) => ({
 					notebookId,
 					memberType: 'referent',
-					professionalId: selectedMember,
+					accountId: selectedMember,
 					active: true,
 				})),
 				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),

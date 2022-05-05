@@ -7,42 +7,42 @@ configuration:
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
-  - name: account
-    using:
-      foreign_key_constraint_on:
-        column: admin_id
-        table:
-          name: account
-          schema: public
+- name: account
+  using:
+    foreign_key_constraint_on:
+      column: admin_id
+      table:
+        name: account
+        schema: public
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: {}
-      columns:
-        - firstname
-        - lastname
-        - email
-        - id
-    role: admin_cdb
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - firstname
+    - lastname
+    - email
+    - id
+  role: admin_cdb
 select_permissions:
-  - permission:
-      allow_aggregations: true
-      columns:
-        - created_at
-        - email
-        - firstname
-        - id
-        - lastname
-        - updated_at
-      filter: {}
-    role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
+    - created_at
+    - email
+    - firstname
+    - id
+    - lastname
+    - updated_at
+    filter: {}
+  role: admin_cdb
 update_permissions:
-  - permission:
-      check: {}
-      columns:
-        - id
-        - email
-        - firstname
-        - lastname
-      filter: {}
-    role: admin_cdb
+- permission:
+    check: {}
+    columns:
+    - id
+    - email
+    - firstname
+    - lastname
+    filter: {}
+  role: admin_cdb

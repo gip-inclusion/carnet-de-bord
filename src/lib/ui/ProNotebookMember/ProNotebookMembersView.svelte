@@ -19,7 +19,6 @@
 		trackEvent('pro', 'members', 'view info');
 		openComponent.open({ component: ProNotebookMemberView, props: { member } });
 	};
-
 	const openInviteMember = () => {
 		trackEvent('pro', 'members', 'add new member form');
 		openComponent.open({

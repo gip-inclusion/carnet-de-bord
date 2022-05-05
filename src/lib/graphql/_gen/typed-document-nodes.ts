@@ -8071,6 +8071,7 @@ export type GetProfessionalsFromStructuresQuery = {
 		position?: string | null | undefined;
 		email: string;
 		structureId: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
 		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
 };
@@ -8092,6 +8093,7 @@ export type GetStructuresWithProQuery = {
 			position?: string | null | undefined;
 			email: string;
 			structureId: string;
+			account?: { __typename?: 'account'; id: string } | null | undefined;
 			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 		}>;
 	}>;
@@ -9695,6 +9697,7 @@ export type GetBeneficiariesQuery = {
 						createdAt: string;
 						account: {
 							__typename?: 'account';
+							id: string;
 							professional?:
 								| { __typename?: 'professional'; id: string; firstname: string; lastname: string }
 								| null
@@ -10243,6 +10246,7 @@ export type GetStructureQuery = {
 					email: string;
 					firstname: string;
 					lastname: string;
+					account?: { __typename?: 'account'; id: string } | null | undefined;
 				}>;
 				professionals_aggregate: {
 					__typename?: 'professional_aggregate';
@@ -11155,6 +11159,14 @@ export const GetProfessionalsFromStructuresDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
@@ -11208,6 +11220,14 @@ export const GetStructuresWithProDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
@@ -18819,6 +18839,7 @@ export const GetBeneficiariesDocument = {
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 																	{
 																		kind: 'Field',
 																		name: { kind: 'Name', value: 'professional' },
@@ -21631,6 +21652,14 @@ export const GetStructureDocument = {
 										kind: 'SelectionSet',
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
