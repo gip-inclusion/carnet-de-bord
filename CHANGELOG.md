@@ -1,3 +1,10 @@
+## [1.109.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.4...v1.109.5) (2022-05-05)
+
+
+### Bug Fixes
+
+* update benef import fixture ([#803](https://github.com/SocialGouv/carnet-de-bord/issues/803)) ([5aa8325](https://github.com/SocialGouv/carnet-de-bord/commit/5aa8325db69a312efab520ccba172bc7209758ec))
+
 ## [1.109.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.3...v1.109.4) (2022-05-05)
 
 
