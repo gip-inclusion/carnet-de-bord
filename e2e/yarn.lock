@@ -28,6 +28,11 @@
   resolved "https://registry.npmjs.org/@codeceptjs/helper/-/helper-1.0.2.tgz"
   integrity sha512-QKuyw4cGVa78YYj+g02RXitcUYpV4qKjZDHxfCIH2w8lJIr1FQohRD3o/MpcqEnvp475HQJN/OyWhdUBstJupA==
 
+"@codeceptjs/helper@^2.0.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@codeceptjs/helper/-/helper-2.0.1.tgz#e70a8a49140e05bb360cbd9a6d6dfa2a141f2e99"
+  integrity sha512-g1rng4RjGW/Vy5KcETpdwlfsAQJA2TN7tdO0MtAttjWe7TiUwI+8AeQp2mYpVr4FuWSCV5slyMtquBYexnGemA==
+
 "@codeceptjs/ui@^0.4.6":
   version "0.4.6"
   resolved "https://registry.npmjs.org/@codeceptjs/ui/-/ui-0.4.6.tgz"
