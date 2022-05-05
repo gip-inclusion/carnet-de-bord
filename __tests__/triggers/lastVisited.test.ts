@@ -27,14 +27,14 @@ beforeAll(async () => {
 	graphqlPro = graphql({
 		authorization: `Bearer ${token}`,
 	});
-	lastModifiedQuery = `query { notebook_member(where: {professionalId: {_eq: "${account.professionalId}" }}){ lastModifiedAt } }`;
+	lastModifiedQuery = `query { notebook_member(where: {accountId: {_eq: "${account.id}" }}){ lastModifiedAt } }`;
 });
 
 describe('lastModified trigger', () => {
 	beforeEach(async () => {
 		// set initialDate to null
 		const updateLastModified = `mutation updateLastModified {
-				update_notebook_member(where: {professionalId: {_eq: "${account.professionalId}"}}, _set: { lastModifiedAt: null }) { affected_rows }	}`;
+				update_notebook_member(where: {accountId: {_eq: "${account.id}"}}, _set: { lastModifiedAt: null }) { affected_rows }	}`;
 		await graphqlAdmin(updateLastModified);
 	});
 

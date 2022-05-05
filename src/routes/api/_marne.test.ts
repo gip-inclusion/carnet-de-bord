@@ -205,7 +205,7 @@ describe('marne request handler', () => {
 				dateOfBirth: '2000-12-01',
 			},
 			notebookId: 'notebookId',
-			professionalId: 'uuid',
+			accountId: 'uuid',
 			focuses: [
 				{
 					id: 'focus_uuid',
@@ -257,13 +257,13 @@ describe('marne request handler', () => {
 				{
 					theme: 'emploi',
 					notebookId: 'notebookId',
-					creatorId: 'uuid',
+					creatorId: 'pro-uuid',
 					linkedTo: 'cer',
 					situations: ['Dernier emploi : moins de 3 mois'],
 					targets: {
 						data: [
 							{
-								creatorId: 'uuid',
+								creatorId: 'pro-uuid',
 								target:
 									'Favoriser la mise en relation entre un candidat et un employeur en aidant les bénéficiaires à mieux cibler les emplois de proximité',
 								actions: {
@@ -271,7 +271,7 @@ describe('marne request handler', () => {
 										{
 											createdAt: '2021-10-18',
 											action: 'PLATEFORME actif51',
-											creatorId: 'uuid',
+											creatorId: 'pro-uuid',
 											initialId: '123456_CO_53',
 											status: 'new',
 										},
@@ -287,7 +287,7 @@ describe('marne request handler', () => {
 				{
 					targetId: 'target_uuid',
 					action: 'Suivi santé',
-					creatorId: 'uuid',
+					creatorId: 'pro-uuid',
 					initialId: '123456_AU_188',
 					status: 'new',
 				},
@@ -303,7 +303,7 @@ describe('marne request handler', () => {
 				dateOfBirth: '2000-12-01',
 			},
 			notebookId: 'notebookId',
-			professionalId: 'uuid',
+			accountId: 'pro-uuid',
 			focuses: [
 				{
 					id: 'focus_uuid',
