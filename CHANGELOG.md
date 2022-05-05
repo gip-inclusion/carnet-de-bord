@@ -1,3 +1,10 @@
+## [1.109.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.3...v1.109.4) (2022-05-05)
+
+
+### Bug Fixes
+
+* set placeOfBirth non-mandatory ([b37756a](https://github.com/SocialGouv/carnet-de-bord/commit/b37756ab38cdd15469564113a8069df54d7030a9))
+
 ## [1.109.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.2...v1.109.3) (2022-04-26)
 
 
