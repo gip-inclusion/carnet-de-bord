@@ -14,12 +14,14 @@ it('GraphQL query should return all user with empty filter', async () => {
 				'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',
 				'x-hasura-role': 'professional',
 				'x-hasura-professional-id': '1a5b817b-6b81-4a4d-9953-26707a54e0e9',
+				'x-hasura-user-id': '17434464-5f69-40cc-8172-40160958a33d',
+				'x-hasura-deployment-id': '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0',
 			},
 			body: JSON.stringify({
 				query: query,
 				variables: {
 					filter: '',
-					professionalId: '1a5b817b-6b81-4a4d-9953-26707a54e0e9',
+					accountId: '17434464-5f69-40cc-8172-40160958a33d',
 					visitDate: {},
 				},
 			}),
