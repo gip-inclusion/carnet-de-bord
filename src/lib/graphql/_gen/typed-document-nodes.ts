@@ -8302,7 +8302,7 @@ export type ImportBeneficiaryMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
 	dateOfBirth: Scalars['date'];
-	placeOfBirth: Scalars['String'];
+	placeOfBirth?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	email?: InputMaybe<Scalars['citext']>;
 	address1?: InputMaybe<Scalars['String']>;
@@ -12279,10 +12279,7 @@ export const ImportBeneficiaryDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'placeOfBirth' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 				{
 					kind: 'VariableDefinition',

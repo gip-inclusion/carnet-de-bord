@@ -42,7 +42,7 @@
 		firstname: string;
 		lastname: string;
 		dateOfBirth: string;
-		placeOfBirth: string;
+		placeOfBirth?: string;
 		mobileNumber?: string;
 		email?: string;
 		address1?: string;
@@ -248,7 +248,7 @@
 		{ label: 'Prénom*', key: 'firstname' },
 		{ label: 'Nom*', key: 'lastname' },
 		{ label: 'Date de naissance*', key: 'dateOfBirth' },
-		{ label: 'Lieu de naissance*', key: 'placeOfBirth' },
+		{ label: 'Lieu de naissance', key: 'placeOfBirth' },
 		{ label: 'Téléphone', key: 'mobileNumber' },
 		{ label: 'Courriel', key: 'email' },
 		{ label: 'Adresse', key: 'address1' },

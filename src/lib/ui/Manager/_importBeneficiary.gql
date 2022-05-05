@@ -2,7 +2,7 @@ mutation ImportBeneficiary(
 	$firstname: String!
 	$lastname: String!
 	$dateOfBirth: date!
-	$placeOfBirth: String!
+	$placeOfBirth: String
 	$mobileNumber: String
 	$email: citext
 	$address1: String
