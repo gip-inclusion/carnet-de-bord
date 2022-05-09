@@ -14,6 +14,7 @@ const config = {
 	},
 	moduleFileExtensions: ['js', 'svelte', 'ts'],
 	setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+	reporters: ['default', 'github-actions'],
 };
 
 module.exports = config;
