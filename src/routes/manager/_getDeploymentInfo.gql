@@ -32,6 +32,9 @@ query GetDeploymentInfos($id: uuid!) {
 			email
 			firstname
 			lastname
+			account {
+				id
+			}
 		}
 	}
 	structuresWithNoBeneficiary: structure_aggregate(

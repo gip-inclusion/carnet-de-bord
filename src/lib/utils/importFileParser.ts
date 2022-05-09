@@ -134,15 +134,7 @@ function validate(entity: null | undefined | Record<string, unknown>, entityType
 		case 'BeneficiaryImport':
 			return !!entity && !!entity.firstname && !!entity.lastname && !!entity.dateOfBirth;
 		case 'NotebookMemberImport':
-			return (
-				!!entity &&
-				!!entity.firstname &&
-				!!entity.lastname &&
-				!!entity.dateOfBirth &&
-				!!entity.addEmails &&
-				!!entity.removeEmails &&
-				!!entity.addStructures
-			);
+			return !!entity && !!entity.firstname && !!entity.lastname && !!entity.dateOfBirth;
 		case 'NotebookMemberBinding':
 			return !!entity && !!entity.notebookId && !!entity.proEmails;
 		case 'StructureImport':

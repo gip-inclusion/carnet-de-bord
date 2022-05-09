@@ -122,7 +122,10 @@
 						name="professional"
 						value={professional.account.id}
 					/>
-					<label for={professional.id} class="flex flex-row justify-between items-center py-4">
+					<label
+						for={professional.account.id}
+						class="flex flex-row justify-between items-center py-4"
+					>
 						<div class="w-2/6">{professional.structure.name}</div>
 						<div class="w-2/6">{professional.firstname} {professional.lastname}</div>
 						<div class="w-1/6">{professional.structure.phone || ''}</div>

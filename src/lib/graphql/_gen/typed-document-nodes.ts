@@ -9657,6 +9657,7 @@ export type GetDeploymentInfosQuery = {
 			email: string;
 			firstname: string;
 			lastname: string;
+			account?: { __typename?: 'account'; id: string } | null | undefined;
 		}>;
 	}>;
 	structuresWithNoBeneficiary: {
@@ -18462,6 +18463,14 @@ export const GetDeploymentInfosDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
 										],
 									},
 								},

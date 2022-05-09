@@ -23,7 +23,7 @@
 		const store = await addNotebookMember({
 			accountId,
 			notebookId: notebookId,
-			creatorId: $session.user.professionalId,
+			creatorId: $session.user.id,
 		});
 		const { id: notebookMemberId } = store.data.newMember;
 		//send email

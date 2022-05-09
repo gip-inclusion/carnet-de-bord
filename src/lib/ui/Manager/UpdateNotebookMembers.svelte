@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
 	import type {
 		Beneficiary,
+		GetDeploymentInfosQuery,
 		GetNotebookForBeneficiaryQuery,
 		Notebook,
-		Professional,
 		Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import {
@@ -38,7 +38,9 @@
 		valid: boolean;
 		uid: string;
 	};
-	type ProLight = Pick<Professional, 'id' | 'email' | 'firstname' | 'lastname' | 'structureId'>;
+	type ProLight = GetDeploymentInfosQuery['structuresWithPros'][0]['professionals'][0] & {
+		structureId: string;
+	};
 	type BeneficiaryLight = Pick<Beneficiary, 'firstname' | 'lastname' | 'dateOfBirth'>;
 	type StructureLight = Pick<Structure, 'id' | 'name'>;
 	type NotebookLight = Pick<Notebook, 'id' | 'beneficiaryId'>;
@@ -144,7 +146,7 @@
 		(benefKeyToNotebook: Record<string, NotebookLight>) =>
 		(beneficiary: BeneficiaryLight) =>
 		(pro: ProLight) => ({
-			professionalId: { _eq: pro.id },
+			accountId: { _eq: pro.account.id },
 			notebookId: { _eq: benefToNotebookId(benefKeyToNotebook)(beneficiary) },
 			active: { _eq: true },
 		});
@@ -153,7 +155,7 @@
 		(benefKeyToNotebook: Record<string, NotebookLight>) =>
 		(beneficiary: BeneficiaryLight) =>
 		(pro: ProLight) => ({
-			professionalId: pro.id,
+			accountId: pro.account.id,
 			notebookId: benefToNotebookId(benefKeyToNotebook)(beneficiary),
 			memberType: 'referent',
 			active: true,
