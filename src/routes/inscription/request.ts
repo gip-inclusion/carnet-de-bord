@@ -146,6 +146,7 @@ export const post: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (insertResult.error || !insertResult.data) {
+		console.error(error);
 		return {
 			status: 500,
 			body: {
