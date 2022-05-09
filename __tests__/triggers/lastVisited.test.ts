@@ -71,7 +71,6 @@ describe('lastModified trigger', () => {
 			focusId: 'a55d1dd2-2b09-4456-bcc5-1412695f684f',
 			target: 'test',
 		});
-		console.log(addTargetPayload);
 		const payload = await graphqlPro(lastModifiedQuery);
 		const [member] = payload.data.notebook_member;
 		expect(formatDateISO(new Date(member?.lastModifiedAt))).toEqual(formatDateISO(new Date()));
@@ -79,6 +78,7 @@ describe('lastModified trigger', () => {
 		// clean created target
 		const mutation = `mutation deleteTarget {
 			delete_notebook_target_by_pk(id: "${addTargetPayload.data.insert_notebook_target_one.id}") { id }
+			delete_notebook_event(where: {event: {_contains: {event_label: "test"}}}) { affected_rows }
 		}`;
 		await graphqlAdmin(mutation);
 	});
@@ -101,6 +101,7 @@ describe('lastModified trigger', () => {
 		// clean created action
 		const mutation = `mutation deleteAction {
 			delete_notebook_action_by_pk(id: "${addActionPayload.data.insert_notebook_action_one.id}") { id }
+			delete_notebook_event(where: {event: {_contains: {event_label: "test"}}}) { affected_rows }
 		}`;
 		await graphqlAdmin(mutation);
 	});
