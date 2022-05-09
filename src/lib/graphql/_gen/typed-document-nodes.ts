@@ -9723,6 +9723,7 @@ export type GetProfessionalsForManagerQuery = {
 		position?: string | null | undefined;
 		email: string;
 		structureId: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
 		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
 };
@@ -18898,6 +18899,14 @@ export const GetProfessionalsForManagerDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'structure' },
