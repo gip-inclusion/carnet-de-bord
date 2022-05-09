@@ -1,8 +1,11 @@
 from typing import Optional
 
+import sentry_sdk
 from fastapi import FastAPI
 
 app = FastAPI()
+
+sentry_sdk.init()
 
 
 @app.get("/")
