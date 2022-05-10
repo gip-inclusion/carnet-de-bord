@@ -1,3 +1,10 @@
+# [1.111.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.110.1...v1.111.0) (2022-05-10)
+
+
+### Features
+
+* add sentry for dev ([#815](https://github.com/SocialGouv/carnet-de-bord/issues/815)) ([3076859](https://github.com/SocialGouv/carnet-de-bord/commit/3076859a5b2d70b9fdc4d10c224e017076458df0))
+
 ## [1.110.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.110.0...v1.110.1) (2022-05-10)
 
 
