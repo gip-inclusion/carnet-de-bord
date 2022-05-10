@@ -11,10 +11,13 @@ const smtpConfig = {
 	port: SMTP_PORT,
 	requireTLS: true,
 	secure: false,
-	auth: {
-		pass: SMTP_PASS,
-		user: SMTP_USER,
-	},
+	...(SMTP_PASS &&
+		SMTP_USER && {
+			auth: {
+				pass: SMTP_PASS,
+				user: SMTP_USER,
+			},
+		}),
 };
 
 export function send({
