@@ -1,6 +1,6 @@
 {
 	"name": "carnet-de-bord",
-	"version": "1.110.0",
+	"version": "1.110.1",
 	"engines": {
 		"node": "16"
 	},

@@ -1,3 +1,10 @@
+## [1.110.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.110.0...v1.110.1) (2022-05-10)
+
+
+### Bug Fixes
+
+* refactor foreign key ([cad5661](https://github.com/SocialGouv/carnet-de-bord/commit/cad5661c799feecf071a8b207a686262186664f3))
+
 # [1.110.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.7...v1.110.0) (2022-05-09)
 
 
