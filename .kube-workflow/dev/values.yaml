@@ -25,6 +25,15 @@ app-backend:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
+  env:
+    - name: APP_URL
+      value: https://{{ .Values.global.host }}
+    - name: VITE_GRAPHQL_API_URL
+      value: https://hasura-{{ .Values.global.host }}/v1/graphql
+    - name: SENTRY_ENVIRONMENT
+      value: '{{ .Values.global.env }}'
+    - name: SENTRY_RELEASE
+      value: '{{ .Values.global.branchSlug32 }}'
 
 jobs:
   enabled: true
