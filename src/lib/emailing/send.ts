@@ -10,7 +10,10 @@ const smtpConfig = {
 	ignoreTLS: false,
 	port: SMTP_PORT,
 	requireTLS: true,
-	secure: false,
+	secure: true,
+	...(/maildev/.test(SMTP_HOST) && {
+		tls: { rejectUnauthorized: false },
+	}),
 	...(SMTP_PASS &&
 		SMTP_USER && {
 			auth: {
