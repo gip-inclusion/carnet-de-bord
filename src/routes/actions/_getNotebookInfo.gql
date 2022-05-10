@@ -22,7 +22,7 @@ query GetNotebookInfo($id: uuid!) {
 			}
 		}
 		members(where: { memberType: { _eq: "referent" } }) {
-			professionalId
+			accountId
 		}
 	}
 }

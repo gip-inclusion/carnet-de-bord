@@ -14,7 +14,7 @@ import type {
 import type { MarneInput, MarneAction, MarneFocus } from './marne.types';
 
 export const post: RequestHandler = async ({ request }) => {
-	const { url, headers, input, professionalId, notebookId, focuses } =
+	const { url, headers, input, accountId, notebookId, focuses } =
 		(await request.json()) as ExternalDeploymentApiBody;
 	try {
 		const data: MarneInput = await fetch(`${url}${urlify(input)}`, { headers }).then(
@@ -32,7 +32,7 @@ export const post: RequestHandler = async ({ request }) => {
 		);
 		return {
 			status: 200,
-			body: parse(data, professionalId, notebookId, focuses),
+			body: parse(data, accountId, notebookId, focuses),
 		};
 	} catch (error) {
 		console.error('[marne parser]', error, input);
@@ -45,7 +45,7 @@ export const post: RequestHandler = async ({ request }) => {
 
 function parse(
 	data: MarneInput,
-	professionalId: string,
+	accountId: string,
 	notebookId: string,
 	existingFocuses: NotebookFocus[]
 ): ExternalDeploymentApiOutput {
@@ -58,7 +58,7 @@ function parse(
 		beneficiary: Object.fromEntries(
 			Object.entries(parseBeneficiary(data)).filter(([_, v]) => v != null)
 		),
-		...parseFocuses(data, professionalId, notebookId, existingFocuses),
+		...parseFocuses(data, accountId, notebookId, existingFocuses),
 	};
 }
 

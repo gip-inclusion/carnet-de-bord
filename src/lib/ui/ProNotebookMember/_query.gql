@@ -20,6 +20,9 @@ query SearchProfessional($search: String, $professionalIds: [uuid!] = []) {
 			postalCode
 			phone
 		}
+		account {
+			id
+		}
 	}
 	count: professional_aggregate(
 		where: {

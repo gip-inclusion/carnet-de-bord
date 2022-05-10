@@ -49,7 +49,7 @@
 	function viewCreator() {
 		openComponent.open({
 			component: ProNotebookCreatorView,
-			props: { creator: focus?.professional, createdAt: focus?.createdAt },
+			props: { creator: focus?.creator?.professional, createdAt: focus?.createdAt },
 		});
 	}
 
@@ -59,7 +59,7 @@
 
 	let error: string;
 
-	async function onChangeTargetStatus(event, target_id: string) {
+	async function onChangeTargetStatus(event: CustomEvent<{ selected: string }>, target_id: string) {
 		updateResult = await updateNotebookTargetStatus({
 			id: target_id,
 			status: event.detail.selected,
@@ -141,11 +141,11 @@
 				<h2 class="fr-h4 text-france-blue">Créé par</h2>
 				<Card onClick={viewCreator}>
 					<span slot="title">
-						{focus?.professional ? displayFullName(focus?.professional) : ''}
+						{focus?.creator?.professional ? displayFullName(focus.creator.professional) : ''}
 					</span>
 					<span slot="description">
-						<Text value={focus?.professional?.position} />
-						<Text classNames="font-bold" value={focus?.professional?.mobileNumber} />
+						<Text value={focus?.creator?.professional.position} />
+						<Text classNames="font-bold" value={focus?.creator?.professional.mobileNumber} />
 					</span>
 				</Card>
 			</div>

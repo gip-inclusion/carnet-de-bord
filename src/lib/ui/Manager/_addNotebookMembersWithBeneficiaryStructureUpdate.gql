@@ -4,10 +4,7 @@ mutation AddNotebookMemberWithBeneficiaryStructureUpdate(
 ) {
 	insert_notebook_member_one(
 		object: $member
-		on_conflict: {
-			constraint: notebook_member_notebook_id_professional_id_key
-			update_columns: active
-		}
+		on_conflict: { constraint: notebook_member_notebook_id_account_id_key, update_columns: active }
 	) {
 		notebook {
 			beneficiaryId

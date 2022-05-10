@@ -2,7 +2,7 @@
 	import type {
 		AddNotebookMembersMutation,
 		AddNotebookMembersMutationVariables,
-		Professional,
+		GetStructureQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { AddNotebookMembersDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, mutation } from '@urql/svelte';
@@ -29,11 +29,18 @@
 		valid: boolean;
 		uid: string;
 	};
+	type Professional = GetStructureQuery['structure_by_pk']['professionals'][0];
 
-	export let professionals: Pick<Professional, 'id' | 'email'>[];
+	export let professionals: Professional[];
 
-	$: proDictEmailToId = professionals.reduce((acc, { id, email }) => ({ ...acc, [email]: id }), {});
-	$: proDictIdToEmail = professionals.reduce((acc, { id, email }) => ({ ...acc, [id]: email }), {});
+	$: proDictEmailToId = professionals.reduce(
+		(acc, { account: { id }, email }) => ({ ...acc, [email]: id }),
+		{}
+	);
+	$: proDictIdToEmail = professionals.reduce(
+		(acc, { account: { id }, email }) => ({ ...acc, [id]: email }),
+		{}
+	);
 
 	function proEmailToProId(email: string | null): string | undefined {
 		return proDictEmailToId[email];
@@ -94,10 +101,10 @@
 				.map((s) => s.trim())
 				.map(proEmailToProId)
 				.filter(Boolean);
-			const objects = proIds.map((professionalId) => ({
+			const objects = proIds.map((accountId) => ({
 				memberType: 'referent',
 				notebookId,
-				professionalId,
+				accountId,
 			}));
 			const result = await inserter({ objects, notebookId });
 			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";

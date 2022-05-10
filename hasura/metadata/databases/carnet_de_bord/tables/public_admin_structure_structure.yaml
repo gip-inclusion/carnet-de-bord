@@ -8,84 +8,84 @@ configuration:
     structure_id: structureId
   custom_root_fields: {}
 object_relationships:
-  - name: admin_structure
-    using:
-      foreign_key_constraint_on: admin_structure_id
-  - name: structure
-    using:
-      foreign_key_constraint_on: structure_id
+- name: admin_structure
+  using:
+    foreign_key_constraint_on: admin_structure_id
+- name: structure
+  using:
+    foreign_key_constraint_on: structure_id
 insert_permissions:
-  - permission:
-      backend_only: false
-      check:
-        _and:
-          - admin_structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-          - structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-      columns:
-        - admin_structure_id
-        - structure_id
-    role: admin_cdb
-  - permission:
-      backend_only: false
-      check:
-        _and:
-          - admin_structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-          - structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-      columns:
-        - admin_structure_id
-        - structure_id
-    role: manager
+- permission:
+    backend_only: false
+    check:
+      _and:
+      - admin_structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+    columns:
+    - admin_structure_id
+    - structure_id
+  role: admin_cdb
+- permission:
+    backend_only: false
+    check:
+      _and:
+      - admin_structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+    columns:
+    - admin_structure_id
+    - structure_id
+  role: manager
 select_permissions:
-  - permission:
-      allow_aggregations: true
-      columns:
-        - created_at
-        - admin_structure_id
-        - id
-        - structure_id
-      filter:
-        _and:
-          - admin_structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-          - structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-    role: admin_cdb
-  - permission:
-      allow_aggregations: true
-      columns:
-        - id
-        - admin_structure_id
-        - structure_id
-        - created_at
-      filter:
-        structure:
-          admins:
-            admin_structure_id:
-              _eq: X-Hasura-adminStructure-Id
-    role: admin_structure
-  - permission:
-      allow_aggregations: true
-      columns:
-        - created_at
-        - admin_structure_id
-        - id
-        - structure_id
-      filter:
-        _and:
-          - admin_structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-          - structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-    role: manager
+- permission:
+    allow_aggregations: true
+    columns:
+    - created_at
+    - admin_structure_id
+    - id
+    - structure_id
+    filter:
+      _and:
+      - admin_structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: admin_cdb
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - admin_structure_id
+    - structure_id
+    - created_at
+    filter:
+      structure:
+        admins:
+          admin_structure_id:
+            _eq: X-Hasura-adminStructure-Id
+  role: admin_structure
+- permission:
+    allow_aggregations: true
+    columns:
+    - created_at
+    - admin_structure_id
+    - id
+    - structure_id
+    filter:
+      _and:
+      - admin_structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      - structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  role: manager

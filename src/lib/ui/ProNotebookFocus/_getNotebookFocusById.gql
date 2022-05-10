@@ -13,29 +13,33 @@ query GetNotebookFocusById($id: uuid!) {
 				status
 				action
 				creator {
-					id
-					lastname
-					firstname
+					professional {
+						id
+						lastname
+						firstname
+					}
 				}
 			}
 		}
 		theme
-		professional {
-			id
-			position
-			firstname
-			lastname
-			mobileNumber
-			structureId
-			structure {
+		creator {
+			professional {
 				id
-				name
-				phone
-				address1
-				address2
-				city
-				postalCode
-				website
+				position
+				firstname
+				lastname
+				mobileNumber
+				structureId
+				structure {
+					id
+					name
+					phone
+					address1
+					address2
+					city
+					postalCode
+					website
+				}
 			}
 		}
 		createdAt

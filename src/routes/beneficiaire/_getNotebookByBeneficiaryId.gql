@@ -48,41 +48,47 @@ fragment notebookFragment on notebook {
 		memberType
 		lastModifiedAt
 		lastVisitedAt
-		professional {
-			id
-			lastname
-			firstname
-			position
-			email
-			mobileNumber
-			structure {
+		account {
+			professional {
 				id
-				name
-				address1
-				address2
-				postalCode
-				city
+				lastname
+				firstname
+				position
+				email
+				mobileNumber
+				structure {
+					id
+					name
+					address1
+					address2
+					postalCode
+					city
+				}
 			}
 		}
 	}
 	focuses(order_by: { createdAt: desc_nulls_first }) {
 		theme
 		situations
-		professional {
-			firstname
-			lastname
-			structure {
-				name
-			}
-		}
-		targets(where: { status: { _eq: "in_progress" } }, order_by: { createdAt: desc_nulls_first }) {
-			target
-			createdAt
+		creator {
 			professional {
 				firstname
 				lastname
 				structure {
 					name
+				}
+			}
+		}
+		targets(where: { status: { _eq: "in_progress" } }, order_by: { createdAt: desc_nulls_first }) {
+			target
+			createdAt
+			creator {
+				professional {
+					firstname
+					lastname
+					structure {
+						name
+					}
 				}
 			}
 			actions(
@@ -93,10 +99,12 @@ fragment notebookFragment on notebook {
 				createdAt
 				status
 				creator {
-					firstname
-					lastname
-					structure {
-						name
+					professional {
+						firstname
+						lastname
+						structure {
+							name
+						}
 					}
 				}
 			}

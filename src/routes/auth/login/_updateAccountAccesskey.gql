@@ -1,4 +1,3 @@
-# mutation UpdateAccountAccessKey($id: uuid!, $accessKey: String!, $accessKeyDate: timestamptz!, $confirmed: Boolean) {
 mutation UpdateAccountAccessKey($id: uuid!, $input: account_set_input) {
 	account: update_account_by_pk(pk_columns: { id: $id }, _set: $input) {
 		accessKey

@@ -40,7 +40,7 @@
 
 	$: professionalOptions =
 		structure?.professionals.map((pro) => ({
-			name: pro.id,
+			name: pro.account.id,
 			label: displayFullName(pro),
 		})) ?? [];
 	let selectedStructure = structuresId.length === 1 ? structuresId[0] : null;
@@ -66,7 +66,7 @@
 					? notebooks.map(({ notebookId }) => ({
 							notebookId,
 							memberType: 'referent',
-							professionalId: selectedMember,
+							accountId: selectedMember,
 							active: true,
 					  }))
 					: [],

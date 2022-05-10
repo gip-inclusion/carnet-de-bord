@@ -201,8 +201,8 @@
 		const romeCodeMatcher = stringToRomeCode(labelToRomeCode);
 		for (const beneficiary of beneficiariesToImport) {
 			const { uid, valid, proEmails = '', structureNames = '', ...benef } = beneficiary;
-			const proIds = proEmailsToPros(proEmails).map(({ id }) => id);
-			const members = proIds.map((professionalId) => ({ memberType: 'referent', professionalId }));
+			const accountIds = proEmailsToPros(proEmails).map(({ account }) => account.id);
+			const members = accountIds.map((accountId) => ({ memberType: 'referent', accountId }));
 			const structureIds = structureNamesToStructure(structureNames).map(({ id }) => id);
 			const structs = structureIds.map((structureId) => ({
 				structureId,

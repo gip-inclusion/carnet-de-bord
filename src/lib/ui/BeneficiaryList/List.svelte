@@ -19,7 +19,7 @@
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
 				structureId,
-				member: beneficiary.notebook.members[0]?.professional.id ?? null,
+				member: beneficiary.notebook.members[0]?.account.id ?? null,
 				showResetMembers: beneficiary.notebook.members.length > 0,
 			},
 		});
@@ -69,7 +69,7 @@
 							on:click={() => openEditLayer(beneficiary)}
 							disabled={beneficiary.structures.every((item) => item.structure.id !== structureId)}
 						>
-							{displayFullName(beneficiary.notebook.members[0].professional)}
+							{displayFullName(beneficiary.notebook.members[0].account?.professional)}
 						</button>
 						{#if beneficiary.notebook.members.length > 1}
 							<span>

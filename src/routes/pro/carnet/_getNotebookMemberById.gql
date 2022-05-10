@@ -2,19 +2,21 @@ query GetNotebookMemberById($id: uuid!) {
 	member: notebook_member_by_pk(id: $id) {
 		notebookId
 		creator {
-			firstname
-			lastname
-			email
-			id
-		}
-		professional {
-			firstname
-			lastname
-			email
-			id
-			account {
+			professional {
+				firstname
+				lastname
+				email
 				id
-				confirmed
+			}
+		}
+		account {
+			id
+			confirmed
+			professional {
+				firstname
+				lastname
+				email
+				id
 			}
 		}
 	}

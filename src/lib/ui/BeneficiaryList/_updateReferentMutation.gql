@@ -16,7 +16,7 @@ mutation UpdateReferent($objects: [notebook_member_insert_input!]!, $beneficiari
 	insert_notebook_member(
 		objects: $objects
 		on_conflict: {
-			constraint: notebook_member_notebook_id_professional_id_key
+			constraint: notebook_member_notebook_id_account_id_key
 			update_columns: [memberType, active]
 		}
 	) {
@@ -46,7 +46,7 @@ mutation UpdateReferentWithStructure(
 	insert_notebook_member(
 		objects: $objects
 		on_conflict: {
-			constraint: notebook_member_notebook_id_professional_id_key
+			constraint: notebook_member_notebook_id_account_id_key
 			update_columns: [memberType, active]
 		}
 	) {

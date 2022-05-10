@@ -1,20 +1,14 @@
-<script lang="ts" context="module">
-	import type { Pro } from './ProWithStructureView.svelte';
-
-	import { formatDateLocale } from '$lib/utils/date';
-	export type Member = {
-		professional: Pro;
-		createdAt: string;
-	};
-</script>
-
 <script lang="ts">
+	import { formatDateLocale } from '$lib/utils/date';
 	import { openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
 	import ProWithStructureView from './ProWithStructureView.svelte';
+	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+
+	type Member = GetNotebookQuery['notebook']['members'][0];
 
 	export let member: Member;
-	$: professional = member?.professional;
+	$: professional = member?.account.professional;
 	$: createdAt = member?.createdAt;
 </script>
 

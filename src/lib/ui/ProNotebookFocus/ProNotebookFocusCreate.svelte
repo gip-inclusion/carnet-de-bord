@@ -47,7 +47,7 @@
 		if (store.error) {
 			console.log('createFocus error', {
 				error: store.error,
-				creatorId: $session.user.professionalId,
+				creatorId: $session.user.id,
 			});
 		} else {
 			openComponent.replace({ component: ProNotebookFocusConfirmation });

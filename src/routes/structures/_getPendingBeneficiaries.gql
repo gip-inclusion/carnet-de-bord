@@ -7,7 +7,7 @@ query GetPendingBeneficiaries($structureId: uuid!) {
 					notebook: {
 						_or: [
 							{ _not: { members: {} } }
-							{ members: { professional: { structureId: { _neq: $structureId } } } }
+							{ members: { account: { professional: { structureId: { _neq: $structureId } } } } }
 						]
 					}
 				}

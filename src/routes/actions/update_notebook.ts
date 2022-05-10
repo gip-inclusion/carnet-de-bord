@@ -42,7 +42,7 @@ export type ExternalDeploymentApiBody = {
 	url: string;
 	headers: Record<string, string>;
 	input: Pick<BeneficiaryAccount, 'firstname' | 'lastname' | 'dateOfBirth'>;
-	professionalId: string;
+	accountId: string;
 	notebookId: string;
 	focuses: NotebookFocus[];
 };
@@ -96,7 +96,7 @@ export const post: RequestHandler = async ({ request }) => {
 				headers,
 				input: beneficiary,
 				notebookId: input.id,
-				professionalId: members[0]?.professionalId,
+				accountId: members[0]?.accountId,
 				focuses,
 			}),
 		}).then(async (response) => {

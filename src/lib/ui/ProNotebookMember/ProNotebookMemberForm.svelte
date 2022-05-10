@@ -18,12 +18,12 @@
 	const addNotebookMember = mutation(addNotebookMemberStore);
 	let error: string;
 
-	async function addMemberToNotebook(professionalId: string) {
+	async function addMemberToNotebook(accountId: string) {
 		// TODO(tglatt): should wrap into a hasura action
 		const store = await addNotebookMember({
-			professionalId,
+			accountId,
 			notebookId: notebookId,
-			creatorId: $session.user.professionalId,
+			creatorId: $session.user.id,
 		});
 		const { id: notebookMemberId } = store.data.newMember;
 		//send email
@@ -40,8 +40,8 @@
 		});
 
 		if (response.ok) {
-			const { professionalId } = await response.json();
-			await addMemberToNotebook(professionalId);
+			const { accountId } = await response.json();
+			await addMemberToNotebook(accountId);
 
 			openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: false } });
 		} else {

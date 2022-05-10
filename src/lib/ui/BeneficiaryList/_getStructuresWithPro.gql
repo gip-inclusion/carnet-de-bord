@@ -3,6 +3,9 @@ query GetStructuresWithPro {
 		id
 		name
 		professionals {
+			account {
+				id
+			}
 			id
 			firstname
 			lastname

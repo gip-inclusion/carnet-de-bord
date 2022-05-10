@@ -7,6 +7,9 @@ query GetProfessionalsForManager {
 		position
 		email
 		structureId
+		account {
+			id
+		}
 		structure {
 			id
 			name

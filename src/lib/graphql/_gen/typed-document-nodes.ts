@@ -142,6 +142,30 @@ export type Account = {
 	/** An object relationship */
 	manager?: Maybe<Manager>;
 	managerId?: Maybe<Scalars['uuid']>;
+	/** An array relationship */
+	notebookActionsCreated: Array<NotebookAction>;
+	/** An aggregate relationship */
+	notebookActionsCreated_aggregate: NotebookActionAggregate;
+	/** An array relationship */
+	notebookEventsCreated: Array<NotebookEvent>;
+	/** An aggregate relationship */
+	notebookEventsCreated_aggregate: NotebookEventAggregate;
+	/** An array relationship */
+	notebookFocusesCreated: Array<NotebookFocus>;
+	/** An aggregate relationship */
+	notebookFocusesCreated_aggregate: NotebookFocusAggregate;
+	/** An array relationship */
+	notebookTargetsCreated: Array<NotebookTarget>;
+	/** An aggregate relationship */
+	notebookTargetsCreated_aggregate: NotebookTargetAggregate;
+	/** An array relationship */
+	notebooksCreated: Array<NotebookMember>;
+	/** An aggregate relationship */
+	notebooksCreated_aggregate: NotebookMemberAggregate;
+	/** An array relationship */
+	notebooksWhereMember: Array<NotebookMember>;
+	/** An aggregate relationship */
+	notebooksWhereMember_aggregate: NotebookMemberAggregate;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
 	/** An object relationship */
 	professional?: Maybe<Professional>;
@@ -149,6 +173,114 @@ export type Account = {
 	type: Scalars['String'];
 	updatedAt: Scalars['timestamptz'];
 	username: Scalars['String'];
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookActionsCreatedArgs = {
+	distinct_on?: InputMaybe<Array<NotebookActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookActionOrderBy>>;
+	where?: InputMaybe<NotebookActionBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookActionsCreatedAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookActionOrderBy>>;
+	where?: InputMaybe<NotebookActionBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookEventsCreatedArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventOrderBy>>;
+	where?: InputMaybe<NotebookEventBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookEventsCreatedAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventOrderBy>>;
+	where?: InputMaybe<NotebookEventBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookFocusesCreatedArgs = {
+	distinct_on?: InputMaybe<Array<NotebookFocusSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookFocusOrderBy>>;
+	where?: InputMaybe<NotebookFocusBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookFocusesCreatedAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookFocusSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookFocusOrderBy>>;
+	where?: InputMaybe<NotebookFocusBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookTargetsCreatedArgs = {
+	distinct_on?: InputMaybe<Array<NotebookTargetSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookTargetOrderBy>>;
+	where?: InputMaybe<NotebookTargetBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebookTargetsCreatedAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookTargetSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookTargetOrderBy>>;
+	where?: InputMaybe<NotebookTargetBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebooksCreatedArgs = {
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebooksCreatedAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebooksWhereMemberArgs = {
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountNotebooksWhereMemberAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
 };
 
 /** aggregated selection of "account" */
@@ -191,6 +323,12 @@ export type AccountBoolExp = {
 	lastLogin?: InputMaybe<TimestamptzComparisonExp>;
 	manager?: InputMaybe<ManagerBoolExp>;
 	managerId?: InputMaybe<UuidComparisonExp>;
+	notebookActionsCreated?: InputMaybe<NotebookActionBoolExp>;
+	notebookEventsCreated?: InputMaybe<NotebookEventBoolExp>;
+	notebookFocusesCreated?: InputMaybe<NotebookFocusBoolExp>;
+	notebookTargetsCreated?: InputMaybe<NotebookTargetBoolExp>;
+	notebooksCreated?: InputMaybe<NotebookMemberBoolExp>;
+	notebooksWhereMember?: InputMaybe<NotebookMemberBoolExp>;
 	onboardingDone?: InputMaybe<BooleanComparisonExp>;
 	professional?: InputMaybe<ProfessionalBoolExp>;
 	professionalId?: InputMaybe<UuidComparisonExp>;
@@ -233,6 +371,12 @@ export type AccountInsertInput = {
 	lastLogin?: InputMaybe<Scalars['timestamptz']>;
 	manager?: InputMaybe<ManagerObjRelInsertInput>;
 	managerId?: InputMaybe<Scalars['uuid']>;
+	notebookActionsCreated?: InputMaybe<NotebookActionArrRelInsertInput>;
+	notebookEventsCreated?: InputMaybe<NotebookEventArrRelInsertInput>;
+	notebookFocusesCreated?: InputMaybe<NotebookFocusArrRelInsertInput>;
+	notebookTargetsCreated?: InputMaybe<NotebookTargetArrRelInsertInput>;
+	notebooksCreated?: InputMaybe<NotebookMemberArrRelInsertInput>;
+	notebooksWhereMember?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	onboardingDone?: InputMaybe<Scalars['Boolean']>;
 	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
@@ -316,6 +460,12 @@ export type AccountOrderBy = {
 	lastLogin?: InputMaybe<OrderBy>;
 	manager?: InputMaybe<ManagerOrderBy>;
 	managerId?: InputMaybe<OrderBy>;
+	notebookActionsCreated_aggregate?: InputMaybe<NotebookActionAggregateOrderBy>;
+	notebookEventsCreated_aggregate?: InputMaybe<NotebookEventAggregateOrderBy>;
+	notebookFocusesCreated_aggregate?: InputMaybe<NotebookFocusAggregateOrderBy>;
+	notebookTargetsCreated_aggregate?: InputMaybe<NotebookTargetAggregateOrderBy>;
+	notebooksCreated_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
+	notebooksWhereMember_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	onboardingDone?: InputMaybe<OrderBy>;
 	professional?: InputMaybe<ProfessionalOrderBy>;
 	professionalId?: InputMaybe<OrderBy>;
@@ -3540,7 +3690,7 @@ export type NotebookAction = {
 	action: Scalars['String'];
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
-	creator: Professional;
+	creator: Account;
 	creatorId: Scalars['uuid'];
 	id: Scalars['uuid'];
 	initialId?: Maybe<Scalars['String']>;
@@ -3593,7 +3743,7 @@ export type NotebookActionBoolExp = {
 	_or?: InputMaybe<Array<NotebookActionBoolExp>>;
 	action?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
-	creator?: InputMaybe<ProfessionalBoolExp>;
+	creator?: InputMaybe<AccountBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	initialId?: InputMaybe<StringComparisonExp>;
@@ -3617,7 +3767,7 @@ export enum NotebookActionConstraint {
 export type NotebookActionInsertInput = {
 	action?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	creator?: InputMaybe<ProfessionalObjRelInsertInput>;
+	creator?: InputMaybe<AccountObjRelInsertInput>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	initialId?: InputMaybe<Scalars['String']>;
@@ -3697,7 +3847,7 @@ export type NotebookActionOnConflict = {
 export type NotebookActionOrderBy = {
 	action?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
-	creator?: InputMaybe<ProfessionalOrderBy>;
+	creator?: InputMaybe<AccountOrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	initialId?: InputMaybe<OrderBy>;
@@ -3825,6 +3975,9 @@ export enum NotebookConstraint {
 export type NotebookEvent = {
 	__typename?: 'notebook_event';
 	creationDate: Scalars['timestamptz'];
+	/** An object relationship */
+	creator: Account;
+	creatorId: Scalars['uuid'];
 	event: Scalars['jsonb'];
 	eventDate: Scalars['timestamptz'];
 	eventType: NotebookEventTypeEnum;
@@ -3832,9 +3985,6 @@ export type NotebookEvent = {
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
-	/** An object relationship */
-	professional: Professional;
-	professionalId: Scalars['uuid'];
 };
 
 /** columns and relationships of "notebook_event" */
@@ -3888,14 +4038,14 @@ export type NotebookEventBoolExp = {
 	_not?: InputMaybe<NotebookEventBoolExp>;
 	_or?: InputMaybe<Array<NotebookEventBoolExp>>;
 	creationDate?: InputMaybe<TimestamptzComparisonExp>;
+	creator?: InputMaybe<AccountBoolExp>;
+	creatorId?: InputMaybe<UuidComparisonExp>;
 	event?: InputMaybe<JsonbComparisonExp>;
 	eventDate?: InputMaybe<TimestamptzComparisonExp>;
 	eventType?: InputMaybe<NotebookEventTypeEnumComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
-	professional?: InputMaybe<ProfessionalBoolExp>;
-	professionalId?: InputMaybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_event" */
@@ -3922,52 +4072,52 @@ export type NotebookEventDeleteKeyInput = {
 /** input type for inserting data into table "notebook_event" */
 export type NotebookEventInsertInput = {
 	creationDate?: InputMaybe<Scalars['timestamptz']>;
+	creator?: InputMaybe<AccountObjRelInsertInput>;
+	creatorId?: InputMaybe<Scalars['uuid']>;
 	event?: InputMaybe<Scalars['jsonb']>;
 	eventDate?: InputMaybe<Scalars['timestamptz']>;
 	eventType?: InputMaybe<NotebookEventTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
-	professionalId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
 export type NotebookEventMaxFields = {
 	__typename?: 'notebook_event_max_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	eventDate?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
-	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "notebook_event" */
 export type NotebookEventMaxOrderBy = {
 	creationDate?: InputMaybe<OrderBy>;
+	creatorId?: InputMaybe<OrderBy>;
 	eventDate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	professionalId?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type NotebookEventMinFields = {
 	__typename?: 'notebook_event_min_fields';
 	creationDate?: Maybe<Scalars['timestamptz']>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	eventDate?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
-	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "notebook_event" */
 export type NotebookEventMinOrderBy = {
 	creationDate?: InputMaybe<OrderBy>;
+	creatorId?: InputMaybe<OrderBy>;
 	eventDate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	professionalId?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_event" */
@@ -3989,14 +4139,14 @@ export type NotebookEventOnConflict = {
 /** Ordering options when selecting data from "notebook_event". */
 export type NotebookEventOrderBy = {
 	creationDate?: InputMaybe<OrderBy>;
+	creator?: InputMaybe<AccountOrderBy>;
+	creatorId?: InputMaybe<OrderBy>;
 	event?: InputMaybe<OrderBy>;
 	eventDate?: InputMaybe<OrderBy>;
 	eventType?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	professional?: InputMaybe<ProfessionalOrderBy>;
-	professionalId?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_event */
@@ -4014,6 +4164,8 @@ export enum NotebookEventSelectColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
 	Event = 'event',
 	/** column name */
 	EventDate = 'eventDate',
@@ -4023,19 +4175,17 @@ export enum NotebookEventSelectColumn {
 	Id = 'id',
 	/** column name */
 	NotebookId = 'notebookId',
-	/** column name */
-	ProfessionalId = 'professionalId',
 }
 
 /** input type for updating data in table "notebook_event" */
 export type NotebookEventSetInput = {
 	creationDate?: InputMaybe<Scalars['timestamptz']>;
+	creatorId?: InputMaybe<Scalars['uuid']>;
 	event?: InputMaybe<Scalars['jsonb']>;
 	eventDate?: InputMaybe<Scalars['timestamptz']>;
 	eventType?: InputMaybe<NotebookEventTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	professionalId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** columns and relationships of "notebook_event_type" */
@@ -4171,6 +4321,8 @@ export enum NotebookEventUpdateColumn {
 	/** column name */
 	CreationDate = 'creationDate',
 	/** column name */
+	CreatorId = 'creatorId',
+	/** column name */
 	Event = 'event',
 	/** column name */
 	EventDate = 'eventDate',
@@ -4180,22 +4332,20 @@ export enum NotebookEventUpdateColumn {
 	Id = 'id',
 	/** column name */
 	NotebookId = 'notebookId',
-	/** column name */
-	ProfessionalId = 'professionalId',
 }
 
 /** columns and relationships of "notebook_focus" */
 export type NotebookFocus = {
 	__typename?: 'notebook_focus';
 	createdAt: Scalars['timestamptz'];
+	/** An object relationship */
+	creator: Account;
 	creatorId: Scalars['uuid'];
 	id: Scalars['uuid'];
 	linkedTo?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
-	/** An object relationship */
-	professional: Professional;
 	situations?: Maybe<Scalars['jsonb']>;
 	/** An array relationship */
 	targets: Array<NotebookTarget>;
@@ -4274,12 +4424,12 @@ export type NotebookFocusBoolExp = {
 	_not?: InputMaybe<NotebookFocusBoolExp>;
 	_or?: InputMaybe<Array<NotebookFocusBoolExp>>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	creator?: InputMaybe<AccountBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	linkedTo?: InputMaybe<StringComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
-	professional?: InputMaybe<ProfessionalBoolExp>;
 	situations?: InputMaybe<JsonbComparisonExp>;
 	targets?: InputMaybe<NotebookTargetBoolExp>;
 	theme?: InputMaybe<StringComparisonExp>;
@@ -4310,12 +4460,12 @@ export type NotebookFocusDeleteKeyInput = {
 /** input type for inserting data into table "notebook_focus" */
 export type NotebookFocusInsertInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	creator?: InputMaybe<AccountObjRelInsertInput>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	linkedTo?: InputMaybe<Scalars['String']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
 	situations?: InputMaybe<Scalars['jsonb']>;
 	targets?: InputMaybe<NotebookTargetArrRelInsertInput>;
 	theme?: InputMaybe<Scalars['String']>;
@@ -4394,12 +4544,12 @@ export type NotebookFocusOnConflict = {
 /** Ordering options when selecting data from "notebook_focus". */
 export type NotebookFocusOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
+	creator?: InputMaybe<AccountOrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	linkedTo?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	professional?: InputMaybe<ProfessionalOrderBy>;
 	situations?: InputMaybe<OrderBy>;
 	targets_aggregate?: InputMaybe<NotebookTargetAggregateOrderBy>;
 	theme?: InputMaybe<OrderBy>;
@@ -4511,10 +4661,13 @@ export type NotebookMaxFields = {
 /** columns and relationships of "notebook_member" */
 export type NotebookMember = {
 	__typename?: 'notebook_member';
+	/** An object relationship */
+	account: Account;
+	accountId: Scalars['uuid'];
 	active?: Maybe<Scalars['Boolean']>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
-	creator?: Maybe<Professional>;
+	creator?: Maybe<Account>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id: Scalars['uuid'];
 	invitationSendAt?: Maybe<Scalars['timestamptz']>;
@@ -4524,9 +4677,6 @@ export type NotebookMember = {
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
-	/** An object relationship */
-	professional: Professional;
-	professionalId: Scalars['uuid'];
 };
 
 /** aggregated selection of "notebook_member" */
@@ -4569,9 +4719,11 @@ export type NotebookMemberBoolExp = {
 	_and?: InputMaybe<Array<NotebookMemberBoolExp>>;
 	_not?: InputMaybe<NotebookMemberBoolExp>;
 	_or?: InputMaybe<Array<NotebookMemberBoolExp>>;
+	account?: InputMaybe<AccountBoolExp>;
+	accountId?: InputMaybe<UuidComparisonExp>;
 	active?: InputMaybe<BooleanComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
-	creator?: InputMaybe<ProfessionalBoolExp>;
+	creator?: InputMaybe<AccountBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	invitationSendAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -4580,23 +4732,23 @@ export type NotebookMemberBoolExp = {
 	memberType?: InputMaybe<StringComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
-	professional?: InputMaybe<ProfessionalBoolExp>;
-	professionalId?: InputMaybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_member" */
 export enum NotebookMemberConstraint {
 	/** unique or primary key constraint */
-	NotebookMemberNotebookIdProfessionalIdKey = 'notebook_member_notebook_id_professional_id_key',
+	NotebookMemberNotebookIdAccountIdKey = 'notebook_member_notebook_id_account_id_key',
 	/** unique or primary key constraint */
 	NotebookMemberPkey = 'notebook_member_pkey',
 }
 
 /** input type for inserting data into table "notebook_member" */
 export type NotebookMemberInsertInput = {
+	account?: InputMaybe<AccountObjRelInsertInput>;
+	accountId?: InputMaybe<Scalars['uuid']>;
 	active?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	creator?: InputMaybe<ProfessionalObjRelInsertInput>;
+	creator?: InputMaybe<AccountObjRelInsertInput>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	invitationSendAt?: InputMaybe<Scalars['timestamptz']>;
@@ -4605,13 +4757,12 @@ export type NotebookMemberInsertInput = {
 	memberType?: InputMaybe<Scalars['String']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
-	professionalId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
 export type NotebookMemberMaxFields = {
 	__typename?: 'notebook_member_max_fields';
+	accountId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -4620,11 +4771,11 @@ export type NotebookMemberMaxFields = {
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
-	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "notebook_member" */
 export type NotebookMemberMaxOrderBy = {
+	accountId?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -4633,12 +4784,12 @@ export type NotebookMemberMaxOrderBy = {
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	professionalId?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type NotebookMemberMinFields = {
 	__typename?: 'notebook_member_min_fields';
+	accountId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -4647,11 +4798,11 @@ export type NotebookMemberMinFields = {
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
 	notebookId?: Maybe<Scalars['uuid']>;
-	professionalId?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "notebook_member" */
 export type NotebookMemberMinOrderBy = {
+	accountId?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -4660,7 +4811,6 @@ export type NotebookMemberMinOrderBy = {
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	professionalId?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_member" */
@@ -4681,9 +4831,11 @@ export type NotebookMemberOnConflict = {
 
 /** Ordering options when selecting data from "notebook_member". */
 export type NotebookMemberOrderBy = {
+	account?: InputMaybe<AccountOrderBy>;
+	accountId?: InputMaybe<OrderBy>;
 	active?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
-	creator?: InputMaybe<ProfessionalOrderBy>;
+	creator?: InputMaybe<AccountOrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	invitationSendAt?: InputMaybe<OrderBy>;
@@ -4692,8 +4844,6 @@ export type NotebookMemberOrderBy = {
 	memberType?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	professional?: InputMaybe<ProfessionalOrderBy>;
-	professionalId?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_member */
@@ -4704,6 +4854,8 @@ export type NotebookMemberPkColumnsInput = {
 /** select columns of table "notebook_member" */
 export enum NotebookMemberSelectColumn {
 	/** column name */
+	AccountId = 'accountId',
+	/** column name */
 	Active = 'active',
 	/** column name */
 	CreatedAt = 'createdAt',
@@ -4721,12 +4873,11 @@ export enum NotebookMemberSelectColumn {
 	MemberType = 'memberType',
 	/** column name */
 	NotebookId = 'notebookId',
-	/** column name */
-	ProfessionalId = 'professionalId',
 }
 
 /** input type for updating data in table "notebook_member" */
 export type NotebookMemberSetInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
 	active?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
@@ -4736,11 +4887,12 @@ export type NotebookMemberSetInput = {
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	professionalId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "notebook_member" */
 export enum NotebookMemberUpdateColumn {
+	/** column name */
+	AccountId = 'accountId',
 	/** column name */
 	Active = 'active',
 	/** column name */
@@ -4759,8 +4911,6 @@ export enum NotebookMemberUpdateColumn {
 	MemberType = 'memberType',
 	/** column name */
 	NotebookId = 'notebookId',
-	/** column name */
-	ProfessionalId = 'professionalId',
 }
 
 /** aggregate min on columns */
@@ -4893,13 +5043,13 @@ export type NotebookTarget = {
 	/** An aggregate relationship */
 	actions_aggregate: NotebookActionAggregate;
 	createdAt: Scalars['timestamptz'];
+	/** An object relationship */
+	creator: Account;
 	creatorId: Scalars['uuid'];
 	/** An object relationship */
 	focus: NotebookFocus;
 	focusId: Scalars['uuid'];
 	id: Scalars['uuid'];
-	/** An object relationship */
-	professional: Professional;
 	status: Scalars['String'];
 	target: Scalars['String'];
 	updatedAt: Scalars['timestamptz'];
@@ -4965,11 +5115,11 @@ export type NotebookTargetBoolExp = {
 	_or?: InputMaybe<Array<NotebookTargetBoolExp>>;
 	actions?: InputMaybe<NotebookActionBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	creator?: InputMaybe<AccountBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
 	focus?: InputMaybe<NotebookFocusBoolExp>;
 	focusId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
-	professional?: InputMaybe<ProfessionalBoolExp>;
 	status?: InputMaybe<StringComparisonExp>;
 	target?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -4987,11 +5137,11 @@ export enum NotebookTargetConstraint {
 export type NotebookTargetInsertInput = {
 	actions?: InputMaybe<NotebookActionArrRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	creator?: InputMaybe<AccountObjRelInsertInput>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	focus?: InputMaybe<NotebookFocusObjRelInsertInput>;
 	focusId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
 	status?: InputMaybe<Scalars['String']>;
 	target?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -5070,11 +5220,11 @@ export type NotebookTargetOnConflict = {
 export type NotebookTargetOrderBy = {
 	actions_aggregate?: InputMaybe<NotebookActionAggregateOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	creator?: InputMaybe<AccountOrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	focus?: InputMaybe<NotebookFocusOrderBy>;
 	focusId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
-	professional?: InputMaybe<ProfessionalOrderBy>;
 	status?: InputMaybe<OrderBy>;
 	target?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
@@ -5193,143 +5343,11 @@ export type Professional = {
 	id: Scalars['uuid'];
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
-	/** An array relationship */
-	notebookActionsCreated: Array<NotebookAction>;
-	/** An aggregate relationship */
-	notebookActionsCreated_aggregate: NotebookActionAggregate;
-	/** An array relationship */
-	notebookEventsCreated: Array<NotebookEvent>;
-	/** An aggregate relationship */
-	notebookEventsCreated_aggregate: NotebookEventAggregate;
-	/** An array relationship */
-	notebookFocusesCreated: Array<NotebookFocus>;
-	/** An aggregate relationship */
-	notebookFocusesCreated_aggregate: NotebookFocusAggregate;
-	/** An array relationship */
-	notebookTargetsCreated: Array<NotebookTarget>;
-	/** An aggregate relationship */
-	notebookTargetsCreated_aggregate: NotebookTargetAggregate;
-	/** An array relationship */
-	notebooksCreated: Array<NotebookMember>;
-	/** An aggregate relationship */
-	notebooksCreated_aggregate: NotebookMemberAggregate;
-	/** An array relationship */
-	notebooksWhereMember: Array<NotebookMember>;
-	/** An aggregate relationship */
-	notebooksWhereMember_aggregate: NotebookMemberAggregate;
 	position?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	structure: Structure;
 	structureId: Scalars['uuid'];
 	updatedAt: Scalars['timestamptz'];
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookActionsCreatedArgs = {
-	distinct_on?: InputMaybe<Array<NotebookActionSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookActionOrderBy>>;
-	where?: InputMaybe<NotebookActionBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookActionsCreatedAggregateArgs = {
-	distinct_on?: InputMaybe<Array<NotebookActionSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookActionOrderBy>>;
-	where?: InputMaybe<NotebookActionBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookEventsCreatedArgs = {
-	distinct_on?: InputMaybe<Array<NotebookEventSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookEventOrderBy>>;
-	where?: InputMaybe<NotebookEventBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookEventsCreatedAggregateArgs = {
-	distinct_on?: InputMaybe<Array<NotebookEventSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookEventOrderBy>>;
-	where?: InputMaybe<NotebookEventBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookFocusesCreatedArgs = {
-	distinct_on?: InputMaybe<Array<NotebookFocusSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookFocusOrderBy>>;
-	where?: InputMaybe<NotebookFocusBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookFocusesCreatedAggregateArgs = {
-	distinct_on?: InputMaybe<Array<NotebookFocusSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookFocusOrderBy>>;
-	where?: InputMaybe<NotebookFocusBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookTargetsCreatedArgs = {
-	distinct_on?: InputMaybe<Array<NotebookTargetSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookTargetOrderBy>>;
-	where?: InputMaybe<NotebookTargetBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebookTargetsCreatedAggregateArgs = {
-	distinct_on?: InputMaybe<Array<NotebookTargetSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookTargetOrderBy>>;
-	where?: InputMaybe<NotebookTargetBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebooksCreatedArgs = {
-	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
-	where?: InputMaybe<NotebookMemberBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebooksCreatedAggregateArgs = {
-	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
-	where?: InputMaybe<NotebookMemberBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebooksWhereMemberArgs = {
-	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
-	where?: InputMaybe<NotebookMemberBoolExp>;
-};
-
-/** columns and relationships of "professional" */
-export type ProfessionalNotebooksWhereMemberAggregateArgs = {
-	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
-	where?: InputMaybe<NotebookMemberBoolExp>;
 };
 
 /** aggregated selection of "professional" */
@@ -5379,12 +5397,6 @@ export type ProfessionalBoolExp = {
 	id?: InputMaybe<UuidComparisonExp>;
 	lastname?: InputMaybe<StringComparisonExp>;
 	mobileNumber?: InputMaybe<StringComparisonExp>;
-	notebookActionsCreated?: InputMaybe<NotebookActionBoolExp>;
-	notebookEventsCreated?: InputMaybe<NotebookEventBoolExp>;
-	notebookFocusesCreated?: InputMaybe<NotebookFocusBoolExp>;
-	notebookTargetsCreated?: InputMaybe<NotebookTargetBoolExp>;
-	notebooksCreated?: InputMaybe<NotebookMemberBoolExp>;
-	notebooksWhereMember?: InputMaybe<NotebookMemberBoolExp>;
 	position?: InputMaybe<StringComparisonExp>;
 	structure?: InputMaybe<StructureBoolExp>;
 	structureId?: InputMaybe<UuidComparisonExp>;
@@ -5408,12 +5420,6 @@ export type ProfessionalInsertInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
-	notebookActionsCreated?: InputMaybe<NotebookActionArrRelInsertInput>;
-	notebookEventsCreated?: InputMaybe<NotebookEventArrRelInsertInput>;
-	notebookFocusesCreated?: InputMaybe<NotebookFocusArrRelInsertInput>;
-	notebookTargetsCreated?: InputMaybe<NotebookTargetArrRelInsertInput>;
-	notebooksCreated?: InputMaybe<NotebookMemberArrRelInsertInput>;
-	notebooksWhereMember?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	position?: InputMaybe<Scalars['String']>;
 	structure?: InputMaybe<StructureObjRelInsertInput>;
 	structureId?: InputMaybe<Scalars['uuid']>;
@@ -5506,12 +5512,6 @@ export type ProfessionalOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
-	notebookActionsCreated_aggregate?: InputMaybe<NotebookActionAggregateOrderBy>;
-	notebookEventsCreated_aggregate?: InputMaybe<NotebookEventAggregateOrderBy>;
-	notebookFocusesCreated_aggregate?: InputMaybe<NotebookFocusAggregateOrderBy>;
-	notebookTargetsCreated_aggregate?: InputMaybe<NotebookTargetAggregateOrderBy>;
-	notebooksCreated_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
-	notebooksWhereMember_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	position?: InputMaybe<OrderBy>;
 	structure?: InputMaybe<StructureOrderBy>;
 	structureId?: InputMaybe<OrderBy>;
@@ -8071,6 +8071,7 @@ export type GetProfessionalsFromStructuresQuery = {
 		position?: string | null | undefined;
 		email: string;
 		structureId: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
 		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
 };
@@ -8092,6 +8093,7 @@ export type GetStructuresWithProQuery = {
 			position?: string | null | undefined;
 			email: string;
 			structureId: string;
+			account?: { __typename?: 'account'; id: string } | null | undefined;
 			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 		}>;
 	}>;
@@ -8483,32 +8485,39 @@ export type GetNotebookFocusByIdQuery = {
 						status: string;
 						action: string;
 						creator: {
-							__typename?: 'professional';
-							id: string;
-							lastname: string;
-							firstname: string;
+							__typename?: 'account';
+							professional?:
+								| { __typename?: 'professional'; id: string; lastname: string; firstname: string }
+								| null
+								| undefined;
 						};
 					}>;
 				}>;
-				professional: {
-					__typename?: 'professional';
-					id: string;
-					position?: string | null | undefined;
-					firstname: string;
-					lastname: string;
-					mobileNumber?: string | null | undefined;
-					structureId: string;
-					structure: {
-						__typename?: 'structure';
-						id: string;
-						name?: string | null | undefined;
-						phone?: string | null | undefined;
-						address1?: string | null | undefined;
-						address2?: string | null | undefined;
-						city?: string | null | undefined;
-						postalCode?: string | null | undefined;
-						website?: string | null | undefined;
-					};
+				creator: {
+					__typename?: 'account';
+					professional?:
+						| {
+								__typename?: 'professional';
+								id: string;
+								position?: string | null | undefined;
+								firstname: string;
+								lastname: string;
+								mobileNumber?: string | null | undefined;
+								structureId: string;
+								structure: {
+									__typename?: 'structure';
+									id: string;
+									name?: string | null | undefined;
+									phone?: string | null | undefined;
+									address1?: string | null | undefined;
+									address2?: string | null | undefined;
+									city?: string | null | undefined;
+									postalCode?: string | null | undefined;
+									website?: string | null | undefined;
+								};
+						  }
+						| null
+						| undefined;
 				};
 		  }
 		| null
@@ -8564,7 +8573,7 @@ export type UpdateTargetStatusMutation = {
 
 export type AddNotebookMemberMutationVariables = Exact<{
 	creatorId: Scalars['uuid'];
-	professionalId: Scalars['uuid'];
+	accountId: Scalars['uuid'];
 	notebookId: Scalars['uuid'];
 }>;
 
@@ -8592,6 +8601,7 @@ export type SearchProfessionalQuery = {
 			postalCode?: string | null | undefined;
 			phone?: string | null | undefined;
 		};
+		account?: { __typename?: 'account'; id: string } | null | undefined;
 	}>;
 	count: {
 		__typename?: 'professional_aggregate';
@@ -8870,7 +8880,7 @@ export type GetNotebookInfoQuery = {
 						}>;
 					}>;
 				}>;
-				members: Array<{ __typename?: 'notebook_member'; professionalId: string }>;
+				members: Array<{ __typename?: 'notebook_member'; accountId: string }>;
 		  }
 		| null
 		| undefined;
@@ -9210,44 +9220,62 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			memberType: string;
 			lastModifiedAt?: string | null | undefined;
 			lastVisitedAt?: string | null | undefined;
-			professional: {
-				__typename?: 'professional';
-				id: string;
-				lastname: string;
-				firstname: string;
-				position?: string | null | undefined;
-				email: string;
-				mobileNumber?: string | null | undefined;
-				structure: {
-					__typename?: 'structure';
-					id: string;
-					name?: string | null | undefined;
-					address1?: string | null | undefined;
-					address2?: string | null | undefined;
-					postalCode?: string | null | undefined;
-					city?: string | null | undefined;
-				};
+			account: {
+				__typename?: 'account';
+				professional?:
+					| {
+							__typename?: 'professional';
+							id: string;
+							lastname: string;
+							firstname: string;
+							position?: string | null | undefined;
+							email: string;
+							mobileNumber?: string | null | undefined;
+							structure: {
+								__typename?: 'structure';
+								id: string;
+								name?: string | null | undefined;
+								address1?: string | null | undefined;
+								address2?: string | null | undefined;
+								postalCode?: string | null | undefined;
+								city?: string | null | undefined;
+							};
+					  }
+					| null
+					| undefined;
 			};
 		}>;
 		focuses: Array<{
 			__typename?: 'notebook_focus';
 			theme: string;
 			situations?: any | null | undefined;
-			professional: {
-				__typename?: 'professional';
-				firstname: string;
-				lastname: string;
-				structure: { __typename?: 'structure'; name?: string | null | undefined };
+			creator: {
+				__typename?: 'account';
+				professional?:
+					| {
+							__typename?: 'professional';
+							firstname: string;
+							lastname: string;
+							structure: { __typename?: 'structure'; name?: string | null | undefined };
+					  }
+					| null
+					| undefined;
 			};
 			targets: Array<{
 				__typename?: 'notebook_target';
 				target: string;
 				createdAt: string;
-				professional: {
-					__typename?: 'professional';
-					firstname: string;
-					lastname: string;
-					structure: { __typename?: 'structure'; name?: string | null | undefined };
+				creator: {
+					__typename?: 'account';
+					professional?:
+						| {
+								__typename?: 'professional';
+								firstname: string;
+								lastname: string;
+								structure: { __typename?: 'structure'; name?: string | null | undefined };
+						  }
+						| null
+						| undefined;
 				};
 				actions: Array<{
 					__typename?: 'notebook_action';
@@ -9255,10 +9283,16 @@ export type GetNotebookByBeneficiaryIdQuery = {
 					createdAt: string;
 					status: string;
 					creator: {
-						__typename?: 'professional';
-						firstname: string;
-						lastname: string;
-						structure: { __typename?: 'structure'; name?: string | null | undefined };
+						__typename?: 'account';
+						professional?:
+							| {
+									__typename?: 'professional';
+									firstname: string;
+									lastname: string;
+									structure: { __typename?: 'structure'; name?: string | null | undefined };
+							  }
+							| null
+							| undefined;
 					};
 				}>;
 			}>;
@@ -9311,44 +9345,62 @@ export type GetNotebookByIdQuery = {
 			memberType: string;
 			lastModifiedAt?: string | null | undefined;
 			lastVisitedAt?: string | null | undefined;
-			professional: {
-				__typename?: 'professional';
-				id: string;
-				lastname: string;
-				firstname: string;
-				position?: string | null | undefined;
-				email: string;
-				mobileNumber?: string | null | undefined;
-				structure: {
-					__typename?: 'structure';
-					id: string;
-					name?: string | null | undefined;
-					address1?: string | null | undefined;
-					address2?: string | null | undefined;
-					postalCode?: string | null | undefined;
-					city?: string | null | undefined;
-				};
+			account: {
+				__typename?: 'account';
+				professional?:
+					| {
+							__typename?: 'professional';
+							id: string;
+							lastname: string;
+							firstname: string;
+							position?: string | null | undefined;
+							email: string;
+							mobileNumber?: string | null | undefined;
+							structure: {
+								__typename?: 'structure';
+								id: string;
+								name?: string | null | undefined;
+								address1?: string | null | undefined;
+								address2?: string | null | undefined;
+								postalCode?: string | null | undefined;
+								city?: string | null | undefined;
+							};
+					  }
+					| null
+					| undefined;
 			};
 		}>;
 		focuses: Array<{
 			__typename?: 'notebook_focus';
 			theme: string;
 			situations?: any | null | undefined;
-			professional: {
-				__typename?: 'professional';
-				firstname: string;
-				lastname: string;
-				structure: { __typename?: 'structure'; name?: string | null | undefined };
+			creator: {
+				__typename?: 'account';
+				professional?:
+					| {
+							__typename?: 'professional';
+							firstname: string;
+							lastname: string;
+							structure: { __typename?: 'structure'; name?: string | null | undefined };
+					  }
+					| null
+					| undefined;
 			};
 			targets: Array<{
 				__typename?: 'notebook_target';
 				target: string;
 				createdAt: string;
-				professional: {
-					__typename?: 'professional';
-					firstname: string;
-					lastname: string;
-					structure: { __typename?: 'structure'; name?: string | null | undefined };
+				creator: {
+					__typename?: 'account';
+					professional?:
+						| {
+								__typename?: 'professional';
+								firstname: string;
+								lastname: string;
+								structure: { __typename?: 'structure'; name?: string | null | undefined };
+						  }
+						| null
+						| undefined;
 				};
 				actions: Array<{
 					__typename?: 'notebook_action';
@@ -9356,10 +9408,16 @@ export type GetNotebookByIdQuery = {
 					createdAt: string;
 					status: string;
 					creator: {
-						__typename?: 'professional';
-						firstname: string;
-						lastname: string;
-						structure: { __typename?: 'structure'; name?: string | null | undefined };
+						__typename?: 'account';
+						professional?:
+							| {
+									__typename?: 'professional';
+									firstname: string;
+									lastname: string;
+									structure: { __typename?: 'structure'; name?: string | null | undefined };
+							  }
+							| null
+							| undefined;
 					};
 				}>;
 			}>;
@@ -9406,44 +9464,62 @@ export type NotebookFragmentFragment = {
 		memberType: string;
 		lastModifiedAt?: string | null | undefined;
 		lastVisitedAt?: string | null | undefined;
-		professional: {
-			__typename?: 'professional';
-			id: string;
-			lastname: string;
-			firstname: string;
-			position?: string | null | undefined;
-			email: string;
-			mobileNumber?: string | null | undefined;
-			structure: {
-				__typename?: 'structure';
-				id: string;
-				name?: string | null | undefined;
-				address1?: string | null | undefined;
-				address2?: string | null | undefined;
-				postalCode?: string | null | undefined;
-				city?: string | null | undefined;
-			};
+		account: {
+			__typename?: 'account';
+			professional?:
+				| {
+						__typename?: 'professional';
+						id: string;
+						lastname: string;
+						firstname: string;
+						position?: string | null | undefined;
+						email: string;
+						mobileNumber?: string | null | undefined;
+						structure: {
+							__typename?: 'structure';
+							id: string;
+							name?: string | null | undefined;
+							address1?: string | null | undefined;
+							address2?: string | null | undefined;
+							postalCode?: string | null | undefined;
+							city?: string | null | undefined;
+						};
+				  }
+				| null
+				| undefined;
 		};
 	}>;
 	focuses: Array<{
 		__typename?: 'notebook_focus';
 		theme: string;
 		situations?: any | null | undefined;
-		professional: {
-			__typename?: 'professional';
-			firstname: string;
-			lastname: string;
-			structure: { __typename?: 'structure'; name?: string | null | undefined };
+		creator: {
+			__typename?: 'account';
+			professional?:
+				| {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name?: string | null | undefined };
+				  }
+				| null
+				| undefined;
 		};
 		targets: Array<{
 			__typename?: 'notebook_target';
 			target: string;
 			createdAt: string;
-			professional: {
-				__typename?: 'professional';
-				firstname: string;
-				lastname: string;
-				structure: { __typename?: 'structure'; name?: string | null | undefined };
+			creator: {
+				__typename?: 'account';
+				professional?:
+					| {
+							__typename?: 'professional';
+							firstname: string;
+							lastname: string;
+							structure: { __typename?: 'structure'; name?: string | null | undefined };
+					  }
+					| null
+					| undefined;
 			};
 			actions: Array<{
 				__typename?: 'notebook_action';
@@ -9451,10 +9527,16 @@ export type NotebookFragmentFragment = {
 				createdAt: string;
 				status: string;
 				creator: {
-					__typename?: 'professional';
-					firstname: string;
-					lastname: string;
-					structure: { __typename?: 'structure'; name?: string | null | undefined };
+					__typename?: 'account';
+					professional?:
+						| {
+								__typename?: 'professional';
+								firstname: string;
+								lastname: string;
+								structure: { __typename?: 'structure'; name?: string | null | undefined };
+						  }
+						| null
+						| undefined;
 				};
 			}>;
 		}>;
@@ -9508,14 +9590,7 @@ export type InsertProfessionalAccountMutationVariables = Exact<{
 
 export type InsertProfessionalAccountMutation = {
 	__typename?: 'mutation_root';
-	account?:
-		| {
-				__typename?: 'account';
-				id: string;
-				professional?: { __typename?: 'professional'; id: string } | null | undefined;
-		  }
-		| null
-		| undefined;
+	account?: { __typename?: 'account'; id: string } | null | undefined;
 };
 
 export type ConfirmAccountByIdMutationVariables = Exact<{
@@ -9582,6 +9657,7 @@ export type GetDeploymentInfosQuery = {
 			email: string;
 			firstname: string;
 			lastname: string;
+			account?: { __typename?: 'account'; id: string } | null | undefined;
 		}>;
 	}>;
 	structuresWithNoBeneficiary: {
@@ -9620,11 +9696,13 @@ export type GetBeneficiariesQuery = {
 						__typename?: 'notebook_member';
 						id: string;
 						createdAt: string;
-						professional: {
-							__typename?: 'professional';
+						account: {
+							__typename?: 'account';
 							id: string;
-							firstname: string;
-							lastname: string;
+							professional?:
+								| { __typename?: 'professional'; id: string; firstname: string; lastname: string }
+								| null
+								| undefined;
 						};
 					}>;
 			  }
@@ -9646,6 +9724,7 @@ export type GetProfessionalsForManagerQuery = {
 		position?: string | null | undefined;
 		email: string;
 		structureId: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
 		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
 };
@@ -9736,7 +9815,7 @@ export type GetAccountsSummaryQuery = {
 };
 
 export type GetLastVisitedOrUpdatedQueryVariables = Exact<{
-	professionalId: Scalars['uuid'];
+	accountId: Scalars['uuid'];
 }>;
 
 export type GetLastVisitedOrUpdatedQuery = {
@@ -9795,7 +9874,7 @@ export type CreateBeneficiaryMutation = {
 };
 
 export type SearchNotebookMemberQueryVariables = Exact<{
-	professionalId: Scalars['uuid'];
+	accountId: Scalars['uuid'];
 	filter?: InputMaybe<Scalars['String']>;
 	visitDate: TimestamptzComparisonExp;
 }>;
@@ -9888,24 +9967,30 @@ export type GetNotebookQuery = {
 					lastModifiedAt?: string | null | undefined;
 					lastVisitedAt?: string | null | undefined;
 					createdAt: string;
-					professional: {
-						__typename?: 'professional';
-						id: string;
-						lastname: string;
-						firstname: string;
-						position?: string | null | undefined;
-						email: string;
-						mobileNumber?: string | null | undefined;
-						structure: {
-							__typename?: 'structure';
-							id: string;
-							name?: string | null | undefined;
-							address1?: string | null | undefined;
-							address2?: string | null | undefined;
-							postalCode?: string | null | undefined;
-							city?: string | null | undefined;
-							website?: string | null | undefined;
-						};
+					account: {
+						__typename?: 'account';
+						professional?:
+							| {
+									__typename?: 'professional';
+									id: string;
+									lastname: string;
+									firstname: string;
+									position?: string | null | undefined;
+									email: string;
+									mobileNumber?: string | null | undefined;
+									structure: {
+										__typename?: 'structure';
+										id: string;
+										name?: string | null | undefined;
+										address1?: string | null | undefined;
+										address2?: string | null | undefined;
+										postalCode?: string | null | undefined;
+										city?: string | null | undefined;
+										website?: string | null | undefined;
+									};
+							  }
+							| null
+							| undefined;
 					};
 				}>;
 				events: Array<{
@@ -9914,11 +9999,17 @@ export type GetNotebookQuery = {
 					eventDate: string;
 					event: any;
 					eventType: NotebookEventTypeEnum;
-					professionalId: string;
-					professional: {
-						__typename?: 'professional';
-						structureId: string;
-						structure: { __typename?: 'structure'; name?: string | null | undefined };
+					creatorId: string;
+					creator: {
+						__typename?: 'account';
+						professional?:
+							| {
+									__typename?: 'professional';
+									structureId: string;
+									structure: { __typename?: 'structure'; name?: string | null | undefined };
+							  }
+							| null
+							| undefined;
 					};
 				}>;
 		  }
@@ -9940,11 +10031,17 @@ export type GetNotebookEventsQuery = {
 		eventDate: string;
 		event: any;
 		eventType: NotebookEventTypeEnum;
-		professionalId: string;
-		professional: {
-			__typename?: 'professional';
-			structureId: string;
-			structure: { __typename?: 'structure'; name?: string | null | undefined };
+		creatorId: string;
+		creator: {
+			__typename?: 'account';
+			professional?:
+				| {
+						__typename?: 'professional';
+						structureId: string;
+						structure: { __typename?: 'structure'; name?: string | null | undefined };
+				  }
+				| null
+				| undefined;
 		};
 	}>;
 };
@@ -9955,11 +10052,17 @@ export type EventFieldsFragment = {
 	eventDate: string;
 	event: any;
 	eventType: NotebookEventTypeEnum;
-	professionalId: string;
-	professional: {
-		__typename?: 'professional';
-		structureId: string;
-		structure: { __typename?: 'structure'; name?: string | null | undefined };
+	creatorId: string;
+	creator: {
+		__typename?: 'account';
+		professional?:
+			| {
+					__typename?: 'professional';
+					structureId: string;
+					structure: { __typename?: 'structure'; name?: string | null | undefined };
+			  }
+			| null
+			| undefined;
 	};
 };
 
@@ -9975,21 +10078,34 @@ export type GetNotebookMemberByIdQuery = {
 				notebookId: string;
 				creator?:
 					| {
-							__typename?: 'professional';
-							firstname: string;
-							lastname: string;
-							email: string;
-							id: string;
+							__typename?: 'account';
+							professional?:
+								| {
+										__typename?: 'professional';
+										firstname: string;
+										lastname: string;
+										email: string;
+										id: string;
+								  }
+								| null
+								| undefined;
 					  }
 					| null
 					| undefined;
-				professional: {
-					__typename?: 'professional';
-					firstname: string;
-					lastname: string;
-					email: string;
+				account: {
+					__typename?: 'account';
 					id: string;
-					account?: { __typename?: 'account'; id: string; confirmed: boolean } | null | undefined;
+					confirmed: boolean;
+					professional?:
+						| {
+								__typename?: 'professional';
+								firstname: string;
+								lastname: string;
+								email: string;
+								id: string;
+						  }
+						| null
+						| undefined;
 				};
 		  }
 		| null
@@ -10132,6 +10248,7 @@ export type GetStructureQuery = {
 					email: string;
 					firstname: string;
 					lastname: string;
+					account?: { __typename?: 'account'; id: string } | null | undefined;
 				}>;
 				professionals_aggregate: {
 					__typename?: 'professional_aggregate';
@@ -10342,28 +10459,37 @@ export const NotebookFragmentFragmentDoc = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastVisitedAt' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
+									name: { kind: 'Name', value: 'account' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
+												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																],
+															},
+														},
 													],
 												},
 											},
@@ -10399,18 +10525,29 @@ export const NotebookFragmentFragmentDoc = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
+									name: { kind: 'Name', value: 'creator' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
+												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																],
+															},
+														},
+													],
 												},
 											},
 										],
@@ -10469,19 +10606,28 @@ export const NotebookFragmentFragmentDoc = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'professional' },
+												name: { kind: 'Name', value: 'creator' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{
 															kind: 'Field',
-															name: { kind: 'Name', value: 'structure' },
+															name: { kind: 'Name', value: 'professional' },
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'structure' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																			],
+																		},
+																	},
 																],
 															},
 														},
@@ -10546,15 +10692,33 @@ export const NotebookFragmentFragmentDoc = {
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 																	{
 																		kind: 'Field',
-																		name: { kind: 'Name', value: 'structure' },
+																		name: { kind: 'Name', value: 'professional' },
 																		selectionSet: {
 																			kind: 'SelectionSet',
 																			selections: [
-																				{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'structure' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'name' },
+																							},
+																						],
+																					},
+																				},
 																			],
 																		},
 																	},
@@ -10589,20 +10753,29 @@ export const EventFieldsFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'event' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'eventType' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'creatorId' } },
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'professional' },
+						name: { kind: 'Name', value: 'creator' },
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'structure' },
+									name: { kind: 'Name', value: 'professional' },
 									selectionSet: {
 										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+												},
+											},
+										],
 									},
 								},
 							],
@@ -10988,6 +11161,14 @@ export const GetProfessionalsFromStructuresDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
@@ -11041,6 +11222,14 @@ export const GetStructuresWithProDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
@@ -11242,7 +11431,7 @@ export const UpdateReferentDocument = {
 											name: { kind: 'Name', value: 'constraint' },
 											value: {
 												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_professional_id_key',
+												value: 'notebook_member_notebook_id_account_id_key',
 											},
 										},
 										{
@@ -11480,7 +11669,7 @@ export const UpdateReferentWithStructureDocument = {
 											name: { kind: 'Name', value: 'constraint' },
 											value: {
 												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_professional_id_key',
+												value: 'notebook_member_notebook_id_account_id_key',
 											},
 										},
 										{
@@ -11719,7 +11908,7 @@ export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
 											name: { kind: 'Name', value: 'constraint' },
 											value: {
 												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_professional_id_key',
+												value: 'notebook_member_notebook_id_account_id_key',
 											},
 										},
 										{
@@ -13601,9 +13790,24 @@ export const GetNotebookFocusByIdDocument = {
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																			],
+																		},
+																	},
 																],
 															},
 														},
@@ -13616,30 +13820,39 @@ export const GetNotebookFocusByIdDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
+									name: { kind: 'Name', value: 'creator' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
+												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+																],
+															},
+														},
 													],
 												},
 											},
@@ -13931,7 +14144,7 @@ export const AddNotebookMemberDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
@@ -13967,8 +14180,8 @@ export const AddNotebookMemberDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professionalId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+											name: { kind: 'Name', value: 'accountId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -14201,6 +14414,14 @@ export const SearchProfessionalDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
 										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 									},
 								},
 							],
@@ -16277,9 +16498,7 @@ export const GetNotebookInfoDocument = {
 									],
 									selectionSet: {
 										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
-										],
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'accountId' } }],
 									},
 								},
 							],
@@ -17886,17 +18105,7 @@ export const InsertProfessionalAccountDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-									},
-								},
-							],
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 						},
 					},
 				],
@@ -18254,6 +18463,14 @@ export const GetDeploymentInfosDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
 										],
 									},
 								},
@@ -18326,22 +18543,34 @@ export const GetDeploymentInfosDocument = {
 																				fields: [
 																					{
 																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: 'notebooksWhereMember' },
+																						name: { kind: 'Name', value: 'account' },
 																						value: {
 																							kind: 'ObjectValue',
 																							fields: [
 																								{
 																									kind: 'ObjectField',
-																									name: { kind: 'Name', value: 'active' },
+																									name: {
+																										kind: 'Name',
+																										value: 'notebooksWhereMember',
+																									},
 																									value: {
 																										kind: 'ObjectValue',
 																										fields: [
 																											{
 																												kind: 'ObjectField',
-																												name: { kind: 'Name', value: '_eq' },
+																												name: { kind: 'Name', value: 'active' },
 																												value: {
-																													kind: 'BooleanValue',
-																													value: true,
+																													kind: 'ObjectValue',
+																													fields: [
+																														{
+																															kind: 'ObjectField',
+																															name: { kind: 'Name', value: '_eq' },
+																															value: {
+																																kind: 'BooleanValue',
+																																value: true,
+																															},
+																														},
+																													],
 																												},
 																											},
 																										],
@@ -18616,13 +18845,29 @@ export const GetBeneficiariesDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 														{
 															kind: 'Field',
-															name: { kind: 'Name', value: 'professional' },
+															name: { kind: 'Name', value: 'account' },
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
 																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
 																],
 															},
 														},
@@ -18663,6 +18908,14 @@ export const GetProfessionalsForManagerDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'structure' },
@@ -19378,7 +19631,7 @@ export const GetLastVisitedOrUpdatedDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
@@ -19420,17 +19673,14 @@ export const GetLastVisitedOrUpdatedDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professionalId' },
+											name: { kind: 'Name', value: 'accountId' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' },
-														},
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 													},
 												],
 											},
@@ -19515,17 +19765,14 @@ export const GetLastVisitedOrUpdatedDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professionalId' },
+											name: { kind: 'Name', value: 'accountId' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' },
-														},
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 													},
 												],
 											},
@@ -19855,7 +20102,7 @@ export const SearchNotebookMemberDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
@@ -19907,17 +20154,14 @@ export const SearchNotebookMemberDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professionalId' },
+											name: { kind: 'Name', value: 'accountId' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalId' },
-														},
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 													},
 												],
 											},
@@ -20195,29 +20439,47 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'professional' },
+												name: { kind: 'Name', value: 'account' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 														{
 															kind: 'Field',
-															name: { kind: 'Name', value: 'structure' },
+															name: { kind: 'Name', value: 'professional' },
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
 																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'structure' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'address1' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'address2' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'postalCode' },
+																				},
+																				{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																				{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+																			],
+																		},
+																	},
 																],
 															},
 														},
@@ -20447,31 +20709,40 @@ export const GetNotebookMemberByIdDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+													],
+												},
+											},
 										],
 									},
 								},
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
+									name: { kind: 'Name', value: 'account' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'account' },
+												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 													],
 												},
 											},
@@ -21005,10 +21276,7 @@ export const GetPendingBeneficiariesDocument = {
 																										fields: [
 																											{
 																												kind: 'ObjectField',
-																												name: {
-																													kind: 'Name',
-																													value: 'professional',
-																												},
+																												name: { kind: 'Name', value: 'account' },
 																												value: {
 																													kind: 'ObjectValue',
 																													fields: [
@@ -21016,7 +21284,7 @@ export const GetPendingBeneficiariesDocument = {
 																															kind: 'ObjectField',
 																															name: {
 																																kind: 'Name',
-																																value: 'structureId',
+																																value: 'professional',
 																															},
 																															value: {
 																																kind: 'ObjectValue',
@@ -21025,14 +21293,26 @@ export const GetPendingBeneficiariesDocument = {
 																																		kind: 'ObjectField',
 																																		name: {
 																																			kind: 'Name',
-																																			value: '_neq',
+																																			value: 'structureId',
 																																		},
 																																		value: {
-																																			kind: 'Variable',
-																																			name: {
-																																				kind: 'Name',
-																																				value: 'structureId',
-																																			},
+																																			kind: 'ObjectValue',
+																																			fields: [
+																																				{
+																																					kind: 'ObjectField',
+																																					name: {
+																																						kind: 'Name',
+																																						value: '_neq',
+																																					},
+																																					value: {
+																																						kind: 'Variable',
+																																						name: {
+																																							kind: 'Name',
+																																							value: 'structureId',
+																																						},
+																																					},
+																																				},
+																																			],
 																																		},
 																																	},
 																																],
@@ -21157,22 +21437,31 @@ export const GetStructureDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'professional' },
+														name: { kind: 'Name', value: 'account' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'structureId' },
+																	name: { kind: 'Name', value: 'professional' },
 																	value: {
 																		kind: 'ObjectValue',
 																		fields: [
 																			{
 																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
+																				name: { kind: 'Name', value: 'structureId' },
 																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'structureId' },
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: {
+																								kind: 'Variable',
+																								name: { kind: 'Name', value: 'structureId' },
+																							},
+																						},
+																					],
 																				},
 																			},
 																		],
@@ -21297,10 +21586,7 @@ export const GetStructureDocument = {
 																										fields: [
 																											{
 																												kind: 'ObjectField',
-																												name: {
-																													kind: 'Name',
-																													value: 'professional',
-																												},
+																												name: { kind: 'Name', value: 'account' },
 																												value: {
 																													kind: 'ObjectValue',
 																													fields: [
@@ -21308,7 +21594,7 @@ export const GetStructureDocument = {
 																															kind: 'ObjectField',
 																															name: {
 																																kind: 'Name',
-																																value: 'structureId',
+																																value: 'professional',
 																															},
 																															value: {
 																																kind: 'ObjectValue',
@@ -21317,14 +21603,26 @@ export const GetStructureDocument = {
 																																		kind: 'ObjectField',
 																																		name: {
 																																			kind: 'Name',
-																																			value: '_neq',
+																																			value: 'structureId',
 																																		},
 																																		value: {
-																																			kind: 'Variable',
-																																			name: {
-																																				kind: 'Name',
-																																				value: 'structureId',
-																																			},
+																																			kind: 'ObjectValue',
+																																			fields: [
+																																				{
+																																					kind: 'ObjectField',
+																																					name: {
+																																						kind: 'Name',
+																																						value: '_neq',
+																																					},
+																																					value: {
+																																						kind: 'Variable',
+																																						name: {
+																																							kind: 'Name',
+																																							value: 'structureId',
+																																						},
+																																					},
+																																				},
+																																			],
 																																		},
 																																	},
 																																],
@@ -21372,6 +21670,14 @@ export const GetStructureDocument = {
 										kind: 'SelectionSet',
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },

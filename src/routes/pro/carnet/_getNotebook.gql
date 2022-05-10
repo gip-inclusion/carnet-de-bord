@@ -53,21 +53,23 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 			lastModifiedAt
 			lastVisitedAt
 			createdAt
-			professional {
-				id
-				lastname
-				firstname
-				position
-				email
-				mobileNumber
-				structure {
+			account {
+				professional {
 					id
-					name
-					address1
-					address2
-					postalCode
-					city
-					website
+					lastname
+					firstname
+					position
+					email
+					mobileNumber
+					structure {
+						id
+						name
+						address1
+						address2
+						postalCode
+						city
+						website
+					}
 				}
 			}
 		}
@@ -94,11 +96,13 @@ fragment eventFields on notebook_event {
 	eventDate
 	event
 	eventType
-	professionalId
-	professional {
-		structureId
-		structure {
-			name
+	creatorId
+	creator {
+		professional {
+			structureId
+			structure {
+				name
+			}
 		}
 	}
 }

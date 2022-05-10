@@ -23,7 +23,7 @@
 	import { BeneficiaryAccountInput, beneficiaryAccountSchema } from './beneficiary.schema';
 	import { trackEvent } from '$lib/tracking/matomo';
 
-	const { professionalId } = $session.user;
+	const { id } = $session.user;
 
 	type ExternalUserOption = Option & { value: ExternalUser };
 
@@ -82,7 +82,7 @@
 
 	async function createBeneficiary(values: BeneficiaryAccountInput) {
 		trackEvent('pro', 'brsa', `create from ${identifierType}`);
-		const members = [{ memberType: 'referent', professionalId }];
+		const members = [{ memberType: 'referent', accountId: id }];
 		const store = await createBeneficiaryMutation({
 			...values,
 			members,

@@ -4,19 +4,21 @@
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookMemberInvitation from './ProNotebookMemberInvitation.svelte';
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
-	import type { Member } from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
+	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+
+	type Member = GetNotebookQuery['notebook']['members'][0];
 
 	export let notebookId: string;
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
+
 	export let members: Member[];
 
 	const openMemberInfo = (member: Member) => {
 		trackEvent('pro', 'members', 'view info');
 		openComponent.open({ component: ProNotebookMemberView, props: { member } });
 	};
-
 	const openInviteMember = () => {
 		trackEvent('pro', 'members', 'add new member form');
 		openComponent.open({
@@ -25,7 +27,7 @@
 				beneficiaryFirstname,
 				beneficiaryLastname,
 				notebookId,
-				professionalIds: members ? members.map((m) => m.professional.id) : [],
+				professionalIds: members ? members.map((m) => m.account?.professional.id) : [],
 			},
 		});
 	};
@@ -52,16 +54,16 @@
 			{#each members as member}
 				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
 					<td>
-						<Text value={member.professional.structure.name} />
+						<Text value={member.account?.professional.structure.name} />
 					</td>
 					<td>
 						<div class="flex flex-row gap-2">
-							<Text value={member.professional.firstname} />
-							<Text value={member.professional.lastname} />
+							<Text value={member.account?.professional.firstname} />
+							<Text value={member.account?.professional.lastname} />
 						</div>
 					</td>
 					<td>
-						<Text value={member.professional.position} />
+						<Text value={member.account?.professional.position} />
 					</td>
 					<td>
 						<button>

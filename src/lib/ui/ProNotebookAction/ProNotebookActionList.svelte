@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { formatDateLocale } from '$lib/utils/date';
 
-	import { UpdateActionStatusDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		GetNotebookFocusByIdQuery,
+		UpdateActionStatusDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 
 	import type { UpdateNotebookActionMutation } from '$lib/graphql/_gen/typed-document-nodes';
 
@@ -9,17 +12,6 @@
 	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 	import { Alert, Select } from '$lib/ui/base';
 	import { ActionStatus } from '$lib/enums';
-	type NotebookActionListType = {
-		target: string;
-		id: string;
-		actions: Array<{
-			id: string;
-			createdAt: string;
-			status: string;
-			action: string;
-			creator: { id: string; lastname: string; firstname: string };
-		}>;
-	};
 
 	const statusValues = [
 		{
@@ -53,7 +45,7 @@
 		}
 	}
 
-	export let target: NotebookActionListType;
+	export let target: GetNotebookFocusByIdQuery['focus']['targets'][0];
 	export let theme: string;
 </script>
 
@@ -73,8 +65,8 @@
 					<tr>
 						<td>{action.action}</td>
 						<td>
-							<div>{action.creator.firstname}</div>
-							<div>{action.creator.lastname}</div>
+							<div>{action.creator?.professional.firstname}</div>
+							<div>{action.creator?.professional.lastname}</div>
 						</td>
 						<td
 							><Select

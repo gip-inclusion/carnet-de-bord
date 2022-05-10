@@ -24,7 +24,7 @@
 		'12months': '12months',
 	};
 
-	function buildQueryVariables({ professionalId, search, selected }) {
+	function buildQueryVariables({ accountId, search, selected }) {
 		const today = new Date();
 		let visitDate = { _gt: undefined, _lt: undefined };
 
@@ -40,7 +40,7 @@
 			visitDate._lt = addMonths(today, -12);
 		}
 
-		const variables: SearchNotebookMemberQueryVariables = { professionalId, visitDate };
+		const variables: SearchNotebookMemberQueryVariables = { accountId, visitDate };
 		variables.filter = `${search ?? ''}`;
 		return variables;
 	}
@@ -52,17 +52,17 @@
 		if (url.searchParams.get('dt') && dt[url.searchParams.get('dt')]) {
 			selected = dt[url.searchParams.get('dt')];
 		}
-		const { professionalId } = session.user;
-		const queryVariables = buildQueryVariables({ professionalId, search, selected });
+		const { id } = session.user;
+		const queryVariables = buildQueryVariables({ accountId: id, search, selected });
 		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
 		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
 
 		return {
 			props: {
+				accountId: id,
 				result,
 				search,
 				createBeneficiaryResult,
-				professionalId,
 				selected,
 			},
 		};
@@ -75,7 +75,7 @@
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
-	export let professionalId: string;
+	export let accountId: string;
 	export let selected: string;
 	let searching = false;
 
@@ -90,7 +90,7 @@
 
 	function onSelect() {
 		updateUrl(search, selected);
-		$result.variables = buildQueryVariables({ professionalId, search, selected });
+		$result.variables = buildQueryVariables({ accountId, search, selected });
 		$result.reexecute();
 	}
 
@@ -103,7 +103,7 @@
 	}
 	function handleSubmit() {
 		updateUrl(search, selected);
-		$result.variables = buildQueryVariables({ professionalId, search, selected });
+		$result.variables = buildQueryVariables({ accountId, search, selected });
 		$result.reexecute();
 	}
 

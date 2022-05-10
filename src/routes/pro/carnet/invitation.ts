@@ -55,18 +55,18 @@ export const post: RequestHandler = async ({ request }) => {
 			},
 		};
 	}
-	const { notebookId, creator, professional } = data.member;
+	const { notebookId, creator, account } = data.member;
 
 	/**
 	 * If professional account is not confirmed, we don't send invitation
 	 */
-	if (!professional?.account?.confirmed) {
+	if (!account?.confirmed) {
 		return {
 			status: 200,
 			body: {},
 		};
 	}
-	const result = await updateAccessKey(client, professional.account.id);
+	const result = await updateAccessKey(client, account.id);
 	if (result.error) {
 		return {
 			status: 500,
@@ -81,14 +81,14 @@ export const post: RequestHandler = async ({ request }) => {
 	// send email
 	send({
 		options: {
-			to: professional.email,
+			to: account.professional.email,
 			subject: 'Invitation à rejoindre un carnet de bord',
 		},
 		template: 'notebookInvitation',
 		params: [
 			{
-				pro: professional,
-				creator,
+				pro: account.professional,
+				creator: creator.professional,
 				url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
 			},
 		],
@@ -99,7 +99,7 @@ export const post: RequestHandler = async ({ request }) => {
 	return {
 		status: 200,
 		body: {
-			email: professional.email,
+			email: account.professional.email,
 		},
 	};
 };
