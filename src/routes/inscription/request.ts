@@ -48,7 +48,7 @@ const inscriptionRequestSchema = yup.object().shape({
 		})
 		.nullable(),
 });
-type InscriptionRequest = yup.InferType<typeof inscriptionRequestSchema>;
+export type InscriptionRequest = yup.InferType<typeof inscriptionRequestSchema>;
 
 const validateBody = (body: unknown): body is InscriptionRequest => {
 	return inscriptionRequestSchema.isType(body);
@@ -210,7 +210,7 @@ export const post: RequestHandler = async ({ request }) => {
 		}
 
 		const emails: string[] = data?.structure?.deployment?.managers?.map(({ email }) => email);
-		sendEmailNotifications(emails, accountRequest, requester);
+		sendEmailNotifications(emails, accountRequest, account.professional.structure.name, requester);
 	}
 
 	return {
@@ -237,6 +237,7 @@ function createUsername(accounts: Pick<Account, 'username'>[], username: string)
 function sendEmailNotifications(
 	emails: string[],
 	accountRequest: InscriptionRequest['accountRequest'],
+	structureName: string,
 	requester: InscriptionRequest['requester']
 ) {
 	const appUrl = getAppUrl();
@@ -249,10 +250,8 @@ function sendEmailNotifications(
 			template: 'accountRequest',
 			params: [
 				{
-					pro: {
-						firstname: accountRequest.firstname,
-						lastname: accountRequest.lastname,
-					},
+					pro: accountRequest,
+					structureName,
 					url: {
 						appUrl,
 					},

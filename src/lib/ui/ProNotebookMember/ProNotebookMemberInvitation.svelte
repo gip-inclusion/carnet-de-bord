@@ -71,8 +71,8 @@
 		openComponent.open({
 			component: ProNotebookMemberForm,
 			props: {
-				firstname: beneficiaryFirstname,
-				lastname: beneficiaryLastname,
+				firstname: $session.user.firstname,
+				lastname: $session.user.lastname,
 				notebookId,
 			},
 		});
