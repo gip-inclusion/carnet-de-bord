@@ -7,7 +7,7 @@ services:
       context: ./postgres-dev
       dockerfile: Dockerfile
     environment:
-      - POSTGRES_DB=carnet_de_bord_test
+      - POSTGRES_DB=carnet_de_bord
       - POSTGRES_USER=cdb
       - POSTGRES_PASSWORD=test
     ports:

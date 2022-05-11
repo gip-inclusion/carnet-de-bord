@@ -14,6 +14,19 @@ fi
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 ROOT_DIR=$( dirname $SCRIPT_DIR )
 
+ACTION=$1
+RUN="all"
+
+if [ ! -z "$ACTION" ]
+then
+      if [ "$ACTION" != "all" ] && [ "$ACTION" != "python" ] && [ "$ACTION" != "js" ]; then
+        echo "Bad parameter value: '$ACTION'"
+        echo ""
+        echo "Usage : $0 [all|python|js]"
+        exit
+      fi
+fi
+
 # Load the env variables from .env file
 if [ -f ".env.test" ]
 then
@@ -71,18 +84,20 @@ cd hasura && HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --d
 cd $ROOT_DIR
 
 
->&2 echo "-> Starting Svelte kit"
-# Start dev server
-npx svelte-kit dev --port 3001 &
+if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
+  >&2 echo "-> Starting Svelte kit"
+  # Start dev server
+  npx svelte-kit dev --port 3001 &
 
 
-until curl -s http://localhost:3001/ > /dev/null ; do
-  >&2 echo "-> Svelte kit is still unavailable - sleeping"
-  sleep 1
-done
+  until curl -s http://localhost:3001/ > /dev/null ; do
+    >&2 echo "-> Svelte kit is still unavailable - sleeping"
+    sleep 1
+  done
 
->&2 echo ""
->&2 echo "-> Svelte kit is up and running on port 3001!"
+  >&2 echo ""
+  >&2 echo "-> Svelte kit is up and running on port 3001!"
 
->&2 echo "-> Starting Jest tests"
-npx jest
+  >&2 echo "-> Starting Jest tests"
+  npx jest
+fi
