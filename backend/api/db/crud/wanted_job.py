@@ -1,3 +1,5 @@
+import logging
+
 from asyncpg.connection import Connection
 
 from api.db.crud.rome_code import get_rome_code_by_description_and_code
@@ -46,4 +48,8 @@ async def insert_wanted_job_for_notebook(
             """,
             notebook.id,
             rome_code.id,
+        )
+    else:
+        logging.error(
+            f"Beneficiary {notebook.beneficiary_id} - Rome code not found '({rome_code_id}) {description}'"
         )

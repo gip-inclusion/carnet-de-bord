@@ -7,16 +7,19 @@ from pandas.core.series import Series
 from api.core.db import get_connection_pool
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_from_csv
+from api.db.crud.external_data import insert_external_data
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
 )
 from api.db.models.beneficiary import Beneficiary
+from api.db.models.external_data import ExternalDataInsert, ExternalSource
 from api.db.models.notebook import Notebook
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
 
-logging.basicConfig(level=logging.INFO)
+FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
+logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
 async def parse_principal_csv_with_db(connection: Connection, principal_csv: str):
@@ -25,6 +28,12 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
 
     row: Series
     for _, row in df.iterrows():
+
+        logging.info(
+            "{id} - Trying to import main row {id}".format(
+                id=row["identifiant_unique_de"]
+            )
+        )
 
         csv_row: PrincipalCsvRow = await map_principal_row(row)
 
@@ -35,16 +44,51 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             )
 
             if beneficiary and beneficiary.notebook is not None:
+
+                external_data = ExternalDataInsert(
+                    source=ExternalSource.PE, data=beneficiary.dict(), account_id=None
+                )
+                await insert_external_data(connection, external_data)
+
+                logging.info(
+                    "{} - Found matching beneficiary {}".format(
+                        row["identifiant_unique_de"], beneficiary.id
+                    )
+                )
+
                 for (rome_code, rome_label) in [
                     (csv_row.rome_1, csv_row.rome_1_label),
                     (csv_row.rome_2, csv_row.rome_2_label),
                 ]:
-                    await check_and_insert_wanted_job(
+                    wanted_job: WantedJob | None = await check_and_insert_wanted_job(
                         connection,
                         beneficiary.notebook,
                         rome_code,
                         rome_label,
                     )
+                    if wanted_job:
+                        logging.info(
+                            "{} - Wanted job {} inserted".format(
+                                row["identifiant_unique_de"], wanted_job
+                            )
+                        )
+                    else:
+                        logging.info(
+                            "{} - NO Wanted job inserted".format(
+                                row["identifiant_unique_de"]
+                            )
+                        )
+
+            else:
+                logging.info(
+                    "{} - No matching beneficiary found".format(
+                        row["identifiant_unique_de"]
+                    )
+                )
+        else:
+            logging.info(
+                "{} - Skipping, BRSA field is No".format(row["identifiant_unique_de"])
+            )
 
 
 async def parse_principal_csv(principal_csv: str):

@@ -66,12 +66,11 @@ async def test_get_beneficiary_without_wanted_jobs(
 async def test_get_beneficiary_without_notebook(pe_principal_csv_series, db_connection):
 
     for idx, series in pe_principal_csv_series.iterrows():
-        # Get the second element
+        # Get the third element
         if idx == 2:
 
             csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
 
-            print(csv_row)
             beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
                 db_connection, csv_row
             )
@@ -80,3 +79,42 @@ async def test_get_beneficiary_without_notebook(pe_principal_csv_series, db_conn
 
             if beneficiary:
                 assert beneficiary.notebook is None
+
+
+async def test_get_beneficiary_with_unknown_rome_code(
+    caplog, pe_principal_csv_series, db_connection
+):
+
+    for idx, series in pe_principal_csv_series.iterrows():
+        # Get the fourth element
+        if idx == 3:
+
+            csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
+
+            beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
+                db_connection, csv_row
+            )
+
+            assert beneficiary is not None
+
+            if beneficiary:
+                assert beneficiary.lastname == "Skinner"
+                assert beneficiary.firstname == "Edwina"
+                assert beneficiary.date_of_birth == date(1973, 5, 14)
+                assert beneficiary.notebook is not None
+                assert len(beneficiary.notebook.wanted_jobs) == 0
+
+                assert (
+                    await find_wanted_job_for_beneficiary(
+                        beneficiary, csv_row.rome_1, csv_row.rome_1_label
+                    )
+                ) is None
+
+                await pe.check_and_insert_wanted_job(
+                    db_connection,
+                    beneficiary.notebook,
+                    csv_row.rome_1,
+                    csv_row.rome_1_label,
+                )
+
+                assert "Rome code not found" in caplog.text

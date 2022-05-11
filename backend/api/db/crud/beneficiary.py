@@ -31,6 +31,8 @@ async def get_beneficiary_from_csv(
             "ON public.wanted_job.notebook_id = public.notebook.id "
             "LEFT JOIN public.rome_code "
             "ON public.rome_code.id = public.wanted_job.rome_code_id "
+            "LEFT JOIN public.account "
+            "ON public.account.beneficiary_id = public.beneficiary.id "
             "WHERE LOWER(public.beneficiary.firstname) = LOWER($1) AND "
             "LOWER(public.beneficiary.lastname) = LOWER($2) AND "
             "public.beneficiary.date_of_birth = $3",
