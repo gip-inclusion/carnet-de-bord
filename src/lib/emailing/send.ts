@@ -10,7 +10,7 @@ const smtpConfig = {
 	ignoreTLS: false,
 	port: SMTP_PORT,
 	requireTLS: true,
-	secure: true,
+	secure: SMTP_PORT === 465,
 	tls: {
 		...(/maildev/.test(SMTP_HOST) && { rejectUnauthorized: false }),
 		ciphers: 'SSLv3',
