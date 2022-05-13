@@ -1,3 +1,10 @@
+## [1.111.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.0...v1.111.1) (2022-05-13)
+
+
+### Bug Fixes
+
+* fix date parsing for Excel date format ([a7ecf4f](https://github.com/SocialGouv/carnet-de-bord/commit/a7ecf4fdccda03376110bf6117d54db30eacccd8))
+
 # [1.111.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.110.1...v1.111.0) (2022-05-10)
 
 
