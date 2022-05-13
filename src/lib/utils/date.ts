@@ -44,19 +44,23 @@ export function formatDateISO(date: Date): string {
 	return dateToken;
 }
 
-export function localeDateToIso(date: string): string {
-	const dateFormats: string[] = ['dd/MM/yyyy', 'dd-MM-yyyy', 'yyyy-MM-dd'];
-	let formattedDate = '';
+export function excelDateParser(excelDate: number) {
+	return new Date(Date.UTC(0, 0, excelDate - 1));
+}
+
+export function parseImportedDate(date: string): string {
+	let parsedDate;
 	try {
-		dateFormats.every((formatString) => {
-			const parsedDate = dateParse(date, formatString, new Date());
-			if (parsedDate.toString() !== 'Invalid Date') {
-				formattedDate = format(parsedDate, 'yyyy-MM-dd');
-				return false;
-			}
-			return true;
-		});
-		return formattedDate;
+		if (!isNaN(+date)) {
+			parsedDate = excelDateParser(+date);
+		} else {
+			const dateFormats: string[] = ['dd/MM/yyyy', 'dd-MM-yyyy', 'yyyy-MM-dd'];
+			dateFormats.every((formatString) => {
+				parsedDate = dateParse(date, formatString, new Date());
+				return parsedDate.toString() === 'Invalid Date';
+			});
+		}
+		return format(parsedDate, 'yyyy-MM-dd');
 	} catch (exception) {
 		return '';
 	}
