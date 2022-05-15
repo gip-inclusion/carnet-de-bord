@@ -1,3 +1,10 @@
+## [1.111.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.1...v1.111.2) (2022-05-15)
+
+
+### Bug Fixes
+
+* update actions number after change in notebook view ([14fb869](https://github.com/SocialGouv/carnet-de-bord/commit/14fb8698e28fdb490dd8754eb209f774dbde9afb))
+
 ## [1.111.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.0...v1.111.1) (2022-05-13)
 
 
