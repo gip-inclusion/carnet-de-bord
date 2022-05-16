@@ -1,4 +1,5 @@
 import logging
+from uuid import UUID
 
 import dask.dataframe as dd
 from asyncpg.connection import Connection
@@ -45,39 +46,22 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
 
             if beneficiary and beneficiary.notebook is not None:
 
-                external_data = ExternalDataInsert(
-                    source=ExternalSource.PE, data=beneficiary.dict(), account_id=None
-                )
-                await insert_external_data(connection, external_data)
-
                 logging.info(
                     "{} - Found matching beneficiary {}".format(
                         row["identifiant_unique_de"], beneficiary.id
                     )
                 )
 
-                for (rome_code, rome_label) in [
-                    (csv_row.rome_1, csv_row.rome_1_label),
-                    (csv_row.rome_2, csv_row.rome_2_label),
-                ]:
-                    wanted_job: WantedJob | None = await check_and_insert_wanted_job(
-                        connection,
-                        beneficiary.notebook,
-                        rome_code,
-                        rome_label,
-                    )
-                    if wanted_job:
-                        logging.info(
-                            "{} - Wanted job {} inserted".format(
-                                row["identifiant_unique_de"], wanted_job
-                            )
-                        )
-                    else:
-                        logging.info(
-                            "{} - NO Wanted job inserted".format(
-                                row["identifiant_unique_de"]
-                            )
-                        )
+                await insert_external_data_for_beneficiary(
+                    connection, beneficiary, ExternalSource.PE
+                )
+
+                await check_wanted_jobs_for_csv_row(
+                    connection,
+                    csv_row,
+                    beneficiary.notebook,
+                    row["identifiant_unique_de"],
+                )
 
             else:
                 logging.info(
@@ -91,6 +75,19 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             )
 
 
+async def insert_external_data_for_beneficiary(
+    connection: Connection,
+    beneficiary: Beneficiary,
+    source: ExternalSource,
+    account_id: UUID | None = None,
+):
+
+    external_data = ExternalDataInsert(
+        source=source, data=beneficiary.dict(), account_id=account_id
+    )
+    await insert_external_data(connection, external_data)
+
+
 async def parse_principal_csv(principal_csv: str):
     pool = await get_connection_pool(settings.hasura_graphql_database_url)
 
@@ -102,6 +99,30 @@ async def parse_principal_csv(principal_csv: str):
             await parse_principal_csv_with_db(connection, principal_csv)
     else:
         logging.error("Unable to acquire connection from DB pool")
+
+
+async def check_wanted_jobs_for_csv_row(
+    connection: Connection,
+    csv_row: PrincipalCsvRow,
+    notebook: Notebook,
+    unique_identifier: str,
+):
+    for (rome_code, rome_label) in [
+        (csv_row.rome_1, csv_row.rome_1_label),
+        (csv_row.rome_2, csv_row.rome_2_label),
+    ]:
+        wanted_job: WantedJob | None = await check_and_insert_wanted_job(
+            connection,
+            notebook,
+            rome_code,
+            rome_label,
+        )
+        if wanted_job:
+            logging.info(
+                "{} - Wanted job {} inserted".format(unique_identifier, wanted_job)
+            )
+        else:
+            logging.info("{} - NO Wanted job inserted".format(unique_identifier))
 
 
 async def check_and_insert_wanted_job(
