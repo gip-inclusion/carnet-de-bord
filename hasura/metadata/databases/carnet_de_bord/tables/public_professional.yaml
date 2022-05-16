@@ -1,201 +1,201 @@
 table:
-  name: professional
   schema: public
+  name: professional
 configuration:
-  custom_column_names:
-    created_at: createdAt
-    mobile_number: mobileNumber
-    structure_id: structureId
-    updated_at: updatedAt
   custom_root_fields: {}
+  custom_column_names:
+    mobile_number: mobileNumber
+    updated_at: updatedAt
+    structure_id: structureId
+    created_at: createdAt
 object_relationships:
-- name: account
-  using:
-    foreign_key_constraint_on:
-      column: professional_id
-      table:
-        name: account
-        schema: public
-- name: structure
-  using:
-    foreign_key_constraint_on: structure_id
+  - name: account
+    using:
+      foreign_key_constraint_on:
+        column: professional_id
+        table:
+          schema: public
+          name: account
+  - name: structure
+    using:
+      foreign_key_constraint_on: structure_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - id
-    - structure_id
-    - email
-    - lastname
-    - firstname
-    - position
-    - mobile_number
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check:
-      structure:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
-    columns:
-    - email
-    - firstname
-    - lastname
-    - mobile_number
-    - position
-    - id
-    - structure_id
-  role: manager
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - id
+        - structure_id
+        - email
+        - lastname
+        - firstname
+        - position
+        - mobile_number
+      backend_only: false
+  - role: manager
+    permission:
+      check:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      columns:
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - position
+        - id
+        - structure_id
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - position
-    - structure_id
-    - updated_at
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - structure_id
-    - email
-    - lastname
-    - firstname
-    - position
-    - mobile_number
-    - created_at
-    - updated_at
-    filter:
-      structure:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
-  role: admin_structure
-- permission:
-    columns:
-    - created_at
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - position
-    - structure_id
-    - updated_at
-    filter:
-      _or:
-      - account:
-          notebookActionsCreated:
-            target:
-              focus:
+  - role: admin_cdb
+    permission:
+      columns:
+        - created_at
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - position
+        - structure_id
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - structure_id
+        - email
+        - lastname
+        - firstname
+        - position
+        - mobile_number
+        - created_at
+        - updated_at
+      filter:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - created_at
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - position
+        - structure_id
+        - updated_at
+      filter:
+        _or:
+          - account:
+              notebookActionsCreated:
+                target:
+                  focus:
+                    notebook:
+                      beneficiary_id:
+                        _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebooksWhereMember:
                 notebook:
                   beneficiary_id:
                     _eq: X-Hasura-Beneficiary-Id
-      - account:
-          notebooksWhereMember:
-            notebook:
-              beneficiary_id:
-                _eq: X-Hasura-Beneficiary-Id
-      - account:
-          notebookTargetsCreated:
-            focus:
-              notebook:
-                beneficiary_id:
-                  _eq: X-Hasura-Beneficiary-Id
-      - account:
-          notebookFocusesCreated:
-            notebook:
-              beneficiary_id:
-                _eq: X-Hasura-Beneficiary-Id
-      - account:
-          notebookEventsCreated:
-            notebook:
-              beneficiary_id:
-                _eq: X-Hasura-Beneficiary-Id
-      - account:
-          notebooksCreated:
-            notebook:
-              beneficiary_id:
-                _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - position
-    - structure_id
-    - updated_at
-    filter:
-      structure:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - position
-    - structure_id
-    - updated_at
-    filter:
-      structure:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
-  role: professional
+          - account:
+              notebookTargetsCreated:
+                focus:
+                  notebook:
+                    beneficiary_id:
+                      _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebookFocusesCreated:
+                notebook:
+                  beneficiary_id:
+                    _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebookEventsCreated:
+                notebook:
+                  beneficiary_id:
+                    _eq: X-Hasura-Beneficiary-Id
+          - account:
+              notebooksCreated:
+                notebook:
+                  beneficiary_id:
+                    _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - created_at
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - position
+        - structure_id
+        - updated_at
+      filter:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - created_at
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - position
+        - structure_id
+        - updated_at
+      filter:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - firstname
-    - lastname
-    - mobile_number
-    - position
-    - email
-    - id
-    - structure_id
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - email
-    - firstname
-    - lastname
-    - mobile_number
-    - position
-    filter:
-      structure:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    check: null
-    columns:
-    - email
-    - firstname
-    - lastname
-    - mobile_number
-    - position
-    - structure_id
-    filter:
-      id:
-        _eq: X-Hasura-Professional-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - mobile_number
+        - position
+        - email
+        - id
+        - structure_id
+      filter: {}
+      check: {}
+  - role: manager
+    permission:
+      columns:
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - position
+      filter:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: professional
+    permission:
+      columns:
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - position
+        - structure_id
+      filter:
+        id:
+          _eq: X-Hasura-Professional-Id
+      check: null

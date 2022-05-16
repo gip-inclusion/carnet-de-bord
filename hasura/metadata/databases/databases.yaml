@@ -2,12 +2,12 @@
   kind: postgres
   configuration:
     connection_info:
+      use_prepared_statements: false
       database_url:
         from_env: HASURA_GRAPHQL_DATABASE_URL
       isolation_level: read-committed
       pool_settings:
         connection_lifetime: 600
         retries: 5
-      use_prepared_statements: false
   tables: "!include carnet_de_bord/tables/tables.yaml"
   functions: "!include carnet_de_bord/functions/functions.yaml"

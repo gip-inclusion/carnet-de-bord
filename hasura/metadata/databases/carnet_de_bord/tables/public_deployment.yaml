@@ -1,104 +1,104 @@
 table:
-  name: deployment
   schema: public
+  name: deployment
 configuration:
-  custom_column_names:
-    created_at: createdAt
-    updated_at: updatedAt
   custom_root_fields: {}
+  custom_column_names:
+    updated_at: updatedAt
+    created_at: createdAt
 array_relationships:
-- name: admin_structures
-  using:
-    foreign_key_constraint_on:
-      column: deployment_id
-      table:
-        name: admin_structure
-        schema: public
-- name: beneficiaries
-  using:
-    foreign_key_constraint_on:
-      column: deployment_id
-      table:
-        name: beneficiary
-        schema: public
-- name: managers
-  using:
-    foreign_key_constraint_on:
-      column: deployment_id
-      table:
-        name: manager
-        schema: public
-- name: structures
-  using:
-    foreign_key_constraint_on:
-      column: deployment_id
-      table:
-        name: structure
-        schema: public
+  - name: admin_structures
+    using:
+      foreign_key_constraint_on:
+        column: deployment_id
+        table:
+          schema: public
+          name: admin_structure
+  - name: beneficiaries
+    using:
+      foreign_key_constraint_on:
+        column: deployment_id
+        table:
+          schema: public
+          name: beneficiary
+  - name: managers
+    using:
+      foreign_key_constraint_on:
+        column: deployment_id
+        table:
+          schema: public
+          name: manager
+  - name: structures
+    using:
+      foreign_key_constraint_on:
+        column: deployment_id
+        table:
+          schema: public
+          name: structure
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - id
-    - label
-    - created_at
-    - updated_at
-    - config
-  role: admin_cdb
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - id
+        - label
+        - created_at
+        - updated_at
+        - config
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - label
-    - config
-    - created_at
-    - updated_at
-    - id
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - id
-    - label
-    - updated_at
-    filter:
-      id:
-        _eq: X-Hasura-Deployment-Id
-  role: admin_structure
-- permission:
-    allow_aggregations: true
-    columns:
-    - config
-    - created_at
-    - id
-    - label
-    - updated_at
-    filter:
-      id:
-        _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - id
-    - label
-    - updated_at
-    filter:
-      id:
-        _eq: X-Hasura-Deployment-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - label
+        - config
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - created_at
+        - id
+        - label
+        - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - config
+        - created_at
+        - id
+        - label
+        - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - created_at
+        - id
+        - label
+        - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - label
-    - config
-    - created_at
-    - updated_at
-    - id
-    filter: {}
-  role: admin_cdb
+  - role: admin_cdb
+    permission:
+      columns:
+        - label
+        - config
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      check: {}

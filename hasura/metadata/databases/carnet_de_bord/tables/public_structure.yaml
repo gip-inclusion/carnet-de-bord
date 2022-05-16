@@ -1,244 +1,244 @@
 table:
-  name: structure
   schema: public
+  name: structure
 configuration:
+  custom_root_fields: {}
   custom_column_names:
-    created_at: createdAt
-    deployment_id: deploymentId
     postal_code: postalCode
+    deployment_id: deploymentId
     short_desc: shortDesc
     updated_at: updatedAt
-  custom_root_fields: {}
+    created_at: createdAt
 object_relationships:
-- name: deployment
-  using:
-    foreign_key_constraint_on: deployment_id
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
 array_relationships:
-- name: admins
-  using:
-    foreign_key_constraint_on:
-      column: structure_id
-      table:
-        name: admin_structure_structure
-        schema: public
-- name: beneficiaries
-  using:
-    foreign_key_constraint_on:
-      column: structure_id
-      table:
-        name: beneficiary_structure
-        schema: public
-- name: professionals
-  using:
-    foreign_key_constraint_on:
-      column: structure_id
-      table:
-        name: professional
-        schema: public
+  - name: admins
+    using:
+      foreign_key_constraint_on:
+        column: structure_id
+        table:
+          schema: public
+          name: admin_structure_structure
+  - name: beneficiaries
+    using:
+      foreign_key_constraint_on:
+        column: structure_id
+        table:
+          schema: public
+          name: beneficiary_structure
+  - name: professionals
+    using:
+      foreign_key_constraint_on:
+        column: structure_id
+        table:
+          schema: public
+          name: professional
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - id
-    - siret
-    - name
-    - short_desc
-    - phone
-    - email
-    - postal_code
-    - city
-    - address1
-    - address2
-    - created_at
-    - updated_at
-    - website
-    - deployment_id
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-    columns:
-    - address1
-    - address2
-    - city
-    - created_at
-    - email
-    - id
-    - updated_at
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    - website
-    set:
-      deployment_id: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - address1
-    - address2
-    - city
-    - created_at
-    - email
-    - id
-    - updated_at
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    - website
-  role: professional
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - id
+        - siret
+        - name
+        - short_desc
+        - phone
+        - email
+        - postal_code
+        - city
+        - address1
+        - address2
+        - created_at
+        - updated_at
+        - website
+        - deployment_id
+      backend_only: false
+  - role: manager
+    permission:
+      check:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      set:
+        deployment_id: X-Hasura-Deployment-Id
+      columns:
+        - address1
+        - address2
+        - city
+        - created_at
+        - email
+        - id
+        - updated_at
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+        - website
+      backend_only: false
+  - role: professional
+    permission:
+      check: {}
+      columns:
+        - address1
+        - address2
+        - city
+        - created_at
+        - email
+        - id
+        - updated_at
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+        - website
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - address1
-    - address2
-    - city
-    - email
-    - name
-    - phone
-    - postal_code
-    - siret
-    - website
-    - short_desc
-    - created_at
-    - updated_at
-    - deployment_id
-    - id
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - siret
-    - name
-    - short_desc
-    - phone
-    - email
-    - postal_code
-    - city
-    - address1
-    - address2
-    - created_at
-    - updated_at
-    - website
-    - deployment_id
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: admin_structure
-- permission:
-    columns:
-    - id
-    - siret
-    - name
-    - short_desc
-    - phone
-    - email
-    - postal_code
-    - city
-    - address1
-    - address2
-    - created_at
-    - updated_at
-    - website
-    - deployment_id
-    filter: {}
-  role: anonymous
-- permission:
-    columns:
-    - address1
-    - address2
-    - city
-    - email
-    - name
-    - phone
-    - postal_code
-    - siret
-    - website
-    - short_desc
-    - created_at
-    - updated_at
-    - id
-    filter:
-      professionals:
-        account:
-          notebooksWhereMember:
-            notebook:
-              beneficiary:
-                id:
-                  _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - address1
-    - address2
-    - city
-    - created_at
-    - deployment_id
-    - email
-    - id
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    - updated_at
-    - website
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    allow_aggregations: true
-    columns:
-    - address1
-    - address2
-    - city
-    - created_at
-    - email
-    - id
-    - updated_at
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    - website
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - email
+        - name
+        - phone
+        - postal_code
+        - siret
+        - website
+        - short_desc
+        - created_at
+        - updated_at
+        - deployment_id
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - siret
+        - name
+        - short_desc
+        - phone
+        - email
+        - postal_code
+        - city
+        - address1
+        - address2
+        - created_at
+        - updated_at
+        - website
+        - deployment_id
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: anonymous
+    permission:
+      columns:
+        - id
+        - siret
+        - name
+        - short_desc
+        - phone
+        - email
+        - postal_code
+        - city
+        - address1
+        - address2
+        - created_at
+        - updated_at
+        - website
+        - deployment_id
+      filter: {}
+  - role: beneficiary
+    permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - email
+        - name
+        - phone
+        - postal_code
+        - siret
+        - website
+        - short_desc
+        - created_at
+        - updated_at
+        - id
+      filter:
+        professionals:
+          account:
+            notebooksWhereMember:
+              notebook:
+                beneficiary:
+                  id:
+                    _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - created_at
+        - deployment_id
+        - email
+        - id
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+        - updated_at
+        - website
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - created_at
+        - email
+        - id
+        - updated_at
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+        - website
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns: []
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - address1
-    - address2
-    - city
-    - email
-    - name
-    - phone
-    - postal_code
-    - short_desc
-    - siret
-    - website
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: manager
+  - role: admin_cdb
+    permission:
+      columns: []
+      filter: {}
+      check: {}
+  - role: manager
+    permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - email
+        - name
+        - phone
+        - postal_code
+        - short_desc
+        - siret
+        - website
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      check: null

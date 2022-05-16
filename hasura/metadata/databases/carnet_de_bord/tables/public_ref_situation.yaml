@@ -1,25 +1,25 @@
 table:
-  name: ref_situation
   schema: public
+  name: ref_situation
 select_permissions:
-- permission:
-    columns:
-    - id
-    - description
-    - theme
-    filter: {}
-  role: admin_cdb
-- permission:
-    columns:
-    - id
-    - description
-    - theme
-    filter: {}
-  role: manager
-- permission:
-    columns:
-    - id
-    - description
-    - theme
-    filter: {}
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - id
+        - description
+        - theme
+      filter: {}
+  - role: manager
+    permission:
+      columns:
+        - id
+        - description
+        - theme
+      filter: {}
+  - role: professional
+    permission:
+      columns:
+        - id
+        - description
+        - theme
+      filter: {}
