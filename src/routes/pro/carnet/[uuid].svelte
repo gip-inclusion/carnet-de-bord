@@ -103,7 +103,7 @@
 		const getNotebook = operationStore(
 			GetNotebookDocument,
 			buildQueryVariables(variables, selected),
-			{ additionalTypenames: ['notebook_action'] }
+			{ additionalTypenames: ['notebook_action', 'notebook_appointment'] }
 		);
 
 		return {
@@ -152,6 +152,7 @@
 	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook?.events;
 	$: beneficiary = notebook?.beneficiary;
 	$: members = notebook?.members;
+	$: appointments = notebook?.appointments;
 	$: lastMember = members?.length ? members[0] : null;
 
 	let search = '';
@@ -200,6 +201,7 @@
 					notebookId={notebook.id}
 					beneficiaryFirstname={beneficiary.firstname}
 					beneficiaryLastname={beneficiary.lastname}
+					{appointments}
 				/>
 			</MainAccordion>
 			<MainAccordion title="Axes de travail">

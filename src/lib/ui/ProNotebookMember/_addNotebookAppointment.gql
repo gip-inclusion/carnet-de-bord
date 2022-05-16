@@ -1,0 +1,20 @@
+mutation AddNotebookAppointment(
+	$date: date
+	$notebookId: uuid
+	$memberAccountId: uuid
+	$status: String
+) {
+	addAppointment: insert_notebook_appointment(
+		objects: {
+			date: $date
+			notebookId: $notebookId
+			memberAccountId: $memberAccountId
+			status: $status
+		}
+	) {
+		returning {
+			id
+			notebookId
+		}
+	}
+}

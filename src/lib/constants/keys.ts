@@ -98,3 +98,10 @@ export const focusThemeKeys = buildKeys({
 	contraintes_familiales: 'Contraintes familiales',
 	maitrise_langue: 'Maîtrise de la langue française',
 });
+
+// Appointments
+
+export const AppointmentsMapping = {
+	PRESENT: 'Présent',
+	ABSENT: 'Absent',
+};

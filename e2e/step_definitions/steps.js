@@ -60,6 +60,10 @@ Quand('je clique sur {string} sous le titre {string}', async (target, header) =>
 	I.click(item);
 });
 
+Quand('je clique sur la ligne du tableau contenant le texte {string}', (text) => {
+	I.click(locate('table tr').withText(text));
+});
+
 Quand("j'attends {int} secondes", (num) => {
 	I.wait(num);
 });
@@ -143,6 +147,11 @@ Quand("j'appuie sur {string}", (key) => {
 });
 
 //
+
+Alors('je vois {string} dans le tableau {string}', (text, tableName) => {
+	const locator = locate('tr td').inside(locate('//table').withAttr({ 'aria-label': tableName }));
+	I.see(text, locator);
+});
 
 Alors('je vois {string}', (text) => {
 	I.see(text);

@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let value: string;
 	export let classNames = '';
-	export let defaultValue = '-';
+	export let defaultValue = '--';
 	export let defaultValueClassNames = '';
 </script>
 

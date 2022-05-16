@@ -33,6 +33,9 @@ async function setupBeforeFixturesByTags(tags) {
 			case '@pro_recherche_ajout_metiers':
 				await removeWantedJobs();
 				break;
+			case '@appointments':
+				await removeAllAppointments();
+				break;
 			default:
 				return;
 		}
@@ -228,6 +231,13 @@ function removeBeneficiaryReferent() {
 	);
 }
 
+function removeAllAppointments() {
+	I.sendMutation(
+		`mutation RemoveAppointments {
+			delete_notebook_appointment(where: {}) { affected_rows }
+		}`
+	);
+}
 module.exports = {
 	UUID,
 	goToNotebookForLastName,

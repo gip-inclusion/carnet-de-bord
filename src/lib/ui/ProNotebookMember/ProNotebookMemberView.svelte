@@ -3,11 +3,13 @@
 	import { openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
 	import ProWithStructureView from './ProWithStructureView.svelte';
+	import ProAppointment from '$lib/ui/ProNotebookMember/ProAppointment.svelte';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
 	type Member = GetNotebookQuery['notebook']['members'][0];
 
 	export let member: Member;
+	export let notebookId: string;
 	$: professional = member?.account.professional;
 	$: createdAt = member?.createdAt;
 </script>
@@ -16,6 +18,7 @@
 	<h1>Membre du groupe de suivi</h1>
 	<p>Membre depuis le {formatDateLocale(createdAt)}</p>
 	<ProWithStructureView {professional} />
+	<ProAppointment {professional} {member} {notebookId} />
 	<div class="mt-6">
 		<Button
 			on:click={() => {

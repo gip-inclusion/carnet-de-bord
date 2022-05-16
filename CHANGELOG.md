@@ -35,31 +35,27 @@
 
 ## [1.109.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.6...v1.109.7) (2022-05-05)
 
-
 ### Bug Fixes
 
-* **deps:** update dependency @codeceptjs/helper to v2 ([#799](https://github.com/SocialGouv/carnet-de-bord/issues/799)) ([24d8657](https://github.com/SocialGouv/carnet-de-bord/commit/24d86576be0b3f5b6d5c5b4dd84de3a3d1d44cb6))
+- **deps:** update dependency @codeceptjs/helper to v2 ([#799](https://github.com/SocialGouv/carnet-de-bord/issues/799)) ([24d8657](https://github.com/SocialGouv/carnet-de-bord/commit/24d86576be0b3f5b6d5c5b4dd84de3a3d1d44cb6))
 
 ## [1.109.6](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.5...v1.109.6) (2022-05-05)
 
-
 ### Bug Fixes
 
-* **deps:** update dependency cookie to ^0.5.0 ([#794](https://github.com/SocialGouv/carnet-de-bord/issues/794)) ([e188fb6](https://github.com/SocialGouv/carnet-de-bord/commit/e188fb67d7a7c4dd50b081cfc78d412e4bacda76))
+- **deps:** update dependency cookie to ^0.5.0 ([#794](https://github.com/SocialGouv/carnet-de-bord/issues/794)) ([e188fb6](https://github.com/SocialGouv/carnet-de-bord/commit/e188fb67d7a7c4dd50b081cfc78d412e4bacda76))
 
 ## [1.109.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.4...v1.109.5) (2022-05-05)
 
-
 ### Bug Fixes
 
-* update benef import fixture ([#803](https://github.com/SocialGouv/carnet-de-bord/issues/803)) ([5aa8325](https://github.com/SocialGouv/carnet-de-bord/commit/5aa8325db69a312efab520ccba172bc7209758ec))
+- update benef import fixture ([#803](https://github.com/SocialGouv/carnet-de-bord/issues/803)) ([5aa8325](https://github.com/SocialGouv/carnet-de-bord/commit/5aa8325db69a312efab520ccba172bc7209758ec))
 
 ## [1.109.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.3...v1.109.4) (2022-05-05)
 
-
 ### Bug Fixes
 
-* set placeOfBirth non-mandatory ([b37756a](https://github.com/SocialGouv/carnet-de-bord/commit/b37756ab38cdd15469564113a8069df54d7030a9))
+- set placeOfBirth non-mandatory ([b37756a](https://github.com/SocialGouv/carnet-de-bord/commit/b37756ab38cdd15469564113a8069df54d7030a9))
 
 ## [1.109.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.2...v1.109.3) (2022-04-26)
 

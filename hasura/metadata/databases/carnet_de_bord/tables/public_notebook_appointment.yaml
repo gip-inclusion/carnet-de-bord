@@ -1,0 +1,55 @@
+table:
+  name: notebook_appointment
+  schema: public
+configuration:
+  custom_column_names:
+    account_id: memberAccountId
+    notebook_id: notebookId
+  custom_root_fields: {}
+object_relationships:
+- name: account
+  using:
+    foreign_key_constraint_on: account_id
+- name: notebook
+  using:
+    foreign_key_constraint_on: notebook_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      notebook:
+        members:
+          account_id:
+            _eq: X-Hasura-User-Id
+    columns:
+    - account_id
+    - date
+    - notebook_id
+    - status
+  role: professional
+select_permissions:
+- permission:
+    columns:
+    - account_id
+    - date
+    - id
+    - notebook_id
+    - status
+    filter:
+      notebook:
+        members:
+          account_id:
+            _eq: X-Hasura-User-Id
+  role: professional
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - date
+    - status
+    filter:
+      notebook:
+        members:
+          account_id:
+            _eq: X-Hasura-User-Id
+  role: professional

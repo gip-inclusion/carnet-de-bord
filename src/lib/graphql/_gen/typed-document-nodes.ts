@@ -2538,6 +2538,10 @@ export type MutationRoot = {
 	delete_notebook_action?: Maybe<NotebookActionMutationResponse>;
 	/** delete single row from the table: "notebook_action" */
 	delete_notebook_action_by_pk?: Maybe<NotebookAction>;
+	/** delete data from the table: "notebook_appointment" */
+	delete_notebook_appointment?: Maybe<NotebookAppointmentMutationResponse>;
+	/** delete single row from the table: "notebook_appointment" */
+	delete_notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** delete single row from the table: "notebook" */
 	delete_notebook_by_pk?: Maybe<Notebook>;
 	/** delete data from the table: "notebook_event" */
@@ -2627,6 +2631,10 @@ export type MutationRoot = {
 	insert_notebook_action?: Maybe<NotebookActionMutationResponse>;
 	/** insert a single row into the table: "notebook_action" */
 	insert_notebook_action_one?: Maybe<NotebookAction>;
+	/** insert data into the table: "notebook_appointment" */
+	insert_notebook_appointment?: Maybe<NotebookAppointmentMutationResponse>;
+	/** insert a single row into the table: "notebook_appointment" */
+	insert_notebook_appointment_one?: Maybe<NotebookAppointment>;
 	/** insert data into the table: "notebook_event" */
 	insert_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** insert a single row into the table: "notebook_event" */
@@ -2716,6 +2724,10 @@ export type MutationRoot = {
 	update_notebook_action?: Maybe<NotebookActionMutationResponse>;
 	/** update single row of the table: "notebook_action" */
 	update_notebook_action_by_pk?: Maybe<NotebookAction>;
+	/** update data of the table: "notebook_appointment" */
+	update_notebook_appointment?: Maybe<NotebookAppointmentMutationResponse>;
+	/** update single row of the table: "notebook_appointment" */
+	update_notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** update single row of the table: "notebook" */
 	update_notebook_by_pk?: Maybe<Notebook>;
 	/** update data of the table: "notebook_event" */
@@ -2866,6 +2878,16 @@ export type MutationRootDeleteNotebookActionArgs = {
 
 /** mutation root */
 export type MutationRootDeleteNotebookActionByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookAppointmentArgs = {
+	where: NotebookAppointmentBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookAppointmentByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -3111,6 +3133,18 @@ export type MutationRootInsertNotebookActionArgs = {
 export type MutationRootInsertNotebookActionOneArgs = {
 	object: NotebookActionInsertInput;
 	on_conflict?: InputMaybe<NotebookActionOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookAppointmentArgs = {
+	objects: Array<NotebookAppointmentInsertInput>;
+	on_conflict?: InputMaybe<NotebookAppointmentOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookAppointmentOneArgs = {
+	object: NotebookAppointmentInsertInput;
+	on_conflict?: InputMaybe<NotebookAppointmentOnConflict>;
 };
 
 /** mutation root */
@@ -3403,6 +3437,18 @@ export type MutationRootUpdateNotebookActionByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookAppointmentArgs = {
+	_set?: InputMaybe<NotebookAppointmentSetInput>;
+	where: NotebookAppointmentBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookAppointmentByPkArgs = {
+	_set?: InputMaybe<NotebookAppointmentSetInput>;
+	pk_columns: NotebookAppointmentPkColumnsInput;
+};
+
+/** mutation root */
 export type MutationRootUpdateNotebookByPkArgs = {
 	_set?: InputMaybe<NotebookSetInput>;
 	pk_columns: NotebookPkColumnsInput;
@@ -3575,6 +3621,10 @@ export type MutationRootUpdateWantedJobByPkArgs = {
 /** columns and relationships of "notebook" */
 export type Notebook = {
 	__typename?: 'notebook';
+	/** An array relationship */
+	appointments: Array<NotebookAppointment>;
+	/** An aggregate relationship */
+	appointments_aggregate: NotebookAppointmentAggregate;
 	/** An object relationship */
 	beneficiary: Beneficiary;
 	beneficiaryId: Scalars['uuid'];
@@ -3610,6 +3660,24 @@ export type Notebook = {
 	wantedJobs_aggregate: WantedJobAggregate;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookAppointmentsArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookAppointmentsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
 };
 
 /** columns and relationships of "notebook" */
@@ -3935,11 +4003,225 @@ export type NotebookAggregateFieldsCountArgs = {
 	distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** columns and relationships of "notebook_appointment" */
+export type NotebookAppointment = {
+	__typename?: 'notebook_appointment';
+	/** An object relationship */
+	account: Account;
+	created_at?: Maybe<Scalars['timestamptz']>;
+	date: Scalars['date'];
+	id: Scalars['uuid'];
+	memberAccountId: Scalars['uuid'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebookId: Scalars['uuid'];
+	status: Scalars['String'];
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregated selection of "notebook_appointment" */
+export type NotebookAppointmentAggregate = {
+	__typename?: 'notebook_appointment_aggregate';
+	aggregate?: Maybe<NotebookAppointmentAggregateFields>;
+	nodes: Array<NotebookAppointment>;
+};
+
+/** aggregate fields of "notebook_appointment" */
+export type NotebookAppointmentAggregateFields = {
+	__typename?: 'notebook_appointment_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookAppointmentMaxFields>;
+	min?: Maybe<NotebookAppointmentMinFields>;
+};
+
+/** aggregate fields of "notebook_appointment" */
+export type NotebookAppointmentAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_appointment" */
+export type NotebookAppointmentAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<NotebookAppointmentMaxOrderBy>;
+	min?: InputMaybe<NotebookAppointmentMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "notebook_appointment" */
+export type NotebookAppointmentArrRelInsertInput = {
+	data: Array<NotebookAppointmentInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<NotebookAppointmentOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_appointment". All fields are combined with a logical 'AND'. */
+export type NotebookAppointmentBoolExp = {
+	_and?: InputMaybe<Array<NotebookAppointmentBoolExp>>;
+	_not?: InputMaybe<NotebookAppointmentBoolExp>;
+	_or?: InputMaybe<Array<NotebookAppointmentBoolExp>>;
+	account?: InputMaybe<AccountBoolExp>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	date?: InputMaybe<DateComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	memberAccountId?: InputMaybe<UuidComparisonExp>;
+	notebook?: InputMaybe<NotebookBoolExp>;
+	notebookId?: InputMaybe<UuidComparisonExp>;
+	status?: InputMaybe<StringComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_appointment" */
+export enum NotebookAppointmentConstraint {
+	/** unique or primary key constraint */
+	NotebookAppointmentPkey = 'notebook_appointment_pkey',
+}
+
+/** input type for inserting data into table "notebook_appointment" */
+export type NotebookAppointmentInsertInput = {
+	account?: InputMaybe<AccountObjRelInsertInput>;
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	date?: InputMaybe<Scalars['date']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	notebook?: InputMaybe<NotebookObjRelInsertInput>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type NotebookAppointmentMaxFields = {
+	__typename?: 'notebook_appointment_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	date?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	memberAccountId?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "notebook_appointment" */
+export type NotebookAppointmentMaxOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	date?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	memberAccountId?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type NotebookAppointmentMinFields = {
+	__typename?: 'notebook_appointment_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	date?: Maybe<Scalars['date']>;
+	id?: Maybe<Scalars['uuid']>;
+	memberAccountId?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	status?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "notebook_appointment" */
+export type NotebookAppointmentMinOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	date?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	memberAccountId?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "notebook_appointment" */
+export type NotebookAppointmentMutationResponse = {
+	__typename?: 'notebook_appointment_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookAppointment>;
+};
+
+/** on conflict condition type for table "notebook_appointment" */
+export type NotebookAppointmentOnConflict = {
+	constraint: NotebookAppointmentConstraint;
+	update_columns?: Array<NotebookAppointmentUpdateColumn>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_appointment". */
+export type NotebookAppointmentOrderBy = {
+	account?: InputMaybe<AccountOrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	date?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	memberAccountId?: InputMaybe<OrderBy>;
+	notebook?: InputMaybe<NotebookOrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	status?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_appointment */
+export type NotebookAppointmentPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "notebook_appointment" */
+export enum NotebookAppointmentSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Date = 'date',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	MemberAccountId = 'memberAccountId',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	Status = 'status',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "notebook_appointment" */
+export type NotebookAppointmentSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	date?: InputMaybe<Scalars['date']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "notebook_appointment" */
+export enum NotebookAppointmentUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Date = 'date',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	MemberAccountId = 'memberAccountId',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	Status = 'status',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
 /** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
 export type NotebookBoolExp = {
 	_and?: InputMaybe<Array<NotebookBoolExp>>;
 	_not?: InputMaybe<NotebookBoolExp>;
 	_or?: InputMaybe<Array<NotebookBoolExp>>;
+	appointments?: InputMaybe<NotebookAppointmentBoolExp>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
 	beneficiaryId?: InputMaybe<UuidComparisonExp>;
 	contractSignDate?: InputMaybe<DateComparisonExp>;
@@ -4620,6 +4902,7 @@ export enum NotebookFocusUpdateColumn {
 
 /** input type for inserting data into table "notebook" */
 export type NotebookInsertInput = {
+	appointments?: InputMaybe<NotebookAppointmentArrRelInsertInput>;
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	contractSignDate?: InputMaybe<Scalars['date']>;
@@ -4954,6 +5237,7 @@ export type NotebookOnConflict = {
 
 /** Ordering options when selecting data from "notebook". */
 export type NotebookOrderBy = {
+	appointments_aggregate?: InputMaybe<NotebookAppointmentAggregateOrderBy>;
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
 	beneficiaryId?: InputMaybe<OrderBy>;
 	contractSignDate?: InputMaybe<OrderBy>;
@@ -5640,6 +5924,12 @@ export type QueryRoot = {
 	notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
+	/** fetch data from the table: "notebook_appointment" */
+	notebook_appointment: Array<NotebookAppointment>;
+	/** fetch aggregated fields from the table: "notebook_appointment" */
+	notebook_appointment_aggregate: NotebookAppointmentAggregate;
+	/** fetch data from the table: "notebook_appointment" using primary key columns */
+	notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
 	/** fetch data from the table: "notebook_event" */
@@ -5922,6 +6212,26 @@ export type QueryRootNotebookAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookOrderBy>>;
 	where?: InputMaybe<NotebookBoolExp>;
+};
+
+export type QueryRootNotebookAppointmentArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type QueryRootNotebookAppointmentAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type QueryRootNotebookAppointmentByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type QueryRootNotebookByPkArgs = {
@@ -7214,6 +7524,12 @@ export type SubscriptionRoot = {
 	notebook_action_by_pk?: Maybe<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
+	/** fetch data from the table: "notebook_appointment" */
+	notebook_appointment: Array<NotebookAppointment>;
+	/** fetch aggregated fields from the table: "notebook_appointment" */
+	notebook_appointment_aggregate: NotebookAppointmentAggregate;
+	/** fetch data from the table: "notebook_appointment" using primary key columns */
+	notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
 	/** fetch data from the table: "notebook_event" */
@@ -7496,6 +7812,26 @@ export type SubscriptionRootNotebookAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookOrderBy>>;
 	where?: InputMaybe<NotebookBoolExp>;
+};
+
+export type SubscriptionRootNotebookAppointmentArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type SubscriptionRootNotebookAppointmentAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookAppointmentOrderBy>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
+export type SubscriptionRootNotebookAppointmentByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type SubscriptionRootNotebookByPkArgs = {
@@ -8160,38 +8496,6 @@ export type RemoveReferentMutation = {
 		| undefined;
 };
 
-export type DeactivateNotebookMemberMutationVariables = Exact<{
-	member: NotebookMemberBoolExp;
-}>;
-
-export type DeactivateNotebookMemberMutation = {
-	__typename?: 'mutation_root';
-	update_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-};
-
-export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables = Exact<{
-	member: NotebookMemberInsertInput;
-	structure: BeneficiaryStructureBoolExp;
-}>;
-
-export type AddNotebookMemberWithBeneficiaryStructureUpdateMutation = {
-	__typename?: 'mutation_root';
-	insert_notebook_member_one?:
-		| {
-				__typename?: 'notebook_member';
-				notebook: { __typename?: 'notebook'; beneficiaryId: string };
-		  }
-		| null
-		| undefined;
-	update_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-};
-
 export type CreateDeploymentMutationVariables = Exact<{
 	email: Scalars['citext'];
 	deployment: Scalars['String'];
@@ -8285,6 +8589,38 @@ export type UpdateNotebookActionMutationVariables = Exact<{
 export type UpdateNotebookActionMutation = {
 	__typename?: 'mutation_root';
 	updateNotebookAct?: { __typename?: 'UpdateNotebookOutput'; id: string } | null | undefined;
+};
+
+export type DeactivateNotebookMemberMutationVariables = Exact<{
+	member: NotebookMemberBoolExp;
+}>;
+
+export type DeactivateNotebookMemberMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
+export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables = Exact<{
+	member: NotebookMemberInsertInput;
+	structure: BeneficiaryStructureBoolExp;
+}>;
+
+export type AddNotebookMemberWithBeneficiaryStructureUpdateMutation = {
+	__typename?: 'mutation_root';
+	insert_notebook_member_one?:
+		| {
+				__typename?: 'notebook_member';
+				notebook: { __typename?: 'notebook'; beneficiaryId: string };
+		  }
+		| null
+		| undefined;
+	update_beneficiary_structure?:
+		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
 };
 
 export type AttachBeneficiaryToStructureMutationVariables = Exact<{
@@ -8571,6 +8907,24 @@ export type UpdateTargetStatusMutation = {
 	updateStatus?: { __typename?: 'notebook_target'; id: string } | null | undefined;
 };
 
+export type AddNotebookAppointmentMutationVariables = Exact<{
+	date?: InputMaybe<Scalars['date']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+}>;
+
+export type AddNotebookAppointmentMutation = {
+	__typename?: 'mutation_root';
+	addAppointment?:
+		| {
+				__typename?: 'notebook_appointment_mutation_response';
+				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
+		  }
+		| null
+		| undefined;
+};
+
 export type AddNotebookMemberMutationVariables = Exact<{
 	creatorId: Scalars['uuid'];
 	accountId: Scalars['uuid'];
@@ -8580,6 +8934,21 @@ export type AddNotebookMemberMutationVariables = Exact<{
 export type AddNotebookMemberMutation = {
 	__typename?: 'mutation_root';
 	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
+};
+
+export type GetNotebookAppointmentsQueryVariables = Exact<{
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+}>;
+
+export type GetNotebookAppointmentsQuery = {
+	__typename?: 'query_root';
+	getNotebookAppointments: Array<{
+		__typename?: 'notebook_appointment';
+		date: string;
+		id: string;
+		status: string;
+	}>;
 };
 
 export type SearchProfessionalQueryVariables = Exact<{
@@ -8607,6 +8976,20 @@ export type SearchProfessionalQuery = {
 		__typename?: 'professional_aggregate';
 		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null | undefined;
 	};
+};
+
+export type UpdateNotebookAppointmentMutationVariables = Exact<{
+	date?: InputMaybe<Scalars['date']>;
+	status?: InputMaybe<Scalars['String']>;
+	id: Scalars['uuid'];
+}>;
+
+export type UpdateNotebookAppointmentMutation = {
+	__typename?: 'mutation_root';
+	updateNotbookAppointment?:
+		| { __typename?: 'notebook_appointment'; id: string; notebookId: string }
+		| null
+		| undefined;
 };
 
 export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
@@ -9969,6 +10352,7 @@ export type GetNotebookQuery = {
 					createdAt: string;
 					account: {
 						__typename?: 'account';
+						id: string;
 						professional?:
 							| {
 									__typename?: 'professional';
@@ -9992,6 +10376,11 @@ export type GetNotebookQuery = {
 							| null
 							| undefined;
 					};
+				}>;
+				appointments: Array<{
+					__typename?: 'notebook_appointment';
+					date: string;
+					memberAccountId: string;
 				}>;
 				events: Array<{
 					__typename?: 'notebook_event';
@@ -11797,180 +12186,6 @@ export const RemoveReferentDocument = {
 		},
 	],
 } as unknown as DocumentNode<RemoveReferentMutation, RemoveReferentMutationVariables>;
-export const DeactivateNotebookMemberDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'DeactivateNotebookMember' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_member_bool_exp' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'active' },
-											value: { kind: 'BooleanValue', value: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	DeactivateNotebookMemberMutation,
-	DeactivateNotebookMemberMutationVariables
->;
-export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookMemberWithBeneficiaryStructureUpdate' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'notebook_member_insert_input' },
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'beneficiary_structure_bool_exp' },
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_member_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'on_conflict' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: {
-												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_account_id_key',
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: { kind: 'EnumValue', value: 'active' },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'notebook' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } }],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'StringValue', value: 'done', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	AddNotebookMemberWithBeneficiaryStructureUpdateMutation,
-	AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables
->;
 export const CreateDeploymentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -12368,6 +12583,180 @@ export const UpdateNotebookActionDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateNotebookActionMutation, UpdateNotebookActionMutationVariables>;
+export const DeactivateNotebookMemberDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'DeactivateNotebookMember' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_member_bool_exp' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	DeactivateNotebookMemberMutation,
+	DeactivateNotebookMemberMutationVariables
+>;
+export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookMemberWithBeneficiaryStructureUpdate' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'notebook_member_insert_input' },
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'beneficiary_structure_bool_exp' },
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: {
+												kind: 'EnumValue',
+												value: 'notebook_member_notebook_id_account_id_key',
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: { kind: 'EnumValue', value: 'active' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'notebook' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'done', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	AddNotebookMemberWithBeneficiaryStructureUpdateMutation,
+	AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables
+>;
 export const AttachBeneficiaryToStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14126,6 +14515,98 @@ export const UpdateTargetStatusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateTargetStatusMutation, UpdateTargetStatusMutationVariables>;
+export const AddNotebookAppointmentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookAppointment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'addAppointment' },
+						name: { kind: 'Name', value: 'insert_notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberAccountId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	AddNotebookAppointmentMutation,
+	AddNotebookAppointmentMutationVariables
+>;
 export const AddNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14207,6 +14688,105 @@ export const AddNotebookMemberDocument = {
 		},
 	],
 } as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
+export const GetNotebookAppointmentsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookAppointments' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'getNotebookAppointments' },
+						name: { kind: 'Name', value: 'notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberAccountId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'memberAccountId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'notebookId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'EnumValue', value: 'desc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
 export const SearchProfessionalDocument = {
 	kind: 'Document',
 	definitions: [
@@ -14614,6 +15194,91 @@ export const SearchProfessionalDocument = {
 		},
 	],
 } as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
+export const UpdateNotebookAppointmentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateNotebookAppointment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateNotbookAppointment' },
+						name: { kind: 'Name', value: 'update_notebook_appointment_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateNotebookAppointmentMutation,
+	UpdateNotebookAppointmentMutationVariables
+>;
 export const UpdateBeneficiaryPersonalInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -20443,6 +21108,7 @@ export const GetNotebookDocument = {
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'professional' },
@@ -20486,6 +21152,76 @@ export const GetNotebookDocument = {
 													],
 												},
 											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'appointments' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'notebookId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'distinct_on' },
+											value: { kind: 'EnumValue', value: 'memberAccountId' },
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'memberAccountId' },
+																value: { kind: 'EnumValue', value: 'asc' },
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'date' },
+																value: { kind: 'EnumValue', value: 'desc' },
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'memberAccountId' } },
 										],
 									},
 								},
@@ -22079,14 +22815,6 @@ export type RemoveReferentMutationStore = OperationStore<
 	RemoveReferentMutation,
 	RemoveReferentMutationVariables
 >;
-export type DeactivateNotebookMemberMutationStore = OperationStore<
-	DeactivateNotebookMemberMutation,
-	DeactivateNotebookMemberMutationVariables
->;
-export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationStore = OperationStore<
-	AddNotebookMemberWithBeneficiaryStructureUpdateMutation,
-	AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables
->;
 export type CreateDeploymentMutationStore = OperationStore<
 	CreateDeploymentMutation,
 	CreateDeploymentMutationVariables
@@ -22106,6 +22834,14 @@ export type GetDeploymentNotebooksQueryStore = OperationStore<
 export type UpdateNotebookActionMutationStore = OperationStore<
 	UpdateNotebookActionMutation,
 	UpdateNotebookActionMutationVariables
+>;
+export type DeactivateNotebookMemberMutationStore = OperationStore<
+	DeactivateNotebookMemberMutation,
+	DeactivateNotebookMemberMutationVariables
+>;
+export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationStore = OperationStore<
+	AddNotebookMemberWithBeneficiaryStructureUpdateMutation,
+	AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables
 >;
 export type AttachBeneficiaryToStructureMutationStore = OperationStore<
 	AttachBeneficiaryToStructureMutation,
@@ -22167,13 +22903,25 @@ export type UpdateTargetStatusMutationStore = OperationStore<
 	UpdateTargetStatusMutation,
 	UpdateTargetStatusMutationVariables
 >;
+export type AddNotebookAppointmentMutationStore = OperationStore<
+	AddNotebookAppointmentMutation,
+	AddNotebookAppointmentMutationVariables
+>;
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
 	AddNotebookMemberMutationVariables
 >;
+export type GetNotebookAppointmentsQueryStore = OperationStore<
+	GetNotebookAppointmentsQuery,
+	GetNotebookAppointmentsQueryVariables
+>;
 export type SearchProfessionalQueryStore = OperationStore<
 	SearchProfessionalQuery,
 	SearchProfessionalQueryVariables
+>;
+export type UpdateNotebookAppointmentMutationStore = OperationStore<
+	UpdateNotebookAppointmentMutation,
+	UpdateNotebookAppointmentMutationVariables
 >;
 export type UpdateBeneficiaryPersonalInfoMutationStore = OperationStore<
 	UpdateBeneficiaryPersonalInfoMutation,
