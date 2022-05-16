@@ -5,15 +5,14 @@ import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = getSmtpConfig();
 
-const smtpConfig = {
-	host: SMTP_HOST,
+const smtpConfig: SMTPTransport.Options = {
 	ignoreTLS: false,
 	port: SMTP_PORT,
 	requireTLS: true,
 	secure: SMTP_PORT === 465,
 	tls: {
-		...(/maildev/.test(SMTP_HOST) && { rejectUnauthorized: false }),
 		minVersion: 'TLSv1.2',
+		...(/maildev/.test(SMTP_HOST) && { rejectUnauthorized: false }),
 	},
 	...(SMTP_PASS &&
 		SMTP_USER && {
@@ -31,7 +30,6 @@ export function send({
 	html,
 	bcc,
 }: Mail.Options): Promise<SMTPTransport.SentMessageInfo> {
-	console.log({ smtpConfig });
 	const transporter = nodemailer.createTransport(smtpConfig);
 	const mailOptions = {
 		bcc,
