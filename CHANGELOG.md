@@ -1,3 +1,10 @@
+# [1.112.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.2...v1.112.0) (2022-05-16)
+
+
+### Features
+
+* add appointments for pro in notebook view ([#807](https://github.com/SocialGouv/carnet-de-bord/issues/807)) ([ecb8771](https://github.com/SocialGouv/carnet-de-bord/commit/ecb87715e9f015553a88f0abc4343e8837c53ac7))
+
 ## [1.111.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.1...v1.111.2) (2022-05-15)
 
 
