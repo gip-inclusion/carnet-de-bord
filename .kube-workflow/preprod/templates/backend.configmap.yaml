@@ -4,5 +4,5 @@ metadata:
   name: backend-configmap
 data:
   SMTP_HOST: smtp.mailtrap.io
-  SMTP_PORT: '465'
+  SMTP_PORT: '2525'
   SMTP_FROM: support.carnet-de-bord@fabrique.social.gouv.fr
