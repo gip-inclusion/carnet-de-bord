@@ -1,0 +1,7 @@
+table:
+  schema: public
+  name: external_data_info
+object_relationships:
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id

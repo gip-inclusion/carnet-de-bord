@@ -6,6 +6,7 @@
 - "!include public_beneficiary_structure.yaml"
 - "!include public_deployment.yaml"
 - "!include public_external_data.yaml"
+- "!include public_external_data_info.yaml"
 - "!include public_external_source.yaml"
 - "!include public_manager.yaml"
 - "!include public_notebook.yaml"

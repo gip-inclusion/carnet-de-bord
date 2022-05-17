@@ -1,6 +1,7 @@
 table:
   schema: public
   name: external_source
+is_enum: true
 array_relationships:
   - name: external_data
     using:
