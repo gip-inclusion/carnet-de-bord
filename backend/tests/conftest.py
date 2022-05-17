@@ -36,7 +36,7 @@ def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
 
 @pytest.fixture
-def beneficiary() -> Beneficiary:
+def beneficiary_martin_gal() -> Beneficiary:
     return Beneficiary(
         id=UUID("1f0d3401-67ad-4ea7-8f3a-a0876c4f79bd"),
         email="martin.gal@gmail.com",
@@ -53,6 +53,31 @@ def beneficiary() -> Beneficiary:
         place_of_birth="Paris",
         deployment_id=UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
         internal_id="internal-id-nnnn",
+        notebook=None,
+        created_at=datetime.now(),
+        updated_at=datetime.now(),
+        account_id=None,
+    )
+
+
+@pytest.fixture
+def beneficiary_sophie_tifour() -> Beneficiary:
+    return Beneficiary(
+        id=UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"),
+        email="stifour93@yahoo.fr",
+        firstname="Sophie",
+        lastname="Tifour",
+        caf_number="2055990",
+        pe_number="300000L",
+        postal_code="93190",
+        city="Livry-Gargan",
+        address1="7 chemin du soleil",
+        address2=None,
+        mobile_number="0606060606",
+        date_of_birth=date(1982, 2, 1),
+        place_of_birth="Châlon en Champagne",
+        deployment_id=UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
+        internal_id=None,
         notebook=None,
         created_at=datetime.now(),
         updated_at=datetime.now(),

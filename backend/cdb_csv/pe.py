@@ -1,5 +1,4 @@
 import logging
-from uuid import UUID
 
 import dask.dataframe as dd
 from asyncpg.connection import Connection
@@ -9,20 +8,16 @@ from api.core.db import get_connection_pool
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_from_csv
 from api.db.crud.external_data import (
-    insert_external_data,
+    get_last_external_data_by_beneficiary_id_and_source,
     insert_external_data_for_beneficiary,
+    update_external_data,
 )
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
 )
 from api.db.models.beneficiary import Beneficiary
-from api.db.models.external_data import (
-    ExternalData,
-    ExternalDataInfoInsert,
-    ExternalDataInsert,
-    ExternalSource,
-)
+from api.db.models.external_data import ExternalData, ExternalDataUpdate, ExternalSource
 from api.db.models.notebook import Notebook
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
@@ -39,8 +34,10 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
     for _, row in df.iterrows():
 
         logging.info(
-            "{id} - Trying to import main row {id}".format(
-                id=row["identifiant_unique_de"]
+            "{id} - Trying to import main row {id} - {firstname} {lastname}".format(
+                id=row["identifiant_unique_de"],
+                firstname=row["prenom"],
+                lastname=row["nom"],
             )
         )
 
@@ -55,16 +52,16 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             if beneficiary and beneficiary.notebook is not None:
 
                 logging.info(
-                    "{} - Found matching beneficiary {}".format(
-                        row["identifiant_unique_de"], beneficiary.id
+                    "{} - Found matching beneficiary {} - {} {}".format(
+                        row["identifiant_unique_de"],
+                        beneficiary.id,
+                        beneficiary.firstname,
+                        beneficiary.lastname,
                     )
                 )
 
-                external_data: ExternalData | None = (
-                    await insert_external_data_for_beneficiary(
-                        connection, beneficiary, ExternalSource.PE
-                    )
-                )
+                # Keep track of the data we want to insert
+                await check_existing_external_data(connection, beneficiary)
 
                 await check_wanted_jobs_for_csv_row(
                     connection,
@@ -75,14 +72,51 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
 
             else:
                 logging.info(
-                    "{} - No matching beneficiary found".format(
+                    "{} - No matching beneficiary with notebook found".format(
                         row["identifiant_unique_de"]
                     )
                 )
         else:
             logging.info(
-                "{} - Skipping, BRSA field is No".format(row["identifiant_unique_de"])
+                "{} - Skipping, BRSA field is No for '{} {}'".format(
+                    row["identifiant_unique_de"], row["prenom"], row["nom"]
+                )
             )
+
+
+async def check_existing_external_data(
+    connection: Connection, beneficiary: Beneficiary
+) -> ExternalData | None:
+
+    # Do we already have some external data for this beneficiary?
+    external_data: ExternalData | None = (
+        await get_last_external_data_by_beneficiary_id_and_source(
+            connection, beneficiary.id, ExternalSource.PE
+        )
+    )
+
+    if external_data is None:
+        # If not, we should insert it
+
+        logging.info("No external_data for {}".format(beneficiary.id))
+        external_data: ExternalData | None = await insert_external_data_for_beneficiary(
+            connection, beneficiary, ExternalSource.PE
+        )
+    else:
+        # If we have some, let's update it.
+        # @TODO: check MD5 to avoid double imports
+
+        logging.info("Found external_data for {}".format(beneficiary.id))
+        logging.info(external_data)
+
+        external_data.data = beneficiary.dict()
+        updated_external_data: ExternalData | None = await update_external_data(
+            connection, external_data
+        )
+
+        external_data = updated_external_data
+
+    return external_data
 
 
 async def parse_principal_csv(principal_csv: str):

@@ -14,6 +14,10 @@ class ExternalDataInsert(BaseModel):
     data: dict
 
 
+class ExternalDataUpdate(ExternalDataInsert):
+    id: UUID
+
+
 class ExternalDataInfo(BaseModel):
     external_data_id: UUID
     beneficiary_id: UUID | None

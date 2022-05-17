@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 from asyncpg import Record

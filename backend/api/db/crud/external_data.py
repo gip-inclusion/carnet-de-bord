@@ -15,8 +15,41 @@ from api.db.models.external_data import (
 from cdb_csv.json import CustomEncoder
 
 
-async def get_last_external_data_by_beneficiary_id(
-    connection: Connection, beneficiary_id: UUID
+async def parse_external_data_from_record(record: Record) -> ExternalData:
+    return ExternalData(
+        id=record["id"],
+        source=record["source"],
+        data=json.loads(record["data"]),
+        created_at=record["created_at"],
+        updated_at=record["updated_at"],
+        info=None,
+    )
+
+
+async def update_external_data(
+    connection: Connection, external_data
+) -> ExternalData | None:
+
+    record = await connection.fetchrow(
+        """
+            UPDATE external_data set source = $1, data = $2
+            WHERE external_data.id = $3
+            returning id, source, data, created_at, updated_at
+            """,
+        external_data.source,
+        json.dumps(external_data.data, cls=CustomEncoder),
+        external_data.id,
+    )
+
+    if record:
+        external_data.source = record["source"]
+        external_data.data = json.loads(record["data"])
+        external_data.updated_at = record["updated_at"]
+        return external_data
+
+
+async def get_last_external_data_by_beneficiary_id_and_source(
+    connection: Connection, beneficiary_id: UUID, source: ExternalSource
 ) -> ExternalData | None:
     async with connection.transaction():
 
@@ -27,8 +60,10 @@ async def get_last_external_data_by_beneficiary_id(
             "LEFT JOIN external_data_info "
             "ON external_data_info.external_data_id = external_data.id "
             "WHERE external_data_info.beneficiary_id = $1 "
+            "AND external_data.source = $2 "
             "ORDER BY created_at DESC",
             beneficiary_id,
+            source,
         )
 
         if external_data_record:
@@ -55,7 +90,7 @@ async def insert_external_data(
     connection: Connection, external_data_insert: ExternalDataInsert
 ) -> ExternalData | None:
 
-    v = await connection.fetchrow(
+    record = await connection.fetchrow(
         """
             INSERT INTO public.external_data (source, data)
             VALUES ($1, $2) returning id, source, data, created_at, updated_at
@@ -64,16 +99,8 @@ async def insert_external_data(
         json.dumps(external_data_insert.data, cls=CustomEncoder),
     )
 
-    if v:
-        external_data = ExternalData(
-            id=v["id"],
-            source=v["source"],
-            data=json.loads(v["data"]),
-            created_at=v["created_at"],
-            updated_at=v["updated_at"],
-        )
-
-        return external_data
+    if record:
+        return await parse_external_data_from_record(record)
 
 
 async def insert_external_data_info(
@@ -111,3 +138,7 @@ async def insert_external_data_for_beneficiary(
         external_info: ExternalDataInfo | None = await insert_external_data_info(
             connection, external_info_insert
         )
+
+        external_data.info = external_info
+
+        return external_data
