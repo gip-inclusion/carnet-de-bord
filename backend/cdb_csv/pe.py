@@ -8,13 +8,21 @@ from pandas.core.series import Series
 from api.core.db import get_connection_pool
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_from_csv
-from api.db.crud.external_data import insert_external_data
+from api.db.crud.external_data import (
+    insert_external_data,
+    insert_external_data_for_beneficiary,
+)
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
 )
 from api.db.models.beneficiary import Beneficiary
-from api.db.models.external_data import ExternalDataInsert, ExternalSource
+from api.db.models.external_data import (
+    ExternalData,
+    ExternalDataInfoInsert,
+    ExternalDataInsert,
+    ExternalSource,
+)
 from api.db.models.notebook import Notebook
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
@@ -52,8 +60,10 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                     )
                 )
 
-                await insert_external_data_for_beneficiary(
-                    connection, beneficiary, ExternalSource.PE
+                external_data: ExternalData | None = (
+                    await insert_external_data_for_beneficiary(
+                        connection, beneficiary, ExternalSource.PE
+                    )
                 )
 
                 await check_wanted_jobs_for_csv_row(
@@ -73,19 +83,6 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             logging.info(
                 "{} - Skipping, BRSA field is No".format(row["identifiant_unique_de"])
             )
-
-
-async def insert_external_data_for_beneficiary(
-    connection: Connection,
-    beneficiary: Beneficiary,
-    source: ExternalSource,
-    account_id: UUID | None = None,
-):
-
-    external_data = ExternalDataInsert(
-        source=source, data=beneficiary.dict(), account_id=account_id
-    )
-    await insert_external_data(connection, external_data)
 
 
 async def parse_principal_csv(principal_csv: str):

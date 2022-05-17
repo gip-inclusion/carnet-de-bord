@@ -19,8 +19,11 @@ class Beneficiary(BaseModel):
     address2: str | None
     mobile_number: str | None
     date_of_birth: date
+    place_of_birth: str | None
     deployment_id: UUID | None
     created_at: datetime
     updated_at: datetime
     internal_id: str | None
     notebook: Notebook | None
+    # People that can't login don't have an account (BRSA users)
+    account_id: UUID | None

@@ -12,13 +12,24 @@ class ExternalSource(StrEnum):
 class ExternalDataInsert(BaseModel):
     source: ExternalSource
     data: dict
-    account_id: UUID | None
+
+
+class ExternalDataInfo(BaseModel):
+    external_data_id: UUID
+    beneficiary_id: UUID | None
+    created_at: datetime
+    updated_at: datetime
 
 
 class ExternalData(BaseModel):
     id: UUID
     source: ExternalSource
     data: dict
-    account_id: UUID | None
     created_at: datetime
     updated_at: datetime
+    info: ExternalDataInfo | None
+
+
+class ExternalDataInfoInsert(BaseModel):
+    beneficiary_id: UUID | None
+    external_data_id: UUID

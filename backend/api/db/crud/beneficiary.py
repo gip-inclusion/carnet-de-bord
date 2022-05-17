@@ -19,7 +19,8 @@ async def get_beneficiary_from_csv(
         beneficiary = None
 
         beneficiary_records: List[Record] = await connection.fetch(
-            "SELECT public.beneficiary.*, public.wanted_job.rome_code_id, "
+            "SELECT public.beneficiary.*, public.account.id as account_id, "
+            "public.wanted_job.rome_code_id, "
             "public.wanted_job.id as wanted_job_id, public.notebook.id as notebook_id, "
             "public.rome_code.code as rc_code, "
             "public.rome_code.description as rc_description, "

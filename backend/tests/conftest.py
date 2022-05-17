@@ -1,11 +1,14 @@
 import asyncio
 import os
+from datetime import date, datetime
+from uuid import UUID
 
 import dask.dataframe as dd
 import pytest
 from dask.dataframe.core import DataFrame
 
 from api.core.db import get_connection_pool
+from api.db.models.beneficiary import Beneficiary
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -30,6 +33,37 @@ def pe_principal_csv_filepath() -> str:
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
     return dd.read_csv(pe_principal_csv_filepath, sep=";")
+
+
+@pytest.fixture
+def beneficiary() -> Beneficiary:
+    return Beneficiary(
+        id=UUID("1f0d3401-67ad-4ea7-8f3a-a0876c4f79bd"),
+        email="martin.gal@gmail.com",
+        firstname="Martin",
+        lastname="Gal",
+        caf_number="3067049O",
+        pe_number="5891832",
+        postal_code="69995",
+        city="Cucumber",
+        address1="533 Trucklemans Lane",
+        address2=None,
+        mobile_number="0387512876",
+        date_of_birth=date(1978, 3, 23),
+        place_of_birth="Paris",
+        deployment_id=UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
+        internal_id="internal-id-nnnn",
+        notebook=None,
+        created_at=datetime.now(),
+        updated_at=datetime.now(),
+        account_id=None,
+    )
+
+
+@pytest.fixture
+def beneficiary_without_account(beneficiary: Beneficiary) -> Beneficiary:
+    beneficiary.account_id = None
+    return beneficiary
 
 
 @pytest.fixture
