@@ -1,6 +1,9 @@
+from asyncpg.connection import Connection
+
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
 )
+from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource
 from cdb_csv.pe import (
     check_existing_external_data,
@@ -10,7 +13,9 @@ from cdb_csv.pe import (
 
 
 async def test_parse_principal_csv(
-    pe_principal_csv_filepath, db_connection, beneficiary_sophie_tifour
+    pe_principal_csv_filepath: str,
+    db_connection: Connection,
+    beneficiary_sophie_tifour: Beneficiary,
 ):
 
     await parse_principal_csv_with_db(db_connection, pe_principal_csv_filepath)
@@ -25,7 +30,9 @@ async def test_parse_principal_csv(
     assert external_data.info.beneficiary_id == beneficiary_sophie_tifour.id
 
 
-async def test_insert_external_data(db_connection, beneficiary_sophie_tifour):
+async def test_insert_external_data(
+    db_connection: Connection, beneficiary_sophie_tifour: Beneficiary
+):
     await insert_external_data_for_beneficiary(
         db_connection, beneficiary_sophie_tifour, ExternalSource.PE
     )
@@ -39,7 +46,11 @@ async def test_insert_external_data(db_connection, beneficiary_sophie_tifour):
     assert external_data.info.beneficiary_id == beneficiary_sophie_tifour.id
 
 
-async def test_check_existing_external_data(db_connection, beneficiary_sophie_tifour):
+async def test_check_existing_external_data(
+    db_connection: Connection,
+    beneficiary_sophie_tifour: Beneficiary,
+):
+
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
         db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
     )
