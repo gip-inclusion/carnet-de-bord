@@ -23,69 +23,41 @@ object_relationships:
     using:
       foreign_key_constraint_on: beneficiary_id
 array_relationships:
-- name: appointments
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_appointment
-        schema: public
-- name: events
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_event
-        schema: public
-- name: focuses
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_focus
-        schema: public
-- name: members
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_member
-        schema: public
-- name: wantedJobs
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: wanted_job
-        schema: public
+  - name: appointments
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          name: notebook_appointment
+          schema: public
   - name: events
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: notebook_event
+          schema: public
   - name: focuses
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: notebook_focus
+          schema: public
   - name: members
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: notebook_member
+          schema: public
   - name: wantedJobs
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: wanted_job
+          schema: public
 computed_fields:
   - name: nbMembers
     definition:
