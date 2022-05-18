@@ -25,5 +25,6 @@ class Beneficiary(BaseModel):
     updated_at: datetime
     internal_id: str | None
     notebook: Notebook | None
-    # People that can't login don't have an account (BRSA users)
+    # BRSA users may not have an account
+    # (account is created on the  first login attempt)
     account_id: UUID | None
