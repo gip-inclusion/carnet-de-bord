@@ -27,7 +27,7 @@ async def parse_external_data_from_record(record: Record) -> ExternalData:
 
 
 async def update_external_data(
-    connection: Connection, external_data
+    connection: Connection, external_data: ExternalData
 ) -> ExternalData | None:
 
     record = await connection.fetchrow(
