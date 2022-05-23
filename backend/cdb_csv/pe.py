@@ -28,16 +28,18 @@ logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 async def parse_principal_csv_with_db(connection: Connection, principal_csv: str):
 
-    df = dd.read_csv(principal_csv, sep=";")
+    df = dd.read_csv(
+        principal_csv,
+        sep=";",
+        dtype={"adresse_ligne3": "object", "adresse_ligne5": "object"},
+    )
 
     row: Series
     for _, row in df.iterrows():
 
         logging.info(
-            "{id} - Trying to import main row {id} - {firstname} {lastname}".format(
-                id=row["identifiant_unique_de"],
-                firstname=row["prenom"],
-                lastname=row["nom"],
+            "{id} - Trying to import main row {id}".format(
+                id=row["identifiant_unique_de"]
             )
         )
 
@@ -52,11 +54,8 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             if beneficiary and beneficiary.notebook is not None:
 
                 logging.info(
-                    "{} - Found matching beneficiary {} - {} {}".format(
-                        row["identifiant_unique_de"],
-                        beneficiary.id,
-                        beneficiary.firstname,
-                        beneficiary.lastname,
+                    "{} - Found matching beneficiary {}}".format(
+                        row["identifiant_unique_de"], beneficiary.id
                     )
                 )
 
@@ -78,8 +77,8 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                 )
         else:
             logging.info(
-                "{} - Skipping, BRSA field is No for '{} {}'".format(
-                    row["identifiant_unique_de"], row["prenom"], row["nom"]
+                "{} - Skipping, BRSA field is No for".format(
+                    row["identifiant_unique_de"]
                 )
             )
 
