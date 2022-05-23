@@ -47,6 +47,7 @@ CREATE TABLE public.external_data_info (
   beneficiary_id uuid,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (external_data_id),
   FOREIGN KEY (beneficiary_id) REFERENCES public.beneficiary(id) ON UPDATE cascade ON DELETE cascade,
   FOREIGN KEY (external_data_id) REFERENCES public.external_data(id) ON UPDATE cascade ON DELETE cascade
 );
