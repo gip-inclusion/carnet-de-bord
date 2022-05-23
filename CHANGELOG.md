@@ -1,3 +1,10 @@
+## [1.112.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.0...v1.112.1) (2022-05-23)
+
+
+### Bug Fixes
+
+* fix hasura permissions for beneficiaries dashboard ([#822](https://github.com/SocialGouv/carnet-de-bord/issues/822)) ([84e7d60](https://github.com/SocialGouv/carnet-de-bord/commit/84e7d60ec2f9ef7099c21635a6954be96d3c21bb))
+
 # [1.112.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.2...v1.112.0) (2022-05-16)
 
 
