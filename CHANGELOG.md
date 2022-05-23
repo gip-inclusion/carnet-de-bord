@@ -1,58 +1,50 @@
 ## [1.112.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.1...v1.112.2) (2022-05-24)
 
-
 ### Bug Fixes
 
-* fix old video link ([#821](https://github.com/SocialGouv/carnet-de-bord/issues/821)) ([a01c06c](https://github.com/SocialGouv/carnet-de-bord/commit/a01c06c61eed05da05251c69166a62233821feb6)), closes [#814](https://github.com/SocialGouv/carnet-de-bord/issues/814)
+- fix old video link ([#821](https://github.com/SocialGouv/carnet-de-bord/issues/821)) ([a01c06c](https://github.com/SocialGouv/carnet-de-bord/commit/a01c06c61eed05da05251c69166a62233821feb6)), closes [#814](https://github.com/SocialGouv/carnet-de-bord/issues/814)
 
 ## [1.112.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.0...v1.112.1) (2022-05-23)
 
-
 ### Bug Fixes
 
-* fix hasura permissions for beneficiaries dashboard ([#822](https://github.com/SocialGouv/carnet-de-bord/issues/822)) ([84e7d60](https://github.com/SocialGouv/carnet-de-bord/commit/84e7d60ec2f9ef7099c21635a6954be96d3c21bb))
+- fix hasura permissions for beneficiaries dashboard ([#822](https://github.com/SocialGouv/carnet-de-bord/issues/822)) ([84e7d60](https://github.com/SocialGouv/carnet-de-bord/commit/84e7d60ec2f9ef7099c21635a6954be96d3c21bb))
 
 # [1.112.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.2...v1.112.0) (2022-05-16)
 
-
 ### Features
 
-* add appointments for pro in notebook view ([#807](https://github.com/SocialGouv/carnet-de-bord/issues/807)) ([ecb8771](https://github.com/SocialGouv/carnet-de-bord/commit/ecb87715e9f015553a88f0abc4343e8837c53ac7))
+- add appointments for pro in notebook view ([#807](https://github.com/SocialGouv/carnet-de-bord/issues/807)) ([ecb8771](https://github.com/SocialGouv/carnet-de-bord/commit/ecb87715e9f015553a88f0abc4343e8837c53ac7))
 
 ## [1.111.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.1...v1.111.2) (2022-05-15)
 
-
 ### Bug Fixes
 
-* update actions number after change in notebook view ([14fb869](https://github.com/SocialGouv/carnet-de-bord/commit/14fb8698e28fdb490dd8754eb209f774dbde9afb))
+- update actions number after change in notebook view ([14fb869](https://github.com/SocialGouv/carnet-de-bord/commit/14fb8698e28fdb490dd8754eb209f774dbde9afb))
 
 ## [1.111.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.111.0...v1.111.1) (2022-05-13)
 
-
 ### Bug Fixes
 
-* fix date parsing for Excel date format ([a7ecf4f](https://github.com/SocialGouv/carnet-de-bord/commit/a7ecf4fdccda03376110bf6117d54db30eacccd8))
+- fix date parsing for Excel date format ([a7ecf4f](https://github.com/SocialGouv/carnet-de-bord/commit/a7ecf4fdccda03376110bf6117d54db30eacccd8))
 
 # [1.111.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.110.1...v1.111.0) (2022-05-10)
 
-
 ### Features
 
-* add sentry for dev ([#815](https://github.com/SocialGouv/carnet-de-bord/issues/815)) ([3076859](https://github.com/SocialGouv/carnet-de-bord/commit/3076859a5b2d70b9fdc4d10c224e017076458df0))
+- add sentry for dev ([#815](https://github.com/SocialGouv/carnet-de-bord/issues/815)) ([3076859](https://github.com/SocialGouv/carnet-de-bord/commit/3076859a5b2d70b9fdc4d10c224e017076458df0))
 
 ## [1.110.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.110.0...v1.110.1) (2022-05-10)
 
-
 ### Bug Fixes
 
-* refactor foreign key ([cad5661](https://github.com/SocialGouv/carnet-de-bord/commit/cad5661c799feecf071a8b207a686262186664f3))
+- refactor foreign key ([cad5661](https://github.com/SocialGouv/carnet-de-bord/commit/cad5661c799feecf071a8b207a686262186664f3))
 
 # [1.110.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.7...v1.110.0) (2022-05-09)
 
-
 ### Features
 
-* add sentry to backend ([#806](https://github.com/SocialGouv/carnet-de-bord/issues/806)) ([d44f9e9](https://github.com/SocialGouv/carnet-de-bord/commit/d44f9e97b344fb213d17694110496dc508d8ca28))
+- add sentry to backend ([#806](https://github.com/SocialGouv/carnet-de-bord/issues/806)) ([d44f9e9](https://github.com/SocialGouv/carnet-de-bord/commit/d44f9e97b344fb213d17694110496dc508d8ca28))
 
 ## [1.109.7](https://github.com/SocialGouv/carnet-de-bord/compare/v1.109.6...v1.109.7) (2022-05-05)
 

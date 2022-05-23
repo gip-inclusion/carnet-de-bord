@@ -17,6 +17,7 @@ configuration:
     updated_at: updatedAt
     work_situation: workSituation
     work_situation_date: workSituationDate
+    work_situation_end_date: workSituationEndDate
   custom_root_fields: {}
 object_relationships:
 - name: beneficiary
@@ -124,6 +125,7 @@ insert_permissions:
     - right_rsa
     - work_situation
     - work_situation_date
+    - work_situation_end_date
   role: professional
 select_permissions:
 - permission:
@@ -199,6 +201,7 @@ select_permissions:
     - updated_at
     - work_situation
     - work_situation_date
+    - work_situation_end_date
     computed_fields:
     - nbMembers
     filter:
@@ -248,6 +251,7 @@ select_permissions:
     - updated_at
     - work_situation
     - work_situation_date
+    - work_situation_end_date
     filter:
       members:
         _and:
@@ -291,6 +295,7 @@ update_permissions:
     - right_rsa
     - work_situation
     - work_situation_date
+    - work_situation_end_date
     filter:
       members:
         _and:

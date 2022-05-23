@@ -2,6 +2,7 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 	notebook: notebook_by_pk(id: $id) {
 		id
 		workSituationDate
+		workSituationEndDate
 		workSituation
 		rightRsa
 		rightRqth
@@ -77,7 +78,7 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 		appointments(
 			where: { notebookId: { _eq: $id } }
 			distinct_on: memberAccountId
-			order_by: [{memberAccountId: asc }, { date: desc }]
+			order_by: [{ memberAccountId: asc }, { date: desc }]
 		) {
 			date
 			memberAccountId

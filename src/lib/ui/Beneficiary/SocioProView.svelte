@@ -7,18 +7,30 @@
 	} from '$lib/constants/keys';
 	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { pluralize } from '$lib/helpers';
-	import { formatDateLocale } from '$lib/utils/date';
+	import { formatDateLocale, dateInterval } from '$lib/utils/date';
 	import { Text } from '../utils';
 
 	export let notebook: GetNotebookByBeneficiaryIdQuery['notebook'][0];
+
+	function contractDatesTemplating(start: string, end: string) {
+		if (end) {
+			return `du ${formatDateLocale(start)} au ${formatDateLocale(end)}`;
+		}
+		return `Depuis le ${formatDateLocale(start)}`;
+	}
 </script>
 
 <div class="flex flex-col space-y-6">
 	{#if notebook.workSituationDate && notebook.workSituation}
 		<div>
-			<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong> depuis le {formatDateLocale(
-				notebook.workSituationDate
-			)}
+			<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong>
+			{contractDatesTemplating(notebook.workSituationDate, notebook.workSituationEndDate)}
+			{#if notebook.workSituationEndDate}
+				-
+				<span class="italic font-bold">
+					({dateInterval(notebook.workSituationDate, notebook.workSituationEndDate)})
+				</span>
+			{/if}
 		</div>
 	{/if}
 
