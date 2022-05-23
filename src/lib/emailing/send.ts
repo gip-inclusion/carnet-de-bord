@@ -6,6 +6,7 @@ import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = getSmtpConfig();
 
 const smtpConfig: SMTPTransport.Options = {
+	host: SMTP_HOST,
 	ignoreTLS: false,
 	port: SMTP_PORT,
 	requireTLS: true,
