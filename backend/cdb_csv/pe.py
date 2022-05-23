@@ -28,11 +28,7 @@ logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 async def parse_principal_csv_with_db(connection: Connection, principal_csv: str):
 
-    df = dd.read_csv(
-        principal_csv,
-        sep=";",
-        dtype={"adresse_ligne3": "object", "adresse_ligne5": "object"},
-    )
+    df = dd.read_csv(principal_csv, sep=";", dtype=str)
 
     row: Series
     for _, row in df.iterrows():
@@ -54,7 +50,7 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             if beneficiary and beneficiary.notebook is not None:
 
                 logging.info(
-                    "{} - Found matching beneficiary {}}".format(
+                    "{} - Found matching beneficiary {}".format(
                         row["identifiant_unique_de"], beneficiary.id
                     )
                 )
