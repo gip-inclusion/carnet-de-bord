@@ -12,6 +12,8 @@ query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz
 		educationLevel
 		contractType
 		contractSignDate
+		contractStartDate
+		contractEndDate
 		wantedJobs {
 			rome_code {
 				id

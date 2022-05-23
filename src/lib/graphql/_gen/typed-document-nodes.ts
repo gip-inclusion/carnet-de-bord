@@ -3628,7 +3628,9 @@ export type Notebook = {
 	/** An object relationship */
 	beneficiary: Beneficiary;
 	beneficiaryId: Scalars['uuid'];
+	contractEndDate?: Maybe<Scalars['date']>;
 	contractSignDate?: Maybe<Scalars['date']>;
+	contractStartDate?: Maybe<Scalars['date']>;
 	contractType?: Maybe<Scalars['String']>;
 	createdAt: Scalars['timestamptz'];
 	educationLevel?: Maybe<Scalars['String']>;
@@ -4224,7 +4226,9 @@ export type NotebookBoolExp = {
 	appointments?: InputMaybe<NotebookAppointmentBoolExp>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
 	beneficiaryId?: InputMaybe<UuidComparisonExp>;
+	contractEndDate?: InputMaybe<DateComparisonExp>;
 	contractSignDate?: InputMaybe<DateComparisonExp>;
+	contractStartDate?: InputMaybe<DateComparisonExp>;
 	contractType?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	educationLevel?: InputMaybe<StringComparisonExp>;
@@ -4905,7 +4909,9 @@ export type NotebookInsertInput = {
 	appointments?: InputMaybe<NotebookAppointmentArrRelInsertInput>;
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	contractEndDate?: InputMaybe<Scalars['date']>;
 	contractSignDate?: InputMaybe<Scalars['date']>;
+	contractStartDate?: InputMaybe<Scalars['date']>;
 	contractType?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
@@ -4929,7 +4935,9 @@ export type NotebookInsertInput = {
 export type NotebookMaxFields = {
 	__typename?: 'notebook_max_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	contractEndDate?: Maybe<Scalars['date']>;
 	contractSignDate?: Maybe<Scalars['date']>;
+	contractStartDate?: Maybe<Scalars['date']>;
 	contractType?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	educationLevel?: Maybe<Scalars['String']>;
@@ -5200,7 +5208,9 @@ export enum NotebookMemberUpdateColumn {
 export type NotebookMinFields = {
 	__typename?: 'notebook_min_fields';
 	beneficiaryId?: Maybe<Scalars['uuid']>;
+	contractEndDate?: Maybe<Scalars['date']>;
 	contractSignDate?: Maybe<Scalars['date']>;
+	contractStartDate?: Maybe<Scalars['date']>;
 	contractType?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	educationLevel?: Maybe<Scalars['String']>;
@@ -5240,7 +5250,9 @@ export type NotebookOrderBy = {
 	appointments_aggregate?: InputMaybe<NotebookAppointmentAggregateOrderBy>;
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
 	beneficiaryId?: InputMaybe<OrderBy>;
+	contractEndDate?: InputMaybe<OrderBy>;
 	contractSignDate?: InputMaybe<OrderBy>;
+	contractStartDate?: InputMaybe<OrderBy>;
 	contractType?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	educationLevel?: InputMaybe<OrderBy>;
@@ -5271,7 +5283,11 @@ export enum NotebookSelectColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
+	ContractEndDate = 'contractEndDate',
+	/** column name */
 	ContractSignDate = 'contractSignDate',
+	/** column name */
+	ContractStartDate = 'contractStartDate',
 	/** column name */
 	ContractType = 'contractType',
 	/** column name */
@@ -5303,7 +5319,9 @@ export enum NotebookSelectColumn {
 /** input type for updating data in table "notebook" */
 export type NotebookSetInput = {
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	contractEndDate?: InputMaybe<Scalars['date']>;
 	contractSignDate?: InputMaybe<Scalars['date']>;
+	contractStartDate?: InputMaybe<Scalars['date']>;
 	contractType?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
@@ -5571,7 +5589,11 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	BeneficiaryId = 'beneficiaryId',
 	/** column name */
+	ContractEndDate = 'contractEndDate',
+	/** column name */
 	ContractSignDate = 'contractSignDate',
+	/** column name */
+	ContractStartDate = 'contractStartDate',
 	/** column name */
 	ContractType = 'contractType',
 	/** column name */
@@ -8767,6 +8789,8 @@ export type UpdateNotebookContractMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	contractType: Scalars['String'];
 	contractSignDate?: InputMaybe<Scalars['date']>;
+	contractStartDate: Scalars['date'];
+	contractEndDate: Scalars['date'];
 }>;
 
 export type UpdateNotebookContractMutation = {
@@ -9576,6 +9600,8 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		rightBonus: boolean;
 		contractType?: string | null | undefined;
 		contractSignDate?: string | null | undefined;
+		contractStartDate?: string | null | undefined;
+		contractEndDate?: string | null | undefined;
 		educationLevel?: string | null | undefined;
 		geographicalArea?: string | null | undefined;
 		wantedJobs: Array<{
@@ -9701,6 +9727,8 @@ export type GetNotebookByIdQuery = {
 		rightBonus: boolean;
 		contractType?: string | null | undefined;
 		contractSignDate?: string | null | undefined;
+		contractStartDate?: string | null | undefined;
+		contractEndDate?: string | null | undefined;
 		educationLevel?: string | null | undefined;
 		geographicalArea?: string | null | undefined;
 		wantedJobs: Array<{
@@ -9820,6 +9848,8 @@ export type NotebookFragmentFragment = {
 	rightBonus: boolean;
 	contractType?: string | null | undefined;
 	contractSignDate?: string | null | undefined;
+	contractStartDate?: string | null | undefined;
+	contractEndDate?: string | null | undefined;
 	educationLevel?: string | null | undefined;
 	geographicalArea?: string | null | undefined;
 	wantedJobs: Array<{
@@ -10305,6 +10335,8 @@ export type GetNotebookQuery = {
 				educationLevel?: string | null | undefined;
 				contractType?: string | null | undefined;
 				contractSignDate?: string | null | undefined;
+				contractStartDate?: string | null | undefined;
+				contractEndDate?: string | null | undefined;
 				wantedJobs: Array<{
 					__typename?: 'wanted_job';
 					rome_code: { __typename?: 'rome_code'; id: string; label: string };
@@ -10754,6 +10786,8 @@ export const NotebookFragmentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contractStartDate' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contractEndDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 					{
 						kind: 'Field',
@@ -13899,6 +13933,22 @@ export const UpdateNotebookContractDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractSignDate' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractStartDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractEndDate' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -13920,6 +13970,19 @@ export const UpdateNotebookContractDocument = {
 												kind: 'Variable',
 												name: { kind: 'Name', value: 'contractSignDate' },
 											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'contractStartDate' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'contractStartDate' },
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'contractEndDate' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'contractEndDate' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -20946,6 +21009,8 @@ export const GetNotebookDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'contractStartDate' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'contractEndDate' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'wantedJobs' },

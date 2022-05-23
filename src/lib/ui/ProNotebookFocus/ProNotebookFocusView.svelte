@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { contractTypeFullKeys, contractTypeKeys, focusThemeKeys } from '$lib/constants/keys';
-	import type { Notebook, NotebookFocus } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { NotebookFocus } from '$lib/graphql/_gen/typed-document-nodes';
 	import { pluralize } from '$lib/helpers';
 	import { openComponent } from '$lib/stores';
 	import { Button, Card } from '$lib/ui/base';
 	import ProNotebookContractDetails from '$lib/ui/ProNotebookContract/ProNotebookContractDetails.svelte';
 	import { Text } from '$lib/ui/utils';
-	import { formatDateLocale } from '$lib/utils/date';
+	import { formatDateLocale, dateInterval } from '$lib/utils/date';
 	import ProNotebookFocusCreate from './ProNotebookFocusCreate.svelte';
 	import ProNotebookFocusDetails from './ProNotebookFocusDetails.svelte';
+	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-	export let notebook: Pick<Notebook, 'id' | 'contractType' | 'contractSignDate'>;
+	export let notebook: GetNotebookQuery['notebook'];
 	export let focuses: (Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'> & {
 		targets: { actions_aggregate: { aggregate?: { count: number } } }[];
 	})[] = [];
@@ -25,6 +26,16 @@
 	const openContract = () => {
 		openComponent.open({ component: ProNotebookContractDetails, props: { notebook } });
 	};
+
+	function contractDatesTemplating(start: string, end: string) {
+		if (start) {
+			if (end) {
+				return `Du ${formatDateLocale(start)} au ${formatDateLocale(end)}`;
+			}
+			return `Depuis le ${formatDateLocale(start)}`;
+		}
+		return '';
+	}
 
 	$: contractLabel =
 		!notebook.contractType || 'no' === notebook.contractType
@@ -42,6 +53,15 @@
 			{contractLabel}
 		</div>
 		{#if notebook.contractSignDate}
+			<div>
+				{contractDatesTemplating(notebook.contractStartDate, notebook.contractEndDate)}
+				{#if notebook.contractEndDate}
+					-
+					<span class="italic font-bold">
+						({dateInterval(notebook.contractStartDate, notebook.contractEndDate)})
+					</span>
+				{/if}
+			</div>
 			<div>Signé le {formatDateLocale(notebook.contractSignDate)}</div>
 		{/if}
 	</div>

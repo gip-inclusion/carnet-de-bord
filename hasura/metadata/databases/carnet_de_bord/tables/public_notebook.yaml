@@ -4,7 +4,9 @@ table:
 configuration:
   custom_column_names:
     beneficiary_id: beneficiaryId
+    contract_end_date: contractEndDate
     contract_sign_date: contractSignDate
+    contract_start_date: contractStartDate
     contract_type: contractType
     created_at: createdAt
     education_level: educationLevel
@@ -112,7 +114,9 @@ insert_permissions:
     check: {}
     columns:
     - beneficiary_id
+    - contract_end_date
     - contract_sign_date
+    - contract_start_date
     - contract_type
     - created_at
     - education_level
@@ -185,7 +189,9 @@ select_permissions:
 - permission:
     columns:
     - beneficiary_id
+    - contract_end_date
     - contract_sign_date
+    - contract_start_date
     - contract_type
     - created_at
     - education_level
@@ -234,7 +240,9 @@ select_permissions:
     allow_aggregations: true
     columns:
     - beneficiary_id
+    - contract_end_date
     - contract_sign_date
+    - contract_start_date
     - contract_type
     - created_at
     - education_level
@@ -279,7 +287,9 @@ update_permissions:
 - permission:
     check: null
     columns:
+    - contract_end_date
     - contract_sign_date
+    - contract_start_date
     - contract_type
     - created_at
     - education_level
