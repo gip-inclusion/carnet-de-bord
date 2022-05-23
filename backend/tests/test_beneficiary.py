@@ -28,7 +28,7 @@ async def test_get_beneficiary_with_wanted_jobs(pe_principal_csv_series, db_conn
 
         assert (
             await find_wanted_job_for_beneficiary(
-                beneficiary, csv_row.rome_1, csv_row.rome_1_label
+                beneficiary, csv_row.rome_1, csv_row.appelation_rome_1
             )
         ) is not None
 
@@ -58,7 +58,7 @@ async def test_get_beneficiary_without_wanted_jobs(
 
                 assert (
                     await find_wanted_job_for_beneficiary(
-                        beneficiary, csv_row.rome_1, csv_row.rome_1_label
+                        beneficiary, csv_row.rome_1, csv_row.appelation_rome_1
                     )
                 ) is None
 
@@ -106,7 +106,7 @@ async def test_get_beneficiary_with_unknown_rome_code(
 
                 assert (
                     await find_wanted_job_for_beneficiary(
-                        beneficiary, csv_row.rome_1, csv_row.rome_1_label
+                        beneficiary, csv_row.rome_1, csv_row.appelation_rome_1
                     )
                 ) is None
 
@@ -114,7 +114,7 @@ async def test_get_beneficiary_with_unknown_rome_code(
                     db_connection,
                     beneficiary.notebook,
                     csv_row.rome_1,
-                    csv_row.rome_1_label,
+                    csv_row.appelation_rome_1,
                 )
 
                 assert "Rome code not found" in caplog.text

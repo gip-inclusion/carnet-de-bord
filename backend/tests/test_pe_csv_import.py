@@ -6,7 +6,7 @@ from api.db.crud.external_data import (
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource
 from cdb_csv.pe import (
-    check_existing_external_data,
+    insert_existing_external_data,
     insert_external_data_for_beneficiary,
     parse_principal_csv_with_db,
 )
@@ -67,7 +67,7 @@ async def test_check_existing_external_data(
 
     beneficiary_sophie_tifour.lastname = "Newname"
 
-    external_data = await check_existing_external_data(
+    external_data = await insert_existing_external_data(
         db_connection, beneficiary_sophie_tifour
     )
 

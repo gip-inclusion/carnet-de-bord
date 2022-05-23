@@ -28,7 +28,9 @@ logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 async def parse_principal_csv_with_db(connection: Connection, principal_csv: str):
 
-    df = dd.read_csv(principal_csv, sep=";", dtype=str)
+    df = dd.read_csv(
+        principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
+    )
 
     row: Series
     for _, row in df.iterrows():
@@ -55,16 +57,15 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                     )
                 )
 
-                # Keep track of the data we want to insert
-                await check_existing_external_data(connection, beneficiary)
-
-                await check_wanted_jobs_for_csv_row(
+                await insert_wanted_jobs_for_csv_row(
                     connection,
                     csv_row,
                     beneficiary.notebook,
                     row["identifiant_unique_de"],
                 )
 
+                # Keep track of the data we want to insert
+                await insert_existing_external_data(connection, beneficiary)
             else:
                 logging.info(
                     "{} - No matching beneficiary with notebook found".format(
@@ -79,7 +80,7 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             )
 
 
-async def check_existing_external_data(
+async def insert_existing_external_data(
     connection: Connection, beneficiary: Beneficiary
 ) -> ExternalData | None:
 
@@ -127,15 +128,15 @@ async def parse_principal_csv(principal_csv: str):
         logging.error("Unable to acquire connection from DB pool")
 
 
-async def check_wanted_jobs_for_csv_row(
+async def insert_wanted_jobs_for_csv_row(
     connection: Connection,
     csv_row: PrincipalCsvRow,
     notebook: Notebook,
     unique_identifier: str,
 ):
     for (rome_code, rome_label) in [
-        (csv_row.rome_1, csv_row.rome_1_label),
-        (csv_row.rome_2, csv_row.rome_2_label),
+        (csv_row.rome_1, csv_row.appelation_rome_1),
+        (csv_row.rome_2, csv_row.appelation_rome_2),
     ]:
         wanted_job: WantedJob | None = await check_and_insert_wanted_job(
             connection,
@@ -169,16 +170,4 @@ async def check_and_insert_wanted_job(
 
 
 async def map_principal_row(row: Series) -> PrincipalCsvRow:
-    return PrincipalCsvRow(
-        unique_id=row["identifiant_unique_de"],
-        title=row["civilite"],
-        first_name=row["prenom"],
-        last_name=row["nom"],
-        place_of_birth=row["lieu_naissance"],
-        date_of_birth=row["date_naissance"],
-        rome_1=row["rome_1"],
-        rome_1_label=row["appelation_rome_1"],
-        rome_2=row["rome_2"],
-        rome_2_label=row["appelation_rome_2"],
-        brsa=row["brsa"],
-    )
+    return PrincipalCsvRow.parse_obj(row)

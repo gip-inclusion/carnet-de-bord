@@ -32,7 +32,13 @@ def pe_principal_csv_filepath() -> str:
 @pytest.fixture
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
-    return dd.read_csv(pe_principal_csv_filepath, sep=";")
+    return dd.read_csv(
+        pe_principal_csv_filepath,
+        sep=";",
+        dtype=str,
+        keep_default_na=False,
+        na_values=["_"],
+    )
 
 
 @pytest.fixture

@@ -1,4 +1,3 @@
-import logging
 from typing import List
 
 from asyncpg import Record
@@ -38,9 +37,9 @@ async def get_beneficiary_from_csv(
             "WHERE LOWER(public.beneficiary.firstname) = LOWER($1) AND "
             "LOWER(public.beneficiary.lastname) = LOWER($2) AND "
             "public.beneficiary.date_of_birth = $3",
-            csv_row.first_name,
-            csv_row.last_name,
-            csv_row.date_of_birth,
+            csv_row.prenom,
+            csv_row.nom,
+            csv_row.date_naissance,
         )
 
         if len(beneficiary_records) > 0:
