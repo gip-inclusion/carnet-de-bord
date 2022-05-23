@@ -17,7 +17,7 @@ from api.db.crud.wanted_job import (
     insert_wanted_job_for_notebook,
 )
 from api.db.models.beneficiary import Beneficiary
-from api.db.models.external_data import ExternalData, ExternalDataUpdate, ExternalSource
+from api.db.models.external_data import ExternalData, ExternalSource
 from api.db.models.notebook import Notebook
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
