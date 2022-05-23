@@ -15,6 +15,9 @@ async function loginStub(userType, email) {
 async function setupBeforeFixturesByTags(tags) {
 	tags.forEach(async (tag) => {
 		switch (tag) {
+			case '@notebook_contract':
+				await clearNotebookContract();
+				break;
 			case '@import_pro':
 				await removeProfessionalsFixture();
 				break;
@@ -238,6 +241,15 @@ function removeAllAppointments() {
 		}`
 	);
 }
+
+function clearNotebookContract() {
+	I.sendMutation(
+		`mutation UpdateNotebookContract {
+			update_notebook_by_pk(_set: {contractSignDate: null, contractStartDate: null, contractEndDate: null, contractType: "no"}, pk_columns: {id: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"}) { __typename }
+		}`
+	);
+}
+
 module.exports = {
 	UUID,
 	goToNotebookForLastName,

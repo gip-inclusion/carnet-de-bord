@@ -1,8 +1,0 @@
-mutation UpdateNotebookContract($id: uuid!, $contractType: String!, $contractSignDate: date) {
-	update_notebook_by_pk(
-		_set: { contractSignDate: $contractSignDate, contractType: $contractType }
-		pk_columns: { id: $id }
-	) {
-		id
-	}
-}
