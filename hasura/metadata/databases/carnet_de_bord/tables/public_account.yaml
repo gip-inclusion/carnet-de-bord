@@ -188,8 +188,13 @@ select_permissions:
     - confirmed
     - onboarding_done
     filter:
-      id:
-        _eq: X-Hasura-User-Id
+      _or:
+      - id:
+          _eq: X-Hasura-User-Id
+      - notebooksWhereMember:
+          notebook:
+            beneficiary_id:
+              _eq: X-Hasura-Beneficiary-Id
   role: beneficiary
 - permission:
     columns:
