@@ -28,36 +28,36 @@ array_relationships:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          name: notebook_appointment
           schema: public
+          name: notebook_appointment
   - name: events
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          name: notebook_event
           schema: public
+          name: notebook_event
   - name: focuses
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          name: notebook_focus
           schema: public
+          name: notebook_focus
   - name: members
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          name: notebook_member
           schema: public
+          name: notebook_member
   - name: wantedJobs
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          name: wanted_job
           schema: public
+          name: wanted_job
 computed_fields:
   - name: nbMembers
     definition:
