@@ -12,7 +12,7 @@ from api.db.models.external_data import (
     ExternalDataInsert,
     ExternalSource,
 )
-from cdb_csv.json import CustomEncoder
+from cdb_csv.json_encoder import CustomEncoder
 
 
 async def parse_external_data_from_record(record: Record) -> ExternalData:
