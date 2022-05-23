@@ -1,4 +1,4 @@
-import { format, intlFormat, parse as dateParse } from 'date-fns';
+import { format, formatDistance, intlFormat, parse as dateParse } from 'date-fns';
 import fr from 'date-fns/locale/fr/index.js';
 
 export function formatDate(value: string): string {
@@ -64,4 +64,8 @@ export function parseImportedDate(date: string): string {
 	} catch (exception) {
 		return '';
 	}
+}
+
+export function dateInterval(start: string, end: string) {
+	return formatDistance(new Date(start), new Date(end), { locale: fr });
 }

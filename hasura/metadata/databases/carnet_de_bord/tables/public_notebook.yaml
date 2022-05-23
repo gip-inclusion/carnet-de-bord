@@ -9,6 +9,7 @@ configuration:
     work_situation: workSituation
     education_level: educationLevel
     work_situation_date: workSituationDate
+    work_situation_end_date: workSituationEndDate
     geographical_area: geographicalArea
     beneficiary_id: beneficiaryId
     updated_at: updatedAt
@@ -84,6 +85,7 @@ insert_permissions:
         - right_rsa
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       backend_only: false
   - role: manager
     permission:
@@ -106,6 +108,7 @@ insert_permissions:
         - right_rsa
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       backend_only: false
   - role: professional
     permission:
@@ -124,6 +127,7 @@ insert_permissions:
         - right_rsa
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       backend_only: false
 select_permissions:
   - role: admin_cdb
@@ -144,6 +148,7 @@ select_permissions:
         - updated_at
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       filter: {}
       allow_aggregations: true
   - role: admin_structure
@@ -164,6 +169,7 @@ select_permissions:
         - updated_at
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       computed_fields:
         - nbMembers
       filter:
@@ -200,6 +206,7 @@ select_permissions:
         - updated_at
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       computed_fields:
         - nbMembers
       filter:
@@ -223,6 +230,7 @@ select_permissions:
         - updated_at
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       computed_fields:
         - nbMembers
       filter:
@@ -248,6 +256,7 @@ select_permissions:
         - updated_at
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       filter:
         members:
           _and:
@@ -271,6 +280,7 @@ update_permissions:
         - work_situation
         - contract_sign_date
         - work_situation_date
+        - work_situation_end_date
         - created_at
         - beneficiary_id
         - id
@@ -291,6 +301,7 @@ update_permissions:
         - right_rsa
         - work_situation
         - work_situation_date
+        - work_situation_end_date
       filter:
         members:
           _and:

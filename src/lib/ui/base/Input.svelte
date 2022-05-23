@@ -23,11 +23,11 @@
 
 <div
 	{id}
-	class={`fr-input-group ${error ? 'fr-input-group--error' : ''} ${
+	class={`flex flex-col fr-input-group ${error ? 'fr-input-group--error' : ''} ${
 		valid ? 'fr-input-group--valid' : ''
 	} ${$$props.class || ''}`}
 >
-	<label class="fr-label flex-grow" for={name}>
+	<label class="fr-label flex-grow mb-2" for={name}>
 		<div>{inputLabel}{required ? ' *' : ''}</div>
 		{#if inputHint}
 			<span

@@ -11,6 +11,8 @@
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button, Checkbox, Input, Radio, Select } from '../base';
 	import ProNotebookSocioProRome from './ProNotebookSocioProROME.svelte';
+	import { add } from 'date-fns';
+	import { formatDateISO } from '$lib/utils/date';
 
 	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
@@ -18,6 +20,7 @@
 		| 'id'
 		| 'workSituation'
 		| 'workSituationDate'
+		| 'workSituationEndDate'
 		| 'rightRsa'
 		| 'rightAre'
 		| 'rightAss'
@@ -29,12 +32,14 @@
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
+	const romeSelectorId = 'romeSelectorId';
 
 	function initFormData(): typeof notebook {
 		return {
 			id: notebook.id,
 			workSituation: notebook.workSituation,
 			workSituationDate: notebook.workSituationDate,
+			workSituationEndDate: notebook.workSituationEndDate,
 			rightRsa: notebook.rightRsa,
 			rightAre: notebook.rightAre,
 			rightAss: notebook.rightAss,
@@ -54,6 +59,7 @@
 
 	async function handleSubmit() {
 		trackEvent('pro', 'notebook', 'update socio pro info');
+		sanitizeDates();
 		await updateSocioPro({
 			id: notebook.id,
 			...formData,
@@ -65,7 +71,26 @@
 		close();
 	}
 
-	const romeSelectorId = 'romeSelectorId';
+	function sanitizeDates() {
+		formData.workSituationDate =
+			formData.workSituationDate === '' ? null : formData.workSituationDate;
+		formData.workSituationEndDate =
+			formData.workSituationEndDate === '' ? null : formData.workSituationEndDate;
+	}
+
+	function setWorkSitutationEndDate(monthInterval: number) {
+		let newDate = null;
+		if (monthInterval && formData.workSituationDate) {
+			newDate = formatDateISO(add(new Date(formData.workSituationDate), { months: monthInterval }));
+		}
+		formData.workSituationEndDate = newDate;
+	}
+
+	function updateEndDate() {
+		if (!formData.workSituationDate) {
+			formData.workSituationEndDate = null;
+		}
+	}
 </script>
 
 <section class="flex flex-col w-full">
@@ -81,7 +106,58 @@
 				options={workSituationKeys.options}
 				bind:selected={formData.workSituation}
 			/>
-			<Input bind:value={formData.workSituationDate} inputLabel="Depuis le" type="date" />
+			<div class="row-auto">
+				<div class="grid grid-cols-2 gap-4">
+					<div>
+						<Input
+							class="mb-0"
+							bind:value={formData.workSituationDate}
+							on:change={updateEndDate}
+							inputLabel="Depuis le"
+							type="date"
+						/>
+					</div>
+					<div class={`${formData.workSituationDate ? '' : 'invisible'}`}>
+						<Input
+							class="mb-0"
+							bind:value={formData.workSituationEndDate}
+							inputLabel="Au"
+							type="date"
+							min={formData.workSituationDate}
+							error={formData.workSituationEndDate &&
+							formData.workSituationEndDate < formData.workSituationDate
+								? 'La date de fin est antérieure à la date de deébut'
+								: null}
+						/>
+						<div class="col-end-3 italic text-xs mt-1 text-france-blue-500">
+							<span>Durée : </span>
+							<button
+								type="button"
+								class="cursor-pointer underline"
+								on:click={() => setWorkSitutationEndDate(3)}>3 mois</button
+							>
+							-
+							<button
+								type="button"
+								class="cursor-pointer underline"
+								on:click={() => setWorkSitutationEndDate(6)}>6 mois</button
+							>
+							-
+							<button
+								type="button"
+								class="cursor-pointer underline"
+								on:click={() => setWorkSitutationEndDate(12)}>12 mois</button
+							>
+							-
+							<button
+								type="button"
+								class="cursor-pointer underline"
+								on:click={() => setWorkSitutationEndDate(null)}>indéterminée</button
+							>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<Radio
 			caption={'Revenu de solidarité active (RSA)'}
