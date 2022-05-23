@@ -2,6 +2,7 @@ mutation UpdateSocioPro(
 	$id: uuid!
 	$workSituation: String
 	$workSituationDate: date
+	$workSituationEndDate: date
 	$rightRsa: String
 	$rightAre: Boolean
 	$rightAss: Boolean
@@ -16,6 +17,7 @@ mutation UpdateSocioPro(
 		_set: {
 			workSituation: $workSituation
 			workSituationDate: $workSituationDate
+			workSituationEndDate: $workSituationEndDate
 			rightRsa: $rightRsa
 			rightAre: $rightAre
 			rightAss: $rightAss

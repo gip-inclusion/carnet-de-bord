@@ -3662,6 +3662,7 @@ export type Notebook = {
 	wantedJobs_aggregate: WantedJobAggregate;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
+	workSituationEndDate?: Maybe<Scalars['date']>;
 };
 
 /** columns and relationships of "notebook" */
@@ -4247,6 +4248,7 @@ export type NotebookBoolExp = {
 	wantedJobs?: InputMaybe<WantedJobBoolExp>;
 	workSituation?: InputMaybe<StringComparisonExp>;
 	workSituationDate?: InputMaybe<DateComparisonExp>;
+	workSituationEndDate?: InputMaybe<DateComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook" */
@@ -4929,6 +4931,7 @@ export type NotebookInsertInput = {
 	wantedJobs?: InputMaybe<WantedJobArrRelInsertInput>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
+	workSituationEndDate?: InputMaybe<Scalars['date']>;
 };
 
 /** aggregate max on columns */
@@ -4947,6 +4950,7 @@ export type NotebookMaxFields = {
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
+	workSituationEndDate?: Maybe<Scalars['date']>;
 };
 
 /** columns and relationships of "notebook_member" */
@@ -5220,6 +5224,7 @@ export type NotebookMinFields = {
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
+	workSituationEndDate?: Maybe<Scalars['date']>;
 };
 
 /** response of any mutation on the table "notebook" */
@@ -5271,6 +5276,7 @@ export type NotebookOrderBy = {
 	wantedJobs_aggregate?: InputMaybe<WantedJobAggregateOrderBy>;
 	workSituation?: InputMaybe<OrderBy>;
 	workSituationDate?: InputMaybe<OrderBy>;
+	workSituationEndDate?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook */
@@ -5314,6 +5320,8 @@ export enum NotebookSelectColumn {
 	WorkSituation = 'workSituation',
 	/** column name */
 	WorkSituationDate = 'workSituationDate',
+	/** column name */
+	WorkSituationEndDate = 'workSituationEndDate',
 }
 
 /** input type for updating data in table "notebook" */
@@ -5335,6 +5343,7 @@ export type NotebookSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
+	workSituationEndDate?: InputMaybe<Scalars['date']>;
 };
 
 /** columns and relationships of "notebook_target" */
@@ -5620,6 +5629,8 @@ export enum NotebookUpdateColumn {
 	WorkSituation = 'workSituation',
 	/** column name */
 	WorkSituationDate = 'workSituationDate',
+	/** column name */
+	WorkSituationEndDate = 'workSituationEndDate',
 }
 
 /** column ordering options */
@@ -9044,6 +9055,7 @@ export type UpdateSocioProMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
+	workSituationEndDate?: InputMaybe<Scalars['date']>;
 	rightRsa?: InputMaybe<Scalars['String']>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
@@ -9593,6 +9605,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		id: string;
 		workSituation?: string | null | undefined;
 		workSituationDate?: string | null | undefined;
+		workSituationEndDate?: string | null | undefined;
 		rightAre: boolean;
 		rightAss?: boolean | null | undefined;
 		rightRsa?: string | null | undefined;
@@ -9720,6 +9733,7 @@ export type GetNotebookByIdQuery = {
 		id: string;
 		workSituation?: string | null | undefined;
 		workSituationDate?: string | null | undefined;
+		workSituationEndDate?: string | null | undefined;
 		rightAre: boolean;
 		rightAss?: boolean | null | undefined;
 		rightRsa?: string | null | undefined;
@@ -9841,6 +9855,7 @@ export type NotebookFragmentFragment = {
 	id: string;
 	workSituation?: string | null | undefined;
 	workSituationDate?: string | null | undefined;
+	workSituationEndDate?: string | null | undefined;
 	rightAre: boolean;
 	rightAss?: boolean | null | undefined;
 	rightRsa?: string | null | undefined;
@@ -10338,6 +10353,7 @@ export type GetNotebookQuery = {
 				__typename?: 'notebook';
 				id: string;
 				workSituationDate?: string | null | undefined;
+				workSituationEndDate?: string | null | undefined;
 				workSituation?: string | null | undefined;
 				rightRsa?: string | null | undefined;
 				rightRqth: boolean;
@@ -10792,6 +10808,7 @@ export const NotebookFragmentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'workSituationDate' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'workSituationEndDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'rightAre' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
@@ -15612,6 +15629,11 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituationEndDate' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
@@ -15702,6 +15724,14 @@ export const UpdateSocioProDocument = {
 											value: {
 												kind: 'Variable',
 												name: { kind: 'Name', value: 'workSituationDate' },
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'workSituationEndDate' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'workSituationEndDate' },
 											},
 										},
 										{
@@ -21031,6 +21061,7 @@ export const GetNotebookDocument = {
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'workSituationDate' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'workSituationEndDate' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightRqth' } },
