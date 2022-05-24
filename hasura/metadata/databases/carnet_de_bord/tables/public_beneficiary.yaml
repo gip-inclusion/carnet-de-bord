@@ -35,13 +35,6 @@ object_relationships:
           schema: public
           name: notebook
 array_relationships:
-  - name: external_data_infos
-    using:
-      foreign_key_constraint_on:
-        column: beneficiary_id
-        table:
-          schema: public
-          name: external_data_info
   - name: structures
     using:
       foreign_key_constraint_on:

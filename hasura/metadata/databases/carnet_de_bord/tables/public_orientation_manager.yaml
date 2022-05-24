@@ -1,0 +1,10 @@
+table:
+  schema: public
+  name: orientation_manager
+configuration:
+  custom_root_fields: {}
+  custom_column_names:
+    deployment_id: deploymentId
+    updated_at: updatedAt
+    created_at: createdAt
+    phone_numbers: phoneNumbers
