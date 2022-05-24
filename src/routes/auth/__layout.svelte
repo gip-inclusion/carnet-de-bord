@@ -16,7 +16,7 @@
 			 * Video with voiceover
 			 */
 			{
-				url: 'https://nextcloud.fabrique.social.gouv.fr/s/ZymqnnGR8LcALFf/download/intro-cdb-voiceover.mp4',
+				url: 'https://nextcloud.fabrique.social.gouv.fr/s/KjFZxq4CFE76fyD/download/intro-cdb-voiceover.mp4',
 				type: 'video/mp4',
 			},
 
