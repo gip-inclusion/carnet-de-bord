@@ -57,6 +57,10 @@
 		) => {
 			if (resp.data) {
 				appointments = jsonCopy(resp.data.getNotebookAppointments) ?? [];
+				appointments.map((appointment) => {
+					appointment.status = appointment.status.toLowerCase();
+					return appointment;
+				});
 				appointmentsBuffer = jsonCopy(appointments);
 			}
 		}
@@ -168,6 +172,7 @@
 								<td class="align-top">
 									<Select
 										selectLabel="Statut du rendez-vous"
+										selectHint="Statut"
 										classNames="no-label"
 										name={appointment.id}
 										options={appointmentOptions}
