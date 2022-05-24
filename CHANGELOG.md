@@ -1,3 +1,10 @@
+## [1.112.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.1...v1.112.2) (2022-05-24)
+
+
+### Bug Fixes
+
+* fix old video link ([#821](https://github.com/SocialGouv/carnet-de-bord/issues/821)) ([a01c06c](https://github.com/SocialGouv/carnet-de-bord/commit/a01c06c61eed05da05251c69166a62233821feb6)), closes [#814](https://github.com/SocialGouv/carnet-de-bord/issues/814)
+
 ## [1.112.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.0...v1.112.1) (2022-05-23)
 
 
