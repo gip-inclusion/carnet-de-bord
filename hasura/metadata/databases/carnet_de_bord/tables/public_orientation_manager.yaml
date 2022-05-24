@@ -1,0 +1,97 @@
+table:
+  schema: public
+  name: orientation_manager
+configuration:
+  custom_root_fields: {}
+  custom_column_names:
+    deployment_id: deploymentId
+    updated_at: updatedAt
+    created_at: createdAt
+    phone_numbers: phoneNumbers
+object_relationships:
+  - name: account
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: account
+        insertion_order: null
+        column_mapping:
+          id: orientation_manager_id
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - id
+        - firstname
+        - lastname
+        - email
+        - phone_numbers
+        - deployment_id
+        - created_at
+        - updated_at
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  - role: admin_structure
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+        - phone_numbers
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - firstname
+        - lastname
+        - email
+        - phone_numbers
+        - deployment_id
+        - created_at
+        - updated_at
+      filter:
+        account:
+          notebooksWhereMember:
+            notebook:
+              beneficiary_id:
+                _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+        - phone_numbers
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  - role: professional
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+        - phone_numbers
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
