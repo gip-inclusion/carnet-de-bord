@@ -57,11 +57,13 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                     )
                 )
 
-                await insert_wanted_jobs_for_csv_row(
-                    connection,
-                    csv_row,
-                    beneficiary.notebook,
-                    row["identifiant_unique_de"],
+                beneficiary.notebook = (
+                    await insert_wanted_jobs_for_csv_row_and_notebook(
+                        connection,
+                        csv_row,
+                        beneficiary.notebook,
+                        row["identifiant_unique_de"],
+                    )
                 )
 
                 # Keep track of the data we want to insert
@@ -128,12 +130,13 @@ async def parse_principal_csv(principal_csv: str):
         logging.error("Unable to acquire connection from DB pool")
 
 
-async def insert_wanted_jobs_for_csv_row(
+async def insert_wanted_jobs_for_csv_row_and_notebook(
     connection: Connection,
     csv_row: PrincipalCsvRow,
     notebook: Notebook,
     unique_identifier: str,
-):
+) -> Notebook:
+
     for (rome_code, rome_label) in [
         (csv_row.rome_1, csv_row.appelation_rome_1),
         (csv_row.rome_2, csv_row.appelation_rome_2),
@@ -148,8 +151,11 @@ async def insert_wanted_jobs_for_csv_row(
             logging.info(
                 "{} - Wanted job {} inserted".format(unique_identifier, wanted_job)
             )
+            notebook.wanted_jobs.append(wanted_job)
         else:
             logging.info("{} - NO Wanted job inserted".format(unique_identifier))
+
+    return notebook
 
 
 async def check_and_insert_wanted_job(
@@ -164,9 +170,16 @@ async def check_and_insert_wanted_job(
     )
 
     if not wanted_job:
+        logging.info(
+            "Wanted job {} - {} not found for notebook {}".format(
+                rome_code, rome_label, notebook.id
+            )
+        )
         return await insert_wanted_job_for_notebook(
             connection, notebook, rome_code, rome_label
         )
+    else:
+        logging.info("Wanted job {} found for notebook".format(wanted_job))
 
 
 async def map_principal_row(row: Series) -> PrincipalCsvRow:
