@@ -7,14 +7,14 @@ from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
 )
 from api.db.models.beneficiary import Beneficiary
-from api.db.models.external_data import ExternalSource
+from api.db.models.external_data import ExternalSource, format_external_data
 from cdb_csv.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
-    insert_existing_external_data,
     insert_external_data_for_beneficiary,
     insert_wanted_jobs_for_csv_row_and_notebook,
     map_principal_row,
     parse_principal_csv_with_db,
+    save_external_data,
 )
 
 
@@ -46,10 +46,19 @@ async def test_parse_principal_csv(
 
 
 async def test_insert_external_data(
-    db_connection: Connection, beneficiary_sophie_tifour: Beneficiary
+    db_connection: Connection,
+    beneficiary_sophie_tifour: Beneficiary,
+    pe_principal_csv_series,
 ):
+    # Get the first row
+    _, row = next(pe_principal_csv_series.iterrows())
+    csv_row: PrincipalCsvRow = await map_principal_row(row)
+
     await insert_external_data_for_beneficiary(
-        db_connection, beneficiary_sophie_tifour, ExternalSource.PE
+        db_connection,
+        beneficiary_sophie_tifour,
+        ExternalSource.PE,
+        format_external_data(csv_row.dict(), beneficiary_sophie_tifour.dict()),
     )
 
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
@@ -64,6 +73,7 @@ async def test_insert_external_data(
 async def test_check_existing_external_data(
     db_connection: Connection,
     beneficiary_sophie_tifour: Beneficiary,
+    pe_principal_csv_series,
 ):
 
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
@@ -72,23 +82,32 @@ async def test_check_existing_external_data(
 
     assert external_data is None
 
+    # Get the first row
+    _, row = next(pe_principal_csv_series.iterrows())
+    csv_row: PrincipalCsvRow = await map_principal_row(row)
+
     external_data = await insert_external_data_for_beneficiary(
-        db_connection, beneficiary_sophie_tifour, ExternalSource.PE
+        db_connection,
+        beneficiary_sophie_tifour,
+        ExternalSource.PE,
+        format_external_data(csv_row.dict(), beneficiary_sophie_tifour.dict()),
     )
 
     assert external_data is not None
     assert external_data.info is not None
-    assert external_data.data["lastname"] == "Tifour"
+    assert external_data.data["parsed"]["lastname"] == "Tifour"
+    assert external_data.data["source"]["nom"] == "TIFOUR"
 
     beneficiary_sophie_tifour.lastname = "Newname"
 
-    external_data = await insert_existing_external_data(
-        db_connection, beneficiary_sophie_tifour
+    external_data = await save_external_data(
+        db_connection, beneficiary_sophie_tifour, csv_row
     )
 
     assert external_data is not None
     assert external_data.info is not None
-    assert external_data.data["lastname"] == "Newname"
+    assert external_data.data["parsed"]["lastname"] == "Newname"
+    assert external_data.data["source"]["nom"] == "TIFOUR"
 
 
 async def test_insert_wanted_jobs_for_csv_row_and_notebook(

@@ -37,3 +37,7 @@ class ExternalData(BaseModel):
 class ExternalDataInfoInsert(BaseModel):
     beneficiary_id: UUID | None
     external_data_id: UUID
+
+
+def format_external_data(source: dict, parsed: dict) -> dict:
+    return {"source": source, "parsed": parsed}

@@ -17,7 +17,11 @@ from api.db.crud.wanted_job import (
     insert_wanted_job_for_notebook,
 )
 from api.db.models.beneficiary import Beneficiary
-from api.db.models.external_data import ExternalData, ExternalSource
+from api.db.models.external_data import (
+    ExternalData,
+    ExternalSource,
+    format_external_data,
+)
 from api.db.models.notebook import Notebook
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
@@ -57,6 +61,7 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                     )
                 )
 
+                # Insert the missing wanted jobs into the DB
                 beneficiary.notebook = (
                     await insert_wanted_jobs_for_csv_row_and_notebook(
                         connection,
@@ -67,7 +72,7 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                 )
 
                 # Keep track of the data we want to insert
-                await insert_existing_external_data(connection, beneficiary)
+                await save_external_data(connection, beneficiary, csv_row)
             else:
                 logging.info(
                     "{} - No matching beneficiary with notebook found".format(
@@ -82,8 +87,8 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             )
 
 
-async def insert_existing_external_data(
-    connection: Connection, beneficiary: Beneficiary
+async def save_external_data(
+    connection: Connection, beneficiary: Beneficiary, csv_row: PrincipalCsvRow
 ) -> ExternalData | None:
 
     # Do we already have some external data for this beneficiary?
@@ -98,7 +103,10 @@ async def insert_existing_external_data(
 
         logging.info("No external_data for {}".format(beneficiary.id))
         external_data: ExternalData | None = await insert_external_data_for_beneficiary(
-            connection, beneficiary, ExternalSource.PE
+            connection,
+            beneficiary,
+            ExternalSource.PE,
+            format_external_data(csv_row.dict(), beneficiary.dict()),
         )
     else:
         # If we have some, let's update it.
@@ -107,7 +115,7 @@ async def insert_existing_external_data(
         logging.info("Found external_data for {}".format(beneficiary.id))
         logging.info(external_data)
 
-        external_data.data = beneficiary.dict()
+        external_data.data = format_external_data(csv_row.dict(), beneficiary.dict())
         updated_external_data: ExternalData | None = await update_external_data(
             connection, external_data
         )

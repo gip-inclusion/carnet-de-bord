@@ -121,12 +121,10 @@ async def insert_external_data_info(
 
 
 async def insert_external_data_for_beneficiary(
-    connection: Connection,
-    beneficiary: Beneficiary,
-    source: ExternalSource,
+    connection: Connection, beneficiary: Beneficiary, source: ExternalSource, data: dict
 ) -> ExternalData | None:
 
-    external_data_insert = ExternalDataInsert(source=source, data=beneficiary.dict())
+    external_data_insert = ExternalDataInsert(source=source, data=data)
     external_data: ExternalData | None = await insert_external_data(
         connection, external_data_insert
     )
