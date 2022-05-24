@@ -1,4 +1,5 @@
 from typing import List
+from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
@@ -10,8 +11,8 @@ from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow
 
 
-async def get_beneficiary_from_csv(
-    connection: Connection, csv_row: PrincipalCsvRow
+async def get_beneficiary_with_query(
+    connection: Connection, query: str, *args
 ) -> Beneficiary | None:
 
     async with connection.transaction():
@@ -33,13 +34,8 @@ async def get_beneficiary_from_csv(
             "LEFT JOIN public.rome_code "
             "ON public.rome_code.id = public.wanted_job.rome_code_id "
             "LEFT JOIN public.account "
-            "ON public.account.beneficiary_id = public.beneficiary.id "
-            "WHERE LOWER(public.beneficiary.firstname) = LOWER($1) AND "
-            "LOWER(public.beneficiary.lastname) = LOWER($2) AND "
-            "public.beneficiary.date_of_birth = $3",
-            csv_row.prenom,
-            csv_row.nom,
-            csv_row.date_naissance,
+            "ON public.account.beneficiary_id = public.beneficiary.id " + query,
+            *args,
         )
 
         if len(beneficiary_records) > 0:
@@ -74,3 +70,27 @@ async def get_beneficiary_from_csv(
                         )
 
         return beneficiary
+
+
+async def get_beneficiary_from_csv(
+    connection: Connection, csv_row: PrincipalCsvRow
+) -> Beneficiary | None:
+
+    return await get_beneficiary_with_query(
+        connection,
+        "WHERE LOWER(public.beneficiary.firstname) = LOWER($1) AND "
+        "LOWER(public.beneficiary.lastname) = LOWER($2) AND "
+        "public.beneficiary.date_of_birth = $3",
+        csv_row.prenom,
+        csv_row.nom,
+        csv_row.date_naissance,
+    )
+
+
+async def get_beneficiary_by_id(
+    connection: Connection, beneficiary_id: UUID
+) -> Beneficiary | None:
+
+    return await get_beneficiary_with_query(
+        connection, "WHERE public.beneficiary.id = $1", beneficiary_id
+    )
