@@ -1,55 +1,55 @@
 table:
-  name: rome_code
   schema: public
+  name: rome_code
 array_relationships:
-- name: wanted_by
-  using:
-    foreign_key_constraint_on:
-      column: rome_code_id
-      table:
-        name: wanted_job
-        schema: public
+  - name: wanted_by
+    using:
+      foreign_key_constraint_on:
+        column: rome_code_id
+        table:
+          schema: public
+          name: wanted_job
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - id
-    - code
-    - description
-    - label
-  role: professional
+  - role: professional
+    permission:
+      check: {}
+      columns:
+        - id
+        - code
+        - description
+        - label
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - code
-    - description
-    - label
-    - id
-    filter: {}
-  role: admin_structure
-- permission:
-    columns:
-    - id
-    - code
-    - description
-    - label
-    filter: {}
-  role: beneficiary
-- permission:
-    columns:
-    - id
-    - code
-    - description
-    - label
-    filter: {}
-  role: manager
-- permission:
-    columns:
-    - id
-    - code
-    - description
-    - label
-    filter: {}
-  role: professional
+  - role: admin_structure
+    permission:
+      columns:
+        - code
+        - description
+        - label
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - code
+        - description
+        - label
+      filter: {}
+  - role: manager
+    permission:
+      columns:
+        - id
+        - code
+        - description
+        - label
+      filter: {}
+  - role: professional
+    permission:
+      columns:
+        - id
+        - code
+        - description
+        - label
+      filter: {}

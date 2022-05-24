@@ -1,98 +1,98 @@
 table:
-  name: notebook_event
   schema: public
+  name: notebook_event
 configuration:
+  custom_root_fields: {}
   custom_column_names:
-    creation_date: creationDate
-    creator_id: creatorId
     event_date: eventDate
     event_type: eventType
+    creation_date: creationDate
     notebook_id: notebookId
-  custom_root_fields: {}
+    creator_id: creatorId
 object_relationships:
-- name: creator
-  using:
-    foreign_key_constraint_on: creator_id
-- name: notebook
-  using:
-    foreign_key_constraint_on: notebook_id
+  - name: creator
+    using:
+      foreign_key_constraint_on: creator_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - creation_date
-    - event
-    - event_date
-    - event_type
-    - id
-    - notebook_id
-    - creator_id
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check:
-      notebook:
-        members:
-          account_id:
-            _eq: X-Hasura-User-Id
-    columns:
-    - creation_date
-    - event
-    - event_date
-    - event_type
-    - id
-    - notebook_id
-    - creator_id
-    set:
-      creator_id: x-hasura-User-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - creation_date
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+        - creator_id
+      backend_only: false
+  - role: professional
+    permission:
+      check:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      set:
+        creator_id: x-hasura-User-Id
+      columns:
+        - creation_date
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+        - creator_id
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - creation_date
-    - event
-    - event_date
-    - event_type
-    - id
-    - notebook_id
-    - creator_id
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - creation_date
-    - event
-    - event_date
-    - event_type
-    - id
-    - notebook_id
-    - creator_id
-    filter:
-      notebook:
-        members:
-          account_id:
-            _eq: X-Hasura-User-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - creation_date
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+        - creator_id
+      filter: {}
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - creation_date
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+        - creator_id
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - creation_date
-    - event
-    - event_date
-    - event_type
-    - id
-    - notebook_id
-    - creator_id
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns: []
-    filter:
-      creator_id:
-        _eq: X-Hasura-User-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - creation_date
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+        - creator_id
+      filter: {}
+      check: {}
+  - role: professional
+    permission:
+      columns: []
+      filter:
+        creator_id:
+          _eq: X-Hasura-User-Id
+      check: null

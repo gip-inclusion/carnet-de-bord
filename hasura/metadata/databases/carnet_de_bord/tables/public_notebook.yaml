@@ -1,301 +1,301 @@
 table:
-  name: notebook
   schema: public
+  name: notebook
 configuration:
-  custom_column_names:
-    beneficiary_id: beneficiaryId
-    contract_sign_date: contractSignDate
-    contract_type: contractType
-    created_at: createdAt
-    education_level: educationLevel
-    geographical_area: geographicalArea
-    right_are: rightAre
-    right_ass: rightAss
-    right_bonus: rightBonus
-    right_rqth: rightRqth
-    right_rsa: rightRsa
-    updated_at: updatedAt
-    work_situation: workSituation
-    work_situation_date: workSituationDate
   custom_root_fields: {}
+  custom_column_names:
+    right_rsa: rightRsa
+    right_bonus: rightBonus
+    work_situation: workSituation
+    education_level: educationLevel
+    work_situation_date: workSituationDate
+    geographical_area: geographicalArea
+    beneficiary_id: beneficiaryId
+    updated_at: updatedAt
+    created_at: createdAt
+    contract_type: contractType
+    contract_sign_date: contractSignDate
+    right_rqth: rightRqth
+    right_ass: rightAss
+    right_are: rightAre
 object_relationships:
-- name: beneficiary
-  using:
-    foreign_key_constraint_on: beneficiary_id
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id
 array_relationships:
-- name: appointments
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_appointment
-        schema: public
-- name: events
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_event
-        schema: public
-- name: focuses
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_focus
-        schema: public
-- name: members
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: notebook_member
-        schema: public
-- name: wantedJobs
-  using:
-    foreign_key_constraint_on:
-      column: notebook_id
-      table:
-        name: wanted_job
-        schema: public
+  - name: appointments
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          schema: public
+          name: notebook_appointment
+  - name: events
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          schema: public
+          name: notebook_event
+  - name: focuses
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          schema: public
+          name: notebook_focus
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          schema: public
+          name: notebook_member
+  - name: wantedJobs
+    using:
+      foreign_key_constraint_on:
+        column: notebook_id
+        table:
+          schema: public
+          name: wanted_job
 computed_fields:
-- comment: return the number of professionnal for a notebook
-  definition:
-    function:
-      name: nb_member
-      schema: public
-  name: nbMembers
+  - name: nbMembers
+    definition:
+      function:
+        schema: public
+        name: nb_member
+    comment: return the number of professionnal for a notebook
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - id
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - work_situation
-    - work_situation_date
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check:
-      beneficiary:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - id
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - work_situation
-    - work_situation_date
-  role: manager
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - work_situation
-    - work_situation_date
-  role: professional
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+      backend_only: false
+  - role: manager
+    permission:
+      check:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+      backend_only: false
+  - role: professional
+    permission:
+      check: {}
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - id
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - updated_at
-    - work_situation
-    - work_situation_date
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - id
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - updated_at
-    - work_situation
-    - work_situation_date
-    computed_fields:
-    - nbMembers
-    filter:
-      _or:
-      - members:
-          account:
-            professional:
-              structure:
-                admins:
-                  admin_structure_id:
-                    _eq: X-Hasura-AdminStructure-Id
-      - beneficiary:
-          structures:
-            structure:
-              admins:
-                admin_structure_id:
-                  _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - id
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - updated_at
-    - work_situation
-    - work_situation_date
-    computed_fields:
-    - nbMembers
-    filter:
-      beneficiary_id:
-        _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - id
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - updated_at
-    - work_situation
-    - work_situation_date
-    computed_fields:
-    - nbMembers
-    filter:
-      beneficiary:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    allow_aggregations: true
-    columns:
-    - beneficiary_id
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - id
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - updated_at
-    - work_situation
-    - work_situation_date
-    filter:
-      members:
-        _and:
-        - account_id:
-            _eq: X-Hasura-User-Id
-        - active:
-            _eq: true
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - updated_at
+        - work_situation
+        - work_situation_date
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - updated_at
+        - work_situation
+        - work_situation_date
+      computed_fields:
+        - nbMembers
+      filter:
+        _or:
+          - members:
+              account:
+                professional:
+                  structure:
+                    admins:
+                      admin_structure_id:
+                        _eq: X-Hasura-AdminStructure-Id
+          - beneficiary:
+              structures:
+                structure:
+                  admins:
+                    admin_structure_id:
+                      _eq: X-Hasura-AdminStructure-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - updated_at
+        - work_situation
+        - work_situation_date
+      computed_fields:
+        - nbMembers
+      filter:
+        beneficiary_id:
+          _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - updated_at
+        - work_situation
+        - work_situation_date
+      computed_fields:
+        - nbMembers
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - updated_at
+        - work_situation
+        - work_situation_date
+      filter:
+        members:
+          _and:
+            - account_id:
+                _eq: X-Hasura-User-Id
+            - active:
+                _eq: true
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - contract_type
-    - education_level
-    - geographical_area
-    - right_rsa
-    - work_situation
-    - contract_sign_date
-    - work_situation_date
-    - created_at
-    - beneficiary_id
-    - id
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - contract_sign_date
-    - contract_type
-    - created_at
-    - education_level
-    - geographical_area
-    - right_are
-    - right_ass
-    - right_bonus
-    - right_rqth
-    - right_rsa
-    - work_situation
-    - work_situation_date
-    filter:
-      members:
-        _and:
-        - account_id:
-            _eq: X-Hasura-User-Id
-        - active:
-            _eq: true
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - contract_type
+        - education_level
+        - geographical_area
+        - right_rsa
+        - work_situation
+        - contract_sign_date
+        - work_situation_date
+        - created_at
+        - beneficiary_id
+        - id
+      filter: {}
+      check: {}
+  - role: professional
+    permission:
+      columns:
+        - contract_sign_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+      filter:
+        members:
+          _and:
+            - account_id:
+                _eq: X-Hasura-User-Id
+            - active:
+                _eq: true
+      check: null

@@ -19,6 +19,7 @@ query GetBeneficiaries(
 		id
 		firstname
 		lastname
+		needOrientation
 		structures {
 			structure {
 				id

@@ -1,116 +1,116 @@
 table:
-  name: beneficiary_structure
   schema: public
+  name: beneficiary_structure
 configuration:
+  custom_root_fields: {}
   custom_column_names:
     beneficiary_id: beneficiaryId
-    created_at: createdAt
-    structure_id: structureId
     updated_at: updatedAt
-  custom_root_fields: {}
+    structure_id: structureId
+    created_at: createdAt
 object_relationships:
-- name: beneficiary
-  using:
-    foreign_key_constraint_on: beneficiary_id
-- name: structure
-  using:
-    foreign_key_constraint_on: structure_id
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id
+  - name: structure
+    using:
+      foreign_key_constraint_on: structure_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check:
-      _and:
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - structure:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-    columns:
-    - beneficiary_id
-    - data
-    - status
-    - structure_id
-  role: manager
+  - role: manager
+    permission:
+      check:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      columns:
+        - beneficiary_id
+        - data
+        - status
+        - structure_id
+      backend_only: false
 select_permissions:
-- permission:
-    columns: []
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - beneficiary_id
-    - structure_id
-    - status
-    - data
-    - created_at
-    - updated_at
-    filter:
-      structure:
-        admins:
-          admin_structure_id:
-            _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - beneficiary_id
-    - structure_id
-    - status
-    - data
-    - created_at
-    - updated_at
-    filter:
-      _and:
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - structure:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: manager
+  - role: admin_cdb
+    permission:
+      columns: []
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - beneficiary_id
+        - structure_id
+        - status
+        - data
+        - created_at
+        - updated_at
+      filter:
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-AdminStructure-Id
+      allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - id
+        - beneficiary_id
+        - structure_id
+        - status
+        - data
+        - created_at
+        - updated_at
+      filter:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: null
-    columns:
-    - data
-    - status
-    filter:
-      structure:
-        admins:
-          admin_structure_id:
-            _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    check: null
-    columns:
-    - id
-    - beneficiary_id
-    - structure_id
-    - status
-    - data
-    - created_at
-    - updated_at
-    filter:
-      _and:
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - structure:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: manager
+  - role: admin_structure
+    permission:
+      columns:
+        - data
+        - status
+      filter:
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-AdminStructure-Id
+      check: null
+  - role: manager
+    permission:
+      columns:
+        - id
+        - beneficiary_id
+        - structure_id
+        - status
+        - data
+        - created_at
+        - updated_at
+      filter:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      check: null
 delete_permissions:
-- permission:
-    filter:
-      _and:
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - structure:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: manager
+  - role: manager
+    permission:
+      filter:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id

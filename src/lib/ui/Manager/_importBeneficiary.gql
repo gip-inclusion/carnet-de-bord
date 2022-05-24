@@ -23,6 +23,7 @@ mutation ImportBeneficiary(
 	$members: [notebook_member_insert_input!]!
 	$structures: [beneficiary_structure_insert_input!]!
 	$wantedJobs: [wanted_job_insert_input!]!
+	$needOrientation: Boolean!
 ) {
 	newNotebook: insert_notebook_one(
 		object: {
@@ -42,6 +43,7 @@ mutation ImportBeneficiary(
 					peNumber: $peNumber
 					internalId: $internalId
 					structures: { data: $structures }
+					needOrientation: $needOrientation
 				}
 			}
 			members: { data: $members }

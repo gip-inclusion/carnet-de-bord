@@ -1,309 +1,309 @@
 table:
-  name: account
   schema: public
+  name: account
 configuration:
+  custom_root_fields: {}
   custom_column_names:
-    access_key: accessKey
-    access_key_date: accessKeyDate
-    admin_id: adminId
-    admin_structure_id: adminStructureId
-    beneficiary_id: beneficiaryId
-    created_at: createdAt
-    last_login: lastLogin
-    manager_id: managerId
     onboarding_done: onboardingDone
     professional_id: professionalId
+    beneficiary_id: beneficiaryId
+    access_key: accessKey
+    access_key_date: accessKeyDate
+    admin_structure_id: adminStructureId
     updated_at: updatedAt
-  custom_root_fields: {}
+    created_at: createdAt
+    admin_id: adminId
+    last_login: lastLogin
+    manager_id: managerId
 object_relationships:
-- name: admin
-  using:
-    foreign_key_constraint_on: admin_id
-- name: admin_structure
-  using:
-    foreign_key_constraint_on: admin_structure_id
-- name: beneficiary
-  using:
-    foreign_key_constraint_on: beneficiary_id
-- name: manager
-  using:
-    foreign_key_constraint_on: manager_id
-- name: professional
-  using:
-    foreign_key_constraint_on: professional_id
+  - name: admin
+    using:
+      foreign_key_constraint_on: admin_id
+  - name: admin_structure
+    using:
+      foreign_key_constraint_on: admin_structure_id
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id
+  - name: manager
+    using:
+      foreign_key_constraint_on: manager_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id
 array_relationships:
-- name: notebookActionsCreated
-  using:
-    foreign_key_constraint_on:
-      column: creator_id
-      table:
-        name: notebook_action
-        schema: public
-- name: notebookEventsCreated
-  using:
-    foreign_key_constraint_on:
-      column: creator_id
-      table:
-        name: notebook_event
-        schema: public
-- name: notebookFocusesCreated
-  using:
-    foreign_key_constraint_on:
-      column: creator_id
-      table:
-        name: notebook_focus
-        schema: public
-- name: notebookTargetsCreated
-  using:
-    foreign_key_constraint_on:
-      column: creator_id
-      table:
-        name: notebook_target
-        schema: public
-- name: notebooksCreated
-  using:
-    foreign_key_constraint_on:
-      column: creator_id
-      table:
-        name: notebook_member
-        schema: public
-- name: notebooksWhereMember
-  using:
-    foreign_key_constraint_on:
-      column: account_id
-      table:
-        name: notebook_member
-        schema: public
+  - name: notebookActionsCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          schema: public
+          name: notebook_action
+  - name: notebookEventsCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          schema: public
+          name: notebook_event
+  - name: notebookFocusesCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          schema: public
+          name: notebook_focus
+  - name: notebookTargetsCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          schema: public
+          name: notebook_target
+  - name: notebooksCreated
+    using:
+      foreign_key_constraint_on:
+        column: creator_id
+        table:
+          schema: public
+          name: notebook_member
+  - name: notebooksWhereMember
+    using:
+      foreign_key_constraint_on:
+        column: account_id
+        table:
+          schema: public
+          name: notebook_member
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - id
-    - username
-    - type
-    - access_key
-    - access_key_date
-    - last_login
-    - beneficiary_id
-    - professional_id
-    - admin_id
-    - confirmed
-    - onboarding_done
-    - manager_id
-    set:
-      confirmed: "True"
-      type: manager
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check:
-      _or:
-      - manager:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - professional:
-          structure:
-            deployment_id:
-              _eq: X-Hasura-Deployment-Id
-      - admin_structure:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-    columns:
-    - access_key
-    - access_key_date
-    - admin_structure_id
-    - beneficiary_id
-    - id
-    - professional_id
-    - type
-    - username
-    set:
-      confirmed: "True"
-  role: manager
+  - role: admin_cdb
+    permission:
+      check: {}
+      set:
+        type: manager
+        confirmed: "True"
+      columns:
+        - id
+        - username
+        - type
+        - access_key
+        - access_key_date
+        - last_login
+        - beneficiary_id
+        - professional_id
+        - admin_id
+        - confirmed
+        - onboarding_done
+        - manager_id
+      backend_only: false
+  - role: manager
+    permission:
+      check:
+        _or:
+          - manager:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+          - admin_structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      set:
+        confirmed: "True"
+      columns:
+        - access_key
+        - access_key_date
+        - admin_structure_id
+        - beneficiary_id
+        - id
+        - professional_id
+        - type
+        - username
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - access_key
-    - access_key_date
-    - admin_id
-    - beneficiary_id
-    - confirmed
-    - created_at
-    - id
-    - last_login
-    - manager_id
-    - onboarding_done
-    - professional_id
-    - type
-    - updated_at
-    - username
-    filter: {}
-  role: admin_cdb
-- permission:
-    columns:
-    - confirmed
-    - onboarding_done
-    - access_key
-    - type
-    - username
-    - access_key_date
-    - created_at
-    - last_login
-    - updated_at
-    - admin_id
-    - admin_structure_id
-    - beneficiary_id
-    - id
-    - manager_id
-    - professional_id
-    filter:
-      _or:
-      - id:
-          _eq: X-Hasura-User-Id
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - professional:
+  - role: admin_cdb
+    permission:
+      columns:
+        - access_key
+        - access_key_date
+        - admin_id
+        - beneficiary_id
+        - confirmed
+        - created_at
+        - id
+        - last_login
+        - manager_id
+        - onboarding_done
+        - professional_id
+        - type
+        - updated_at
+        - username
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - confirmed
+        - onboarding_done
+        - access_key
+        - type
+        - username
+        - access_key_date
+        - created_at
+        - last_login
+        - updated_at
+        - admin_id
+        - admin_structure_id
+        - beneficiary_id
+        - id
+        - manager_id
+        - professional_id
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - username
+        - type
+        - access_key
+        - access_key_date
+        - last_login
+        - beneficiary_id
+        - professional_id
+        - admin_id
+        - confirmed
+        - onboarding_done
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - notebooksWhereMember:
+              notebook:
+                beneficiary_id:
+                  _eq: X-Hasura-Beneficiary-Id
+      allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - access_key
+        - access_key_date
+        - admin_id
+        - admin_structure_id
+        - beneficiary_id
+        - confirmed
+        - created_at
+        - id
+        - last_login
+        - manager_id
+        - onboarding_done
+        - professional_id
+        - type
+        - updated_at
+        - username
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+  - role: professional
+    permission:
+      columns:
+        - admin_structure_id
+        - beneficiary_id
+        - confirmed
+        - created_at
+        - id
+        - onboarding_done
+        - professional_id
+        - updated_at
+        - username
+      filter:
+        professional:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
-  role: admin_structure
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - username
-    - type
-    - access_key
-    - access_key_date
-    - last_login
-    - beneficiary_id
-    - professional_id
-    - admin_id
-    - confirmed
-    - onboarding_done
-    filter:
-      _or:
-      - id:
-          _eq: X-Hasura-User-Id
-      - notebooksWhereMember:
-          notebook:
-            beneficiary_id:
-              _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    columns:
-    - access_key
-    - access_key_date
-    - admin_id
-    - admin_structure_id
-    - beneficiary_id
-    - confirmed
-    - created_at
-    - id
-    - last_login
-    - manager_id
-    - onboarding_done
-    - professional_id
-    - type
-    - updated_at
-    - username
-    filter:
-      _or:
-      - id:
-          _eq: X-Hasura-User-Id
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - professional:
-          structure:
-            deployment_id:
-              _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    columns:
-    - admin_structure_id
-    - beneficiary_id
-    - confirmed
-    - created_at
-    - id
-    - onboarding_done
-    - professional_id
-    - updated_at
-    - username
-    filter:
-      professional:
-        structure:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: professional
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - confirmed
-    - onboarding_done
-    - access_key
-    - type
-    - username
-    - access_key_date
-    - last_login
-    - admin_id
-    - beneficiary_id
-    - id
-    - manager_id
-    - professional_id
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - access_key
-    - access_key_date
-    - onboarding_done
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: admin_structure
-- permission:
-    check: null
-    columns:
-    - last_login
-    - username
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: beneficiary
-- permission:
-    check: null
-    columns:
-    - access_key
-    - access_key_date
-    - onboarding_done
-    - username
-    filter:
-      _or:
-      - id:
+  - role: admin_cdb
+    permission:
+      columns:
+        - confirmed
+        - onboarding_done
+        - access_key
+        - type
+        - username
+        - access_key_date
+        - last_login
+        - admin_id
+        - beneficiary_id
+        - id
+        - manager_id
+        - professional_id
+      filter: {}
+      check: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - access_key
+        - access_key_date
+        - onboarding_done
+      filter:
+        id:
           _eq: X-Hasura-User-Id
-      - beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-      - professional:
-          structure:
-            deployment_id:
-              _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    check: null
-    columns:
-    - confirmed
-    - onboarding_done
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: professional
+      check: null
+  - role: beneficiary
+    permission:
+      columns:
+        - last_login
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
+  - role: manager
+    permission:
+      columns:
+        - access_key
+        - access_key_date
+        - onboarding_done
+        - username
+      filter:
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: professional
+    permission:
+      columns:
+        - confirmed
+        - onboarding_done
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null

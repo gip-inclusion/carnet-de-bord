@@ -1,4 +1,4 @@
 table:
-  name: notebook_event_type
   schema: public
+  name: notebook_event_type
 is_enum: true

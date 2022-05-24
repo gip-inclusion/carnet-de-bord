@@ -1,308 +1,316 @@
 table:
-  name: beneficiary
   schema: public
+  name: beneficiary
 configuration:
+  custom_root_fields: {}
   custom_column_names:
+    postal_code: postalCode
     caf_number: cafNumber
-    created_at: createdAt
     date_of_birth: dateOfBirth
     deployment_id: deploymentId
-    internal_id: internalId
-    mobile_number: mobileNumber
     pe_number: peNumber
+    mobile_number: mobileNumber
     place_of_birth: placeOfBirth
-    postal_code: postalCode
     updated_at: updatedAt
-  custom_root_fields: {}
+    created_at: createdAt
+    internal_id: internalId
+    need_orientation: needOrientation
 object_relationships:
-- name: account
-  using:
-    manual_configuration:
-      column_mapping:
-        id: beneficiary_id
-      insertion_order: null
-      remote_table:
-        name: account
-        schema: public
-- name: deployment
-  using:
-    foreign_key_constraint_on: deployment_id
-- name: notebook
-  using:
-    foreign_key_constraint_on:
-      column: beneficiary_id
-      table:
-        name: notebook
-        schema: public
+  - name: account
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: account
+        insertion_order: null
+        column_mapping:
+          id: beneficiary_id
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on:
+        column: beneficiary_id
+        table:
+          schema: public
+          name: notebook
 array_relationships:
-- name: structures
-  using:
-    foreign_key_constraint_on:
-      column: beneficiary_id
-      table:
-        name: beneficiary_structure
-        schema: public
+  - name: structures
+    using:
+      foreign_key_constraint_on:
+        column: beneficiary_id
+        table:
+          schema: public
+          name: beneficiary_structure
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - date_of_birth
-    - deployment_id
-    - email
-    - firstname
-    - id
-    - internal_id
-    - lastname
-    - mobile_number
-    - pe_number
-    - place_of_birth
-    - postal_code
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - created_at
-    - date_of_birth
-    - deployment_id
-    - email
-    - firstname
-    - id
-    - internal_id
-    - lastname
-    - mobile_number
-    - pe_number
-    - place_of_birth
-    - postal_code
-    - updated_at
-    set:
-      deployment_id: X-Hasura-Deployment-id
-  role: manager
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - date_of_birth
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - pe_number
-    - postal_code
-    set:
-      deployment_id: X-Hasura-Deployment-id
-  role: professional
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - date_of_birth
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - internal_id
+        - lastname
+        - mobile_number
+        - need_orientation
+        - pe_number
+        - place_of_birth
+        - postal_code
+      backend_only: false
+  - role: manager
+    permission:
+      check:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      set:
+        deployment_id: X-Hasura-Deployment-id
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - created_at
+        - date_of_birth
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - internal_id
+        - lastname
+        - mobile_number
+        - need_orientation
+        - pe_number
+        - place_of_birth
+        - postal_code
+        - updated_at
+      backend_only: false
+  - role: professional
+    permission:
+      check: {}
+      set:
+        deployment_id: X-Hasura-Deployment-id
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - date_of_birth
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - pe_number
+        - postal_code
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - created_at
-    - date_of_birth
-    - deployment_id
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - pe_number
-    - place_of_birth
-    - postal_code
-    - updated_at
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - email
-    - lastname
-    - firstname
-    - caf_number
-    - pe_number
-    - postal_code
-    - city
-    - address1
-    - address2
-    - mobile_number
-    - date_of_birth
-    - deployment_id
-    - created_at
-    - updated_at
-    - internal_id
-    filter:
-      _or:
-      - structures:
-          structure:
-            admins:
-              admin_structure_id:
-                _eq: X-Hasura-AdminStructure-Id
-      - notebook:
+  - role: admin_cdb
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - created_at
+        - date_of_birth
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - pe_number
+        - place_of_birth
+        - postal_code
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - created_at
+        - date_of_birth
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - internal_id
+        - lastname
+        - mobile_number
+        - need_orientation
+        - pe_number
+        - postal_code
+        - updated_at
+      filter:
+        _or:
+          - structures:
+              structure:
+                admins:
+                  admin_structure_id:
+                    _eq: X-Hasura-AdminStructure-Id
+          - notebook:
+              members:
+                account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - email
+        - lastname
+        - firstname
+        - caf_number
+        - pe_number
+        - postal_code
+        - city
+        - address1
+        - address2
+        - mobile_number
+        - date_of_birth
+      filter:
+        id:
+          _eq: X-Hasura-Beneficiary-Id
+      allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - created_at
+        - date_of_birth
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - need_orientation
+        - pe_number
+        - place_of_birth
+        - postal_code
+        - updated_at
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - created_at
+        - date_of_birth
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - need_orientation
+        - pe_number
+        - postal_code
+        - updated_at
+      filter:
+        notebook:
           members:
-            account:
-              professional:
-                structure:
-                  admins:
-                    admin_structure_id:
-                      _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - email
-    - lastname
-    - firstname
-    - caf_number
-    - pe_number
-    - postal_code
-    - city
-    - address1
-    - address2
-    - mobile_number
-    - date_of_birth
-    filter:
-      id:
-        _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - created_at
-    - date_of_birth
-    - deployment_id
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - pe_number
-    - place_of_birth
-    - postal_code
-    - updated_at
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    allow_aggregations: true
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - created_at
-    - date_of_birth
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - pe_number
-    - postal_code
-    - updated_at
-    filter:
-      notebook:
-        members:
-          account_id:
-            _eq: X-Hasura-User-Id
-  role: professional
+            account_id:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - date_of_birth
-    - deployment_id
-    - email
-    - firstname
-    - id
-    - lastname
-    - mobile_number
-    - pe_number
-    - place_of_birth
-    - postal_code
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - address1
-    - address2
-    - city
-    - date_of_birth
-    - email
-    - firstname
-    - lastname
-    - mobile_number
-    - postal_code
-    filter:
-      id:
-        _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    check: null
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - date_of_birth
-    - email
-    - firstname
-    - lastname
-    - mobile_number
-    - pe_number
-    - place_of_birth
-    - postal_code
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    check: null
-    columns:
-    - address1
-    - address2
-    - caf_number
-    - city
-    - email
-    - firstname
-    - lastname
-    - mobile_number
-    - pe_number
-    - postal_code
-    - date_of_birth
-    - id
-    filter:
-      notebook:
-        members:
-          account_id:
-            _eq: X-Hasura-User-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - date_of_birth
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - lastname
+        - mobile_number
+        - need_orientation
+        - pe_number
+        - place_of_birth
+        - postal_code
+      filter: {}
+      check: {}
+  - role: beneficiary
+    permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - date_of_birth
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - postal_code
+      filter:
+        id:
+          _eq: X-Hasura-Beneficiary-Id
+      check: null
+  - role: manager
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - date_of_birth
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - need_orientation
+        - pe_number
+        - place_of_birth
+        - postal_code
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: professional
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - pe_number
+        - postal_code
+        - date_of_birth
+        - id
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      check: null

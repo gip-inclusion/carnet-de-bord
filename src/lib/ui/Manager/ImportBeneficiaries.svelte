@@ -49,6 +49,7 @@
 		address2?: string;
 		postalCode?: string;
 		city?: string;
+		needOrientation?: string;
 		workSituation?: string;
 		cafNumber?: string;
 		peNumber?: string;
@@ -210,6 +211,7 @@
 			}));
 			const payload = {
 				...benef,
+				needOrientation: stringToBool(benef.needOrientation),
 				workSituation: stringToWorkSituation(benef.workSituation),
 				rightRsa: stringToRightRsa(benef.rightRsa),
 				rightAre: stringToBool(benef.rightAre),
@@ -255,6 +257,7 @@
 		{ label: 'Adresse (complément)', key: 'address2' },
 		{ label: 'Code postal', key: 'postalCode' },
 		{ label: 'Ville', key: 'city' },
+		{ label: 'À orienter', key: 'needOrientation' },
 		{ label: 'Situation de travail', key: 'workSituation' },
 		{ label: 'N° CAF/MSA', key: 'cafNumber' },
 		{ label: 'N° Pôle emploi', key: 'peNumber' },

@@ -1227,6 +1227,7 @@ export type Beneficiary = {
 	internalId?: Maybe<Scalars['String']>;
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
+	needOrientation: Scalars['Boolean'];
 	/** An object relationship */
 	notebook?: Maybe<Notebook>;
 	peNumber?: Maybe<Scalars['String']>;
@@ -1312,6 +1313,7 @@ export type BeneficiaryBoolExp = {
 	internalId?: InputMaybe<StringComparisonExp>;
 	lastname?: InputMaybe<StringComparisonExp>;
 	mobileNumber?: InputMaybe<StringComparisonExp>;
+	needOrientation?: InputMaybe<BooleanComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	peNumber?: InputMaybe<StringComparisonExp>;
 	placeOfBirth?: InputMaybe<StringComparisonExp>;
@@ -1349,6 +1351,7 @@ export type BeneficiaryInsertInput = {
 	internalId?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
+	needOrientation?: InputMaybe<Scalars['Boolean']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	peNumber?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
@@ -1483,6 +1486,7 @@ export type BeneficiaryOrderBy = {
 	internalId?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
+	needOrientation?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
@@ -1525,6 +1529,8 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	MobileNumber = 'mobileNumber',
 	/** column name */
+	NeedOrientation = 'needOrientation',
+	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
 	PlaceOfBirth = 'placeOfBirth',
@@ -1549,6 +1555,7 @@ export type BeneficiarySetInput = {
 	internalId?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
+	needOrientation?: InputMaybe<Scalars['Boolean']>;
 	peNumber?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
@@ -1836,6 +1843,8 @@ export enum BeneficiaryUpdateColumn {
 	Lastname = 'lastname',
 	/** column name */
 	MobileNumber = 'mobileNumber',
+	/** column name */
+	NeedOrientation = 'needOrientation',
 	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
@@ -8661,6 +8670,7 @@ export type ImportBeneficiaryMutationVariables = Exact<{
 	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
 	structures: Array<BeneficiaryStructureInsertInput> | BeneficiaryStructureInsertInput;
 	wantedJobs: Array<WantedJobInsertInput> | WantedJobInsertInput;
+	needOrientation: Scalars['Boolean'];
 }>;
 
 export type ImportBeneficiaryMutation = {
@@ -10067,6 +10077,7 @@ export type GetBeneficiariesQuery = {
 		id: string;
 		firstname: string;
 		lastname: string;
+		needOrientation: boolean;
 		structures: Array<{
 			__typename?: 'beneficiary_structure';
 			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
@@ -12995,6 +13006,14 @@ export const ImportBeneficiaryDocument = {
 						},
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'needOrientation' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -13141,6 +13160,14 @@ export const ImportBeneficiaryDocument = {
 																				},
 																			},
 																		],
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'needOrientation' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'needOrientation' },
 																	},
 																},
 															],
@@ -19430,6 +19457,7 @@ export const GetBeneficiariesDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'structures' },
