@@ -1,7 +1,6 @@
 import logging
 from http.client import HTTPException
 from io import BytesIO
-from urllib.request import Request
 
 import magic
 import numpy as np
@@ -9,6 +8,7 @@ import pandas as pd
 from fastapi import APIRouter, Depends, File, UploadFile
 from pandas.core.series import Series
 
+from api.core.init import connection
 from api.db.models.orientation_manager import (
     OrientationManagerCsvRow,
     OrientationManagerResponseModel,
@@ -23,10 +23,18 @@ router = APIRouter(dependencies=[Depends(verify_jwt_token_header)])
 # @router.post("/orientation_manager", response_model=OrientationManagerResponseModel)
 @router.post("/orientation_manager")
 async def create_upload_file(
+    db=Depends(connection),
     upload_file: UploadFile = File(
         default="file", description="A file read as UploadFile"
     ),
 ):
+
+    """
+    connection text with  db
+    will be replaced with insert
+    """
+    res = await db.fetch("SELECT * FROM account")
+    print(res)
 
     file_info: magic.FileMagic = magic.detect_from_fobj(upload_file.file)
 
