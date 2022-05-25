@@ -7,7 +7,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 class Settings(BaseSettings):
 
-    hasura_graphql_database_url: str
+    database_url: str
+    hasura_graphql_jwt_secret: str
+    V1_PREFIX: str = "/v1"
 
     class Config:
         env_file = ".env"
