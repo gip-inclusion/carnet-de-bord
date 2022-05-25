@@ -19,7 +19,15 @@ numpy = "^1.22.3"
 pandas = "^1.4.2"
 pytest-asyncio = "^0.18.3"
 pytest-watch = "^4.2.0"
+python-multipart = "^0.0.5"
+PyJWT = "^2.4.0"
+panda = "^0.3.1"
+xlrd = "^2.0.1"
+openpyxl = "^3.0.10"
 StrEnum = "^0.4.7"
+python-magic = "^0.4.26"
+pydantic = {extras = ["email"], version = "^1.9.1"}
+fastapi-asyncpg = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
