@@ -33,12 +33,13 @@ async def update_external_data(
 
     record = await connection.fetchrow(
         """
-            UPDATE external_data set source = $1, data = $2
-            WHERE external_data.id = $3
-            returning id, source, data, created_at, updated_at
+            UPDATE external_data set source = $1, data = $2, hash = $3
+            WHERE external_data.id = $4
+            returning id, source, data, hash, created_at, updated_at
             """,
         external_data.source,
         json.dumps(external_data.data, cls=CustomEncoder),
+        external_data.hash,
         external_data.id,
     )
 
@@ -46,6 +47,7 @@ async def update_external_data(
         external_data.source = record["source"]
         external_data.data = json.loads(record["data"])
         external_data.updated_at = record["updated_at"]
+        external_data.hash = record["hash"]
         return external_data
 
 

@@ -36,6 +36,10 @@ async def test_parse_principal_csv(
 
     assert external_data is not None and external_data.info is not None
     assert external_data.info.beneficiary_id == beneficiary_sophie_tifour.id
+    assert (
+        external_data.hash
+        == "d57d0012d51b42d4de60534a00997e1416f85e6750b86e258edbbe94f595dd3d"
+    )
 
     sophie_tifour = await get_beneficiary_by_id(
         db_connection, UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
@@ -110,6 +114,10 @@ async def test_check_existing_external_data(
     assert external_data.info is not None
     assert external_data.data["parsed"]["lastname"] == "Newname"
     assert external_data.data["source"]["nom"] == "TIFOUR"
+    assert (
+        external_data.hash
+        == "d57d0012d51b42d4de60534a00997e1416f85e6750b86e258edbbe94f595dd3d"
+    )
 
 
 async def test_insert_wanted_jobs_for_csv_row_and_notebook(

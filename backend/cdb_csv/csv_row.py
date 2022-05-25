@@ -1,7 +1,6 @@
-import math
+import hashlib
 from datetime import date, datetime
 
-import numpy
 from pydantic import BaseModel, Field, validator
 
 
@@ -86,3 +85,7 @@ class PrincipalCsvRow(BaseModel):
     def parse_date(cls, value):
         if value != "NULL":
             return datetime.strptime(value, "%Y-%m-%d %H:%M:%S.%f").date()
+
+
+async def get_sha256(csv_row: PrincipalCsvRow) -> str:
+    return hashlib.sha256(str(csv_row.dict()).encode()).hexdigest()

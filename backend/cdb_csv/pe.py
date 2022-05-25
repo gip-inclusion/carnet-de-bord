@@ -1,4 +1,3 @@
-import hashlib
 import logging
 
 import dask.dataframe as dd
@@ -25,7 +24,7 @@ from api.db.models.external_data import (
 )
 from api.db.models.notebook import Notebook
 from api.db.models.wanted_job import WantedJob
-from cdb_csv.csv_row import PrincipalCsvRow
+from cdb_csv.csv_row import PrincipalCsvRow, get_sha256
 
 FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT)
@@ -99,7 +98,7 @@ async def save_external_data(
         )
     )
 
-    hash_result: str = str(hashlib.sha256(str(csv_row.dict()).encode()))
+    hash_result: str = await get_sha256(csv_row)
 
     if external_data is None:
         # If not, we should insert it
@@ -112,13 +111,13 @@ async def save_external_data(
             format_external_data(csv_row.dict(), beneficiary.dict()),
             hash_result,
         )
-    else:
-        # If we have some, let's update it.
-        # @TODO: check MD5 to avoid double imports
+    elif hash_result != external_data.hash:
+        # If we have some and the new content is different, let's update it.
+
+        external_data.hash = hash_result
 
         logging.info("Found external_data for {}".format(beneficiary.id))
         logging.info(external_data)
-
         external_data.data = format_external_data(csv_row.dict(), beneficiary.dict())
         updated_external_data: ExternalData | None = await update_external_data(
             connection, external_data
