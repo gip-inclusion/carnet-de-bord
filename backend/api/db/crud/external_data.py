@@ -22,6 +22,7 @@ async def parse_external_data_from_record(record: Record) -> ExternalData:
         data=json.loads(record["data"]),
         created_at=record["created_at"],
         updated_at=record["updated_at"],
+        hash=record["hash"],
         info=None,
     )
 
@@ -80,6 +81,7 @@ async def get_last_external_data_by_beneficiary_id_and_source(
                 data=json.loads(external_data_record["data"]),
                 created_at=external_data_record["created_at"],
                 updated_at=external_data_record["updated_at"],
+                hash=external_data_record["hash"],
                 info=info,
             )
 
@@ -92,11 +94,12 @@ async def insert_external_data(
 
     record = await connection.fetchrow(
         """
-            INSERT INTO public.external_data (source, data)
-            VALUES ($1, $2) returning id, source, data, created_at, updated_at
+            INSERT INTO public.external_data (source, data, hash)
+            VALUES ($1, $2, $3) returning id, source, data, hash, created_at, updated_at
             """,
         external_data_insert.source,
         json.dumps(external_data_insert.data, cls=CustomEncoder),
+        external_data_insert.hash,
     )
 
     if record:
@@ -121,10 +124,14 @@ async def insert_external_data_info(
 
 
 async def insert_external_data_for_beneficiary(
-    connection: Connection, beneficiary: Beneficiary, source: ExternalSource, data: dict
+    connection: Connection,
+    beneficiary: Beneficiary,
+    source: ExternalSource,
+    data: dict,
+    hash: str,
 ) -> ExternalData | None:
 
-    external_data_insert = ExternalDataInsert(source=source, data=data)
+    external_data_insert = ExternalDataInsert(source=source, data=data, hash=hash)
     external_data: ExternalData | None = await insert_external_data(
         connection, external_data_insert
     )

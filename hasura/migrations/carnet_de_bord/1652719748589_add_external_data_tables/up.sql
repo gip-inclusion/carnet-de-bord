@@ -18,6 +18,7 @@ CREATE TABLE public.external_data (
     "id" uuid NOT NULL DEFAULT gen_random_uuid(),
     source text NOT NULL,
     data jsonb NOT NULL,
+    hash text NOT NULL,
     created_at timestamp with time zone DEFAULT now(),
     updated_at timestamp with time zone DEFAULT now(),
     PRIMARY KEY (id),

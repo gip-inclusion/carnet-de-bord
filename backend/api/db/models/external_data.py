@@ -12,6 +12,7 @@ class ExternalSource(StrEnum):
 class ExternalDataInsert(BaseModel):
     source: ExternalSource
     data: dict
+    hash: str
 
 
 class ExternalDataUpdate(ExternalDataInsert):
@@ -28,6 +29,8 @@ class ExternalDataInfo(BaseModel):
 class ExternalData(BaseModel):
     id: UUID
     source: ExternalSource
+    # This is the hash of the source data
+    hash: str
     data: dict
     created_at: datetime
     updated_at: datetime

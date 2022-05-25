@@ -1,3 +1,4 @@
+import hashlib
 import logging
 
 import dask.dataframe as dd
@@ -98,6 +99,8 @@ async def save_external_data(
         )
     )
 
+    hash_result: str = str(hashlib.sha256(str(csv_row.dict()).encode()))
+
     if external_data is None:
         # If not, we should insert it
 
@@ -107,6 +110,7 @@ async def save_external_data(
             beneficiary,
             ExternalSource.PE,
             format_external_data(csv_row.dict(), beneficiary.dict()),
+            hash_result,
         )
     else:
         # If we have some, let's update it.

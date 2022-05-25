@@ -59,6 +59,7 @@ async def test_insert_external_data(
         beneficiary_sophie_tifour,
         ExternalSource.PE,
         format_external_data(csv_row.dict(), beneficiary_sophie_tifour.dict()),
+        "myhash",
     )
 
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
@@ -91,6 +92,7 @@ async def test_check_existing_external_data(
         beneficiary_sophie_tifour,
         ExternalSource.PE,
         format_external_data(csv_row.dict(), beneficiary_sophie_tifour.dict()),
+        "myhash",
     )
 
     assert external_data is not None
