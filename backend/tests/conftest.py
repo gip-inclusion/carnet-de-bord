@@ -5,12 +5,39 @@ from uuid import UUID
 import dask.dataframe as dd
 import pytest
 from dask.dataframe.core import DataFrame
+from fastapi.testclient import TestClient
 
 from api.core.db import get_connection_pool
 from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.models.beneficiary import Beneficiary
+from api.core.init import create_app
+from api.core.settings import settings
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def fastapi_app(seed_filepath):
+    # @TODO: read it from the root .env file
+    settings.database_url = "postgres://cdb:test@localhost:5433/carnet_de_bord"
+    app = create_app()
+    await app.state.db.create_pool()
+    async with app.state.db.pool.acquire() as connection:
+        with open(seed_filepath, "r") as file:
+            data = file.read()
+            await connection.execute(data)
+
+    yield app
+    # Do cleaning stuff if needed
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def test_client(fastapi_app):
+
+    with TestClient(fastapi_app) as c:
+        yield c
 
 
 @pytest.fixture
