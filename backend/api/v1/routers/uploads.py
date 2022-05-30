@@ -1,11 +1,10 @@
 import logging
-from http.client import HTTPException
 from io import BytesIO
 
 import magic
 import numpy as np
 import pandas as pd
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pandas.core.series import Series
 
 from api.core.init import connection
@@ -23,10 +22,8 @@ router = APIRouter(dependencies=[Depends(verify_jwt_token_header)])
 # @router.post("/orientation_manager", response_model=OrientationManagerResponseModel)
 @router.post("/orientation_manager")
 async def create_upload_file(
+    upload_file: UploadFile,
     db=Depends(connection),
-    upload_file: UploadFile = File(
-        default="file", description="A file read as UploadFile"
-    ),
 ):
 
     """
@@ -34,7 +31,6 @@ async def create_upload_file(
     will be replaced with insert
     """
     res = await db.fetch("SELECT * FROM account")
-    print(res)
 
     file_info: magic.FileMagic = magic.detect_from_fobj(upload_file.file)
 
@@ -59,7 +55,7 @@ async def create_upload_file(
     else:
         raise HTTPException(
             status_code=400,
-            detail="file type not supported. Allowed types are csv or excel",
+            detail=f"File type '{file_info.mime_type}' not supported. Allowed types are csv or excel",
         )
     df = df.replace({np.nan: None})
     row: Series

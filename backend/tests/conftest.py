@@ -57,6 +57,33 @@ def pe_principal_csv_filepath() -> str:
 
 
 @pytest.fixture
+def orientation_manager_csv_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "import_chargés_orientation.csv",
+    )
+
+
+@pytest.fixture
+def orientation_manager_xls_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "import_chargés_orientation.xls",
+    )
+
+
+@pytest.fixture
+def orientation_manager_xlsx_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "import_chargés_orientation.xlsx",
+    )
+
+
+@pytest.fixture
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
     return dd.read_csv(
