@@ -20,13 +20,13 @@ async def verify_jwt_token_header(
     jwt_token: str | None = Header(default=None),
 ):
     if not jwt_token:
-        raise HTTPException(status_code=400, detail="no jwt token")
+        raise HTTPException(status_code=400, detail="Missing jwt token")
 
     jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
     token = jwt.decode(jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]])
 
     if token["role"] != RoleEnum.MANAGER:
-        raise HTTPException(status_code=400, detail="role not allowed")
+        raise HTTPException(status_code=400, detail="Role not allowed")
 
     if not token["deploymentId"]:
-        raise HTTPException(status_code=400, detail="deploymentId not fount")
+        raise HTTPException(status_code=400, detail="DeploymentId not found")
