@@ -51,7 +51,7 @@ FROM base as production
 
 RUN set -x \
   && apt-get update \
-  && apt-get install --no-install-recommends --yes openssh-client \
+  && apt-get install --no-install-recommends --yes openssh-client libmagic1 \
   && rm -rf /var/lib/apt/lists/*
 
 ENV FASTAPI_ENV=production
