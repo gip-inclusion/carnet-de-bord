@@ -145,7 +145,7 @@ async function removeBeneficiariesFixture() {
 async function removeNotebookMemberFixture() {
 	return await I.sendMutation(
 		`mutation RemoveNotebookMemberFixture {
-		  delete_notebook_member(where: {professional: {email: {_eq: "pierre.chevalier@livry-gargan.fr"}}, notebookId: {_eq: "b7e43c7c-7c3e-464b-80de-f4926d4bb1e0"}}) {
+		  delete_notebook_member(where: {accountId: {_eq: "17434464-5f69-40cc-8172-40160958a33d"}, notebookId: {_eq: "b7e43c7c-7c3e-464b-80de-f4926d4bb1e0"}}) {
 		    affected_rows
 		  }
 		}`
