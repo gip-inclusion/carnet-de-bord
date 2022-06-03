@@ -1,3 +1,10 @@
+## [1.112.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.3...v1.112.4) (2022-06-03)
+
+
+### Bug Fixes
+
+* add pending status for appointments ([#827](https://github.com/SocialGouv/carnet-de-bord/issues/827)) ([79ce145](https://github.com/SocialGouv/carnet-de-bord/commit/79ce145b73ebb6da020419bd6c2c7cb729b5df4f))
+
 ## [1.112.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.2...v1.112.3) (2022-06-03)
 
 
