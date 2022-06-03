@@ -1,3 +1,10 @@
+## [1.112.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.2...v1.112.3) (2022-06-03)
+
+
+### Bug Fixes
+
+* update broken test fixture after accountId migration ([#837](https://github.com/SocialGouv/carnet-de-bord/issues/837)) ([efd6e01](https://github.com/SocialGouv/carnet-de-bord/commit/efd6e01c4fdccdcc23bff35ab1e3c30d57eb4195))
+
 ## [1.112.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.1...v1.112.2) (2022-05-24)
 
 
