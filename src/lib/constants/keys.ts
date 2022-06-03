@@ -102,6 +102,7 @@ export const focusThemeKeys = buildKeys({
 // Appointments
 
 export const AppointmentsMapping = {
-	PRESENT: 'Présent',
-	ABSENT: 'Absent',
+	pending: 'En attente',
+	present: 'Présent',
+	absent: 'Absent',
 };
