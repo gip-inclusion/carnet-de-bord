@@ -26,10 +26,6 @@ async def create_upload_file(
     db=Depends(connection),
 ):
 
-    """
-    connection text with  db
-    will be replaced with insert
-    """
     res = await db.fetch("SELECT * FROM account")
 
     file_info: magic.FileMagic = magic.detect_from_fobj(upload_file.file)

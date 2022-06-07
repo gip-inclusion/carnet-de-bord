@@ -8,19 +8,28 @@ from dask.dataframe.core import DataFrame
 from fastapi.testclient import TestClient
 
 from api.core.db import get_connection_pool
-from api.db.crud.beneficiary import get_beneficiary_by_id
-from api.db.models.beneficiary import Beneficiary
 from api.core.init import create_app
 from api.core.settings import settings
+from api.db.crud.beneficiary import get_beneficiary_by_id
+from api.db.models.beneficiary import Beneficiary
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
+
+
+@pytest.fixture
+def seed_filepath() -> str:
+    return os.path.join(
+        test_dir, "..", "..", "hasura", "seeds", "carnet_de_bord", "seed-data.sql"
+    )
 
 
 @pytest.fixture
 @pytest.mark.asyncio
 async def fastapi_app(seed_filepath):
     # @TODO: read it from the root .env file
-    settings.database_url = "postgres://cdb:test@localhost:5433/carnet_de_bord"
+    settings.database_url = os.getenv(
+        "DATABASE_URL", "postgres://cdb:test@localhost:5433/carnet_de_bord"
+    )
     app = create_app()
     await app.state.db.create_pool()
     async with app.state.db.pool.acquire() as connection:
@@ -38,13 +47,6 @@ async def test_client(fastapi_app):
 
     with TestClient(fastapi_app) as c:
         yield c
-
-
-@pytest.fixture
-def seed_filepath() -> str:
-    return os.path.join(
-        test_dir, "..", "..", "hasura", "seeds", "carnet_de_bord", "seed-data.sql"
-    )
 
 
 @pytest.fixture
