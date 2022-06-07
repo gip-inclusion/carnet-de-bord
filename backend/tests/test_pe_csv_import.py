@@ -38,7 +38,7 @@ async def test_parse_principal_csv(
     assert external_data.info.beneficiary_id == beneficiary_sophie_tifour.id
     assert (
         external_data.hash
-        == "d57d0012d51b42d4de60534a00997e1416f85e6750b86e258edbbe94f595dd3d"
+        == "d10ed5fee17aa3cb36117a1d1eb1f4cd12514046c53bf8990f34d9d8233badd4"
     )
 
     sophie_tifour = await get_beneficiary_by_id(
@@ -120,7 +120,7 @@ async def test_check_existing_external_data(
     assert external_data.data["source"]["nom"] == "TIFOUR"
     assert (
         external_data.hash
-        == "d57d0012d51b42d4de60534a00997e1416f85e6750b86e258edbbe94f595dd3d"
+        == "d10ed5fee17aa3cb36117a1d1eb1f4cd12514046c53bf8990f34d9d8233badd4"
     )
 
 

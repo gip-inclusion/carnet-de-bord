@@ -12,6 +12,7 @@ from api.db.crud.external_data import (
     insert_external_data_for_beneficiary,
     update_external_data,
 )
+from api.db.crud.professional import get_professional_from_csv, insert_professional
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
@@ -23,6 +24,7 @@ from api.db.models.external_data import (
     format_external_data,
 )
 from api.db.models.notebook import Notebook
+from api.db.models.professional import Professional, ProfessionalInsert
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.csv_row import PrincipalCsvRow, get_sha256
 
@@ -48,43 +50,59 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
         csv_row: PrincipalCsvRow = await map_principal_row(row)
 
         if csv_row.brsa:
+            await import_beneficiary(connection, csv_row, row["identifiant_unique_de"])
 
-            beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
-                connection, csv_row
-            )
-
-            if beneficiary and beneficiary.notebook is not None:
-
-                logging.info(
-                    "{} - Found matching beneficiary {}".format(
-                        row["identifiant_unique_de"], beneficiary.id
-                    )
-                )
-
-                # Insert the missing wanted jobs into the DB
-                beneficiary.notebook = (
-                    await insert_wanted_jobs_for_csv_row_and_notebook(
-                        connection,
-                        csv_row,
-                        beneficiary.notebook,
-                        row["identifiant_unique_de"],
-                    )
-                )
-
-                # Keep track of the data we want to insert
-                await save_external_data(connection, beneficiary, csv_row)
-            else:
-                logging.info(
-                    "{} - No matching beneficiary with notebook found".format(
-                        row["identifiant_unique_de"]
-                    )
-                )
+            await import_pe_referent(connection, csv_row, row["identifiant_unique_de"])
         else:
             logging.info(
                 "{} - Skipping, BRSA field is No for".format(
                     row["identifiant_unique_de"]
                 )
             )
+
+
+async def import_pe_referent(
+    connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
+):
+
+    professional: Professional | None = await get_professional_from_csv(
+        connection, csv_row
+    )
+    if not professional:
+        # await insert_professional(connection, ProfessionalInsert(…))
+        pass
+    else:
+        logging.info("{} - Professional already exists".format(pe_unique_id))
+
+
+async def import_beneficiary(
+    connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
+):
+
+    beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
+        connection, csv_row
+    )
+
+    if beneficiary and beneficiary.notebook is not None:
+
+        logging.info(
+            "{} - Found matching beneficiary {}".format(pe_unique_id, beneficiary.id)
+        )
+
+        # Insert the missing wanted jobs into the DB
+        beneficiary.notebook = await insert_wanted_jobs_for_csv_row_and_notebook(
+            connection,
+            csv_row,
+            beneficiary.notebook,
+            pe_unique_id,
+        )
+
+        # Keep track of the data we want to insert
+        await save_external_data(connection, beneficiary, csv_row)
+    else:
+        logging.info(
+            "{} - No matching beneficiary with notebook found".format(pe_unique_id)
+        )
 
 
 async def save_external_data(
