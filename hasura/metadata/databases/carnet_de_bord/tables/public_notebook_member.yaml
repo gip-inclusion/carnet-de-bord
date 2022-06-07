@@ -1,233 +1,233 @@
 table:
-  name: notebook_member
   schema: public
+  name: notebook_member
 configuration:
+  custom_root_fields: {}
   custom_column_names:
-    account_id: accountId
-    created_at: createdAt
-    creator_id: creatorId
+    last_visited_at: lastVisitedAt
     invitation_sent_at: invitationSendAt
     last_modified_at: lastModifiedAt
-    last_visited_at: lastVisitedAt
     member_type: memberType
+    created_at: createdAt
+    account_id: accountId
     notebook_id: notebookId
-  custom_root_fields: {}
+    creator_id: creatorId
 object_relationships:
-- name: account
-  using:
-    foreign_key_constraint_on: account_id
-- name: creator
-  using:
-    foreign_key_constraint_on: creator_id
-- name: notebook
-  using:
-    foreign_key_constraint_on: notebook_id
+  - name: account
+    using:
+      foreign_key_constraint_on: account_id
+  - name: creator
+    using:
+      foreign_key_constraint_on: creator_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - id
-    - notebook_id
-    - account_id
-    - last_visited_at
-    - member_type
-    - last_modified_at
-    - created_at
-    - creator_id
-    - invitation_sent_at
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check:
-      account:
-        professional:
-          structure:
-            admins:
-              admin_structure_id:
-                _eq: X-Hasura-AdminStructure-Id
-    columns:
-    - active
-    - member_type
-    - notebook_id
-    - account_id
-  role: admin_structure
-- permission:
-    backend_only: false
-    check:
-      notebook:
-        beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-    columns:
-    - active
-    - created_at
-    - creator_id
-    - id
-    - invitation_sent_at
-    - last_modified_at
-    - last_visited_at
-    - member_type
-    - notebook_id
-    - account_id
-  role: manager
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - creator_id
-    - id
-    - member_type
-    - notebook_id
-    - last_modified_at
-    - last_visited_at
-    - account_id
-  role: professional
-select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - active
-    - created_at
-    - creator_id
-    - id
-    - invitation_sent_at
-    - last_modified_at
-    - last_visited_at
-    - member_type
-    - notebook_id
-    - account_id
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - active
-    - created_at
-    - creator_id
-    - id
-    - invitation_sent_at
-    - last_modified_at
-    - last_visited_at
-    - member_type
-    - notebook_id
-    - account_id
-    filter:
-      account:
-        professional:
-          structure:
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - id
+        - notebook_id
+        - account_id
+        - last_visited_at
+        - member_type
+        - last_modified_at
+        - created_at
+        - creator_id
+        - invitation_sent_at
+      backend_only: false
+  - role: admin_structure
+    permission:
+      check:
+        account:
+          professional:
+            structure:
+              admins:
+                admin_structure_id:
+                  _eq: X-Hasura-AdminStructure-Id
+      columns:
+        - active
+        - member_type
+        - notebook_id
+        - account_id
+      backend_only: false
+  - role: manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
-  role: admin_structure
-- permission:
-    columns:
-    - active
-    - created_at
-    - id
-    - last_modified_at
-    - last_visited_at
-    - member_type
-    - notebook_id
-    - account_id
-    filter:
-      notebook:
-        beneficiary_id:
-          _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - active
-    - created_at
-    - creator_id
-    - id
-    - invitation_sent_at
-    - last_modified_at
-    - last_visited_at
-    - member_type
-    - notebook_id
-    - account_id
-    filter:
-      notebook:
-        beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - creator_id
-    - id
-    - invitation_sent_at
-    - member_type
-    - notebook_id
-    - last_modified_at
-    - last_visited_at
-    - account_id
-    filter:
-      _and:
-      - notebook:
-          members:
-            account_id:
-              _eq: X-Hasura-User-Id
-      - active:
-          _eq: true
-  role: professional
+      columns:
+        - active
+        - created_at
+        - creator_id
+        - id
+        - invitation_sent_at
+        - last_modified_at
+        - last_visited_at
+        - member_type
+        - notebook_id
+        - account_id
+      backend_only: false
+  - role: professional
+    permission:
+      check: {}
+      columns:
+        - creator_id
+        - id
+        - member_type
+        - notebook_id
+        - last_modified_at
+        - last_visited_at
+        - account_id
+      backend_only: false
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - active
+        - created_at
+        - creator_id
+        - id
+        - invitation_sent_at
+        - last_modified_at
+        - last_visited_at
+        - member_type
+        - notebook_id
+        - account_id
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - active
+        - created_at
+        - creator_id
+        - id
+        - invitation_sent_at
+        - last_modified_at
+        - last_visited_at
+        - member_type
+        - notebook_id
+        - account_id
+      filter:
+        account:
+          professional:
+            structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - active
+        - created_at
+        - id
+        - last_modified_at
+        - last_visited_at
+        - member_type
+        - notebook_id
+        - account_id
+      filter:
+        notebook:
+          beneficiary_id:
+            _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - active
+        - created_at
+        - creator_id
+        - id
+        - invitation_sent_at
+        - last_modified_at
+        - last_visited_at
+        - member_type
+        - notebook_id
+        - account_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - created_at
+        - creator_id
+        - id
+        - invitation_sent_at
+        - member_type
+        - notebook_id
+        - last_modified_at
+        - last_visited_at
+        - account_id
+      filter:
+        _and:
+          - notebook:
+              members:
+                account_id:
+                  _eq: X-Hasura-User-Id
+          - active:
+              _eq: true
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - member_type
-    - created_at
-    - invitation_sent_at
-    - last_modified_at
-    - last_visited_at
-    - creator_id
-    - id
-    - notebook_id
-    - account_id
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - active
-    - member_type
-    filter:
-      account:
-        professional:
-          structure:
-            admins:
-              admin_structure_id:
-                _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    check: null
-    columns:
-    - active
-    - member_type
-    filter:
-      notebook:
-        beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    check: null
-    columns:
-    - member_type
-    - last_modified_at
-    - last_visited_at
-    filter:
-      account_id:
-        _eq: X-Hasura-User-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - member_type
+        - created_at
+        - invitation_sent_at
+        - last_modified_at
+        - last_visited_at
+        - creator_id
+        - id
+        - notebook_id
+        - account_id
+      filter: {}
+      check: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - active
+        - member_type
+      filter:
+        account:
+          professional:
+            structure:
+              admins:
+                admin_structure_id:
+                  _eq: X-Hasura-AdminStructure-Id
+      check: null
+  - role: manager
+    permission:
+      columns:
+        - active
+        - member_type
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: professional
+    permission:
+      columns:
+        - member_type
+        - last_modified_at
+        - last_visited_at
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+      check: null
 delete_permissions:
-- permission:
-    filter:
-      notebook:
-        beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: manager
+  - role: manager
+    permission:
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id

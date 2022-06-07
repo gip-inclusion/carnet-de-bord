@@ -1,164 +1,164 @@
 table:
-  name: admin_structure
   schema: public
+  name: admin_structure
 configuration:
-  custom_column_names:
-    created_at: createdAt
-    deployment_id: deploymentId
-    phone_numbers: phoneNumbers
-    updated_at: updatedAt
   custom_root_fields: {}
+  custom_column_names:
+    deployment_id: deploymentId
+    updated_at: updatedAt
+    created_at: createdAt
+    phone_numbers: phoneNumbers
 object_relationships:
-- name: account
-  using:
-    manual_configuration:
-      column_mapping:
-        id: admin_structure_id
-      insertion_order: null
-      remote_table:
-        name: account
-        schema: public
-- name: deployment
-  using:
-    foreign_key_constraint_on: deployment_id
+  - name: account
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: account
+        insertion_order: null
+        column_mapping:
+          id: admin_structure_id
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
 array_relationships:
-- name: structures
-  using:
-    foreign_key_constraint_on:
-      column: admin_structure_id
-      table:
-        name: admin_structure_structure
-        schema: public
+  - name: structures
+    using:
+      foreign_key_constraint_on:
+        column: admin_structure_id
+        table:
+          schema: public
+          name: admin_structure_structure
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - firstname
-    - lastname
-    - created_at
-    - updated_at
-    - email
-    - deployment_id
-    - id
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - email
-    - firstname
-    - lastname
-    - phone_numbers
-    - position
-    - updated_at
-    set:
-      deployment_id: X-Hasura-Deployment-id
-  role: manager
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - firstname
+        - lastname
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+      backend_only: false
+  - role: manager
+    permission:
+      check: {}
+      set:
+        deployment_id: X-Hasura-Deployment-id
+      columns:
+        - email
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
+        - updated_at
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - firstname
-    - lastname
-    - created_at
-    - updated_at
-    - email
-    - deployment_id
-    - id
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - firstname
-    - lastname
-    - phone_numbers
-    - position
-    - created_at
-    - updated_at
-    - email
-    - deployment_id
-    - id
-    filter:
-      structures:
-        structure:
-          admins:
-            admin_structure_id:
-              _eq: X-Hasura-adminStructure-Id
-  role: admin_structure
-- permission:
-    columns: []
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - created_at
-    - deployment_id
-    - email
-    - firstname
-    - id
-    - lastname
-    - phone_numbers
-    - position
-    - updated_at
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    columns:
-    - firstname
-    - lastname
-    - phone_numbers
-    - position
-    - created_at
-    - updated_at
-    - email
-    - deployment_id
-    - id
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+      filter:
+        structures:
+          structure:
+            admins:
+              admin_structure_id:
+                _eq: X-Hasura-adminStructure-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns: []
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  - role: manager
+    permission:
+      columns:
+        - created_at
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - lastname
+        - phone_numbers
+        - position
+        - updated_at
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - firstname
-    - lastname
-    - created_at
-    - updated_at
-    - email
-    - deployment_id
-    - id
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - email
-    - firstname
-    - lastname
-    - phone_numbers
-    - position
-    filter:
-      id:
-        _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    check: null
-    columns:
-    - email
-    - firstname
-    - lastname
-    - phone_numbers
-    - position
-    - updated_at
-    filter:
-      deployment_id:
-        _eq: X-Hasura-Deployment-Id
-  role: manager
+  - role: admin_cdb
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+      filter: {}
+      check: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - email
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
+      filter:
+        id:
+          _eq: X-Hasura-AdminStructure-Id
+      check: null
+  - role: manager
+    permission:
+      columns:
+        - email
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
+        - updated_at
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      check: null

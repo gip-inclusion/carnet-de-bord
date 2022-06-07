@@ -19,6 +19,7 @@ numpy = "^1.22.3"
 pandas = "^1.4.2"
 pytest-asyncio = "^0.18.3"
 pytest-watch = "^4.2.0"
+StrEnum = "^0.4.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"

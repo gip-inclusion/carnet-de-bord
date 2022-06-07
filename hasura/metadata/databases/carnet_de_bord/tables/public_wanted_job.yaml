@@ -1,101 +1,101 @@
 table:
-  name: wanted_job
   schema: public
+  name: wanted_job
 object_relationships:
-- name: notebook
-  using:
-    foreign_key_constraint_on: notebook_id
-- name: rome_code
-  using:
-    foreign_key_constraint_on: rome_code_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
+  - name: rome_code
+    using:
+      foreign_key_constraint_on: rome_code_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check:
-      notebook:
-        beneficiary:
-          deployment:
-            managers:
-              id:
-                _eq: X-Hasura-Manager-Id
-    columns:
-    - notebook_id
-    - rome_code_id
-  role: manager
-- permission:
-    backend_only: false
-    check:
-      notebook:
-        members:
-          account_id:
-            _eq: X-Hasura-User-Id
-    columns:
-    - notebook_id
-    - rome_code_id
-  role: professional
+  - role: manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment:
+              managers:
+                id:
+                  _eq: X-Hasura-Manager-Id
+      columns:
+        - notebook_id
+        - rome_code_id
+      backend_only: false
+  - role: professional
+    permission:
+      check:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      columns:
+        - notebook_id
+        - rome_code_id
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - notebook_id
-    - rome_code_id
-    filter:
-      notebook:
-        _or:
-        - members:
-            account:
-              professional:
-                structure:
-                  admins:
-                    admin_structure_id:
-                      _eq: X-Hasura-AdminStructure-Id
-        - beneficiary:
-            structures:
-              structure:
-                admins:
-                  admin_structure_id:
-                    _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - notebook_id
-    - rome_code_id
-    filter:
-      notebook:
-        beneficiary_id:
-          _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - notebook_id
-    - rome_code_id
-    filter:
-      notebook:
-        beneficiary:
-          deployment_id:
-            _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    columns:
-    - id
-    - notebook_id
-    - rome_code_id
-    filter:
-      notebook:
-        members:
-          account_id:
-            _eq: X-Hasura-User-Id
-  role: professional
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - rome_code_id
+      filter:
+        notebook:
+          _or:
+            - members:
+                account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
+            - beneficiary:
+                structures:
+                  structure:
+                    admins:
+                      admin_structure_id:
+                        _eq: X-Hasura-AdminStructure-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - rome_code_id
+      filter:
+        notebook:
+          beneficiary_id:
+            _eq: X-Hasura-Beneficiary-Id
+      allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - rome_code_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - rome_code_id
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
 delete_permissions:
-- permission:
-    filter:
-      notebook:
-        members:
-          account_id:
-            _eq: X-Hasura-User-Id
-  role: professional
+  - role: professional
+    permission:
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id

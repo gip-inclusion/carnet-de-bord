@@ -1,0 +1,7 @@
+table:
+  schema: public
+  name: external_data
+object_relationships:
+  - name: external_source
+    using:
+      foreign_key_constraint_on: source

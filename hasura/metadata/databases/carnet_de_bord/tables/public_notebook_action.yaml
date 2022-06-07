@@ -1,162 +1,162 @@
 table:
-  name: notebook_action
   schema: public
+  name: notebook_action
 configuration:
+  custom_root_fields: {}
   custom_column_names:
-    created_at: createdAt
-    creator_id: creatorId
     initial_id: initialId
     target_id: targetId
     updated_at: updatedAt
-  custom_root_fields: {}
+    created_at: createdAt
+    creator_id: creatorId
 object_relationships:
-- name: creator
-  using:
-    foreign_key_constraint_on: creator_id
-- name: target
-  using:
-    foreign_key_constraint_on: target_id
+  - name: creator
+    using:
+      foreign_key_constraint_on: creator_id
+  - name: target
+    using:
+      foreign_key_constraint_on: target_id
 insert_permissions:
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - id
-    - action
-    - target_id
-    - status
-    - creator_id
-    - created_at
-  role: admin_cdb
-- permission:
-    backend_only: false
-    check: {}
-    columns:
-    - action
-    - status
-    - target_id
-    set:
-      creator_id: X-Hasura-User-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - id
+        - action
+        - target_id
+        - status
+        - creator_id
+        - created_at
+      backend_only: false
+  - role: professional
+    permission:
+      check: {}
+      set:
+        creator_id: X-Hasura-User-Id
+      columns:
+        - action
+        - status
+        - target_id
+      backend_only: false
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - action
-    - created_at
-    - creator_id
-    - id
-    - status
-    - target_id
-    - updated_at
-    filter: {}
-  role: admin_cdb
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - action
-    - target_id
-    - status
-    - creator_id
-    - created_at
-    - updated_at
-    - initial_id
-    filter:
-      target:
-        focus:
-          notebook:
-            _or:
-            - members:
-                account:
-                  professional:
-                    structure:
-                      admins:
-                        admin_structure_id:
-                          _eq: X-Hasura-AdminStructure-Id
-            - beneficiary:
-                structures:
-                  structure:
-                    admins:
-                      admin_structure_id:
-                        _eq: X-Hasura-AdminStructure-Id
-  role: admin_structure
-- permission:
-    columns:
-    - id
-    - action
-    - target_id
-    - status
-    - creator_id
-    - created_at
-    - updated_at
-    - initial_id
-    filter:
-      target:
-        focus:
-          notebook:
-            beneficiary_id:
-              _eq: X-Hasura-Beneficiary-Id
-  role: beneficiary
-- permission:
-    allow_aggregations: true
-    columns:
-    - id
-    - action
-    - target_id
-    - status
-    - creator_id
-    - created_at
-    - updated_at
-    - initial_id
-    filter:
-      target:
-        focus:
-          notebook:
-            beneficiary:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
-  role: manager
-- permission:
-    allow_aggregations: true
-    columns:
-    - action
-    - created_at
-    - creator_id
-    - id
-    - status
-    - target_id
-    - updated_at
-    filter:
-      target:
-        focus:
-          notebook:
-            members:
-              account_id:
-                _eq: X-Hasura-User-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - action
+        - created_at
+        - creator_id
+        - id
+        - status
+        - target_id
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - action
+        - target_id
+        - status
+        - creator_id
+        - created_at
+        - updated_at
+        - initial_id
+      filter:
+        target:
+          focus:
+            notebook:
+              _or:
+                - members:
+                    account:
+                      professional:
+                        structure:
+                          admins:
+                            admin_structure_id:
+                              _eq: X-Hasura-AdminStructure-Id
+                - beneficiary:
+                    structures:
+                      structure:
+                        admins:
+                          admin_structure_id:
+                            _eq: X-Hasura-AdminStructure-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - action
+        - target_id
+        - status
+        - creator_id
+        - created_at
+        - updated_at
+        - initial_id
+      filter:
+        target:
+          focus:
+            notebook:
+              beneficiary_id:
+                _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - id
+        - action
+        - target_id
+        - status
+        - creator_id
+        - created_at
+        - updated_at
+        - initial_id
+      filter:
+        target:
+          focus:
+            notebook:
+              beneficiary:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - action
+        - created_at
+        - creator_id
+        - id
+        - status
+        - target_id
+        - updated_at
+      filter:
+        target:
+          focus:
+            notebook:
+              members:
+                account_id:
+                  _eq: X-Hasura-User-Id
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - action
-    - status
-    - created_at
-    - creator_id
-    - id
-    - target_id
-    filter: {}
-  role: admin_cdb
-- permission:
-    check: null
-    columns:
-    - action
-    - status
-    filter:
-      target:
-        focus:
-          notebook:
-            members:
-              account_id:
-                _eq: X-Hasura-USer-Id
-  role: professional
+  - role: admin_cdb
+    permission:
+      columns:
+        - action
+        - status
+        - created_at
+        - creator_id
+        - id
+        - target_id
+      filter: {}
+      check: {}
+  - role: professional
+    permission:
+      columns:
+        - action
+        - status
+      filter:
+        target:
+          focus:
+            notebook:
+              members:
+                account_id:
+                  _eq: X-Hasura-USer-Id
+      check: null

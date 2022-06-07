@@ -1,3 +1,5 @@
+import logging
+
 from asyncpg.connection import Connection
 
 from api.db.crud.rome_code import get_rome_code_by_description_and_code
@@ -39,11 +41,23 @@ async def insert_wanted_job_for_notebook(
     )
 
     if rome_code:
-        await connection.execute(
+        record = await connection.fetchrow(
             """
             INSERT INTO public.wanted_job (notebook_id, rome_code_id)
             VALUES ($1, $2)
+            RETURNING id, notebook_id, rome_code_id
             """,
             notebook.id,
             rome_code.id,
+        )
+        if record:
+            return WantedJob(
+                id=record["id"],
+                notebook_id=notebook.id,
+                rome_code_id=rome_code.id,
+                rome_code=rome_code,
+            )
+    else:
+        logging.error(
+            f"Beneficiary {notebook.beneficiary_id} - Rome code not found '({rome_code_id}) {description}'"
         )

@@ -1,11 +1,14 @@
 import asyncio
 import os
+from uuid import UUID
 
 import dask.dataframe as dd
 import pytest
 from dask.dataframe.core import DataFrame
 
 from api.core.db import get_connection_pool
+from api.db.crud.beneficiary import get_beneficiary_by_id
+from api.db.models.beneficiary import Beneficiary
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -29,7 +32,35 @@ def pe_principal_csv_filepath() -> str:
 @pytest.fixture
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
-    return dd.read_csv(pe_principal_csv_filepath, sep=";")
+    return dd.read_csv(
+        pe_principal_csv_filepath,
+        sep=";",
+        dtype=str,
+        keep_default_na=False,
+        na_values=["_"],
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def beneficiary_martin_gal(db_connection) -> Beneficiary | None:
+    return await get_beneficiary_by_id(
+        db_connection, UUID("1f0d3401-67ad-4ea7-8f3a-a0876c4f79bd")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def beneficiary_sophie_tifour(db_connection) -> Beneficiary | None:
+    return await get_beneficiary_by_id(
+        db_connection, UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
+    )
+
+
+@pytest.fixture
+def beneficiary_without_account(beneficiary: Beneficiary) -> Beneficiary:
+    beneficiary.account_id = None
+    return beneficiary
 
 
 @pytest.fixture
