@@ -1,7 +1,7 @@
 from api.db.crud.professional import get_professional_from_csv
 from api.db.models.professional import Professional
 from cdb_csv import pe
-from cdb_csv.csv_row import PrincipalCsvRow
+from cdb_csv.models.csv_row import PrincipalCsvRow
 
 
 async def test_get_professional_from_csv(pe_principal_csv_series, db_connection):

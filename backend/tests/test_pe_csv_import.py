@@ -8,7 +8,7 @@ from api.db.crud.external_data import (
 )
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource, format_external_data
-from cdb_csv.csv_row import PrincipalCsvRow
+from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
     insert_external_data_for_beneficiary,
     insert_wanted_jobs_for_csv_row_and_notebook,

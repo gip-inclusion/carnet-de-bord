@@ -6,7 +6,7 @@ from pandas.core.series import Series
 
 from api.core.db import get_connection_pool
 from api.core.settings import settings
-from api.db.crud.beneficiary import get_beneficiary_from_csv
+from api.db.crud.beneficiary import get_beneficiary_from_personal_information
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
     insert_external_data_for_beneficiary,
@@ -26,7 +26,7 @@ from api.db.models.external_data import (
 from api.db.models.notebook import Notebook
 from api.db.models.professional import Professional, ProfessionalInsert
 from api.db.models.wanted_job import WantedJob
-from cdb_csv.csv_row import PrincipalCsvRow, get_sha256
+from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
 
 FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT)
@@ -69,6 +69,7 @@ async def import_pe_referent(
         connection, csv_row
     )
     if not professional:
+        # @TODO: query PE API
         # await insert_professional(connection, ProfessionalInsert(…))
         pass
     else:
@@ -79,8 +80,11 @@ async def import_beneficiary(
     connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
 ):
 
-    beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
-        connection, csv_row
+    beneficiary: Beneficiary | None = await get_beneficiary_from_personal_information(
+        connection,
+        firstname=csv_row.prenom,
+        lastname=csv_row.nom,
+        birth_date=csv_row.date_naissance,
     )
 
     if beneficiary and beneficiary.notebook is not None:

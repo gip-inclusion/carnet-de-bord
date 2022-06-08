@@ -2,7 +2,7 @@ from asyncpg import Record
 from asyncpg.connection import Connection
 
 from api.db.models.professional import Professional, ProfessionalInsert
-from cdb_csv.csv_row import PrincipalCsvRow
+from cdb_csv.models.csv_row import PrincipalCsvRow
 
 
 async def get_professional_with_query(

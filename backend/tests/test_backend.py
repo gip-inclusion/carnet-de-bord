@@ -1,7 +1,7 @@
 from datetime import date
 
 from cdb_csv import pe
-from cdb_csv.csv_row import PrincipalCsvRow
+from cdb_csv.models.csv_row import PrincipalCsvRow
 
 
 async def test_csv_row(pe_principal_csv_series):
