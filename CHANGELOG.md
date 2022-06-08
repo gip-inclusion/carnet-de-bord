@@ -1,3 +1,10 @@
+# [1.113.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.5...v1.113.0) (2022-06-08)
+
+
+### Features
+
+* add info of a user in signup mail ([#817](https://github.com/SocialGouv/carnet-de-bord/issues/817)) ([8a827cc](https://github.com/SocialGouv/carnet-de-bord/commit/8a827cc233af5a5753f6deb5665054e252d39284))
+
 ## [1.112.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.4...v1.112.5) (2022-06-07)
 
 
