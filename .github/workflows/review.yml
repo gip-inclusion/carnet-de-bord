@@ -263,6 +263,7 @@ jobs:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | tail -n 3 | head -n 1 )
       - name: Run functionnal tests
         env:
+          VITE_GRAPHQL_API_URL: https://${{ steps.hasura.outputs.result }}/v1/graphql
           HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
           ACTION_SECRET: ${{ secrets.ACTION_SECRET }}
           HASURA_GRAPHQL_JWT_SECRET: '${{ secrets.HASURA_GRAPHQL_JWT_SECRET }}'
