@@ -6,6 +6,7 @@ import {
 	GetAccountByUsernameDocument,
 	GetDeploymentManagersForStructureDocument,
 	InsertProfessionalAccountDocument,
+	RoleEnum,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type {
 	Account,
@@ -130,7 +131,7 @@ export const post: RequestHandler = async ({ request }) => {
 			account: {
 				username,
 				confirmed: Boolean(autoConfirm),
-				type: 'professional',
+				type: RoleEnum.Professional,
 				professional: {
 					data: {
 						email: email.toLowerCase(),

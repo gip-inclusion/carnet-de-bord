@@ -12,7 +12,7 @@ mutation InsertAccountAdminStructure(
 	account: insert_account_one(
 		object: {
 			username: $username
-			type: "admin_structure"
+			type: admin_structure
 			accessKey: $accessKey
 			accessKeyDate: $accessKeyDate
 			admin_structure: {
