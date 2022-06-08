@@ -1,5 +1,7 @@
 import requests
 
+from pe.models.auth import AccessToken
+
 
 async def get_access_token(
     api_url: str,
@@ -7,7 +9,7 @@ async def get_access_token(
     client_secret: str,
     scope: str,
     grant_type: str = "client_credentials",
-) -> str | None:
+) -> AccessToken | None:
     """
     https://pole-emploi.io/data/documentation/utilisation-api-pole-emploi/generer-access-token
     """
@@ -23,5 +25,4 @@ async def get_access_token(
     response = requests.post(api_url, data=data, params=params)
     if response.status_code == 200:
         json = response.json()
-        print(json)
-        return json["access_token"]
+        return AccessToken.parse_obj(json)
