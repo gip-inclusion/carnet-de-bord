@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 
 from pandas.core.series import Series
@@ -14,6 +15,8 @@ class OrientationManagerCsvRow(BaseModel):
 class OrientationManagerDB(OrientationManagerCsvRow):
     id: UUID
     deployment_id: UUID
+    created_at: datetime
+    updated_at: datetime
 
 
 class OrientationManagerResponseModel(BaseModel):
