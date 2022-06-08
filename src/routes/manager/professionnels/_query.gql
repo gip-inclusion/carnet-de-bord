@@ -1,6 +1,6 @@
 query GetAccountsSummary {
 	accounts: account(
-		where: { type: { _eq: "professional" } }
+		where: { type: { _eq: professional } }
 		order_by: { confirmed: asc, professional: { lastname: asc } }
 	) {
 		id

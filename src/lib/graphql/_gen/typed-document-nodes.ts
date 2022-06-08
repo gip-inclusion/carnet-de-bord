@@ -167,10 +167,11 @@ export type Account = {
 	/** An aggregate relationship */
 	notebooksWhereMember_aggregate: NotebookMemberAggregate;
 	onboardingDone?: Maybe<Scalars['Boolean']>;
+	orientationManagerId?: Maybe<Scalars['uuid']>;
 	/** An object relationship */
 	professional?: Maybe<Professional>;
 	professionalId?: Maybe<Scalars['uuid']>;
-	type: Scalars['String'];
+	type: RoleEnum;
 	updatedAt: Scalars['timestamptz'];
 	username: Scalars['String'];
 };
@@ -330,9 +331,10 @@ export type AccountBoolExp = {
 	notebooksCreated?: InputMaybe<NotebookMemberBoolExp>;
 	notebooksWhereMember?: InputMaybe<NotebookMemberBoolExp>;
 	onboardingDone?: InputMaybe<BooleanComparisonExp>;
+	orientationManagerId?: InputMaybe<UuidComparisonExp>;
 	professional?: InputMaybe<ProfessionalBoolExp>;
 	professionalId?: InputMaybe<UuidComparisonExp>;
-	type?: InputMaybe<StringComparisonExp>;
+	type?: InputMaybe<RoleEnumComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 	username?: InputMaybe<StringComparisonExp>;
 };
@@ -378,9 +380,10 @@ export type AccountInsertInput = {
 	notebooksCreated?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	notebooksWhereMember?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	onboardingDone?: InputMaybe<Scalars['Boolean']>;
+	orientationManagerId?: InputMaybe<Scalars['uuid']>;
 	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
-	type?: InputMaybe<Scalars['String']>;
+	type?: InputMaybe<RoleEnum>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	username?: InputMaybe<Scalars['String']>;
 };
@@ -397,8 +400,8 @@ export type AccountMaxFields = {
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	managerId?: Maybe<Scalars['uuid']>;
+	orientationManagerId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
-	type?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	username?: Maybe<Scalars['String']>;
 };
@@ -415,8 +418,8 @@ export type AccountMinFields = {
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	managerId?: Maybe<Scalars['uuid']>;
+	orientationManagerId?: Maybe<Scalars['uuid']>;
 	professionalId?: Maybe<Scalars['uuid']>;
-	type?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	username?: Maybe<Scalars['String']>;
 };
@@ -467,6 +470,7 @@ export type AccountOrderBy = {
 	notebooksCreated_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	notebooksWhereMember_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	onboardingDone?: InputMaybe<OrderBy>;
+	orientationManagerId?: InputMaybe<OrderBy>;
 	professional?: InputMaybe<ProfessionalOrderBy>;
 	professionalId?: InputMaybe<OrderBy>;
 	type?: InputMaybe<OrderBy>;
@@ -504,6 +508,8 @@ export enum AccountSelectColumn {
 	/** column name */
 	OnboardingDone = 'onboardingDone',
 	/** column name */
+	OrientationManagerId = 'orientationManagerId',
+	/** column name */
 	ProfessionalId = 'professionalId',
 	/** column name */
 	Type = 'type',
@@ -526,8 +532,9 @@ export type AccountSetInput = {
 	lastLogin?: InputMaybe<Scalars['timestamptz']>;
 	managerId?: InputMaybe<Scalars['uuid']>;
 	onboardingDone?: InputMaybe<Scalars['Boolean']>;
+	orientationManagerId?: InputMaybe<Scalars['uuid']>;
 	professionalId?: InputMaybe<Scalars['uuid']>;
-	type?: InputMaybe<Scalars['String']>;
+	type?: InputMaybe<RoleEnum>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	username?: InputMaybe<Scalars['String']>;
 };
@@ -556,6 +563,8 @@ export enum AccountUpdateColumn {
 	ManagerId = 'managerId',
 	/** column name */
 	OnboardingDone = 'onboardingDone',
+	/** column name */
+	OrientationManagerId = 'orientationManagerId',
 	/** column name */
 	ProfessionalId = 'professionalId',
 	/** column name */
@@ -2245,6 +2254,520 @@ export enum DeploymentUpdateColumn {
 	UpdatedAt = 'updatedAt',
 }
 
+/** columns and relationships of "external_data" */
+export type ExternalData = {
+	__typename?: 'external_data';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	data: Scalars['jsonb'];
+	/** An object relationship */
+	external_source: ExternalSource;
+	hash: Scalars['String'];
+	id: Scalars['uuid'];
+	source: ExternalSourceEnum;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** columns and relationships of "external_data" */
+export type ExternalDataDataArgs = {
+	path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "external_data" */
+export type ExternalDataAggregate = {
+	__typename?: 'external_data_aggregate';
+	aggregate?: Maybe<ExternalDataAggregateFields>;
+	nodes: Array<ExternalData>;
+};
+
+/** aggregate fields of "external_data" */
+export type ExternalDataAggregateFields = {
+	__typename?: 'external_data_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ExternalDataMaxFields>;
+	min?: Maybe<ExternalDataMinFields>;
+};
+
+/** aggregate fields of "external_data" */
+export type ExternalDataAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "external_data" */
+export type ExternalDataAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<ExternalDataMaxOrderBy>;
+	min?: InputMaybe<ExternalDataMinOrderBy>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type ExternalDataAppendInput = {
+	data?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** input type for inserting array relation for remote table "external_data" */
+export type ExternalDataArrRelInsertInput = {
+	data: Array<ExternalDataInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<ExternalDataOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "external_data". All fields are combined with a logical 'AND'. */
+export type ExternalDataBoolExp = {
+	_and?: InputMaybe<Array<ExternalDataBoolExp>>;
+	_not?: InputMaybe<ExternalDataBoolExp>;
+	_or?: InputMaybe<Array<ExternalDataBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	data?: InputMaybe<JsonbComparisonExp>;
+	external_source?: InputMaybe<ExternalSourceBoolExp>;
+	hash?: InputMaybe<StringComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	source?: InputMaybe<ExternalSourceEnumComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "external_data" */
+export enum ExternalDataConstraint {
+	/** unique or primary key constraint */
+	ExternalDataPkey = 'external_data_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type ExternalDataDeleteAtPathInput = {
+	data?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type ExternalDataDeleteElemInput = {
+	data?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type ExternalDataDeleteKeyInput = {
+	data?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "external_data_info" */
+export type ExternalDataInfo = {
+	__typename?: 'external_data_info';
+	/** An object relationship */
+	beneficiary?: Maybe<Beneficiary>;
+	beneficiary_id?: Maybe<Scalars['uuid']>;
+	created_at: Scalars['timestamptz'];
+	external_data_id: Scalars['uuid'];
+	updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "external_data_info" */
+export type ExternalDataInfoAggregate = {
+	__typename?: 'external_data_info_aggregate';
+	aggregate?: Maybe<ExternalDataInfoAggregateFields>;
+	nodes: Array<ExternalDataInfo>;
+};
+
+/** aggregate fields of "external_data_info" */
+export type ExternalDataInfoAggregateFields = {
+	__typename?: 'external_data_info_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ExternalDataInfoMaxFields>;
+	min?: Maybe<ExternalDataInfoMinFields>;
+};
+
+/** aggregate fields of "external_data_info" */
+export type ExternalDataInfoAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "external_data_info". All fields are combined with a logical 'AND'. */
+export type ExternalDataInfoBoolExp = {
+	_and?: InputMaybe<Array<ExternalDataInfoBoolExp>>;
+	_not?: InputMaybe<ExternalDataInfoBoolExp>;
+	_or?: InputMaybe<Array<ExternalDataInfoBoolExp>>;
+	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
+	beneficiary_id?: InputMaybe<UuidComparisonExp>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	external_data_id?: InputMaybe<UuidComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "external_data_info" */
+export enum ExternalDataInfoConstraint {
+	/** unique or primary key constraint */
+	ExternalDataInfoPkey = 'external_data_info_pkey',
+}
+
+/** input type for inserting data into table "external_data_info" */
+export type ExternalDataInfoInsertInput = {
+	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
+	beneficiary_id?: InputMaybe<Scalars['uuid']>;
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	external_data_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type ExternalDataInfoMaxFields = {
+	__typename?: 'external_data_info_max_fields';
+	beneficiary_id?: Maybe<Scalars['uuid']>;
+	created_at?: Maybe<Scalars['timestamptz']>;
+	external_data_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type ExternalDataInfoMinFields = {
+	__typename?: 'external_data_info_min_fields';
+	beneficiary_id?: Maybe<Scalars['uuid']>;
+	created_at?: Maybe<Scalars['timestamptz']>;
+	external_data_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "external_data_info" */
+export type ExternalDataInfoMutationResponse = {
+	__typename?: 'external_data_info_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<ExternalDataInfo>;
+};
+
+/** on conflict condition type for table "external_data_info" */
+export type ExternalDataInfoOnConflict = {
+	constraint: ExternalDataInfoConstraint;
+	update_columns?: Array<ExternalDataInfoUpdateColumn>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
+};
+
+/** Ordering options when selecting data from "external_data_info". */
+export type ExternalDataInfoOrderBy = {
+	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
+	beneficiary_id?: InputMaybe<OrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	external_data_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: external_data_info */
+export type ExternalDataInfoPkColumnsInput = {
+	external_data_id: Scalars['uuid'];
+};
+
+/** select columns of table "external_data_info" */
+export enum ExternalDataInfoSelectColumn {
+	/** column name */
+	BeneficiaryId = 'beneficiary_id',
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	ExternalDataId = 'external_data_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "external_data_info" */
+export type ExternalDataInfoSetInput = {
+	beneficiary_id?: InputMaybe<Scalars['uuid']>;
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	external_data_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "external_data_info" */
+export enum ExternalDataInfoUpdateColumn {
+	/** column name */
+	BeneficiaryId = 'beneficiary_id',
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	ExternalDataId = 'external_data_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for inserting data into table "external_data" */
+export type ExternalDataInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	data?: InputMaybe<Scalars['jsonb']>;
+	external_source?: InputMaybe<ExternalSourceObjRelInsertInput>;
+	hash?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	source?: InputMaybe<ExternalSourceEnum>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type ExternalDataMaxFields = {
+	__typename?: 'external_data_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	hash?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "external_data" */
+export type ExternalDataMaxOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	hash?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type ExternalDataMinFields = {
+	__typename?: 'external_data_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	hash?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "external_data" */
+export type ExternalDataMinOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	hash?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "external_data" */
+export type ExternalDataMutationResponse = {
+	__typename?: 'external_data_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<ExternalData>;
+};
+
+/** on conflict condition type for table "external_data" */
+export type ExternalDataOnConflict = {
+	constraint: ExternalDataConstraint;
+	update_columns?: Array<ExternalDataUpdateColumn>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
+/** Ordering options when selecting data from "external_data". */
+export type ExternalDataOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	data?: InputMaybe<OrderBy>;
+	external_source?: InputMaybe<ExternalSourceOrderBy>;
+	hash?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	source?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: external_data */
+export type ExternalDataPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type ExternalDataPrependInput = {
+	data?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "external_data" */
+export enum ExternalDataSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Data = 'data',
+	/** column name */
+	Hash = 'hash',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Source = 'source',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "external_data" */
+export type ExternalDataSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	data?: InputMaybe<Scalars['jsonb']>;
+	hash?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	source?: InputMaybe<ExternalSourceEnum>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "external_data" */
+export enum ExternalDataUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Data = 'data',
+	/** column name */
+	Hash = 'hash',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Source = 'source',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** columns and relationships of "external_source" */
+export type ExternalSource = {
+	__typename?: 'external_source';
+	comment: Scalars['String'];
+	/** fetch data from the table: "external_data" */
+	external_data: Array<ExternalData>;
+	/** An aggregate relationship */
+	external_data_aggregate: ExternalDataAggregate;
+	value: Scalars['String'];
+};
+
+/** columns and relationships of "external_source" */
+export type ExternalSourceExternalDataArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataOrderBy>>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
+/** columns and relationships of "external_source" */
+export type ExternalSourceExternalDataAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataOrderBy>>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
+/** aggregated selection of "external_source" */
+export type ExternalSourceAggregate = {
+	__typename?: 'external_source_aggregate';
+	aggregate?: Maybe<ExternalSourceAggregateFields>;
+	nodes: Array<ExternalSource>;
+};
+
+/** aggregate fields of "external_source" */
+export type ExternalSourceAggregateFields = {
+	__typename?: 'external_source_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ExternalSourceMaxFields>;
+	min?: Maybe<ExternalSourceMinFields>;
+};
+
+/** aggregate fields of "external_source" */
+export type ExternalSourceAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<ExternalSourceSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "external_source". All fields are combined with a logical 'AND'. */
+export type ExternalSourceBoolExp = {
+	_and?: InputMaybe<Array<ExternalSourceBoolExp>>;
+	_not?: InputMaybe<ExternalSourceBoolExp>;
+	_or?: InputMaybe<Array<ExternalSourceBoolExp>>;
+	comment?: InputMaybe<StringComparisonExp>;
+	external_data?: InputMaybe<ExternalDataBoolExp>;
+	value?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "external_source" */
+export enum ExternalSourceConstraint {
+	/** unique or primary key constraint */
+	ExternalSourcePkey = 'external_source_pkey',
+}
+
+export enum ExternalSourceEnum {
+	/** Pôle Emploi */
+	Pe = 'pe',
+}
+
+/** Boolean expression to compare columns of type "external_source_enum". All fields are combined with logical 'AND'. */
+export type ExternalSourceEnumComparisonExp = {
+	_eq?: InputMaybe<ExternalSourceEnum>;
+	_in?: InputMaybe<Array<ExternalSourceEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<ExternalSourceEnum>;
+	_nin?: InputMaybe<Array<ExternalSourceEnum>>;
+};
+
+/** input type for inserting data into table "external_source" */
+export type ExternalSourceInsertInput = {
+	comment?: InputMaybe<Scalars['String']>;
+	external_data?: InputMaybe<ExternalDataArrRelInsertInput>;
+	value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type ExternalSourceMaxFields = {
+	__typename?: 'external_source_max_fields';
+	comment?: Maybe<Scalars['String']>;
+	value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type ExternalSourceMinFields = {
+	__typename?: 'external_source_min_fields';
+	comment?: Maybe<Scalars['String']>;
+	value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "external_source" */
+export type ExternalSourceMutationResponse = {
+	__typename?: 'external_source_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<ExternalSource>;
+};
+
+/** input type for inserting object relation for remote table "external_source" */
+export type ExternalSourceObjRelInsertInput = {
+	data: ExternalSourceInsertInput;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<ExternalSourceOnConflict>;
+};
+
+/** on conflict condition type for table "external_source" */
+export type ExternalSourceOnConflict = {
+	constraint: ExternalSourceConstraint;
+	update_columns?: Array<ExternalSourceUpdateColumn>;
+	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
+/** Ordering options when selecting data from "external_source". */
+export type ExternalSourceOrderBy = {
+	comment?: InputMaybe<OrderBy>;
+	external_data_aggregate?: InputMaybe<ExternalDataAggregateOrderBy>;
+	value?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: external_source */
+export type ExternalSourcePkColumnsInput = {
+	value: Scalars['String'];
+};
+
+/** select columns of table "external_source" */
+export enum ExternalSourceSelectColumn {
+	/** column name */
+	Comment = 'comment',
+	/** column name */
+	Value = 'value',
+}
+
+/** input type for updating data in table "external_source" */
+export type ExternalSourceSetInput = {
+	comment?: InputMaybe<Scalars['String']>;
+	value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "external_source" */
+export enum ExternalSourceUpdateColumn {
+	/** column name */
+	Comment = 'comment',
+	/** column name */
+	Value = 'value',
+}
+
 /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
 export type JsonbComparisonExp = {
 	/** is the column contained in the given json value */
@@ -2528,6 +3051,18 @@ export type MutationRoot = {
 	delete_deployment?: Maybe<DeploymentMutationResponse>;
 	/** delete single row from the table: "deployment" */
 	delete_deployment_by_pk?: Maybe<Deployment>;
+	/** delete data from the table: "external_data" */
+	delete_external_data?: Maybe<ExternalDataMutationResponse>;
+	/** delete single row from the table: "external_data" */
+	delete_external_data_by_pk?: Maybe<ExternalData>;
+	/** delete data from the table: "external_data_info" */
+	delete_external_data_info?: Maybe<ExternalDataInfoMutationResponse>;
+	/** delete single row from the table: "external_data_info" */
+	delete_external_data_info_by_pk?: Maybe<ExternalDataInfo>;
+	/** delete data from the table: "external_source" */
+	delete_external_source?: Maybe<ExternalSourceMutationResponse>;
+	/** delete single row from the table: "external_source" */
+	delete_external_source_by_pk?: Maybe<ExternalSource>;
 	/** delete data from the table: "manager" */
 	delete_manager?: Maybe<ManagerMutationResponse>;
 	/** delete single row from the table: "manager" */
@@ -2564,6 +3099,10 @@ export type MutationRoot = {
 	delete_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** delete single row from the table: "notebook_target" */
 	delete_notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** delete data from the table: "orientation_manager" */
+	delete_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
+	/** delete single row from the table: "orientation_manager" */
+	delete_orientation_manager_by_pk?: Maybe<OrientationManager>;
 	/** delete data from the table: "professional" */
 	delete_professional?: Maybe<ProfessionalMutationResponse>;
 	/** delete single row from the table: "professional" */
@@ -2580,6 +3119,10 @@ export type MutationRoot = {
 	delete_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** delete single row from the table: "ref_target" */
 	delete_ref_target_by_pk?: Maybe<RefTarget>;
+	/** delete data from the table: "role" */
+	delete_role?: Maybe<RoleMutationResponse>;
+	/** delete single row from the table: "role" */
+	delete_role_by_pk?: Maybe<Role>;
 	/** delete data from the table: "rome_code" */
 	delete_rome_code?: Maybe<RomeCodeMutationResponse>;
 	/** delete single row from the table: "rome_code" */
@@ -2621,6 +3164,18 @@ export type MutationRoot = {
 	insert_deployment?: Maybe<DeploymentMutationResponse>;
 	/** insert a single row into the table: "deployment" */
 	insert_deployment_one?: Maybe<Deployment>;
+	/** insert data into the table: "external_data" */
+	insert_external_data?: Maybe<ExternalDataMutationResponse>;
+	/** insert data into the table: "external_data_info" */
+	insert_external_data_info?: Maybe<ExternalDataInfoMutationResponse>;
+	/** insert a single row into the table: "external_data_info" */
+	insert_external_data_info_one?: Maybe<ExternalDataInfo>;
+	/** insert a single row into the table: "external_data" */
+	insert_external_data_one?: Maybe<ExternalData>;
+	/** insert data into the table: "external_source" */
+	insert_external_source?: Maybe<ExternalSourceMutationResponse>;
+	/** insert a single row into the table: "external_source" */
+	insert_external_source_one?: Maybe<ExternalSource>;
 	/** insert data into the table: "manager" */
 	insert_manager?: Maybe<ManagerMutationResponse>;
 	/** insert a single row into the table: "manager" */
@@ -2657,6 +3212,10 @@ export type MutationRoot = {
 	insert_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** insert a single row into the table: "notebook_target" */
 	insert_notebook_target_one?: Maybe<NotebookTarget>;
+	/** insert data into the table: "orientation_manager" */
+	insert_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
+	/** insert a single row into the table: "orientation_manager" */
+	insert_orientation_manager_one?: Maybe<OrientationManager>;
 	/** insert data into the table: "professional" */
 	insert_professional?: Maybe<ProfessionalMutationResponse>;
 	/** insert a single row into the table: "professional" */
@@ -2673,6 +3232,10 @@ export type MutationRoot = {
 	insert_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** insert a single row into the table: "ref_target" */
 	insert_ref_target_one?: Maybe<RefTarget>;
+	/** insert data into the table: "role" */
+	insert_role?: Maybe<RoleMutationResponse>;
+	/** insert a single row into the table: "role" */
+	insert_role_one?: Maybe<Role>;
 	/** insert data into the table: "rome_code" */
 	insert_rome_code?: Maybe<RomeCodeMutationResponse>;
 	/** insert a single row into the table: "rome_code" */
@@ -2714,6 +3277,18 @@ export type MutationRoot = {
 	update_deployment?: Maybe<DeploymentMutationResponse>;
 	/** update single row of the table: "deployment" */
 	update_deployment_by_pk?: Maybe<Deployment>;
+	/** update data of the table: "external_data" */
+	update_external_data?: Maybe<ExternalDataMutationResponse>;
+	/** update single row of the table: "external_data" */
+	update_external_data_by_pk?: Maybe<ExternalData>;
+	/** update data of the table: "external_data_info" */
+	update_external_data_info?: Maybe<ExternalDataInfoMutationResponse>;
+	/** update single row of the table: "external_data_info" */
+	update_external_data_info_by_pk?: Maybe<ExternalDataInfo>;
+	/** update data of the table: "external_source" */
+	update_external_source?: Maybe<ExternalSourceMutationResponse>;
+	/** update single row of the table: "external_source" */
+	update_external_source_by_pk?: Maybe<ExternalSource>;
 	/** update data of the table: "manager" */
 	update_manager?: Maybe<ManagerMutationResponse>;
 	/** update single row of the table: "manager" */
@@ -2750,6 +3325,10 @@ export type MutationRoot = {
 	update_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** update single row of the table: "notebook_target" */
 	update_notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** update data of the table: "orientation_manager" */
+	update_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
+	/** update single row of the table: "orientation_manager" */
+	update_orientation_manager_by_pk?: Maybe<OrientationManager>;
 	/** update data of the table: "professional" */
 	update_professional?: Maybe<ProfessionalMutationResponse>;
 	/** update single row of the table: "professional" */
@@ -2766,6 +3345,10 @@ export type MutationRoot = {
 	update_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** update single row of the table: "ref_target" */
 	update_ref_target_by_pk?: Maybe<RefTarget>;
+	/** update data of the table: "role" */
+	update_role?: Maybe<RoleMutationResponse>;
+	/** update single row of the table: "role" */
+	update_role_by_pk?: Maybe<Role>;
 	/** update data of the table: "rome_code" */
 	update_rome_code?: Maybe<RomeCodeMutationResponse>;
 	/** update single row of the table: "rome_code" */
@@ -2854,6 +3437,36 @@ export type MutationRootDeleteDeploymentArgs = {
 /** mutation root */
 export type MutationRootDeleteDeploymentByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteExternalDataArgs = {
+	where: ExternalDataBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteExternalDataByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteExternalDataInfoArgs = {
+	where: ExternalDataInfoBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteExternalDataInfoByPkArgs = {
+	external_data_id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteExternalSourceArgs = {
+	where: ExternalSourceBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteExternalSourceByPkArgs = {
+	value: Scalars['String'];
 };
 
 /** mutation root */
@@ -2947,6 +3560,16 @@ export type MutationRootDeleteNotebookTargetByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteOrientationManagerArgs = {
+	where: OrientationManagerBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteOrientationManagerByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type MutationRootDeleteProfessionalArgs = {
 	where: ProfessionalBoolExp;
 };
@@ -2984,6 +3607,16 @@ export type MutationRootDeleteRefTargetArgs = {
 /** mutation root */
 export type MutationRootDeleteRefTargetByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRoleArgs = {
+	where: RoleBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRoleByPkArgs = {
+	label: Scalars['String'];
 };
 
 /** mutation root */
@@ -3106,6 +3739,42 @@ export type MutationRootInsertDeploymentOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertExternalDataArgs = {
+	objects: Array<ExternalDataInsertInput>;
+	on_conflict?: InputMaybe<ExternalDataOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertExternalDataInfoArgs = {
+	objects: Array<ExternalDataInfoInsertInput>;
+	on_conflict?: InputMaybe<ExternalDataInfoOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertExternalDataInfoOneArgs = {
+	object: ExternalDataInfoInsertInput;
+	on_conflict?: InputMaybe<ExternalDataInfoOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertExternalDataOneArgs = {
+	object: ExternalDataInsertInput;
+	on_conflict?: InputMaybe<ExternalDataOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertExternalSourceArgs = {
+	objects: Array<ExternalSourceInsertInput>;
+	on_conflict?: InputMaybe<ExternalSourceOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertExternalSourceOneArgs = {
+	object: ExternalSourceInsertInput;
+	on_conflict?: InputMaybe<ExternalSourceOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertManagerArgs = {
 	objects: Array<ManagerInsertInput>;
 	on_conflict?: InputMaybe<ManagerOnConflict>;
@@ -3214,6 +3883,18 @@ export type MutationRootInsertNotebookTargetOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertOrientationManagerArgs = {
+	objects: Array<OrientationManagerInsertInput>;
+	on_conflict?: InputMaybe<OrientationManagerOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertOrientationManagerOneArgs = {
+	object: OrientationManagerInsertInput;
+	on_conflict?: InputMaybe<OrientationManagerOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertProfessionalArgs = {
 	objects: Array<ProfessionalInsertInput>;
 	on_conflict?: InputMaybe<ProfessionalOnConflict>;
@@ -3259,6 +3940,18 @@ export type MutationRootInsertRefTargetArgs = {
 export type MutationRootInsertRefTargetOneArgs = {
 	object: RefTargetInsertInput;
 	on_conflict?: InputMaybe<RefTargetOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRoleArgs = {
+	objects: Array<RoleInsertInput>;
+	on_conflict?: InputMaybe<RoleOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRoleOneArgs = {
+	object: RoleInsertInput;
+	on_conflict?: InputMaybe<RoleOnConflict>;
 };
 
 /** mutation root */
@@ -3407,6 +4100,52 @@ export type MutationRootUpdateDeploymentByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateExternalDataArgs = {
+	_append?: InputMaybe<ExternalDataAppendInput>;
+	_delete_at_path?: InputMaybe<ExternalDataDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<ExternalDataDeleteElemInput>;
+	_delete_key?: InputMaybe<ExternalDataDeleteKeyInput>;
+	_prepend?: InputMaybe<ExternalDataPrependInput>;
+	_set?: InputMaybe<ExternalDataSetInput>;
+	where: ExternalDataBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateExternalDataByPkArgs = {
+	_append?: InputMaybe<ExternalDataAppendInput>;
+	_delete_at_path?: InputMaybe<ExternalDataDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<ExternalDataDeleteElemInput>;
+	_delete_key?: InputMaybe<ExternalDataDeleteKeyInput>;
+	_prepend?: InputMaybe<ExternalDataPrependInput>;
+	_set?: InputMaybe<ExternalDataSetInput>;
+	pk_columns: ExternalDataPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateExternalDataInfoArgs = {
+	_set?: InputMaybe<ExternalDataInfoSetInput>;
+	where: ExternalDataInfoBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateExternalDataInfoByPkArgs = {
+	_set?: InputMaybe<ExternalDataInfoSetInput>;
+	pk_columns: ExternalDataInfoPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateExternalSourceArgs = {
+	_set?: InputMaybe<ExternalSourceSetInput>;
+	where: ExternalSourceBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateExternalSourceByPkArgs = {
+	_set?: InputMaybe<ExternalSourceSetInput>;
+	pk_columns: ExternalSourcePkColumnsInput;
+};
+
+/** mutation root */
 export type MutationRootUpdateManagerArgs = {
 	_set?: InputMaybe<ManagerSetInput>;
 	where: ManagerBoolExp;
@@ -3535,6 +4274,18 @@ export type MutationRootUpdateNotebookTargetByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateOrientationManagerArgs = {
+	_set?: InputMaybe<OrientationManagerSetInput>;
+	where: OrientationManagerBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateOrientationManagerByPkArgs = {
+	_set?: InputMaybe<OrientationManagerSetInput>;
+	pk_columns: OrientationManagerPkColumnsInput;
+};
+
+/** mutation root */
 export type MutationRootUpdateProfessionalArgs = {
 	_set?: InputMaybe<ProfessionalSetInput>;
 	where: ProfessionalBoolExp;
@@ -3580,6 +4331,18 @@ export type MutationRootUpdateRefTargetArgs = {
 export type MutationRootUpdateRefTargetByPkArgs = {
 	_set?: InputMaybe<RefTargetSetInput>;
 	pk_columns: RefTargetPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRoleArgs = {
+	_set?: InputMaybe<RoleSetInput>;
+	where: RoleBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRoleByPkArgs = {
+	_set?: InputMaybe<RoleSetInput>;
+	pk_columns: RolePkColumnsInput;
 };
 
 /** mutation root */
@@ -4267,6 +5030,8 @@ export type NotebookEvent = {
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
+	/** An object relationship */
+	notebook_event_type: NotebookEventType;
 };
 
 /** columns and relationships of "notebook_event" */
@@ -4328,6 +5093,7 @@ export type NotebookEventBoolExp = {
 	id?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
+	notebook_event_type?: InputMaybe<NotebookEventTypeBoolExp>;
 };
 
 /** unique or primary key constraints on table "notebook_event" */
@@ -4362,6 +5128,7 @@ export type NotebookEventInsertInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
+	notebook_event_type?: InputMaybe<NotebookEventTypeObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -4429,6 +5196,7 @@ export type NotebookEventOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
+	notebook_event_type?: InputMaybe<NotebookEventTypeOrderBy>;
 };
 
 /** primary key columns input for table: notebook_event */
@@ -4474,7 +5242,29 @@ export type NotebookEventSetInput = {
 export type NotebookEventType = {
 	__typename?: 'notebook_event_type';
 	comment: Scalars['String'];
+	/** An array relationship */
+	notebook_events: Array<NotebookEvent>;
+	/** An aggregate relationship */
+	notebook_events_aggregate: NotebookEventAggregate;
 	value: Scalars['String'];
+};
+
+/** columns and relationships of "notebook_event_type" */
+export type NotebookEventTypeNotebookEventsArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventOrderBy>>;
+	where?: InputMaybe<NotebookEventBoolExp>;
+};
+
+/** columns and relationships of "notebook_event_type" */
+export type NotebookEventTypeNotebookEventsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookEventSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookEventOrderBy>>;
+	where?: InputMaybe<NotebookEventBoolExp>;
 };
 
 /** aggregated selection of "notebook_event_type" */
@@ -4504,6 +5294,7 @@ export type NotebookEventTypeBoolExp = {
 	_not?: InputMaybe<NotebookEventTypeBoolExp>;
 	_or?: InputMaybe<Array<NotebookEventTypeBoolExp>>;
 	comment?: InputMaybe<StringComparisonExp>;
+	notebook_events?: InputMaybe<NotebookEventBoolExp>;
 	value?: InputMaybe<StringComparisonExp>;
 };
 
@@ -4532,6 +5323,7 @@ export type NotebookEventTypeEnumComparisonExp = {
 /** input type for inserting data into table "notebook_event_type" */
 export type NotebookEventTypeInsertInput = {
 	comment?: InputMaybe<Scalars['String']>;
+	notebook_events?: InputMaybe<NotebookEventArrRelInsertInput>;
 	value?: InputMaybe<Scalars['String']>;
 };
 
@@ -4558,6 +5350,13 @@ export type NotebookEventTypeMutationResponse = {
 	returning: Array<NotebookEventType>;
 };
 
+/** input type for inserting object relation for remote table "notebook_event_type" */
+export type NotebookEventTypeObjRelInsertInput = {
+	data: NotebookEventTypeInsertInput;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<NotebookEventTypeOnConflict>;
+};
+
 /** on conflict condition type for table "notebook_event_type" */
 export type NotebookEventTypeOnConflict = {
 	constraint: NotebookEventTypeConstraint;
@@ -4568,6 +5367,7 @@ export type NotebookEventTypeOnConflict = {
 /** Ordering options when selecting data from "notebook_event_type". */
 export type NotebookEventTypeOrderBy = {
 	comment?: InputMaybe<OrderBy>;
+	notebook_events_aggregate?: InputMaybe<NotebookEventAggregateOrderBy>;
 	value?: InputMaybe<OrderBy>;
 };
 
@@ -5616,6 +6416,197 @@ export enum OrderBy {
 	DescNullsLast = 'desc_nulls_last',
 }
 
+/**
+ * Table des chargés d’orientation
+ *
+ *
+ * columns and relationships of "orientation_manager"
+ *
+ */
+export type OrientationManager = {
+	__typename?: 'orientation_manager';
+	createdAt: Scalars['timestamptz'];
+	deploymentId: Scalars['uuid'];
+	email: Scalars['citext'];
+	firstname?: Maybe<Scalars['String']>;
+	id: Scalars['uuid'];
+	lastname?: Maybe<Scalars['String']>;
+	/** liste des numéros de téléphones séparés par des virgules */
+	phoneNumbers?: Maybe<Scalars['String']>;
+	updatedAt: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "orientation_manager" */
+export type OrientationManagerAggregate = {
+	__typename?: 'orientation_manager_aggregate';
+	aggregate?: Maybe<OrientationManagerAggregateFields>;
+	nodes: Array<OrientationManager>;
+};
+
+/** aggregate fields of "orientation_manager" */
+export type OrientationManagerAggregateFields = {
+	__typename?: 'orientation_manager_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<OrientationManagerMaxFields>;
+	min?: Maybe<OrientationManagerMinFields>;
+};
+
+/** aggregate fields of "orientation_manager" */
+export type OrientationManagerAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<OrientationManagerSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "orientation_manager". All fields are combined with a logical 'AND'. */
+export type OrientationManagerBoolExp = {
+	_and?: InputMaybe<Array<OrientationManagerBoolExp>>;
+	_not?: InputMaybe<OrientationManagerBoolExp>;
+	_or?: InputMaybe<Array<OrientationManagerBoolExp>>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	deploymentId?: InputMaybe<UuidComparisonExp>;
+	email?: InputMaybe<CitextComparisonExp>;
+	firstname?: InputMaybe<StringComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	lastname?: InputMaybe<StringComparisonExp>;
+	phoneNumbers?: InputMaybe<StringComparisonExp>;
+	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "orientation_manager" */
+export enum OrientationManagerConstraint {
+	/** unique or primary key constraint */
+	OrientationManagerEmailKey = 'orientation_manager_email_key',
+	/** unique or primary key constraint */
+	OrientationManagerPkey = 'orientation_manager_pkey',
+}
+
+/** input type for inserting data into table "orientation_manager" */
+export type OrientationManagerInsertInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	/** liste des numéros de téléphones séparés par des virgules */
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type OrientationManagerMaxFields = {
+	__typename?: 'orientation_manager_max_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	/** liste des numéros de téléphones séparés par des virgules */
+	phoneNumbers?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type OrientationManagerMinFields = {
+	__typename?: 'orientation_manager_min_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	deploymentId?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	id?: Maybe<Scalars['uuid']>;
+	lastname?: Maybe<Scalars['String']>;
+	/** liste des numéros de téléphones séparés par des virgules */
+	phoneNumbers?: Maybe<Scalars['String']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "orientation_manager" */
+export type OrientationManagerMutationResponse = {
+	__typename?: 'orientation_manager_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<OrientationManager>;
+};
+
+/** on conflict condition type for table "orientation_manager" */
+export type OrientationManagerOnConflict = {
+	constraint: OrientationManagerConstraint;
+	update_columns?: Array<OrientationManagerUpdateColumn>;
+	where?: InputMaybe<OrientationManagerBoolExp>;
+};
+
+/** Ordering options when selecting data from "orientation_manager". */
+export type OrientationManagerOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	deploymentId?: InputMaybe<OrderBy>;
+	email?: InputMaybe<OrderBy>;
+	firstname?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	lastname?: InputMaybe<OrderBy>;
+	phoneNumbers?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: orientation_manager */
+export type OrientationManagerPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "orientation_manager" */
+export enum OrientationManagerSelectColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	DeploymentId = 'deploymentId',
+	/** column name */
+	Email = 'email',
+	/** column name */
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname',
+	/** column name */
+	PhoneNumbers = 'phoneNumbers',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "orientation_manager" */
+export type OrientationManagerSetInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	/** liste des numéros de téléphones séparés par des virgules */
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "orientation_manager" */
+export enum OrientationManagerUpdateColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	DeploymentId = 'deploymentId',
+	/** column name */
+	Email = 'email',
+	/** column name */
+	Firstname = 'firstname',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Lastname = 'lastname',
+	/** column name */
+	PhoneNumbers = 'phoneNumbers',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
 /** columns and relationships of "professional" */
 export type Professional = {
 	__typename?: 'professional';
@@ -5908,6 +6899,24 @@ export type QueryRoot = {
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table: "external_data" */
+	external_data: Array<ExternalData>;
+	/** An aggregate relationship */
+	external_data_aggregate: ExternalDataAggregate;
+	/** fetch data from the table: "external_data" using primary key columns */
+	external_data_by_pk?: Maybe<ExternalData>;
+	/** fetch data from the table: "external_data_info" */
+	external_data_info: Array<ExternalDataInfo>;
+	/** fetch aggregated fields from the table: "external_data_info" */
+	external_data_info_aggregate: ExternalDataInfoAggregate;
+	/** fetch data from the table: "external_data_info" using primary key columns */
+	external_data_info_by_pk?: Maybe<ExternalDataInfo>;
+	/** fetch data from the table: "external_source" */
+	external_source: Array<ExternalSource>;
+	/** fetch aggregated fields from the table: "external_source" */
+	external_source_aggregate: ExternalSourceAggregate;
+	/** fetch data from the table: "external_source" using primary key columns */
+	external_source_by_pk?: Maybe<ExternalSource>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -5962,6 +6971,12 @@ export type QueryRoot = {
 	notebook_target_aggregate: NotebookTargetAggregate;
 	/** fetch data from the table: "notebook_target" using primary key columns */
 	notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** fetch data from the table: "orientation_manager" */
+	orientation_manager: Array<OrientationManager>;
+	/** fetch aggregated fields from the table: "orientation_manager" */
+	orientation_manager_aggregate: OrientationManagerAggregate;
+	/** fetch data from the table: "orientation_manager" using primary key columns */
+	orientation_manager_by_pk?: Maybe<OrientationManager>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -5986,6 +7001,12 @@ export type QueryRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** fetch data from the table: "role" */
+	role: Array<Role>;
+	/** fetch aggregated fields from the table: "role" */
+	role_aggregate: RoleAggregate;
+	/** fetch data from the table: "role" using primary key columns */
+	role_by_pk?: Maybe<Role>;
 	/** fetch data from the table: "rome_code" */
 	rome_code: Array<RomeCode>;
 	/** fetch aggregated fields from the table: "rome_code" */
@@ -6156,6 +7177,66 @@ export type QueryRootDeploymentAggregateArgs = {
 
 export type QueryRootDeploymentByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootExternalDataArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataOrderBy>>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
+export type QueryRootExternalDataAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataOrderBy>>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
+export type QueryRootExternalDataByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootExternalDataInfoArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataInfoOrderBy>>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
+};
+
+export type QueryRootExternalDataInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataInfoOrderBy>>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
+};
+
+export type QueryRootExternalDataInfoByPkArgs = {
+	external_data_id: Scalars['uuid'];
+};
+
+export type QueryRootExternalSourceArgs = {
+	distinct_on?: InputMaybe<Array<ExternalSourceSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalSourceOrderBy>>;
+	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
+export type QueryRootExternalSourceAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalSourceSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalSourceOrderBy>>;
+	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
+export type QueryRootExternalSourceByPkArgs = {
+	value: Scalars['String'];
 };
 
 export type QueryRootManagerArgs = {
@@ -6338,6 +7419,26 @@ export type QueryRootNotebookTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootOrientationManagerArgs = {
+	distinct_on?: InputMaybe<Array<OrientationManagerSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationManagerOrderBy>>;
+	where?: InputMaybe<OrientationManagerBoolExp>;
+};
+
+export type QueryRootOrientationManagerAggregateArgs = {
+	distinct_on?: InputMaybe<Array<OrientationManagerSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationManagerOrderBy>>;
+	where?: InputMaybe<OrientationManagerBoolExp>;
+};
+
+export type QueryRootOrientationManagerByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootProfessionalArgs = {
 	distinct_on?: InputMaybe<Array<ProfessionalSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -6416,6 +7517,26 @@ export type QueryRootRefTargetAggregateArgs = {
 
 export type QueryRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootRoleArgs = {
+	distinct_on?: InputMaybe<Array<RoleSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RoleOrderBy>>;
+	where?: InputMaybe<RoleBoolExp>;
+};
+
+export type QueryRootRoleAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RoleSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RoleOrderBy>>;
+	where?: InputMaybe<RoleBoolExp>;
+};
+
+export type QueryRootRoleByPkArgs = {
+	label: Scalars['String'];
 };
 
 export type QueryRootRomeCodeArgs = {
@@ -6899,6 +8020,131 @@ export enum RefTargetUpdateColumn {
 	Id = 'id',
 	/** column name */
 	Theme = 'theme',
+}
+
+/**
+ * liste des roles
+ *
+ *
+ * columns and relationships of "role"
+ *
+ */
+export type Role = {
+	__typename?: 'role';
+	label: Scalars['String'];
+};
+
+/** aggregated selection of "role" */
+export type RoleAggregate = {
+	__typename?: 'role_aggregate';
+	aggregate?: Maybe<RoleAggregateFields>;
+	nodes: Array<Role>;
+};
+
+/** aggregate fields of "role" */
+export type RoleAggregateFields = {
+	__typename?: 'role_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RoleMaxFields>;
+	min?: Maybe<RoleMinFields>;
+};
+
+/** aggregate fields of "role" */
+export type RoleAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<RoleSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "role". All fields are combined with a logical 'AND'. */
+export type RoleBoolExp = {
+	_and?: InputMaybe<Array<RoleBoolExp>>;
+	_not?: InputMaybe<RoleBoolExp>;
+	_or?: InputMaybe<Array<RoleBoolExp>>;
+	label?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "role" */
+export enum RoleConstraint {
+	/** unique or primary key constraint */
+	RolePkey = 'role_pkey',
+}
+
+export enum RoleEnum {
+	AdminCdb = 'admin_cdb',
+	AdminStructure = 'admin_structure',
+	Beneficiary = 'beneficiary',
+	Manager = 'manager',
+	OrientationManager = 'orientation_manager',
+	Professional = 'professional',
+}
+
+/** Boolean expression to compare columns of type "role_enum". All fields are combined with logical 'AND'. */
+export type RoleEnumComparisonExp = {
+	_eq?: InputMaybe<RoleEnum>;
+	_in?: InputMaybe<Array<RoleEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<RoleEnum>;
+	_nin?: InputMaybe<Array<RoleEnum>>;
+};
+
+/** input type for inserting data into table "role" */
+export type RoleInsertInput = {
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type RoleMaxFields = {
+	__typename?: 'role_max_fields';
+	label?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type RoleMinFields = {
+	__typename?: 'role_min_fields';
+	label?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "role" */
+export type RoleMutationResponse = {
+	__typename?: 'role_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Role>;
+};
+
+/** on conflict condition type for table "role" */
+export type RoleOnConflict = {
+	constraint: RoleConstraint;
+	update_columns?: Array<RoleUpdateColumn>;
+	where?: InputMaybe<RoleBoolExp>;
+};
+
+/** Ordering options when selecting data from "role". */
+export type RoleOrderBy = {
+	label?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: role */
+export type RolePkColumnsInput = {
+	label: Scalars['String'];
+};
+
+/** select columns of table "role" */
+export enum RoleSelectColumn {
+	/** column name */
+	Label = 'label',
+}
+
+/** input type for updating data in table "role" */
+export type RoleSetInput = {
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "role" */
+export enum RoleUpdateColumn {
+	/** column name */
+	Label = 'label',
 }
 
 /** columns and relationships of "rome_code" */
@@ -7508,6 +8754,24 @@ export type SubscriptionRoot = {
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table: "external_data" */
+	external_data: Array<ExternalData>;
+	/** An aggregate relationship */
+	external_data_aggregate: ExternalDataAggregate;
+	/** fetch data from the table: "external_data" using primary key columns */
+	external_data_by_pk?: Maybe<ExternalData>;
+	/** fetch data from the table: "external_data_info" */
+	external_data_info: Array<ExternalDataInfo>;
+	/** fetch aggregated fields from the table: "external_data_info" */
+	external_data_info_aggregate: ExternalDataInfoAggregate;
+	/** fetch data from the table: "external_data_info" using primary key columns */
+	external_data_info_by_pk?: Maybe<ExternalDataInfo>;
+	/** fetch data from the table: "external_source" */
+	external_source: Array<ExternalSource>;
+	/** fetch aggregated fields from the table: "external_source" */
+	external_source_aggregate: ExternalSourceAggregate;
+	/** fetch data from the table: "external_source" using primary key columns */
+	external_source_by_pk?: Maybe<ExternalSource>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -7562,6 +8826,12 @@ export type SubscriptionRoot = {
 	notebook_target_aggregate: NotebookTargetAggregate;
 	/** fetch data from the table: "notebook_target" using primary key columns */
 	notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** fetch data from the table: "orientation_manager" */
+	orientation_manager: Array<OrientationManager>;
+	/** fetch aggregated fields from the table: "orientation_manager" */
+	orientation_manager_aggregate: OrientationManagerAggregate;
+	/** fetch data from the table: "orientation_manager" using primary key columns */
+	orientation_manager_by_pk?: Maybe<OrientationManager>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -7586,6 +8856,12 @@ export type SubscriptionRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** fetch data from the table: "role" */
+	role: Array<Role>;
+	/** fetch aggregated fields from the table: "role" */
+	role_aggregate: RoleAggregate;
+	/** fetch data from the table: "role" using primary key columns */
+	role_by_pk?: Maybe<Role>;
 	/** fetch data from the table: "rome_code" */
 	rome_code: Array<RomeCode>;
 	/** fetch aggregated fields from the table: "rome_code" */
@@ -7756,6 +9032,66 @@ export type SubscriptionRootDeploymentAggregateArgs = {
 
 export type SubscriptionRootDeploymentByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootExternalDataArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataOrderBy>>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
+export type SubscriptionRootExternalDataAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataOrderBy>>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
+export type SubscriptionRootExternalDataByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootExternalDataInfoArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataInfoOrderBy>>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
+};
+
+export type SubscriptionRootExternalDataInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataInfoOrderBy>>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
+};
+
+export type SubscriptionRootExternalDataInfoByPkArgs = {
+	external_data_id: Scalars['uuid'];
+};
+
+export type SubscriptionRootExternalSourceArgs = {
+	distinct_on?: InputMaybe<Array<ExternalSourceSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalSourceOrderBy>>;
+	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
+export type SubscriptionRootExternalSourceAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalSourceSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalSourceOrderBy>>;
+	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
+export type SubscriptionRootExternalSourceByPkArgs = {
+	value: Scalars['String'];
 };
 
 export type SubscriptionRootManagerArgs = {
@@ -7938,6 +9274,26 @@ export type SubscriptionRootNotebookTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootOrientationManagerArgs = {
+	distinct_on?: InputMaybe<Array<OrientationManagerSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationManagerOrderBy>>;
+	where?: InputMaybe<OrientationManagerBoolExp>;
+};
+
+export type SubscriptionRootOrientationManagerAggregateArgs = {
+	distinct_on?: InputMaybe<Array<OrientationManagerSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationManagerOrderBy>>;
+	where?: InputMaybe<OrientationManagerBoolExp>;
+};
+
+export type SubscriptionRootOrientationManagerByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type SubscriptionRootProfessionalArgs = {
 	distinct_on?: InputMaybe<Array<ProfessionalSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -8016,6 +9372,26 @@ export type SubscriptionRootRefTargetAggregateArgs = {
 
 export type SubscriptionRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootRoleArgs = {
+	distinct_on?: InputMaybe<Array<RoleSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RoleOrderBy>>;
+	where?: InputMaybe<RoleBoolExp>;
+};
+
+export type SubscriptionRootRoleAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RoleSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RoleOrderBy>>;
+	where?: InputMaybe<RoleBoolExp>;
+};
+
+export type SubscriptionRootRoleByPkArgs = {
+	label: Scalars['String'];
 };
 
 export type SubscriptionRootRomeCodeArgs = {
@@ -9392,7 +10768,7 @@ export type GetAccountInfoQuery = {
 	account: Array<{
 		__typename?: 'account';
 		id: string;
-		type: string;
+		type: RoleEnum;
 		username: string;
 		beneficiaryId?: string | null | undefined;
 		professionalId?: string | null | undefined;
@@ -17278,7 +18654,7 @@ export const InsertAccountAdminStructureDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'type' },
-											value: { kind: 'StringValue', value: 'admin_structure', block: false },
+											value: { kind: 'EnumValue', value: 'admin_structure' },
 										},
 										{
 											kind: 'ObjectField',
@@ -18148,7 +19524,7 @@ export const CreateBeneficiaryAccountDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'type' },
-											value: { kind: 'StringValue', value: 'beneficiary', block: false },
+											value: { kind: 'EnumValue', value: 'beneficiary' },
 										},
 										{
 											kind: 'ObjectField',
@@ -19691,7 +21067,7 @@ export const GetAccountsSummaryDocument = {
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'StringValue', value: 'professional', block: false },
+														value: { kind: 'EnumValue', value: 'professional' },
 													},
 												],
 											},
