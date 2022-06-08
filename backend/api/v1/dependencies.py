@@ -1,7 +1,8 @@
 import json
 
 import jwt
-from fastapi import Header, HTTPException
+from asyncpg.connection import Connection
+from fastapi import Header, HTTPException, Request
 from strenum import StrEnum
 
 from api.core.settings import settings
@@ -17,6 +18,7 @@ class RoleEnum(StrEnum):
 
 
 async def verify_jwt_token_header(
+    request: Request,
     jwt_token: str | None = Header(default=None),
 ):
     if not jwt_token:
@@ -30,3 +32,5 @@ async def verify_jwt_token_header(
 
     if not token["deploymentId"]:
         raise HTTPException(status_code=400, detail="DeploymentId not found")
+
+    request.state.deployment_id = token["deploymentId"]
