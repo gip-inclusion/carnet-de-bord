@@ -120,6 +120,12 @@ Les modifications apportées au code doivent passer par des PR qui seront valid�
 
 Dans le cas où une personne de l'équipe de dev est seule, elle peut valider sa PR elle-même pour pouvoir avancer.
 
+## Gestion des mails sur les environnement de developpements (review / preprod)
+
+Pour les environnements de review les mail envoyés par l'application sont visible sur une instance de [maildev](https://maildev.github.io/maildev/) que l'on deploie lorsqu'on déploie nos environnement de review-branch.
+
+Pour la preprod, nous utilisons [mailtrap](https://mailtrap.io) (demander l'accès)
+
 ## Howto
 
 ### Exécuter un fichier de migration directement via postgres

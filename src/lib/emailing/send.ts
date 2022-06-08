@@ -5,16 +5,23 @@ import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = getSmtpConfig();
 
-const smtpConfig = {
+const smtpConfig: SMTPTransport.Options = {
 	host: SMTP_HOST,
 	ignoreTLS: false,
 	port: SMTP_PORT,
 	requireTLS: true,
-	secure: false,
-	auth: {
-		pass: SMTP_PASS,
-		user: SMTP_USER,
+	secure: SMTP_PORT === 465,
+	tls: {
+		minVersion: 'TLSv1.2',
+		...(/maildev/.test(SMTP_HOST) && { rejectUnauthorized: false }),
 	},
+	...(SMTP_PASS &&
+		SMTP_USER && {
+			auth: {
+				pass: SMTP_PASS,
+				user: SMTP_USER,
+			},
+		}),
 };
 
 export function send({

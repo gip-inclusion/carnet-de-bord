@@ -3,8 +3,8 @@ apiVersion: v1
 metadata:
   name: app-configmap
 data:
-  SMTP_HOST: smtp.mailtrap.io
-  SMTP_PORT: '2525'
+  SMTP_HOST: maildev
+  SMTP_PORT: '1025'
   SMTP_FROM: support.carnet-de-bord@fabrique.social.gouv.fr
   API_PARTICULIER_URL: https://particulier-test.api.gouv.fr/api
   SANDBOX_LOGIN: 'true'

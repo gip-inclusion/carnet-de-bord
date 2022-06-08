@@ -63,6 +63,7 @@
 			label: 'Bénéficiaires',
 		},
 		{ id: 'structures', path: `${baseUrlForRole('manager')}/structures`, label: 'Structures' },
+		{ id: 'pro', path: `${baseUrlForRole('manager')}/professionnels`, label: 'Professionnels' },
 	];
 </script>
 

@@ -1,4 +1,5 @@
 import { displayFullName } from '$lib/ui/format';
+import type { InscriptionRequest } from 'src/routes/inscription/request';
 
 type Person = {
 	firstname: string;
@@ -6,6 +7,8 @@ type Person = {
 };
 
 type Pro = Person;
+
+type AccountRequest = InscriptionRequest['accountRequest'];
 
 type Creator = Person;
 
@@ -103,16 +106,26 @@ export function accountRequestValidate({ pro, url }: { pro: Pro; url: Url }): st
 
 export function accountRequest({
 	pro,
+	structureName,
 	url,
 	requester,
 }: {
-	pro: Pro;
+	pro: AccountRequest;
+	structureName: string;
 	url: Url;
 	requester?: Person;
 }): string {
 	return `
     ${greeting()}
     <p>Une demande de création d'un compte pour ${displayFullName(pro)} a été reçue.</p>
+		<b>Informations personnelles:</b>
+		<ul>
+		  ${structureName && `<li>Structure: ${structureName}</li>`}
+		  ${pro.firstname && `<li>Prénom: ${pro.firstname}</li>`}
+		  ${pro.lastname && `<li>Nom: ${pro.lastname}</li>`}
+		  ${pro.email && `<li>Courriel: ${pro.email}</li>`}
+		  ${pro.mobileNumber && `<li>téléphone: ${pro.mobileNumber}</li>`}
+		  ${pro.position && `<li>position: ${pro.position}</li>`}
     ${requester ? `<p>Cette demande a été soumise par ${displayFullName(requester)}.</p>` : ''}
     ${createAccessButton(url)}
     ${footer()}

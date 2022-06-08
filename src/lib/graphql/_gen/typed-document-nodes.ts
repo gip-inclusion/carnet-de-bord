@@ -9973,7 +9973,20 @@ export type InsertProfessionalAccountMutationVariables = Exact<{
 
 export type InsertProfessionalAccountMutation = {
 	__typename?: 'mutation_root';
-	account?: { __typename?: 'account'; id: string } | null | undefined;
+	account?:
+		| {
+				__typename?: 'account';
+				id: string;
+				professional?:
+					| {
+							__typename?: 'professional';
+							structure: { __typename?: 'structure'; name?: string | null | undefined };
+					  }
+					| null
+					| undefined;
+		  }
+		| null
+		| undefined;
 };
 
 export type ConfirmAccountByIdMutationVariables = Exact<{
@@ -10119,6 +10132,33 @@ export type GetStructuresForManagerQuery = {
 	structure: Array<{ __typename?: 'structure'; id: string; name?: string | null | undefined }>;
 };
 
+export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAccountsSummaryQuery = {
+	__typename?: 'query_root';
+	accounts: Array<{
+		__typename?: 'account';
+		id: string;
+		username: string;
+		lastLogin?: string | null | undefined;
+		confirmed: boolean;
+		onboardingDone?: boolean | null | undefined;
+		professional?:
+			| {
+					__typename?: 'professional';
+					id: string;
+					firstname: string;
+					lastname: string;
+					position?: string | null | undefined;
+					mobileNumber?: string | null | undefined;
+					email: string;
+					structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+			  }
+			| null
+			| undefined;
+	}>;
+};
+
 export type GetNotebooksStatsQueryVariables = Exact<{
 	afterDate: TimestamptzComparisonExp;
 }>;
@@ -10167,33 +10207,6 @@ export type GetNotebooksStatsQuery = {
 				| null
 				| undefined;
 		};
-	}>;
-};
-
-export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetAccountsSummaryQuery = {
-	__typename?: 'query_root';
-	accounts: Array<{
-		__typename?: 'account';
-		id: string;
-		username: string;
-		lastLogin?: string | null | undefined;
-		confirmed: boolean;
-		onboardingDone?: boolean | null | undefined;
-		professional?:
-			| {
-					__typename?: 'professional';
-					id: string;
-					firstname: string;
-					lastname: string;
-					position?: string | null | undefined;
-					mobileNumber?: string | null | undefined;
-					email: string;
-					structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
-			  }
-			| null
-			| undefined;
 	}>;
 };
 
@@ -18770,7 +18783,26 @@ export const InsertProfessionalAccountDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+												},
+											},
+										],
+									},
+								},
+							],
 						},
 					},
 				],
@@ -19629,6 +19661,115 @@ export const GetStructuresForManagerDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetStructuresForManagerQuery, GetStructuresForManagerQueryVariables>;
+export const GetAccountsSummaryDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetAccountsSummary' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'accounts' },
+						name: { kind: 'Name', value: 'account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'type' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'professional', block: false },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'confirmed' },
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professional' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastname' },
+														value: { kind: 'EnumValue', value: 'asc' },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
 export const GetNotebooksStatsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -20177,115 +20318,6 @@ export const GetNotebooksStatsDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebooksStatsQuery, GetNotebooksStatsQueryVariables>;
-export const GetAccountsSummaryDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetAccountsSummary' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'accounts' },
-						name: { kind: 'Name', value: 'account' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'type' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'StringValue', value: 'professional', block: false },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'confirmed' },
-											value: { kind: 'EnumValue', value: 'asc' },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professional' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'lastname' },
-														value: { kind: 'EnumValue', value: 'asc' },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
 export const GetLastVisitedOrUpdatedDocument = {
 	kind: 'Document',
 	definitions: [
@@ -23055,13 +23087,13 @@ export type GetStructuresForManagerQueryStore = OperationStore<
 	GetStructuresForManagerQuery,
 	GetStructuresForManagerQueryVariables
 >;
-export type GetNotebooksStatsQueryStore = OperationStore<
-	GetNotebooksStatsQuery,
-	GetNotebooksStatsQueryVariables
->;
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
 	GetAccountsSummaryQueryVariables
+>;
+export type GetNotebooksStatsQueryStore = OperationStore<
+	GetNotebooksStatsQuery,
+	GetNotebooksStatsQueryVariables
 >;
 export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,
