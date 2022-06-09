@@ -63,7 +63,7 @@ def orientation_manager_csv_filepath() -> str:
     return os.path.join(
         test_dir,
         "fixtures",
-        "import_chargés_orientation.csv",
+        "import_charges_orientation.csv",
     )
 
 
@@ -72,7 +72,7 @@ def orientation_manager_xls_filepath() -> str:
     return os.path.join(
         test_dir,
         "fixtures",
-        "import_chargés_orientation.xls",
+        "import_charges_orientation.xls",
     )
 
 
@@ -81,7 +81,7 @@ def orientation_manager_xlsx_filepath() -> str:
     return os.path.join(
         test_dir,
         "fixtures",
-        "import_chargés_orientation.xlsx",
+        "import_charges_orientation.xlsx",
     )
 
 
