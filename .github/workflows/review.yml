@@ -175,6 +175,11 @@ jobs:
         id: app
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
+      - name: Get deployment url
+        uses: mikefarah/yq@v4.25.2
+        id: backend
+        with:
+          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1 | tail -n 1)
       - name: Get smtp url
         uses: mikefarah/yq@v4.25.2
         id: smtp
@@ -186,6 +191,7 @@ jobs:
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3EK6FD+o0+c7tzBNVfjpMkNDi2yARAAKzQlk8O2IKoxQu4nF7EdAh8s3TwpHwrdWT6R"}'
           DATABASE_URL: postgres://cdb:test@localhost:5432/carnet_de_bord
           APP_URL: https://${{ steps.app.outputs.result }}
+          BACKEND_API_URL: https://${{ steps.backend.outputs.result }}
           SMTP_HOST: https://${{ steps.smtp.outputs.result }}
           SMTP_PORT: 1025
         run: |
@@ -263,7 +269,7 @@ jobs:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | tail -n 3 | head -n 1 )
       - name: Run functionnal tests
         env:
-          VITE_GRAPHQL_API_URL: https://${{ steps.hasura.outputs.result }}/v1/graphql
+          GRAPHQL_API_URL: https://${{ steps.hasura.outputs.result }}/v1/graphql
           HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
           ACTION_SECRET: ${{ secrets.ACTION_SECRET }}
           HASURA_GRAPHQL_JWT_SECRET: '${{ secrets.HASURA_GRAPHQL_JWT_SECRET }}'

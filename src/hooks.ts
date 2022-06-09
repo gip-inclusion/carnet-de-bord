@@ -1,5 +1,4 @@
-import { getJwtKey } from '$lib/config/variables/private';
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getGraphqlAPI, getBackendAPI, getJwtKey } from '$lib/config/variables/private';
 import type { GetSession, Handle } from '@sveltejs/kit';
 import cookie from 'cookie';
 import { config } from 'dotenv';
@@ -14,7 +13,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		try {
 			const { key, type } = getJwtKey();
 			const user = jwt.verify(cookies.jwt, key, { algorithms: [type] });
-			event.locals = { user, token: cookies.jwt, getGraphqlAPI: getGraphqlAPI() };
+			event.locals = {
+				user,
+				token: cookies.jwt,
+				backendAPI: getBackendAPI(),
+				graphqlAPI: getGraphqlAPI(),
+			};
 		} catch (error) {
 			event.locals = { user: null, token: null };
 		}
@@ -29,6 +33,7 @@ export const getSession: GetSession = async (event) => {
 		user: event.locals['user'],
 		token: event.locals['token'],
 		graphqlAPI: getGraphqlAPI(),
+		backendAPI: getBackendAPI(),
 	};
 };
 

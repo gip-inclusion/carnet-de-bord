@@ -28,8 +28,10 @@ app-backend:
   env:
     - name: APP_URL
       value: https://{{ .Values.global.host }}
-    - name: VITE_GRAPHQL_API_URL
+    - name: GRAPHQL_API_URL
       value: https://hasura-{{ .Values.global.host }}/v1/graphql
+    - name: BACKEND_API_URL
+      value: https://api-{{ .Values.global.host }}
     - name: SENTRY_ENVIRONMENT
       value: '{{ .Values.global.env }}'
     - name: SENTRY_RELEASE

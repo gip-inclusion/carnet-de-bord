@@ -10,7 +10,7 @@
 		const file = event.detail.acceptedFiles[0];
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		resultPromise = fetch('http://localhost:8000/v1/uploads/orientation_manager', {
+		resultPromise = fetch(`${$session.backendAPI}/v1/uploads/orientation_manager`, {
 			method: 'POST',
 			headers: {
 				'jwt-token': $session.token,

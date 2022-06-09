@@ -8,7 +8,7 @@ it('GraphQL query should return all user with empty filter', async () => {
 			path.join(__dirname, '../src/routes/pro/annuaire/', '_searchNotebookMember.gql'),
 			'utf8'
 		);
-		const response = await fetch(process.env.VITE_GRAPHQL_API_URL, {
+		const response = await fetch(process.env.GRAPHQL_API_URL, {
 			method: 'POST',
 			headers: {
 				'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',

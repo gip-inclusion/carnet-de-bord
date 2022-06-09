@@ -1,7 +1,12 @@
-import { config } from 'dotenv';
 import type { Algorithm } from 'jsonwebtoken';
 
-config();
+export const getBackendAPI = (): string => {
+	return process.env['BACKEND_API_URL'];
+};
+
+export const getGraphqlAPI = (): string => {
+	return process.env['GRAPHQL_API_URL'];
+};
 
 export function getApiParticulierConfig(): {
 	API_PARTICULIER_URL: string;

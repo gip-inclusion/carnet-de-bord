@@ -1,5 +1,5 @@
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { getGraphqlAPI, getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
+import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
 import {
 	GetDeploymentStatForDayDocument,
 	ListDeploymentIdDocument,

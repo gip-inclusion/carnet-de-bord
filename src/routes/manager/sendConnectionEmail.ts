@@ -1,8 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import send from '$lib/emailing';
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { createClient } from '@urql/core';
-import { getGraphqlAPI } from '$lib/config/variables/public';
 import { GetAccountByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';

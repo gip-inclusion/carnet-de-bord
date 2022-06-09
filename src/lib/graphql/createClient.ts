@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@urql/svelte';
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getGraphqlAPI } from '$lib/config/variables/private';
 
 function getToken(session: { token?: string }) {
 	return session.token;
