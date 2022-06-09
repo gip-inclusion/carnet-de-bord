@@ -13,10 +13,16 @@ TRUNCATE public.notebook_target CASCADE;
 TRUNCATE public.notebook_action CASCADE;
 TRUNCATE public.notebook_event CASCADE;
 TRUNCATE public.notebook_member CASCADE;
+TRUNCATE public.notebook_appointment CASCADE;
+
+TRUNCATE public.external_data_info CASCADE;
+TRUNCATE public.external_data CASCADE;
+
 
 TRUNCATE public.admin_cdb CASCADE;
 TRUNCATE public.manager CASCADE;
 TRUNCATE public.admin_structure CASCADE;
+TRUNCATE public.orientation_manager CASCADE;
 TRUNCATE public.professional CASCADE;
 TRUNCATE public.beneficiary CASCADE;
 TRUNCATE public.notebook CASCADE;
