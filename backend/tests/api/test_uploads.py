@@ -1,6 +1,11 @@
+from unittest.mock import MagicMock, patch
+
 from asyncpg.connection import Connection
 
+from api.db.crud.account import get_account_from_email
 from api.db.crud.orientation_manager import get_orientation_managers
+from api.sendmail import send_mail
+from api.v1.routers.uploads import send_invitation_email
 
 
 async def test_jwt_token_verification(
@@ -8,7 +13,9 @@ async def test_jwt_token_verification(
     get_manager_jwt,
     get_admin_structure_jwt,
     orientation_manager_csv_filepath,
+    mocker,
 ):
+    mocker.patch("api.v1.routers.uploads.send_mail", return_value=True)
     with open(orientation_manager_csv_filepath) as f:
 
         response = test_client.post(
@@ -43,14 +50,41 @@ async def test_insert_in_db(
     db_connection: Connection,
     orientation_manager_csv_filepath,
     get_manager_jwt,
+    mocker,
 ):
+    mocker.patch("api.v1.routers.uploads.send_mail", return_value=True)
+
     with open(orientation_manager_csv_filepath) as f:
-        response = test_client.post(
+        test_client.post(
+            "/v1/uploads/orientation_manager",
+            files={"upload_file": ("filename", f, "text/plain")},
+            headers={"jwt-token": f"{get_manager_jwt}"},
+        )
+        orientation_managers = await get_orientation_managers(db_connection)
+        assert len(orientation_managers) == 2
+
+        account1 = await get_account_from_email(db_connection, "woirnesse@cd26.fr")
+        assert account1 is not None
+
+        account2 = await get_account_from_email(db_connection, "cyane@cd26.fr")
+        assert account2 is not None
+
+
+async def test_background_task(
+    test_client, orientation_manager_csv_filepath, get_manager_jwt: str, mocker
+):
+    mock: MagicMock = mocker.patch(
+        "api.v1.routers.uploads.send_mail", return_value=True
+    )
+    with open(orientation_manager_csv_filepath) as f:
+        test_client.post(
             "/v1/uploads/orientation_manager",
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
 
-        orientation_managers = await get_orientation_managers(db_connection)
-
-        assert len(orientation_managers) == 2
+    assert len(mock.mock_calls) == 2
+    assert mock.mock_calls[0].args[0] == "woirnesse@cd26.fr"
+    assert mock.mock_calls[0].args[1] == "Création de compte sur Carnet de bord"
+    assert mock.mock_calls[1].args[0] == "cyane@cd26.fr"
+    assert mock.mock_calls[1].args[1] == "Création de compte sur Carnet de bord"

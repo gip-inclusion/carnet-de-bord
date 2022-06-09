@@ -26,7 +26,7 @@ def parse_orientation_manager_from_record(record: Record) -> OrientationManagerD
 async def insert_orientation_manager(
     connection: Connection,
     deployment_id: UUID,
-    orientation_manager: OrientationManagerCsvRow,
+    data: OrientationManagerCsvRow,
 ) -> OrientationManagerDB | None:
     record = await connection.fetchrow(
         """
@@ -35,16 +35,16 @@ async def insert_orientation_manager(
             RETURNING id, firstname, lastname, email, phone_numbers, deployment_id, created_at, updated_at
             """,
         deployment_id,
-        orientation_manager.email,
-        orientation_manager.firstname,
-        orientation_manager.lastname,
-        orientation_manager.phone_numbers,
+        data.email,
+        data.firstname,
+        data.lastname,
+        data.phone_numbers,
     )
 
     if record:
         return parse_orientation_manager_from_record(record)
     else:
-        print(f"insert fail {orientation_manager}")
+        print(f"insert fail {data}")
 
 
 async def get_orientation_managers(
@@ -53,7 +53,7 @@ async def get_orientation_managers(
 
     records: List[Record] = await connection.fetch(
         """
-        SELECT * FROM public.orientation_manager
+        SELECT * FROM public.orientation_manager ORDER BY created_at ASC
         """,
     )
     orientation_managers: List[OrientationManagerDB] = []
