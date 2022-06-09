@@ -1,5 +1,4 @@
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import send from '$lib/emailing';
 import {
 	GetAccountByEmailDocument,

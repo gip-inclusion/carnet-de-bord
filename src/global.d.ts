@@ -2,7 +2,6 @@
 
 interface ImportMeta {
 	env: {
-		VITE_GRAPHQL_API_URL: string;
 		VITE_MATOMO_URL: string;
 		VITE_MATOMO_SITE_ID: string;
 	};
@@ -32,5 +31,6 @@ declare namespace App {
 		user?: Record<string, import('$lib/routes').AppRoles | string>;
 		token?: string;
 		graphqlAPI?: string;
+		backendAPI?: string;
 	}
 }

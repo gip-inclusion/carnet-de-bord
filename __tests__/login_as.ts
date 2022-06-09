@@ -3,7 +3,7 @@ import { createJwt } from '../src/lib/utils/getJwt';
 import type { GetAccountInfoQuery } from '../src/lib/graphql/_gen/typed-document-nodes';
 
 export async function getAccountAndJwtForUser(user: string) {
-	const data = await fetch(process.env.VITE_GRAPHQL_API_URL, {
+	const data = await fetch(process.env.GRAPHQL_API_URL, {
 		method: 'POST',
 		headers: {
 			'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',

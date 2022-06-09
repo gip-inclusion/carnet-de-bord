@@ -1,4 +1,4 @@
-import { getGraphqlAPI } from '$lib/config/variables/public';
+import { getGraphqlAPI } from '$lib/config/variables/private';
 import { GetPendingBeneficiariesDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import { authorizeOnly } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
