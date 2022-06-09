@@ -1,20 +1,10 @@
 import json
 
 import jwt
-from asyncpg.connection import Connection
 from fastapi import Header, HTTPException, Request
-from strenum import StrEnum
 
 from api.core.settings import settings
-
-
-class RoleEnum(StrEnum):
-    ADMIN_CDB = "admin_cdb"
-    MANAGER = "manager"
-    ADMIN_STRUCTURE = "admin_structure"
-    ORIENTATION_MANAGER = "orientation_manager"
-    PROFESSIONAL = "professional"
-    BENEFICIARY = "beneficiary"
+from api.db.models.role import RoleEnum
 
 
 async def verify_jwt_token_header(
