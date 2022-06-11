@@ -29,9 +29,21 @@ object_relationships:
   - name: manager
     using:
       foreign_key_constraint_on: manager_id
+  - name: orientation_manager
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: orientation_manager
+        insertion_order: null
+        column_mapping:
+          orientation_manager_id: id
   - name: professional
     using:
       foreign_key_constraint_on: professional_id
+  - name: role
+    using:
+      foreign_key_constraint_on: type
 array_relationships:
   - name: notebookActionsCreated
     using:
@@ -113,6 +125,9 @@ insert_permissions:
           - admin_structure:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
+          - orientation_manager:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
       set:
         confirmed: "True"
       columns:
@@ -148,21 +163,22 @@ select_permissions:
   - role: admin_structure
     permission:
       columns:
-        - confirmed
-        - onboarding_done
         - access_key
-        - type
-        - username
         - access_key_date
-        - created_at
-        - last_login
-        - updated_at
         - admin_id
         - admin_structure_id
         - beneficiary_id
+        - confirmed
+        - created_at
         - id
+        - last_login
         - manager_id
+        - onboarding_done
+        - orientation_manager_id
         - professional_id
+        - type
+        - updated_at
+        - username
       filter:
         _or:
           - id:
@@ -177,17 +193,18 @@ select_permissions:
   - role: beneficiary
     permission:
       columns:
-        - id
-        - username
-        - type
         - access_key
         - access_key_date
-        - last_login
-        - beneficiary_id
-        - professional_id
         - admin_id
+        - beneficiary_id
         - confirmed
+        - id
+        - last_login
         - onboarding_done
+        - orientation_manager_id
+        - professional_id
+        - type
+        - username
       filter:
         _or:
           - id:
@@ -211,6 +228,7 @@ select_permissions:
         - last_login
         - manager_id
         - onboarding_done
+        - orientation_manager_id
         - professional_id
         - type
         - updated_at
@@ -226,6 +244,9 @@ select_permissions:
               structure:
                 deployment_id:
                   _eq: X-Hasura-Deployment-Id
+          - orientation_manager:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:
@@ -235,7 +256,9 @@ select_permissions:
         - created_at
         - id
         - onboarding_done
+        - orientation_manager_id
         - professional_id
+        - type
         - updated_at
         - username
       filter:

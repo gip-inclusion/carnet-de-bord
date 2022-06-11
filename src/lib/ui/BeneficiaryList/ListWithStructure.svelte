@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
@@ -7,22 +7,39 @@
 	import { getContext } from 'svelte';
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
+	import AddOrientationManagerForm from './AddOrientationManagerForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	export let beneficiaries: Beneficiary[];
 
 	function openEditLayer(beneficiary: Beneficiary) {
+		const referents = beneficiary.notebook.members.filter(
+			(member) => member.account.type === RoleEnum.Professional
+		);
 		openComponent.open({
 			component: AddStructureProfessionnalForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
 				member: beneficiary.notebook.members[0]?.account.id ?? null,
-				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
+				structuresId: [
+					...new Set(referents.map(({ account }) => account.professional.structure.id)),
+				],
 				showResetMembers: beneficiary.notebook.members.length > 0,
 			},
 		});
 	}
+
+	function openOrientationManagerLayer(beneficiary: Beneficiary) {
+		openComponent.open({
+			component: AddOrientationManagerForm,
+			props: {
+				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				member: beneficiary.notebook.members[0]?.account.id ?? null,
+			},
+		});
+	}
+
 	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
 
 	function updateSelection(beneficiary: Beneficiary) {
@@ -37,7 +54,7 @@
 			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
-			<th class="text-left">Structure</th>
+			<th class="text-left">Chargé d'orientation</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
 			<th class="!text-center">Voir le carnet</th>
@@ -45,6 +62,12 @@
 	</thead>
 	<tbody>
 		{#each beneficiaries as beneficiary}
+			{@const referents = beneficiary.notebook.members.filter(
+				(member) => member.account.type === RoleEnum.Professional
+			)}
+			{@const orientationManager = beneficiary.notebook.members.filter(
+				(member) => member.account.type === RoleEnum.OrientationManager
+			)[0]}
 			<tr>
 				<td class="align-middle">
 					<div class={`fr-checkbox-group bottom-3 left-3`}>
@@ -63,26 +86,35 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
-					{#if beneficiary.structures.length > 0}
-						{beneficiary.structures[0].structure.name}
-						{#if beneficiary.structures.length > 1}
-							<span>
-								et {beneficiary.structures.length - 1}
-								{pluralize('structure', beneficiary.structures.length - 1)}
-							</span>
-						{/if}
+					{#if orientationManager}
+						<button
+							class="fr-tag fr-tag-sm"
+							on:click={() => openOrientationManagerLayer(beneficiary)}
+						>
+							{displayFullName(
+								beneficiary.notebook.members.filter(
+									(member) => member.account.type === RoleEnum.OrientationManager
+								)[0].account?.orientation_manager
+							)}
+						</button>
 					{:else}
-						-
+						<button
+							href="#"
+							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
+							on:click={() => openOrientationManagerLayer(beneficiary)}
+						>
+							Non assigné
+						</button>
 					{/if}
 				</td>
 				<td>
-					{#if beneficiary.notebook.members.length > 0}
+					{#if referents.length > 0}
 						<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
-							{displayFullName(beneficiary.notebook.members[0].account?.professional)}
+							{displayFullName(referents[0].account?.professional)}
 						</button>
-						{#if beneficiary.notebook.members.length > 1}
+						{#if referents.length > 1}
 							<span>
-								et {beneficiary.notebook.members.length - 1}
+								et {referents.length - 1}
 								{pluralize('référent', beneficiary.notebook.members.length - 1)}
 							</span>
 						{/if}
