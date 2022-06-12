@@ -92,7 +92,9 @@
 			beneficiaryId: beneficiary.id,
 		}));
 		const structuresId = selectedBeneficiaries.flatMap((beneficiary) =>
-			beneficiary.structures.map(({ structure }) => structure.id)
+			beneficiary.notebook.members
+				.filter(({ account }) => account.professional)
+				.map(({ account }) => account.professional.structure.id)
 		);
 
 		const members = selectedBeneficiaries.flatMap((beneficiary) =>

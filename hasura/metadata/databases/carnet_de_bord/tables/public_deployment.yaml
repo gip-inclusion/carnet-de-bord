@@ -28,6 +28,13 @@ array_relationships:
         table:
           schema: public
           name: manager
+  - name: orientation_managers
+    using:
+      foreign_key_constraint_on:
+        column: deployment_id
+        table:
+          schema: public
+          name: orientation_manager
   - name: structures
     using:
       foreign_key_constraint_on:

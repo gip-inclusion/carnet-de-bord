@@ -1,0 +1,8 @@
+mutation updateOrientation($objects: [beneficiary_info_insert_input!]!) {
+  insert_beneficiary_info(
+    objects: $objects
+    on_conflict: { constraint: beneficiary_info_pkey, update_columns: orientation }
+  ) {
+    affected_rows
+  }
+}

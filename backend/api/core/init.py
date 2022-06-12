@@ -15,7 +15,7 @@ class Database:
 origins = ["https://carnet-de-bord.fabrique.social.gouv.fr"]
 
 
-if "dev" in settings.app_url:
+if "dev" in settings.app_url or settings.app_url.startswith("http://localhost"):
     origins = ["*"]
 
 

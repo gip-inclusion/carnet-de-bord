@@ -24,6 +24,15 @@ object_relationships:
         insertion_order: null
         column_mapping:
           id: beneficiary_id
+  - name: beneficiaryInfo
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: beneficiary_info
+        insertion_order: null
+        column_mapping:
+          id: beneficiary_id
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
@@ -35,13 +44,6 @@ object_relationships:
           schema: public
           name: notebook
 array_relationships:
-  - name: beneficiary_infos
-    using:
-      foreign_key_constraint_on:
-        column: beneficiary_id
-        table:
-          schema: public
-          name: beneficiary_info
   - name: structures
     using:
       foreign_key_constraint_on:
@@ -129,6 +131,7 @@ select_permissions:
         - email
         - firstname
         - id
+        - internal_id
         - lastname
         - mobile_number
         - pe_number
