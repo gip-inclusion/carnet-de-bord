@@ -1,4 +1,7 @@
+import os
+
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 from api.core.db import get_connection_pool
 from api.core.settings import settings
@@ -9,8 +12,24 @@ class Database:
         self.pool = await get_connection_pool(settings.database_url)
 
 
+origins = ["https://carnet-de-bord.fabrique.social.gouv.fr"]
+
+
+if "dev" in settings.app_url:
+    origins = ["*"]
+
+
 def create_app() -> FastAPI:
     app = FastAPI()
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     app.state.db = Database()
 
     @app.on_event("startup")

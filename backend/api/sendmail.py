@@ -10,11 +10,9 @@ logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
 def send_mail(to: str, subject: str, message: str):
-
     if not settings.smtp_host or not settings.smtp_port:
         logging.error("missing smtp config")
         return
-
     msg = MIMEMultipart("mixed")
 
     msg["Subject"] = subject
@@ -28,11 +26,13 @@ def send_mail(to: str, subject: str, message: str):
     msg.attach(part1)
     s = smtplib.SMTP(settings.smtp_host, settings.smtp_port)
 
-    s.starttls()
+    s.set_debuglevel(True)
+
+    if "maildev" not in settings.smtp_host:
+        s.starttls()
 
     if settings.smtp_user and settings.smtp_pass:
         s.login(settings.smtp_user, settings.smtp_pass)
-
     try:
         s.sendmail(msg["From"], msg["To"], msg.as_string())
     except Exception as e:
