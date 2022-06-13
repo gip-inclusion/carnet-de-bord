@@ -1,11 +1,14 @@
 import logging
+import re
 from io import BytesIO
 from uuid import UUID
 
+import chardet
 import magic
 import numpy as np
 import pandas as pd
 from asyncpg.connection import Connection
+from asyncpg.exceptions import UniqueViolationError
 from fastapi import (
     APIRouter,
     BackgroundTasks,
@@ -46,6 +49,7 @@ async def create_upload_file(
     background_tasks: BackgroundTasks,
     db=Depends(connection),
 ):
+    deployment_id = request.state.deployment_id
 
     file_info: magic.FileMagic = magic.detect_from_fobj(upload_file.file)
 
@@ -53,33 +57,43 @@ async def create_upload_file(
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "application/vnd.ms-excel",
     ]:
+
+        contents = await upload_file.read()
+        with BytesIO(contents) as data:
+            df = pd.read_excel(
+                data,
+                header=0,
+            )
+    elif file_info.mime_type in ["text/plain", "text/csv"]:
+
+        contents = await upload_file.read()
+        charset = chardet.detect(contents)
         with BytesIO(contents) as data:
             df = pd.read_csv(
                 data,
                 header=0,
+                encoding=charset["encoding"],
                 skip_blank_lines=True,
-                encoding="utf-8",
-            )
-    elif file_info.mime_type in ["text/plain", "text/csv"]:
-        contents = await upload_file.read()
-        with BytesIO(contents) as data:
-            df = pd.read_csv(
-                data, header=0, skip_blank_lines=True, encoding="utf-8", sep=";"
+                sep=";",
             )
     else:
         raise HTTPException(
             status_code=400,
             detail=f"File type '{file_info.mime_type}' not supported. Allowed types are csv or excel",
         )
+
     df = df.replace({np.nan: None})
     row: Series
     result: list[OrientationManagerResponseModel] = []
+
     for _, row in df.iterrows():
         try:
-            deployment_id = request.state.deployment_id
-            csv_row: OrientationManagerCsvRow = await map_csv_row(row)
+            csv_row: OrientationManagerCsvRow = map_csv_row(row)
             account = await create_orientation_manager(
                 connection=db, deployment_id=deployment_id, data=csv_row
+            )
+            response_row: OrientationManagerResponseModel = map_row_response(
+                row, valid=True
             )
             background_tasks.add_task(
                 send_invitation_email,
@@ -88,19 +102,25 @@ async def create_upload_file(
                 lastname=csv_row.lastname,
                 access_key=account.access_key,
             )
-            response_row: OrientationManagerResponseModel = await map_row_response(
-                row, valid=True
+        except KeyError as e:
+            logging.error(f"Key error: {e}")
+            response_row: OrientationManagerResponseModel = map_row_response(
+                row, valid=False, error=f"clé manquante {e}"
             )
-
         except ValidationError as e:
-            logging.error(f"Validation error: {e.raw_errors}")
-            response_row: OrientationManagerResponseModel = await map_row_response(
-                row, valid=False, error=str(e.errors)
+            [error] = e.errors()
+            logging.error("Validation error", error)
+            response_row: OrientationManagerResponseModel = map_row_response(
+                row, valid=False, error=error["msg"]
             )
-
+        except UniqueViolationError as e:
+            logging.error(f"Uniqueness error: {e}")
+            response_row: OrientationManagerResponseModel = map_row_response(
+                row, valid=False, error=re.sub(r"\nDETAIL.*$", "", str(e))
+            )
         except Exception as e:
-            logging.error(f"Import error: {e}")
-            response_row: OrientationManagerResponseModel = await map_row_response(
+            logging.error(f"Import error: {type(e).__name__} {e.args}")
+            response_row: OrientationManagerResponseModel = map_row_response(
                 row, valid=False, error="erreur inconnue"
             )
 
@@ -112,21 +132,18 @@ async def create_upload_file(
 async def create_orientation_manager(
     connection: Connection, deployment_id: UUID, data: OrientationManagerCsvRow
 ) -> AccountDB | None:
-    try:
+    async with connection.transaction():
+        orientation_manager = await insert_orientation_manager(
+            connection=connection, deployment_id=deployment_id, data=data
+        )
         async with connection.transaction():
-            orientation_manager = await insert_orientation_manager(
-                connection=connection, deployment_id=deployment_id, data=data
+            account = await insert_orientation_manager_account(
+                connection=connection,
+                username=orientation_manager.email,
+                confirmed=True,
+                orientation_manager_id=orientation_manager.id,
             )
-            async with connection.transaction():
-                account = await insert_orientation_manager_account(
-                    connection=connection,
-                    username=orientation_manager.email,
-                    confirmed=True,
-                    orientation_manager_id=orientation_manager.id,
-                )
-                return account
-    except Exception as e:
-        raise Exception(f"create orientation manager exception {e}")
+            return account
 
 
 def send_invitation_email(
