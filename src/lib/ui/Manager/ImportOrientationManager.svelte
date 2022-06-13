@@ -1,0 +1,108 @@
+<script lang="ts">
+	import { session } from '$app/stores';
+
+	import Dropzone from 'svelte-file-dropzone';
+	import Alert from '../base/Alert.svelte';
+	import Text from '../utils/Text.svelte';
+	let resultPromise;
+
+	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: FileList }>): void {
+		const file = event.detail.acceptedFiles[0];
+		const formData = new FormData();
+		formData.append('upload_file', file);
+		resultPromise = fetch('http://localhost:8000/v1/uploads/orientation_manager', {
+			method: 'POST',
+			headers: {
+				'jwt-token': $session.token,
+				Accept: 'application/json; version=1.0',
+			},
+			body: formData,
+		}).then(async (response) => {
+			if (response.ok) {
+				return response.json();
+			}
+			const errorMessage = await response.text();
+			return Promise.reject(
+				new Error(`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`)
+			);
+		});
+	}
+
+	export function translateError(error = ''): string {
+		if (/duplicate key/i.test(error)) {
+			return `Un chargé d'orientation avec ce courriel existe déjà.`;
+		}
+		if (/none not an allowed value/.test(error)) {
+			return `Champs obligatoire manquant`;
+		}
+		if (/not a valid email address/.test(error)) {
+			return `Format d'adresse mail invalide`;
+		}
+		console.error(error);
+		return `Une erreur s'est produite lors de l'importation.`;
+	}
+</script>
+
+<div class="flex flex-col gap-6">
+	{#if resultPromise === undefined}
+		<div>
+			Veuillez fournir un fichier au format EXCEL(format: xlsx ou xls) ou CSV.
+			<br />Vous pouvez
+			<a href="/fichiers/import_charges_orientation.xlsx" download>télécharger un modèle</a>
+			et
+			<a href="https://pad.incubateur.net/s/EchGdpy8h#" target="_blank" rel="noopener noreferrer"
+				>consulter la notice de remplissage</a
+			>.
+		</div>
+		<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
+			Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
+		</Dropzone>
+	{:else}
+		{#await resultPromise}
+			<Alert type="info" title={`Importation en cours...`} />
+		{:then orientation_managers}
+			<table class="fr-table fr-table--layout-fixed w-full">
+				<caption class="sr-only">Récapitulatif des imports</caption>
+				<thead class="px-2 py-2">
+					<th class="text-left px-2 py-2">Courriel*</th>
+					<th class="text-left px-2 py-2">Prénom</th>
+					<th class="text-left px-2 py-2">Nom</th>
+					<th />
+				</thead>
+				<tbody class="bg-white divide-y divide-gray-300">
+					{#each orientation_managers as orientation_manager}
+						<tr>
+							<td class="px-2 py-2 ">
+								<Text value={orientation_manager.email} />
+							</td>
+							<td class="px-2 py-2 ">
+								<Text value={orientation_manager.lastname} />
+							</td>
+							<td class="px-2 py-2 ">
+								<Text value={orientation_manager.firstname} />
+							</td>
+
+							<td class="px-2 py-2 ">
+								{#if orientation_manager.valid === false}
+									<Text classNames="text-error" value={translateError(orientation_manager.error)} />
+								{:else}
+									<span
+										class="fr-fi-checkbox-circle-fill text-success"
+										aria-hidden="true"
+										style="margin: 0 50%;"
+									/>
+								{/if}
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		{:catch error}
+			<Alert type="error" title="import du fichier impossible, veuillez contacter le support." />
+			<details>
+				<summary>voir le detail</summary>
+				<pre>{error.message}</pre>
+			</details>
+		{/await}
+	{/if}
+</div>
