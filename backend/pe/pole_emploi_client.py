@@ -1,5 +1,7 @@
 import logging
+from dataclasses import dataclass
 from datetime import datetime, timedelta
+from typing import Union
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -31,24 +33,17 @@ class PoleEmploiAPIBadResponse(Exception):
 API_TIMEOUT_SECONDS = 60  # this API is pretty slow, let's give it a chance
 
 
+@dataclass
 class PoleEmploiApiClient:
-    def __init__(
-        self,
-        auth_base_url: str,
-        base_url: str,
-        client_id: str,
-        client_secret: str,
-        scope: str,
-        tz: str = "Europe/Paris",
-    ):
-        self.auth_base_url = auth_base_url
-        self.base_url = base_url
-        self.client_id = client_id
-        self.client_secret = client_secret
-        self.scope = scope
-        self.tz = tz
-        self.token = None
-        self.expires_at = None
+
+    auth_base_url: str
+    base_url: str
+    client_id: str
+    client_secret: str
+    scope: str
+    tz: str = "Europe/Paris"
+    token: Union[str, None] = None
+    expires_at: Union[datetime, None] = None
 
     @property
     def token_url(self):
@@ -64,7 +59,7 @@ class PoleEmploiApiClient:
 
     def _refresh_token(self, at=None):
         if not at:
-            at = datetime.now(tz=ZoneInfo("America/Los_Angeles"))
+            at = datetime.now(tz=ZoneInfo(self.tz))
         if self.expires_at and self.expires_at > at:
             return
 
