@@ -11756,10 +11756,22 @@ export type GetAccountsSummaryQuery = {
 	accounts: Array<{
 		__typename?: 'account';
 		id: string;
+		type: RoleEnum;
 		username: string;
 		lastLogin?: string | null | undefined;
 		confirmed: boolean;
 		onboardingDone?: boolean | null | undefined;
+		orientation_manager?:
+			| {
+					__typename?: 'orientation_manager';
+					id: string;
+					firstname?: string | null | undefined;
+					lastname?: string | null | undefined;
+					email: string;
+					phoneNumbers?: string | null | undefined;
+			  }
+			| null
+			| undefined;
 		professional?:
 			| {
 					__typename?: 'professional';
@@ -21355,8 +21367,14 @@ export const GetAccountsSummaryDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'EnumValue', value: 'professional' },
+														name: { kind: 'Name', value: '_in' },
+														value: {
+															kind: 'ListValue',
+															values: [
+																{ kind: 'EnumValue', value: 'professional' },
+																{ kind: 'EnumValue', value: 'orientation_manager' },
+															],
+														},
 													},
 												],
 											},
@@ -21372,8 +21390,27 @@ export const GetAccountsSummaryDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'type' },
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+										{
+											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'confirmed' },
 											value: { kind: 'EnumValue', value: 'asc' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'orientation_manager' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'lastname' },
+														value: { kind: 'EnumValue', value: 'asc' },
+													},
+												],
+											},
 										},
 										{
 											kind: 'ObjectField',
@@ -21397,10 +21434,25 @@ export const GetAccountsSummaryDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientation_manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+										],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },

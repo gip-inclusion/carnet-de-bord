@@ -1,6 +1,10 @@
 <script context="module" lang="ts">
 	import { post } from '$lib/utils/post';
-	import type { GetAccountsSummaryQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		GetAccountsSummaryQuery,
+		Professional,
+		RoleEnum,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountsSummaryDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import { OperationStore, query } from '@urql/svelte';
@@ -19,16 +23,14 @@
 </script>
 
 <script lang="ts">
-	import { Button, IconButton, SearchBar } from '$lib/ui/base';
-	import { stringsMatch } from '$lib/helpers';
-	import { goto } from '$app/navigation';
+	import { Button, IconButton } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
-	import { baseUrlForRole } from '$lib/routes';
-
 	export let result: OperationStore<GetAccountsSummaryQuery>;
+
 	query(result);
-	let accounts: GetAccountsSummaryQuery['accounts'];
-	$: accounts = $result.data?.accounts || [];
+
+	let accounts: AccountSummary[];
+	$: accounts = $result.data?.accounts.map(toList) || [];
 
 	async function confirmAccount(id: string) {
 		await post(`/manager/confirmPro`, { id });
@@ -36,6 +38,44 @@
 	}
 
 	let emails: Record<string, undefined | 'ToConfirm' | 'Sending' | 'Failed' | 'Sent'> = {};
+
+	type AccountSummary = Pick<Professional, 'id' | 'email' | 'firstname' | 'lastname'> & {
+		type: RoleEnum;
+		structure: string;
+		confirmed: boolean;
+		onboardingDone: boolean;
+		phoneNumber: string;
+	};
+
+	function toList(account: GetAccountsSummaryQuery['accounts'][0]): AccountSummary {
+		if (account.type === RoleEnum.Professional) {
+			const { id, firstname, lastname, email, structure, mobileNumber } = account.professional;
+			return {
+				id,
+				firstname,
+				lastname,
+				email,
+				structure: structure.name,
+				phoneNumber: mobileNumber,
+				type: account.type,
+				confirmed: account.confirmed,
+				onboardingDone: account.onboardingDone,
+			};
+		} else if (account.type === RoleEnum.OrientationManager) {
+			const { id, firstname, lastname, email, phoneNumbers } = account.orientation_manager;
+			return {
+				id,
+				firstname,
+				lastname,
+				email,
+				structure: null,
+				phoneNumber: phoneNumbers,
+				type: account.type,
+				confirmed: account.confirmed,
+				onboardingDone: account.onboardingDone,
+			};
+		}
+	}
 
 	async function sendConnectionEmail(id: string, confirm?: boolean) {
 		if (!emails[id] || emails[id] === 'Failed') {
@@ -57,37 +97,19 @@
 		}
 	}
 
-	let search = '';
-	let search2 = '';
+	// function openProInfo({ id }: GetAccountsSummaryQuery['accounts'][0]) {
+	// 	goto(`/${baseUrlForRole('manager')}/professionnel/${id}`);
+	// 	return;
+	// }
 
-	function filterAccount(accs: GetAccountsSummaryQuery['accounts'], s: string | null) {
-		const matcher = stringsMatch(s);
-		return accs.filter(
-			({ professional }) =>
-				!!professional &&
-				((professional.firstname && matcher(professional.firstname)) ||
-					(professional.lastname && matcher(professional.lastname)) ||
-					(professional.email && matcher(professional.email)) ||
-					(professional.mobileNumber &&
-						matcher(
-							professional.mobileNumber
-								.replace(' ', '')
-								.replace('.', '')
-								.replace('-', '')
-								.replace('/', '')
-						)))
-		);
-	}
-
-	function handleSubmit() {
-		search2 = search;
-	}
-
-	$: filteredAccounts = filterAccount(accounts, search2);
-
-	function openProInfo({ id }: GetAccountsSummaryQuery['accounts'][0]) {
-		goto(`/${baseUrlForRole('manager')}/professionnel/${id}`);
-		return;
+	function getAccountTypeLabel(type: RoleEnum): string | null {
+		if (type === RoleEnum.Professional) {
+			return 'Accompagnant';
+		}
+		if (type === RoleEnum.OrientationManager) {
+			return "Chargé d'orientation";
+		}
+		return null;
 	}
 </script>
 
@@ -96,44 +118,39 @@
 </svelte:head>
 
 <LoaderIndicator {result}>
-	<SearchBar
-		bind:search
-		inputLabel="Rechercher un compte"
-		inputHint="Nom, prénom, email, téléphone"
-		btnLabel="Rechercher"
-		{handleSubmit}
-	/>
 	<div class={`w-full fr-table fr-table--layout-fixed`}>
 		<table>
 			<thead>
 				<tr>
 					<th>Nom</th>
 					<th>Prénom</th>
-					<th>Mobile</th>
+					<th>Type</th>
+					<th>Téléphone</th>
 					<th>Structure</th>
-					<th>Identifiant</th>
+					<th>email</th>
 					<th>Compte</th>
 					<th>Onboarding</th>
 					<th>Email de connexion</th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each filteredAccounts as account (account.id)}
-					<tr class="cursor-pointer">
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.lastname} />
+				{#each accounts as account (account.id)}
+					<tr>
+						<td>
+							<Text value={account.lastname} />
 						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.firstname} />
+						<td>
+							<Text value={account.firstname} />
 						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.mobileNumber} />
+						<td>{getAccountTypeLabel(account.type)}</td>
+						<td>
+							<Text value={account.phoneNumber} />
 						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.professional.structure.name} />
+						<td>
+							<Text value={account.structure} />
 						</td>
-						<td on:click={() => openProInfo(account)}>
-							<Text value={account.username} />
+						<td>
+							<Text value={account.email} />
 						</td>
 						<td>
 							{#if !account.confirmed}

@@ -1,24 +1,37 @@
 query GetAccountsSummary {
-	accounts: account(
-		where: { type: { _eq: professional } }
-		order_by: { confirmed: asc, professional: { lastname: asc } }
-	) {
-		id
-		username
-		lastLogin
-		confirmed
-		onboardingDone
-		professional {
-			id
-			firstname
-			lastname
-			position
-			mobileNumber
-			email
-			structure {
-				id
-				name
-			}
-		}
-	}
+    accounts: account(
+        where: { type: { _in: [professional, orientation_manager] } }
+        order_by: {
+            type: asc
+            confirmed: asc
+            orientation_manager: { lastname: asc }
+            professional: { lastname: asc }
+        }
+    ) {
+        id
+        type
+        username
+        lastLogin
+        confirmed
+        onboardingDone
+        orientation_manager {
+            id
+            firstname
+            lastname
+            email
+            phoneNumbers
+        }
+        professional {
+            id
+            firstname
+            lastname
+            position
+            mobileNumber
+            email
+            structure {
+                id
+                name
+            }
+        }
+    }
 }
