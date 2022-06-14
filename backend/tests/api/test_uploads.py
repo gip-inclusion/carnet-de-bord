@@ -1,11 +1,9 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 from asyncpg.connection import Connection
 
-from api.db.crud.account import get_account_from_email
+from api.db.crud.account import get_accounts_from_email
 from api.db.crud.orientation_manager import get_orientation_managers
-from api.sendmail import send_mail
-from api.v1.routers.uploads import send_invitation_email
 
 
 async def test_jwt_token_verification(
@@ -47,11 +45,11 @@ async def test_insert_in_db(
         orientation_managers = await get_orientation_managers(db_connection)
         assert len(orientation_managers) == 2
 
-        account1 = await get_account_from_email(db_connection, "woirnesse@cd26.fr")
-        assert account1 is not None
+        account1 = await get_accounts_from_email(db_connection, "woirnesse@cd26.fr")
+        assert account1[0] is not None
 
-        account2 = await get_account_from_email(db_connection, "cyane@cd26.fr")
-        assert account2 is not None
+        account2 = await get_accounts_from_email(db_connection, "cyane@cd26.fr")
+        assert account2[0] is not None
 
 
 async def test_background_task(

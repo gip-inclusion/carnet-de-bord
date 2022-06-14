@@ -78,10 +78,15 @@ async def insert_orientation_manager_account(
     )
 
 
-async def get_account_from_email(
+async def get_accounts_from_email(
     connection: Connection, email: str
-) -> AccountDB | None:
-    accounts = await get_account_with_query(
+) -> List[AccountDB]:
+    """
+    Since email are store in different tables (manager / professionnal / orientation_manager)
+    And since there is no unicity constraint accross multiple table
+    we could have multiple results given a single email (ex: one for pro and one for orientation_manager)
+    """
+    return await get_account_with_query(
         connection,
         """
         LEFT JOIN admin_cdb ON admin_cdb.id = account.admin_id
@@ -99,8 +104,6 @@ async def get_account_from_email(
         """,
         email,
     )
-    if len(accounts) == 1:
-        return accounts[0]
 
 
 async def get_account_with_query(
