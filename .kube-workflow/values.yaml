@@ -51,6 +51,8 @@ app-backend:
       value: '{{ .Values.global.sha }}'
   envFrom:
     - secretRef:
+        name: pg-user
+    - secretRef:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap

@@ -6,8 +6,17 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
 class Settings(BaseSettings):
+    app_url: str
+    database_url: str
+    hasura_graphql_jwt_secret: str
 
-    hasura_graphql_database_url: str
+    smtp_host: str
+    smtp_port: str
+    smtp_user: str | None
+    smtp_pass: str | None
+
+    V1_PREFIX: str = "/v1"
+    MAIL_FROM: str = "support.carnet-de-bord@fabrique.social.gouv.fr"
 
     class Config:
         env_file = ".env"

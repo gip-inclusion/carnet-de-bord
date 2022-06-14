@@ -1,18 +1,7 @@
-from typing import Optional
-
 import sentry_sdk
-from fastapi import FastAPI
 
-app = FastAPI()
+from api.core.init import create_app
 
 sentry_sdk.init()
 
-
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/healthz")
-async def read_root():
-    return {"whazza": "yolo"}
+app = create_app()

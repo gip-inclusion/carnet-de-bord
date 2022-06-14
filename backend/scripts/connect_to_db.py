@@ -9,23 +9,11 @@ logging.basicConfig(level=logging.INFO)
 
 async def main():
 
-    logging.info(f"Using Database URL: {settings.hasura_graphql_database_url}")
+    logging.info(f"Using Database URL: {settings.database_url}")
 
-    pool = await get_connection_pool(settings.hasura_graphql_database_url)
+    pool = await get_connection_pool(settings.database_url)
 
     if pool:
-        # Take a connection from the pool.
-        async with pool.acquire() as connection:
-            # Open a transaction.
-            async with connection.transaction():
-                # Run the query passing the request argument.
-                #
-                beneficiaries = await connection.fetch(
-                    "SELECT * FROM public.beneficiary"
-                )
-
-                logging.info(beneficiaries)
-    else:
         logging.error("Unable to acquire connection from DB pool")
 
 

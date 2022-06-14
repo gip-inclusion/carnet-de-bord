@@ -129,7 +129,7 @@ async def save_external_data(
 
 
 async def parse_principal_csv(principal_csv: str):
-    pool = await get_connection_pool(settings.hasura_graphql_database_url)
+    pool = await get_connection_pool(settings.database_url)
 
     # Take a connection from the pool.
     if pool:

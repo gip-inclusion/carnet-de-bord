@@ -3,7 +3,7 @@ mutation CreateBeneficiaryAccount($username: String!, $beneficiaryId: uuid!) {
 		object: {
 			username: $username
 			beneficiaryId: $beneficiaryId
-			type: "beneficiary"
+			type: beneficiary
 			confirmed: true
 		}
 	) {
