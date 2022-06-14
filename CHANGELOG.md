@@ -1,3 +1,10 @@
+# [1.114.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.113.0...v1.114.0) (2022-06-14)
+
+
+### Features
+
+* add work contract end date ([#840](https://github.com/SocialGouv/carnet-de-bord/issues/840)) ([a8545e4](https://github.com/SocialGouv/carnet-de-bord/commit/a8545e4dc40d0a8801f0e3d43b03beaa677c5296))
+
 # [1.113.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.112.5...v1.113.0) (2022-06-08)
 
 
