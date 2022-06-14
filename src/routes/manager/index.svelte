@@ -128,21 +128,21 @@
 				on:close={refreshStore}
 			>
 				<svelte:fragment slot="buttonLabel">
-					Importer une liste<br />de réorientations
+					<span class="block w-44"> Importer une liste<br />de réorientations</span>
 				</svelte:fragment>
 				<UpdateNotebookMembers {professionals} {structures} />
 			</Dialog>
 		</div>
 		<div class="fr-col-sm-4 flex">
 			<Dialog
-				label="Importer des chargès d'orientation"
-				title="Importer des chargès d'orientation"
+				label="Importer des chargés d'orientation"
+				title="Importer des chargés d'orientation"
 				size={'large'}
 				showButtons={false}
 				on:close={refreshStore}
 			>
 				<svelte:fragment slot="buttonLabel">
-					Importer une liste<br />de chargés d'orientation
+					<span class="block w-44">Importer une liste de chargés d'orientation</span>
 				</svelte:fragment>
 				<ImportOrientationManager />
 			</Dialog>

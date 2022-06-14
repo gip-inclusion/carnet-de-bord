@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { session } from '$app/stores';
+	import { pluralize } from '$lib/helpers';
 
 	import Dropzone from 'svelte-file-dropzone';
 	import Alert from '../base/Alert.svelte';
@@ -10,7 +11,7 @@
 		const file = event.detail.acceptedFiles[0];
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		resultPromise = fetch('http://localhost:8000/v1/uploads/orientation_manager', {
+		resultPromise = fetch(`${$session.backendAPI}/v1/uploads/orientation_manager`, {
 			method: 'POST',
 			headers: {
 				'jwt-token': $session.token,
@@ -32,7 +33,7 @@
 		if (/duplicate key/i.test(error)) {
 			return `Un chargé d'orientation avec ce courriel existe déjà.`;
 		}
-		if (/none not an allowed value/.test(error)) {
+		if (/none is not an allowed value/.test(error)) {
 			return `Champs obligatoire manquant`;
 		}
 		if (/not a valid email address/.test(error)) {
@@ -61,6 +62,17 @@
 		{#await resultPromise}
 			<Alert type="info" title={`Importation en cours...`} />
 		{:then orientation_managers}
+			{@const successfulInserts = orientation_managers.filter(({ valid }) => valid).length}
+
+			<Alert
+				type={successfulInserts ? 'success' : 'error'}
+				title={`${successfulInserts || 'Aucun'}
+					${pluralize('chargé', successfulInserts)}
+					d'orientation
+					${pluralize('importé', successfulInserts)}
+					sur ${orientation_managers.length}.`}
+			/>
+
 			<table class="fr-table fr-table--layout-fixed w-full">
 				<caption class="sr-only">Récapitulatif des imports</caption>
 				<thead class="px-2 py-2">
