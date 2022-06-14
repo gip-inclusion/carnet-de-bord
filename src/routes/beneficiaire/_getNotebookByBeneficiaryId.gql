@@ -21,6 +21,8 @@ fragment notebookFragment on notebook {
 	rightBonus
 	contractType
 	contractSignDate
+	contractStartDate
+	contractEndDate
 	educationLevel
 	wantedJobs {
 		rome_code {

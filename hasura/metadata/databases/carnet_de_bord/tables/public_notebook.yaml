@@ -15,6 +15,8 @@ configuration:
     created_at: createdAt
     contract_type: contractType
     contract_sign_date: contractSignDate
+    contract_start_date: contractStartDate
+    contract_end_date: contractEndDate
     right_rqth: rightRqth
     right_ass: rightAss
     right_are: rightAre
@@ -72,6 +74,8 @@ insert_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -94,6 +98,8 @@ insert_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -113,6 +119,8 @@ insert_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -131,6 +139,8 @@ select_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -151,6 +161,8 @@ select_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -187,6 +199,8 @@ select_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -210,6 +224,8 @@ select_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -235,6 +251,8 @@ select_permissions:
       columns:
         - beneficiary_id
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
@@ -270,6 +288,8 @@ update_permissions:
         - right_rsa
         - work_situation
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - work_situation_date
         - created_at
         - beneficiary_id
@@ -280,6 +300,8 @@ update_permissions:
     permission:
       columns:
         - contract_sign_date
+        - contract_start_date
+        - contract_end_date
         - contract_type
         - created_at
         - education_level
