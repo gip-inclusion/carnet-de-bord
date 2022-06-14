@@ -1,8 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import crypto from 'crypto';
 
-import { getGraphqlAPI } from '$lib/config/variables/public';
 import {
 	CreateBeneficiaryAccountDocument,
 	GetAccountByEmailDocument,

@@ -7,7 +7,7 @@ import { formatDateISO } from '../../src/lib/utils/date';
 const graphql =
 	(headers) =>
 	async (query, variables = null) => {
-		return await fetch(process.env.VITE_GRAPHQL_API_URL, {
+		return await fetch(process.env.GRAPHQL_API_URL, {
 			method: 'POST',
 			headers,
 			body: JSON.stringify({ query, variables }),
