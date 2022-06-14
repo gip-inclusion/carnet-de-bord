@@ -80,11 +80,6 @@ Quand('je renseigne {string} dans le champ {string}', (text, input) => {
 	I.fillField(input, text);
 });
 
-Alors('je vois {string} dans le champ {string}', async (value, fieldLabel) => {
-	const fieldId = await I.grabAttributeFrom(`//label[contains(., "${fieldLabel}")]`, 'for');
-	I.seeInField(`#${fieldId}`, value);
-});
-
 Quand('je renseigne la date {string} dans le champ {string}', async (date, input) => {
 	const language = await I.executeScript(() => navigator.language);
 	console.log(language);
@@ -93,6 +88,11 @@ Quand('je renseigne la date {string} dans le champ {string}', async (date, input
 		date = `${splitDate[1]}/${splitDate[0]}/${splitDate[2]}`;
 	}
 	I.fillField(input, date);
+});
+
+Alors('je vois {string} dans le champ {string}', async (value, fieldLabel) => {
+	const fieldId = await I.grabAttributeFrom(`//label[contains(., "${fieldLabel}")]`, 'for');
+	I.seeInField(`#${fieldId}`, value);
 });
 
 Quand('je clique sur {string}', (text) => {

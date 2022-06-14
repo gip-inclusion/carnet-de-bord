@@ -5,26 +5,15 @@
 		rsaRightKeys,
 		workSituationKeys,
 	} from '$lib/constants/keys';
-	import type { Notebook } from '$lib/graphql/_gen/typed-document-nodes';
 	import { pluralize } from '$lib/helpers';
 	import { openComponent } from '$lib/stores';
-	import { formatDateLocale } from '$lib/utils/date';
+	import { dateInterval, formatDateLocale } from '$lib/utils/date';
 	import { Button } from '../base';
 	import { Text } from '../utils';
 	import ProCarnetSocioProUpdate from './ProNotebookSocioProUpdate.svelte';
+	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-	export let notebook: Pick<
-		Notebook,
-		| 'workSituation'
-		| 'workSituationDate'
-		| 'rightAre'
-		| 'rightAss'
-		| 'rightBonus'
-		| 'rightRqth'
-		| 'rightRsa'
-		| 'geographicalArea'
-		| 'educationLevel'
-	> & { wantedJobs: { rome_code: { label: string; id: string } }[] };
+	export let notebook: GetNotebookQuery['notebook'];
 
 	const editSocioProSituation = () => {
 		openComponent.open({
@@ -38,14 +27,28 @@
 			},
 		});
 	};
+
+	function contractDatesTemplating(start: string, end: string) {
+		if (end) {
+			return `du ${formatDateLocale(start)} au ${formatDateLocale(end)}`;
+		}
+		return `depuis le ${formatDateLocale(start)}`;
+	}
 </script>
 
 <div class="flex flex-col space-y-6">
-	{#if notebook.workSituationDate && notebook.workSituation}
+	{#if notebook.workSituation}
 		<div>
-			<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong> depuis le {formatDateLocale(
-				notebook.workSituationDate
-			)}
+			<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong>
+			{#if notebook.workSituationDate}
+				{contractDatesTemplating(notebook.workSituationDate, notebook.workSituationEndDate)}
+				{#if notebook.workSituationEndDate}
+					-
+					<span class="italic font-bold">
+						({dateInterval(notebook.workSituationDate, notebook.workSituationEndDate)})
+					</span>
+				{/if}
+			{/if}
 		</div>
 	{/if}
 
