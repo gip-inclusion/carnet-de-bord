@@ -148,7 +148,7 @@ async def create_orientation_manager(
 
 def send_invitation_email(
     email: str, firstname: str | None, lastname: str | None, access_key: UUID
-):
+) -> None:
     message = orientation_manager_account_creation_email(
         email, firstname, lastname, access_key
     )

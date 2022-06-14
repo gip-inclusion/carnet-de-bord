@@ -9,7 +9,7 @@ FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
-def send_mail(to: str, subject: str, message: str):
+def send_mail(to: str, subject: str, message: str) -> None:
     if not settings.smtp_host or not settings.smtp_port:
         logging.error("missing smtp config")
         return

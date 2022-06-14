@@ -1,3 +1,4 @@
+import logging
 from typing import List
 from uuid import UUID
 
@@ -8,6 +9,9 @@ from api.db.models.orientation_manager import (
     OrientationManagerCsvRow,
     OrientationManagerDB,
 )
+
+FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
+logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
 def parse_orientation_manager_from_record(record: Record) -> OrientationManagerDB:
@@ -44,21 +48,17 @@ async def insert_orientation_manager(
     if record:
         return parse_orientation_manager_from_record(record)
     else:
-        print(f"insert fail {data}")
+        logging.error(f"insert fail {data}")
 
 
 async def get_orientation_managers(
     connection: Connection,
-) -> OrientationManagerDB | None:
+) -> List[OrientationManagerDB]:
 
     records: List[Record] = await connection.fetch(
         """
         SELECT * FROM public.orientation_manager ORDER BY created_at ASC
         """,
     )
-    orientation_managers: List[OrientationManagerDB] = []
 
-    for record in records:
-        orientation_managers.append(parse_orientation_manager_from_record(record))
-
-    return orientation_managers
+    return [parse_orientation_manager_from_record(record) for record in records]

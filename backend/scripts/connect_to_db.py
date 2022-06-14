@@ -14,16 +14,6 @@ async def main():
     pool = await get_connection_pool(settings.database_url)
 
     if pool:
-        # Take a connection from the pool.
-        async with pool.acquire() as connection:
-            # Open a transaction.
-            async with connection.transaction():
-                # Run the query passing the request argument.
-                #
-                beneficiaries = await connection.fetch("SELECT * FROM public.account")
-
-                logging.info(beneficiaries)
-    else:
         logging.error("Unable to acquire connection from DB pool")
 
 

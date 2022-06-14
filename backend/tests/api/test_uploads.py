@@ -88,11 +88,11 @@ async def test_validation_error(
         )
         json = response.json()
 
-        assert json[0]["valid"] is True
-        assert json[1]["valid"] is True
-        assert json[2]["valid"] == False
+        assert json[0]["valid"]
+        assert json[1]["valid"]
+        assert not json[2]["valid"]
         assert json[2]["error"] == "none is not an allowed value"
-        assert json[3]["valid"] == False
+        assert not json[3]["valid"]
         assert json[3]["error"] == "value is not a valid email address"
 
 
@@ -109,8 +109,8 @@ async def test_handle_xls(
         assert response.status_code == 200
         json = response.json()
 
-        assert json[0]["valid"] is True
-        assert json[1]["valid"] is True
+        assert json[0]["valid"]
+        assert json[1]["valid"]
 
 
 async def test_handle_xlsx(
@@ -132,5 +132,5 @@ async def test_handle_xlsx(
         assert response.status_code == 200
         json = response.json()
 
-        assert json[0]["valid"] is True
-        assert json[1]["valid"] is True
+        assert json[0]["valid"]
+        assert json[1]["valid"]

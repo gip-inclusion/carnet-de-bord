@@ -8,15 +8,8 @@ from api.core.settings import settings
 
 
 class Database:
-    async def create_pool(self):
+    async def create_pool(self) -> None:
         self.pool = await get_connection_pool(settings.database_url)
-
-
-origins = ["https://carnet-de-bord.fabrique.social.gouv.fr"]
-
-
-if "dev" in settings.app_url:
-    origins = ["*"]
 
 
 def create_app() -> FastAPI:
@@ -24,7 +17,7 @@ def create_app() -> FastAPI:
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=[settings.app_url],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -48,11 +41,11 @@ def create_app() -> FastAPI:
 
     @app.get("/")
     async def read_root():
-        return {"Hello": "World"}
+        return {"status": "running"}
 
     @app.get("/healthz")
     async def read_root():
-        return {"whazza": "yolo"}
+        return {"status": "running"}
 
     return app
 

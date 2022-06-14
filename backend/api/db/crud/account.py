@@ -41,14 +41,14 @@ async def insert_account(
 
     access_key = uuid4()
     access_key_date = datetime.now() + relativedelta(months=+1)
-    role_id_key = "admin_id" if type == RoleEnum.ADMIN_CDB else f"{type}_id"
+    role_column_name = "admin_id" if type == RoleEnum.ADMIN_CDB else f"{type}_id"
     record = await connection.fetchrow(
         """
-            INSERT INTO public.account(username, type, confirmed, {role_id_key}, access_key, access_key_date)
+            INSERT INTO public.account(username, type, confirmed, {role_column_name}, access_key, access_key_date)
             VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id, username, type, access_key, access_key_date, last_login, admin_id, manager_id, orientation_manager_id, admin_structure_id, professional_id, beneficiary_id, confirmed, onboarding_done, created_at, updated_at
         """.format(
-            role_id_key=role_id_key
+            role_column_name=role_column_name
         ),
         username,
         type,
@@ -69,14 +69,13 @@ async def insert_orientation_manager_account(
     confirmed: bool,
     orientation_manager_id: UUID,
 ) -> AccountDB | None:
-    record = await insert_account(
+    return await insert_account(
         connection=connection,
         username=username,
         type=RoleEnum.ORIENTATION_MANAGER,
         confirmed=confirmed,
         foreign_key_id=orientation_manager_id,
     )
-    return record
 
 
 async def get_account_from_email(
@@ -106,7 +105,7 @@ async def get_account_from_email(
 
 async def get_account_with_query(
     connection: Connection, query: str, *args
-) -> List[AccountDB] | None:
+) -> List[AccountDB]:
 
     records: List[Record] = await connection.fetch(
         """
@@ -116,9 +115,5 @@ async def get_account_with_query(
         ),
         *args,
     )
-    accounts: List[AccountDB] = []
 
-    for record in records:
-        accounts.append(parse_account_from_record(record))
-
-    return accounts
+    return [parse_account_from_record(record) for record in records]

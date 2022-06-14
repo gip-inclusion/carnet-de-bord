@@ -28,7 +28,7 @@ class OrientationManagerResponseModel(BaseModel):
     error: str | None
 
 
-def map_csv_row(row: Series) -> OrientationManagerCsvRow | None:
+def map_csv_row(row: Series) -> OrientationManagerCsvRow:
     return OrientationManagerCsvRow(
         email=row["Courriel*"],
         firstname=row["Nom"],
@@ -39,12 +39,12 @@ def map_csv_row(row: Series) -> OrientationManagerCsvRow | None:
 
 def map_row_response(
     row: Series, valid: bool, error: str | None = None
-) -> OrientationManagerResponseModel | None:
+) -> OrientationManagerResponseModel:
     return OrientationManagerResponseModel(
         valid=valid,
         error=error,
-        email=row["Courriel*"] if "Courriel*" in row else "-",
-        firstname=row["Nom"] if "Nom" in row else "-",
-        lastname=row["Prénom"] if "Prénom" in row else "-",
-        phone_numbers=row["Téléphones"] if "Téléphones" in row else "-",
+        email=row["Courriel*"] if "Courriel*" in row else None,
+        firstname=row["Nom"] if "Nom" in row else None,
+        lastname=row["Prénom"] if "Prénom" in row else None,
+        phone_numbers=row["Téléphones"] if "Téléphones" in row else None,
     )
