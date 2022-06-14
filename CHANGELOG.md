@@ -1,3 +1,10 @@
+# [1.115.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.114.0...v1.115.0) (2022-06-14)
+
+
+### Features
+
+* add work situation end date in notebook ([#843](https://github.com/SocialGouv/carnet-de-bord/issues/843)) ([eb07e6a](https://github.com/SocialGouv/carnet-de-bord/commit/eb07e6a0bfe1a1b3e8de3b9dae611ad3239bd520))
+
 # [1.114.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.113.0...v1.114.0) (2022-06-14)
 
 
