@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from api.core.jinja import jinja_env
 from api.core.settings import settings
 
 
@@ -14,7 +15,7 @@ def create_magic_link(access_key: UUID, redirect_url: str | None = None):
 def orientation_manager_account_creation_email(
     username: str, firstname: str | None, lastname: str | None, access_key: str
 ):
-    template = settings.env.get_template("orientation_manager_email.html")
+    template = jinja_env.get_template("orientation_manager_email.html")
     return template.render(
         firstname=firstname,
         lastname=lastname,

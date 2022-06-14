@@ -4,8 +4,6 @@ from pydantic import BaseSettings
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-from jinja2 import Environment, PackageLoader, select_autoescape
-
 
 class Settings(BaseSettings):
     app_url: str
@@ -19,8 +17,6 @@ class Settings(BaseSettings):
 
     V1_PREFIX: str = "/v1"
     MAIL_FROM: str = "support.carnet-de-bord@fabrique.social.gouv.fr"
-
-    env = Environment(loader=PackageLoader("api"), autoescape=select_autoescape())
 
     class Config:
         env_file = ".env"
