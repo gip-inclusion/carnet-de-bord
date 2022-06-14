@@ -95,16 +95,6 @@ Alors('je vois {string} dans le champ {string}', async (value, fieldLabel) => {
 	I.seeInField(`#${fieldId}`, value);
 });
 
-Quand('je renseigne la date {string} dans le champ {string}', async (date, input) => {
-	const language = await I.executeScript(() => navigator.language);
-	console.log(language);
-	if (language === 'en-US') {
-		const splitDate = date.split('/');
-		date = `${splitDate[1]}/${splitDate[0]}/${splitDate[2]}`;
-	}
-	I.fillField(input, date);
-});
-
 Quand('je clique sur {string}', (text) => {
 	I.click(text);
 });
