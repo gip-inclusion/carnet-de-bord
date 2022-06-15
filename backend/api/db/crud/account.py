@@ -11,24 +11,7 @@ from api.db.models.role import RoleEnum
 
 
 def parse_account_from_record(record: Record) -> AccountDB:
-    return AccountDB(
-        id=record["id"],
-        username=record["username"],
-        type=record["type"],
-        access_key=record["access_key"],
-        access_key_date=record["access_key_date"],
-        last_login=record["last_login"],
-        admin_id=record["admin_id"],
-        manager_id=record["manager_id"],
-        orientation_manager_id=record["orientation_manager_id"],
-        admin_structure_id=record["admin_structure_id"],
-        professional_id=record["professional_id"],
-        beneficiary_id=record["beneficiary_id"],
-        confirmed=record["confirmed"],
-        onboarding_done=record["onboarding_done"],
-        created_at=record["created_at"],
-        updated_at=record["updated_at"],
-    )
+    return AccountDB.parse_obj(record)
 
 
 async def insert_account(
