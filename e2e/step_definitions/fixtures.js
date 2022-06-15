@@ -39,6 +39,9 @@ async function setupBeforeFixturesByTags(tags) {
 			case '@appointments':
 				await removeAllAppointments();
 				break;
+			case '@import_orientation_manager':
+				await removeAllOrientationManager();
+				break;
 			default:
 				return;
 		}
@@ -239,6 +242,16 @@ function removeAllAppointments() {
 		`mutation RemoveAppointments {
 			delete_notebook_appointment(where: {}) { affected_rows }
 		}`
+	);
+}
+
+function removeAllOrientationManager() {
+	I.sendMutation(
+		`mutation removeOrientationManager {
+			delete_account(where: {orientation_manager: {email: {_in:["woirnesse@cd26.fr", "cyane@cd26.fr"]}}}) { affected_rows }
+			delete_orientation_manager(where: {email: {_in:["woirnesse@cd26.fr", "cyane@cd26.fr"]}}) { affected_rows }
+		}
+		`
 	);
 }
 

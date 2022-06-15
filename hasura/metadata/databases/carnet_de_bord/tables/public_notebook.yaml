@@ -9,16 +9,16 @@ configuration:
     work_situation: workSituation
     education_level: educationLevel
     work_situation_date: workSituationDate
-    work_situation_end_date: workSituationEndDate
     geographical_area: geographicalArea
+    contract_end_date: contractEndDate
     beneficiary_id: beneficiaryId
     updated_at: updatedAt
     created_at: createdAt
     contract_type: contractType
     contract_sign_date: contractSignDate
-    contract_start_date: contractStartDate
-    contract_end_date: contractEndDate
     right_rqth: rightRqth
+    work_situation_end_date: workSituationEndDate
+    contract_start_date: contractStartDate
     right_ass: rightAss
     right_are: rightAre
 object_relationships:

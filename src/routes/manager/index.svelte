@@ -10,6 +10,7 @@
 
 	import { operationStore, query } from '@urql/svelte';
 	import UpdateNotebookMembers from '$lib/ui/Manager/UpdateNotebookMembers.svelte';
+	import ImportOrientationManager from '$lib/ui/Manager/ImportOrientationManager.svelte';
 	const deploymentId = $session.user.deploymentId;
 	const result = operationStore(GetDeploymentInfosDocument, { id: deploymentId });
 	query(result);
@@ -127,9 +128,23 @@
 				on:close={refreshStore}
 			>
 				<svelte:fragment slot="buttonLabel">
-					Importer une liste<br />de réorientations
+					<span class="block w-44"> Importer une liste<br />de réorientations</span>
 				</svelte:fragment>
 				<UpdateNotebookMembers {professionals} {structures} />
+			</Dialog>
+		</div>
+		<div class="fr-col-sm-4 flex">
+			<Dialog
+				label="Importer des chargés d'orientation"
+				title="Importer des chargés d'orientation"
+				size={'large'}
+				showButtons={false}
+				on:close={refreshStore}
+			>
+				<svelte:fragment slot="buttonLabel">
+					<span class="block w-44">Importer une liste de chargés d'orientation</span>
+				</svelte:fragment>
+				<ImportOrientationManager />
 			</Dialog>
 		</div>
 	</div>

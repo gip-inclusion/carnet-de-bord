@@ -127,6 +127,7 @@ insert_permissions:
         - admin_structure_id
         - beneficiary_id
         - id
+        - orientation_manager_id
         - professional_id
         - type
         - username
@@ -237,6 +238,9 @@ select_permissions:
                 deployment_id:
                   _eq: X-Hasura-Deployment-Id
           - admin_structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - orientation_manager:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
   - role: professional
