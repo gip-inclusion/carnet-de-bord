@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import List, Union
+from typing import List
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -19,9 +19,6 @@ class PoleEmploiAPIException(Exception):
     def __init__(self, error_code):
         self.error_code = error_code
         super().__init__()
-
-
-API_CLIENT_EMPTY_NIR_BAD_RESPONSE = "empty_nir"
 
 
 class PoleEmploiAPIBadResponse(Exception):
@@ -44,8 +41,8 @@ class PoleEmploiApiClient:
     client_secret: str
     scope: str
     tz: str = "Europe/Paris"
-    token: Union[str, None] = None
-    expires_at: Union[datetime, None] = None
+    token: str | None = None
+    expires_at: datetime | None = None
 
     @property
     def token_url(self) -> str:
@@ -100,7 +97,7 @@ class PoleEmploiApiClient:
         horaire: bool = False,
         zonecompetence: bool = False,
         agences_url: str | None = None,
-    ) -> dict:
+    ) -> List[dict]:
         """Example data:
         {
             "commune":"72",

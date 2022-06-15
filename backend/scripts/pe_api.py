@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 
 from api.core.db import get_connection_pool
 from api.core.settings import settings
@@ -13,8 +14,8 @@ async def main():
     client = PoleEmploiApiClient(
         auth_base_url="https://entreprise.pole-emploi.fr",
         base_url="https://api.emploi-store.fr",
-        client_id="PAR_devcarnetdebord_eaf8a8f6cff6f9b7a6369b29ca6c3ddfde49a8ac54be45b3293f435bcf7f76eb",
-        client_secret="15c4318b1015eea6c215b3f854bad4762b87240bf95fb23cb1a0d94ad97037e3",
+        client_id=os.getenv("CDB_PE_CLIENT_ID", ""),
+        client_secret=os.getenv("CDB_PE_CLIENT_SECRET", ""),
         scope="api_referentielagencesv1 organisationpe",
     )
 
