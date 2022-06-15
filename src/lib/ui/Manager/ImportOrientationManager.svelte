@@ -34,7 +34,7 @@
 			return `Un chargé d'orientation avec ce courriel existe déjà.`;
 		}
 		if (/none is not an allowed value/.test(error)) {
-			return `Champs obligatoire manquant`;
+			return `Champ obligatoire manquant`;
 		}
 		if (/not a valid email address/.test(error)) {
 			return `Format d'adresse mail invalide`;

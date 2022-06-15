@@ -127,7 +127,7 @@
 					<th>Type</th>
 					<th>Téléphone</th>
 					<th>Structure</th>
-					<th>email</th>
+					<th>Email</th>
 					<th>Compte</th>
 					<th>Onboarding</th>
 					<th>Email de connexion</th>
