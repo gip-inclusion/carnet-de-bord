@@ -1,10 +1,12 @@
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Union
+from typing import List, Union
 from zoneinfo import ZoneInfo
 
 import httpx
+
+from .models.agence import Agence
 
 logger = logging.getLogger(__name__)
 
@@ -46,14 +48,14 @@ class PoleEmploiApiClient:
     expires_at: Union[datetime, None] = None
 
     @property
-    def token_url(self):
+    def token_url(self) -> str:
         return f"{self.auth_base_url}/connexion/oauth2/access_token"
 
     @property
-    def agences_url(self):
+    def agences_url(self) -> str:
         return f"{self.base_url}/partenaire/referentielagences/v1/agences"
 
-    def _refresh_token(self, at=None):
+    def _refresh_token(self, at=None) -> None:
         if not at:
             at = datetime.now(tz=ZoneInfo(self.tz))
         if self.expires_at and self.expires_at > at:
@@ -76,10 +78,10 @@ class PoleEmploiApiClient:
         self.expires_at = at + timedelta(seconds=auth_data["expires_in"])
 
     @property
-    def _headers(self):
+    def _headers(self) -> dict:
         return {"Authorization": self.token, "Content-Type": "application/json"}
 
-    def _get_request(self, url: str, params: dict):
+    def _get_request(self, url: str, params: dict) -> dict:
         try:
             self._refresh_token()
             response = httpx.get(
@@ -93,105 +95,226 @@ class PoleEmploiApiClient:
             raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
 
     def recherche_agences(
-        self, commune: str, horaires: bool = False, zonecompetence: bool = False
-    ):
+        self,
+        commune: str,
+        horaire: bool = False,
+        zonecompetence: bool = False,
+        agences_url: str | None = None,
+    ) -> dict:
         """Example data:
         {
-            "commune":"67",
+            "commune":"72",
             "horaires":True,
-            "zonecompetence":True
+            "zonecompetence":False
         }
 
         Example response:
         [
-
-            {
-                "code": "HDF0170",
-                "codeSafir":"62512",
-                "libelle": "ARRAS",
-                "libelle": "Agence Pôle emploi ARRAS",
-                "type": "APE",
-                "typeAccueil": "3",
-                "codeRegionINSEE": "32",
-                "dispositifADEDA": true,
-                "contact": {
-                    "telephonePublic": "39-49",
-                    "email": "ape.62512@pole-emploi.fr"
-                },
-                "siret": "13000548123525",
-                "adressePrincipale": {
-                    "ligne4": "2 RUE DE LA SYMPHORINE",
-                    "ligne5": "",
-                    "ligne6": "62000 ARRAS",
-                    "gpsLon": 2.7354,
-                    "gpsLat": 50.302027,
-                    "communeImplantation": "62041",
-                    "bureauDistributeur": "62000"
-                },
-                "horaires": [
-                    {
-                        "jour": 1,
-                        "ouvertureMatin": "08:30",
-                        "fermetureMatin": "12:45",
-                        "horaireFerme": "N",
-                        "horaireEnContinu": "N",
-                        "ouvertureApresMidiRDV": "12:45",
-                        "fermetureApresMidiRDV": "16:30",
-                        "horaireFermeRDV": "N",
-                        "horaireEnContinuRDV": "N"
-                    },
-                    {
-                        "jour": 2,
-                        "ouvertureMatin": "08:30",
-                        "fermetureMatin": "12:45",
-                        "horaireFerme": "N",
-                        "horaireEnContinu": "N",
-                        "ouvertureApresMidiRDV": "12:45",
-                        "fermetureApresMidiRDV": "16:30",
-                        "horaireFermeRDV": "N",
-                        "horaireEnContinuRDV": "N"
-                    },
-                    {
-                        "jour": 3,
-                        "ouvertureMatin": "08:30",
-                        "fermetureMatin": "12:45",
-                        "horaireFerme": "N",
-                        "horaireEnContinu": "N",
-                        "ouvertureApresMidiRDV": "12:45",
-                        "fermetureApresMidiRDV": "16:30",
-                        "horaireFermeRDV": "N",
-                        "horaireEnContinuRDV": "N"
-                    },
-                    {
-                        "jour": 4,
-                        "ouvertureMatin": "08:30",
-                        "fermetureMatin": "12:45",
-                        "horaireFerme": "N",
-                        "horaireEnContinu": "N",
-                        "ouvertureApresMidiRDV": "12:45",
-                        "fermetureApresMidiRDV": "16:30",
-                        "horaireFermeRDV": "N",
-                        "horaireEnContinuRDV": "N"
-                    },
-                    {
-                        "jour": 5,
-                        "ouvertureMatin": "09:00",
-                        "fermetureMatin": "12:00",
-                        "horaireFerme": "N",
-                        "horaireEnContinu": "N",
-                        "horaireFermeRDV": "O",
-                        "horaireEnContinuRDV": "N"
-                    }
-                ]
-            }
+           {
+              "code":"PDL0031",
+              "codeSafir":"72022",
+              "libelle":"LE MANS OUEST",
+              "libelleEtendu":"Agence Pôle emploi LE MANS OUEST",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72022@pole-emploi.fr"
+              },
+              "siret":"13000548124481",
+              "adressePrincipale":{
+                 "ligne4":"2 AVENUE GEORGES AURIC",
+                 "ligne5":"",
+                 "ligne6":"72000 LE MANS",
+                 "gpsLon":0.151963,
+                 "gpsLat":48.015516,
+                 "communeImplantation":"72181",
+                 "bureauDistributeur":"72000"
+              }
+           },
+           {
+              "code":"PDL0037",
+              "codeSafir":"72005",
+              "libelle":"MONTVAL SUR LOIR",
+              "libelleEtendu":"Agence Pôle emploi MONTVAL SUR LOIR",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72005@pole-emploi.fr"
+              },
+              "siret":"13000548125314",
+              "adressePrincipale":{
+                 "ligne4":"19 RUE du Mont sur Loir",
+                 "ligne5":"",
+                 "ligne6":"72500 CHATEAU DU LOIR",
+                 "gpsLon":0.427813,
+                 "gpsLat":47.684688,
+                 "communeImplantation":"72071",
+                 "bureauDistributeur":"72500"
+              }
+           },
+           {
+              "code":"PDL0038",
+              "codeSafir":"72115",
+              "libelle":"LE MANS SABLONS",
+              "libelleEtendu":"Agence Pôle emploi LE MANS SABLONS",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72115@pole-emploi.fr"
+              },
+              "siret":"13000548123145",
+              "adressePrincipale":{
+                 "ligne4":"20 RUE DE CORSE",
+                 "ligne5":"",
+                 "ligne6":"72100 LE MANS",
+                 "gpsLon":0.233632,
+                 "gpsLat":47.996219,
+                 "communeImplantation":"72181",
+                 "bureauDistributeur":"72100"
+              }
+           },
+           {
+              "code":"PDL0039",
+              "codeSafir":"72123",
+              "libelle":"LE MANS GARE",
+              "libelleEtendu":"Agence Pôle emploi LE MANS GARE",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72123@pole-emploi.fr"
+              },
+              "siret":"13000548122345",
+              "adressePrincipale":{
+                 "ligne4":"18 RUE Pierre-Felix Delarue",
+                 "ligne5":"",
+                 "ligne6":"72100 LE MANS",
+                 "gpsLon":0.186472,
+                 "gpsLat":47.994548,
+                 "communeImplantation":"72181",
+                 "bureauDistributeur":"72100"
+              }
+           },
+           {
+              "code":"PDL0041",
+              "codeSafir":"72020",
+              "libelle":"LA FLECHE",
+              "libelleEtendu":"Agence Pôle emploi LA FLECHE",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72020@pole-emploi.fr"
+              },
+              "siret":"13000548121404",
+              "adressePrincipale":{
+                 "ligne3":"ZA Jalêtre ",
+                 "ligne4":"3 RUE Irene Joliot Curie",
+                 "ligne5":"",
+                 "ligne6":"72200 LA FLECHE",
+                 "gpsLon":-0.097632,
+                 "gpsLat":47.706743,
+                 "communeImplantation":"72154",
+                 "bureauDistributeur":"72200"
+              }
+           },
+           {
+              "code":"PDL0042",
+              "codeSafir":"72035",
+              "libelle":"LA FERTE BERNARD",
+              "libelleEtendu":"Agence Pôle emploi LA FERTE BERNARD",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72035@pole-emploi.fr"
+              },
+              "siret":"13000548124317",
+              "adressePrincipale":{
+                 "ligne4":"57 AV DU GENERAL DE GAULLE",
+                 "ligne5":"",
+                 "ligne6":"72400 LA FERTE BERNARD",
+                 "gpsLon":0.65407,
+                 "gpsLat":48.178286,
+                 "communeImplantation":"72132",
+                 "bureauDistributeur":"72400"
+              }
+           },
+           {
+              "code":"PDL0043",
+              "codeSafir":"72043",
+              "libelle":"SABLE SUR SARTHE",
+              "libelleEtendu":"Agence Pôle emploi SABLE SUR SARTHE",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72043@pole-emploi.fr"
+              },
+              "siret":"13000548123194",
+              "adressePrincipale":{
+                 "ligne4":"7 RUE LA MARTINIERE",
+                 "ligne5":"",
+                 "ligne6":"72300 SABLE SUR SARTHE",
+                 "gpsLon":-0.312381,
+                 "gpsLat":47.839459,
+                 "communeImplantation":"72264",
+                 "bureauDistributeur":"72300"
+              }
+           },
+           {
+              "code":"PDL0044",
+              "codeSafir":"72051",
+              "libelle":"MAMERS",
+              "libelleEtendu":"Agence Pôle emploi MAMERS",
+              "type":"APE",
+              "typeAccueil":"3",
+              "codeRegionINSEE":"52",
+              "dispositifADEDA":true,
+              "contact":{
+                 "telephonePublic":"39-49",
+                 "email":"ape.72051@pole-emploi.fr"
+              },
+              "siret":"13000548123178",
+              "adressePrincipale":{
+                 "ligne4":"102 bis RUE LEDRU ROLLIN",
+                 "ligne5":"",
+                 "ligne6":"72600 MAMERS",
+                 "gpsLon":0.37092,
+                 "gpsLat":48.346842,
+                 "communeImplantation":"72180",
+                 "bureauDistributeur":"72600"
+              }
+           }
         ]
         """
         data = self._get_request(
-            self.agences_url,
+            self.agences_url if agences_url is None else agences_url,
             params={
-                "horaires": horaires,
+                "horaire": horaire,
                 "commune": commune,
                 "zonecompetence": zonecompetence,
             },
         )
         return data
+
+    def recherche_agences_pydantic(self, *args, **kwargs) -> List[Agence]:
+        agences: dict = self.recherche_agences(*args, **kwargs)
+        return [Agence.parse_obj(agence) for agence in agences]
