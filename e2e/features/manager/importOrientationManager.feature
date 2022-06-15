@@ -16,4 +16,4 @@ Fonctionnalité: Import des chargés d'orientation
 		Quand je téléverse le fichier "/resources/import_charges_orientation.xlsx"
 		Alors je vois "2 chargés d'orientation importés sur 4."
 		Alors je vois "Format d'adresse mail invalide" sur la ligne "Justine.titegoute"
-		Alors je vois "Champs obligatoire manquant" sur la ligne "Sarah"
+		Alors je vois "Champ obligatoire manquant" sur la ligne "Sarah"
