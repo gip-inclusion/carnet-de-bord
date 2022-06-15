@@ -12,7 +12,7 @@ from api.db.crud.external_data import (
     insert_external_data_for_beneficiary,
     update_external_data,
 )
-from api.db.crud.professional import get_professional_from_csv, insert_professional
+from api.db.crud.professional import get_professional_by_email, insert_professional
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
@@ -65,10 +65,11 @@ async def import_pe_referent(
     connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
 ):
 
-    professional: Professional | None = await get_professional_from_csv(
-        connection, csv_row
+    professional: Professional | None = await get_professional_by_email(
+        connection, csv_row.referent_mail
     )
     if not professional:
+        # A professional with the same email doesn't already exist
         # @TODO: query PE API
         # await insert_professional(connection, ProfessionalInsert(…))
         pass

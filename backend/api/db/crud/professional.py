@@ -22,13 +22,13 @@ async def get_professional_with_query(
             return Professional.parse_obj(professional_record)
 
 
-async def get_professional_from_csv(
-    connection: Connection, csv_row: PrincipalCsvRow
+async def get_professional_by_email(
+    connection: Connection, email: str
 ) -> Professional | None:
     return await get_professional_with_query(
         connection,
         "WHERE LOWER(public.professional.email) = LOWER($1)",
-        csv_row.referent_mail,
+        email,
     )
 
 
