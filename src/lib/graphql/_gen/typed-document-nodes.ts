@@ -10052,6 +10052,20 @@ export type GetBeneficiariesQuery = {
 	}>;
 };
 
+export type GetOrientationManagerQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetOrientationManagerQuery = {
+	__typename?: 'query_root';
+	orientation_manager: Array<{
+		__typename?: 'orientation_manager';
+		id: string;
+		firstname?: string | null | undefined;
+		lastname?: string | null | undefined;
+		email: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
+	}>;
+};
+
 export type GetProfessionalsForManagerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfessionalsForManagerQuery = {
@@ -10118,6 +10132,23 @@ export type GetStructuresWithProQuery = {
 			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 		}>;
 	}>;
+};
+
+export type UpdateOrientationManagerMutationVariables = Exact<{
+	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	beneficiaries: Array<Scalars['uuid']> | Scalars['uuid'];
+}>;
+
+export type UpdateOrientationManagerMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	insert_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
 };
 
 export type UpdateReferentMutationVariables = Exact<{
@@ -13531,6 +13562,42 @@ export const GetBeneficiariesDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetBeneficiariesQuery, GetBeneficiariesQueryVariables>;
+export const GetOrientationManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetOrientationManager' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'orientation_manager' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetOrientationManagerQuery, GetOrientationManagerQueryVariables>;
 export const GetProfessionalsForManagerDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13759,6 +13826,177 @@ export const GetStructuresWithProDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetStructuresWithProQuery, GetStructuresWithProQueryVariables>;
+export const UpdateOrientationManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateOrientationManager' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_member_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaries' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'StringValue',
+															value: 'orientation_manager',
+															block: false,
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiaryId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_in' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'beneficiaries' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: {
+												kind: 'EnumValue',
+												value: 'notebook_member_notebook_id_account_id_key',
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{ kind: 'EnumValue', value: 'memberType' },
+													{ kind: 'EnumValue', value: 'active' },
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateOrientationManagerMutation,
+	UpdateOrientationManagerMutationVariables
+>;
 export const UpdateReferentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -24889,6 +25127,10 @@ export type GetBeneficiariesQueryStore = OperationStore<
 	GetBeneficiariesQuery,
 	GetBeneficiariesQueryVariables
 >;
+export type GetOrientationManagerQueryStore = OperationStore<
+	GetOrientationManagerQuery,
+	GetOrientationManagerQueryVariables
+>;
 export type GetProfessionalsForManagerQueryStore = OperationStore<
 	GetProfessionalsForManagerQuery,
 	GetProfessionalsForManagerQueryVariables
@@ -24904,6 +25146,10 @@ export type GetStructuresForManagerQueryStore = OperationStore<
 export type GetStructuresWithProQueryStore = OperationStore<
 	GetStructuresWithProQuery,
 	GetStructuresWithProQueryVariables
+>;
+export type UpdateOrientationManagerMutationStore = OperationStore<
+	UpdateOrientationManagerMutation,
+	UpdateOrientationManagerMutationVariables
 >;
 export type UpdateReferentMutationStore = OperationStore<
 	UpdateReferentMutation,

@@ -6,6 +6,7 @@
 	import { getContext } from 'svelte';
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
+	import AddOrientationManagerForm from './AddOrientationManagerForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
@@ -22,6 +23,17 @@
 			},
 		});
 	}
+
+	function openOrientationManagerLayer(beneficiary: Beneficiary) {
+		openComponent.open({
+			component: AddOrientationManagerForm,
+			props: {
+				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				member: beneficiary.notebook.members[0]?.account.id ?? null,
+			},
+		});
+	}
+
 	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
 
 	function updateSelection(beneficiary: Beneficiary) {
@@ -36,6 +48,7 @@
 			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
+			<th class="text-left">Chargé d'orientation</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
 			<th class="!text-center">Voir le carnet</th>
@@ -47,6 +60,9 @@
 				beneficiary?.notebook.members.filter(
 					(member) => member.account.type === RoleEnum.Professional
 				) ?? []}
+			{@const orientationManager = beneficiary.notebook.members.filter(
+				(member) => member.account.type === RoleEnum.OrientationManager
+			)[0]}
 			<tr>
 				<td class="align-middle">
 					<div class={`fr-checkbox-group bottom-3 left-3`}>
@@ -64,6 +80,28 @@
 				</td>
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
+				<td>
+					{#if orientationManager}
+						<button
+							class="fr-tag fr-tag-sm"
+							on:click={() => openOrientationManagerLayer(beneficiary)}
+						>
+							{displayFullName(
+								beneficiary.notebook.members.filter(
+									(member) => member.account.type === RoleEnum.OrientationManager
+								)[0].account?.orientation_manager
+							)}
+						</button>
+					{:else}
+						<button
+							href="#"
+							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
+							on:click={() => openOrientationManagerLayer(beneficiary)}
+						>
+							Non assigné
+						</button>
+					{/if}
+				</td>
 				<td>
 					{#if referents.length > 0 || beneficiary.structures.length > 0}
 						<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
@@ -93,14 +131,15 @@
 					{/if}
 				</td>
 				<td class="!text-center">
-					<a
+					<!-- <a
 						href={`carnets/${beneficiary.notebook.id}`}
 						class="fr-link"
 						target="_blank"
 						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 					>
 						<span class="fr-fi-file-line" aria-hidden />
-					</a>
+					</a> -->
+					<span class="fr-fi-file-line" aria-hidden aria-disabled="true" />
 				</td>
 			</tr>
 		{/each}
