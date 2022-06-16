@@ -52,7 +52,7 @@ function setupAfterFixturesByTags(tags) {
 	tags.forEach((tag) => {
 		switch (tag) {
 			case '@modifier_rattachement_beneficiaire':
-				removeBeneficiaryLink();
+			case '@orientation_manager_rattachement_beneficiaire':
 				resetReferent();
 				resetBeneficiaryReorientation();
 				break;
@@ -177,15 +177,6 @@ function removeProfessionalAccount() {
 		`mutation removeUser {
 			delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
 			delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
-		}`
-	);
-}
-
-function removeBeneficiaryLink() {
-	I.sendMutation(
-		`mutation ResetReferent {
-			delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
-			insert_notebook_member_one(object: { notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", accountId:"17434464-5f69-40cc-8172-40160958a33d" }) { id }
 		}`
 	);
 }

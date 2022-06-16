@@ -3,7 +3,6 @@
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
-	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
@@ -37,7 +36,6 @@
 			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
-			<th class="text-left">Structure</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
 			<th class="!text-center">Voir le carnet</th>
@@ -45,9 +43,10 @@
 	</thead>
 	<tbody>
 		{#each beneficiaries as beneficiary}
-			{@const referents = beneficiary.notebook.members.filter(
-				(member) => member.account.type === RoleEnum.Professional
-			)}
+			{@const referents =
+				beneficiary?.notebook.members.filter(
+					(member) => member.account.type === RoleEnum.Professional
+				) ?? []}
 			<tr>
 				<td class="align-middle">
 					<div class={`fr-checkbox-group bottom-3 left-3`}>
@@ -66,29 +65,16 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
-					{#if beneficiary.structures.length > 0}
-						{beneficiary.structures[0].structure.name}
-						{#if beneficiary.structures.length > 1}
-							<span>
-								et {beneficiary.structures.length - 1}
-								{pluralize('structure', beneficiary.structures.length - 1)}
-							</span>
-						{/if}
-					{:else}
-						-
-					{/if}
-				</td>
-				<td>
-					{#if referents.length > 0}
+					{#if referents.length > 0 || beneficiary.structures.length > 0}
 						<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
-							{displayFullName(referents[0].account?.professional)}
+							{#if beneficiary.structures.length > 0}
+								{beneficiary.structures[0].structure.name}
+							{/if}
+
+							{#if referents.length > 0}
+								- {displayFullName(referents[0].account?.professional)}
+							{/if}
 						</button>
-						{#if referents.length > 1}
-							<span>
-								et {referents.length - 1}
-								{pluralize('référent', referents.length - 1)}
-							</span>
-						{/if}
 					{:else}
 						<button
 							href="#"
