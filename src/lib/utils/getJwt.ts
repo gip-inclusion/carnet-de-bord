@@ -6,7 +6,14 @@ import jwt from 'jsonwebtoken';
 
 export type JwtAccount = Pick<
 	Account,
-	'id' | 'type' | 'username' | 'managerId' | 'beneficiaryId' | 'adminStructureId' | 'professionalId'
+	| 'id'
+	| 'type'
+	| 'username'
+	| 'managerId'
+	| 'beneficiaryId'
+	| 'adminStructureId'
+	| 'professionalId'
+	| 'orientationManagerId'
 > & { deploymentId: string };
 
 export type JwtPayload = {
@@ -17,6 +24,7 @@ export type JwtPayload = {
 	deploymentId?: string;
 	managerId?: string;
 	adminStructureId?: string;
+	orientationManagerId?: string;
 };
 
 export type HasuraClaims = {
@@ -27,12 +35,21 @@ export type HasuraClaims = {
 	'x-hasura-beneficiary-id'?: string;
 	'x-hasura-manager-id'?: string;
 	'x-hasura-adminStructure-id'?: string;
+	'x-hasura-orientationManager-id'?: string;
 	'x-hasura-deployment-id'?: string;
 };
 
 export function createJwt(account: JwtAccount): string {
-	const { id, type, managerId, professionalId, beneficiaryId, deploymentId, adminStructureId } =
-		account;
+	const {
+		id,
+		type,
+		managerId,
+		professionalId,
+		beneficiaryId,
+		deploymentId,
+		adminStructureId,
+		orientationManagerId,
+	} = account;
 
 	const signOptions: SignOptions = {
 		algorithm: 'HS256',
@@ -49,6 +66,7 @@ export function createJwt(account: JwtAccount): string {
 		...(deploymentId && { deploymentId }),
 		...(managerId && { managerId }),
 		...(adminStructureId && { adminStructureId }),
+		...(orientationManagerId && { orientationManagerId }),
 	};
 
 	const { key } = getJwtKey();
@@ -58,8 +76,16 @@ export function createJwt(account: JwtAccount): string {
 }
 
 function getHasuraClaims(account: JwtAccount): HasuraClaims {
-	const { id, type, managerId, professionalId, beneficiaryId, deploymentId, adminStructureId } =
-		account;
+	const {
+		id,
+		type,
+		managerId,
+		professionalId,
+		beneficiaryId,
+		deploymentId,
+		adminStructureId,
+		orientationManagerId,
+	} = account;
 
 	return {
 		'x-hasura-allowed-roles': [type],
@@ -69,6 +95,7 @@ function getHasuraClaims(account: JwtAccount): HasuraClaims {
 		...(beneficiaryId && { 'x-hasura-beneficiary-id': `${beneficiaryId}` }),
 		...(managerId && { 'x-hasura-manager-id': `${managerId}` }),
 		...(adminStructureId && { 'x-hasura-adminStructure-id': `${adminStructureId}` }),
+		...(orientationManagerId && { 'x-hasura-orientationManager-id': `${orientationManagerId}` }),
 		...(deploymentId && { 'x-hasura-deployment-id': `${deploymentId}` }),
 	};
 }

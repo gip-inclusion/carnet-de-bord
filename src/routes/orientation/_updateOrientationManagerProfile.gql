@@ -1,0 +1,31 @@
+mutation UpdateOrientationManagerProfile(
+  $firstname: String!
+  $lastname: String!
+  $email: citext!
+  $phoneNumbers: String
+  $id: uuid!
+  $accountId: uuid!
+) {
+  updateOrientationManager: update_orientation_manager_by_pk(
+    _set: { firstname: $firstname, lastname: $lastname, email: $email, phoneNumbers: $phoneNumbers }
+    pk_columns: { id: $id }
+  ) {
+    id
+  }
+  updateAccount: update_account_by_pk(
+    pk_columns: { id: $accountId }
+    _set: { onboardingDone: true }
+  ) {
+    id
+    onboardingDone
+    confirmed
+    username
+    orientation_manager {
+      id
+      firstname
+      lastname
+      email
+      phoneNumbers
+    }
+  }
+}

@@ -5,7 +5,9 @@ export type ConnectedUser =
 	| ConnectedPro
 	| ConnectedAdminStructure
 	| ConnectedManager
-	| ConnectedBeneficiary;
+	| ConnectedBeneficiary
+	| ConnectedAdmin
+	| ConnectedOrientationManager;
 
 type BaseConnectedUser = {
 	id: string;
@@ -30,6 +32,12 @@ export type ConnectedAdminStructure = BaseConnectedUser & {
 	phoneNumbers: string;
 };
 
+export type ConnectedOrientationManager = BaseConnectedUser & {
+	type: 'orientationManager';
+	email: string;
+	phoneNumbers: string;
+};
+
 export type ConnectedManager = BaseConnectedUser & {
 	type: 'manager';
 	email: string;
@@ -39,6 +47,11 @@ export type ConnectedBeneficiary = BaseConnectedUser & {
 	type: 'beneficiary';
 	email: string;
 	mobileNumber: string;
+};
+
+export type ConnectedAdmin = BaseConnectedUser & {
+	type: 'adminCdb';
+	email: string;
 };
 
 export const account: Writable<null | ConnectedUser> = writable(null);
