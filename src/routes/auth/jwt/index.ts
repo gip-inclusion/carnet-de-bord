@@ -68,9 +68,11 @@ export const post: RequestHandler = async ({ request }) => {
 		managerId,
 		professionalId,
 		adminStructureId,
+		orientationManagerId,
 		professional,
 		manager,
-		admin_structure: adminStructure,
+		adminStructure,
+		orientationManager,
 	} = data.account[0];
 	let deploymentId = null;
 	if (professional) {
@@ -79,6 +81,8 @@ export const post: RequestHandler = async ({ request }) => {
 		deploymentId = manager.deploymentId;
 	} else if (adminStructure) {
 		deploymentId = adminStructure.deploymentId;
+	} else if (orientationManager) {
+		deploymentId = orientationManager.deploymentId;
 	}
 
 	const token = createJwt({
@@ -90,6 +94,7 @@ export const post: RequestHandler = async ({ request }) => {
 		beneficiaryId,
 		deploymentId,
 		adminStructureId,
+		orientationManagerId,
 	});
 
 	await client

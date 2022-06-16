@@ -78,6 +78,7 @@ export const post: RequestHandler = async ({ request }) => {
 					{ manager: { email: { _eq: username } } },
 					{ admin: { email: { _eq: username } } },
 					{ admin_structure: { email: { _eq: username } } },
+					{ orientation_manager: { email: { _eq: username } } },
 				],
 			},
 		})
@@ -131,8 +132,10 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 
-	const { id, beneficiary, manager, admin, professional, admin_structure } = account;
-	const user = beneficiary || manager || admin || professional || admin_structure;
+	const { id, beneficiary, manager, admin, professional, admin_structure, orientation_manager } =
+		account;
+	const user =
+		beneficiary || manager || admin || professional || admin_structure || orientation_manager;
 
 	const result = await updateAccessKey(client, id);
 
