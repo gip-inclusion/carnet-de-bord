@@ -1,0 +1,133 @@
+table:
+  schema: public
+  name: beneficiary_info
+configuration:
+  custom_root_fields: {}
+  custom_column_names:
+    beneficiary_id: beneficiaryId
+    updated_at: updatedAt
+    created_at: createdAt
+object_relationships:
+  - name: beneficiary
+    using:
+      foreign_key_constraint_on: beneficiary_id
+  - name: orientation_type
+    using:
+      foreign_key_constraint_on: orientation
+insert_permissions:
+  - role: manager
+    permission:
+      check:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      columns:
+        - beneficiary_id
+        - orientation
+      backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      columns:
+        - beneficiary_id
+        - orientation
+      backend_only: false
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - orientation
+        - created_at
+        - updated_at
+        - beneficiary_id
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - orientation
+        - created_at
+        - updated_at
+        - beneficiary_id
+      filter:
+        _or:
+          - beneficiary:
+              structures:
+                structure:
+                  admins:
+                    admin_structure_id:
+                      _eq: X-Hasura-AdminStructure-Id
+          - beneficiary:
+              notebook:
+                members:
+                  account:
+                    professional:
+                      structure:
+                        admins:
+                          admin_structure_id:
+                            _eq: X-Hasura-AdminStructure-Id
+  - role: beneficiary
+    permission:
+      columns:
+        - orientation
+        - created_at
+        - updated_at
+        - beneficiary_id
+      filter:
+        beneficiary:
+          id:
+            _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - orientation
+        - created_at
+        - updated_at
+        - beneficiary_id
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  - role: orientation_manager
+    permission:
+      columns:
+        - beneficiary_id
+        - orientation
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  - role: professional
+    permission:
+      columns:
+        - orientation
+        - created_at
+        - updated_at
+        - beneficiary_id
+      filter:
+        beneficiary:
+          notebook:
+            members:
+              account_id:
+                _eq: X-Hasura-User-Id
+update_permissions:
+  - role: manager
+    permission:
+      columns:
+        - orientation
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: orientation_manager
+    permission:
+      columns:
+        - orientation
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      check: null

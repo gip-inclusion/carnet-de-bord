@@ -7,6 +7,7 @@
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 	import AddOrientationManagerForm from './AddOrientationManagerForm.svelte';
+	import AddOrientationForm from './AddOrientationForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
@@ -34,6 +35,15 @@
 		});
 	}
 
+	function openOrientationLayer(beneficiary: Beneficiary) {
+		openComponent.open({
+			component: AddOrientationForm,
+			props: {
+				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				orientation_type: beneficiary.beneficiaryInfo?.orientation_type.id ?? null,
+			},
+		});
+	}
 	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
 
 	function updateSelection(beneficiary: Beneficiary) {
@@ -48,6 +58,7 @@
 			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
+			<th class="text-left">Orientation</th>
 			<th class="text-left">Chargé d'orientation</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
@@ -80,6 +91,21 @@
 				</td>
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
+				<td>
+					{#if beneficiary.beneficiaryInfo}
+						<button
+							class="fr-tag fr-tag-sm  fr-tag--yellow-tournesol"
+							on:click={() => openOrientationLayer(beneficiary)}
+							>{beneficiary.beneficiaryInfo.orientation_type.label}
+						</button>
+					{:else}
+						<button
+							class="fr-tag fr-tag-sm  fr-tag--purple-glycine"
+							on:click={() => openOrientationLayer(beneficiary)}
+							>À orienter
+						</button>
+					{/if}
+				</td>
 				<td>
 					{#if orientationManager}
 						<button

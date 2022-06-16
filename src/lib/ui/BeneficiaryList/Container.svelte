@@ -56,7 +56,10 @@
 			limit: pageSize,
 			withMembers: getWithMemberFilter(filter),
 		},
-		{ additionalTypenames: ['beneficiary', 'notebook_member'], requestPolicy: 'cache-and-network' }
+		{
+			additionalTypenames: ['beneficiary', 'notebook_member', 'beneficiary_info'],
+			requestPolicy: 'cache-and-network',
+		}
 	);
 
 	query(result);
