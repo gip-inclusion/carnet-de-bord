@@ -312,3 +312,6 @@ INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', NULL, NULL);
 
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'db78bfd9-aedb-4220-bf0a-f62b0528e5bf', '2021-09-21 13:06:45.076+00', 'referent');
+
+INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('607cb6f8-9e33-4ce8-98b1-38e60c9dda99', 'giulia.diaby@cd93.fr', 'Diaby', 'Giulia', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'giulia.diaby', 'orientation_manager', '607cb6f8-9e33-4ce8-98b1-38e60c9dda99', true, false);
