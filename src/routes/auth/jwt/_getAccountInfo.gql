@@ -1,22 +1,26 @@
 query GetAccountInfo($accessKey: String!) {
-	account(where: { accessKey: { _eq: $accessKey } }) {
-		id
-		type
-		username
-		beneficiaryId
-		professionalId
-		managerId
-		adminStructureId
-		professional {
-			structure {
-				deploymentId
-			}
-		}
-		manager {
-			deploymentId
-		}
-		admin_structure {
-			deploymentId
-		}
-	}
+  account(where: { accessKey: { _eq: $accessKey } }) {
+    id
+    type
+    username
+    beneficiaryId
+    professionalId
+    managerId
+    adminStructureId
+    orientationManagerId
+    professional {
+      structure {
+        deploymentId
+      }
+    }
+    manager {
+      deploymentId
+    }
+    adminStructure: admin_structure {
+      deploymentId
+    }
+    orientationManager: orientation_manager {
+      deploymentId
+    }
+  }
 }

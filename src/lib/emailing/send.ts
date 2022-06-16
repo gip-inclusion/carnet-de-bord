@@ -31,6 +31,10 @@ export function send({
 	html,
 	bcc,
 }: Mail.Options): Promise<SMTPTransport.SentMessageInfo> {
+	if (!smtpConfig.host) {
+		console.log('send mail', to, subject);
+		return Promise.resolve(null);
+	}
 	const transporter = nodemailer.createTransport(smtpConfig);
 	const mailOptions = {
 		bcc,

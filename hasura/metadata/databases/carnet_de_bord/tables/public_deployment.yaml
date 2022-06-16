@@ -75,6 +75,16 @@ select_permissions:
         id:
           _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - created_at
+        - id
+        - label
+        - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-Deployment-Id
   - role: manager
     permission:
       columns:
@@ -87,6 +97,16 @@ select_permissions:
         id:
           _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - created_at
+        - id
+        - label
+        - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:

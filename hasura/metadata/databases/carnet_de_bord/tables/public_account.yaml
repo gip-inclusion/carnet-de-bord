@@ -243,6 +243,35 @@ select_permissions:
           - orientation_manager:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
+  - role: orientation_manager
+    permission:
+      columns:
+        - access_key
+        - access_key_date
+        - beneficiary_id
+        - confirmed
+        - created_at
+        - id
+        - last_login
+        - onboarding_done
+        - orientation_manager_id
+        - professional_id
+        - type
+        - updated_at
+        - username
+      filter:
+        _or:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+          - orientation_manager:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
   - role: professional
     permission:
       columns:
@@ -317,6 +346,15 @@ update_permissions:
               structure:
                 deployment_id:
                   _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: orientation_manager
+    permission:
+      columns:
+        - last_login
+        - onboarding_done
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
       check: null
   - role: professional
     permission:

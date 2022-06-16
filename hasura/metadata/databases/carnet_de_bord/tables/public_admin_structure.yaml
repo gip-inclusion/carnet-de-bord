@@ -109,6 +109,21 @@ select_permissions:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:

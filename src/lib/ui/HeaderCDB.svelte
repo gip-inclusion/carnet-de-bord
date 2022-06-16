@@ -25,7 +25,7 @@
 	<li slot="quickAccessRight">
 		{#if $session.user}
 			<MenuButton label="Mon compte" icon="fr-fi-account-line">
-				{#if ['manager', 'professional', 'admin_structure'].includes($session.user.role)}
+				{#if ['manager', 'professional', 'admin_structure', 'orientation_manager'].includes($session.user.role)}
 					<MenuListItem href={`${baseUrlForRole($session.user.role)}/moncompte`}>
 						Mon Compte
 					</MenuListItem>
