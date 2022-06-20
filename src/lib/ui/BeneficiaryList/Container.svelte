@@ -3,11 +3,12 @@
 
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		BeneficiaryBoolExp,
 		GetBeneficiariesDocument,
-		GetBeneficiariesQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+
 	import { operationStore, query } from '@urql/svelte';
 	import { getContext, onDestroy } from 'svelte';
 	import Pagination from '../Pagination.svelte';
