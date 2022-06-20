@@ -18,7 +18,10 @@
 			component: AddStructureProfessionnalForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member: beneficiary.notebook.members[0]?.account.id ?? null,
+				member:
+					beneficiary.notebook.members.filter(
+						({ account }) => account.type === RoleEnum.OrientationManager
+					)[0]?.account.id ?? null,
 				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
 				showResetMembers: beneficiary.notebook.members.length > 0,
 			},
@@ -71,7 +74,7 @@
 				beneficiary?.notebook.members.filter(
 					(member) => member.account.type === RoleEnum.Professional
 				) ?? []}
-			{@const orientationManager = beneficiary.notebook.members.filter(
+			{@const orientationManager = beneficiary?.notebook.members.filter(
 				(member) => member.account.type === RoleEnum.OrientationManager
 			)[0]}
 			<tr>
@@ -79,7 +82,7 @@
 					<div class={`fr-checkbox-group bottom-3 left-3`}>
 						<input
 							type="checkbox"
-							checked={$selectionStore[beneficiary.notebook.id] ? true : false}
+							checked={$selectionStore[beneficiary?.notebook.id] ? true : false}
 							on:change={() => updateSelection(beneficiary)}
 							id={beneficiary.id}
 							name="selection"
@@ -112,11 +115,7 @@
 							class="fr-tag fr-tag-sm"
 							on:click={() => openOrientationManagerLayer(beneficiary)}
 						>
-							{displayFullName(
-								beneficiary.notebook.members.filter(
-									(member) => member.account.type === RoleEnum.OrientationManager
-								)[0].account?.orientation_manager
-							)}
+							{displayFullName(orientationManager.account.orientation_manager)}
 						</button>
 					{:else}
 						<button
@@ -136,7 +135,7 @@
 							{/if}
 
 							{#if referents.length > 0}
-								- {displayFullName(referents[0].account?.professional)}
+								- {displayFullName(referents[0].account.professional)}
 							{/if}
 						</button>
 					{:else}
@@ -151,7 +150,7 @@
 				</td>
 				<td>
 					{#if beneficiary.notebook.members.length > 0}
-						{formatDateLocale(beneficiary.notebook?.members[0].createdAt)}
+						{formatDateLocale(beneficiary.notebook.members[0].createdAt)}
 					{:else}
 						-
 					{/if}
