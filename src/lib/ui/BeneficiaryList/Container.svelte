@@ -3,11 +3,12 @@
 
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		BeneficiaryBoolExp,
 		GetBeneficiariesDocument,
-		GetBeneficiariesQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+
 	import { operationStore, query } from '@urql/svelte';
 	import { getContext, onDestroy } from 'svelte';
 	import Pagination from '../Pagination.svelte';
@@ -56,7 +57,10 @@
 			limit: pageSize,
 			withMembers: getWithMemberFilter(filter),
 		},
-		{ additionalTypenames: ['beneficiary', 'notebook_member'], requestPolicy: 'cache-and-network' }
+		{
+			additionalTypenames: ['beneficiary', 'notebook_member', 'beneficiary_info'],
+			requestPolicy: 'cache-and-network',
+		}
 	);
 
 	query(result);
