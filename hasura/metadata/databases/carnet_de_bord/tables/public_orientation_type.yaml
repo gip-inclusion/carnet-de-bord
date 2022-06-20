@@ -1,0 +1,49 @@
+table:
+  schema: public
+  name: orientation_type
+is_enum: true
+array_relationships:
+  - name: beneficiary_infos
+    using:
+      foreign_key_constraint_on:
+        column: orientation
+        table:
+          schema: public
+          name: beneficiary_info
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: manager
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: professional
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}

@@ -19,6 +19,12 @@ query GetBeneficiaries(
     id
     firstname
     lastname
+    beneficiaryInfo {
+      orientation_type {
+        id
+        label
+      }
+    }
     structures {
       structure {
         id

@@ -1,0 +1,6 @@
+query getOrientationType {
+  orientation_type {
+    id
+    label
+  }
+}
