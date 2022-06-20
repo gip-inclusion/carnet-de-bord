@@ -28,6 +28,21 @@ insert_permissions:
         - status
       backend_only: false
 select_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - account_id
+        - date
+        - status
+        - created_at
+        - updated_at
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:

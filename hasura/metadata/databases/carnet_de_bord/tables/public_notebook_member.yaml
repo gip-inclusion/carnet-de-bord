@@ -71,6 +71,19 @@ insert_permissions:
         - notebook_id
         - account_id
       backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      columns:
+        - account_id
+        - active
+        - member_type
+        - notebook_id
+      backend_only: false
   - role: professional
     permission:
       check: {}
@@ -153,6 +166,24 @@ select_permissions:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - account_id
+        - last_visited_at
+        - member_type
+        - last_modified_at
+        - created_at
+        - creator_id
+        - invitation_sent_at
+        - active
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:
@@ -203,6 +234,17 @@ update_permissions:
                   _eq: X-Hasura-AdminStructure-Id
       check: null
   - role: manager
+    permission:
+      columns:
+        - active
+        - member_type
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: orientation_manager
     permission:
       columns:
         - active

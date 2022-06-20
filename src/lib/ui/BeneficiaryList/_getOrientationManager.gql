@@ -1,0 +1,11 @@
+query GetOrientationManager {
+  orientation_manager {
+    account {
+      id
+    }
+    id
+    firstname
+    lastname
+    email
+  }
+}

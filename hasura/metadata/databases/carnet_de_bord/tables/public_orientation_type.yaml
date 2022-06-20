@@ -1,63 +1,49 @@
 table:
   schema: public
-  name: rome_code
+  name: orientation_type
+is_enum: true
 array_relationships:
-  - name: wanted_by
+  - name: beneficiary_infos
     using:
       foreign_key_constraint_on:
-        column: rome_code_id
+        column: orientation
         table:
           schema: public
-          name: wanted_job
-insert_permissions:
-  - role: professional
+          name: beneficiary_info
+select_permissions:
+  - role: admin_cdb
     permission:
-      check: {}
       columns:
         - id
-        - code
-        - description
         - label
-      backend_only: false
-select_permissions:
+      filter: {}
   - role: admin_structure
     permission:
       columns:
-        - code
-        - description
-        - label
         - id
+        - label
       filter: {}
-      allow_aggregations: true
   - role: beneficiary
     permission:
       columns:
         - id
-        - code
-        - description
         - label
       filter: {}
   - role: manager
     permission:
       columns:
         - id
-        - code
-        - description
         - label
       filter: {}
   - role: orientation_manager
     permission:
       columns:
         - id
-        - code
-        - description
         - label
       filter: {}
   - role: professional
     permission:
       columns:
         - id
-        - code
-        - description
         - label
       filter: {}
