@@ -20,7 +20,7 @@
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
 				member:
 					beneficiary.notebook.members.filter(
-						({ account }) => account.type === RoleEnum.OrientationManager
+						({ account }) => account.type === RoleEnum.Professional
 					)[0]?.account.id ?? null,
 				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
 				showResetMembers: beneficiary.notebook.members.length > 0,
@@ -33,7 +33,10 @@
 			component: AddOrientationManagerForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member: beneficiary.notebook.members[0]?.account.id ?? null,
+				member:
+					beneficiary.notebook.members.filter(
+						({ account }) => account.type === RoleEnum.OrientationManager
+					)[0]?.account.id ?? null,
 			},
 		});
 	}
