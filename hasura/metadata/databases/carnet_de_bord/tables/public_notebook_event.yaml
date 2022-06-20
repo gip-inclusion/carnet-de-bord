@@ -63,6 +63,21 @@ select_permissions:
         - creator_id
       filter: {}
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - creation_date
+        - event_date
+        - creator_id
+        - event
+        - event_type
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:

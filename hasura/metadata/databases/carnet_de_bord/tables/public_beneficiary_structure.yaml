@@ -32,6 +32,22 @@ insert_permissions:
         - status
         - structure_id
       backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      columns:
+        - beneficiary_id
+        - data
+        - status
+        - structure_id
+      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:
@@ -72,6 +88,24 @@ select_permissions:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - status
+        - data
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+        - structure_id
+      filter:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
 update_permissions:
   - role: admin_structure
     permission:
@@ -103,8 +137,32 @@ update_permissions:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
       check: null
+  - role: orientation_manager
+    permission:
+      columns:
+        - data
+        - status
+      filter:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      check: null
 delete_permissions:
   - role: manager
+    permission:
+      filter:
+        _and:
+          - beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+  - role: orientation_manager
     permission:
       filter:
         _and:

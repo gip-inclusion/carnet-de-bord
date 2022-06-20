@@ -254,6 +254,33 @@ select_permissions:
           deployment_id:
             _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - beneficiary_id
+        - created_at
+        - right_rsa
+        - right_rqth
+        - right_are
+        - right_ass
+        - right_bonus
+        - geographical_area
+        - education_level
+        - work_situation_date
+        - contract_type
+        - contract_sign_date
+        - work_situation
+        - updated_at
+        - work_situation_end_date
+        - contract_start_date
+        - contract_end_date
+      computed_fields:
+        - nbMembers
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:

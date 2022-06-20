@@ -49,4 +49,4 @@
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
 <h1>Bénéficiaires</h1>
-<Container withStructureEdit {filter} {search} {currentPage} />
+<Container listType="manager" {filter} {search} {currentPage} />

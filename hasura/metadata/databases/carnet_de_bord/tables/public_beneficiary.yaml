@@ -24,6 +24,13 @@ object_relationships:
         insertion_order: null
         column_mapping:
           id: beneficiary_id
+  - name: beneficiaryInfo
+    using:
+      foreign_key_constraint_on:
+        column: beneficiary_id
+        table:
+          schema: public
+          name: beneficiary_info
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
@@ -230,6 +237,7 @@ select_permissions:
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
   - role: professional
     permission:
       columns:
