@@ -15,6 +15,6 @@ Fonctionnalité: Assignation d'un chargé d'orientation
 		Quand je clique sur "Non assigné"
 		Alors je vois "Assigner un chargé d'orientation"
 		Alors j'attends que le texte "Veuillez sélectionner le chargé d'orientation" apparaisse
-		Alors je selectionne l'option "Giulia Diaby" dans la liste "Nom du chargé d’orientation "
+		Alors je selectionne l'option "Giulia Diaby" dans la liste "Nom du chargé d’orientation"
 		Quand je clique sur "Assigner"
 		Alors je vois "Giulia Diaby" sur la ligne "Tifour"
