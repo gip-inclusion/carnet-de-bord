@@ -28,3 +28,4 @@ class Beneficiary(BaseModel):
     # BRSA users may not have an account
     # (account is created on the  first login attempt)
     account_id: UUID | None
+    deployment_id: UUID | None

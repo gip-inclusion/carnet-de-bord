@@ -10,6 +10,12 @@ class Settings(BaseSettings):
     database_url: str
     hasura_graphql_jwt_secret: str
 
+    PE_AUTH_BASE_URL: str = "https://entreprise.pole-emploi.fr"
+    PE_BASE_URL: str = "https://api.emploi-store.fr"
+    PE_SCOPE = "api_referentielagencesv1 organisationpe"
+    PE_CLIENT_ID: str
+    PE_CLIENT_SECRET: str
+
     smtp_host: str
     smtp_port: str
     smtp_user: str | None

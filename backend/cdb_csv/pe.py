@@ -1,4 +1,5 @@
 import logging
+from uuid import UUID
 
 import dask.dataframe as dd
 from asyncpg.connection import Connection
@@ -13,6 +14,7 @@ from api.db.crud.external_data import (
     update_external_data,
 )
 from api.db.crud.professional import get_professional_by_email, insert_professional
+from api.db.crud.structure import get_structure_by_name
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
@@ -25,8 +27,10 @@ from api.db.models.external_data import (
 )
 from api.db.models.notebook import Notebook
 from api.db.models.professional import Professional, ProfessionalInsert
+from api.db.models.structure import Structure
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
+from pe.pole_emploi_client import PoleEmploiApiClient
 
 FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT)
@@ -50,9 +54,17 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
         csv_row: PrincipalCsvRow = await map_principal_row(row)
 
         if csv_row.brsa:
-            await import_beneficiary(connection, csv_row, row["identifiant_unique_de"])
+            beneficiary: Beneficiary | None = await import_beneficiary(
+                connection, csv_row, row["identifiant_unique_de"]
+            )
 
-            await import_pe_referent(connection, csv_row, row["identifiant_unique_de"])
+            if beneficiary and beneficiary.deployment_id:
+                await import_pe_referent(
+                    connection,
+                    csv_row,
+                    row["identifiant_unique_de"],
+                    beneficiary.deployment_id,
+                )
         else:
             logging.info(
                 "{} - Skipping, BRSA field is No for".format(
@@ -62,16 +74,41 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
 
 
 async def import_pe_referent(
-    connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
-):
+    connection: Connection,
+    csv_row: PrincipalCsvRow,
+    pe_unique_id: str,
+    deployment_id: UUID,
+) -> Professional | None:
 
     professional: Professional | None = await get_professional_by_email(
         connection, csv_row.referent_mail
     )
+
+    client = PoleEmploiApiClient(
+        auth_base_url=settings.PE_AUTH_BASE_URL,
+        base_url=settings.PE_BASE_URL,
+        client_id=settings.PE_CLIENT_ID,
+        client_secret=settings.PE_CLIENT_SECRET,
+        scope=settings.PE_SCOPE,
+    )
+
+    agences = client.recherche_agences_pydantic("72", horaire=True, zonecompetence=True)
     if not professional:
-        # A professional with the same email doesn't already exist
         # @TODO: query PE API
         # await insert_professional(connection, ProfessionalInsert(…))
+        professional_insert = ProfessionalInsert(
+            structure_id=structure_id,
+            email=csv_row.referent_mail,
+            lastname=csv_row.referent_nom,
+            firstname=csv_row.referent_prenom,
+            mobile_number=None,
+            position=None,
+        )
+
+        # professional: Professional | None = await insert_professional(
+        # connection, professional_insert
+        # )
+        # return professional
         pass
     else:
         logging.info("{} - Professional already exists".format(pe_unique_id))
@@ -79,7 +116,7 @@ async def import_pe_referent(
 
 async def import_beneficiary(
     connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
-):
+) -> Beneficiary | None:
 
     beneficiary: Beneficiary | None = await get_beneficiary_from_personal_information(
         connection,
@@ -104,6 +141,8 @@ async def import_beneficiary(
 
         # Keep track of the data we want to insert
         await save_external_data(connection, beneficiary, csv_row)
+
+        return beneficiary
     else:
         logging.info(
             "{} - No matching beneficiary with notebook found".format(pe_unique_id)
