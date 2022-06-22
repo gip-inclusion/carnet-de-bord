@@ -78,7 +78,7 @@ class PoleEmploiApiClient:
     def _headers(self) -> dict:
         return {"Authorization": self.token, "Content-Type": "application/json"}
 
-    def _get_request(self, url: str, params: dict) -> dict:
+    def _get_request(self, url: str, params: dict):
         try:
             self._refresh_token()
             response = httpx.get(
@@ -313,5 +313,5 @@ class PoleEmploiApiClient:
         return data
 
     def recherche_agences_pydantic(self, *args, **kwargs) -> List[Agence]:
-        agences: dict = self.recherche_agences(*args, **kwargs)
+        agences: List[dict] = self.recherche_agences(*args, **kwargs)
         return [Agence.parse_obj(agence) for agence in agences]
