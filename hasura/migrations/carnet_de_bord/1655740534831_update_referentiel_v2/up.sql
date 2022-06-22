@@ -79,4 +79,4 @@ DELETE FROM public.ref_situation WHERE theme='emploi' AND description='Ne sais p
 DELETE FROM public.ref_situation WHERE theme='emploi' AND description='En projet de profession libérale';
 DELETE FROM public.ref_situation WHERE theme='formation' AND description='Prêt à en parler';
 DELETE FROM public.ref_situation WHERE theme='formation' AND description='Prêt pour un accompagnement';
-DELETE FROM public.ref_situation WHERE theme='logement' AND description='Autre';é
+DELETE FROM public.ref_situation WHERE theme='logement' AND description='Autre';
