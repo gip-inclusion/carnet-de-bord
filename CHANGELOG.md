@@ -1,3 +1,10 @@
+# [1.117.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.116.1...v1.117.0) (2022-06-22)
+
+
+### Features
+
+* update referentiel v2 ([#876](https://github.com/SocialGouv/carnet-de-bord/issues/876)) ([670fa76](https://github.com/SocialGouv/carnet-de-bord/commit/670fa76007514442966e24753b2a9ba6ad4b0626))
+
 ## [1.116.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.116.0...v1.116.1) (2022-06-20)
 
 
