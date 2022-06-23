@@ -1,3 +1,10 @@
+# [1.118.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.117.0...v1.118.0) (2022-06-23)
+
+
+### Features
+
+* **ci:** add persistent cronjob volume ([#885](https://github.com/SocialGouv/carnet-de-bord/issues/885)) ([951d0f7](https://github.com/SocialGouv/carnet-de-bord/commit/951d0f7b93d3f52f7aa38832a411062f6698bfb5))
+
 # [1.117.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.116.1...v1.117.0) (2022-06-22)
 
 
