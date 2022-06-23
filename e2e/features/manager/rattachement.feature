@@ -7,7 +7,7 @@ Fonctionnalité: Rattachement pro
 	Je veux pouvoir assigner de nouveaux référents aux bénéficiaires
 
 	Scénario: Modifier le rattachement d'un bénéficiaire
-		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je recherche "tif"
@@ -24,7 +24,7 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "Groupe NS" sur la ligne "Tifour"
 
 	Scénario: Ré-orienter des bénéficiaires
-		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je clique sur "Sélectionner Corinne Cash"

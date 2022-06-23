@@ -7,7 +7,7 @@ Fonctionnalité: Parcours Admin CdB
 	Je veux pouvoir créer un déploiement et l'attribuer à un Manager
 
 	Scénario: Création d'un déploiement
-		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
+		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
 		Alors je vois "Liste des déploiements"
 		Alors je clique sur "Ajouter un Déploiement"
 		Alors je renseigne "expérimentation e2e" dans le champ "Nom du déploiement"

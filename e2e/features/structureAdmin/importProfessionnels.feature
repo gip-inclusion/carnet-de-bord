@@ -7,7 +7,7 @@ Fonctionnalité: Import de professionnels
 	Je veux pouvoir importer une liste de professionnels au format CSV
 
 	Scénario: Import liste de professionnels
-		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@beta.gouv.fr"
+		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Alors je vois "Ma structure"
 		Alors je vois "Saint Denis"
 		Alors je vois "Centre Communal d'action social Livry-Gargan"
