@@ -14,13 +14,32 @@ object_relationships:
     using:
       foreign_key_constraint_on: notebook_id
 insert_permissions:
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      columns:
+        - account_id
+        - date
+        - notebook_id
+        - status
+      backend_only: false
   - role: professional
     permission:
       check:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       columns:
         - account_id
         - date
@@ -54,9 +73,26 @@ select_permissions:
       filter:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
 update_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - date
+        - status
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      check: null
   - role: professional
     permission:
       columns:
@@ -65,6 +101,9 @@ update_permissions:
       filter:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       check: null

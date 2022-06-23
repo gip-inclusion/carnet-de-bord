@@ -15,7 +15,8 @@
 	const getAccountStore = operationStore(GetAccountByPkDocument, { accountId: $session?.user?.id });
 	query(getAccountStore);
 
-	$: professional = $getAccountStore?.data?.account_by_pk?.professional;
+	$: accountInfo = $getAccountStore?.data?.account_by_pk;
+
 	function editAccount() {
 		openComponent.open({
 			component: ProAccountEdit,
@@ -41,7 +42,11 @@
 		</p>
 	{/if}
 	{#if professional}
-		<ProWithStructureView {professional} proFirst={true} mainTitle="Informations personnelles" />
+		<ProWithStructureView
+			account={accountInfo}
+			proFirst={true}
+			mainTitle="Informations personnelles"
+		/>
 	{/if}
 	<div>
 		<Button on:click={editAccount} outline={true}>Mettre à jour</Button>

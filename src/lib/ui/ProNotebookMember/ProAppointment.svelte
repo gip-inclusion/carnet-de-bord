@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Pro } from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
 	import { Button } from '$lib/ui/base/index';
 	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
 	import {
@@ -7,7 +6,6 @@
 		GetNotebookAppointmentsDocument,
 		GetNotebookAppointmentsQuery,
 		GetNotebookAppointmentsQueryVariables,
-		GetNotebookQuery,
 		UpdateNotebookAppointmentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { AppointmentUI } from '$lib/models/Appointment';
@@ -19,12 +17,10 @@
 	import { jsonCopy } from '$lib/helpers';
 	import { LoaderIndicator } from '$lib/ui/utils/index';
 	import { onDestroy } from 'svelte';
+	import type { Member } from './ProNotebookMemberView.svelte';
 
-	type Member = GetNotebookQuery['notebook']['members'][0];
-
-	export let professional: Pro;
-	export let notebookId: string;
 	export let member: Member;
+	export let notebookId: string;
 
 	const getAppointmentStore = operationStore(
 		GetNotebookAppointmentsDocument,
