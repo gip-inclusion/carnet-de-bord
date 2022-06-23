@@ -45,5 +45,5 @@ Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la 
 | jean.poiret | eanpoiret@mission-locale.fr | Interlogement 93 | non |
 
 ## Compte de bénéficiaire (role: beneficiary)
-| username | email | structure | onboarding |
+| username | email | onboarding |
 | - | stifour93@yahoo.fr |  oui |
