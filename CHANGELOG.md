@@ -1,3 +1,10 @@
+# [1.119.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.118.0...v1.119.0) (2022-06-23)
+
+
+### Features
+
+* **pe:** wiring up pe-parse script ([52ee3d8](https://github.com/SocialGouv/carnet-de-bord/commit/52ee3d8ea0fa74c385ba2cf80c14640a760e8dd0))
+
 # [1.118.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.117.0...v1.118.0) (2022-06-23)
 
 
