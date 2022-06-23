@@ -22,5 +22,7 @@ openssl smime -decrypt -in actions -binary -inform DEM -inkey pe_file.pem -out a
 echo "fichier principal: $(wc -l principal.csv) lignes"
 echo "fichier actions: $(wc -l actions.csv) lignes"
 
-rm principal.csv
-rm actions.csv
+cp principal.csv /mnt/pefiles
+cp actions.csv /mnt/pefiles
+
+poetry run python scripts/parse_csv_pe.py principal-file /mnt/pefiles/principal.csv
