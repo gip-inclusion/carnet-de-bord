@@ -18,6 +18,10 @@ spec:
           name: pe-cronjob
         spec:
           restartPolicy: OnFailure
+          volumes:
+            - name: pefiles
+              persistentVolumeClaim:
+                claimName: pefiles
           containers:
             - name: cronjob-container
               image: ghcr.io/socialgouv/carnet-de-bord/backend:{{ .Values.global.imageTag }}
@@ -27,8 +31,13 @@ spec:
               envFrom:
                 - secretRef:
                     name: backend-sealed-secret
+                - secretRef:
+                    name: cronjob-storage
                 - configMapRef:
                     name: backend-configmap
               env:
                 - name: hello
                   value: world
+              volumeMounts:
+                - mountPath: /mnt/pefiles
+                  name: pefiles
