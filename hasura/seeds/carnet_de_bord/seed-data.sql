@@ -34,7 +34,7 @@ TRUNCATE public.account CASCADE;
 SET check_function_bodies = false;
 
 
-INSERT INTO public.admin_cdb (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Carnet de Bord', 'Administrateur');
+INSERT INTO public.admin_cdb (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'support.carnet-de-bord+admin@fabrique.social.gouv.fr', 'Carnet de Bord', 'Administrateur');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', 'admin', 'admin_cdb', NULL, NULL, '2021-09-21 12:25:55.822+00', NULL, NULL, 'a81bc81a-dead-4e5d-abff-90865d1e13b7', true, false);
 INSERT INTO public.deployment (id, label) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93');
 INSERT INTO public.deployment (id, label, config) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51', '{"url": "http://localhost:3000/api/test", "headers": {"token":"azerty"}, "callback": "/api/marne" }');
@@ -266,17 +266,17 @@ INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('07a24076-
 
 
 -- Other account and notebook data
-INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('c2a346cd-b3dd-4892-a33d-7ada82654f97', 'vincent.timaitre@beta.gouv.fr', 'Vincent', 'Timaitre', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('c2a346cd-b3dd-4892-a33d-7ada82654f97', 'vincent.timaitre@groupe-ns.fr', 'Vincent', 'Timaitre', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('1a19d72c-7fb1-4cdb-aa47-853b83239c98', 'vincent.timaitre', 'admin_structure', 'c2a346cd-b3dd-4892-a33d-7ada82654f97', true, true);
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('3b1082e7-7ccd-4857-a4ae-924b5314b2e4', 'c2a346cd-b3dd-4892-a33d-7ada82654f97', '8b71184c-6479-4440-aa89-15da704cc792');
 
-INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('2b4b773a-a9e5-11ec-b909-0242ac120002', 'jacques.celaire@beta.gouv.fr', 'Jacques', 'Célaire', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('2b4b773a-a9e5-11ec-b909-0242ac120002', 'jacques.celaire@livry-gargan.fr', 'Jacques', 'Célaire', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('18f06321-3c45-4490-9c67-36277d4a828d', 'jacques.celaire', 'admin_structure', '2b4b773a-a9e5-11ec-b909-0242ac120002', true, false);
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('1e502686-0df9-48ac-85fc-909f464fc0d4', '2b4b773a-a9e5-11ec-b909-0242ac120002', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
 
-INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord+cd93@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94', 'manager.cd93', 'manager', '01a3d906-70d9-42e6-9b61-2ccf030e5d8f', true, true);
-INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'contact.carnet-de-bord@fabrique.social.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
+INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'support.carnet-de-bord+cd51@fabrique.social.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('3f4c5d95-b25c-4e18-a2c6-b394b8221c8f', 'manager.cd51', 'manager', 'cc32124d-f810-4193-a855-db76915ae7e4', true, false);
 
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('1a5b817b-6b81-4a4d-9953-26707a54e0e9', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pierre.chevalier@livry-gargan.fr', 'Chevalier', 'Pierre', 'Conseiller en insertion', '01 41 70 88 00');
@@ -287,7 +287,7 @@ INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('a501db53-1b79-4a60-860b-5972bd184f98', 'sanka', 'professional', NULL, NULL, NULL, NULL, '74323049-eae6-4ccd-b596-e95514a32781', NULL, true, true);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b3', 'a81bc81b-dead-4e5d-abff-90865d1e13b2', 'dunord@pole-emploi.fr', 'Dunord', 'Thierry', 'Conseiller pôle emploi', '');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8173-40160958a33d', 'thierry.dunord', 'professional', NULL, NULL, '2021-08-23 07:59:48.689+00', NULL, 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, true, true);
-INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'c0b8aee3-c061-4023-b57e-92880627d589', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('d211a3b8-346c-4f77-a570-bc1c9240e744', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'sandie.manchet@livry-gargan.fr', 'Manchet', 'Sandie', 'Conseillere sociale', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('6338f969-c881-41d7-9af8-9f5c92f7ac67', 'sandie.manchet', 'professional', 'd211a3b8-346c-4f77-a570-bc1c9240e744', true, false);

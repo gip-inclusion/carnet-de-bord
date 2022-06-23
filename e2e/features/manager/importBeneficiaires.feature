@@ -7,7 +7,7 @@ Fonctionnalité: Import de bénéficiaires
 	Je veux pouvoir importer une liste de bénéficiaires
 
 	Scénario: Import de bénéficiaires
-		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord@fabrique.social.gouv.fr"
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
 		Alors je vois "Importer des bénéficiaires"
 		Alors le lien "consulter la notice de remplissage" pointe sur "https://pad.incubateur.net/s/VSXZgm8fy#"
