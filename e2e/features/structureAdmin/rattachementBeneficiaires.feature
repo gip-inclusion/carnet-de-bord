@@ -40,7 +40,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je vois "Simon Anka" sur la ligne "Benjamin"
 
 	Scénario: Définir le référent d'un bénéficiaire
-		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@beta.gouv.fr"
+		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
 		Alors je vois "21" dans la tuile "Bénéficiaires non rattachés"

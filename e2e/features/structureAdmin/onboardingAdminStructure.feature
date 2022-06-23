@@ -11,7 +11,7 @@ Fonctionnalité: Onboarding administrateur de structure
 		Quand je vois "Création de mon compte Gestionnaire de structure"
 		Alors je vois "Jacques" dans le champ "Prénom"
 		Alors je vois "Célaire" dans le champ "Nom"
-		Alors je vois "jacques.celaire@beta.gouv.fr" dans le champ "Courriel"
+		Alors je vois "jacques.celaire@livry-gargan.fr" dans le champ "Courriel"
 		Alors je vois "0102030405" dans le champ "Numéros de téléphone"
 		Quand je clique sur "Créer mon compte"
 		Alors je vois "Votre compte a été créé avec succès"
