@@ -1,7 +1,10 @@
 from uuid import UUID
 
+import httpx
+import respx
 from asyncpg.connection import Connection
 
+from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
@@ -16,13 +19,39 @@ from cdb_csv.pe import (
     parse_principal_csv_with_db,
     save_external_data,
 )
+from pe.pole_emploi_client import PoleEmploiApiClient
+from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
 
 
+@respx.mock
 async def test_parse_principal_csv(
     pe_principal_csv_filepath: str,
     db_connection: Connection,
     beneficiary_sophie_tifour: Beneficiary,
 ):
+
+    client = PoleEmploiApiClient(
+        auth_base_url=settings.PE_AUTH_BASE_URL,
+        base_url=settings.PE_BASE_URL,
+        client_id=settings.PE_CLIENT_ID,
+        client_secret=settings.PE_CLIENT_SECRET,
+        scope=settings.PE_SCOPE,
+    )
+
+    respx.post(client.token_url).mock(
+        return_value=httpx.Response(
+            200,
+            json={
+                "token_type": "foo",
+                "access_token": "batman",
+                "expires_in": 3600,
+            },
+        )
+    )
+
+    respx.get(client.agences_url).mock(
+        return_value=httpx.Response(200, json=PE_API_AGENCES_RESULT_OK_MOCK)
+    )
 
     assert beneficiary_sophie_tifour.notebook is not None
     assert len(beneficiary_sophie_tifour.notebook.wanted_jobs) == 2

@@ -1,9 +1,11 @@
-from typing import List
+import logging
+from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
 
 from api.db.models.structure import Structure, StructureInsert
+from pe.models.agence import Agence
 
 
 def parse_structure_from_record(record: Record) -> Structure:
@@ -14,7 +16,6 @@ async def insert_structure(
     connection: Connection, structure_insert: StructureInsert
 ) -> Structure | None:
 
-    print(structure_insert.dict())
     record = await connection.fetchrow(
         """
         INSERT INTO public.structure (siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id)
@@ -50,4 +51,44 @@ async def get_structure_with_query(
         *args,
     )
 
-    return parse_structure_from_record(record)
+    if record:
+        return parse_structure_from_record(record)
+
+
+async def create_structure_from_agences_list(
+    connection: Connection, agences: list[Agence], label: str, deployment_id: UUID
+) -> Structure | None:
+
+    matching_agences: list[Agence] = [
+        agence for agence in agences if agence.libelle == label
+    ]
+
+    if len(matching_agences) == 0:
+        agence = None
+    else:
+        agence = matching_agences[0]
+
+    if agence:
+        postal_code, city = agence.adressePrincipale.ligne6.split(" ", 1)
+        structure_insert = StructureInsert(
+            siret=agence.siret,
+            name=agence.libelle,
+            short_desc=agence.libelleEtendu,
+            phone=agence.contact.telephonePublic,
+            email=agence.contact.email,
+            postal_code=postal_code,
+            city=city,
+            address1=agence.adressePrincipale.ligne4,
+            address2=agence.adressePrincipale.ligne5,
+            deployment_id=deployment_id,
+            website=None,
+        )
+
+        return await insert_structure(connection, structure_insert)
+    else:
+        logging.error(
+            "Agence '{}' in CSV not found in PE API response, unable to create structure. Skipping.- Professional already exists".format(
+                label
+            )
+        )
+        return

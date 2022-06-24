@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     PE_AUTH_BASE_URL: str = "https://entreprise.pole-emploi.fr"
     PE_BASE_URL: str = "https://api.emploi-store.fr"
     PE_SCOPE = "api_referentielagencesv1 organisationpe"
-    PE_CLIENT_ID: str
-    PE_CLIENT_SECRET: str
+    PE_CLIENT_ID: str = "CLIENT_ID"
+    PE_CLIENT_SECRET: str = "CLIENT_SECRET"
 
     smtp_host: str
     smtp_port: str

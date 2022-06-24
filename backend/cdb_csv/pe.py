@@ -14,7 +14,10 @@ from api.db.crud.external_data import (
     update_external_data,
 )
 from api.db.crud.professional import get_professional_by_email, insert_professional
-from api.db.crud.structure import get_structure_by_name
+from api.db.crud.structure import (
+    create_structure_from_agences_list,
+    get_structure_by_name,
+)
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
@@ -30,6 +33,7 @@ from api.db.models.professional import Professional, ProfessionalInsert
 from api.db.models.structure import Structure
 from api.db.models.wanted_job import WantedJob
 from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
+from pe.models.agence import Agence
 from pe.pole_emploi_client import PoleEmploiApiClient
 
 FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
@@ -80,24 +84,36 @@ async def import_pe_referent(
     deployment_id: UUID,
 ) -> Professional | None:
 
+    structure: Structure | None = await get_structure_by_name(
+        connection, csv_row.struct_principale
+    )
+
+    if not structure:
+        client = PoleEmploiApiClient(
+            auth_base_url=settings.PE_AUTH_BASE_URL,
+            base_url=settings.PE_BASE_URL,
+            client_id=settings.PE_CLIENT_ID,
+            client_secret=settings.PE_CLIENT_SECRET,
+            scope=settings.PE_SCOPE,
+        )
+
+        agences: list[Agence] = client.recherche_agences_pydantic(
+            csv_row.departement, horaire=False, zonecompetence=False
+        )
+
+        structure: Structure | None = await create_structure_from_agences_list(
+            connection, agences, csv_row.struct_principale, deployment_id
+        )
+
     professional: Professional | None = await get_professional_by_email(
         connection, csv_row.referent_mail
     )
 
-    client = PoleEmploiApiClient(
-        auth_base_url=settings.PE_AUTH_BASE_URL,
-        base_url=settings.PE_BASE_URL,
-        client_id=settings.PE_CLIENT_ID,
-        client_secret=settings.PE_CLIENT_SECRET,
-        scope=settings.PE_SCOPE,
-    )
-
-    agences = client.recherche_agences_pydantic("72", horaire=True, zonecompetence=True)
-    if not professional:
+    if not professional and structure:
         # @TODO: query PE API
         # await insert_professional(connection, ProfessionalInsert(…))
         professional_insert = ProfessionalInsert(
-            structure_id=structure_id,
+            structure_id=structure.id,
             email=csv_row.referent_mail,
             lastname=csv_row.referent_nom,
             firstname=csv_row.referent_prenom,
