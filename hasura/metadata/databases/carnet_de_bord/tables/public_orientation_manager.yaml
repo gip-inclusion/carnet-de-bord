@@ -21,6 +21,14 @@ object_relationships:
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
+array_relationships:
+  - name: accounts
+    using:
+      foreign_key_constraint_on:
+        column: orientation_manager_id
+        table:
+          schema: public
+          name: account
 select_permissions:
   - role: admin_cdb
     permission:
