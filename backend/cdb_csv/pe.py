@@ -109,9 +109,15 @@ async def import_pe_referent(
         connection, csv_row.referent_mail
     )
 
-    if not professional and structure:
-        # @TODO: query PE API
-        # await insert_professional(connection, ProfessionalInsert(…))
+    if not structure:
+        logging.info(
+            "{} - Structure '{}' not found/created".format(
+                pe_unique_id, csv_row.struct_principale
+            )
+        )
+        return
+
+    if not professional:
         professional_insert = ProfessionalInsert(
             structure_id=structure.id,
             email=csv_row.referent_mail,
@@ -121,11 +127,10 @@ async def import_pe_referent(
             position=None,
         )
 
-        # professional: Professional | None = await insert_professional(
-        # connection, professional_insert
-        # )
-        # return professional
-        pass
+        professional: Professional | None = await insert_professional(
+            connection, professional_insert
+        )
+        return professional
     else:
         logging.info("{} - Professional already exists".format(pe_unique_id))
 
