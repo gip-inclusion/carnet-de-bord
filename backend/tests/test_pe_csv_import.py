@@ -62,7 +62,9 @@ async def test_insert_external_data(
         db_connection,
         beneficiary_sophie_tifour,
         ExternalSource.PE,
-        format_external_data(csv_row.dict(), beneficiary_sophie_tifour.dict()),
+        format_external_data(
+            csv_row.dict(), {"beneficiary": beneficiary_sophie_tifour.dict()}
+        ),
         "myhash",
     )
 
@@ -95,13 +97,15 @@ async def test_check_existing_external_data(
         db_connection,
         beneficiary_sophie_tifour,
         ExternalSource.PE,
-        format_external_data(csv_row.dict(), beneficiary_sophie_tifour.dict()),
+        format_external_data(
+            csv_row.dict(), {"beneficiary": beneficiary_sophie_tifour.dict()}
+        ),
         "myhash",
     )
 
     assert external_data is not None
     assert external_data.info is not None
-    assert external_data.data["parsed"]["lastname"] == "Tifour"
+    assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Tifour"
     assert external_data.data["source"]["nom"] == "TIFOUR"
 
     beneficiary_sophie_tifour.lastname = "Newname"
@@ -112,7 +116,7 @@ async def test_check_existing_external_data(
 
     assert external_data is not None
     assert external_data.info is not None
-    assert external_data.data["parsed"]["lastname"] == "Newname"
+    assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Newname"
     assert external_data.data["source"]["nom"] == "TIFOUR"
     assert (
         external_data.hash

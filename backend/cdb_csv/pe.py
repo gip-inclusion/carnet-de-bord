@@ -108,7 +108,7 @@ async def save_external_data(
             connection,
             beneficiary,
             ExternalSource.PE,
-            format_external_data(csv_row.dict(), beneficiary.dict()),
+            format_external_data(csv_row.dict(), {"beneficiary": beneficiary.dict()}),
             hash_result,
         )
     elif hash_result != external_data.hash:
@@ -118,7 +118,9 @@ async def save_external_data(
 
         logging.info("Found external_data for {}".format(beneficiary.id))
         logging.info(external_data)
-        external_data.data = format_external_data(csv_row.dict(), beneficiary.dict())
+        external_data.data = format_external_data(
+            csv_row.dict(), {"beneficiary": beneficiary.dict()}
+        )
         updated_external_data: ExternalData | None = await update_external_data(
             connection, external_data
         )
