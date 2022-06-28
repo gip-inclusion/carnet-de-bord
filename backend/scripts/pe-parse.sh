@@ -25,4 +25,4 @@ echo "fichier actions: $(wc -l actions.csv) lignes"
 cp principal.csv /mnt/pefiles
 cp actions.csv /mnt/pefiles
 
-poetry run python scripts/parse_csv_pe.py principal-file /mnt/pefiles/principal.csv
+python scripts/parse_csv_pe.py principal-file /mnt/pefiles/principal.csv
