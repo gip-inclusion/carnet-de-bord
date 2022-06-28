@@ -237,7 +237,8 @@
 			]);
 			let errorMessage = "Une erreur s'est produite, le bénéficiaire n'a pas été importé.";
 			if (/uniqueness/i.test(insertStore.error?.message)) {
-				errorMessage = 'Ce bénéficiaire existe déjà.';
+				errorMessage =
+					'Un bénéficiaire avec les mêmes prénom, nom et date de naissance existe déjà sur ce territoire.';
 			}
 			insertResult = [
 				...insertResult,
