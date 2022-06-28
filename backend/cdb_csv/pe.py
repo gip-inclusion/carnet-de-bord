@@ -63,15 +63,12 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             )
 
             if beneficiary and beneficiary.deployment_id:
-                professional = await import_pe_referent(
+                await import_pe_referent(
                     connection,
                     csv_row,
                     row["identifiant_unique_de"],
                     beneficiary.deployment_id,
                 )
-
-                # @TODO: check pro insert
-                print("Pro: {}".format(professional))
         else:
             logging.info(
                 "{} - Skipping, BRSA field value is No".format(
