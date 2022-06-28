@@ -1,3 +1,10 @@
+## [1.119.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.0...v1.119.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* update python cli command ([#894](https://github.com/SocialGouv/carnet-de-bord/issues/894)) ([80807dc](https://github.com/SocialGouv/carnet-de-bord/commit/80807dc63f5d0dea4f39ecb1a7da3d3d2997b808))
+
 # [1.119.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.118.0...v1.119.0) (2022-06-23)
 
 
