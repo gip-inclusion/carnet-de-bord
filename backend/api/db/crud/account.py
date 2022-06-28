@@ -61,6 +61,21 @@ async def insert_orientation_manager_account(
     )
 
 
+async def insert_professional_account(
+    connection: Connection,
+    username: str,
+    confirmed: bool,
+    professional_id: UUID,
+) -> AccountDB | None:
+    return await insert_account(
+        connection=connection,
+        username=username,
+        type=RoleEnum.PROFESSIONAL,
+        confirmed=confirmed,
+        foreign_key_id=professional_id,
+    )
+
+
 async def get_accounts_from_email(
     connection: Connection, email: str
 ) -> List[AccountDB]:

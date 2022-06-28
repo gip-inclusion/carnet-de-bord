@@ -1,4 +1,5 @@
 import logging
+import uuid
 from uuid import UUID
 
 import dask.dataframe as dd
@@ -7,6 +8,7 @@ from pandas.core.series import Series
 
 from api.core.db import get_connection_pool
 from api.core.settings import settings
+from api.db.crud.account import insert_professional_account
 from api.db.crud.beneficiary import get_beneficiary_from_personal_information
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
@@ -22,6 +24,7 @@ from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
 )
+from api.db.models.account import AccountDB
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import (
     ExternalData,
@@ -66,13 +69,19 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             if beneficiary:
                 await save_external_data(connection, beneficiary, csv_row)
 
-            if beneficiary and beneficiary.deployment_id:
-                await import_pe_referent(
-                    connection,
-                    csv_row,
-                    row["identifiant_unique_de"],
-                    beneficiary.deployment_id,
-                )
+                if beneficiary.deployment_id:
+                    await import_pe_referent(
+                        connection,
+                        csv_row,
+                        row["identifiant_unique_de"],
+                        beneficiary.deployment_id,
+                    )
+                else:
+                    logging.info(
+                        "{} - No deployment for beneficiary. Skipping pe_referent import.".format(
+                            row["identifiant_unique_de"]
+                        )
+                    )
         else:
             logging.info(
                 "{} - Skipping, BRSA field value is No".format(
@@ -109,10 +118,6 @@ async def import_pe_referent(
             connection, agences, csv_row.struct_principale, deployment_id
         )
 
-    professional: Professional | None = await get_professional_by_email(
-        connection, csv_row.referent_mail
-    )
-
     if not structure:
         logging.info(
             "{} - Structure '{}' not found/created. Import of professional impossible.".format(
@@ -124,6 +129,10 @@ async def import_pe_referent(
         logging.info(
             "{} - Structure '{}' found".format(pe_unique_id, csv_row.struct_principale)
         )
+
+    professional: Professional | None = await get_professional_by_email(
+        connection, csv_row.referent_mail
+    )
 
     if not professional:
         professional_insert = ProfessionalInsert(
@@ -139,11 +148,26 @@ async def import_pe_referent(
             connection, professional_insert
         )
 
-        logging.info(
-            "{} - Professional {} inserted and attached to structure {}".format(
-                pe_unique_id, csv_row.referent_mail, structure.name
+        if professional:
+
+            logging.info(
+                "{} - Professional {} inserted and attached to structure {}".format(
+                    pe_unique_id, csv_row.referent_mail, structure.name
+                )
             )
-        )
+            account: AccountDB | None = await insert_professional_account(
+                connection,
+                username=str(uuid.uuid4()),
+                confirmed=True,
+                professional_id=professional.id,
+            )
+
+            if not account:
+                logging.info(
+                    "{} - Impossible to create account for {}".format(
+                        pe_unique_id, csv_row.referent_mail
+                    )
+                )
         return professional
     else:
         logging.info("{} - Professional already exists".format(pe_unique_id))
