@@ -62,6 +62,10 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                 connection, csv_row, row["identifiant_unique_de"]
             )
 
+            # Keep track of the data we want to insert
+            if beneficiary:
+                await save_external_data(connection, beneficiary, csv_row)
+
             if beneficiary and beneficiary.deployment_id:
                 await import_pe_referent(
                     connection,
@@ -169,9 +173,6 @@ async def import_beneficiary(
             beneficiary.notebook,
             pe_unique_id,
         )
-
-        # Keep track of the data we want to insert
-        await save_external_data(connection, beneficiary, csv_row)
 
         return beneficiary
     else:
