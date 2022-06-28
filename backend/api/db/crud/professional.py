@@ -40,7 +40,7 @@ async def insert_professional(
         INSERT INTO public.professional (structure_id, email, lastname, firstname, position, mobile_number)
         VALUES ($1, $2, $3, $4, $5, $6) returning id, structure_id, email, lastname, firstname, position, mobile_number, created_at, updated_at
         """,
-        *professional_insert.dict(),
+        *professional_insert.dict().values(),
     )
 
     if record:
