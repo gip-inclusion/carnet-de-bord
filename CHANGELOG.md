@@ -1,3 +1,10 @@
+## [1.119.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.1...v1.119.2) (2022-06-28)
+
+
+### Bug Fixes
+
+* add a root level key for beneficiary ([#896](https://github.com/SocialGouv/carnet-de-bord/issues/896)) ([1ad33d7](https://github.com/SocialGouv/carnet-de-bord/commit/1ad33d7dc919e1dc2d7a2fed4e1d5d91f79a9bb6))
+
 ## [1.119.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.0...v1.119.1) (2022-06-28)
 
 
