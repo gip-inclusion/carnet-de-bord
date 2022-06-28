@@ -87,7 +87,7 @@ async def create_structure_from_agences_list(
         return await insert_structure(connection, structure_insert)
     else:
         logging.error(
-            "Agence '{}' in CSV not found in PE API response, unable to create structure. Skipping.- Professional already exists".format(
+            "Agence '{}' in CSV not found in PE API response, unable to create structure. Skipping.".format(
                 label
             )
         )

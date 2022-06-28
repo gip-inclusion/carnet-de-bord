@@ -9,6 +9,7 @@ from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
 )
+from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource, format_external_data
 from cdb_csv.models.csv_row import PrincipalCsvRow
@@ -76,6 +77,12 @@ async def test_parse_principal_csv(
 
     assert sophie_tifour is not None and sophie_tifour.notebook is not None
     assert len(sophie_tifour.notebook.wanted_jobs) == 3
+
+    professional = await get_professional_by_email(
+        db_connection, "referent_prenom4.referent_nom4@pole-emploi.net"
+    )
+
+    assert professional is not None
 
 
 async def test_insert_external_data(

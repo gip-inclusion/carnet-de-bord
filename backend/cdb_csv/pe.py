@@ -50,7 +50,7 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
     for _, row in df.iterrows():
 
         logging.info(
-            "{id} - Trying to import main row {id}".format(
+            "{id} => Trying to import main row {id}".format(
                 id=row["identifiant_unique_de"]
             )
         )
@@ -63,15 +63,18 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             )
 
             if beneficiary and beneficiary.deployment_id:
-                await import_pe_referent(
+                professional = await import_pe_referent(
                     connection,
                     csv_row,
                     row["identifiant_unique_de"],
                     beneficiary.deployment_id,
                 )
+
+                # @TODO: check pro insert
+                print("Pro: {}".format(professional))
         else:
             logging.info(
-                "{} - Skipping, BRSA field is No for".format(
+                "{} - Skipping, BRSA field value is No".format(
                     row["identifiant_unique_de"]
                 )
             )
@@ -111,11 +114,15 @@ async def import_pe_referent(
 
     if not structure:
         logging.info(
-            "{} - Structure '{}' not found/created".format(
+            "{} - Structure '{}' not found/created. Import of professional impossible.".format(
                 pe_unique_id, csv_row.struct_principale
             )
         )
         return
+    else:
+        logging.info(
+            "{} - Structure '{}' found".format(pe_unique_id, csv_row.struct_principale)
+        )
 
     if not professional:
         professional_insert = ProfessionalInsert(
@@ -129,6 +136,12 @@ async def import_pe_referent(
 
         professional: Professional | None = await insert_professional(
             connection, professional_insert
+        )
+
+        logging.info(
+            "{} - Professional {} inserted and attached to structure {}".format(
+                pe_unique_id, csv_row.referent_mail, structure.name
+            )
         )
         return professional
     else:
