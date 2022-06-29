@@ -16,7 +16,7 @@ from api.db.models.external_data import ExternalSource, format_external_data
 from api.db.models.notebook import NotebookMember
 from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
-    insert_external_data_for_beneficiary,
+    insert_external_data_for_beneficiary_and_professional,
     insert_wanted_jobs_for_csv_row_and_notebook,
     map_principal_row,
     parse_principal_csv_with_db,
@@ -108,7 +108,7 @@ async def test_insert_external_data(
     _, row = next(pe_principal_csv_series.iterrows())
     csv_row: PrincipalCsvRow = await map_principal_row(row)
 
-    await insert_external_data_for_beneficiary(
+    await insert_external_data_for_beneficiary_and_professional(
         db_connection,
         beneficiary_sophie_tifour,
         ExternalSource.PE,
@@ -116,6 +116,7 @@ async def test_insert_external_data(
             csv_row.dict(), {"beneficiary": beneficiary_sophie_tifour.dict()}
         ),
         "myhash",
+        professional=None,
     )
 
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
@@ -143,7 +144,7 @@ async def test_check_existing_external_data(
     _, row = next(pe_principal_csv_series.iterrows())
     csv_row: PrincipalCsvRow = await map_principal_row(row)
 
-    external_data = await insert_external_data_for_beneficiary(
+    external_data = await insert_external_data_for_beneficiary_and_professional(
         db_connection,
         beneficiary_sophie_tifour,
         ExternalSource.PE,
@@ -151,6 +152,7 @@ async def test_check_existing_external_data(
             csv_row.dict(), {"beneficiary": beneficiary_sophie_tifour.dict()}
         ),
         "myhash",
+        professional=None,
     )
 
     assert external_data is not None

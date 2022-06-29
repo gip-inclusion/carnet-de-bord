@@ -12,8 +12,8 @@ from api.db.crud.account import insert_professional_account
 from api.db.crud.beneficiary import get_beneficiary_from_personal_information
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
-    insert_external_data_for_beneficiary,
-    update_external_data,
+    insert_external_data_for_beneficiary_and_professional,
+    update_external_data_for_beneficiary_and_professional,
 )
 from api.db.crud.notebook import insert_notebook_member
 from api.db.crud.professional import get_professional_by_email, insert_professional
@@ -77,13 +77,21 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
 
                 if beneficiary.deployment_id:
                     if beneficiary.notebook:
-                        await import_pe_referent(
+                        professional = await import_pe_referent(
                             connection,
                             csv_row,
                             row["identifiant_unique_de"],
                             beneficiary.deployment_id,
                             beneficiary.notebook.id,
                         )
+
+                        if professional:
+                            await save_external_data(
+                                connection,
+                                beneficiary,
+                                csv_row,
+                                professional=professional,
+                            )
                     else:
                         logging.error(
                             "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
@@ -247,7 +255,10 @@ async def import_beneficiary(
 
 
 async def save_external_data(
-    connection: Connection, beneficiary: Beneficiary, csv_row: PrincipalCsvRow
+    connection: Connection,
+    beneficiary: Beneficiary,
+    csv_row: PrincipalCsvRow,
+    professional: Professional | None = None,
 ) -> ExternalData | None:
 
     # Do we already have some external data for this beneficiary?
@@ -259,16 +270,23 @@ async def save_external_data(
 
     hash_result: str = await get_sha256(csv_row)
 
+    external_data_dict = {"beneficiary": beneficiary.dict()}
+    if professional:
+        external_data_dict["professional"] = professional.dict()
+
     if external_data is None:
         # If not, we should insert it
 
         logging.info("No external_data for {}".format(beneficiary.id))
-        external_data: ExternalData | None = await insert_external_data_for_beneficiary(
-            connection,
-            beneficiary,
-            ExternalSource.PE,
-            format_external_data(csv_row.dict(), {"beneficiary": beneficiary.dict()}),
-            hash_result,
+        external_data: ExternalData | None = (
+            await insert_external_data_for_beneficiary_and_professional(
+                connection,
+                beneficiary,
+                ExternalSource.PE,
+                format_external_data(csv_row.dict(), external_data_dict),
+                hash_result,
+                professional=professional,
+            )
         )
     elif hash_result != external_data.hash:
         # If we have some and the new content is different, let's update it.
@@ -277,11 +295,11 @@ async def save_external_data(
 
         logging.info("Found external_data for {}".format(beneficiary.id))
         logging.info(external_data)
-        external_data.data = format_external_data(
-            csv_row.dict(), {"beneficiary": beneficiary.dict()}
-        )
-        updated_external_data: ExternalData | None = await update_external_data(
-            connection, external_data
+        external_data.data = format_external_data(csv_row.dict(), external_data_dict)
+        updated_external_data: ExternalData | None = (
+            await update_external_data_for_beneficiary_and_professional(
+                connection, external_data, beneficiary, professional
+            )
         )
 
         external_data = updated_external_data

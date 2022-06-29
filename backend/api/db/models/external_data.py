@@ -20,8 +20,8 @@ class ExternalDataUpdate(ExternalDataInsert):
 
 
 class ExternalDataInfoInsert(BaseModel):
-    beneficiary_id: UUID | None
-    professional_id: UUID | None
+    beneficiary_id: UUID | None = None
+    professional_id: UUID | None = None
     external_data_id: UUID
 
 
