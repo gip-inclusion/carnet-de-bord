@@ -85,13 +85,13 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                             beneficiary.notebook.id,
                         )
                     else:
-                        logging.info(
+                        logging.error(
                             "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
                                 row["identifiant_unique_de"]
                             )
                         )
                 else:
-                    logging.info(
+                    logging.error(
                         "{} - No deployment for beneficiary. Skipping pe_referent import.".format(
                             row["identifiant_unique_de"]
                         )
