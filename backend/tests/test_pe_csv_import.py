@@ -14,6 +14,7 @@ from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource, format_external_data
 from api.db.models.notebook import NotebookMember
+from api.db.models.professional import Professional
 from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
     insert_external_data_for_beneficiary_and_professional,
@@ -131,6 +132,7 @@ async def test_insert_external_data(
 async def test_check_existing_external_data(
     db_connection: Connection,
     beneficiary_sophie_tifour: Beneficiary,
+    professional_pierre_chevalier: Professional,
     pe_principal_csv_series,
 ):
 
@@ -144,35 +146,38 @@ async def test_check_existing_external_data(
     _, row = next(pe_principal_csv_series.iterrows())
     csv_row: PrincipalCsvRow = await map_principal_row(row)
 
-    external_data = await insert_external_data_for_beneficiary_and_professional(
+    external_data = await save_external_data(
         db_connection,
         beneficiary_sophie_tifour,
-        ExternalSource.PE,
-        format_external_data(
-            csv_row.dict(), {"beneficiary": beneficiary_sophie_tifour.dict()}
-        ),
-        "myhash",
-        professional=None,
+        csv_row,
+        professional=professional_pierre_chevalier,
     )
 
     assert external_data is not None
     assert external_data.info is not None
     assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Tifour"
+    assert external_data.data["parsed"]["professional"]["lastname"] == "Chevalier"
     assert external_data.data["source"]["nom"] == "TIFOUR"
 
     beneficiary_sophie_tifour.lastname = "Newname"
+    csv_row.nom = "Newname"
+    professional_pierre_chevalier.lastname = "Newlastname"
 
     external_data = await save_external_data(
-        db_connection, beneficiary_sophie_tifour, csv_row
+        db_connection,
+        beneficiary_sophie_tifour,
+        csv_row,
+        professional=professional_pierre_chevalier,
     )
 
     assert external_data is not None
     assert external_data.info is not None
     assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Newname"
-    assert external_data.data["source"]["nom"] == "TIFOUR"
+    assert external_data.data["parsed"]["professional"]["lastname"] == "Newlastname"
+    assert external_data.data["source"]["nom"] == "Newname"
     assert (
         external_data.hash
-        == "d10ed5fee17aa3cb36117a1d1eb1f4cd12514046c53bf8990f34d9d8233badd4"
+        == "beaae517011c2204b5425c6eb58388cb9b370a71223000bf192964245182a6d6"
     )
 
 

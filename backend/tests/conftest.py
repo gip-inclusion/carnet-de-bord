@@ -11,7 +11,9 @@ from api.core.db import get_connection_pool
 from api.core.init import create_app
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_by_id
+from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary
+from api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -110,6 +112,14 @@ async def beneficiary_martin_gal(db_connection) -> Beneficiary | None:
 async def beneficiary_sophie_tifour(db_connection) -> Beneficiary | None:
     return await get_beneficiary_by_id(
         db_connection, UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def professional_pierre_chevalier(db_connection) -> Professional | None:
+    return await get_professional_by_email(
+        db_connection, "pierre.chevalier@livry-gargan.fr"
     )
 
 
