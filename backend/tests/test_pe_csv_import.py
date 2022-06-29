@@ -9,9 +9,11 @@ from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
 )
+from api.db.crud.notebook import get_notebook_members_by_notebook_id
 from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource, format_external_data
+from api.db.models.notebook import NotebookMember
 from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
     insert_external_data_for_beneficiary,
@@ -83,6 +85,18 @@ async def test_parse_principal_csv(
     )
 
     assert professional is not None
+
+    skinner_edwina = await get_beneficiary_by_id(
+        db_connection, UUID("0af66131-727b-4d47-b0d2-92d363ed145b")
+    )
+
+    assert skinner_edwina is not None and skinner_edwina.notebook is not None
+
+    notebook_members: list[NotebookMember] = await get_notebook_members_by_notebook_id(
+        db_connection, skinner_edwina.notebook.id
+    )
+
+    assert len(notebook_members) == 1
 
 
 async def test_insert_external_data(

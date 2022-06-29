@@ -15,6 +15,7 @@ from api.db.crud.external_data import (
     insert_external_data_for_beneficiary,
     update_external_data,
 )
+from api.db.crud.notebook import insert_notebook_member
 from api.db.crud.professional import get_professional_by_email, insert_professional
 from api.db.crud.structure import (
     create_structure_from_agences_list,
@@ -31,7 +32,12 @@ from api.db.models.external_data import (
     ExternalSource,
     format_external_data,
 )
-from api.db.models.notebook import Notebook
+from api.db.models.notebook import (
+    Notebook,
+    NotebookMember,
+    NotebookMemberInsert,
+    NotebookMemberTypeEnum,
+)
 from api.db.models.professional import Professional, ProfessionalInsert
 from api.db.models.structure import Structure
 from api.db.models.wanted_job import WantedJob
@@ -70,12 +76,20 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
                 await save_external_data(connection, beneficiary, csv_row)
 
                 if beneficiary.deployment_id:
-                    await import_pe_referent(
-                        connection,
-                        csv_row,
-                        row["identifiant_unique_de"],
-                        beneficiary.deployment_id,
-                    )
+                    if beneficiary.notebook:
+                        await import_pe_referent(
+                            connection,
+                            csv_row,
+                            row["identifiant_unique_de"],
+                            beneficiary.deployment_id,
+                            beneficiary.notebook.id,
+                        )
+                    else:
+                        logging.info(
+                            "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
+                                row["identifiant_unique_de"]
+                            )
+                        )
                 else:
                     logging.info(
                         "{} - No deployment for beneficiary. Skipping pe_referent import.".format(
@@ -95,6 +109,7 @@ async def import_pe_referent(
     csv_row: PrincipalCsvRow,
     pe_unique_id: str,
     deployment_id: UUID,
+    notebook_id: UUID,
 ) -> Professional | None:
 
     structure: Structure | None = await get_structure_by_name(
@@ -163,11 +178,37 @@ async def import_pe_referent(
             )
 
             if not account:
-                logging.info(
+                logging.error(
                     "{} - Impossible to create account for {}".format(
                         pe_unique_id, csv_row.referent_mail
                     )
                 )
+            else:
+                notebook_member_insert = NotebookMemberInsert(
+                    notebook_id=notebook_id,
+                    account_id=account.id,
+                    member_type=NotebookMemberTypeEnum.NO_REFERENT,
+                    active=True,
+                )
+                notebook_member: NotebookMember | None = await insert_notebook_member(
+                    connection, notebook_member_insert
+                )
+                if notebook_member:
+                    logging.info(
+                        "{} - Professional added to notebook_member {} as {}. Notebook id: {}. Csv row {}".format(
+                            pe_unique_id,
+                            notebook_member.id,
+                            notebook_member.member_type,
+                            notebook_id,
+                            csv_row,
+                        )
+                    )
+                else:
+                    logging.error(
+                        "{} - Impossible to add professional as notebook_member".format(
+                            pe_unique_id
+                        )
+                    )
         return professional
     else:
         logging.info("{} - Professional already exists".format(pe_unique_id))
