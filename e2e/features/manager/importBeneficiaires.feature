@@ -18,4 +18,4 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je vois "3 bénéficiaires sélectionnés sur 3"
 		Quand je clique sur "Confirmer"
 		Alors je vois "2 bénéficiaires importés sur 3 demandés."
-		Alors je vois "Ce bénéficiaire existe déjà." sur la ligne "charlie"
+		Alors je vois "Un bénéficiaire avec les mêmes prénom, nom et date de naissance existe déjà sur ce territoire." sur la ligne "charlie"
