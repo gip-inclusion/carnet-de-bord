@@ -8,11 +8,11 @@
 	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 
 	export let account: Member['account'];
-
+	export let mainTitle = 'Accompagnant';
 	export let proFirst = false;
 </script>
 
-<div class="flex flex-row gap-4" style={proFirst ? 'flex-direction: row-reverse;' : ''}>
+<div class="flex flex-row gap-4" class:flex-row-reverse={proFirst}>
 	{#if account.type === RoleEnum.Professional}
 		<div class="w-1/2 flex flex-col">
 			<span class="mb-1 text-sm">Structure</span>
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div class="w-1/2 flex flex-col">
-			<span class="mb-1 text-sm">Accompagnateur</span>
+			<span class="mb-1 text-sm">{mainTitle}</span>
 			<h2
 				class="fr-h5 !mb-0 text-france-blue truncate"
 				title={displayFullName(account.professional)}
