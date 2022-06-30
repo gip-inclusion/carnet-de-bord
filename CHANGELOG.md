@@ -1,3 +1,10 @@
+## [1.119.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.2...v1.119.3) (2022-06-30)
+
+
+### Bug Fixes
+
+* handle duplicate beneficiary ([#892](https://github.com/SocialGouv/carnet-de-bord/issues/892)) ([c8c35ad](https://github.com/SocialGouv/carnet-de-bord/commit/c8c35adecff626479d2add92ba62b94e3a1a3bb2))
+
 ## [1.119.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.1...v1.119.2) (2022-06-28)
 
 
