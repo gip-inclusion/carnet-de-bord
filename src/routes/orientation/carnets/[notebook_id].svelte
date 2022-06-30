@@ -23,7 +23,13 @@
 		GetNotebookDocument,
 		{ id: notebookId },
 		{
-			additionalTypenames: ['beneficiary', 'notebook_member', 'wanted_job', 'notebook_appointment'],
+			additionalTypenames: [
+				'beneficiary',
+				'notebook_member',
+				'wanted_job',
+				'notebook_appointment',
+				'notebook_focus',
+			],
 		}
 	);
 

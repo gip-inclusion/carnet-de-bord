@@ -35,12 +35,16 @@ insert_permissions:
           focus:
             notebook:
               members:
-                account_id:
-                  _eq: X-Hasura-User-Id
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       set:
         creator_id: X-Hasura-User-Id
       columns:
         - action
+        - creator_id
         - status
         - target_id
       backend_only: false
@@ -60,6 +64,7 @@ insert_permissions:
         creator_id: X-Hasura-User-Id
       columns:
         - action
+        - creator_id
         - status
         - target_id
       backend_only: false
@@ -197,23 +202,21 @@ update_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - action
         - status
-        - target_id
       filter:
         target:
           focus:
             notebook:
               members:
-                account_id:
-                  _eq: X-Hasura-User-Id
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       check: {}
-      set:
-        creator_id: X-Hasura-User-Id
   - role: professional
     permission:
       columns:
-        - action
         - status
       filter:
         target:

@@ -1,47 +1,60 @@
 query GetNotebookFocusById($id: uuid!) {
-	focus: notebook_focus_by_pk(id: $id) {
-		id
-		situations
-		linkedTo
-		targets(order_by: { createdAt: desc }) {
-			target
-			status
-			id
-			actions(order_by: { createdAt: desc }) {
-				id
-				createdAt
-				status
-				action
-				creator {
-					professional {
-						id
-						lastname
-						firstname
-					}
-				}
-			}
-		}
-		theme
-		creator {
-			professional {
-				id
-				position
-				firstname
-				lastname
-				mobileNumber
-				structureId
-				structure {
-					id
-					name
-					phone
-					address1
-					address2
-					city
-					postalCode
-					website
-				}
-			}
-		}
-		createdAt
-	}
+  focus: notebook_focus_by_pk(id: $id) {
+    id
+    situations
+    linkedTo
+    targets(order_by: { createdAt: desc }) {
+      target
+      status
+      id
+      actions(order_by: { createdAt: desc }) {
+        id
+        createdAt
+        status
+        action
+        creator {
+          orientation_manager {
+            id
+            lastname
+            firstname
+          }
+          professional {
+            id
+            lastname
+            firstname
+          }
+        }
+      }
+    }
+    theme
+    creator {
+      orientation_manager {
+        id
+        lastname
+        firstname
+        phoneNumbers
+        email
+      }
+      professional {
+        id
+        position
+        firstname
+        lastname
+        mobileNumber
+        email
+        structureId
+        structure {
+          id
+          name
+          phone
+          address1
+          address2
+          city
+          postalCode
+          website
+        }
+      }
+    }
+    createdAt
+  }
 }

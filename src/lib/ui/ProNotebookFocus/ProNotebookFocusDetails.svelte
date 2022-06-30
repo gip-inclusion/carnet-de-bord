@@ -49,7 +49,10 @@
 	function viewCreator() {
 		openComponent.open({
 			component: ProNotebookCreatorView,
-			props: { creator: focus?.creator?.professional, createdAt: focus?.createdAt },
+			props: {
+				creator: focus?.creator,
+				createdAt: focus?.createdAt,
+			},
 		});
 	}
 
@@ -138,16 +141,30 @@
 		</div>
 		<div class="flex flex-row gap-4">
 			<div class="w-1/2 items-stretch">
-				<h2 class="fr-h4 text-france-blue">Créé par</h2>
-				<Card onClick={viewCreator}>
-					<span slot="title">
-						{focus?.creator?.professional ? displayFullName(focus.creator.professional) : ''}
-					</span>
-					<span slot="description">
-						<Text value={focus?.creator?.professional.position} />
-						<Text classNames="font-bold" value={focus?.creator?.professional.mobileNumber} />
-					</span>
-				</Card>
+				{#if focus?.creator?.professional || focus?.creator?.orientation_manager}
+					<h2 class="fr-h4 text-france-blue">Créé par</h2>
+					<Card onClick={viewCreator}>
+						<span slot="title">
+							{displayFullName(focus?.creator?.professional || focus?.creator?.orientation_manager)}
+						</span>
+						<span slot="description">
+							<Text
+								value={focus?.creator?.professional
+									? focus?.creator?.professional.position
+									: "Chargé d'orientation"}
+							/>
+							{#if focus.creator.professional}
+								<Text classNames="font-bold" value={focus.creator.professional.mobileNumber} />
+							{/if}
+							{#if focus.creator.orientation_manager}
+								<Text
+									classNames="font-bold"
+									value={focus.creator.orientation_manager.phoneNumbers}
+								/>
+							{/if}
+						</span>
+					</Card>
+				{/if}
 			</div>
 		</div>
 		<div class="flex">

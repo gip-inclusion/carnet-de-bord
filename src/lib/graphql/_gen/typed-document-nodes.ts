@@ -11130,6 +11130,15 @@ export type GetNotebookFocusByIdQuery = {
 						action: string;
 						creator: {
 							__typename?: 'account';
+							orientation_manager?:
+								| {
+										__typename?: 'orientation_manager';
+										id: string;
+										lastname?: string | null | undefined;
+										firstname?: string | null | undefined;
+								  }
+								| null
+								| undefined;
 							professional?:
 								| { __typename?: 'professional'; id: string; lastname: string; firstname: string }
 								| null
@@ -11139,6 +11148,17 @@ export type GetNotebookFocusByIdQuery = {
 				}>;
 				creator: {
 					__typename?: 'account';
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								id: string;
+								lastname?: string | null | undefined;
+								firstname?: string | null | undefined;
+								phoneNumbers?: string | null | undefined;
+								email: string;
+						  }
+						| null
+						| undefined;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -11147,6 +11167,7 @@ export type GetNotebookFocusByIdQuery = {
 								firstname: string;
 								lastname: string;
 								mobileNumber?: string | null | undefined;
+								email: string;
 								structureId: string;
 								structure: {
 									__typename?: 'structure';
@@ -17336,6 +17357,24 @@ export const GetNotebookFocusByIdDocument = {
 																selections: [
 																	{
 																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
 																		name: { kind: 'Name', value: 'professional' },
 																		selectionSet: {
 																			kind: 'SelectionSet',
@@ -17370,6 +17409,20 @@ export const GetNotebookFocusByIdDocument = {
 										selections: [
 											{
 												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
@@ -17379,6 +17432,7 @@ export const GetNotebookFocusByIdDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
 														{
 															kind: 'Field',
