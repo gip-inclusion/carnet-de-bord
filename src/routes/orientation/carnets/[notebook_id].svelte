@@ -1,9 +1,10 @@
 <script context="module" lang="ts">
+	import NotebookView from '$lib/ui/views/NotebookView.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { Load } from '@sveltejs/kit';
-	import { GetNotebookDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetNotebookByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
-	import NotebookOrientationManagerView from '$lib/ui/OrientationManager/NotebookOrientationManagerView.svelte';
+	import { displayFullName } from '$lib/ui/format';
 
 	export const load: Load = ({ params }) => {
 		const notebookId = params.notebook_id;
@@ -19,31 +20,22 @@
 <script lang="ts">
 	export let notebookId: string;
 
-	const getNotebookResult = operationStore(
-		GetNotebookDocument,
-		{ id: notebookId },
-		{
-			additionalTypenames: [
-				'beneficiary',
-				'notebook_member',
-				'wanted_job',
-				'notebook_appointment',
-				'notebook_focus',
-			],
-		}
-	);
-
+	const getNotebookResult = operationStore(GetNotebookByIdDocument, {
+		id: notebookId,
+	});
 	query(getNotebookResult);
-	$: notebook = $getNotebookResult.data?.notebook[0];
+
+	$: name = $getNotebookResult.data?.notebook
+		? displayFullName($getNotebookResult.data?.notebook.beneficiary)
+		: '';
 </script>
 
 <svelte:head>
-	<title
-		>Carnet de {notebook?.beneficiary.lastname}
-		{notebook?.beneficiary.firstname} - Carnet de bord</title
-	>
+	<title>Carnet {name} - Carnet de bord</title>
 </svelte:head>
 
 <LoaderIndicator result={getNotebookResult}>
-	<NotebookOrientationManagerView notebook={$getNotebookResult.data?.notebook} />
+	<div class="my-6">
+		<NotebookView notebook={$getNotebookResult.data.notebook} />
+	</div>
 </LoaderIndicator>

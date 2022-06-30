@@ -20,6 +20,7 @@
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 	import { statusValues } from '$lib/constants';
+	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let focusId: string;
 
@@ -80,7 +81,7 @@
 	}
 </script>
 
-{#if focus}
+<LoaderIndicator result={focusStore}>
 	<div class="flex flex-col gap-6">
 		<div>
 			<h1 class="mb-0">{focusThemeKeys.byKey[focus?.theme]}</h1>
@@ -93,6 +94,7 @@
 					</p>
 				{/if}
 				<Button
+					classNames="self-end"
 					outline={true}
 					on:click={() =>
 						openComponent.open({ component: ProNotebookFocusUpdate, props: { focus } })}
@@ -180,7 +182,7 @@
 			</Dialog>
 		</div>
 	</div>
-{/if}
+</LoaderIndicator>
 
 <style lang="postcss">
 	.dsfr-bullet {

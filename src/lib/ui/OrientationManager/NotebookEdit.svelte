@@ -2,15 +2,19 @@
 	import Accordions from '$lib/ui/base/Accordions.svelte';
 	import MainAccordion from '$lib/ui/base/MainAccordion.svelte';
 
-	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
-
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
+	import { displayFullName } from '../format';
+	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
 	export let notebook: GetNotebookQuery['notebook'];
 </script>
+
+<svelte:head>
+	<title>Carnet de {displayFullName(notebook.beneficiary)} - Carnet de bord</title>
+</svelte:head>
 
 <div class="fr-py-6w flex flex-col gap-8">
 	<ProNotebookPersonalInfoView
@@ -34,7 +38,7 @@
 				appointments={notebook?.appointments}
 			/>
 		</MainAccordion>
-		<MainAccordion title="Axes de travail">
+		<MainAccordion title="Plan d'action">
 			<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 		</MainAccordion>
 	</Accordions>

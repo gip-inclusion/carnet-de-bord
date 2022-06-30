@@ -54,10 +54,19 @@ Soit(
 		await loginStub(userType, email);
 		const notebookId = await goToNotebookForLastName(lastname);
 		await addMember(email, notebookId);
-		I.amOnPage(`/auth/jwt/${UUID}?url=/orientation/carnets/${notebookId}`);
+		I.amOnPage(`/auth/jwt/${UUID}?url=/orientation/carnets/edition/${notebookId}`);
 	}
 );
+
+Soit('le {string} {string} sur le carnet de {string}', async (userType, email, lastname) => {
+	await onBoardingSetup(userType, email, true);
+	await loginStub(userType, email);
+	const notebookId = await goToNotebookForLastName(lastname);
+	I.amOnPage(`/auth/jwt/${UUID}?url=/orientation/carnets/${notebookId}`);
+});
+
 //
+
 Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
 	const item = locate('*')
 		.after(locate('h2').withText(header))
@@ -68,10 +77,6 @@ Quand('je clique sur {string} sous le titre {string}', async (target, header) =>
 
 Quand('je clique sur la ligne du tableau contenant le texte {string}', (text) => {
 	I.click(locate('table tr').withText(text));
-});
-
-Quand("j'attends {int} secondes", (num) => {
-	I.wait(num);
 });
 
 Quand('je pause le test', () => {
@@ -116,9 +121,15 @@ Quand('je choisis {string}', (text) => {
 Quand('je ferme la modale', () => {
 	I.click('button[title="fermer la modale"]');
 });
+
 Quand('je ferme le volet', () => {
 	I.click('button[aria-label="fermer le panneau"]');
 });
+
+Quand("j'attends {int} secondes", (num) => {
+	I.wait(num);
+});
+
 Quand("j'attends que les suggestions apparaissent", () => {
 	I.waitForElement("//ul[@role='listbox']", 3);
 });

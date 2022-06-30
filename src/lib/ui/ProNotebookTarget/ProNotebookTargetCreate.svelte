@@ -7,6 +7,7 @@
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { Button, Select } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
+	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let focusId: string;
 	export let focusTheme: string;
@@ -53,11 +54,13 @@
 		<h1>Ajouter un objectif</h1>
 		<p class="my-6">Veuillez sélectionner un objectif</p>
 	</div>
-	<div class="min-w-0">
-		<Select selectLabel={'Objectif'} options={targetOptions} bind:selected={formData.target} />
-	</div>
-	<div class="flex flex-row gap-6 pt-4 pb-12">
-		<Button {disabled} on:click={createTarget}>Ajouter</Button>
-		<Button outline={true} on:click={close}>Annuler</Button>
-	</div>
+	<LoaderIndicator result={refTargetStore}>
+		<div class="min-w-0">
+			<Select selectLabel={'Objectif'} options={targetOptions} bind:selected={formData.target} />
+		</div>
+		<div class="flex flex-row gap-6 pt-4 pb-12">
+			<Button {disabled} on:click={createTarget}>Ajouter</Button>
+			<Button outline={true} on:click={close}>Annuler</Button>
+		</div>
+	</LoaderIndicator>
 </section>
