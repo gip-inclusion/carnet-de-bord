@@ -52,7 +52,7 @@
 	>
 </div>
 <div class={`fr-table fr-table--layout-fixed`}>
-	<table>
+	<table summary="Groupe de suivi" aria-label="Groupe de suivi">
 		<thead>
 			<tr>
 				<th style="width: 50%">Accompagnateur (structure)</th>

@@ -5,6 +5,7 @@ const {
 	setupAfterFixturesByTags,
 	onBoardingSetup,
 	goToNotebookForLastName,
+	addMember,
 } = require('./fixtures');
 const { Alors, Quand, Soit } = require('./fr');
 
@@ -35,11 +36,6 @@ Soit('un utilisateur sur la page {string}', (page) => {
 	I.amOnPage(`${page}`);
 });
 
-Soit('le bénéficiaire {string} qui a cliqué sur le lien de connexion', async (email) => {
-	await loginStub('bénéficiaire', email);
-	I.amOnPage(`/auth/jwt/${UUID}`);
-});
-
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	await loginStub('pro', email);
 	I.amOnPage(`/auth/jwt/${UUID}`);
@@ -51,6 +47,16 @@ Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	I.amOnPage(`/auth/jwt/${UUID}?url=/pro/carnet/${notebookId}`);
 });
 
+Soit(
+	'le {string} assigné {string} sur le carnet de {string}',
+	async (userType, email, lastname) => {
+		await onBoardingSetup(userType, email, true);
+		await loginStub(userType, email);
+		const notebookId = await goToNotebookForLastName(lastname);
+		await addMember(email, notebookId);
+		I.amOnPage(`/auth/jwt/${UUID}?url=/orientation/carnets/${notebookId}`);
+	}
+);
 //
 Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
 	const item = locate('*')
@@ -82,7 +88,6 @@ Quand('je renseigne {string} dans le champ {string}', (text, input) => {
 
 Quand('je renseigne la date {string} dans le champ {string}', async (date, input) => {
 	const language = await I.executeScript(() => navigator.language);
-	console.log(language);
 	if (language === 'en-US') {
 		const splitDate = date.split('/');
 		date = `${splitDate[1]}/${splitDate[0]}/${splitDate[2]}`;

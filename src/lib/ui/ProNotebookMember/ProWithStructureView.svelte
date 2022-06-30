@@ -9,7 +9,6 @@
 
 	export let account: Member['account'];
 
-	export let mainTitle = 'Accompagnateur';
 	export let proFirst = false;
 </script>
 
@@ -41,7 +40,7 @@
 			</div>
 		</div>
 		<div class="w-1/2 flex flex-col">
-			<span class="mb-1 text-sm">{mainTitle}</span>
+			<span class="mb-1 text-sm">Accompagnateur</span>
 			<h2
 				class="fr-h5 !mb-0 text-france-blue truncate"
 				title={displayFullName(account.professional)}
@@ -69,7 +68,7 @@
 		</div>
 	{:else if account.type === RoleEnum.OrientationManager}
 		<div class="w-1/2 flex flex-col">
-			<span class="mb-1 text-sm">{mainTitle}</span>
+			<span class="mb-1 text-sm">Chargé d'orientation</span>
 			<h2
 				class="fr-h5 !mb-0 text-france-blue truncate"
 				title={displayFullName(account.orientation_manager)}

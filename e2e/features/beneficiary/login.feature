@@ -14,5 +14,5 @@ Scénario: login beneficiaire
 
 
 Scénario: Accueil beneficiaire
-	Soit le bénéficiaire "stifour93@yahoo.fr" qui a cliqué sur le lien de connexion
+	Soit un "bénéficiaire" authentifié avec l'email "stifour93@yahoo.fr"
 	Alors je vois "Sophie Tifour"

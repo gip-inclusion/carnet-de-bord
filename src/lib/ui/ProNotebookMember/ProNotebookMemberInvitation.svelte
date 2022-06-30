@@ -92,11 +92,13 @@
 		</div>
 
 		<SearchBar
-			inputLabel="Rechercher un bénéficiaire"
+			inputLabel="Rechercher un accompagnateur"
 			inputHint="Nom, structure, code postal"
 			bind:search
 			btnDisabled={!search}
 			handleSubmit={onSearch}
+			size="md"
+			btnLabel="Rechercher"
 		/>
 	</div>
 	<!-- center -->
