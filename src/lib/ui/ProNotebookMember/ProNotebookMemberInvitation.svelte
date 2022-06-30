@@ -18,7 +18,7 @@
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
 	export let notebookId: string;
-	export let professionalIds: string[];
+	export let accountIds: string[];
 
 	let search: string | null;
 	let selectedAccountId: string | null;
@@ -47,7 +47,7 @@
 		$searchProfessionalResult.context.pause = false;
 		$searchProfessionalResult.variables = {
 			search: `%${search}%`,
-			professionalIds,
+			accountIds,
 		};
 		$searchProfessionalResult.reexecute();
 		trackSiteSearch(search, '/pro/notebook/member');
@@ -59,7 +59,6 @@
 		const store = await addNotebookMember({
 			accountId,
 			notebookId: notebookId,
-			creatorId: $session.user.id,
 		});
 		const { id: notebookMemberId } = store.data.newMember;
 		//send email
@@ -93,11 +92,13 @@
 		</div>
 
 		<SearchBar
-			inputLabel="Rechercher un bénéficiaire"
+			inputLabel="Rechercher un accompagnateur"
 			inputHint="Nom, structure, code postal"
 			bind:search
 			btnDisabled={!search}
 			handleSubmit={onSearch}
+			size="md"
+			btnLabel="Rechercher"
 		/>
 	</div>
 	<!-- center -->

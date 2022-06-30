@@ -33,7 +33,7 @@
 			bind:value={search}
 			disabled={!handleSubmit}
 		/>
-		<button class="fr-btn" disabled={!handleSubmit || btnDisabled}>
+		<button class="fr-btn" disabled={!handleSubmit || btnDisabled} title={btnLabel}>
 			{btnLabel}
 		</button>
 	</div>

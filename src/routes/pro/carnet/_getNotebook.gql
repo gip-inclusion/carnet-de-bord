@@ -1,120 +1,128 @@
 query GetNotebook($id: uuid!, $eventsStart: timestamptz, $eventsEnd: timestamptz) {
-	notebook: notebook_by_pk(id: $id) {
-		id
-		workSituationDate
-		workSituationEndDate
-		workSituation
-		rightRsa
-		rightRqth
-		rightAre
-		rightAss
-		rightBonus
-		geographicalArea
-		educationLevel
-		contractType
-		contractSignDate
-		contractStartDate
-		contractEndDate
-		wantedJobs {
-			rome_code {
-				id
-				label
-			}
-		}
-		beneficiary {
-			address1
-			address2
-			cafNumber
-			city
-			dateOfBirth
-			email
-			firstname
-			id
-			lastname
-			mobileNumber
-			peNumber
-			postalCode
-		}
-		focuses(order_by: { theme: asc_nulls_last }) {
-			id
-			theme
-			situations
-			linkedTo
-			targets {
-				id
-				target
-				actions_aggregate(where: { status: { _eq: "in_progress" } }) {
-					aggregate {
-						count
-					}
-				}
-			}
-		}
-		members(order_by: { lastModifiedAt: desc_nulls_last }) {
-			id
-			memberType
-			lastModifiedAt
-			lastVisitedAt
-			createdAt
-			account {
-				id
-				professional {
-					id
-					lastname
-					firstname
-					position
-					email
-					mobileNumber
-					structure {
-						id
-						name
-						address1
-						address2
-						postalCode
-						city
-						website
-					}
-				}
-			}
-		}
-		appointments(
-			where: { notebookId: { _eq: $id } }
-			distinct_on: memberAccountId
-			order_by: [{ memberAccountId: asc }, { date: desc }]
-		) {
-			date
-			memberAccountId
-		}
-		events(
-			order_by: { eventDate: desc_nulls_first }
-			where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd } }
-		) {
-			...eventFields
-		}
-	}
+  notebook: notebook_by_pk(id: $id) {
+    id
+    workSituationDate
+    workSituationEndDate
+    workSituation
+    rightRsa
+    rightRqth
+    rightAre
+    rightAss
+    rightBonus
+    geographicalArea
+    educationLevel
+    contractType
+    contractSignDate
+    contractStartDate
+    contractEndDate
+    wantedJobs {
+      rome_code {
+        id
+        label
+      }
+    }
+    beneficiary {
+      address1
+      address2
+      cafNumber
+      city
+      dateOfBirth
+      email
+      firstname
+      id
+      lastname
+      mobileNumber
+      peNumber
+      postalCode
+    }
+    focuses(order_by: { theme: asc_nulls_last }) {
+      id
+      theme
+      situations
+      linkedTo
+      targets {
+        id
+        target
+        actions_aggregate(where: { status: { _eq: "in_progress" } }) {
+          aggregate {
+            count
+          }
+        }
+      }
+    }
+    members(where: { active: { _eq: true } }, order_by: { lastModifiedAt: desc_nulls_last }) {
+      id
+      memberType
+      lastModifiedAt
+      lastVisitedAt
+      createdAt
+      account {
+        id
+        type
+        professional {
+          id
+          lastname
+          firstname
+          position
+          email
+          mobileNumber
+          structure {
+            id
+            name
+            address1
+            address2
+            postalCode
+            city
+            website
+          }
+        }
+        orientation_manager {
+          id
+          lastname
+          firstname
+          email
+          phoneNumbers
+        }
+      }
+    }
+    appointments(
+      where: { notebookId: { _eq: $id } }
+      distinct_on: memberAccountId
+      order_by: [{ memberAccountId: asc }, { date: desc }]
+    ) {
+      date
+      memberAccountId
+    }
+    events(
+      order_by: { eventDate: desc_nulls_first }
+      where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd } }
+    ) {
+      ...eventFields
+    }
+  }
 }
 
 query GetNotebookEvents($eventsStart: timestamptz, $eventsEnd: timestamptz, $notebookId: uuid!) {
-	notebook_event(
-		order_by: { eventDate: desc_nulls_last }
-		where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd }, notebookId: { _eq: $notebookId } }
-	) {
-		...eventFields
-	}
+  notebook_event(
+    order_by: { eventDate: desc_nulls_last }
+    where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd }, notebookId: { _eq: $notebookId } }
+  ) {
+    ...eventFields
+  }
 }
 
 fragment eventFields on notebook_event {
-	id
-	eventDate
-	event
-	eventType
-	creatorId
-	creator {
-		professional {
-			structureId
-			structure {
-				name
-			}
-		}
-	}
+  id
+  eventDate
+  event
+  eventType
+  creatorId
+  creator {
+    professional {
+      structureId
+      structure {
+        name
+      }
+    }
+  }
 }

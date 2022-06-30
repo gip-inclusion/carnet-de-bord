@@ -5,6 +5,7 @@ import { createClient } from '@urql/core';
 import {
 	ConfirmAccountByIdDocument,
 	GetAccountByIdDocument,
+	RoleEnum,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type {
 	ConfirmAccountByIdMutation,
@@ -82,16 +83,17 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 
-	if (!data.account.professional) {
+	if (ensureAccountHasRelation(data.account)) {
 		return {
-			status: 404,
+			status: 400,
 			body: {
-				errors: 'Professional not found',
+				errors: 'confirmpro: Invalid account type',
 			},
 		};
 	}
 
-	const { email, lastname, firstname } = data.account.professional;
+	const { email, lastname, firstname } =
+		data.account.professional || data.account.orientation_manager;
 
 	const result = await client
 		.mutation<ConfirmAccountByIdMutation>(ConfirmAccountByIdDocument, {
@@ -141,3 +143,10 @@ export const post: RequestHandler = async ({ request }) => {
 		body: {},
 	};
 };
+
+export function ensureAccountHasRelation(account: GetAccountByIdQuery['account']) {
+	return (
+		(account.type === RoleEnum.Professional && account.professional) ||
+		(account.type === RoleEnum.OrientationManager && account.orientation_manager)
+	);
+}

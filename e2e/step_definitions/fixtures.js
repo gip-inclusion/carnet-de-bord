@@ -5,10 +5,71 @@ const UUID = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 
 async function loginStub(userType, email) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
-	await I.sendMutation(
-		`mutation setAccessToken {
+	if (type.code === 'beneficiary') {
+		const result = await I.sendQuery(
+			`
+		query getBeneficiaryIdByEmail($email: citext!) {
+			beneficiary( where: { email: {_eq: $email } }) {
+			id
+			}
+		}`,
+			{ email }
+		);
+		await I.sendMutation(
+			`
+		mutation createAccount($id: uuid!) {
+			insert_account_one(object: {beneficiaryId: $id, accessKey: "${UUID}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
+		}`,
+			{ id: result.data.data.beneficiary[0].id }
+		);
+	} else {
+		await I.sendMutation(
+			`mutation setAccessToken {
 				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${UUID}"}) { affected_rows }
 		}`
+		);
+	}
+}
+
+async function addMember(email, notebookId) {
+	const result = await I.sendQuery(
+		`
+		query getAccountIdByEmail($email: citext!) {
+			account( where: { _or: [
+				{professional: {email: {_eq: $email}}}
+				{orientation_manager: {email: {_eq: $email}}}
+			]}) {
+			id
+			}
+		}
+	`,
+		{ email }
+	);
+	await I.sendMutation(
+		`
+		mutation insertMember($accountId: uuid!, $notebookId: uuid!) {
+			insert_notebook_member_one(object: {
+				notebookId:$notebookId,
+				accountId: $accountId,
+				memberType: "no_referent"
+			}) {
+				id
+			}
+		}
+		`,
+		{ accountId: result.data.data.account[0].id, notebookId }
+	);
+}
+async function removeMember(email) {
+	await I.sendMutation(
+		`
+		mutation deleteMember($email: citext!) {
+			delete_notebook_member(where: {account: {_or: [{professional: {email: {_eq: $email}}}, {orientation_manager: {email: {_eq: $email}}}]}}) {
+				affected_rows
+			}
+		}
+		`,
+		{ email }
 	);
 }
 
@@ -44,6 +105,17 @@ async function setupBeforeFixturesByTags(tags) {
 				break;
 			case '@orientation_manager_rattachement':
 				await removeOrientationManagerAssignement();
+				break;
+			case '@orientation_manager_notebook_edit':
+				await removeMember('giulia.diaby@cd93.fr');
+				await resetPhone();
+				await clearNotebookContract();
+				break;
+			case '@orientation_manager_notebook_members':
+				await removeMember('pcamara@seinesaintdenis.fr');
+				break;
+			case '@beneficiary':
+				removeBeneficiariesAccount(['stifour93@yahoo.fr']);
 				break;
 			default:
 				return;
@@ -258,6 +330,26 @@ function removeOrientationManagerAssignement() {
 	);
 }
 
+function resetPhone() {
+	return I.sendMutation(
+		`mutation UpdatePhone {
+			update_beneficiary_by_pk(_set: {mobileNumber: "0601010101" },cxpk_columns: {id: "c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"}) { __typename }
+		}`
+	);
+}
+
+async function removeBeneficiariesAccount(emails) {
+	await I.sendMutation(
+		`mutation RemoveBeneficiaryAccountFixture($emails:[citext!]!) {
+
+		  delete_account(where: {beneficiary: {email: {_in: $emails}}}) {
+		    affected_rows
+		  }
+		}`,
+		{ emails }
+	);
+}
+
 function clearNotebookContract() {
 	return I.sendMutation(
 		`mutation UpdateNotebookContract {
@@ -268,9 +360,11 @@ function clearNotebookContract() {
 
 module.exports = {
 	UUID,
+	addMember,
 	goToNotebookForLastName,
 	loginStub,
 	onBoardingSetup,
+	removeMember,
 	setupAfterFixturesByTags,
 	setupBeforeFixturesByTags,
 };

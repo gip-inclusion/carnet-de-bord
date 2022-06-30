@@ -11261,53 +11261,9 @@ export type UpdateTargetStatusMutation = {
 	updateStatus?: { __typename?: 'notebook_target'; id: string } | null | undefined;
 };
 
-export type AddNotebookAppointmentMutationVariables = Exact<{
-	date?: InputMaybe<Scalars['date']>;
-	notebookId?: InputMaybe<Scalars['uuid']>;
-	memberAccountId?: InputMaybe<Scalars['uuid']>;
-	status?: InputMaybe<Scalars['String']>;
-}>;
-
-export type AddNotebookAppointmentMutation = {
-	__typename?: 'mutation_root';
-	addAppointment?:
-		| {
-				__typename?: 'notebook_appointment_mutation_response';
-				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
-		  }
-		| null
-		| undefined;
-};
-
-export type AddNotebookMemberMutationVariables = Exact<{
-	creatorId: Scalars['uuid'];
-	accountId: Scalars['uuid'];
-	notebookId: Scalars['uuid'];
-}>;
-
-export type AddNotebookMemberMutation = {
-	__typename?: 'mutation_root';
-	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
-};
-
-export type GetNotebookAppointmentsQueryVariables = Exact<{
-	memberAccountId?: InputMaybe<Scalars['uuid']>;
-	notebookId?: InputMaybe<Scalars['uuid']>;
-}>;
-
-export type GetNotebookAppointmentsQuery = {
-	__typename?: 'query_root';
-	getNotebookAppointments: Array<{
-		__typename?: 'notebook_appointment';
-		date: string;
-		id: string;
-		status: string;
-	}>;
-};
-
 export type SearchProfessionalQueryVariables = Exact<{
 	search?: InputMaybe<Scalars['String']>;
-	professionalIds?: InputMaybe<Array<Scalars['uuid']> | Scalars['uuid']>;
+	accountIds?: InputMaybe<Array<Scalars['uuid']> | Scalars['uuid']>;
 }>;
 
 export type SearchProfessionalQuery = {
@@ -11330,6 +11286,49 @@ export type SearchProfessionalQuery = {
 		__typename?: 'professional_aggregate';
 		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null | undefined;
 	};
+};
+
+export type AddNotebookAppointmentMutationVariables = Exact<{
+	date?: InputMaybe<Scalars['date']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+}>;
+
+export type AddNotebookAppointmentMutation = {
+	__typename?: 'mutation_root';
+	addAppointment?:
+		| {
+				__typename?: 'notebook_appointment_mutation_response';
+				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
+		  }
+		| null
+		| undefined;
+};
+
+export type AddNotebookMemberMutationVariables = Exact<{
+	accountId: Scalars['uuid'];
+	notebookId: Scalars['uuid'];
+}>;
+
+export type AddNotebookMemberMutation = {
+	__typename?: 'mutation_root';
+	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
+};
+
+export type GetNotebookAppointmentsQueryVariables = Exact<{
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+}>;
+
+export type GetNotebookAppointmentsQuery = {
+	__typename?: 'query_root';
+	getNotebookAppointments: Array<{
+		__typename?: 'notebook_appointment';
+		date: string;
+		id: string;
+		status: string;
+	}>;
 };
 
 export type UpdateNotebookAppointmentMutationVariables = Exact<{
@@ -11430,6 +11429,7 @@ export type GetAccountByPkQuery = {
 				onboardingDone?: boolean | null | undefined;
 				confirmed: boolean;
 				username: string;
+				type: RoleEnum;
 				beneficiary?:
 					| {
 							__typename?: 'beneficiary';
@@ -11994,6 +11994,18 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			lastVisitedAt?: string | null | undefined;
 			account: {
 				__typename?: 'account';
+				type: RoleEnum;
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							id: string;
+							lastname?: string | null | undefined;
+							firstname?: string | null | undefined;
+							email: string;
+							phoneNumbers?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -12122,6 +12134,18 @@ export type GetNotebookByIdQuery = {
 			lastVisitedAt?: string | null | undefined;
 			account: {
 				__typename?: 'account';
+				type: RoleEnum;
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							id: string;
+							lastname?: string | null | undefined;
+							firstname?: string | null | undefined;
+							email: string;
+							phoneNumbers?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -12244,6 +12268,18 @@ export type NotebookFragmentFragment = {
 		lastVisitedAt?: string | null | undefined;
 		account: {
 			__typename?: 'account';
+			type: RoleEnum;
+			orientation_manager?:
+				| {
+						__typename?: 'orientation_manager';
+						id: string;
+						lastname?: string | null | undefined;
+						firstname?: string | null | undefined;
+						email: string;
+						phoneNumbers?: string | null | undefined;
+				  }
+				| null
+				| undefined;
 			professional?:
 				| {
 						__typename?: 'professional';
@@ -12410,6 +12446,16 @@ export type GetAccountByIdQuery = {
 				id: string;
 				username: string;
 				confirmed: boolean;
+				type: RoleEnum;
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+							email: string;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| { __typename?: 'professional'; firstname: string; lastname: string; email: string }
 					| null
@@ -12741,6 +12787,7 @@ export type GetNotebookQuery = {
 					account: {
 						__typename?: 'account';
 						id: string;
+						type: RoleEnum;
 						professional?:
 							| {
 									__typename?: 'professional';
@@ -12760,6 +12807,17 @@ export type GetNotebookQuery = {
 										city?: string | null | undefined;
 										website?: string | null | undefined;
 									};
+							  }
+							| null
+							| undefined;
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									id: string;
+									lastname?: string | null | undefined;
+									firstname?: string | null | undefined;
+									email: string;
+									phoneNumbers?: string | null | undefined;
 							  }
 							| null
 							| undefined;
@@ -13243,6 +13301,21 @@ export const NotebookFragmentFragmentDoc = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+													],
+												},
+											},
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
@@ -17640,278 +17713,6 @@ export const UpdateTargetStatusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateTargetStatusMutation, UpdateTargetStatusMutationVariables>;
-export const AddNotebookAppointmentDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookAppointment' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'addAppointment' },
-						name: { kind: 'Name', value: 'insert_notebook_appointment' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'date' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberAccountId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'returning' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	AddNotebookAppointmentMutation,
-	AddNotebookAppointmentMutationVariables
->;
-export const AddNotebookMemberDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookMember' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'newMember' },
-						name: { kind: 'Name', value: 'insert_notebook_member_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'creatorId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accountId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberType' },
-											value: { kind: 'StringValue', value: 'no_referent', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
-export const GetNotebookAppointmentsDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetNotebookAppointments' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'getNotebookAppointments' },
-						name: { kind: 'Name', value: 'notebook_appointment' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberAccountId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'memberAccountId' },
-														},
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'notebookId' },
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'date' },
-											value: { kind: 'EnumValue', value: 'desc' },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
 export const SearchProfessionalDocument = {
 	kind: 'Document',
 	definitions: [
@@ -17927,7 +17728,7 @@ export const SearchProfessionalDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalIds' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountIds' } },
 					type: {
 						kind: 'ListType',
 						type: {
@@ -18075,16 +17876,25 @@ export const SearchProfessionalDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'id' },
+														name: { kind: 'Name', value: 'account' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_in' },
+																	name: { kind: 'Name', value: 'id' },
 																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'professionalIds' },
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_in' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'accountIds' },
+																				},
+																			},
+																		],
 																	},
 																},
 															],
@@ -18266,16 +18076,25 @@ export const SearchProfessionalDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'id' },
+														name: { kind: 'Name', value: 'account' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_in' },
+																	name: { kind: 'Name', value: 'id' },
 																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'professionalIds' },
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_in' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'accountIds' },
+																				},
+																			},
+																		],
 																	},
 																},
 															],
@@ -18319,6 +18138,265 @@ export const SearchProfessionalDocument = {
 		},
 	],
 } as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
+export const AddNotebookAppointmentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookAppointment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'addAppointment' },
+						name: { kind: 'Name', value: 'insert_notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberAccountId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	AddNotebookAppointmentMutation,
+	AddNotebookAppointmentMutationVariables
+>;
+export const AddNotebookMemberDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookMember' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'newMember' },
+						name: { kind: 'Name', value: 'insert_notebook_member_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accountId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'no_referent', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
+export const GetNotebookAppointmentsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookAppointments' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'getNotebookAppointments' },
+						name: { kind: 'Name', value: 'notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberAccountId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'memberAccountId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'notebookId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'EnumValue', value: 'desc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
 export const UpdateNotebookAppointmentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -19038,6 +19116,7 @@ export const GetAccountByPkDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
@@ -22117,6 +22196,19 @@ export const GetAccountByIdDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientation_manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },
@@ -24156,6 +24248,29 @@ export const GetNotebookDocument = {
 									arguments: [
 										{
 											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'active' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
 											name: { kind: 'Name', value: 'order_by' },
 											value: {
 												kind: 'ObjectValue',
@@ -24184,6 +24299,7 @@ export const GetNotebookDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'professional' },
@@ -24221,6 +24337,20 @@ export const GetNotebookDocument = {
 																			],
 																		},
 																	},
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientation_manager' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
 																],
 															},
 														},
@@ -26006,6 +26136,10 @@ export type UpdateTargetStatusMutationStore = OperationStore<
 	UpdateTargetStatusMutation,
 	UpdateTargetStatusMutationVariables
 >;
+export type SearchProfessionalQueryStore = OperationStore<
+	SearchProfessionalQuery,
+	SearchProfessionalQueryVariables
+>;
 export type AddNotebookAppointmentMutationStore = OperationStore<
 	AddNotebookAppointmentMutation,
 	AddNotebookAppointmentMutationVariables
@@ -26017,10 +26151,6 @@ export type AddNotebookMemberMutationStore = OperationStore<
 export type GetNotebookAppointmentsQueryStore = OperationStore<
 	GetNotebookAppointmentsQuery,
 	GetNotebookAppointmentsQueryVariables
->;
-export type SearchProfessionalQueryStore = OperationStore<
-	SearchProfessionalQuery,
-	SearchProfessionalQueryVariables
 >;
 export type UpdateNotebookAppointmentMutationStore = OperationStore<
 	UpdateNotebookAppointmentMutation,

@@ -1,11 +1,19 @@
 <script lang="ts">
-	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		Beneficiary,
+		OrientationManager,
+		Professional,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Button, IconButton } from '$lib/ui/base';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
+
+	type Pro =
+		| Pick<Professional, 'firstname' | 'lastname'>
+		| Pick<OrientationManager, 'firstname' | 'lastname'>;
 
 	export let beneficiary: Pick<
 		Beneficiary,
@@ -23,7 +31,7 @@
 		| 'peNumber'
 	>;
 	export let lastUpdateDate: string;
-	export let lastUpdateFrom: Pick<Professional, 'firstname' | 'lastname'>;
+	export let lastUpdateFrom: Pro;
 
 	function edit() {
 		openComponent.open({ component: ProNotebookPersonalInfoUpdate, props: { beneficiary } });

@@ -4,6 +4,7 @@ query GetAccountByPk($accountId: uuid!) {
     onboardingDone
     confirmed
     username
+    type
     beneficiary {
       id
       firstname

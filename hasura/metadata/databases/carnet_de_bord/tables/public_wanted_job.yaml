@@ -22,13 +22,30 @@ insert_permissions:
         - notebook_id
         - rome_code_id
       backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      columns:
+        - notebook_id
+        - rome_code_id
+      backend_only: false
   - role: professional
     permission:
       check:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       columns:
         - notebook_id
         - rome_code_id
@@ -103,10 +120,23 @@ select_permissions:
             account_id:
               _eq: X-Hasura-User-Id
 delete_permissions:
+  - role: orientation_manager
+    permission:
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
   - role: professional
     permission:
       filter:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
