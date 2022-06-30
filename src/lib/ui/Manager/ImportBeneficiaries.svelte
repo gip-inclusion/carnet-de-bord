@@ -235,9 +235,14 @@
 					setTimeout(resolve, 500);
 				}),
 			]);
+			let errorMessage = "Une erreur s'est produite, le bénéficiaire n'a pas été importé.";
+			if (/uniqueness/i.test(insertStore.error?.message)) {
+				errorMessage =
+					'Un bénéficiaire avec les mêmes prénom, nom et date de naissance existe déjà sur ce territoire.';
+			}
 			insertResult = [
 				...insertResult,
-				{ benef, error: insertStore.error ? insertStore.error.toString() : null },
+				{ benef, ...(insertStore.error && { error: errorMessage }) },
 			];
 		}
 		insertInProgress = false;
@@ -430,10 +435,7 @@
 										</td>
 										<td class="px-2 py-2 ">
 											{#if beneficiary.error}
-												<Text
-													classNames="text-error"
-													value={"Une erreur s'est produite, le bénéficiaire n'a pas été importé."}
-												/>
+												<Text classNames="text-error" value={beneficiary.error} />
 											{:else}
 												<span
 													class="fr-fi-checkbox-circle-fill text-success"
