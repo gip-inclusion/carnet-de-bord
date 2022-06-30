@@ -316,6 +316,27 @@ update_permissions:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
       check: null
+  - role: orientation_manager
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - date_of_birth
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - pe_number
+        - place_of_birth
+        - postal_code
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      check: null
   - role: professional
     permission:
       columns:

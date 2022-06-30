@@ -28,9 +28,34 @@ insert_permissions:
         - creator_id
         - created_at
       backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        target:
+          focus:
+            notebook:
+              members:
+                account_id:
+                  _eq: X-Hasura-User-Id
+      set:
+        creator_id: X-Hasura-User-Id
+      columns:
+        - action
+        - status
+        - target_id
+      backend_only: false
   - role: professional
     permission:
-      check: {}
+      check:
+        target:
+          focus:
+            notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       set:
         creator_id: X-Hasura-User-Id
       columns:
@@ -135,6 +160,7 @@ select_permissions:
               beneficiary:
                 deployment_id:
                   _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
   - role: professional
     permission:
       columns:
@@ -150,8 +176,11 @@ select_permissions:
           focus:
             notebook:
               members:
-                account_id:
-                  _eq: X-Hasura-User-Id
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb
@@ -165,6 +194,22 @@ update_permissions:
         - target_id
       filter: {}
       check: {}
+  - role: orientation_manager
+    permission:
+      columns:
+        - action
+        - status
+        - target_id
+      filter:
+        target:
+          focus:
+            notebook:
+              members:
+                account_id:
+                  _eq: X-Hasura-User-Id
+      check: {}
+      set:
+        creator_id: X-Hasura-User-Id
   - role: professional
     permission:
       columns:
@@ -175,6 +220,9 @@ update_permissions:
           focus:
             notebook:
               members:
-                account_id:
-                  _eq: X-Hasura-USer-Id
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       check: null

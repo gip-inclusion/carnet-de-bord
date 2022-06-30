@@ -2,12 +2,13 @@
 	import { GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
-	import { openComponent } from '$lib/stores';
+	import { account, openComponent } from '$lib/stores';
 	import { getContext } from 'svelte';
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 	import AddOrientationManagerForm from './AddOrientationManagerForm.svelte';
 	import AddOrientationForm from './AddOrientationForm.svelte';
+	import { baseUrlForRole } from '$lib/routes';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
@@ -159,15 +160,20 @@
 					{/if}
 				</td>
 				<td class="!text-center">
-					<!-- <a
-						href={`carnets/${beneficiary.notebook.id}`}
-						class="fr-link"
-						target="_blank"
-						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
-					>
-						<span class="fr-fi-file-line" aria-hidden />
-					</a> -->
-					<span class="fr-fi-file-line" aria-hidden aria-disabled="true" />
+					{#if orientationManager?.account.id === $account.accountId}
+						<a
+							href={`${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/${
+								beneficiary.notebook.id
+							}`}
+							class="fr-link"
+							target="_blank"
+							title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
+						>
+							<span class="fr-fi-file-line" aria-hidden />
+						</a>
+					{:else}
+						<span class="fr-fi-file-line" aria-hidden aria-disabled="true" />
+					{/if}
 				</td>
 			</tr>
 		{/each}

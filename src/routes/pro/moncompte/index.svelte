@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	import type { GetAccountByPkQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 </script>
@@ -11,15 +10,15 @@
 	import ProWithStructureView from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
 	import { Button } from '$lib/ui/base';
 
-	let professional: GetAccountByPkQuery['account_by_pk']['professional'];
 	const getAccountStore = operationStore(GetAccountByPkDocument, { accountId: $session?.user?.id });
 	query(getAccountStore);
 
-	$: professional = $getAccountStore?.data?.account_by_pk?.professional;
+	$: accountInfo = $getAccountStore?.data?.account_by_pk;
+
 	function editAccount() {
 		openComponent.open({
 			component: ProAccountEdit,
-			props: { professional },
+			props: { professional: accountInfo.professional },
 		});
 	}
 </script>
@@ -40,8 +39,8 @@
 			Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 		</p>
 	{/if}
-	{#if professional}
-		<ProWithStructureView {professional} proFirst={true} mainTitle="Informations personnelles" />
+	{#if accountInfo.professional}
+		<ProWithStructureView account={accountInfo} proFirst mainTitle="Informations personnelles" />
 	{/if}
 	<div>
 		<Button on:click={editAccount} outline={true}>Mettre à jour</Button>

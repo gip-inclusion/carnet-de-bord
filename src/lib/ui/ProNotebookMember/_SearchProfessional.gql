@@ -1,0 +1,42 @@
+query SearchProfessional($search: String, $accountIds: [uuid!] = []) {
+  professionals: professional(
+    where: {
+      _or: [
+        { firstname: { _ilike: $search } }
+        { lastname: { _ilike: $search } }
+        { structure: { name: { _ilike: $search } } }
+        { structure: { postalCode: { _ilike: $search } } }
+      ]
+      _not: { account: { id: { _in: $accountIds } } }
+    }
+    limit: 5
+  ) {
+    id
+    firstname
+    lastname
+    structure {
+      id
+      name
+      postalCode
+      phone
+    }
+    account {
+      id
+    }
+  }
+  count: professional_aggregate(
+    where: {
+      _or: [
+        { firstname: { _ilike: $search } }
+        { lastname: { _ilike: $search } }
+        { structure: { name: { _ilike: $search } } }
+        { structure: { postalCode: { _ilike: $search } } }
+      ]
+      _not: { account: { id: { _in: $accountIds } } }
+    }
+  ) {
+    aggregate {
+      count(distinct: false)
+    }
+  }
+}

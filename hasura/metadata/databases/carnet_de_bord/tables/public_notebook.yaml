@@ -333,6 +333,31 @@ update_permissions:
         - id
       filter: {}
       check: {}
+  - role: orientation_manager
+    permission:
+      columns:
+        - contract_end_date
+        - contract_sign_date
+        - contract_start_date
+        - contract_type
+        - education_level
+        - geographical_area
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rqth
+        - right_rsa
+        - work_situation
+        - work_situation_date
+        - work_situation_end_date
+      filter:
+        members:
+          _and:
+            - account_id:
+                _eq: X-Hasura-User-Id
+            - active:
+                _eq: true
+      check: null
   - role: professional
     permission:
       columns:

@@ -5,7 +5,8 @@
 		rsaRightKeys,
 		workSituationKeys,
 	} from '$lib/constants/keys';
-	import { Notebook, UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { mutation, operationStore } from '@urql/svelte';
@@ -16,7 +17,7 @@
 
 	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
-		Notebook,
+		GetNotebookQuery['notebook'],
 		| 'id'
 		| 'workSituation'
 		| 'workSituationDate'
