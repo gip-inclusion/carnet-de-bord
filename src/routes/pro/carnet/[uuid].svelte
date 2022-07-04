@@ -204,7 +204,7 @@
 					{appointments}
 				/>
 			</MainAccordion>
-			<MainAccordion title="Axes de travail">
+			<MainAccordion title="Plan d'action">
 				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 			</MainAccordion>
 			<MainAccordion title="Historique de parcours">

@@ -114,6 +114,8 @@ async function setupBeforeFixturesByTags(tags) {
 			case '@orientation_manager_notebook_members':
 				await removeMember('pcamara@seinesaintdenis.fr');
 				break;
+			case '@orientation_manager_focuses':
+				await resetFocusesFixtures('Aguilar');
 			case '@beneficiary':
 				removeBeneficiariesAccount(['stifour93@yahoo.fr']);
 				break;
@@ -355,6 +357,34 @@ function clearNotebookContract() {
 		`mutation UpdateNotebookContract {
 			update_notebook_by_pk(_set: {contractSignDate: null, contractStartDate: null, contractEndDate: null, contractType: "no"}, pk_columns: {id: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"}) { __typename }
 		}`
+	);
+}
+
+async function resetFocusesFixtures(name) {
+	const notebookId = await I.sendQuery(
+		`
+			query getnotebook($name: String!){
+				notebook(where: {beneficiary: {lastname: {_ilike: $name}}}) {id}
+			}
+	`,
+		{ name }
+	).then((resp) => resp?.data?.data.notebook[0].id);
+	const focusId = 'f12f10af-d042-449f-b1d8-fe24f850b3dc';
+	const pierreChevalierAccountId = '17434464-5f69-40cc-8172-40160958a33d';
+	await I.sendMutation(
+		`
+			mutation resetNotebook($notebookId: uuid!, $focusId: uuid!, $creatorId: uuid!, $name: String!) {
+				delete_notebook_focus(where: {notebook: {beneficiary: {lastname: {_eq: $name}}}}) {affected_rows}
+				insert_notebook_focus_one(
+					object: {id: $focusId, notebookId: $notebookId, theme: "formation", situations: ["Prêt à suivre une formation"], creatorId: $creatorId}) {
+					id
+				}
+				insert_notebook_target_one(object: {focusId: $focusId, creatorId: $creatorId, target: "Se former"}) {
+					id
+				}
+			}
+	`,
+		{ creatorId: pierreChevalierAccountId, focusId, name, notebookId }
 	);
 }
 

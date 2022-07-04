@@ -56,6 +56,11 @@
 	function updateSelection(beneficiary: Beneficiary) {
 		selectionStore.toggle(beneficiary.notebook.id, beneficiary);
 	}
+	function getNotebookUrl(beneficiary: Beneficiary) {
+		return beneficiary.notebook.members.some((member) => member.account.id === $account.accountId)
+			? `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/edition/${beneficiary.notebook.id}`
+			: `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/${beneficiary.notebook.id}`;
+	}
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
@@ -160,20 +165,14 @@
 					{/if}
 				</td>
 				<td class="!text-center">
-					{#if orientationManager?.account.id === $account.accountId}
-						<a
-							href={`${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/${
-								beneficiary.notebook.id
-							}`}
-							class="fr-link"
-							target="_blank"
-							title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
-						>
-							<span class="fr-fi-file-line" aria-hidden />
-						</a>
-					{:else}
-						<span class="fr-fi-file-line" aria-hidden aria-disabled="true" />
-					{/if}
+					<a
+						href={getNotebookUrl(beneficiary)}
+						class="fr-link"
+						target="_blank"
+						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
+					>
+						<span class="fr-fi-file-line" aria-hidden />
+					</a>
 				</td>
 			</tr>
 		{/each}

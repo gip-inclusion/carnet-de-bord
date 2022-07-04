@@ -20,6 +20,7 @@
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 	import { statusValues } from '$lib/constants';
+	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let focusId: string;
 
@@ -49,7 +50,10 @@
 	function viewCreator() {
 		openComponent.open({
 			component: ProNotebookCreatorView,
-			props: { creator: focus?.creator?.professional, createdAt: focus?.createdAt },
+			props: {
+				creator: focus?.creator,
+				createdAt: focus?.createdAt,
+			},
 		});
 	}
 
@@ -77,7 +81,7 @@
 	}
 </script>
 
-{#if focus}
+<LoaderIndicator result={focusStore}>
 	<div class="flex flex-col gap-6">
 		<div>
 			<h1 class="mb-0">{focusThemeKeys.byKey[focus?.theme]}</h1>
@@ -90,6 +94,7 @@
 					</p>
 				{/if}
 				<Button
+					classNames="self-end"
 					outline={true}
 					on:click={() =>
 						openComponent.open({ component: ProNotebookFocusUpdate, props: { focus } })}
@@ -138,16 +143,30 @@
 		</div>
 		<div class="flex flex-row gap-4">
 			<div class="w-1/2 items-stretch">
-				<h2 class="fr-h4 text-france-blue">Créé par</h2>
-				<Card onClick={viewCreator}>
-					<span slot="title">
-						{focus?.creator?.professional ? displayFullName(focus.creator.professional) : ''}
-					</span>
-					<span slot="description">
-						<Text value={focus?.creator?.professional.position} />
-						<Text classNames="font-bold" value={focus?.creator?.professional.mobileNumber} />
-					</span>
-				</Card>
+				{#if focus?.creator?.professional || focus?.creator?.orientation_manager}
+					<h2 class="fr-h4 text-france-blue">Créé par</h2>
+					<Card onClick={viewCreator}>
+						<span slot="title">
+							{displayFullName(focus?.creator?.professional || focus?.creator?.orientation_manager)}
+						</span>
+						<span slot="description">
+							<Text
+								value={focus?.creator?.professional
+									? focus?.creator?.professional.position
+									: "Chargé d'orientation"}
+							/>
+							{#if focus.creator.professional}
+								<Text classNames="font-bold" value={focus.creator.professional.mobileNumber} />
+							{/if}
+							{#if focus.creator.orientation_manager}
+								<Text
+									classNames="font-bold"
+									value={focus.creator.orientation_manager.phoneNumbers}
+								/>
+							{/if}
+						</span>
+					</Card>
+				{/if}
 			</div>
 		</div>
 		<div class="flex">
@@ -163,7 +182,7 @@
 			</Dialog>
 		</div>
 	</div>
-{/if}
+</LoaderIndicator>
 
 <style lang="postcss">
 	.dsfr-bullet {

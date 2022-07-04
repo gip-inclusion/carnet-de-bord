@@ -71,7 +71,7 @@
 <Crisp websiteId={CRISP_WEBSITE_ID} />
 <HeaderCDB {menuItems} />
 
-<div class="fr-container fr-mb-8w">
+<div class="fr-container">
 	<LoaderIndicator {result}><slot /></LoaderIndicator>
 </div>
 <LayerCDB />

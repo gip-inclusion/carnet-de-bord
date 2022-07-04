@@ -11176,6 +11176,15 @@ export type GetNotebookFocusByIdQuery = {
 						action: string;
 						creator: {
 							__typename?: 'account';
+							orientation_manager?:
+								| {
+										__typename?: 'orientation_manager';
+										id: string;
+										lastname?: string | null | undefined;
+										firstname?: string | null | undefined;
+								  }
+								| null
+								| undefined;
 							professional?:
 								| { __typename?: 'professional'; id: string; lastname: string; firstname: string }
 								| null
@@ -11185,6 +11194,17 @@ export type GetNotebookFocusByIdQuery = {
 				}>;
 				creator: {
 					__typename?: 'account';
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								id: string;
+								lastname?: string | null | undefined;
+								firstname?: string | null | undefined;
+								phoneNumbers?: string | null | undefined;
+								email: string;
+						  }
+						| null
+						| undefined;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -11193,6 +11213,7 @@ export type GetNotebookFocusByIdQuery = {
 								firstname: string;
 								lastname: string;
 								mobileNumber?: string | null | undefined;
+								email: string;
 								structureId: string;
 								structure: {
 									__typename?: 'structure';
@@ -12035,6 +12056,14 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			situations?: any | null | undefined;
 			creator: {
 				__typename?: 'account';
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -12051,6 +12080,14 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				createdAt: string;
 				creator: {
 					__typename?: 'account';
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								firstname?: string | null | undefined;
+								lastname?: string | null | undefined;
+						  }
+						| null
+						| undefined;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -12068,6 +12105,14 @@ export type GetNotebookByBeneficiaryIdQuery = {
 					status: string;
 					creator: {
 						__typename?: 'account';
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									firstname?: string | null | undefined;
+									lastname?: string | null | undefined;
+							  }
+							| null
+							| undefined;
 						professional?:
 							| {
 									__typename?: 'professional';
@@ -12090,124 +12135,100 @@ export type GetNotebookByIdQueryVariables = Exact<{
 
 export type GetNotebookByIdQuery = {
 	__typename?: 'query_root';
-	notebook: Array<{
-		__typename?: 'notebook';
-		id: string;
-		workSituation?: string | null | undefined;
-		workSituationDate?: string | null | undefined;
-		workSituationEndDate?: string | null | undefined;
-		rightAre: boolean;
-		rightAss?: boolean | null | undefined;
-		rightRsa?: string | null | undefined;
-		rightRqth: boolean;
-		rightBonus: boolean;
-		contractType?: string | null | undefined;
-		contractSignDate?: string | null | undefined;
-		contractStartDate?: string | null | undefined;
-		contractEndDate?: string | null | undefined;
-		educationLevel?: string | null | undefined;
-		geographicalArea?: string | null | undefined;
-		wantedJobs: Array<{
-			__typename?: 'wanted_job';
-			rome_code: { __typename?: 'rome_code'; id: string; label: string };
-		}>;
-		beneficiary: {
-			__typename?: 'beneficiary';
-			address1?: string | null | undefined;
-			address2?: string | null | undefined;
-			cafNumber?: string | null | undefined;
-			city?: string | null | undefined;
-			dateOfBirth: string;
-			email?: string | null | undefined;
-			firstname: string;
-			id: string;
-			lastname: string;
-			mobileNumber?: string | null | undefined;
-			peNumber?: string | null | undefined;
-			postalCode?: string | null | undefined;
-		};
-		members: Array<{
-			__typename?: 'notebook_member';
-			id: string;
-			memberType: string;
-			lastModifiedAt?: string | null | undefined;
-			lastVisitedAt?: string | null | undefined;
-			account: {
-				__typename?: 'account';
-				type: RoleEnum;
-				orientation_manager?:
-					| {
-							__typename?: 'orientation_manager';
-							id: string;
-							lastname?: string | null | undefined;
-							firstname?: string | null | undefined;
-							email: string;
-							phoneNumbers?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-				professional?:
-					| {
-							__typename?: 'professional';
-							id: string;
-							lastname: string;
-							firstname: string;
-							position?: string | null | undefined;
-							email: string;
-							mobileNumber?: string | null | undefined;
-							structure: {
-								__typename?: 'structure';
-								id: string;
-								name?: string | null | undefined;
-								address1?: string | null | undefined;
-								address2?: string | null | undefined;
-								postalCode?: string | null | undefined;
-								city?: string | null | undefined;
-							};
-					  }
-					| null
-					| undefined;
-			};
-		}>;
-		focuses: Array<{
-			__typename?: 'notebook_focus';
-			theme: string;
-			situations?: any | null | undefined;
-			creator: {
-				__typename?: 'account';
-				professional?:
-					| {
-							__typename?: 'professional';
-							firstname: string;
-							lastname: string;
-							structure: { __typename?: 'structure'; name?: string | null | undefined };
-					  }
-					| null
-					| undefined;
-			};
-			targets: Array<{
-				__typename?: 'notebook_target';
-				target: string;
-				createdAt: string;
-				creator: {
-					__typename?: 'account';
-					professional?:
-						| {
-								__typename?: 'professional';
-								firstname: string;
-								lastname: string;
-								structure: { __typename?: 'structure'; name?: string | null | undefined };
-						  }
-						| null
-						| undefined;
+	notebook?:
+		| {
+				__typename?: 'notebook';
+				id: string;
+				workSituation?: string | null | undefined;
+				workSituationDate?: string | null | undefined;
+				workSituationEndDate?: string | null | undefined;
+				rightAre: boolean;
+				rightAss?: boolean | null | undefined;
+				rightRsa?: string | null | undefined;
+				rightRqth: boolean;
+				rightBonus: boolean;
+				contractType?: string | null | undefined;
+				contractSignDate?: string | null | undefined;
+				contractStartDate?: string | null | undefined;
+				contractEndDate?: string | null | undefined;
+				educationLevel?: string | null | undefined;
+				geographicalArea?: string | null | undefined;
+				wantedJobs: Array<{
+					__typename?: 'wanted_job';
+					rome_code: { __typename?: 'rome_code'; id: string; label: string };
+				}>;
+				beneficiary: {
+					__typename?: 'beneficiary';
+					address1?: string | null | undefined;
+					address2?: string | null | undefined;
+					cafNumber?: string | null | undefined;
+					city?: string | null | undefined;
+					dateOfBirth: string;
+					email?: string | null | undefined;
+					firstname: string;
+					id: string;
+					lastname: string;
+					mobileNumber?: string | null | undefined;
+					peNumber?: string | null | undefined;
+					postalCode?: string | null | undefined;
 				};
-				actions: Array<{
-					__typename?: 'notebook_action';
-					action: string;
-					createdAt: string;
-					status: string;
+				members: Array<{
+					__typename?: 'notebook_member';
+					id: string;
+					memberType: string;
+					lastModifiedAt?: string | null | undefined;
+					lastVisitedAt?: string | null | undefined;
+					account: {
+						__typename?: 'account';
+						type: RoleEnum;
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									id: string;
+									lastname?: string | null | undefined;
+									firstname?: string | null | undefined;
+									email: string;
+									phoneNumbers?: string | null | undefined;
+							  }
+							| null
+							| undefined;
+						professional?:
+							| {
+									__typename?: 'professional';
+									id: string;
+									lastname: string;
+									firstname: string;
+									position?: string | null | undefined;
+									email: string;
+									mobileNumber?: string | null | undefined;
+									structure: {
+										__typename?: 'structure';
+										id: string;
+										name?: string | null | undefined;
+										address1?: string | null | undefined;
+										address2?: string | null | undefined;
+										postalCode?: string | null | undefined;
+										city?: string | null | undefined;
+									};
+							  }
+							| null
+							| undefined;
+					};
+				}>;
+				focuses: Array<{
+					__typename?: 'notebook_focus';
+					theme: string;
+					situations?: any | null | undefined;
 					creator: {
 						__typename?: 'account';
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									firstname?: string | null | undefined;
+									lastname?: string | null | undefined;
+							  }
+							| null
+							| undefined;
 						professional?:
 							| {
 									__typename?: 'professional';
@@ -12218,10 +12239,61 @@ export type GetNotebookByIdQuery = {
 							| null
 							| undefined;
 					};
+					targets: Array<{
+						__typename?: 'notebook_target';
+						target: string;
+						createdAt: string;
+						creator: {
+							__typename?: 'account';
+							orientation_manager?:
+								| {
+										__typename?: 'orientation_manager';
+										firstname?: string | null | undefined;
+										lastname?: string | null | undefined;
+								  }
+								| null
+								| undefined;
+							professional?:
+								| {
+										__typename?: 'professional';
+										firstname: string;
+										lastname: string;
+										structure: { __typename?: 'structure'; name?: string | null | undefined };
+								  }
+								| null
+								| undefined;
+						};
+						actions: Array<{
+							__typename?: 'notebook_action';
+							action: string;
+							createdAt: string;
+							status: string;
+							creator: {
+								__typename?: 'account';
+								orientation_manager?:
+									| {
+											__typename?: 'orientation_manager';
+											firstname?: string | null | undefined;
+											lastname?: string | null | undefined;
+									  }
+									| null
+									| undefined;
+								professional?:
+									| {
+											__typename?: 'professional';
+											firstname: string;
+											lastname: string;
+											structure: { __typename?: 'structure'; name?: string | null | undefined };
+									  }
+									| null
+									| undefined;
+							};
+						}>;
+					}>;
 				}>;
-			}>;
-		}>;
-	}>;
+		  }
+		| null
+		| undefined;
 };
 
 export type NotebookFragmentFragment = {
@@ -12309,6 +12381,14 @@ export type NotebookFragmentFragment = {
 		situations?: any | null | undefined;
 		creator: {
 			__typename?: 'account';
+			orientation_manager?:
+				| {
+						__typename?: 'orientation_manager';
+						firstname?: string | null | undefined;
+						lastname?: string | null | undefined;
+				  }
+				| null
+				| undefined;
 			professional?:
 				| {
 						__typename?: 'professional';
@@ -12325,6 +12405,14 @@ export type NotebookFragmentFragment = {
 			createdAt: string;
 			creator: {
 				__typename?: 'account';
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -12342,6 +12430,14 @@ export type NotebookFragmentFragment = {
 				status: string;
 				creator: {
 					__typename?: 'account';
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								firstname?: string | null | undefined;
+								lastname?: string | null | undefined;
+						  }
+						| null
+						| undefined;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -13384,6 +13480,17 @@ export const NotebookFragmentFragmentDoc = {
 										selections: [
 											{
 												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
@@ -13463,6 +13570,17 @@ export const NotebookFragmentFragmentDoc = {
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientation_manager' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																],
+															},
+														},
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'professional' },
@@ -13545,6 +13663,23 @@ export const NotebookFragmentFragmentDoc = {
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
 																	{
 																		kind: 'Field',
 																		name: { kind: 'Name', value: 'professional' },
@@ -17379,6 +17514,24 @@ export const GetNotebookFocusByIdDocument = {
 																selections: [
 																	{
 																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
 																		name: { kind: 'Name', value: 'professional' },
 																		selectionSet: {
 																			kind: 'SelectionSet',
@@ -17413,6 +17566,20 @@ export const GetNotebookFocusByIdDocument = {
 										selections: [
 											{
 												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
@@ -17422,6 +17589,7 @@ export const GetNotebookFocusByIdDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
 														{
 															kind: 'Field',
@@ -21867,30 +22035,13 @@ export const GetNotebookByIdDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'notebook' },
+						alias: { kind: 'Name', value: 'notebook' },
+						name: { kind: 'Name', value: 'notebook_by_pk' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-													},
-												],
-											},
-										},
-									],
-								},
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 							},
 						],
 						selectionSet: {

@@ -7,7 +7,7 @@ Fonctionnalité: Information sur le contrat du bénéficiaire
 
 Scénario: Saisie des informations du contrat
 	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
-	Quand je clique sur "Axes de travail"
+	Quand je clique sur "Plan d'action"
 	Quand je clique sur le texte "Rattacher un contrat au carnet de bord"
 	Quand je clique sur le texte "Contrat d'Engagement Réciproque (CER)"
 	Alors je vois "Date de signature"

@@ -5,7 +5,7 @@ query GetNotebookByBeneficiaryId($id: uuid!) {
 }
 
 query GetNotebookById($id: uuid!) {
-  notebook(where: { id: { _eq: $id } }) {
+  notebook: notebook_by_pk(id: $id) {
     ...notebookFragment
   }
 }
@@ -82,6 +82,10 @@ fragment notebookFragment on notebook {
     theme
     situations
     creator {
+      orientation_manager {
+        firstname
+        lastname
+      }
       professional {
         firstname
         lastname
@@ -94,6 +98,10 @@ fragment notebookFragment on notebook {
       target
       createdAt
       creator {
+        orientation_manager {
+          firstname
+          lastname
+        }
         professional {
           firstname
           lastname
@@ -110,6 +118,10 @@ fragment notebookFragment on notebook {
         createdAt
         status
         creator {
+          orientation_manager {
+            firstname
+            lastname
+          }
           professional {
             firstname
             lastname
