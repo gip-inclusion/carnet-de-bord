@@ -1,27 +1,27 @@
 query GetDeploymentById($id: uuid!) {
-	deployment: deployment_by_pk(id: $id) {
-		id
-		label
-		config
-		managers {
-			id
-			firstname
-			lastname
-		}
-		beneficiaries_aggregate {
-			aggregate {
-				count
-			}
-		}
-		structures_aggregate {
-			aggregate {
-				count
-			}
-		}
-	}
-	professional_aggregate(where: { structure: { deploymentId: { _eq: $id } } }) {
-		aggregate {
-			count
-		}
-	}
+    deployment: deployment_by_pk(id: $id) {
+        id
+        label
+        config
+        managers {
+            id
+            firstname
+            lastname
+        }
+        beneficiaries_aggregate {
+            aggregate {
+                count
+            }
+        }
+        structures_aggregate {
+            aggregate {
+                count
+            }
+        }
+    }
+    professional_aggregate(where: { structure: { deploymentId: { _eq: $id } } }) {
+        aggregate {
+            count
+        }
+    }
 }
