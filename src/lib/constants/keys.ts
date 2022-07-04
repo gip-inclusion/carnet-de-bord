@@ -50,12 +50,14 @@ export const geographicalAreaKeys = buildKeys({
 });
 
 export const contractTypeKeys = buildKeys({
+	cej: 'CEJ',
 	cer: 'CER',
 	ppae: 'PPAE',
 	pacea: 'PACEA',
 });
 
 export const contractTypeFullKeys = buildKeys({
+	cej: "Contrat d'Engagement Jeune (CEJ)",
 	cer: "Contrat d'Engagement Réciproque (CER)",
 	ppae: "Projet Personnalisé d'Accès à l'Emploi (PPAE)",
 	pacea: "Parcours contractualisé d'Accompagnement vers l'Emploi et l'Autonomie (PACEA)",
