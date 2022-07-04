@@ -1,3 +1,10 @@
+## [1.119.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.3...v1.119.4) (2022-07-04)
+
+
+### Bug Fixes
+
+* add python path in docker image ([#910](https://github.com/SocialGouv/carnet-de-bord/issues/910)) ([dcc4783](https://github.com/SocialGouv/carnet-de-bord/commit/dcc4783f7bfec1c0f06290f22898ee7f87d880c9))
+
 ## [1.119.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.2...v1.119.3) (2022-06-30)
 
 
