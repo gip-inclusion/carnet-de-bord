@@ -1,4 +1,6 @@
 import logging
+import uuid
+from uuid import UUID
 
 import dask.dataframe as dd
 from asyncpg.connection import Connection
@@ -6,25 +8,42 @@ from pandas.core.series import Series
 
 from api.core.db import get_connection_pool
 from api.core.settings import settings
-from api.db.crud.beneficiary import get_beneficiary_from_csv
+from api.db.crud.account import insert_professional_account
+from api.db.crud.beneficiary import get_beneficiary_from_personal_information
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
-    insert_external_data_for_beneficiary,
-    update_external_data,
+    insert_external_data_for_beneficiary_and_professional,
+    update_external_data_for_beneficiary_and_professional,
+)
+from api.db.crud.notebook import insert_notebook_member
+from api.db.crud.professional import get_professional_by_email, insert_professional
+from api.db.crud.structure import (
+    create_structure_from_agences_list,
+    get_structure_by_name,
 )
 from api.db.crud.wanted_job import (
     find_wanted_job_for_notebook,
     insert_wanted_job_for_notebook,
 )
+from api.db.models.account import AccountDB
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import (
     ExternalData,
     ExternalSource,
     format_external_data,
 )
-from api.db.models.notebook import Notebook
+from api.db.models.notebook import (
+    Notebook,
+    NotebookMember,
+    NotebookMemberInsert,
+    NotebookMemberTypeEnum,
+)
+from api.db.models.professional import Professional, ProfessionalInsert
+from api.db.models.structure import Structure
 from api.db.models.wanted_job import WantedJob
-from cdb_csv.csv_row import PrincipalCsvRow, get_sha256
+from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
+from pe.models.agence import Agence
+from pe.pole_emploi_client import PoleEmploiApiClient
 
 FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT)
@@ -40,7 +59,7 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
     for _, row in df.iterrows():
 
         logging.info(
-            "{id} - Trying to import main row {id}".format(
+            "{id} => Trying to import main row {id}".format(
                 id=row["identifiant_unique_de"]
             )
         )
@@ -48,47 +67,198 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
         csv_row: PrincipalCsvRow = await map_principal_row(row)
 
         if csv_row.brsa:
-
-            beneficiary: Beneficiary | None = await get_beneficiary_from_csv(
-                connection, csv_row
+            beneficiary: Beneficiary | None = await import_beneficiary(
+                connection, csv_row, row["identifiant_unique_de"]
             )
 
-            if beneficiary and beneficiary.notebook is not None:
-
-                logging.info(
-                    "{} - Found matching beneficiary {}".format(
-                        row["identifiant_unique_de"], beneficiary.id
-                    )
-                )
-
-                # Insert the missing wanted jobs into the DB
-                beneficiary.notebook = (
-                    await insert_wanted_jobs_for_csv_row_and_notebook(
-                        connection,
-                        csv_row,
-                        beneficiary.notebook,
-                        row["identifiant_unique_de"],
-                    )
-                )
-
-                # Keep track of the data we want to insert
+            # Keep track of the data we want to insert
+            if beneficiary:
                 await save_external_data(connection, beneficiary, csv_row)
-            else:
-                logging.info(
-                    "{} - No matching beneficiary with notebook found".format(
-                        row["identifiant_unique_de"]
+
+                if beneficiary.deployment_id:
+                    if beneficiary.notebook:
+                        professional = await import_pe_referent(
+                            connection,
+                            csv_row,
+                            row["identifiant_unique_de"],
+                            beneficiary.deployment_id,
+                            beneficiary.notebook.id,
+                        )
+
+                        if professional:
+                            await save_external_data(
+                                connection,
+                                beneficiary,
+                                csv_row,
+                                professional=professional,
+                            )
+                    else:
+                        logging.error(
+                            "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
+                                row["identifiant_unique_de"]
+                            )
+                        )
+                else:
+                    logging.error(
+                        "{} - No deployment for beneficiary. Skipping pe_referent import.".format(
+                            row["identifiant_unique_de"]
+                        )
                     )
-                )
         else:
             logging.info(
-                "{} - Skipping, BRSA field is No for".format(
+                "{} - Skipping, BRSA field value is No".format(
                     row["identifiant_unique_de"]
                 )
             )
 
 
+async def import_pe_referent(
+    connection: Connection,
+    csv_row: PrincipalCsvRow,
+    pe_unique_id: str,
+    deployment_id: UUID,
+    notebook_id: UUID,
+) -> Professional | None:
+
+    structure: Structure | None = await get_structure_by_name(
+        connection, csv_row.struct_principale
+    )
+
+    if not structure:
+        client = PoleEmploiApiClient(
+            auth_base_url=settings.PE_AUTH_BASE_URL,
+            base_url=settings.PE_BASE_URL,
+            client_id=settings.PE_CLIENT_ID,
+            client_secret=settings.PE_CLIENT_SECRET,
+            scope=settings.PE_SCOPE,
+        )
+
+        agences: list[Agence] = client.recherche_agences_pydantic(
+            csv_row.departement, horaire=False, zonecompetence=False
+        )
+
+        structure: Structure | None = await create_structure_from_agences_list(
+            connection, agences, csv_row.struct_principale, deployment_id
+        )
+
+    if not structure:
+        logging.info(
+            "{} - Structure '{}' not found/created. Import of professional impossible.".format(
+                pe_unique_id, csv_row.struct_principale
+            )
+        )
+        return
+    else:
+        logging.info(
+            "{} - Structure '{}' found".format(pe_unique_id, csv_row.struct_principale)
+        )
+
+    professional: Professional | None = await get_professional_by_email(
+        connection, csv_row.referent_mail
+    )
+
+    if not professional:
+        professional_insert = ProfessionalInsert(
+            structure_id=structure.id,
+            email=csv_row.referent_mail,
+            lastname=csv_row.referent_nom,
+            firstname=csv_row.referent_prenom,
+            mobile_number=None,
+            position=None,
+        )
+
+        professional: Professional | None = await insert_professional(
+            connection, professional_insert
+        )
+
+        if professional:
+
+            logging.info(
+                "{} - Professional {} inserted and attached to structure {}".format(
+                    pe_unique_id, csv_row.referent_mail, structure.name
+                )
+            )
+            account: AccountDB | None = await insert_professional_account(
+                connection,
+                username=str(uuid.uuid4()),
+                confirmed=True,
+                professional_id=professional.id,
+            )
+
+            if not account:
+                logging.error(
+                    "{} - Impossible to create account for {}".format(
+                        pe_unique_id, csv_row.referent_mail
+                    )
+                )
+            else:
+                notebook_member_insert = NotebookMemberInsert(
+                    notebook_id=notebook_id,
+                    account_id=account.id,
+                    member_type=NotebookMemberTypeEnum.NO_REFERENT,
+                    active=True,
+                )
+                notebook_member: NotebookMember | None = await insert_notebook_member(
+                    connection, notebook_member_insert
+                )
+                if notebook_member:
+                    logging.info(
+                        "{} - Professional added to notebook_member {} as {}. Notebook id: {}. Csv row {}".format(
+                            pe_unique_id,
+                            notebook_member.id,
+                            notebook_member.member_type,
+                            notebook_id,
+                            csv_row,
+                        )
+                    )
+                else:
+                    logging.error(
+                        "{} - Impossible to add professional as notebook_member".format(
+                            pe_unique_id
+                        )
+                    )
+        return professional
+    else:
+        logging.info("{} - Professional already exists".format(pe_unique_id))
+
+
+async def import_beneficiary(
+    connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
+) -> Beneficiary | None:
+
+    beneficiary: Beneficiary | None = await get_beneficiary_from_personal_information(
+        connection,
+        firstname=csv_row.prenom,
+        lastname=csv_row.nom,
+        birth_date=csv_row.date_naissance,
+    )
+
+    if beneficiary and beneficiary.notebook is not None:
+
+        logging.info(
+            "{} - Found matching beneficiary {}".format(pe_unique_id, beneficiary.id)
+        )
+
+        # Insert the missing wanted jobs into the DB
+        beneficiary.notebook = await insert_wanted_jobs_for_csv_row_and_notebook(
+            connection,
+            csv_row,
+            beneficiary.notebook,
+            pe_unique_id,
+        )
+
+        return beneficiary
+    else:
+        logging.info(
+            "{} - No matching beneficiary with notebook found".format(pe_unique_id)
+        )
+
+
 async def save_external_data(
-    connection: Connection, beneficiary: Beneficiary, csv_row: PrincipalCsvRow
+    connection: Connection,
+    beneficiary: Beneficiary,
+    csv_row: PrincipalCsvRow,
+    professional: Professional | None = None,
 ) -> ExternalData | None:
 
     # Do we already have some external data for this beneficiary?
@@ -100,16 +270,23 @@ async def save_external_data(
 
     hash_result: str = await get_sha256(csv_row)
 
+    external_data_dict = {"beneficiary": beneficiary.dict()}
+    if professional:
+        external_data_dict["professional"] = professional.dict()
+
     if external_data is None:
         # If not, we should insert it
 
         logging.info("No external_data for {}".format(beneficiary.id))
-        external_data: ExternalData | None = await insert_external_data_for_beneficiary(
-            connection,
-            beneficiary,
-            ExternalSource.PE,
-            format_external_data(csv_row.dict(), {"beneficiary": beneficiary.dict()}),
-            hash_result,
+        external_data: ExternalData | None = (
+            await insert_external_data_for_beneficiary_and_professional(
+                connection,
+                beneficiary,
+                ExternalSource.PE,
+                format_external_data(csv_row.dict(), external_data_dict),
+                hash_result,
+                professional=professional,
+            )
         )
     elif hash_result != external_data.hash:
         # If we have some and the new content is different, let's update it.
@@ -118,11 +295,11 @@ async def save_external_data(
 
         logging.info("Found external_data for {}".format(beneficiary.id))
         logging.info(external_data)
-        external_data.data = format_external_data(
-            csv_row.dict(), {"beneficiary": beneficiary.dict()}
-        )
-        updated_external_data: ExternalData | None = await update_external_data(
-            connection, external_data
+        external_data.data = format_external_data(csv_row.dict(), external_data_dict)
+        updated_external_data: ExternalData | None = (
+            await update_external_data_for_beneficiary_and_professional(
+                connection, external_data, beneficiary, professional
+            )
         )
 
         external_data = updated_external_data

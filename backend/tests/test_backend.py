@@ -1,7 +1,7 @@
 from datetime import date
 
 from cdb_csv import pe
-from cdb_csv.csv_row import PrincipalCsvRow
+from cdb_csv.models.csv_row import PrincipalCsvRow
 
 
 async def test_csv_row(pe_principal_csv_series):
@@ -41,7 +41,7 @@ async def test_csv_row(pe_principal_csv_series):
     assert res.referent_civilite == "Mme"
     assert res.referent_nom == "REFERENT_NOM 1"
     assert res.referent_prenom == "Referent_prenom 1"
-    assert res.referent_mail == "referent_prenom1.referent_nom1@pole-emploi.net"
+    assert res.referent_mail == "sanka@groupe-ns.fr"
     assert res.modalite_accompagnement == "GUIDE"
     assert res.struct_suivi == "RETHEL"
     assert res.suivi_debut == date(2017, 5, 22)

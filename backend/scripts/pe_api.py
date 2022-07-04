@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import os
 
@@ -12,16 +13,16 @@ logging.basicConfig(level=logging.INFO)
 async def main():
 
     client = PoleEmploiApiClient(
-        auth_base_url="https://entreprise.pole-emploi.fr",
-        base_url="https://api.emploi-store.fr",
-        client_id=os.getenv("CDB_PE_CLIENT_ID", ""),
-        client_secret=os.getenv("CDB_PE_CLIENT_SECRET", ""),
-        scope="api_referentielagencesv1 organisationpe",
+        auth_base_url=settings.PE_AUTH_BASE_URL,
+        base_url=settings.PE_BASE_URL,
+        client_id=settings.PE_CLIENT_ID,
+        client_secret=settings.PE_CLIENT_SECRET,
+        scope=settings.PE_SCOPE,
     )
 
-    agences = client.recherche_agences_pydantic("72", horaire=True, zonecompetence=True)
+    agences = client.recherche_agences_pydantic("8")
 
-    print(agences)
+    print([agence.json() for agence in agences])
 
 
 if __name__ == "__main__":

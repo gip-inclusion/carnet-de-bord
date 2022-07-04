@@ -78,7 +78,7 @@ class PoleEmploiApiClient:
     def _headers(self) -> dict:
         return {"Authorization": self.token, "Content-Type": "application/json"}
 
-    def _get_request(self, url: str, params: dict) -> dict:
+    def _get_request(self, url: str, params: dict):
         try:
             self._refresh_token()
             response = httpx.get(
@@ -97,6 +97,7 @@ class PoleEmploiApiClient:
         horaire: bool = False,
         zonecompetence: bool = False,
         agences_url: str | None = None,
+        add_padding: bool = True,
     ) -> List[dict]:
         """Example data:
         {
@@ -302,6 +303,12 @@ class PoleEmploiApiClient:
            }
         ]
         """
+
+        if add_padding:
+            # By default, if your looking for the department number 8
+            # you need to pass "08" to the API
+            commune = commune.rjust(2, "0")
+
         data = self._get_request(
             self.agences_url if agences_url is None else agences_url,
             params={
@@ -313,5 +320,5 @@ class PoleEmploiApiClient:
         return data
 
     def recherche_agences_pydantic(self, *args, **kwargs) -> List[Agence]:
-        agences: dict = self.recherche_agences(*args, **kwargs)
+        agences: List[dict] = self.recherche_agences(*args, **kwargs)
         return [Agence.parse_obj(agence) for agence in agences]

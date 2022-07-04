@@ -6,23 +6,15 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
 class Settings(BaseSettings):
-    app_url: str
-    database_url: str
-    hasura_graphql_jwt_secret: str
 
-    PE_AUTH_BASE_URL: str = "https://entreprise.pole-emploi.fr"
-    PE_BASE_URL: str = "https://api.emploi-store.fr"
-    PE_SCOPE = "api_referentielagencesv1 organisationpe"
-    PE_CLIENT_ID: str = "CLIENT_ID"
-    PE_CLIENT_SECRET: str = "CLIENT_SECRET"
+    pe_agencies_url: str = "https://api.emploi-store.fr/partenaire/referentielagences"
+    pe_access_token_api_url: str = (
+        "https://entreprise.pole-emploi.fr/connexion/oauth2/access_token"
+    )
 
-    smtp_host: str
-    smtp_port: str
-    smtp_user: str | None
-    smtp_pass: str | None
-
-    V1_PREFIX: str = "/v1"
-    MAIL_FROM: str = "support.carnet-de-bord@fabrique.social.gouv.fr"
+    pe_client_id: str
+    pe_client_secret: str
+    pe_referentielagences_scope: str = "api_referentielagencesv1 organisationpe"
 
     class Config:
         env_file = ".env"

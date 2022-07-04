@@ -12,6 +12,7 @@ from api.db.models.external_data import (
     ExternalDataInsert,
     ExternalSource,
 )
+from api.db.models.professional import Professional
 from cdb_csv.json_encoder import CustomEncoder
 
 
@@ -27,8 +28,11 @@ async def parse_external_data_from_record(record: Record) -> ExternalData:
     )
 
 
-async def update_external_data(
-    connection: Connection, external_data: ExternalData
+async def update_external_data_for_beneficiary_and_professional(
+    connection: Connection,
+    external_data: ExternalData,
+    beneficiary: Beneficiary,
+    professional: Professional | None,
 ) -> ExternalData | None:
 
     record = await connection.fetchrow(
@@ -43,11 +47,33 @@ async def update_external_data(
         external_data.id,
     )
 
-    if record:
+    record_info = await connection.fetchrow(
+        """
+            UPDATE external_data_info SET beneficiary_id = $1, professional_id = $2
+            WHERE external_data_info.external_data_id = $3
+            returning external_data_id, beneficiary_id, created_at, updated_at, professional_id
+            """,
+        beneficiary.id,
+        professional.id if professional else None,
+        external_data.id,
+    )
+
+    if record and record_info:
         external_data.source = record["source"]
         external_data.data = json.loads(record["data"])
         external_data.updated_at = record["updated_at"]
         external_data.hash = record["hash"]
+
+        info = ExternalDataInfo(
+            external_data_id=record_info["external_data_id"],
+            beneficiary_id=record_info["beneficiary_id"],
+            professional_id=record_info["professional_id"],
+            created_at=record_info["created_at"],
+            updated_at=record_info["updated_at"],
+        )
+
+        external_data.info = info
+
         return external_data
 
 
@@ -58,7 +84,8 @@ async def get_last_external_data_by_beneficiary_id_and_source(
 
         external_data_record: Record | None = await connection.fetchrow(
             "SELECT external_data.*, external_data_info.created_at as info_created_at, "
-            "external_data_info.updated_at as info_updated_at "
+            "external_data_info.updated_at as info_updated_at, "
+            "external_data_info.professional_id as info_professional_id "
             "FROM external_data "
             "LEFT JOIN external_data_info "
             "ON external_data_info.external_data_id = external_data.id "
@@ -74,6 +101,7 @@ async def get_last_external_data_by_beneficiary_id_and_source(
             info = ExternalDataInfo(
                 external_data_id=external_data_record["id"],
                 beneficiary_id=beneficiary_id,
+                professional_id=external_data_record["info_professional_id"],
                 created_at=external_data_record["info_created_at"],
                 updated_at=external_data_record["info_updated_at"],
             )
@@ -125,12 +153,13 @@ async def insert_external_data_info(
         return ExternalDataInfo.parse_obj(v)
 
 
-async def insert_external_data_for_beneficiary(
+async def insert_external_data_for_beneficiary_and_professional(
     connection: Connection,
     beneficiary: Beneficiary,
     source: ExternalSource,
     data: dict,
     hash: str,
+    professional: Professional | None,
 ) -> ExternalData | None:
 
     external_data_insert = ExternalDataInsert(source=source, data=data, hash=hash)
@@ -139,8 +168,13 @@ async def insert_external_data_for_beneficiary(
     )
 
     if external_data:
+        professional_id = None
+        if professional:
+            professional_id = professional.id
         external_info_insert = ExternalDataInfoInsert(
-            external_data_id=external_data.id, beneficiary_id=beneficiary.id
+            external_data_id=external_data.id,
+            beneficiary_id=beneficiary.id,
+            professional_id=professional_id,
         )
         external_info: ExternalDataInfo | None = await insert_external_data_info(
             connection, external_info_insert

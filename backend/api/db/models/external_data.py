@@ -19,9 +19,13 @@ class ExternalDataUpdate(ExternalDataInsert):
     id: UUID
 
 
-class ExternalDataInfo(BaseModel):
+class ExternalDataInfoInsert(BaseModel):
+    beneficiary_id: UUID | None = None
+    professional_id: UUID | None = None
     external_data_id: UUID
-    beneficiary_id: UUID | None
+
+
+class ExternalDataInfo(ExternalDataInfoInsert):
     created_at: datetime
     updated_at: datetime
 
@@ -35,11 +39,6 @@ class ExternalData(BaseModel):
     created_at: datetime
     updated_at: datetime
     info: ExternalDataInfo | None
-
-
-class ExternalDataInfoInsert(BaseModel):
-    beneficiary_id: UUID | None
-    external_data_id: UUID
 
 
 def format_external_data(source: dict, parsed: dict) -> dict:

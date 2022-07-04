@@ -1,3 +1,4 @@
+from datetime import date
 from typing import List
 from uuid import UUID
 
@@ -8,7 +9,6 @@ from api.db.models.beneficiary import Beneficiary
 from api.db.models.notebook import Notebook
 from api.db.models.rome_code import RomeCode
 from api.db.models.wanted_job import WantedJob
-from cdb_csv.csv_row import PrincipalCsvRow
 
 
 async def get_beneficiary_with_query(
@@ -72,8 +72,8 @@ async def get_beneficiary_with_query(
         return beneficiary
 
 
-async def get_beneficiary_from_csv(
-    connection: Connection, csv_row: PrincipalCsvRow
+async def get_beneficiary_from_personal_information(
+    connection: Connection, firstname: str, lastname: str, birth_date: date
 ) -> Beneficiary | None:
 
     return await get_beneficiary_with_query(
@@ -81,9 +81,9 @@ async def get_beneficiary_from_csv(
         "WHERE LOWER(public.beneficiary.firstname) = LOWER($1) AND "
         "LOWER(public.beneficiary.lastname) = LOWER($2) AND "
         "public.beneficiary.date_of_birth = $3",
-        csv_row.prenom,
-        csv_row.nom,
-        csv_row.date_naissance,
+        firstname,
+        lastname,
+        birth_date,
     )
 
 
