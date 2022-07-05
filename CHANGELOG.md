@@ -1,3 +1,10 @@
+# [1.120.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.5...v1.120.0) (2022-07-05)
+
+
+### Features
+
+* add cej contract ([#912](https://github.com/SocialGouv/carnet-de-bord/issues/912)) ([92d85b3](https://github.com/SocialGouv/carnet-de-bord/commit/92d85b3cd44d89d303a310f4f9dbaa1e0eb23635))
+
 ## [1.119.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.4...v1.119.5) (2022-07-05)
 
 
