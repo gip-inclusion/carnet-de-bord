@@ -15,6 +15,15 @@ from api.db.models.external_data import (
 from api.db.models.professional import Professional
 from cdb_csv.json_encoder import CustomEncoder
 
+SELECT_ALL_QUERY = (
+    "SELECT external_data.*, external_data_info.created_at as info_created_at, external_data_info.beneficiary_id as info_beneficiary_id, "
+    "external_data_info.updated_at as info_updated_at, "
+    "external_data_info.professional_id as info_professional_id "
+    "FROM external_data "
+    "LEFT JOIN external_data_info "
+    "ON external_data_info.external_data_id = external_data.id "
+)
+
 
 async def parse_external_data_from_record(record: Record) -> ExternalData:
     return ExternalData(
@@ -77,45 +86,70 @@ async def update_external_data_for_beneficiary_and_professional(
         return external_data
 
 
+async def get_external_datas_with_query(
+    connection: Connection, query: str, *args
+) -> list[ExternalData]:
+    async with connection.transaction():
+
+        external_data_records: list[Record] = await connection.fetch(
+            SELECT_ALL_QUERY + query, *args
+        )
+
+        return [
+            await create_external_data_from_record(record)
+            for record in external_data_records
+        ]
+
+
+async def get_external_data_with_query(
+    connection: Connection, query: str, *args
+) -> ExternalData | None:
+    async with connection.transaction():
+
+        external_data_record: Record | None = await connection.fetchrow(
+            SELECT_ALL_QUERY + query, *args
+        )
+
+        if external_data_record:
+            return await create_external_data_from_record(external_data_record)
+
+
+async def create_external_data_from_record(
+    external_data_record: Record,
+) -> ExternalData:
+
+    info = ExternalDataInfo(
+        external_data_id=external_data_record["id"],
+        beneficiary_id=external_data_record["info_beneficiary_id"],
+        professional_id=external_data_record["info_professional_id"],
+        created_at=external_data_record["info_created_at"],
+        updated_at=external_data_record["info_updated_at"],
+    )
+    external_data = ExternalData(
+        id=external_data_record["id"],
+        source=external_data_record["source"],
+        data=json.loads(external_data_record["data"]),
+        created_at=external_data_record["created_at"],
+        updated_at=external_data_record["updated_at"],
+        hash=external_data_record["hash"],
+        info=info,
+    )
+    return external_data
+
+
 async def get_last_external_data_by_beneficiary_id_and_source(
     connection: Connection, beneficiary_id: UUID, source: ExternalSource
 ) -> ExternalData | None:
     async with connection.transaction():
 
-        external_data_record: Record | None = await connection.fetchrow(
-            "SELECT external_data.*, external_data_info.created_at as info_created_at, "
-            "external_data_info.updated_at as info_updated_at, "
-            "external_data_info.professional_id as info_professional_id "
-            "FROM external_data "
-            "LEFT JOIN external_data_info "
-            "ON external_data_info.external_data_id = external_data.id "
+        return await get_external_data_with_query(
+            connection,
             "WHERE external_data_info.beneficiary_id = $1 "
             "AND external_data.source = $2 "
             "ORDER BY created_at DESC",
             beneficiary_id,
             source,
         )
-
-        if external_data_record:
-
-            info = ExternalDataInfo(
-                external_data_id=external_data_record["id"],
-                beneficiary_id=beneficiary_id,
-                professional_id=external_data_record["info_professional_id"],
-                created_at=external_data_record["info_created_at"],
-                updated_at=external_data_record["info_updated_at"],
-            )
-            external_data = ExternalData(
-                id=external_data_record["id"],
-                source=external_data_record["source"],
-                data=json.loads(external_data_record["data"]),
-                created_at=external_data_record["created_at"],
-                updated_at=external_data_record["updated_at"],
-                hash=external_data_record["hash"],
-                info=info,
-            )
-
-            return external_data
 
 
 async def insert_external_data(
