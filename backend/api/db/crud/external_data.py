@@ -152,6 +152,21 @@ async def get_last_external_data_by_beneficiary_id_and_source(
         )
 
 
+async def get_all_external_datas_by_beneficiary_id_and_source(
+    connection: Connection, beneficiary_id: UUID, source: ExternalSource
+) -> list[ExternalData]:
+    async with connection.transaction():
+
+        return await get_external_datas_with_query(
+            connection,
+            "WHERE external_data_info.beneficiary_id = $1 "
+            "AND external_data.source = $2 "
+            "ORDER BY created_at DESC",
+            beneficiary_id,
+            source,
+        )
+
+
 async def insert_external_data(
     connection: Connection, external_data_insert: ExternalDataInsert
 ) -> ExternalData | None:

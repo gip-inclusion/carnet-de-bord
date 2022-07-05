@@ -1,6 +1,7 @@
 from asyncpg.connection import Connection
 
 from api.db.crud.external_data import (
+    get_all_external_datas_by_beneficiary_id_and_source,
     get_last_external_data_by_beneficiary_id_and_source,
 )
 from api.db.models.beneficiary import Beneficiary
@@ -73,6 +74,12 @@ async def test_check_existing_external_data(
     assert external_data.data["parsed"]["professional"]["lastname"] == "Chevalier"
     assert external_data.data["source"]["nom"] == "TIFOUR"
 
+    datas = await get_all_external_datas_by_beneficiary_id_and_source(
+        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
+    )
+
+    assert len(datas) == 1
+
     beneficiary_sophie_tifour.lastname = "Newname"
     csv_row.nom = "Newname"
     professional_pierre_chevalier.lastname = "Newlastname"
@@ -93,3 +100,9 @@ async def test_check_existing_external_data(
         external_data.hash
         == "beaae517011c2204b5425c6eb58388cb9b370a71223000bf192964245182a6d6"
     )
+
+    datas = await get_all_external_datas_by_beneficiary_id_and_source(
+        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
+    )
+
+    assert len(datas) == 2
