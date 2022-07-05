@@ -121,7 +121,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: Run image
-        uses: abatilo/actions-poetry@v2.1.4
+        uses: abatilo/actions-poetry@v2.1.5
         with:
           poetry-version: 1.1.13
 
@@ -171,17 +171,17 @@ jobs:
           name: manifests-dev.yaml
 
       - name: Get deployment url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: app
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
       - name: Get deployment url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: backend
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1 | tail -n 1)
       - name: Get smtp url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: smtp
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 7 | tail -n 1)
@@ -214,12 +214,12 @@ jobs:
         with:
           name: manifests-dev.yaml
       - name: Get deployment url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: app
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
       - name: Get hasura url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: hasura
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - |  head -n 5 | tail -n 1 )
@@ -258,12 +258,12 @@ jobs:
         with:
           name: manifests-dev.yaml
       - name: Get deployment url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: app
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
       - name: Get hasura url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: hasura
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - |  head -n 5 | tail -n 1 )
