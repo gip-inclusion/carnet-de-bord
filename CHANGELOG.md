@@ -1,3 +1,10 @@
+## [1.119.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.4...v1.119.5) (2022-07-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency uvicorn to ^0.18.0 ([#904](https://github.com/SocialGouv/carnet-de-bord/issues/904)) ([4fb6643](https://github.com/SocialGouv/carnet-de-bord/commit/4fb664332d8aecb47fcbde6f2fe88cbf1395f619))
+
 ## [1.119.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.3...v1.119.4) (2022-07-04)
 
 

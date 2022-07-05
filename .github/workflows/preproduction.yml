@@ -98,12 +98,12 @@ jobs:
         with:
           name: manifests-preprod.yaml
       - name: Get deployment url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: app
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
       - name: Get hasura url
-        uses: mikefarah/yq@v4.25.2
+        uses: mikefarah/yq@v4.25.3
         id: hasura
         with:
           cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 5 | tail -n 1 )
