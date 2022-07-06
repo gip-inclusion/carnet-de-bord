@@ -19,8 +19,10 @@ exports.config = {
 		},
 		Playwright: {
 			browser: 'chromium',
+			locale: 'fr',
 			show: process.env.CODECEPT_UI ? true : false,
 			url: process.env.CODECEPT_BASEURL || 'http://localhost:3000',
+			video: true,
 		},
 	},
 	hooks: [],
