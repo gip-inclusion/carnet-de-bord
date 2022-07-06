@@ -27,7 +27,7 @@ app:
 
 hasura:
   enabled: true
-  containerPort: 80
+  containerPort: 8080
   envFrom:
     - secretRef:
         name: pg-user
