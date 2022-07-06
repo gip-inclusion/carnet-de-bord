@@ -1,3 +1,10 @@
+# [1.121.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.120.2...v1.121.0) (2022-07-06)
+
+
+### Features
+
+* orientation manager home ([#872](https://github.com/SocialGouv/carnet-de-bord/issues/872)) ([cf34e59](https://github.com/SocialGouv/carnet-de-bord/commit/cf34e59d9afefddf47e705b112b8c66f1e7f3b28)), closes [#873](https://github.com/SocialGouv/carnet-de-bord/issues/873) [#874](https://github.com/SocialGouv/carnet-de-bord/issues/874) [#875](https://github.com/SocialGouv/carnet-de-bord/issues/875) [#883](https://github.com/SocialGouv/carnet-de-bord/issues/883) [#903](https://github.com/SocialGouv/carnet-de-bord/issues/903)
+
 ## [1.120.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.120.1...v1.120.2) (2022-07-06)
 
 
