@@ -1,3 +1,10 @@
+## [1.120.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.120.0...v1.120.1) (2022-07-06)
+
+
+### Bug Fixes
+
+* set deployment_id non nullable on beneficiary ([#911](https://github.com/SocialGouv/carnet-de-bord/issues/911)) ([65c6ad9](https://github.com/SocialGouv/carnet-de-bord/commit/65c6ad946947860de3e06b3939d8b78a2a5469e5))
+
 # [1.120.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.5...v1.120.0) (2022-07-05)
 
 
