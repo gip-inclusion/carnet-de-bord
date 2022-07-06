@@ -1,3 +1,10 @@
+## [1.121.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.0...v1.121.1) (2022-07-06)
+
+
+### Bug Fixes
+
+* hasura container without root ([#917](https://github.com/SocialGouv/carnet-de-bord/issues/917)) ([aaece83](https://github.com/SocialGouv/carnet-de-bord/commit/aaece833e45df50fc43ae48daed25f5ba08fabd1))
+
 # [1.121.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.120.2...v1.121.0) (2022-07-06)
 
 
