@@ -29,7 +29,7 @@ services:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
     ports:
-      - '5001:80'
+      - '5001:8080'
     depends_on:
       - 'db_test'
     restart: always
