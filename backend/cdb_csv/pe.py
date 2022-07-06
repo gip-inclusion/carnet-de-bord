@@ -75,32 +75,25 @@ async def parse_principal_csv_with_db(connection: Connection, principal_csv: str
             if beneficiary:
                 await save_external_data(connection, beneficiary, csv_row)
 
-                if beneficiary.deployment_id:
-                    if beneficiary.notebook:
-                        professional = await import_pe_referent(
-                            connection,
-                            csv_row,
-                            row["identifiant_unique_de"],
-                            beneficiary.deployment_id,
-                            beneficiary.notebook.id,
-                        )
+                if beneficiary.notebook:
+                    professional = await import_pe_referent(
+                        connection,
+                        csv_row,
+                        row["identifiant_unique_de"],
+                        beneficiary.deployment_id,
+                        beneficiary.notebook.id,
+                    )
 
-                        if professional:
-                            await save_external_data(
-                                connection,
-                                beneficiary,
-                                csv_row,
-                                professional=professional,
-                            )
-                    else:
-                        logging.error(
-                            "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
-                                row["identifiant_unique_de"]
-                            )
+                    if professional:
+                        await save_external_data(
+                            connection,
+                            beneficiary,
+                            csv_row,
+                            professional=professional,
                         )
                 else:
                     logging.error(
-                        "{} - No deployment for beneficiary. Skipping pe_referent import.".format(
+                        "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
                             row["identifiant_unique_de"]
                         )
                     )

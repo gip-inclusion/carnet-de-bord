@@ -1390,13 +1390,11 @@ export type BeneficiaryBoolExp = {
 /** unique or primary key constraints on table "beneficiary" */
 export enum BeneficiaryConstraint {
 	/** unique or primary key constraint */
-	BeneficiaryFirstnameCafNumberDateOfBirthLastnameDeploym = 'beneficiary_firstname_caf_number_date_of_birth_lastname_deploym',
-	/** unique or primary key constraint */
 	BeneficiaryInternalIdKey = 'beneficiary_internal_id_key',
 	/** unique or primary key constraint */
-	BeneficiaryPeNumberLastnameFirstnameDateOfBirthDeployme = 'beneficiary_pe_number_lastname_firstname_date_of_birth_deployme',
-	/** unique or primary key constraint */
 	BeneficiaryPkey = 'beneficiary_pkey',
+	/** unique or primary key constraint */
+	FirstnameLastnameDateOfBirthUniqueIdx = 'firstname_lastname_date_of_birth_unique_idx',
 }
 
 /** input type for inserting data into table "beneficiary" */
@@ -2450,6 +2448,7 @@ export type ExternalDataInfo = {
 	beneficiary_id?: Maybe<Scalars['uuid']>;
 	created_at: Scalars['timestamptz'];
 	external_data_id: Scalars['uuid'];
+	professional_id?: Maybe<Scalars['uuid']>;
 	updated_at: Scalars['timestamptz'];
 };
 
@@ -2483,6 +2482,7 @@ export type ExternalDataInfoBoolExp = {
 	beneficiary_id?: InputMaybe<UuidComparisonExp>;
 	created_at?: InputMaybe<TimestamptzComparisonExp>;
 	external_data_id?: InputMaybe<UuidComparisonExp>;
+	professional_id?: InputMaybe<UuidComparisonExp>;
 	updated_at?: InputMaybe<TimestamptzComparisonExp>;
 };
 
@@ -2498,6 +2498,7 @@ export type ExternalDataInfoInsertInput = {
 	beneficiary_id?: InputMaybe<Scalars['uuid']>;
 	created_at?: InputMaybe<Scalars['timestamptz']>;
 	external_data_id?: InputMaybe<Scalars['uuid']>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
 	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -2507,6 +2508,7 @@ export type ExternalDataInfoMaxFields = {
 	beneficiary_id?: Maybe<Scalars['uuid']>;
 	created_at?: Maybe<Scalars['timestamptz']>;
 	external_data_id?: Maybe<Scalars['uuid']>;
+	professional_id?: Maybe<Scalars['uuid']>;
 	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -2516,6 +2518,7 @@ export type ExternalDataInfoMinFields = {
 	beneficiary_id?: Maybe<Scalars['uuid']>;
 	created_at?: Maybe<Scalars['timestamptz']>;
 	external_data_id?: Maybe<Scalars['uuid']>;
+	professional_id?: Maybe<Scalars['uuid']>;
 	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -2541,6 +2544,7 @@ export type ExternalDataInfoOrderBy = {
 	beneficiary_id?: InputMaybe<OrderBy>;
 	created_at?: InputMaybe<OrderBy>;
 	external_data_id?: InputMaybe<OrderBy>;
+	professional_id?: InputMaybe<OrderBy>;
 	updated_at?: InputMaybe<OrderBy>;
 };
 
@@ -2558,6 +2562,8 @@ export enum ExternalDataInfoSelectColumn {
 	/** column name */
 	ExternalDataId = 'external_data_id',
 	/** column name */
+	ProfessionalId = 'professional_id',
+	/** column name */
 	UpdatedAt = 'updated_at',
 }
 
@@ -2566,6 +2572,7 @@ export type ExternalDataInfoSetInput = {
 	beneficiary_id?: InputMaybe<Scalars['uuid']>;
 	created_at?: InputMaybe<Scalars['timestamptz']>;
 	external_data_id?: InputMaybe<Scalars['uuid']>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
 	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -2577,6 +2584,8 @@ export enum ExternalDataInfoUpdateColumn {
 	CreatedAt = 'created_at',
 	/** column name */
 	ExternalDataId = 'external_data_id',
+	/** column name */
+	ProfessionalId = 'professional_id',
 	/** column name */
 	UpdatedAt = 'updated_at',
 }
@@ -2899,8 +2908,8 @@ export type Manager = {
 	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
-	deployment?: Maybe<Deployment>;
-	deploymentId?: Maybe<Scalars['uuid']>;
+	deployment: Deployment;
+	deploymentId: Scalars['uuid'];
 	email: Scalars['citext'];
 	firstname?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
@@ -6555,6 +6564,10 @@ export type OrientationManager = {
 	__typename?: 'orientation_manager';
 	/** An object relationship */
 	account?: Maybe<Account>;
+	/** An array relationship */
+	accounts: Array<Account>;
+	/** An aggregate relationship */
+	accounts_aggregate: AccountAggregate;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	deployment: Deployment;
@@ -6566,6 +6579,36 @@ export type OrientationManager = {
 	/** liste des numéros de téléphones séparés par des virgules */
 	phoneNumbers?: Maybe<Scalars['String']>;
 	updatedAt: Scalars['timestamptz'];
+};
+
+/**
+ * Table des chargés d’orientation
+ *
+ *
+ * columns and relationships of "orientation_manager"
+ *
+ */
+export type OrientationManagerAccountsArgs = {
+	distinct_on?: InputMaybe<Array<AccountSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AccountOrderBy>>;
+	where?: InputMaybe<AccountBoolExp>;
+};
+
+/**
+ * Table des chargés d’orientation
+ *
+ *
+ * columns and relationships of "orientation_manager"
+ *
+ */
+export type OrientationManagerAccountsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AccountSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AccountOrderBy>>;
+	where?: InputMaybe<AccountBoolExp>;
 };
 
 /** aggregated selection of "orientation_manager" */
@@ -6609,6 +6652,7 @@ export type OrientationManagerBoolExp = {
 	_not?: InputMaybe<OrientationManagerBoolExp>;
 	_or?: InputMaybe<Array<OrientationManagerBoolExp>>;
 	account?: InputMaybe<AccountBoolExp>;
+	accounts?: InputMaybe<AccountBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment?: InputMaybe<DeploymentBoolExp>;
 	deploymentId?: InputMaybe<UuidComparisonExp>;
@@ -6631,6 +6675,7 @@ export enum OrientationManagerConstraint {
 /** input type for inserting data into table "orientation_manager" */
 export type OrientationManagerInsertInput = {
 	account?: InputMaybe<AccountObjRelInsertInput>;
+	accounts?: InputMaybe<AccountArrRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
 	deploymentId?: InputMaybe<Scalars['uuid']>;
@@ -6723,6 +6768,7 @@ export type OrientationManagerOnConflict = {
 /** Ordering options when selecting data from "orientation_manager". */
 export type OrientationManagerOrderBy = {
 	account?: InputMaybe<AccountOrderBy>;
+	accounts_aggregate?: InputMaybe<AccountAggregateOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	deployment?: InputMaybe<DeploymentOrderBy>;
 	deploymentId?: InputMaybe<OrderBy>;
@@ -11013,10 +11059,7 @@ export type GetAccountInfoQuery = {
 			  }
 			| null
 			| undefined;
-		manager?:
-			| { __typename?: 'manager'; deploymentId?: string | null | undefined }
-			| null
-			| undefined;
+		manager?: { __typename?: 'manager'; deploymentId: string } | null | undefined;
 		admin_structure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
 	}>;
 };
