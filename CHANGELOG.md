@@ -1,3 +1,10 @@
+## [1.120.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.120.1...v1.120.2) (2022-07-06)
+
+
+### Bug Fixes
+
+* secret ([2c2c47e](https://github.com/SocialGouv/carnet-de-bord/commit/2c2c47ecb4e792964cd65dac8504c3b316bbee48))
+
 ## [1.120.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.120.0...v1.120.1) (2022-07-06)
 
 
