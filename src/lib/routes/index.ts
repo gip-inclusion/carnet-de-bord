@@ -30,7 +30,16 @@ const adminStructureHome: Route = {
 	path: '/structures',
 };
 
-export type AppRoles = 'professional' | 'admin_cdb' | 'beneficiary' | 'manager' | 'admin_structure';
+const orientationManagerHome: Route = {
+	path: '/orientation',
+};
+export type AppRoles =
+	| 'professional'
+	| 'admin_cdb'
+	| 'beneficiary'
+	| 'manager'
+	| 'admin_structure'
+	| 'orientation_manager';
 
 const homes: Record<AppRoles, Route> = {
 	professional: proHome,
@@ -38,6 +47,7 @@ const homes: Record<AppRoles, Route> = {
 	beneficiary: beneficiaryHome,
 	manager: managerHome,
 	admin_structure: adminStructureHome,
+	orientation_manager: orientationManagerHome,
 };
 
 export const homeForRole = (role: string): string => {
@@ -58,6 +68,8 @@ export const baseUrlForRole = (role: string): string => {
 		return '/manager';
 	} else if (role === 'admin_structure') {
 		return '/structures';
+	} else if (role === 'orientation_manager') {
+		return '/orientation';
 	}
 	throw new Error(`role ${role} is not handled!`);
 };

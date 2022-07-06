@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import '../app.css';
 
-	import { setClient, Client } from '@urql/svelte';
+	import type { Client } from '@urql/core';
 	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
 	import redirectUrl from '$lib/utils/redirectUrl';
 	import createClient from '$lib/graphql/createClient';
@@ -20,7 +20,7 @@
 			};
 		}
 
-		const client = createClient(session);
+		const client: Client = createClient(session);
 
 		return {
 			props: {
@@ -35,6 +35,7 @@
 	import { page } from '$app/stores';
 	import { browser } from '$app/env';
 	import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
+	import { setClient } from '@urql/svelte';
 
 	export let client: Client;
 	setClient(client);

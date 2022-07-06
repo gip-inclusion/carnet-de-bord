@@ -64,4 +64,4 @@
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
 <h1>Bénéficiaires</h1>
-<Container {structureId} {filter} {search} {currentPage} />
+<Container listType="structure" {structureId} {filter} {search} {currentPage} />

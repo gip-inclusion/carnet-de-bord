@@ -11,6 +11,7 @@
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { buildSituationOptions } from './focusOptionsBuilder';
 	import ProNotebookFocusConfirmation from './ProNotebookFocusConfirmation.svelte';
+	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let notebookId: string | null;
 
@@ -78,38 +79,40 @@
 			Veuillez renseigner les informations ci-dessous pour créer un nouvel axe de travail.
 		</p>
 	</div>
-	<div>
-		<h2 class="fr-h4 text-france-blue">Axe de travail</h2>
-		<Radio
-			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
-			bind:selected={formData.linkedTo}
-			options={contractTypeFullKeys.options}
-		/>
-		<Select
-			selectLabel={'Thème'}
-			options={focusThemeKeys.options}
-			bind:selected={formData.theme}
-			on:select={() => selectTheme()}
-		/>
-	</div>
-	{#if formData.theme}
+	<LoaderIndicator result={refSituationStore}>
 		<div>
-			<h2 class="fr-h4 text-france-blue">Situation</h2>
-			{#if situationOptions.length === 0}
-				<p>Aucune situation ne correspond à ce thème.</p>
-			{:else}
-				<Checkboxes
-					globalClassNames={'flex flex-row flex-wrap gap-4'}
-					checkboxesCommonClassesNames={`!mt-0 w-5/12`}
-					caption={''}
-					bind:selectedOptions={formData.situations}
-					options={situationOptions}
-				/>
-			{/if}
+			<h2 class="fr-h4 text-france-blue">Axe de travail</h2>
+			<Radio
+				caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
+				bind:selected={formData.linkedTo}
+				options={contractTypeFullKeys.options}
+			/>
+			<Select
+				selectLabel={'Thème'}
+				options={focusThemeKeys.options}
+				bind:selected={formData.theme}
+				on:select={() => selectTheme()}
+			/>
 		</div>
-	{/if}
-	<div class="py-4 flex flex-row gap-6">
-		<Button {disabled} on:click={createFocus}>Valider</Button>
-		<Button outline={true} on:click={close}>Annuler</Button>
-	</div>
+		{#if formData.theme}
+			<div>
+				<h2 class="fr-h4 text-france-blue">Situation</h2>
+				{#if situationOptions.length === 0}
+					<p>Aucune situation ne correspond à ce thème.</p>
+				{:else}
+					<Checkboxes
+						globalClassNames={'flex flex-row flex-wrap gap-4'}
+						checkboxesCommonClassesNames={`!mt-0 w-5/12`}
+						caption={''}
+						bind:selectedOptions={formData.situations}
+						options={situationOptions}
+					/>
+				{/if}
+			</div>
+		{/if}
+		<div class="py-4 flex flex-row gap-6">
+			<Button {disabled} on:click={createFocus}>Valider</Button>
+			<Button outline={true} on:click={close}>Annuler</Button>
+		</div>
+	</LoaderIndicator>
 </div>

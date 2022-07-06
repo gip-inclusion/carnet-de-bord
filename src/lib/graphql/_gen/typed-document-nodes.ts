@@ -1281,13 +1281,15 @@ export type Beneficiary = {
 	account?: Maybe<Account>;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
+	/** An object relationship */
+	beneficiaryInfo?: Maybe<BeneficiaryInfo>;
 	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	createdAt: Scalars['timestamptz'];
 	dateOfBirth: Scalars['date'];
 	/** An object relationship */
-	deployment?: Maybe<Deployment>;
-	deploymentId?: Maybe<Scalars['uuid']>;
+	deployment: Deployment;
+	deploymentId: Scalars['uuid'];
 	email?: Maybe<Scalars['citext']>;
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
@@ -1367,6 +1369,7 @@ export type BeneficiaryBoolExp = {
 	account?: InputMaybe<AccountBoolExp>;
 	address1?: InputMaybe<StringComparisonExp>;
 	address2?: InputMaybe<StringComparisonExp>;
+	beneficiaryInfo?: InputMaybe<BeneficiaryInfoBoolExp>;
 	cafNumber?: InputMaybe<StringComparisonExp>;
 	city?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -1397,11 +1400,195 @@ export enum BeneficiaryConstraint {
 	FirstnameLastnameDateOfBirthUniqueIdx = 'firstname_lastname_date_of_birth_unique_idx',
 }
 
+/**
+ * beneficiary orientation info
+ *
+ *
+ * columns and relationships of "beneficiary_info"
+ *
+ */
+export type BeneficiaryInfo = {
+	__typename?: 'beneficiary_info';
+	/** An object relationship */
+	beneficiary: Beneficiary;
+	beneficiaryId: Scalars['uuid'];
+	createdAt: Scalars['timestamptz'];
+	orientation: OrientationTypeEnum;
+	/** An object relationship */
+	orientation_type: OrientationType;
+	updatedAt: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "beneficiary_info" */
+export type BeneficiaryInfoAggregate = {
+	__typename?: 'beneficiary_info_aggregate';
+	aggregate?: Maybe<BeneficiaryInfoAggregateFields>;
+	nodes: Array<BeneficiaryInfo>;
+};
+
+/** aggregate fields of "beneficiary_info" */
+export type BeneficiaryInfoAggregateFields = {
+	__typename?: 'beneficiary_info_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<BeneficiaryInfoMaxFields>;
+	min?: Maybe<BeneficiaryInfoMinFields>;
+};
+
+/** aggregate fields of "beneficiary_info" */
+export type BeneficiaryInfoAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "beneficiary_info" */
+export type BeneficiaryInfoAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<BeneficiaryInfoMaxOrderBy>;
+	min?: InputMaybe<BeneficiaryInfoMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "beneficiary_info" */
+export type BeneficiaryInfoArrRelInsertInput = {
+	data: Array<BeneficiaryInfoInsertInput>;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "beneficiary_info". All fields are combined with a logical 'AND'. */
+export type BeneficiaryInfoBoolExp = {
+	_and?: InputMaybe<Array<BeneficiaryInfoBoolExp>>;
+	_not?: InputMaybe<BeneficiaryInfoBoolExp>;
+	_or?: InputMaybe<Array<BeneficiaryInfoBoolExp>>;
+	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
+	beneficiaryId?: InputMaybe<UuidComparisonExp>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	orientation?: InputMaybe<OrientationTypeEnumComparisonExp>;
+	orientation_type?: InputMaybe<OrientationTypeBoolExp>;
+	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "beneficiary_info" */
+export enum BeneficiaryInfoConstraint {
+	/** unique or primary key constraint */
+	BeneficiaryInfoPkey = 'beneficiary_info_pkey',
+}
+
+/** input type for inserting data into table "beneficiary_info" */
+export type BeneficiaryInfoInsertInput = {
+	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	orientation?: InputMaybe<OrientationTypeEnum>;
+	orientation_type?: InputMaybe<OrientationTypeObjRelInsertInput>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type BeneficiaryInfoMaxFields = {
+	__typename?: 'beneficiary_info_max_fields';
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "beneficiary_info" */
+export type BeneficiaryInfoMaxOrderBy = {
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type BeneficiaryInfoMinFields = {
+	__typename?: 'beneficiary_info_min_fields';
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "beneficiary_info" */
+export type BeneficiaryInfoMinOrderBy = {
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "beneficiary_info" */
+export type BeneficiaryInfoMutationResponse = {
+	__typename?: 'beneficiary_info_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<BeneficiaryInfo>;
+};
+
+/** input type for inserting object relation for remote table "beneficiary_info" */
+export type BeneficiaryInfoObjRelInsertInput = {
+	data: BeneficiaryInfoInsertInput;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
+};
+
+/** on conflict condition type for table "beneficiary_info" */
+export type BeneficiaryInfoOnConflict = {
+	constraint: BeneficiaryInfoConstraint;
+	update_columns?: Array<BeneficiaryInfoUpdateColumn>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+/** Ordering options when selecting data from "beneficiary_info". */
+export type BeneficiaryInfoOrderBy = {
+	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	orientation?: InputMaybe<OrderBy>;
+	orientation_type?: InputMaybe<OrientationTypeOrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: beneficiary_info */
+export type BeneficiaryInfoPkColumnsInput = {
+	beneficiaryId: Scalars['uuid'];
+};
+
+/** select columns of table "beneficiary_info" */
+export enum BeneficiaryInfoSelectColumn {
+	/** column name */
+	BeneficiaryId = 'beneficiaryId',
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Orientation = 'orientation',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "beneficiary_info" */
+export type BeneficiaryInfoSetInput = {
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	orientation?: InputMaybe<OrientationTypeEnum>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "beneficiary_info" */
+export enum BeneficiaryInfoUpdateColumn {
+	/** column name */
+	BeneficiaryId = 'beneficiaryId',
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Orientation = 'orientation',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
 /** input type for inserting data into table "beneficiary" */
 export type BeneficiaryInsertInput = {
 	account?: InputMaybe<AccountObjRelInsertInput>;
 	address1?: InputMaybe<Scalars['String']>;
 	address2?: InputMaybe<Scalars['String']>;
+	beneficiaryInfo?: InputMaybe<BeneficiaryInfoObjRelInsertInput>;
 	cafNumber?: InputMaybe<Scalars['String']>;
 	city?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -1536,6 +1723,7 @@ export type BeneficiaryOrderBy = {
 	account?: InputMaybe<AccountOrderBy>;
 	address1?: InputMaybe<OrderBy>;
 	address2?: InputMaybe<OrderBy>;
+	beneficiaryInfo?: InputMaybe<BeneficiaryInfoOrderBy>;
 	cafNumber?: InputMaybe<OrderBy>;
 	city?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
@@ -2908,8 +3096,8 @@ export type Manager = {
 	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
-	deployment: Deployment;
-	deploymentId: Scalars['uuid'];
+	deployment?: Maybe<Deployment>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email: Scalars['citext'];
 	firstname?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
@@ -3147,6 +3335,10 @@ export type MutationRoot = {
 	delete_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** delete single row from the table: "beneficiary" */
 	delete_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** delete data from the table: "beneficiary_info" */
+	delete_beneficiary_info?: Maybe<BeneficiaryInfoMutationResponse>;
+	/** delete single row from the table: "beneficiary_info" */
+	delete_beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
 	/** delete data from the table: "beneficiary_structure" */
 	delete_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
 	/** delete single row from the table: "beneficiary_structure" */
@@ -3207,6 +3399,10 @@ export type MutationRoot = {
 	delete_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
 	/** delete single row from the table: "orientation_manager" */
 	delete_orientation_manager_by_pk?: Maybe<OrientationManager>;
+	/** delete data from the table: "orientation_type" */
+	delete_orientation_type?: Maybe<OrientationTypeMutationResponse>;
+	/** delete single row from the table: "orientation_type" */
+	delete_orientation_type_by_pk?: Maybe<OrientationType>;
 	/** delete data from the table: "professional" */
 	delete_professional?: Maybe<ProfessionalMutationResponse>;
 	/** delete single row from the table: "professional" */
@@ -3258,6 +3454,10 @@ export type MutationRoot = {
 	insert_admin_structure_structure_one?: Maybe<AdminStructureStructure>;
 	/** insert data into the table: "beneficiary" */
 	insert_beneficiary?: Maybe<BeneficiaryMutationResponse>;
+	/** insert data into the table: "beneficiary_info" */
+	insert_beneficiary_info?: Maybe<BeneficiaryInfoMutationResponse>;
+	/** insert a single row into the table: "beneficiary_info" */
+	insert_beneficiary_info_one?: Maybe<BeneficiaryInfo>;
 	/** insert a single row into the table: "beneficiary" */
 	insert_beneficiary_one?: Maybe<Beneficiary>;
 	/** insert data into the table: "beneficiary_structure" */
@@ -3320,6 +3520,10 @@ export type MutationRoot = {
 	insert_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
 	/** insert a single row into the table: "orientation_manager" */
 	insert_orientation_manager_one?: Maybe<OrientationManager>;
+	/** insert data into the table: "orientation_type" */
+	insert_orientation_type?: Maybe<OrientationTypeMutationResponse>;
+	/** insert a single row into the table: "orientation_type" */
+	insert_orientation_type_one?: Maybe<OrientationType>;
 	/** insert data into the table: "professional" */
 	insert_professional?: Maybe<ProfessionalMutationResponse>;
 	/** insert a single row into the table: "professional" */
@@ -3373,6 +3577,10 @@ export type MutationRoot = {
 	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
 	update_beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** update data of the table: "beneficiary_info" */
+	update_beneficiary_info?: Maybe<BeneficiaryInfoMutationResponse>;
+	/** update single row of the table: "beneficiary_info" */
+	update_beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
 	/** update data of the table: "beneficiary_structure" */
 	update_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
 	/** update single row of the table: "beneficiary_structure" */
@@ -3433,6 +3641,10 @@ export type MutationRoot = {
 	update_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
 	/** update single row of the table: "orientation_manager" */
 	update_orientation_manager_by_pk?: Maybe<OrientationManager>;
+	/** update data of the table: "orientation_type" */
+	update_orientation_type?: Maybe<OrientationTypeMutationResponse>;
+	/** update single row of the table: "orientation_type" */
+	update_orientation_type_by_pk?: Maybe<OrientationType>;
 	/** update data of the table: "professional" */
 	update_professional?: Maybe<ProfessionalMutationResponse>;
 	/** update single row of the table: "professional" */
@@ -3521,6 +3733,16 @@ export type MutationRootDeleteBeneficiaryArgs = {
 /** mutation root */
 export type MutationRootDeleteBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteBeneficiaryInfoArgs = {
+	where: BeneficiaryInfoBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteBeneficiaryInfoByPkArgs = {
+	beneficiaryId: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -3674,6 +3896,16 @@ export type MutationRootDeleteOrientationManagerByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteOrientationTypeArgs = {
+	where: OrientationTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteOrientationTypeByPkArgs = {
+	id: Scalars['String'];
+};
+
+/** mutation root */
 export type MutationRootDeleteProfessionalArgs = {
 	where: ProfessionalBoolExp;
 };
@@ -3810,6 +4042,18 @@ export type MutationRootInsertAdminStructureStructureOneArgs = {
 export type MutationRootInsertBeneficiaryArgs = {
 	objects: Array<BeneficiaryInsertInput>;
 	on_conflict?: InputMaybe<BeneficiaryOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertBeneficiaryInfoArgs = {
+	objects: Array<BeneficiaryInfoInsertInput>;
+	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertBeneficiaryInfoOneArgs = {
+	object: BeneficiaryInfoInsertInput;
+	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
 };
 
 /** mutation root */
@@ -3999,6 +4243,18 @@ export type MutationRootInsertOrientationManagerOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertOrientationTypeArgs = {
+	objects: Array<OrientationTypeInsertInput>;
+	on_conflict?: InputMaybe<OrientationTypeOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertOrientationTypeOneArgs = {
+	object: OrientationTypeInsertInput;
+	on_conflict?: InputMaybe<OrientationTypeOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertProfessionalArgs = {
 	objects: Array<ProfessionalInsertInput>;
 	on_conflict?: InputMaybe<ProfessionalOnConflict>;
@@ -4157,6 +4413,18 @@ export type MutationRootUpdateBeneficiaryArgs = {
 export type MutationRootUpdateBeneficiaryByPkArgs = {
 	_set?: InputMaybe<BeneficiarySetInput>;
 	pk_columns: BeneficiaryPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateBeneficiaryInfoArgs = {
+	_set?: InputMaybe<BeneficiaryInfoSetInput>;
+	where: BeneficiaryInfoBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateBeneficiaryInfoByPkArgs = {
+	_set?: InputMaybe<BeneficiaryInfoSetInput>;
+	pk_columns: BeneficiaryInfoPkColumnsInput;
 };
 
 /** mutation root */
@@ -4387,6 +4655,18 @@ export type MutationRootUpdateOrientationManagerArgs = {
 export type MutationRootUpdateOrientationManagerByPkArgs = {
 	_set?: InputMaybe<OrientationManagerSetInput>;
 	pk_columns: OrientationManagerPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateOrientationTypeArgs = {
+	_set?: InputMaybe<OrientationTypeSetInput>;
+	where: OrientationTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateOrientationTypeByPkArgs = {
+	_set?: InputMaybe<OrientationTypeSetInput>;
+	pk_columns: OrientationTypePkColumnsInput;
 };
 
 /** mutation root */
@@ -6838,6 +7118,186 @@ export enum OrientationManagerUpdateColumn {
 	UpdatedAt = 'updatedAt',
 }
 
+/**
+ * table contenant les différents types d’orientation
+ *
+ *
+ * columns and relationships of "orientation_type"
+ *
+ */
+export type OrientationType = {
+	__typename?: 'orientation_type';
+	/** An array relationship */
+	beneficiary_infos: Array<BeneficiaryInfo>;
+	/** An aggregate relationship */
+	beneficiary_infos_aggregate: BeneficiaryInfoAggregate;
+	id: Scalars['String'];
+	label: Scalars['String'];
+};
+
+/**
+ * table contenant les différents types d’orientation
+ *
+ *
+ * columns and relationships of "orientation_type"
+ *
+ */
+export type OrientationTypeBeneficiaryInfosArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+/**
+ * table contenant les différents types d’orientation
+ *
+ *
+ * columns and relationships of "orientation_type"
+ *
+ */
+export type OrientationTypeBeneficiaryInfosAggregateArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+/** aggregated selection of "orientation_type" */
+export type OrientationTypeAggregate = {
+	__typename?: 'orientation_type_aggregate';
+	aggregate?: Maybe<OrientationTypeAggregateFields>;
+	nodes: Array<OrientationType>;
+};
+
+/** aggregate fields of "orientation_type" */
+export type OrientationTypeAggregateFields = {
+	__typename?: 'orientation_type_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<OrientationTypeMaxFields>;
+	min?: Maybe<OrientationTypeMinFields>;
+};
+
+/** aggregate fields of "orientation_type" */
+export type OrientationTypeAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<OrientationTypeSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "orientation_type". All fields are combined with a logical 'AND'. */
+export type OrientationTypeBoolExp = {
+	_and?: InputMaybe<Array<OrientationTypeBoolExp>>;
+	_not?: InputMaybe<OrientationTypeBoolExp>;
+	_or?: InputMaybe<Array<OrientationTypeBoolExp>>;
+	beneficiary_infos?: InputMaybe<BeneficiaryInfoBoolExp>;
+	id?: InputMaybe<StringComparisonExp>;
+	label?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "orientation_type" */
+export enum OrientationTypeConstraint {
+	/** unique or primary key constraint */
+	OrientationTypePkey = 'orientation_type_pkey',
+}
+
+export enum OrientationTypeEnum {
+	/** Professionnel */
+	Pro = 'pro',
+	/** Social */
+	Social = 'social',
+	/** Socio-professionnel */
+	Sociopro = 'sociopro',
+}
+
+/** Boolean expression to compare columns of type "orientation_type_enum". All fields are combined with logical 'AND'. */
+export type OrientationTypeEnumComparisonExp = {
+	_eq?: InputMaybe<OrientationTypeEnum>;
+	_in?: InputMaybe<Array<OrientationTypeEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<OrientationTypeEnum>;
+	_nin?: InputMaybe<Array<OrientationTypeEnum>>;
+};
+
+/** input type for inserting data into table "orientation_type" */
+export type OrientationTypeInsertInput = {
+	beneficiary_infos?: InputMaybe<BeneficiaryInfoArrRelInsertInput>;
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type OrientationTypeMaxFields = {
+	__typename?: 'orientation_type_max_fields';
+	id?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type OrientationTypeMinFields = {
+	__typename?: 'orientation_type_min_fields';
+	id?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "orientation_type" */
+export type OrientationTypeMutationResponse = {
+	__typename?: 'orientation_type_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<OrientationType>;
+};
+
+/** input type for inserting object relation for remote table "orientation_type" */
+export type OrientationTypeObjRelInsertInput = {
+	data: OrientationTypeInsertInput;
+	/** on conflict condition */
+	on_conflict?: InputMaybe<OrientationTypeOnConflict>;
+};
+
+/** on conflict condition type for table "orientation_type" */
+export type OrientationTypeOnConflict = {
+	constraint: OrientationTypeConstraint;
+	update_columns?: Array<OrientationTypeUpdateColumn>;
+	where?: InputMaybe<OrientationTypeBoolExp>;
+};
+
+/** Ordering options when selecting data from "orientation_type". */
+export type OrientationTypeOrderBy = {
+	beneficiary_infos_aggregate?: InputMaybe<BeneficiaryInfoAggregateOrderBy>;
+	id?: InputMaybe<OrderBy>;
+	label?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: orientation_type */
+export type OrientationTypePkColumnsInput = {
+	id: Scalars['String'];
+};
+
+/** select columns of table "orientation_type" */
+export enum OrientationTypeSelectColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
+/** input type for updating data in table "orientation_type" */
+export type OrientationTypeSetInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "orientation_type" */
+export enum OrientationTypeUpdateColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
 /** columns and relationships of "professional" */
 export type Professional = {
 	__typename?: 'professional';
@@ -7118,6 +7578,12 @@ export type QueryRoot = {
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "beneficiary_info" */
+	beneficiary_info: Array<BeneficiaryInfo>;
+	/** fetch aggregated fields from the table: "beneficiary_info" */
+	beneficiary_info_aggregate: BeneficiaryInfoAggregate;
+	/** fetch data from the table: "beneficiary_info" using primary key columns */
+	beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
 	/** fetch data from the table: "beneficiary_structure" */
 	beneficiary_structure: Array<BeneficiaryStructure>;
 	/** fetch aggregated fields from the table: "beneficiary_structure" */
@@ -7208,6 +7674,12 @@ export type QueryRoot = {
 	orientation_manager_aggregate: OrientationManagerAggregate;
 	/** fetch data from the table: "orientation_manager" using primary key columns */
 	orientation_manager_by_pk?: Maybe<OrientationManager>;
+	/** fetch data from the table: "orientation_type" */
+	orientation_type: Array<OrientationType>;
+	/** fetch aggregated fields from the table: "orientation_type" */
+	orientation_type_aggregate: OrientationTypeAggregate;
+	/** fetch data from the table: "orientation_type" using primary key columns */
+	orientation_type_by_pk?: Maybe<OrientationType>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -7368,6 +7840,26 @@ export type QueryRootBeneficiaryAggregateArgs = {
 
 export type QueryRootBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootBeneficiaryInfoArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+export type QueryRootBeneficiaryInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+export type QueryRootBeneficiaryInfoByPkArgs = {
+	beneficiaryId: Scalars['uuid'];
 };
 
 export type QueryRootBeneficiaryStructureArgs = {
@@ -7668,6 +8160,26 @@ export type QueryRootOrientationManagerAggregateArgs = {
 
 export type QueryRootOrientationManagerByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootOrientationTypeArgs = {
+	distinct_on?: InputMaybe<Array<OrientationTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationTypeOrderBy>>;
+	where?: InputMaybe<OrientationTypeBoolExp>;
+};
+
+export type QueryRootOrientationTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<OrientationTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationTypeOrderBy>>;
+	where?: InputMaybe<OrientationTypeBoolExp>;
+};
+
+export type QueryRootOrientationTypeByPkArgs = {
+	id: Scalars['String'];
 };
 
 export type QueryRootProfessionalArgs = {
@@ -9017,6 +9529,12 @@ export type SubscriptionRoot = {
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
+	/** fetch data from the table: "beneficiary_info" */
+	beneficiary_info: Array<BeneficiaryInfo>;
+	/** fetch aggregated fields from the table: "beneficiary_info" */
+	beneficiary_info_aggregate: BeneficiaryInfoAggregate;
+	/** fetch data from the table: "beneficiary_info" using primary key columns */
+	beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
 	/** fetch data from the table: "beneficiary_structure" */
 	beneficiary_structure: Array<BeneficiaryStructure>;
 	/** fetch aggregated fields from the table: "beneficiary_structure" */
@@ -9107,6 +9625,12 @@ export type SubscriptionRoot = {
 	orientation_manager_aggregate: OrientationManagerAggregate;
 	/** fetch data from the table: "orientation_manager" using primary key columns */
 	orientation_manager_by_pk?: Maybe<OrientationManager>;
+	/** fetch data from the table: "orientation_type" */
+	orientation_type: Array<OrientationType>;
+	/** fetch aggregated fields from the table: "orientation_type" */
+	orientation_type_aggregate: OrientationTypeAggregate;
+	/** fetch data from the table: "orientation_type" using primary key columns */
+	orientation_type_by_pk?: Maybe<OrientationType>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
@@ -9267,6 +9791,26 @@ export type SubscriptionRootBeneficiaryAggregateArgs = {
 
 export type SubscriptionRootBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootBeneficiaryInfoArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+export type SubscriptionRootBeneficiaryInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+export type SubscriptionRootBeneficiaryInfoByPkArgs = {
+	beneficiaryId: Scalars['uuid'];
 };
 
 export type SubscriptionRootBeneficiaryStructureArgs = {
@@ -9567,6 +10111,26 @@ export type SubscriptionRootOrientationManagerAggregateArgs = {
 
 export type SubscriptionRootOrientationManagerByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootOrientationTypeArgs = {
+	distinct_on?: InputMaybe<Array<OrientationTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationTypeOrderBy>>;
+	where?: InputMaybe<OrientationTypeBoolExp>;
+};
+
+export type SubscriptionRootOrientationTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<OrientationTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationTypeOrderBy>>;
+	where?: InputMaybe<OrientationTypeBoolExp>;
+};
+
+export type SubscriptionRootOrientationTypeByPkArgs = {
+	id: Scalars['String'];
 };
 
 export type SubscriptionRootProfessionalArgs = {
@@ -10043,6 +10607,107 @@ export type RemoveNotebookMembersMutation = {
 		| undefined;
 };
 
+export type GetBeneficiariesQueryVariables = Exact<{
+	offset?: Scalars['Int'];
+	limit?: Scalars['Int'];
+	withMembers?: BeneficiaryBoolExp;
+	search?: Scalars['String'];
+}>;
+
+export type GetBeneficiariesQuery = {
+	__typename?: 'query_root';
+	search_beneficiaries_aggregate: {
+		__typename?: 'beneficiary_aggregate';
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
+	};
+	beneficiaries: Array<{
+		__typename?: 'beneficiary';
+		id: string;
+		firstname: string;
+		lastname: string;
+		beneficiaryInfo?:
+			| {
+					__typename?: 'beneficiary_info';
+					orientation_type: { __typename?: 'orientation_type'; id: string; label: string };
+			  }
+			| null
+			| undefined;
+		structures: Array<{
+			__typename?: 'beneficiary_structure';
+			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+		}>;
+		notebook?:
+			| {
+					__typename?: 'notebook';
+					id: string;
+					members: Array<{
+						__typename?: 'notebook_member';
+						id: string;
+						createdAt: string;
+						account: {
+							__typename?: 'account';
+							id: string;
+							type: RoleEnum;
+							orientation_manager?:
+								| {
+										__typename?: 'orientation_manager';
+										id: string;
+										firstname?: string | null | undefined;
+										lastname?: string | null | undefined;
+								  }
+								| null
+								| undefined;
+							professional?:
+								| { __typename?: 'professional'; id: string; firstname: string; lastname: string }
+								| null
+								| undefined;
+						};
+					}>;
+			  }
+			| null
+			| undefined;
+	}>;
+};
+
+export type GetOrientationManagerQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetOrientationManagerQuery = {
+	__typename?: 'query_root';
+	orientation_manager: Array<{
+		__typename?: 'orientation_manager';
+		id: string;
+		firstname?: string | null | undefined;
+		lastname?: string | null | undefined;
+		email: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
+	}>;
+};
+
+export type GetOrientationTypeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetOrientationTypeQuery = {
+	__typename?: 'query_root';
+	orientation_type: Array<{ __typename?: 'orientation_type'; id: string; label: string }>;
+};
+
+export type GetProfessionalsForManagerQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetProfessionalsForManagerQuery = {
+	__typename?: 'query_root';
+	professional: Array<{
+		__typename?: 'professional';
+		id: string;
+		firstname: string;
+		lastname: string;
+		mobileNumber?: string | null | undefined;
+		position?: string | null | undefined;
+		email: string;
+		structureId: string;
+		account?: { __typename?: 'account'; id: string } | null | undefined;
+		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+	}>;
+};
+
 export type GetProfessionalsFromStructuresQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -10061,6 +10726,13 @@ export type GetProfessionalsFromStructuresQuery = {
 		account?: { __typename?: 'account'; id: string } | null | undefined;
 		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 	}>;
+};
+
+export type GetStructuresForManagerQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetStructuresForManagerQuery = {
+	__typename?: 'query_root';
+	structure: Array<{ __typename?: 'structure'; id: string; name?: string | null | undefined }>;
 };
 
 export type GetStructuresWithProQueryVariables = Exact<{ [key: string]: never }>;
@@ -10084,6 +10756,35 @@ export type GetStructuresWithProQuery = {
 			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
 		}>;
 	}>;
+};
+
+export type UpdateOrientationMutationVariables = Exact<{
+	objects: Array<BeneficiaryInfoInsertInput> | BeneficiaryInfoInsertInput;
+}>;
+
+export type UpdateOrientationMutation = {
+	__typename?: 'mutation_root';
+	insert_beneficiary_info?:
+		| { __typename?: 'beneficiary_info_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
+export type UpdateOrientationManagerMutationVariables = Exact<{
+	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	beneficiaries: Array<Scalars['uuid']> | Scalars['uuid'];
+}>;
+
+export type UpdateOrientationManagerMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	insert_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
 };
 
 export type UpdateReferentMutationVariables = Exact<{
@@ -10475,6 +11176,15 @@ export type GetNotebookFocusByIdQuery = {
 						action: string;
 						creator: {
 							__typename?: 'account';
+							orientation_manager?:
+								| {
+										__typename?: 'orientation_manager';
+										id: string;
+										lastname?: string | null | undefined;
+										firstname?: string | null | undefined;
+								  }
+								| null
+								| undefined;
 							professional?:
 								| { __typename?: 'professional'; id: string; lastname: string; firstname: string }
 								| null
@@ -10484,6 +11194,17 @@ export type GetNotebookFocusByIdQuery = {
 				}>;
 				creator: {
 					__typename?: 'account';
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								id: string;
+								lastname?: string | null | undefined;
+								firstname?: string | null | undefined;
+								phoneNumbers?: string | null | undefined;
+								email: string;
+						  }
+						| null
+						| undefined;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -10492,6 +11213,7 @@ export type GetNotebookFocusByIdQuery = {
 								firstname: string;
 								lastname: string;
 								mobileNumber?: string | null | undefined;
+								email: string;
 								structureId: string;
 								structure: {
 									__typename?: 'structure';
@@ -10560,53 +11282,9 @@ export type UpdateTargetStatusMutation = {
 	updateStatus?: { __typename?: 'notebook_target'; id: string } | null | undefined;
 };
 
-export type AddNotebookAppointmentMutationVariables = Exact<{
-	date?: InputMaybe<Scalars['date']>;
-	notebookId?: InputMaybe<Scalars['uuid']>;
-	memberAccountId?: InputMaybe<Scalars['uuid']>;
-	status?: InputMaybe<Scalars['String']>;
-}>;
-
-export type AddNotebookAppointmentMutation = {
-	__typename?: 'mutation_root';
-	addAppointment?:
-		| {
-				__typename?: 'notebook_appointment_mutation_response';
-				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
-		  }
-		| null
-		| undefined;
-};
-
-export type AddNotebookMemberMutationVariables = Exact<{
-	creatorId: Scalars['uuid'];
-	accountId: Scalars['uuid'];
-	notebookId: Scalars['uuid'];
-}>;
-
-export type AddNotebookMemberMutation = {
-	__typename?: 'mutation_root';
-	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
-};
-
-export type GetNotebookAppointmentsQueryVariables = Exact<{
-	memberAccountId?: InputMaybe<Scalars['uuid']>;
-	notebookId?: InputMaybe<Scalars['uuid']>;
-}>;
-
-export type GetNotebookAppointmentsQuery = {
-	__typename?: 'query_root';
-	getNotebookAppointments: Array<{
-		__typename?: 'notebook_appointment';
-		date: string;
-		id: string;
-		status: string;
-	}>;
-};
-
 export type SearchProfessionalQueryVariables = Exact<{
 	search?: InputMaybe<Scalars['String']>;
-	professionalIds?: InputMaybe<Array<Scalars['uuid']> | Scalars['uuid']>;
+	accountIds?: InputMaybe<Array<Scalars['uuid']> | Scalars['uuid']>;
 }>;
 
 export type SearchProfessionalQuery = {
@@ -10629,6 +11307,49 @@ export type SearchProfessionalQuery = {
 		__typename?: 'professional_aggregate';
 		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null | undefined;
 	};
+};
+
+export type AddNotebookAppointmentMutationVariables = Exact<{
+	date?: InputMaybe<Scalars['date']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+}>;
+
+export type AddNotebookAppointmentMutation = {
+	__typename?: 'mutation_root';
+	addAppointment?:
+		| {
+				__typename?: 'notebook_appointment_mutation_response';
+				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
+		  }
+		| null
+		| undefined;
+};
+
+export type AddNotebookMemberMutationVariables = Exact<{
+	accountId: Scalars['uuid'];
+	notebookId: Scalars['uuid'];
+}>;
+
+export type AddNotebookMemberMutation = {
+	__typename?: 'mutation_root';
+	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
+};
+
+export type GetNotebookAppointmentsQueryVariables = Exact<{
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+}>;
+
+export type GetNotebookAppointmentsQuery = {
+	__typename?: 'query_root';
+	getNotebookAppointments: Array<{
+		__typename?: 'notebook_appointment';
+		date: string;
+		id: string;
+		status: string;
+	}>;
 };
 
 export type UpdateNotebookAppointmentMutationVariables = Exact<{
@@ -10729,6 +11450,7 @@ export type GetAccountByPkQuery = {
 				onboardingDone?: boolean | null | undefined;
 				confirmed: boolean;
 				username: string;
+				type: RoleEnum;
 				beneficiary?:
 					| {
 							__typename?: 'beneficiary';
@@ -10777,6 +11499,17 @@ export type GetAccountByPkQuery = {
 				admin_structure?:
 					| {
 							__typename?: 'admin_structure';
+							id: string;
+							email: string;
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+							phoneNumbers?: string | null | undefined;
+					  }
+					| null
+					| undefined;
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
 							id: string;
 							email: string;
 							firstname?: string | null | undefined;
@@ -10897,10 +11630,7 @@ export type GetNotebookInfoQuery = {
 					firstname: string;
 					lastname: string;
 					dateOfBirth: string;
-					deployment?:
-						| { __typename?: 'deployment'; config?: any | null | undefined }
-						| null
-						| undefined;
+					deployment: { __typename?: 'deployment'; config?: any | null | undefined };
 				};
 				focuses: Array<{
 					__typename?: 'notebook_focus';
@@ -11052,6 +11782,7 @@ export type GetAccountInfoQuery = {
 		professionalId?: string | null | undefined;
 		managerId?: string | null | undefined;
 		adminStructureId?: string | null | undefined;
+		orientationManagerId?: string | null | undefined;
 		professional?:
 			| {
 					__typename?: 'professional';
@@ -11059,8 +11790,15 @@ export type GetAccountInfoQuery = {
 			  }
 			| null
 			| undefined;
-		manager?: { __typename?: 'manager'; deploymentId: string } | null | undefined;
-		admin_structure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
+		manager?:
+			| { __typename?: 'manager'; deploymentId?: string | null | undefined }
+			| null
+			| undefined;
+		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
+		orientationManager?:
+			| { __typename?: 'orientation_manager'; deploymentId: string }
+			| null
+			| undefined;
 	}>;
 };
 
@@ -11133,6 +11871,15 @@ export type GetAccountByUsernameQuery = {
 			  }
 			| null
 			| undefined;
+		orientation_manager?:
+			| {
+					__typename?: 'orientation_manager';
+					firstname?: string | null | undefined;
+					lastname?: string | null | undefined;
+					email: string;
+			  }
+			| null
+			| undefined;
 	}>;
 };
 
@@ -11176,6 +11923,15 @@ export type GetAccountByEmailQuery = {
 		admin_structure?:
 			| {
 					__typename?: 'admin_structure';
+					firstname?: string | null | undefined;
+					lastname?: string | null | undefined;
+					email: string;
+			  }
+			| null
+			| undefined;
+		orientation_manager?:
+			| {
+					__typename?: 'orientation_manager';
 					firstname?: string | null | undefined;
 					lastname?: string | null | undefined;
 					email: string;
@@ -11259,6 +12015,18 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			lastVisitedAt?: string | null | undefined;
 			account: {
 				__typename?: 'account';
+				type: RoleEnum;
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							id: string;
+							lastname?: string | null | undefined;
+							firstname?: string | null | undefined;
+							email: string;
+							phoneNumbers?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -11288,6 +12056,14 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			situations?: any | null | undefined;
 			creator: {
 				__typename?: 'account';
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -11304,6 +12080,14 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				createdAt: string;
 				creator: {
 					__typename?: 'account';
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								firstname?: string | null | undefined;
+								lastname?: string | null | undefined;
+						  }
+						| null
+						| undefined;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -11321,6 +12105,14 @@ export type GetNotebookByBeneficiaryIdQuery = {
 					status: string;
 					creator: {
 						__typename?: 'account';
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									firstname?: string | null | undefined;
+									lastname?: string | null | undefined;
+							  }
+							| null
+							| undefined;
 						professional?:
 							| {
 									__typename?: 'professional';
@@ -11343,112 +12135,100 @@ export type GetNotebookByIdQueryVariables = Exact<{
 
 export type GetNotebookByIdQuery = {
 	__typename?: 'query_root';
-	notebook: Array<{
-		__typename?: 'notebook';
-		id: string;
-		workSituation?: string | null | undefined;
-		workSituationDate?: string | null | undefined;
-		workSituationEndDate?: string | null | undefined;
-		rightAre: boolean;
-		rightAss?: boolean | null | undefined;
-		rightRsa?: string | null | undefined;
-		rightRqth: boolean;
-		rightBonus: boolean;
-		contractType?: string | null | undefined;
-		contractSignDate?: string | null | undefined;
-		contractStartDate?: string | null | undefined;
-		contractEndDate?: string | null | undefined;
-		educationLevel?: string | null | undefined;
-		geographicalArea?: string | null | undefined;
-		wantedJobs: Array<{
-			__typename?: 'wanted_job';
-			rome_code: { __typename?: 'rome_code'; id: string; label: string };
-		}>;
-		beneficiary: {
-			__typename?: 'beneficiary';
-			address1?: string | null | undefined;
-			address2?: string | null | undefined;
-			cafNumber?: string | null | undefined;
-			city?: string | null | undefined;
-			dateOfBirth: string;
-			email?: string | null | undefined;
-			firstname: string;
-			id: string;
-			lastname: string;
-			mobileNumber?: string | null | undefined;
-			peNumber?: string | null | undefined;
-			postalCode?: string | null | undefined;
-		};
-		members: Array<{
-			__typename?: 'notebook_member';
-			id: string;
-			memberType: string;
-			lastModifiedAt?: string | null | undefined;
-			lastVisitedAt?: string | null | undefined;
-			account: {
-				__typename?: 'account';
-				professional?:
-					| {
-							__typename?: 'professional';
-							id: string;
-							lastname: string;
-							firstname: string;
-							position?: string | null | undefined;
-							email: string;
-							mobileNumber?: string | null | undefined;
-							structure: {
-								__typename?: 'structure';
-								id: string;
-								name?: string | null | undefined;
-								address1?: string | null | undefined;
-								address2?: string | null | undefined;
-								postalCode?: string | null | undefined;
-								city?: string | null | undefined;
-							};
-					  }
-					| null
-					| undefined;
-			};
-		}>;
-		focuses: Array<{
-			__typename?: 'notebook_focus';
-			theme: string;
-			situations?: any | null | undefined;
-			creator: {
-				__typename?: 'account';
-				professional?:
-					| {
-							__typename?: 'professional';
-							firstname: string;
-							lastname: string;
-							structure: { __typename?: 'structure'; name?: string | null | undefined };
-					  }
-					| null
-					| undefined;
-			};
-			targets: Array<{
-				__typename?: 'notebook_target';
-				target: string;
-				createdAt: string;
-				creator: {
-					__typename?: 'account';
-					professional?:
-						| {
-								__typename?: 'professional';
-								firstname: string;
-								lastname: string;
-								structure: { __typename?: 'structure'; name?: string | null | undefined };
-						  }
-						| null
-						| undefined;
+	notebook?:
+		| {
+				__typename?: 'notebook';
+				id: string;
+				workSituation?: string | null | undefined;
+				workSituationDate?: string | null | undefined;
+				workSituationEndDate?: string | null | undefined;
+				rightAre: boolean;
+				rightAss?: boolean | null | undefined;
+				rightRsa?: string | null | undefined;
+				rightRqth: boolean;
+				rightBonus: boolean;
+				contractType?: string | null | undefined;
+				contractSignDate?: string | null | undefined;
+				contractStartDate?: string | null | undefined;
+				contractEndDate?: string | null | undefined;
+				educationLevel?: string | null | undefined;
+				geographicalArea?: string | null | undefined;
+				wantedJobs: Array<{
+					__typename?: 'wanted_job';
+					rome_code: { __typename?: 'rome_code'; id: string; label: string };
+				}>;
+				beneficiary: {
+					__typename?: 'beneficiary';
+					address1?: string | null | undefined;
+					address2?: string | null | undefined;
+					cafNumber?: string | null | undefined;
+					city?: string | null | undefined;
+					dateOfBirth: string;
+					email?: string | null | undefined;
+					firstname: string;
+					id: string;
+					lastname: string;
+					mobileNumber?: string | null | undefined;
+					peNumber?: string | null | undefined;
+					postalCode?: string | null | undefined;
 				};
-				actions: Array<{
-					__typename?: 'notebook_action';
-					action: string;
-					createdAt: string;
-					status: string;
+				members: Array<{
+					__typename?: 'notebook_member';
+					id: string;
+					memberType: string;
+					lastModifiedAt?: string | null | undefined;
+					lastVisitedAt?: string | null | undefined;
+					account: {
+						__typename?: 'account';
+						type: RoleEnum;
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									id: string;
+									lastname?: string | null | undefined;
+									firstname?: string | null | undefined;
+									email: string;
+									phoneNumbers?: string | null | undefined;
+							  }
+							| null
+							| undefined;
+						professional?:
+							| {
+									__typename?: 'professional';
+									id: string;
+									lastname: string;
+									firstname: string;
+									position?: string | null | undefined;
+									email: string;
+									mobileNumber?: string | null | undefined;
+									structure: {
+										__typename?: 'structure';
+										id: string;
+										name?: string | null | undefined;
+										address1?: string | null | undefined;
+										address2?: string | null | undefined;
+										postalCode?: string | null | undefined;
+										city?: string | null | undefined;
+									};
+							  }
+							| null
+							| undefined;
+					};
+				}>;
+				focuses: Array<{
+					__typename?: 'notebook_focus';
+					theme: string;
+					situations?: any | null | undefined;
 					creator: {
 						__typename?: 'account';
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									firstname?: string | null | undefined;
+									lastname?: string | null | undefined;
+							  }
+							| null
+							| undefined;
 						professional?:
 							| {
 									__typename?: 'professional';
@@ -11459,10 +12239,61 @@ export type GetNotebookByIdQuery = {
 							| null
 							| undefined;
 					};
+					targets: Array<{
+						__typename?: 'notebook_target';
+						target: string;
+						createdAt: string;
+						creator: {
+							__typename?: 'account';
+							orientation_manager?:
+								| {
+										__typename?: 'orientation_manager';
+										firstname?: string | null | undefined;
+										lastname?: string | null | undefined;
+								  }
+								| null
+								| undefined;
+							professional?:
+								| {
+										__typename?: 'professional';
+										firstname: string;
+										lastname: string;
+										structure: { __typename?: 'structure'; name?: string | null | undefined };
+								  }
+								| null
+								| undefined;
+						};
+						actions: Array<{
+							__typename?: 'notebook_action';
+							action: string;
+							createdAt: string;
+							status: string;
+							creator: {
+								__typename?: 'account';
+								orientation_manager?:
+									| {
+											__typename?: 'orientation_manager';
+											firstname?: string | null | undefined;
+											lastname?: string | null | undefined;
+									  }
+									| null
+									| undefined;
+								professional?:
+									| {
+											__typename?: 'professional';
+											firstname: string;
+											lastname: string;
+											structure: { __typename?: 'structure'; name?: string | null | undefined };
+									  }
+									| null
+									| undefined;
+							};
+						}>;
+					}>;
 				}>;
-			}>;
-		}>;
-	}>;
+		  }
+		| null
+		| undefined;
 };
 
 export type NotebookFragmentFragment = {
@@ -11509,6 +12340,18 @@ export type NotebookFragmentFragment = {
 		lastVisitedAt?: string | null | undefined;
 		account: {
 			__typename?: 'account';
+			type: RoleEnum;
+			orientation_manager?:
+				| {
+						__typename?: 'orientation_manager';
+						id: string;
+						lastname?: string | null | undefined;
+						firstname?: string | null | undefined;
+						email: string;
+						phoneNumbers?: string | null | undefined;
+				  }
+				| null
+				| undefined;
 			professional?:
 				| {
 						__typename?: 'professional';
@@ -11538,6 +12381,14 @@ export type NotebookFragmentFragment = {
 		situations?: any | null | undefined;
 		creator: {
 			__typename?: 'account';
+			orientation_manager?:
+				| {
+						__typename?: 'orientation_manager';
+						firstname?: string | null | undefined;
+						lastname?: string | null | undefined;
+				  }
+				| null
+				| undefined;
 			professional?:
 				| {
 						__typename?: 'professional';
@@ -11554,6 +12405,14 @@ export type NotebookFragmentFragment = {
 			createdAt: string;
 			creator: {
 				__typename?: 'account';
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| {
 							__typename?: 'professional';
@@ -11571,6 +12430,14 @@ export type NotebookFragmentFragment = {
 				status: string;
 				creator: {
 					__typename?: 'account';
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								firstname?: string | null | undefined;
+								lastname?: string | null | undefined;
+						  }
+						| null
+						| undefined;
 					professional?:
 						| {
 								__typename?: 'professional';
@@ -11675,6 +12542,16 @@ export type GetAccountByIdQuery = {
 				id: string;
 				username: string;
 				confirmed: boolean;
+				type: RoleEnum;
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+							email: string;
+					  }
+					| null
+					| undefined;
 				professional?:
 					| { __typename?: 'professional'; firstname: string; lastname: string; email: string }
 					| null
@@ -11720,76 +12597,6 @@ export type GetDeploymentInfosQuery = {
 		__typename?: 'structure_aggregate';
 		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
 	};
-};
-
-export type GetBeneficiariesQueryVariables = Exact<{
-	offset: Scalars['Int'];
-	limit: Scalars['Int'];
-	withMembers: BeneficiaryBoolExp;
-	search: Scalars['String'];
-}>;
-
-export type GetBeneficiariesQuery = {
-	__typename?: 'query_root';
-	search_beneficiaries_aggregate: {
-		__typename?: 'beneficiary_aggregate';
-		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
-	};
-	beneficiaries: Array<{
-		__typename?: 'beneficiary';
-		id: string;
-		firstname: string;
-		lastname: string;
-		structures: Array<{
-			__typename?: 'beneficiary_structure';
-			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
-		}>;
-		notebook?:
-			| {
-					__typename?: 'notebook';
-					id: string;
-					members: Array<{
-						__typename?: 'notebook_member';
-						id: string;
-						createdAt: string;
-						account: {
-							__typename?: 'account';
-							id: string;
-							professional?:
-								| { __typename?: 'professional'; id: string; firstname: string; lastname: string }
-								| null
-								| undefined;
-						};
-					}>;
-			  }
-			| null
-			| undefined;
-	}>;
-};
-
-export type GetProfessionalsForManagerQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetProfessionalsForManagerQuery = {
-	__typename?: 'query_root';
-	professional: Array<{
-		__typename?: 'professional';
-		id: string;
-		firstname: string;
-		lastname: string;
-		mobileNumber?: string | null | undefined;
-		position?: string | null | undefined;
-		email: string;
-		structureId: string;
-		account?: { __typename?: 'account'; id: string } | null | undefined;
-		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
-	}>;
-};
-
-export type GetStructuresForManagerQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetStructuresForManagerQuery = {
-	__typename?: 'query_root';
-	structure: Array<{ __typename?: 'structure'; id: string; name?: string | null | undefined }>;
 };
 
 export type GetAccountsSummaryQueryVariables = Exact<{ [key: string]: never }>;
@@ -11880,6 +12687,41 @@ export type GetNotebooksStatsQuery = {
 				| undefined;
 		};
 	}>;
+};
+
+export type UpdateOrientationManagerProfileMutationVariables = Exact<{
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	email: Scalars['citext'];
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	id: Scalars['uuid'];
+	accountId: Scalars['uuid'];
+}>;
+
+export type UpdateOrientationManagerProfileMutation = {
+	__typename?: 'mutation_root';
+	updateOrientationManager?: { __typename?: 'orientation_manager'; id: string } | null | undefined;
+	updateAccount?:
+		| {
+				__typename?: 'account';
+				id: string;
+				onboardingDone?: boolean | null | undefined;
+				confirmed: boolean;
+				username: string;
+				orientation_manager?:
+					| {
+							__typename?: 'orientation_manager';
+							id: string;
+							firstname?: string | null | undefined;
+							lastname?: string | null | undefined;
+							email: string;
+							phoneNumbers?: string | null | undefined;
+					  }
+					| null
+					| undefined;
+		  }
+		| null
+		| undefined;
 };
 
 export type GetLastVisitedOrUpdatedQueryVariables = Exact<{
@@ -12041,6 +12883,7 @@ export type GetNotebookQuery = {
 					account: {
 						__typename?: 'account';
 						id: string;
+						type: RoleEnum;
 						professional?:
 							| {
 									__typename?: 'professional';
@@ -12060,6 +12903,17 @@ export type GetNotebookQuery = {
 										city?: string | null | undefined;
 										website?: string | null | undefined;
 									};
+							  }
+							| null
+							| undefined;
+						orientation_manager?:
+							| {
+									__typename?: 'orientation_manager';
+									id: string;
+									lastname?: string | null | undefined;
+									firstname?: string | null | undefined;
+									email: string;
+									phoneNumbers?: string | null | undefined;
 							  }
 							| null
 							| undefined;
@@ -12543,6 +13397,21 @@ export const NotebookFragmentFragmentDoc = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+													],
+												},
+											},
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
@@ -12609,6 +13478,17 @@ export const NotebookFragmentFragmentDoc = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+													],
+												},
+											},
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
@@ -12692,6 +13572,17 @@ export const NotebookFragmentFragmentDoc = {
 													selections: [
 														{
 															kind: 'Field',
+															name: { kind: 'Name', value: 'orientation_manager' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																],
+															},
+														},
+														{
+															kind: 'Field',
 															name: { kind: 'Name', value: 'professional' },
 															selectionSet: {
 																kind: 'SelectionSet',
@@ -12772,6 +13663,23 @@ export const NotebookFragmentFragmentDoc = {
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
 																	{
 																		kind: 'Field',
 																		name: { kind: 'Name', value: 'professional' },
@@ -13190,6 +14098,446 @@ export const RemoveNotebookMembersDocument = {
 		},
 	],
 } as unknown as DocumentNode<RemoveNotebookMembersMutation, RemoveNotebookMembersMutationVariables>;
+export const GetBeneficiariesDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetBeneficiaries' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+					},
+					defaultValue: { kind: 'IntValue', value: '0' },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+					},
+					defaultValue: { kind: 'IntValue', value: '20' },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_bool_exp' } },
+					},
+					defaultValue: { kind: 'ObjectValue', fields: [] },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+					defaultValue: { kind: 'StringValue', value: '', block: false },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'search_beneficiaries_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'beneficiaries' },
+						name: { kind: 'Name', value: 'search_beneficiaries' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'limit' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'offset' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ListValue',
+									values: [
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'lastname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
+										},
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'firstname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiaryInfo' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_type' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structures' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'notebook' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'members' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'memberType' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_in' },
+																				value: {
+																					kind: 'ListValue',
+																					values: [
+																						{
+																							kind: 'StringValue',
+																							value: 'orientation_manager',
+																							block: false,
+																						},
+																						{
+																							kind: 'StringValue',
+																							value: 'referent',
+																							block: false,
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'account' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetBeneficiariesQuery, GetBeneficiariesQueryVariables>;
+export const GetOrientationManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetOrientationManager' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'orientation_manager' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetOrientationManagerQuery, GetOrientationManagerQueryVariables>;
+export const GetOrientationTypeDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'getOrientationType' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'orientation_type' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetOrientationTypeQuery, GetOrientationTypeQueryVariables>;
+export const GetProfessionalsForManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetProfessionalsForManager' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetProfessionalsForManagerQuery,
+	GetProfessionalsForManagerQueryVariables
+>;
 export const GetProfessionalsFromStructuresDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13278,6 +14626,32 @@ export const GetProfessionalsFromStructuresDocument = {
 	GetProfessionalsFromStructuresQuery,
 	GetProfessionalsFromStructuresQueryVariables
 >;
+export const GetStructuresForManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructuresForManager' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetStructuresForManagerQuery, GetStructuresForManagerQueryVariables>;
 export const GetStructuresWithProDocument = {
 	kind: 'Document',
 	definitions: [
@@ -13339,6 +14713,245 @@ export const GetStructuresWithProDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetStructuresWithProQuery, GetStructuresWithProQueryVariables>;
+export const UpdateOrientationDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'updateOrientation' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'beneficiary_info_insert_input' },
+								},
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_beneficiary_info' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: { kind: 'EnumValue', value: 'beneficiary_info_pkey' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: { kind: 'EnumValue', value: 'orientation' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateOrientationMutation, UpdateOrientationMutationVariables>;
+export const UpdateOrientationManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateOrientationManager' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_member_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaries' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'StringValue',
+															value: 'orientation_manager',
+															block: false,
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiaryId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_in' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'beneficiaries' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: {
+												kind: 'EnumValue',
+												value: 'notebook_member_notebook_id_account_id_key',
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{ kind: 'EnumValue', value: 'memberType' },
+													{ kind: 'EnumValue', value: 'active' },
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateOrientationManagerMutation,
+	UpdateOrientationManagerMutationVariables
+>;
 export const UpdateReferentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -15901,6 +17514,24 @@ export const GetNotebookFocusByIdDocument = {
 																selections: [
 																	{
 																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
 																		name: { kind: 'Name', value: 'professional' },
 																		selectionSet: {
 																			kind: 'SelectionSet',
@@ -15935,6 +17566,20 @@ export const GetNotebookFocusByIdDocument = {
 										selections: [
 											{
 												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
 												selectionSet: {
 													kind: 'SelectionSet',
@@ -15944,6 +17589,7 @@ export const GetNotebookFocusByIdDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
 														{
 															kind: 'Field',
@@ -16235,278 +17881,6 @@ export const UpdateTargetStatusDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateTargetStatusMutation, UpdateTargetStatusMutationVariables>;
-export const AddNotebookAppointmentDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookAppointment' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'addAppointment' },
-						name: { kind: 'Name', value: 'insert_notebook_appointment' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'date' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberAccountId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'returning' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	AddNotebookAppointmentMutation,
-	AddNotebookAppointmentMutationVariables
->;
-export const AddNotebookMemberDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookMember' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'newMember' },
-						name: { kind: 'Name', value: 'insert_notebook_member_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'creatorId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'creatorId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accountId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberType' },
-											value: { kind: 'StringValue', value: 'no_referent', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
-export const GetNotebookAppointmentsDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetNotebookAppointments' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'getNotebookAppointments' },
-						name: { kind: 'Name', value: 'notebook_appointment' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberAccountId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'memberAccountId' },
-														},
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'notebookId' },
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'date' },
-											value: { kind: 'EnumValue', value: 'desc' },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
 export const SearchProfessionalDocument = {
 	kind: 'Document',
 	definitions: [
@@ -16522,7 +17896,7 @@ export const SearchProfessionalDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalIds' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountIds' } },
 					type: {
 						kind: 'ListType',
 						type: {
@@ -16670,16 +18044,25 @@ export const SearchProfessionalDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'id' },
+														name: { kind: 'Name', value: 'account' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_in' },
+																	name: { kind: 'Name', value: 'id' },
 																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'professionalIds' },
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_in' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'accountIds' },
+																				},
+																			},
+																		],
 																	},
 																},
 															],
@@ -16861,16 +18244,25 @@ export const SearchProfessionalDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'id' },
+														name: { kind: 'Name', value: 'account' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
 																{
 																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_in' },
+																	name: { kind: 'Name', value: 'id' },
 																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'professionalIds' },
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_in' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'accountIds' },
+																				},
+																			},
+																		],
 																	},
 																},
 															],
@@ -16914,6 +18306,265 @@ export const SearchProfessionalDocument = {
 		},
 	],
 } as unknown as DocumentNode<SearchProfessionalQuery, SearchProfessionalQueryVariables>;
+export const AddNotebookAppointmentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookAppointment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'addAppointment' },
+						name: { kind: 'Name', value: 'insert_notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberAccountId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	AddNotebookAppointmentMutation,
+	AddNotebookAppointmentMutationVariables
+>;
+export const AddNotebookMemberDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'AddNotebookMember' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'newMember' },
+						name: { kind: 'Name', value: 'insert_notebook_member_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accountId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'no_referent', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
+export const GetNotebookAppointmentsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookAppointments' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberAccountId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'getNotebookAppointments' },
+						name: { kind: 'Name', value: 'notebook_appointment' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberAccountId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'memberAccountId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'notebookId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'date' },
+											value: { kind: 'EnumValue', value: 'desc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
 export const UpdateNotebookAppointmentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -17633,6 +19284,7 @@ export const GetAccountByPkDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiary' },
@@ -17705,6 +19357,20 @@ export const GetAccountByPkDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'admin_structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientation_manager' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -19693,6 +21359,7 @@ export const GetAccountInfoDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'professionalId' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'managerId' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'adminStructureId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'orientationManagerId' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },
@@ -19722,7 +21389,17 @@ export const GetAccountInfoDocument = {
 								},
 								{
 									kind: 'Field',
+									alias: { kind: 'Name', value: 'adminStructure' },
 									name: { kind: 'Name', value: 'admin_structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
+									},
+								},
+								{
+									kind: 'Field',
+									alias: { kind: 'Name', value: 'orientationManager' },
+									name: { kind: 'Name', value: 'orientation_manager' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
@@ -19996,6 +21673,18 @@ export const GetAccountByUsernameDocument = {
 										],
 									},
 								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientation_manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 							],
 						},
@@ -20091,6 +21780,18 @@ export const GetAccountByEmailDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'admin_structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientation_manager' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -20334,30 +22035,13 @@ export const GetNotebookByIdDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'notebook' },
+						alias: { kind: 'Name', value: 'notebook' },
+						name: { kind: 'Name', value: 'notebook_by_pk' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-													},
-												],
-											},
-										},
-									],
-								},
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 							},
 						],
 						selectionSet: {
@@ -20663,6 +22347,19 @@ export const GetAccountByIdDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientation_manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+										],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professional' },
@@ -21030,357 +22727,6 @@ export const GetDeploymentInfosDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetDeploymentInfosQuery, GetDeploymentInfosQueryVariables>;
-export const GetBeneficiariesDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetBeneficiaries' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_bool_exp' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'search_beneficiaries_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'args' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'search' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'beneficiaries' },
-						name: { kind: 'Name', value: 'search_beneficiaries' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'args' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'search' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'limit' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'offset' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ListValue',
-									values: [
-										{
-											kind: 'ObjectValue',
-											fields: [
-												{
-													kind: 'ObjectField',
-													name: { kind: 'Name', value: 'lastname' },
-													value: { kind: 'EnumValue', value: 'asc' },
-												},
-											],
-										},
-										{
-											kind: 'ObjectValue',
-											fields: [
-												{
-													kind: 'ObjectField',
-													name: { kind: 'Name', value: 'firstname' },
-													value: { kind: 'EnumValue', value: 'asc' },
-												},
-											],
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'structures' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-													],
-												},
-											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'notebook' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'members' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'where' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'memberType' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'StringValue',
-																					value: 'referent',
-																					block: false,
-																				},
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'order_by' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'createdAt' },
-																	value: { kind: 'EnumValue', value: 'desc' },
-																},
-															],
-														},
-													},
-												],
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'account' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'professional' },
-																		selectionSet: {
-																			kind: 'SelectionSet',
-																			selections: [
-																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'firstname' },
-																				},
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'lastname' },
-																				},
-																			],
-																		},
-																	},
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetBeneficiariesQuery, GetBeneficiariesQueryVariables>;
-export const GetProfessionalsForManagerDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetProfessionalsForManager' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'professional' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'account' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'structure' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetProfessionalsForManagerQuery,
-	GetProfessionalsForManagerQueryVariables
->;
-export const GetStructuresForManagerDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetStructuresForManager' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'structure' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetStructuresForManagerQuery, GetStructuresForManagerQueryVariables>;
 export const GetAccountsSummaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -22078,6 +23424,183 @@ export const GetNotebooksStatsDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebooksStatsQuery, GetNotebooksStatsQueryVariables>;
+export const UpdateOrientationManagerProfileDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateOrientationManagerProfile' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateOrientationManager' },
+						name: { kind: 'Name', value: 'update_orientation_manager_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'phoneNumbers' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'updateAccount' },
+						name: { kind: 'Name', value: 'update_account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'onboardingDone' },
+											value: { kind: 'BooleanValue', value: true },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'username' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientation_manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateOrientationManagerProfileMutation,
+	UpdateOrientationManagerProfileMutationVariables
+>;
 export const GetLastVisitedOrUpdatedDocument = {
 	kind: 'Document',
 	definitions: [
@@ -22876,6 +24399,29 @@ export const GetNotebookDocument = {
 									arguments: [
 										{
 											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'active' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
 											name: { kind: 'Name', value: 'order_by' },
 											value: {
 												kind: 'ObjectValue',
@@ -22904,6 +24450,7 @@ export const GetNotebookDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'professional' },
@@ -22941,6 +24488,20 @@ export const GetNotebookDocument = {
 																			],
 																		},
 																	},
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientation_manager' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
 																],
 															},
 														},
@@ -24590,13 +26151,41 @@ export type RemoveNotebookMembersMutationStore = OperationStore<
 	RemoveNotebookMembersMutation,
 	RemoveNotebookMembersMutationVariables
 >;
+export type GetBeneficiariesQueryStore = OperationStore<
+	GetBeneficiariesQuery,
+	GetBeneficiariesQueryVariables
+>;
+export type GetOrientationManagerQueryStore = OperationStore<
+	GetOrientationManagerQuery,
+	GetOrientationManagerQueryVariables
+>;
+export type GetOrientationTypeQueryStore = OperationStore<
+	GetOrientationTypeQuery,
+	GetOrientationTypeQueryVariables
+>;
+export type GetProfessionalsForManagerQueryStore = OperationStore<
+	GetProfessionalsForManagerQuery,
+	GetProfessionalsForManagerQueryVariables
+>;
 export type GetProfessionalsFromStructuresQueryStore = OperationStore<
 	GetProfessionalsFromStructuresQuery,
 	GetProfessionalsFromStructuresQueryVariables
 >;
+export type GetStructuresForManagerQueryStore = OperationStore<
+	GetStructuresForManagerQuery,
+	GetStructuresForManagerQueryVariables
+>;
 export type GetStructuresWithProQueryStore = OperationStore<
 	GetStructuresWithProQuery,
 	GetStructuresWithProQueryVariables
+>;
+export type UpdateOrientationMutationStore = OperationStore<
+	UpdateOrientationMutation,
+	UpdateOrientationMutationVariables
+>;
+export type UpdateOrientationManagerMutationStore = OperationStore<
+	UpdateOrientationManagerMutation,
+	UpdateOrientationManagerMutationVariables
 >;
 export type UpdateReferentMutationStore = OperationStore<
 	UpdateReferentMutation,
@@ -24698,6 +26287,10 @@ export type UpdateTargetStatusMutationStore = OperationStore<
 	UpdateTargetStatusMutation,
 	UpdateTargetStatusMutationVariables
 >;
+export type SearchProfessionalQueryStore = OperationStore<
+	SearchProfessionalQuery,
+	SearchProfessionalQueryVariables
+>;
 export type AddNotebookAppointmentMutationStore = OperationStore<
 	AddNotebookAppointmentMutation,
 	AddNotebookAppointmentMutationVariables
@@ -24709,10 +26302,6 @@ export type AddNotebookMemberMutationStore = OperationStore<
 export type GetNotebookAppointmentsQueryStore = OperationStore<
 	GetNotebookAppointmentsQuery,
 	GetNotebookAppointmentsQueryVariables
->;
-export type SearchProfessionalQueryStore = OperationStore<
-	SearchProfessionalQuery,
-	SearchProfessionalQueryVariables
 >;
 export type UpdateNotebookAppointmentMutationStore = OperationStore<
 	UpdateNotebookAppointmentMutation,
@@ -24838,18 +26427,6 @@ export type GetDeploymentInfosQueryStore = OperationStore<
 	GetDeploymentInfosQuery,
 	GetDeploymentInfosQueryVariables
 >;
-export type GetBeneficiariesQueryStore = OperationStore<
-	GetBeneficiariesQuery,
-	GetBeneficiariesQueryVariables
->;
-export type GetProfessionalsForManagerQueryStore = OperationStore<
-	GetProfessionalsForManagerQuery,
-	GetProfessionalsForManagerQueryVariables
->;
-export type GetStructuresForManagerQueryStore = OperationStore<
-	GetStructuresForManagerQuery,
-	GetStructuresForManagerQueryVariables
->;
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
 	GetAccountsSummaryQueryVariables
@@ -24857,6 +26434,10 @@ export type GetAccountsSummaryQueryStore = OperationStore<
 export type GetNotebooksStatsQueryStore = OperationStore<
 	GetNotebooksStatsQuery,
 	GetNotebooksStatsQueryVariables
+>;
+export type UpdateOrientationManagerProfileMutationStore = OperationStore<
+	UpdateOrientationManagerProfileMutation,
+	UpdateOrientationManagerProfileMutationVariables
 >;
 export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,

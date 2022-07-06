@@ -14,13 +14,32 @@ object_relationships:
     using:
       foreign_key_constraint_on: notebook_id
 insert_permissions:
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      columns:
+        - account_id
+        - date
+        - notebook_id
+        - status
+      backend_only: false
   - role: professional
     permission:
       check:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       columns:
         - account_id
         - date
@@ -28,6 +47,21 @@ insert_permissions:
         - status
       backend_only: false
 select_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - account_id
+        - date
+        - status
+        - created_at
+        - updated_at
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:
@@ -39,9 +73,26 @@ select_permissions:
       filter:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
 update_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - date
+        - status
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      check: null
   - role: professional
     permission:
       columns:
@@ -50,6 +101,9 @@ update_permissions:
       filter:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       check: null

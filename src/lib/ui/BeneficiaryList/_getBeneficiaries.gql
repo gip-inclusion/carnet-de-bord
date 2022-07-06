@@ -1,0 +1,59 @@
+query GetBeneficiaries(
+  $offset: Int! = 0
+  $limit: Int! = 20
+  $withMembers: beneficiary_bool_exp! = {}
+  $search: String! = ""
+) {
+  search_beneficiaries_aggregate(args: { search: $search }, where: $withMembers) {
+    aggregate {
+      count
+    }
+  }
+  beneficiaries: search_beneficiaries(
+    args: { search: $search }
+    limit: $limit
+    offset: $offset
+    order_by: [{ lastname: asc }, { firstname: asc }]
+    where: $withMembers
+  ) {
+    id
+    firstname
+    lastname
+    beneficiaryInfo {
+      orientation_type {
+        id
+        label
+      }
+    }
+    structures {
+      structure {
+        id
+        name
+      }
+    }
+    notebook {
+      id
+      members(
+        where: { memberType: { _in: ["orientation_manager", "referent"] } }
+        order_by: { createdAt: desc }
+      ) {
+        id
+        createdAt
+        account {
+          id
+          type
+          orientation_manager {
+            id
+            firstname
+            lastname
+          }
+          professional {
+            id
+            firstname
+            lastname
+          }
+        }
+      }
+    }
+  }
+}

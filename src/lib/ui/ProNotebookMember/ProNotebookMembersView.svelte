@@ -6,7 +6,8 @@
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { formatDateLocale } from '$lib/utils/date';
-	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import { displayFullName } from '../format';
 
 	type Member = GetNotebookQuery['notebook']['members'][0];
 	type Appointment = GetNotebookQuery['notebook']['appointments'][0];
@@ -29,12 +30,12 @@
 				beneficiaryFirstname,
 				beneficiaryLastname,
 				notebookId,
-				professionalIds: members ? members.map((m) => m.account?.professional.id) : [],
+				accountIds: members ? members.map((m) => m.account.id) : [],
 			},
 		});
 	};
 
-	function filterAppointmentsByProAccountId(memberAccountId: string): string {
+	function filterAppointmentsByAccountId(memberAccountId: string): string {
 		const proAppointment: Appointment = appointments.filter(
 			(appointment) => appointment.memberAccountId === memberAccountId
 		)[0];
@@ -51,34 +52,47 @@
 	>
 </div>
 <div class={`fr-table fr-table--layout-fixed`}>
-	<table>
+	<table summary="Groupe de suivi" aria-label="Groupe de suivi">
 		<thead>
 			<tr>
-				<th style="width: 30%">Structure</th>
-				<th style="">Accompagnateur</th>
+				<th style="width: 50%">Accompagnateur (structure)</th>
 				<th style="">Fonction</th>
 				<th style="">Rendez-vous</th>
 				<th style="width: 10%" class="text-center">Voir plus</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each members as member}
+			{#each members.filter(({ account }) => account.type === RoleEnum.Professional) as member}
 				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
 					<td>
-						<Text value={member.account?.professional.structure.name} />
-					</td>
-					<td>
 						<div class="flex flex-row gap-2">
-							<Text
-								value={`${member.account?.professional.firstname} ${member.account?.professional.lastname}`}
-							/>
+							<Text value={displayFullName(member.account?.professional)} />
+							<Text value={`(${member.account?.professional.structure.name})`} />
 						</div>
 					</td>
 					<td>
 						<Text value={member.account?.professional.position} />
 					</td>
 					<td>
-						<Text value={filterAppointmentsByProAccountId(member.account?.id)} />
+						<Text value={filterAppointmentsByAccountId(member.account?.id)} />
+					</td>
+					<td class="text-center">
+						<button>
+							<i class="text-2xl text-france-blue ri-arrow-right-line" />
+						</button>
+					</td>
+				</tr>
+			{/each}
+			{#each members.filter(({ account }) => account.type === RoleEnum.OrientationManager) as member}
+				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
+					<td>
+						<div class="flex flex-row gap-2">
+							<Text value={displayFullName(member.account?.orientation_manager)} />
+						</div>
+					</td>
+					<td> Chargé d'orientation </td>
+					<td>
+						<Text value={filterAppointmentsByAccountId(member.account?.id)} />
 					</td>
 					<td class="text-center">
 						<button>

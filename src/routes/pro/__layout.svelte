@@ -69,7 +69,7 @@
 <Crisp websiteId={CRISP_WEBSITE_ID} />
 <HeaderCDB {menuItems} />
 
-<div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
+<div class="fr-container fr-py-6w fr-px-2w">
 	<div class="flex flex-col gap-8">
 		<LoaderIndicator {result}>
 			<slot />

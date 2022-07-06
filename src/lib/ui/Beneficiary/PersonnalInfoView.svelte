@@ -1,5 +1,9 @@
 <script lang="ts">
-	import type { Beneficiary, Professional } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		Beneficiary,
+		OrientationManager,
+		Professional,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
@@ -20,7 +24,7 @@
 		| 'peNumber'
 	>;
 	export let lastUpdateDate: string;
-	export let lastUpdateFrom: Pick<Professional, 'firstname' | 'lastname'>;
+	export let lastUpdateFrom: Pick<Professional | OrientationManager, 'firstname' | 'lastname'>;
 </script>
 
 {#if lastUpdateDate}

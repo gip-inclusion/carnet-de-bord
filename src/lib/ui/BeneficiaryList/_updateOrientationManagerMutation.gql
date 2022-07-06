@@ -1,0 +1,24 @@
+mutation UpdateOrientationManager(
+  $objects: [notebook_member_insert_input!]!
+  $beneficiaries: [uuid!]!
+) {
+  update_notebook_member(
+    _set: { active: false }
+    where: {
+      memberType: { _eq: "orientation_manager" }
+      notebook: { beneficiaryId: { _in: $beneficiaries } }
+    }
+  ) {
+    affected_rows
+  }
+
+  insert_notebook_member(
+    objects: $objects
+    on_conflict: {
+      constraint: notebook_member_notebook_id_account_id_key
+      update_columns: [memberType, active]
+    }
+  ) {
+    affected_rows
+  }
+}

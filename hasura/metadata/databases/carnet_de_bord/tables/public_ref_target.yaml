@@ -16,6 +16,13 @@ select_permissions:
         - description
         - theme
       filter: {}
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - description
+        - theme
+      filter: {}
   - role: professional
     permission:
       columns:

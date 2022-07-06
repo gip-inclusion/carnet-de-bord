@@ -77,7 +77,9 @@
 					<span slot="description">
 						<Text value={contractTypeKeys.byKey[focus.linkedTo]} />
 						<Text
-							value={`${nbActions} ${pluralize('action', nbActions)}`}
+							value={nbActions > 0
+								? `${nbActions} ${pluralize('action', nbActions)}`
+								: 'Aucune action'}
 							classNames="text-success font-bold"
 						/>
 					</span>

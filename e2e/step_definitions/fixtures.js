@@ -5,10 +5,71 @@ const UUID = 'c86dc6b9-8eb9-455e-a483-a2f50810e2ac';
 
 async function loginStub(userType, email) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
-	await I.sendMutation(
-		`mutation setAccessToken {
+	if (type.code === 'beneficiary') {
+		const result = await I.sendQuery(
+			`
+		query getBeneficiaryIdByEmail($email: citext!) {
+			beneficiary( where: { email: {_eq: $email } }) {
+			id
+			}
+		}`,
+			{ email }
+		);
+		await I.sendMutation(
+			`
+		mutation createAccount($id: uuid!) {
+			insert_account_one(object: {beneficiaryId: $id, accessKey: "${UUID}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
+		}`,
+			{ id: result.data.data.beneficiary[0].id }
+		);
+	} else {
+		await I.sendMutation(
+			`mutation setAccessToken {
 				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${UUID}"}) { affected_rows }
 		}`
+		);
+	}
+}
+
+async function addMember(email, notebookId) {
+	const result = await I.sendQuery(
+		`
+		query getAccountIdByEmail($email: citext!) {
+			account( where: { _or: [
+				{professional: {email: {_eq: $email}}}
+				{orientation_manager: {email: {_eq: $email}}}
+			]}) {
+			id
+			}
+		}
+	`,
+		{ email }
+	);
+	await I.sendMutation(
+		`
+		mutation insertMember($accountId: uuid!, $notebookId: uuid!) {
+			insert_notebook_member_one(object: {
+				notebookId:$notebookId,
+				accountId: $accountId,
+				memberType: "no_referent"
+			}) {
+				id
+			}
+		}
+		`,
+		{ accountId: result.data.data.account[0].id, notebookId }
+	);
+}
+async function removeMember(email) {
+	await I.sendMutation(
+		`
+		mutation deleteMember($email: citext!) {
+			delete_notebook_member(where: {account: {_or: [{professional: {email: {_eq: $email}}}, {orientation_manager: {email: {_eq: $email}}}]}}) {
+				affected_rows
+			}
+		}
+		`,
+		{ email }
 	);
 }
 
@@ -40,7 +101,23 @@ async function setupBeforeFixturesByTags(tags) {
 				await removeAllAppointments();
 				break;
 			case '@import_orientation_manager':
-				await removeAllOrientationManager();
+				await removeImportedOrientationManager();
+				break;
+			case '@orientation_manager_rattachement':
+				await removeOrientationManagerAssignement();
+				break;
+			case '@orientation_manager_notebook_edit':
+				await removeMember('giulia.diaby@cd93.fr');
+				await resetPhone();
+				await clearNotebookContract();
+				break;
+			case '@orientation_manager_notebook_members':
+				await removeMember('pcamara@seinesaintdenis.fr');
+				break;
+			case '@orientation_manager_focuses':
+				await resetFocusesFixtures('Aguilar');
+			case '@beneficiary':
+				removeBeneficiariesAccount(['stifour93@yahoo.fr']);
 				break;
 			default:
 				return;
@@ -52,7 +129,7 @@ function setupAfterFixturesByTags(tags) {
 	tags.forEach((tag) => {
 		switch (tag) {
 			case '@modifier_rattachement_beneficiaire':
-				removeBeneficiaryLink();
+			case '@orientation_manager_rattachement_beneficiaire':
 				resetReferent();
 				resetBeneficiaryReorientation();
 				break;
@@ -173,7 +250,7 @@ const goToNotebookForLastName = async (lastname) => {
 };
 
 function removeProfessionalAccount() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation removeUser {
 			delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
 			delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
@@ -181,17 +258,8 @@ function removeProfessionalAccount() {
 	);
 }
 
-function removeBeneficiaryLink() {
-	I.sendMutation(
-		`mutation ResetReferent {
-			delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
-			insert_notebook_member_one(object: { notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", accountId:"17434464-5f69-40cc-8172-40160958a33d" }) { id }
-		}`
-	);
-}
-
 function removeWantedJobs() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation RemoveWantedJobs {
 		  delete_wanted_job(where: {notebook_id: {_eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"}}) { __typename }
 		}`
@@ -199,7 +267,7 @@ function removeWantedJobs() {
 }
 
 function resetReferent() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation ResetReferent {
 			delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
 			update_beneficiary_structure(_set: {structureId: "1c52e5ad-e0b9-48b9-a490-105a4effaaea"} where: { beneficiary: { notebook: {id: {_eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"} } } }) { affected_rows }
@@ -209,7 +277,7 @@ function resetReferent() {
 }
 
 function resetBeneficiaryReorientation() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation ResetReferents {
 			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["fb1f9810-f219-4555-9025-4126cb0684d6", "d235c967-29dc-47bc-b2f3-43aa46c9f54f"] } } } }
 			_set: {status: "pending", structureId: "8b71184c-6479-4440-aa89-15da704cc792"}) { affected_rows }
@@ -218,7 +286,7 @@ function resetBeneficiaryReorientation() {
 }
 
 function removeBeneficiaryLinkByAdminStructure() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation ResetReferents {
 			delete_notebook_member(where: { notebookId: { _in: ["7262db31-bd98-436c-a690-f2a717085c86", "f82fa38e-547a-49cd-b061-4ec9c6f2e1b9"] } }) { affected_rows }
 			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["7262db31-bd98-436c-a690-f2a717085c86", "f82fa38e-547a-49cd-b061-4ec9c6f2e1b9"] } } } }
@@ -228,7 +296,7 @@ function removeBeneficiaryLinkByAdminStructure() {
 }
 
 function removeBeneficiaryReferent() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation ResetReferents {
 			delete_notebook_member(where: { notebookId: { _in: ["7262db31-bd98-436c-a690-f2a717085c86"] } }) { affected_rows }
 			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["7262db31-bd98-436c-a690-f2a717085c86"] } } } }
@@ -238,15 +306,15 @@ function removeBeneficiaryReferent() {
 }
 
 function removeAllAppointments() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation RemoveAppointments {
 			delete_notebook_appointment(where: {}) { affected_rows }
 		}`
 	);
 }
 
-function removeAllOrientationManager() {
-	I.sendMutation(
+function removeImportedOrientationManager() {
+	return I.sendMutation(
 		`mutation removeOrientationManager {
 			delete_account(where: {orientation_manager: {email: {_in:["woirnesse@cd26.fr", "cyane@cd26.fr"]}}}) { affected_rows }
 			delete_orientation_manager(where: {email: {_in:["woirnesse@cd26.fr", "cyane@cd26.fr"]}}) { affected_rows }
@@ -255,19 +323,78 @@ function removeAllOrientationManager() {
 	);
 }
 
+function removeOrientationManagerAssignement() {
+	return I.sendMutation(
+		`mutation removeOrientationManagerAssignement {
+			delete_notebook_member(where: { account: {orientation_manager: {email: {_eq: "giulia.diaby@cd93.fr"}}}}) { affected_rows }
+		}
+		`
+	);
+}
+
+function resetPhone() {
+	return I.sendMutation(
+		`mutation UpdatePhone {
+			update_beneficiary_by_pk(_set: {mobileNumber: "0601010101" },cxpk_columns: {id: "c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"}) { __typename }
+		}`
+	);
+}
+
+async function removeBeneficiariesAccount(emails) {
+	await I.sendMutation(
+		`mutation RemoveBeneficiaryAccountFixture($emails:[citext!]!) {
+
+		  delete_account(where: {beneficiary: {email: {_in: $emails}}}) {
+		    affected_rows
+		  }
+		}`,
+		{ emails }
+	);
+}
+
 function clearNotebookContract() {
-	I.sendMutation(
+	return I.sendMutation(
 		`mutation UpdateNotebookContract {
 			update_notebook_by_pk(_set: {contractSignDate: null, contractStartDate: null, contractEndDate: null, contractType: "no"}, pk_columns: {id: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"}) { __typename }
 		}`
 	);
 }
 
+async function resetFocusesFixtures(name) {
+	const notebookId = await I.sendQuery(
+		`
+			query getnotebook($name: String!){
+				notebook(where: {beneficiary: {lastname: {_ilike: $name}}}) {id}
+			}
+	`,
+		{ name }
+	).then((resp) => resp?.data?.data.notebook[0].id);
+	const focusId = 'f12f10af-d042-449f-b1d8-fe24f850b3dc';
+	const pierreChevalierAccountId = '17434464-5f69-40cc-8172-40160958a33d';
+	await I.sendMutation(
+		`
+			mutation resetNotebook($notebookId: uuid!, $focusId: uuid!, $creatorId: uuid!, $name: String!) {
+				delete_notebook_focus(where: {notebook: {beneficiary: {lastname: {_eq: $name}}}}) {affected_rows}
+				insert_notebook_focus_one(
+					object: {id: $focusId, notebookId: $notebookId, theme: "formation", situations: ["Prêt à suivre une formation"], creatorId: $creatorId}) {
+					id
+				}
+				insert_notebook_target_one(object: {focusId: $focusId, creatorId: $creatorId, target: "Se former"}) {
+					id
+				}
+			}
+	`,
+		{ creatorId: pierreChevalierAccountId, focusId, name, notebookId }
+	);
+}
+
 module.exports = {
 	UUID,
+	addMember,
 	goToNotebookForLastName,
 	loginStub,
 	onBoardingSetup,
+	removeMember,
 	setupAfterFixturesByTags,
 	setupBeforeFixturesByTags,
 };

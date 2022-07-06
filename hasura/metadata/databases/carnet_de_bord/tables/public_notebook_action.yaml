@@ -28,13 +28,43 @@ insert_permissions:
         - creator_id
         - created_at
       backend_only: false
-  - role: professional
+  - role: orientation_manager
     permission:
-      check: {}
+      check:
+        target:
+          focus:
+            notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       set:
         creator_id: X-Hasura-User-Id
       columns:
         - action
+        - creator_id
+        - status
+        - target_id
+      backend_only: false
+  - role: professional
+    permission:
+      check:
+        target:
+          focus:
+            notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
+      set:
+        creator_id: X-Hasura-User-Id
+      columns:
+        - action
+        - creator_id
         - status
         - target_id
       backend_only: false
@@ -117,6 +147,25 @@ select_permissions:
                 deployment_id:
                   _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - action
+        - target_id
+        - status
+        - creator_id
+        - created_at
+        - updated_at
+        - initial_id
+      filter:
+        target:
+          focus:
+            notebook:
+              beneficiary:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
   - role: professional
     permission:
       columns:
@@ -132,8 +181,11 @@ select_permissions:
           focus:
             notebook:
               members:
-                account_id:
-                  _eq: X-Hasura-User-Id
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb
@@ -147,16 +199,33 @@ update_permissions:
         - target_id
       filter: {}
       check: {}
-  - role: professional
+  - role: orientation_manager
     permission:
       columns:
-        - action
         - status
       filter:
         target:
           focus:
             notebook:
               members:
-                account_id:
-                  _eq: X-Hasura-USer-Id
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
+      check: {}
+  - role: professional
+    permission:
+      columns:
+        - status
+      filter:
+        target:
+          focus:
+            notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
       check: null

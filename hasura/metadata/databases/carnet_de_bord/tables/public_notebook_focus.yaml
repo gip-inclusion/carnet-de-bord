@@ -37,13 +37,36 @@ insert_permissions:
         - created_at
         - linked_to
       backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      set:
+        creator_id: x-hasura-User-Id
+      columns:
+        - creator_id
+        - id
+        - linked_to
+        - notebook_id
+        - situations
+        - theme
+      backend_only: false
   - role: professional
     permission:
       check:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       set:
         creator_id: X-Hasura-User-Id
       columns:
@@ -128,6 +151,22 @@ select_permissions:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - theme
+        - situations
+        - creator_id
+        - notebook_id
+        - created_at
+        - linked_to
+        - updated_at
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:
@@ -142,8 +181,11 @@ select_permissions:
       filter:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb
@@ -158,22 +200,42 @@ update_permissions:
         - notebook_id
       filter: {}
       check: {}
-  - role: professional
+  - role: orientation_manager
     permission:
       columns:
-        - creator_id
-        - id
         - linked_to
-        - notebook_id
         - situations
         - theme
       filter:
         notebook:
           members:
-            account_id:
-              _eq: X-Hasura-User-Id
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      check: null
+  - role: professional
+    permission:
+      columns:
+        - linked_to
+        - situations
+        - theme
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
       check: null
 delete_permissions:
+  - role: orientation_manager
+    permission:
+      filter:
+        creator_id:
+          _eq: X-Hasura-User-Id
   - role: professional
     permission:
       filter:

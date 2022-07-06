@@ -4,7 +4,6 @@
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import { post } from '$lib/utils/post';
 	import { mutation, operationStore } from '@urql/svelte';
-	import { session } from '$app/stores';
 	import { openComponent } from '$lib/stores';
 	import ProAddedConfirmation from './ProAddedConfirmation.svelte';
 	import { Alert } from '$lib/ui/base';
@@ -23,7 +22,6 @@
 		const store = await addNotebookMember({
 			accountId,
 			notebookId: notebookId,
-			creatorId: $session.user.id,
 		});
 		const { id: notebookMemberId } = store.data.newMember;
 		//send email

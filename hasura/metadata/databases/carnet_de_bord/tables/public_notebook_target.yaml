@@ -33,21 +33,43 @@ insert_permissions:
         - target
         - created_at
       backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        focus:
+          notebook:
+            members:
+              _and:
+                - account_id:
+                    _eq: X-Hasura-User-Id
+                - active:
+                    _eq: true
+      set:
+        creator_id: x-hasura-User-Id
+      columns:
+        - creator_id
+        - focus_id
+        - status
+        - target
+      backend_only: false
   - role: professional
     permission:
       check:
         focus:
           notebook:
             members:
-              account_id:
-                _eq: X-Hasura-User-Id
+              _and:
+                - account_id:
+                    _eq: X-Hasura-User-Id
+                - active:
+                    _eq: true
       set:
         creator_id: X-Hasura-User-Id
       columns:
-        - id
+        - creator_id
         - focus_id
+        - status
         - target
-        - created_at
       backend_only: false
 select_permissions:
   - role: admin_cdb
@@ -121,6 +143,22 @@ select_permissions:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - focus_id
+        - target
+        - created_at
+        - creator_id
+        - updated_at
+        - status
+      filter:
+        focus:
+          notebook:
+            beneficiary:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:
@@ -148,6 +186,20 @@ update_permissions:
         - id
       filter: {}
       check: {}
+  - role: orientation_manager
+    permission:
+      columns:
+        - status
+      filter:
+        focus:
+          notebook:
+            members:
+              _and:
+                - account_id:
+                    _eq: X-Hasura-User-Id
+                - active:
+                    _eq: true
+      check: null
   - role: professional
     permission:
       columns:
@@ -156,6 +208,9 @@ update_permissions:
         focus:
           notebook:
             members:
-              account_id:
-                _eq: X-Hasura-User-Id
+              _and:
+                - account_id:
+                    _eq: X-Hasura-User-Id
+                - active:
+                    _eq: true
       check: null
