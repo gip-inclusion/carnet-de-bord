@@ -319,7 +319,7 @@ export type AccountAggregateOrderBy = {
 /** input type for inserting array relation for remote table "account" */
 export type AccountArrRelInsertInput = {
 	data: Array<AccountInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<AccountOnConflict>;
 };
 
@@ -361,19 +361,19 @@ export type AccountBoolExp = {
 
 /** unique or primary key constraints on table "account" */
 export enum AccountConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "admin_id" */
 	AccountAdminIdKey = 'account_admin_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "admin_structure_id" */
 	AccountAdminStructureIdKey = 'account_admin_structure_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "beneficiary_id" */
 	AccountBeneficiaryIdKey = 'account_beneficiary_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "manager_id" */
 	AccountManagerIdKey = 'account_manager_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	AccountPkey = 'account_pkey',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "professional_id" */
 	AccountProfessionalIdKey = 'account_professional_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "username" */
 	AccountUsernameUnique = 'account_username_unique',
 }
 
@@ -492,11 +492,11 @@ export type AccountMutationResponse = {
 /** input type for inserting object relation for remote table "account" */
 export type AccountObjRelInsertInput = {
 	data: AccountInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<AccountOnConflict>;
 };
 
-/** on conflict condition type for table "account" */
+/** on_conflict condition type for table "account" */
 export type AccountOnConflict = {
 	constraint: AccountConstraint;
 	update_columns?: Array<AccountUpdateColumn>;
@@ -683,9 +683,9 @@ export type AdminCdbBoolExp = {
 
 /** unique or primary key constraints on table "admin_cdb" */
 export enum AdminCdbConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "email" */
 	AdminEmailUnique = 'admin_email_unique',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	AdminPkey = 'admin_pkey',
 }
 
@@ -734,11 +734,11 @@ export type AdminCdbMutationResponse = {
 /** input type for inserting object relation for remote table "admin_cdb" */
 export type AdminCdbObjRelInsertInput = {
 	data: AdminCdbInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<AdminCdbOnConflict>;
 };
 
-/** on conflict condition type for table "admin_cdb" */
+/** on_conflict condition type for table "admin_cdb" */
 export type AdminCdbOnConflict = {
 	constraint: AdminCdbConstraint;
 	update_columns?: Array<AdminCdbUpdateColumn>;
@@ -803,13 +803,7 @@ export enum AdminCdbUpdateColumn {
 	UpdatedAt = 'updatedAt',
 }
 
-/**
- * Table of structure manager, handle pro and brsa attachment
- *
- *
- * columns and relationships of "admin_structure"
- *
- */
+/** Table of structure manager, handle pro and brsa attachment */
 export type AdminStructure = {
 	__typename?: 'admin_structure';
 	/** An object relationship */
@@ -831,13 +825,7 @@ export type AdminStructure = {
 	updatedAt: Scalars['timestamptz'];
 };
 
-/**
- * Table of structure manager, handle pro and brsa attachment
- *
- *
- * columns and relationships of "admin_structure"
- *
- */
+/** Table of structure manager, handle pro and brsa attachment */
 export type AdminStructureStructuresArgs = {
 	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -846,13 +834,7 @@ export type AdminStructureStructuresArgs = {
 	where?: InputMaybe<AdminStructureStructureBoolExp>;
 };
 
-/**
- * Table of structure manager, handle pro and brsa attachment
- *
- *
- * columns and relationships of "admin_structure"
- *
- */
+/** Table of structure manager, handle pro and brsa attachment */
 export type AdminStructureStructuresAggregateArgs = {
 	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -892,7 +874,7 @@ export type AdminStructureAggregateOrderBy = {
 /** input type for inserting array relation for remote table "admin_structure" */
 export type AdminStructureArrRelInsertInput = {
 	data: Array<AdminStructureInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<AdminStructureOnConflict>;
 };
 
@@ -917,9 +899,9 @@ export type AdminStructureBoolExp = {
 
 /** unique or primary key constraints on table "admin_structure" */
 export enum AdminStructureConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "email" */
 	AdminStructureEmailKey = 'admin_structure_email_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	AdminStructurePkey = 'admin_structure_pkey',
 }
 
@@ -1005,11 +987,11 @@ export type AdminStructureMutationResponse = {
 /** input type for inserting object relation for remote table "admin_structure" */
 export type AdminStructureObjRelInsertInput = {
 	data: AdminStructureInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<AdminStructureOnConflict>;
 };
 
-/** on conflict condition type for table "admin_structure" */
+/** on_conflict condition type for table "admin_structure" */
 export type AdminStructureOnConflict = {
 	constraint: AdminStructureConstraint;
 	update_columns?: Array<AdminStructureUpdateColumn>;
@@ -1072,13 +1054,7 @@ export type AdminStructureSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
-/**
- * associative table between admin_structure and structure (many ot many)
- *
- *
- * columns and relationships of "admin_structure_structure"
- *
- */
+/** associative table between admin_structure and structure (many ot many) */
 export type AdminStructureStructure = {
 	__typename?: 'admin_structure_structure';
 	adminStructureId: Scalars['uuid'];
@@ -1122,7 +1098,7 @@ export type AdminStructureStructureAggregateOrderBy = {
 /** input type for inserting array relation for remote table "admin_structure_structure" */
 export type AdminStructureStructureArrRelInsertInput = {
 	data: Array<AdminStructureStructureInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<AdminStructureStructureOnConflict>;
 };
 
@@ -1141,7 +1117,7 @@ export type AdminStructureStructureBoolExp = {
 
 /** unique or primary key constraints on table "admin_structure_structure" */
 export enum AdminStructureStructureConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	AdminStructureStructurePkey = 'admin_structure_structure_pkey',
 }
 
@@ -1198,7 +1174,7 @@ export type AdminStructureStructureMutationResponse = {
 	returning: Array<AdminStructureStructure>;
 };
 
-/** on conflict condition type for table "admin_structure_structure" */
+/** on_conflict condition type for table "admin_structure_structure" */
 export type AdminStructureStructureOnConflict = {
 	constraint: AdminStructureStructureConstraint;
 	update_columns?: Array<AdminStructureStructureUpdateColumn>;
@@ -1357,7 +1333,7 @@ export type BeneficiaryAggregateOrderBy = {
 /** input type for inserting array relation for remote table "beneficiary" */
 export type BeneficiaryArrRelInsertInput = {
 	data: Array<BeneficiaryInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<BeneficiaryOnConflict>;
 };
 
@@ -1392,21 +1368,15 @@ export type BeneficiaryBoolExp = {
 
 /** unique or primary key constraints on table "beneficiary" */
 export enum BeneficiaryConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "internal_id" */
 	BeneficiaryInternalIdKey = 'beneficiary_internal_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	BeneficiaryPkey = 'beneficiary_pkey',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "date_of_birth", "deployment_id" */
 	FirstnameLastnameDateOfBirthUniqueIdx = 'firstname_lastname_date_of_birth_unique_idx',
 }
 
-/**
- * beneficiary orientation info
- *
- *
- * columns and relationships of "beneficiary_info"
- *
- */
+/** beneficiary orientation info */
 export type BeneficiaryInfo = {
 	__typename?: 'beneficiary_info';
 	/** An object relationship */
@@ -1450,7 +1420,7 @@ export type BeneficiaryInfoAggregateOrderBy = {
 /** input type for inserting array relation for remote table "beneficiary_info" */
 export type BeneficiaryInfoArrRelInsertInput = {
 	data: Array<BeneficiaryInfoInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
 };
 
@@ -1469,7 +1439,7 @@ export type BeneficiaryInfoBoolExp = {
 
 /** unique or primary key constraints on table "beneficiary_info" */
 export enum BeneficiaryInfoConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "beneficiary_id" */
 	BeneficiaryInfoPkey = 'beneficiary_info_pkey',
 }
 
@@ -1525,11 +1495,11 @@ export type BeneficiaryInfoMutationResponse = {
 /** input type for inserting object relation for remote table "beneficiary_info" */
 export type BeneficiaryInfoObjRelInsertInput = {
 	data: BeneficiaryInfoInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
 };
 
-/** on conflict condition type for table "beneficiary_info" */
+/** on_conflict condition type for table "beneficiary_info" */
 export type BeneficiaryInfoOnConflict = {
 	constraint: BeneficiaryInfoConstraint;
 	update_columns?: Array<BeneficiaryInfoUpdateColumn>;
@@ -1707,11 +1677,11 @@ export type BeneficiaryMutationResponse = {
 /** input type for inserting object relation for remote table "beneficiary" */
 export type BeneficiaryObjRelInsertInput = {
 	data: BeneficiaryInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<BeneficiaryOnConflict>;
 };
 
-/** on conflict condition type for table "beneficiary" */
+/** on_conflict condition type for table "beneficiary" */
 export type BeneficiaryOnConflict = {
 	constraint: BeneficiaryConstraint;
 	update_columns?: Array<BeneficiaryUpdateColumn>;
@@ -1808,13 +1778,7 @@ export type BeneficiarySetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
-/**
- * associative table between beneficiary and structure (many ot many)
- *
- *
- * columns and relationships of "beneficiary_structure"
- *
- */
+/** associative table between beneficiary and structure (many ot many) */
 export type BeneficiaryStructure = {
 	__typename?: 'beneficiary_structure';
 	/** An object relationship */
@@ -1830,13 +1794,7 @@ export type BeneficiaryStructure = {
 	updatedAt: Scalars['timestamptz'];
 };
 
-/**
- * associative table between beneficiary and structure (many ot many)
- *
- *
- * columns and relationships of "beneficiary_structure"
- *
- */
+/** associative table between beneficiary and structure (many ot many) */
 export type BeneficiaryStructureDataArgs = {
 	path?: InputMaybe<Scalars['String']>;
 };
@@ -1877,7 +1835,7 @@ export type BeneficiaryStructureAppendInput = {
 /** input type for inserting array relation for remote table "beneficiary_structure" */
 export type BeneficiaryStructureArrRelInsertInput = {
 	data: Array<BeneficiaryStructureInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<BeneficiaryStructureOnConflict>;
 };
 
@@ -1899,9 +1857,9 @@ export type BeneficiaryStructureBoolExp = {
 
 /** unique or primary key constraints on table "beneficiary_structure" */
 export enum BeneficiaryStructureConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	BeneficiaryStructurePkey = 'beneficiary_structure_pkey',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "beneficiary_id", "structure_id" */
 	BeneficiaryStructureStructureIdBeneficiaryIdKey = 'beneficiary_structure_structure_id_beneficiary_id_key',
 }
 
@@ -1984,7 +1942,7 @@ export type BeneficiaryStructureMutationResponse = {
 	returning: Array<BeneficiaryStructure>;
 };
 
-/** on conflict condition type for table "beneficiary_structure" */
+/** on_conflict condition type for table "beneficiary_structure" */
 export type BeneficiaryStructureOnConflict = {
 	constraint: BeneficiaryStructureConstraint;
 	update_columns?: Array<BeneficiaryStructureUpdateColumn>;
@@ -2158,13 +2116,7 @@ export type DateComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['date']>>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type Deployment = {
 	__typename?: 'deployment';
 	/** An array relationship */
@@ -2194,13 +2146,7 @@ export type Deployment = {
 	updatedAt: Scalars['timestamptz'];
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentAdminStructuresArgs = {
 	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2209,13 +2155,7 @@ export type DeploymentAdminStructuresArgs = {
 	where?: InputMaybe<AdminStructureBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentAdminStructuresAggregateArgs = {
 	distinct_on?: InputMaybe<Array<AdminStructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2224,13 +2164,7 @@ export type DeploymentAdminStructuresAggregateArgs = {
 	where?: InputMaybe<AdminStructureBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentBeneficiariesArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2239,13 +2173,7 @@ export type DeploymentBeneficiariesArgs = {
 	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentBeneficiariesAggregateArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2254,24 +2182,12 @@ export type DeploymentBeneficiariesAggregateArgs = {
 	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentConfigArgs = {
 	path?: InputMaybe<Scalars['String']>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentManagersArgs = {
 	distinct_on?: InputMaybe<Array<ManagerSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2280,13 +2196,7 @@ export type DeploymentManagersArgs = {
 	where?: InputMaybe<ManagerBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentManagersAggregateArgs = {
 	distinct_on?: InputMaybe<Array<ManagerSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2295,13 +2205,7 @@ export type DeploymentManagersAggregateArgs = {
 	where?: InputMaybe<ManagerBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentOrientationManagersArgs = {
 	distinct_on?: InputMaybe<Array<OrientationManagerSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2310,13 +2214,7 @@ export type DeploymentOrientationManagersArgs = {
 	where?: InputMaybe<OrientationManagerBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentOrientationManagersAggregateArgs = {
 	distinct_on?: InputMaybe<Array<OrientationManagerSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2325,13 +2223,7 @@ export type DeploymentOrientationManagersAggregateArgs = {
 	where?: InputMaybe<OrientationManagerBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentStructuresArgs = {
 	distinct_on?: InputMaybe<Array<StructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2340,13 +2232,7 @@ export type DeploymentStructuresArgs = {
 	where?: InputMaybe<StructureBoolExp>;
 };
 
-/**
- * list of carnet-de-bord deployments
- *
- *
- * columns and relationships of "deployment"
- *
- */
+/** list of carnet-de-bord deployments */
 export type DeploymentStructuresAggregateArgs = {
 	distinct_on?: InputMaybe<Array<StructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -2400,7 +2286,7 @@ export type DeploymentBoolExp = {
 
 /** unique or primary key constraints on table "deployment" */
 export enum DeploymentConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	DeploymentPkey = 'deployment_pkey',
 }
 
@@ -2463,11 +2349,11 @@ export type DeploymentMutationResponse = {
 /** input type for inserting object relation for remote table "deployment" */
 export type DeploymentObjRelInsertInput = {
 	data: DeploymentInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<DeploymentOnConflict>;
 };
 
-/** on conflict condition type for table "deployment" */
+/** on_conflict condition type for table "deployment" */
 export type DeploymentOnConflict = {
 	constraint: DeploymentConstraint;
 	update_columns?: Array<DeploymentUpdateColumn>;
@@ -2589,7 +2475,7 @@ export type ExternalDataAppendInput = {
 /** input type for inserting array relation for remote table "external_data" */
 export type ExternalDataArrRelInsertInput = {
 	data: Array<ExternalDataInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<ExternalDataOnConflict>;
 };
 
@@ -2609,7 +2495,7 @@ export type ExternalDataBoolExp = {
 
 /** unique or primary key constraints on table "external_data" */
 export enum ExternalDataConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	ExternalDataPkey = 'external_data_pkey',
 }
 
@@ -2676,7 +2562,7 @@ export type ExternalDataInfoBoolExp = {
 
 /** unique or primary key constraints on table "external_data_info" */
 export enum ExternalDataInfoConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "external_data_id" */
 	ExternalDataInfoPkey = 'external_data_info_pkey',
 }
 
@@ -2719,7 +2605,7 @@ export type ExternalDataInfoMutationResponse = {
 	returning: Array<ExternalDataInfo>;
 };
 
-/** on conflict condition type for table "external_data_info" */
+/** on_conflict condition type for table "external_data_info" */
 export type ExternalDataInfoOnConflict = {
 	constraint: ExternalDataInfoConstraint;
 	update_columns?: Array<ExternalDataInfoUpdateColumn>;
@@ -2832,7 +2718,7 @@ export type ExternalDataMutationResponse = {
 	returning: Array<ExternalData>;
 };
 
-/** on conflict condition type for table "external_data" */
+/** on_conflict condition type for table "external_data" */
 export type ExternalDataOnConflict = {
 	constraint: ExternalDataConstraint;
 	update_columns?: Array<ExternalDataUpdateColumn>;
@@ -2906,7 +2792,7 @@ export enum ExternalDataUpdateColumn {
 export type ExternalSource = {
 	__typename?: 'external_source';
 	comment: Scalars['String'];
-	/** fetch data from the table: "external_data" */
+	/** An array relationship */
 	external_data: Array<ExternalData>;
 	/** An aggregate relationship */
 	external_data_aggregate: ExternalDataAggregate;
@@ -2964,7 +2850,7 @@ export type ExternalSourceBoolExp = {
 
 /** unique or primary key constraints on table "external_source" */
 export enum ExternalSourceConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "value" */
 	ExternalSourcePkey = 'external_source_pkey',
 }
 
@@ -3015,11 +2901,11 @@ export type ExternalSourceMutationResponse = {
 /** input type for inserting object relation for remote table "external_source" */
 export type ExternalSourceObjRelInsertInput = {
 	data: ExternalSourceInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<ExternalSourceOnConflict>;
 };
 
-/** on conflict condition type for table "external_source" */
+/** on_conflict condition type for table "external_source" */
 export type ExternalSourceOnConflict = {
 	constraint: ExternalSourceConstraint;
 	update_columns?: Array<ExternalSourceUpdateColumn>;
@@ -3060,8 +2946,13 @@ export enum ExternalSourceUpdateColumn {
 	Value = 'value',
 }
 
+export type JsonbCastExp = {
+	String?: InputMaybe<StringComparisonExp>;
+};
+
 /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
 export type JsonbComparisonExp = {
+	_cast?: InputMaybe<JsonbCastExp>;
 	/** is the column contained in the given json value */
 	_contained_in?: InputMaybe<Scalars['jsonb']>;
 	/** does the column contain the given json value at the top level */
@@ -3083,13 +2974,7 @@ export type JsonbComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['jsonb']>>;
 };
 
-/**
- * A manager handle structure and professional for a given deployment
- *
- *
- * columns and relationships of "manager"
- *
- */
+/** A manager handle structure and professional for a given deployment */
 export type Manager = {
 	__typename?: 'manager';
 	/** An object relationship */
@@ -3136,7 +3021,7 @@ export type ManagerAggregateOrderBy = {
 /** input type for inserting array relation for remote table "manager" */
 export type ManagerArrRelInsertInput = {
 	data: Array<ManagerInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<ManagerOnConflict>;
 };
 
@@ -3158,9 +3043,9 @@ export type ManagerBoolExp = {
 
 /** unique or primary key constraints on table "manager" */
 export enum ManagerConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "email" */
 	ManagerEmailKey = 'manager_email_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	ManagerPkey = 'manager_pkey',
 }
 
@@ -3235,11 +3120,11 @@ export type ManagerMutationResponse = {
 /** input type for inserting object relation for remote table "manager" */
 export type ManagerObjRelInsertInput = {
 	data: ManagerInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<ManagerOnConflict>;
 };
 
-/** on conflict condition type for table "manager" */
+/** on_conflict condition type for table "manager" */
 export type ManagerOnConflict = {
 	constraint: ManagerConstraint;
 	update_columns?: Array<ManagerUpdateColumn>;
@@ -4795,7 +4680,7 @@ export type Notebook = {
 	members: Array<NotebookMember>;
 	/** An aggregate relationship */
 	members_aggregate: NotebookMemberAggregate;
-	/** A computed field, executes function "nb_member" */
+	/** return the number of professionnal for a notebook */
 	nbMembers?: Maybe<Scalars['bigint']>;
 	rightAre: Scalars['Boolean'];
 	rightAss?: Maybe<Scalars['Boolean']>;
@@ -4950,7 +4835,7 @@ export type NotebookActionAggregateOrderBy = {
 /** input type for inserting array relation for remote table "notebook_action" */
 export type NotebookActionArrRelInsertInput = {
 	data: Array<NotebookActionInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookActionOnConflict>;
 };
 
@@ -4973,11 +4858,11 @@ export type NotebookActionBoolExp = {
 
 /** unique or primary key constraints on table "notebook_action" */
 export enum NotebookActionConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "initial_id" */
 	NotebookActionInitialIdKey = 'notebook_action_initial_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	NotebookActionPkey = 'notebook_action_pkey',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "target_id", "action" */
 	NotebookActionTargetIdActionKey = 'notebook_action_target_id_action_key',
 }
 
@@ -5054,7 +4939,7 @@ export type NotebookActionMutationResponse = {
 	returning: Array<NotebookAction>;
 };
 
-/** on conflict condition type for table "notebook_action" */
+/** on_conflict condition type for table "notebook_action" */
 export type NotebookActionOnConflict = {
 	constraint: NotebookActionConstraint;
 	update_columns?: Array<NotebookActionUpdateColumn>;
@@ -5200,7 +5085,7 @@ export type NotebookAppointmentAggregateOrderBy = {
 /** input type for inserting array relation for remote table "notebook_appointment" */
 export type NotebookAppointmentArrRelInsertInput = {
 	data: Array<NotebookAppointmentInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookAppointmentOnConflict>;
 };
 
@@ -5222,7 +5107,7 @@ export type NotebookAppointmentBoolExp = {
 
 /** unique or primary key constraints on table "notebook_appointment" */
 export enum NotebookAppointmentConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	NotebookAppointmentPkey = 'notebook_appointment_pkey',
 }
 
@@ -5294,7 +5179,7 @@ export type NotebookAppointmentMutationResponse = {
 	returning: Array<NotebookAppointment>;
 };
 
-/** on conflict condition type for table "notebook_appointment" */
+/** on_conflict condition type for table "notebook_appointment" */
 export type NotebookAppointmentOnConflict = {
 	constraint: NotebookAppointmentConstraint;
 	update_columns?: Array<NotebookAppointmentUpdateColumn>;
@@ -5400,9 +5285,9 @@ export type NotebookBoolExp = {
 
 /** unique or primary key constraints on table "notebook" */
 export enum NotebookConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "beneficiary_id" */
 	NotebookBeneficiaryIdKey = 'notebook_beneficiary_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	NotebookPkey = 'notebook_pkey',
 }
 
@@ -5465,7 +5350,7 @@ export type NotebookEventAppendInput = {
 /** input type for inserting array relation for remote table "notebook_event" */
 export type NotebookEventArrRelInsertInput = {
 	data: Array<NotebookEventInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookEventOnConflict>;
 };
 
@@ -5488,7 +5373,7 @@ export type NotebookEventBoolExp = {
 
 /** unique or primary key constraints on table "notebook_event" */
 export enum NotebookEventConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	NotebookEventPkey = 'notebook_event_pkey',
 }
 
@@ -5568,7 +5453,7 @@ export type NotebookEventMutationResponse = {
 	returning: Array<NotebookEvent>;
 };
 
-/** on conflict condition type for table "notebook_event" */
+/** on_conflict condition type for table "notebook_event" */
 export type NotebookEventOnConflict = {
 	constraint: NotebookEventConstraint;
 	update_columns?: Array<NotebookEventUpdateColumn>;
@@ -5690,7 +5575,7 @@ export type NotebookEventTypeBoolExp = {
 
 /** unique or primary key constraints on table "notebook_event_type" */
 export enum NotebookEventTypeConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "value" */
 	NotebookEventTypePkey = 'notebook_event_type_pkey',
 }
 
@@ -5743,11 +5628,11 @@ export type NotebookEventTypeMutationResponse = {
 /** input type for inserting object relation for remote table "notebook_event_type" */
 export type NotebookEventTypeObjRelInsertInput = {
 	data: NotebookEventTypeInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookEventTypeOnConflict>;
 };
 
-/** on conflict condition type for table "notebook_event_type" */
+/** on_conflict condition type for table "notebook_event_type" */
 export type NotebookEventTypeOnConflict = {
 	constraint: NotebookEventTypeConstraint;
 	update_columns?: Array<NotebookEventTypeUpdateColumn>;
@@ -5886,7 +5771,7 @@ export type NotebookFocusAppendInput = {
 /** input type for inserting array relation for remote table "notebook_focus" */
 export type NotebookFocusArrRelInsertInput = {
 	data: Array<NotebookFocusInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookFocusOnConflict>;
 };
 
@@ -5910,7 +5795,7 @@ export type NotebookFocusBoolExp = {
 
 /** unique or primary key constraints on table "notebook_focus" */
 export enum NotebookFocusConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	NotebookFocusPkey = 'notebook_focus_pkey',
 }
 
@@ -6002,11 +5887,11 @@ export type NotebookFocusMutationResponse = {
 /** input type for inserting object relation for remote table "notebook_focus" */
 export type NotebookFocusObjRelInsertInput = {
 	data: NotebookFocusInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookFocusOnConflict>;
 };
 
-/** on conflict condition type for table "notebook_focus" */
+/** on_conflict condition type for table "notebook_focus" */
 export type NotebookFocusOnConflict = {
 	constraint: NotebookFocusConstraint;
 	update_columns?: Array<NotebookFocusUpdateColumn>;
@@ -6189,7 +6074,7 @@ export type NotebookMemberAggregateOrderBy = {
 /** input type for inserting array relation for remote table "notebook_member" */
 export type NotebookMemberArrRelInsertInput = {
 	data: Array<NotebookMemberInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookMemberOnConflict>;
 };
 
@@ -6215,9 +6100,9 @@ export type NotebookMemberBoolExp = {
 
 /** unique or primary key constraints on table "notebook_member" */
 export enum NotebookMemberConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "account_id", "notebook_id" */
 	NotebookMemberNotebookIdAccountIdKey = 'notebook_member_notebook_id_account_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	NotebookMemberPkey = 'notebook_member_pkey',
 }
 
@@ -6301,7 +6186,7 @@ export type NotebookMemberMutationResponse = {
 	returning: Array<NotebookMember>;
 };
 
-/** on conflict condition type for table "notebook_member" */
+/** on_conflict condition type for table "notebook_member" */
 export type NotebookMemberOnConflict = {
 	constraint: NotebookMemberConstraint;
 	update_columns?: Array<NotebookMemberUpdateColumn>;
@@ -6423,11 +6308,11 @@ export type NotebookMutationResponse = {
 /** input type for inserting object relation for remote table "notebook" */
 export type NotebookObjRelInsertInput = {
 	data: NotebookInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookOnConflict>;
 };
 
-/** on conflict condition type for table "notebook" */
+/** on_conflict condition type for table "notebook" */
 export type NotebookOnConflict = {
 	constraint: NotebookConstraint;
 	update_columns?: Array<NotebookUpdateColumn>;
@@ -6599,7 +6484,7 @@ export type NotebookTargetAggregateOrderBy = {
 /** input type for inserting array relation for remote table "notebook_target" */
 export type NotebookTargetArrRelInsertInput = {
 	data: Array<NotebookTargetInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookTargetOnConflict>;
 };
 
@@ -6622,9 +6507,9 @@ export type NotebookTargetBoolExp = {
 
 /** unique or primary key constraints on table "notebook_target" */
 export enum NotebookTargetConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "focus_id", "target" */
 	NotebookTargetFocusIdTargetKey = 'notebook_target_focus_id_target_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	NotebookTargetPkey = 'notebook_target_pkey',
 }
 
@@ -6700,11 +6585,11 @@ export type NotebookTargetMutationResponse = {
 /** input type for inserting object relation for remote table "notebook_target" */
 export type NotebookTargetObjRelInsertInput = {
 	data: NotebookTargetInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<NotebookTargetOnConflict>;
 };
 
-/** on conflict condition type for table "notebook_target" */
+/** on_conflict condition type for table "notebook_target" */
 export type NotebookTargetOnConflict = {
 	constraint: NotebookTargetConstraint;
 	update_columns?: Array<NotebookTargetUpdateColumn>;
@@ -6833,13 +6718,7 @@ export enum OrderBy {
 	DescNullsLast = 'desc_nulls_last',
 }
 
-/**
- * Table des chargés d’orientation
- *
- *
- * columns and relationships of "orientation_manager"
- *
- */
+/** Table des chargés d’orientation */
 export type OrientationManager = {
 	__typename?: 'orientation_manager';
 	/** An object relationship */
@@ -6861,13 +6740,7 @@ export type OrientationManager = {
 	updatedAt: Scalars['timestamptz'];
 };
 
-/**
- * Table des chargés d’orientation
- *
- *
- * columns and relationships of "orientation_manager"
- *
- */
+/** Table des chargés d’orientation */
 export type OrientationManagerAccountsArgs = {
 	distinct_on?: InputMaybe<Array<AccountSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -6876,13 +6749,7 @@ export type OrientationManagerAccountsArgs = {
 	where?: InputMaybe<AccountBoolExp>;
 };
 
-/**
- * Table des chargés d’orientation
- *
- *
- * columns and relationships of "orientation_manager"
- *
- */
+/** Table des chargés d’orientation */
 export type OrientationManagerAccountsAggregateArgs = {
 	distinct_on?: InputMaybe<Array<AccountSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -6922,7 +6789,7 @@ export type OrientationManagerAggregateOrderBy = {
 /** input type for inserting array relation for remote table "orientation_manager" */
 export type OrientationManagerArrRelInsertInput = {
 	data: Array<OrientationManagerInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<OrientationManagerOnConflict>;
 };
 
@@ -6946,9 +6813,9 @@ export type OrientationManagerBoolExp = {
 
 /** unique or primary key constraints on table "orientation_manager" */
 export enum OrientationManagerConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "email" */
 	OrientationManagerEmailKey = 'orientation_manager_email_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	OrientationManagerPkey = 'orientation_manager_pkey',
 }
 
@@ -7034,11 +6901,11 @@ export type OrientationManagerMutationResponse = {
 /** input type for inserting object relation for remote table "orientation_manager" */
 export type OrientationManagerObjRelInsertInput = {
 	data: OrientationManagerInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<OrientationManagerOnConflict>;
 };
 
-/** on conflict condition type for table "orientation_manager" */
+/** on_conflict condition type for table "orientation_manager" */
 export type OrientationManagerOnConflict = {
 	constraint: OrientationManagerConstraint;
 	update_columns?: Array<OrientationManagerUpdateColumn>;
@@ -7118,13 +6985,7 @@ export enum OrientationManagerUpdateColumn {
 	UpdatedAt = 'updatedAt',
 }
 
-/**
- * table contenant les différents types d’orientation
- *
- *
- * columns and relationships of "orientation_type"
- *
- */
+/** table contenant les différents types d’orientation */
 export type OrientationType = {
 	__typename?: 'orientation_type';
 	/** An array relationship */
@@ -7135,13 +6996,7 @@ export type OrientationType = {
 	label: Scalars['String'];
 };
 
-/**
- * table contenant les différents types d’orientation
- *
- *
- * columns and relationships of "orientation_type"
- *
- */
+/** table contenant les différents types d’orientation */
 export type OrientationTypeBeneficiaryInfosArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -7150,13 +7005,7 @@ export type OrientationTypeBeneficiaryInfosArgs = {
 	where?: InputMaybe<BeneficiaryInfoBoolExp>;
 };
 
-/**
- * table contenant les différents types d’orientation
- *
- *
- * columns and relationships of "orientation_type"
- *
- */
+/** table contenant les différents types d’orientation */
 export type OrientationTypeBeneficiaryInfosAggregateArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -7198,7 +7047,7 @@ export type OrientationTypeBoolExp = {
 
 /** unique or primary key constraints on table "orientation_type" */
 export enum OrientationTypeConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	OrientationTypePkey = 'orientation_type_pkey',
 }
 
@@ -7253,11 +7102,11 @@ export type OrientationTypeMutationResponse = {
 /** input type for inserting object relation for remote table "orientation_type" */
 export type OrientationTypeObjRelInsertInput = {
 	data: OrientationTypeInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<OrientationTypeOnConflict>;
 };
 
-/** on conflict condition type for table "orientation_type" */
+/** on_conflict condition type for table "orientation_type" */
 export type OrientationTypeOnConflict = {
 	constraint: OrientationTypeConstraint;
 	update_columns?: Array<OrientationTypeUpdateColumn>;
@@ -7347,7 +7196,7 @@ export type ProfessionalAggregateOrderBy = {
 /** input type for inserting array relation for remote table "professional" */
 export type ProfessionalArrRelInsertInput = {
 	data: Array<ProfessionalInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<ProfessionalOnConflict>;
 };
 
@@ -7371,9 +7220,9 @@ export type ProfessionalBoolExp = {
 
 /** unique or primary key constraints on table "professional" */
 export enum ProfessionalConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "email" */
 	ProfessionalEmailUnique = 'professional_email_unique',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	ProfessionalPkey = 'professional_pkey',
 }
 
@@ -7458,11 +7307,11 @@ export type ProfessionalMutationResponse = {
 /** input type for inserting object relation for remote table "professional" */
 export type ProfessionalObjRelInsertInput = {
 	data: ProfessionalInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<ProfessionalOnConflict>;
 };
 
-/** on conflict condition type for table "professional" */
+/** on_conflict condition type for table "professional" */
 export type ProfessionalOnConflict = {
 	constraint: ProfessionalConstraint;
 	update_columns?: Array<ProfessionalUpdateColumn>;
@@ -7596,7 +7445,7 @@ export type QueryRoot = {
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
-	/** fetch data from the table: "external_data" */
+	/** An array relationship */
 	external_data: Array<ExternalData>;
 	/** An aggregate relationship */
 	external_data_aggregate: ExternalDataAggregate;
@@ -8437,7 +8286,7 @@ export type RefActionBoolExp = {
 
 /** unique or primary key constraints on table "ref_action" */
 export enum RefActionConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	RefActionPkey = 'ref_action_pkey',
 }
 
@@ -8473,7 +8322,7 @@ export type RefActionMutationResponse = {
 	returning: Array<RefAction>;
 };
 
-/** on conflict condition type for table "ref_action" */
+/** on_conflict condition type for table "ref_action" */
 export type RefActionOnConflict = {
 	constraint: RefActionConstraint;
 	update_columns?: Array<RefActionUpdateColumn>;
@@ -8560,7 +8409,7 @@ export type RefSituationBoolExp = {
 
 /** unique or primary key constraints on table "ref_situation" */
 export enum RefSituationConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	RefSituationPkey = 'ref_situation_pkey',
 }
 
@@ -8596,7 +8445,7 @@ export type RefSituationMutationResponse = {
 	returning: Array<RefSituation>;
 };
 
-/** on conflict condition type for table "ref_situation" */
+/** on_conflict condition type for table "ref_situation" */
 export type RefSituationOnConflict = {
 	constraint: RefSituationConstraint;
 	update_columns?: Array<RefSituationUpdateColumn>;
@@ -8683,7 +8532,7 @@ export type RefTargetBoolExp = {
 
 /** unique or primary key constraints on table "ref_target" */
 export enum RefTargetConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	RefTargetPkey = 'ref_target_pkey',
 }
 
@@ -8719,7 +8568,7 @@ export type RefTargetMutationResponse = {
 	returning: Array<RefTarget>;
 };
 
-/** on conflict condition type for table "ref_target" */
+/** on_conflict condition type for table "ref_target" */
 export type RefTargetOnConflict = {
 	constraint: RefTargetConstraint;
 	update_columns?: Array<RefTargetUpdateColumn>;
@@ -8765,13 +8614,7 @@ export enum RefTargetUpdateColumn {
 	Theme = 'theme',
 }
 
-/**
- * liste des roles
- *
- *
- * columns and relationships of "role"
- *
- */
+/** liste des roles */
 export type Role = {
 	__typename?: 'role';
 	/** An array relationship */
@@ -8781,13 +8624,7 @@ export type Role = {
 	label: Scalars['String'];
 };
 
-/**
- * liste des roles
- *
- *
- * columns and relationships of "role"
- *
- */
+/** liste des roles */
 export type RoleAccountsArgs = {
 	distinct_on?: InputMaybe<Array<AccountSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -8796,13 +8633,7 @@ export type RoleAccountsArgs = {
 	where?: InputMaybe<AccountBoolExp>;
 };
 
-/**
- * liste des roles
- *
- *
- * columns and relationships of "role"
- *
- */
+/** liste des roles */
 export type RoleAccountsAggregateArgs = {
 	distinct_on?: InputMaybe<Array<AccountSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -8843,7 +8674,7 @@ export type RoleBoolExp = {
 
 /** unique or primary key constraints on table "role" */
 export enum RoleConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "label" */
 	RolePkey = 'role_pkey',
 }
 
@@ -8895,11 +8726,11 @@ export type RoleMutationResponse = {
 /** input type for inserting object relation for remote table "role" */
 export type RoleObjRelInsertInput = {
 	data: RoleInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<RoleOnConflict>;
 };
 
-/** on conflict condition type for table "role" */
+/** on_conflict condition type for table "role" */
 export type RoleOnConflict = {
 	constraint: RoleConstraint;
 	update_columns?: Array<RoleUpdateColumn>;
@@ -9000,9 +8831,9 @@ export type RomeCodeBoolExp = {
 
 /** unique or primary key constraints on table "rome_code" */
 export enum RomeCodeConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "label" */
 	RomeCodesLabelKey = 'rome_codes_label_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	RomeCodesPkey = 'rome_codes_pkey',
 }
 
@@ -9045,11 +8876,11 @@ export type RomeCodeMutationResponse = {
 /** input type for inserting object relation for remote table "rome_code" */
 export type RomeCodeObjRelInsertInput = {
 	data: RomeCodeInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<RomeCodeOnConflict>;
 };
 
-/** on conflict condition type for table "rome_code" */
+/** on_conflict condition type for table "rome_code" */
 export type RomeCodeOnConflict = {
 	constraint: RomeCodeConstraint;
 	update_columns?: Array<RomeCodeUpdateColumn>;
@@ -9232,7 +9063,7 @@ export type StructureAggregateOrderBy = {
 /** input type for inserting array relation for remote table "structure" */
 export type StructureArrRelInsertInput = {
 	data: Array<StructureInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<StructureOnConflict>;
 };
 
@@ -9263,9 +9094,9 @@ export type StructureBoolExp = {
 
 /** unique or primary key constraints on table "structure" */
 export enum StructureConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "deployment_id", "name" */
 	StructureNameDeploymentIdKey = 'structure_name_deployment_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	StructurePkey = 'structure_pkey',
 }
 
@@ -9377,11 +9208,11 @@ export type StructureMutationResponse = {
 /** input type for inserting object relation for remote table "structure" */
 export type StructureObjRelInsertInput = {
 	data: StructureInsertInput;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<StructureOnConflict>;
 };
 
-/** on conflict condition type for table "structure" */
+/** on_conflict condition type for table "structure" */
 export type StructureOnConflict = {
 	constraint: StructureConstraint;
 	update_columns?: Array<StructureUpdateColumn>;
@@ -9547,7 +9378,7 @@ export type SubscriptionRoot = {
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
-	/** fetch data from the table: "external_data" */
+	/** An array relationship */
 	external_data: Array<ExternalData>;
 	/** An aggregate relationship */
 	external_data_aggregate: ExternalDataAggregate;
@@ -10373,13 +10204,7 @@ export type UuidComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
-/**
- * Stores the jobs wanted for a notebook beneficiary
- *
- *
- * columns and relationships of "wanted_job"
- *
- */
+/** Stores the jobs wanted for a notebook beneficiary */
 export type WantedJob = {
 	__typename?: 'wanted_job';
 	id: Scalars['uuid'];
@@ -10422,7 +10247,7 @@ export type WantedJobAggregateOrderBy = {
 /** input type for inserting array relation for remote table "wanted_job" */
 export type WantedJobArrRelInsertInput = {
 	data: Array<WantedJobInsertInput>;
-	/** on conflict condition */
+	/** upsert condition */
 	on_conflict?: InputMaybe<WantedJobOnConflict>;
 };
 
@@ -10440,9 +10265,9 @@ export type WantedJobBoolExp = {
 
 /** unique or primary key constraints on table "wanted_job" */
 export enum WantedJobConstraint {
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "rome_code_id", "notebook_id" */
 	WantedJobNotebookIdRomeCodeIdKey = 'wanted_job_notebook_id_rome_code_id_key',
-	/** unique or primary key constraint */
+	/** unique or primary key constraint on columns "id" */
 	WantedJobPkey = 'wanted_job_pkey',
 }
 
@@ -10494,7 +10319,7 @@ export type WantedJobMutationResponse = {
 	returning: Array<WantedJob>;
 };
 
-/** on conflict condition type for table "wanted_job" */
+/** on_conflict condition type for table "wanted_job" */
 export type WantedJobOnConflict = {
 	constraint: WantedJobConstraint;
 	update_columns?: Array<WantedJobUpdateColumn>;
@@ -24225,11 +24050,13 @@ export const GetNotebookDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: '-infinity', block: false },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: 'infinity', block: false },
 				},
 			],
 			selectionSet: {
@@ -24662,11 +24489,13 @@ export const GetNotebookEventsDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: '-infinity', block: false },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: 'infinity', block: false },
 				},
 				{
 					kind: 'VariableDefinition',
