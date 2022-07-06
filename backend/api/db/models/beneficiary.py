@@ -20,7 +20,7 @@ class Beneficiary(BaseModel):
     mobile_number: str | None
     date_of_birth: date
     place_of_birth: str | None
-    deployment_id: UUID | None
+    deployment_id: UUID
     created_at: datetime
     updated_at: datetime
     internal_id: str | None
@@ -28,4 +28,3 @@ class Beneficiary(BaseModel):
     # BRSA users may not have an account
     # (account is created on the  first login attempt)
     account_id: UUID | None
-    deployment_id: UUID | None

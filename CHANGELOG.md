@@ -1,3 +1,24 @@
+## [1.120.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.120.0...v1.120.1) (2022-07-06)
+
+
+### Bug Fixes
+
+* set deployment_id non nullable on beneficiary ([#911](https://github.com/SocialGouv/carnet-de-bord/issues/911)) ([65c6ad9](https://github.com/SocialGouv/carnet-de-bord/commit/65c6ad946947860de3e06b3939d8b78a2a5469e5))
+
+# [1.120.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.5...v1.120.0) (2022-07-05)
+
+
+### Features
+
+* add cej contract ([#912](https://github.com/SocialGouv/carnet-de-bord/issues/912)) ([92d85b3](https://github.com/SocialGouv/carnet-de-bord/commit/92d85b3cd44d89d303a310f4f9dbaa1e0eb23635))
+
+## [1.119.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.4...v1.119.5) (2022-07-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency uvicorn to ^0.18.0 ([#904](https://github.com/SocialGouv/carnet-de-bord/issues/904)) ([4fb6643](https://github.com/SocialGouv/carnet-de-bord/commit/4fb664332d8aecb47fcbde6f2fe88cbf1395f619))
+
 ## [1.119.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.119.3...v1.119.4) (2022-07-04)
 
 
