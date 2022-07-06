@@ -71,9 +71,26 @@ insert_permissions:
         - notebook_id
         - account_id
       backend_only: false
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      set:
+        creator_id: x-hasura-user-id
+      columns:
+        - account_id
+        - active
+        - member_type
+        - notebook_id
+      backend_only: false
   - role: professional
     permission:
       check: {}
+      set:
+        creator_id: x-hasura-user-id
       columns:
         - creator_id
         - id
@@ -153,18 +170,37 @@ select_permissions:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - account_id
+        - last_visited_at
+        - member_type
+        - last_modified_at
+        - created_at
+        - creator_id
+        - invitation_sent_at
+        - active
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:
+        - account_id
+        - active
         - created_at
         - creator_id
         - id
         - invitation_sent_at
-        - member_type
-        - notebook_id
         - last_modified_at
         - last_visited_at
-        - account_id
+        - member_type
+        - notebook_id
       filter:
         _and:
           - notebook:
@@ -206,6 +242,20 @@ update_permissions:
     permission:
       columns:
         - active
+        - member_type
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: orientation_manager
+    permission:
+      columns:
+        - active
+        - creator_id
+        - last_modified_at
+        - last_visited_at
         - member_type
       filter:
         notebook:

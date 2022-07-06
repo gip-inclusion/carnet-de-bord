@@ -42,10 +42,10 @@
 	}
 </script>
 
-<form {onSubmit}>
+<form on:submit|preventDefault={onSubmit}>
 	<div class="flex items-end justify-between">
 		<Select
-			selected={filter}
+			bind:selected={filter}
 			on:select={updateFilters}
 			options={filterOptions}
 			selectLabel="Rattachement"
@@ -62,7 +62,7 @@
 				type="search"
 				id="search-beneficiary-input"
 				name="search"
-				value={search}
+				bind:value={search}
 			/>
 			<button class="fr-btn"> Rechercher </button>
 		</div>

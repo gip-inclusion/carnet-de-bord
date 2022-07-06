@@ -15,12 +15,13 @@
 
 	$: beneficiary = notebook.beneficiary;
 	$: members = notebook.members;
+	$: lastUpdateFrom = members[0]?.account?.professional || members[0]?.account?.orientation_manager;
 </script>
 
 <BeneficiaryPersonalInfoView
 	{beneficiary}
 	lastUpdateDate={members[0]?.lastModifiedAt}
-	lastUpdateFrom={members[0]?.account?.professional}
+	{lastUpdateFrom}
 />
 <div class="py-8">
 	<Accordions>
@@ -58,7 +59,9 @@
 													{action.action}
 													créé le {formatDateLocale(action.createdAt)}
 													{#if action.creator}
-														par {displayFullName(action.creator?.professional)}
+														par {displayFullName(
+															action.creator?.professional || action.creator?.orientation_manager
+														)}
 													{/if}
 												</li>
 											{/each}

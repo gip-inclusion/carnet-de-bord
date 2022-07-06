@@ -23,4 +23,8 @@ exports.USER_TYPES = [
 		code: 'beneficiary',
 		value: 'bénéficiaire',
 	},
+	{
+		code: 'orientation_manager',
+		value: "chargé d'orientation",
+	},
 ];

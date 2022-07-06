@@ -1,12 +1,18 @@
 query GetAccountById($id: uuid!) {
-	account: account_by_pk(id: $id) {
-		id
-		username
-		confirmed
-		professional {
-			firstname
-			lastname
-			email
-		}
-	}
+  account: account_by_pk(id: $id) {
+    id
+    username
+    confirmed
+    type
+    orientation_manager {
+      firstname
+      lastname
+      email
+    }
+    professional {
+      firstname
+      lastname
+      email
+    }
+  }
 }

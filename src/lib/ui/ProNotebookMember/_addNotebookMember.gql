@@ -1,12 +1,7 @@
-mutation AddNotebookMember($creatorId: uuid!, $accountId: uuid!, $notebookId: uuid!) {
-	newMember: insert_notebook_member_one(
-		object: {
-			creatorId: $creatorId
-			accountId: $accountId
-			notebookId: $notebookId
-			memberType: "no_referent"
-		}
-	) {
-		id
-	}
+mutation AddNotebookMember($accountId: uuid!, $notebookId: uuid!) {
+  newMember: insert_notebook_member_one(
+    object: { accountId: $accountId, notebookId: $notebookId, memberType: "no_referent" }
+  ) {
+    id
+  }
 }

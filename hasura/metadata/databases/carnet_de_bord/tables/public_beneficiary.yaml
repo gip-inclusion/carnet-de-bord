@@ -24,6 +24,13 @@ object_relationships:
         insertion_order: null
         column_mapping:
           id: beneficiary_id
+  - name: beneficiaryInfo
+    using:
+      foreign_key_constraint_on:
+        column: beneficiary_id
+        table:
+          schema: public
+          name: beneficiary_info
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
@@ -207,6 +214,30 @@ select_permissions:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - email
+        - lastname
+        - firstname
+        - caf_number
+        - pe_number
+        - postal_code
+        - city
+        - address1
+        - address2
+        - mobile_number
+        - date_of_birth
+        - deployment_id
+        - created_at
+        - updated_at
+        - internal_id
+        - place_of_birth
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
   - role: professional
     permission:
       columns:
@@ -284,6 +315,27 @@ update_permissions:
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: orientation_manager
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - date_of_birth
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - pe_number
+        - place_of_birth
+        - postal_code
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
       check: null
   - role: professional
     permission:

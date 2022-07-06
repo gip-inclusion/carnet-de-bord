@@ -7,6 +7,7 @@ import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes
 import { updateAccessKey } from '$lib/services/account';
 import { authorizeOnly } from '$lib/utils/security';
 import * as yup from 'yup';
+import { ensureAccountHasRelation } from './confirmPro';
 
 const client = createClient({
 	fetch,
@@ -76,16 +77,17 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 
-	if (!data.account.professional) {
+	if (ensureAccountHasRelation(data.account)) {
 		return {
-			status: 404,
+			status: 400,
 			body: {
-				errors: 'Professional not found',
+				errors: 'sendConfirmationEmail: Invalid account type',
 			},
 		};
 	}
 
-	const { email, lastname, firstname } = data.account.professional;
+	const { email, lastname, firstname } =
+		data.account.professional || data.account.orientation_manager;
 
 	if (!data.account.confirmed) {
 		console.error('Did not send email to unconfirmed account', {

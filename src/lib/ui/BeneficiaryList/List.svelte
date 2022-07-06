@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
@@ -45,6 +45,9 @@
 	</thead>
 	<tbody>
 		{#each beneficiaries as beneficiary}
+			{@const referents = beneficiary.notebook.members.filter(
+				(member) => member.account.type === RoleEnum.Professional
+			)}
 			<tr>
 				<td class="align-middle">
 					<div class={`fr-checkbox-group bottom-3 left-3`}>
@@ -63,18 +66,20 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
-					{#if beneficiary.notebook.members.length > 0}
+					{#if referents.length > 0}
 						<button
 							class="fr-tag fr-tag-sm"
 							on:click={() => openEditLayer(beneficiary)}
-							disabled={beneficiary.structures.every((item) => item.structure.id !== structureId)}
+							disabled={beneficiary.structures.every(
+								(item) => item.structure.id !== structureId && Boolean(structureId)
+							)}
 						>
-							{displayFullName(beneficiary.notebook.members[0].account?.professional)}
+							{displayFullName(referents[0].account?.professional)}
 						</button>
-						{#if beneficiary.notebook.members.length > 1}
+						{#if referents.length > 1}
 							<span>
-								et {beneficiary.notebook.members.length - 1}
-								{pluralize('référent', beneficiary.notebook.members.length - 1)}
+								et {referents.length - 1}
+								{pluralize('référent', referents.length - 1)}
 							</span>
 						{/if}
 					{:else}

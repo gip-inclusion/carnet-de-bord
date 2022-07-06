@@ -89,6 +89,20 @@ select_permissions:
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - firstname
+        - lastname
+        - email
+        - phone_numbers
+        - deployment_id
+        - created_at
+        - updated_at
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       columns:
@@ -103,3 +117,16 @@ select_permissions:
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
+update_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - email
+        - firstname
+        - lastname
+        - phone_numbers
+      filter:
+        account:
+          id:
+            _eq: X-Hasura-User-Id
+      check: null

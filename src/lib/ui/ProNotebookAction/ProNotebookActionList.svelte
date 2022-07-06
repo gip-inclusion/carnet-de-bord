@@ -12,6 +12,7 @@
 	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 	import { Alert, Select } from '$lib/ui/base';
 	import { ActionStatus } from '$lib/enums';
+	import { displayFullName } from '../format';
 
 	const statusValues = [
 		{
@@ -51,7 +52,7 @@
 
 <div class="pb-8">
 	<div class={`w-full fr-table fr-table--layout-fixed`}>
-		<table class="w-full">
+		<table class="w-full" aria-label="Actions en cours" summary="Actions en cours">
 			<thead>
 				<tr>
 					<th class="min-w-min">Action</th>
@@ -65,8 +66,7 @@
 					<tr>
 						<td>{action.action}</td>
 						<td>
-							<div>{action.creator?.professional.firstname}</div>
-							<div>{action.creator?.professional.lastname}</div>
+							{displayFullName(action.creator.professional || action.creator.orientation_manager)}
 						</td>
 						<td
 							><Select

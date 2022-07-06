@@ -3,11 +3,12 @@
 
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		BeneficiaryBoolExp,
 		GetBeneficiariesDocument,
-		GetBeneficiariesQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+
 	import { operationStore, query } from '@urql/svelte';
 	import { getContext, onDestroy } from 'svelte';
 	import Pagination from '../Pagination.svelte';
@@ -16,6 +17,7 @@
 	import BeneficiaryFilterView from './Filters.svelte';
 	import BeneficiaryList from '$lib/ui/BeneficiaryList/List.svelte';
 	import BeneficiaryListWithStructure from '$lib/ui/BeneficiaryList/ListWithStructure.svelte';
+	import BeneficiaryListWithOrientation from '$lib/ui/BeneficiaryList/ListWithOrientation.svelte';
 
 	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import { pluralize } from '$lib/helpers';
@@ -24,12 +26,14 @@
 	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 
+	type BeneficiaryListType = 'orientation' | 'manager' | 'structure';
+
 	export let search: string;
 	export let filter: MemberFilter;
 	export let currentPage: number;
 
 	export let structureId: string = null;
-	export let withStructureEdit = false;
+	export let listType: BeneficiaryListType = 'manager';
 
 	const pageSize = 10;
 
@@ -42,7 +46,7 @@
 		if (filter === 'withMember') {
 			return { notebook: { members: {} } };
 		}
-		return {};
+		return { notebook: {} }; // prevent beenficiary without notebook
 	}
 
 	const result = operationStore(
@@ -53,7 +57,10 @@
 			limit: pageSize,
 			withMembers: getWithMemberFilter(filter),
 		},
-		{ additionalTypenames: ['beneficiary', 'notebook_member'], requestPolicy: 'cache-and-network' }
+		{
+			additionalTypenames: ['beneficiary', 'notebook_member', 'beneficiary_info'],
+			requestPolicy: 'cache-and-network',
+		}
 	);
 
 	query(result);
@@ -85,12 +92,31 @@
 		selectionStore.reset();
 	}
 
+	function getEditComponent(type: BeneficiaryListType) {
+		if (['orientation', 'manager'].includes(listType)) {
+			return AddStructureProfessionnalForm;
+		}
+		if (type === 'structure') {
+			return AddProfessionnalForm;
+		}
+	}
+
+	function getEditComponentProps(type: BeneficiaryListType, structuresId: string[]) {
+		if (['orientation', 'manager'].includes(listType)) {
+			return { structuresId: [...new Set(structuresId)] };
+		}
+		if (type === 'structure') {
+			return { structureId: new Set(structuresId).values().next().value };
+		}
+	}
+
 	function openEditLayer() {
 		const selectedBeneficiaries = Object.values($selectionStore);
 		const notebooks = selectedBeneficiaries.map((beneficiary) => ({
 			notebookId: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
 		}));
+
 		const structuresId = selectedBeneficiaries.flatMap((beneficiary) =>
 			beneficiary.structures.map(({ structure }) => structure.id)
 		);
@@ -110,14 +136,12 @@
 			member = memberSet.values().next().value;
 		}
 		openComponent.open({
-			component: withStructureEdit ? AddStructureProfessionnalForm : AddProfessionnalForm,
+			component: getEditComponent(listType),
 			props: {
 				notebooks,
 				member: member,
 				showResetMembers: memberSet.size > 0,
-				...(withStructureEdit
-					? { structuresId: [...new Set(structuresId)] }
-					: { structureId: new Set(structuresId).values().next().value }),
+				...getEditComponentProps(listType, structuresId),
 				onClose: () => {
 					selectionStore.reset();
 				},
@@ -131,10 +155,12 @@
 <div class="flex flex-col gap-8">
 	<BeneficiaryFilterView {filter} {search} on:filter-update={updateFilters} />
 	<LoaderIndicator {result}>
-		{#if withStructureEdit}
+		{#if listType === 'manager'}
 			<BeneficiaryListWithStructure beneficiaries={$result.data.beneficiaries} />
-		{:else}
+		{:else if listType === 'structure'}
 			<BeneficiaryList beneficiaries={$result.data.beneficiaries} {structureId} />
+		{:else if listType === 'orientation'}
+			<BeneficiaryListWithOrientation beneficiaries={$result.data.beneficiaries} />
 		{/if}
 		<div class="flex justify-center">
 			<Pagination
