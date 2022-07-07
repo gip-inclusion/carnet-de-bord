@@ -189,7 +189,7 @@
 			on:edit={() => alert('Not implemented!')}
 			on:print={() => alert('Not implemented!')}
 			lastUpdateDate={lastMember?.lastModifiedAt}
-			lastUpdateFrom={lastMember?.account?.professional}
+			lastUpdateFrom={lastMember?.account?.professional || lastMember?.account?.orientation_manager}
 		/>
 		<Accordions>
 			<MainAccordion title="Situation socioprofessionnelle">
@@ -250,7 +250,7 @@
 									<td>{formatDateLocale(event.eventDate)} </td>
 									<td>{eventCategory(event)}</td>
 									<td>{event.event.event_label}</td>
-									<td>{event.creator?.professional.structure.name} </td>
+									<td>{event.creator?.professional?.structure.name ?? '-'} </td>
 									<td>{constantToString(event.event.status, statusValues)}</td>
 								</tr>
 							{:else}
