@@ -1,3 +1,10 @@
+# [1.122.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.3...v1.122.0) (2022-07-07)
+
+
+### Features
+
+* add more manager ([#913](https://github.com/SocialGouv/carnet-de-bord/issues/913)) ([4faa570](https://github.com/SocialGouv/carnet-de-bord/commit/4faa570e33da39ec394d1e40887b5f9712244b33)), closes [#925](https://github.com/SocialGouv/carnet-de-bord/issues/925)
+
 ## [1.121.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.2...v1.121.3) (2022-07-07)
 
 
