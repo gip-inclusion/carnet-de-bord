@@ -3,6 +3,41 @@ table:
   name: notebook
 configuration:
   custom_root_fields: {}
+  column_config:
+    right_rsa:
+      custom_name: rightRsa
+    right_bonus:
+      custom_name: rightBonus
+    work_situation:
+      custom_name: workSituation
+    education_level:
+      custom_name: educationLevel
+    work_situation_date:
+      custom_name: workSituationDate
+    geographical_area:
+      custom_name: geographicalArea
+    contract_end_date:
+      custom_name: contractEndDate
+    beneficiary_id:
+      custom_name: beneficiaryId
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    contract_type:
+      custom_name: contractType
+    contract_sign_date:
+      custom_name: contractSignDate
+    right_rqth:
+      custom_name: rightRqth
+    work_situation_end_date:
+      custom_name: workSituationEndDate
+    contract_start_date:
+      custom_name: contractStartDate
+    right_ass:
+      custom_name: rightAss
+    right_are:
+      custom_name: rightAre
   custom_column_names:
     right_rsa: rightRsa
     right_bonus: rightBonus
@@ -90,7 +125,6 @@ insert_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      backend_only: false
   - role: manager
     permission:
       check:
@@ -115,7 +149,6 @@ insert_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      backend_only: false
   - role: professional
     permission:
       check: {}
@@ -136,7 +169,6 @@ insert_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

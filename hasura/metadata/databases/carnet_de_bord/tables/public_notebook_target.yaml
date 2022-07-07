@@ -3,6 +3,15 @@ table:
   name: notebook_target
 configuration:
   custom_root_fields: {}
+  column_config:
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    creator_id:
+      custom_name: creatorId
+    focus_id:
+      custom_name: focusId
   custom_column_names:
     updated_at: updatedAt
     created_at: createdAt
@@ -32,7 +41,6 @@ insert_permissions:
         - focus_id
         - target
         - created_at
-      backend_only: false
   - role: orientation_manager
     permission:
       check:
@@ -51,7 +59,6 @@ insert_permissions:
         - focus_id
         - status
         - target
-      backend_only: false
   - role: professional
     permission:
       check:
@@ -70,7 +77,6 @@ insert_permissions:
         - focus_id
         - status
         - target
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

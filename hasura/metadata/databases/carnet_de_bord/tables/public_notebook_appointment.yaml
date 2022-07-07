@@ -3,6 +3,11 @@ table:
   name: notebook_appointment
 configuration:
   custom_root_fields: {}
+  column_config:
+    account_id:
+      custom_name: memberAccountId
+    notebook_id:
+      custom_name: notebookId
   custom_column_names:
     account_id: memberAccountId
     notebook_id: notebookId
@@ -29,7 +34,6 @@ insert_permissions:
         - date
         - notebook_id
         - status
-      backend_only: false
   - role: professional
     permission:
       check:
@@ -45,7 +49,6 @@ insert_permissions:
         - date
         - notebook_id
         - status
-      backend_only: false
 select_permissions:
   - role: orientation_manager
     permission:

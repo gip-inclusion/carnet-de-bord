@@ -127,7 +127,7 @@
 	const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
 	let getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
-		{ notebookId, eventsStart: null, eventsEnd: null },
+		{ notebookId },
 		{ pause: true }
 	);
 

@@ -3,6 +3,17 @@ table:
   name: notebook_event
 configuration:
   custom_root_fields: {}
+  column_config:
+    event_date:
+      custom_name: eventDate
+    event_type:
+      custom_name: eventType
+    creation_date:
+      custom_name: creationDate
+    notebook_id:
+      custom_name: notebookId
+    creator_id:
+      custom_name: creatorId
   custom_column_names:
     event_date: eventDate
     event_type: eventType
@@ -31,7 +42,6 @@ insert_permissions:
         - id
         - notebook_id
         - creator_id
-      backend_only: false
   - role: professional
     permission:
       check:
@@ -49,7 +59,6 @@ insert_permissions:
         - id
         - notebook_id
         - creator_id
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

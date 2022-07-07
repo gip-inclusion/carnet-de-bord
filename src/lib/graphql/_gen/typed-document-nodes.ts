@@ -24063,11 +24063,13 @@ export const GetNotebookDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: '-infinity', block: false },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: 'infinity', block: false },
 				},
 			],
 			selectionSet: {
@@ -24500,11 +24502,13 @@ export const GetNotebookEventsDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: '-infinity', block: false },
 				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					defaultValue: { kind: 'StringValue', value: 'infinity', block: false },
 				},
 				{
 					kind: 'VariableDefinition',
