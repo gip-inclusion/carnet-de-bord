@@ -45,8 +45,7 @@ from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
 from pe.models.agence import Agence
 from pe.pole_emploi_client import PoleEmploiApiClient
 
-FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
-logging.basicConfig(level=logging.INFO, format=FORMAT)
+logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 async def parse_principal_csv_with_db(connection: Connection, principal_csv: str):

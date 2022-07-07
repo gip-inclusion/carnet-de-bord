@@ -7,7 +7,9 @@
 	import { Form, Input } from '$lib/ui/forms';
 	import { adminDeploymentSchema, AdminDeploymentType } from './adminDeployment.schema';
 
-	const deploymentStore = operationStore(CreateDeploymentDocument);
+	const deploymentStore = operationStore(CreateDeploymentDocument, null, {
+		additionalTypenames: ['deployment'],
+	});
 	const insertDeployment = mutation(deploymentStore);
 
 	const initialValues = {
@@ -15,8 +17,6 @@
 		deployment: '',
 	};
 	let errorMessage = '';
-
-	export let onSuccessHandler: () => void;
 
 	async function handleSubmit(values: AdminDeploymentType) {
 		const { error } = await insertDeployment(values);
@@ -27,9 +27,6 @@
 			}
 		} else {
 			close();
-			if (onSuccessHandler) {
-				onSuccessHandler();
-			}
 		}
 	}
 	function close() {

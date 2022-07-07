@@ -20,8 +20,9 @@ from fastapi import (
 from pandas.core.series import Series
 from pydantic import ValidationError
 
-from api.core.emails import orientation_manager_account_creation_email
+from api.core.emails import generic_account_creation_email
 from api.core.init import connection
+from api.core.settings import settings
 from api.db.crud.account import insert_orientation_manager_account
 from api.db.crud.orientation_manager import insert_orientation_manager
 from api.db.models.account import AccountDB
@@ -31,14 +32,15 @@ from api.db.models.orientation_manager import (
     map_csv_row,
     map_row_response,
 )
+from api.db.models.role import RoleEnum
 from api.sendmail import send_mail
-from api.v1.dependencies import verify_jwt_token_header
+from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
 
-FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
-logging.basicConfig(level=logging.INFO, format=FORMAT)
+logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
+manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 
-router = APIRouter(dependencies=[Depends(verify_jwt_token_header)])
+router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
 
 
 # @router.post("/orientation_manager", response_model=OrientationManagerResponseModel)
@@ -149,7 +151,5 @@ async def create_orientation_manager(
 def send_invitation_email(
     email: str, firstname: str | None, lastname: str | None, access_key: UUID
 ) -> None:
-    message = orientation_manager_account_creation_email(
-        email, firstname, lastname, access_key
-    )
+    message = generic_account_creation_email(email, firstname, lastname, access_key)
     send_mail(email, "Création de compte sur Carnet de bord", message)

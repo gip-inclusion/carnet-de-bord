@@ -55,7 +55,6 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 	const { notebookId, creator, account } = data.member;
-
 	/**
 	 * If professional account is not confirmed, we don't send invitation
 	 */
@@ -87,7 +86,7 @@ export const post: RequestHandler = async ({ request }) => {
 		params: [
 			{
 				pro: account.professional,
-				creator: creator.professional,
+				creator: creator.professional || creator.orientation_manager,
 				url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
 			},
 		],

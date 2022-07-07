@@ -116,8 +116,12 @@ async function setupBeforeFixturesByTags(tags) {
 				break;
 			case '@orientation_manager_focuses':
 				await resetFocusesFixtures('Aguilar');
+				break;
 			case '@beneficiary':
-				removeBeneficiariesAccount(['stifour93@yahoo.fr']);
+				await removeBeneficiariesAccount(['stifour93@yahoo.fr']);
+				break;
+			case '@add_admin_pdi':
+				await removeAdminPdi('juste.leblanc@cd93.fr');
 				break;
 			default:
 				return;
@@ -385,6 +389,16 @@ async function resetFocusesFixtures(name) {
 			}
 	`,
 		{ creatorId: pierreChevalierAccountId, focusId, name, notebookId }
+	);
+}
+
+async function removeAdminPdi(email) {
+	await I.sendMutation(
+		`mutation RemoveAdminPdi($email: citext!) {
+			delete_account(where: {manager: {email: {_eq: $email}}}) { affected_rows }
+			delete_manager(where: {email: {_eq: $email}}) { affected_rows }
+		}`,
+		{ email }
 	);
 }
 

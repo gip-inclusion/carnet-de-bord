@@ -45,13 +45,23 @@
 	type StructureLight = Pick<Structure, 'id' | 'name'>;
 	type NotebookLight = Pick<Notebook, 'id' | 'beneficiaryId'>;
 
-	const insertStore = operationStore(AddNotebookMemberWithBeneficiaryStructureUpdateDocument);
+	const insertStore = operationStore(
+		AddNotebookMemberWithBeneficiaryStructureUpdateDocument,
+		null,
+		{
+			additionalTypenames: ['beneficiary_structure', 'notebook_member'],
+		}
+	);
 	const inserter = mutation(insertStore);
 
-	const removeStore = operationStore(DeactivateNotebookMemberDocument);
+	const removeStore = operationStore(DeactivateNotebookMemberDocument, null, {
+		additionalTypenames: ['notebook_member'],
+	});
 	const remover = mutation(removeStore);
 
-	const attachStore = operationStore(AttachBeneficiaryToStructureDocument);
+	const attachStore = operationStore(AttachBeneficiaryToStructureDocument, null, {
+		additionalTypenames: ['beneficiary_structure'],
+	});
 	const attacher = mutation(attachStore);
 
 	export let professionals: ProLight[];

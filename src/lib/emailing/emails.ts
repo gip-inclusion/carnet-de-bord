@@ -6,11 +6,16 @@ type Person = {
 	lastname: string;
 };
 
+type IncompletePerson = {
+	firstname?: string;
+	lastname?: string;
+};
+
 type Pro = Person;
 
 type AccountRequest = InscriptionRequest['accountRequest'];
 
-type Creator = Person;
+type Creator = Person | IncompletePerson;
 
 type Account = { username: string } & Person;
 
@@ -70,9 +75,13 @@ export function notebookInvitation({
 }): string {
 	return `
     ${greeting(pro)}
-    <p>Vous avez été invité(e) à rejoindre un carnet de bord par <b>${displayFullName(
-			creator
-		)}</b> .</p>
+    ${
+			creator.firstname &&
+			creator.lastname &&
+			`<p>Vous avez été invité(e) à rejoindre un carnet de bord par <b>${displayFullName(
+				creator
+			)}</b> .</p>`
+		}
     ${createAccessButton(url)}
     ${footer()}
   `;
