@@ -86,7 +86,9 @@
 		AddNotebookMembersMutation,
 		AddNotebookMembersMutationVariables,
 		NotebookMemberInput
-	> = operationStore(AddNotebookMembersDocument);
+	> = operationStore(AddNotebookMembersDocument, null, {
+		additionalTypenames: ['notebook_member', 'beneficiary_structure'],
+	});
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
 	let insertResult: { input_: NotebookMemberInput; error: string | null }[];

@@ -13,10 +13,10 @@ def create_magic_link(access_key: UUID, redirect_path: str | None = None) -> str
     return magic_link
 
 
-def orientation_manager_account_creation_email(
+def generic_account_creation_email(
     username: str, firstname: str | None, lastname: str | None, access_key: str
 ) -> str:
-    template = jinja_env.get_template("orientation_manager_email.html")
+    template = jinja_env.get_template("generic_account_creation_email.html")
     return template.render(
         firstname=firstname,
         lastname=lastname,

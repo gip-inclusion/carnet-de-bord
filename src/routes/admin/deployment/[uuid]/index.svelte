@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-	import { AdminDeploymentDetail } from '$lib/ui/Deployment';
+	import { AdminDeploymentView } from '$lib/ui/Deployment';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import { Breadcrumbs } from '$lib/ui/base';
 
@@ -25,6 +25,10 @@
 		{ additionalTypenames: ['structure', 'professional', 'beneficiary'] }
 	);
 	query(getDeploymentStore);
+
+	function refreshStore() {
+		getDeploymentStore.reexecute({ requestPolicy: 'cache-and-network' });
+	}
 
 	$: deployment = $getDeploymentStore?.data?.deployment;
 	$: professional_aggregate = $getDeploymentStore?.data?.professional_aggregate;
@@ -49,6 +53,6 @@
 <LoaderIndicator result={getDeploymentStore}>
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col gap-8">
-		<AdminDeploymentDetail {deployment} {professional_aggregate} />
+		<AdminDeploymentView {deployment} {professional_aggregate} {refreshStore} />
 	</div>
 </LoaderIndicator>

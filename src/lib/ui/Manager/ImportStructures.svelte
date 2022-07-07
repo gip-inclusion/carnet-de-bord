@@ -57,7 +57,7 @@
 		ImportStructureMutation,
 		ImportStructureMutationVariables,
 		StructureWithAdminInput
-	> = operationStore(ImportStructureDocument);
+	> = operationStore(ImportStructureDocument, null, { additionalTypenames: ['structure'] });
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
 

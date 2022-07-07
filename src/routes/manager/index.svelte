@@ -15,10 +15,6 @@
 	const result = operationStore(GetDeploymentInfosDocument, { id: deploymentId });
 	query(result);
 
-	function refreshStore() {
-		$result.reexecute({ requestPolicy: 'network-only' });
-	}
-
 	$: deploymentInfo = $result.data;
 	$: structures = deploymentInfo?.structuresWithPros;
 	$: professionals = structures?.flatMap((structure) => {
@@ -102,7 +98,6 @@
 				title="Importer des structures"
 				size={'large'}
 				showButtons={false}
-				on:close={refreshStore}
 			>
 				<ImportStructures />
 			</Dialog>
@@ -114,7 +109,6 @@
 				title="Importer des bénéficiaires"
 				size={'large'}
 				showButtons={false}
-				on:close={refreshStore}
 			>
 				<ImportBeneficiaries />
 			</Dialog>
@@ -125,7 +119,6 @@
 				title="Procéder à des réorientations"
 				size={'large'}
 				showButtons={false}
-				on:close={refreshStore}
 			>
 				<svelte:fragment slot="buttonLabel">
 					<span class="block w-44"> Importer une liste<br />de réorientations</span>
@@ -139,7 +132,6 @@
 				title="Importer des chargés d'orientation"
 				size={'large'}
 				showButtons={false}
-				on:close={refreshStore}
 			>
 				<svelte:fragment slot="buttonLabel">
 					<span class="block w-44">Importer une liste de chargés d'orientation</span>

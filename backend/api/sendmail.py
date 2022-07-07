@@ -5,8 +5,7 @@ from email.mime.text import MIMEText
 
 from api.core.settings import settings
 
-FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
-logging.basicConfig(level=logging.INFO, format=FORMAT)
+logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 def send_mail(to: str, subject: str, message: str) -> None:

@@ -12,11 +12,18 @@
 	import * as Matomo from '$lib/tracking/matomo';
 
 	export async function load({ url, session }: LoadInput): Promise<LoadOutput> {
-		const redirect = redirectUrl(url, session);
-		if (redirect) {
+		try {
+			const redirect = redirectUrl(url, session);
+			if (redirect) {
+				return {
+					status: 302,
+					redirect,
+				};
+			}
+		} catch (error) {
 			return {
 				status: 302,
-				redirect,
+				redirect: '/auth/logout',
 			};
 		}
 
