@@ -30,10 +30,6 @@
 
 	query(result);
 
-	function refreshStore() {
-		$result.reexecute({ requestPolicy: 'network-only' });
-	}
-
 	$: structures = $result.data?.structure.map(({ __typename, ...rest }) => ({ ...rest }));
 
 	let search = '';
@@ -73,7 +69,6 @@
 					title="Importer des structures"
 					size={'large'}
 					showButtons={false}
-					on:close={refreshStore}
 				>
 					<AdminDeploymentStructuresImport />
 				</Dialog>

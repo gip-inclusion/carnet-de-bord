@@ -196,7 +196,6 @@
 							size={'large'}
 							showButtons={false}
 							buttonCssClasses="mw-200px"
-							on:close={refreshStore}
 						>
 							<svelte:fragment slot="buttonLabel">
 								Importer une liste de rattachement

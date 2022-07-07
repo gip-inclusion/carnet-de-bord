@@ -9,6 +9,9 @@
 	import { displayFullName } from '$lib/ui/format';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import AdminNotebookUpdate from './NotebookUpdate.svelte';
+	import Button from '../base/Button.svelte';
+	import AdminCreate from '../AdminCreate/AdminCreate.svelte';
+	import { openComponent } from '$lib/stores';
 
 	type StructureAggregateSub = Pick<StructureAggregate, 'aggregate'>;
 	type BeneficiariesAggregateSub = Pick<BeneficiaryAggregate, 'aggregate'>;
@@ -23,12 +26,28 @@
 	type ProfessionalAggregateSub = Pick<ProfessionalAggregate, 'aggregate'>;
 
 	export let professional_aggregate: ProfessionalAggregateSub;
+	export let refreshStore: () => void;
+
+	function onAddAdminPdiClick() {
+		openComponent.open({
+			component: AdminCreate,
+			props: {
+				deploymentId: deployment.id,
+				onClose: () => {
+					refreshStore();
+				},
+			},
+		});
+	}
 </script>
 
 <h1 class="fr-h2">
 	Déploiement <span class="text-france-blue-500">{deployment?.label ?? ''}</span>
 </h1>
-<div>Référent&nbsp;: {deployment?.managers.map((item) => displayFullName(item)).join(', ')}</div>
+<div class="flex justify-between items-center">
+	<div>Admin PDI&nbsp;: {deployment?.managers.map((item) => displayFullName(item)).join(', ')}</div>
+	<Button classNames="self-end" on:click={onAddAdminPdiClick}>Ajouter une admin pdi</Button>
+</div>
 <div class="fr-container--fluid">
 	<div class="fr-grid-row fr-grid-row--gutters">
 		<div class="fr-col-md-3 fr-m-2v fr-p-4v bg-gray-bg">

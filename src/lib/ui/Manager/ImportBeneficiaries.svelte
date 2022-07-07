@@ -113,7 +113,7 @@
 		ImportBeneficiaryMutation,
 		ImportBeneficiaryMutationVariables,
 		Beneficiary
-	> = operationStore(ImportBeneficiaryDocument);
+	> = operationStore(ImportBeneficiaryDocument, null, { additionalTypenames: ['beneficiary'] });
 	const inserter = mutation(insertStore);
 	let insertInProgress = false;
 	let insertResult: { benef: Beneficiary; error: string | null }[];
