@@ -3,6 +3,17 @@ table:
   name: structure
 configuration:
   custom_root_fields: {}
+  column_config:
+    postal_code:
+      custom_name: postalCode
+    deployment_id:
+      custom_name: deploymentId
+    short_desc:
+      custom_name: shortDesc
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
   custom_column_names:
     postal_code: postalCode
     deployment_id: deploymentId
@@ -54,7 +65,6 @@ insert_permissions:
         - updated_at
         - website
         - deployment_id
-      backend_only: false
   - role: manager
     permission:
       check:
@@ -76,7 +86,6 @@ insert_permissions:
         - short_desc
         - siret
         - website
-      backend_only: false
   - role: professional
     permission:
       check: {}
@@ -94,7 +103,6 @@ insert_permissions:
         - short_desc
         - siret
         - website
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

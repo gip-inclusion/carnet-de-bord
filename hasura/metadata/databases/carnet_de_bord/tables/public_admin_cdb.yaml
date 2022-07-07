@@ -3,6 +3,11 @@ table:
   name: admin_cdb
 configuration:
   custom_root_fields: {}
+  column_config:
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
   custom_column_names:
     updated_at: updatedAt
     created_at: createdAt
@@ -23,7 +28,6 @@ insert_permissions:
         - lastname
         - email
         - id
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

@@ -3,6 +3,15 @@ table:
   name: admin_structure
 configuration:
   custom_root_fields: {}
+  column_config:
+    deployment_id:
+      custom_name: deploymentId
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    phone_numbers:
+      custom_name: phoneNumbers
   custom_column_names:
     deployment_id: deploymentId
     updated_at: updatedAt
@@ -41,7 +50,6 @@ insert_permissions:
         - email
         - deployment_id
         - id
-      backend_only: false
   - role: manager
     permission:
       check: {}
@@ -54,7 +62,6 @@ insert_permissions:
         - phone_numbers
         - position
         - updated_at
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

@@ -18,7 +18,6 @@ insert_permissions:
         - code
         - description
         - label
-      backend_only: false
 select_permissions:
   - role: admin_structure
     permission:

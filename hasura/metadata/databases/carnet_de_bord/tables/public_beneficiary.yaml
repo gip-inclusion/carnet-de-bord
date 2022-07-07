@@ -3,6 +3,27 @@ table:
   name: beneficiary
 configuration:
   custom_root_fields: {}
+  column_config:
+    postal_code:
+      custom_name: postalCode
+    caf_number:
+      custom_name: cafNumber
+    date_of_birth:
+      custom_name: dateOfBirth
+    deployment_id:
+      custom_name: deploymentId
+    pe_number:
+      custom_name: peNumber
+    mobile_number:
+      custom_name: mobileNumber
+    place_of_birth:
+      custom_name: placeOfBirth
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    internal_id:
+      custom_name: internalId
   custom_column_names:
     postal_code: postalCode
     caf_number: cafNumber
@@ -69,7 +90,6 @@ insert_permissions:
         - pe_number
         - place_of_birth
         - postal_code
-      backend_only: false
   - role: manager
     permission:
       check:
@@ -95,7 +115,6 @@ insert_permissions:
         - place_of_birth
         - postal_code
         - updated_at
-      backend_only: false
   - role: professional
     permission:
       check: {}
@@ -114,7 +133,6 @@ insert_permissions:
         - mobile_number
         - pe_number
         - postal_code
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:
