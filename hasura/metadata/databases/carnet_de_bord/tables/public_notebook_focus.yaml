@@ -3,6 +3,17 @@ table:
   name: notebook_focus
 configuration:
   custom_root_fields: {}
+  column_config:
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    linked_to:
+      custom_name: linkedTo
+    notebook_id:
+      custom_name: notebookId
+    creator_id:
+      custom_name: creatorId
   custom_column_names:
     updated_at: updatedAt
     created_at: createdAt
@@ -36,7 +47,6 @@ insert_permissions:
         - notebook_id
         - created_at
         - linked_to
-      backend_only: false
   - role: orientation_manager
     permission:
       check:
@@ -56,7 +66,6 @@ insert_permissions:
         - notebook_id
         - situations
         - theme
-      backend_only: false
   - role: professional
     permission:
       check:
@@ -76,7 +85,6 @@ insert_permissions:
         - notebook_id
         - situations
         - theme
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:
@@ -233,11 +241,13 @@ update_permissions:
 delete_permissions:
   - role: orientation_manager
     permission:
+      backend_only: false
       filter:
         creator_id:
           _eq: X-Hasura-User-Id
   - role: professional
     permission:
+      backend_only: false
       filter:
         creator_id:
           _eq: X-Hasura-User-Id

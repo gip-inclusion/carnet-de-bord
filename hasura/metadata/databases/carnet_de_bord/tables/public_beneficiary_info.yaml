@@ -3,6 +3,13 @@ table:
   name: beneficiary_info
 configuration:
   custom_root_fields: {}
+  column_config:
+    beneficiary_id:
+      custom_name: beneficiaryId
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
   custom_column_names:
     beneficiary_id: beneficiaryId
     updated_at: updatedAt
@@ -24,7 +31,6 @@ insert_permissions:
       columns:
         - beneficiary_id
         - orientation
-      backend_only: false
   - role: orientation_manager
     permission:
       check:
@@ -34,7 +40,6 @@ insert_permissions:
       columns:
         - beneficiary_id
         - orientation
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

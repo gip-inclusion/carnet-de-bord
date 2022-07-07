@@ -21,7 +21,6 @@ insert_permissions:
       columns:
         - notebook_id
         - rome_code_id
-      backend_only: false
   - role: orientation_manager
     permission:
       check:
@@ -35,7 +34,6 @@ insert_permissions:
       columns:
         - notebook_id
         - rome_code_id
-      backend_only: false
   - role: professional
     permission:
       check:
@@ -49,7 +47,6 @@ insert_permissions:
       columns:
         - notebook_id
         - rome_code_id
-      backend_only: false
 select_permissions:
   - role: admin_structure
     permission:
@@ -122,6 +119,7 @@ select_permissions:
 delete_permissions:
   - role: orientation_manager
     permission:
+      backend_only: false
       filter:
         notebook:
           members:
@@ -132,6 +130,7 @@ delete_permissions:
                   _eq: true
   - role: professional
     permission:
+      backend_only: false
       filter:
         notebook:
           members:

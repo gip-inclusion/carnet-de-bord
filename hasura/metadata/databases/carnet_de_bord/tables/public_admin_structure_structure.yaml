@@ -3,6 +3,13 @@ table:
   name: admin_structure_structure
 configuration:
   custom_root_fields: {}
+  column_config:
+    admin_structure_id:
+      custom_name: adminStructureId
+    structure_id:
+      custom_name: structureId
+    created_at:
+      custom_name: createdAt
   custom_column_names:
     admin_structure_id: adminStructureId
     structure_id: structureId
@@ -28,7 +35,6 @@ insert_permissions:
       columns:
         - admin_structure_id
         - structure_id
-      backend_only: false
   - role: manager
     permission:
       check:
@@ -42,7 +48,6 @@ insert_permissions:
       columns:
         - admin_structure_id
         - structure_id
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

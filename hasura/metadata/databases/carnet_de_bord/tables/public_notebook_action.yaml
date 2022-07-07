@@ -3,6 +3,17 @@ table:
   name: notebook_action
 configuration:
   custom_root_fields: {}
+  column_config:
+    initial_id:
+      custom_name: initialId
+    target_id:
+      custom_name: targetId
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    creator_id:
+      custom_name: creatorId
   custom_column_names:
     initial_id: initialId
     target_id: targetId
@@ -27,7 +38,6 @@ insert_permissions:
         - status
         - creator_id
         - created_at
-      backend_only: false
   - role: orientation_manager
     permission:
       check:
@@ -47,7 +57,6 @@ insert_permissions:
         - creator_id
         - status
         - target_id
-      backend_only: false
   - role: professional
     permission:
       check:
@@ -67,7 +76,6 @@ insert_permissions:
         - creator_id
         - status
         - target_id
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

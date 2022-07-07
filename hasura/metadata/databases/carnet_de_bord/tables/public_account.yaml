@@ -3,6 +3,31 @@ table:
   name: account
 configuration:
   custom_root_fields: {}
+  column_config:
+    onboarding_done:
+      custom_name: onboardingDone
+    orientation_manager_id:
+      custom_name: orientationManagerId
+    professional_id:
+      custom_name: professionalId
+    beneficiary_id:
+      custom_name: beneficiaryId
+    access_key:
+      custom_name: accessKey
+    access_key_date:
+      custom_name: accessKeyDate
+    admin_structure_id:
+      custom_name: adminStructureId
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    admin_id:
+      custom_name: adminId
+    last_login:
+      custom_name: lastLogin
+    manager_id:
+      custom_name: managerId
   custom_column_names:
     onboarding_done: onboardingDone
     orientation_manager_id: orientationManagerId
@@ -101,7 +126,6 @@ insert_permissions:
         - confirmed
         - onboarding_done
         - manager_id
-      backend_only: false
   - role: manager
     permission:
       check:
@@ -131,7 +155,6 @@ insert_permissions:
         - professional_id
         - type
         - username
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:
@@ -287,10 +310,14 @@ select_permissions:
         - updated_at
         - username
       filter:
-        professional:
-          structure:
-            deployment_id:
-              _eq: X-Hasura-Deployment-Id
+        _or:
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+          - orientation_manager:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
 update_permissions:
   - role: admin_cdb
     permission:
