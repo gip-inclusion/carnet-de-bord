@@ -4,7 +4,7 @@ import logging
 from api.core.db import get_connection_pool
 from api.core.settings import settings
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 async def main():

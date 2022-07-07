@@ -1,13 +1,10 @@
 import asyncio
-import json
 import logging
-import os
 
-from api.core.db import get_connection_pool
 from api.core.settings import settings
 from pe.pole_emploi_client import PoleEmploiApiClient
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 async def main():

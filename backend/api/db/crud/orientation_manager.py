@@ -5,13 +5,13 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
+from api.core.settings import settings
 from api.db.models.orientation_manager import (
     OrientationManagerCsvRow,
     OrientationManagerDB,
 )
 
-FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
-logging.basicConfig(level=logging.INFO, format=FORMAT)
+logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 def parse_orientation_manager_from_record(record: Record) -> OrientationManagerDB:

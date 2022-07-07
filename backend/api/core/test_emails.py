@@ -1,7 +1,7 @@
-from api.core.emails import orientation_manager_account_creation_email
+from api.core.emails import generic_account_creation_email
 
 
-def test_orientation_manager_account_creation_email():
+def test_generic_account_creation_email():
     data = {
         "username": "lionelbe",
         "firstname": "lionel",
@@ -9,7 +9,7 @@ def test_orientation_manager_account_creation_email():
         "access_key": "1234-1234-1234-1234",
     }
 
-    mail = orientation_manager_account_creation_email(**data)
+    mail = generic_account_creation_email(**data)
 
     assert data["firstname"] in mail
     assert data["lastname"] in mail

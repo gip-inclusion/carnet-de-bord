@@ -5,6 +5,9 @@ from asyncpg.connection import Connection
 from api.db.crud.account import get_accounts_from_email
 from api.db.crud.orientation_manager import get_orientation_managers
 
+sendmail_path = "api.v1.routers.uploads.send_mail"
+api_path = "/v1/uploads/orientation_manager"
+
 
 async def test_jwt_token_verification(
     test_client,
@@ -12,11 +15,11 @@ async def test_jwt_token_verification(
     orientation_manager_csv_filepath,
     mocker,
 ):
-    mocker.patch("api.v1.routers.uploads.send_mail", return_value=True)
+    mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_csv_filepath, "rb") as f:
 
         response = test_client.post(
-            "/v1/uploads/orientation_manager",
+            api_path,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_admin_structure_jwt}"},
         )
@@ -34,11 +37,11 @@ async def test_insert_in_db(
     get_manager_jwt,
     mocker,
 ):
-    mocker.patch("api.v1.routers.uploads.send_mail", return_value=True)
+    mocker.patch(sendmail_path, return_value=True)
 
     with open(orientation_manager_csv_filepath, "rb") as f:
         test_client.post(
-            "/v1/uploads/orientation_manager",
+            api_path,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
@@ -55,12 +58,10 @@ async def test_insert_in_db(
 async def test_background_task(
     test_client, orientation_manager_csv_filepath, get_manager_jwt: str, mocker
 ):
-    mock: MagicMock = mocker.patch(
-        "api.v1.routers.uploads.send_mail", return_value=True
-    )
+    mock: MagicMock = mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_csv_filepath, "rb") as f:
         test_client.post(
-            "/v1/uploads/orientation_manager",
+            api_path,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
@@ -75,12 +76,10 @@ async def test_background_task(
 async def test_validation_error(
     test_client, orientation_manager_csv_filepath, get_manager_jwt: str, mocker
 ):
-    mock: MagicMock = mocker.patch(
-        "api.v1.routers.uploads.send_mail", return_value=True
-    )
+    mock: MagicMock = mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_csv_filepath, "rb") as f:
         response = test_client.post(
-            "/v1/uploads/orientation_manager",
+            api_path,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
@@ -97,10 +96,10 @@ async def test_validation_error(
 async def test_handle_xls(
     test_client, orientation_manager_xls_filepath, get_manager_jwt: str, mocker
 ):
-    mocker.patch("api.v1.routers.uploads.send_mail", return_value=True)
+    mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_xls_filepath, "rb") as f:
         response = test_client.post(
-            "/v1/uploads/orientation_manager",
+            api_path,
             files={"upload_file": ("filename", f, "application/vnd.ms-excel")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
@@ -114,10 +113,10 @@ async def test_handle_xls(
 async def test_handle_xlsx(
     test_client, orientation_manager_xlsx_filepath, get_manager_jwt: str, mocker
 ):
-    mocker.patch("api.v1.routers.uploads.send_mail", return_value=True)
+    mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_xlsx_filepath, "rb") as f:
         response = test_client.post(
-            "/v1/uploads/orientation_manager",
+            api_path,
             files={
                 "upload_file": (
                     "filename",
