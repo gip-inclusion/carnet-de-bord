@@ -2981,8 +2981,8 @@ export type Manager = {
 	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
-	deployment: Deployment;
-	deploymentId: Scalars['uuid'];
+	deployment?: Maybe<Deployment>;
+	deploymentId?: Maybe<Scalars['uuid']>;
 	email: Scalars['citext'];
 	firstname?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
@@ -11615,7 +11615,10 @@ export type GetAccountInfoQuery = {
 			  }
 			| null
 			| undefined;
-		manager?: { __typename?: 'manager'; deploymentId: string } | null | undefined;
+		manager?:
+			| { __typename?: 'manager'; deploymentId?: string | null | undefined }
+			| null
+			| undefined;
 		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
 		orientationManager?:
 			| { __typename?: 'orientation_manager'; deploymentId: string }
@@ -12842,6 +12845,16 @@ export type GetNotebookMemberByIdQuery = {
 								  }
 								| null
 								| undefined;
+							orientation_manager?:
+								| {
+										__typename?: 'orientation_manager';
+										firstname?: string | null | undefined;
+										lastname?: string | null | undefined;
+										email: string;
+										id: string;
+								  }
+								| null
+								| undefined;
 					  }
 					| null
 					| undefined;
@@ -12854,6 +12867,16 @@ export type GetNotebookMemberByIdQuery = {
 								__typename?: 'professional';
 								firstname: string;
 								lastname: string;
+								email: string;
+								id: string;
+						  }
+						| null
+						| undefined;
+					orientation_manager?:
+						| {
+								__typename?: 'orientation_manager';
+								firstname?: string | null | undefined;
+								lastname?: string | null | undefined;
 								email: string;
 								id: string;
 						  }
@@ -24656,6 +24679,19 @@ export const GetNotebookMemberByIdDocument = {
 													],
 												},
 											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+													],
+												},
+											},
 										],
 									},
 								},
@@ -24670,6 +24706,19 @@ export const GetNotebookMemberByIdDocument = {
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
