@@ -1,3 +1,10 @@
+## [1.121.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.2...v1.121.3) (2022-07-07)
+
+
+### Bug Fixes
+
+* update pro account permission ([#923](https://github.com/SocialGouv/carnet-de-bord/issues/923)) ([28a1f39](https://github.com/SocialGouv/carnet-de-bord/commit/28a1f39a6ae091ed5d691f130b078a0b367851b7))
+
 ## [1.121.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.1...v1.121.2) (2022-07-07)
 
 
