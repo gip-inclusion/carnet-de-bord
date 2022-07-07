@@ -3,6 +3,15 @@ table:
   name: professional
 configuration:
   custom_root_fields: {}
+  column_config:
+    mobile_number:
+      custom_name: mobileNumber
+    updated_at:
+      custom_name: updatedAt
+    structure_id:
+      custom_name: structureId
+    created_at:
+      custom_name: createdAt
   custom_column_names:
     mobile_number: mobileNumber
     updated_at: updatedAt
@@ -31,7 +40,6 @@ insert_permissions:
         - firstname
         - position
         - mobile_number
-      backend_only: false
   - role: manager
     permission:
       check:
@@ -46,7 +54,6 @@ insert_permissions:
         - position
         - id
         - structure_id
-      backend_only: false
 select_permissions:
   - role: admin_cdb
     permission:

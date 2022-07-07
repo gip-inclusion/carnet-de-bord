@@ -3,6 +3,15 @@ table:
   name: orientation_manager
 configuration:
   custom_root_fields: {}
+  column_config:
+    deployment_id:
+      custom_name: deploymentId
+    updated_at:
+      custom_name: updatedAt
+    created_at:
+      custom_name: createdAt
+    phone_numbers:
+      custom_name: phoneNumbers
   custom_column_names:
     deployment_id: deploymentId
     updated_at: updatedAt
