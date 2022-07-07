@@ -76,6 +76,9 @@ async function removeMember(email) {
 async function setupBeforeFixturesByTags(tags) {
 	tags.forEach(async (tag) => {
 		switch (tag) {
+			case '@onboarding_manager':
+				await resetManagerInfo('support.carnet-de-bord+cd93@fabrique.social.gouv.fr');
+				break;
 			case '@notebook_contract':
 				await clearNotebookContract();
 				break;
@@ -148,6 +151,17 @@ function setupAfterFixturesByTags(tags) {
 				return;
 		}
 	});
+}
+
+async function resetManagerInfo(email) {
+	return await I.sendMutation(
+		`mutation resetManagerInfo($email: citext!) {
+		  update_manager(where: {email: {_eq: $email}}, _set: {firstname: "Agathe", lastname:"DeBlouze" }) {
+		    affected_rows
+		  }
+		}`,
+		{ email }
+	);
 }
 
 async function onBoardingSetup(userType, email, onBoardingDone) {
