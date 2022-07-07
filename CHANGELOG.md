@@ -1,3 +1,10 @@
+## [1.121.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.1...v1.121.2) (2022-07-07)
+
+
+### Bug Fixes
+
+* **hasura:** remove deprecated global and bump version ([#918](https://github.com/SocialGouv/carnet-de-bord/issues/918)) ([a370bcd](https://github.com/SocialGouv/carnet-de-bord/commit/a370bcd7e89cfe70476f0d6083fb7d6044b2ddb7))
+
 ## [1.121.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.0...v1.121.1) (2022-07-06)
 
 
