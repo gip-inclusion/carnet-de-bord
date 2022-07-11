@@ -30,7 +30,7 @@ Scénario: Ajout d'un objectif
 	Alors je vois "Définir un parcours de formation personnalisé" sous le titre "Objectifs"
 
 Scénario: Ajout d'une action
-	Soit le "chargé d'orientation" assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
 	Quand je clique sur "Plan d'action"
 	Alors je clique sur le texte "Formation"
 	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse

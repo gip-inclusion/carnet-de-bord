@@ -48,10 +48,10 @@ Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 });
 
 Soit(
-	'le {string} assigné {string} sur le carnet de {string}',
-	async (userType, email, lastname) => {
-		await onBoardingSetup(userType, email, true);
-		await loginStub(userType, email);
+	"le chargé d'orientation assigné {string} sur le carnet de {string}",
+	async (email, lastname) => {
+		await onBoardingSetup("chargé d'orientation", email, true);
+		await loginStub("chargé d'orientation", email);
 		const notebookId = await goToNotebookForLastName(lastname);
 		await addMember(email, notebookId);
 		I.amOnPage(`/auth/jwt/${UUID}?url=/orientation/carnets/edition/${notebookId}`);
