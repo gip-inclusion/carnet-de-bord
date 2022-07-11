@@ -31,6 +31,6 @@
 
 <LoaderIndicator result={getNotebookResult}>
 	<div class="my-6">
-		<NotebookView notebook={getNotebookResult.data.notebook[0]} />
+		<NotebookView notebook={$getNotebookResult.data.notebook} />
 	</div>
 </LoaderIndicator>
