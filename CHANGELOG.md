@@ -1,3 +1,15 @@
+# [1.124.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.123.0...v1.124.0) (2022-07-11)
+
+
+### Bug Fixes
+
+* allow admin structure and manager to acces notebook ([#929](https://github.com/SocialGouv/carnet-de-bord/issues/929)) ([dd97ad2](https://github.com/SocialGouv/carnet-de-bord/commit/dd97ad2fe196fbbf08abaf26494bdb5da3d2c190))
+
+
+### Features
+
+* remove duplicate key in worksituation ([#922](https://github.com/SocialGouv/carnet-de-bord/issues/922)) ([37df84d](https://github.com/SocialGouv/carnet-de-bord/commit/37df84d03fd6ce07affc92ae4c088dff3d5fb682))
+
 # [1.123.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.122.2...v1.123.0) (2022-07-11)
 
 
