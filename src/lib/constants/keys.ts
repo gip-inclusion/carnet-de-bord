@@ -13,8 +13,6 @@ export const workSituationKeys = buildKeys({
 	stage: 'En stage',
 	alternance: 'En alternance',
 	service_civique: 'En service civique',
-	cdd: 'En CDD',
-	cdi: 'En CDI',
 	iae: 'En IAE',
 	interim: 'En interim',
 	construction_projet: 'En construction de projet',
