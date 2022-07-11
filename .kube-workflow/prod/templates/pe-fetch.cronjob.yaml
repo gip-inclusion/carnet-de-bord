@@ -2,20 +2,20 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   labels:
-    component: pe-cronjob
+    component: pe-fetch-cronjob
     application: carnet-de-bord
-  name: pe-cronjob
+  name: pe-fetch-cronjob
 spec:
-  schedule: 0 23 * * 4
+  schedule: 0 0 * * 5
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:
         metadata:
           labels:
-            component: pe-cronjob
+            component: pe-fetch-cronjob
             application: carnet-de-bord
-          name: pe-cronjob
+          name: pe-fetch-cronjob
         spec:
           restartPolicy: OnFailure
           volumes:
@@ -27,7 +27,7 @@ spec:
               image: ghcr.io/socialgouv/carnet-de-bord/backend:{{ .Values.global.imageTag }}
               command:
                 - bash
-                - 'scripts/pe-parse.sh'
+                - 'scripts/pe-fetch.sh'
               envFrom:
                 - secretRef:
                     name: backend-sealed-secret
