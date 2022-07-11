@@ -1,0 +1,42 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    component: pe-parse-cronjob
+    application: carnet-de-bord
+  name: pe-parse-cronjob
+spec:
+  schedule: 0 23 * * 4
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            component: pe-parse-cronjob
+            application: carnet-de-bord
+          name: pe-parse-cronjob
+        spec:
+          restartPolicy: OnFailure
+          volumes:
+            - name: pefiles
+              persistentVolumeClaim:
+                claimName: pefiles
+          containers:
+            - name: cronjob-container
+              image: ghcr.io/socialgouv/carnet-de-bord/backend:{{ .Values.global.imageTag }}
+              command:
+                - python
+                - 'scripts/parse_csv_pe.py'
+                - 'principal-file'
+                - '/mnt/pefiles/principal.csv'
+              envFrom:
+                - secretRef:
+                    name: backend-sealed-secret
+                - secretRef:
+                    name: cronjob-storage
+                - configMapRef:
+                    name: backend-configmap
+              volumeMounts:
+                - mountPath: /mnt/pefiles
+                  name: pefiles

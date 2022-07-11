@@ -1,3 +1,10 @@
+# [1.123.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.122.2...v1.123.0) (2022-07-11)
+
+
+### Features
+
+* split fetch and parse ([#930](https://github.com/SocialGouv/carnet-de-bord/issues/930)) ([9971648](https://github.com/SocialGouv/carnet-de-bord/commit/99716488373a8f7ec43832e2929695bf2a126670))
+
 ## [1.122.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.122.1...v1.122.2) (2022-07-08)
 
 
