@@ -266,10 +266,18 @@ async def save_external_data(
     if professional:
         external_data_dict["professional"] = professional.dict()
 
-    if external_data is None:
-        # If not, we should insert it
+    # If we have no external_data or we already have some,
+    # but the hash is not the same
+    if external_data is None or hash_result != external_data.hash:
 
-        logging.info("No external_data for {}".format(beneficiary.id))
+        if external_data is None:
+            logging.info("No external_data for {}".format(beneficiary.id))
+        else:
+            logging.info(
+                "Data has changed, setting up new version of external data for {}".format(
+                    beneficiary.id
+                )
+            )
         external_data: ExternalData | None = (
             await insert_external_data_for_beneficiary_and_professional(
                 connection,
@@ -280,21 +288,6 @@ async def save_external_data(
                 professional=professional,
             )
         )
-    elif hash_result != external_data.hash:
-        # If we have some and the new content is different, let's update it.
-
-        external_data.hash = hash_result
-
-        logging.info("Found external_data for {}".format(beneficiary.id))
-        logging.info(external_data)
-        external_data.data = format_external_data(csv_row.dict(), external_data_dict)
-        updated_external_data: ExternalData | None = (
-            await update_external_data_for_beneficiary_and_professional(
-                connection, external_data, beneficiary, professional
-            )
-        )
-
-        external_data = updated_external_data
 
     return external_data
 

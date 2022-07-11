@@ -60,6 +60,7 @@ WORKDIR /app
 
 COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
 COPY ./api /app/api
+COPY ./pe /app/pe
 COPY ./scripts /app/scripts
 COPY ./cdb_csv /app/cdb_csv
 

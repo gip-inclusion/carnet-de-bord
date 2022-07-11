@@ -12,16 +12,13 @@ from api.db.crud.external_data import (
 from api.db.crud.notebook import get_notebook_members_by_notebook_id
 from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary
-from api.db.models.external_data import ExternalSource, format_external_data
+from api.db.models.external_data import ExternalSource
 from api.db.models.notebook import NotebookMember
-from api.db.models.professional import Professional
 from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
-    insert_external_data_for_beneficiary_and_professional,
     insert_wanted_jobs_for_csv_row_and_notebook,
     map_principal_row,
     parse_principal_csv_with_db,
-    save_external_data,
 )
 from pe.pole_emploi_client import PoleEmploiApiClient
 from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
@@ -98,87 +95,6 @@ async def test_parse_principal_csv(
     )
 
     assert len(notebook_members) == 1
-
-
-async def test_insert_external_data(
-    db_connection: Connection,
-    beneficiary_sophie_tifour: Beneficiary,
-    pe_principal_csv_series,
-):
-    # Get the first row
-    _, row = next(pe_principal_csv_series.iterrows())
-    csv_row: PrincipalCsvRow = await map_principal_row(row)
-
-    await insert_external_data_for_beneficiary_and_professional(
-        db_connection,
-        beneficiary_sophie_tifour,
-        ExternalSource.PE,
-        format_external_data(
-            csv_row.dict(), {"beneficiary": beneficiary_sophie_tifour.dict()}
-        ),
-        "myhash",
-        professional=None,
-    )
-
-    external_data = await get_last_external_data_by_beneficiary_id_and_source(
-        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
-    )
-
-    assert external_data is not None
-    assert external_data.info is not None
-    assert external_data.info.beneficiary_id == beneficiary_sophie_tifour.id
-
-
-async def test_check_existing_external_data(
-    db_connection: Connection,
-    beneficiary_sophie_tifour: Beneficiary,
-    professional_pierre_chevalier: Professional,
-    pe_principal_csv_series,
-):
-
-    external_data = await get_last_external_data_by_beneficiary_id_and_source(
-        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
-    )
-
-    assert external_data is None
-
-    # Get the first row
-    _, row = next(pe_principal_csv_series.iterrows())
-    csv_row: PrincipalCsvRow = await map_principal_row(row)
-
-    external_data = await save_external_data(
-        db_connection,
-        beneficiary_sophie_tifour,
-        csv_row,
-        professional=professional_pierre_chevalier,
-    )
-
-    assert external_data is not None
-    assert external_data.info is not None
-    assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Tifour"
-    assert external_data.data["parsed"]["professional"]["lastname"] == "Chevalier"
-    assert external_data.data["source"]["nom"] == "TIFOUR"
-
-    beneficiary_sophie_tifour.lastname = "Newname"
-    csv_row.nom = "Newname"
-    professional_pierre_chevalier.lastname = "Newlastname"
-
-    external_data = await save_external_data(
-        db_connection,
-        beneficiary_sophie_tifour,
-        csv_row,
-        professional=professional_pierre_chevalier,
-    )
-
-    assert external_data is not None
-    assert external_data.info is not None
-    assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Newname"
-    assert external_data.data["parsed"]["professional"]["lastname"] == "Newlastname"
-    assert external_data.data["source"]["nom"] == "Newname"
-    assert (
-        external_data.hash
-        == "beaae517011c2204b5425c6eb58388cb9b370a71223000bf192964245182a6d6"
-    )
 
 
 async def test_insert_wanted_jobs_for_csv_row_and_notebook(

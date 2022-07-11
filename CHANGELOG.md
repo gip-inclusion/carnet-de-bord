@@ -1,3 +1,17 @@
+## [1.122.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.122.1...v1.122.2) (2022-07-08)
+
+
+### Bug Fixes
+
+* update pe file key ([#927](https://github.com/SocialGouv/carnet-de-bord/issues/927)) ([9fc16bc](https://github.com/SocialGouv/carnet-de-bord/commit/9fc16bcc961ab5d9f23b2d36b47224b0a07ab55e))
+
+## [1.122.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.122.0...v1.122.1) (2022-07-07)
+
+
+### Bug Fixes
+
+* add pe in docker image ([#926](https://github.com/SocialGouv/carnet-de-bord/issues/926)) ([2d8893d](https://github.com/SocialGouv/carnet-de-bord/commit/2d8893d937247a1e6f4336f962a8319c501169ad))
+
 # [1.122.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.121.3...v1.122.0) (2022-07-07)
 
 
