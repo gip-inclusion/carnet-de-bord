@@ -6,7 +6,7 @@ Fonctionnalité: Information sur les axes de travail depuis un carnet
 	Je veux avoir des informations sur les axes de travail du carnet
 
 Scénario: Ajout d'un axe de travail
-	Soit le "chargé d'orientation" assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
 	Quand je clique sur "Plan d'action"
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
@@ -19,7 +19,7 @@ Scénario: Ajout d'un axe de travail
 	Alors je vois "Aucune action" dans la tuile "Emploi"
 
 Scénario: Ajout d'un objectif
-	Soit le "chargé d'orientation" assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
 	Quand je clique sur "Plan d'action"
 	Alors je clique sur le texte "Formation"
 	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
