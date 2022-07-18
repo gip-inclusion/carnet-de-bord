@@ -26,7 +26,6 @@ class BeneficiaryOut(BaseModel):
     deployment: DeploymentOut
     created_at: datetime
     updated_at: datetime
-    internal_id: str | None
 
 
 class RomeCodeOut(BaseModel):
