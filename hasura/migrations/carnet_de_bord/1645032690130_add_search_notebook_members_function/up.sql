@@ -1,3 +1,6 @@
+CREATE EXTENSION IF NOT EXISTS unaccent;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 CREATE FUNCTION search_notebook_members(search text)
 RETURNS SETOF notebook_member AS $$
   SELECT notebook_member.*
