@@ -1,10 +1,13 @@
 from datetime import date, datetime
+from uuid import UUID
 
 from pydantic import BaseModel
 
+from api.db.models.rome_code import RomeCode
+
 
 class DeploymentOut(BaseModel):
-    pass
+    label: str
 
 
 class BeneficiaryOut(BaseModel):
@@ -26,5 +29,18 @@ class BeneficiaryOut(BaseModel):
     internal_id: str | None
 
 
+class RomeCodeOut(BaseModel):
+    code: str
+    description: str
+    # This is just a string representation of description and code
+    # Format is 'description (code)'
+    label: str
+
+
+class WantedJobOut(BaseModel):
+    rome_code: RomeCodeOut
+
+
 class NotebookOut(BaseModel):
     beneficiary: BeneficiaryOut
+    wanted_jobs: list[WantedJobOut]
