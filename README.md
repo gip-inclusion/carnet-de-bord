@@ -120,6 +120,10 @@ Les modifications apportées au code doivent passer par des PR qui seront valid�
 
 Dans le cas où une personne de l'équipe de dev est seule, elle peut valider sa PR elle-même pour pouvoir avancer.
 
+Lorsque la PR est validée, on laisse le soin à l'auteur de la PR de faire le merge.
+
+L'équipe privilégie les "squash and merge" avec un message de commit qui suit le formalisme [conventional commit](https://www.conventionalcommits.org/en/v1.0.0-beta.2/) de manière à pouvoir générer le fichier [CHANGELOG.md](./CHANGELOG.md) automatiquement.
+
 ## Gestion des mails sur les environnement de developpements (review / preprod)
 
 Pour les environnements de review les mail envoyés par l'application sont visible sur une instance de [maildev](https://maildev.github.io/maildev/) que l'on deploie lorsqu'on déploie nos environnement de review-branch.
