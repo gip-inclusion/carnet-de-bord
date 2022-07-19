@@ -66,6 +66,9 @@
 			<div class=" w-9/12">
 				<Autocomplete
 					on:change={(e) => (formData.action = e.detail.selectedItem.label)}
+					placeholder="Sélectionner une action"
+					searchPlaceholder="Rechercher une action"
+					label="Actions"
 					options={actionOptions}
 				/>
 			</div>
