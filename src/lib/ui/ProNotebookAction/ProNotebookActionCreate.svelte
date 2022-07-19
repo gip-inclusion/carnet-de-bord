@@ -5,25 +5,39 @@
 		NotebookTarget,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
-	import { Button, Select } from '$lib/ui/base';
+	import { Button } from '$lib/ui/base';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { ActionStatus } from '$lib/enums';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
+	import Autocomplete, { AutoCompleteOption } from '../base/Autocomplete.svelte';
 
 	export let target: Pick<NotebookTarget, 'id' | 'target'>;
 	export let theme: string;
 
-	const actionStore = operationStore(GetRefActionsDocument, { theme });
+	const actionStore = operationStore(GetRefActionsDocument);
 	query(actionStore);
 
 	const createActionStore = operationStore(AddNotebookActionDocument);
 	const createActionMutation = mutation(createActionStore);
 
-	$: actionOptions =
-		$actionStore.data?.refActions.map(({ description }) => ({
-			label: description,
-			name: description,
-		})) || [];
+	let actionOptions: AutoCompleteOption[];
+
+	actionStore.subscribe((store) => {
+		if (store.fetching || store.error) {
+			return;
+		}
+
+		let themeActions = store.data.actions
+			.filter((a) => a.theme === theme)
+			.sort((a1, a2) => a1.description.localeCompare(a2.description));
+		let otherActions = store.data.actions
+			.filter((a) => a.theme !== theme)
+			.sort((a1, a2) => a1.description.localeCompare(a2.description));
+
+		actionOptions = themeActions
+			.concat(otherActions)
+			.map((a) => ({ value: a.id, label: a.description }));
+	});
 
 	function initFormData() {
 		return {
@@ -50,7 +64,10 @@
 	<form on:submit|preventDefault={createAction} class="pb-4">
 		<div class="flex flex-row justify-between gap-6">
 			<div class=" w-9/12">
-				<Select selectLabel={'Actions'} options={actionOptions} bind:selected={formData.action} />
+				<Autocomplete
+					on:change={(e) => (formData.action = e.detail.selectedItem.label)}
+					options={actionOptions}
+				/>
 			</div>
 			<div class="self-end w-3/12">
 				<Button type="submit" {disabled}>Ajouter</Button>
