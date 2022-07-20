@@ -1,3 +1,10 @@
+## [1.124.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.124.0...v1.124.1) (2022-07-19)
+
+
+### Bug Fixes
+
+* udpate secret for parse cronjob ([#943](https://github.com/SocialGouv/carnet-de-bord/issues/943)) ([67ad4e1](https://github.com/SocialGouv/carnet-de-bord/commit/67ad4e1f7454b0189d83f388881155dc41c8fa5d))
+
 # [1.124.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.123.0...v1.124.0) (2022-07-11)
 
 

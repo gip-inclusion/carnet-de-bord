@@ -35,8 +35,13 @@ spec:
                     name: backend-sealed-secret
                 - secretRef:
                     name: cronjob-storage
+                - secretRef:
+                    name: pg-user
                 - configMapRef:
                     name: backend-configmap
+              env:
+                - name: APP_URL
+                  value: https://{{ .Values.global.host }}
               volumeMounts:
                 - mountPath: /mnt/pefiles
                   name: pefiles
