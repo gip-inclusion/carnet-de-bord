@@ -119,6 +119,7 @@
 <script lang="ts">
 	import Alert from '$lib/ui/base/Alert.svelte';
 	import { baseUrlForRole } from '$lib/routes';
+	import Input from '$lib/ui/base/Input.svelte';
 
 	export let notebookId: string;
 	export let getNotebook: GetNotebookQueryStore;
@@ -191,6 +192,14 @@
 			lastUpdateDate={lastMember?.lastModifiedAt}
 			lastUpdateFrom={lastMember?.account?.professional || lastMember?.account?.orientation_manager}
 		/>
+		<Input
+			type="date"
+			inputLabel="date de naissance"
+			value=""
+			inputHint="03/11/1979"
+			placeholder="toto"
+		/>
+
 		<Accordions>
 			<MainAccordion title="Situation socioprofessionnelle">
 				<ProNotebookSocioProView {notebook} />
