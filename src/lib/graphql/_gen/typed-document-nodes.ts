@@ -2981,8 +2981,8 @@ export type Manager = {
 	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
-	deployment?: Maybe<Deployment>;
-	deploymentId?: Maybe<Scalars['uuid']>;
+	deployment: Deployment;
+	deploymentId: Scalars['uuid'];
 	email: Scalars['citext'];
 	firstname?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
@@ -11615,10 +11615,7 @@ export type GetAccountInfoQuery = {
 			  }
 			| null
 			| undefined;
-		manager?:
-			| { __typename?: 'manager'; deploymentId?: string | null | undefined }
-			| null
-			| undefined;
+		manager?: { __typename?: 'manager'; deploymentId: string } | null | undefined;
 		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
 		orientationManager?:
 			| { __typename?: 'orientation_manager'; deploymentId: string }

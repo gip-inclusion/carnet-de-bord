@@ -47,9 +47,9 @@
 <LoaderIndicator {result}>
 	<div>
 		<h2 class="fr-h5 text-france-blue">Derniers profils consultés</h2>
-		<div class="flex flex-row flex-wrap justify-between gap-1">
+		<div class="fr-grid-row fr-grid-row--gutters">
 			{#each $result.data.lastVisited as lastVisited, i (i)}
-				<div class="card-container">
+				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
 					<ProBeneficiaryCard
 						href={carnetUrl(lastVisited.notebook)}
 						beneficiary={lastVisited.notebook.beneficiary}
@@ -62,9 +62,9 @@
 	</div>
 	<div>
 		<h2 class="fr-h5 text-france-blue">Derniers profils modifiés</h2>
-		<div class="flex flex-row flex-wrap justify-between gap-1">
+		<div class="fr-grid-row fr-grid-row--gutters">
 			{#each $result.data.lastUpdated as lastUpdated, i (i)}
-				<div class="card-container">
+				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
 					<ProBeneficiaryCard
 						href={carnetUrl(lastUpdated.notebook)}
 						beneficiary={lastUpdated.notebook.beneficiary}
