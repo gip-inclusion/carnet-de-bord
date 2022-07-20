@@ -18,7 +18,8 @@
 	import { LoaderIndicator } from '$lib/ui/utils/index';
 	import { onDestroy } from 'svelte';
 	import type { Member } from './ProNotebookMemberView.svelte';
-
+	import { trackEvent } from '$lib/tracking/matomo';
+	import { session } from '$app/stores';
 	export let member: Member;
 	export let notebookId: string;
 
@@ -104,13 +105,25 @@
 		appointments[index].dirty = true;
 
 		if (appointments[index].date && appointments[index].status) {
+			// we use baseUrlForRole since first event categorie for professional where pro
+			let role = $session.user.role;
+			if (role === 'professional') {
+				role = 'pro';
+			}
 			if (appointments[index].id) {
+				if (appointmentsBuffer[index].status !== appointments[index].status) {
+					trackEvent(role, 'members', 'update_appointment_status');
+				}
+				if (appointmentsBuffer[index].date !== appointments[index].date) {
+					trackEvent(role, 'members', 'update_appointment_date');
+				}
 				result = await updateAppointmentMutation({
 					id: appointments[index].id,
 					status: appointments[index].status,
 					date: appointments[index].date,
 				});
 			} else {
+				trackEvent(role, 'members', 'create_appointment');
 				result = await setAppointmentMutation({
 					memberAccountId: member.account?.id,
 					notebookId: notebookId,
