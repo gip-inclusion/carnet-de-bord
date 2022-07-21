@@ -2,10 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: cdb_pg
-    build:
-      context: ./postgres-dev
-      dockerfile: Dockerfile
+    image: postgres:11
     environment:
       - POSTGRES_DB=carnet_de_bord
       - POSTGRES_USER=cdb
