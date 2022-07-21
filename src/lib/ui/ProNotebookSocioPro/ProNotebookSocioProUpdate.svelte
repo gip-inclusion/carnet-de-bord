@@ -10,10 +10,15 @@
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Button, Checkbox, Input, Radio, Select } from '../base';
+	import { Button } from '../base';
 	import ProNotebookSocioProRome from './ProNotebookSocioProROME.svelte';
 	import { add } from 'date-fns';
 	import { formatDateISO } from '$lib/utils/date';
+	import {
+		ProNotebookSocioproInput,
+		proNotebookSocioproSchema,
+	} from './ProNotebookSocioPro.schema';
+	import { Form, Select, Input, Radio, Checkbox } from '$lib/ui/forms';
 
 	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
@@ -35,62 +40,65 @@
 	const updateSocioPro = mutation(updateSocioProStore);
 	const romeSelectorId = 'romeSelectorId';
 
-	function initFormData(): typeof notebook {
-		return {
-			id: notebook.id,
-			workSituation: notebook.workSituation,
-			workSituationDate: notebook.workSituationDate,
-			workSituationEndDate: notebook.workSituationEndDate,
-			rightRsa: notebook.rightRsa,
-			rightAre: notebook.rightAre,
-			rightAss: notebook.rightAss,
-			rightRqth: notebook.rightRqth,
-			rightBonus: notebook.rightBonus,
-			wantedJobs: notebook.wantedJobs,
-			geographicalArea: notebook.geographicalArea,
-			educationLevel: notebook.educationLevel,
-		};
-	}
+	const initialValues = {
+		workSituation: notebook.workSituation,
+		workSituationDate: notebook.workSituationDate ?? '',
+		workSituationEndDate: notebook.workSituationEndDate ?? '',
+		rightRsa: notebook.rightRsa,
+		rightAre: notebook.rightAre,
+		rightAss: notebook.rightAss,
+		rightRqth: notebook.rightRqth,
+		rightBonus: notebook.rightBonus,
+		geographicalArea: notebook.geographicalArea,
+		educationLevel: notebook.educationLevel,
+	};
 
-	const formData = initFormData();
+	let wantedJobs = notebook.wantedJobs;
 
 	function close() {
 		openComponent.close();
 	}
 
-	async function handleSubmit() {
+	async function handleSubmit(values: ProNotebookSocioproInput) {
 		trackEvent('pro', 'notebook', 'update socio pro info');
-		sanitizeDates();
-		await updateSocioPro({
+		const {
+			educationLevel,
+			geographicalArea,
+			rightAre,
+			rightAss,
+			rightBonus,
+			rightRqth,
+			rightRsa,
+			workSituation,
+		} = values;
+
+		let payload = {
 			id: notebook.id,
-			...formData,
-			wantedJobs: formData.wantedJobs.map((rome_code_id) => ({
+			educationLevel,
+			geographicalArea,
+			rightAre,
+			rightAss,
+			rightBonus,
+			rightRqth,
+			rightRsa,
+			workSituation,
+			workSituationDate: values.workSituationDate.toString() || null,
+			workSituationEndDate: values.workSituationEndDate.toString() || null,
+			wantedJobs: wantedJobs.map((rome_code_id) => ({
 				notebook_id: notebook.id,
 				rome_code_id,
 			})),
-		});
+		};
+
+		await updateSocioPro(payload);
 		close();
 	}
 
-	function sanitizeDates() {
-		formData.workSituationDate =
-			formData.workSituationDate === '' ? null : formData.workSituationDate;
-		formData.workSituationEndDate =
-			formData.workSituationEndDate === '' ? null : formData.workSituationEndDate;
-	}
-
-	function setWorkSitutationEndDate(monthInterval: number) {
-		let newDate = null;
-		if (monthInterval && formData.workSituationDate) {
-			newDate = formatDateISO(add(new Date(formData.workSituationDate), { months: monthInterval }));
+	function setworkSituationEndDate(initialDate, monthInterval: number) {
+		if (monthInterval) {
+			return formatDateISO(add(new Date(initialDate), { months: monthInterval }));
 		}
-		formData.workSituationEndDate = newDate;
-	}
-
-	function updateEndDate() {
-		if (!formData.workSituationDate) {
-			formData.workSituationEndDate = null;
-		}
+		return initialDate;
 	}
 </script>
 
@@ -99,37 +107,35 @@
 		<h1>Situation socioprofessionnelle</h1>
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
-	<form class="flex flex-col w-full" on:submit|preventDefault={handleSubmit}>
+	<Form
+		{initialValues}
+		validationSchema={proNotebookSocioproSchema}
+		onSubmit={handleSubmit}
+		let:form
+		let:updateValidateField
+		let:isSubmitted
+		let:isSubmitting
+		let:isValid
+	>
 		<div class="fr-form-group">
 			<Select
+				name="workSituation"
 				selectLabel={'Situation actuelle'}
 				selectHint={'Sélectionnez votre situation actuelle...'}
 				options={workSituationKeys.options}
-				bind:selected={formData.workSituation}
 			/>
 			<div class="row-auto">
 				<div class="grid grid-cols-2 gap-4">
 					<div>
-						<Input
-							class="mb-0"
-							bind:value={formData.workSituationDate}
-							on:change={updateEndDate}
-							inputLabel="Depuis le"
-							type="date"
-						/>
+						<Input class="mb-0" name="workSituationDate" inputLabel="Depuis le" type="date" />
 					</div>
-					<div class={`${formData.workSituationDate ? '' : 'invisible'}`}>
+					<div>
 						<Input
 							id="work-situation-end-date"
 							class="mb-0"
-							bind:value={formData.workSituationEndDate}
+							name="workSituationEndDate"
 							inputLabel="Au"
 							type="date"
-							min={formData.workSituationDate}
-							error={formData.workSituationEndDate &&
-							formData.workSituationEndDate < formData.workSituationDate
-								? 'La date de fin est antérieure à celle du début'
-								: null}
 						/>
 						<div class="col-end-3 italic text-xs mt-1 text-france-blue-500">
 							<span>Durée : </span>
@@ -138,7 +144,12 @@
 								aria-label="Définir la fin de la situation dans 3 mois"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setWorkSitutationEndDate(3)}>3 mois</button
+								on:click={() => {
+									updateValidateField(
+										'workSituationEndDate',
+										setworkSituationEndDate(form.workSituationDate, 3)
+									);
+								}}>3 mois</button
 							>
 							-
 							<button
@@ -146,7 +157,12 @@
 								aria-label="Définir la fin de la situation dans 6 mois"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setWorkSitutationEndDate(6)}>6 mois</button
+								on:click={() => {
+									updateValidateField(
+										'workSituationEndDate',
+										setworkSituationEndDate(form.workSituationDate, 6)
+									);
+								}}>6 mois</button
 							>
 							-
 							<button
@@ -154,7 +170,12 @@
 								aria-label="Définir la fin de la situation dans 12 mois"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setWorkSitutationEndDate(12)}>12 mois</button
+								on:click={() => {
+									updateValidateField(
+										'workSituationEndDate',
+										setworkSituationEndDate(form.workSituationDate, 12)
+									);
+								}}>12 mois</button
 							>
 							-
 							<button
@@ -162,7 +183,9 @@
 								aria-label="Définir la durée comme étant indéterminée"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setWorkSitutationEndDate(null)}>indéterminée</button
+								on:click={() => {
+									updateValidateField('workSituationEndDate', '');
+								}}>indéterminée</button
 							>
 						</div>
 					</div>
@@ -170,45 +193,46 @@
 			</div>
 		</div>
 		<Radio
-			caption={'Revenu de solidarité active (RSA)'}
-			bind:selected={formData.rightRsa}
+			legend="Revenu de solidarité active (RSA)"
+			name="rightRsa"
 			options={rsaRightKeys.options}
 		/>
 
 		<div class="fr-form-group">
 			<div class="pb-2 font-bold">Autres aides</div>
-			<Checkbox bind:checked={formData.rightAre} name="rightAre" label="ARE" />
-			<Checkbox bind:checked={formData.rightAss} name="rightAss" label="ASS" />
-			<Checkbox bind:checked={formData.rightRqth} name="rightRqth" label="RQTH" />
-			<Checkbox bind:checked={formData.rightBonus} name="rightBonus" label="Prime d'activité" />
+			<Checkbox name="rightAre" label="ARE" />
+			<Checkbox name="rightAss" label="ASS" />
+			<Checkbox name="rightRqth" label="RQTH" />
+			<Checkbox name="rightBonus" label="Prime d'activité" />
 		</div>
 
 		<div class="fr-form-group">
 			<div class="!pb-2 font-bold">
 				<label for={romeSelectorId}>Emploi recherché</label>
 			</div>
-			<ProNotebookSocioProRome bind:value={formData.wantedJobs} {options} {romeSelectorId} />
+			<ProNotebookSocioProRome bind:value={wantedJobs} {options} {romeSelectorId} />
 		</div>
 
 		<Radio
-			caption={'Zone de mobilité'}
+			legend="Zone de mobilité"
 			legendClass="!font-bold"
-			bind:selected={formData.geographicalArea}
+			name="geographicalArea"
 			options={geographicalAreaKeys.options}
 		/>
 
 		<div class="fr-form-group">
 			<div class="pb-2 font-bold">Niveau de formation</div>
 			<Select
+				name="educationLevel"
 				selectLabel={"Niveau d'étude le plus élevé"}
 				options={educationLevelKeys.options}
-				bind:selected={formData.educationLevel}
 			/>
 		</div>
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
-			<Button type="submit">Enregistrer</Button>
+			<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}>Enregistrer</Button
+			>
 			<Button outline on:click={close}>Annuler</Button>
 		</div>
-	</form>
+	</Form>
 </section>
