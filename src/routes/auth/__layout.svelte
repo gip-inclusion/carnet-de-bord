@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
+
 	import { Video } from '$lib/ui/base';
 
 	const videoOptions = {
@@ -42,7 +44,7 @@
 	};
 </script>
 
-<HeaderCDB menuItems={[]} />
+<Header menuItems={[]} />
 
 <div class="fr-container" style="min-height: calc(100vh - 142.5px)">
 	<div class="flex flex-row">
@@ -55,4 +57,4 @@
 	</div>
 </div>
 
-<FooterCDB />
+<Footer />

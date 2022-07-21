@@ -1,12 +1,15 @@
 <script>
-	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
+
+	import { LayerCDB } from '$lib/ui/index';
 </script>
 
-<HeaderCDB menuItems={[]} />
+<Header menuItems={[]} />
 
 <div class="fr-container fr-py-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
 	<div class="flex flex-col gap-8"><slot /></div>
 	<LayerCDB />
 </div>
 
-<FooterCDB />
+<Footer />

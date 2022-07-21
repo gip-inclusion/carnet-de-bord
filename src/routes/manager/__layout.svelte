@@ -20,8 +20,10 @@
 
 <script lang="ts">
 	import type { MenuItem } from '$lib/types';
-	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
 
+	import { LayerCDB } from '$lib/ui/index';
 	import { page } from '$app/stores';
 	import { account } from '$lib/stores';
 	import { baseUrlForRole, homeForRole } from '$lib/routes';
@@ -67,11 +69,11 @@
 	];
 </script>
 
-<HeaderCDB {menuItems} />
+<Header {menuItems} />
 
 <div class="fr-container fr-pb-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
 	<slot />
 	<LayerCDB />
 </div>
 
-<FooterCDB />
+<Footer />
