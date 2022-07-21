@@ -25,14 +25,14 @@ export function load(url: string, siteId: string): void {
 	_push(['setSiteId', `${siteId}`]);
 
 	const scriptElement = document.createElement('script');
-	const firstScriptElement = document.getElementsByTagName('script')[0];
+	const titleElement = document.getElementsByTagName('title')[0];
 	scriptElement.type = 'text/javascript';
 	scriptElement.async = true;
 	scriptElement.id = 'matomo-script';
 	scriptElement.src = `${url}/matomo.js`;
 
-	if (firstScriptElement.parentNode) {
-		firstScriptElement.parentNode.insertBefore(scriptElement, firstScriptElement);
+	if (titleElement.parentNode) {
+		titleElement.parentNode.insertBefore(scriptElement, titleElement);
 	}
 }
 
