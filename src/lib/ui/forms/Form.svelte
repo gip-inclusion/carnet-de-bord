@@ -36,7 +36,6 @@
 	setContext(key, { ...formHandler, isSubmitted });
 
 	const unsubscribeValid = isValid.subscribe((valid) => {
-		console.log('valid', $isSubmitted);
 		if (!valid && $isSubmitted) {
 			focusError();
 		}
