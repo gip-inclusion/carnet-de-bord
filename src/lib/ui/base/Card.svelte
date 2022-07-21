@@ -22,7 +22,6 @@ fr-card
 ${horizontal ? 'fr-card--horizontal' : ''}
 ${largeLink ? 'fr-enlarge-link' : ''}
 ${hideArrow ? 'fr-card--no-arrow' : ''}
-${disabledHover ? 'force-disable-hover' : 'cursor-pointer'}
 `}
 >
 	<div class="fr-card__body">
@@ -37,10 +36,11 @@ ${disabledHover ? 'force-disable-hover' : 'cursor-pointer'}
 				{/if}
 			</h4>
 		{/if}
+
 		{#if $$slots.description}
-			<p class="leading-6 text-sm my-0">
+			<div class="fr-card__desc">
 				<slot name="description" />
-			</p>
+			</div>
 		{/if}
 		{#if detail}
 			<p class="fr-card__detail">
