@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { FooterCDB, HeaderCDB } from '$lib/ui';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
+
 	import { Link } from '$lib/ui/base';
 </script>
 
@@ -11,7 +13,7 @@
 	/>
 </svelte:head>
 
-<HeaderCDB menuItems={[]} />
+<Header menuItems={[]} />
 
 <div class="fr-container fr-py-6w" style="min-height: calc(100vh - 200px)">
 	<div class="flex flex-row items-center gap-16 mr-24">
@@ -110,4 +112,4 @@
 	</div>
 </div>
 
-<FooterCDB />
+<Footer />

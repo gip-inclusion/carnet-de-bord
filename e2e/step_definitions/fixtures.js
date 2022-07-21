@@ -124,6 +124,8 @@ async function setupBeforeFixturesByTags(tags) {
 				await removeBeneficiariesAccount(['stifour93@yahoo.fr']);
 				break;
 			case '@add_admin_pdi':
+				// we reset manager info in case onboarding_manager have run before
+				await resetManagerInfo('support.carnet-de-bord+cd93@fabrique.social.gouv.fr');
 				await removeAdminPdi('juste.leblanc@cd93.fr');
 				break;
 			default:

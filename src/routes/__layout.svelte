@@ -43,6 +43,11 @@
 	import { browser } from '$app/env';
 	import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
 	import { setClient } from '@urql/svelte';
+	// DSFR Assets
+	import appleTouchFavicon from '@gouvfr/dsfr/dist/favicon/apple-touch-icon.png';
+	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
+	import icoFavicon from '@gouvfr/dsfr/dist/favicon/favicon.ico';
+	import manifest from '@gouvfr/dsfr/dist/favicon/manifest.webmanifest';
 
 	export let client: Client;
 	setClient(client);
@@ -53,7 +58,10 @@
 	let scrollbarWidth = '0';
 	let unsubscribe: () => void;
 
-	onMount(() => {
+	onMount(async () => {
+		// Load the DSFR asynchronously, and only on the browser (not in SSR).
+		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
+
 		const { body } = document;
 		const scrollDiv = document.createElement('div');
 
@@ -103,6 +111,12 @@
 			}
 		</style>
 	{/if}
+	<link rel="apple-touch-icon" href={appleTouchFavicon} />
+	<!-- 180×180 -->
+	<link rel="icon" href={svgFavicon} type="image/svg+xml" />
+	<link rel="shortcut icon" href={icoFavicon} type="image/x-icon" />
+	<!-- 32×32 -->
+	<link rel="manifest" href={manifest} crossorigin="use-credentials" />
 </svelte:head>
 
 <slot />
