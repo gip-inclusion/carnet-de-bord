@@ -1,9 +1,7 @@
-query GetRefActions($theme: String!) {
-	refActions: ref_action(
-		where: { theme: { _eq: $theme } }
-		order_by: { description: asc_nulls_first }
-	) {
-		id
-		description
-	}
+query GetRefActions {
+  actions: ref_action(order_by: [{ theme: asc_nulls_first }, { description: asc_nulls_first }]) {
+    id
+    description
+    theme
+  }
 }

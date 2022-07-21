@@ -37,7 +37,9 @@ Scénario: Ajout d'une action
 	Quand je clique sur "Se former"
 	Alors j'attends que le texte "Action" apparaisse
 	Alors je vois "Aucune action entreprise pour le moment." dans le volet
-	Quand je selectionne l'option "Atelier CV" dans la liste "Actions"
+	Quand je clique sur "Sélectionner une action"
+	Quand je renseigne "Atelier" dans le champ "Rechercher une action"
+	Quand je clique sur le texte "Atelier CV"
 	Quand je clique sur "Ajouter"
 	Alors je vois "Atelier CV" dans le tableau "Actions en cours"
 	Quand je ferme le volet

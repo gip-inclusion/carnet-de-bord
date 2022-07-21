@@ -2981,8 +2981,8 @@ export type Manager = {
 	account?: Maybe<Account>;
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
-	deployment?: Maybe<Deployment>;
-	deploymentId?: Maybe<Scalars['uuid']>;
+	deployment: Deployment;
+	deploymentId: Scalars['uuid'];
 	email: Scalars['citext'];
 	firstname?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
@@ -10921,13 +10921,11 @@ export type AddNotebookActionMutation = {
 		| undefined;
 };
 
-export type GetRefActionsQueryVariables = Exact<{
-	theme: Scalars['String'];
-}>;
+export type GetRefActionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetRefActionsQuery = {
 	__typename?: 'query_root';
-	refActions: Array<{ __typename?: 'ref_action'; id: string; description: string }>;
+	actions: Array<{ __typename?: 'ref_action'; id: string; description: string; theme: string }>;
 };
 
 export type UpdateActionStatusMutationVariables = Exact<{
@@ -11615,10 +11613,7 @@ export type GetAccountInfoQuery = {
 			  }
 			| null
 			| undefined;
-		manager?:
-			| { __typename?: 'manager'; deploymentId?: string | null | undefined }
-			| null
-			| undefined;
+		manager?: { __typename?: 'manager'; deploymentId: string } | null | undefined;
 		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
 		orientationManager?:
 			| { __typename?: 'orientation_manager'; deploymentId: string }
@@ -16894,57 +16889,39 @@ export const GetRefActionsDocument = {
 			kind: 'OperationDefinition',
 			operation: 'query',
 			name: { kind: 'Name', value: 'GetRefActions' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'refActions' },
+						alias: { kind: 'Name', value: 'actions' },
 						name: { kind: 'Name', value: 'ref_action' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'theme' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },
 								value: {
-									kind: 'ObjectValue',
-									fields: [
+									kind: 'ListValue',
+									values: [
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'description' },
-											value: { kind: 'EnumValue', value: 'asc_nulls_first' },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'theme' },
+													value: { kind: 'EnumValue', value: 'asc_nulls_first' },
+												},
+											],
+										},
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'description' },
+													value: { kind: 'EnumValue', value: 'asc_nulls_first' },
+												},
+											],
 										},
 									],
 								},
@@ -16955,6 +16932,7 @@ export const GetRefActionsDocument = {
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
 							],
 						},
 					},
