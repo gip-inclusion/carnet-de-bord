@@ -6,10 +6,15 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { Button, Input, Radio } from '$lib/ui/base';
+	import { Button } from '$lib/ui/base';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { formatDateISO } from '$lib/utils/date';
 	import { add } from 'date-fns';
+	import {
+		ProNotebookContractInput,
+		proNotebookContractSchema,
+	} from './ProNotebookContract.schema';
+	import { Form, Input, Radio } from '$lib/ui/forms';
 
 	export let notebook: GetNotebookQuery['notebook'];
 
@@ -18,103 +23,85 @@
 
 	function initFormData() {
 		return {
-			contractType: notebook.contractType,
-			contractSignDate: notebook.contractSignDate,
-			contractStartDate: notebook.contractStartDate,
-			contractEndDate: notebook.contractEndDate,
+			contractType: notebook.contractType ?? '',
+			contractSignDate: notebook.contractSignDate ?? '',
+			contractStartDate: notebook.contractStartDate ?? '',
+			contractEndDate: notebook.contractEndDate ?? '',
 		};
 	}
 
-	const formData = initFormData();
+	const initialValues = initFormData();
 
 	function close() {
 		openComponent.close();
 	}
 
-	function onChange(event: CustomEvent<{ value: string }>): void {
-		if ('no' == event.detail.value) {
-			formData.contractSignDate = null;
-			formData.contractStartDate = null;
-			formData.contractEndDate = null;
-		}
-	}
-
-	async function saveContract() {
+	async function saveContract(values: ProNotebookContractInput) {
 		trackEvent('pro', 'notebook', `update contract type`);
-		sanitizeInputs();
-		await updateNotebookContract({
-			id: notebook.id,
-			...formData,
-		});
+
+		let payload = { id: notebook.id, ...values };
+		if (values.contractType === 'no') {
+			payload = {
+				id: notebook.id,
+				contractType: values.contractType,
+				contractSignDate: null,
+				contractStartDate: null,
+				contractEndDate: null,
+			};
+		}
+		await updateNotebookContract(payload);
 		close();
 	}
 
-	$: isContract = 'no' !== formData.contractType;
-
-	function setContractEndDate(monthInterval: number) {
-		let newDate = null;
+	function handleContractChange(
+		event: Event,
+		updateValidateField: (filed: string, value: any) => void,
+		handleReset: () => void
+	) {
+		const target = event.target as HTMLInputElement;
+		updateValidateField('contractType', target.value);
+		handleReset();
+	}
+	function setContractEndDate(initialDate, monthInterval: number) {
 		if (monthInterval) {
-			newDate = formatDateISO(add(new Date(formData.contractStartDate), { months: monthInterval }));
+			return formatDateISO(add(new Date(initialDate), { months: monthInterval }));
 		}
-		formData.contractEndDate = newDate;
-	}
-
-	function sanitizeInputs() {
-		formData.contractStartDate =
-			formData.contractStartDate === '' ? null : formData.contractStartDate;
-		formData.contractEndDate = formData.contractEndDate === '' ? null : formData.contractEndDate;
-	}
-
-	function updateEndDate() {
-		if (!formData.contractStartDate) {
-			formData.contractEndDate = null;
-		}
+		return initialDate;
 	}
 </script>
 
 <section>
 	<h1>Type de contrat</h1>
-	<form on:submit|preventDefault={saveContract}>
+	<Form
+		{initialValues}
+		validationSchema={proNotebookContractSchema}
+		onSubmit={saveContract}
+		let:form
+		let:updateValidateField
+		let:handleReset
+		let:isSubmitted
+		let:isSubmitting
+		let:isValid
+	>
 		<Radio
-			caption={'Veuillez sélectionner le type de contrat.'}
-			bind:selected={formData.contractType}
+			legend={'Veuillez sélectionner le type de contrat.'}
+			name="contractType"
+			required
+			on:change={(e) => handleContractChange(e, updateValidateField, handleReset)}
 			options={contractTypeFullKeys.options}
-			on:input={onChange}
 		/>
-		{#if isContract}
+		{#if form.contractType !== 'no'}
 			<div class="row-auto mb-10">
-				<Input
-					bind:value={formData.contractSignDate}
-					inputLabel="Date de signature"
-					type="date"
-					required={true}
-				/>
+				<Input name="contractSignDate" type="date" inputLabel="Date de signature" required />
 			</div>
 
 			<div class="row-auto mb-10">
 				<div class="grid grid-cols-2 gap-4">
 					<div>
-						<Input
-							bind:value={formData.contractStartDate}
-							inputLabel="Début du contrat"
-							type="date"
-							on:change={updateEndDate}
-							required={true}
-						/>
+						<Input name="contractStartDate" inputLabel="Début du contrat" type="date" required />
 					</div>
-					<div class={`w-full ${formData.contractStartDate ? '' : 'invisible'}`}>
-						<Input
-							id="contract-end-date"
-							class="mb-0"
-							bind:value={formData.contractEndDate}
-							inputLabel="Fin du contrat"
-							type="date"
-							min={formData.contractStartDate}
-							error={formData.contractEndDate &&
-							formData.contractEndDate < formData.contractStartDate
-								? 'La date de fin est antérieure à celle du début'
-								: null}
-						/>
+					<div class="w-full">
+						<Input class="mb-0" name="contractEndDate" inputLabel="Fin du contrat" type="date" />
 						<div class="col-end-3 italic text-xs mt-1 text-france-blue-500">
 							<span>Durée : </span>
 							<button
@@ -123,7 +110,12 @@
 								aria-label="Définir la fin du contrat dans 3 mois"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setContractEndDate(3)}>3 mois</button
+								on:click={() => {
+									updateValidateField(
+										'contractEndDate',
+										setContractEndDate(form.contractStartDate, 3)
+									);
+								}}>3 mois</button
 							>
 							-
 							<button
@@ -132,7 +124,12 @@
 								aria-label="Définir la fin du contrat dans 6 mois"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setContractEndDate(6)}>6 mois</button
+								on:click={() => {
+									updateValidateField(
+										'contractEndDate',
+										setContractEndDate(form.contractStartDate, 6)
+									);
+								}}>6 mois</button
 							>
 							-
 							<button
@@ -141,7 +138,12 @@
 								aria-label="Définir la fin du contrat dans 12 mois"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setContractEndDate(12)}>12 mois</button
+								on:click={() => {
+									updateValidateField(
+										'contractEndDate',
+										setContractEndDate(form.contractStartDate, 12)
+									);
+								}}>12 mois</button
 							>
 							-
 							<button
@@ -150,7 +152,9 @@
 								aria-label="Définir comme contrat à durée indéterminée"
 								type="button"
 								class="cursor-pointer underline"
-								on:click={() => setContractEndDate(null)}>indéterminée</button
+								on:click={() => {
+									updateValidateField('contractEndDate', '');
+								}}>indéterminée</button
 							>
 						</div>
 					</div>
@@ -158,8 +162,9 @@
 			</div>
 		{/if}
 		<div class="flex flex-row gap-6">
-			<Button type="submit">Enregistrer</Button>
-			<Button outline={true} on:click={close}>Annuler</Button>
+			<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}>Enregistrer</Button
+			>
+			<Button outline on:click={close}>Annuler</Button>
 		</div>
-	</form>
+	</Form>
 </section>

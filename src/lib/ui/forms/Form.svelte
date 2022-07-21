@@ -24,6 +24,9 @@
 		isValidating,
 		isSubmitting,
 		isModified,
+		handleReset,
+		updateField,
+		updateValidateField,
 	} = formHandler;
 
 	let formRef: HTMLFormElement;
@@ -33,7 +36,7 @@
 	setContext(key, { ...formHandler, isSubmitted });
 
 	const unsubscribeValid = isValid.subscribe((valid) => {
-		if (!valid) {
+		if (!valid && $isSubmitted) {
 			focusError();
 		}
 	});
@@ -76,6 +79,10 @@
 		modified={$modified}
 		errors={$errors}
 		form={$form}
+		formStore={form}
+		{handleReset}
+		{updateField}
+		{updateValidateField}
 	/>
 	{#if dev}
 		<DebugForm />

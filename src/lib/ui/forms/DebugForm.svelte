@@ -3,7 +3,7 @@
 	import { key, FormProps } from 'svelte-forms-lib';
 	import type { Writable } from 'svelte/store';
 
-	const { touched, errors, state, isValid, isValidating, isSubmitting } = getContext<
+	const { touched, errors, state, isValid, isSubmitted, isValidating, isSubmitting } = getContext<
 		{ isSubmitted: Writable<boolean> } & FormProps['context']
 	>(key);
 </script>
@@ -18,6 +18,7 @@
 				isValid: $isValid,
 				isValidating: $isValidating,
 				isSubmitting: $isSubmitting,
+				isSubmitted: $isSubmitted,
 			},
 			null,
 			2
