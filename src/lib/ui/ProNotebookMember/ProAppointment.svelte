@@ -137,7 +137,8 @@
 		</div>
 	</div>
 	<div class="fr-table fr-table--layout-fixed blue-france-950">
-		<table aria-label="Rendez-vous">
+		<table>
+			<caption class="sr-only">Listes des rendez-vous</caption>
 			<thead class="--bg-blue-france-975">
 				<tr>
 					<th style="width: 30%">Date</th>

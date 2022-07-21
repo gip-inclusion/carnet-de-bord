@@ -9,7 +9,7 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
 		Quand je clique sur "Groupe de suivi"
 		Quand je clique sur la ligne du tableau contenant le texte "Pierre Chevalier"
-		Alors je vois "Aucun rendez-vous n'a été pris avec cet accompagnateur." dans le tableau "Rendez-vous"
+		Alors je vois "Aucun rendez-vous n'a été pris avec cet accompagnateur." dans le tableau "Liste des rendez-vous"
 
 	Scénario: Ajout de RDV
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"

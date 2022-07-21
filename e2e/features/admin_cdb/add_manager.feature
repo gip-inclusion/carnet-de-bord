@@ -1,12 +1,12 @@
 #language: fr
 
 @add_admin_pdi
-Fonctionnalité: Ajout d'un admin pdi
+Fonctionnalité: Ajout d'un manager
 	Pour pouvoir gérer plus facilement l'administration d'un déploiement
 	En tant qu'admininstrateur carnet de bord
-	Je veux pouvoir rajouter un admin pdi a une déploiement
+	Je veux pouvoir rajouter un admin pdi à un déploiement
 
-	Scénario: Ajout d'un admin pdi
+	Scénario: Ajout d'un manager
 		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
 		Quand je clique sur "expérimentation 93"
 		Alors je vois "Déploiement expérimentation 93"
@@ -15,4 +15,4 @@ Fonctionnalité: Ajout d'un admin pdi
 		Alors je renseigne "Juste" dans le champ "Prénom"
 		Alors je renseigne "Leblanc" dans le champ "Nom"
 		Quand je clique sur "Ajouter l'admin"
-		Alors je vois "Agathe DeBlouze, Juste Leblanc"
+		Alors je vois "Juste Leblanc" dans le tableau "Liste des managers"

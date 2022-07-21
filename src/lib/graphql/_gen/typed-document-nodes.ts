@@ -10367,6 +10367,19 @@ export enum WantedJobUpdateColumn {
 	RomeCodeId = 'rome_code_id',
 }
 
+export type DeleteManagerMutationVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type DeleteManagerMutation = {
+	__typename?: 'mutation_root';
+	delete_account?:
+		| { __typename?: 'account_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+	delete_manager_by_pk?: { __typename?: 'manager'; id: string } | null | undefined;
+};
+
 export type AddNotebookMembersMutationVariables = Exact<{
 	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
 	notebookId: Scalars['uuid'];
@@ -10703,6 +10716,11 @@ export type GetDeploymentByIdQuery = {
 					id: string;
 					firstname?: string | null | undefined;
 					lastname?: string | null | undefined;
+					email: string;
+					account?:
+						| { __typename?: 'account'; onboardingDone?: boolean | null | undefined }
+						| null
+						| undefined;
 				}>;
 				beneficiaries_aggregate: {
 					__typename?: 'beneficiary_aggregate';
@@ -13614,6 +13632,79 @@ export const EventFieldsFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<EventFieldsFragment, unknown>;
+export const DeleteManagerDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'delete_manager' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'delete_account' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'managerId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'delete_manager_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<DeleteManagerMutation, DeleteManagerMutationVariables>;
 export const AddNotebookMembersDocument = {
 	kind: 'Document',
 	definitions: [
@@ -15448,6 +15539,17 @@ export const GetDeploymentByIdDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+													],
+												},
+											},
 										],
 									},
 								},
@@ -26003,6 +26105,10 @@ export const UpdateAdminStructureProfileDocument = {
 } as unknown as DocumentNode<
 	UpdateAdminStructureProfileMutation,
 	UpdateAdminStructureProfileMutationVariables
+>;
+export type DeleteManagerMutationStore = OperationStore<
+	DeleteManagerMutation,
+	DeleteManagerMutationVariables
 >;
 export type AddNotebookMembersMutationStore = OperationStore<
 	AddNotebookMembersMutation,

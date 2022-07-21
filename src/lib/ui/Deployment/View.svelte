@@ -6,7 +6,6 @@
 		ProfessionalAggregate,
 		StructureAggregate,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { displayFullName } from '$lib/ui/format';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import AdminNotebookUpdate from './NotebookUpdate.svelte';
 	import Button from '../base/Button.svelte';
@@ -45,7 +44,6 @@
 	Déploiement <span class="text-france-blue-500">{deployment?.label ?? ''}</span>
 </h1>
 <div class="flex justify-between items-center">
-	<div>Admin PDI&nbsp;: {deployment?.managers.map((item) => displayFullName(item)).join(', ')}</div>
 	<Button classNames="self-end" on:click={onAddAdminPdiClick}>Ajouter une admin pdi</Button>
 </div>
 <div class="fr-container--fluid">

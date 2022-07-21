@@ -126,7 +126,15 @@ async function setupBeforeFixturesByTags(tags) {
 			case '@add_admin_pdi':
 				// we reset manager info in case onboarding_manager have run before
 				await resetManagerInfo('support.carnet-de-bord+cd93@fabrique.social.gouv.fr');
-				await removeAdminPdi('juste.leblanc@cd93.fr');
+				await removeManager('juste.leblanc@cd93.fr');
+				break;
+			case '@remove_admin_pdi':
+				await addManager(
+					'Siham',
+					'Froger',
+					'siham@froger.fr',
+					'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b'
+				);
 				break;
 			default:
 				return;
@@ -408,13 +416,38 @@ async function resetFocusesFixtures(name) {
 	);
 }
 
-async function removeAdminPdi(email) {
+async function removeManager(email) {
 	await I.sendMutation(
 		`mutation RemoveAdminPdi($email: citext!) {
 			delete_account(where: {manager: {email: {_eq: $email}}}) { affected_rows }
 			delete_manager(where: {email: {_eq: $email}}) { affected_rows }
 		}`,
 		{ email }
+	);
+}
+
+async function addManager(firstname, lastname, email, deployment) {
+	await I.sendMutation(
+		`
+	mutation addAdminPdi($firstname:String!, $lastname:String!, $username:String!, $email: citext!, $deployment: uuid!) {
+		insert_manager_one(object: {
+			account: {
+				data: {
+					type: manager,
+					username: $username,
+					onboardingDone: true,
+				}
+			}
+			deploymentId: $deployment,
+			email: $email,
+			firstname:$firstname,
+			lastname: $lastname,
+		}) {
+			id
+			account {id, type, managerId}
+		}
+	}`,
+		{ deployment, email, firstname, lastname, username: `${firstname}.${lastname}` }
 	);
 }
 
