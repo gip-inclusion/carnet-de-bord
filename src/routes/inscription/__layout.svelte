@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { HeaderCDB, FooterCDB } from '$lib/ui/index';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
 </script>
 
-<HeaderCDB menuItems={[]} />
+<Header menuItems={[]} />
 
 <div class="fr-container" style="min-height: calc(100vh - 200px)">
 	<slot />
 </div>
 
-<FooterCDB />
+<Footer />

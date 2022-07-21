@@ -175,9 +175,9 @@
 			{/if}
 		</div>
 	{:else}
-		<div class="flex flex-row flex-wrap justify-between gap-1">
+		<div class="fr-grid-row fr-grid-row--gutters">
 			{#each notebooks as notebook (notebook.id)}
-				<div class="card-container">
+				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
 					<ProBeneficiaryCard beneficiary={notebook.beneficiary} href={carnetUrl(notebook)} />
 				</div>
 			{/each}

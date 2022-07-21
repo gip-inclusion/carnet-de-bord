@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { HeaderCDB, FooterCDB, LayerCDB } from '$lib/ui/index';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
+
+	import { LayerCDB } from '$lib/ui/index';
 </script>
 
-<HeaderCDB menuItems={[]} />
+<Header menuItems={[]} />
 
 <div
 	class="fr-container fr-container--fluid fr-py-6w fr-px-2w"
@@ -15,4 +18,4 @@
 	<LayerCDB />
 </div>
 
-<FooterCDB />
+<Footer />

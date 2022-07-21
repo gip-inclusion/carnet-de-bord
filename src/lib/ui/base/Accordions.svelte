@@ -29,3 +29,9 @@
 {:else}
 	<slot />
 {/if}
+
+<style global>
+	.fr-accordion .fr-collapse.fr-collapse--expanded {
+		overflow: visible;
+	}
+</style>

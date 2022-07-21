@@ -1,6 +1,9 @@
 <script lang="ts">
 	import type { MenuItem } from '$lib/types';
-	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
+
+	import { LayerCDB } from '$lib/ui/index';
 
 	const menuItems: MenuItem[] = [
 		{
@@ -11,10 +14,10 @@
 	];
 </script>
 
-<HeaderCDB {menuItems} />
+<Header {menuItems} />
 <div class="fr-container fr-mb-8w">
 	<slot />
 	<LayerCDB />
 </div>
 
-<FooterCDB />
+<Footer />

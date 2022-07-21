@@ -1,3 +1,17 @@
+## [1.125.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.125.0...v1.125.1) (2022-07-21)
+
+
+### Bug Fixes
+
+* use svelte form for data validation ([#953](https://github.com/SocialGouv/carnet-de-bord/issues/953)) ([3fd8a60](https://github.com/SocialGouv/carnet-de-bord/commit/3fd8a60af34c2c6f029586df95ef90d15ee2395d))
+
+# [1.125.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.124.1...v1.125.0) (2022-07-21)
+
+
+### Features
+
+* **notebook:** use a combobox/Autocomplete to add action ([#939](https://github.com/SocialGouv/carnet-de-bord/issues/939)) ([9aee488](https://github.com/SocialGouv/carnet-de-bord/commit/9aee48810aff16207f2c4ed5afd15839cd7435b3))
+
 ## [1.124.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.124.0...v1.124.1) (2022-07-19)
 
 

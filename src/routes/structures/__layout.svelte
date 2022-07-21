@@ -23,7 +23,10 @@
 <script lang="ts">
 	import { account } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
-	import { FooterCDB, HeaderCDB, LayerCDB } from '$lib/ui';
+	import Footer from '$lib/ui/base/Footer.svelte';
+	import Header from '$lib/ui/base/Header.svelte';
+
+	import { LayerCDB } from '$lib/ui/index';
 	import { onDestroy } from 'svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { homeForRole } from '$lib/routes';
@@ -64,7 +67,7 @@
 </script>
 
 <Crisp websiteId={CRISP_WEBSITE_ID} />
-<HeaderCDB {menuItems} />
+<Header {menuItems} />
 
 <div class="fr-container fr-mb-8w">
 	<LoaderIndicator {result}>
@@ -73,4 +76,4 @@
 </div>
 <LayerCDB />
 
-<FooterCDB />
+<Footer />

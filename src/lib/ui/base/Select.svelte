@@ -5,12 +5,14 @@
 </script>
 
 <script lang="ts">
+	import { pluck } from '$lib/helpers';
+
 	import { createEventDispatcher } from 'svelte';
 
 	counter++;
 	let uniqueId = `select-input-${counter}`;
-	export let name = `select-${counter}`;
-	export let id: string | null = `select-${counter}`;
+	export let name = uniqueId;
+	export let id: string | null = uniqueId;
 	export let selectHint: string | null = '';
 	export let selectLabel: string | null;
 	export let additionalLabel: string | null = '';
@@ -30,6 +32,19 @@
 	};
 
 	const selectHintOption = 'select_hint_option';
+	$: selectProps = pluck(
+		[
+			'options',
+			'additionnalLabel',
+			'selectHint',
+			'selectLabel',
+			'selected',
+			'error',
+			'valid',
+			'class',
+		],
+		$$props
+	);
 </script>
 
 <div
@@ -40,7 +55,7 @@
 >
 	<!-- @TODO non-standard, DSFR deems the label mandatory -->
 	{#if selectLabel}
-		<label class="fr-label" for={uniqueId}>
+		<label class="fr-label" for={id}>
 			{selectLabel}{required ? ' *' : ''}
 			{#if additionalLabel}
 				<span class="fr-hint-text">
@@ -51,14 +66,16 @@
 	{/if}
 	<select
 		class={`fr-select ${error ? 'fr-select--error' : ''} ${valid ? 'fr-select--valid' : ''}`}
-		aria-describedby={`${error ? `select-error-desc-error-${uniqueId}` : ''} ${
-			valid ? `select-valid-desc-valid-${uniqueId}` : ''
+		aria-describedby={`${error ? `select-error-desc-error-${id}` : ''} ${
+			valid ? `select-valid-desc-valid-${id}` : ''
 		}`}
 		value={selected || selectHintOption}
-		id={uniqueId}
+		{id}
 		{name}
 		on:change={handleSelect}
+		on:change
 		{disabled}
+		{...selectProps}
 	>
 		<option value={selectHintOption} disabled>{selectHint || 'Sélectionner...'}</option>
 		{#each options as option (option.name)}
@@ -67,12 +84,12 @@
 	</select>
 
 	{#if error}
-		<p id={`select-error-desc-error-${uniqueId}`} class="fr-error-text" role="status">
+		<p id={`select-error-desc-error-${id}`} class="fr-error-text" role="status">
 			{error}
 		</p>
 	{/if}
 	{#if valid}
-		<p id={`select-valid-desc-valid-${uniqueId}`} class="fr-valid-text" role="status">
+		<p id={`select-valid-desc-valid-${id}`} class="fr-valid-text" role="status">
 			{valid}
 		</p>
 	{/if}
