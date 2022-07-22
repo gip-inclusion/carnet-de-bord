@@ -127,7 +127,7 @@ Quand('je ferme la modale', () => {
 });
 
 Quand('je ferme le volet', () => {
-	I.click('button[aria-label="fermer le panneau"]');
+	I.click('button[title="fermer le panneau"]');
 });
 
 Quand("j'attends {int} secondes", (num) => {
@@ -176,7 +176,7 @@ Quand("j'appuie sur {string}", (key) => {
 //
 
 Alors('je vois {string} dans le tableau {string}', (text, tableName) => {
-	const locator = locate('tr td').inside(locate('//table').withAttr({ 'aria-label': tableName }));
+	const locator = locate('tr td').inside(locate('//table/caption').withText(tableName));
 	I.see(text, locator);
 });
 

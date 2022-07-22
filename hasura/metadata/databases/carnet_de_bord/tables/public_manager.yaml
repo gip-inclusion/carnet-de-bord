@@ -148,3 +148,8 @@ update_permissions:
         id:
           _eq: X-Hasura-Manager-Id
       check: null
+delete_permissions:
+  - role: admin_cdb
+    permission:
+      backend_only: false
+      filter: {}

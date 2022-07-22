@@ -1,0 +1,8 @@
+mutation delete_manager($id: uuid!) {
+  delete_account(where: { managerId: { _eq: $id } }) {
+    affected_rows
+  }
+  delete_manager_by_pk(id: $id) {
+    id
+  }
+}

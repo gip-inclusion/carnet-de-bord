@@ -52,7 +52,8 @@
 
 <div class="pb-8">
 	<div class={`w-full fr-table fr-table--layout-fixed`}>
-		<table class="w-full" aria-label="Actions en cours" summary="Actions en cours">
+		<table class="w-full">
+			<caption class="sr-only">Actions en cours</caption>
 			<thead>
 				<tr>
 					<th class="min-w-min">Action</th>

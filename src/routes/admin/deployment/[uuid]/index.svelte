@@ -17,6 +17,7 @@
 	import { AdminDeploymentView } from '$lib/ui/Deployment';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import { Breadcrumbs } from '$lib/ui/base';
+	import ManagerTable from '$lib/ui/AdminHome/ManagerTable.svelte';
 
 	export let deploymentId: string;
 	const getDeploymentStore = operationStore(
@@ -54,5 +55,6 @@
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col gap-8">
 		<AdminDeploymentView {deployment} {professional_aggregate} {refreshStore} />
+		<ManagerTable managers={deployment.managers} />
 	</div>
 </LoaderIndicator>

@@ -7,6 +7,10 @@ query GetDeploymentById($id: uuid!) {
       id
       firstname
       lastname
+      email
+      account {
+        onboardingDone
+      }
     }
     beneficiaries_aggregate {
       aggregate {

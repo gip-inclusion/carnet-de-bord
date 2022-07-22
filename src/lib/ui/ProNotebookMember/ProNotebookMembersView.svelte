@@ -52,7 +52,8 @@
 	>
 </div>
 <div class={`fr-table fr-table--layout-fixed`}>
-	<table summary="Groupe de suivi" aria-label="Groupe de suivi">
+	<table>
+		<caption class="sr-only">Liste des membres du groupe de suivi</caption>
 		<thead>
 			<tr>
 				<th style="width: 50%">Accompagnateur (structure)</th>

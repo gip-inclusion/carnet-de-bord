@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconButton } from '$lib/ui/base';
+	import IconButton from '$lib/ui/base/IconButton.svelte';
 	import { openComponent } from '$lib/stores';
 	import { fade, fly } from 'svelte/transition';
 	function handleKeyDown(event: KeyboardEvent) {
@@ -31,11 +31,12 @@
 		<div class="flex flex-col gap-6 mx-14 mt-28 mb-14" role="dialog" tabindex="-1">
 			<svelte:component this={currentLayer.component} {...currentLayer.props} />
 		</div>
+
 		<IconButton
 			on:click={close}
-			icon="ri-close-line"
-			ariaLabel="fermer le panneau"
-			classNames=" absolute top-14 right-14"
+			icon="fr-icon-close-line"
+			title="fermer le panneau"
+			class="absolute top-4 right-4 fr-btn--tertiary-no-outline"
 		/>
 	</div>
 {/if}

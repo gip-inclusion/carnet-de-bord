@@ -1,21 +1,12 @@
 <script lang="ts">
 	import { pluck } from '$lib/helpers';
-
 	export let icon: string;
-	export let ariaLabel: string;
-	export let classNames = '';
-	export let textColor = 'text-france-blue';
-	export let bgColor = 'bg-transparent';
+	export let title: string;
+	export let type = 'button';
 
-	$: buttonProps = pluck(['icon', 'classNames'], $$props);
+	$: buttonProps = pluck(['icon', 'title', 'class'], $$props);
 </script>
 
-<button
-	on:click
-	type="button"
-	class="bt text-2xl {textColor} {bgColor} {classNames}"
-	aria-label={ariaLabel}
-	{...buttonProps}
->
-	<span class={icon} aria-hidden />
+<button on:click {type} {title} class="fr-btn {icon} {$$props.class}" {...buttonProps}>
+	{title}
 </button>
