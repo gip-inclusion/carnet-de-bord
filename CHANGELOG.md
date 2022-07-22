@@ -1,3 +1,10 @@
+# [1.128.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.127.0...v1.128.0) (2022-07-22)
+
+
+### Features
+
+* allow admin to remove a  manager ([#958](https://github.com/SocialGouv/carnet-de-bord/issues/958)) ([4df4f77](https://github.com/SocialGouv/carnet-de-bord/commit/4df4f7730fb1c7d816b3cf2f24ff44b1b443c5f2)), closes [#862](https://github.com/SocialGouv/carnet-de-bord/issues/862)
+
 # [1.127.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.126.0...v1.127.0) (2022-07-22)
 
 
