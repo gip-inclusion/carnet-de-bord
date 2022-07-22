@@ -1,3 +1,10 @@
+# [1.126.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.125.1...v1.126.0) (2022-07-21)
+
+
+### Features
+
+* update dsfr ([#956](https://github.com/SocialGouv/carnet-de-bord/issues/956)) ([f33bf96](https://github.com/SocialGouv/carnet-de-bord/commit/f33bf96acac58e283099aec0604fa79feccf7dff))
+
 ## [1.125.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.125.0...v1.125.1) (2022-07-21)
 
 
