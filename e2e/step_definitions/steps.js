@@ -127,7 +127,7 @@ Quand('je ferme la modale', () => {
 });
 
 Quand('je ferme le volet', () => {
-	I.click('button[aria-label="fermer le panneau"]');
+	I.click('button[title="fermer le panneau"]');
 });
 
 Quand("j'attends {int} secondes", (num) => {
