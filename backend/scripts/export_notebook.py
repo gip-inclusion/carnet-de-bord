@@ -7,6 +7,8 @@ from asyncpg.connection import Connection
 
 from api.core.db import get_connection_pool
 from api.core.settings import settings
+from api.db.crud.structure import get_structure_by_id
+from api.db.models.structure import Structure
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
@@ -15,6 +17,8 @@ app = typer.Typer()
 
 async def export_structure(connection: Connection, structure_id: UUID):
     logging.info(f"Exporting structure {structure_id}")
+
+    structure: Structure | None = await get_structure_by_id(connection, structure_id)
 
 
 async def export_structure_db(structure_id: UUID):

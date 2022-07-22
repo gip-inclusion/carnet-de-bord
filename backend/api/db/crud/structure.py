@@ -38,6 +38,16 @@ async def get_structure_by_name(connection: Connection, name: str) -> Structure 
     )
 
 
+async def get_structure_by_id(connection: Connection, id: UUID) -> Structure | None:
+    return await get_structure_with_query(
+        connection,
+        """
+        WHERE id=$1
+        """,
+        id,
+    )
+
+
 async def get_structure_with_query(
     connection: Connection, query: str, *args
 ) -> Structure | None:
