@@ -1,3 +1,10 @@
+# [1.127.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.126.0...v1.127.0) (2022-07-22)
+
+
+### Features
+
+* add tracking for appointment usage ([#955](https://github.com/SocialGouv/carnet-de-bord/issues/955)) ([770afb7](https://github.com/SocialGouv/carnet-de-bord/commit/770afb74bdebe5fea43c614879d15be531c092e5)), closes [#951](https://github.com/SocialGouv/carnet-de-bord/issues/951)
+
 # [1.126.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.125.1...v1.126.0) (2022-07-21)
 
 
