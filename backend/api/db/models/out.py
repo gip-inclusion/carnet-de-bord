@@ -23,7 +23,6 @@ class BeneficiaryOut(BaseModel):
     mobile_number: str | None
     date_of_birth: date
     place_of_birth: str | None
-    deployment: DeploymentOut
     created_at: datetime
     updated_at: datetime
 

@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 from uuid import UUID
 
@@ -8,7 +9,9 @@ from asyncpg.connection import Connection
 from api.core.db import get_connection_pool
 from api.core.settings import settings
 from api.db.crud.notebook import get_notebooks_by_structure_id
+from api.db.crud.out import notebook_to_out
 from api.db.models.notebook import Notebook
+from api.db.models.out import NotebookOut
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
@@ -22,8 +25,11 @@ async def export_notebooks_from_structure(connection: Connection, structure_id: 
         connection, structure_id
     )
 
-    for notebook in notebooks:
-        print(notebook)
+    notebooks_out: list[NotebookOut] = [
+        (await notebook_to_out(connection, notebook)).json() for notebook in notebooks
+    ]
+
+    print(NotebookOut.schema_json(indent=2))
 
 
 async def export_notebooks_from_structure_db(structure_id: UUID):
