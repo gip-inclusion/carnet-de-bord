@@ -44,7 +44,7 @@
 			action: null,
 		};
 	}
-
+	let selectedItem: AutoCompleteOption = null;
 	let formData = initFormData();
 
 	async function createAction() {
@@ -54,6 +54,7 @@
 			targetId: target.id,
 			status: ActionStatus.InProgress,
 		});
+		selectedItem = null;
 		formData = initFormData();
 	}
 
@@ -69,6 +70,7 @@
 					placeholder="Sélectionner une action"
 					searchPlaceholder="Rechercher une action"
 					label="Actions"
+					bind:selectedItem
 					options={actionOptions}
 				/>
 			</div>
