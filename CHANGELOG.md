@@ -1,3 +1,10 @@
+## [1.128.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.1...v1.128.2) (2022-07-25)
+
+
+### Bug Fixes
+
+* remove date input in notebook ([#962](https://github.com/SocialGouv/carnet-de-bord/issues/962)) ([0c5ecda](https://github.com/SocialGouv/carnet-de-bord/commit/0c5ecda0b62baeefe3d09d4ddacb8d2c4d30bd3d))
+
 ## [1.128.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.0...v1.128.1) (2022-07-25)
 
 
