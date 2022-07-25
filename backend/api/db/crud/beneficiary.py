@@ -78,8 +78,10 @@ async def get_beneficiary_from_personal_information(
 
     return await get_beneficiary_with_query(
         connection,
-        "WHERE LOWER(public.beneficiary.firstname) = LOWER($1) AND "
-        "LOWER(public.beneficiary.lastname) = LOWER($2) AND "
+        # We use LOWER(BTRIM(field)) here to match the index so postgres
+        # can use the index rather than scanning the whole table
+        "WHERE LOWER(BTRIM(public.beneficiary.firstname)) = LOWER($1) AND "
+        "LOWER(BTRIM(public.beneficiary.lastname)) = LOWER($2) AND "
         "public.beneficiary.date_of_birth = $3",
         firstname,
         lastname,
