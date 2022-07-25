@@ -6,3 +6,4 @@ data:
   SMTP_HOST: smtp.mailtrap.io
   SMTP_PORT: '2525'
   SMTP_FROM: support.carnet-de-bord@fabrique.social.gouv.fr
+  PE_CLIENT_ID: PAR_devcarnetdebord_eaf8a8f6cff6f9b7a6369b29ca6c3ddfde49a8ac54be45b3293f435bcf7f76eb
