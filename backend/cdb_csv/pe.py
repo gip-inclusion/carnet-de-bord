@@ -301,8 +301,11 @@ async def parse_principal_csv(principal_csv: str):
             # Open a transaction.
 
             await parse_principal_csv_with_db(connection, principal_csv)
+
     else:
         logging.error("Unable to acquire connection from DB pool")
+
+    await pool.close()
 
 
 async def insert_wanted_jobs_for_csv_row_and_notebook(
