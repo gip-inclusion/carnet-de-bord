@@ -6,3 +6,4 @@ data:
   SMTP_HOST: smtp.tipimail.com
   SMTP_PORT: '2500'
   SMTP_FROM: support.carnet-de-bord@fabrique.social.gouv.fr
+  PE_CLIENT_ID: PAR_carnetdebord_794b567051b663a77fc7f654bcae0750c5f2dd9e38f2c890c0ae3913b163c581
