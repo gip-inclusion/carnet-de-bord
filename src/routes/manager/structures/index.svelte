@@ -25,6 +25,7 @@
 	import { SearchBar } from '$lib/ui/base';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import AdminDeploymentStructuresImport from '$lib/ui/Manager/ImportStructures.svelte';
+	import IconButton from '$lib/ui/base/IconButton.svelte';
 
 	export let result: OperationStore<GetStructuresQuery>;
 
@@ -53,6 +54,10 @@
 	};
 
 	$: filteredStructures = structures;
+
+	function openEditLayer(id: string) {
+		console.log(id);
+	}
 </script>
 
 <svelte:head>
@@ -84,21 +89,30 @@
 				{handleSubmit}
 			/>
 		</div>
-		<div class={`w-full fr-table fr-table--layout-fixed`}>
+		<div class={`fr-table  fr-table--layout-fixed`}>
 			<table>
 				<thead>
 					<tr>
-						<th>Nom</th>
-						<th>Code postal</th>
+						<th class="w-1/2">Nom</th>
+						<th class="text-right">Code postal</th>
 						<th>Ville</th>
+						<th class="text-center">Éditer</th>
 					</tr>
 				</thead>
 				<tbody>
 					{#each filteredStructures as structure (structure.id)}
 						<tr>
 							<td>{structure.name}</td>
-							<td>{structure.postalCode || ''}</td>
+							<td class="text-right">{structure.postalCode || ''}</td>
 							<td>{structure.city || ''}</td>
+							<td class="text-center">
+								<IconButton
+									icon="fr-icon-edit-line"
+									class="fr-btn--tertiary"
+									on:click={() => openEditLayer(structure.id)}
+									title={`Editer la structure ${structure.name}`}
+								/>
+							</td>
 						</tr>
 					{/each}
 				</tbody>
