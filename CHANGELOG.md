@@ -1,3 +1,10 @@
+## [1.128.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.0...v1.128.1) (2022-07-25)
+
+
+### Bug Fixes
+
+* use OUI as truthy value ([#969](https://github.com/SocialGouv/carnet-de-bord/issues/969)) ([fe03037](https://github.com/SocialGouv/carnet-de-bord/commit/fe030378884fe0123a5d0a575f65c600a44daed9))
+
 # [1.128.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.127.0...v1.128.0) (2022-07-22)
 
 
