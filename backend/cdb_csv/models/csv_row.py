@@ -68,7 +68,7 @@ class PrincipalCsvRow(BaseModel):
         allow_reuse=True,
     )
     def parse_bool(cls, value):
-        if value == "O":
+        if value == "OUI" or value == "O":
             return True
         else:
             return False

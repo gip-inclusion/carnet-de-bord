@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     smtp_user: str | None
     smtp_pass: str | None
 
+    min_pool_size: int = 2
+    max_pool_size: int = 20
+
     PE_AUTH_BASE_URL: str = "https://entreprise.pole-emploi.fr"
     PE_BASE_URL: str = "https://api.emploi-store.fr"
     PE_SCOPE = "api_referentielagencesv1 organisationpe"
