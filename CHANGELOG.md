@@ -1,3 +1,10 @@
+## [1.128.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.2...v1.128.3) (2022-07-25)
+
+
+### Bug Fixes
+
+* add missing secrets for pe api ([#970](https://github.com/SocialGouv/carnet-de-bord/issues/970)) ([47ffe6a](https://github.com/SocialGouv/carnet-de-bord/commit/47ffe6ab31018f9db357342f9c4b902625486b4e))
+
 ## [1.128.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.1...v1.128.2) (2022-07-25)
 
 
