@@ -363,7 +363,7 @@ function removeOrientationManagerAssignement() {
 function resetPhone() {
 	return I.sendMutation(
 		`mutation UpdatePhone {
-			update_beneficiary_by_pk(_set: {mobileNumber: "0601010101" },cxpk_columns: {id: "c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"}) { __typename }
+			update_beneficiary_by_pk(_set: {mobileNumber: "0601010101" },pk_columns: {id: "c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"}) { __typename }
 		}`
 	);
 }
