@@ -295,7 +295,7 @@
 											<Text classNames="text-error" value={structure.error} />
 										{:else}
 											<span
-												class="fr-fi-checkbox-circle-fill text-success"
+												class="fr-icon-success-fill text-success"
 												aria-hidden="true"
 												style="margin: 0 50%;"
 											/>

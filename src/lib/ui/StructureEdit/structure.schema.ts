@@ -1,4 +1,4 @@
-import { cityOrNameValidation, validateCodePostal, validatePhoneNumber } from '$lib/validation';
+import { validateLuhn, cityOrNameValidation, validateCodePostal } from '$lib/validation';
 import * as yup from 'yup';
 
 export const structureSchema = yup.object().shape({
@@ -7,7 +7,7 @@ export const structureSchema = yup.object().shape({
 		.trim()
 		.test('is-siret-valid', 'Le siret est incorrect', (value) => {
 			if (value) {
-				return validatePhoneNumber(value);
+				return validateLuhn(value);
 			}
 			return true;
 		})
@@ -17,12 +17,12 @@ export const structureSchema = yup.object().shape({
 	phone: yup
 		.string()
 		.trim()
-		.test('is-phone-valid', 'Le format du téléphone est incorrect', (value) => {
-			if (value) {
-				return validatePhoneNumber(value);
-			}
-			return true;
-		})
+		// .test('is-phone-valid', 'Le format du téléphone est incorrect', (value) => {
+		// 	if (value) {
+		// 		return validatePhoneNumber(value);
+		// 	}
+		// 	return true;
+		// })
 		.nullable(),
 	email: yup.string().trim().email().nullable(),
 	postalCode: yup
