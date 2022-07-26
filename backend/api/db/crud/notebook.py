@@ -61,3 +61,15 @@ async def get_notebook_members_by_notebook_id(
         "WHERE public.notebook_member.notebook_id = $1",
         notebook_id,
     )
+
+
+async def get_notebook_member_by_notebook_id_and_account_id(
+    connection: Connection, notebook_id: UUID, account_id: UUID
+) -> NotebookMember | None:
+    return await get_notebook_member_with_query(
+        connection,
+        """WHERE public.notebook_member.notebook_id = $1
+        AND public.notebook_member.account_id = $2""",
+        notebook_id,
+        account_id,
+    )
