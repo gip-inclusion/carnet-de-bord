@@ -110,11 +110,18 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
                     )
                     if notebook_member:
                         logging.info(
-                            f"{pe_unique_id} - Pro is already a member of the notebook"
+                            f"{pe_unique_id} - Pro is already a member of the notebook. Skipping."
                         )
                     else:
                         logging.info(
                             f"{pe_unique_id} - Pro is not a member of the notebook. Adding it."
+                        )
+
+                        await add_account_to_notebook(
+                            connection,
+                            beneficiary.notebook.id,
+                            account.id,
+                            pe_unique_id,
                         )
                 else:
                     logging.info(
@@ -179,7 +186,6 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
 
 
 async def import_pe_referent(
-    connection: Connection,
     csv_row: PrincipalCsvRow,
     pe_unique_id: str,
     deployment_id: UUID,
