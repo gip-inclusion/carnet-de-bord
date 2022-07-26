@@ -99,7 +99,7 @@ async def get_accounts_from_email(
     And since there is no unicity constraint accross multiple table
     we could have multiple results given a single email (ex: one for pro and one for orientation_manager)
     """
-    return await get_account_with_query(
+    return await get_accounts_with_query(
         connection,
         """
         LEFT JOIN admin_cdb ON admin_cdb.id = account.admin_id
@@ -119,7 +119,7 @@ async def get_accounts_from_email(
     )
 
 
-async def get_account_with_query(
+async def get_accounts_with_query(
     connection: Connection, query: str, *args
 ) -> List[AccountDB]:
 
@@ -133,3 +133,34 @@ async def get_account_with_query(
     )
 
     return [parse_account_from_record(record) for record in records]
+
+
+async def get_account_with_query(
+    connection: Connection, query: str, *args
+) -> AccountDB | None:
+
+    record: Record | None = await connection.fetchrow(
+        """
+        SELECT account.* FROM public.account {query}
+        """.format(
+            query=query
+        ),
+        *args,
+    )
+
+    if record:
+        return parse_account_from_record(record)
+
+
+async def get_account_by_professional_email(
+    connection: Connection, email: str
+) -> AccountDB | None:
+
+    return await get_account_with_query(
+        connection,
+        """
+        JOIN professional ON professional.id = account.professional_id
+        WHERE professional.email like $1
+        """,
+        email,
+    )
