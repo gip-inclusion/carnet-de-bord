@@ -25,7 +25,13 @@
 	<Input placeholder="Pole insertion" inputLabel="Nom" name="name" />
 	<Input placeholder="service d'insertion" inputLabel="Description" name="shortDesc" />
 	<Input placeholder="agence@cd08.fr" inputLabel="Courriel" name="email" />
-	<Input placeholder="" inputLabel="Téléphone" name="phone" class="max-w-max" />
+	<Input
+		placeholder=""
+		inputLabel="Téléphones"
+		name="phone"
+		class="max-w-max"
+		inputHint="Si plusieurs téléphones, utiliser une virgule pour les séparer"
+	/>
 	<Input placeholder="" inputLabel="Siret" name="siret" class="max-w-max" />
 	<Input placeholder="" inputLabel="Adresse" name="address1" />
 	<Input placeholder="1o rue des mésanges" inputLabel="Complément d'adresse" name="address2" />

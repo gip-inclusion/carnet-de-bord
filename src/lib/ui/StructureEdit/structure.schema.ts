@@ -1,4 +1,9 @@
-import { validateLuhn, cityOrNameValidation, validateCodePostal } from '$lib/validation';
+import {
+	validateLuhn,
+	cityOrNameValidation,
+	validateCodePostal,
+	validatePhoneNumber,
+} from '$lib/validation';
 import * as yup from 'yup';
 
 export const structureSchema = yup.object().shape({
@@ -17,12 +22,15 @@ export const structureSchema = yup.object().shape({
 	phone: yup
 		.string()
 		.trim()
-		// .test('is-phone-valid', 'Le format du téléphone est incorrect', (value) => {
-		// 	if (value) {
-		// 		return validatePhoneNumber(value);
-		// 	}
-		// 	return true;
-		// })
+		.test('is-phone-valid', 'Le format est incorrect', (value) => {
+			if (value) {
+				return value
+					.split(',')
+					.flatMap((value) => (value ? value.trim() : []))
+					.every(validatePhoneNumber);
+			}
+			return true;
+		})
 		.nullable(),
 	email: yup.string().trim().email().nullable(),
 	postalCode: yup
