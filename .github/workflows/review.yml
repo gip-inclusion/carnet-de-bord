@@ -102,14 +102,9 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
       hasura:
-        image: hasura/graphql-engine:v2.0.10
+        image: ghcr.io/socialgouv/carnet-de-bord/hasura:sha-${{ github.sha }}
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://cdb:test@postgres:5432/carnet_de_bord
-          HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
-          HASURA_GRAPHQL_DEV_MODE: 'true'
-          HASURA_GRAPHQL_LOG_LEVEL: debug
-          HASURA_GRAPHQL_ENABLED_APIS: 'metadata,graphql'
-          HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3EK6FD+o0+c7tzBNVfjpMkNDi2yARAAKzQlk8O2IKoxQu4nF7EdAh8s3TwpHwrdWT6R"}'
           HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
         ports:
@@ -190,9 +185,8 @@ jobs:
         env:
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3EK6FD+o0+c7tzBNVfjpMkNDi2yARAAKzQlk8O2IKoxQu4nF7EdAh8s3TwpHwrdWT6R"}'
           DATABASE_URL: postgres://cdb:test@localhost:5432/carnet_de_bord
-          APP_URL: https://${{ steps.app.outputs.result }}
-          BACKEND_API_URL: https://${{ steps.backend.outputs.result }}
-          SMTP_HOST: https://${{ steps.smtp.outputs.result }}
+          APP_URL: http://app
+          SMTP_HOST: smtp-host
           SMTP_PORT: 1025
         run: |
           poetry run pytest
@@ -229,8 +223,8 @@ jobs:
           HASURA_BASEURL: https://${{ steps.hasura.outputs.result }}/v1/graphql
           CODECEPT_BASEURL: https://${{ steps.app.outputs.result }}
         run: |
-          echo "CODECEPT_BASEURL=$CODECEPT_BASEURL"
-          yarn --cwd e2e test
+          for i in $(seq 1 5); do yarn --cwd e2e test && s=0 && break || s=$? && sleep 15; done; (exit $s)
+
       - name: Copy artifact
         if: failure()
         uses: actions/upload-artifact@v3

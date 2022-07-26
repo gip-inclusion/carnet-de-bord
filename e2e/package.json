@@ -10,7 +10,8 @@
 	"scripts": {
 		"precommit": "lint-staged",
 		"lint": "eslint ./step_definitions",
-		"test": "codeceptjs run --debug --steps --verbose",
+		"test": "codeceptjs run --reporter list",
+		"test:debug": "codeceptjs run --debug --steps --verbose",
 		"test:ui": "CODECEPT_UI=true codecept-ui --app"
 	},
 	"dependencies": {
