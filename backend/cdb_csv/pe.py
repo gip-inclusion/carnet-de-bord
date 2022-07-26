@@ -9,13 +9,19 @@ from strenum import StrEnum
 
 from api.core.db import get_connection_pool
 from api.core.settings import settings
-from api.db.crud.account import insert_professional_account
+from api.db.crud.account import (
+    get_account_by_professional_email,
+    insert_professional_account,
+)
 from api.db.crud.beneficiary import get_beneficiary_from_personal_information
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
     insert_external_data_for_beneficiary_and_professional,
 )
-from api.db.crud.notebook import insert_notebook_member
+from api.db.crud.notebook import (
+    get_notebook_member_by_notebook_id_and_account_id,
+    insert_notebook_member,
+)
 from api.db.crud.professional import get_professional_by_email, insert_professional
 from api.db.crud.structure import (
     create_structure_from_agences_list,
@@ -53,8 +59,67 @@ class ParseActionEnum(StrEnum):
     MATCH_BENEFICIARIES_AND_PROS = "match_beneficiaries_and_pros"
 
 
+async def map_principal_row(row: Series) -> PrincipalCsvRow:
+    return PrincipalCsvRow.parse_obj(row)
+
+
 async def match_beneficiaries_and_pros(connection: Connection, principal_csv: str):
-    pass
+    df = dd.read_csv(
+        principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
+    )
+
+    row: Series
+    for _, row in df.iterrows():
+        pe_unique_id: str = row["identifiant_unique_de"]
+
+        logging.info(
+            f"{pe_unique_id} => Trying to match beneficiary and pro of main row {pe_unique_id}"
+        )
+
+        csv_row: PrincipalCsvRow = await map_principal_row(row)
+
+        if csv_row.brsa:
+            beneficiary: Beneficiary | None = (
+                await get_beneficiary_from_personal_information(
+                    connection,
+                    firstname=csv_row.prenom,
+                    lastname=csv_row.nom,
+                    birth_date=csv_row.date_naissance,
+                )
+            )
+
+            if beneficiary and beneficiary.notebook is not None:
+
+                logging.info(
+                    f"{pe_unique_id} - Found matching beneficiary {beneficiary.id}"
+                )
+
+                account: AccountDB | None = await get_account_by_professional_email(
+                    connection, csv_row.referent_mail
+                )
+
+                if account:
+                    logging.info(
+                        f"{pe_unique_id} - Found professional account for {csv_row.referent_mail}"
+                    )
+
+                    notebook_member: NotebookMember | None = (
+                        await get_notebook_member_by_notebook_id_and_account_id(
+                            connection, beneficiary.notebook.id, account.id
+                        )
+                    )
+                    if notebook_member:
+                        logging.info(
+                            f"{pe_unique_id} - Pro is already a member of the notebook"
+                        )
+                    else:
+                        logging.info(
+                            f"{pe_unique_id} - Pro is not a member of the notebook. Adding it."
+                        )
+                else:
+                    logging.info(
+                        f"{pe_unique_id} - No professional account found for {csv_row.referent_mail}"
+                    )
 
 
 async def import_beneficiaries(connection: Connection, principal_csv: str):
@@ -193,34 +258,41 @@ async def import_pe_referent(
                     )
                 )
             else:
-                notebook_member_insert = NotebookMemberInsert(
-                    notebook_id=notebook_id,
-                    account_id=account.id,
-                    member_type=NotebookMemberTypeEnum.NO_REFERENT,
-                    active=True,
+                await add_account_to_notebook(
+                    connection, notebook_id, account.id, pe_unique_id
                 )
-                notebook_member: NotebookMember | None = await insert_notebook_member(
-                    connection, notebook_member_insert
-                )
-                if notebook_member:
-                    logging.info(
-                        "{} - Professional added to notebook_member {} as {}. Notebook id: {}. Csv row {}".format(
-                            pe_unique_id,
-                            notebook_member.id,
-                            notebook_member.member_type,
-                            notebook_id,
-                            csv_row,
-                        )
-                    )
-                else:
-                    logging.error(
-                        "{} - Impossible to add professional as notebook_member".format(
-                            pe_unique_id
-                        )
-                    )
         return professional
     else:
         logging.info("{} - Professional already exists".format(pe_unique_id))
+
+
+async def add_account_to_notebook(
+    connection: Connection, notebook_id: UUID, account_id: UUID, pe_unique_id: str
+) -> NotebookMember | None:
+    notebook_member_insert = NotebookMemberInsert(
+        notebook_id=notebook_id,
+        account_id=account_id,
+        member_type=NotebookMemberTypeEnum.NO_REFERENT,
+        active=True,
+    )
+    notebook_member: NotebookMember | None = await insert_notebook_member(
+        connection, notebook_member_insert
+    )
+    if notebook_member:
+        logging.info(
+            "{} - Professional added to notebook_member {} as {}. Notebook id: {}".format(
+                pe_unique_id,
+                notebook_member.id,
+                notebook_member.member_type,
+                notebook_id,
+            )
+        )
+    else:
+        logging.error(
+            "{} - Impossible to add professional as notebook_member".format(
+                pe_unique_id
+            )
+        )
 
 
 async def import_beneficiary(
@@ -374,7 +446,3 @@ async def check_and_insert_wanted_job(
         )
     else:
         logging.info("Wanted job {} found for notebook".format(wanted_job))
-
-
-async def map_principal_row(row: Series) -> PrincipalCsvRow:
-    return PrincipalCsvRow.parse_obj(row)

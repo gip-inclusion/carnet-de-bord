@@ -16,9 +16,9 @@ from api.db.models.external_data import ExternalSource
 from api.db.models.notebook import NotebookMember
 from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
+    import_beneficiaries,
     insert_wanted_jobs_for_csv_row_and_notebook,
     map_principal_row,
-    parse_principal_csv_with_db,
 )
 from pe.pole_emploi_client import PoleEmploiApiClient
 from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
@@ -57,7 +57,7 @@ async def test_parse_principal_csv(
     assert beneficiary_sophie_tifour.notebook is not None
     assert len(beneficiary_sophie_tifour.notebook.wanted_jobs) == 2
 
-    await parse_principal_csv_with_db(db_connection, pe_principal_csv_filepath)
+    await import_beneficiaries(db_connection, pe_principal_csv_filepath)
 
     # External data should have been tracked
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
