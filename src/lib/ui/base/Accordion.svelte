@@ -14,7 +14,7 @@
 	let timeout;
 
 	function disclose() {
-		// this is a fix to allow component with floating part that not be cropped by accordeon parent
+		// this is a fix to allow a component with a floating part to not be cropped by the parent accordeon
 		timeout = setTimeout(() => {
 			overflow = true;
 		}, 400);
