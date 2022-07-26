@@ -42,7 +42,7 @@
 		{
 			name: 'deploiement',
 			path: `/admin/deployment/$getDeploymentStore?.data?.deployment.id}`,
-			label: `Déploiement ${$getDeploymentStore?.data?.deployment.label}`,
+			label: `${$getDeploymentStore?.data?.deployment.label}`,
 		},
 	];
 </script>

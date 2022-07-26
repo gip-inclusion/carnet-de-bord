@@ -1,0 +1,31 @@
+mutation updateStructure(
+  $id: uuid!
+  $address1: String
+  $address2: String
+  $postalCode: String
+  $city: String
+  $website: String
+  $shortDesc: String
+  $siret: String
+  $phone: String
+  $name: String
+  $email: String
+) {
+  update_structure_by_pk(
+    pk_columns: { id: $id }
+    _set: {
+      address1: $address1
+      address2: $address2
+      city: $city
+      email: $email
+      name: $name
+      phone: $phone
+      postalCode: $postalCode
+      shortDesc: $shortDesc
+      siret: $siret
+      website: $website
+    }
+  ) {
+    id
+  }
+}
