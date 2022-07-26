@@ -9,7 +9,10 @@ from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
 )
-from api.db.crud.notebook import get_notebook_members_by_notebook_id
+from api.db.crud.notebook import (
+    get_notebook_member_by_notebook_id_and_account_id,
+    get_notebook_members_by_notebook_id,
+)
 from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource
@@ -29,6 +32,7 @@ async def test_parse_principal_csv(
     pe_principal_csv_filepath: str,
     db_connection: Connection,
     beneficiary_sophie_tifour: Beneficiary,
+    beneficiary_hendrix_dorsey: Beneficiary,
 ):
 
     client = PoleEmploiApiClient(
@@ -56,6 +60,15 @@ async def test_parse_principal_csv(
 
     assert beneficiary_sophie_tifour.notebook is not None
     assert len(beneficiary_sophie_tifour.notebook.wanted_jobs) == 2
+
+    # Account of sanka@groupe-ns.fr
+    notebook_member = await get_notebook_member_by_notebook_id_and_account_id(
+        db_connection,
+        beneficiary_hendrix_dorsey.notebook.id,
+        UUID("a501db53-1b79-4a60-860b-5972bd184f98"),
+    )
+
+    assert notebook_member is None
 
     await import_beneficiaries(db_connection, pe_principal_csv_filepath)
 
@@ -95,6 +108,15 @@ async def test_parse_principal_csv(
     )
 
     assert len(notebook_members) == 1
+
+    # Account of sanka@groupe-ns.fr
+    notebook_member = await get_notebook_member_by_notebook_id_and_account_id(
+        db_connection,
+        beneficiary_hendrix_dorsey.notebook.id,
+        UUID("a501db53-1b79-4a60-860b-5972bd184f98"),
+    )
+
+    assert notebook_member is not None
 
 
 async def test_insert_wanted_jobs_for_csv_row_and_notebook(
