@@ -186,6 +186,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
 
 
 async def import_pe_referent(
+    connection: Connection,
     csv_row: PrincipalCsvRow,
     pe_unique_id: str,
     deployment_id: UUID,
@@ -399,7 +400,6 @@ async def parse_principal_csv(
         await pool.close()
     else:
         logging.error("Unable to acquire connection from DB pool")
-
 
 
 async def insert_wanted_jobs_for_csv_row_and_notebook(
