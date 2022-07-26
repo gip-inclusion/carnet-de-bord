@@ -223,7 +223,8 @@ jobs:
           HASURA_BASEURL: https://${{ steps.hasura.outputs.result }}/v1/graphql
           CODECEPT_BASEURL: https://${{ steps.app.outputs.result }}
         run: |
-          yarn --cwd e2e test:ci
+          for i in $(seq 1 5); do yarn --cwd e2e test && s=0 && break || s=$? && sleep 15; done; (exit $s)
+
       - name: Copy artifact
         if: failure()
         uses: actions/upload-artifact@v3
