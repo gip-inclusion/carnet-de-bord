@@ -161,7 +161,7 @@
 		}
 		if ((!multiple && event.key === 'Enter') || event.key === 'Space') {
 			event.preventDefault();
-			toggleSelection(focusIndex, multiple ? false : true);
+			toggleSelection(suggestions[focusIndex].index, multiple ? false : true);
 		}
 
 		if (multiple && event.key === 'Enter') {

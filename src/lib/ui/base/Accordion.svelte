@@ -1,14 +1,41 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getContext, onDestroy, onMount } from 'svelte';
 	import { ACCORDION, accordionCounter } from './accordion';
 
 	export let title: string;
-
+	let ref = null;
 	let internalItemKey = {}; // used for identify accordion
 	const accordionId = `accordion-${$accordionCounter++}`;
 	const { registerAccordionItem, selectedItem } = getContext(ACCORDION);
 	registerAccordionItem(internalItemKey);
 	$: expanded = $selectedItem === internalItemKey;
+
+	let overflow = false;
+	let timeout;
+
+	function disclose() {
+		// this is a fix to allow a component with a floating part to not be cropped by the parent accordeon
+		timeout = setTimeout(() => {
+			overflow = true;
+		}, 400);
+	}
+	function conceal() {
+		overflow = false;
+	}
+
+	onMount(() => {
+		if (ref) {
+			ref.addEventListener('dsfr.disclose', disclose);
+			ref.addEventListener('dsfr.conceal', conceal);
+		}
+	});
+	onDestroy(() => {
+		if (timeout) clearTimeout(timeout);
+		if (ref) {
+			ref.removeEventListener('dsfr.disclose', disclose);
+			ref.removeEventListener('dsfr.conceal', conceal);
+		}
+	});
 </script>
 
 <li>
@@ -18,7 +45,7 @@
 				>{@html title}</button
 			>
 		</h3>
-		<div class="fr-collapse" id={accordionId}>
+		<div class="fr-collapse" id={accordionId} bind:this={ref} class:overflow-visible={overflow}>
 			<slot />
 		</div>
 	</section>
