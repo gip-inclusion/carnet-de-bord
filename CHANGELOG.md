@@ -1,3 +1,10 @@
+## [1.128.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.3...v1.128.4) (2022-07-26)
+
+
+### Bug Fixes
+
+* reset action field after insert ([#966](https://github.com/SocialGouv/carnet-de-bord/issues/966)) ([bae8590](https://github.com/SocialGouv/carnet-de-bord/commit/bae859023766f7341b52f08f9b51c09cbf6e60dc))
+
 ## [1.128.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.2...v1.128.3) (2022-07-25)
 
 
