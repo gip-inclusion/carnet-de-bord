@@ -102,7 +102,7 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
       hasura:
-        image: carnet-de-bord/hasura
+        image: ghcr.io/socialgouv/carnet-de-bord/hasura:sha-${{ github.sha }}
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://cdb:test@postgres:5432/carnet_de_bord
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3EK6FD+o0+c7tzBNVfjpMkNDi2yARAAKzQlk8O2IKoxQu4nF7EdAh8s3TwpHwrdWT6R"}'
