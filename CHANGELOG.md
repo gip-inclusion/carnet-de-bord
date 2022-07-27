@@ -1,3 +1,10 @@
+# [1.129.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.5...v1.129.0) (2022-07-27)
+
+
+### Features
+
+* allow manager and admin to edit structure infos ([#978](https://github.com/SocialGouv/carnet-de-bord/issues/978)) ([0960bb3](https://github.com/SocialGouv/carnet-de-bord/commit/0960bb314b532990f0c0ae4fc3f3b63a4d7c1a75))
+
 ## [1.128.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.4...v1.128.5) (2022-07-27)
 
 
