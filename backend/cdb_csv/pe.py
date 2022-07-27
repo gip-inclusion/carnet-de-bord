@@ -284,9 +284,23 @@ async def import_pe_referent(
         )
 
         if account:
-            await add_account_to_notebook_members(
-                connection, notebook_id, account.id, pe_unique_id
+
+            notebook_member: NotebookMember | None = (
+                await get_notebook_member_by_notebook_id_and_account_id(
+                    connection, notebook_id, account.id
+                )
             )
+
+            if not notebook_member:
+                await add_account_to_notebook_members(
+                    connection, notebook_id, account.id, pe_unique_id
+                )
+            else:
+                logging.info(
+                    "{} - Professional is already a member of the notebook".format(
+                        pe_unique_id
+                    )
+                )
         else:
             logging.error("{} - No account found for Professional".format(pe_unique_id))
 
