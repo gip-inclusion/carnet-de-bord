@@ -28,8 +28,8 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je clique sur "Bénéficiaires non rattachés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
-		Alors je clique sur "Sélectionner Katrina Beach"
-		Alors je clique sur "Sélectionner Whitley Benjamin"
+		Alors je choisis "Sélectionner Katrina Beach"
+		Alors je choisis "Sélectionner Whitley Benjamin"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher des bénéficiaires"
