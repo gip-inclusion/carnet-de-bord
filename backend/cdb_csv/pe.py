@@ -117,7 +117,7 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
                             f"{pe_unique_id} - Pro is not a member of the notebook. Adding it."
                         )
 
-                        await add_account_to_notebook(
+                        await add_account_to_notebook_members(
                             connection,
                             beneficiary.notebook.id,
                             account.id,
@@ -272,7 +272,7 @@ async def import_pe_referent(
                     )
                 )
             else:
-                await add_account_to_notebook(
+                await add_account_to_notebook_members(
                     connection, notebook_id, account.id, pe_unique_id
                 )
         return professional
@@ -284,14 +284,14 @@ async def import_pe_referent(
         )
 
         if account:
-            await add_account_to_notebook(
+            await add_account_to_notebook_members(
                 connection, notebook_id, account.id, pe_unique_id
             )
         else:
             logging.error("{} - No account found for Professional".format(pe_unique_id))
 
 
-async def add_account_to_notebook(
+async def add_account_to_notebook_members(
     connection: Connection, notebook_id: UUID, account_id: UUID, pe_unique_id: str
 ) -> NotebookMember | None:
     notebook_member_insert = NotebookMemberInsert(
