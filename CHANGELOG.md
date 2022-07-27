@@ -1,3 +1,10 @@
+## [1.128.5](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.4...v1.128.5) (2022-07-27)
+
+
+### Bug Fixes
+
+* insert existing pe member in notebook_member ([7fd82cd](https://github.com/SocialGouv/carnet-de-bord/commit/7fd82cdeb3c573a844f0717cfcfb2acee4fd7257))
+
 ## [1.128.4](https://github.com/SocialGouv/carnet-de-bord/compare/v1.128.3...v1.128.4) (2022-07-26)
 
 
