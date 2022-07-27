@@ -33,6 +33,7 @@ async def test_parse_principal_csv(
     db_connection: Connection,
     beneficiary_sophie_tifour: Beneficiary,
     beneficiary_hendrix_dorsey: Beneficiary,
+    caplog,
 ):
 
     client = PoleEmploiApiClient(
@@ -117,6 +118,21 @@ async def test_parse_principal_csv(
     )
 
     assert notebook_member is not None
+
+    # Running it twice with the same input file should result in Skipping
+    # the imports due to SHA 256 check
+    await import_beneficiaries(db_connection, pe_principal_csv_filepath)
+
+    assert (
+        "71288a46-3c4d-4372-9298-c32936d7e76d - SHA value is the same." in caplog.text
+    )
+
+    assert (
+        "63e09252-fc80-409d-9617-cb8d7aeb620c - SHA value is the same." in caplog.text
+    )
+    assert (
+        "9cf3e10e-8894-4527-ace3-40c30a65fdc7 - SHA value is the same." in caplog.text
+    )
 
 
 async def test_insert_wanted_jobs_for_csv_row_and_notebook(

@@ -7,7 +7,7 @@ from api.db.crud.external_data import (
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource, format_external_data
 from api.db.models.professional import Professional
-from cdb_csv.models.csv_row import PrincipalCsvRow
+from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
 from cdb_csv.pe import (
     insert_external_data_for_beneficiary_and_professional,
     map_principal_row,
@@ -60,11 +60,13 @@ async def test_check_existing_external_data(
     # Get the first row
     _, row = next(pe_principal_csv_series.iterrows())
     csv_row: PrincipalCsvRow = await map_principal_row(row)
+    hash_result: str = await get_sha256(csv_row)
 
     external_data = await save_external_data(
         db_connection,
         beneficiary_sophie_tifour,
         csv_row,
+        hash_result,
         professional=professional_pierre_chevalier,
     )
 
@@ -83,11 +85,13 @@ async def test_check_existing_external_data(
     beneficiary_sophie_tifour.lastname = "Newname"
     csv_row.nom = "Newname"
     professional_pierre_chevalier.lastname = "Newlastname"
+    hash_result: str = await get_sha256(csv_row)
 
     external_data = await save_external_data(
         db_connection,
         beneficiary_sophie_tifour,
         csv_row,
+        hash_result,
         professional=professional_pierre_chevalier,
     )
 
