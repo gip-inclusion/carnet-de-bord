@@ -212,12 +212,13 @@
 			<ImportParserError {parseErrors} />
 			<p>
 				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
-				correctes et confirmer.
+				correctes et confirmer. Il est possible de mettre plusieurs fois la même structure pour
+				ajouter plusieurs administrateurs à une structure (et une seule structure sera crée).
 			</p>
 			<p>
 				<Checkbox
 					name="forceUpdate"
-					label="Écraser les informations des structures existantes"
+					label="Écraser les informations des structures existantes. Dans le cas ou il y aurait plusieurs fois la même structure, seules les informations de la dernière ligne seront conservées."
 					bind:checked={forceUpdate}
 				/>
 				<Checkbox

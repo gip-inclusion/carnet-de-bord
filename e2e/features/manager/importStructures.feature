@@ -16,6 +16,6 @@ Fonctionnalité: Import structures
 		Alors j'ai téléchargé le fichier "import_structures.csv"
 		Quand je téléverse le fichier "/resources/import_structures.csv"
 		Alors je vois "Vous allez importer les structures suivantes. Veuillez vérifier que les données sont correctes et confirmer."
-		Alors je vois "1 structure sélectionnée sur 1"
+		Alors je vois "2 structures sélectionnées sur 2"
 		Quand je clique sur "Confirmer"
-		Alors je vois "1 structure importée sur 1 demandée."
+		Alors je vois "2 structures importées sur 2 demandées."

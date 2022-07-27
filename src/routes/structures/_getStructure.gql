@@ -1,61 +1,62 @@
 query GetStructure($structureId: uuid!) {
-	beneficiaries: notebook_aggregate(
-		where: { members: { account: { professional: { structureId: { _eq: $structureId } } } } }
-	) {
-		aggregate {
-			count
-		}
-	}
-	structure_by_pk(id: $structureId) {
-		id
-		name
-		phone
-		email
-		address1
-		address2
-		postalCode
-		city
-		website
-		pendingBeneficiaries: beneficiaries_aggregate(
-			where: {
-				status: { _eq: "pending" }
-				beneficiary: {
-					notebook: {
-						_or: [
-							{ _not: { members: {} } }
-							{ members: { account: { professional: { structureId: { _neq: $structureId } } } } }
-						]
-					}
-				}
-			}
-		) {
-			aggregate {
-				count
-			}
-		}
-		professionals {
-			id
-			account {
-				id
-			}
-			email
-			firstname
-			lastname
-		}
-		professionals_aggregate {
-			aggregate {
-				count
-			}
-		}
-		admins_aggregate {
-			nodes {
-				admin_structure {
-					id
-					email
-					firstname
-					lastname
-				}
-			}
-		}
-	}
+  beneficiaries: notebook_aggregate(
+    where: { members: { account: { professional: { structureId: { _eq: $structureId } } } } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  structure_by_pk(id: $structureId) {
+    id
+    name
+    phone
+    email
+    address1
+    address2
+    postalCode
+    city
+    website
+    pendingBeneficiaries: beneficiaries_aggregate(
+      where: {
+        status: { _eq: "pending" }
+        beneficiary: {
+          notebook: {
+            _or: [
+              { _not: { members: {} } }
+              { members: { account: { professional: { structureId: { _neq: $structureId } } } } }
+            ]
+          }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    professionals {
+      id
+      account {
+        id
+      }
+      email
+      firstname
+      lastname
+    }
+    professionals_aggregate {
+      aggregate {
+        count
+      }
+    }
+    admins_aggregate {
+      nodes {
+        admin_structure {
+          id
+          email
+          firstname
+          lastname
+          phoneNumbers
+        }
+      }
+    }
+  }
 }
