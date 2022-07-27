@@ -27,8 +27,8 @@ Fonctionnalité: Rattachement pro
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
-		Alors je clique sur "Sélectionner Corinne Cash"
-		Alors je clique sur "Sélectionner Alexandria Cobb"
+		Alors je choisis "Sélectionner Corinne Cash"
+		Alors je choisis "Sélectionner Alexandria Cobb"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher des bénéficiaires"
