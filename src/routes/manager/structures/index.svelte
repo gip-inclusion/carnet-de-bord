@@ -1,32 +1,23 @@
-<script context="module" lang="ts">
-	import type { GetStructuresQuery } from '$lib/graphql/_gen/typed-document-nodes';
-	import { GetStructuresDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { Load } from '@sveltejs/kit';
-	import type { OperationStore } from '@urql/svelte';
-	import { operationStore, query } from '@urql/svelte';
-	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-
-	export const load: Load = async () => {
-		const result = operationStore(
-			GetStructuresDocument,
-			{},
-			{ requestPolicy: 'cache-and-network' }
-		);
-
-		return {
-			props: {
-				result,
-			},
-		};
-	};
-</script>
-
 <script lang="ts">
 	import { SearchBar } from '$lib/ui/base';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import AdminDeploymentStructuresImport from '$lib/ui/Manager/ImportStructures.svelte';
+	import StructureList from '$lib/ui/StructureList/StructureList.svelte';
+	import { openComponent } from '$lib/stores';
+	import StructureEditLayer from '$lib/ui/StructureEdit/StructureEditLayer.svelte';
+	import {
+		GetStructuresForDeploymentDocument,
+		GetStructuresForDeploymentQuery,
+	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { operationStore, query } from '@urql/svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	type Structure = GetStructuresForDeploymentQuery['structure'][0];
 
-	export let result: OperationStore<GetStructuresQuery>;
+	const result = operationStore(
+		GetStructuresForDeploymentDocument,
+		{},
+		{ requestPolicy: 'cache-and-network' }
+	);
 
 	query(result);
 
@@ -53,6 +44,15 @@
 	};
 
 	$: filteredStructures = structures;
+
+	function openEditLayer(structure: Structure) {
+		openComponent.open({
+			component: StructureEditLayer,
+			props: {
+				structure: structure,
+			},
+		});
+	}
 </script>
 
 <svelte:head>
@@ -84,25 +84,9 @@
 				{handleSubmit}
 			/>
 		</div>
-		<div class={`w-full fr-table fr-table--layout-fixed`}>
-			<table>
-				<thead>
-					<tr>
-						<th>Nom</th>
-						<th>Code postal</th>
-						<th>Ville</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each filteredStructures as structure (structure.id)}
-						<tr>
-							<td>{structure.name}</td>
-							<td>{structure.postalCode || ''}</td>
-							<td>{structure.city || ''}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
+		<StructureList
+			structures={filteredStructures}
+			on:edit={(event) => openEditLayer(event.detail.structure)}
+		/>
 	</div>
 </LoaderIndicator>

@@ -1,14 +1,15 @@
-query GetStructuresForDeployment($deploymentId: uuid) {
-	structure(where: { deploymentId: { _eq: $deploymentId } }) {
-		id
-		siret
-		name
-		shortDesc
-		phone
-		email
-		postalCode
-		city
-		address1
-		address2
-	}
+query GetStructuresForDeployment($deployment: deployment_bool_exp = {}) {
+  structure(where: { deployment: $deployment }, order_by: { name: asc }) {
+    id
+    siret
+    name
+    shortDesc
+    phone
+    email
+    postalCode
+    city
+    address1
+    address2
+    website
+  }
 }

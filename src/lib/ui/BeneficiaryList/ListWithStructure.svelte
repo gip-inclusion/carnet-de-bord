@@ -113,7 +113,7 @@
 						target="_blank"
 						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 					>
-						<span class="fr-fi-file-line" aria-hidden />
+						<span class="fr-icon-file-line" aria-hidden />
 					</a>
 				</td>
 			</tr>

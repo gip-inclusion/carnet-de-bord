@@ -5,13 +5,7 @@
 
 	import { LayerCDB } from '$lib/ui/index';
 
-	const menuItems: MenuItem[] = [
-		{
-			id: 'accueil',
-			path: '/admin',
-			label: 'Accueil',
-		},
-	];
+	const menuItems: MenuItem[] = [];
 </script>
 
 <Header {menuItems} />

@@ -41,7 +41,7 @@
 	<tbody>
 		{#each managers as manager}
 			<tr>
-				<td>{displayFullName(manager)}</td>
+				<td>{displayFullName(manager) || '-'}</td>
 				<td>{manager.email}</td>
 				<td>{manager.account.onboardingDone ? 'Oui' : 'Non'}</td>
 				<td class="text-center">
