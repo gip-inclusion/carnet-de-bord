@@ -194,6 +194,7 @@ async function setupBeforeFixturesByTags(tags) {
 			case '@admin_cdb_update_structure':
 			case '@manager_update_structure':
 				await resetStructureInfo('Interlogement 51');
+				await removeProfessionalAccount();
 				break;
 			default:
 				return;

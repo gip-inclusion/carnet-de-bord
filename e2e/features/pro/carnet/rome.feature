@@ -1,6 +1,6 @@
 #language: fr
 
-@pro_recherche_ajout_metiers
+@recherche_ajout_metiers @pro
 Fonctionnalité: Ajout de code ROME dans un carnet de bénéficiaire
 	En tant que pro
 	Je veux pouvoir modifier le code ROME d'un carnet

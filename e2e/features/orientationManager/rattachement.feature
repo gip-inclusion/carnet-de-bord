@@ -25,8 +25,9 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 	Scénario: Ré-orienter des bénéficiaires
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
-		Alors je clique sur "Sélectionner Corinne Cash"
-		Alors je clique sur "Sélectionner Alexandria Cobb"
+		Alors je scroll à "Cash"
+		Alors je choisis "Sélectionner Corinne Cash"
+		Alors je choisis "Sélectionner Alexandria Cobb"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher des bénéficiaires"
