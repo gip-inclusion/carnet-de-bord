@@ -60,10 +60,11 @@ async function addMember(email, notebookId) {
 		{ accountId: result.data.data.account[0].id, notebookId }
 	);
 }
+
 async function removeMember(email) {
 	await I.sendMutation(
 		`
-		mutation deleteMember($email: citext!) {
+		mutation deleteNotebookMember($email: citext!) {
 			delete_notebook_member(where: {account: {_or: [{professional: {email: {_eq: $email}}}, {orientation_manager: {email: {_eq: $email}}}]}}) {
 				affected_rows
 			}
@@ -73,9 +74,25 @@ async function removeMember(email) {
 	);
 }
 
+async function removeNotebookMemberForBeneficiary(emails) {
+	await I.sendMutation(
+		`
+		mutation deleteNotebookMember($emails: [citext!]!) {
+			delete_notebook_member(where: {notebook: {beneficiary: {email: {_in: $emails}}}}) {
+				affected_rows
+			}
+		}
+		`,
+		{ emails }
+	);
+}
+
 async function setupBeforeFixturesByTags(tags) {
-	tags.forEach(async (tag) => {
+	for (const tag of tags) {
 		switch (tag) {
+			case '@pro':
+				await resetTifourReferent();
+				break;
 			case '@onboarding_manager':
 				await resetManagerInfo('support.carnet-de-bord+cd93@fabrique.social.gouv.fr');
 				break;
@@ -95,9 +112,29 @@ async function setupBeforeFixturesByTags(tags) {
 				await removeBeneficiariesFixture();
 				break;
 			case '@rattachement_beneficiaires_via_admin_structure':
-				await removeNotebookMemberFixture();
+				await removeNotebookMemberForBeneficiary([
+					'whitley.benjamin@sit.com',
+					'katrina.beach@magna.com',
+					'oconnor.carlson@aliqua.fr',
+					'corinne.cash@incididunt.com',
+					'alexandria.cobb@veniam.com',
+				]);
+				await resetTifourReferent();
+				await resetBeneficiaryStructure(
+					[
+						'corinne.cash@incididunt.com',
+						'alexandria.cobb@veniam.com',
+						'whitley.benjamin@sit.com',
+						'katrina.beach@magna.com',
+					],
+					'8b71184c-6479-4440-aa89-15da704cc792' // groupe ns
+				);
+				await resetBeneficiaryStructure(
+					['oconnor.carlson@aliqua.fr'],
+					'1c52e5ad-e0b9-48b9-a490-105a4effaaea'
+				); // Centre Communal d''action social Livry-Gargan
 				break;
-			case '@pro_recherche_ajout_metiers':
+			case '@recherche_ajout_metiers':
 				await removeWantedJobs();
 				break;
 			case '@appointments':
@@ -107,7 +144,7 @@ async function setupBeforeFixturesByTags(tags) {
 				await removeImportedOrientationManager();
 				break;
 			case '@orientation_manager_rattachement':
-				await removeOrientationManagerAssignement();
+				await removeOrientationManagerAssignement('giulia.diaby@cd93.fr');
 				break;
 			case '@orientation_manager_notebook_edit':
 				await removeMember('giulia.diaby@cd93.fr');
@@ -136,6 +173,24 @@ async function setupBeforeFixturesByTags(tags) {
 					'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b'
 				);
 				break;
+			case '@admin_structure_notebook_view':
+				await removeStructureReferent('Aguilar');
+				break;
+			case '@modifier_rattachement_beneficiaire':
+			case '@orientation_manager_rattachement_beneficiaire':
+				await resetTifourReferent();
+				await removeNotebookMemberForBeneficiary([
+					'corinne.cash@incididunt.com',
+					'alexandria.cobb@veniam.com',
+				]);
+				await resetBeneficiaryStructure(
+					['corinne.cash@incididunt.com', 'alexandria.cobb@veniam.com'],
+					'8b71184c-6479-4440-aa89-15da704cc792' // groupe ns
+				);
+				break;
+			case '@inscription':
+				await removeProfessionalAccount();
+				break;
 			case '@admin_cdb_update_structure':
 			case '@manager_update_structure':
 				await resetStructureInfo('Interlogement 51');
@@ -143,28 +198,16 @@ async function setupBeforeFixturesByTags(tags) {
 			default:
 				return;
 		}
-	});
+	}
 }
 
 function setupAfterFixturesByTags(tags) {
-	tags.forEach((tag) => {
+	for (const tag of tags) {
 		switch (tag) {
-			case '@modifier_rattachement_beneficiaire':
-			case '@orientation_manager_rattachement_beneficiaire':
-				resetReferent();
-				resetBeneficiaryReorientation();
-				break;
-			case '@inscription':
-				removeProfessionalAccount();
-				break;
-			case '@rattachement_beneficiaires_via_admin_structure':
-				removeBeneficiaryLinkByAdminStructure();
-				removeBeneficiaryReferent();
-				break;
 			default:
 				return;
 		}
-	});
+	}
 }
 
 async function resetManagerInfo(email) {
@@ -222,16 +265,16 @@ async function removeStructuresFixture() {
 	await removeBeneficiariesFixture();
 	return await I.sendMutation(
 		`mutation RemoveStructuresFixture {
-	    delete_admin_structure_structure(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
+	    delete_admin_structure_structure(where: {admin_structure: {email: {_ilike: "%@cd93.fr"}}}) {
 		    affected_rows
 		  }
-		  delete_structure(where: {name: {_eq: "CD 26"}}) {
+		  delete_structure(where: {name: {_eq: "CD 93"}}) {
 		    affected_rows
 		  }
-		  delete_account(where: {admin_structure: {email: {_eq: "jean.paul@drome.fr"}}}) {
+		  delete_account(where: {admin_structure: {email: {_ilike: "%@cd93.fr"}}}) {
 		    affected_rows
 		  }
-		  delete_admin_structure(where: {email: {_eq: "jean.paul@drome.fr"}}) {
+		  delete_admin_structure(where: {email: {_ilike: "%@cd93.fr"}}) {
 		    affected_rows
 		  }
 		}`
@@ -251,16 +294,6 @@ async function removeBeneficiariesFixture() {
 		    affected_rows
 		  }
 		  delete_beneficiary(where: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeNotebookMemberFixture() {
-	return await I.sendMutation(
-		`mutation RemoveNotebookMemberFixture {
-		  delete_notebook_member(where: {accountId: {_eq: "17434464-5f69-40cc-8172-40160958a33d"}, notebookId: {_eq: "b7e43c7c-7c3e-464b-80de-f4926d4bb1e0"}}) {
 		    affected_rows
 		  }
 		}`
@@ -298,42 +331,32 @@ function removeWantedJobs() {
 	);
 }
 
-function resetReferent() {
+function resetTifourReferent() {
+	// notebook sophie tifour
+	// remove notebook members
+	// reset structure ccas livry gargan
+	// insert members
 	return I.sendMutation(
-		`mutation ResetReferent {
-			delete_notebook_member(where: { notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
+		`mutation ResetReferentTifour {
+			delete_notebook_member(where: {  notebookId: { _eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d" } }) { affected_rows }
 			update_beneficiary_structure(_set: {structureId: "1c52e5ad-e0b9-48b9-a490-105a4effaaea"} where: { beneficiary: { notebook: {id: {_eq: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"} } } }) { affected_rows }
-			insert_notebook_member_one(object: { notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", accountId:"17434464-5f69-40cc-8172-40160958a33d" }) { id }
+			insert_notebook_member(objects: [
+				{ notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"referent", accountId:"17434464-5f69-40cc-8172-40160958a33d" },
+				{ notebookId: "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d", memberType:"no_referent", accountId:"a501db53-1b79-4a60-860b-5972bd184f98" }
+			]) { affected_rows }
 		}`
 	);
 }
 
-function resetBeneficiaryReorientation() {
+function resetBeneficiaryStructure(emails, structureId) {
+	// reset GroupeNS to beneficiary
 	return I.sendMutation(
-		`mutation ResetReferents {
-			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["fb1f9810-f219-4555-9025-4126cb0684d6", "d235c967-29dc-47bc-b2f3-43aa46c9f54f"] } } } }
-			_set: {status: "pending", structureId: "8b71184c-6479-4440-aa89-15da704cc792"}) { affected_rows }
-		}`
-	);
-}
-
-function removeBeneficiaryLinkByAdminStructure() {
-	return I.sendMutation(
-		`mutation ResetReferents {
-			delete_notebook_member(where: { notebookId: { _in: ["7262db31-bd98-436c-a690-f2a717085c86", "f82fa38e-547a-49cd-b061-4ec9c6f2e1b9"] } }) { affected_rows }
-			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["7262db31-bd98-436c-a690-f2a717085c86", "f82fa38e-547a-49cd-b061-4ec9c6f2e1b9"] } } } }
-			_set: {status: "pending" }) { affected_rows }
-		}`
-	);
-}
-
-function removeBeneficiaryReferent() {
-	return I.sendMutation(
-		`mutation ResetReferents {
-			delete_notebook_member(where: { notebookId: { _in: ["7262db31-bd98-436c-a690-f2a717085c86"] } }) { affected_rows }
-			update_beneficiary_structure(where: { beneficiary: { notebook: { id: { _in: ["7262db31-bd98-436c-a690-f2a717085c86"] } } } }
-			_set: {status: "pending" }) { affected_rows }
-		}`
+		`mutation ResetBeneficiaryStructure($emails: [citext!]!, $id: uuid!) {
+			update_beneficiary_structure(where: {beneficiary: {email: {_in: $emails}}}, _set: {status: "pending", structureId: $id}) {
+				affected_rows
+			}
+		}`,
+		{ emails, id: structureId }
 	);
 }
 
@@ -355,12 +378,13 @@ function removeImportedOrientationManager() {
 	);
 }
 
-function removeOrientationManagerAssignement() {
+function removeOrientationManagerAssignement(email) {
 	return I.sendMutation(
-		`mutation removeOrientationManagerAssignement {
-			delete_notebook_member(where: { account: {orientation_manager: {email: {_eq: "giulia.diaby@cd93.fr"}}}}) { affected_rows }
+		`mutation removeOrientationManagerAssignement($email: citext!){
+			delete_notebook_member(where: { account: {orientation_manager: {email: {_eq: $email}}}}) { affected_rows }
 		}
-		`
+		`,
+		{ email }
 	);
 }
 
@@ -430,19 +454,6 @@ async function removeManager(email) {
 	);
 }
 
-async function resetStructureInfo(name) {
-	await I.sendMutation(
-		`
-		mutation updateInterlogement($name: String!) {
-			update_structure(where: {name: {_eq: $name }}, _set: {postalCode: null, city:null}) {
-				affected_rows
-			}
-		}
-		`,
-		{ name }
-	);
-}
-
 async function addManager(firstname, lastname, email, deployment) {
 	await I.sendMutation(
 		`
@@ -465,6 +476,34 @@ async function addManager(firstname, lastname, email, deployment) {
 		}
 	}`,
 		{ deployment, email, firstname, lastname, username: `${firstname}.${lastname}` }
+	);
+}
+async function resetStructureInfo(name) {
+	await I.sendMutation(
+		`
+		mutation updateInterlogement($name: String!) {
+			update_structure(where: {name: {_eq: $name }}, _set: {postalCode: null, city:null}) {
+				affected_rows
+			}
+		}
+		`,
+		{ name }
+	);
+}
+
+async function removeStructureReferent(email) {
+	await I.sendMutation(
+		`
+		mutation resetStructureReferentFor($email: citext!) {
+			delete_beneficiary_structure(where: {beneficiary: {email: {_eq: $email}}}) {
+		    affected_rows
+		  }
+			delete_notebook_member(where: {beneficiary: { email: {_eq: $email}},memberType: {_eq: "referent"} }) {
+				affected_rows
+			}
+		}
+	`,
+		{ email }
 	);
 }
 
