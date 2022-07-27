@@ -11458,7 +11458,6 @@ export type GetDeploymentStatForDayQuery = {
 
 export type GetExistingAdminStructureQueryVariables = Exact<{
 	email: Scalars['citext'];
-	name: Scalars['String'];
 }>;
 
 export type GetExistingAdminStructureQuery = {
@@ -11468,7 +11467,6 @@ export type GetExistingAdminStructureQuery = {
 		id: string;
 		account?: { __typename?: 'account'; id: string } | null | undefined;
 	}>;
-	structure: Array<{ __typename?: 'structure'; id: string }>;
 };
 
 export type GetNotebookInfoQueryVariables = Exact<{
@@ -13059,6 +13057,7 @@ export type GetStructureQuery = {
 							email: string;
 							firstname?: string | null | undefined;
 							lastname?: string | null | undefined;
+							phoneNumbers?: string | null | undefined;
 						};
 					}>;
 				};
@@ -20451,14 +20450,6 @@ export const GetExistingAdminStructureDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -20505,40 +20496,6 @@ export const GetExistingAdminStructureDocument = {
 									},
 								},
 							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'structure' },
-						name: { kind: 'Name', value: 'structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'name' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 						},
 					},
 				],
@@ -25945,6 +25902,7 @@ export const GetStructureDocument = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
 																],
 															},
 														},

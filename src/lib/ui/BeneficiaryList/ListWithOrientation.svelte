@@ -97,7 +97,7 @@
 							name="selection"
 						/>
 						<label class="fr-label" for={beneficiary.id}>
-							<span class="sr-only">Sélectionner {displayFullName(beneficiary)}</span>
+							<span class="sr-only">{`Sélectionner ${displayFullName(beneficiary)}`}</span>
 						</label>
 					</div>
 				</td>
