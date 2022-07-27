@@ -177,6 +177,13 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                             row["identifiant_unique_de"]
                         )
                     )
+            else:
+                logging.error(
+                    "{} - Error while importing beneficiary.".format(
+                        row["identifiant_unique_de"]
+                    )
+                )
+
         else:
             logging.info(
                 "{} - Skipping, BRSA field value is No".format(
@@ -271,6 +278,17 @@ async def import_pe_referent(
         return professional
     else:
         logging.info("{} - Professional already exists".format(pe_unique_id))
+
+        account: AccountDB | None = await get_account_by_professional_email(
+            connection, csv_row.referent_mail
+        )
+
+        if account:
+            await add_account_to_notebook(
+                connection, notebook_id, account.id, pe_unique_id
+            )
+        else:
+            logging.error("{} - No account found for Professional".format(pe_unique_id))
 
 
 async def add_account_to_notebook(
