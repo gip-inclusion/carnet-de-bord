@@ -5,6 +5,9 @@ exports.config = {
 		steps: ['./step_definitions/steps.js'],
 	},
 	helpers: {
+		Downloads: {
+			require: './step_definitions/downloads_helper.js',
+		},
 		FileSystem: {},
 		GraphQL: {
 			defaultHeaders: {
