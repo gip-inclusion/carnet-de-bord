@@ -180,6 +180,19 @@
 							-
 							<button
 								aria-controls="work-situation-end-date"
+								aria-label="Définir la fin de la situation dans 24 mois"
+								type="button"
+								class="cursor-pointer underline"
+								on:click={() => {
+									updateValidateField(
+										'workSituationEndDate',
+										setworkSituationEndDate(form.workSituationDate, 24)
+									);
+								}}>24 mois</button
+							>
+							-
+							<button
+								aria-controls="work-situation-end-date"
 								aria-label="Définir la durée comme étant indéterminée"
 								type="button"
 								class="cursor-pointer underline"
