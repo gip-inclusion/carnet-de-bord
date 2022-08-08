@@ -134,7 +134,7 @@
 							id="work-situation-end-date"
 							class="mb-0"
 							name="workSituationEndDate"
-							inputLabel="Au"
+							inputLabel="Jusqu'au"
 							type="date"
 						/>
 						<div class="col-end-3 italic text-xs mt-1 text-france-blue-500">
