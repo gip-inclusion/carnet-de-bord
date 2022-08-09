@@ -13,7 +13,6 @@ class Notebook(BaseModel):
     beneficiary_id: UUID
     wanted_jobs: List[WantedJob]
     # @TODO: add other fields
-    #
 
 
 class NotebookMemberInsert(BaseModel):
