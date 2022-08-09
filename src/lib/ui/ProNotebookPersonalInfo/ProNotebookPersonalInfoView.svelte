@@ -55,7 +55,12 @@
 				{displayFullName(beneficiary)}
 			</h1>
 			<div>
-				<IconButton on:click={() => window.print()} icon="ri-printer-line" title="Imprimer" />
+				<IconButton
+					on:click={() => window.print()}
+					icon="fr-icon-printer-line"
+					class="fr-btn--tertiary"
+					title="Imprimer"
+				/>
 			</div>
 		</div>
 		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>

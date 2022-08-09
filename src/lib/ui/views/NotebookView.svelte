@@ -39,7 +39,7 @@
 				{#each notebook.focuses as focus}
 					<li>
 						<h3 class="fr-h4">
-							<span><span class="fr-fi-arrow-right-s-line" aria-hidden="true" /></span
+							<span><span class="fr-icon-arrow-right-s-line" aria-hidden="true" /></span
 							>{focusThemeKeys.byKey[focus.theme]}
 						</h3>
 						{#if focus.situations.length > 0}

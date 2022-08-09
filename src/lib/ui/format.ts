@@ -1,12 +1,12 @@
 export const notNullish = (data: unknown): boolean => !!data;
 
 export const displayFullName = ({
-	firstname,
-	lastname,
+	firstname = '',
+	lastname = '',
 }: {
 	firstname?: string;
 	lastname?: string;
-}): string => [firstname, lastname].filter((field) => notNullish(field)).join(' ');
+} = {}): string => [firstname, lastname].filter((field) => notNullish(field)).join(' ');
 
 export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string }): string | null => {
 	if (!mobileNumber) {

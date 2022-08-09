@@ -40,7 +40,9 @@
 		{/if}
 	</label>
 	<!-- https://github.com/sveltejs/svelte/issues/3921 -->
-	<div class={`justify-self-end ${type === 'date' ? 'fr-input-wrap fr-fi-calendar-line m-0' : ''}`}>
+	<div
+		class={`justify-self-end ${type === 'date' ? 'fr-input-wrap fr-icon-calendar-line m-0' : ''}`}
+	>
 		{#if type === 'password'}
 			<input
 				type="password"

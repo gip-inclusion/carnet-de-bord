@@ -157,7 +157,7 @@ Quand('je scroll à {string}', (text) => {
 });
 
 Quand('je télécharge en cliquant sur {string}', (downloadText) => {
-	I.handleDownloads();
+	I.handleDownloadsToDirectory('output/downloads');
 	I.click(`//*[text()[starts-with(., "${downloadText}")]]`);
 });
 

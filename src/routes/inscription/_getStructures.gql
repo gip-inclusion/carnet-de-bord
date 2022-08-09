@@ -1,15 +1,6 @@
 query GetStructures {
-	structure {
-		id
-		siret
-		name
-		shortDesc
-		phone
-		email
-		postalCode
-		city
-		address1
-		address2
-		website
-	}
+  structure {
+    id
+    name
+  }
 }

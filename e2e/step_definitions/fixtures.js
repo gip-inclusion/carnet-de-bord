@@ -136,6 +136,10 @@ async function setupBeforeFixturesByTags(tags) {
 					'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b'
 				);
 				break;
+			case '@admin_cdb_update_structure':
+			case '@manager_update_structure':
+				await resetStructureInfo('Interlogement 51');
+				break;
 			default:
 				return;
 		}
@@ -423,6 +427,19 @@ async function removeManager(email) {
 			delete_manager(where: {email: {_eq: $email}}) { affected_rows }
 		}`,
 		{ email }
+	);
+}
+
+async function resetStructureInfo(name) {
+	await I.sendMutation(
+		`
+		mutation updateInterlogement($name: String!) {
+			update_structure(where: {name: {_eq: $name }}, _set: {postalCode: null, city:null}) {
+				affected_rows
+			}
+		}
+		`,
+		{ name }
 	);
 }
 

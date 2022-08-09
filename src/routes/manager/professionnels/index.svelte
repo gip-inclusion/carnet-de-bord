@@ -166,63 +166,41 @@
 							{#if account.confirmed}
 								{#if typeof emails[account.id] === 'undefined'}
 									<IconButton
+										icon="fr-icon-mail-line"
 										on:click={() => sendConnectionEmail(account.id)}
-										icon="ri-mail-send-line"
-										textColor="text-white"
-										bgColor="bg-france-blue"
-										classNames="p-2"
-										ariaLabel="Envoyer un email de connexion"
 										title="Envoyer un email de connexion"
-									/>
+									>
+										Envoyer un email de connexion
+									</IconButton>
 								{:else if emails[account.id] === 'ToConfirm'}
 									<div class="flex flex-row">
 										<IconButton
 											on:click={() => sendConnectionEmail(account.id, true)}
-											icon="ri-check-line"
-											textColor="text-white"
-											bgColor="bg-success"
-											classNames="p-2"
-											ariaLabel="Confirmer l'envoi"
+											icon="fr-icon-check-line"
 											title="Confirmer l'envoi"
 										/>
 										<IconButton
 											on:click={() => sendConnectionEmail(account.id, false)}
-											icon="ri-close-line"
-											textColor="text-white"
-											bgColor="bg-marianne-red"
-											classNames="p-2"
-											ariaLabel="Annuler"
+											icon="fr-icon-close-line"
+											class="bg-marianne-red"
 											title="Annuler"
 										/>
 									</div>
 								{:else if emails[account.id] === 'Sending'}
 									<IconButton
-										icon="ri-mail-send-fill"
-										textColor="text-white"
-										bgColor="bg-action"
-										classNames="p-2"
-										ariaLabel="Envoi en cours..."
+										icon="fr-icon-mail-fill"
+										class="bg-action"
 										title="Envoi en cours..."
 									/>
 								{:else if emails[account.id] === 'Failed'}
 									<IconButton
 										on:click={() => sendConnectionEmail(account.id)}
-										icon="ri-restart-line"
-										textColor="text-white"
-										bgColor="bg-error"
-										classNames="p-2"
-										ariaLabel="Erreur ! Recommencer ?"
+										icon="fr-icon-refresh-line"
+										class="bg-error"
 										title="Erreur ! Recommencer ?"
 									/>
 								{:else if emails[account.id] === 'Sent'}
-									<IconButton
-										icon="ri-mail-check-line"
-										textColor="text-white"
-										bgColor="bg-success"
-										classNames="p-2"
-										ariaLabel="Envoyé !"
-										title="Envoyé !"
-									/>
+									<IconButton icon="fr-icon-checkbox-line" class="bg-success" title="Envoyé !" />
 								{/if}
 							{/if}
 						</td>
