@@ -31,7 +31,7 @@ fastapi-asyncpg = "^1.0.1"
 python-dateutil = "^2.8.2"
 Jinja2 = "^3.1.2"
 pytest-mock = "^3.7.0"
-chardet = "^4.0.0"
+chardet = "^5.0.0"
 httpx = "^0.23.0"
 respx = "^0.19.2"
 
