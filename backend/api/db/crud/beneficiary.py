@@ -7,7 +7,6 @@ from asyncpg.connection import Connection
 
 from api.db.crud.notebook import add_wanted_jobs_to_notebook, parse_notebook_from_record
 from api.db.models.beneficiary import Beneficiary
-from api.db.models.notebook import Notebook
 
 
 async def get_beneficiary_with_query(
