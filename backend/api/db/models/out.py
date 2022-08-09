@@ -1,9 +1,6 @@
 from datetime import date, datetime
-from uuid import UUID
 
-from pydantic import BaseModel
-
-from api.db.models.rome_code import RomeCode
+from pydantic import BaseModel, Field
 
 
 class DeploymentOut(BaseModel):
@@ -41,4 +38,10 @@ class WantedJobOut(BaseModel):
 
 class NotebookOut(BaseModel):
     beneficiary: BeneficiaryOut
+    created_at: datetime
+    right_rsa: str | None = Field(None, title="Droits RSA")
+    right_rqth: bool = Field(False, title="Droits RQTH")
+    right_are: bool = Field(False, title="Droits RSA")
+    right_ass: bool | None = Field(False, title="Droits ASS")
+    right_bonus: bool = Field(False, title="Droits Bonus")
     wanted_jobs: list[WantedJobOut]

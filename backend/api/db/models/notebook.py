@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from strenum import StrEnum
 
 from api.db.models.wanted_job import WantedJob
@@ -10,6 +10,13 @@ from api.db.models.wanted_job import WantedJob
 
 class Notebook(BaseModel):
     id: UUID
+    created_at: datetime
+    # @TODO: add tests for the right_* values
+    right_rsa: str | None = Field(None, title="Droits RSA")
+    right_rqth: bool = Field(False, title="Droits RQTH")
+    right_are: bool = Field(False, title="Droits RSA")
+    right_ass: bool | None = Field(False, title="Droits ASS")
+    right_bonus: bool = Field(False, title="Droits Bonus")
     beneficiary_id: UUID
     wanted_jobs: List[WantedJob]
     # @TODO: add other fields

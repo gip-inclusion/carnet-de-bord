@@ -35,14 +35,22 @@ async def parse_notebook_member_from_record(record: Record) -> NotebookMember:
     return NotebookMember.parse_obj(record)
 
 
-async def parse_notebook_from_record(record: Record) -> Notebook:
+async def parse_notebook_from_record(
+    record: Record,
+    id_field: str = "id",
+    beneficiary_id_field: str = "beneficiary_id",
+    add_wanted_jobs: bool = True,
+) -> Notebook:
     notebook = Notebook(
-        id=record["id"],
-        beneficiary_id=record["beneficiary_id"],
+        id=record[id_field],
+        created_at=record["created_at"],
+        right_rsa=record["right_rsa"],
+        beneficiary_id=record[beneficiary_id_field],
         wanted_jobs=[],
     )
 
-    await add_wanted_jobs_to_notebook(record, notebook, notebook_id="id")
+    if add_wanted_jobs:
+        await add_wanted_jobs_to_notebook(record, notebook, notebook_id=id_field)
 
     return notebook
 

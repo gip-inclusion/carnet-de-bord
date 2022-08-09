@@ -5,7 +5,7 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
-from api.db.crud.notebook import add_wanted_jobs_to_notebook
+from api.db.crud.notebook import add_wanted_jobs_to_notebook, parse_notebook_from_record
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.notebook import Notebook
 
@@ -22,6 +22,7 @@ async def get_beneficiary_with_query(
             "SELECT public.beneficiary.*, public.account.id as account_id, "
             "public.wanted_job.rome_code_id, "
             "public.wanted_job.id as wanted_job_id, public.notebook.id as notebook_id, "
+            "public.notebook.right_rsa, "
             "public.rome_code.code as rc_code, "
             "public.rome_code.description as rc_description, "
             "public.rome_code.label as rc_label "
@@ -46,10 +47,11 @@ async def get_beneficiary_with_query(
 
                 if beneficiary_record["notebook_id"] is not None:
                     if beneficiary.notebook is None:
-                        beneficiary.notebook = Notebook(
-                            id=beneficiary_record["notebook_id"],
-                            beneficiary_id=beneficiary_record["id"],
-                            wanted_jobs=[],
+                        beneficiary.notebook = await parse_notebook_from_record(
+                            beneficiary_record,
+                            id_field="notebook_id",
+                            beneficiary_id_field="id",
+                            add_wanted_jobs=False,
                         )
 
                     await add_wanted_jobs_to_notebook(
