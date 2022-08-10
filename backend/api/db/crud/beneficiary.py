@@ -5,10 +5,9 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
+from api.db.crud.notebook import add_wanted_jobs_to_notebook
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.notebook import Notebook
-from api.db.models.rome_code import RomeCode
-from api.db.models.wanted_job import WantedJob
 
 
 async def get_beneficiary_with_query(
@@ -53,21 +52,9 @@ async def get_beneficiary_with_query(
                             wanted_jobs=[],
                         )
 
-                    if beneficiary_record["rome_code_id"] is not None:
-                        rome_code = RomeCode(
-                            id=beneficiary_record["rome_code_id"],
-                            code=beneficiary_record["rc_code"],
-                            label=beneficiary_record["rc_label"],
-                            description=beneficiary_record["rc_description"],
-                        )
-                        beneficiary.notebook.wanted_jobs.append(
-                            WantedJob(
-                                id=beneficiary_record["wanted_job_id"],
-                                notebook_id=beneficiary_record["notebook_id"],
-                                rome_code_id=beneficiary_record["rome_code_id"],
-                                rome_code=rome_code,
-                            )
-                        )
+                    await add_wanted_jobs_to_notebook(
+                        beneficiary_record, beneficiary.notebook
+                    )
 
         return beneficiary
 
