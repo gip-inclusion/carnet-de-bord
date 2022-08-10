@@ -1,3 +1,10 @@
+## [1.129.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.129.2...v1.129.3) (2022-08-10)
+
+
+### Bug Fixes
+
+* wording ([#994](https://github.com/SocialGouv/carnet-de-bord/issues/994)) ([d494fcb](https://github.com/SocialGouv/carnet-de-bord/commit/d494fcbad7a1e22cb9c140fd43d5c2b1d4bf8b61))
+
 ## [1.129.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.129.1...v1.129.2) (2022-08-09)
 
 
