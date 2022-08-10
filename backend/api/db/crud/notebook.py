@@ -58,6 +58,7 @@ async def parse_notebook_from_record(
     notebook = Notebook(
         id=record[id_field],
         created_at=record["created_at"],
+        updated_at=record["updated_at"],
         right_rsa=record["right_rsa"],
         right_rqth=record["right_rqth"],
         right_are=record["right_are"],
@@ -65,6 +66,15 @@ async def parse_notebook_from_record(
         right_bonus=record["right_bonus"],
         beneficiary_id=record[beneficiary_id_field],
         wanted_jobs=[],
+        geographical_area=record["geographical_area"],
+        education_level=record["education_level"],
+        work_situation_date=record["work_situation_date"],
+        contract_type=record["contract_type"],
+        contract_sign_date=record["contract_sign_date"],
+        work_situation=record["work_situation"],
+        work_situation_end_date=record["work_situation_end_date"],
+        contract_start_date=record["contract_start_date"],
+        contract_end_date=record["contract_end_date"],
     )
 
     if add_wanted_jobs:
