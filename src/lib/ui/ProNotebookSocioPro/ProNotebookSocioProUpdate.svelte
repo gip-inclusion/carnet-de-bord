@@ -94,7 +94,7 @@
 		close();
 	}
 
-	function setworkSituationEndDate(initialDate, monthInterval: number) {
+	function setWorkSituationEndDate(initialDate, monthInterval: number) {
 		if (monthInterval) {
 			return formatDateISO(add(new Date(initialDate), { months: monthInterval }));
 		}
@@ -147,7 +147,7 @@
 								on:click={() => {
 									updateValidateField(
 										'workSituationEndDate',
-										setworkSituationEndDate(form.workSituationDate, 3)
+										setWorkSituationEndDate(form.workSituationDate, 3)
 									);
 								}}>3 mois</button
 							>
@@ -160,7 +160,7 @@
 								on:click={() => {
 									updateValidateField(
 										'workSituationEndDate',
-										setworkSituationEndDate(form.workSituationDate, 6)
+										setWorkSituationEndDate(form.workSituationDate, 6)
 									);
 								}}>6 mois</button
 							>
@@ -173,7 +173,7 @@
 								on:click={() => {
 									updateValidateField(
 										'workSituationEndDate',
-										setworkSituationEndDate(form.workSituationDate, 12)
+										setWorkSituationEndDate(form.workSituationDate, 12)
 									);
 								}}>12 mois</button
 							>
@@ -186,7 +186,7 @@
 								on:click={() => {
 									updateValidateField(
 										'workSituationEndDate',
-										setworkSituationEndDate(form.workSituationDate, 24)
+										setWorkSituationEndDate(form.workSituationDate, 24)
 									);
 								}}>24 mois</button
 							>
