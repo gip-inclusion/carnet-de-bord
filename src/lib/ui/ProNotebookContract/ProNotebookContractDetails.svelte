@@ -147,6 +147,20 @@
 							>
 							-
 							<button
+								id="12-months"
+								aria-controls="contract-end-date"
+								aria-label="Définir la fin du contrat dans 24 mois"
+								type="button"
+								class="cursor-pointer underline"
+								on:click={() => {
+									updateValidateField(
+										'contractEndDate',
+										setContractEndDate(form.contractStartDate, 24)
+									);
+								}}>24 mois</button
+							>
+							-
+							<button
 								id="undetermined"
 								aria-controls="contract-end-date"
 								aria-label="Définir comme contrat à durée indéterminée"
