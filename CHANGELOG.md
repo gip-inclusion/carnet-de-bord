@@ -1,3 +1,10 @@
+## [1.129.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.129.1...v1.129.2) (2022-08-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency chardet to v5 ([#990](https://github.com/SocialGouv/carnet-de-bord/issues/990)) ([803ffb2](https://github.com/SocialGouv/carnet-de-bord/commit/803ffb20e83d87de18fcc041512f388b51c9d41e))
+
 ## [1.129.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.129.0...v1.129.1) (2022-08-08)
 
 
