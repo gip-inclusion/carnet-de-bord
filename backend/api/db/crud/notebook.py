@@ -7,6 +7,20 @@ from api.db.models.notebook import Notebook, NotebookMember, NotebookMemberInser
 from api.db.models.rome_code import RomeCode
 from api.db.models.wanted_job import WantedJob
 
+NOTEBOOK_BASE_QUERY = """
+SELECT public.notebook.*,
+       wanted_job.rome_code_id,
+       wanted_job.id as wanted_job_id,
+       rome_code.code as rc_code,
+       rome_code.description as rc_description,
+       rome_code.label as rc_label
+FROM public.notebook
+LEFT JOIN wanted_job
+ON public.wanted_job.notebook_id = public.notebook.id
+LEFT JOIN public.rome_code
+ON public.rome_code.id = public.wanted_job.rome_code_id
+"""
+
 
 async def add_wanted_jobs_to_notebook(
     record: Record,
@@ -45,6 +59,10 @@ async def parse_notebook_from_record(
         id=record[id_field],
         created_at=record["created_at"],
         right_rsa=record["right_rsa"],
+        right_rqth=record["right_rqth"],
+        right_are=record["right_are"],
+        right_ass=record["right_ass"],
+        right_bonus=record["right_bonus"],
         beneficiary_id=record[beneficiary_id_field],
         wanted_jobs=[],
     )
@@ -126,23 +144,24 @@ async def get_notebooks_with_query(
     async with connection.transaction():
 
         records: list[Record] = await connection.fetch(
-            """SELECT public.notebook.*,
-            wanted_job.rome_code_id,
-            wanted_job.id as wanted_job_id,
-            rome_code.code as rc_code,
-            rome_code.description as rc_description,
-            rome_code.label as rc_label
-            FROM public.notebook
-            LEFT JOIN wanted_job
-            ON public.wanted_job.notebook_id = public.notebook.id
-            LEFT JOIN public.rome_code
-            ON public.rome_code.id = public.wanted_job.rome_code_id
-             """
-            + query,
+            NOTEBOOK_BASE_QUERY + query,
             *args,
         )
 
         return [await parse_notebook_from_record(record) for record in records]
+
+
+async def get_notebook_with_query(
+    connection: Connection, query: str, *args
+) -> Notebook | None:
+    async with connection.transaction():
+
+        record: Record = await connection.fetchrow(
+            NOTEBOOK_BASE_QUERY + query,
+            *args,
+        )
+
+        return await parse_notebook_from_record(record)
 
 
 async def get_notebooks_by_structure_id(
@@ -155,4 +174,14 @@ async def get_notebooks_by_structure_id(
         LEFT JOIN professional ON account.professional_id = professional.id
         WHERE professional.structure_id = $1""",
         structure_id,
+    )
+
+
+async def get_notebook_by_id(
+    connection: Connection, notebook_id: UUID
+) -> Notebook | None:
+    return await get_notebook_with_query(
+        connection,
+        """WHERE public.notebook.id = $1""",
+        notebook_id,
     )
