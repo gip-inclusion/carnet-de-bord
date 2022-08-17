@@ -66,10 +66,6 @@ async def get_beneficiary_with_query(
                     notebook=beneficiary.notebook,
                 )
 
-                # await add_wanted_jobs_to_notebook(
-                #    beneficiary_record, beneficiary.notebook
-                # )
-
         return beneficiary
 
 
