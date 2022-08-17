@@ -5,6 +5,7 @@ from uuid import UUID
 from pydantic import BaseModel, Field
 from strenum import StrEnum
 
+from api.db.models.focus import Focus
 from api.db.models.wanted_job import WantedJob
 
 
@@ -20,6 +21,7 @@ class Notebook(BaseModel):
     right_bonus: bool = Field(False, title="Droits Bonus")
     beneficiary_id: UUID
     wanted_jobs: List[WantedJob]
+    focuses: List[Focus] | None = None
     # @TODO: add other fields
     geographical_area: str | None
     education_level: str | None

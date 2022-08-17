@@ -30,7 +30,15 @@ async def get_beneficiary_with_query(
             "public.notebook.contract_start_date, public.notebook.contract_end_date, "
             "public.rome_code.code as rc_code, "
             "public.rome_code.description as rc_description, "
-            "public.rome_code.label as rc_label "
+            "public.rome_code.label as rc_label, "
+            "notebook_focus.id as nf_id,"
+            "notebook_focus.theme as nf_theme,"
+            "notebook_focus.situations as nf_situations,"
+            "notebook_focus.creator_id as nf_creator_id,"
+            "notebook_focus.notebook_id as nf_notebook_id,"
+            "notebook_focus.created_at as nf_created_at,"
+            "notebook_focus.linked_to as nf_linked_to,"
+            "notebook_focus.updated_at as nf_updated_at "
             "FROM public.beneficiary "
             "LEFT JOIN public.notebook "
             "ON public.notebook.beneficiary_id = public.beneficiary.id "
@@ -38,30 +46,29 @@ async def get_beneficiary_with_query(
             "ON public.wanted_job.notebook_id = public.notebook.id "
             "LEFT JOIN public.rome_code "
             "ON public.rome_code.id = public.wanted_job.rome_code_id "
+            "LEFT JOIN notebook_focus "
+            "ON public.notebook_focus.notebook_id = public.notebook.id "
             "LEFT JOIN public.account "
             "ON public.account.beneficiary_id = public.beneficiary.id " + query,
             *args,
         )
 
-        if len(beneficiary_records) > 0:
+        for beneficiary_record in beneficiary_records:
 
-            for beneficiary_record in beneficiary_records:
+            if beneficiary is None:
+                beneficiary = Beneficiary.parse_obj(beneficiary_record)
 
-                if beneficiary is None:
-                    beneficiary = Beneficiary.parse_obj(beneficiary_record)
+            if beneficiary_record["notebook_id"] is not None:
+                beneficiary.notebook = await parse_notebook_from_record(
+                    beneficiary_record,
+                    id_field="notebook_id",
+                    beneficiary_id_field="id",
+                    notebook=beneficiary.notebook,
+                )
 
-                if beneficiary_record["notebook_id"] is not None:
-                    if beneficiary.notebook is None:
-                        beneficiary.notebook = await parse_notebook_from_record(
-                            beneficiary_record,
-                            id_field="notebook_id",
-                            beneficiary_id_field="id",
-                            add_wanted_jobs=False,
-                        )
-
-                    await add_wanted_jobs_to_notebook(
-                        beneficiary_record, beneficiary.notebook
-                    )
+                # await add_wanted_jobs_to_notebook(
+                #    beneficiary_record, beneficiary.notebook
+                # )
 
         return beneficiary
 

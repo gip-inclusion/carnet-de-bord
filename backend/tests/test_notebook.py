@@ -2,16 +2,19 @@ from datetime import date
 from uuid import UUID
 
 from api.db.crud.notebook import get_notebook_by_id
+from api.db.models.beneficiary import Beneficiary
 from api.db.models.notebook import Notebook
 
 
 async def test_get_notebook_by_id(db_connection):
 
+    # Notebook of 'keller.noel@fugiat.fr', 'Noel', 'Keller'
     notebook: Notebook | None = await get_notebook_by_id(
         db_connection, UUID("a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8")
     )
 
     assert notebook is not None
+
     assert notebook.right_rsa == "rsa_droit_ouvert_et_suspendu"
     assert notebook.right_rqth
     assert notebook.right_are
@@ -39,3 +42,13 @@ async def test_get_notebook_by_id(db_connection):
     assert notebook.right_bonus
     assert notebook.geographical_area is None
     assert notebook.education_level is None
+
+
+async def test_get_notebook_focuses(beneficiary_sophie_tifour: Beneficiary):
+
+    notebook: Notebook | None = beneficiary_sophie_tifour.notebook
+
+    assert notebook is not None
+
+    assert notebook.focuses is not None
+    assert len(notebook.focuses) == 3
