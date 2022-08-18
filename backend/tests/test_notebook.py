@@ -52,3 +52,12 @@ async def test_get_notebook_focuses(beneficiary_sophie_tifour: Beneficiary):
 
     assert notebook.focuses is not None
     assert len(notebook.focuses) == 3
+
+    focus = notebook.focuses[2]
+
+    assert focus.targets is not None
+
+    assert len(focus.targets) == 2
+    target = focus.targets[1]
+
+    assert target.target == "Accéder à l’emploi"
