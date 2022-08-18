@@ -3,15 +3,13 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from api.db.models.action import Action
 
-
-class Target(BaseModel):
+class Action(BaseModel):
     id: UUID
-    focus_id: UUID
-    target: str
+    action: str
+    target_id: UUID
+    status: str
     creator_id: UUID
     created_at: datetime
     updated_at: datetime
-    status: str
-    actions: list[Action] | None = None
+    initial_id: str | None
