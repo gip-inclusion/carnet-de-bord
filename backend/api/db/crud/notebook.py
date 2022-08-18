@@ -4,6 +4,7 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
+from api.db.models.action import Action
 from api.db.models.focus import Focus
 from api.db.models.notebook import Notebook, NotebookMember, NotebookMemberInsert
 from api.db.models.rome_code import RomeCode
@@ -31,7 +32,15 @@ SELECT public.notebook.*,
        notebook_target.created_at as nt_created_at,
        notebook_target.creator_id as nt_creator_id,
        notebook_target.updated_at as nt_updated_at,
-       notebook_target.status as nt_status
+       notebook_target.status as nt_status,
+       notebook_action.id as na_id,
+       notebook_action.action as na_action,
+       notebook_action.target_id as na_target_id,
+       notebook_action.status as na_status,
+       notebook_action.creator_id as na_creator_id,
+       notebook_action.created_at as na_created_at,
+       notebook_action.updated_at as na_updated_at,
+       notebook_action.initial_id as na_initial_id
 FROM public.notebook
 LEFT JOIN wanted_job
 ON public.wanted_job.notebook_id = public.notebook.id
@@ -39,6 +48,8 @@ LEFT JOIN notebook_focus
 ON public.notebook_focus.notebook_id = public.notebook.id
 LEFT JOIN notebook_target
 ON public.notebook_target.focus_id = public.notebook_focus.id
+LEFT JOIN notebook_action
+ON public.notebook_action.target_id = public.notebook_target.id
 LEFT JOIN public.rome_code
 ON public.rome_code.id = public.wanted_job.rome_code_id
 """
@@ -78,16 +89,99 @@ async def add_wanted_jobs_to_notebook(
             notebook.wanted_jobs.append(wanted_job)
 
 
+async def find_focus(notebook: Notebook, focus_id: UUID) -> Focus | None:
+
+    if notebook.focuses is not None:
+        return next(
+            (f for f in notebook.focuses if f.id == focus_id),
+            None,
+        )
+
+
+async def find_target_from_focus(focus: Focus, target_id: UUID) -> Target | None:
+
+    if focus.targets is not None:
+        return next(
+            (t for t in focus.targets if t.id == target_id),
+            None,
+        )
+
+
+async def find_target_from_notebook(
+    notebook: Notebook, focus_id: UUID, target_id: UUID
+) -> Target | None:
+
+    focus: Focus | None = await find_focus(notebook, focus_id)
+
+    if focus is None:
+        print("### No focus")
+        return
+
+    return await find_target_from_focus(focus, target_id)
+
+
+async def find_action_from_target(target: Target, action_id: UUID) -> Action | None:
+
+    if target.actions is not None:
+        return next(
+            (a for a in target.actions if a.id == action_id),
+            None,
+        )
+
+
+async def add_action_to_target(
+    record: Record,
+    notebook: Notebook,
+    record_prefix: str = "na_",
+    notebook_id: str = "id",
+) -> None:
+
+    print(f"##### ADD action to target. {notebook_id} {record_prefix}")
+    # print(f"##### Record {record}")
+    print("##### ADD action to target")
+
+    target: Target | None = await find_target_from_notebook(
+        notebook, record[notebook_id], record[record_prefix + "id"]
+    )
+
+    print(f"##### {target}")
+
+    if not target:
+        return
+
+    action: Action | None = await find_action_from_target(
+        target, record[record_prefix + "id"]
+    )
+
+    if action:
+        return
+
+    if target.actions is None:
+        target.actions = []
+
+    target.actions.append(
+        Action(
+            id=record[record_prefix + "id"],
+            target_id=record[record_prefix + "target_id"],
+            action=record[record_prefix + "action"],
+            status=record[record_prefix + "status"],
+            creator_id=record[record_prefix + "creator_id"],
+            created_at=record[record_prefix + "created_at"],
+            updated_at=record[record_prefix + "updated_at"],
+            initial_id=record[record_prefix + "initial_id"],
+        )
+    )
+
+
 async def add_target_to_focus(
     record: Record,
     notebook: Notebook,
     record_prefix: str = "nt_",
 ) -> None:
 
-    if record[record_prefix + "id"] is not None and notebook.focuses is not None:
-        focus: Focus | None = next(
-            (f for f in notebook.focuses if f.id == record[record_prefix + "focus_id"]),
-            None,
+    if record[record_prefix + "id"] is not None:
+        focus: Focus | None = await find_focus(
+            notebook, record[record_prefix + "focus_id"]
         )
 
         if focus:
@@ -95,9 +189,8 @@ async def add_target_to_focus(
                 focus.targets = []
             else:
                 # Let's see if the target we want to add is already inserted
-                target: Target | None = next(
-                    (t for t in focus.targets if t.id == record[record_prefix + "id"]),
-                    None,
+                target: Target | None = await find_target_from_focus(
+                    focus, record[record_prefix + "id"]
                 )
 
                 if target:
@@ -114,8 +207,6 @@ async def add_target_to_focus(
                             status=record[record_prefix + "status"],
                         )
                     )
-
-            pass
 
 
 async def add_focus_to_notebook(
@@ -175,6 +266,7 @@ async def parse_notebook_from_record(
     add_wanted_jobs: bool = True,
     add_focus: bool = True,
     add_target: bool = True,
+    add_action: bool = True,
     notebook: Notebook | None = None,
 ) -> Notebook:
 
@@ -209,6 +301,9 @@ async def parse_notebook_from_record(
 
     if add_target:
         await add_target_to_focus(record, notebook)
+
+    if add_action:
+        await add_action_to_target(record, notebook, notebook_id=id_field)
 
     return notebook
 
