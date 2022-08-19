@@ -124,4 +124,3 @@ query GetProfessionalsNotLinkedFromAccount {
 	}
 }
 ```
-

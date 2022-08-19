@@ -98,4 +98,3 @@ L'équipe maintient des comptes de démo, renseignés dans le fichier [DEMO.md](
 **Console Hasura** dont [l'instance](http://localhost:9695) est correctement alimentée en données (cf. onglet "Data") :
 
 ![Console Hasura](./docs/screenshot_hasura_console.png)
-
