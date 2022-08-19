@@ -1,38 +1,50 @@
-# tests end-to-end
+# Tests end-to-end
 
-Les tests e2e sont écrits en [gherkin](https://cucumber.io/docs/gherkin/reference/) en [francais](https://cucumber.io/docs/gherkin/reference/#spoken-languages) via la directive `#language: fr` présente dans les tests. Afin que codecept supporte le francais, nous utilisons le fichier `step_definitions/fr.js` pour traduire les instructions gherkin en francais.
+Afin de vérifier le bon comportement de la plateforme dans son ensemble, du point de vue de l'utilisateur, l'équipe développe et maintient des tests bout-en-bout (a.k.a. tests _end-to-end_ ou "e2e").
+
+Ceux-ci sont intégrés au _pipeline CI/CD_ du projet (cf. fichiers GitHub Actions `./github/workflows/*.yml`).
+
+![Workflow GitHub Actions](./workflow_cicd.png)
+
+## Technologies
+
+Les tests e2e sont développés et mis en œuvre grâce aux technologies CodeceptJS et Playwright.
+
+[**CodeceptJS**](https://codecept.io) est un framework de test UI full-stack qui se veut agnostique des technologies sous-jacentes (Playwright, WebDriver, Puppeteer, TestCafe, Protractor, Appium). Nous l'utilisons comme _runner_ et orchestrateur des tests e2e. CodeceptJS peut être exécuté en mode ligne de commande (CLI) ou via une interface graphique (CodeceptUI).
+
+[**Playwright**](https://codecept.io/playwright/) est une bibliothèque Node.js permettant d'automatiser et valider des traitements sur différents navigateurs (Chromium, Firefow, Safari, Electron) via une API exploitant le [protocole DevTools](https://chromedevtools.github.io/devtools-protocol/).
+
+Les tests e2e sont écrits au format [**Gherkin**](https://cucumber.io/docs/gherkin/reference/) en [francais](https://cucumber.io/docs/gherkin/reference/#spoken-languages) grâce à la directive `#language: fr`, à renseigner dans chaque fichier de test.
 
 ```gherkin
 Scénario:
-	Soit un utilisateur sur la page d'accueil
-	Alors je vois "La nouvelle version du Carnet de bord est en ligne"
-	Alors le lien "Accéder à mon compte" pointe sur "/auth/login"
+  Soit un utilisateur sur la page d'accueil
+  Alors je vois "La nouvelle version du Carnet de bord est en ligne"
+  Alors le lien "Accéder à mon compte" pointe sur "/auth/login"
 ```
 
-On utilise [codeceptjs](https://codecept.io/) et [playwright](https://codecept.io/playwright/)
+> 💡 Pour que CodeceptJS supporte le français, des équivalences de termes sont définies dans le fichier `step_definitions/fr.js`.
 
-## vocabulaire
+## Usage
 
-La situation initiale commence `Soit`
-les actions commencent par `Quand`
-les assertions commencent par `Alors`
+> ⚠️ Vous devez au préalable avoir une plateforme opérationnelle (cf. [Installation](../README.md#Installation)), notamment la partie API backend.
 
-## utilisation
-
-Pour lancer les tests:
+Pour lancer les tests e2e sur sa machine :
 
 ```sh
 cd e2e
 yarn && yarn test
 ```
 
-Par défaut, les tests se lancent en mode headless mais on peut aussi les lancer avec l'interface de codecept en utilisant
+Par défaut, les tests se lancent en mode _headless_ mais on peut aussi les lancer avec l'interface de Codecept - CodeceptUI - grâce à la commande :
 
 ```sh
 yarn test:ui
 ```
 
-## Ecrire un test
+![CodeceptUI](./codeceptui.png)
+
+## Écrire un test
 
 Pour l'exemple, nous allons écrire le test pour un konami code
 
@@ -44,15 +56,21 @@ Pour l'exemple, nous allons écrire le test pour un konami code
 
 Les snippets se trouvent dans le fichier `steps.js`
 
-## howto
+## Howto
 
-Lancer un test en mode debug
+#### Vocabulaire
+
+- La situation initiale commence par `Soit`
+- Les actions commencent par `Quand`
+- Les assertions commencent par `Alors`
+
+#### Lancer un test en mode debug
 
 ```sh
 $ yarn test --steps --verbose --grep "@home" -p pauseOnFail
 ```
 
-on peut aussi mettre une pause dans le test
+#### Mettre une pause dans le test
 
 ```gherkin
 @my_test
@@ -64,6 +82,6 @@ Fonctionnalité: Mon test
     Alors je vois "foo"
 ```
 
-## links
+## Liens
 
 - [xpath cheatsheet](https://devhints.io/xpath)

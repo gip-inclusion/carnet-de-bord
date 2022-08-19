@@ -31,51 +31,8 @@ La plateforme Carnet de bord est constituée des briques applicatives suivantes 
 
 ## Installation
 
-**Prérequis**:
+Le guide d'installation de la plateforme peut être consulté depuis le fichier [INSTALL.md](./INSTALL.md).
 
-Vous devez au préalable avoir correctement installé les logiciels suivants :
-
-- docker (version 20.10.5)
-- docker-compose (version 1.29.0)
-- node (version 16)
-- hasura-cli (version 2.0.2)
-- pre-commit https://pre-commit.com
-
-> ℹ️️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
-
-> ⚠️ Assurez-vous que les ports **5000** (Hasura) et **5432** (PostgreSQL) soient libres d'écoute. Le cas échéant, vous pouvez changer les ports dans les fichiers de configuration ou d'environnement de l'application.
-
-**Récupération des sources et dépendances**
-
-```sh
-#copier le projet
-git clone git@github.com:SocialGouv/carnet-de-bord.git
-cd carnet-de-bord
-
-#installer les dépendances
-yarn
-pre-commit install
-```
-
-**Lancement**
-
-```sh
-# créer le fichier `.env`
-cp .env.sample .env
-
-# démarrer l'application Svelte
-yarn dev
-
-# démarrer Hasura et PostgreSQL
-docker-compose up -d
-
-# initialiser les données de test
-cd hasura
-hasura seed apply
-
-# lancer la console hasura
-hasura console
-```
 
 ## Développement
 
@@ -215,4 +172,4 @@ Le code de conduite de l'équipe en charge du projet peut être consulté depuis
 
 Ce logiciel et son code source sont distribués sous licence Apache-2.0.
 
-Le texte entier de la licence peut être consulté depuis le fichier [LICENSE](./LICENSE). 
+Le texte entier de la licence peut être consulté depuis le fichier [LICENSE](./LICENSE).
