@@ -176,3 +176,9 @@ query GetProfessionalsNotLinkedFromAccount {
 	}
 }
 ```
+
+## Licence
+
+![License: Apache 2.0](https://img.shields.io/hexpm/l/apa)
+
+Ce logiciel et son code source sont distribués sous licence Apache-2.0.
