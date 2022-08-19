@@ -21,4 +21,4 @@ Fonctionnalité: Mise à jour du carnet par un chargé d'orientation
 		Quand je renseigne la date "05/02/2020" dans le champ "Depuis le"
 		Quand je clique sur le texte "12 mois"
 		Quand je clique sur "Enregistrer"
-		Alors je vois "du 05/02/2020 au 05/02/2021 - (environ 1 an)"
+		Alors je vois "depuis le 05/02/2020 jusqu'au 05/02/2021 - (environ 1 an)"
