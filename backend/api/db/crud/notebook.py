@@ -114,7 +114,6 @@ async def find_target_from_notebook(
     focus: Focus | None = await find_focus(notebook, focus_id)
 
     if focus is None:
-        print("### No focus")
         return
 
     return await find_target_from_focus(focus, target_id)
@@ -133,18 +132,14 @@ async def add_action_to_target(
     record: Record,
     notebook: Notebook,
     record_prefix: str = "na_",
-    notebook_id: str = "id",
+    target_record_prefix: str = "nt_",
 ) -> None:
 
-    print(f"##### ADD action to target. {notebook_id} {record_prefix}")
-    # print(f"##### Record {record}")
-    print("##### ADD action to target")
-
     target: Target | None = await find_target_from_notebook(
-        notebook, record[notebook_id], record[record_prefix + "id"]
+        notebook,
+        record[target_record_prefix + "focus_id"],
+        record[target_record_prefix + "id"],
     )
-
-    print(f"##### {target}")
 
     if not target:
         return
@@ -303,7 +298,7 @@ async def parse_notebook_from_record(
         await add_target_to_focus(record, notebook)
 
     if add_action:
-        await add_action_to_target(record, notebook, notebook_id=id_field)
+        await add_action_to_target(record, notebook)
 
     return notebook
 
