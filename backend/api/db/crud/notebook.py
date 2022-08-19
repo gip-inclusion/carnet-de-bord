@@ -248,7 +248,11 @@ async def parse_notebooks_from_records(
         notebook: Notebook | None = next(
             (n for n in notebooks if n.id == record[id_field]), None
         )
-        notebooks.append(await parse_notebook_from_record(record, notebook=notebook))
+        notebook_updated: Notebook | None = await parse_notebook_from_record(
+            record, notebook=notebook
+        )
+        if not notebooks:
+            notebooks.append(notebook_updated)
 
     return notebooks
 
