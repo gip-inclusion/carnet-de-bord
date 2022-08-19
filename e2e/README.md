@@ -29,7 +29,7 @@ yarn && yarn test
 Par défaut, les tests se lancent en mode headless mais on peut aussi les lancer avec l'interface de codecept en utilisant
 
 ```sh
-yarn test:e2e:ui
+yarn test:ui
 ```
 
 ## Ecrire un test
@@ -40,9 +40,9 @@ Pour l'exemple, nous allons écrire le test pour un konami code
 1. Ecrire le test
 1. lancer `yarn codeceptjs gherkin:snippets`
 1. Implementer les snippets manquants
-1. lancer les test.
+1. Lancer les test.
 
-Les snippets se trouve dans le fichier `steps.js`
+Les snippets se trouvent dans le fichier `steps.js`
 
 ## howto
 
@@ -60,7 +60,7 @@ Fonctionnalité: Mon test
 
   Scénario:
     Soit un navigateur web sur le site
-    Quand je pause le test
+    Quand je pause le test # il faut insérer toute la phrase telle quelle
     Alors je vois "foo"
 ```
 
