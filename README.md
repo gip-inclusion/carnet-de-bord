@@ -1,4 +1,17 @@
-# carnet-de-bord
+# Carnet de bord
+
+Service public en vue de faciliter la coordination des échanges entres acteurs et simplifier la lecture des parcours d’insertion.
+
+![Page d'accueil du site Carnet de bord](./docs/screenshot_cdb_20220819.png)
+
+## Présentation
+
+Le champ de l’insertion sociale et professionnelle, et en particulier le domaine de l’accompagnement des usagers, se caractérise par **une multiplicité et une grande diversité d’acteurs, d'outils et sources d'informations**. La mauvaise connaissance et l’absence de partage de certaines données ne permettent pas aux professionnels de procéder à une bonne évaluation des situations des usagers et un suivi optimal des parcours. Plus précisément, deux problématiques émergent :
+
+1. L’impossibilité pour les accompagnateurs d’avoir une information claire sur les personnes ;
+2. La difficulté pour les personnes à comprendre et à transmettre les informations sur leur parcours.
+
+Développé dans le cadre du volet numérique du projet de [Service Public de l’Insertion et de l’Emploi](https://travail-emploi.gouv.fr/emploi-et-insertion/service-public-insertion-emploi-spie/article/le-service-public-de-l-insertion-et-de-l-emploi-spie-c-est-quoi), l’outil Carnet de bord est **un service public qui centralise les données essentielles du parcours en une seule page**. Il regroupe l’information dans un espace sécurisé permettant un échange accru des données essentielles, entre les accompagnateurs et le bénéficiaire afin d’amplifier la coordination et fluidifier le parcours d’un usager !
 
 ## local
 
