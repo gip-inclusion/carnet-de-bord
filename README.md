@@ -35,7 +35,11 @@ Le guide d'installation de la plateforme peut être consulté depuis le fichier 
 
 ## Développement
 
-Le guide de développement de la plateforme peut être consulté depuis le fichier [DEVELOPMENT.md](./DEVELOPMENT.md).
+Le guide de développement de la plateforme peut être consulté depuis le fichier [DEVELOPING.md](./DEVELOPING.md).
+
+## Déploiement
+
+Le guide de déploiement en production de la plateforme peut être consulté depuis le fichier [DEPLOY.md](./DEPLOY.md).
 
 ## READMEs
 
