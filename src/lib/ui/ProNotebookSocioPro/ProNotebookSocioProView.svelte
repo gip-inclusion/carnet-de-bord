@@ -30,7 +30,7 @@
 
 	function contractDatesTemplating(start: string, end: string) {
 		if (end) {
-			return `du ${formatDateLocale(start)} au ${formatDateLocale(end)}`;
+			return `depuis le ${formatDateLocale(start)} jusqu'au ${formatDateLocale(end)}`;
 		}
 		return `depuis le ${formatDateLocale(start)}`;
 	}
