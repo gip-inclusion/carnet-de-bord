@@ -1,4 +1,4 @@
-# Installation
+# Guide d'installation
 
 ## Prérequis
 
