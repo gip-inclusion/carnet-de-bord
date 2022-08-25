@@ -38,8 +38,8 @@ from api.db.models.external_data import (
     ExternalSource,
     format_external_data,
 )
-from api.db.models.notebook import (
-    Notebook,
+from api.db.models.notebook import Notebook
+from api.db.models.notebook_member import (
     NotebookMember,
     NotebookMemberInsert,
     NotebookMemberTypeEnum,
