@@ -1,0 +1,155 @@
+[
+	{
+		"beneficiary": {
+			"address1": "7 chemin du soleil",
+			"address2": null,
+			"caf_number": "2055990",
+			"city": "Livry-Gargan",
+			"created_at": "2022-03-30 09:02:50.597956+00:00",
+			"date_of_birth": "1982-02-01",
+			"email": "stifour93@yahoo.fr",
+			"firstname": "Sophie",
+			"lastname": "Tifour",
+			"mobile_number": "0606060606",
+			"pe_number": "300000L",
+			"place_of_birth": "Ch\u00e2lon en Champagne",
+			"postal_code": "93190",
+			"updated_at": "2022-03-30 09:02:50.597956+00:00"
+		},
+		"contract_end_date": null,
+		"contract_sign_date": "2020-01-05",
+		"contract_start_date": null,
+		"contract_type": "cer",
+		"created_at": "2021-09-21 11:51:37.295647+00:00",
+		"education_level": "NV5",
+		"focuses": [
+			{
+				"created_at": "2021-09-21 13:33:16.965230+00:00",
+				"linked_to": "cer",
+				"situations": ["Pr\u00eat  \u00e0 suivre une formation"],
+				"targets": [
+					{
+						"actions": [
+							{
+								"action": "Pr\u00e9pa-Comp\u00e9tences",
+								"created_at": "2020-09-01 15:11:37.553360+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+							}
+						],
+						"created_at": "2021-09-21 13:34:17.493745+00:00",
+						"status": "in_progress",
+						"target": "D\u00e9finir ou confirmer un projet professionnel",
+						"updated_at": "2022-08-25 13:35:37.452290+00:00"
+					},
+					{
+						"actions": [
+							{
+								"action": "Formation certifiante",
+								"created_at": "2021-07-01 15:34:53.239372+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+							},
+							{
+								"action": "Avoir un pass IAE valid\u00e9",
+								"created_at": "2021-06-08 13:42:53.239372+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+							},
+							{
+								"action": "Orientation vers une SIAE",
+								"created_at": "2020-11-01 13:40:07.137635+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+							}
+						],
+						"created_at": "2021-09-21 13:35:11.636378+00:00",
+						"status": "in_progress",
+						"target": "Acc\u00e9der \u00e0 l\u2019emploi",
+						"updated_at": "2022-08-25 13:35:37.452290+00:00"
+					}
+				],
+				"theme": "emploi",
+				"updated_at": "2022-08-25 13:35:37.452290+00:00"
+			},
+			{
+				"created_at": "2021-09-21 13:26:42.939011+00:00",
+				"linked_to": "cer",
+				"situations": ["Besoin d'\u00eatre guid\u00e9 dans le cadre d'un acc\u00e8s aux droits"],
+				"targets": [
+					{
+						"actions": [
+							{
+								"action": "Demande de CSS",
+								"created_at": "2020-01-05 15:08:20.139704+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+							}
+						],
+						"created_at": "2021-09-21 14:55:12.797276+00:00",
+						"status": "in_progress",
+						"target": "Travailler l\u2019acc\u00e8s aux droits",
+						"updated_at": "2022-08-25 13:35:37.452290+00:00"
+					}
+				],
+				"theme": "difficulte_administrative",
+				"updated_at": "2022-08-25 13:35:37.452290+00:00"
+			},
+			{
+				"created_at": "2021-09-21 13:15:54.752334+00:00",
+				"linked_to": "cer",
+				"situations": ["H\u00e9berg\u00e9 chez un tiers"],
+				"targets": [
+					{
+						"actions": [
+							{
+								"action": "Demande SIAO",
+								"created_at": "2020-01-05 13:55:43.100609+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+							},
+							{
+								"action": "Demande de logement social",
+								"created_at": "2020-07-01 15:13:59.820331+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+							}
+						],
+						"created_at": "2021-09-21 13:17:53.594417+00:00",
+						"status": "in_progress",
+						"target": "Changer de logement",
+						"updated_at": "2022-08-25 13:35:37.452290+00:00"
+					}
+				],
+				"theme": "logement",
+				"updated_at": "2022-08-25 13:35:37.452290+00:00"
+			}
+		],
+		"geographical_area": "between_10_20",
+		"right_are": false,
+		"right_ass": false,
+		"right_bonus": false,
+		"right_rqth": false,
+		"right_rsa": "rsa_droit_ouvert_et_suspendu",
+		"updated_at": "2022-03-30 09:17:52.320373+00:00",
+		"wanted_jobs": [
+			{
+				"rome_code": {
+					"code": "K1304",
+					"description": "Aide \u00e0 domicile",
+					"label": "Aide \u00e0 domicile (K1304)"
+				}
+			},
+			{
+				"rome_code": {
+					"code": "A1101",
+					"description": "Conducteur / Conductrice d'engins d'exploitation agricole",
+					"label": "Conducteur / Conductrice d'engins d'exploitation agricole (A1101)"
+				}
+			}
+		],
+		"work_situation": "iae",
+		"work_situation_date": "2021-09-22",
+		"work_situation_end_date": null
+	}
+]
