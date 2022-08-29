@@ -26,10 +26,12 @@ async def export_notebooks_from_structure(connection: Connection, structure_id: 
     )
 
     notebooks_out: list[NotebookOut] = [
-        (await notebook_to_out(connection, notebook)).json() for notebook in notebooks
+        (await notebook_to_out(connection, notebook)).dict() for notebook in notebooks
     ]
 
     print(NotebookOut.schema_json(indent=2))
+
+    print(json.dumps(notebooks_out, indent=4, sort_keys=True, default=str))
 
 
 async def export_notebooks_from_structure_db(structure_id: UUID):

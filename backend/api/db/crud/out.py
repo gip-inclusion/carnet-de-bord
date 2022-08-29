@@ -9,6 +9,7 @@ async def notebook_to_out(
     connection: Connection, notebook: Notebook
 ) -> NotebookOut | None:
     # @TODO: Make the join before and populate it to the Notebook instance
+    # @TODO: start with the Notebook
     beneficiary = await get_beneficiary_by_id(connection, notebook.beneficiary_id)
     if beneficiary:
         beneficiary_out = BeneficiaryOut(
@@ -30,6 +31,22 @@ async def notebook_to_out(
 
         notebook_out = NotebookOut(
             beneficiary=beneficiary_out,
+            created_at=notebook.created_at,
+            updated_at=notebook.updated_at,
+            right_rsa=notebook.right_rsa,
+            right_rqth=notebook.right_rqth,
+            right_are=notebook.right_are,
+            right_ass=notebook.right_ass,
+            right_bonus=notebook.right_bonus,
+            geographical_area=notebook.geographical_area,
+            education_level=notebook.education_level,
+            work_situation_date=notebook.work_situation_date,
+            contract_type=notebook.contract_type,
+            contract_sign_date=notebook.contract_sign_date,
+            work_situation=notebook.work_situation,
+            work_situation_end_date=notebook.work_situation_end_date,
+            contract_start_date=notebook.contract_start_date,
+            contract_end_date=notebook.contract_end_date,
             wanted_jobs=[
                 WantedJobOut(
                     rome_code=RomeCodeOut(
