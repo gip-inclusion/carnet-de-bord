@@ -26,6 +26,11 @@ def seed_filepath() -> str:
 
 
 @pytest.fixture
+def test_directory() -> str:
+    return test_dir
+
+
+@pytest.fixture
 @pytest.mark.asyncio
 async def fastapi_app(seed_filepath):
     # @TODO: read it from the root .env file

@@ -2,7 +2,15 @@ from asyncpg.connection import Connection
 
 from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.models.notebook import Notebook
-from api.db.models.out import BeneficiaryOut, NotebookOut, RomeCodeOut, WantedJobOut
+from api.db.models.out import (
+    ActionOut,
+    BeneficiaryOut,
+    FocusOut,
+    NotebookOut,
+    RomeCodeOut,
+    TargetOut,
+    WantedJobOut,
+)
 
 
 async def notebook_to_out(
@@ -28,6 +36,42 @@ async def notebook_to_out(
             created_at=beneficiary.created_at,
             updated_at=beneficiary.updated_at,
         )
+
+        if notebook.focuses:
+            focuses_out = [
+                FocusOut(
+                    theme=f.theme,
+                    situations=f.situations,
+                    created_at=f.created_at,
+                    updated_at=f.updated_at,
+                    linked_to=f.linked_to,
+                    targets=[
+                        TargetOut(
+                            target=t.target,
+                            created_at=t.created_at,
+                            updated_at=t.updated_at,
+                            status=t.status,
+                            actions=[
+                                ActionOut(
+                                    action=a.action,
+                                    status=a.status,
+                                    created_at=a.created_at,
+                                    updated_at=a.updated_at,
+                                )
+                                for a in t.actions
+                            ]
+                            if t.actions is not None
+                            else [],
+                        )
+                        for t in f.targets
+                    ]
+                    if f.targets is not None
+                    else [],
+                )
+                for f in notebook.focuses
+            ]
+        else:
+            focuses_out = []
 
         notebook_out = NotebookOut(
             beneficiary=beneficiary_out,
@@ -57,6 +101,7 @@ async def notebook_to_out(
                 )
                 for j in notebook.wanted_jobs
             ],
+            focuses=focuses_out,
         )
 
         return notebook_out
