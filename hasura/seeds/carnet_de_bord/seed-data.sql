@@ -294,6 +294,8 @@ INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('d211a3b8-346c-4f77-a570-bc1c9240e744', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'sandie.manchet@livry-gargan.fr', 'Manchet', 'Sandie', 'Conseillere sociale', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('6338f969-c881-41d7-9af8-9f5c92f7ac67', 'sandie.manchet', 'professional', 'd211a3b8-346c-4f77-a570-bc1c9240e744', true, false);
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('3de46574-311a-462c-88d4-e2e89d2bd136', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pro@pe.fr', 'Alaise', 'Blaise', 'Conseiller Logement', '');
+INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('1b45defb-d1d1-4c07-af47-b1062cb9b5f5', 'alaise.blaise', 'professional', '3de46574-311a-462c-88d4-e2e89d2bd136', true, false);
 
 
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('607cb6f8-9e33-4ce8-98b1-38e60c9dda99', 'giulia.diaby@cd93.fr', 'Diaby', 'Giulia', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');

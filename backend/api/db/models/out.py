@@ -36,6 +36,30 @@ class WantedJobOut(BaseModel):
     rome_code: RomeCodeOut
 
 
+class ActionOut(BaseModel):
+    action: str
+    status: str
+    created_at: datetime
+    updated_at: datetime
+
+
+class TargetOut(BaseModel):
+    target: str
+    created_at: datetime
+    updated_at: datetime
+    status: str
+    actions: list[ActionOut] | None = None
+
+
+class FocusOut(BaseModel):
+    theme: str
+    situations: list[str]
+    created_at: datetime
+    updated_at: datetime
+    linked_to: str | None
+    targets: list[TargetOut] | None = None
+
+
 class NotebookOut(BaseModel):
     beneficiary: BeneficiaryOut
     created_at: datetime
@@ -46,6 +70,7 @@ class NotebookOut(BaseModel):
     right_ass: bool | None = Field(False, title="Droits ASS")
     right_bonus: bool = Field(False, title="Droits Bonus")
     wanted_jobs: list[WantedJobOut]
+    focuses: list[FocusOut]
     geographical_area: str | None
     education_level: str | None
     work_situation_date: date | None

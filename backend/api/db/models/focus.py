@@ -9,10 +9,10 @@ from api.db.models.target import Target
 class Focus(BaseModel):
     id: UUID
     theme: str
-    situtations: dict
+    situations: list[str]
     creator_id: UUID
     notebook_id: UUID
     created_at: datetime
     updated_at: datetime
     linked_to: str | None
-    targets: list[Target] | None
+    targets: list[Target] | None = None

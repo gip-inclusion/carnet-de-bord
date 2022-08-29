@@ -18,7 +18,9 @@ logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 app = typer.Typer()
 
 
-async def export_notebooks_from_structure(connection: Connection, structure_id: UUID):
+async def export_notebooks_from_structure(
+    connection: Connection, structure_id: UUID
+) -> str:
     logging.info(f"Exporting structure {structure_id}")
 
     notebooks: list[Notebook] = await get_notebooks_by_structure_id(
@@ -29,9 +31,12 @@ async def export_notebooks_from_structure(connection: Connection, structure_id: 
         (await notebook_to_out(connection, notebook)).dict() for notebook in notebooks
     ]
 
-    print(NotebookOut.schema_json(indent=2))
+    # print(NotebookOut.schema_json(indent=2))
 
-    print(json.dumps(notebooks_out, indent=4, sort_keys=True, default=str))
+    json_output = json.dumps(notebooks_out, indent=4, sort_keys=True, default=str)
+    print(json_output)
+
+    return json_output
 
 
 async def export_notebooks_from_structure_db(structure_id: UUID):
