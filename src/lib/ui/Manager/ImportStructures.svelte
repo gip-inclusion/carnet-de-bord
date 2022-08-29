@@ -73,6 +73,10 @@
 			const { uid, valid, ...struct } = structure;
 			const result = await inserter({ ...struct, forceUpdate, sendAccountEmail });
 			let errorMessage = "Une erreur s'est produite, la structure n'a pas été importée.";
+			if (/admin_structure_structure relation failed/i.test(result.error?.message)) {
+				errorMessage =
+					"Une erreur s'est produite, le rattachement de l’admin de structure à échoué.";
+			}
 			if (/uniqueness/i.test(result.error?.message)) {
 				errorMessage = 'Cette structure existe déjà.';
 			}

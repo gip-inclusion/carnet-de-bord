@@ -39,7 +39,7 @@ type Body = {
  *
  * Action appellée lors de l'import d'une structure
  *
- * 1 - On insert la structure la structure existe deja, dans ce cas on met à jour les infos si le parametre `forUpdate` est présent
+ * 1 - la structure existe deja, dans ce cas on met à jour les infos si le parametre `forUpdate` est présent
  * 2 - la structure n'existe pas, dans ce cas on regarde si l'admin de structure existe.
  *     si il existe on ne fait que le rattaché et on lui envoi un mail
  *     sinon on crée le compte admin de structure et on envoi un mail
