@@ -52,19 +52,19 @@ SELECT public.notebook.*,
        notebook_member.creator_id as nm_creator_id,
        notebook_member.invitation_sent_at as nm_invitation_sent_at,
        notebook_member.active as nm_active
-FROM public.notebook
-LEFT JOIN wanted_job
-ON public.wanted_job.notebook_id = public.notebook.id
-LEFT JOIN notebook_focus
-ON public.notebook_focus.notebook_id = public.notebook.id
-LEFT JOIN notebook_target
-ON public.notebook_target.focus_id = public.notebook_focus.id
-LEFT JOIN notebook_action
-ON public.notebook_action.target_id = public.notebook_target.id
-LEFT JOIN notebook_member
-ON public.notebook_member.notebook_id = public.notebook.id
-LEFT JOIN public.rome_code
-ON public.rome_code.id = public.wanted_job.rome_code_id
+       FROM public.notebook
+       LEFT JOIN wanted_job
+       ON public.wanted_job.notebook_id = public.notebook.id
+       LEFT JOIN notebook_focus
+       ON public.notebook_focus.notebook_id = public.notebook.id
+       LEFT JOIN notebook_target
+       ON public.notebook_target.focus_id = public.notebook_focus.id
+       LEFT JOIN notebook_action
+       ON public.notebook_action.target_id = public.notebook_target.id
+       LEFT JOIN notebook_member
+       ON public.notebook_member.notebook_id = public.notebook.id
+       LEFT JOIN public.rome_code
+       ON public.rome_code.id = public.wanted_job.rome_code_id
 """
 
 
@@ -263,6 +263,8 @@ async def add_members_to_notebook(
         # The current notebook_member is not already attached to the notebook
         # so let's add it
         if not notebook_member:
+
+            print(f"## Adding new Notebook member {len(notebook.members)}")
             notebook.members.append(
                 NotebookMember(
                     id=record[record_prefix + "id"],
@@ -295,6 +297,10 @@ async def parse_notebooks_from_records(
         )
         notebook_updated: Notebook | None = await parse_notebook_from_record(
             record, notebook=notebook
+        )
+
+        print(
+            f"## [Parse notebooks] Notebook members size {len(notebook_updated.members)}"
         )
         if not notebook:
             notebooks.append(notebook_updated)

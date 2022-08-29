@@ -21,11 +21,7 @@ async def test_export_notebook(db_connection, test_directory):
         assert len(notebooks_json) == len(json_example)
         assert notebooks_json[0]["beneficiary"] == json_example[0]["beneficiary"]
         assert len(notebooks_json[0]["focuses"]) == len(json_example[0]["focuses"])
-        # assert len(notebooks_json[0]["members"]) == len(json_example[0]["members"])
-
-        # print(notebooks_json[0])
-        print(notebooks_json[0]["members"])
-        assert False
+        assert len(notebooks_json[0]["members"]) == len(json_example[0]["members"])
 
         assert len(notebooks_json[0]["focuses"][0]["targets"]) == len(
             json_example[0]["focuses"][0]["targets"]

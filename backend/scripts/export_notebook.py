@@ -19,7 +19,10 @@ app = typer.Typer()
 
 
 async def export_notebooks_from_structure(
-    connection: Connection, structure_id: UUID, print_out: bool = True
+    connection: Connection,
+    structure_id: UUID,
+    print_out: bool = True,
+    print_schema=False,
 ) -> str:
     logging.info(f"Exporting structure {structure_id}")
 
@@ -27,13 +30,12 @@ async def export_notebooks_from_structure(
         connection, structure_id
     )
 
-    print(f"#### ID {notebooks[0].members}")
-
     notebooks_out: list[NotebookOut] = [
         (await notebook_to_out(connection, notebook)).dict() for notebook in notebooks
     ]
 
-    # print(NotebookOut.schema_json(indent=2))
+    if print_schema:
+        print(NotebookOut.schema_json(indent=2))
 
     json_output = json.dumps(notebooks_out, indent=4, sort_keys=True, default=str)
     if print_out:
