@@ -125,21 +125,9 @@
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
 						<th />
-						<th>Nom*</th>
-						<th>Ville*</th>
-						<th>Code postal</th>
-						<th>Adresse</th>
-						<th>Adresse (complément)</th>
-						<th>Téléphone</th>
-						<th>Courriel</th>
-						<th>Site web</th>
-						<th>SIRET</th>
-						<th>Description</th>
-						<th>Courriel de l'administrateur*</th>
-						<th>Prénom</th>
-						<th>Nom</th>
-						<th>Fonction</th>
-						<th>Numéros de téléphone</th>
+						{#each headers as { label } (label)}
+							<th>{label}</th>
+						{/each}
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each structures as structure}
