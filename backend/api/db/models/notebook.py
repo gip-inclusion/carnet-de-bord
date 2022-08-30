@@ -4,6 +4,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
+from api.db.models.appointment import Appointment
 from api.db.models.focus import Focus
 from api.db.models.notebook_member import NotebookMember
 from api.db.models.wanted_job import WantedJob
@@ -22,6 +23,7 @@ class Notebook(BaseModel):
     wanted_jobs: List[WantedJob]
     focuses: List[Focus] | None = None
     members: List[NotebookMember] | None = None
+    appointments: List[Appointment] | None = None
     geographical_area: str | None
     education_level: str | None
     work_situation_date: date | None

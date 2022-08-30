@@ -5,6 +5,7 @@ from asyncpg import Record
 from asyncpg.connection import Connection
 
 from api.db.models.action import Action
+from api.db.models.appointment import Appointment
 from api.db.models.focus import Focus
 from api.db.models.notebook import Notebook
 from api.db.models.notebook_member import NotebookMember, NotebookMemberInsert
@@ -51,7 +52,14 @@ SELECT public.notebook.*,
        notebook_member.created_at as nm_created_at,
        notebook_member.creator_id as nm_creator_id,
        notebook_member.invitation_sent_at as nm_invitation_sent_at,
-       notebook_member.active as nm_active
+       notebook_member.active as nm_active,
+       notebook_appointment.id as nap_id,
+       notebook_appointment.notebook_id as nap_notebook_id,
+       notebook_appointment.account_id as nap_account_id,
+       notebook_appointment.date as nap_date,
+       notebook_appointment.status as nap_status,
+       notebook_appointment.created_at as nap_created_at,
+       notebook_appointment.updated_at as nap_updated_at
        FROM public.notebook
        LEFT JOIN wanted_job
        ON public.wanted_job.notebook_id = public.notebook.id
@@ -63,6 +71,8 @@ SELECT public.notebook.*,
        ON public.notebook_action.target_id = public.notebook_target.id
        LEFT JOIN notebook_member
        ON public.notebook_member.notebook_id = public.notebook.id
+       LEFT JOIN notebook_appointment
+       ON public.notebook_appointment.notebook_id = public.notebook.id
        LEFT JOIN public.rome_code
        ON public.rome_code.id = public.wanted_job.rome_code_id
 """
@@ -264,7 +274,6 @@ async def add_members_to_notebook(
         # so let's add it
         if not notebook_member:
 
-            print(f"## Adding new Notebook member {len(notebook.members)}")
             notebook.members.append(
                 NotebookMember(
                     id=record[record_prefix + "id"],
@@ -277,6 +286,37 @@ async def add_members_to_notebook(
                     created_at=record[record_prefix + "created_at"],
                     creator_id=record[record_prefix + "creator_id"],
                     active=record[record_prefix + "active"],
+                )
+            )
+
+
+async def add_appointments_to_notebook(
+    record: Record,
+    notebook: Notebook,
+    record_prefix: str = "nap_",
+) -> None:
+    if record[record_prefix + "id"] is not None:
+        if notebook.appointments is None:
+            notebook.appointments = []
+
+        appointment: Appointment | None = next(
+            (f for f in notebook.appointments if f.id == record[record_prefix + "id"]),
+            None,
+        )
+
+        # The current appointment is not already attached to the notebook
+        # so let's add it
+        if not appointment:
+
+            notebook.appointments.append(
+                Appointment(
+                    id=record[record_prefix + "id"],
+                    notebook_id=record[record_prefix + "notebook_id"],
+                    account_id=record[record_prefix + "account_id"],
+                    date=record[record_prefix + "date"],
+                    status=record[record_prefix + "status"],
+                    created_at=record[record_prefix + "created_at"],
+                    updated_at=record[record_prefix + "created_at"],
                 )
             )
 
@@ -317,6 +357,7 @@ async def parse_notebook_from_record(
     add_targets: bool = True,
     add_actions: bool = True,
     add_members: bool = True,
+    add_appointments: bool = True,
     notebook: Notebook | None = None,
 ) -> Notebook:
 
@@ -357,6 +398,9 @@ async def parse_notebook_from_record(
 
     if add_members:
         await add_members_to_notebook(record, notebook)
+
+    if add_appointments:
+        await add_appointments_to_notebook(record, notebook)
 
     return notebook
 
