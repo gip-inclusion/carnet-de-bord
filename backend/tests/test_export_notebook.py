@@ -42,3 +42,5 @@ async def test_export_notebook(db_connection, test_directory):
         )
 
         assert target is not None
+
+        assert len(notebooks_json[0]["appointments"]) == 3

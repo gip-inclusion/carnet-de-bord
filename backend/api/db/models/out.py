@@ -72,29 +72,6 @@ class NotebookMemberOut(BaseModel):
     active: bool | None
 
 
-class NotebookOut(BaseModel):
-    beneficiary: BeneficiaryOut
-    created_at: datetime
-    updated_at: datetime
-    right_rsa: str | None = Field(None, title="Droits RSA")
-    right_rqth: bool = Field(False, title="Droits RQTH")
-    right_are: bool = Field(False, title="Droits RSA")
-    right_ass: bool | None = Field(False, title="Droits ASS")
-    right_bonus: bool = Field(False, title="Droits Bonus")
-    wanted_jobs: list[WantedJobOut]
-    focuses: list[FocusOut]
-    members: list[NotebookMemberOut]
-    geographical_area: str | None
-    education_level: str | None
-    work_situation_date: date | None
-    contract_type: str | None
-    contract_sign_date: date | None
-    work_situation: str | None
-    work_situation_end_date: date | None
-    contract_start_date: date | None
-    contract_end_date: date | None
-
-
 class AccountOut(BaseModel):
     type: RoleEnum
     admin_id: UUID | None
@@ -108,8 +85,32 @@ class AccountOut(BaseModel):
 
 
 class AppointmentOut(BaseModel):
-    account_id: AccountOut
+    account: AccountOut | None
     date: date
     status: str
     created_at: datetime | None
     updated_at: datetime | None
+
+
+class NotebookOut(BaseModel):
+    beneficiary: BeneficiaryOut
+    created_at: datetime
+    updated_at: datetime
+    right_rsa: str | None = Field(None, title="Droits RSA")
+    right_rqth: bool = Field(False, title="Droits RQTH")
+    right_are: bool = Field(False, title="Droits RSA")
+    right_ass: bool | None = Field(False, title="Droits ASS")
+    right_bonus: bool = Field(False, title="Droits Bonus")
+    wanted_jobs: list[WantedJobOut]
+    focuses: list[FocusOut]
+    members: list[NotebookMemberOut]
+    appointments: list[AppointmentOut]
+    geographical_area: str | None
+    education_level: str | None
+    work_situation_date: date | None
+    contract_type: str | None
+    contract_sign_date: date | None
+    work_situation: str | None
+    work_situation_end_date: date | None
+    contract_start_date: date | None
+    contract_end_date: date | None
