@@ -321,3 +321,10 @@ INSERT INTO public.notebook_action (id, action, target_id, status, creator_id, c
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('91dba199-109c-4312-93cb-bd99f579532b', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'a501db53-1b79-4a60-860b-5972bd184f98', NULL, '', '2021-09-21 12:32:59.911757+00', NULL, NULL);
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', NULL, NULL);
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'db78bfd9-aedb-4220-bf0a-f62b0528e5bf', '2021-09-21 13:06:45.076+00', 'referent');
+
+
+INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:06:45.076+00', 'present', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00');
+INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('5ab6baed-fa1f-4bc2-ab93-be3c07f632f7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-11 13:06:45.076+00', 'absent', '2021-09-11 13:06:45.076+00', '2021-09-11 13:06:45.076+00');
+
+
+INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('4d1fff01-463b-4c1b-94e2-f3588a6cbf88', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-08-11 13:06:45.076+00', 'pending', '2021-08-11 13:06:45.076+00', '2021-08-11 13:06:45.076+00');
