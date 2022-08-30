@@ -2,6 +2,8 @@ from datetime import date, datetime
 
 from pydantic import BaseModel, Field
 
+from api.db.models.role import RoleEnum
+
 
 class DeploymentOut(BaseModel):
     label: str
@@ -90,3 +92,25 @@ class NotebookOut(BaseModel):
     work_situation_end_date: date | None
     contract_start_date: date | None
     contract_end_date: date | None
+
+
+class AccountOut(BaseModel):
+    type: RoleEnum
+    admin_id: UUID | None
+    manager_id: UUID | None
+    orientation_manager_id: UUID | None
+    admin_structure_id: UUID | None
+    professional_id: UUID | None
+    beneficiary_id: UUID | None
+    confirmed: Boolean = False
+    onboarding_done: Boolean = False
+    created_at: datetime
+    updated_at: datetime
+
+
+class AppointmentOut(BaseModel):
+    account_id: AccountOut
+    date: date
+    status: str
+    created_at: datetime | None
+    updated_at: datetime | None
