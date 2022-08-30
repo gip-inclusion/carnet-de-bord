@@ -6,6 +6,7 @@ from api.db.models.out import (
     ActionOut,
     BeneficiaryOut,
     FocusOut,
+    NotebookMemberOut,
     NotebookOut,
     RomeCodeOut,
     TargetOut,
@@ -73,6 +74,21 @@ async def notebook_to_out(
         else:
             focuses_out = []
 
+        if notebook.members:
+            members_out = [
+                NotebookMemberOut(
+                    last_visited_at=nb.last_visited_at,
+                    member_type=nb.member_type,
+                    last_modified_at=nb.last_modified_at,
+                    created_at=nb.created_at,
+                    invitation_sent_at=nb.invitation_sent_at,
+                    active=nb.active,
+                )
+                for nb in notebook.members
+            ]
+        else:
+            members_out = []
+
         notebook_out = NotebookOut(
             beneficiary=beneficiary_out,
             created_at=notebook.created_at,
@@ -102,6 +118,7 @@ async def notebook_to_out(
                 for j in notebook.wanted_jobs
             ],
             focuses=focuses_out,
+            members=members_out,
         )
 
         return notebook_out

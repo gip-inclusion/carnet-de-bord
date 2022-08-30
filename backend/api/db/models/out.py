@@ -60,6 +60,15 @@ class FocusOut(BaseModel):
     targets: list[TargetOut] | None = None
 
 
+class NotebookMemberOut(BaseModel):
+    last_visited_at: datetime | None
+    member_type: str
+    last_modified_at: datetime | None
+    created_at: datetime
+    invitation_sent_at: datetime | None
+    active: bool | None
+
+
 class NotebookOut(BaseModel):
     beneficiary: BeneficiaryOut
     created_at: datetime
@@ -71,6 +80,7 @@ class NotebookOut(BaseModel):
     right_bonus: bool = Field(False, title="Droits Bonus")
     wanted_jobs: list[WantedJobOut]
     focuses: list[FocusOut]
+    members: list[NotebookMemberOut]
     geographical_area: str | None
     education_level: str | None
     work_situation_date: date | None
