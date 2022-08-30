@@ -1,9 +1,11 @@
 from datetime import date
 from uuid import UUID
 
-from api.db.crud.notebook import get_notebook_by_id
+from api.db.crud.notebook import find_focus, find_target_from_focus, get_notebook_by_id
 from api.db.models.beneficiary import Beneficiary
+from api.db.models.focus import Focus
 from api.db.models.notebook import Notebook
+from api.db.models.target import Target
 
 
 async def test_get_notebook_by_id(db_connection):
@@ -53,14 +55,18 @@ async def test_get_notebook_focuses(beneficiary_sophie_tifour: Beneficiary):
     assert notebook.focuses is not None
     assert len(notebook.focuses) == 3
 
-    focus = notebook.focuses[2]
+    focus: Focus | None = await find_focus(notebook, lambda f: f.theme == "emploi")
 
+    assert focus is not None
     assert focus.targets is not None
 
     assert len(focus.targets) == 2
-    target = focus.targets[0]
 
-    assert target.target == "Accéder à l’emploi"
+    target: Target | None = await find_target_from_focus(
+        focus, lambda t: t.target == "Accéder à l’emploi"
+    )
+
+    assert target is not None
 
     assert target.actions is not None
 

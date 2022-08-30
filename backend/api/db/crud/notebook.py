@@ -1,4 +1,5 @@
 import json
+from typing import Callable
 from uuid import UUID
 
 from asyncpg import Record
@@ -112,20 +113,24 @@ async def add_wanted_jobs_to_notebook(
             notebook.wanted_jobs.append(wanted_job)
 
 
-async def find_focus(notebook: Notebook, focus_id: UUID) -> Focus | None:
+async def find_focus(
+    notebook: Notebook, find_function: Callable[[Focus], bool]
+) -> Focus | None:
 
     if notebook.focuses is not None:
         return next(
-            (f for f in notebook.focuses if f.id == focus_id),
+            (f for f in notebook.focuses if find_function(f)),
             None,
         )
 
 
-async def find_target_from_focus(focus: Focus, target_id: UUID) -> Target | None:
+async def find_target_from_focus(
+    focus: Focus, find_function: Callable[[Target], bool]
+) -> Target | None:
 
     if focus.targets is not None:
         return next(
-            (t for t in focus.targets if t.id == target_id),
+            (t for t in focus.targets if find_function(t)),
             None,
         )
 
@@ -134,12 +139,12 @@ async def find_target_from_notebook(
     notebook: Notebook, focus_id: UUID, target_id: UUID
 ) -> Target | None:
 
-    focus: Focus | None = await find_focus(notebook, focus_id)
+    focus: Focus | None = await find_focus(notebook, lambda f: f.id == focus_id)
 
     if focus is None:
         return
 
-    return await find_target_from_focus(focus, target_id)
+    return await find_target_from_focus(focus, lambda t: t.id == target_id)
 
 
 async def find_action_from_target(target: Target, action_id: UUID) -> Action | None:
@@ -199,7 +204,7 @@ async def add_target_to_focus(
 
     if record[record_prefix + "id"] is not None:
         focus: Focus | None = await find_focus(
-            notebook, record[record_prefix + "focus_id"]
+            notebook, lambda f: f.id == record[record_prefix + "focus_id"]
         )
 
         if focus:
@@ -208,7 +213,7 @@ async def add_target_to_focus(
             else:
                 # Let's see if the target we want to add is already inserted
                 target: Target | None = await find_target_from_focus(
-                    focus, record[record_prefix + "id"]
+                    focus, lambda t: t.id == record[record_prefix + "id"]
                 )
 
                 if target:
