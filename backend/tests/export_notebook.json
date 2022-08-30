@@ -24,6 +24,35 @@
 		"education_level": "NV5",
 		"focuses": [
 			{
+				"created_at": "2021-09-21 13:15:54.752334+00:00",
+				"linked_to": "cer",
+				"situations": ["H\u00e9berg\u00e9 chez un tiers"],
+				"targets": [
+					{
+						"actions": [
+							{
+								"action": "Demande SIAO",
+								"created_at": "2020-01-05 13:55:43.100609+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-30 05:54:09.024741+00:00"
+							},
+							{
+								"action": "Demande de logement social",
+								"created_at": "2020-07-01 15:13:59.820331+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-30 05:54:09.024741+00:00"
+							}
+						],
+						"created_at": "2021-09-21 13:17:53.594417+00:00",
+						"status": "in_progress",
+						"target": "Changer de logement",
+						"updated_at": "2022-08-30 05:54:09.024741+00:00"
+					}
+				],
+				"theme": "logement",
+				"updated_at": "2022-08-30 05:54:09.024741+00:00"
+			},
+			{
 				"created_at": "2021-09-21 13:33:16.965230+00:00",
 				"linked_to": "cer",
 				"situations": ["Pr\u00eat  \u00e0 suivre une formation"],
@@ -31,46 +60,46 @@
 					{
 						"actions": [
 							{
-								"action": "Pr\u00e9pa-Comp\u00e9tences",
-								"created_at": "2020-09-01 15:11:37.553360+00:00",
-								"status": "in_progress",
-								"updated_at": "2022-08-25 13:35:37.452290+00:00"
-							}
-						],
-						"created_at": "2021-09-21 13:34:17.493745+00:00",
-						"status": "in_progress",
-						"target": "D\u00e9finir ou confirmer un projet professionnel",
-						"updated_at": "2022-08-25 13:35:37.452290+00:00"
-					},
-					{
-						"actions": [
-							{
 								"action": "Formation certifiante",
 								"created_at": "2021-07-01 15:34:53.239372+00:00",
 								"status": "in_progress",
-								"updated_at": "2022-08-25 13:35:37.452290+00:00"
-							},
-							{
-								"action": "Avoir un pass IAE valid\u00e9",
-								"created_at": "2021-06-08 13:42:53.239372+00:00",
-								"status": "in_progress",
-								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+								"updated_at": "2022-08-30 05:54:09.024741+00:00"
 							},
 							{
 								"action": "Orientation vers une SIAE",
 								"created_at": "2020-11-01 13:40:07.137635+00:00",
 								"status": "in_progress",
-								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+								"updated_at": "2022-08-30 05:54:09.024741+00:00"
+							},
+							{
+								"action": "Avoir un pass IAE valid\u00e9",
+								"created_at": "2021-06-08 13:42:53.239372+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-30 05:54:09.024741+00:00"
 							}
 						],
 						"created_at": "2021-09-21 13:35:11.636378+00:00",
 						"status": "in_progress",
 						"target": "Acc\u00e9der \u00e0 l\u2019emploi",
-						"updated_at": "2022-08-25 13:35:37.452290+00:00"
+						"updated_at": "2022-08-30 05:54:09.024741+00:00"
+					},
+					{
+						"actions": [
+							{
+								"action": "Pr\u00e9pa-Comp\u00e9tences",
+								"created_at": "2020-09-01 15:11:37.553360+00:00",
+								"status": "in_progress",
+								"updated_at": "2022-08-30 05:54:09.024741+00:00"
+							}
+						],
+						"created_at": "2021-09-21 13:34:17.493745+00:00",
+						"status": "in_progress",
+						"target": "D\u00e9finir ou confirmer un projet professionnel",
+						"updated_at": "2022-08-30 05:54:09.024741+00:00"
 					}
 				],
 				"theme": "emploi",
-				"updated_at": "2022-08-25 13:35:37.452290+00:00"
+				"updated_at": "2022-08-30 05:54:09.024741+00:00"
 			},
 			{
 				"created_at": "2021-09-21 13:26:42.939011+00:00",
@@ -83,46 +112,17 @@
 								"action": "Demande de CSS",
 								"created_at": "2020-01-05 15:08:20.139704+00:00",
 								"status": "in_progress",
-								"updated_at": "2022-08-25 13:35:37.452290+00:00"
+								"updated_at": "2022-08-30 05:54:09.024741+00:00"
 							}
 						],
 						"created_at": "2021-09-21 14:55:12.797276+00:00",
 						"status": "in_progress",
 						"target": "Travailler l\u2019acc\u00e8s aux droits",
-						"updated_at": "2022-08-25 13:35:37.452290+00:00"
+						"updated_at": "2022-08-30 05:54:09.024741+00:00"
 					}
 				],
 				"theme": "difficulte_administrative",
-				"updated_at": "2022-08-25 13:35:37.452290+00:00"
-			},
-			{
-				"created_at": "2021-09-21 13:15:54.752334+00:00",
-				"linked_to": "cer",
-				"situations": ["H\u00e9berg\u00e9 chez un tiers"],
-				"targets": [
-					{
-						"actions": [
-							{
-								"action": "Demande SIAO",
-								"created_at": "2020-01-05 13:55:43.100609+00:00",
-								"status": "in_progress",
-								"updated_at": "2022-08-25 13:35:37.452290+00:00"
-							},
-							{
-								"action": "Demande de logement social",
-								"created_at": "2020-07-01 15:13:59.820331+00:00",
-								"status": "in_progress",
-								"updated_at": "2022-08-25 13:35:37.452290+00:00"
-							}
-						],
-						"created_at": "2021-09-21 13:17:53.594417+00:00",
-						"status": "in_progress",
-						"target": "Changer de logement",
-						"updated_at": "2022-08-25 13:35:37.452290+00:00"
-					}
-				],
-				"theme": "logement",
-				"updated_at": "2022-08-25 13:35:37.452290+00:00"
+				"updated_at": "2022-08-30 05:54:09.024741+00:00"
 			}
 		],
 		"geographical_area": "between_10_20",
