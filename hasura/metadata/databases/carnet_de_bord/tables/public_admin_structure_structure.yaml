@@ -35,6 +35,16 @@ insert_permissions:
       columns:
         - admin_structure_id
         - structure_id
+  - role: admin_structure
+    permission:
+      check:
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-adminStructure-Id
+      columns:
+        - admin_structure_id
+        - structure_id
   - role: manager
     permission:
       check:
