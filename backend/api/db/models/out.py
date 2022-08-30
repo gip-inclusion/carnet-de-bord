@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from uuid import UUID
 
 from pydantic import BaseModel, Field
 
@@ -102,8 +103,6 @@ class AccountOut(BaseModel):
     admin_structure_id: UUID | None
     professional_id: UUID | None
     beneficiary_id: UUID | None
-    confirmed: Boolean = False
-    onboarding_done: Boolean = False
     created_at: datetime
     updated_at: datetime
 
