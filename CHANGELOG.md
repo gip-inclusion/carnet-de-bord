@@ -1,3 +1,10 @@
+# [1.130.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.129.3...v1.130.0) (2022-08-30)
+
+
+### Features
+
+* ajout des membres à l'export d'un Notebook ([#1012](https://github.com/SocialGouv/carnet-de-bord/issues/1012)) ([2dcca55](https://github.com/SocialGouv/carnet-de-bord/commit/2dcca55b5c6b5849a3b5b4bf9fce78dd979d47ba))
+
 ## [1.129.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.129.2...v1.129.3) (2022-08-10)
 
 
