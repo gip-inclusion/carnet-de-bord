@@ -5,7 +5,7 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
-from api.db.crud.notebook import add_wanted_jobs_to_notebook, parse_notebook_from_record
+from api.db.crud.notebook import parse_notebook_from_record
 from api.db.models.beneficiary import Beneficiary
 
 
