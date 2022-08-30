@@ -339,9 +339,6 @@ async def parse_notebooks_from_records(
             record, notebook=notebook
         )
 
-        print(
-            f"## [Parse notebooks] Notebook members size {len(notebook_updated.members)}"
-        )
         if not notebook:
             notebooks.append(notebook_updated)
 
