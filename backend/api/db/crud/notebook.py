@@ -5,6 +5,7 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
+from api.db.models.account import AccountInfo
 from api.db.models.action import Action
 from api.db.models.appointment import Appointment
 from api.db.models.focus import Focus
@@ -60,7 +61,10 @@ SELECT public.notebook.*,
        notebook_appointment.date as nap_date,
        notebook_appointment.status as nap_status,
        notebook_appointment.created_at as nap_created_at,
-       notebook_appointment.updated_at as nap_updated_at
+       notebook_appointment.updated_at as nap_updated_at,
+       account_info.firstname as nap_firstname,
+       account_info.lastname as nap_lastname,
+       account_info.email as nap_email
        FROM public.notebook
        LEFT JOIN wanted_job
        ON public.wanted_job.notebook_id = public.notebook.id
@@ -74,6 +78,8 @@ SELECT public.notebook.*,
        ON public.notebook_member.notebook_id = public.notebook.id
        LEFT JOIN notebook_appointment
        ON public.notebook_appointment.notebook_id = public.notebook.id
+       LEFT JOIN account_info
+       ON public.notebook_appointment.account_id = public.account_info.account_id
        LEFT JOIN public.rome_code
        ON public.rome_code.id = public.wanted_job.rome_code_id
 """
@@ -317,7 +323,12 @@ async def add_appointments_to_notebook(
                 Appointment(
                     id=record[record_prefix + "id"],
                     notebook_id=record[record_prefix + "notebook_id"],
-                    account_id=record[record_prefix + "account_id"],
+                    account_info=AccountInfo(
+                        account_id=record[record_prefix + "account_id"],
+                        firstname=record[record_prefix + "firstname"],
+                        lastname=record[record_prefix + "lastname"],
+                        email=record[record_prefix + "email"],
+                    ),
                     date=record[record_prefix + "date"],
                     status=record[record_prefix + "status"],
                     created_at=record[record_prefix + "created_at"],

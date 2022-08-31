@@ -324,7 +324,7 @@ INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at
 
 
 INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:06:45.076+00', 'present', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00');
-INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('5ab6baed-fa1f-4bc2-ab93-be3c07f632f7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-11 13:06:45.076+00', 'absent', '2021-09-11 13:06:45.076+00', '2021-09-11 13:06:45.076+00');
+INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('5ab6baed-fa1f-4bc2-ab93-be3c07f632f7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '2021-09-11 13:06:45.076+00', 'absent', '2021-09-11 13:06:45.076+00', '2021-09-11 13:06:45.076+00');
 
 
 INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('4d1fff01-463b-4c1b-94e2-f3588a6cbf88', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-08-11 13:06:45.076+00', 'pending', '2021-08-11 13:06:45.076+00', '2021-08-11 13:06:45.076+00');

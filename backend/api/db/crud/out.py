@@ -3,6 +3,7 @@ from asyncpg.connection import Connection
 from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.models.notebook import Notebook
 from api.db.models.out import (
+    AccountInfoOut,
     ActionOut,
     AppointmentOut,
     BeneficiaryOut,
@@ -93,8 +94,11 @@ async def notebook_to_out(
         if notebook.appointments:
             appointments_out = [
                 AppointmentOut(
-                    # @TODO: create the related account
-                    account=None,
+                    account_info=AccountInfoOut(
+                        firstname=na.account_info.firstname,
+                        lastname=na.account_info.lastname,
+                        email=na.account_info.email,
+                    ),
                     date=na.date,
                     status=na.status,
                     created_at=na.created_at,

@@ -72,20 +72,14 @@ class NotebookMemberOut(BaseModel):
     active: bool | None
 
 
-class AccountOut(BaseModel):
-    type: RoleEnum
-    admin_id: UUID | None
-    manager_id: UUID | None
-    orientation_manager_id: UUID | None
-    admin_structure_id: UUID | None
-    professional_id: UUID | None
-    beneficiary_id: UUID | None
-    created_at: datetime
-    updated_at: datetime
+class AccountInfoOut(BaseModel):
+    firstname: str
+    lastname: str
+    email: str | None
 
 
 class AppointmentOut(BaseModel):
-    account: AccountOut | None
+    account_info: AccountInfoOut | None
     date: date
     status: str
     created_at: datetime | None
