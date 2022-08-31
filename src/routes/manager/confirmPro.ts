@@ -83,7 +83,7 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 
-	if (ensureAccountHasRelation(data.account)) {
+	if (!accountHasRelation(data.account)) {
 		return {
 			status: 400,
 			body: {
@@ -144,7 +144,7 @@ export const post: RequestHandler = async ({ request }) => {
 	};
 };
 
-export function ensureAccountHasRelation(account: GetAccountByIdQuery['account']) {
+export function accountHasRelation(account: GetAccountByIdQuery['account']) {
 	return (
 		(account.type === RoleEnum.Professional && account.professional) ||
 		(account.type === RoleEnum.OrientationManager && account.orientation_manager)

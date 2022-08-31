@@ -49,7 +49,8 @@
 
 	function toList(account: GetAccountsSummaryQuery['accounts'][0]): AccountSummary {
 		if (account.type === RoleEnum.Professional) {
-			const { id, firstname, lastname, email, structure, mobileNumber } = account.professional;
+			const { id } = account;
+			const { firstname, lastname, email, structure, mobileNumber } = account.professional;
 			return {
 				id,
 				firstname,
