@@ -31,24 +31,25 @@ async def create_manager(
         admin_pdi = await insert_admin_pdi(connection=db, data=admin)
         if admin_pdi is None:
             raise HTTPException(status_code=500, detail="insert manager failed")
-        async with db.transaction():
-            account = await insert_admin_pdi_account(
-                connection=db,
-                admin_pdi_id=admin_pdi.id,
-                confirmed=True,
-                username=str(uuid.uuid4()),
-            )
-            if not account:
-                logging.error(f"Insert account failed")
-                raise HTTPException(status_code=500, detail="insert account failed")
 
-            background_tasks.add_task(
-                send_invitation_email,
-                email=admin_pdi.email,
-                firstname=admin_pdi.firstname,
-                lastname=admin_pdi.lastname,
-                access_key=account.access_key,
-            )
+        account = await insert_admin_pdi_account(
+            connection=db,
+            admin_pdi_id=admin_pdi.id,
+            confirmed=True,
+            username=str(uuid.uuid4()),
+        )
+
+        if not account:
+            logging.error(f"Insert account failed")
+            raise HTTPException(status_code=500, detail="insert account failed")
+
+        background_tasks.add_task(
+            send_invitation_email,
+            email=admin_pdi.email,
+            firstname=admin_pdi.firstname,
+            lastname=admin_pdi.lastname,
+            access_key=account.access_key,
+        )
         return admin_pdi
 
 

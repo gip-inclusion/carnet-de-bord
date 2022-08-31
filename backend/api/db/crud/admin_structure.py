@@ -31,7 +31,7 @@ async def insert_admin_structure(
     if record:
         return parse_admin_structure_from_record(record)
     else:
-        logging.error(f"insert fail {data}")
+        logging.error(f"insert_admin_structure fail {data}")
 
 
 async def insert_admin_structure_structure(
@@ -51,5 +51,5 @@ async def insert_admin_structure_structure(
         return record["id"]
     else:
         logging.error(
-            f"insert admin_structure structure fail {admin_structure_id} {structure_id}"
+            f"insert_admin_structure_structure fail {admin_structure_id} {structure_id}"
         )

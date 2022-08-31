@@ -35,38 +35,38 @@ async def create_admin_structure(
         if admin_structure is None:
             raise HTTPException(status_code=500, detail="insert admin_structure failed")
 
-        async with db.transaction():
-            account = await insert_admin_structure_account(
-                connection=db,
-                admin_structure_id=admin_structure.id,
-                confirmed=True,
-                username=str(uuid.uuid4()),
+        account = await insert_admin_structure_account(
+            connection=db,
+            admin_structure_id=admin_structure.id,
+            confirmed=True,
+            username=str(uuid.uuid4()),
+        )
+
+        if not account:
+            logging.error(f"Insert account failed")
+            raise HTTPException(status_code=500, detail="insert account failed")
+
+        ass_id = await insert_admin_structure_structure(
+            connection=db,
+            admin_structure_id=admin_structure.id,
+            structure_id=data.structure_id,
+        )
+
+        if not ass_id:
+            logging.error(f"Insert admin_structure_structure failed")
+            raise HTTPException(
+                status_code=500,
+                detail="insert admin_structure_structure failed",
             )
-            if not account:
-                logging.error(f"Insert account failed")
-                raise HTTPException(status_code=500, detail="insert account failed")
 
-            async with db.transaction():
-                ass_id = await insert_admin_structure_structure(
-                    connection=db,
-                    admin_structure_id=admin_structure.id,
-                    structure_id=data.structure_id,
-                )
+        background_tasks.add_task(
+            send_invitation_email,
+            email=admin_structure.email,
+            firstname=admin_structure.firstname,
+            lastname=admin_structure.lastname,
+            access_key=account.access_key,
+        )
 
-                if not ass_id:
-                    logging.error(f"Insert admin_structure_structure failed")
-                    raise HTTPException(
-                        status_code=500,
-                        detail="insert admin_structure_structure failed",
-                    )
-
-            background_tasks.add_task(
-                send_invitation_email,
-                email=admin_structure.email,
-                firstname=admin_structure.firstname,
-                lastname=admin_structure.lastname,
-                access_key=account.access_key,
-            )
         return admin_structure
 
 
