@@ -145,15 +145,16 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
         )
 
         csv_row: PrincipalCsvRow = await map_principal_row(row)
+        hash_result: str = await get_sha256(csv_row)
 
         if csv_row.brsa:
             beneficiary: Beneficiary | None = await import_beneficiary(
-                connection, csv_row, row["identifiant_unique_de"]
+                connection, csv_row, row["identifiant_unique_de"], hash_result
             )
 
             # Keep track of the data we want to insert
             if beneficiary:
-                await save_external_data(connection, beneficiary, csv_row)
+                await save_external_data(connection, beneficiary, csv_row, hash_result)
 
                 if beneficiary.notebook:
                     professional = await import_pe_referent(
@@ -169,6 +170,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                             connection,
                             beneficiary,
                             csv_row,
+                            hash_result,
                             professional=professional,
                         )
                 else:
@@ -179,7 +181,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                     )
             else:
                 logging.error(
-                    "{} - Error while importing beneficiary.".format(
+                    "{} - No new beneficiary to import. Skipping.".format(
                         row["identifiant_unique_de"]
                     )
                 )
@@ -335,7 +337,10 @@ async def add_account_to_notebook_members(
 
 
 async def import_beneficiary(
-    connection: Connection, csv_row: PrincipalCsvRow, pe_unique_id: str
+    connection: Connection,
+    csv_row: PrincipalCsvRow,
+    pe_unique_id: str,
+    hash_result: str,
 ) -> Beneficiary | None:
 
     beneficiary: Beneficiary | None = await get_beneficiary_from_personal_information(
@@ -346,6 +351,20 @@ async def import_beneficiary(
     )
 
     if beneficiary and beneficiary.notebook is not None:
+
+        # Do we already have some external data for this beneficiary?
+        external_data: ExternalData | None = (
+            await get_last_external_data_by_beneficiary_id_and_source(
+                connection, beneficiary.id, ExternalSource.PE
+            )
+        )
+        if external_data is not None and hash_result == external_data.hash:
+            logging.info(
+                "{} - SHA value is the same. Skipping import for beneficiary {}".format(
+                    pe_unique_id, beneficiary.id
+                )
+            )
+            return
 
         logging.info(
             "{} - Found matching beneficiary {}".format(pe_unique_id, beneficiary.id)
@@ -370,6 +389,7 @@ async def save_external_data(
     connection: Connection,
     beneficiary: Beneficiary,
     csv_row: PrincipalCsvRow,
+    hash_result: str,
     professional: Professional | None = None,
 ) -> ExternalData | None:
 
@@ -379,8 +399,6 @@ async def save_external_data(
             connection, beneficiary.id, ExternalSource.PE
         )
     )
-
-    hash_result: str = await get_sha256(csv_row)
 
     external_data_dict = {"beneficiary": beneficiary.dict()}
     if professional:
