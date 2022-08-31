@@ -1,3 +1,10 @@
+# [1.131.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.130.0...v1.131.0) (2022-08-31)
+
+
+### Features
+
+* PE - Vérification du SHA 256 d'une ligne CSV avant son import ([#980](https://github.com/SocialGouv/carnet-de-bord/issues/980)) ([b778ea5](https://github.com/SocialGouv/carnet-de-bord/commit/b778ea5290a5cc2237fc7cf756ac38b779a097c7))
+
 # [1.130.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.129.3...v1.130.0) (2022-08-30)
 
 
