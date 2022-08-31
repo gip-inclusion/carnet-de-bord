@@ -7,7 +7,11 @@ from fastapi import APIRouter, BackgroundTasks, Depends
 from api.core.emails import generic_account_creation_email
 from api.core.init import connection
 from api.core.settings import settings
-from api.db.crud.account import insert_admin_structure_account
+from api.db.crud.account import (
+    create_username,
+    get_accounts_with_query,
+    insert_admin_structure_account,
+)
 from api.db.crud.admin_structure import (
     insert_admin_structure,
     insert_admin_structure_structure,
@@ -35,11 +39,25 @@ async def create_admin_structure(
         if admin_structure is None:
             raise HTTPException(status_code=500, detail="insert admin_structure failed")
 
+        email_username = data.admin.email.split("@")[0].lower()
+
+        accounts = await get_accounts_with_query(
+            db,
+            """
+            WHERE account.username like $1
+            """,
+            email_username + "%",
+        )
+
+        username = create_username(
+            email_username, [account.username for account in accounts]
+        )
+
         account = await insert_admin_structure_account(
             connection=db,
             admin_structure_id=admin_structure.id,
             confirmed=True,
-            username=str(uuid.uuid4()),
+            username=username,
         )
 
         if not account:
