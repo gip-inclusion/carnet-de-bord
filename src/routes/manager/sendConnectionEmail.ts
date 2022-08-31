@@ -77,7 +77,7 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 
-	if (accountHasRelation(data.account)) {
+	if (!accountHasRelation(data.account)) {
 		return {
 			status: 400,
 			body: {
