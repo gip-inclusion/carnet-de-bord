@@ -118,7 +118,7 @@
 </svelte:head>
 
 <LoaderIndicator {result}>
-	<div class={`w-full fr-table fr-table--layout-fixed`}>
+	<div class={`w-full fr-table fr-table--layout-fixed fr-mt-6w`}>
 		<table>
 			<thead>
 				<tr>
