@@ -1,3 +1,10 @@
+## [1.133.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.133.0...v1.133.1) (2022-09-01)
+
+
+### Bug Fixes
+
+* validate new pro account ([#1011](https://github.com/SocialGouv/carnet-de-bord/issues/1011)) ([#1028](https://github.com/SocialGouv/carnet-de-bord/issues/1028)) ([290b4f3](https://github.com/SocialGouv/carnet-de-bord/commit/290b4f344d498412e3008d48b1ceabc0e73b94c7))
+
 # [1.133.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.132.0...v1.133.0) (2022-09-01)
 
 
