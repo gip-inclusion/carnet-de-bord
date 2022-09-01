@@ -1,3 +1,11 @@
+# [1.133.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.132.0...v1.133.0) (2022-09-01)
+
+
+### Features
+
+* add admin structure from structure ([#1024](https://github.com/SocialGouv/carnet-de-bord/issues/1024)) ([c7e3c5b](https://github.com/SocialGouv/carnet-de-bord/commit/c7e3c5bff6cb97242283ba622ecd1790f8fc3778))
+* import multiple admin struct ([#1025](https://github.com/SocialGouv/carnet-de-bord/issues/1025)) ([8bb36d8](https://github.com/SocialGouv/carnet-de-bord/commit/8bb36d8234cf6a9446faf7971408c1dca1daabbe))
+
 # [1.132.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.131.0...v1.132.0) (2022-09-01)
 
 
