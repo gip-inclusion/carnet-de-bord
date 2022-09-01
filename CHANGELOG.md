@@ -1,3 +1,10 @@
+# [1.132.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.131.0...v1.132.0) (2022-09-01)
+
+
+### Features
+
+* VitamineT ajout des appointments à l'export ([#1021](https://github.com/SocialGouv/carnet-de-bord/issues/1021)) ([9d2724e](https://github.com/SocialGouv/carnet-de-bord/commit/9d2724e35a398def624fd90e564942c0bf48bee9))
+
 # [1.131.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.130.0...v1.131.0) (2022-08-31)
 
 
