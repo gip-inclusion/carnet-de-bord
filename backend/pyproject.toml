@@ -6,7 +6,7 @@ authors = ["LionelB <lionel@lumographe.fr>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fastapi = "^0.79.0"
+fastapi = "^0.81.0"
 uvicorn = "^0.18.0"
 python-dotenv = "^0.20.0"
 asyncpg = "^0.26.0"
