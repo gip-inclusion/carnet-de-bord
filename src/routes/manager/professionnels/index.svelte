@@ -128,9 +128,9 @@
 					<th>Téléphone</th>
 					<th>Structure</th>
 					<th>Email</th>
-					<th>Compte</th>
-					<th>bénéficiaires</th>
 					<th>Onboarding</th>
+					<th class="text-right">BRSA suivis</th>
+					<th class="text-center">Compte</th>
 					<th class="text-center">Email de connexion</th>
 				</tr>
 			</thead>
@@ -150,13 +150,7 @@
 						<td class="break-words">
 							<Text value={account.email} />
 						</td>
-						<td>
-							{#if !account.confirmed}
-								<Button on:click={() => confirmAccount(account.id)}>Activer</Button>
-							{:else}
-								Actif
-							{/if}
-						</td>
+
 						<td>
 							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
 						</td>
@@ -168,6 +162,15 @@
 							>
 								{account.nbBeneficiaries}
 							</p>
+						</td>
+						<td class="text-center">
+							{#if !account.confirmed}
+								<Button classNames="fr-btn--sm" on:click={() => confirmAccount(account.id)}
+									>Activer</Button
+								>
+							{:else}
+								Actif
+							{/if}
 						</td>
 						<td class="text-center">
 							{#if account.confirmed}
