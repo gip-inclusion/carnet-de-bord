@@ -73,6 +73,10 @@
 			const { uid, valid, ...struct } = structure;
 			const result = await inserter({ ...struct, forceUpdate, sendAccountEmail });
 			let errorMessage = "Une erreur s'est produite, la structure n'a pas été importée.";
+			if (/admin_structure_structure relation failed/i.test(result.error?.message)) {
+				errorMessage =
+					"Une erreur s'est produite, le rattachement de l’admin de structure à échoué.";
+			}
 			if (/uniqueness/i.test(result.error?.message)) {
 				errorMessage = 'Cette structure existe déjà.';
 			}
@@ -121,21 +125,9 @@
 				<table class="w-full divide-y divide-gray-300">
 					<thead class="px-2 py-2">
 						<th />
-						<th>Nom*</th>
-						<th>Ville*</th>
-						<th>Code postal</th>
-						<th>Adresse</th>
-						<th>Adresse (complément)</th>
-						<th>Téléphone</th>
-						<th>Courriel</th>
-						<th>Site web</th>
-						<th>SIRET</th>
-						<th>Description</th>
-						<th>Courriel de l'administrateur*</th>
-						<th>Prénom</th>
-						<th>Nom</th>
-						<th>Fonction</th>
-						<th>Numéros de téléphone</th>
+						{#each headers as { label } (label)}
+							<th>{label}</th>
+						{/each}
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each structures as structure}
@@ -212,12 +204,13 @@
 			<ImportParserError {parseErrors} />
 			<p>
 				Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
-				correctes et confirmer.
+				correctes et confirmer. Il est possible de mettre plusieurs fois la même structure pour
+				ajouter plusieurs administrateurs à une structure (et une seule structure sera crée).
 			</p>
 			<p>
 				<Checkbox
 					name="forceUpdate"
-					label="Écraser les informations des structures existantes"
+					label="Écraser les informations des structures existantes. Dans le cas ou il y aurait plusieurs fois la même structure, seules les informations de la dernière ligne seront conservées."
 					bind:checked={forceUpdate}
 				/>
 				<Checkbox

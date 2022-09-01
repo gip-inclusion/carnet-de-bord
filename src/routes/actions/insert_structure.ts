@@ -38,9 +38,8 @@ type Body = {
 /**
  *
  * Action appellée lors de l'import d'une structure
- * Plusieurs cas possible
+ *
  * 1 - la structure existe deja, dans ce cas on met à jour les infos si le parametre `forUpdate` est présent
- *     sinon on renvoie une erreur
  * 2 - la structure n'existe pas, dans ce cas on regarde si l'admin de structure existe.
  *     si il existe on ne fait que le rattaché et on lui envoi un mail
  *     sinon on crée le compte admin de structure et on envoi un mail
@@ -77,7 +76,6 @@ export const post: RequestHandler = async ({ request }) => {
 	const { error, data } = await client
 		.query<GetExistingAdminStructureQuery>(GetExistingAdminStructureDocument, {
 			email: adminStructure.adminEmail,
-			name: structure.name,
 		})
 		.toPromise();
 
@@ -85,33 +83,28 @@ export const post: RequestHandler = async ({ request }) => {
 		console.error('get existing entities', error);
 		return actionError('fetch existing entities failed', 400);
 	}
-	const [existingStructure] = data.structure;
 	const [existingAdmin] = data.admin;
 
-	const onConflict: StructureOnConflict = forceUpdate
-		? {
-				constraint: StructureConstraint.StructureNameDeploymentIdKey,
-				update_columns: [
-					StructureUpdateColumn.Phone,
-					StructureUpdateColumn.Email,
-					StructureUpdateColumn.Address1,
-					StructureUpdateColumn.Address2,
-					StructureUpdateColumn.PostalCode,
-					StructureUpdateColumn.City,
-					StructureUpdateColumn.Website,
-					StructureUpdateColumn.Siret,
-					StructureUpdateColumn.ShortDesc,
-				],
-		  }
-		: // Hack@lionelb:
-		  // If we leave update_columns to empty array ,
-		  // the insert will not fail (it will just do nothing)
-		  // So we put the pkey constraint so insert can fail
-		  // when there is no force update flag
-		  {
-				constraint: StructureConstraint.StructurePkey,
-				update_columns: [],
-		  };
+	const onConflict: StructureOnConflict = {
+		constraint: StructureConstraint.StructureNameDeploymentIdKey,
+		update_columns: [
+			StructureUpdateColumn.Phone,
+			StructureUpdateColumn.Email,
+			StructureUpdateColumn.Address1,
+			StructureUpdateColumn.Address2,
+			StructureUpdateColumn.PostalCode,
+			StructureUpdateColumn.City,
+			StructureUpdateColumn.Website,
+			StructureUpdateColumn.Siret,
+			StructureUpdateColumn.ShortDesc,
+		],
+	};
+	if (forceUpdate) {
+		// we set update_columns to an empty array, so
+		// the upsert will not fail and just do nothing
+		onConflict.update_columns = [];
+	}
+
 	const insertStructureResult = await client
 		.mutation(InsertStructureDocument, {
 			...structure,
@@ -123,13 +116,13 @@ export const post: RequestHandler = async ({ request }) => {
 		return actionError(insertStructureResult.error.message, 400);
 	}
 
-	if (existingStructure) {
-		return actionSuccess(existingStructure.id);
-	}
-
-	const structureId = insertStructureResult.data.structure.id || existingStructure.id;
+	const structureId = insertStructureResult.data.structure.id;
 
 	if (!existingAdmin) {
+		/**
+		 * We create the records for account / admin_structure / admin_structure_structure
+		 * in one graphql query
+		 */
 		const accessKey = v4();
 		const username = v4();
 		const accessKeyDate = new Date();

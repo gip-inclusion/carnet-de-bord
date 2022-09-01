@@ -285,8 +285,8 @@ Quand('je téléverse le fichier {string}', (filename) => {
  * les données générés suite aux tests.
  */
 
-Before(async ({ tags }) => {
-	setupBeforeFixturesByTags(tags);
+Before(async (params) => {
+	setupBeforeFixturesByTags(params.tags);
 });
 
 After((params) => {
