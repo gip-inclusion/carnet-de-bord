@@ -1,3 +1,10 @@
+## [1.134.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.134.0...v1.134.1) (2022-09-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency fastapi to ^0.81.0 ([#1032](https://github.com/SocialGouv/carnet-de-bord/issues/1032)) ([19907da](https://github.com/SocialGouv/carnet-de-bord/commit/19907da1d80d458dbbd156b67a53068021e152af))
+
 # [1.134.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.133.1...v1.134.0) (2022-09-01)
 
 
