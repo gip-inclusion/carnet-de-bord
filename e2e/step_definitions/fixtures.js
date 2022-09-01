@@ -196,7 +196,7 @@ async function setupBeforeFixturesByTags(tags) {
 				await resetStructureInfo('Interlogement 51');
 				await removeProfessionalAccount();
 				break;
-			case '@validation_intervenant_groupe_de_suivi':
+			case '@professionnel_view':
 				await changeAccountConfirmed('bienvenu.lejeune', false);
 				break;
 			default:
@@ -519,7 +519,7 @@ async function changeAccountConfirmed(username, newStatus) {
               affected_rows
             }
           }`,
-		{ username, newStatus }
+		{ newStatus, username }
 	);
 }
 
