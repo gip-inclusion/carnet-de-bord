@@ -152,6 +152,10 @@ Quand("j'attends que le texte {string} apparaisse", (text) => {
 	I.scrollTo(`//*[text()[contains(., "${text}")]]`, 0, -100);
 });
 
+Quand("j'attends que la table {string} apparaisse", (text) => {
+	I.waitForElement(`//caption[contains(., "${text}")]`, 3);
+});
+
 Quand('je scroll à {string}', (text) => {
 	I.scrollTo(`//*[text()[starts-with(., "${text}")]]`, 0, -140);
 });

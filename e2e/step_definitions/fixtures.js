@@ -196,6 +196,9 @@ async function setupBeforeFixturesByTags(tags) {
 				await resetStructureInfo('Interlogement 51');
 				await removeProfessionalAccount();
 				break;
+			case '@validation_intervenant_groupe_de_suivi':
+				await changeAccountConfirmed('bienvenu.lejeune', false);
+				break;
 			default:
 				return;
 		}
@@ -505,6 +508,18 @@ async function removeStructureReferent(email) {
 		}
 	`,
 		{ email }
+	);
+}
+
+async function changeAccountConfirmed(username, newStatus) {
+	await I.sendMutation(
+		`
+          mutation changeAccountConfirmed($username:String!, $newStatus:Boolean!) {
+            update_account(where: {username: {_eq: $username }}, _set: {confirmed: $newStatus}) {
+              affected_rows
+            }
+          }`,
+		{ username, newStatus }
 	);
 }
 

@@ -7,7 +7,7 @@ import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes
 import { updateAccessKey } from '$lib/services/account';
 import { authorizeOnly } from '$lib/utils/security';
 import * as yup from 'yup';
-import { ensureAccountHasRelation } from './confirmPro';
+import { accountHasRelation } from './confirmPro';
 
 const client = createClient({
 	fetch,
@@ -77,7 +77,7 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 	}
 
-	if (ensureAccountHasRelation(data.account)) {
+	if (!accountHasRelation(data.account)) {
 		return {
 			status: 400,
 			body: {

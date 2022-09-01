@@ -49,7 +49,8 @@
 
 	function toList(account: GetAccountsSummaryQuery['accounts'][0]): AccountSummary {
 		if (account.type === RoleEnum.Professional) {
-			const { id, firstname, lastname, email, structure, mobileNumber } = account.professional;
+			const { id } = account;
+			const { firstname, lastname, email, structure, mobileNumber } = account.professional;
 			return {
 				id,
 				firstname,
@@ -120,6 +121,7 @@
 <LoaderIndicator {result}>
 	<div class={`w-full fr-table fr-table--layout-fixed fr-mt-6w`}>
 		<table>
+			<caption class="sr-only">Liste des professionnels</caption>
 			<thead>
 				<tr>
 					<th>Nom</th>
