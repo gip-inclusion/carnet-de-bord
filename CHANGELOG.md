@@ -1,3 +1,10 @@
+# [1.134.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.133.1...v1.134.0) (2022-09-01)
+
+
+### Features
+
+* add nb beneficiary to pro list ([#1036](https://github.com/SocialGouv/carnet-de-bord/issues/1036)) ([52e163d](https://github.com/SocialGouv/carnet-de-bord/commit/52e163d06076254c714d8c6fced2d1f9f7ae8afc)), closes [#940](https://github.com/SocialGouv/carnet-de-bord/issues/940)
+
 ## [1.133.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.133.0...v1.133.1) (2022-09-01)
 
 
