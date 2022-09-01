@@ -377,6 +377,85 @@ export enum AccountConstraint {
 	AccountUsernameUnique = 'account_username_unique',
 }
 
+/** columns and relationships of "account_info" */
+export type AccountInfo = {
+	__typename?: 'account_info';
+	account_id?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	lastname?: Maybe<Scalars['String']>;
+};
+
+/** aggregated selection of "account_info" */
+export type AccountInfoAggregate = {
+	__typename?: 'account_info_aggregate';
+	aggregate?: Maybe<AccountInfoAggregateFields>;
+	nodes: Array<AccountInfo>;
+};
+
+/** aggregate fields of "account_info" */
+export type AccountInfoAggregateFields = {
+	__typename?: 'account_info_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<AccountInfoMaxFields>;
+	min?: Maybe<AccountInfoMinFields>;
+};
+
+/** aggregate fields of "account_info" */
+export type AccountInfoAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<AccountInfoSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "account_info". All fields are combined with a logical 'AND'. */
+export type AccountInfoBoolExp = {
+	_and?: InputMaybe<Array<AccountInfoBoolExp>>;
+	_not?: InputMaybe<AccountInfoBoolExp>;
+	_or?: InputMaybe<Array<AccountInfoBoolExp>>;
+	account_id?: InputMaybe<UuidComparisonExp>;
+	email?: InputMaybe<CitextComparisonExp>;
+	firstname?: InputMaybe<StringComparisonExp>;
+	lastname?: InputMaybe<StringComparisonExp>;
+};
+
+/** aggregate max on columns */
+export type AccountInfoMaxFields = {
+	__typename?: 'account_info_max_fields';
+	account_id?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	lastname?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type AccountInfoMinFields = {
+	__typename?: 'account_info_min_fields';
+	account_id?: Maybe<Scalars['uuid']>;
+	email?: Maybe<Scalars['citext']>;
+	firstname?: Maybe<Scalars['String']>;
+	lastname?: Maybe<Scalars['String']>;
+};
+
+/** Ordering options when selecting data from "account_info". */
+export type AccountInfoOrderBy = {
+	account_id?: InputMaybe<OrderBy>;
+	email?: InputMaybe<OrderBy>;
+	firstname?: InputMaybe<OrderBy>;
+	lastname?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "account_info" */
+export enum AccountInfoSelectColumn {
+	/** column name */
+	AccountId = 'account_id',
+	/** column name */
+	Email = 'email',
+	/** column name */
+	Firstname = 'firstname',
+	/** column name */
+	Lastname = 'lastname',
+}
+
 /** input type for inserting data into table "account" */
 export type AccountInsertInput = {
 	accessKey?: InputMaybe<Scalars['String']>;
@@ -7405,6 +7484,10 @@ export type QueryRoot = {
 	account_aggregate: AccountAggregate;
 	/** fetch data from the table: "account" using primary key columns */
 	account_by_pk?: Maybe<Account>;
+	/** fetch data from the table: "account_info" */
+	account_info: Array<AccountInfo>;
+	/** fetch aggregated fields from the table: "account_info" */
+	account_info_aggregate: AccountInfoAggregate;
 	/** fetch data from the table: "admin_cdb" */
 	admin_cdb: Array<AdminCdb>;
 	/** fetch aggregated fields from the table: "admin_cdb" */
@@ -7611,6 +7694,22 @@ export type QueryRootAccountAggregateArgs = {
 
 export type QueryRootAccountByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootAccountInfoArgs = {
+	distinct_on?: InputMaybe<Array<AccountInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AccountInfoOrderBy>>;
+	where?: InputMaybe<AccountInfoBoolExp>;
+};
+
+export type QueryRootAccountInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AccountInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AccountInfoOrderBy>>;
+	where?: InputMaybe<AccountInfoBoolExp>;
 };
 
 export type QueryRootAdminCdbArgs = {
@@ -9338,6 +9437,10 @@ export type SubscriptionRoot = {
 	account_aggregate: AccountAggregate;
 	/** fetch data from the table: "account" using primary key columns */
 	account_by_pk?: Maybe<Account>;
+	/** fetch data from the table: "account_info" */
+	account_info: Array<AccountInfo>;
+	/** fetch aggregated fields from the table: "account_info" */
+	account_info_aggregate: AccountInfoAggregate;
 	/** fetch data from the table: "admin_cdb" */
 	admin_cdb: Array<AdminCdb>;
 	/** fetch aggregated fields from the table: "admin_cdb" */
@@ -9544,6 +9647,22 @@ export type SubscriptionRootAccountAggregateArgs = {
 
 export type SubscriptionRootAccountByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootAccountInfoArgs = {
+	distinct_on?: InputMaybe<Array<AccountInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AccountInfoOrderBy>>;
+	where?: InputMaybe<AccountInfoBoolExp>;
+};
+
+export type SubscriptionRootAccountInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AccountInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AccountInfoOrderBy>>;
+	where?: InputMaybe<AccountInfoBoolExp>;
 };
 
 export type SubscriptionRootAdminCdbArgs = {
@@ -12467,6 +12586,13 @@ export type GetAccountsSummaryQuery = {
 			  }
 			| null
 			| undefined;
+		notebookCount: {
+			__typename?: 'notebook_member_aggregate';
+			aggregate?:
+				| { __typename?: 'notebook_member_aggregate_fields'; count: number }
+				| null
+				| undefined;
+		};
 		professional?:
 			| {
 					__typename?: 'professional';
@@ -22902,6 +23028,49 @@ export const GetAccountsSummaryDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									alias: { kind: 'Name', value: 'notebookCount' },
+									name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'active' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
 										],
 									},
 								},

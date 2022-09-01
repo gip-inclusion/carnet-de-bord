@@ -24,6 +24,7 @@
 
 <script lang="ts">
 	import { Button, IconButton } from '$lib/ui/base';
+	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	export let result: OperationStore<GetAccountsSummaryQuery>;
 
@@ -45,6 +46,7 @@
 		confirmed: boolean;
 		onboardingDone: boolean;
 		phoneNumber: string;
+		nbBeneficiaries: number;
 	};
 
 	function toList(account: GetAccountsSummaryQuery['accounts'][0]): AccountSummary {
@@ -61,6 +63,7 @@
 				type: account.type,
 				confirmed: account.confirmed,
 				onboardingDone: account.onboardingDone,
+				nbBeneficiaries: account.notebookCount.aggregate.count,
 			};
 		} else if (account.type === RoleEnum.OrientationManager) {
 			const { id, firstname, lastname, email, phoneNumbers } = account.orientation_manager;
@@ -74,6 +77,7 @@
 				type: account.type,
 				confirmed: account.confirmed,
 				onboardingDone: account.onboardingDone,
+				nbBeneficiaries: account.notebookCount.aggregate.count,
 			};
 		}
 	}
@@ -98,11 +102,6 @@
 		}
 	}
 
-	// function openProInfo({ id }: GetAccountsSummaryQuery['accounts'][0]) {
-	// 	goto(`/${baseUrlForRole('manager')}/professionnel/${id}`);
-	// 	return;
-	// }
-
 	function getAccountTypeLabel(type: RoleEnum): string | null {
 		if (type === RoleEnum.Professional) {
 			return 'Accompagnant';
@@ -124,25 +123,22 @@
 			<caption class="sr-only">Liste des professionnels</caption>
 			<thead>
 				<tr>
-					<th>Nom</th>
-					<th>Prénom</th>
+					<th>Prénom Nom</th>
 					<th>Type</th>
 					<th>Téléphone</th>
 					<th>Structure</th>
 					<th>Email</th>
 					<th>Compte</th>
+					<th>bénéficiaires</th>
 					<th>Onboarding</th>
-					<th>Email de connexion</th>
+					<th class="text-center">Email de connexion</th>
 				</tr>
 			</thead>
 			<tbody>
 				{#each accounts as account (account.id)}
 					<tr>
 						<td>
-							<Text value={account.lastname} />
-						</td>
-						<td>
-							<Text value={account.firstname} />
+							<Text value={displayFullName(account)} />
 						</td>
 						<td>{getAccountTypeLabel(account.type)}</td>
 						<td>
@@ -151,7 +147,7 @@
 						<td>
 							<Text value={account.structure} />
 						</td>
-						<td>
+						<td class="break-words">
 							<Text value={account.email} />
 						</td>
 						<td>
@@ -164,13 +160,23 @@
 						<td>
 							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
 						</td>
-						<td>
+						<td class="text-right">
+							<p
+								class="fr-badge"
+								class:fr-badge--brown-caramel={account.nbBeneficiaries === 0}
+								class:fr-badge--blue-ecume={account.nbBeneficiaries > 0}
+							>
+								{account.nbBeneficiaries}
+							</p>
+						</td>
+						<td class="text-center">
 							{#if account.confirmed}
 								{#if typeof emails[account.id] === 'undefined'}
 									<IconButton
 										icon="fr-icon-mail-line"
 										on:click={() => sendConnectionEmail(account.id)}
 										title="Envoyer un email de connexion"
+										class="fr-btn--sm fr-btn--tertiary fr-btn--tertiary-no-outline "
 									>
 										Envoyer un email de connexion
 									</IconButton>
