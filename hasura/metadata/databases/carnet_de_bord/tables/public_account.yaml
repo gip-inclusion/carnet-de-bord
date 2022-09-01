@@ -126,6 +126,25 @@ insert_permissions:
         - confirmed
         - onboarding_done
         - manager_id
+  - role: admin_structure
+    permission:
+      check:
+        _or:
+          - admin_structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - professional:
+              structure:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
+      set:
+        confirmed: "True"
+      columns:
+        - admin_structure_id
+        - confirmed
+        - professional_id
+        - type
+        - username
   - role: manager
     permission:
       check:

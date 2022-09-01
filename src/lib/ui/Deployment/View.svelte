@@ -45,7 +45,7 @@
 	Déploiement <span class="text-france-blue-500">{deployment?.label ?? ''}</span>
 </h1>
 <div class="flex justify-between items-center">
-	<Button classNames="self-end" on:click={onAddAdminPdiClick}>Ajouter une admin pdi</Button>
+	<Button classNames="self-end" on:click={onAddAdminPdiClick}>Ajouter un admin pdi</Button>
 </div>
 <div class="fr-container--fluid">
 	<div class="fr-grid-row fr-grid-row--gutters">

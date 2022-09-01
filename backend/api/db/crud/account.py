@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from typing import List
 from uuid import UUID, uuid4
@@ -91,6 +92,21 @@ async def insert_professional_account(
     )
 
 
+async def insert_admin_structure_account(
+    connection: Connection,
+    username: str,
+    confirmed: bool,
+    admin_structure_id: UUID,
+) -> AccountDB | None:
+    return await insert_account(
+        connection=connection,
+        username=username,
+        type=RoleEnum.ADMIN_STRUCTURE,
+        confirmed=confirmed,
+        foreign_key_id=admin_structure_id,
+    )
+
+
 async def get_accounts_from_email(
     connection: Connection, email: str
 ) -> List[AccountDB]:
@@ -164,3 +180,17 @@ async def get_account_by_professional_email(
         """,
         email,
     )
+
+
+def create_username(username: str, existingUsernames: List[str]):
+    if len(existingUsernames) == 0:
+        return username
+
+    values = [
+        int(re.sub(r"^%s" % username, "", name))
+        if re.match(r"^%s(\d+)$" % username, name)
+        else 0
+        for name in existingUsernames
+    ]
+
+    return f"{username}{max(values) + 1}"

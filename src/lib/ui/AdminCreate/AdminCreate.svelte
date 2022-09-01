@@ -6,7 +6,7 @@
 		deploymentAdminPdiSchema,
 		DeploymentAdminPdiType,
 	} from '../Deployment/adminDeployment.schema';
-	import { createManager } from '$lib/services/managers';
+	import { postManager } from '$lib/services/backend';
 	import { session } from '$app/stores';
 
 	export let deploymentId = '';
@@ -23,7 +23,7 @@
 	async function handleSubmit(values: DeploymentAdminPdiType) {
 		const data = Object.assign(values, { deployment_id: deploymentId });
 		try {
-			await createManager(`${$session.backendAPI}/v1/managers/create`, data, {
+			await postManager(`${$session.backendAPI}/v1/managers/create`, data, {
 				'jwt-token': $session.token,
 			});
 			close();

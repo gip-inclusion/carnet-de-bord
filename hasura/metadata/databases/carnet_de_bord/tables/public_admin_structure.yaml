@@ -50,6 +50,23 @@ insert_permissions:
         - email
         - deployment_id
         - id
+  - role: admin_structure
+    permission:
+      check:
+        structures:
+          structure:
+            admins:
+              admin_structure_id:
+                _eq: X-Hasura-adminStructure-Id
+      set:
+        deployment_id: x-hasura-Deployment-Id
+      columns:
+        - deployment_id
+        - email
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
   - role: manager
     permission:
       check: {}

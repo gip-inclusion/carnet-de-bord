@@ -6,8 +6,8 @@ set -eo pipefail
 trap "exit" INT TERM
 trap "kill 0" EXIT
 
-if ! [ -x "$(command -v docker-compose)" ]; then
-  echo >&2 "Error: `docker-compose` is not installed."
+if ! [ -x "$(command -v docker compose)" ]; then
+  echo >&2 "Error: `docker compose` is not installed."
   exit 1
 fi
 
@@ -60,11 +60,11 @@ if [ ! "$(docker ps -q -f name=db_test)" ] && [ ! "$(docker ps -q -f name=hasura
         docker volume rm carnet-de-bord_cdb-pgdata-test
     fi
     echo "-> Starting docker"
-    docker-compose -f docker-compose-test.yaml up --build -d
+    docker compose -f docker-compose-test.yaml up --build -d
 else
     echo "Docker test env already started. Use: "
     echo ""
-    echo "    docker-compose -f docker-compose-test.yaml stop"
+    echo "    docker compose -f docker-compose-test.yaml stop"
     echo ""
     echo "in $ROOT_DIR if you want to stop it."
     echo ""
@@ -80,7 +80,7 @@ done
 >&2 echo ""
 >&2 echo "-> Hasura is up and running on port 5001!"
 
-cd hasura && HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --database-name carnet_de_bord
+HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 yarn hasura:seed
 cd $ROOT_DIR
 
 

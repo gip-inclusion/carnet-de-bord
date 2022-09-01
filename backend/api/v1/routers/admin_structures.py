@@ -10,33 +10,36 @@ from api.core.settings import settings
 from api.db.crud.account import (
     create_username,
     get_accounts_with_query,
-    insert_admin_pdi_account,
+    insert_admin_structure_account,
 )
-from api.db.crud.manager import insert_admin_pdi
-from api.db.models.manager import Manager, ManagerInput
+from api.db.crud.admin_structure import (
+    insert_admin_structure,
+    insert_admin_structure_structure,
+)
+from api.db.models.admin_structure import AdminStructure, AdminStructureStructureInput
 from api.db.models.role import RoleEnum
 from api.sendmail import send_mail
 from api.v1.dependencies import allowed_jwt_roles
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
-admin_cdb_only = allowed_jwt_roles([RoleEnum.ADMIN_CDB])
+admin_only = allowed_jwt_roles([RoleEnum.ADMIN_CDB, RoleEnum.ADMIN_STRUCTURE])
 
-router = APIRouter(dependencies=[Depends(admin_cdb_only)])
+router = APIRouter(dependencies=[Depends(admin_only)])
 
 
-@router.post("/create", response_model=Manager)
-async def create_manager(
-    admin: ManagerInput,
+@router.post("/create", response_model=AdminStructure)
+async def create_admin_structure(
+    data: AdminStructureStructureInput,
     background_tasks: BackgroundTasks,
     db=Depends(connection),
 ):
     async with db.transaction():
-        admin_pdi = await insert_admin_pdi(connection=db, data=admin)
-        if admin_pdi is None:
-            raise HTTPException(status_code=500, detail="insert manager failed")
+        admin_structure = await insert_admin_structure(connection=db, data=data.admin)
+        if admin_structure is None:
+            raise HTTPException(status_code=500, detail="insert admin_structure failed")
 
-        email_username = admin.email.split("@")[0].lower()
+        email_username = data.admin.email.split("@")[0].lower()
 
         accounts = await get_accounts_with_query(
             db,
@@ -50,25 +53,39 @@ async def create_manager(
             email_username, [account.username for account in accounts]
         )
 
-        account = await insert_admin_pdi_account(
+        account = await insert_admin_structure_account(
             connection=db,
-            admin_pdi_id=admin_pdi.id,
+            admin_structure_id=admin_structure.id,
             confirmed=True,
-            username=str(uuid.uuid4()),
+            username=username,
         )
 
         if not account:
             logging.error(f"Insert account failed")
             raise HTTPException(status_code=500, detail="insert account failed")
 
+        ass_id = await insert_admin_structure_structure(
+            connection=db,
+            admin_structure_id=admin_structure.id,
+            structure_id=data.structure_id,
+        )
+
+        if not ass_id:
+            logging.error(f"Insert admin_structure_structure failed")
+            raise HTTPException(
+                status_code=500,
+                detail="insert admin_structure_structure failed",
+            )
+
         background_tasks.add_task(
             send_invitation_email,
-            email=admin_pdi.email,
-            firstname=admin_pdi.firstname,
-            lastname=admin_pdi.lastname,
+            email=admin_structure.email,
+            firstname=admin_structure.firstname,
+            lastname=admin_structure.lastname,
             access_key=account.access_key,
         )
-        return admin_pdi
+
+        return admin_structure
 
 
 def send_invitation_email(

@@ -8,10 +8,10 @@
 		AdminStructure,
 		'id' | 'firstname' | 'lastname' | 'phoneNumbers' | 'email'
 	>;
-	export let href: string;
+	export let href: string = null;
 </script>
 
-<Card {href} horizontal={true}>
+<Card {href} horizontal hideArrow>
 	<span slot="title">
 		<div class="pb-1 flex flex-row font-bold text-xl tracking-wider">
 			<Text

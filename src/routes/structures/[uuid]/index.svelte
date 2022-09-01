@@ -32,6 +32,8 @@
 	import ImportNotebookMembers from '$lib/ui/AdminStructure/ImportNotebookMembers.svelte';
 	import { browser } from '$app/env';
 	import { pluralize } from '$lib/helpers';
+	import { openComponent } from '$lib/stores';
+	import AddAdminStructureLayer from '$lib/ui/AdminStructure/AddAdminStructureLayer.svelte';
 
 	export let structureId: string;
 	export let getStructure: GetStructureQueryStore;
@@ -89,6 +91,13 @@
 		if (browser && window.$crisp) {
 			window.$crisp.push(['do', 'chat:open']);
 		}
+	}
+
+	function openAddAdminLayer() {
+		openComponent.open({
+			component: AddAdminStructureLayer,
+			props: { structureId, onClose: refreshStore },
+		});
 	}
 </script>
 
@@ -207,11 +216,15 @@
 			</div>
 		</div>
 		<div>
-			<h2 class="fr-h4 !text-france-blue">{pluralize('Gestionnaire', members.length)}</h2>
+			<div class="flex flex-row gap-8 items-baseline mt-4">
+				<h2 class="fr-h4 !text-france-blue">{pluralize('Gestionnaire', members.length)}</h2>
+				<Button on:click={openAddAdminLayer} classNames="fr-btn--md">Ajouter un gestionnaire</Button
+				>
+			</div>
 			<div class="fr-grid-row fr-grid-row--gutters">
 				{#each members as member (member.id)}
 					<div class="fr-col-6 fr-col-md-4">
-						<AdminStructureCard adminStructure={member} href="" />
+						<AdminStructureCard adminStructure={member} />
 					</div>
 				{/each}
 			</div>

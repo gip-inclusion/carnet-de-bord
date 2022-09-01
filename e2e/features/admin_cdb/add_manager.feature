@@ -10,7 +10,7 @@ Fonctionnalité: Ajout d'un manager
 		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
 		Quand je clique sur "expérimentation 93"
 		Alors je vois "Déploiement expérimentation 93"
-		Quand je clique sur "Ajouter une admin pdi"
+		Quand je clique sur "Ajouter un admin pdi"
 		Alors je renseigne "juste.leblanc@cd93.fr" dans le champ "Courriel"
 		Alors je renseigne "Juste" dans le champ "Prénom"
 		Alors je renseigne "Leblanc" dans le champ "Nom"

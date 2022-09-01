@@ -1117,6 +1117,8 @@ export type AdminStructureStructureBoolExp = {
 
 /** unique or primary key constraints on table "admin_structure_structure" */
 export enum AdminStructureStructureConstraint {
+	/** unique or primary key constraint on columns "admin_structure_id", "structure_id" */
+	AdminStructureStructureAdminStructureIdStructureIdKey = 'admin_structure_structure_admin_structure_id_structure_id_key',
 	/** unique or primary key constraint on columns "id" */
 	AdminStructureStructurePkey = 'admin_structure_structure_pkey',
 }
@@ -4858,8 +4860,12 @@ export type NotebookActionBoolExp = {
 
 /** unique or primary key constraints on table "notebook_action" */
 export enum NotebookActionConstraint {
+	/** unique or primary key constraint on columns "initial_id" */
+	NotebookActionInitialIdKey = 'notebook_action_initial_id_key',
 	/** unique or primary key constraint on columns "id" */
 	NotebookActionPkey = 'notebook_action_pkey',
+	/** unique or primary key constraint on columns "target_id", "action" */
+	NotebookActionTargetIdActionKey = 'notebook_action_target_id_action_key',
 }
 
 /** input type for inserting data into table "notebook_action" */
