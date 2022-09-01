@@ -1,6 +1,9 @@
 from datetime import date, datetime
+from uuid import UUID
 
 from pydantic import BaseModel, Field
+
+from api.db.models.role import RoleEnum
 
 
 class DeploymentOut(BaseModel):
@@ -69,6 +72,20 @@ class NotebookMemberOut(BaseModel):
     active: bool | None
 
 
+class AccountInfoOut(BaseModel):
+    firstname: str
+    lastname: str
+    email: str | None
+
+
+class AppointmentOut(BaseModel):
+    account_info: AccountInfoOut | None
+    date: date
+    status: str
+    created_at: datetime | None
+    updated_at: datetime | None
+
+
 class NotebookOut(BaseModel):
     beneficiary: BeneficiaryOut
     created_at: datetime
@@ -81,6 +98,7 @@ class NotebookOut(BaseModel):
     wanted_jobs: list[WantedJobOut]
     focuses: list[FocusOut]
     members: list[NotebookMemberOut]
+    appointments: list[AppointmentOut]
     geographical_area: str | None
     education_level: str | None
     work_situation_date: date | None

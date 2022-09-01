@@ -23,15 +23,24 @@ async def test_export_notebook(db_connection, test_directory):
         assert len(notebooks_json[0]["focuses"]) == len(json_example[0]["focuses"])
         assert len(notebooks_json[0]["members"]) == len(json_example[0]["members"])
 
-        assert len(notebooks_json[0]["focuses"][0]["targets"]) == len(
-            json_example[0]["focuses"][0]["targets"]
+        focus = next(
+            (f for f in notebooks_json[0]["focuses"] if f["theme"] == "emploi"),
+            None,
         )
 
-        assert len(notebooks_json[0]["focuses"][0]["targets"][1]["actions"]) == len(
-            json_example[0]["focuses"][0]["targets"][1]["actions"]
+        assert focus is not None
+
+        assert len(focus["targets"]) == 2
+
+        target = next(
+            (
+                t
+                for t in focus["targets"]
+                if t["target"] == "Acc\u00e9der \u00e0 l\u2019emploi"
+            ),
+            None,
         )
 
-        assert (
-            notebooks_json[0]["focuses"][0]["targets"][1]["actions"][1]["action"]
-            == json_example[0]["focuses"][0]["targets"][1]["actions"][1]["action"]
-        )
+        assert target is not None
+
+        assert len(notebooks_json[0]["appointments"]) == 3

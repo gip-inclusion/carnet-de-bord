@@ -24,3 +24,10 @@ class AccountDB(BaseModel):
     onboarding_done: Boolean = False
     created_at: datetime
     updated_at: datetime
+
+
+class AccountInfo(BaseModel):
+    account_id: UUID
+    firstname: str
+    lastname: str
+    email: str | None
