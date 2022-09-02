@@ -14378,6 +14378,20 @@ export const GetBeneficiariesDocument = {
 															fields: [
 																{
 																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'active' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'memberType' },
 																	value: {
 																		kind: 'ObjectValue',

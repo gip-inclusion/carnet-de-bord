@@ -219,12 +219,15 @@ select_permissions:
       filter:
         _or:
           - members:
-              account:
-                professional:
-                  structure:
-                    admins:
-                      admin_structure_id:
-                        _eq: X-Hasura-AdminStructure-Id
+              _and:
+                - active:
+                    _eq: true
+                - account:
+                    professional:
+                      structure:
+                        admins:
+                          admin_structure_id:
+                            _eq: X-Hasura-AdminStructure-Id
           - beneficiary:
               structures:
                 structure:

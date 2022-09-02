@@ -183,12 +183,15 @@ select_permissions:
                     _eq: X-Hasura-AdminStructure-Id
           - notebook:
               members:
-                account:
-                  professional:
-                    structure:
-                      admins:
-                        admin_structure_id:
-                          _eq: X-Hasura-AdminStructure-Id
+                _and:
+                  - active:
+                      _eq: true
+                  - account:
+                      professional:
+                        structure:
+                          admins:
+                            admin_structure_id:
+                              _eq: X-Hasura-AdminStructure-Id
       allow_aggregations: true
   - role: beneficiary
     permission:
