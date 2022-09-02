@@ -42,11 +42,13 @@
 	function getWithMemberFilter(filter: MemberFilter): BeneficiaryBoolExp {
 		if (filter === 'noMember') {
 			return {
+				...(structureId && { structures: { structureId: { _eq: structureId } } }),
 				notebook: { _or: [{ _not: { members: {} } }, { members: { active: { _eq: false } } }] },
 			};
 		}
 		if (filter === 'withMember') {
 			return {
+				...(structureId && { structures: { structureId: { _eq: structureId } } }),
 				notebook: {
 					members: {
 						active: { _eq: true },
@@ -59,6 +61,7 @@
 			};
 		}
 		return {
+			...(structureId && { structures: { structureId: { _eq: structureId } } }),
 			notebook: {},
 		}; // prevent beenficiary without notebook
 	}

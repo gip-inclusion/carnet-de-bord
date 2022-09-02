@@ -277,6 +277,12 @@ INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_number
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('18f06321-3c45-4490-9c67-36277d4a828d', 'jacques.celaire', 'admin_structure', '2b4b773a-a9e5-11ec-b909-0242ac120002', true, false);
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('1e502686-0df9-48ac-85fc-909f464fc0d4', '2b4b773a-a9e5-11ec-b909-0242ac120002', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
 
+INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('04e185b0-07b6-4dbf-a248-5f1d9989c133', 'lara.pafromage@cd93.fr', 'Lara', 'Pafromage', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('ecc81586-12c0-46e9-bb65-e19ba419506d', 'lara.pafromage', 'admin_structure', '04e185b0-07b6-4dbf-a248-5f1d9989c133', true, true);
+INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('d105193c-f4a8-470e-9575-91297edb9e6c', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
+INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('7ca0d376-3b3e-472b-ad71-ef615d1313d5', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '8b71184c-6479-4440-aa89-15da704cc792');
+
+
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord+cd93@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94', 'manager.cd93', 'manager', '01a3d906-70d9-42e6-9b61-2ccf030e5d8f', true, true);
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'support.carnet-de-bord+cd51@fabrique.social.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
