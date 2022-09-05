@@ -34,7 +34,7 @@ query GetBeneficiaries(
     notebook {
       id
       members(
-        where: { memberType: { _in: ["orientation_manager", "referent"] } }
+        where: { active: { _eq: true }, memberType: { _in: ["orientation_manager", "referent"] } }
         order_by: { createdAt: desc }
       ) {
         id

@@ -14378,6 +14378,20 @@ export const GetBeneficiariesDocument = {
 															fields: [
 																{
 																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'active' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: 'memberType' },
 																	value: {
 																		kind: 'ObjectValue',
@@ -25630,6 +25644,54 @@ export const GetPendingBeneficiariesDocument = {
 																										fields: [
 																											{
 																												kind: 'ObjectField',
+																												name: { kind: 'Name', value: 'active' },
+																												value: {
+																													kind: 'ObjectValue',
+																													fields: [
+																														{
+																															kind: 'ObjectField',
+																															name: { kind: 'Name', value: '_eq' },
+																															value: {
+																																kind: 'BooleanValue',
+																																value: false,
+																															},
+																														},
+																													],
+																												},
+																											},
+																										],
+																									},
+																								},
+																							],
+																						},
+																						{
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: 'members' },
+																									value: {
+																										kind: 'ObjectValue',
+																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: { kind: 'Name', value: 'active' },
+																												value: {
+																													kind: 'ObjectValue',
+																													fields: [
+																														{
+																															kind: 'ObjectField',
+																															name: { kind: 'Name', value: '_eq' },
+																															value: {
+																																kind: 'BooleanValue',
+																																value: true,
+																															},
+																														},
+																													],
+																												},
+																											},
+																											{
+																												kind: 'ObjectField',
 																												name: { kind: 'Name', value: 'account' },
 																												value: {
 																													kind: 'ObjectValue',
@@ -25791,6 +25853,20 @@ export const GetStructureDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'active' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+													{
+														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'account' },
 														value: {
 															kind: 'ObjectValue',
@@ -25938,6 +26014,54 @@ export const GetStructureDocument = {
 																									value: {
 																										kind: 'ObjectValue',
 																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: { kind: 'Name', value: 'active' },
+																												value: {
+																													kind: 'ObjectValue',
+																													fields: [
+																														{
+																															kind: 'ObjectField',
+																															name: { kind: 'Name', value: '_eq' },
+																															value: {
+																																kind: 'BooleanValue',
+																																value: false,
+																															},
+																														},
+																													],
+																												},
+																											},
+																										],
+																									},
+																								},
+																							],
+																						},
+																						{
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: 'members' },
+																									value: {
+																										kind: 'ObjectValue',
+																										fields: [
+																											{
+																												kind: 'ObjectField',
+																												name: { kind: 'Name', value: 'active' },
+																												value: {
+																													kind: 'ObjectValue',
+																													fields: [
+																														{
+																															kind: 'ObjectField',
+																															name: { kind: 'Name', value: '_eq' },
+																															value: {
+																																kind: 'BooleanValue',
+																																value: true,
+																															},
+																														},
+																													],
+																												},
+																											},
 																											{
 																												kind: 'ObjectField',
 																												name: { kind: 'Name', value: 'account' },

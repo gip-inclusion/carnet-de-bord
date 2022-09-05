@@ -1,3 +1,12 @@
+## [1.134.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.134.2...v1.134.3) (2022-09-05)
+
+
+### Bug Fixes
+
+* filter only beneficiary from structure ([66f1174](https://github.com/SocialGouv/carnet-de-bord/commit/66f1174f16ff7539d489c9676d056a10d1bd4e03)), closes [#1043](https://github.com/SocialGouv/carnet-de-bord/issues/1043)
+* handle active flag when couting beneficiaries ([3e0587a](https://github.com/SocialGouv/carnet-de-bord/commit/3e0587a3add6f86028b768bc9da6ea0f52acddfc)), closes [#1041](https://github.com/SocialGouv/carnet-de-bord/issues/1041)
+* update notebook / beneficiary select permission for admin_structure ([d8aa468](https://github.com/SocialGouv/carnet-de-bord/commit/d8aa4681b56e163397017f10b5eb222ab5c04a0e))
+
 ## [1.134.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.134.1...v1.134.2) (2022-09-01)
 
 

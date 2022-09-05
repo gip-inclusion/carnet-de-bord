@@ -236,9 +236,13 @@
 				}),
 			]);
 			let errorMessage = "Une erreur s'est produite, le bénéficiaire n'a pas été importé.";
-			if (/uniqueness/i.test(insertStore.error?.message)) {
+			if (
+				/uniqueness.*firstname_lastname_date_of_birth_unique_idx/i.test(insertStore.error?.message)
+			) {
 				errorMessage =
 					'Un bénéficiaire avec les mêmes prénom, nom et date de naissance existe déjà sur ce territoire.';
+			} else if (/uniqueness.*beneficiary_internal_id_key/i.test(insertStore.error?.message)) {
+				errorMessage = "Un bénéficiaire avec le même 'identifiant SI' existe déjà.";
 			}
 			insertResult = [
 				...insertResult,

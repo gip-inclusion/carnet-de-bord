@@ -277,6 +277,12 @@ INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_number
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('18f06321-3c45-4490-9c67-36277d4a828d', 'jacques.celaire', 'admin_structure', '2b4b773a-a9e5-11ec-b909-0242ac120002', true, false);
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('1e502686-0df9-48ac-85fc-909f464fc0d4', '2b4b773a-a9e5-11ec-b909-0242ac120002', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
 
+INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('04e185b0-07b6-4dbf-a248-5f1d9989c133', 'lara.pafromage@cd93.fr', 'Lara', 'Pafromage', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('ecc81586-12c0-46e9-bb65-e19ba419506d', 'lara.pafromage', 'admin_structure', '04e185b0-07b6-4dbf-a248-5f1d9989c133', true, true);
+INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('d105193c-f4a8-470e-9575-91297edb9e6c', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
+INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('7ca0d376-3b3e-472b-ad71-ef615d1313d5', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '8b71184c-6479-4440-aa89-15da704cc792');
+
+
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord+cd93@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94', 'manager.cd93', 'manager', '01a3d906-70d9-42e6-9b61-2ccf030e5d8f', true, true);
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'support.carnet-de-bord+cd51@fabrique.social.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
@@ -323,6 +329,8 @@ INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('14c147d0-f94b-4708-be90-0227efc70db7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', NULL, NULL);
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', 'b7e43c7c-7c3e-464b-80de-f4926d4bb1e0', 'db78bfd9-aedb-4220-bf0a-f62b0528e5bf', '2021-09-21 13:06:45.076+00', 'referent');
 
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('d68fa53a-2241-42a4-95a0-a26901924741', '7262db31-bd98-436c-a690-f2a717085c86', 'a501db53-1b79-4a60-860b-5972bd184f98', '2021-09-21 13:06:45.076+00', 'referent', false);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('1b1c7007-6300-42ec-bb62-230eb59fabaa', '7262db31-bd98-436c-a690-f2a717085c86', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '2021-09-21 13:06:45.076+00', 'no_referent', true);
 
 INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('cd17a20c-403c-4dba-9e5a-bc691dcd3735', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:06:45.076+00', 'present', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00');
 INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('5ab6baed-fa1f-4bc2-ab93-be3c07f632f7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '2021-09-11 13:06:45.076+00', 'absent', '2021-09-11 13:06:45.076+00', '2021-09-11 13:06:45.076+00');

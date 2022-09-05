@@ -1,6 +1,11 @@
 query GetStructure($structureId: uuid!) {
   beneficiaries: notebook_aggregate(
-    where: { members: { account: { professional: { structureId: { _eq: $structureId } } } } }
+    where: {
+      members: {
+        active: { _eq: true }
+        account: { professional: { structureId: { _eq: $structureId } } }
+      }
+    }
   ) {
     aggregate {
       count
@@ -23,7 +28,13 @@ query GetStructure($structureId: uuid!) {
           notebook: {
             _or: [
               { _not: { members: {} } }
-              { members: { account: { professional: { structureId: { _neq: $structureId } } } } }
+              { members: { active: { _eq: false } } }
+              {
+                members: {
+                  active: { _eq: true }
+                  account: { professional: { structureId: { _neq: $structureId } } }
+                }
+              }
             ]
           }
         }

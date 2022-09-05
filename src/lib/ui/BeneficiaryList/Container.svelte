@@ -41,12 +41,29 @@
 
 	function getWithMemberFilter(filter: MemberFilter): BeneficiaryBoolExp {
 		if (filter === 'noMember') {
-			return { notebook: { _not: { members: {} } } };
+			return {
+				...(structureId && { structures: { structureId: { _eq: structureId } } }),
+				notebook: { _or: [{ _not: { members: {} } }, { members: { active: { _eq: false } } }] },
+			};
 		}
 		if (filter === 'withMember') {
-			return { notebook: { members: {} } };
+			return {
+				...(structureId && { structures: { structureId: { _eq: structureId } } }),
+				notebook: {
+					members: {
+						active: { _eq: true },
+						memberType: { _eq: 'referent' },
+						// ...(structureId && {
+						// 	account: { professional: { structureId: { _eq: structureId } } },
+						// }),
+					},
+				},
+			};
 		}
-		return { notebook: {} }; // prevent beenficiary without notebook
+		return {
+			...(structureId && { structures: { structureId: { _eq: structureId } } }),
+			notebook: {},
+		}; // prevent beenficiary without notebook
 	}
 
 	const result = operationStore(
