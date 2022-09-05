@@ -45,6 +45,9 @@ SELECT public.notebook.*,
        notebook_action.created_at as na_created_at,
        notebook_action.updated_at as na_updated_at,
        notebook_action.initial_id as na_initial_id,
+       ai_action_creator.firstname as na_firstname,
+       ai_action_creator.lastname as na_lastname,
+       ai_action_creator.email as na_email,
        notebook_member.id as nm_id,
        notebook_member.notebook_id as nm_notebook_id,
        notebook_member.account_id as nm_account_id,
@@ -80,6 +83,9 @@ SELECT public.notebook.*,
        ON public.notebook_appointment.notebook_id = public.notebook.id
        LEFT JOIN account_info
        ON public.notebook_appointment.account_id = public.account_info.account_id
+       LEFT JOIN account_info ai_action_creator
+       ON public.notebook_action.creator_id = ai_action_creator.account_id
+
        LEFT JOIN public.rome_code
        ON public.rome_code.id = public.wanted_job.rome_code_id
 """
@@ -198,6 +204,12 @@ async def add_action_to_target(
             created_at=record[record_prefix + "created_at"],
             updated_at=record[record_prefix + "updated_at"],
             initial_id=record[record_prefix + "initial_id"],
+            account_info=AccountInfo(
+                account_id=record[record_prefix + "creator_id"],
+                firstname=record[record_prefix + "firstname"],
+                lastname=record[record_prefix + "lastname"],
+                email=record[record_prefix + "email"],
+            ),
         )
     )
 

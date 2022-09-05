@@ -60,6 +60,11 @@ async def notebook_to_out(
                                     status=a.status,
                                     created_at=a.created_at,
                                     updated_at=a.updated_at,
+                                    creator_account_info=AccountInfoOut(
+                                        firstname=a.account_info.firstname,
+                                        lastname=a.account_info.lastname,
+                                        email=a.account_info.email,
+                                    ),
                                 )
                                 for a in t.actions
                             ]

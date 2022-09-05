@@ -39,11 +39,18 @@ class WantedJobOut(BaseModel):
     rome_code: RomeCodeOut
 
 
+class AccountInfoOut(BaseModel):
+    firstname: str
+    lastname: str
+    email: str | None
+
+
 class ActionOut(BaseModel):
     action: str
     status: str
     created_at: datetime
     updated_at: datetime
+    creator_account_info: AccountInfoOut
 
 
 class TargetOut(BaseModel):
@@ -70,12 +77,6 @@ class NotebookMemberOut(BaseModel):
     created_at: datetime
     invitation_sent_at: datetime | None
     active: bool | None
-
-
-class AccountInfoOut(BaseModel):
-    firstname: str
-    lastname: str
-    email: str | None
 
 
 class AppointmentOut(BaseModel):

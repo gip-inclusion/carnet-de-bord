@@ -54,6 +54,9 @@ async def get_beneficiary_with_query(
             "notebook_action.created_at as na_created_at,"
             "notebook_action.updated_at as na_updated_at,"
             "notebook_action.initial_id as na_initial_id,"
+            "ai_action_creator.firstname as na_firstname,"
+            "ai_action_creator.lastname as na_lastname,"
+            "ai_action_creator.email as na_email,"
             "notebook_member.id as nm_id,"
             "notebook_member.notebook_id as nm_notebook_id,"
             "notebook_member.account_id as nm_account_id,"
@@ -93,6 +96,8 @@ async def get_beneficiary_with_query(
             "ON public.notebook_appointment.notebook_id = public.notebook.id "
             "LEFT JOIN account_info "
             "ON public.notebook_appointment.account_id = public.account_info.account_id "
+            "LEFT JOIN account_info ai_action_creator "
+            "ON public.notebook_action.creator_id = ai_action_creator.account_id "
             "LEFT JOIN public.account "
             "ON public.account.beneficiary_id = public.beneficiary.id " + query,
             *args,
