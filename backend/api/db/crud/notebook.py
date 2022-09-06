@@ -15,99 +15,124 @@ from api.db.models.rome_code import RomeCode
 from api.db.models.target import Target
 from api.db.models.wanted_job import WantedJob
 
-NOTEBOOK_BASE_QUERY = """
-SELECT n.*,
-       wj.rome_code_id,
-       wj.id as wanted_job_id,
-       rc.code as rc_code,
-       rc.description as rc_description,
-       rc.label as rc_label,
-       nf.id as nf_id,
-       nf.theme as nf_theme,
-       nf.situations as nf_situations,
-       nf.creator_id as nf_creator_id,
-       nf.notebook_id as nf_notebook_id,
-       nf.created_at as nf_created_at,
-       nf.linked_to as nf_linked_to,
-       nf.updated_at as nf_updated_at,
-       nt.id as nt_id,
-       nt.focus_id as nt_focus_id,
-       nt.target as nt_target,
-       nt.created_at as nt_created_at,
-       nt.creator_id as nt_creator_id,
-       nt.updated_at as nt_updated_at,
-       nt.status as nt_status,
-       na.id as na_id,
-       na.action as na_action,
-       na.target_id as na_target_id,
-       na.status as na_status,
-       na.creator_id as na_creator_id,
-       na.created_at as na_created_at,
-       na.updated_at as na_updated_at,
-       na.initial_id as na_initial_id,
-       ai_action_creator.firstname as na_firstname,
-       ai_action_creator.lastname as na_lastname,
-       ai_action_creator.email as na_email,
-       nm.id as nm_id,
-       nm.notebook_id as nm_notebook_id,
-       nm.account_id as nm_account_id,
-       nm.last_visited_at as nm_last_visited_at,
-       nm.member_type as nm_member_type,
-       nm.last_modified_at as nm_last_modified_at,
-       nm.created_at as nm_created_at,
-       nm.creator_id as nm_creator_id,
-       nm.invitation_sent_at as nm_invitation_sent_at,
-       nm.active as nm_active,
-       nap.id as nap_id,
-       nap.notebook_id as nap_notebook_id,
-       nap.account_id as nap_account_id,
-       nap.date as nap_date,
-       nap.status as nap_status,
-       nap.created_at as nap_created_at,
-       nap.updated_at as nap_updated_at,
-       account_info.firstname as nap_firstname,
-       account_info.lastname as nap_lastname,
-       account_info.email as nap_email
-       FROM public.notebook n
-       LEFT JOIN wanted_job wj
-       ON wj.notebook_id = n.id
-       LEFT JOIN public.rome_code rc
-       ON rc.id = wj.rome_code_id
-       LEFT JOIN notebook_focus nf
-       ON nf.notebook_id = n.id
-       LEFT JOIN notebook_target nt
-       ON nt.focus_id = nf.id
-       LEFT JOIN notebook_action na
-       ON na.target_id = nt.id
-       LEFT JOIN notebook_member nm
-       ON nm.notebook_id = n.id
-       LEFT JOIN notebook_appointment nap
-       ON nap.notebook_id = n.id
-       LEFT JOIN account_info
-       ON nap.account_id = public.account_info.account_id
-       LEFT JOIN account_info ai_action_creator
-       ON na.creator_id = ai_action_creator.account_id
+NOTEBOOK_BASE_FIELDS = """
+n.id as n_id,
+n.beneficiary_id as n_beneficiary_id,
+n.right_rsa as n_right_rsa,
+n.right_rqth as n_right_rqth,
+n.right_are as n_right_are,
+n.right_ass as n_right_ass,
+n.education_level as n_education_level,
+n.work_situation_date as n_work_situation_date,
+n.right_bonus as n_right_bonus,
+n.geographical_area as n_geographical_area,
+n.contract_type as n_contract_type,
+n.contract_sign_date as n_contract_sign_date,
+n.work_situation as n_work_situation,
+n.work_situation_end_date as n_work_situation_end_date,
+n.contract_start_date as n_contract_start_date,
+n.contract_end_date as n_contract_end_date,
+n.created_at as n_created_at,
+n.updated_at as n_updated_at,
+wj.rome_code_id as wj_rome_code_id,
+wj.id as wj_id,
+rc.code as rc_code,
+rc.description as rc_description,
+rc.label as rc_label,
+nf.id as nf_id,
+nf.theme as nf_theme,
+nf.situations as nf_situations,
+nf.creator_id as nf_creator_id,
+nf.notebook_id as nf_notebook_id,
+nf.created_at as nf_created_at,
+nf.linked_to as nf_linked_to,
+nf.updated_at as nf_updated_at,
+nt.id as nt_id,
+nt.focus_id as nt_focus_id,
+nt.target as nt_target,
+nt.created_at as nt_created_at,
+nt.creator_id as nt_creator_id,
+nt.updated_at as nt_updated_at,
+nt.status as nt_status,
+na.id as na_id,
+na.action as na_action,
+na.target_id as na_target_id,
+na.status as na_status,
+na.creator_id as na_creator_id,
+na.created_at as na_created_at,
+na.updated_at as na_updated_at,
+na.initial_id as na_initial_id,
+ai_action_creator.firstname as na_firstname,
+ai_action_creator.lastname as na_lastname,
+ai_action_creator.email as na_email,
+nm.id as nm_id,
+nm.notebook_id as nm_notebook_id,
+nm.account_id as nm_account_id,
+nm.last_visited_at as nm_last_visited_at,
+nm.member_type as nm_member_type,
+nm.last_modified_at as nm_last_modified_at,
+nm.created_at as nm_created_at,
+nm.creator_id as nm_creator_id,
+nm.invitation_sent_at as nm_invitation_sent_at,
+nm.active as nm_active,
+nap.id as nap_id,
+nap.notebook_id as nap_notebook_id,
+nap.account_id as nap_account_id,
+nap.date as nap_date,
+nap.status as nap_status,
+nap.created_at as nap_created_at,
+nap.updated_at as nap_updated_at,
+nap_account_info.firstname as nap_firstname,
+nap_account_info.lastname as nap_lastname,
+nap_account_info.email as nap_email
 """
+
+NOTEBOOK_BASE_JOINS = """
+LEFT JOIN wanted_job wj
+ON wj.notebook_id = n.id
+LEFT JOIN public.rome_code rc
+ON rc.id = wj.rome_code_id
+LEFT JOIN notebook_focus nf
+ON nf.notebook_id = n.id
+LEFT JOIN notebook_target nt
+ON nt.focus_id = nf.id
+LEFT JOIN notebook_action na
+ON na.target_id = nt.id
+LEFT JOIN notebook_member nm
+ON nm.notebook_id = n.id
+LEFT JOIN notebook_appointment nap
+ON nap.notebook_id = n.id
+LEFT JOIN account_info nap_account_info
+ON nap.account_id = nap_account_info.account_id
+LEFT JOIN account_info ai_action_creator
+ON na.creator_id = ai_action_creator.account_id
+"""
+
+NOTEBOOK_BASE_QUERY = (
+    "SELECT " + NOTEBOOK_BASE_FIELDS + "FROM public.notebook n" + NOTEBOOK_BASE_JOINS
+)
 
 
 async def add_wanted_jobs_to_notebook(
     record: Record,
     notebook: Notebook,
-    record_prefix: str = "",
+    notebook_record_prefix: str = "n_",
+    wj_record_prefix: str = "wj_",
+    rc_record_prefix: str = "rc_",
     notebook_id: str = "notebook_id",
 ) -> None:
-    if record[record_prefix + "rome_code_id"] is not None:
+    if record[wj_record_prefix + "rome_code_id"] is not None:
         rome_code = RomeCode(
-            id=record[record_prefix + "rome_code_id"],
-            code=record[record_prefix + "rc_code"],
-            label=record[record_prefix + "rc_label"],
-            description=record[record_prefix + "rc_description"],
+            id=record[wj_record_prefix + "rome_code_id"],
+            code=record[rc_record_prefix + "code"],
+            label=record[rc_record_prefix + "label"],
+            description=record[rc_record_prefix + "description"],
         )
 
         wanted_job = WantedJob(
-            id=record[record_prefix + "wanted_job_id"],
-            notebook_id=record[record_prefix + notebook_id],
-            rome_code_id=record[record_prefix + "rome_code_id"],
+            id=record[wj_record_prefix + "id"],
+            notebook_id=record[notebook_record_prefix + notebook_id],
+            rome_code_id=record[wj_record_prefix + "rome_code_id"],
             rome_code=rome_code,
         )
 
@@ -115,7 +140,7 @@ async def add_wanted_jobs_to_notebook(
             (
                 wj
                 for wj in notebook.wanted_jobs
-                if wj.id == record[record_prefix + "wanted_job_id"]
+                if wj.id == record[wj_record_prefix + "id"]
             ),
             None,
         )
@@ -355,7 +380,7 @@ async def parse_notebook_member_from_record(record: Record) -> NotebookMember:
 async def parse_notebooks_from_records(
     records: list[Record],
     notebooks: list[Notebook],
-    id_field: str = "id",
+    id_field: str = "n_id",
 ) -> list[Notebook]:
 
     for record in records:
@@ -375,6 +400,7 @@ async def parse_notebooks_from_records(
 async def parse_notebook_from_record(
     record: Record,
     id_field: str = "id",
+    record_prefix: str = "n_",
     beneficiary_id_field: str = "beneficiary_id",
     add_wanted_jobs: bool = True,
     add_focuses: bool = True,
@@ -387,25 +413,25 @@ async def parse_notebook_from_record(
 
     if not notebook:
         notebook = Notebook(
-            id=record[id_field],
-            created_at=record["created_at"],
-            updated_at=record["updated_at"],
-            right_rsa=record["right_rsa"],
-            right_rqth=record["right_rqth"],
-            right_are=record["right_are"],
-            right_ass=record["right_ass"],
-            right_bonus=record["right_bonus"],
-            beneficiary_id=record[beneficiary_id_field],
+            id=record[record_prefix + id_field],
+            created_at=record[record_prefix + "created_at"],
+            updated_at=record[record_prefix + "updated_at"],
+            right_rsa=record[record_prefix + "right_rsa"],
+            right_rqth=record[record_prefix + "right_rqth"],
+            right_are=record[record_prefix + "right_are"],
+            right_ass=record[record_prefix + "right_ass"],
+            right_bonus=record[record_prefix + "right_bonus"],
+            beneficiary_id=record[record_prefix + beneficiary_id_field],
             wanted_jobs=[],
-            geographical_area=record["geographical_area"],
-            education_level=record["education_level"],
-            work_situation_date=record["work_situation_date"],
-            contract_type=record["contract_type"],
-            contract_sign_date=record["contract_sign_date"],
-            work_situation=record["work_situation"],
-            work_situation_end_date=record["work_situation_end_date"],
-            contract_start_date=record["contract_start_date"],
-            contract_end_date=record["contract_end_date"],
+            geographical_area=record[record_prefix + "geographical_area"],
+            education_level=record[record_prefix + "education_level"],
+            work_situation_date=record[record_prefix + "work_situation_date"],
+            contract_type=record[record_prefix + "contract_type"],
+            contract_sign_date=record[record_prefix + "contract_sign_date"],
+            work_situation=record[record_prefix + "work_situation"],
+            work_situation_end_date=record[record_prefix + "work_situation_end_date"],
+            contract_start_date=record[record_prefix + "contract_start_date"],
+            contract_end_date=record[record_prefix + "contract_end_date"],
         )
 
     if add_wanted_jobs:
@@ -435,7 +461,7 @@ async def get_notebook_member_with_query(
     async with connection.transaction():
 
         notebook_member_record: Record | None = await connection.fetchrow(
-            "SELECT public.notebook_member.* FROM public.notebook_member " + query,
+            "SELECT nm.* FROM public.notebook_member nm " + query,
             *args,
         )
 
@@ -449,7 +475,7 @@ async def get_notebook_members_with_query(
     async with connection.transaction():
 
         records: list[Record] = await connection.fetch(
-            "SELECT public.notebook_member.* FROM public.notebook_member " + query,
+            "SELECT nm.* FROM public.notebook_member nm " + query,
             *args,
         )
 
@@ -538,6 +564,6 @@ async def get_notebook_by_id(
 ) -> Notebook | None:
     return await get_notebook_with_query(
         connection,
-        """WHERE public.notebook.id = $1""",
+        """WHERE n.id = $1""",
         notebook_id,
     )
