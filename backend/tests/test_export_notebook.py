@@ -42,5 +42,21 @@ async def test_export_notebook(db_connection, test_directory):
         )
 
         assert target is not None
+        assert len(target["actions"]) == 3
+
+        action = next(
+            (
+                a
+                for a in target["actions"]
+                if a["action"] == "Orientation vers une SIAE"
+            ),
+            None,
+        )
+
+        assert action is not None
+
+        assert action["creator_account_info"]["email"] == "giulia.diaby@cd93.fr"
+        assert action["creator_account_info"]["firstname"] == "Giulia"
+        assert action["creator_account_info"]["lastname"] == "Diaby"
 
         assert len(notebooks_json[0]["appointments"]) == 3

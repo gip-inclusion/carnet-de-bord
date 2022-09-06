@@ -5,8 +5,26 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
-from api.db.crud.notebook import parse_notebook_from_record
+from api.db.crud.notebook import (
+    NOTEBOOK_BASE_FIELDS,
+    NOTEBOOK_BASE_JOINS,
+    parse_notebook_from_record,
+)
 from api.db.models.beneficiary import Beneficiary
+
+BENEFICIARY_BASE_QUERY = (
+    """SELECT b.*, acc.id as account_id,"""
+    + NOTEBOOK_BASE_FIELDS
+    + """
+    FROM public.beneficiary b
+    LEFT JOIN notebook n ON n.beneficiary_id = b.id
+    """
+    + NOTEBOOK_BASE_JOINS
+    + """
+    LEFT JOIN public.account acc
+    ON acc.beneficiary_id = b.id
+"""
+)
 
 
 async def get_beneficiary_with_query(
@@ -18,83 +36,7 @@ async def get_beneficiary_with_query(
         beneficiary = None
 
         beneficiary_records: List[Record] = await connection.fetch(
-            "SELECT public.beneficiary.*, public.account.id as account_id, "
-            "public.wanted_job.rome_code_id, "
-            "public.wanted_job.id as wanted_job_id, public.notebook.id as notebook_id, "
-            "public.notebook.right_rsa, public.notebook.right_rqth, "
-            "public.notebook.right_are, public.notebook.right_ass, "
-            "public.notebook.education_level, public.notebook.work_situation_date, "
-            "public.notebook.right_bonus, public.notebook.geographical_area, "
-            "public.notebook.contract_type, public.notebook.contract_sign_date, "
-            "public.notebook.work_situation, public.notebook.work_situation_end_date, "
-            "public.notebook.contract_start_date, public.notebook.contract_end_date, "
-            "public.rome_code.code as rc_code, "
-            "public.rome_code.description as rc_description, "
-            "public.rome_code.label as rc_label, "
-            "notebook_focus.id as nf_id,"
-            "notebook_focus.theme as nf_theme,"
-            "notebook_focus.situations as nf_situations,"
-            "notebook_focus.creator_id as nf_creator_id,"
-            "notebook_focus.notebook_id as nf_notebook_id,"
-            "notebook_focus.created_at as nf_created_at,"
-            "notebook_focus.linked_to as nf_linked_to,"
-            "notebook_focus.updated_at as nf_updated_at,"
-            "notebook_target.id as nt_id,"
-            "notebook_target.focus_id as nt_focus_id,"
-            "notebook_target.target as nt_target,"
-            "notebook_target.created_at as nt_created_at,"
-            "notebook_target.creator_id as nt_creator_id,"
-            "notebook_target.updated_at as nt_updated_at,"
-            "notebook_target.status as nt_status,"
-            "notebook_action.id as na_id,"
-            "notebook_action.action as na_action,"
-            "notebook_action.target_id as na_target_id,"
-            "notebook_action.status as na_status,"
-            "notebook_action.creator_id as na_creator_id,"
-            "notebook_action.created_at as na_created_at,"
-            "notebook_action.updated_at as na_updated_at,"
-            "notebook_action.initial_id as na_initial_id,"
-            "notebook_member.id as nm_id,"
-            "notebook_member.notebook_id as nm_notebook_id,"
-            "notebook_member.account_id as nm_account_id,"
-            "notebook_member.last_visited_at as nm_last_visited_at,"
-            "notebook_member.member_type as nm_member_type,"
-            "notebook_member.last_modified_at as nm_last_modified_at,"
-            "notebook_member.created_at as nm_created_at,"
-            "notebook_member.creator_id as nm_creator_id,"
-            "notebook_member.invitation_sent_at as nm_invitation_sent_at,"
-            "notebook_member.active as nm_active, "
-            "notebook_appointment.id as nap_id,"
-            "notebook_appointment.notebook_id as nap_notebook_id,"
-            "notebook_appointment.account_id as nap_account_id,"
-            "notebook_appointment.date as nap_date,"
-            "notebook_appointment.status as nap_status,"
-            "notebook_appointment.created_at as nap_created_at,"
-            "notebook_appointment.updated_at as nap_updated_at, "
-            "account_info.firstname as nap_firstname,"
-            "account_info.lastname as nap_lastname,"
-            "account_info.email as nap_email "
-            "FROM public.beneficiary "
-            "LEFT JOIN public.notebook "
-            "ON public.notebook.beneficiary_id = public.beneficiary.id "
-            "LEFT JOIN public.wanted_job "
-            "ON public.wanted_job.notebook_id = public.notebook.id "
-            "LEFT JOIN public.rome_code "
-            "ON public.rome_code.id = public.wanted_job.rome_code_id "
-            "LEFT JOIN notebook_focus "
-            "ON public.notebook_focus.notebook_id = public.notebook.id "
-            "LEFT JOIN notebook_target "
-            "ON public.notebook_target.focus_id = public.notebook_focus.id "
-            "LEFT JOIN notebook_action "
-            "ON public.notebook_action.target_id = public.notebook_target.id "
-            "LEFT JOIN notebook_member "
-            "ON public.notebook_member.notebook_id = public.notebook.id "
-            "LEFT JOIN notebook_appointment "
-            "ON public.notebook_appointment.notebook_id = public.notebook.id "
-            "LEFT JOIN account_info "
-            "ON public.notebook_appointment.account_id = public.account_info.account_id "
-            "LEFT JOIN public.account "
-            "ON public.account.beneficiary_id = public.beneficiary.id " + query,
+            BENEFICIARY_BASE_QUERY + query,
             *args,
         )
 
@@ -103,11 +45,9 @@ async def get_beneficiary_with_query(
             if beneficiary is None:
                 beneficiary = Beneficiary.parse_obj(beneficiary_record)
 
-            if beneficiary_record["notebook_id"] is not None:
+            if beneficiary_record["n_id"] is not None:
                 beneficiary.notebook = await parse_notebook_from_record(
                     beneficiary_record,
-                    id_field="notebook_id",
-                    beneficiary_id_field="id",
                     notebook=beneficiary.notebook,
                 )
 
@@ -122,9 +62,9 @@ async def get_beneficiary_from_personal_information(
         connection,
         # We use LOWER(BTRIM(field)) here to match the index so postgres
         # can use the index rather than scanning the whole table
-        "WHERE LOWER(BTRIM(public.beneficiary.firstname)) = LOWER($1) AND "
-        "LOWER(BTRIM(public.beneficiary.lastname)) = LOWER($2) AND "
-        "public.beneficiary.date_of_birth = $3",
+        "WHERE LOWER(BTRIM(b.firstname)) = LOWER($1) AND "
+        "LOWER(BTRIM(b.lastname)) = LOWER($2) AND "
+        "b.date_of_birth = $3",
         firstname,
         lastname,
         birth_date,
@@ -136,5 +76,5 @@ async def get_beneficiary_by_id(
 ) -> Beneficiary | None:
 
     return await get_beneficiary_with_query(
-        connection, "WHERE public.beneficiary.id = $1", beneficiary_id
+        connection, "WHERE b.id = $1", beneficiary_id
     )

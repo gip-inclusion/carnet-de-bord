@@ -3,6 +3,8 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from api.db.models.account import AccountInfo
+
 
 class Action(BaseModel):
     id: UUID
@@ -10,6 +12,7 @@ class Action(BaseModel):
     target_id: UUID
     status: str
     creator_id: UUID
+    account_info: AccountInfo
     created_at: datetime
     updated_at: datetime
     initial_id: str | None
