@@ -16,77 +16,77 @@ from api.db.models.target import Target
 from api.db.models.wanted_job import WantedJob
 
 NOTEBOOK_BASE_QUERY = """
-SELECT public.notebook.*,
-       wanted_job.rome_code_id,
-       wanted_job.id as wanted_job_id,
-       rome_code.code as rc_code,
-       rome_code.description as rc_description,
-       rome_code.label as rc_label,
-       notebook_focus.id as nf_id,
-       notebook_focus.theme as nf_theme,
-       notebook_focus.situations as nf_situations,
-       notebook_focus.creator_id as nf_creator_id,
-       notebook_focus.notebook_id as nf_notebook_id,
-       notebook_focus.created_at as nf_created_at,
-       notebook_focus.linked_to as nf_linked_to,
-       notebook_focus.updated_at as nf_updated_at,
-       notebook_target.id as nt_id,
-       notebook_target.focus_id as nt_focus_id,
-       notebook_target.target as nt_target,
-       notebook_target.created_at as nt_created_at,
-       notebook_target.creator_id as nt_creator_id,
-       notebook_target.updated_at as nt_updated_at,
-       notebook_target.status as nt_status,
-       notebook_action.id as na_id,
-       notebook_action.action as na_action,
-       notebook_action.target_id as na_target_id,
-       notebook_action.status as na_status,
-       notebook_action.creator_id as na_creator_id,
-       notebook_action.created_at as na_created_at,
-       notebook_action.updated_at as na_updated_at,
-       notebook_action.initial_id as na_initial_id,
+SELECT n.*,
+       wj.rome_code_id,
+       wj.id as wanted_job_id,
+       rc.code as rc_code,
+       rc.description as rc_description,
+       rc.label as rc_label,
+       nf.id as nf_id,
+       nf.theme as nf_theme,
+       nf.situations as nf_situations,
+       nf.creator_id as nf_creator_id,
+       nf.notebook_id as nf_notebook_id,
+       nf.created_at as nf_created_at,
+       nf.linked_to as nf_linked_to,
+       nf.updated_at as nf_updated_at,
+       nt.id as nt_id,
+       nt.focus_id as nt_focus_id,
+       nt.target as nt_target,
+       nt.created_at as nt_created_at,
+       nt.creator_id as nt_creator_id,
+       nt.updated_at as nt_updated_at,
+       nt.status as nt_status,
+       na.id as na_id,
+       na.action as na_action,
+       na.target_id as na_target_id,
+       na.status as na_status,
+       na.creator_id as na_creator_id,
+       na.created_at as na_created_at,
+       na.updated_at as na_updated_at,
+       na.initial_id as na_initial_id,
        ai_action_creator.firstname as na_firstname,
        ai_action_creator.lastname as na_lastname,
        ai_action_creator.email as na_email,
-       notebook_member.id as nm_id,
-       notebook_member.notebook_id as nm_notebook_id,
-       notebook_member.account_id as nm_account_id,
-       notebook_member.last_visited_at as nm_last_visited_at,
-       notebook_member.member_type as nm_member_type,
-       notebook_member.last_modified_at as nm_last_modified_at,
-       notebook_member.created_at as nm_created_at,
-       notebook_member.creator_id as nm_creator_id,
-       notebook_member.invitation_sent_at as nm_invitation_sent_at,
-       notebook_member.active as nm_active,
-       notebook_appointment.id as nap_id,
-       notebook_appointment.notebook_id as nap_notebook_id,
-       notebook_appointment.account_id as nap_account_id,
-       notebook_appointment.date as nap_date,
-       notebook_appointment.status as nap_status,
-       notebook_appointment.created_at as nap_created_at,
-       notebook_appointment.updated_at as nap_updated_at,
+       nm.id as nm_id,
+       nm.notebook_id as nm_notebook_id,
+       nm.account_id as nm_account_id,
+       nm.last_visited_at as nm_last_visited_at,
+       nm.member_type as nm_member_type,
+       nm.last_modified_at as nm_last_modified_at,
+       nm.created_at as nm_created_at,
+       nm.creator_id as nm_creator_id,
+       nm.invitation_sent_at as nm_invitation_sent_at,
+       nm.active as nm_active,
+       nap.id as nap_id,
+       nap.notebook_id as nap_notebook_id,
+       nap.account_id as nap_account_id,
+       nap.date as nap_date,
+       nap.status as nap_status,
+       nap.created_at as nap_created_at,
+       nap.updated_at as nap_updated_at,
        account_info.firstname as nap_firstname,
        account_info.lastname as nap_lastname,
        account_info.email as nap_email
-       FROM public.notebook
-       LEFT JOIN wanted_job
-       ON public.wanted_job.notebook_id = public.notebook.id
-       LEFT JOIN notebook_focus
-       ON public.notebook_focus.notebook_id = public.notebook.id
-       LEFT JOIN notebook_target
-       ON public.notebook_target.focus_id = public.notebook_focus.id
-       LEFT JOIN notebook_action
-       ON public.notebook_action.target_id = public.notebook_target.id
-       LEFT JOIN notebook_member
-       ON public.notebook_member.notebook_id = public.notebook.id
-       LEFT JOIN notebook_appointment
-       ON public.notebook_appointment.notebook_id = public.notebook.id
+       FROM public.notebook n
+       LEFT JOIN wanted_job wj
+       ON wj.notebook_id = n.id
+       LEFT JOIN public.rome_code rc
+       ON rc.id = wj.rome_code_id
+       LEFT JOIN notebook_focus nf
+       ON nf.notebook_id = n.id
+       LEFT JOIN notebook_target nt
+       ON nt.focus_id = nf.id
+       LEFT JOIN notebook_action na
+       ON na.target_id = nt.id
+       LEFT JOIN notebook_member nm
+       ON nm.notebook_id = n.id
+       LEFT JOIN notebook_appointment nap
+       ON nap.notebook_id = n.id
        LEFT JOIN account_info
-       ON public.notebook_appointment.account_id = public.account_info.account_id
+       ON nap.account_id = public.account_info.account_id
        LEFT JOIN account_info ai_action_creator
-       ON public.notebook_action.creator_id = ai_action_creator.account_id
-       LEFT JOIN public.rome_code
-       ON public.rome_code.id = public.wanted_job.rome_code_id
+       ON na.creator_id = ai_action_creator.account_id
 """
 
 
@@ -477,7 +477,7 @@ async def get_notebook_members_by_notebook_id(
 ) -> list[NotebookMember]:
     return await get_notebook_members_with_query(
         connection,
-        "WHERE public.notebook_member.notebook_id = $1",
+        "WHERE nm.notebook_id = $1",
         notebook_id,
     )
 
@@ -487,8 +487,8 @@ async def get_notebook_member_by_notebook_id_and_account_id(
 ) -> NotebookMember | None:
     return await get_notebook_member_with_query(
         connection,
-        """WHERE public.notebook_member.notebook_id = $1
-        AND public.notebook_member.account_id = $2""",
+        """WHERE nm.notebook_id = $1
+        AND nm.account_id = $2""",
         notebook_id,
         account_id,
     )
@@ -526,7 +526,7 @@ async def get_notebooks_by_structure_id(
 ) -> list[Notebook]:
     return await get_notebooks_with_query(
         connection,
-        """LEFT JOIN account ON notebook_member.account_id = account.id
+        """LEFT JOIN account ON nm.account_id = account.id
         LEFT JOIN professional ON account.professional_id = professional.id
         WHERE professional.structure_id = $1""",
         structure_id,
