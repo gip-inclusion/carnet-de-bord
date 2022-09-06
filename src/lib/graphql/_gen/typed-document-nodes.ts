@@ -16,6 +16,7 @@ export type Scalars = {
 	citext: string;
 	date: string;
 	jsonb: any;
+	timestamp: any;
 	timestamptz: string;
 	uuid: string;
 };
@@ -5125,7 +5126,7 @@ export type NotebookAppointment = {
 	/** An object relationship */
 	account: Account;
 	created_at?: Maybe<Scalars['timestamptz']>;
-	date: Scalars['date'];
+	date: Scalars['timestamp'];
 	id: Scalars['uuid'];
 	memberAccountId: Scalars['uuid'];
 	/** An object relationship */
@@ -5177,7 +5178,7 @@ export type NotebookAppointmentBoolExp = {
 	_or?: InputMaybe<Array<NotebookAppointmentBoolExp>>;
 	account?: InputMaybe<AccountBoolExp>;
 	created_at?: InputMaybe<TimestamptzComparisonExp>;
-	date?: InputMaybe<DateComparisonExp>;
+	date?: InputMaybe<TimestampComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	memberAccountId?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
@@ -5196,7 +5197,7 @@ export enum NotebookAppointmentConstraint {
 export type NotebookAppointmentInsertInput = {
 	account?: InputMaybe<AccountObjRelInsertInput>;
 	created_at?: InputMaybe<Scalars['timestamptz']>;
-	date?: InputMaybe<Scalars['date']>;
+	date?: InputMaybe<Scalars['timestamp']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	memberAccountId?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
@@ -5209,7 +5210,7 @@ export type NotebookAppointmentInsertInput = {
 export type NotebookAppointmentMaxFields = {
 	__typename?: 'notebook_appointment_max_fields';
 	created_at?: Maybe<Scalars['timestamptz']>;
-	date?: Maybe<Scalars['date']>;
+	date?: Maybe<Scalars['timestamp']>;
 	id?: Maybe<Scalars['uuid']>;
 	memberAccountId?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -5232,7 +5233,7 @@ export type NotebookAppointmentMaxOrderBy = {
 export type NotebookAppointmentMinFields = {
 	__typename?: 'notebook_appointment_min_fields';
 	created_at?: Maybe<Scalars['timestamptz']>;
-	date?: Maybe<Scalars['date']>;
+	date?: Maybe<Scalars['timestamp']>;
 	id?: Maybe<Scalars['uuid']>;
 	memberAccountId?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -5306,7 +5307,7 @@ export enum NotebookAppointmentSelectColumn {
 /** input type for updating data in table "notebook_appointment" */
 export type NotebookAppointmentSetInput = {
 	created_at?: InputMaybe<Scalars['timestamptz']>;
-	date?: InputMaybe<Scalars['date']>;
+	date?: InputMaybe<Scalars['timestamp']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	memberAccountId?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
@@ -10299,6 +10300,19 @@ export type SubscriptionRootWantedJobByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+/** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+export type TimestampComparisonExp = {
+	_eq?: InputMaybe<Scalars['timestamp']>;
+	_gt?: InputMaybe<Scalars['timestamp']>;
+	_gte?: InputMaybe<Scalars['timestamp']>;
+	_in?: InputMaybe<Array<Scalars['timestamp']>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_lt?: InputMaybe<Scalars['timestamp']>;
+	_lte?: InputMaybe<Scalars['timestamp']>;
+	_neq?: InputMaybe<Scalars['timestamp']>;
+	_nin?: InputMaybe<Array<Scalars['timestamp']>>;
+};
+
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type TimestamptzComparisonExp = {
 	_eq?: InputMaybe<Scalars['timestamptz']>;
@@ -11272,7 +11286,7 @@ export type SearchProfessionalQuery = {
 };
 
 export type AddNotebookAppointmentMutationVariables = Exact<{
-	date?: InputMaybe<Scalars['date']>;
+	date?: InputMaybe<Scalars['timestamp']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	memberAccountId?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
@@ -11308,14 +11322,14 @@ export type GetNotebookAppointmentsQuery = {
 	__typename?: 'query_root';
 	getNotebookAppointments: Array<{
 		__typename?: 'notebook_appointment';
-		date: string;
+		date: any;
 		id: string;
 		status: string;
 	}>;
 };
 
 export type UpdateNotebookAppointmentMutationVariables = Exact<{
-	date?: InputMaybe<Scalars['date']>;
+	date?: InputMaybe<Scalars['timestamp']>;
 	status?: InputMaybe<Scalars['String']>;
 	id: Scalars['uuid'];
 }>;
@@ -12892,7 +12906,7 @@ export type GetNotebookQuery = {
 				}>;
 				appointments: Array<{
 					__typename?: 'notebook_appointment';
-					date: string;
+					date: any;
 					memberAccountId: string;
 				}>;
 				events: Array<{
@@ -18409,7 +18423,7 @@ export const AddNotebookAppointmentDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamp' } },
 				},
 				{
 					kind: 'VariableDefinition',
@@ -18668,7 +18682,7 @@ export const UpdateNotebookAppointmentDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'date' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamp' } },
 				},
 				{
 					kind: 'VariableDefinition',

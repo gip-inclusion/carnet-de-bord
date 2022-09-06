@@ -1,4 +1,4 @@
-import { format, formatDistance, intlFormat, parse as dateParse } from 'date-fns';
+import { format, formatDistance, parse as dateParse } from 'date-fns';
 import fr from 'date-fns/locale/fr/index.js';
 
 export function formatDate(value: string): string {
@@ -23,20 +23,9 @@ export function formatDateTimeLocale(value: string): string {
 	if (date.toString() === 'Invalid Date') {
 		return value;
 	}
-	return intlFormat(
-		date,
-		{
-			year: 'numeric',
-			month: 'numeric',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric',
-			second: 'numeric',
-			hour12: false,
-			timeZone: 'Europe/Paris',
-		},
-		{ locale: 'fr-FR' }
-	);
+	return `${date.toLocaleDateString('fr-FR')} à ${date.toLocaleTimeString('fr-FR', {
+		timeStyle: 'short',
+	})}`;
 }
 export function formatDateISO(date: Date): string {
 	const isoDate = date.toISOString();
