@@ -85,7 +85,6 @@ SELECT public.notebook.*,
        ON public.notebook_appointment.account_id = public.account_info.account_id
        LEFT JOIN account_info ai_action_creator
        ON public.notebook_action.creator_id = ai_action_creator.account_id
-
        LEFT JOIN public.rome_code
        ON public.rome_code.id = public.wanted_job.rome_code_id
 """
