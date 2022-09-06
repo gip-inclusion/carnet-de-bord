@@ -56,6 +56,10 @@ cd hasura
 hasura seed apply # initialiser les données de test
 hasura console # lancer la console hasura
 ```
+ou
+```sh
+hasura console --envfile ../.env # lancer la console hasura en utilisant les variables définies dans le fichier .env
+```
 
 **6/** Compiler et démarrer l'application SvelteKit
 
