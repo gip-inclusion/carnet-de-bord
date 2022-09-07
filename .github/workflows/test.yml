@@ -1,0 +1,128 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+    tags-ignore:
+      - v*
+
+concurrency:
+  cancel-in-progress: true
+  group: test-${{ github.ref }}
+
+env:
+  HASURA_VERSION: v2.8.3
+
+jobs:
+  ##############################################################################
+  ## Python backend tests
+  ##############################################################################
+  pytest:
+    name: run pytest tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Hasura cli
+        run: |
+          BIN_DIR="$HOME/.hasura/bin"
+          mkdir -p "$BIN_DIR"
+          curl -Ss -L -o "$BIN_DIR/hasura" https://github.com/hasura/graphql-engine/releases/download/$HASURA_VERSION/cli-hasura-linux-amd64
+          chmod +x "$BIN_DIR/hasura"
+          echo "$BIN_DIR" >> "$GITHUB_PATH"
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2.1.5
+        with:
+          poetry-version: 1.1.13
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: poetry install
+
+      - name: Run pytest
+        run: |
+          cp .env.test.sample .env.test
+          ./scripts/launch_tests.sh python
+
+  ##############################################################################
+  ## End To End Tests
+  ##############################################################################
+  e2e:
+    name: run CodeceptJS tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Yarn cache setup
+        uses: c-hive/gha-yarn-cache@v2
+      - name: Install dependencies
+        run: |
+          yarn install --prefer-offline --frozen-lockfile
+          yarn --cwd e2e install --prefer-offline --frozen-lockfile
+
+      - name: Install Hasura cli
+        run: |
+          BIN_DIR="$HOME/.hasura/bin"
+          mkdir -p "$BIN_DIR"
+          curl -Ss -L -o "$BIN_DIR/hasura" https://github.com/hasura/graphql-engine/releases/download/$HASURA_VERSION/cli-hasura-linux-amd64
+          chmod +x "$BIN_DIR/hasura"
+          echo "$BIN_DIR" >> "$GITHUB_PATH"
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2.1.5
+        with:
+          poetry-version: 1.1.13
+      - name: Install Python dependencies
+        working-directory: ./backend
+        run: poetry install
+
+      - name: Run test e2e
+        run: |
+          cp .env.test.sample .env.test
+          ./scripts/launch_tests.sh e2e
+
+      - name: Copy artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshot
+          path: e2e/output
+
+  ##############################################################################
+  ## Functional Tests (endpoints & hasura)
+  ##############################################################################
+  functional_tests:
+    name: run functional tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Yarn cache setup
+        uses: c-hive/gha-yarn-cache@v2
+      - name: Install dependencies
+        run: |
+          yarn install --prefer-offline --frozen-lockfile
+
+      - name: Install Hasura cli
+        run: |
+          BIN_DIR="$HOME/.hasura/bin"
+          mkdir -p "$BIN_DIR"
+          curl -Ss -L -o "$BIN_DIR/hasura" https://github.com/hasura/graphql-engine/releases/download/$HASURA_VERSION/cli-hasura-linux-amd64
+          chmod +x "$BIN_DIR/hasura"
+          echo "$BIN_DIR" >> "$GITHUB_PATH"
+
+      - name: Run functional tests
+        run: |
+          cp .env.test.sample .env.test
+          ./scripts/launch_tests.sh js
