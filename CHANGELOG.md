@@ -1,3 +1,10 @@
+# [1.136.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.135.1...v1.136.0) (2022-09-07)
+
+
+### Features
+
+* add rdv schedule time ([#1048](https://github.com/SocialGouv/carnet-de-bord/issues/1048)) ([eae706e](https://github.com/SocialGouv/carnet-de-bord/commit/eae706ed6154450cf5284957a2ba95e5f67e2de2))
+
 ## [1.135.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.135.0...v1.135.1) (2022-09-07)
 
 
