@@ -17,7 +17,7 @@
 
 
 <!--
-Pour lié votre PR à une issue et que cette dernière soit fermé lorsque la PR sera mérgé dans master, vous pouvez utiliser l'annotation  `fix` en précisant le numéro de la PR précéder de `#`
+Pour lier votre PR à une issue et que cette dernière soit fermée lorsque la PR sera mergée dans master, vous pouvez utiliser l'annotation  `fix` en précisant le numéro de la PR précéder de `#`
 ex: fix #42
 
 Cela peut aussi etre fait dans un message de commit
