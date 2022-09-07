@@ -6,7 +6,6 @@
 
 > _Décrivez en quelques mots la solution retenue et mise en oeuvre, les difficultés ou problèmes rencontrés._
 
-Les tests pytext ont été modifiés en conséquence
 
 ## :rotating_light:  Point d'attention / Remarque
 
