@@ -54,7 +54,7 @@ async def create_manager(
             connection=db,
             admin_pdi_id=admin_pdi.id,
             confirmed=True,
-            username=str(uuid.uuid4()),
+            username=username,
         )
 
         if not account:

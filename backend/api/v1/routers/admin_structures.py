@@ -13,6 +13,7 @@ from api.db.crud.account import (
     insert_admin_structure_account,
 )
 from api.db.crud.admin_structure import (
+    get_admin_structure_with_query,
     insert_admin_structure,
     insert_admin_structure_structure,
 )
@@ -35,34 +36,58 @@ async def create_admin_structure(
     db=Depends(connection),
 ):
     async with db.transaction():
-        admin_structure = await insert_admin_structure(connection=db, data=data.admin)
-        if admin_structure is None:
-            raise HTTPException(status_code=500, detail="insert admin_structure failed")
-
-        email_username = data.admin.email.split("@")[0].lower()
-
-        accounts = await get_accounts_with_query(
+        admin_structure = await get_admin_structure_with_query(
             db,
             """
-            WHERE account.username like $1
+            , public.account
+            WHERE account.admin_structure_id = admin_structure.id
+            AND admin_structure.email = $1
             """,
-            email_username + "%",
+            data.admin.email,
         )
 
-        username = create_username(
-            email_username, [account.username for account in accounts]
-        )
+        if not admin_structure:
+            admin_structure = await insert_admin_structure(
+                connection=db, data=data.admin
+            )
 
-        account = await insert_admin_structure_account(
-            connection=db,
-            admin_structure_id=admin_structure.id,
-            confirmed=True,
-            username=username,
-        )
+            if admin_structure is None:
+                raise HTTPException(
+                    status_code=500, detail="insert admin_structure failed"
+                )
 
-        if not account:
-            logging.error(f"Insert account failed")
-            raise HTTPException(status_code=500, detail="insert account failed")
+            email_username = data.admin.email.split("@")[0].lower()
+
+            accounts = await get_accounts_with_query(
+                db,
+                """
+                WHERE account.username like $1
+                """,
+                email_username + "%",
+            )
+
+            username = create_username(
+                email_username, [account.username for account in accounts]
+            )
+
+            account = await insert_admin_structure_account(
+                connection=db,
+                admin_structure_id=admin_structure.id,
+                confirmed=True,
+                username=username,
+            )
+
+            if not account:
+                logging.error(f"Insert account failed")
+                raise HTTPException(status_code=500, detail="insert account failed")
+
+            background_tasks.add_task(
+                send_invitation_email,
+                email=admin_structure.email,
+                firstname=admin_structure.firstname,
+                lastname=admin_structure.lastname,
+                access_key=account.access_key,
+            )
 
         ass_id = await insert_admin_structure_structure(
             connection=db,
@@ -76,14 +101,6 @@ async def create_admin_structure(
                 status_code=500,
                 detail="insert admin_structure_structure failed",
             )
-
-        background_tasks.add_task(
-            send_invitation_email,
-            email=admin_structure.email,
-            firstname=admin_structure.firstname,
-            lastname=admin_structure.lastname,
-            access_key=account.access_key,
-        )
 
         return admin_structure
 

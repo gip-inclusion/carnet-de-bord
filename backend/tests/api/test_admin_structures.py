@@ -68,7 +68,8 @@ async def test_insert_admin_structure_with_structure_in_db(
 
     record = await db_connection.fetchrow(
         """
-            SELECT firstname, lastname, admin_structure.email as adm_email, confirmed, name  FROM public.admin_structure, admin_structure_structure, structure, account
+            SELECT firstname, lastname, admin_structure.email as adm_email, confirmed, name
+            FROM public.admin_structure, admin_structure_structure, structure, account
             WHERE admin_structure.id = admin_structure_structure.admin_structure_id
             AND admin_structure_structure.structure_id = structure.id
             AND account.admin_structure_id = admin_structure.id
@@ -83,6 +84,52 @@ async def test_insert_admin_structure_with_structure_in_db(
     assert record["firstname"] == "lionel"
     assert record["lastname"] == "Bé"
     assert record["name"] == "Pole Emploi Agence Livry-Gargnan"
+
+
+async def test_insert_existing_admin_structure_in_structure_in_db(
+    test_client,
+    db_connection: Connection,
+    get_admin_structure_jwt,
+    mocker,
+):
+    mocker.patch(sendmail_path, return_value=True)
+
+    response = test_client.post(
+        api_path,
+        json={
+            "admin": {
+                "email": "vincent.timaitre@groupe-ns.fr ",
+                "firstname": "Vincent",
+                "lastname": "timaitre",
+                "phone_numbers": "0601020304",
+                "position": "responsable",
+                "deployment_id": deployment_id,
+            },
+            "structure_id": structure_id,
+        },
+        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+    )
+
+    assert response.status_code == 200
+
+    records = await db_connection.fetch(
+        """
+            SELECT structure.name as s_name, admin_structure.email as email
+            FROM public.admin_structure, admin_structure_structure, structure, account
+            WHERE admin_structure.id = admin_structure_structure.admin_structure_id
+            AND admin_structure_structure.structure_id = structure.id
+            AND account.admin_structure_id = admin_structure.id
+            AND admin_structure.email LIKE $1
+            ORDER BY s_name
+         """,
+        "vincent.timaitre@groupe-ns.fr",
+    )
+
+    assert len(records) == 2
+    assert records[0]["s_name"] == "Groupe NS"
+    assert records[0]["email"] == "vincent.timaitre@groupe-ns.fr"
+    assert records[1]["s_name"] == "Pole Emploi Agence Livry-Gargnan"
+    assert records[1]["email"] == "vincent.timaitre@groupe-ns.fr"
 
 
 async def test_background_task(test_client, get_admin_structure_jwt: str, mocker):

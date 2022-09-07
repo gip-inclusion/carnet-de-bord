@@ -53,3 +53,21 @@ async def insert_admin_structure_structure(
         logging.error(
             f"insert_admin_structure_structure fail {admin_structure_id} {structure_id}"
         )
+
+
+async def get_admin_structure_with_query(
+    connection: Connection, query: str, *args
+) -> AdminStructure | None:
+
+    record: Record = await connection.fetchrow(
+        """
+        SELECT admin_structure.* FROM public.admin_structure
+        {query}
+        """.format(
+            query=query
+        ),
+        *args,
+    )
+
+    if record:
+        return parse_admin_structure_from_record(record)
