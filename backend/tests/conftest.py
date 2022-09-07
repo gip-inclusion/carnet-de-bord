@@ -93,6 +93,15 @@ def orientation_manager_xlsx_filepath() -> str:
 
 
 @pytest.fixture
+def csv_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "import_beneficiaires.csv",
+    )
+
+
+@pytest.fixture
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
     return dd.read_csv(
