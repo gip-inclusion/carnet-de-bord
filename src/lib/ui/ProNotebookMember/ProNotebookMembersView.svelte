@@ -5,7 +5,7 @@
 	import ProNotebookMemberInvitation from './ProNotebookMemberInvitation.svelte';
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { formatDateLocale } from '$lib/utils/date';
+	import { formatDateTimeLocale } from '$lib/utils/date';
 	import { GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '../format';
 
@@ -40,7 +40,7 @@
 			(appointment) => appointment.memberAccountId === memberAccountId
 		)[0];
 
-		return proAppointment ? formatDateLocale(proAppointment.date) : '';
+		return proAppointment ? formatDateTimeLocale(proAppointment.date) : '';
 	}
 </script>
 
