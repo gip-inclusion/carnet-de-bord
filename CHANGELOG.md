@@ -1,3 +1,15 @@
+# [1.135.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.134.3...v1.135.0) (2022-09-07)
+
+
+### Bug Fixes
+
+* improve error message for uniqueness violation ([#1045](https://github.com/SocialGouv/carnet-de-bord/issues/1045)) ([d98d9fb](https://github.com/SocialGouv/carnet-de-bord/commit/d98d9fbf424d3414ff0596f47b442b78307d163a)), closes [#992](https://github.com/SocialGouv/carnet-de-bord/issues/992)
+
+
+### Features
+
+* VitamineT - ajout du créateur aux actions ([#1046](https://github.com/SocialGouv/carnet-de-bord/issues/1046)) ([a77416d](https://github.com/SocialGouv/carnet-de-bord/commit/a77416d8bfb3241d561a7c455692d0b182c491ca))
+
 ## [1.134.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.134.2...v1.134.3) (2022-09-05)
 
 
