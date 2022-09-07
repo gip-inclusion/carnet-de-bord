@@ -7,7 +7,7 @@
 > _Décrivez en quelques mots la solution retenue et mise en oeuvre, les difficultés ou problèmes rencontrés._
 
 
-## :rotating_light:  Point d'attention / Remarque
+## :rotating_light:  Points d'attention / Remarques
 
 > _Précisez si il y a des cas particuliers ou des sujets connexes à partager ?_
 
