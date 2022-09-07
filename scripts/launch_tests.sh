@@ -134,6 +134,11 @@ if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
   npx jest "$@"
 fi
 
+if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then
+  >&2 echo "-> Starting Python tests"
+  (cd backend && poetry run pytest "$@")
+fi
+
 if [ "$ACTION" = "e2e" ]; then
   start_svelte
   start_backend

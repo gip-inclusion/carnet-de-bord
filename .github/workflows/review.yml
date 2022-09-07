@@ -81,36 +81,24 @@ jobs:
   pytest:
     name: run pytest tests
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_DB: carnet_de_bord
-          POSTGRES_USER: cdb
-          POSTGRES_PASSWORD: test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      hasura:
-        image: hasura/graphql-engine:v2.8.3
-        env:
-          HASURA_GRAPHQL_DATABASE_URL: postgres://cdb:test@postgres:5432/carnet_de_bord
-          HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3EK6FD+o0+c7tzBNVfjpMkNDi2yARAAKzQlk8O2IKoxQu4nF7EdAh8s3TwpHwrdWT6R"}'
-          HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
-        ports:
-          - 8080:8080
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+
+      - name: Install Hasura cli
+        run: |
+          BIN_DIR="$HOME/.hasura/bin"
+          mkdir -p "$BIN_DIR"
+          curl -Ss -L -o "$BIN_DIR/hasura" https://github.com/hasura/graphql-engine/releases/download/$HASURA_VERSION/cli-hasura-linux-amd64
+          chmod +x "$BIN_DIR/hasura"
+          echo "$BIN_DIR" >> "$GITHUB_PATH"
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Run image
-        uses: abatilo/actions-poetry@v2.1.6
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2.1.5
         with:
           poetry-version: 1.1.13
 
@@ -118,52 +106,10 @@ jobs:
         working-directory: ./backend
         run: poetry install
 
-      - name: Hasura metadata apply
-        uses: browniefed/hasura-runner@master
-        with:
-          args: metadata apply
-        env:
-          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
-          HASURA_ENDPOINT: http://hasura:8080
-          HASURA_ADMIN_SECRET: admin_secret
-
-      - name: Hasura migrate apply
-        uses: browniefed/hasura-runner@master
-        with:
-          args: migrate apply --database-name carnet_de_bord
-        env:
-          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
-          HASURA_ENDPOINT: http://hasura:8080
-          HASURA_ADMIN_SECRET: admin_secret
-
-      - name: Hasura metadata reload
-        uses: browniefed/hasura-runner@master
-        with:
-          args: metadata reload
-        env:
-          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
-          HASURA_ENDPOINT: http://hasura:8080
-          HASURA_ADMIN_SECRET: admin_secret
-
-      - name: Hasura seed apply
-        uses: browniefed/hasura-runner@master
-        with:
-          args: seeds apply --database-name carnet_de_bord
-        env:
-          PATH_TO_HASURA_PROJECT_ROOT: ./hasura
-          HASURA_ENDPOINT: http://hasura:8080
-          HASURA_ADMIN_SECRET: admin_secret
-
       - name: Run pytest
-        working-directory: ./backend
-        env:
-          HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3EK6FD+o0+c7tzBNVfjpMkNDi2yARAAKzQlk8O2IKoxQu4nF7EdAh8s3TwpHwrdWT6R"}'
-          DATABASE_URL: postgres://cdb:test@localhost:5432/carnet_de_bord
-          APP_URL: http://app
-          SMTP_HOST: smtp-host
-          SMTP_PORT: 1025
         run: |
-          poetry run pytest
+          cp .env.test.sample .env.test
+          ./scripts/launch_tests.sh python
 
   ##############################################################################
   ## End To End Tests running on all branches
