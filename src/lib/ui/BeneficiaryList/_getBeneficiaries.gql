@@ -19,6 +19,7 @@ query GetBeneficiaries(
     id
     firstname
     lastname
+    dateOfBirth
     beneficiaryInfo {
       orientation_type {
         id

@@ -10598,6 +10598,7 @@ export type GetBeneficiariesQuery = {
 		id: string;
 		firstname: string;
 		lastname: string;
+		dateOfBirth: string;
 		beneficiaryInfo?:
 			| {
 					__typename?: 'beneficiary_info';
@@ -14333,6 +14334,7 @@ export const GetBeneficiariesDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'beneficiaryInfo' },
