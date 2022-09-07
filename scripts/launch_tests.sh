@@ -130,8 +130,6 @@ function start_backend() {
 }
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
-  start_svelte
-
   >&2 echo "-> Starting Jest tests"
   npx jest "$@"
 fi
