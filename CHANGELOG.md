@@ -1,3 +1,10 @@
+## [1.135.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.135.0...v1.135.1) (2022-09-07)
+
+
+### Bug Fixes
+
+* display that RSA is not defined when RSA rights are null ([#1056](https://github.com/SocialGouv/carnet-de-bord/issues/1056)) ([37236af](https://github.com/SocialGouv/carnet-de-bord/commit/37236af9d8c939d3891bc9721e80e704ad81c8a5))
+
 # [1.135.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.134.3...v1.135.0) (2022-09-07)
 
 
