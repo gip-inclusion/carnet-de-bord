@@ -9,7 +9,7 @@
 
 ## :rotating_light:  Point d'attention / Remarque
 
-> _Précisez si il y a des cas particulier ou des sujets connexes à partager ?_
+> _Précisez si il y a des cas particuliers ou des sujets connexes à partager ?_
 
 ## :desert_island: Comment tester
 
