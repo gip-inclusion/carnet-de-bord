@@ -20,5 +20,5 @@
 Pour lier votre PR à une issue et que cette dernière soit fermée lorsque la PR sera fusionnée dans master, vous pouvez utiliser l'annotation `fix` en précisant le numéro de la PR précédé de `#`
 ex: fix #42
 
-Cela peut aussi etre fait dans un message de commit
+Cela peut aussi être fait dans un message de commit
 -->
