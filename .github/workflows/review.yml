@@ -81,28 +81,22 @@ jobs:
   pytest:
     name: run pytest tests
     runs-on: ubuntu-latest
-    needs: [deploy]
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres
-        # Provide the password for postgres
         env:
           POSTGRES_DB: carnet_de_bord
           POSTGRES_USER: cdb
           POSTGRES_PASSWORD: test
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          # Maps tcp port 5432 on service container to the host
           - 5432:5432
       hasura:
-        image: ghcr.io/socialgouv/carnet-de-bord/hasura:sha-${{ github.sha }}
+        image: hasura/graphql-engine:v2.8.3
         env:
           HASURA_GRAPHQL_DATABASE_URL: postgres://cdb:test@postgres:5432/carnet_de_bord
           HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3EK6FD+o0+c7tzBNVfjpMkNDi2yARAAKzQlk8O2IKoxQu4nF7EdAh8s3TwpHwrdWT6R"}'
@@ -160,26 +154,6 @@ jobs:
           HASURA_ENDPOINT: http://hasura:8080
           HASURA_ADMIN_SECRET: admin_secret
 
-      - name: Download k8s manifests
-        uses: actions/download-artifact@v3
-        with:
-          name: manifests-dev.yaml
-
-      - name: Get deployment url
-        uses: mikefarah/yq@v4.27.3
-        id: app
-        with:
-          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 3 | tail -n 1)
-      - name: Get deployment url
-        uses: mikefarah/yq@v4.27.3
-        id: backend
-        with:
-          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 1 | tail -n 1)
-      - name: Get smtp url
-        uses: mikefarah/yq@v4.27.3
-        id: smtp
-        with:
-          cmd: echo $(cat manifests.yaml | yq e '.spec.rules[]?.host' - | head -n 7 | tail -n 1)
       - name: Run pytest
         working-directory: ./backend
         env:
