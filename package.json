@@ -107,14 +107,5 @@
 		"xlsx": "^0.18.5",
 		"yup": "^0.32.11"
 	},
-	"type": "module",
-	"lint-staged": {
-		"*.{ts,js,cjs,mjs,svelte}": [
-			"prettier --write --plugin-search-dir=.",
-			"eslint --ignore-path .eslintignore --fix"
-		],
-		"*.{json,css,postcss,html,md}": [
-			"prettier --write --plugin-search-dir=."
-		]
-	}
+	"type": "module"
 }
