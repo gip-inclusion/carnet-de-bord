@@ -8,7 +8,6 @@
 	"main": "codecept.conf.js",
 	"license": "Apache-2.0",
 	"scripts": {
-		"precommit": "lint-staged",
 		"lint": "eslint ./step_definitions",
 		"test": "codeceptjs run --reporter list",
 		"test:debug": "codeceptjs run --debug --steps --verbose",
@@ -22,14 +21,8 @@
 	"devDependencies": {
 		"@socialgouv/eslint-config-recommended": "^1.109.0",
 		"eslint": "^8.13.0",
-		"lint-staged": "^13.0.0",
 		"playwright": "^1",
 		"prettier": "^2.6.2"
-	},
-	"lint-staged": {
-		"*.{ts,js}": [
-			"yarn lint --fix"
-		]
 	},
 	"private": true
 }
