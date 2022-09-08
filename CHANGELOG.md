@@ -1,3 +1,10 @@
+## [1.136.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.1...v1.136.2) (2022-09-08)
+
+
+### Bug Fixes
+
+* allow add existing admin to structure ([#1061](https://github.com/SocialGouv/carnet-de-bord/issues/1061)) ([404c14e](https://github.com/SocialGouv/carnet-de-bord/commit/404c14e6ff5215aef1f6dd236d006f6bd8cd9b0c))
+
 ## [1.136.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.0...v1.136.1) (2022-09-08)
 
 
