@@ -200,8 +200,8 @@ Alors('je vois que bouton {string} est désactivé', (text) => {
 	I.seeElement(`//button[text()="${text}" and @disabled]`);
 });
 
-Alors('je vois {string} fois le {string} {string}', (num, element, text) => {
-	I.seeNumberOfVisibleElements(`//${element}[contains(., "${text}")]`, parseInt(num, 10));
+Alors('je vois {int} fois le {string} {string}', (num, element, text) => {
+	I.seeNumberOfVisibleElements(`//${element}[contains(., "${text}")]`, num);
 });
 
 Alors('je vois {string} suggestions', (num) => {
