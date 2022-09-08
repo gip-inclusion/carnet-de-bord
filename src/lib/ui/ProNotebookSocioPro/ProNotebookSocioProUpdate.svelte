@@ -205,6 +205,11 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="pb-4">
+			<Checkbox name="rightRqth" label="RQTH" />
+		</div>
+
 		<Radio
 			legend="Revenu de solidarité active (RSA)"
 			name="rightRsa"
@@ -215,7 +220,6 @@
 			<div class="pb-2 font-bold">Autres aides</div>
 			<Checkbox name="rightAre" label="ARE" />
 			<Checkbox name="rightAss" label="ASS" />
-			<Checkbox name="rightRqth" label="RQTH" />
 			<Checkbox name="rightBonus" label="Prime d'activité" />
 		</div>
 
