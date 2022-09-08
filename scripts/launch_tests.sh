@@ -4,10 +4,20 @@ set -eo pipefail
 
 # Exit everything when this shell exits
 trap "exit" INT TERM
-trap "kill 0" EXIT
+trap "cleanup" EXIT
 
-if ! [ -x "$(command -v docker compose)" ]; then
-  echo >&2 "Error: `docker compose` is not installed."
+function cleanup() {
+  status=$?
+  >&2 echo "Cleaning up... (status=$status)"
+  children=$(jobs -p)
+  if [[ -n "$children" ]]; then
+    kill $children ||true
+  fi
+  exit $status
+}
+
+if ! docker compose version >/dev/null 2>&1; then
+  echo >&2 "Error: 'docker compose' is not installed."
   exit 1
 fi
 
@@ -19,12 +29,15 @@ RUN="all"
 
 if [ ! -z "$ACTION" ]
 then
-      if [ "$ACTION" != "all" ] && [ "$ACTION" != "python" ] && [ "$ACTION" != "js" ]; then
+      if [ "$ACTION" != "all" ] && [ "$ACTION" != "python" ] && [ "$ACTION" != "js" ] && [ "$ACTION" != "e2e" ]; then
         echo "Bad parameter value: '$ACTION'"
         echo ""
         echo "Usage : $0 [all|python|js]"
         exit
       fi
+
+      # Keep the rest of the arguments for the test command
+      shift
 fi
 
 # Load the env variables from .env file
@@ -83,12 +96,13 @@ done
 HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 yarn hasura:seed
 cd $ROOT_DIR
 
-
-if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
+function start_svelte() {
   >&2 echo "-> Starting Svelte kit"
   # Start dev server
-  npx svelte-kit dev --port 3001 &
-
+  # Need to listen on all addresses (0.0.0.0) to be reachable from Hasura in Docker on all platforms.
+  # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
+  # output.
+  npx svelte-kit dev --host 0.0.0.0 --port 3001 | cat &
 
   until curl -s http://localhost:3001/ > /dev/null ; do
     >&2 echo "-> Svelte kit is still unavailable - sleeping"
@@ -97,7 +111,41 @@ if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
 
   >&2 echo ""
   >&2 echo "-> Svelte kit is up and running on port 3001!"
+}
 
+function start_backend() {
+  >&2 echo "-> Starting Python backend"
+
+  cd backend
+  poetry run uvicorn api.main:app --port 8001 &
+  cd ..
+
+  until curl -s http://localhost:8001/ > /dev/null ; do
+    >&2 echo "-> Python backend is still unavailable - sleeping"
+    sleep 1
+  done
+
+  >&2 echo ""
+  >&2 echo "-> Python backend is up and running on port 8001!"
+}
+
+if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
   >&2 echo "-> Starting Jest tests"
-  npx jest
+  npx jest "$@"
+fi
+
+if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then
+  >&2 echo "-> Starting Python tests"
+  (cd backend && poetry run pytest "$@")
+fi
+
+if [ "$ACTION" = "e2e" ]; then
+  start_svelte
+  start_backend
+
+  >&2 echo "-> Starting e2e tests"
+  HASURA_BASEURL=http://localhost:5001/v1/graphql \
+  HASURA_ADMIN_SECRET=$HASURA_GRAPHQL_ADMIN_SECRET \
+  CODECEPT_BASEURL=http://localhost:3001 \
+    yarn --cwd e2e test "$@"
 fi
