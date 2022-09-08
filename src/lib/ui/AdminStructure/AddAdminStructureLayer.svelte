@@ -35,6 +35,9 @@
 		} catch (error) {
 			console.error(error);
 			errorMessage = 'Impossible de rajouter cet admin';
+			if (/admin_structure_structure_admin_structure_id_structure_id_key/.test(error)) {
+				errorMessage = 'Cet administrateur est déjà ajouté à cette structure.';
+			}
 		}
 	}
 </script>
