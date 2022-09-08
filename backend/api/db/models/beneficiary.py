@@ -28,3 +28,30 @@ class Beneficiary(BaseModel):
     # BRSA users may not have an account
     # (account is created on the  first login attempt)
     account_id: UUID | None
+
+
+class BeneficiaryImport(BaseModel):
+    si_id: UUID = Field(..., title="Identifiant du SI interne")
+    firstname: str = Field(..., title="Prénom")
+    lastname: str = Field(..., title="Nom")
+    date_of_birth: date = Field(..., title="Date de naissance")
+    place_of_birth: str | None = Field(None, title="Lieu de naissance")
+    phone_number: str | None = Field(None, title="Numéro de téléphone")
+    email: str | None = Field(None, title="Email")
+    address1: str | None = Field(None, title="Adresse")
+    address2: str | None = Field(None, title="Complément d'adresse")
+    postal_code: str | None = Field(None, title="Code postal")
+    city: str | None = Field(None, title="Ville")
+    work_situation: str | None = Field(None, title="Situation professionnelle")
+    caf_number: str | None = Field(None, title="Numéro CAF/MSA")
+    pe_number: str | None = Field(None, title="Numéro Pole Emploi")
+    right_rsa: str | None = Field(None, title="Droits RSA")
+    right_are: bool = Field(False, title="Droits RSA")
+    right_ass: bool | None = Field(False, title="Droits ASS")
+    right_bonus: bool = Field(False, title="Droits Bonus")
+    right_rqth: bool = Field(False, title="Droits RQTH")
+    geographical_area: str | None = Field(False, title="Zone de mobilité")
+    rome_code_description: str = Field(..., title="Code Rome")
+    education_level: str | None = Field(..., title="Niveau d'éducation")
+    structure_name: str | None = Field(..., title="Structure d'accompagnement")
+    advisor_email: str | None = Field(..., title="Accompagnateur référent")
