@@ -1,3 +1,10 @@
+# [1.137.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.2...v1.137.0) (2022-09-08)
+
+
+### Features
+
+* Ajoute la date de naissance dans la liste des bénéficiaires pour un admin. ([#1065](https://github.com/SocialGouv/carnet-de-bord/issues/1065)) ([77ce030](https://github.com/SocialGouv/carnet-de-bord/commit/77ce03060e5fc04fab36cb76a4aeb3f8c7dd876c))
+
 ## [1.136.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.1...v1.136.2) (2022-09-08)
 
 
