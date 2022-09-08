@@ -32,14 +32,14 @@ repos:
         name: run prettier
         language: system
         types_or: [javascript, ts, svelte]
-        entry: yarn prettier --write
+        entry: yarn --silent prettier --loglevel silent --write
 
       - id: eslint
         name: run eslint
         language: system
         types_or: [javascript, ts, svelte]
         exclude: /_gen/
-        entry: yarn eslint
+        entry: yarn --silent eslint
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: 'v8.0.0'
