@@ -70,7 +70,7 @@
 			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
-			<th class="text-left">Orientation</th>
+			<th class="text-left">Type d'orientation</th>
 			<th class="text-left">Chargé d'orientation</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
@@ -114,7 +114,7 @@
 						<button
 							class="fr-tag fr-tag-sm  fr-tag--purple-glycine"
 							on:click={() => openOrientationLayer(beneficiary)}
-							>À orienter
+							>À définir
 						</button>
 					{/if}
 				</td>
