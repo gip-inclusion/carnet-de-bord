@@ -1,3 +1,10 @@
+## [1.136.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.0...v1.136.1) (2022-09-08)
+
+
+### Bug Fixes
+
+* [Chargé d'orientation] Changer le wording de la colonne orientation existante ([#1064](https://github.com/SocialGouv/carnet-de-bord/issues/1064)) ([fa19b89](https://github.com/SocialGouv/carnet-de-bord/commit/fa19b89b270409a71969e6fa884325cc42558d57))
+
 # [1.136.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.135.1...v1.136.0) (2022-09-07)
 
 
