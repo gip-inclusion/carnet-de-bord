@@ -132,6 +132,32 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
     assert records[1]["email"] == "vincent.timaitre@groupe-ns.fr"
 
 
+async def test_insert_existing_admin_structure_in_existing_structure(
+    test_client,
+    get_admin_structure_jwt,
+    mocker,
+):
+    mocker.patch(sendmail_path, return_value=True)
+
+    response = test_client.post(
+        api_path,
+        json={
+            "admin": {
+                "email": "vincent.timaitre@groupe-ns.fr ",
+                "firstname": "Vincent",
+                "lastname": "timaitre",
+                "phone_numbers": "0601020304",
+                "position": "responsable",
+                "deployment_id": deployment_id,
+            },
+            "structure_id": "8b71184c-6479-4440-aa89-15da704cc792",
+        },
+        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+    )
+
+    assert response.status_code == 422
+
+
 async def test_background_task(test_client, get_admin_structure_jwt: str, mocker):
     mock: MagicMock = mocker.patch(sendmail_path, return_value=True)
     test_client.post(
