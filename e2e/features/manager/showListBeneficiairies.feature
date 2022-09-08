@@ -8,6 +8,6 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 	Scénario: voir la liste
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
-		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
+		Quand j'attends que la table "Liste des bénéficiaires" apparaisse
 		Alors je vois la colonne "Date de naissance"
-		Alors je vois "21/06/1996" dans la colonne "Date de naissance"
+		Alors je vois "22/06/1996" sur la ligne "Lindsay"
