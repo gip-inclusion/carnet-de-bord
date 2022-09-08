@@ -37,33 +37,34 @@
 </script>
 
 <div class="flex flex-col space-y-6">
-	{#if notebook.workSituation}
-		<div>
-			<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong>
-			{#if notebook.workSituationDate}
-				{contractDatesTemplating(notebook.workSituationDate, notebook.workSituationEndDate)}
-				{#if notebook.workSituationEndDate}
-					-
-					<span class="italic font-bold">
-						({dateInterval(notebook.workSituationDate, notebook.workSituationEndDate)})
-					</span>
+	<div class="flex flex-row flex-wrap">
+		{#if notebook.workSituation}
+			<div class="w-1/2">
+				<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong>
+				{#if notebook.workSituationDate}
+					{contractDatesTemplating(notebook.workSituationDate, notebook.workSituationEndDate)}
+					{#if notebook.workSituationEndDate}
+						-
+						<span class="italic font-bold">
+							({dateInterval(notebook.workSituationDate, notebook.workSituationEndDate)})
+						</span>
+					{/if}
 				{/if}
-			{/if}
-		</div>
-	{/if}
+			</div>
+		{/if}
+
+		{#if notebook.rightRqth}
+			<Text classNames="w-1/2" value="Usager disposant de la RQTH" />
+		{/if}
+	</div>
 
 	<div class="flex flex-row flex-wrap">
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Droits</strong>
 			<Text classNames="mb-2" value={`RSA - ${rsaRightKeys.byKey[notebook.rightRsa]}`} />
-			{#if [notebook.rightRqth, notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter( (field) => Boolean(field) ).length > 0}
+			{#if [notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter( (field) => Boolean(field) ).length > 0}
 				<p>
-					{[
-						notebook.rightRqth && 'RQTH',
-						notebook.rightAre && 'ARE',
-						notebook.rightAss && 'ASS',
-						notebook.rightBonus && 'Bonus',
-					]
+					{[notebook.rightAre && 'ARE', notebook.rightAss && 'ASS', notebook.rightBonus && 'Bonus']
 						.filter((field) => Boolean(field))
 						.join(', ')}
 				</p>
