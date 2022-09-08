@@ -296,3 +296,11 @@ Before(async (params) => {
 After((params) => {
 	setupAfterFixturesByTags(params.tags);
 });
+
+Alors('je vois la colonne {string}', (text) => {
+	I.seeElement(`//th[contains(., "${text}")]`);
+});
+
+Alors(/^je vois "(.*?)" dans la colonne "(.*?)"$/, (text) => {
+	I.seeElement(`//td[contains(., "${text}")]`);
+});
