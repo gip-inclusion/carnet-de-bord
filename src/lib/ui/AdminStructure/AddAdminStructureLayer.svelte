@@ -35,6 +35,9 @@
 		} catch (error) {
 			console.error(error);
 			errorMessage = 'Impossible de rajouter cet admin';
+			if (/relationship already exists/.test(error)) {
+				errorMessage = 'Cet administrateur est déjà ajouté à cette structure.';
+			}
 		}
 	}
 </script>
