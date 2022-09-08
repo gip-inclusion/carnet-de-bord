@@ -94,7 +94,7 @@ async def create_admin_structure(
             )
             raise HTTPException(
                 status_code=422,
-                detail="duplicate key value violates unique constraint admin_structure_structure_admin_structure_id_structure_id_key",
+                detail="impossible to associate given admin with given structure: relationship already exists",
             ) from error
         except Exception as error:
             logging.error("insert fail {}".format(error))
