@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from api.db.models.notebook import Notebook
 
@@ -31,7 +31,7 @@ class Beneficiary(BaseModel):
 
 
 class BeneficiaryImport(BaseModel):
-    si_id: UUID = Field(..., title="Identifiant du SI interne")
+    si_id: str = Field(..., title="Identifiant du SI interne")
     firstname: str = Field(..., title="Prénom")
     lastname: str = Field(..., title="Nom")
     date_of_birth: date = Field(..., title="Date de naissance")
@@ -50,8 +50,8 @@ class BeneficiaryImport(BaseModel):
     right_ass: bool | None = Field(None, title="Droits ASS")
     right_bonus: bool | None = Field(None, title="Droits Bonus")
     right_rqth: bool | None = Field(None, title="Droits RQTH")
-    geographical_area: str | None = Field(False, title="Zone de mobilité")
+    geographical_area: str | None = Field(None, title="Zone de mobilité")
     rome_code_description: str | None = Field(None, title="Emploi recherché")
-    education_level: str | None = Field(..., title="Niveau de formation")
-    structure_name: str | None = Field(..., title="Structure d'accompagnement")
-    advisor_email: str | None = Field(..., title="Accompagnateur référent")
+    education_level: str | None = Field(None, title="Niveau de formation")
+    structure_name: str | None = Field(None, title="Structure d'accompagnement")
+    advisor_email: str | None = Field(None, title="Accompagnateur référent")

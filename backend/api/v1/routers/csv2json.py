@@ -27,6 +27,7 @@ from api.core.settings import settings
 from api.db.crud.account import insert_orientation_manager_account
 from api.db.crud.orientation_manager import insert_orientation_manager
 from api.db.models.account import AccountDB
+from api.db.models.beneficiary import BeneficiaryImport
 from api.db.models.orientation_manager import (
     OrientationManagerCsvRow,
     OrientationManagerResponseModel,
@@ -49,13 +50,57 @@ router = APIRouter(
 )
 
 
-@router.post("/beneficiaries")
-async def validate_beneficiaries(
+@router.post("/beneficiaries", response_model=list[BeneficiaryImport])
+async def parse_beneficiaries(
     upload_file: UploadFile,
 ):
     dataframe = await file_to_json(upload_file)
-    # todo: validate columns
-    return dataframe.to_dict(orient="records")
+    records = dataframe.to_dict(orient="records")
+    return [validate(record) for record in records]
+
+
+def validate(beneficiary: dict) -> BeneficiaryImport:
+    if "RQTH" in beneficiary:
+        rqth = beneficiary["RQTH"]
+    else:
+        rqth = beneficiary["AAH"]
+    BeneficiaryImport.parse_obj(
+        {
+            "si_id": beneficiary["Identifiant dans le SI*"],
+            "firstname": beneficiary["Prénom*"],
+            "lastname": beneficiary["Nom*"],
+            "date_of_birth": beneficiary["Date de naissance*"],
+            "place_of_birth": beneficiary["Lieu de naissance*"],
+            "phone_number": beneficiary["Téléphone"],
+            "email": beneficiary["Email"],
+            "address1": beneficiary["Adresse"],
+            "address2": beneficiary["Adresse (complément)"],
+            "postal_code": beneficiary["Code postal"],
+            "city": beneficiary["Ville"],
+            "work_situation": beneficiary["Situation"],
+            "caf_number": beneficiary["Numéro allocaire CAF/MSA"],
+            "pe_number": beneficiary["Identifiant Pôle emploi"],
+            "right_rsa": beneficiary["Droits RSA"],
+            "right_are": bool_of(beneficiary["Droits ARE"]),
+            "right_ass": bool_of(beneficiary["Droits ASS"]),
+            "right_bonus": bool_of(beneficiary["Prime d'activité"]),
+            "right_rqth": bool_of(rqth),
+            "geographical_area": beneficiary["Zone de mobilité"],
+            "rome_code_description": beneficiary["Emploi recherché (code ROME)"],
+            "education_level": beneficiary["Niveau de formation"],
+            "structure_name": beneficiary["Structure"],
+            "advisor_email": beneficiary["Accompagnateurs"],
+        }
+    )
+
+
+def bool_of(string: str) -> bool | None:
+    if string == None:
+        None
+    elif string.capitalize() == "OUI":
+        True
+    else:
+        False
 
 
 async def file_to_json(
