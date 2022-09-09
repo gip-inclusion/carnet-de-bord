@@ -110,3 +110,24 @@ update_permissions:
               - active:
                   _eq: true
       check: null
+delete_permissions:
+  - role: orientation_manager
+    permission:
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+  - role: professional
+    permission:
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
