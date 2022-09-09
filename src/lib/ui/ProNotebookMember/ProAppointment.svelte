@@ -136,6 +136,7 @@
 	}
 
 	function userRole() {
+		// we use baseUrlForRole since first event categorie for professional where pro
 		return $session.user.role === 'professional' ? 'pro' : $session.user.role;
 	}
 
@@ -157,23 +158,20 @@
 		appointments[index].dirty = true;
 
 		if (appointments[index].date && appointments[index].status) {
-			// we use baseUrlForRole since first event categorie for professional where pro
-			const role = userRole();
-
 			const datetime = new Date(appointments[index].date);
 			datetime.setUTCHours(parseInt(appointments[index].hours));
 			datetime.setUTCMinutes(parseInt(appointments[index].minutes));
 
 			if (appointments[index].id) {
-				await updateAppointment(index, datetime, role);
+				await updateAppointment(index, datetime);
 			} else {
-				await setAppointment(index, datetime, role);
+				await setAppointment(index, datetime);
 			}
 		}
 	}
 
-	async function setAppointment(index: number, datetime: Date, role: string) {
-		trackEvent(role, 'members', 'create_appointment');
+	async function setAppointment(index: number, datetime: Date) {
+		trackEvent(userRole(), 'members', 'create_appointment');
 		const result = await setAppointmentMutation({
 			memberAccountId: member.account?.id,
 			notebookId,
@@ -185,7 +183,8 @@
 		}
 	}
 
-	async function updateAppointment(index: number, datetime: Date, role: string) {
+	async function updateAppointment(index: number, datetime: Date) {
+		const role = userRole();
 		if (appointmentsBuffer[index].status !== appointments[index].status) {
 			trackEvent(role, 'members', 'update_appointment_status');
 		}
