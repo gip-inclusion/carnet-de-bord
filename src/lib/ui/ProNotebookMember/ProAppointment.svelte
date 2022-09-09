@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { Button } from '$lib/ui/base/index';
+	import Dialog from '$lib/ui/Dialog.svelte';
 	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
 	import {
 		AddNotebookAppointmentDocument,
+		DeleteNotebookAppointmentByIdDocument,
 		GetNotebookAppointmentsDocument,
 		GetNotebookAppointmentsQuery,
 		GetNotebookAppointmentsQueryVariables,
@@ -35,6 +37,9 @@
 
 	const setAppointmentMutation = mutation(operationStore(AddNotebookAppointmentDocument));
 	const updateAppointmentMutation = mutation(operationStore(UpdateNotebookAppointmentDocument));
+	const deleteAppointmentByIdMutation = mutation(
+		operationStore(DeleteNotebookAppointmentByIdDocument)
+	);
 
 	let appointments: Array<AppointmentUI> = [];
 	let appointmentsBuffer: Array<AppointmentUI> = [];
@@ -108,14 +113,41 @@
 		});
 	}
 
-	function editAppointment(index: number) {
+	function appointmentAtIndex(index: number) {
 		appointments = appointments.map((appointment: AppointmentUI) => {
 			appointment.isDisabled = true;
 			appointment.isEdited = false;
 			return appointment;
 		});
-		appointments[index].isDisabled = false;
-		appointments[index].isEdited = true;
+		return appointments[index];
+	}
+
+	function editAppointment(index: number) {
+		const appointmentToEdit = appointmentAtIndex(index);
+		appointmentToEdit.isDisabled = false;
+		appointmentToEdit.isEdited = true;
+	}
+
+	function showDeleteButton(index: number) {
+		const appointment = appointments[index];
+		console.log({ index });
+		console.log({ appointment: JSON.stringify(appointment) });
+		return appointment.id;
+	}
+
+	async function deleteAppointment(index: number) {
+		const role = $session.user.role === 'professional' ? 'pro' : $session.user.role;
+		trackEvent(role, 'members', 'delete_appointment');
+		const appointmentToDelete = appointmentAtIndex(index);
+
+		console.log(`Will delete appointment ${appointmentToDelete.id}`);
+
+		const result = await deleteAppointmentByIdMutation({ id: appointmentToDelete.id });
+		if (result.error) {
+			console.error(result.error);
+		} else {
+			appointments = appointments.filter(({ id }) => id !== appointmentToDelete.id);
+		}
 	}
 
 	async function validateAppointment(index: number) {
@@ -246,10 +278,26 @@
 											error={!appointment.status && appointment.dirty ? 'Champ obligatoire' : null}
 										/>
 
-										<div class="my-2 whitespace-nowrap ml-auto">
+										<div class="flex flex-row my-2 ml-auto gap-2">
 											<Button classNames="fr-btn--sm" on:click={() => validateAppointment(index)}
 												>Valider
 											</Button>
+											{#if showDeleteButton(index)}
+												<Dialog
+													buttonCssClasses="fr-btn--sm fr-btn--secondary"
+													buttonFullWidth={false}
+													buttonIcon="fr-icon-delete-bin-line"
+													title="Supprimer un rendez-vous"
+													label="Supprimer"
+													on:confirm={() => deleteAppointment(index)}
+												>
+													<p>
+														Vous allez supprimer le rendez-vous du
+														<strong>{formatDateTimeLocale(appointment.fullDate)}</strong>.
+														<br />Veuillez confirmer la suppression.
+													</p>
+												</Dialog>
+											{/if}
 
 											<Button
 												classNames="self-start fr-btn--sm"
@@ -269,11 +317,13 @@
 								</td>
 								<td>
 									<Button
-										classNames="self-start fr-btn--sm"
+										classNames="fr-btn--sm"
 										disabled={appointment.isDisabled}
 										on:click={() => editAppointment(index)}
 										outline
-										>Modifier
+										title="Modifier"
+									>
+										Modifier
 									</Button>
 								</td>
 							{/if}
@@ -282,5 +332,6 @@
 				{/if}
 			</tbody>
 		</table>
+		<div class="flex" />
 	</div>
 </LoaderIndicator>
