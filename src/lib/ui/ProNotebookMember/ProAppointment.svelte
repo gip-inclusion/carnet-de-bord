@@ -135,9 +135,12 @@
 		return appointment.id;
 	}
 
+	function userRole() {
+		return $session.user.role === 'professional' ? 'pro' : $session.user.role;
+	}
+
 	async function deleteAppointment(index: number) {
-		const role = $session.user.role === 'professional' ? 'pro' : $session.user.role;
-		trackEvent(role, 'members', 'delete_appointment');
+		trackEvent(userRole(), 'members', 'delete_appointment');
 		const appointmentToDelete = appointmentAtIndex(index);
 
 		console.log(`Will delete appointment ${appointmentToDelete.id}`);
@@ -155,7 +158,7 @@
 
 		if (appointments[index].date && appointments[index].status) {
 			// we use baseUrlForRole since first event categorie for professional where pro
-			const role = $session.user.role === 'professional' ? 'pro' : $session.user.role;
+			const role = userRole();
 
 			const datetime = new Date(appointments[index].date);
 			datetime.setUTCHours(parseInt(appointments[index].hours));
