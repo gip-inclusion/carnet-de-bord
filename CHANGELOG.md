@@ -1,3 +1,10 @@
+# [1.138.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.137.0...v1.138.0) (2022-09-09)
+
+
+### Features
+
+* Extraire la donnée RQTH de la section des "Droits" ([#1072](https://github.com/SocialGouv/carnet-de-bord/issues/1072)) ([8c407f3](https://github.com/SocialGouv/carnet-de-bord/commit/8c407f373768db0be99410cf6972d2349ebf69c7))
+
 # [1.137.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.2...v1.137.0) (2022-09-08)
 
 
