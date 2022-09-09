@@ -119,43 +119,51 @@
 	}
 
 	async function validateAppointment(index: number) {
-		let result;
 		appointments[index].dirty = true;
 
 		if (appointments[index].date && appointments[index].status) {
 			// we use baseUrlForRole since first event categorie for professional where pro
-			let role = $session.user.role;
-			if (role === 'professional') {
-				role = 'pro';
-			}
+			const role = $session.user.role === 'professional' ? 'pro' : $session.user.role;
+
 			const datetime = new Date(appointments[index].date);
 			datetime.setUTCHours(parseInt(appointments[index].hours));
 			datetime.setUTCMinutes(parseInt(appointments[index].minutes));
 
 			if (appointments[index].id) {
-				if (appointmentsBuffer[index].status !== appointments[index].status) {
-					trackEvent(role, 'members', 'update_appointment_status');
-				}
-				if (appointmentsBuffer[index].date !== appointments[index].date) {
-					trackEvent(role, 'members', 'update_appointment_date');
-				}
-				result = await updateAppointmentMutation({
-					id: appointments[index].id,
-					status: appointments[index].status,
-					date: datetime.toISOString(),
-				});
+				await updateAppointment(index, datetime, role);
 			} else {
-				trackEvent(role, 'members', 'create_appointment');
-				result = await setAppointmentMutation({
-					memberAccountId: member.account?.id,
-					notebookId: notebookId,
-					status: appointments[index].status,
-					date: datetime.toISOString(),
-				});
+				await setAppointment(index, datetime, role);
 			}
-			if (result.error) {
-				console.error(result.error);
-			}
+		}
+	}
+
+	async function setAppointment(index: number, datetime: Date, role: string) {
+		trackEvent(role, 'members', 'create_appointment');
+		const result = await setAppointmentMutation({
+			memberAccountId: member.account?.id,
+			notebookId,
+			status: appointments[index].status,
+			date: datetime.toISOString(),
+		});
+		if (result.error) {
+			console.error(result.error);
+		}
+	}
+
+	async function updateAppointment(index: number, datetime: Date, role: string) {
+		if (appointmentsBuffer[index].status !== appointments[index].status) {
+			trackEvent(role, 'members', 'update_appointment_status');
+		}
+		if (appointmentsBuffer[index].date !== appointments[index].date) {
+			trackEvent(role, 'members', 'update_appointment_date');
+		}
+		const result = await updateAppointmentMutation({
+			id: appointments[index].id,
+			status: appointments[index].status,
+			date: datetime.toISOString(),
+		});
+		if (result.error) {
+			console.error(result.error);
 		}
 	}
 
