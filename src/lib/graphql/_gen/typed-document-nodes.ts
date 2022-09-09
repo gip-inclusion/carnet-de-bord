@@ -11314,6 +11314,18 @@ export type AddNotebookMemberMutation = {
 	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
 };
 
+export type DeleteNotebookAppointmentByIdMutationVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type DeleteNotebookAppointmentByIdMutation = {
+	__typename?: 'mutation_root';
+	delete_notebook_appointment_by_pk?:
+		| { __typename?: 'notebook_appointment'; id: string }
+		| null
+		| undefined;
+};
+
 export type GetNotebookAppointmentsQueryVariables = Exact<{
 	memberAccountId?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
@@ -18574,6 +18586,49 @@ export const AddNotebookMemberDocument = {
 		},
 	],
 } as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
+export const DeleteNotebookAppointmentByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'DeleteNotebookAppointmentById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'delete_notebook_appointment_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	DeleteNotebookAppointmentByIdMutation,
+	DeleteNotebookAppointmentByIdMutationVariables
+>;
 export const GetNotebookAppointmentsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -26705,6 +26760,10 @@ export type AddNotebookAppointmentMutationStore = OperationStore<
 export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
 	AddNotebookMemberMutationVariables
+>;
+export type DeleteNotebookAppointmentByIdMutationStore = OperationStore<
+	DeleteNotebookAppointmentByIdMutation,
+	DeleteNotebookAppointmentByIdMutationVariables
 >;
 export type GetNotebookAppointmentsQueryStore = OperationStore<
 	GetNotebookAppointmentsQuery,
