@@ -5125,8 +5125,12 @@ export type NotebookAppointment = {
 	__typename?: 'notebook_appointment';
 	/** An object relationship */
 	account: Account;
+	/** An object relationship */
+	accountByDeletedBy?: Maybe<Account>;
 	created_at?: Maybe<Scalars['timestamptz']>;
 	date: Scalars['timestamp'];
+	deleted_at?: Maybe<Scalars['timestamptz']>;
+	deleted_by?: Maybe<Scalars['uuid']>;
 	id: Scalars['uuid'];
 	memberAccountId: Scalars['uuid'];
 	/** An object relationship */
@@ -5177,8 +5181,11 @@ export type NotebookAppointmentBoolExp = {
 	_not?: InputMaybe<NotebookAppointmentBoolExp>;
 	_or?: InputMaybe<Array<NotebookAppointmentBoolExp>>;
 	account?: InputMaybe<AccountBoolExp>;
+	accountByDeletedBy?: InputMaybe<AccountBoolExp>;
 	created_at?: InputMaybe<TimestamptzComparisonExp>;
 	date?: InputMaybe<TimestampComparisonExp>;
+	deleted_at?: InputMaybe<TimestamptzComparisonExp>;
+	deleted_by?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	memberAccountId?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
@@ -5196,8 +5203,11 @@ export enum NotebookAppointmentConstraint {
 /** input type for inserting data into table "notebook_appointment" */
 export type NotebookAppointmentInsertInput = {
 	account?: InputMaybe<AccountObjRelInsertInput>;
+	accountByDeletedBy?: InputMaybe<AccountObjRelInsertInput>;
 	created_at?: InputMaybe<Scalars['timestamptz']>;
 	date?: InputMaybe<Scalars['timestamp']>;
+	deleted_at?: InputMaybe<Scalars['timestamptz']>;
+	deleted_by?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	memberAccountId?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
@@ -5211,6 +5221,8 @@ export type NotebookAppointmentMaxFields = {
 	__typename?: 'notebook_appointment_max_fields';
 	created_at?: Maybe<Scalars['timestamptz']>;
 	date?: Maybe<Scalars['timestamp']>;
+	deleted_at?: Maybe<Scalars['timestamptz']>;
+	deleted_by?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	memberAccountId?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -5222,6 +5234,8 @@ export type NotebookAppointmentMaxFields = {
 export type NotebookAppointmentMaxOrderBy = {
 	created_at?: InputMaybe<OrderBy>;
 	date?: InputMaybe<OrderBy>;
+	deleted_at?: InputMaybe<OrderBy>;
+	deleted_by?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	memberAccountId?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
@@ -5234,6 +5248,8 @@ export type NotebookAppointmentMinFields = {
 	__typename?: 'notebook_appointment_min_fields';
 	created_at?: Maybe<Scalars['timestamptz']>;
 	date?: Maybe<Scalars['timestamp']>;
+	deleted_at?: Maybe<Scalars['timestamptz']>;
+	deleted_by?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	memberAccountId?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -5245,6 +5261,8 @@ export type NotebookAppointmentMinFields = {
 export type NotebookAppointmentMinOrderBy = {
 	created_at?: InputMaybe<OrderBy>;
 	date?: InputMaybe<OrderBy>;
+	deleted_at?: InputMaybe<OrderBy>;
+	deleted_by?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	memberAccountId?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
@@ -5271,8 +5289,11 @@ export type NotebookAppointmentOnConflict = {
 /** Ordering options when selecting data from "notebook_appointment". */
 export type NotebookAppointmentOrderBy = {
 	account?: InputMaybe<AccountOrderBy>;
+	accountByDeletedBy?: InputMaybe<AccountOrderBy>;
 	created_at?: InputMaybe<OrderBy>;
 	date?: InputMaybe<OrderBy>;
+	deleted_at?: InputMaybe<OrderBy>;
+	deleted_by?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	memberAccountId?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
@@ -5293,6 +5314,10 @@ export enum NotebookAppointmentSelectColumn {
 	/** column name */
 	Date = 'date',
 	/** column name */
+	DeletedAt = 'deleted_at',
+	/** column name */
+	DeletedBy = 'deleted_by',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	MemberAccountId = 'memberAccountId',
@@ -5308,6 +5333,8 @@ export enum NotebookAppointmentSelectColumn {
 export type NotebookAppointmentSetInput = {
 	created_at?: InputMaybe<Scalars['timestamptz']>;
 	date?: InputMaybe<Scalars['timestamp']>;
+	deleted_at?: InputMaybe<Scalars['timestamptz']>;
+	deleted_by?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	memberAccountId?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
@@ -5321,6 +5348,10 @@ export enum NotebookAppointmentUpdateColumn {
 	CreatedAt = 'created_at',
 	/** column name */
 	Date = 'date',
+	/** column name */
+	DeletedAt = 'deleted_at',
+	/** column name */
+	DeletedBy = 'deleted_by',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -11314,16 +11345,14 @@ export type AddNotebookMemberMutation = {
 	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
 };
 
-export type DeleteNotebookAppointmentByIdMutationVariables = Exact<{
+export type DeleteNotebookAppointmentMutationVariables = Exact<{
+	deletedBy: Scalars['uuid'];
 	id: Scalars['uuid'];
 }>;
 
-export type DeleteNotebookAppointmentByIdMutation = {
+export type DeleteNotebookAppointmentMutation = {
 	__typename?: 'mutation_root';
-	delete_notebook_appointment_by_pk?:
-		| { __typename?: 'notebook_appointment'; id: string }
-		| null
-		| undefined;
+	updateNotbookAppointment?: { __typename?: 'notebook_appointment'; id: string } | null | undefined;
 };
 
 export type GetNotebookAppointmentsQueryVariables = Exact<{
@@ -18586,14 +18615,22 @@ export const AddNotebookMemberDocument = {
 		},
 	],
 } as unknown as DocumentNode<AddNotebookMemberMutation, AddNotebookMemberMutationVariables>;
-export const DeleteNotebookAppointmentByIdDocument = {
+export const DeleteNotebookAppointmentDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'mutation',
-			name: { kind: 'Name', value: 'DeleteNotebookAppointmentById' },
+			name: { kind: 'Name', value: 'DeleteNotebookAppointment' },
 			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deletedBy' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
@@ -18608,12 +18645,41 @@ export const DeleteNotebookAppointmentByIdDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'delete_notebook_appointment_by_pk' },
+						alias: { kind: 'Name', value: 'updateNotbookAppointment' },
+						name: { kind: 'Name', value: 'update_notebook_appointment_by_pk' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deleted_at' },
+											value: { kind: 'StringValue', value: 'now', block: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deleted_by' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'deletedBy' } },
+										},
+									],
+								},
 							},
 						],
 						selectionSet: {
@@ -18626,8 +18692,8 @@ export const DeleteNotebookAppointmentByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<
-	DeleteNotebookAppointmentByIdMutation,
-	DeleteNotebookAppointmentByIdMutationVariables
+	DeleteNotebookAppointmentMutation,
+	DeleteNotebookAppointmentMutationVariables
 >;
 export const GetNotebookAppointmentsDocument = {
 	kind: 'Document',
@@ -18692,6 +18758,20 @@ export const GetNotebookAppointmentsDocument = {
 															kind: 'Variable',
 															name: { kind: 'Name', value: 'notebookId' },
 														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deleted_at' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_is_null' },
+														value: { kind: 'BooleanValue', value: true },
 													},
 												],
 											},
@@ -24854,6 +24934,20 @@ export const GetNotebookDocument = {
 															],
 														},
 													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deleted_at' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
 												],
 											},
 										},
@@ -26761,9 +26855,9 @@ export type AddNotebookMemberMutationStore = OperationStore<
 	AddNotebookMemberMutation,
 	AddNotebookMemberMutationVariables
 >;
-export type DeleteNotebookAppointmentByIdMutationStore = OperationStore<
-	DeleteNotebookAppointmentByIdMutation,
-	DeleteNotebookAppointmentByIdMutationVariables
+export type DeleteNotebookAppointmentMutationStore = OperationStore<
+	DeleteNotebookAppointmentMutation,
+	DeleteNotebookAppointmentMutationVariables
 >;
 export type GetNotebookAppointmentsQueryStore = OperationStore<
 	GetNotebookAppointmentsQuery,

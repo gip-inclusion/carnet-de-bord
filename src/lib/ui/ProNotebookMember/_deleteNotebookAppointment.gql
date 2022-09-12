@@ -1,5 +1,8 @@
-mutation DeleteNotebookAppointmentById($id: uuid!) {
-  delete_notebook_appointment_by_pk(id: $id) {
+mutation DeleteNotebookAppointment($deletedBy: uuid!, $id: uuid!) {
+  updateNotbookAppointment: update_notebook_appointment_by_pk(
+    pk_columns: { id: $id }
+    _set: { deleted_at: "now", deleted_by: $deletedBy }
+  ) {
     id
   }
 }

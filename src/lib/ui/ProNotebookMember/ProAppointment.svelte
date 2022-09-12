@@ -4,7 +4,7 @@
 	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
 	import {
 		AddNotebookAppointmentDocument,
-		DeleteNotebookAppointmentByIdDocument,
+		DeleteNotebookAppointmentDocument,
 		GetNotebookAppointmentsDocument,
 		GetNotebookAppointmentsQuery,
 		GetNotebookAppointmentsQueryVariables,
@@ -37,9 +37,7 @@
 
 	const setAppointmentMutation = mutation(operationStore(AddNotebookAppointmentDocument));
 	const updateAppointmentMutation = mutation(operationStore(UpdateNotebookAppointmentDocument));
-	const deleteAppointmentByIdMutation = mutation(
-		operationStore(DeleteNotebookAppointmentByIdDocument)
-	);
+	const deleteAppointmentByIdMutation = mutation(operationStore(DeleteNotebookAppointmentDocument));
 
 	let appointments: Array<AppointmentUI> = [];
 	let appointmentsBuffer: Array<AppointmentUI> = [];
@@ -143,10 +141,10 @@
 	async function deleteAppointment(index: number) {
 		trackEvent(userRole(), 'members', 'delete_appointment');
 		const appointmentToDelete = appointmentAtIndex(index);
-
-		console.log(`Will delete appointment ${appointmentToDelete.id}`);
-
-		const result = await deleteAppointmentByIdMutation({ id: appointmentToDelete.id });
+		const result = await deleteAppointmentByIdMutation({
+			id: appointmentToDelete.id,
+			deletedBy: $session.user.id,
+		});
 		if (result.error) {
 			console.error(result.error);
 		} else {

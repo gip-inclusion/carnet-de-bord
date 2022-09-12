@@ -15,6 +15,9 @@ object_relationships:
   - name: account
     using:
       foreign_key_constraint_on: account_id
+  - name: accountByDeletedBy
+    using:
+      foreign_key_constraint_on: deleted_by
   - name: notebook
     using:
       foreign_key_constraint_on: notebook_id
@@ -53,12 +56,13 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
+        - account_id
+        - created_at
+        - date
+        - deleted_at
         - id
         - notebook_id
-        - account_id
-        - date
         - status
-        - created_at
         - updated_at
       filter:
         notebook:
@@ -70,6 +74,7 @@ select_permissions:
       columns:
         - account_id
         - date
+        - deleted_at
         - id
         - notebook_id
         - status
@@ -86,6 +91,8 @@ update_permissions:
     permission:
       columns:
         - date
+        - deleted_at
+        - deleted_by
         - status
       filter:
         notebook:
@@ -100,6 +107,8 @@ update_permissions:
     permission:
       columns:
         - date
+        - deleted_at
+        - deleted_by
         - status
       filter:
         notebook:
@@ -113,6 +122,7 @@ update_permissions:
 delete_permissions:
   - role: orientation_manager
     permission:
+      backend_only: false
       filter:
         notebook:
           members:
@@ -123,6 +133,7 @@ delete_permissions:
                   _eq: true
   - role: professional
     permission:
+      backend_only: false
       filter:
         notebook:
           members:
