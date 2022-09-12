@@ -30,7 +30,7 @@ async def test_export_notebook(db_connection, test_directory):
 
         assert focus is not None
 
-        assert len(focus["targets"]) == 2
+        assert len(focus["targets"]) == 3
 
         target = next(
             (
