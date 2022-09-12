@@ -60,7 +60,7 @@ async def test_get_notebook_focuses(beneficiary_sophie_tifour: Beneficiary):
     assert focus is not None
     assert focus.targets is not None
 
-    assert len(focus.targets) == 2
+    assert len(focus.targets) == 3
 
     target: Target | None = await find_target_from_focus(
         focus, lambda t: t.target == "Accéder à l’emploi"
