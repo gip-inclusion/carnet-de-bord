@@ -1,3 +1,10 @@
+## [1.138.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.0...v1.138.1) (2022-09-12)
+
+
+### Bug Fixes
+
+* vérification de l'existence d'une action dans le parsing ([#1077](https://github.com/SocialGouv/carnet-de-bord/issues/1077)) ([9affb8c](https://github.com/SocialGouv/carnet-de-bord/commit/9affb8c37123eaa4ab294a0526a112aa2d9cfda0))
+
 # [1.138.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.137.0...v1.138.0) (2022-09-09)
 
 
