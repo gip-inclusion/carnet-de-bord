@@ -1,3 +1,10 @@
+## [1.138.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.1...v1.138.2) (2022-09-12)
+
+
+### Bug Fixes
+
+* correction du type de creator_id des membres ([#1081](https://github.com/SocialGouv/carnet-de-bord/issues/1081)) ([340ab3e](https://github.com/SocialGouv/carnet-de-bord/commit/340ab3ec10d2e4b1e73996fa3680c6600d058286))
+
 ## [1.138.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.0...v1.138.1) (2022-09-12)
 
 
