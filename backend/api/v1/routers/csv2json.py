@@ -19,7 +19,7 @@ from fastapi import (
 )
 from pandas import DataFrame
 from pandas.core.series import Series
-from pydantic import Json, ValidationError
+from pydantic import BaseModel, Json, ValidationError
 
 from api.core.emails import generic_account_creation_email
 from api.core.init import connection
@@ -50,7 +50,14 @@ router = APIRouter(
 )
 
 
-@router.post("/beneficiaries", response_model=list[BeneficiaryImport])
+class ParseError(BaseModel):
+    column_name: str
+    error_message: str
+
+
+@router.post(
+    "/beneficiaries", response_model=list[BeneficiaryImport | list[ParseError]]
+)
 async def parse_beneficiaries(
     upload_file: UploadFile,
 ):
@@ -63,35 +70,45 @@ def validate(beneficiary: dict) -> BeneficiaryImport:
     if "RQTH" in beneficiary:
         rqth = beneficiary["RQTH"]
     else:
+        # Old mislabeled CSV column name for rqth. Kept for retrocompatibility.
         rqth = beneficiary["AAH"]
-    BeneficiaryImport.parse_obj(
-        {
-            "si_id": beneficiary["Identifiant dans le SI*"],
-            "firstname": beneficiary["Prénom*"],
-            "lastname": beneficiary["Nom*"],
-            "date_of_birth": beneficiary["Date de naissance*"],
-            "place_of_birth": beneficiary["Lieu de naissance*"],
-            "phone_number": beneficiary["Téléphone"],
-            "email": beneficiary["Email"],
-            "address1": beneficiary["Adresse"],
-            "address2": beneficiary["Adresse (complément)"],
-            "postal_code": beneficiary["Code postal"],
-            "city": beneficiary["Ville"],
-            "work_situation": beneficiary["Situation"],
-            "caf_number": beneficiary["Numéro allocaire CAF/MSA"],
-            "pe_number": beneficiary["Identifiant Pôle emploi"],
-            "right_rsa": beneficiary["Droits RSA"],
-            "right_are": bool_of(beneficiary["Droits ARE"]),
-            "right_ass": bool_of(beneficiary["Droits ASS"]),
-            "right_bonus": bool_of(beneficiary["Prime d'activité"]),
-            "right_rqth": bool_of(rqth),
-            "geographical_area": beneficiary["Zone de mobilité"],
-            "rome_code_description": beneficiary["Emploi recherché (code ROME)"],
-            "education_level": beneficiary["Niveau de formation"],
-            "structure_name": beneficiary["Structure"],
-            "advisor_email": beneficiary["Accompagnateurs"],
-        }
-    )
+    try:
+        beneficiary = BeneficiaryImport.parse_obj(
+            {
+                "si_id": beneficiary["Identifiant dans le SI*"],
+                "firstname": beneficiary["Prénom*"],
+                "lastname": beneficiary["Nom*"],
+                "date_of_birth": beneficiary["Date de naissance*"],
+                "place_of_birth": beneficiary["Lieu de naissance*"],
+                "phone_number": beneficiary["Téléphone"],
+                "email": beneficiary["Email"],
+                "address1": beneficiary["Adresse"],
+                "address2": beneficiary["Adresse (complément)"],
+                "postal_code": beneficiary["Code postal"],
+                "city": beneficiary["Ville"],
+                "work_situation": beneficiary["Situation"],
+                "caf_number": beneficiary["Numéro allocaire CAF/MSA"],
+                "pe_number": beneficiary["Identifiant Pôle emploi"],
+                "right_rsa": beneficiary["Droits RSA"],
+                "right_are": bool_of(beneficiary["Droits ARE"]),
+                "right_ass": bool_of(beneficiary["Droits ASS"]),
+                "right_bonus": bool_of(beneficiary["Prime d'activité"]),
+                "right_rqth": bool_of(rqth),
+                "geographical_area": beneficiary["Zone de mobilité"],
+                "rome_code_description": beneficiary["Emploi recherché (code ROME)"],
+                "education_level": beneficiary["Niveau de formation"],
+                "structure_name": beneficiary["Structure"],
+                "advisor_email": beneficiary["Accompagnateurs"],
+            }
+        )
+        return beneficiary
+    except Exception as e:
+        return [
+            ParseError.parse_obj(
+                {"column_name": error["loc"][0], "error_message": error["msg"]}
+            )
+            for error in e.errors()
+        ]
 
 
 def bool_of(string: str) -> bool | None:
