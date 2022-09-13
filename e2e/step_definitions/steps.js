@@ -112,6 +112,10 @@ Quand('je clique sur {string} dans le volet', (text) => {
 	I.click(text, '[role=dialog]');
 });
 
+Quand('je clique sur le bouton {string}', (text) => {
+	I.click(`button[title="${text}"]`);
+});
+
 Quand('je clique sur le texte {string}', async (text) => {
 	const item = `//*[text()[contains(., "${text}")]]`;
 
