@@ -1,8 +1,11 @@
 import asyncio
 
+import sentry_sdk
 import typer
 
 from cdb_csv import pe
+
+sentry_sdk.init()
 
 app = typer.Typer()
 
