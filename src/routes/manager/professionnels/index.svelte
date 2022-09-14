@@ -23,6 +23,7 @@
 </script>
 
 <script lang="ts">
+	import { baseUrlForRole } from '$lib/routes';
 	import { Button, IconButton } from '$lib/ui/base';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
@@ -160,7 +161,12 @@
 								class:fr-badge--brown-caramel={account.nbBeneficiaries === 0}
 								class:fr-badge--blue-ecume={account.nbBeneficiaries > 0}
 							>
-								{account.nbBeneficiaries}
+								<a
+									href={`${baseUrlForRole(RoleEnum.Manager)}/beneficiaires?member=${account.email}`}
+									title={`liste des bénéficiaires de ${account.firstname} ${account.lastname}`}
+								>
+									{account.nbBeneficiaries}
+								</a>
 							</p>
 						</td>
 						<td class="text-center">

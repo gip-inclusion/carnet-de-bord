@@ -31,6 +31,7 @@
 	export let search: string;
 	export let filter: MemberFilter;
 	export let currentPage: number;
+	export let member: string;
 
 	export let structureId: string = null;
 	export let listType: BeneficiaryListType = 'manager';
@@ -43,7 +44,19 @@
 		if (filter === 'noMember') {
 			return {
 				...(structureId && { structures: { structureId: { _eq: structureId } } }),
-				notebook: { _or: [{ _not: { members: {} } }, { members: { active: { _eq: false } } }] },
+				notebook: {
+					...(member && {
+						members: {
+							account: {
+								_or: [
+									{ professional: { email: { _eq: member } } },
+									{ orientation_manager: { email: { _eq: member } } },
+								],
+							},
+						},
+					}),
+					_or: [{ _not: { members: {} } }, { members: { active: { _eq: false } } }],
+				},
 			};
 		}
 		if (filter === 'withMember') {
@@ -51,19 +64,35 @@
 				...(structureId && { structures: { structureId: { _eq: structureId } } }),
 				notebook: {
 					members: {
+						...(member && {
+							account: {
+								_or: [
+									{ professional: { email: { _eq: member } } },
+									{ orientation_manager: { email: { _eq: member } } },
+								],
+							},
+						}),
 						active: { _eq: true },
 						memberType: { _eq: 'referent' },
-						// ...(structureId && {
-						// 	account: { professional: { structureId: { _eq: structureId } } },
-						// }),
 					},
 				},
 			};
 		}
 		return {
 			...(structureId && { structures: { structureId: { _eq: structureId } } }),
-			notebook: {},
-		}; // prevent beenficiary without notebook
+			notebook: {
+				...(member && {
+					members: {
+						account: {
+							_or: [
+								{ professional: { email: { _eq: member } } },
+								{ orientation_manager: { email: { _eq: member } } },
+							],
+						},
+					},
+				}),
+			},
+		};
 	}
 
 	const result = operationStore(
@@ -96,7 +125,9 @@
 
 	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
 
-	function updateFilters(event: CustomEvent<{ filter: MemberFilter; search: string }>) {
+	function updateFilters(
+		event: CustomEvent<{ resetMember: boolean; filter: MemberFilter; search: string }>
+	) {
 		// We should not mutate the $page.url.searchParams AND use goto
 		// since it make unreliable behaviour
 		// so we create a new URL object to process our new params and then
@@ -104,6 +135,9 @@
 		const urlParams = new URLSearchParams([...$page.url.searchParams.entries()]);
 		urlParams.set('filter', event.detail.filter);
 		urlParams.set('search', event.detail.search);
+		if (event.detail.resetMember) {
+			urlParams.delete('member');
+		}
 		urlParams.set('page', '1');
 		goto(`?${urlParams.toString()}`);
 		selectionStore.reset();
@@ -170,7 +204,7 @@
 </script>
 
 <div class="flex flex-col gap-8">
-	<BeneficiaryFilterView {filter} {search} on:filter-update={updateFilters} />
+	<BeneficiaryFilterView {filter} {search} on:filter-update={updateFilters} {member} />
 	<LoaderIndicator {result}>
 		{#if listType === 'manager'}
 			<BeneficiaryListWithStructure beneficiaries={$result.data.beneficiaries} />
