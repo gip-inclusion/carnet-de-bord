@@ -271,7 +271,7 @@
 		{ label: 'Droits ARE', key: 'rightAre' },
 		{ label: 'Droits ASS', key: 'rightAss' },
 		{ label: "Prime d'activité", key: 'rightBonus' },
-		{ label: 'AAH', key: 'rightRqth' },
+		{ label: 'RQTH', key: 'rightRqth' },
 		{ label: 'Zone de mobilité', key: 'geographicalArea' },
 		{ label: 'Emplois recherchés (texte + code ROME)', key: 'wantedJobs' },
 		{ label: 'Niveau de formation', key: 'educationLevel' },
@@ -380,7 +380,7 @@
 				<br />Vous pouvez
 				<a href="/fichiers/import_beneficiaires.csv" download>télécharger un modèle</a>
 				et
-				<a href="https://pad.incubateur.net/s/VSXZgm8fy#" target="_blank" rel="noopener noreferrer"
+				<a href="https://pad.incubateur.net/s/nLmDl89Oi#" target="_blank" rel="noopener noreferrer"
 					>consulter la notice de remplissage</a
 				>.
 				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
