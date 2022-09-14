@@ -1,3 +1,10 @@
+## [1.139.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.0...v1.139.1) (2022-09-14)
+
+
+### Bug Fixes
+
+* intervertir le libellé et le libellé étendu lors de l'import d'une structure ([#1082](https://github.com/SocialGouv/carnet-de-bord/issues/1082)) ([3f8b1af](https://github.com/SocialGouv/carnet-de-bord/commit/3f8b1af2c449936f4050796f90eba19cae8f9935))
+
 # [1.139.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.2...v1.139.0) (2022-09-13)
 
 
