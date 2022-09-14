@@ -9,7 +9,9 @@
 	export let buttonLabel: string = label;
 	export let confirmLabel: string = label;
 	export let outlineButton = true;
+	export let buttonIcon: string | null = null;
 	export let title: string;
+	export let buttonFullWidth = true;
 	export let buttonCssClasses = '';
 
 	let medCol = '';
@@ -51,9 +53,10 @@
 </script>
 
 <Button
+	icon={buttonIcon}
 	outline={outlineButton}
 	on:click={open}
-	classNames="flex-1 justify-center {buttonCssClasses}"
+	classNames={`${buttonFullWidth ? 'flex-1' : ''} justify-center ${buttonCssClasses}`}
 >
 	{#if $$slots.buttonLabel}
 		<slot name="buttonLabel" />
@@ -82,7 +85,7 @@
 							<slot />
 							{#if showButtons}
 								<div class="flex mt-4 gap-6">
-									<Button on:click={confirm}>
+									<Button title={confirmLabel} on:click={confirm}>
 										{confirmLabel}
 									</Button>
 									<Button outline on:click={close}>Annuler</Button>

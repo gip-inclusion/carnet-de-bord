@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { Button } from '$lib/ui/base/index';
+	import Dialog from '$lib/ui/Dialog.svelte';
 	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
 	import {
 		AddNotebookAppointmentDocument,
+		DeleteNotebookAppointmentDocument,
 		GetNotebookAppointmentsDocument,
 		GetNotebookAppointmentsQuery,
 		GetNotebookAppointmentsQueryVariables,
@@ -35,6 +37,7 @@
 
 	const setAppointmentMutation = mutation(operationStore(AddNotebookAppointmentDocument));
 	const updateAppointmentMutation = mutation(operationStore(UpdateNotebookAppointmentDocument));
+	const deleteAppointmentByIdMutation = mutation(operationStore(DeleteNotebookAppointmentDocument));
 
 	let appointments: Array<AppointmentUI> = [];
 	let appointmentsBuffer: Array<AppointmentUI> = [];
@@ -108,54 +111,91 @@
 		});
 	}
 
-	function editAppointment(index: number) {
+	function appointmentAtIndex(index: number) {
 		appointments = appointments.map((appointment: AppointmentUI) => {
 			appointment.isDisabled = true;
 			appointment.isEdited = false;
 			return appointment;
 		});
-		appointments[index].isDisabled = false;
-		appointments[index].isEdited = true;
+		return appointments[index];
+	}
+
+	function editAppointment(index: number) {
+		const appointmentToEdit = appointmentAtIndex(index);
+		appointmentToEdit.isDisabled = false;
+		appointmentToEdit.isEdited = true;
+	}
+
+	function showDeleteButton(index: number) {
+		const appointment = appointments[index];
+		console.log({ index });
+		console.log({ appointment: JSON.stringify(appointment) });
+		return appointment.id;
+	}
+
+	function userRole() {
+		// we use baseUrlForRole since first event categorie for professional where pro
+		return $session.user.role === 'professional' ? 'pro' : $session.user.role;
+	}
+
+	async function deleteAppointment(index: number) {
+		trackEvent(userRole(), 'members', 'delete_appointment');
+		const appointmentToDelete = appointmentAtIndex(index);
+		const result = await deleteAppointmentByIdMutation({
+			id: appointmentToDelete.id,
+			deletedBy: $session.user.id,
+		});
+		if (result.error) {
+			console.error(result.error);
+		} else {
+			appointments = appointments.filter(({ id }) => id !== appointmentToDelete.id);
+		}
 	}
 
 	async function validateAppointment(index: number) {
-		let result;
 		appointments[index].dirty = true;
 
 		if (appointments[index].date && appointments[index].status) {
-			// we use baseUrlForRole since first event categorie for professional where pro
-			let role = $session.user.role;
-			if (role === 'professional') {
-				role = 'pro';
-			}
 			const datetime = new Date(appointments[index].date);
 			datetime.setUTCHours(parseInt(appointments[index].hours));
 			datetime.setUTCMinutes(parseInt(appointments[index].minutes));
 
 			if (appointments[index].id) {
-				if (appointmentsBuffer[index].status !== appointments[index].status) {
-					trackEvent(role, 'members', 'update_appointment_status');
-				}
-				if (appointmentsBuffer[index].date !== appointments[index].date) {
-					trackEvent(role, 'members', 'update_appointment_date');
-				}
-				result = await updateAppointmentMutation({
-					id: appointments[index].id,
-					status: appointments[index].status,
-					date: datetime.toISOString(),
-				});
+				await updateAppointment(index, datetime);
 			} else {
-				trackEvent(role, 'members', 'create_appointment');
-				result = await setAppointmentMutation({
-					memberAccountId: member.account?.id,
-					notebookId: notebookId,
-					status: appointments[index].status,
-					date: datetime.toISOString(),
-				});
+				await setAppointment(index, datetime);
 			}
-			if (result.error) {
-				console.error(result.error);
-			}
+		}
+	}
+
+	async function setAppointment(index: number, datetime: Date) {
+		trackEvent(userRole(), 'members', 'create_appointment');
+		const result = await setAppointmentMutation({
+			memberAccountId: member.account?.id,
+			notebookId,
+			status: appointments[index].status,
+			date: datetime.toISOString(),
+		});
+		if (result.error) {
+			console.error(result.error);
+		}
+	}
+
+	async function updateAppointment(index: number, datetime: Date) {
+		const role = userRole();
+		if (appointmentsBuffer[index].status !== appointments[index].status) {
+			trackEvent(role, 'members', 'update_appointment_status');
+		}
+		if (appointmentsBuffer[index].date !== appointments[index].date) {
+			trackEvent(role, 'members', 'update_appointment_date');
+		}
+		const result = await updateAppointmentMutation({
+			id: appointments[index].id,
+			status: appointments[index].status,
+			date: datetime.toISOString(),
+		});
+		if (result.error) {
+			console.error(result.error);
 		}
 	}
 
@@ -238,10 +278,26 @@
 											error={!appointment.status && appointment.dirty ? 'Champ obligatoire' : null}
 										/>
 
-										<div class="my-2 whitespace-nowrap ml-auto">
+										<div class="flex flex-row my-2 ml-auto gap-2">
 											<Button classNames="fr-btn--sm" on:click={() => validateAppointment(index)}
 												>Valider
 											</Button>
+											{#if showDeleteButton(index)}
+												<Dialog
+													buttonCssClasses="fr-btn--sm fr-btn--secondary"
+													buttonFullWidth={false}
+													buttonIcon="fr-icon-delete-bin-line"
+													title="Supprimer un rendez-vous"
+													label="Supprimer"
+													on:confirm={() => deleteAppointment(index)}
+												>
+													<p>
+														Vous allez supprimer le rendez-vous du
+														<strong>{formatDateTimeLocale(appointment.fullDate)}</strong>.
+														<br />Veuillez confirmer la suppression.
+													</p>
+												</Dialog>
+											{/if}
 
 											<Button
 												classNames="self-start fr-btn--sm"
@@ -261,11 +317,13 @@
 								</td>
 								<td>
 									<Button
-										classNames="self-start fr-btn--sm"
+										classNames="fr-btn--sm"
 										disabled={appointment.isDisabled}
 										on:click={() => editAppointment(index)}
 										outline
-										>Modifier
+										title="Modifier"
+									>
+										Modifier
 									</Button>
 								</td>
 							{/if}
@@ -274,5 +332,6 @@
 				{/if}
 			</tbody>
 		</table>
+		<div class="flex" />
 	</div>
 </LoaderIndicator>
