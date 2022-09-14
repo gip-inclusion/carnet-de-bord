@@ -15,9 +15,11 @@ from api.db.crud.notebook import (
     get_notebook_members_by_notebook_id,
 )
 from api.db.crud.professional import get_professional_by_email
+from api.db.crud.structure import get_structures
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource
 from api.db.models.notebook import NotebookMember
+from api.db.models.structure import Structure
 from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
     import_beneficiaries,
@@ -73,6 +75,17 @@ async def test_parse_principal_csv(
     assert notebook_member is None
 
     await import_beneficiaries(db_connection, pe_principal_csv_filepath)
+
+    structures: list[Structure] = await get_structures(db_connection)
+    # One structure should have been created (RETHEL)
+    assert len(structures) == 12
+
+    structure: None | Structure = next(
+        (s for s in structures if s.name == "Agence P\\u00f4le emploi RETHEL"),
+        None,
+    )
+
+    assert structure is not None
 
     # External data should have been tracked
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
