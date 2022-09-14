@@ -1,3 +1,10 @@
+## [1.139.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.1...v1.139.2) (2022-09-14)
+
+
+### Bug Fixes
+
+* ajout de Sentry aux scripts Python ([#1086](https://github.com/SocialGouv/carnet-de-bord/issues/1086)) ([023ce7f](https://github.com/SocialGouv/carnet-de-bord/commit/023ce7f6041860875a14e1e7ecb5838522321e8d))
+
 ## [1.139.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.0...v1.139.1) (2022-09-14)
 
 
