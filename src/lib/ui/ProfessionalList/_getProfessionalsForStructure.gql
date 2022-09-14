@@ -1,0 +1,20 @@
+query GetProfessionalsForStructure($structureId: uuid!) {
+	professional(where: { structureId: { _eq: $structureId } }) {
+		id
+		firstname
+		lastname
+		mobileNumber
+		email
+    structure {
+      id
+      beneficiaries_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+    account {
+      onboardingDone
+    }
+	}
+}
