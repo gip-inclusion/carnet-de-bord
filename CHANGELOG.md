@@ -1,3 +1,10 @@
+# [1.139.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.2...v1.139.0) (2022-09-13)
+
+
+### Features
+
+* Ajout de la possiblité de supprimer un RDV par un pro ([#1075](https://github.com/SocialGouv/carnet-de-bord/issues/1075)) ([4193da9](https://github.com/SocialGouv/carnet-de-bord/commit/4193da9a7ee3c828220a536cfa6f20040742d43a))
+
 ## [1.138.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.1...v1.138.2) (2022-09-12)
 
 
