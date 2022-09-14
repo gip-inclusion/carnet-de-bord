@@ -6,7 +6,7 @@ Fonctionnalité: Gestion de professionnels d'un déploiement
 	En tant que manager d'un déploiement
 	Je veux pouvoir voir les professionnels et gérer leur activation
 
-	Scénario: Liste des professionnel
+	Scénario: Liste des professionnels
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Professionnels"
 		Quand j'attends que la table "Liste des professionnels" apparaisse
