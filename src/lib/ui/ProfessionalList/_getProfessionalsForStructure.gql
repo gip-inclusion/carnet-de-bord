@@ -5,16 +5,13 @@ query GetProfessionalsForStructure($structureId: uuid!) {
 		lastname
 		mobileNumber
 		email
-    structure {
-      id
-      beneficiaries_aggregate {
+    account {
+      onboardingDone
+      notebooksWhereMember_aggregate {
         aggregate {
           count
         }
       }
-    }
-    account {
-      onboardingDone
     }
 	}
 }

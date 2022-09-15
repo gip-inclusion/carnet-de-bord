@@ -11468,19 +11468,18 @@ export type GetProfessionalsForStructureQuery = {
 		lastname: string;
 		mobileNumber?: string | null | undefined;
 		email: string;
-		structure: {
-			__typename?: 'structure';
-			id: string;
-			beneficiaries_aggregate: {
-				__typename?: 'beneficiary_structure_aggregate';
-				aggregate?:
-					| { __typename?: 'beneficiary_structure_aggregate_fields'; count: number }
-					| null
-					| undefined;
-			};
-		};
 		account?:
-			| { __typename?: 'account'; onboardingDone?: boolean | null | undefined }
+			| {
+					__typename?: 'account';
+					onboardingDone?: boolean | null | undefined;
+					notebooksWhereMember_aggregate: {
+						__typename?: 'notebook_member_aggregate';
+						aggregate?:
+							| { __typename?: 'notebook_member_aggregate_fields'; count: number }
+							| null
+							| undefined;
+					};
+			  }
 			| null
 			| undefined;
 	}>;
@@ -19582,14 +19581,14 @@ export const GetProfessionalsForStructureDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'structure' },
+									name: { kind: 'Name', value: 'account' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'beneficiaries_aggregate' },
+												name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
@@ -19606,16 +19605,6 @@ export const GetProfessionalsForStructureDocument = {
 													],
 												},
 											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'account' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
 										],
 									},
 								},
