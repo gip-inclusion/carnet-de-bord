@@ -9,7 +9,7 @@
 	"license": "Apache-2.0",
 	"scripts": {
 		"lint": "eslint ./step_definitions",
-		"test": "LANGUAGE=fr codeceptjs run --reporter list",
+		"test": "LANGUAGE=fr codeceptjs run",
 		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
 		"test:ui": "LANGUAGE=fr CODECEPT_UI=true codecept-ui --app"
 	},
