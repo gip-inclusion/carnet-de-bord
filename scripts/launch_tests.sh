@@ -102,7 +102,7 @@ function start_svelte() {
   # Need to listen on all addresses (0.0.0.0) to be reachable from Hasura in Docker on all platforms.
   # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
   # output.
-  npx svelte-kit dev --host 0.0.0.0 --port 3001 | cat &
+  yarn svelte-kit dev --host 0.0.0.0 --port 3001 | cat &
 
   until curl -s http://localhost:3001/ > /dev/null ; do
     >&2 echo "-> Svelte kit is still unavailable - sleeping"

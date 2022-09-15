@@ -9,9 +9,9 @@
 	"license": "Apache-2.0",
 	"scripts": {
 		"lint": "eslint ./step_definitions",
-		"test": "codeceptjs run --reporter list",
-		"test:debug": "codeceptjs run --debug --steps --verbose",
-		"test:ui": "CODECEPT_UI=true codecept-ui --app"
+		"test": "LANGUAGE=fr codeceptjs run",
+		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
+		"test:ui": "LANGUAGE=fr CODECEPT_UI=true codecept-ui --app"
 	},
 	"dependencies": {
 		"@codeceptjs/helper": "^2.0.0",

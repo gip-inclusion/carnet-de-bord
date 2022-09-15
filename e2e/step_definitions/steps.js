@@ -96,11 +96,6 @@ Quand('je renseigne {string} dans le champ {string}', (text, input) => {
 });
 
 Quand('je renseigne la date {string} dans le champ {string}', async (date, input) => {
-	const language = await I.executeScript(() => navigator.language);
-	if (language === 'en-US') {
-		const splitDate = date.split('/');
-		date = `${splitDate[1]}/${splitDate[0]}/${splitDate[2]}`;
-	}
 	I.fillField(input, date);
 });
 

@@ -10,10 +10,10 @@ Fonctionnalité: Informations sur la situation socioprofessionnelle
 		Quand je clique sur "Situation socioprofessionnelle"
 		Quand je clique sur "Mettre à jour" sous le titre "Situation socioprofessionnelle"
 		Alors je vois "Situation actuelle"
-		Quand je renseigne la date "05/02/2020" dans le champ "Depuis le"
+		Quand je renseigne la date "20/06/2020" dans le champ "Depuis le"
 		Quand je clique sur le texte "12 mois"
 		Quand je clique sur "Enregistrer"
-		Alors je vois "depuis le 05/02/2020 jusqu'au 05/02/2021 - (environ 1 an)"
+		Alors je vois "depuis le 20/06/2020 jusqu'au 20/06/2021 - (environ 1 an)"
 
 
 	Scénario: Saisie des informations socioprofessionnelles 2 ans
@@ -21,7 +21,7 @@ Fonctionnalité: Informations sur la situation socioprofessionnelle
 		Quand je clique sur "Situation socioprofessionnelle"
 		Quand je clique sur "Mettre à jour" sous le titre "Situation socioprofessionnelle"
 		Alors je vois "Situation actuelle"
-		Quand je renseigne la date "05/02/2020" dans le champ "Depuis le"
+		Quand je renseigne la date "20/06/2020" dans le champ "Depuis le"
 		Quand je clique sur le texte "24 mois"
 		Quand je clique sur "Enregistrer"
-		Alors je vois "depuis le 05/02/2020 jusqu'au 05/02/2022 - (environ 2 ans)"
+		Alors je vois "depuis le 20/06/2020 jusqu'au 20/06/2022 - (environ 2 ans)"
