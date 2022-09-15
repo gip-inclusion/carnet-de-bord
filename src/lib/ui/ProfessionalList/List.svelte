@@ -7,7 +7,7 @@
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
-	<caption class="sr-only">Liste des professionels</caption>
+	<caption class="sr-only">Liste des professionnels</caption>
 	<thead>
 		<tr>
 			<th class="text-left">Prénom nom</th>
