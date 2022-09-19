@@ -47,6 +47,7 @@
 				notebook: {
 					...(member && {
 						members: {
+							active: { _eq: true },
 							account: {
 								_or: [
 									{ professional: { email: { _eq: member } } },
@@ -65,6 +66,8 @@
 				notebook: {
 					members: {
 						...(member && {
+							active: { _eq: true },
+
 							account: {
 								_or: [
 									{ professional: { email: { _eq: member } } },
@@ -83,6 +86,8 @@
 			notebook: {
 				...(member && {
 					members: {
+						active: { _eq: true },
+
 						account: {
 							_or: [
 								{ professional: { email: { _eq: member } } },
