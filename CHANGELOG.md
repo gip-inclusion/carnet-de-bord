@@ -1,3 +1,10 @@
+# [1.140.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.3...v1.140.0) (2022-09-19)
+
+
+### Features
+
+* [Gestionnaire de structure] Afficher la liste des professionnels d'une structure. ([#1089](https://github.com/SocialGouv/carnet-de-bord/issues/1089)) ([52f8d22](https://github.com/SocialGouv/carnet-de-bord/commit/52f8d2242083162737a1c0c35a4657168852268d))
+
 ## [1.139.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.2...v1.139.3) (2022-09-19)
 
 
