@@ -129,6 +129,7 @@
 			</thead>
 			<tbody>
 				{#each accounts as account (account.id)}
+					{@const hasNoBeneficiary = account.nbBeneficiaries === 0}
 					<tr>
 						<td>
 							<Text value={displayFullName(account)} />
@@ -148,18 +149,14 @@
 							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
 						</td>
 						<td class="text-right">
-							<p
-								class="fr-badge"
-								class:fr-badge--brown-caramel={account.nbBeneficiaries === 0}
-								class:fr-badge--blue-ecume={account.nbBeneficiaries > 0}
+							<a
+								href={`${baseUrlForRole(RoleEnum.Manager)}/beneficiaires?member=${account.email}`}
+								title={`liste des bénéficiaires de ${account.firstname} ${account.lastname}`}
+								class="fr-tag fr-tag-sm"
+								class:fr-tag--purple-glycine={hasNoBeneficiary}
 							>
-								<a
-									href={`${baseUrlForRole(RoleEnum.Manager)}/beneficiaires?member=${account.email}`}
-									title={`liste des bénéficiaires de ${account.firstname} ${account.lastname}`}
-								>
-									{account.nbBeneficiaries}
-								</a>
-							</p>
+								{account.nbBeneficiaries}
+							</a>
 						</td>
 						<td class="text-center">
 							{#if !account.confirmed}

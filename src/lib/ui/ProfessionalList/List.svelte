@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { GetProfessionalsForStructureQuery } from '$lib/graphql/_gen/typed-document-nodes';
+
 	import { displayFullName } from '../format';
 	type Professional = GetProfessionalsForStructureQuery['professional'][0];
 
@@ -28,12 +29,14 @@
 				<td>{professional.email}</td>
 				<td>{professional.account.onboardingDone ? 'Oui' : 'Non'}</td>
 				<td class="flex justify-end">
-					<button
-						class="fr-tag fr-tag-sm cursor-default"
+					<a
+						href={`beneficiaires?member=${professional.email}`}
+						title={`liste des bénéficiaires de ${professional.firstname} ${professional.lastname}`}
+						class="fr-tag fr-tag-sm"
 						class:fr-tag--purple-glycine={hasNoBeneficiaries}
 					>
 						{beneficiariesCount}
-					</button>
+					</a>
 				</td>
 			</tr>
 		{/each}
