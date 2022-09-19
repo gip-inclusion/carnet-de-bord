@@ -15,6 +15,10 @@
 
 > _Les instructions pour reproduire le problème, les profils de test, le parcours spécifique à utiliser, etc._
 
+<!-- BEGIN ## REVIEW APP URL PLACEHOLDER ## -->
+This part will be updated with review app URL [automatically](.github/workflows/review-scalingo.yml).
+<!-- END ## REVIEW APP URL PLACEHOLDER ## -->
+
 
 <!--
 Pour lier votre PR à une issue et que cette dernière soit fermée lorsque la PR sera fusionnée dans master, vous pouvez utiliser l'annotation `fix` en précisant le numéro de la PR précédé de `#`
