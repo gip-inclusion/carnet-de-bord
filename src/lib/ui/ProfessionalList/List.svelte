@@ -4,6 +4,16 @@
 	type Professional = GetProfessionalsForStructureQuery['professional'][0];
 
 	export let professionals: Professional[];
+
+	function beneficiariesCount(professional: Professional) {
+		return professional.account.notebooksWhereMember_aggregate.aggregate.count;
+	}
+
+	function tagClasses(professional: Professional) {
+		const tagColor = beneficiariesCount(professional) === 0 ? 'fr-tag--purple-glycine' : '';
+		// remove the `cursor-default` class when click action is impletemented
+		return `fr-tag fr-tag-sm ${tagColor} cursor-default`;
+	}
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
@@ -25,11 +35,9 @@
 				<td>{professional.email}</td>
 				<td>{professional.account.onboardingDone ? 'Oui' : 'Non'}</td>
 				<td class="flex justify-end">
-					<div
-						class="w-8 h-8 rounded-full flex justify-center items-center bg-information-bg text-information font-bold"
-					>
-						{professional.account.notebooksWhereMember_aggregate.aggregate.count}
-					</div>
+					<button class={tagClasses(professional)}>
+						{beneficiariesCount(professional)}
+					</button>
 				</td>
 			</tr>
 		{/each}
