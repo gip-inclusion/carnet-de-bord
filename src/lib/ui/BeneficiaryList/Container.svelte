@@ -41,53 +41,12 @@
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	function getWithMemberFilter(filter: MemberFilter): BeneficiaryBoolExp {
-		if (filter === 'noMember') {
-			return {
-				...(structureId && { structures: { structureId: { _eq: structureId } } }),
-				notebook: {
-					...(member && {
-						members: {
-							active: { _eq: true },
-							account: {
-								_or: [
-									{ professional: { email: { _eq: member } } },
-									{ orientation_manager: { email: { _eq: member } } },
-								],
-							},
-						},
-					}),
-					_or: [{ _not: { members: {} } }, { members: { active: { _eq: false } } }],
-				},
-			};
-		}
-		if (filter === 'withMember') {
-			return {
-				...(structureId && { structures: { structureId: { _eq: structureId } } }),
-				notebook: {
-					members: {
-						...(member && {
-							active: { _eq: true },
-
-							account: {
-								_or: [
-									{ professional: { email: { _eq: member } } },
-									{ orientation_manager: { email: { _eq: member } } },
-								],
-							},
-						}),
-						active: { _eq: true },
-						memberType: { _eq: 'referent' },
-					},
-				},
-			};
-		}
-		return {
+		const graphqlFilter: BeneficiaryBoolExp = {
 			...(structureId && { structures: { structureId: { _eq: structureId } } }),
 			notebook: {
 				...(member && {
 					members: {
 						active: { _eq: true },
-
 						account: {
 							_or: [
 								{ professional: { email: { _eq: member } } },
@@ -98,6 +57,21 @@
 				}),
 			},
 		};
+
+		if (filter === 'noMember') {
+			graphqlFilter.notebook._or = [
+				{ _not: { members: {} } },
+				{ members: { active: { _eq: false } } },
+			];
+		}
+		if (filter === 'withMember') {
+			graphqlFilter.notebook.members = {
+				...graphqlFilter.notebook.members,
+				active: { _eq: true },
+				memberType: { _eq: 'referent' },
+			};
+		}
+		return graphqlFilter;
 	}
 
 	const result = operationStore(
