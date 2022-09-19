@@ -59,10 +59,9 @@
 		};
 
 		if (filter === 'noMember') {
-			graphqlFilter.notebook._or = [
-				{ _not: { members: {} } },
-				{ members: { active: { _eq: false } } },
-			];
+			graphqlFilter.notebook = {
+				_or: [{ _not: { members: {} } }, { members: { active: { _eq: false } } }],
+			};
 		}
 		if (filter === 'withMember') {
 			graphqlFilter.notebook.members = {
