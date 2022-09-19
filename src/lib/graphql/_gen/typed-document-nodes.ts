@@ -11455,6 +11455,36 @@ export type GetRefTargetByFocusQuery = {
 	refTargets: Array<{ __typename?: 'ref_target'; id: string; description: string }>;
 };
 
+export type GetProfessionalsForStructureQueryVariables = Exact<{
+	structureId: Scalars['uuid'];
+}>;
+
+export type GetProfessionalsForStructureQuery = {
+	__typename?: 'query_root';
+	professional: Array<{
+		__typename?: 'professional';
+		id: string;
+		firstname: string;
+		lastname: string;
+		mobileNumber?: string | null | undefined;
+		email: string;
+		account?:
+			| {
+					__typename?: 'account';
+					onboardingDone?: boolean | null | undefined;
+					notebooksWhereMember_aggregate: {
+						__typename?: 'notebook_member_aggregate';
+						aggregate?:
+							| { __typename?: 'notebook_member_aggregate_fields'; count: number }
+							| null
+							| undefined;
+					};
+			  }
+			| null
+			| undefined;
+	}>;
+};
+
 export type UpdateStructureMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	address1?: InputMaybe<Scalars['String']>;
@@ -19490,6 +19520,105 @@ export const GetRefTargetByFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetRefTargetByFocusQuery, GetRefTargetByFocusQueryVariables>;
+export const GetProfessionalsForStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetProfessionalsForStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'structureId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'account' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'aggregate' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'count' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetProfessionalsForStructureQuery,
+	GetProfessionalsForStructureQueryVariables
+>;
 export const UpdateStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -26882,6 +27011,10 @@ export type AddNotebookTargetMutationStore = OperationStore<
 export type GetRefTargetByFocusQueryStore = OperationStore<
 	GetRefTargetByFocusQuery,
 	GetRefTargetByFocusQueryVariables
+>;
+export type GetProfessionalsForStructureQueryStore = OperationStore<
+	GetProfessionalsForStructureQuery,
+	GetProfessionalsForStructureQueryVariables
 >;
 export type UpdateStructureMutationStore = OperationStore<
 	UpdateStructureMutation,
