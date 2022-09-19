@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { session } from '$app/stores';
 	import {
 		ImportBeneficiaryDocument,
 		GetProfessionalsForManagerDocument,
@@ -93,9 +94,20 @@
 	let toImport = [];
 	let parseErrors = [];
 
-	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
+	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
+			//// this is where I want to make a call
+			const formData = new FormData();
+			formData.append('upload_file', files[i]);
+			const _response = await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					'jwt-token': $session.token,
+					Accept: 'application/json; version=1.0',
+				},
+			});
 			parseEntities(
 				files[i],
 				'BeneficiaryImport',
