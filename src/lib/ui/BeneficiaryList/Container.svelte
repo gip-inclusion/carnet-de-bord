@@ -178,7 +178,7 @@
 			},
 		});
 	}
-
+	$: nbBeneficiaries = $result.data?.search_beneficiaries_aggregate.aggregate.count ?? 0;
 	$: nbSelectedBeneficiaries = Object.keys($selectionStore).length;
 </script>
 
@@ -193,11 +193,7 @@
 			<BeneficiaryListWithOrientation beneficiaries={$result.data.beneficiaries} />
 		{/if}
 		<div class="flex justify-center">
-			<Pagination
-				{currentPage}
-				{pageSize}
-				count={$result.data.search_beneficiaries_aggregate.aggregate.count}
-			/>
+			<Pagination {currentPage} {pageSize} count={nbBeneficiaries} />
 		</div>
 	</LoaderIndicator>
 	{#if nbSelectedBeneficiaries > 0}

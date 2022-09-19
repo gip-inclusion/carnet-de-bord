@@ -3,45 +3,53 @@
 
 	export let pageSize = 20;
 	export let count = 0;
-	export let currentPage = 0;
+	export let currentPage = 1;
 	export let nbVisible = 4;
 
 	const TOLERANCE = 2;
-	const nbPages = Math.ceil(count / pageSize);
+
+	$: nbPages = Math.ceil(count / pageSize);
 
 	function getPaginationHref(pageIndex: number): string {
 		const urlParams = new URLSearchParams([...$page.url.searchParams.entries()]);
 		urlParams.set('page', pageIndex.toString());
 		return `?${urlParams.toString()}`;
 	}
-	let rangeStartIndex = Math.min(
-		Math.max(0, currentPage - Math.floor(nbVisible / 2)),
-		Math.max(nbPages - nbVisible - 1, 0)
-	);
 
-	// prevent "..." from displaying if startRange is too close from the beginn
-	if (rangeStartIndex <= TOLERANCE) {
-		rangeStartIndex = 0;
-	}
-	let rangeEndIndex = Math.min(rangeStartIndex + nbVisible, nbPages);
+	let paginationButtons = [];
 
-	// prevent "..." from displaying if endRange is too close from the end
-	const endRangeNbPageDiff = nbPages - rangeEndIndex;
-	if (endRangeNbPageDiff <= TOLERANCE) {
-		rangeEndIndex += endRangeNbPageDiff;
-	}
-	const paginationButtons = [];
+	$: {
+		paginationButtons = [];
 
-	if (rangeStartIndex > TOLERANCE) {
-		paginationButtons.push(1, null);
-	}
+		let rangeStartIndex = Math.min(
+			Math.max(0, currentPage - Math.floor(nbVisible / 2)),
+			Math.max(nbPages - nbVisible - 1, 0)
+		);
 
-	for (let i = rangeStartIndex; i < rangeEndIndex; i++) {
-		paginationButtons.push(i + 1);
-	}
+		// prevent "..." from displaying if startRange is too close from the beginn
+		if (rangeStartIndex <= TOLERANCE) {
+			rangeStartIndex = 0;
+		}
+		let rangeEndIndex = Math.min(rangeStartIndex + nbVisible, nbPages);
 
-	if (nbPages - rangeEndIndex > TOLERANCE) {
-		paginationButtons.push(null, nbPages);
+		// prevent "..." from displaying if endRange is too close from the end
+		const endRangeNbPageDiff = nbPages - rangeEndIndex;
+
+		if (endRangeNbPageDiff <= TOLERANCE) {
+			rangeEndIndex += endRangeNbPageDiff;
+		}
+
+		if (rangeStartIndex > TOLERANCE) {
+			paginationButtons.push(1, null);
+		}
+
+		for (let i = rangeStartIndex; i < rangeEndIndex; i++) {
+			paginationButtons.push(i + 1);
+		}
+
+		if (nbPages - rangeEndIndex > TOLERANCE) {
+			paginationButtons.push(null, nbPages);
+		}
 	}
 </script>
 
