@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
 	import type { Load } from '@sveltejs/kit';
+	import { getFilter } from '$lib/ui/ProfessionalList/Filters.svelte';
 
 	export const load: Load = async ({ params, url }) => {
 		const searchParams = url.searchParams;
@@ -17,7 +18,6 @@
 	import type { BeneficiaryCountFilter } from '$lib/ui/ProfessionalList/Filters.svelte';
 	import { homeForRole } from '$lib/routes';
 	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
-	import { getFilter } from '$lib/ui/ProfessionalList/Filters.svelte';
 	import { operationStore, query } from '@urql/svelte';
 	import { GetStructureDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import Container from '$lib/ui/ProfessionalList/Container.svelte';
