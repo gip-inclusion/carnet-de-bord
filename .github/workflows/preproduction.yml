@@ -88,8 +88,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Yarn cache setup
-        uses: c-hive/gha-yarn-cache@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
       - name: Install dependencies
         run: |
           yarn --cwd e2e install --prefer-offline --frozen-lockfile
