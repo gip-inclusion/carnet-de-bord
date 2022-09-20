@@ -1,3 +1,10 @@
+# [1.141.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.140.0...v1.141.0) (2022-09-20)
+
+
+### Features
+
+* filter beneficiary list with a  notebook member ([#1087](https://github.com/SocialGouv/carnet-de-bord/issues/1087)) ([a0e876d](https://github.com/SocialGouv/carnet-de-bord/commit/a0e876d7bda97aaaed3d603fdb2997c193846bfd))
+
 # [1.140.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.3...v1.140.0) (2022-09-19)
 
 
