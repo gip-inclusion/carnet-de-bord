@@ -106,6 +106,7 @@ function start_svelte() {
   # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
   # output.
   yarn svelte-kit dev --host 0.0.0.0 --port 3001 | cat &
+	cd ..
 
   until curl -s http://localhost:3001/ > /dev/null ; do
     >&2 echo "-> Svelte kit is still unavailable - sleeping"
@@ -134,7 +135,7 @@ function start_backend() {
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
   >&2 echo "-> Starting Jest tests"
-  npx jest "$@"
+	(cd frontend && npx jest "$@")
 fi
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then
