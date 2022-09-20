@@ -93,11 +93,13 @@ done
 >&2 echo ""
 >&2 echo "-> Hasura is up and running on port 5001!"
 
-HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 yarn hasura:seed
+HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --database-name carnet_de_bord
 cd $ROOT_DIR
 
 function start_svelte() {
   >&2 echo "-> Starting Svelte kit"
+
+  cd frontend
   # Start dev server
   # Need to listen on all addresses (0.0.0.0) to be reachable from Hasura in Docker on all platforms.
   # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
