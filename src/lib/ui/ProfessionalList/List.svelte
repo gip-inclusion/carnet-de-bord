@@ -27,7 +27,7 @@
 				<td>{displayFullName(professional)}</td>
 				<td>{professional.mobileNumber ?? '--'}</td>
 				<td>{professional.email}</td>
-				<td>{professional.account.onboardingDone ? 'Oui' : 'Non'}</td>
+				<td>{professional.account.onboardingDone ? 'Fait' : 'Non fait'}</td>
 				<td class="flex justify-end">
 					<a
 						href={`beneficiaires?member=${professional.email}`}
