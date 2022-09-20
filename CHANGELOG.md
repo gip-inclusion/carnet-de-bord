@@ -1,3 +1,10 @@
+## [1.141.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.0...v1.141.1) (2022-09-20)
+
+
+### Bug Fixes
+
+* Ne pas considérer les espaces avant / après lors de la connexion. ([#1101](https://github.com/SocialGouv/carnet-de-bord/issues/1101)) ([7c25512](https://github.com/SocialGouv/carnet-de-bord/commit/7c25512a4473687dc9aa3d1f6e95491862c5797e))
+
 # [1.141.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.140.0...v1.141.0) (2022-09-20)
 
 
