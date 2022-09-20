@@ -25,11 +25,14 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: yarn
+          cache-dependency-path: 'frontend/yarn.lock'
       - name: Install dependencies
+        working-directory: frontend
         run: |
-          cd frontend && yarn frontend install --prefer-offline --frozen-lockfile && cd -
-          cd e2e && yarn install --prefer-offline --frozen-lockfile && cd -
+          yarn install --prefer-offline --frozen-lockfile
+          yarn install --cwd ../e2e --prefer-offline --frozen-lockfile
           pip install pre-commit
       - name: Run linting
+        working-directory: frontend
         run: |
-          yarn --cwd frontend lint
+          yarn lint
