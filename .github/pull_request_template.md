@@ -15,9 +15,9 @@
 
 > _Les instructions pour reproduire le problème, les profils de test, le parcours spécifique à utiliser, etc._
 
-<!-- BEGIN ## REVIEW APP URL PLACEHOLDER ## -->
-This part will be updated with review app URL [automatically](.github/workflows/review-scalingo.yml).
-<!-- END ## REVIEW APP URL PLACEHOLDER ## -->
+<!-- BEGIN ## emplacement de l'URL de la review app ## -->
+Ne pas supprimer ce bloc, qui sera mis à jour [automatiquement](.github/workflows/review-scalingo.yml).
+<!-- END ## emplacement de l'URL de la review app ## -->
 
 
 <!--

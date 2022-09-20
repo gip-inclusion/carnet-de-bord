@@ -40,6 +40,6 @@ jobs:
         uses: blablacar/action-sticky-description@df5650c838f2bbc860ab8edd059b6e255fd7bb82
         with:
           issue_number: ${{ github.event.number }}
-          marker: "## REVIEW APP URL PLACEHOLDER ##"
+          marker: "## emplacement de l'URL de la review app ##"
           message: |
             Se rendre sur la [review app](https://cdb-app-review-pr${{ github.event.number }}.osc-fr1.scalingo.io).
