@@ -37,7 +37,7 @@ jobs:
     needs: [scalingo-link]
     steps:
       - name: Add review app URL
-        uses: blablacar/action-sticky-description@master
+        uses: blablacar/action-sticky-description@df5650c838f2bbc860ab8edd059b6e255fd7bb82
         with:
           issue_number: ${{ github.event.number }}
           marker: "## REVIEW APP URL PLACEHOLDER ##"
