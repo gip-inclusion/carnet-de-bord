@@ -101,7 +101,7 @@
 
 <style>
 	:global([data-svelte-dialog-overlay]) {
-		z-index: 200;
+		z-index: 500;
 	}
 
 	:global([data-svelte-dialog-content]) {

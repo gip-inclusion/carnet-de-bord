@@ -8,6 +8,7 @@
 				currentPage: parseInt(params.get('page') ?? '1', 10),
 				filter: getFilter(params.get('filter')),
 				search: params.get('search') ?? '',
+				member: params.get('member'),
 			},
 		};
 	};
@@ -28,6 +29,7 @@
 	export let search: string;
 	export let filter: MemberFilter;
 	export let currentPage: number;
+	export let member: string;
 
 	let breadcrumbs = [
 		{
@@ -49,4 +51,4 @@
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
 <h1>Bénéficiaires</h1>
-<Container listType="manager" {filter} {search} {currentPage} />
+<Container listType="manager" {filter} {search} {currentPage} {member} />

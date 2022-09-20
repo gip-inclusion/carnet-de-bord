@@ -17,5 +17,5 @@ Fonctionnalité: Consultation de la liste des professionnels par un administrate
 		Alors je vois la colonne "BRSA suivis"
 		Alors je vois "pierre.chevalier@livry-gargan.fr" sur la ligne "Pierre Chevalier"
 		Alors je vois "01 41 70 88 00" sur la ligne "Pierre Chevalier"
-		Alors je vois "Oui" sur la ligne "Pierre Chevalier"
+		Alors je vois "Fait" sur la ligne "Pierre Chevalier"
 		Alors je vois "1" sur la ligne "Pierre Chevalier"

@@ -10,6 +10,7 @@
 				currentPage: parseInt(searchParams.get('page') ?? '1', 10),
 				filter: getFilter(searchParams.get('filter')),
 				search: searchParams.get('search') ?? '',
+				member: searchParams.get('member'),
 			},
 		};
 	};
@@ -33,6 +34,7 @@
 	export let filter: MemberFilter;
 	export let currentPage: number;
 	export let structureId: string;
+	export let member: string;
 
 	const getStructure = operationStore(GetStructureDocument, { structureId });
 	query(getStructure);
@@ -64,4 +66,4 @@
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
 <h1>Bénéficiaires</h1>
-<Container listType="structure" {structureId} {filter} {search} {currentPage} />
+<Container listType="structure" {structureId} {filter} {search} {currentPage} {member} />
