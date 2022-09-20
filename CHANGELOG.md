@@ -1,3 +1,10 @@
+## [1.141.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.1...v1.141.2) (2022-09-20)
+
+
+### Bug Fixes
+
+* pe-fetch: disable downloading and decrypting of actions.csv ([#1103](https://github.com/SocialGouv/carnet-de-bord/issues/1103)) ([89ab55d](https://github.com/SocialGouv/carnet-de-bord/commit/89ab55d6ab7ada8917d3333e0a828df085386a8c))
+
 ## [1.141.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.0...v1.141.1) (2022-09-20)
 
 
