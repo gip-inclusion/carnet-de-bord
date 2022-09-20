@@ -27,8 +27,8 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: |
-          yarn --cwd frontend install --prefer-offline --frozen-lockfile
-          yarn --cwd e2e install --prefer-offline --frozen-lockfile
+          cd frontend && yarn frontend install --prefer-offline --frozen-lockfile && cd -
+          cd e2e && yarn install --prefer-offline --frozen-lockfile && cd -
           pip install pre-commit
       - name: Run linting
         run: |

@@ -63,8 +63,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn --cwd frontend install --prefer-offline --frozen-lockfile
-          yarn --cwd e2e install --prefer-offline --frozen-lockfile
+          cd frontend && yarn install --prefer-offline --frozen-lockfile && cd -
+          cd e2e && yarn install --prefer-offline --frozen-lockfile && cd -
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
@@ -113,7 +113,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn --cwd frontend install --prefer-offline --frozen-lockfile
+          cd frontend
+          yarn install --prefer-offline --frozen-lockfile
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
