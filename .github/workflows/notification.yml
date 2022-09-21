@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Find matching workflow
-        uses: SamhammerAG/last-successful-build-action@v2
+        uses: SamhammerAG/last-successful-build-action@a54c030
         id: latest-deployment
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
