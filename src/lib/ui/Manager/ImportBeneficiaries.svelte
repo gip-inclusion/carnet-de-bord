@@ -94,7 +94,7 @@
 	let toImport = [];
 	let parseErrors = [];
 
-	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
+	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): Promise<void> {
 		parseErrors = [];
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
