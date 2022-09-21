@@ -1,3 +1,10 @@
+## [1.141.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.2...v1.141.3) (2022-09-21)
+
+
+### Bug Fixes
+
+* use same wording on onboarding ([#1107](https://github.com/SocialGouv/carnet-de-bord/issues/1107)) ([ccac54e](https://github.com/SocialGouv/carnet-de-bord/commit/ccac54e64422f71b35b37aa812af4f1eed42abe6))
+
 ## [1.141.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.1...v1.141.2) (2022-09-20)
 
 
