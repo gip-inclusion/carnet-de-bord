@@ -26,3 +26,7 @@ async def test_parse_csv_errors(
         )
         assert response.json()[0][3]["column_name"] == "Date de naissance*"
         assert response.json()[0][3]["error_messages"] == ["A value must be provided"]
+        assert response.json()[1][3]["column_name"] == "Date de naissance*"
+        assert response.json()[1][3]["error_messages"] == [
+            "Incorrect date format, The date must be formated as: YYYY-MM-DD"
+        ]

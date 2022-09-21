@@ -1,3 +1,4 @@
+import datetime
 import logging
 import re
 from io import BytesIO
@@ -80,7 +81,9 @@ def validate(beneficiary: dict) -> list[ParseError | FieldValue]:
         parse_field("Identifiant dans le SI*", beneficiary, validators=[mandatory]),
         parse_field("Prénom*", beneficiary, validators=[mandatory]),
         parse_field("Nom*", beneficiary, validators=[mandatory]),
-        parse_field("Date de naissance*", beneficiary, validators=[mandatory]),
+        parse_field(
+            "Date de naissance*", beneficiary, validators=[mandatory, date_format]
+        ),
         parse_field("Lieu de naissance*", beneficiary),
         parse_field("Téléphone", beneficiary),
         parse_field("Email", beneficiary),
@@ -132,6 +135,14 @@ def parse_field(col_name: str, line, validators=[]):
 def mandatory(field: str):
     if not field:
         return "A value must be provided"
+
+
+def date_format(field: str):
+    if field:
+        try:
+            datetime.datetime.strptime(field, "%Y-%m-%d")
+        except ValueError:
+            return "Incorrect date format, The date must be formated as: YYYY-MM-DD"
 
 
 async def file_to_json(
