@@ -77,6 +77,11 @@ def validate(beneficiary: dict) -> list[ParseError | FieldValue]:
         rqth = "AAH"
     else:
         rqth = "RQTH"
+    if "Numéro allocaire CAF/MSA" in beneficiary:
+        # Old mislabeled CSV column name for caf number. Kept for retrocompatibility.
+        no_alloc_caf = "Numéro allocaire CAF/MSA"
+    else:
+        no_alloc_caf = "Numéro allocataire CAF/MSA"
     return [
         parse_field("Identifiant dans le SI*", beneficiary, validators=[mandatory]),
         parse_field("Prénom*", beneficiary, validators=[mandatory]),
@@ -92,7 +97,7 @@ def validate(beneficiary: dict) -> list[ParseError | FieldValue]:
         parse_field("Code postal", beneficiary),
         parse_field("Ville", beneficiary),
         parse_field("Situation", beneficiary),
-        parse_field("Numéro allocaire CAF/MSA", beneficiary),
+        parse_field(no_alloc_caf, beneficiary),
         parse_field("Identifiant Pôle emploi", beneficiary),
         parse_field("Droits RSA", beneficiary),
         parse_field("Droits ARE", beneficiary),
