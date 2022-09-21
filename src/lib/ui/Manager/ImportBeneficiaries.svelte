@@ -95,11 +95,12 @@
 	let parseErrors = [];
 
 	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
+		parseErrors = [];
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
 			const formData = new FormData();
 			formData.append('upload_file', files[i]);
-			const parsedFile = await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
+			const parsingResponse = await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
 				method: 'POST',
 				body: formData,
 				headers: {
@@ -107,39 +108,44 @@
 					Accept: 'application/json; version=1.0',
 				},
 			});
-			let csv_lines = await parsedFile.json();
-			beneficiaries = csv_lines.map((line) => ({
-				uid: uuidv4(),
-				valid: line.filter((field) => field.error_messages).length === 0,
-				internalId: line[0].value,
-				firstname: line[1].value,
-				lastname: line[2].value,
-				dateOfBirth: line[3].value || '--',
-				placeOfBirth: line[4].value,
-				mobileNumber: line[5].value,
-				email: line[6].value,
-				address1: line[7].value,
-				address2: line[8].value,
-				postalCode: line[9].value,
-				city: line[10].value,
-				workSituation: line[11].value,
-				cafNumber: line[12].value,
-				peNumber: line[13].value,
-				rightRsa: line[14].value,
-				rightAre: line[15].value,
-				rightAss: line[16].value,
-				rightBonus: line[17].value,
-				rightRqth: line[18].value,
-				geographicalArea: line[19].value,
-				wantedJobs: line[20].value,
-				educationLevel: line[21].value,
-				structureNames: line[22].value || '',
-				proEmails: line[23].value || '',
-			}));
-			toImport = beneficiaries
-				.filter((beneficiary) => beneficiary.valid)
-				.map((beneficiary) => beneficiary.uid);
-			//fixme: handle bad file format
+			let responseBody = await parsingResponse.json();
+			if (parsingResponse.ok) {
+				beneficiaries = responseBody.map((line) => ({
+					uid: uuidv4(),
+					valid: line.filter((field) => field.error_messages).length === 0,
+					internalId: line[0].value,
+					firstname: line[1].value,
+					lastname: line[2].value,
+					dateOfBirth: line[3].value || '--',
+					placeOfBirth: line[4].value,
+					mobileNumber: line[5].value,
+					email: line[6].value,
+					address1: line[7].value,
+					address2: line[8].value,
+					postalCode: line[9].value,
+					city: line[10].value,
+					workSituation: line[11].value,
+					cafNumber: line[12].value,
+					peNumber: line[13].value,
+					rightRsa: line[14].value,
+					rightAre: line[15].value,
+					rightAss: line[16].value,
+					rightBonus: line[17].value,
+					rightRqth: line[18].value,
+					geographicalArea: line[19].value,
+					wantedJobs: line[20].value,
+					educationLevel: line[21].value,
+					structureNames: line[22].value || '',
+					proEmails: line[23].value || '',
+				}));
+				toImport = beneficiaries
+					.filter((beneficiary) => beneficiary.valid)
+					.map((beneficiary) => beneficiary.uid);
+			} else if (responseBody.detail) {
+				parseErrors.push(responseBody.detail);
+			} else {
+				parseErrors.push('Unknown error while parsing imported file');
+			}
 		}
 	}
 

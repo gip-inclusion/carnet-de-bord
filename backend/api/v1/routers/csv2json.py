@@ -124,7 +124,7 @@ def parse_field(col_name: str, line, validators=[]):
             {
                 "column_name": col_name,
                 "value": None,
-                "error_messages": ["Missing column"],
+                "error_messages": [f"Missing column {col_name}"],
             }
         )
 
