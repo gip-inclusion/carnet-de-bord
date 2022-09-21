@@ -1,3 +1,10 @@
+# [1.142.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.3...v1.142.0) (2022-09-21)
+
+
+### Features
+
+* add created_at / updated_at on wantedjob ([#1106](https://github.com/SocialGouv/carnet-de-bord/issues/1106)) ([c0b202f](https://github.com/SocialGouv/carnet-de-bord/commit/c0b202f8f0d0e1504b2a59da7ddb42407c33a3c3))
+
 ## [1.141.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.2...v1.141.3) (2022-09-21)
 
 
