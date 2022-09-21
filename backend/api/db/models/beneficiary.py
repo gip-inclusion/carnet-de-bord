@@ -26,7 +26,7 @@ class Beneficiary(BaseModel):
     internal_id: str | None
     notebook: Notebook | None
     # BRSA users may not have an account
-    # (account is created on the  first login attempt)
+    # (account is created on the first login attempt)
     account_id: UUID | None
 
 
