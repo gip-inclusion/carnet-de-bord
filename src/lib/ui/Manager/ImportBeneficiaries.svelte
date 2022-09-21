@@ -86,6 +86,37 @@
 		{}
 	);
 
+	$: beneficiaryFrom = (line) => {
+		return {
+			uid: uuidv4(),
+			valid: line.filter((field) => field.error_messages).length === 0,
+			internalId: line[0].value,
+			firstname: line[1].value,
+			lastname: line[2].value,
+			dateOfBirth: line[3].value || '--',
+			placeOfBirth: line[4].value,
+			mobileNumber: line[5].value,
+			email: line[6].value,
+			address1: line[7].value,
+			address2: line[8].value,
+			postalCode: line[9].value,
+			city: line[10].value,
+			workSituation: line[11].value,
+			cafNumber: line[12].value,
+			peNumber: line[13].value,
+			rightRsa: line[14].value,
+			rightAre: line[15].value,
+			rightAss: line[16].value,
+			rightBonus: line[17].value,
+			rightRqth: line[18].value,
+			geographicalArea: line[19].value,
+			wantedJobs: line[20].value,
+			educationLevel: line[21].value,
+			structureNames: line[22].value || '',
+			proEmails: line[23].value || '',
+		};
+	};
+
 	let files = [];
 	let beneficiaries: BeneficiaryImport[] = [];
 
@@ -108,36 +139,9 @@
 					Accept: 'application/json; version=1.0',
 				},
 			});
-			let responseBody = await parsingResponse.json();
+			const responseBody = await parsingResponse.json();
 			if (parsingResponse.ok) {
-				beneficiaries = responseBody.map((line) => ({
-					uid: uuidv4(),
-					valid: line.filter((field) => field.error_messages).length === 0,
-					internalId: line[0].value,
-					firstname: line[1].value,
-					lastname: line[2].value,
-					dateOfBirth: line[3].value || '--',
-					placeOfBirth: line[4].value,
-					mobileNumber: line[5].value,
-					email: line[6].value,
-					address1: line[7].value,
-					address2: line[8].value,
-					postalCode: line[9].value,
-					city: line[10].value,
-					workSituation: line[11].value,
-					cafNumber: line[12].value,
-					peNumber: line[13].value,
-					rightRsa: line[14].value,
-					rightAre: line[15].value,
-					rightAss: line[16].value,
-					rightBonus: line[17].value,
-					rightRqth: line[18].value,
-					geographicalArea: line[19].value,
-					wantedJobs: line[20].value,
-					educationLevel: line[21].value,
-					structureNames: line[22].value || '',
-					proEmails: line[23].value || '',
-				}));
+				beneficiaries = responseBody.map((line) => beneficiaryFrom(line));
 				toImport = beneficiaries
 					.filter((beneficiary) => beneficiary.valid)
 					.map((beneficiary) => beneficiary.uid);
