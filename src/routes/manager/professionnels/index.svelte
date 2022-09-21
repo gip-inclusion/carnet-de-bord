@@ -146,7 +146,7 @@
 						</td>
 
 						<td>
-							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
+							<Text value={account.onboardingDone ? 'Fait' : 'Non fait'} />
 						</td>
 						<td class="text-right">
 							<a
