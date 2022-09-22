@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { session } from '$app/stores';
 	import {
 		ImportBeneficiaryDocument,
 		GetProfessionalsForManagerDocument,
@@ -21,9 +22,9 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import { displayFullName } from '$lib/ui/format';
 	import * as keys from '$lib/constants/keys';
-	import { parseEntities } from '$lib/utils/importFileParser';
 	import { pluralize } from '$lib/helpers';
 	import { formatDateLocale } from '$lib/utils/date';
+	import { v4 as uuidv4 } from 'uuid';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
@@ -85,6 +86,37 @@
 		{}
 	);
 
+	$: beneficiaryFrom = (line) => {
+		return {
+			uid: uuidv4(),
+			valid: line.filter((field) => field.error_messages).length === 0,
+			internalId: line[0].value,
+			firstname: line[1].value,
+			lastname: line[2].value,
+			dateOfBirth: line[3].value || '--',
+			placeOfBirth: line[4].value,
+			mobileNumber: line[5].value,
+			email: line[6].value,
+			address1: line[7].value,
+			address2: line[8].value,
+			postalCode: line[9].value,
+			city: line[10].value,
+			workSituation: line[11].value,
+			cafNumber: line[12].value,
+			peNumber: line[13].value,
+			rightRsa: line[14].value,
+			rightAre: line[15].value,
+			rightAss: line[16].value,
+			rightBonus: line[17].value,
+			rightRqth: line[18].value,
+			geographicalArea: line[19].value,
+			wantedJobs: line[20].value,
+			educationLevel: line[21].value,
+			structureNames: line[22].value || '',
+			proEmails: line[23].value || '',
+		};
+	};
+
 	let files = [];
 	let beneficiaries: BeneficiaryImport[] = [];
 
@@ -93,19 +125,35 @@
 	let toImport = [];
 	let parseErrors = [];
 
-	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): void {
+	async function fileValidationApi(file) {
+		const formData = new FormData();
+		formData.append('upload_file', file);
+		return await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
+			method: 'POST',
+			body: formData,
+			headers: {
+				'jwt-token': $session.token,
+				Accept: 'application/json; version=1.0',
+			},
+		});
+	}
+
+	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): Promise<void> {
+		parseErrors = [];
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
-			parseEntities(
-				files[i],
-				'BeneficiaryImport',
-				headers,
-				({ entities, idToImport }: Record<string, unknown>, errors: string[]): void => {
-					beneficiaries = entities as BeneficiaryImport[];
-					toImport = idToImport as string[];
-					parseErrors = errors;
-				}
-			);
+			const parsingResponse = await fileValidationApi(files[i]);
+			const responseBody = await parsingResponse.json();
+			if (parsingResponse.ok) {
+				beneficiaries = responseBody.map((line) => beneficiaryFrom(line));
+				toImport = beneficiaries
+					.filter((beneficiary) => beneficiary.valid)
+					.map((beneficiary) => beneficiary.uid);
+			} else if (responseBody.detail) {
+				parseErrors.push(responseBody.detail);
+			} else {
+				parseErrors.push('Unknown error while parsing imported file');
+			}
 		}
 	}
 
