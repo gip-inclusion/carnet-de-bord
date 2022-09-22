@@ -125,20 +125,24 @@
 	let toImport = [];
 	let parseErrors = [];
 
+	async function fileValidationApi(file) {
+		const formData = new FormData();
+		formData.append('upload_file', file);
+		return await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
+			method: 'POST',
+			body: formData,
+			headers: {
+				'jwt-token': $session.token,
+				Accept: 'application/json; version=1.0',
+			},
+		});
+	}
+
 	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: Buffer[] }>): Promise<void> {
 		parseErrors = [];
 		files = event.detail.acceptedFiles;
 		for (let i = 0; i < files.length; i++) {
-			const formData = new FormData();
-			formData.append('upload_file', files[i]);
-			const parsingResponse = await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
-				method: 'POST',
-				body: formData,
-				headers: {
-					'jwt-token': $session.token,
-					Accept: 'application/json; version=1.0',
-				},
-			});
+			const parsingResponse = await fileValidationApi(files[i]);
 			const responseBody = await parsingResponse.json();
 			if (parsingResponse.ok) {
 				beneficiaries = responseBody.map((line) => beneficiaryFrom(line));
