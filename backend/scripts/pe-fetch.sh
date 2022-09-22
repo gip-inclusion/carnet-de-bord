@@ -14,7 +14,7 @@ chmod 600 *.pem
 
 echo "download files."
 # -1rt = one column, reverse order, time sort
-# tail -1 is use in case there is multiple file with the same name (I know, it's weird but it happenned)
+# tail -1 is used in case there are multiple files with the same name (I know, it's weird but it happened)
 $PRINCIPAL_FILE=$(echo "ls -1rt" | sftp -o "StrictHostKeyChecking accept-new"  -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE | grep principal | tail -1)
 sftp -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE/$PRINCIPAL_FILE .
 
