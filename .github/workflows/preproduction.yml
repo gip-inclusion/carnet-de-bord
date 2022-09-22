@@ -36,8 +36,8 @@ jobs:
         uses: SocialGouv/actions/autodevops-build-register@v1
         with:
           environment: preprod
-          dockerfile: frontend/Dockerfile
-          dockercontext: frontend
+          dockerfile: app/Dockerfile
+          dockercontext: app
           imageName: carnet-de-bord/app
           token: ${{ secrets.GITHUB_TOKEN }}
           dockerbuildargs: |
