@@ -122,7 +122,7 @@ def parse_field(col_name: str, line, validators=[]):
                 },
             )
 
-    except KeyError as e:
+    except KeyError:
         return ParseError.parse_obj(
             {
                 "column_name": col_name,
