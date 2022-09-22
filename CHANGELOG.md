@@ -1,3 +1,10 @@
+# [1.143.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.142.0...v1.143.0) (2022-09-22)
+
+
+### Features
+
+* add new endpoint to parse CSVs ([#1049](https://github.com/SocialGouv/carnet-de-bord/issues/1049)) ([#1060](https://github.com/SocialGouv/carnet-de-bord/issues/1060)) ([a5a148d](https://github.com/SocialGouv/carnet-de-bord/commit/a5a148db4b283ceb91070bef168a49f0eb0e0fa0))
+
 # [1.142.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.3...v1.142.0) (2022-09-21)
 
 
