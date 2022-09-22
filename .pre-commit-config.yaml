@@ -34,7 +34,7 @@ repos:
         files: ^frontend/.*$
         types_or: [javascript, ts, svelte]
         entry: |
-          bash -c 'for f; do printf "%s\0" "${f#*/}"; done | xargs -0 yarn --cwd frontend --silent prettier --write'
+          bash -c 'yarn --cwd frontend --silent prettier --write "${@#*/}"' --
 
       - id: eslint
         name: run eslint
@@ -43,7 +43,7 @@ repos:
         types_or: [javascript, ts, svelte]
         exclude: /_gen/
         entry: |
-          bash -c 'for f; do printf "%s\0" "${f#*/}"; done | xargs -0 yarn --cwd frontend --silent eslint'
+          bash -c 'yarn --cwd frontend --silent eslint "${@#*/}"' --
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: 'v8.0.0'
