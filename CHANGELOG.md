@@ -1,3 +1,10 @@
+## [1.143.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.143.0...v1.143.1) (2022-09-22)
+
+
+### Bug Fixes
+
+* update script synchro ([#1109](https://github.com/SocialGouv/carnet-de-bord/issues/1109)) ([90b8b1a](https://github.com/SocialGouv/carnet-de-bord/commit/90b8b1a88b539320da39a73673366dee603f8e41))
+
 # [1.143.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.142.0...v1.143.0) (2022-09-22)
 
 
