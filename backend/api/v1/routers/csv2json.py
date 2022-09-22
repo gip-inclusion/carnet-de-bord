@@ -43,12 +43,7 @@ logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 
-router = APIRouter(
-    dependencies=[
-        # Depends(manager_only),
-        # Depends(extract_deployment_id)
-    ]
-)
+router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
 
 
 class FieldValue(BaseModel):
