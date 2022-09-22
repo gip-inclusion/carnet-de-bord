@@ -6,7 +6,7 @@ metadata:
     application: carnet-de-bord
   name: pe-fetch-cronjob
 spec:
-  schedule: 0 0 * * 5
+  schedule: 0 6 * * 5
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
