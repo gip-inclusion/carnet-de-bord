@@ -6,7 +6,7 @@ metadata:
     application: carnet-de-bord
   name: pe-parse-cronjob
 spec:
-  schedule: 0 23 * * 4
+  schedule: 0 7 * * 5
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:

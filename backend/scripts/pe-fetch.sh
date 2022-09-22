@@ -13,7 +13,10 @@ echo -e "$PE_FILE_KEY" > pe_file.pem
 chmod 600 *.pem
 
 echo "download files."
-sftp -o "StrictHostKeyChecking accept-new"  -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE/principal .
+# -1rt = one column, reverse order, time sort
+# tail -1 is used in case there are multiple files with the same name (I know, it's weird but it happened)
+$MAIN_FILE=$(echo "ls -1rt" | sftp -o "StrictHostKeyChecking accept-new"  -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE | grep principal | tail -1)
+sftp -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE/$MAIN_FILE .
 
 # Processing of the "actions" file is disabled for now because it is too large to be decrypted
 # by "openssl smime". See https://marc.info/?l=openssl-users&m=138545785012939
