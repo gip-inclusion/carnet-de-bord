@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import { post } from '$lib/utils/post';
 	import {
 		GetAccountsSummaryQuery,
@@ -6,36 +6,29 @@
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { GetAccountsSummaryDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { Load } from '@sveltejs/kit';
-	import { OperationStore, query } from '@urql/svelte';
+	import { query } from '@urql/svelte';
 	import { operationStore } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
-	export const load: Load = async () => {
-		const result = operationStore(GetAccountsSummaryDocument, {});
-
-		return {
-			props: {
-				result,
-			},
-		};
-	};
-</script>
-
-<script lang="ts">
+	import { baseUrlForRole } from '$lib/routes';
 	import { Button, IconButton } from '$lib/ui/base';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
-	export let result: OperationStore<GetAccountsSummaryQuery>;
 
-	query(result);
+	const proStore = operationStore(
+		GetAccountsSummaryDocument,
+		{},
+		{ additionalTypenames: ['notebook_member'] }
+	);
+
+	query(proStore);
 
 	let accounts: AccountSummary[];
-	$: accounts = $result.data?.accounts.map(toList) || [];
+	$: accounts = $proStore.data?.accounts.map(toList) || [];
 
 	async function confirmAccount(id: string) {
 		await post(`/manager/confirmPro`, { id });
-		$result.reexecute({ requestPolicy: 'network-only' });
+		$proStore.reexecute({ requestPolicy: 'network-only' });
 	}
 
 	let emails: Record<string, undefined | 'ToConfirm' | 'Sending' | 'Failed' | 'Sent'> = {};
@@ -117,7 +110,7 @@
 	<title>Gestion des professionnels - Carnet de bord</title>
 </svelte:head>
 
-<LoaderIndicator {result}>
+<LoaderIndicator result={proStore}>
 	<div class={`w-full fr-table fr-table--layout-fixed fr-mt-6w`}>
 		<table>
 			<caption class="sr-only">Liste des professionnels</caption>
@@ -136,6 +129,7 @@
 			</thead>
 			<tbody>
 				{#each accounts as account (account.id)}
+					{@const hasNoBeneficiary = account.nbBeneficiaries === 0}
 					<tr>
 						<td>
 							<Text value={displayFullName(account)} />
@@ -152,16 +146,17 @@
 						</td>
 
 						<td>
-							<Text value={account.onboardingDone ? 'Fait' : 'Pas fait'} />
+							<Text value={account.onboardingDone ? 'Fait' : 'Non fait'} />
 						</td>
 						<td class="text-right">
-							<p
-								class="fr-badge"
-								class:fr-badge--brown-caramel={account.nbBeneficiaries === 0}
-								class:fr-badge--blue-ecume={account.nbBeneficiaries > 0}
+							<a
+								href={`${baseUrlForRole(RoleEnum.Manager)}/beneficiaires?member=${account.email}`}
+								title={`liste des bénéficiaires de ${account.firstname} ${account.lastname}`}
+								class="fr-tag fr-tag-sm"
+								class:fr-tag--purple-glycine={hasNoBeneficiary}
 							>
 								{account.nbBeneficiaries}
-							</p>
+							</a>
 						</td>
 						<td class="text-center">
 							{#if !account.confirmed}

@@ -31,7 +31,7 @@ const client = createClient({
 });
 
 const loginSchema = yup.object().shape({
-	username: yup.string().required(),
+	username: yup.string().lowercase().trim().required(),
 });
 type Login = yup.InferType<typeof loginSchema>;
 

@@ -18,7 +18,7 @@
 
 <svelte:window on:keydown={handleKeyDown} />
 {#if currentLayer}
-	<div transition:fade on:click={close} class="!m-0 z-1 fixed inset-0">
+	<div transition:fade on:click={close} class="!m-0 fixed inset-0 layer">
 		<div class="absolute inset-0 bg-black opacity-50" tabindex="0" />
 	</div>
 {/if}
@@ -26,7 +26,7 @@
 {#if currentLayer}
 	<div
 		transition:fly={{ duration: 300, x: 300 }}
-		class="!m-0 top-0 right-0 w-1/2 bg-white fixed h-full overflow-y-scroll layer overscroll-contain"
+		class="!m-0 top-0 right-0 w-1/2 bg-white fixed h-full overflow-y-scroll overscroll-contain layer"
 	>
 		<div class="flex flex-col gap-6 mx-14 mt-28 mb-14" role="dialog" tabindex="-1">
 			<svelte:component this={currentLayer.component} {...currentLayer.props} />
@@ -43,6 +43,6 @@
 
 <style>
 	.layer {
-		z-index: 1;
+		z-index: 500;
 	}
 </style>

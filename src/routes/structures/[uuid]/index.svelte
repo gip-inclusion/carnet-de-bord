@@ -64,6 +64,7 @@
 		{
 			label: pluralize('Professionnel', structure?.professionals_aggregate?.aggregate?.count ?? 0),
 			amount: structure?.professionals_aggregate?.aggregate?.count ?? 0,
+			link: `${structureId}/professionnels`,
 		},
 		{
 			label: `${pluralize('Bénéficiaire', beneficiaries)} ${pluralize(

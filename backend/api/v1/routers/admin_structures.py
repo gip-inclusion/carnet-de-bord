@@ -1,21 +1,20 @@
 import logging
-import uuid
-from http.client import HTTPException
+from typing import Tuple
+from uuid import UUID
 
-from fastapi import APIRouter, BackgroundTasks, Depends
+from asyncpg.exceptions import UniqueViolationError
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 
 from api.core.emails import generic_account_creation_email
 from api.core.init import connection
 from api.core.settings import settings
-from api.db.crud.account import (
-    create_username,
-    get_accounts_with_query,
-    insert_admin_structure_account,
-)
 from api.db.crud.admin_structure import (
-    insert_admin_structure,
+    InsertFailError,
+    create_admin_structure_with_account,
+    get_admin_structure_with_query,
     insert_admin_structure_structure,
 )
+from api.db.models.account import AccountDB
 from api.db.models.admin_structure import AdminStructure, AdminStructureStructureInput
 from api.db.models.role import RoleEnum
 from api.sendmail import send_mail
@@ -35,61 +34,80 @@ async def create_admin_structure(
     db=Depends(connection),
 ):
     async with db.transaction():
-        admin_structure = await insert_admin_structure(connection=db, data=data.admin)
-        if admin_structure is None:
-            raise HTTPException(status_code=500, detail="insert admin_structure failed")
-
-        email_username = data.admin.email.split("@")[0].lower()
-
-        accounts = await get_accounts_with_query(
+        admin_structure: AdminStructure | None = await get_admin_structure_with_query(
             db,
             """
-            WHERE account.username like $1
+            , public.account
+            WHERE account.admin_structure_id = admin_structure.id
+            AND admin_structure.email = $1
             """,
-            email_username + "%",
+            data.admin.email,
         )
+        if not admin_structure:
+            try:
+                account_admin_tuple: Tuple[
+                    AccountDB, AdminStructure
+                ] = await create_admin_structure_with_account(db, data)
+                account, admin_structure = account_admin_tuple
 
-        username = create_username(
-            email_username, [account.username for account in accounts]
-        )
+                background_tasks.add_task(
+                    send_invitation_email,
+                    email=admin_structure.email,
+                    firstname=admin_structure.firstname,
+                    lastname=admin_structure.lastname,
+                    access_key=account.access_key,
+                )
 
-        account = await insert_admin_structure_account(
-            connection=db,
-            admin_structure_id=admin_structure.id,
-            confirmed=True,
-            username=username,
-        )
+            except InsertFailError as error:
+                logging.error(error)
+                raise HTTPException(
+                    status_code=500,
+                    detail=error,
+                ) from error
 
-        if not account:
-            logging.error(f"Insert account failed")
-            raise HTTPException(status_code=500, detail="insert account failed")
+            except Exception as error:
+                logging.error(error)
+                raise HTTPException(
+                    status_code=500, detail="fail to create admin structure structure"
+                ) from error
+        try:
 
-        ass_id = await insert_admin_structure_structure(
-            connection=db,
-            admin_structure_id=admin_structure.id,
-            structure_id=data.structure_id,
-        )
-
-        if not ass_id:
-            logging.error(f"Insert admin_structure_structure failed")
-            raise HTTPException(
-                status_code=500,
-                detail="insert admin_structure_structure failed",
+            ass_id: UUID | None = await insert_admin_structure_structure(
+                connection=db,
+                admin_structure_id=admin_structure.id,
+                structure_id=data.structure_id,
             )
 
-        background_tasks.add_task(
-            send_invitation_email,
-            email=admin_structure.email,
-            firstname=admin_structure.firstname,
-            lastname=admin_structure.lastname,
-            access_key=account.access_key,
-        )
+            if not ass_id:
+                logging.error(f"Insert admin_structure_structure failed")
+                raise HTTPException(
+                    status_code=500,
+                    detail="insert admin_structure_structure failed",
+                )
+            return admin_structure
 
-        return admin_structure
+        except UniqueViolationError as error:
+            logging.error(
+                "uniqueness violation fail for insert admin_structure_structure: {}".format(
+                    error
+                )
+            )
+            raise HTTPException(
+                status_code=422,
+                detail="impossible to associate given admin with given structure: relationship already exists",
+            ) from error
+        except Exception as error:
+            logging.error("insert fail {}".format(error))
+            raise HTTPException(
+                status_code=500, detail="fail to create admin structure structure"
+            ) from error
 
 
 def send_invitation_email(
-    email: str, firstname: str | None, lastname: str | None, access_key: uuid.UUID
+    email: str, firstname: str | None, lastname: str | None, access_key: UUID
 ) -> None:
+    """
+    gestion de l'envoi de mail depuis un template
+    """
     message = generic_account_creation_email(email, firstname, lastname, access_key)
     send_mail(email, "Création de compte sur Carnet de bord", message)

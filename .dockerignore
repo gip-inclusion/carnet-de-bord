@@ -1,5 +1,4 @@
 .svelte-kit
-.husky
 build
 e2e
 Dockerfile

@@ -11,7 +11,7 @@ class NotebookMemberInsert(BaseModel):
     last_visited_at: datetime | None = None
     member_type: str
     last_modified_at: datetime | None = None
-    creator_id: datetime | None = None
+    creator_id: UUID | None = None
     invitation_sent_at: datetime | None = None
     active: bool | None = None
 

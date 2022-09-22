@@ -96,11 +96,6 @@ Quand('je renseigne {string} dans le champ {string}', (text, input) => {
 });
 
 Quand('je renseigne la date {string} dans le champ {string}', async (date, input) => {
-	const language = await I.executeScript(() => navigator.language);
-	if (language === 'en-US') {
-		const splitDate = date.split('/');
-		date = `${splitDate[1]}/${splitDate[0]}/${splitDate[2]}`;
-	}
 	I.fillField(input, date);
 });
 
@@ -110,6 +105,10 @@ Quand('je clique sur {string}', (text) => {
 
 Quand('je clique sur {string} dans le volet', (text) => {
 	I.click(text, '[role=dialog]');
+});
+
+Quand('je clique sur le bouton {string}', (text) => {
+	I.click(`button[title="${text}"]`);
 });
 
 Quand('je clique sur le texte {string}', async (text) => {
@@ -200,8 +199,8 @@ Alors('je vois que bouton {string} est désactivé', (text) => {
 	I.seeElement(`//button[text()="${text}" and @disabled]`);
 });
 
-Alors('je vois {string} fois le {string} {string}', (num, element, text) => {
-	I.seeNumberOfVisibleElements(`//${element}[contains(., "${text}")]`, parseInt(num, 10));
+Alors('je vois {int} fois le {string} {string}', (num, element, text) => {
+	I.seeNumberOfVisibleElements(`//${element}[contains(., "${text}")]`, num);
 });
 
 Alors('je vois {string} suggestions', (num) => {
@@ -295,4 +294,8 @@ Before(async (params) => {
 
 After((params) => {
 	setupAfterFixturesByTags(params.tags);
+});
+
+Alors('je vois la colonne {string}', (text) => {
+	I.seeElement(`//th[contains(., "${text}")]`);
 });

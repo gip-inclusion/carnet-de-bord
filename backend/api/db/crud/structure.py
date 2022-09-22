@@ -7,6 +7,8 @@ from asyncpg.connection import Connection
 from api.db.models.structure import Structure, StructureInsert
 from pe.models.agence import Agence
 
+STRUCTURE_BASE_QUERY = "SELECT structure.* FROM public.structure "
+
 
 def parse_structure_from_record(record: Record) -> Structure:
     return Structure.parse_obj(record)
@@ -53,16 +55,29 @@ async def get_structure_with_query(
 ) -> Structure | None:
 
     record: Record | None = await connection.fetchrow(
-        """
-        SELECT structure.* FROM public.structure {query}
-        """.format(
-            query=query
-        ),
+        STRUCTURE_BASE_QUERY + query,
         *args,
     )
 
     if record:
         return parse_structure_from_record(record)
+
+
+async def get_structures_with_query(
+    connection: Connection, query: str, *args
+) -> list[Structure]:
+    async with connection.transaction():
+
+        records: list[Record] = await connection.fetch(
+            STRUCTURE_BASE_QUERY + query,
+            *args,
+        )
+
+        return [parse_structure_from_record(record) for record in records]
+
+
+async def get_structures(connection: Connection) -> list[Structure]:
+    return await get_structures_with_query(connection, "")
 
 
 async def create_structure_from_agences_list(
@@ -82,8 +97,8 @@ async def create_structure_from_agences_list(
         postal_code, city = agence.adressePrincipale.ligne6.split(" ", 1)
         structure_insert = StructureInsert(
             siret=agence.siret,
-            name=agence.libelle,
-            short_desc=agence.libelleEtendu,
+            name=agence.libelleEtendu,
+            short_desc=agence.libelle,
             phone=agence.contact.telephonePublic,
             email=agence.contact.email,
             postal_code=postal_code,
@@ -93,6 +108,8 @@ async def create_structure_from_agences_list(
             deployment_id=deployment_id,
             website=None,
         )
+
+        logging.info("Creating Agence '{}'.".format(label))
 
         return await insert_structure(connection, structure_insert)
     else:

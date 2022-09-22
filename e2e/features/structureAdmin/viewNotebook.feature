@@ -2,7 +2,7 @@
 
 @admin_structure_notebook_view
 Fonctionnalité: Consultation d'un carnet par un manager
-	En tant que maanger
+	En tant que manager
 	Je veux voir le carnet d'un bénéficiaire
 
 	Scénario: voir un carnet

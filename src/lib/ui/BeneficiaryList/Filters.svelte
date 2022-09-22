@@ -20,10 +20,11 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import { Select } from '$lib/ui/base';
+	import { Button, Select } from '$lib/ui/base';
 
 	export let filter: string;
 	export let search: string;
+	export let member: string;
 
 	const dispatch = createEventDispatcher();
 
@@ -39,6 +40,9 @@
 
 	function updateFilters(event: CustomEvent<{ selected: MemberFilter }>) {
 		dispatch('filter-update', { filter: event.detail.selected, search: search.trim() });
+	}
+	function removeMemberFilter() {
+		dispatch('filter-update', { resetMember: true, filter, search });
 	}
 </script>
 
@@ -67,4 +71,16 @@
 			<button class="fr-btn"> Rechercher </button>
 		</div>
 	</div>
+	{#if member}
+		<p class="flex items-center gap-4 font-medium fr-mt-2w">
+			<span>
+				{member}
+			</span>
+			<Button
+				icon="fr-icon-close-line"
+				on:click={removeMemberFilter}
+				classNames="fr-btn fr-btn--tertiary-no-outline fr-btn--sm">Supprimer le filtre</Button
+			>
+		</p>
+	{/if}
 </form>

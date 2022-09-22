@@ -3,6 +3,7 @@ import json
 import logging
 from uuid import UUID
 
+import sentry_sdk
 import typer
 from asyncpg.connection import Connection
 
@@ -12,6 +13,8 @@ from api.db.crud.notebook import get_notebooks_by_structure_id
 from api.db.crud.out import notebook_to_out
 from api.db.models.notebook import Notebook
 from api.db.models.out import NotebookOut
+
+sentry_sdk.init()
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 

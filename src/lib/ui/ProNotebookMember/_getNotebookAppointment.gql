@@ -1,10 +1,14 @@
 query GetNotebookAppointments($memberAccountId: uuid, $notebookId: uuid) {
-	getNotebookAppointments: notebook_appointment(
-		where: { memberAccountId: { _eq: $memberAccountId }, notebookId: { _eq: $notebookId } }
-		order_by: { date: desc }
-	) {
-		date
-		id
-		status
-	}
+  getNotebookAppointments: notebook_appointment(
+    where: {
+      memberAccountId: { _eq: $memberAccountId },
+      notebookId: { _eq: $notebookId },
+      deleted_at: { _is_null: true },
+    }
+    order_by: { date: desc }
+  ) {
+    date
+    id
+    status
+  }
 }

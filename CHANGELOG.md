@@ -1,3 +1,129 @@
+# [1.142.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.3...v1.142.0) (2022-09-21)
+
+
+### Features
+
+* add created_at / updated_at on wantedjob ([#1106](https://github.com/SocialGouv/carnet-de-bord/issues/1106)) ([c0b202f](https://github.com/SocialGouv/carnet-de-bord/commit/c0b202f8f0d0e1504b2a59da7ddb42407c33a3c3))
+
+## [1.141.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.2...v1.141.3) (2022-09-21)
+
+
+### Bug Fixes
+
+* use same wording on onboarding ([#1107](https://github.com/SocialGouv/carnet-de-bord/issues/1107)) ([ccac54e](https://github.com/SocialGouv/carnet-de-bord/commit/ccac54e64422f71b35b37aa812af4f1eed42abe6))
+
+## [1.141.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.1...v1.141.2) (2022-09-20)
+
+
+### Bug Fixes
+
+* pe-fetch: disable downloading and decrypting of actions.csv ([#1103](https://github.com/SocialGouv/carnet-de-bord/issues/1103)) ([89ab55d](https://github.com/SocialGouv/carnet-de-bord/commit/89ab55d6ab7ada8917d3333e0a828df085386a8c))
+
+## [1.141.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.141.0...v1.141.1) (2022-09-20)
+
+
+### Bug Fixes
+
+* Ne pas considérer les espaces avant / après lors de la connexion. ([#1101](https://github.com/SocialGouv/carnet-de-bord/issues/1101)) ([7c25512](https://github.com/SocialGouv/carnet-de-bord/commit/7c25512a4473687dc9aa3d1f6e95491862c5797e))
+
+# [1.141.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.140.0...v1.141.0) (2022-09-20)
+
+
+### Features
+
+* filter beneficiary list with a  notebook member ([#1087](https://github.com/SocialGouv/carnet-de-bord/issues/1087)) ([a0e876d](https://github.com/SocialGouv/carnet-de-bord/commit/a0e876d7bda97aaaed3d603fdb2997c193846bfd))
+
+# [1.140.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.3...v1.140.0) (2022-09-19)
+
+
+### Features
+
+* [Gestionnaire de structure] Afficher la liste des professionnels d'une structure. ([#1089](https://github.com/SocialGouv/carnet-de-bord/issues/1089)) ([52f8d22](https://github.com/SocialGouv/carnet-de-bord/commit/52f8d2242083162737a1c0c35a4657168852268d))
+
+## [1.139.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.2...v1.139.3) (2022-09-19)
+
+
+### Bug Fixes
+
+* rename aah into rqth ([#1084](https://github.com/SocialGouv/carnet-de-bord/issues/1084)) ([8339e91](https://github.com/SocialGouv/carnet-de-bord/commit/8339e912a4729381e124f94732071c6eacfa8d53))
+
+## [1.139.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.1...v1.139.2) (2022-09-14)
+
+
+### Bug Fixes
+
+* ajout de Sentry aux scripts Python ([#1086](https://github.com/SocialGouv/carnet-de-bord/issues/1086)) ([023ce7f](https://github.com/SocialGouv/carnet-de-bord/commit/023ce7f6041860875a14e1e7ecb5838522321e8d))
+
+## [1.139.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.139.0...v1.139.1) (2022-09-14)
+
+
+### Bug Fixes
+
+* intervertir le libellé et le libellé étendu lors de l'import d'une structure ([#1082](https://github.com/SocialGouv/carnet-de-bord/issues/1082)) ([3f8b1af](https://github.com/SocialGouv/carnet-de-bord/commit/3f8b1af2c449936f4050796f90eba19cae8f9935))
+
+# [1.139.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.2...v1.139.0) (2022-09-13)
+
+
+### Features
+
+* Ajout de la possiblité de supprimer un RDV par un pro ([#1075](https://github.com/SocialGouv/carnet-de-bord/issues/1075)) ([4193da9](https://github.com/SocialGouv/carnet-de-bord/commit/4193da9a7ee3c828220a536cfa6f20040742d43a))
+
+## [1.138.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.1...v1.138.2) (2022-09-12)
+
+
+### Bug Fixes
+
+* correction du type de creator_id des membres ([#1081](https://github.com/SocialGouv/carnet-de-bord/issues/1081)) ([340ab3e](https://github.com/SocialGouv/carnet-de-bord/commit/340ab3ec10d2e4b1e73996fa3680c6600d058286))
+
+## [1.138.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.138.0...v1.138.1) (2022-09-12)
+
+
+### Bug Fixes
+
+* vérification de l'existence d'une action dans le parsing ([#1077](https://github.com/SocialGouv/carnet-de-bord/issues/1077)) ([9affb8c](https://github.com/SocialGouv/carnet-de-bord/commit/9affb8c37123eaa4ab294a0526a112aa2d9cfda0))
+
+# [1.138.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.137.0...v1.138.0) (2022-09-09)
+
+
+### Features
+
+* Extraire la donnée RQTH de la section des "Droits" ([#1072](https://github.com/SocialGouv/carnet-de-bord/issues/1072)) ([8c407f3](https://github.com/SocialGouv/carnet-de-bord/commit/8c407f373768db0be99410cf6972d2349ebf69c7))
+
+# [1.137.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.2...v1.137.0) (2022-09-08)
+
+
+### Features
+
+* Ajoute la date de naissance dans la liste des bénéficiaires pour un admin. ([#1065](https://github.com/SocialGouv/carnet-de-bord/issues/1065)) ([77ce030](https://github.com/SocialGouv/carnet-de-bord/commit/77ce03060e5fc04fab36cb76a4aeb3f8c7dd876c))
+
+## [1.136.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.1...v1.136.2) (2022-09-08)
+
+
+### Bug Fixes
+
+* allow add existing admin to structure ([#1061](https://github.com/SocialGouv/carnet-de-bord/issues/1061)) ([404c14e](https://github.com/SocialGouv/carnet-de-bord/commit/404c14e6ff5215aef1f6dd236d006f6bd8cd9b0c))
+
+## [1.136.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.136.0...v1.136.1) (2022-09-08)
+
+
+### Bug Fixes
+
+* [Chargé d'orientation] Changer le wording de la colonne orientation existante ([#1064](https://github.com/SocialGouv/carnet-de-bord/issues/1064)) ([fa19b89](https://github.com/SocialGouv/carnet-de-bord/commit/fa19b89b270409a71969e6fa884325cc42558d57))
+
+# [1.136.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.135.1...v1.136.0) (2022-09-07)
+
+
+### Features
+
+* add rdv schedule time ([#1048](https://github.com/SocialGouv/carnet-de-bord/issues/1048)) ([eae706e](https://github.com/SocialGouv/carnet-de-bord/commit/eae706ed6154450cf5284957a2ba95e5f67e2de2))
+
+## [1.135.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.135.0...v1.135.1) (2022-09-07)
+
+
+### Bug Fixes
+
+* display that RSA is not defined when RSA rights are null ([#1056](https://github.com/SocialGouv/carnet-de-bord/issues/1056)) ([37236af](https://github.com/SocialGouv/carnet-de-bord/commit/37236af9d8c939d3891bc9721e80e704ad81c8a5))
+
 # [1.135.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.134.3...v1.135.0) (2022-09-07)
 
 

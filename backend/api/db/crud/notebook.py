@@ -199,6 +199,9 @@ async def add_action_to_target(
     target_record_prefix: str = "nt_",
 ) -> None:
 
+    if record[record_prefix + "id"] is None:
+        return
+
     target: Target | None = await find_target_from_notebook(
         notebook,
         record[target_record_prefix + "focus_id"],
