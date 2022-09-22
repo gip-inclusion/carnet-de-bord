@@ -27,7 +27,6 @@ cd carnet-de-bord
 **2/** Créer et adapter les fichiers d'environnement
 
 ```sh
-cp .env.sample .env
 cp frontend/.env.sample frontend/.env
 ````
 
@@ -47,7 +46,7 @@ pre-commit install # installer les hooks Git
 L'application repose sur Hasura et PostgreSQL. Une [stack docker-compose](./docker-compose.yaml) est maintenue par l'équipe pour instancier et démarrer ces services.
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 **5/** Alimenter la base de données
