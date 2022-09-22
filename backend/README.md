@@ -12,7 +12,7 @@ poetry install
 ## Api
 
 ```sh
-ENV_FILE=../../../frontend/.env poetry run uvicorn --reload api.main:app
+ENV_FILE=../app/.env poetry run uvicorn --reload api.main:app
 ```
 
 ### Documentation

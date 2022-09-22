@@ -100,7 +100,7 @@ cd $ROOT_DIR
 function start_svelte() {
   >&2 echo "-> Starting Svelte kit"
 
-  cd frontend
+  cd app
   # Start dev server
   # Need to listen on all addresses (0.0.0.0) to be reachable from Hasura in Docker on all platforms.
   # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
@@ -135,7 +135,7 @@ function start_backend() {
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
   >&2 echo "-> Starting Jest tests"
-	(cd frontend && npx jest "$@")
+	(cd app && npx jest "$@")
 fi
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then

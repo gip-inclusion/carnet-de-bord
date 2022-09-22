@@ -31,7 +31,7 @@ query SearchBeneficiaries($filter: String) {
 on génère les types avec `codegen`
 
 ```sh
-# depuis le répertoire frontend
+# depuis le répertoire app
 yarn codegen
 ```
 

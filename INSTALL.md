@@ -27,19 +27,19 @@ cd carnet-de-bord
 **2/** Créer et adapter les fichiers d'environnement
 
 ```sh
-cp frontend/.env.sample frontend/.env
+cp app/.env.sample app/.env
 ````
 
 **3/** Récupérer les dépendances du projet
 
 ```sh
-cd frontend
+cd app
 yarn # installer les dépendances de l'application
 cd -
 pre-commit install # installer les hooks Git
 ```
 
-> ℹ️ Parmi les dépendances de développement du projet (cf. [package.json](./frontend/package.json)), on retrouve la CLI Hasura, utile pour l'étape #5.
+> ℹ️ Parmi les dépendances de développement du projet (cf. [package.json](./app/package.json)), on retrouve la CLI Hasura, utile pour l'étape #5.
 
 **4/** Démarrer les composants tiers
 
@@ -68,7 +68,7 @@ hasura console --envfile ../.env # lancer la console hasura en utilisant les var
 Dans un troisième terminal :
 
 ```sh
-cd frontend
+cd app
 yarn dev # démarrer le serveur de développement SvelteKit
 ```
 
