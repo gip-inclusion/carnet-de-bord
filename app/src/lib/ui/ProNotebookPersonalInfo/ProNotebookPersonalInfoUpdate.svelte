@@ -3,7 +3,7 @@
 		Beneficiary,
 		UpdateBeneficiaryPersonalInfoDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { openComponent } from '$lib/stores';
+	import { account, openComponent } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button } from '$lib/ui/base';
 	import {
@@ -14,6 +14,7 @@
 	import ProBeneficiaryUpdateFields from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
 	import Input from '$lib/ui/forms/Input.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
+	import type { Field } from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
 
 	export let beneficiary: Pick<
 		Beneficiary,
@@ -60,6 +61,13 @@
 	function onCancel() {
 		openComponent.close();
 	}
+
+	function hiddenFields(): Field[] {
+		if ($account.type === 'adminStructure' || $account.type === 'adminCdb') {
+			return [];
+		}
+		return ['firstname', 'lastname', 'date-of-birth'];
+	}
 </script>
 
 <section>
@@ -68,7 +76,7 @@
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<Form {initialValues} validationSchema={beneficiaryAccountSchema} onSubmit={updateBeneficiary}>
-		<ProBeneficiaryUpdateFields />
+		<ProBeneficiaryUpdateFields hiddenFields={hiddenFields()} />
 		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />
 		<Input name="cafNumber" placeholder={'123456789A'} inputLabel={'Identifiant CAF/MSA'} />
 		<div class="flex flex-row gap-6 pt-4 pb-12">
