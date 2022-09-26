@@ -34,7 +34,7 @@ async def get_structure_by_name(connection: Connection, name: str) -> Structure 
     return await get_structure_with_query(
         connection,
         """
-        WHERE name=$1
+        WHERE trim(lower(name))=trim(lower($1))
         """,
         name,
     )
