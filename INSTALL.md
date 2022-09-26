@@ -7,9 +7,9 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 - docker (version 20.10.5)
 - docker-compose (version 1.29.0)
 - node (version 16)
-- hasura-cli (version 2.0.2)
+- hasura-cli (latest)
 - pre-commit https://pre-commit.com
-- poetry (1.1.14)
+- poetry (1.1.13)
 
 > ℹ️️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
 
