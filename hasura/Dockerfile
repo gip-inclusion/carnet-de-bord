@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v2.8.3.cli-migrations-v3
+FROM hasura/graphql-engine:v2.12.0-ce.cli-migrations-v3
 
 ENV HASURA_GRAPHQL_ENABLE_TELEMETRY=false
 ENV HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false
