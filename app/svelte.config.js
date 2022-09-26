@@ -3,6 +3,7 @@ import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-node';
 
 const config = {
+	env: { dir: '..' },
 	kit: {
 		csp: {
 			mode: 'auto',

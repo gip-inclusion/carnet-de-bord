@@ -31,7 +31,7 @@ query SearchBeneficiaries($filter: String) {
 on génère les types avec `codegen`
 
 ```sh
-# depuis le répertoire racine
+# depuis le répertoire app
 yarn codegen
 ```
 
@@ -72,7 +72,7 @@ Les migrations sont appliquées automatiquement au lancement de hasura
 
 ```sh
 # depuis le répertoire racine
-docker-compose up --build
+docker compose up --build
 ```
 
 ## Pratiques de l'équipe
@@ -96,7 +96,7 @@ Pour la preprod, nous utilisons [mailtrap](https://mailtrap.io) (demander l'acc�
 #### Exécuter un fichier de migration directement via postgres
 
 ```sh
-docker-compose exec -T db psql --dbname carnet_de_bord --user cdb  < hasura/migrations/carnet_de_bord/${migration_name}/${up|down}.sql
+docker compose exec -T db psql --dbname carnet_de_bord --user cdb  < hasura/migrations/carnet_de_bord/${migration_name}/${up|down}.sql
 ```
 
 #### Faire une requête GraphQL portant sur une absence de relation

@@ -41,7 +41,7 @@ jobs:
 
       - name: Run pytest
         run: |
-          cp .env.test.sample .env.test
+          cp app/.env.test.sample app/.env.test
           ./scripts/launch_tests.sh python
 
   ##############################################################################
@@ -63,8 +63,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install --prefer-offline --frozen-lockfile
-          yarn --cwd e2e install --prefer-offline --frozen-lockfile
+          cd app && yarn install --prefer-offline --frozen-lockfile && cd -
+          cd e2e && yarn install --prefer-offline --frozen-lockfile && cd -
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
@@ -85,7 +85,7 @@ jobs:
 
       - name: Run test e2e
         run: |
-          cp .env.test.sample .env.test
+          cp app/.env.test.sample app/.env.test
           ./scripts/launch_tests.sh e2e
 
       - name: Copy artifact
@@ -110,9 +110,11 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: yarn
+          cache-dependency-path: 'app/yarn.lock'
 
       - name: Install dependencies
         run: |
+          cd app
           yarn install --prefer-offline --frozen-lockfile
 
       - name: Install Hasura CLI
@@ -122,5 +124,5 @@ jobs:
 
       - name: Run functional tests
         run: |
-          cp .env.test.sample .env.test
+          cp app/.env.test.sample app/.env.test
           ./scripts/launch_tests.sh js

@@ -24,27 +24,29 @@ git clone git@github.com:SocialGouv/carnet-de-bord.git
 cd carnet-de-bord
 ```
 
-**2/** Créer et adapter le fichier d'environnement
+**2/** Créer et adapter les fichiers d'environnement
 
 ```sh
-cp .env.sample .env
+cp app/.env.sample app/.env
 ````
 
 **3/** Récupérer les dépendances du projet
 
 ```sh
+cd app
 yarn # installer les dépendances de l'application
+cd -
 pre-commit install # installer les hooks Git
 ```
 
-> ℹ️ Parmi les dépendances de développement du projet (cf. [package.json](./package.json)), on retrouve la CLI Hasura, utile pour l'étape #5.
+> ℹ️ Parmi les dépendances de développement du projet (cf. [package.json](./app/package.json)), on retrouve la CLI Hasura, utile pour l'étape #5.
 
 **4/** Démarrer les composants tiers
 
 L'application repose sur Hasura et PostgreSQL. Une [stack docker-compose](./docker-compose.yaml) est maintenue par l'équipe pour instancier et démarrer ces services.
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 **5/** Alimenter la base de données
@@ -66,6 +68,7 @@ hasura console --envfile ../.env # lancer la console hasura en utilisant les var
 Dans un troisième terminal :
 
 ```sh
+cd app
 yarn dev # démarrer le serveur de développement SvelteKit
 ```
 

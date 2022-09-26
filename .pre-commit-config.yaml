@@ -31,15 +31,19 @@ repos:
       - id: prettier
         name: run prettier
         language: system
+        files: ^app/.*$
         types_or: [javascript, ts, svelte]
-        entry: yarn --silent prettier --loglevel silent --write
+        entry: |
+          bash -c 'yarn --cwd app --silent prettier --write "${@#*/}"' --
 
       - id: eslint
         name: run eslint
         language: system
+        files: ^app/.*$
         types_or: [javascript, ts, svelte]
         exclude: /_gen/
-        entry: yarn --silent eslint
+        entry: |
+          bash -c 'yarn --cwd app --silent eslint "${@#*/}"' --
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: 'v8.0.0'

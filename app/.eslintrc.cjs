@@ -1,11 +1,5 @@
 module.exports = {
-	root: true,
-	env: {
-		node: true,
-		jest: true,
-	},
 	plugins: ['svelte3', '@typescript-eslint'],
-	extends: ['eslint:recommended', 'prettier'],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		sourceType: 'module',

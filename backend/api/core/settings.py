@@ -41,7 +41,9 @@ class Settings(BaseSettings):
 #
 # Something like that: ENV_FILE="../.env" python scripts/connect_to_db.py
 
-env_file_path = os.getenv("ENV_FILE", os.path.join(dir_path, "..", "..", "..", ".env"))
+env_file_path = os.getenv(
+    "ENV_FILE", os.path.join(dir_path, "..", "..", "..", "app", ".env")
+)
 
 
 if os.path.exists(env_file_path):

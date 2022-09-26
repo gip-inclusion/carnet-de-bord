@@ -40,14 +40,14 @@ then
       shift
 fi
 
-# Load the env variables from .env file
-if [ -f ".env.test" ]
+# Load the env variables from app/.env file
+if [ -f "app/.env.test" ]
 then
   # See https://github.com/ko1nksm/shdotenv
-  eval "$($SCRIPT_DIR/shdotenv --env .env.test)"
+  eval "$($SCRIPT_DIR/shdotenv --env app/.env.test)"
 else
 
-  echo >&2 "Missing .env.test file. Copy the one from .env.test.sample to .env.test."
+  echo >&2 "Missing app/.env.test file. Copy the one from app/.env.test.sample to app/.env.test."
   exit 1
 fi
 
@@ -93,16 +93,20 @@ done
 >&2 echo ""
 >&2 echo "-> Hasura is up and running on port 5001!"
 
-HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 yarn hasura:seed
+cd hasura
+HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --database-name carnet_de_bord
 cd $ROOT_DIR
 
 function start_svelte() {
   >&2 echo "-> Starting Svelte kit"
+
+  cd app
   # Start dev server
   # Need to listen on all addresses (0.0.0.0) to be reachable from Hasura in Docker on all platforms.
   # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
   # output.
   yarn svelte-kit dev --host 0.0.0.0 --port 3001 | cat &
+	cd ..
 
   until curl -s http://localhost:3001/ > /dev/null ; do
     >&2 echo "-> Svelte kit is still unavailable - sleeping"
@@ -131,7 +135,7 @@ function start_backend() {
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
   >&2 echo "-> Starting Jest tests"
-  npx jest "$@"
+	(cd app && npx jest "$@")
 fi
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then
