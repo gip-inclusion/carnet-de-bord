@@ -38,7 +38,7 @@
 			Beta.Gouv, le Carnet de bord est un service public numérique qui a pour objectif de <strong
 				>faciliter</strong
 			>
-			la coordination des échanges entres acteurs et de <strong>simplifier</strong> la lecture des parcours
+			la coordination des échanges entre acteurs et de <strong>simplifier</strong> la lecture des parcours
 			d’insertion. Il permet :
 		</p>
 		<ul>

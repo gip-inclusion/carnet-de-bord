@@ -1,6 +1,6 @@
 # Carnet de bord
 
-[Carnet de bord](https://carnet-de-bord.fabrique.social.gouv.fr/) est un service public dont l'objectif est de faciliter la coordination des échanges entres acteurs et simplifier la lecture des parcours d’insertion.
+[Carnet de bord](https://carnet-de-bord.fabrique.social.gouv.fr/) est un service public dont l'objectif est de faciliter la coordination des échanges entre acteurs et simplifier la lecture des parcours d’insertion.
 
 ![Page d'accueil du site Carnet de bord](./docs/screenshot_cdb_20220819.png)
 
