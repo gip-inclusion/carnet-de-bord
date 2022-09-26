@@ -10,7 +10,7 @@ from api.db.crud.notebook import (
     NOTEBOOK_BASE_JOINS,
     parse_notebook_from_record,
 )
-from api.db.models.beneficiary import Beneficiary
+from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 
 BENEFICIARY_BASE_QUERY = (
     """SELECT b.*, acc.id as account_id,"""
@@ -25,6 +25,33 @@ BENEFICIARY_BASE_QUERY = (
     ON acc.beneficiary_id = b.id
 """
 )
+
+
+async def insert_beneficiary(
+    connection: Connection,
+    beneficiary: BeneficiaryImport,
+    deployment_id,
+):
+    # see https://betakuang.medium.com/why-postgresqls-on-conflict-cannot-find-my-partial-unique-index-552327b85e1
+    firstname_lastname_date_of_birth_unique_idx = (
+        "(LOWER(trim(firstname)), LOWER(trim(lastname)), date_of_birth, deployment_id)"
+    )
+
+    await connection.fetchrow(
+        f"""
+INSERT INTO BENEFICIARY (firstname, lastname, internal_id, date_of_birth, deployment_id, mobile_number)
+values ($1, $2, $3, $4, $5, $6)
+ON CONFLICT {firstname_lastname_date_of_birth_unique_idx}
+DO UPDATE SET mobile_number = $6
+returning id
+                """,
+        beneficiary.firstname,
+        beneficiary.lastname,
+        beneficiary.si_id,
+        beneficiary.date_of_birth,
+        deployment_id,
+        beneficiary.phone_number,
+    )
 
 
 async def get_beneficiary_with_query(
