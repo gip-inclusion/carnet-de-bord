@@ -366,13 +366,10 @@ update_permissions:
         - caf_number
         - city
         - email
-        - firstname
-        - lastname
+        - id
         - mobile_number
         - pe_number
         - postal_code
-        - date_of_birth
-        - id
       filter:
         notebook:
           members:
