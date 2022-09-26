@@ -2,6 +2,9 @@ name: Lint
 
 on: push
 
+env:
+  PYTHON_VERSION: 3.10
+
 concurrency:
   cancel-in-progress: true
   group: lint-${{ github.ref }}
@@ -19,13 +22,13 @@ jobs:
       - name: Setup python for pre-commit
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ PYTHON_VERSION }}
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
           cache: yarn
-          cache-dependency-path: 'app/yarn.lock'
+          cache-dependency-path: "app/yarn.lock"
       - name: Install dependencies
         working-directory: app
         run: |

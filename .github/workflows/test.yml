@@ -3,9 +3,13 @@ name: Test
 on:
   push:
     branches-ignore:
-      - 'master'
+      - "master"
     tags-ignore:
       - v*
+env:
+  HASURA_VERSION: 2.12.0
+  POETRY_VERSION: 1.1.13
+  PYTHON_VERSION: 3.10
 
 concurrency:
   cancel-in-progress: true
@@ -25,16 +29,16 @@ jobs:
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
         with:
-          hasura-version: 2.8.3
+          hasura-version: ${{ HASURA_VERSION }}
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ PYTHON_VERSION }}
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
         with:
-          poetry-version: 1.1.13
+          poetry-version: ${{ POETRY_VERSION }}
       - name: Install dependencies
         working-directory: ./backend
         run: poetry install
@@ -57,9 +61,9 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
           cache: yarn
-          cache-dependency-path: '**/yarn.lock'
+          cache-dependency-path: "**/yarn.lock"
 
       - name: Install dependencies
         run: |
@@ -69,16 +73,16 @@ jobs:
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
         with:
-          hasura-version: 2.8.3
+          hasura-version: ${{ HASURA_VERSION }}
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ PYTHON_VERSION }}
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
         with:
-          poetry-version: 1.1.13
+          poetry-version: ${{ POETRY_VERSION }}
       - name: Install Python dependencies
         working-directory: ./backend
         run: poetry install
@@ -108,9 +112,9 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
           cache: yarn
-          cache-dependency-path: 'app/yarn.lock'
+          cache-dependency-path: "app/yarn.lock"
 
       - name: Install dependencies
         run: |
@@ -120,7 +124,7 @@ jobs:
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
         with:
-          hasura-version: 2.8.3
+          hasura-version: ${{ HASURA_VERSION }}
 
       - name: Run functional tests
         run: |
