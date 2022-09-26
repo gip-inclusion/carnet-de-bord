@@ -21,7 +21,7 @@
 			<img alt="" aria-hidden="true" src="/images/cdb-landing-illustration-intro.svg" />
 		</div>
 		<div class="w-8/12">
-			<h1>La nouvelle version du Carnet de bord est en ligne !</h1>
+			<h1>Bienvenue sur Carnet de bord !</h1>
 			<p>
 				Partager le parcours pour faciliter les avancées des personnes en insertion et de leurs
 				accompagnateurs.
