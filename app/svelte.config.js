@@ -3,7 +3,6 @@ import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-node';
 
 const config = {
-	env: { dir: '..' },
 	kit: {
 		csp: {
 			mode: 'auto',
@@ -23,6 +22,7 @@ const config = {
 			},
 		},
 		vite: {
+			envDir: '..',
 			optimizeDeps: {
 				//https://formidable.com/open-source/urql/docs/basics/svelte/
 				exclude: ['@urql/svelte', 'matomo-tracker'],
