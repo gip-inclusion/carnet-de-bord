@@ -27,7 +27,7 @@ cd carnet-de-bord
 **2/** Créer et adapter les fichiers d'environnement
 
 ```sh
-cp app/.env.sample app/.env
+cp .env.sample .env
 ````
 
 **3/** Récupérer les dépendances du projet
