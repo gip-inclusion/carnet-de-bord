@@ -3,15 +3,11 @@
 	import { ProBeneficiaryCard } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
-		CreateBeneficiaryMutationStore,
 		NotebookMember,
 		SearchNotebookMemberQueryStore,
 		SearchNotebookMemberQueryVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import {
-		SearchNotebookMemberDocument,
-		CreateBeneficiaryDocument,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { SearchNotebookMemberDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
@@ -55,14 +51,12 @@
 		const { id } = session.user;
 		const queryVariables = buildQueryVariables({ accountId: id, search, selected });
 		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
-		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
 
 		return {
 			props: {
 				accountId: id,
 				result,
 				search,
-				createBeneficiaryResult,
 				selected,
 			},
 		};
@@ -71,7 +65,6 @@
 
 <script lang="ts">
 	import { browser } from '$app/env';
-	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
 	export let accountId: string;
