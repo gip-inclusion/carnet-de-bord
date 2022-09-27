@@ -1,10 +1,10 @@
+import logging
 from datetime import date
 from typing import List
 from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
-from asyncpg.exceptions import UniqueViolationError
 
 from api.db.crud.notebook import (
     NOTEBOOK_BASE_FIELDS,
@@ -12,6 +12,8 @@ from api.db.crud.notebook import (
     parse_notebook_from_record,
 )
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+
+logger = logging.getLogger(__name__)
 
 BENEFICIARY_BASE_QUERY = (
     """SELECT b.*, acc.id as account_id,"""
@@ -41,9 +43,9 @@ async def select_beneficiary(
 ):
     return await connection.fetch(
         f"""
-SELECT (firstname, lastname, date_of_birth, internal_id, deployment_id, id)
+SELECT firstname, lastname, date_of_birth, internal_id, deployment_id, id
 FROM beneficiary
-WHERE (firstname = $1 AND lastname = $2 AND date_of_birth = $3)
+WHERE (lower(trim(firstname)) = lower(trim($1)) AND lower(trim(lastname)) = lower(trim($2)) AND date_of_birth = $3)
 OR (internal_id = $4 AND deployment_id = $5)
         """,
         beneficiary.firstname,
@@ -59,7 +61,7 @@ async def update_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ):
-    await connection.fetchrow(
+    return await connection.fetchrow(
         f"""
 UPDATE beneficiary SET mobile_number = $1
 where internal_id = $2
@@ -75,7 +77,7 @@ async def insert_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ):
-    await connection.fetchrow(
+    return await connection.fetchrow(
         f"""
 INSERT INTO BENEFICIARY (firstname, lastname, internal_id, date_of_birth, deployment_id, mobile_number)
 values ($1, $2, $3, $4, $5, $6)
@@ -95,26 +97,29 @@ async def import_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ):
-    result = select_beneficiary(connection, beneficiary, deployment_id)
-    existing_rows = await result
+    existing_rows = await select_beneficiary(connection, beneficiary, deployment_id)
     if len(existing_rows) == 0:
-        print("inserting new user")
-        await insert_beneficiary(connection, beneficiary, deployment_id)
+        record = await insert_beneficiary(connection, beneficiary, deployment_id)
+        logger.info("insert new beneficiary %s", record["id"])
     else:
-        print(existing_rows[0][0][4])
         if (
             len(existing_rows) == 1
-            and existing_rows[0][0][0] == beneficiary.firstname
-            and existing_rows[0][0][1] == beneficiary.lastname
-            and existing_rows[0][0][2] == beneficiary.date_of_birth
-            and existing_rows[0][0][3] == beneficiary.si_id
+            and existing_rows[0]["firstname"].lower().strip()
+            == beneficiary.firstname.lower().strip()
+            and existing_rows[0]["lastname"].lower().strip()
+            == beneficiary.lastname.lower().strip()
+            and existing_rows[0]["date_of_birth"] == beneficiary.date_of_birth
+            and existing_rows[0]["internal_id"] == beneficiary.si_id
         ):
             # Doesn't work somehow
             #     and existing_rows[0][0][4] == deployment_id
-            print("updating existing user")
-            await update_beneficiary(connection, beneficiary, deployment_id)
+            record = await update_beneficiary(connection, beneficiary, deployment_id)
+            logger.info("update existing info for beneficiary %s", record["id"])
         else:
-            print("data problem")
+            logger.info(
+                "block update for beneficiary %s",
+                [beneficiary["id"] for beneficiary in existing_rows],
+            )
 
 
 async def get_beneficiary_with_query(
