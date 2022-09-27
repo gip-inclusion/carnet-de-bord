@@ -4,6 +4,7 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from asyncpg.exceptions import UniqueViolationError
 
 from api.db.crud.notebook import (
     NOTEBOOK_BASE_FIELDS,
@@ -27,24 +28,59 @@ BENEFICIARY_BASE_QUERY = (
 )
 
 
+# see https://betakuang.medium.com/why-postgresqls-on-conflict-cannot-find-my-partial-unique-index-552327b85e1
+firstname_lastname_date_of_birth_unique_idx = (
+    "(LOWER(trim(firstname)), LOWER(trim(lastname)), date_of_birth, deployment_id)"
+)
+
+
+async def select_beneficiary(
+    connection: Connection,
+    beneficiary: BeneficiaryImport,
+    deployment_id,
+):
+    return await connection.fetch(
+        f"""
+SELECT (firstname, lastname, date_of_birth, internal_id, deployment_id, id)
+FROM beneficiary
+WHERE (firstname = $1 AND lastname = $2 AND date_of_birth = $3)
+OR (internal_id = $4 AND deployment_id = $5)
+        """,
+        beneficiary.firstname,
+        beneficiary.lastname,
+        beneficiary.date_of_birth,
+        beneficiary.si_id,
+        deployment_id,
+    )
+
+
+async def update_beneficiary(
+    connection: Connection,
+    beneficiary: BeneficiaryImport,
+    deployment_id,
+):
+    await connection.fetchrow(
+        f"""
+UPDATE beneficiary SET mobile_number = $1
+where internal_id = $2
+returning id
+        """,
+        beneficiary.phone_number,
+        beneficiary.si_id,
+    )
+
+
 async def insert_beneficiary(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id,
 ):
-    # see https://betakuang.medium.com/why-postgresqls-on-conflict-cannot-find-my-partial-unique-index-552327b85e1
-    firstname_lastname_date_of_birth_unique_idx = (
-        "(LOWER(trim(firstname)), LOWER(trim(lastname)), date_of_birth, deployment_id)"
-    )
-
     await connection.fetchrow(
         f"""
 INSERT INTO BENEFICIARY (firstname, lastname, internal_id, date_of_birth, deployment_id, mobile_number)
 values ($1, $2, $3, $4, $5, $6)
-ON CONFLICT {firstname_lastname_date_of_birth_unique_idx}
-DO UPDATE SET mobile_number = $6
 returning id
-                """,
+        """,
         beneficiary.firstname,
         beneficiary.lastname,
         beneficiary.si_id,
@@ -52,6 +88,33 @@ returning id
         deployment_id,
         beneficiary.phone_number,
     )
+
+
+async def import_beneficiary(
+    connection: Connection,
+    beneficiary: BeneficiaryImport,
+    deployment_id,
+):
+    result = select_beneficiary(connection, beneficiary, deployment_id)
+    existing_rows = await result
+    if len(existing_rows) == 0:
+        print("inserting new user")
+        await insert_beneficiary(connection, beneficiary, deployment_id)
+    else:
+        print(existing_rows[0][0][4])
+        if (
+            len(existing_rows) == 1
+            and existing_rows[0][0][0] == beneficiary.firstname
+            and existing_rows[0][0][1] == beneficiary.lastname
+            and existing_rows[0][0][2] == beneficiary.date_of_birth
+            and existing_rows[0][0][3] == beneficiary.si_id
+        ):
+            # Doesn't work somehow
+            #     and existing_rows[0][0][4] == deployment_id
+            print("updating existing user")
+            await update_beneficiary(connection, beneficiary, deployment_id)
+        else:
+            print("data problem")
 
 
 async def get_beneficiary_with_query(
