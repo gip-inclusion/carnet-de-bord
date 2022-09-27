@@ -1,30 +1,50 @@
-<script context="module" lang="ts">
-	export type Field = 'firstname' | 'lastname' | 'date-of-birth';
-</script>
-
 <script lang="ts">
 	import Input from '$lib/ui/forms/Input.svelte';
 
-	export let hiddenFields: Field[] = ['firstname'];
+	type Field = 'firstname' | 'lastname' | 'dateOfBirth';
+	export let forbiddenFields: Field[];
+
+	function isFieldDisabled(fieldName: Field) {
+		return forbiddenFields.includes(fieldName);
+	}
+
+	function titleForField(fieldName: Field) {
+		return isFieldDisabled(fieldName)
+			? 'Ce champ n‘est pas modifiable. Si toutefois vous devez y apporter une modification, merci de nous contacter par chat.'
+			: '';
+	}
 </script>
 
-{#if !hiddenFields.includes('firstname')}
-	<Input inputLabel="Prénom" placeholder="Jean-Baptiste" name="firstname" required tooltip="some" />
-{/if}
-{#if !hiddenFields.includes('lastname')}
-	<Input inputLabel="Nom" placeholder="Poquelin" name="lastname" required />
-{/if}
-{#if !hiddenFields.includes('date-of-birth')}
-	<Input
-		class="max-w-max"
-		type="date"
-		inputLabel="Date de naissance"
-		placeholder="21/12/1977"
-		inputHint="Format JJ/MM/AAAA"
-		name="dateOfBirth"
-		required
-	/>
-{/if}
+<Input
+	inputLabel="Prénom"
+	placeholder="Jean-Baptiste"
+	name="firstname"
+	required
+	disabled={isFieldDisabled('firstname')}
+	title={titleForField('firstname')}
+/>
+
+<Input
+	inputLabel="Nom"
+	placeholder="Poquelin"
+	name="lastname"
+	required
+	disabled={isFieldDisabled('lastname')}
+	title={titleForField('lastname')}
+/>
+
+<Input
+	class="max-w-max"
+	type="date"
+	inputLabel="Date de naissance"
+	placeholder="21/12/1977"
+	inputHint="Format JJ/MM/AAAA"
+	name="dateOfBirth"
+	required
+	disabled={isFieldDisabled('dateOfBirth')}
+	title={titleForField('dateOfBirth')}
+/>
+
 <Input inputLabel="Courriel" placeholder="jb@poquelin.fr" name="email" />
 <Input inputLabel="Téléphone" placeholder="0123456789" name="mobileNumber" class="max-w-max" />
 <Input inputLabel="Adresse" placeholder="55-57 rue du Faubourg Saint-Honoré" name="address1" />

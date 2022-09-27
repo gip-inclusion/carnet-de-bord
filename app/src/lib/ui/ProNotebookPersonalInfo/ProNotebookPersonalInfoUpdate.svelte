@@ -15,7 +15,6 @@
 	import ProBeneficiaryUpdateFields from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
 	import Input from '$lib/ui/forms/Input.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import type { Field } from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
 
 	export let beneficiary: Pick<
 		Beneficiary,
@@ -56,6 +55,8 @@
 		? beneficiaryAccountPartialSchema
 		: beneficiaryAccountSchema;
 
+	const forbiddenFields = isPartialUpdate ? ['firstname', 'lastname', 'dateOfBirth'] : [];
+
 	async function updateBeneficiary(values: BeneficiaryAccountInput) {
 		const payload = isPartialUpdate
 			? { ...values, firstname: undefined, lastname: undefined, dateOfBirth: undefined }
@@ -71,10 +72,6 @@
 	function onCancel() {
 		openComponent.close();
 	}
-
-	function hiddenFields(): Field[] {
-		return isPartialUpdate ? ['firstname', 'lastname', 'date-of-birth'] : [];
-	}
 </script>
 
 <section>
@@ -83,7 +80,7 @@
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<Form {initialValues} {validationSchema} onSubmit={updateBeneficiary}>
-		<ProBeneficiaryUpdateFields hiddenFields={hiddenFields()} />
+		<ProBeneficiaryUpdateFields {forbiddenFields} />
 		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />
 		<Input name="cafNumber" placeholder={'123456789A'} inputLabel={'Identifiant CAF/MSA'} />
 		<div class="flex flex-row gap-6 pt-4 pb-12">
