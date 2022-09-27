@@ -35,7 +35,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{env.PYTHON_VERSION}}
-          cache: "poetry"
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
@@ -82,7 +81,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{env.PYTHON_VERSION}}
-          cache: "poetry"
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
