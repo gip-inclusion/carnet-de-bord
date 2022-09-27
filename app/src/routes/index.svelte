@@ -21,7 +21,7 @@
 			<img alt="" aria-hidden="true" src="/images/cdb-landing-illustration-intro.svg" />
 		</div>
 		<div class="w-8/12">
-			<h1>La nouvelle version du Carnet de bord est en ligne !</h1>
+			<h1>Bienvenue sur Carnet de bord !</h1>
 			<p>
 				Partager le parcours pour faciliter les avancées des personnes en insertion et de leurs
 				accompagnateurs.
@@ -38,7 +38,7 @@
 			Beta.Gouv, le Carnet de bord est un service public numérique qui a pour objectif de <strong
 				>faciliter</strong
 			>
-			la coordination des échanges entres acteurs et de <strong>simplifier</strong> la lecture des parcours
+			la coordination des échanges entre acteurs et de <strong>simplifier</strong> la lecture des parcours
 			d’insertion. Il permet :
 		</p>
 		<ul>
