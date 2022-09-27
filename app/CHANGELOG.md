@@ -1,3 +1,10 @@
+## [1.144.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.144.1...v1.144.2) (2022-09-27)
+
+
+### Bug Fixes
+
+* use full sha1 to pin github action in production workflow ([20bfb7f](https://github.com/SocialGouv/carnet-de-bord/commit/20bfb7f57839e44ada9f2a588ccfdc971353a230))
+
 ## [1.144.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.144.0...v1.144.1) (2022-09-27)
 
 
