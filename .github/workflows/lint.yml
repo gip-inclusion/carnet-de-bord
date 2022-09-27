@@ -22,7 +22,7 @@ jobs:
       - name: Setup python for pre-commit
         uses: actions/setup-python@v4
         with:
-          python-version: "$PYTHON_VERSION"
+          python-version: ${{env.PYTHON_VERSION}}
           cache: "poetry"
 
       - name: Setup NodeJS

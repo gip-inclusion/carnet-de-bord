@@ -29,18 +29,18 @@ jobs:
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
         with:
-          hasura-version: "$HASURA_VERSION"
+          hasura-version: ${{env.HASURA_VERSION}}
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "$PYTHON_VERSION"
+          python-version: ${{env.PYTHON_VERSION}}
           cache: "poetry"
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
         with:
-          poetry-version: "$POETRY_VERSION"
+          poetry-version: ${{env.POETRY_VERSION}}
 
       - name: Install dependencies
         working-directory: ./backend
@@ -76,18 +76,18 @@ jobs:
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
         with:
-          hasura-version: "$HASURA_VERSION"
+          hasura-version: ${{env.HASURA_VERSION}}
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "$PYTHON_VERSION"
+          python-version: ${{env.PYTHON_VERSION}}
           cache: "poetry"
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
         with:
-          poetry-version: "$POETRY_VERSION"
+          poetry-version: ${{env.POETRY_VERSION}}
 
       - name: Install Python dependencies
         working-directory: ./backend
@@ -130,7 +130,7 @@ jobs:
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
         with:
-          hasura-version: "$HASURA_VERSION"
+          hasura-version: ${{env.HASURA_VERSION}}
 
       - name: Run functional tests
         run: |
