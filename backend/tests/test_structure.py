@@ -31,3 +31,12 @@ async def test_get_structure_by_name(db_connection):
     )
 
     assert structure is not None
+
+
+async def test_get_structure_by_name_case_insensitive(db_connection):
+
+    structure: Structure | None = await get_structure_by_name(
+        db_connection, "pole emploi agence livry-gargnan"
+    )
+
+    assert structure is not None
