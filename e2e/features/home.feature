@@ -9,5 +9,5 @@ Fonctionnalité: Page d'accueil
 
 Scénario: Home CdB
 	Soit un utilisateur sur la page d'accueil
-	Alors je vois "La nouvelle version du Carnet de bord est en ligne"
+	Alors je vois "Bienvenue sur Carnet de bord !"
 	Alors le lien "Accéder à mon compte" pointe sur "/auth/login"
