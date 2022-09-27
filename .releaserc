@@ -5,7 +5,7 @@ plugins:
   - "@semantic-release/npm"
   - - "@semantic-release/git"
     - assets:
-        - CHANGELOG.md
-        - app/package.json
+        - ../CHANGELOG.md
+        - package.json
       message: "chore(release): ${nextRelease.version}"
   - "@semantic-release/github"
