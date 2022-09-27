@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import { Select, Button } from '$lib/ui/base';
-	import { ProBeneficiaryUpdate, ProBeneficiaryCard } from '$lib/ui';
+	import { Select } from '$lib/ui/base';
+	import { ProBeneficiaryCard } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
 		CreateBeneficiaryMutationStore,
@@ -70,7 +70,6 @@
 </script>
 
 <script lang="ts">
-	import { openComponent } from '$lib/stores';
 	import { browser } from '$app/env';
 	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
@@ -98,9 +97,6 @@
 		return `/pro/carnet/${id}`;
 	}
 
-	function addBeneficiary() {
-		openComponent.open({ component: ProBeneficiaryUpdate, props: { createBeneficiaryResult } });
-	}
 	function handleSubmit() {
 		updateUrl(search, selected);
 		$result.variables = buildQueryVariables({ accountId, search, selected });
@@ -161,18 +157,11 @@
 			<div class="text-france-blue font-bold">
 				Désolé, aucun bénéficiaire ne correspond à votre recherche.
 			</div>
-			{#if false}
-				<div>Veuillez cliquer sur le bouton ci-dessous pour ajouter un bénéficiaire.</div>
-				<div class="pt-4">
-					<Button on:click={addBeneficiary} iconSide="right">Ajouter un bénéficiaire</Button>
-				</div>
-			{:else}
-				<p>
-					Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
-						>contactez-nous par tchat</button
-					>.
-				</p>
-			{/if}
+			<p>
+				Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+					>contactez-nous par tchat</button
+				>.
+			</p>
 		</div>
 	{:else}
 		<div class="fr-grid-row fr-grid-row--gutters">
@@ -182,17 +171,10 @@
 				</div>
 			{/each}
 		</div>
-		<!-- {/if} -->
-		{#if false}
-			<div>
-				<Button outline={true} on:click={addBeneficiary}>Ajouter un nouveau bénéficiaire</Button>
-			</div>
-		{:else}
-			<p>
-				Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
-					>contactez-nous par tchat</button
-				>.
-			</p>
-		{/if}
+		<p>
+			Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+				>contactez-nous par tchat</button
+			>.
+		</p>
 	{/if}
 </LoaderIndicator>
