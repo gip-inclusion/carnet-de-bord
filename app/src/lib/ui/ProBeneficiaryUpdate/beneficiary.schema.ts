@@ -6,7 +6,7 @@ import {
 } from '$lib/validation';
 import * as yup from 'yup';
 
-export const beneficiaryAccountSchema = yup.object().shape({
+const beneficiaryAccountSchemaObject = {
 	firstname: cityOrNameValidation.trim().required(),
 	lastname: cityOrNameValidation.trim().required(),
 
@@ -43,6 +43,15 @@ export const beneficiaryAccountSchema = yup.object().shape({
 
 	peNumber: yup.string().trim().nullable(),
 	cafNumber: yup.string().trim().nullable(),
+};
+
+export const beneficiaryAccountSchema = yup.object().shape({ ...beneficiaryAccountSchemaObject });
+export const beneficiaryAccountPartialSchema = yup.object().shape({
+	...beneficiaryAccountSchemaObject,
+	firstname: beneficiaryAccountSchemaObject.firstname.optional(),
+	lastname: beneficiaryAccountSchemaObject.lastname.optional(),
+	dateOfBirth: beneficiaryAccountSchemaObject.dateOfBirth.optional(),
 });
 
 export type BeneficiaryAccountInput = yup.InferType<typeof beneficiaryAccountSchema>;
+export type BeneficiaryAccountPartialInput = yup.InferType<typeof beneficiaryAccountPartialSchema>;

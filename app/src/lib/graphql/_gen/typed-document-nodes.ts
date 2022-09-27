@@ -10373,6 +10373,7 @@ export type UuidComparisonExp = {
 /** Stores the jobs wanted for a notebook beneficiary */
 export type WantedJob = {
 	__typename?: 'wanted_job';
+	created_at?: Maybe<Scalars['timestamptz']>;
 	id: Scalars['uuid'];
 	/** An object relationship */
 	notebook: Notebook;
@@ -10380,6 +10381,7 @@ export type WantedJob = {
 	/** An object relationship */
 	rome_code: RomeCode;
 	rome_code_id: Scalars['uuid'];
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregated selection of "wanted_job" */
@@ -10422,11 +10424,13 @@ export type WantedJobBoolExp = {
 	_and?: InputMaybe<Array<WantedJobBoolExp>>;
 	_not?: InputMaybe<WantedJobBoolExp>;
 	_or?: InputMaybe<Array<WantedJobBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebook_id?: InputMaybe<UuidComparisonExp>;
 	rome_code?: InputMaybe<RomeCodeBoolExp>;
 	rome_code_id?: InputMaybe<UuidComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "wanted_job" */
@@ -10439,41 +10443,51 @@ export enum WantedJobConstraint {
 
 /** input type for inserting data into table "wanted_job" */
 export type WantedJobInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebook_id?: InputMaybe<Scalars['uuid']>;
 	rome_code?: InputMaybe<RomeCodeObjRelInsertInput>;
 	rome_code_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type WantedJobMaxFields = {
 	__typename?: 'wanted_job_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebook_id?: Maybe<Scalars['uuid']>;
 	rome_code_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "wanted_job" */
 export type WantedJobMaxOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook_id?: InputMaybe<OrderBy>;
 	rome_code_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type WantedJobMinFields = {
 	__typename?: 'wanted_job_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebook_id?: Maybe<Scalars['uuid']>;
 	rome_code_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "wanted_job" */
 export type WantedJobMinOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook_id?: InputMaybe<OrderBy>;
 	rome_code_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "wanted_job" */
@@ -10494,11 +10508,13 @@ export type WantedJobOnConflict = {
 
 /** Ordering options when selecting data from "wanted_job". */
 export type WantedJobOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebook_id?: InputMaybe<OrderBy>;
 	rome_code?: InputMaybe<RomeCodeOrderBy>;
 	rome_code_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: wanted_job */
@@ -10509,28 +10525,38 @@ export type WantedJobPkColumnsInput = {
 /** select columns of table "wanted_job" */
 export enum WantedJobSelectColumn {
 	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	NotebookId = 'notebook_id',
 	/** column name */
 	RomeCodeId = 'rome_code_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
 }
 
 /** input type for updating data in table "wanted_job" */
 export type WantedJobSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook_id?: InputMaybe<Scalars['uuid']>;
 	rome_code_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** update columns of table "wanted_job" */
 export enum WantedJobUpdateColumn {
 	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	NotebookId = 'notebook_id',
 	/** column name */
 	RomeCodeId = 'rome_code_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
 }
 
 export type DeleteManagerMutationVariables = Exact<{
@@ -11386,17 +11412,7 @@ export type UpdateNotebookAppointmentMutation = {
 
 export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
 	id: Scalars['uuid'];
-	firstname?: InputMaybe<Scalars['String']>;
-	lastname?: InputMaybe<Scalars['String']>;
-	dateOfBirth?: InputMaybe<Scalars['date']>;
-	mobileNumber?: InputMaybe<Scalars['String']>;
-	email?: InputMaybe<Scalars['citext']>;
-	address1?: InputMaybe<Scalars['String']>;
-	address2?: InputMaybe<Scalars['String']>;
-	postalCode?: InputMaybe<Scalars['String']>;
-	city?: InputMaybe<Scalars['String']>;
-	peNumber?: InputMaybe<Scalars['String']>;
-	cafNumber?: InputMaybe<Scalars['String']>;
+	payload?: InputMaybe<BeneficiarySetInput>;
 }>;
 
 export type UpdateBeneficiaryPersonalInfoMutation = {
@@ -18941,58 +18957,8 @@ export const UpdateBeneficiaryPersonalInfoDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'payload' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_set_input' } },
 				},
 			],
 			selectionSet: {
@@ -19077,66 +19043,7 @@ export const UpdateBeneficiaryPersonalInfoDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'dateOfBirth' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'mobileNumber' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address1' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'address2' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'postalCode' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'city' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'peNumber' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'cafNumber' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
-										},
-									],
-								},
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'payload' } },
 							},
 						],
 						selectionSet: {

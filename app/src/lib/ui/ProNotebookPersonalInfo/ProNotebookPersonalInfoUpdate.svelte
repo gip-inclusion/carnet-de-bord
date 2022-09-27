@@ -9,6 +9,7 @@
 	import {
 		BeneficiaryAccountInput,
 		beneficiaryAccountSchema,
+		beneficiaryAccountPartialSchema,
 	} from '$lib/ui/ProBeneficiaryUpdate/beneficiary.schema';
 	import Form from '$lib/ui/forms/Form.svelte';
 	import ProBeneficiaryUpdateFields from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
@@ -49,11 +50,20 @@
 		cafNumber: beneficiary.cafNumber,
 	};
 
+	const isPartialUpdate = $account.type !== 'manager';
+
+	const validationSchema = isPartialUpdate
+		? beneficiaryAccountPartialSchema
+		: beneficiaryAccountSchema;
+
 	async function updateBeneficiary(values: BeneficiaryAccountInput) {
+		const payload = isPartialUpdate
+			? { ...values, firstname: undefined, lastname: undefined, dateOfBirth: undefined }
+			: { ...values };
 		trackEvent('pro', 'notebook', 'update personnal info');
 		await update({
 			id: beneficiary.id,
-			...values,
+			payload,
 		});
 		openComponent.close();
 	}
@@ -63,10 +73,7 @@
 	}
 
 	function hiddenFields(): Field[] {
-		if ($account.type === 'adminStructure' || $account.type === 'adminCdb') {
-			return [];
-		}
-		return ['firstname', 'lastname', 'date-of-birth'];
+		return isPartialUpdate ? ['firstname', 'lastname', 'date-of-birth'] : [];
 	}
 </script>
 
@@ -75,7 +82,7 @@
 		<h1>Informations personnelles</h1>
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
-	<Form {initialValues} validationSchema={beneficiaryAccountSchema} onSubmit={updateBeneficiary}>
+	<Form {initialValues} {validationSchema} onSubmit={updateBeneficiary}>
 		<ProBeneficiaryUpdateFields hiddenFields={hiddenFields()} />
 		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />
 		<Input name="cafNumber" placeholder={'123456789A'} inputLabel={'Identifiant CAF/MSA'} />
