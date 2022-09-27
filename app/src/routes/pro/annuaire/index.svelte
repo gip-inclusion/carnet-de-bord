@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { Select, Button } from '$lib/ui/base';
-	import { ProBeneficiaryCreate, ProBeneficiaryCard } from '$lib/ui';
+	import { ProBeneficiaryUpdate, ProBeneficiaryCard } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
 		CreateBeneficiaryMutationStore,
@@ -99,7 +99,7 @@
 	}
 
 	function addBeneficiary() {
-		openComponent.open({ component: ProBeneficiaryCreate, props: { createBeneficiaryResult } });
+		openComponent.open({ component: ProBeneficiaryUpdate, props: { createBeneficiaryResult } });
 	}
 	function handleSubmit() {
 		updateUrl(search, selected);

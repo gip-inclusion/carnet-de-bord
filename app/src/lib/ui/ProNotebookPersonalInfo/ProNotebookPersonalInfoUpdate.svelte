@@ -9,9 +9,9 @@
 	import {
 		BeneficiaryAccountInput,
 		beneficiaryAccountSchema,
-	} from '$lib/ui/ProBeneficiaryCreate/beneficiary.schema';
+	} from '$lib/ui/ProBeneficiaryUpdate/beneficiary.schema';
 	import Form from '$lib/ui/forms/Form.svelte';
-	import ProBeneficiaryCreateFields from '$lib/ui/ProBeneficiaryCreate/ProBeneficiaryCreateFields.svelte';
+	import ProBeneficiaryUpdateFields from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
 	import Input from '$lib/ui/forms/Input.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 
@@ -68,7 +68,7 @@
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<Form {initialValues} validationSchema={beneficiaryAccountSchema} onSubmit={updateBeneficiary}>
-		<ProBeneficiaryCreateFields />
+		<ProBeneficiaryUpdateFields />
 		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />
 		<Input name="cafNumber" placeholder={'123456789A'} inputLabel={'Identifiant CAF/MSA'} />
 		<div class="flex flex-row gap-6 pt-4 pb-12">

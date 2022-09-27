@@ -19,7 +19,7 @@
 	import { mutation } from '@urql/svelte';
 
 	import Form from '$lib/ui/forms/Form.svelte';
-	import ProBeneficiaryCreateFields from './ProBeneficiaryCreateFields.svelte';
+	import ProBeneficiaryUpdateFields from './ProBeneficiaryUpdateFields.svelte';
 	import { BeneficiaryAccountInput, beneficiaryAccountSchema } from './beneficiary.schema';
 	import { trackEvent } from '$lib/tracking/matomo';
 
@@ -183,7 +183,7 @@
 				<hr class="mb-8" />
 				{#if step === 'FromScratch'}
 					<div class="font-bold mb-6">Veuillez renseigner les informations ci-dessous.</div>
-					<ProBeneficiaryCreateFields />
+					<ProBeneficiaryUpdateFields />
 				{:else}
 					<div class={`font-bold mb-6 ${step !== 'Step1' ? 'opacity-60' : ''}`}>
 						1. Rechercher un profil avec l'identifiant {identifierTypeLabel[identifierType]}
@@ -211,7 +211,7 @@
 					{#if step !== 'Step3'}
 						<hr class="mb-8" />
 					{:else}
-						<ProBeneficiaryCreateFields />
+						<ProBeneficiaryUpdateFields />
 					{/if}
 				{/if}
 			{/if}
