@@ -1,3 +1,10 @@
+## [1.144.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.144.0...v1.144.1) (2022-09-27)
+
+
+### Bug Fixes
+
+* release mattermost notification ([691aa12](https://github.com/SocialGouv/carnet-de-bord/commit/691aa121b5a6240975d95811a3799ba9e398f745))
+
 # [1.144.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.143.1...v1.144.0) (2022-09-27)
 
 
