@@ -3,7 +3,7 @@ name: Lint
 on: push
 
 env:
-  PYTHON_VERSION: 3.10
+  PYTHON_VERSION: 3.10.6
 
 concurrency:
   cancel-in-progress: true
@@ -22,7 +22,9 @@ jobs:
       - name: Setup python for pre-commit
         uses: actions/setup-python@v4
         with:
-          python-version: $PYTHON_VERSION
+          python-version: "$PYTHON_VERSION"
+          cache: "poetry"
+
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
