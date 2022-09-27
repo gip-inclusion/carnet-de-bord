@@ -41,7 +41,7 @@ jobs:
 
       - name: Run pytest
         run: |
-          cp app/.env.test.sample app/.env.test
+          cp .env.test.sample .env.test
           ./scripts/launch_tests.sh python
 
   ##############################################################################
@@ -85,7 +85,7 @@ jobs:
 
       - name: Run test e2e
         run: |
-          cp app/.env.test.sample app/.env.test
+          cp .env.test.sample .env.test
           ./scripts/launch_tests.sh e2e
 
       - name: Copy artifact
@@ -124,5 +124,5 @@ jobs:
 
       - name: Run functional tests
         run: |
-          cp app/.env.test.sample app/.env.test
+          cp .env.test.sample .env.test
           ./scripts/launch_tests.sh js

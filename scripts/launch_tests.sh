@@ -40,14 +40,14 @@ then
       shift
 fi
 
-# Load the env variables from app/.env file
-if [ -f "app/.env.test" ]
+# Load the env variables from .env file
+if [ -f ".env.test" ]
 then
   # See https://github.com/ko1nksm/shdotenv
-  eval "$($SCRIPT_DIR/shdotenv --env app/.env.test)"
+  eval "$($SCRIPT_DIR/shdotenv --env .env.test)"
 else
 
-  echo >&2 "Missing app/.env.test file. Copy the one from app/.env.test.sample to app/.env.test."
+  echo >&2 "Missing .env.test file. Copy the one from .env.test.sample to .env.test."
   exit 1
 fi
 
