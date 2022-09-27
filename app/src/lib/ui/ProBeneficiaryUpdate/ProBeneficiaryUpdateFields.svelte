@@ -1,7 +1,10 @@
+<script context="module" lang="ts">
+	export type Field = 'firstname' | 'lastname' | 'dateOfBirth';
+</script>
+
 <script lang="ts">
 	import Input from '$lib/ui/forms/Input.svelte';
 
-	type Field = 'firstname' | 'lastname' | 'dateOfBirth';
 	export let forbiddenFields: Field[];
 
 	function isFieldDisabled(fieldName: Field) {

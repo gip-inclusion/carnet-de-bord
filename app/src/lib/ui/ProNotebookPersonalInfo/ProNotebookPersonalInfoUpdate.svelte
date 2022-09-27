@@ -13,6 +13,7 @@
 	} from '$lib/ui/ProBeneficiaryUpdate/beneficiary.schema';
 	import Form from '$lib/ui/forms/Form.svelte';
 	import ProBeneficiaryUpdateFields from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
+	import type { Field } from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';
 	import Input from '$lib/ui/forms/Input.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 
@@ -55,7 +56,7 @@
 		? beneficiaryAccountPartialSchema
 		: beneficiaryAccountSchema;
 
-	const forbiddenFields = isPartialUpdate ? ['firstname', 'lastname', 'dateOfBirth'] : [];
+	const forbiddenFields: Field[] = isPartialUpdate ? ['firstname', 'lastname', 'dateOfBirth'] : [];
 
 	async function updateBeneficiary(values: BeneficiaryAccountInput) {
 		const payload = isPartialUpdate
