@@ -10637,6 +10637,29 @@ export type RemoveNotebookMembersMutation = {
 		| undefined;
 };
 
+export type UpdateAdminStructureByIdMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	email: Scalars['citext'];
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+}>;
+
+export type UpdateAdminStructureByIdMutation = {
+	__typename?: 'mutation_root';
+	update_admin_structure_by_pk?:
+		| {
+				__typename?: 'admin_structure';
+				id: string;
+				firstname?: string | null | undefined;
+				lastname?: string | null | undefined;
+				email: string;
+				phoneNumbers?: string | null | undefined;
+		  }
+		| null
+		| undefined;
+};
+
 export type GetBeneficiariesQueryVariables = Exact<{
 	offset?: Scalars['Int'];
 	limit?: Scalars['Int'];
@@ -12835,27 +12858,6 @@ export type GetLastVisitedOrUpdatedQuery = {
 	}>;
 };
 
-export type CreateBeneficiaryMutationVariables = Exact<{
-	firstname: Scalars['String'];
-	lastname: Scalars['String'];
-	dateOfBirth: Scalars['date'];
-	mobileNumber?: InputMaybe<Scalars['String']>;
-	email?: InputMaybe<Scalars['citext']>;
-	address1?: InputMaybe<Scalars['String']>;
-	address2?: InputMaybe<Scalars['String']>;
-	postalCode?: InputMaybe<Scalars['String']>;
-	city?: InputMaybe<Scalars['String']>;
-	workSituation?: InputMaybe<Scalars['String']>;
-	cafNumber?: InputMaybe<Scalars['String']>;
-	peNumber?: InputMaybe<Scalars['String']>;
-	members: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-}>;
-
-export type CreateBeneficiaryMutation = {
-	__typename?: 'mutation_root';
-	newNotebook?: { __typename?: 'notebook'; id: string } | null | undefined;
-};
-
 export type SearchNotebookMemberQueryVariables = Exact<{
 	accountId: Scalars['uuid'];
 	filter?: InputMaybe<Scalars['String']>;
@@ -14265,6 +14267,127 @@ export const RemoveNotebookMembersDocument = {
 		},
 	],
 } as unknown as DocumentNode<RemoveNotebookMembersMutation, RemoveNotebookMembersMutationVariables>;
+export const UpdateAdminStructureByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateAdminStructureById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_admin_structure_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'phoneNumbers' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'updatedAt' },
+											value: { kind: 'StringValue', value: 'now()', block: false },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateAdminStructureByIdMutation,
+	UpdateAdminStructureByIdMutationVariables
+>;
 export const GetBeneficiariesDocument = {
 	kind: 'Document',
 	definitions: [
@@ -24243,268 +24366,6 @@ export const GetLastVisitedOrUpdatedDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetLastVisitedOrUpdatedQuery, GetLastVisitedOrUpdatedQueryVariables>;
-export const CreateBeneficiaryDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'CreateBeneficiary' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateOfBirth' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address1' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'address2' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'postalCode' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'city' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'cafNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'peNumber' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'members' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_member_insert_input' },
-								},
-							},
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'newNotebook' },
-						name: { kind: 'Name', value: 'insert_notebook_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiary' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'data' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'firstname' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'firstname' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'lastname' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'lastname' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'dateOfBirth' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'dateOfBirth' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'mobileNumber' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'mobileNumber' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'email' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'email' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'address1' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'address1' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'address2' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'address2' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'postalCode' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'postalCode' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'city' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'city' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'cafNumber' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'cafNumber' },
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'peNumber' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'peNumber' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'events' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'data' },
-														value: { kind: 'ListValue', values: [] },
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'members' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'data' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'members' } },
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'workSituation' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<CreateBeneficiaryMutation, CreateBeneficiaryMutationVariables>;
 export const SearchNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -26743,6 +26604,10 @@ export type RemoveNotebookMembersMutationStore = OperationStore<
 	RemoveNotebookMembersMutation,
 	RemoveNotebookMembersMutationVariables
 >;
+export type UpdateAdminStructureByIdMutationStore = OperationStore<
+	UpdateAdminStructureByIdMutation,
+	UpdateAdminStructureByIdMutationVariables
+>;
 export type GetBeneficiariesQueryStore = OperationStore<
 	GetBeneficiariesQuery,
 	GetBeneficiariesQueryVariables
@@ -27046,10 +26911,6 @@ export type UpdateOrientationManagerProfileMutationStore = OperationStore<
 export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,
 	GetLastVisitedOrUpdatedQueryVariables
->;
-export type CreateBeneficiaryMutationStore = OperationStore<
-	CreateBeneficiaryMutation,
-	CreateBeneficiaryMutationVariables
 >;
 export type SearchNotebookMemberQueryStore = OperationStore<
 	SearchNotebookMemberQuery,

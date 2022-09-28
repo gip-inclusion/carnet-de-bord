@@ -2,6 +2,8 @@
 	import { openComponent } from '$lib/stores';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
 	import type { AdminStructure } from '$lib/graphql/_gen/typed-document-nodes';
+	import { operationStore, mutation } from '@urql/svelte';
+	import { UpdateAdminStructureByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import AdminStructureForm from './AdminStructureForm.svelte';
 	import Alert from '../base/Alert.svelte';
 
@@ -16,14 +18,18 @@
 		openComponent.close();
 	}
 
+	const updateAdminStructureStore = operationStore(UpdateAdminStructureByIdDocument);
+	const updateAdminStructure = mutation(updateAdminStructureStore);
+
 	async function editAdminSubmitHandler(data: AdminStructureAccountInput) {
-		console.log(data);
-		console.log(adminStructure);
 		try {
+			// For yet unkwown reason the data object has a __typename property
+			delete data.__typename;
+			await updateAdminStructure({ id: adminStructure.id, ...data });
 			closeLayer();
 		} catch (error) {
 			console.error(error);
-			errorMessage = 'Impossible de modifier cet admin';
+			errorMessage = 'Impossible de modifier ce gestionnaire';
 		}
 	}
 </script>

@@ -333,6 +333,7 @@ update_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - updated_at
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id

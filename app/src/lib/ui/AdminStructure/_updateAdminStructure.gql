@@ -1,0 +1,20 @@
+mutation UpdateAdminStructureById($id: uuid! $email: citext!, $firstname: String!, $lastname: String!, $phoneNumbers: String) {
+  update_admin_structure_by_pk(
+    _set: {
+      email: $email,
+      firstname: $firstname,
+      lastname: $lastname,
+      phoneNumbers: $phoneNumbers,
+      updatedAt: "now()"
+    },
+    pk_columns: {
+      id: $id
+    }
+  ) {
+    id
+    firstname
+    lastname
+    email
+    phoneNumbers
+  }
+}
