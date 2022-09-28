@@ -24,7 +24,7 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Quand je clique sur "Situation socioprofessionnelle"
 		Alors je vois "Usager disposant de la RQTH"
 
-	Scénario: Mettre à jour les informations personnels
+	Scénario: Mettre à jour les informations personnelles
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
