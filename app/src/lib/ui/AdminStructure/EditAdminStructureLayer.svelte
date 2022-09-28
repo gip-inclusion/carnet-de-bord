@@ -2,7 +2,7 @@
 	import { openComponent } from '$lib/stores';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
 	import type { AdminStructure } from '$lib/graphql/_gen/typed-document-nodes';
-	import AdminStructureForm from './CreationForm.svelte';
+	import AdminStructureForm from './AdminStructureForm.svelte';
 	import Alert from '../base/Alert.svelte';
 
 	export let adminStructure: Pick<

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UpdateOrientationManagerProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { UpdateOrientationManagerProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
-	import AdminStructureCreationForm from '$lib/ui/AdminStructure/CreationForm.svelte';
+	import AdminStructureForm from '$lib/ui/AdminStructure/AdminStructureForm.svelte';
 	import { mutation, OperationStore, operationStore } from '@urql/svelte';
 	import { openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
@@ -63,10 +63,10 @@
 		<p>Votre compte a été modifié avec succès !</p>
 		<div><Button on:click={openComponent.close}>J'ai compris</Button></div>
 	{:else}
-		<AdminStructureCreationForm
+		<AdminStructureForm
 			onSubmit={handleSubmit}
 			{onCancel}
-			accountRequest={initialValues}
+			{initialValues}
 			submitLabel="Mettre à jour"
 			{hiddenFields}
 		/>

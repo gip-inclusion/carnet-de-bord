@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { openComponent } from '$lib/stores';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
-	import CreationForm from './CreationForm.svelte';
+	import AdminStructureForm from './AdminStructureForm.svelte';
 	import { session } from '$app/stores';
 	import { postAdminStructure } from '$lib/services/backend';
 	import Alert from '../base/Alert.svelte';
@@ -50,7 +50,11 @@
 		</p>
 		<p class="mb-0">Un email d'activation sera envoyé à la personne nouvellement ajoutée.</p>
 	</div>
-	<CreationForm onSubmit={insertAdminSubmitHandler} onCancel={closeLayer} submitLabel="Ajouter" />
+	<AdminStructureForm
+		onSubmit={insertAdminSubmitHandler}
+		onCancel={closeLayer}
+		submitLabel="Ajouter"
+	/>
 	{#if errorMessage}
 		<div class="mb-8">
 			<Alert type="error" description={errorMessage} />

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { account } from '$lib/stores/account';
-	import AdminStructureCreationForm from '$lib/ui/AdminStructure/CreationForm.svelte';
+	import AdminStructureForm from '$lib/ui/AdminStructure/AdminStructureForm.svelte';
 	import {
 		UpdateAdminStructureProfileDocument,
 		UpdateAdminStructureProfileMutation,
@@ -66,11 +66,7 @@
 			Vous avez été invité(e) à créer votre compte de Gestionnaire de structures.
 			<br />Il ne reste plus que quelques étapes pour accéder à tous les services proposés !
 		</p>
-		<AdminStructureCreationForm
-			onSubmit={handleSubmit}
-			accountRequest={initialValues}
-			submitLabel="Créer mon compte"
-		/>
+		<AdminStructureForm onSubmit={handleSubmit} {initialValues} submitLabel="Créer mon compte" />
 	{/if}
 	{#if $updateResult?.data}
 		<h1>Votre compte a été créé avec succès !</h1>
