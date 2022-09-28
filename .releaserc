@@ -6,7 +6,7 @@ plugins:
   - - "@semantic-release/exec"
     - execCwd: "app"
       prepareCmd |
-			  yarn version --new-version ${nextRelease.version} --no-git-tag-version
+        yarn version --new-version ${nextRelease.version} --no-git-tag-version
 # bump backend version (pyproject.toml)
   - - "@semantic-release/exec"
     - execCwd: "backend"
