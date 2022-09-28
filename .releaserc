@@ -2,7 +2,15 @@ plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/changelog"
-  - "@semantic-release/npm"
+# bump frontend version (package.json)
+  - - "@semantic-release/exec"
+    - { "execCwd": "app",
+        "prepareCmd": "yarn version --new-version ${nextRelease.version} --no-git-tag-version" }
+# bump backend version (pyproject.toml)
+  - - "@semantic-release/exec"
+    - execCwd: "backend"
+      prepareCmd: |
+        sed -i.bak '1,/^version/s/^version.*$/version = "${nextRelease.version}"/' pyproject.toml
   - - "@semantic-release/git"
     - assets:
         - ../CHANGELOG.md
