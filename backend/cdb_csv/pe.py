@@ -180,7 +180,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                         )
                     )
             else:
-                logging.error(
+                logging.info(
                     "{} - No new beneficiary to import. Skipping.".format(
                         row["identifiant_unique_de"]
                     )
