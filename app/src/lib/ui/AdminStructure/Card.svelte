@@ -1,14 +1,23 @@
 <script lang="ts">
-	import { Card } from '$lib/ui/base';
+	import { Button, Card } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import type { AdminStructure } from '$lib/graphql/_gen/typed-document-nodes';
+	import { openComponent } from '$lib/stores';
+	import EditAdminStructureLayer from '$lib/ui/AdminStructure/EditAdminStructureLayer.svelte';
 
 	export let adminStructure: Pick<
 		AdminStructure,
 		'id' | 'firstname' | 'lastname' | 'phoneNumbers' | 'email'
 	>;
 	export let href: string = null;
+
+	function openUpdateAdminLayer() {
+		openComponent.open({
+			component: EditAdminStructureLayer,
+			props: { adminStructure },
+		});
+	}
 </script>
 
 <Card {href} horizontal hideArrow>
@@ -36,5 +45,10 @@
 				value={displayMobileNumber({ mobileNumber: adminStructure.phoneNumbers })}
 			/>
 		</div>
+	</span>
+	<span slot="actions">
+		<Button classNames="fr-btn--secondary fr-btn--sm" on:click={openUpdateAdminLayer}
+			>Mettre à jour</Button
+		>
 	</span>
 </Card>
