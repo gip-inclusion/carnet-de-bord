@@ -4,8 +4,9 @@ plugins:
   - "@semantic-release/changelog"
 # bump frontend version (package.json)
   - - "@semantic-release/exec"
-    - { "execCwd": "app",
-        "prepareCmd": "yarn version --new-version ${nextRelease.version} --no-git-tag-version" }
+    - execCwd: "app"
+      prepareCmd |
+			  yarn version --new-version ${nextRelease.version} --no-git-tag-version
 # bump backend version (pyproject.toml)
   - - "@semantic-release/exec"
     - execCwd: "backend"
