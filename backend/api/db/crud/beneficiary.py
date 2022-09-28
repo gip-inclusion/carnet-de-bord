@@ -36,16 +36,16 @@ firstname_lastname_date_of_birth_unique_idx = (
 )
 
 
-async def select_beneficiary(
+async def get_beneficiaries_like(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id,
-):
-    return await connection.fetch(
+) -> list[Beneficiary]:
+    matching_beneficiaries: list[Record] = await connection.fetch(
         f"""
-SELECT firstname, lastname, date_of_birth, internal_id, deployment_id, id
+SELECT *
 FROM beneficiary
-WHERE (lower(trim(firstname)) = lower(trim($1)) AND lower(trim(lastname)) = lower(trim($2)) AND date_of_birth = $3)
+WHERE (lower(trim(firstname)) = $1 AND lower(trim(lastname)) = $2 AND date_of_birth = $3)
 OR (internal_id = $4 AND deployment_id = $5)
         """,
         beneficiary.firstname,
@@ -54,21 +54,39 @@ OR (internal_id = $4 AND deployment_id = $5)
         beneficiary.si_id,
         deployment_id,
     )
+    return [
+        Beneficiary.parse_obj(beneficiary) for beneficiary in matching_beneficiaries
+    ]
 
 
 async def update_beneficiary(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id,
+    id,
 ):
     return await connection.fetchrow(
         f"""
-UPDATE beneficiary SET mobile_number = $1
-where internal_id = $2
+UPDATE beneficiary SET mobile_number = $2,
+    address1 = $3,
+    address2 = $4,
+    postal_code = $5,
+    city = $6,
+    caf_number = $7,
+    pe_number = $8,
+    email = $9
+where id = $1
 returning id
         """,
+        id,
         beneficiary.phone_number,
-        beneficiary.si_id,
+        beneficiary.address1,
+        beneficiary.address2,
+        beneficiary.postal_code,
+        beneficiary.city,
+        beneficiary.caf_number,
+        beneficiary.pe_number,
+        beneficiary.email,
     )
 
 
@@ -79,8 +97,23 @@ async def insert_beneficiary(
 ):
     return await connection.fetchrow(
         f"""
-INSERT INTO BENEFICIARY (firstname, lastname, internal_id, date_of_birth, deployment_id, mobile_number)
-values ($1, $2, $3, $4, $5, $6)
+INSERT INTO BENEFICIARY (
+    firstname,
+    lastname,
+    internal_id,
+    date_of_birth,
+    deployment_id,
+    place_of_birth,
+    mobile_number,
+    address1,
+    address2,
+    postal_code,
+    city,
+    caf_number,
+    pe_number,
+    email
+    )
+values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
 returning id
         """,
         beneficiary.firstname,
@@ -88,7 +121,15 @@ returning id
         beneficiary.si_id,
         beneficiary.date_of_birth,
         deployment_id,
+        beneficiary.place_of_birth,
         beneficiary.phone_number,
+        beneficiary.address1,
+        beneficiary.address2,
+        beneficiary.postal_code,
+        beneficiary.city,
+        beneficiary.caf_number,
+        beneficiary.pe_number,
+        beneficiary.email,
     )
 
 
@@ -97,28 +138,22 @@ async def import_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ):
-    existing_rows = await select_beneficiary(connection, beneficiary, deployment_id)
-    if len(existing_rows) == 0:
-        record = await insert_beneficiary(connection, beneficiary, deployment_id)
-        logger.info("insert new beneficiary %s", record["id"])
-    else:
-        if (
-            len(existing_rows) == 1
-            and existing_rows[0]["firstname"].lower().strip()
-            == beneficiary.firstname.lower().strip()
-            and existing_rows[0]["lastname"].lower().strip()
-            == beneficiary.lastname.lower().strip()
-            and existing_rows[0]["date_of_birth"] == beneficiary.date_of_birth
-            and existing_rows[0]["internal_id"] == beneficiary.si_id
-        ):
-            # Doesn't work somehow
-            #     and existing_rows[0][0][4] == deployment_id
-            record = await update_beneficiary(connection, beneficiary, deployment_id)
-            logger.info("update existing info for beneficiary %s", record["id"])
-        else:
+    existing_rows = await get_beneficiaries_like(connection, beneficiary, deployment_id)
+    match existing_rows:
+        case []:
+            record = await insert_beneficiary(connection, beneficiary, deployment_id)
+            logger.info("inserted new beneficiary %s", record["id"])
+        case [
+            row
+        ] if row.firstname == beneficiary.firstname and row.lastname == beneficiary.lastname and row.date_of_birth == beneficiary.date_of_birth and row.internal_id == beneficiary.si_id and row.deployment_id == deployment_id:
+            record = await update_beneficiary(
+                connection, beneficiary, deployment_id, existing_rows[0].id
+            )
+            logger.info("updated existing beneficiary %s", record["id"])
+        case other:
             logger.info(
                 "block update for beneficiary %s",
-                [beneficiary["id"] for beneficiary in existing_rows],
+                [beneficiary.id for beneficiary in existing_rows],
             )
 
 

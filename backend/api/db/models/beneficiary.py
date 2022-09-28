@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 from api.db.models.notebook import Notebook
 
@@ -55,3 +55,14 @@ class BeneficiaryImport(BaseModel):
     education_level: str | None = Field(None, title="Niveau de formation")
     structure_name: str | None = Field(None, title="Structure d'accompagnement")
     advisor_email: str | None = Field(None, title="Accompagnateur référent")
+
+    @validator("firstname", "lastname")
+    def capitalize(cls, value):
+        return value.lower().strip()
+
+    @validator("right_are", "right_ass", "right_bonus", "right_rqth", pre=True)
+    def parse_bool(cls, value):
+        if type(value) == str and value.lower().strip() in ["oui", "o"]:
+            return True
+        else:
+            return False

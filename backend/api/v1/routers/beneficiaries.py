@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, Request
 
 from api.core.init import connection
@@ -15,7 +17,7 @@ async def tutu(
     request: Request,
     db=Depends(connection),
 ):
-    deployment_id = request.state.deployment_id
+    deployment_id: UUID = UUID(request.state.deployment_id)
     async with db.transaction():
         [
             await import_beneficiary(db, beneficiary, deployment_id)
