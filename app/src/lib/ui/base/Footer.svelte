@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Link } from '$lib/ui/base';
 	export let landing: string | null = '/';
+	const appVersion = __version__;
 </script>
 
 <footer class="fr-footer mt-8" id="footer">
@@ -36,6 +37,15 @@
 		</div>
 		<div class="fr-footer__bottom">
 			<ul class="fr-footer__bottom-list">
+				<li class="fr-footer__bottom-item">
+					<a
+						class="fr-footer__bottom-link"
+						href="https://github.com/SocialGouv/carnet-de-bord/blob/master/CHANGELOG.md"
+						target="_blank"
+					>
+						Version {appVersion}
+					</a>
+				</li>
 				<li class="fr-footer__bottom-item">
 					<!-- svelte-ignore a11y-missing-attribute -->
 					<a class="fr-footer__bottom-link">Plan du site</a>

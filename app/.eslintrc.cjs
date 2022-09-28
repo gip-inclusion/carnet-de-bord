@@ -18,4 +18,7 @@ module.exports = {
 	rules: {
 		'no-unused-vars': 'off',
 	},
+	globals: {
+		__version__: 'readonly',
+	},
 };
