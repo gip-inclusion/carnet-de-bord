@@ -1,17 +1,13 @@
 <script context="module" lang="ts">
-	import { Select, Button } from '$lib/ui/base';
-	import { ProBeneficiaryCreate, ProBeneficiaryCard } from '$lib/ui';
+	import { Select } from '$lib/ui/base';
+	import { ProBeneficiaryCard } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
-		CreateBeneficiaryMutationStore,
 		NotebookMember,
 		SearchNotebookMemberQueryStore,
 		SearchNotebookMemberQueryVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import {
-		SearchNotebookMemberDocument,
-		CreateBeneficiaryDocument,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { SearchNotebookMemberDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { Load } from '@sveltejs/kit';
 	import { operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
@@ -55,14 +51,12 @@
 		const { id } = session.user;
 		const queryVariables = buildQueryVariables({ accountId: id, search, selected });
 		const result = operationStore(SearchNotebookMemberDocument, queryVariables);
-		const createBeneficiaryResult = operationStore(CreateBeneficiaryDocument);
 
 		return {
 			props: {
 				accountId: id,
 				result,
 				search,
-				createBeneficiaryResult,
 				selected,
 			},
 		};
@@ -70,9 +64,7 @@
 </script>
 
 <script lang="ts">
-	import { openComponent } from '$lib/stores';
 	import { browser } from '$app/env';
-	export let createBeneficiaryResult: CreateBeneficiaryMutationStore;
 	export let result: SearchNotebookMemberQueryStore;
 	export let search: string;
 	export let accountId: string;
@@ -98,9 +90,6 @@
 		return `/pro/carnet/${id}`;
 	}
 
-	function addBeneficiary() {
-		openComponent.open({ component: ProBeneficiaryCreate, props: { createBeneficiaryResult } });
-	}
 	function handleSubmit() {
 		updateUrl(search, selected);
 		$result.variables = buildQueryVariables({ accountId, search, selected });
@@ -161,18 +150,11 @@
 			<div class="text-france-blue font-bold">
 				Désolé, aucun bénéficiaire ne correspond à votre recherche.
 			</div>
-			{#if false}
-				<div>Veuillez cliquer sur le bouton ci-dessous pour ajouter un bénéficiaire.</div>
-				<div class="pt-4">
-					<Button on:click={addBeneficiary} iconSide="right">Ajouter un bénéficiaire</Button>
-				</div>
-			{:else}
-				<p>
-					Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
-						>contactez-nous par tchat</button
-					>.
-				</p>
-			{/if}
+			<p>
+				Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+					>contactez-nous par tchat</button
+				>.
+			</p>
 		</div>
 	{:else}
 		<div class="fr-grid-row fr-grid-row--gutters">
@@ -182,17 +164,10 @@
 				</div>
 			{/each}
 		</div>
-		<!-- {/if} -->
-		{#if false}
-			<div>
-				<Button outline={true} on:click={addBeneficiary}>Ajouter un nouveau bénéficiaire</Button>
-			</div>
-		{:else}
-			<p>
-				Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
-					>contactez-nous par tchat</button
-				>.
-			</p>
-		{/if}
+		<p>
+			Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+				>contactez-nous par tchat</button
+			>.
+		</p>
 	{/if}
 </LoaderIndicator>
