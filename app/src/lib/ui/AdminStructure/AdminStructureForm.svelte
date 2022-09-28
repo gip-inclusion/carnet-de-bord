@@ -52,7 +52,6 @@
 			placeholder="0123456789, 0789542136"
 			inputLabel="Numéros de téléphone"
 			name="phoneNumbers"
-			required
 			class={hiddenFields.phoneNumbers ? 'hidden' : ''}
 		/>
 
