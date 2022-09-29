@@ -36,6 +36,9 @@ const config = {
 					external: [/\.test\.(t|j)s$/],
 				},
 			},
+			define: {
+				__version__: JSON.stringify(process.env.npm_package_version),
+			},
 		},
 		adapter: adapter({
 			// default options are shown

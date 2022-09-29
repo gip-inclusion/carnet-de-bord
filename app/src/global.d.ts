@@ -34,3 +34,5 @@ declare namespace App {
 		backendAPI?: string;
 	}
 }
+
+declare const __version__: string;
