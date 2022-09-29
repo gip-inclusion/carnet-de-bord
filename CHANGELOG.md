@@ -1,3 +1,10 @@
+## [1.146.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.146.1...v1.146.2) (2022-09-29)
+
+
+### Bug Fixes
+
+* fix missing wantedjob ([#1140](https://github.com/SocialGouv/carnet-de-bord/issues/1140)) ([b504360](https://github.com/SocialGouv/carnet-de-bord/commit/b504360220f150f742c354aea3c56767b4b36652))
+
 ## [1.146.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.146.0...v1.146.1) (2022-09-29)
 
 
