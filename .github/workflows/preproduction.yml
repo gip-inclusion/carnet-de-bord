@@ -96,6 +96,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: yarn
+          cache-dependency-path: 'e2e/yarn.lock'
       - name: Install dependencies
         run: |
           yarn --cwd e2e install --prefer-offline --frozen-lockfile
