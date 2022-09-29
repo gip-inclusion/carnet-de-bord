@@ -10,10 +10,13 @@ configuration:
       custom_name: structureId
     created_at:
       custom_name: createdAt
+    deleted_at:
+      custom_name: deletedAt
   custom_column_names:
     admin_structure_id: adminStructureId
     structure_id: structureId
     created_at: createdAt
+    deleted_at: deletedAt
 object_relationships:
   - name: admin_structure
     using:
