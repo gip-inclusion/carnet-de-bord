@@ -1,42 +1,17 @@
 import datetime
 import logging
-import re
 from io import BytesIO
-from uuid import UUID
 
 import chardet
 import magic
 import numpy as np
 import pandas as pd
-from asyncpg.connection import Connection
-from asyncpg.exceptions import UniqueViolationError
-from fastapi import (
-    APIRouter,
-    BackgroundTasks,
-    Depends,
-    HTTPException,
-    Request,
-    UploadFile,
-)
+from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from pandas import DataFrame
-from pandas.core.series import Series
-from pydantic import BaseModel, Json, ValidationError
+from pydantic import BaseModel
 
-from api.core.emails import generic_account_creation_email
-from api.core.init import connection
 from api.core.settings import settings
-from api.db.crud.account import insert_orientation_manager_account
-from api.db.crud.orientation_manager import insert_orientation_manager
-from api.db.models.account import AccountDB
-from api.db.models.beneficiary import BeneficiaryImport
-from api.db.models.orientation_manager import (
-    OrientationManagerCsvRow,
-    OrientationManagerResponseModel,
-    map_csv_row,
-    map_row_response,
-)
 from api.db.models.role import RoleEnum
-from api.sendmail import send_mail
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
@@ -84,7 +59,7 @@ def validate(beneficiary: dict) -> list[ParseError | FieldValue]:
         parse_field(
             "Date de naissance*", beneficiary, validators=[mandatory, date_format]
         ),
-        parse_field("Lieu de naissance*", beneficiary),
+        parse_field("Lieu de naissance", beneficiary),
         parse_field("Téléphone", beneficiary),
         parse_field("Email", beneficiary),
         parse_field("Adresse", beneficiary),

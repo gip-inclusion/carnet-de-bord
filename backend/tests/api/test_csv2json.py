@@ -1,6 +1,3 @@
-import json
-
-
 async def test_parse_csv(
     test_client,
     csv_filepath,
