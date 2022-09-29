@@ -32,6 +32,7 @@ pytest-mock = "^3.7.0"
 chardet = "^5.0.0"
 httpx = "^0.23.0"
 respx = "^0.20.0"
+luhn-validator = "^1.1.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"

@@ -12,6 +12,7 @@ from pydantic import BaseModel
 
 from api.core.settings import settings
 from api.db.models.role import RoleEnum
+from api.db.models.structure import StructureCsvRowResponse, map_csv_row
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
@@ -32,16 +33,24 @@ class ParseError(BaseModel):
     error_messages: list[str]
 
 
+@router.post("/structures", response_model=list[StructureCsvRowResponse])
+async def parse_structures(
+    upload_file: UploadFile,
+):
+    dataframe = await file_to_json(upload_file)
+    return [map_csv_row(row) for _, row in dataframe.iterrows()]
+
+
 @router.post("/beneficiaries", response_model=list[list[ParseError | FieldValue]])
 async def parse_beneficiaries(
     upload_file: UploadFile,
 ):
     dataframe = await file_to_json(upload_file)
     records = dataframe.to_dict(orient="records")
-    return [validate(record) for record in records]
+    return [validate_beneficiary(record) for record in records]
 
 
-def validate(beneficiary: dict) -> list[ParseError | FieldValue]:
+def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
     if "AAH" in beneficiary:
         # Old mislabeled CSV column name for rqth. Kept for retrocompatibility.
         rqth = "AAH"
