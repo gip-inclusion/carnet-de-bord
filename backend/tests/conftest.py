@@ -32,7 +32,7 @@ def test_directory() -> str:
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def fastapi_app(seed_filepath):
+async def fastapi_app(seed_filepath: str):
     # @TODO: read it from the root .env file
     settings.database_url = os.getenv(
         "DATABASE_URL", "postgres://cdb:test@localhost:5433/carnet_de_bord"
@@ -40,7 +40,7 @@ async def fastapi_app(seed_filepath):
     app = create_app()
     await app.state.db.create_pool()
     async with app.state.db.pool.acquire() as connection:
-        with open(seed_filepath, "r") as file:
+        with open(seed_filepath, "r", encoding="UTF-8") as file:
             data = file.read()
             await connection.execute(data)
 
@@ -93,7 +93,7 @@ def orientation_manager_xlsx_filepath() -> str:
 
 
 @pytest.fixture
-def csv_filepath() -> str:
+def csv_beneficiary_filepath() -> str:
     return os.path.join(
         test_dir,
         "fixtures",
@@ -110,6 +110,33 @@ def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
         dtype=str,
         keep_default_na=False,
         na_values=["_"],
+    )
+
+
+@pytest.fixture
+def csv_structure_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "import_structures.csv",
+    )
+
+
+@pytest.fixture
+def csv_structure_buggy_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "import_structures_buggy.csv",
+    )
+
+
+@pytest.fixture
+def csv_structure_missing_key_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "import_structures_missing_key.csv",
     )
 
 
