@@ -254,6 +254,7 @@ update_permissions:
     permission:
       columns:
         - active
+        - last_modified_at
         - member_type
       filter:
         notebook:
