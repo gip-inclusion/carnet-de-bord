@@ -1,9 +1,9 @@
-name: 'Setup Hasura CLI'
-description: 'Installs the Hasura CLI'
+name: "Setup Hasura CLI"
+description: "Installs the Hasura CLI"
 inputs:
   hasura-version:
     required: true
-    description: 'Hasura version (e.g. 2.8.3)'
+    description: "Hasura version"
 
 runs:
   using: "composite"
