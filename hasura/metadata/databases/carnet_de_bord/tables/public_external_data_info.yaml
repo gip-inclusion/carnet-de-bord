@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: external_data_info
+  schema: public
 object_relationships:
   - name: beneficiary
     using:

@@ -1,25 +1,25 @@
 table:
-  schema: public
   name: structure
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    postal_code:
-      custom_name: postalCode
+    created_at:
+      custom_name: createdAt
     deployment_id:
       custom_name: deploymentId
+    postal_code:
+      custom_name: postalCode
     short_desc:
       custom_name: shortDesc
     updated_at:
       custom_name: updatedAt
-    created_at:
-      custom_name: createdAt
   custom_column_names:
-    postal_code: postalCode
+    created_at: createdAt
     deployment_id: deploymentId
+    postal_code: postalCode
     short_desc: shortDesc
     updated_at: updatedAt
-    created_at: createdAt
+  custom_root_fields: {}
 object_relationships:
   - name: deployment
     using:
@@ -30,22 +30,22 @@ array_relationships:
       foreign_key_constraint_on:
         column: structure_id
         table:
-          schema: public
           name: admin_structure_structure
+          schema: public
   - name: beneficiaries
     using:
       foreign_key_constraint_on:
         column: structure_id
         table:
-          schema: public
           name: beneficiary_structure
+          schema: public
   - name: professionals
     using:
       foreign_key_constraint_on:
         column: structure_id
         table:
-          schema: public
           name: professional
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:

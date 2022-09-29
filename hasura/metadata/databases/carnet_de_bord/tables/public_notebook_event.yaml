@@ -1,25 +1,25 @@
 table:
-  schema: public
   name: notebook_event
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
+    creation_date:
+      custom_name: creationDate
+    creator_id:
+      custom_name: creatorId
     event_date:
       custom_name: eventDate
     event_type:
       custom_name: eventType
-    creation_date:
-      custom_name: creationDate
     notebook_id:
       custom_name: notebookId
-    creator_id:
-      custom_name: creatorId
   custom_column_names:
+    creation_date: creationDate
+    creator_id: creatorId
     event_date: eventDate
     event_type: eventType
-    creation_date: creationDate
     notebook_id: notebookId
-    creator_id: creatorId
+  custom_root_fields: {}
 object_relationships:
   - name: creator
     using:

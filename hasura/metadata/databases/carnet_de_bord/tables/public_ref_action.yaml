@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: ref_action
+  schema: public
 select_permissions:
   - role: admin_cdb
     permission:

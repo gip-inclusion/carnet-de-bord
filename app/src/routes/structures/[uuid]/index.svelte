@@ -225,7 +225,7 @@
 			<div class="fr-grid-row fr-grid-row--gutters">
 				{#each members as member (member.id)}
 					<div class="fr-col-6 fr-col-md-4">
-						<AdminStructureCard adminStructure={member} />
+						<AdminStructureCard adminStructure={member} {structureId} />
 					</div>
 				{/each}
 			</div>

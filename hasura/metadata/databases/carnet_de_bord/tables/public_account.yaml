@@ -1,46 +1,46 @@
 table:
-  schema: public
   name: account
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
+    access_key:
+      custom_name: accessKey
+    access_key_date:
+      custom_name: accessKeyDate
+    admin_id:
+      custom_name: adminId
+    admin_structure_id:
+      custom_name: adminStructureId
+    beneficiary_id:
+      custom_name: beneficiaryId
+    created_at:
+      custom_name: createdAt
+    last_login:
+      custom_name: lastLogin
+    manager_id:
+      custom_name: managerId
     onboarding_done:
       custom_name: onboardingDone
     orientation_manager_id:
       custom_name: orientationManagerId
     professional_id:
       custom_name: professionalId
-    beneficiary_id:
-      custom_name: beneficiaryId
-    access_key:
-      custom_name: accessKey
-    access_key_date:
-      custom_name: accessKeyDate
-    admin_structure_id:
-      custom_name: adminStructureId
     updated_at:
       custom_name: updatedAt
-    created_at:
-      custom_name: createdAt
-    admin_id:
-      custom_name: adminId
-    last_login:
-      custom_name: lastLogin
-    manager_id:
-      custom_name: managerId
   custom_column_names:
+    access_key: accessKey
+    access_key_date: accessKeyDate
+    admin_id: adminId
+    admin_structure_id: adminStructureId
+    beneficiary_id: beneficiaryId
+    created_at: createdAt
+    last_login: lastLogin
+    manager_id: managerId
     onboarding_done: onboardingDone
     orientation_manager_id: orientationManagerId
     professional_id: professionalId
-    beneficiary_id: beneficiaryId
-    access_key: accessKey
-    access_key_date: accessKeyDate
-    admin_structure_id: adminStructureId
     updated_at: updatedAt
-    created_at: createdAt
-    admin_id: adminId
-    last_login: lastLogin
-    manager_id: managerId
+  custom_root_fields: {}
 object_relationships:
   - name: admin
     using:
@@ -69,50 +69,50 @@ array_relationships:
       foreign_key_constraint_on:
         column: creator_id
         table:
-          schema: public
           name: notebook_action
+          schema: public
   - name: notebookEventsCreated
     using:
       foreign_key_constraint_on:
         column: creator_id
         table:
-          schema: public
           name: notebook_event
+          schema: public
   - name: notebookFocusesCreated
     using:
       foreign_key_constraint_on:
         column: creator_id
         table:
-          schema: public
           name: notebook_focus
+          schema: public
   - name: notebookTargetsCreated
     using:
       foreign_key_constraint_on:
         column: creator_id
         table:
-          schema: public
           name: notebook_target
+          schema: public
   - name: notebooksCreated
     using:
       foreign_key_constraint_on:
         column: creator_id
         table:
-          schema: public
           name: notebook_member
+          schema: public
   - name: notebooksWhereMember
     using:
       foreign_key_constraint_on:
         column: account_id
         table:
-          schema: public
           name: notebook_member
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:
       check: {}
       set:
-        type: manager
         confirmed: "True"
+        type: manager
       columns:
         - id
         - username

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: notebook_event_type
+  schema: public
 is_enum: true
 array_relationships:
   - name: notebook_events
@@ -8,5 +8,5 @@ array_relationships:
       foreign_key_constraint_on:
         column: event_type
         table:
-          schema: public
           name: notebook_event
+          schema: public

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: external_data
+  schema: public
 object_relationships:
   - name: external_source
     using:

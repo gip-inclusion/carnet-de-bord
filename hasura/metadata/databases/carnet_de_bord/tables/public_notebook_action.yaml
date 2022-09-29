@@ -1,25 +1,25 @@
 table:
-  schema: public
   name: notebook_action
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
+    created_at:
+      custom_name: createdAt
+    creator_id:
+      custom_name: creatorId
     initial_id:
       custom_name: initialId
     target_id:
       custom_name: targetId
     updated_at:
       custom_name: updatedAt
-    created_at:
-      custom_name: createdAt
-    creator_id:
-      custom_name: creatorId
   custom_column_names:
+    created_at: createdAt
+    creator_id: creatorId
     initial_id: initialId
     target_id: targetId
     updated_at: updatedAt
-    created_at: createdAt
-    creator_id: creatorId
+  custom_root_fields: {}
 object_relationships:
   - name: creator
     using:

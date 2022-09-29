@@ -1,27 +1,27 @@
 table:
-  schema: public
   name: manager
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
+    created_at:
+      custom_name: createdAt
     deployment_id:
       custom_name: deploymentId
     updated_at:
       custom_name: updatedAt
-    created_at:
-      custom_name: createdAt
   custom_column_names:
+    created_at: createdAt
     deployment_id: deploymentId
     updated_at: updatedAt
-    created_at: createdAt
+  custom_root_fields: {}
 object_relationships:
   - name: account
     using:
       foreign_key_constraint_on:
         column: manager_id
         table:
-          schema: public
           name: account
+          schema: public
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id

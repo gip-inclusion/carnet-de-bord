@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: orientation_type
+  schema: public
 is_enum: true
 array_relationships:
   - name: beneficiary_infos
@@ -8,8 +8,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: orientation
         table:
-          schema: public
           name: beneficiary_info
+          schema: public
 select_permissions:
   - role: admin_cdb
     permission:

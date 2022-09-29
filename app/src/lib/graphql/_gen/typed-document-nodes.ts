@@ -11923,6 +11923,22 @@ export type GetNotebookForBeneficiaryQuery = {
 	}>;
 };
 
+export type RemoveAdminStructureStructureMutationMutationVariables = Exact<{
+	adminStructureId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+}>;
+
+export type RemoveAdminStructureStructureMutationMutation = {
+	__typename?: 'mutation_root';
+	update_admin_structure_structure?:
+		| {
+				__typename?: 'admin_structure_structure_mutation_response';
+				returning: Array<{ __typename?: 'admin_structure_structure'; id: string }>;
+		  }
+		| null
+		| undefined;
+};
+
 export type RemoveNotebookMembersMutationVariables = Exact<{
 	remove: NotebookMemberBoolExp;
 }>;
@@ -15521,6 +15537,118 @@ export const GetNotebookForBeneficiaryDocument = {
 } as unknown as DocumentNode<
 	GetNotebookForBeneficiaryQuery,
 	GetNotebookForBeneficiaryQueryVariables
+>;
+export const RemoveAdminStructureStructureMutationDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'RemoveAdminStructureStructureMutation' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminStructureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_admin_structure_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'adminStructureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'adminStructureId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'structureId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deletedAt' },
+											value: { kind: 'StringValue', value: 'now', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	RemoveAdminStructureStructureMutationMutation,
+	RemoveAdminStructureStructureMutationMutationVariables
 >;
 export const RemoveNotebookMembersDocument = {
 	kind: 'Document',
@@ -27844,6 +27972,10 @@ export type AddNotebookMemberBatchMutationStore = OperationStore<
 export type GetNotebookForBeneficiaryQueryStore = OperationStore<
 	GetNotebookForBeneficiaryQuery,
 	GetNotebookForBeneficiaryQueryVariables
+>;
+export type RemoveAdminStructureStructureMutationMutationStore = OperationStore<
+	RemoveAdminStructureStructureMutationMutation,
+	RemoveAdminStructureStructureMutationMutationVariables
 >;
 export type RemoveNotebookMembersMutationStore = OperationStore<
 	RemoveNotebookMembersMutation,
