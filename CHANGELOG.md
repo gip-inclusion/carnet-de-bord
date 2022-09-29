@@ -1,3 +1,10 @@
+# [1.146.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.145.0...v1.146.0) (2022-09-29)
+
+
+### Features
+
+* Mettre à jour les informations d'un gestionnaire de structure. ([#1134](https://github.com/SocialGouv/carnet-de-bord/issues/1134)) ([3b90dad](https://github.com/SocialGouv/carnet-de-bord/commit/3b90dad7efb3fae32fc6c65270f7799553ec3992))
+
 # [1.145.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.144.5...v1.145.0) (2022-09-29)
 
 
