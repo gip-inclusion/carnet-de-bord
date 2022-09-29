@@ -268,14 +268,15 @@
 				educationLevel: stringToEducationLevel(benef.educationLevel),
 				members,
 				structures: structs,
-				wantedJobs: beneficiary.wantedJobs
-					.split(',')
-					.map((s) => s.trim())
-					.map(romeCodeMatcher)
-					.filter(Boolean)
-					.map((rome_code_id) => ({
-						rome_code_id,
-					})),
+				wantedJobs:
+					beneficiary.wantedJobs
+						?.split(',')
+						.map((s) => s.trim())
+						.map(romeCodeMatcher)
+						.filter(Boolean)
+						.map((rome_code_id) => ({
+							rome_code_id,
+						})) || [],
 			};
 			await Promise.all([
 				inserter(payload),
