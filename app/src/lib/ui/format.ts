@@ -12,6 +12,11 @@ export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string })
 	if (!mobileNumber) {
 		return null;
 	}
+	const phoneNumbers = mobileNumber.split(',');
+	return phoneNumbers.map((phoneNumber) => formatMobileNumber(phoneNumber)).join(', ');
+};
+
+const formatMobileNumber = (mobileNumber: string): string => {
 	const phoneNumber = [];
 	const chunkSize = 2;
 	for (let i = 0; i < mobileNumber.length; i += chunkSize) {

@@ -1,0 +1,14 @@
+mutation UpdateAdminStructureById($id: uuid! $obj:admin_structure_set_input!) {
+  update_admin_structure_by_pk(
+    _set: $obj
+    pk_columns: {
+      id: $id
+    }
+  ) {
+    id
+    firstname
+    lastname
+    email
+    phoneNumbers
+  }
+}

@@ -299,3 +299,8 @@ After((params) => {
 Alors('je vois la colonne {string}', (text) => {
 	I.seeElement(`//th[contains(., "${text}")]`);
 });
+
+Alors('je clique sur {string} dans la tuile {string}', (text, tileText) => {
+	const locator = locate('.fr-card').withDescendant(locate('*').withText(tileText));
+	I.click(locator.find(`//*[text()[contains(.,'${text}')]]`));
+});
