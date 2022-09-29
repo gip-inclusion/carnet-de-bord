@@ -1,3 +1,10 @@
+# [1.145.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.144.5...v1.145.0) (2022-09-29)
+
+
+### Features
+
+* Ajout du numéro de version dans le pied de page de l'application. ([#1135](https://github.com/SocialGouv/carnet-de-bord/issues/1135)) ([5ef657a](https://github.com/SocialGouv/carnet-de-bord/commit/5ef657a02408835f109e94ed9f0bbb035d75de86))
+
 ## [1.144.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.144.1...v1.144.2) (2022-09-27)
 
 
