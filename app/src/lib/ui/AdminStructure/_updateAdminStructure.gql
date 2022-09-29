@@ -5,7 +5,6 @@ mutation UpdateAdminStructureById($id: uuid! $email: citext!, $firstname: String
       firstname: $firstname,
       lastname: $lastname,
       phoneNumbers: $phoneNumbers,
-      updatedAt: "now()"
     },
     pk_columns: {
       id: $id

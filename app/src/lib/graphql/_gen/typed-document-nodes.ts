@@ -14346,11 +14346,6 @@ export const UpdateAdminStructureByIdDocument = {
 											name: { kind: 'Name', value: 'phoneNumbers' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
 										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'updatedAt' },
-											value: { kind: 'StringValue', value: 'now()', block: false },
-										},
 									],
 								},
 							},
