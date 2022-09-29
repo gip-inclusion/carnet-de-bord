@@ -1,11 +1,6 @@
-mutation UpdateAdminStructureById($id: uuid! $email: citext!, $firstname: String!, $lastname: String!, $phoneNumbers: String) {
+mutation UpdateAdminStructureById($id: uuid! $obj:admin_structure_set_input!) {
   update_admin_structure_by_pk(
-    _set: {
-      email: $email,
-      firstname: $firstname,
-      lastname: $lastname,
-      phoneNumbers: $phoneNumbers,
-    },
+    _set: $obj
     pk_columns: {
       id: $id
     }

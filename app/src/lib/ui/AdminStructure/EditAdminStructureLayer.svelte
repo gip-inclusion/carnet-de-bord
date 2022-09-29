@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { openComponent } from '$lib/stores';
-	import type { AdminStructureAccountInput } from './adminStructure.schema';
-	import type { AdminStructure } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		AdminStructure,
+		AdminStructureSetInput,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, mutation } from '@urql/svelte';
 	import { UpdateAdminStructureByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import AdminStructureForm from './AdminStructureForm.svelte';
@@ -21,11 +23,9 @@
 	const updateAdminStructureStore = operationStore(UpdateAdminStructureByIdDocument);
 	const updateAdminStructure = mutation(updateAdminStructureStore);
 
-	async function editAdminSubmitHandler(data: AdminStructureAccountInput) {
+	async function editAdminSubmitHandler(obj: AdminStructureSetInput) {
 		try {
-			// For yet unkwown reason the data object has a __typename property
-			delete data.__typename;
-			await updateAdminStructure({ id: adminStructure.id, ...data });
+			await updateAdminStructure({ id: adminStructure.id, obj });
 			closeLayer();
 		} catch (error) {
 			console.error(error);

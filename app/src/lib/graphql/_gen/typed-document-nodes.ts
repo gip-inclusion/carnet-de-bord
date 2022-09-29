@@ -10639,10 +10639,7 @@ export type RemoveNotebookMembersMutation = {
 
 export type UpdateAdminStructureByIdMutationVariables = Exact<{
 	id: Scalars['uuid'];
-	email: Scalars['citext'];
-	firstname: Scalars['String'];
-	lastname: Scalars['String'];
-	phoneNumbers?: InputMaybe<Scalars['String']>;
+	obj: AdminStructureSetInput;
 }>;
 
 export type UpdateAdminStructureByIdMutation = {
@@ -14285,32 +14282,11 @@ export const UpdateAdminStructureByIdDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'obj' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'admin_structure_set_input' } },
 					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 			],
 			selectionSet: {
@@ -14323,31 +14299,7 @@ export const UpdateAdminStructureByIdDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'phoneNumbers' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumbers' } },
-										},
-									],
-								},
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'obj' } },
 							},
 							{
 								kind: 'Argument',

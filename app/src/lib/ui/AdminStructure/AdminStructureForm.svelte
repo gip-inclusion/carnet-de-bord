@@ -17,7 +17,12 @@
 </script>
 
 <Form
-	{initialValues}
+	initialValues={{
+		firstname: initialValues.firstname,
+		lastname: initialValues.lastname,
+		email: initialValues.email,
+		phoneNumbers: initialValues.phoneNumbers,
+	}}
 	validationSchema={adminStructureAccountSchema}
 	{onSubmit}
 	let:isSubmitting
