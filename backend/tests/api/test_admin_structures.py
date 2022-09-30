@@ -155,7 +155,66 @@ async def test_insert_existing_admin_structure_in_existing_structure(
         headers={"jwt-token": f"{get_admin_structure_jwt}"},
     )
 
-    assert response.status_code == 422
+    assert response.status_code == 200
+
+
+async def test_insert_deleted_admin_structure_in_structure_in_db(
+    test_client,
+    db_connection: Connection,
+    get_admin_structure_jwt,
+    mocker,
+):
+    mocker.patch(sendmail_path, return_value=True)
+
+    records = await db_connection.fetch(
+        """
+            UPDATE admin_structure_structure SET deleted_at = 'now()'
+            FROM admin_structure
+            WHERE admin_structure_structure.admin_structure_id = admin_structure.id
+            AND admin_structure_structure.structure_id = $1 AND admin_structure.email = $2
+            RETURNING admin_structure_structure.id, admin_structure_structure.structure_id, admin_structure_structure.admin_structure_id
+        """,
+        structure_id,
+        "vincent.timaitre@groupe-ns.fr",
+    )
+
+    response = test_client.post(
+        api_path,
+        json={
+            "admin": {
+                "email": "vincent.timaitre@groupe-ns.fr ",
+                "firstname": "Vincent",
+                "lastname": "timaitre",
+                "phone_numbers": "0601020304",
+                "position": "responsable",
+                "deployment_id": deployment_id,
+            },
+            "structure_id": structure_id,
+        },
+        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+    )
+
+    assert response.status_code == 200
+
+    records = await db_connection.fetch(
+        """
+            SELECT structure.name as s_name, admin_structure.email as email
+            FROM public.admin_structure, admin_structure_structure, structure, account
+            WHERE admin_structure.id = admin_structure_structure.admin_structure_id
+            AND admin_structure_structure.structure_id = structure.id
+            AND account.admin_structure_id = admin_structure.id
+            AND admin_structure.email LIKE $1
+            AND admin_structure_structure.deleted_at IS NULL
+            ORDER BY s_name
+         """,
+        "vincent.timaitre@groupe-ns.fr",
+    )
+
+    assert len(records) == 2
+    assert records[0]["s_name"] == "Groupe NS"
+    assert records[0]["email"] == "vincent.timaitre@groupe-ns.fr"
+    assert records[1]["s_name"] == "Pole Emploi Agence Livry-Gargnan"
+    assert records[1]["email"] == "vincent.timaitre@groupe-ns.fr"
 
 
 async def test_background_task(test_client, get_admin_structure_jwt: str, mocker):

@@ -86,16 +86,6 @@ async def create_admin_structure(
                 )
             return admin_structure
 
-        except UniqueViolationError as error:
-            logging.error(
-                "uniqueness violation fail for insert admin_structure_structure: {}".format(
-                    error
-                )
-            )
-            raise HTTPException(
-                status_code=422,
-                detail="impossible to associate given admin with given structure: relationship already exists",
-            ) from error
         except Exception as error:
             logging.error("insert fail {}".format(error))
             raise HTTPException(
