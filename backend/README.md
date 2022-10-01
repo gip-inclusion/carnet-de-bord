@@ -46,3 +46,9 @@ Dans le répertoire racine du projet, lancez `./scripts/launch_tests.sh` pour la
 Copiez le fichier `.env.test.sample` vers `.env.test`. Ensuite, lancez dans le répertoire `backend` les tests pytest avec poetry :
 
     ENV_FILE=../.env.test poetry run pytest -s tests
+
+
+Pour lancer les tests en mode watch :
+```
+ENV_FILE=../.env.test poetry run ptw --runner "pytest --testmon" .
+```
