@@ -58,8 +58,6 @@ insert_permissions:
           - structure:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
-          - deleted_at:
-              _is_null: false
       columns:
         - admin_structure_id
         - structure_id
