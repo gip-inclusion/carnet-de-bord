@@ -198,7 +198,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                 )
 
         except Exception as e:
-            logging.error("Exception while parsing CSV line: {}".format(e))
+            logging.error("Exception while processing CSV line: {}".format(e))
             traceback.print_exc()
 
 
