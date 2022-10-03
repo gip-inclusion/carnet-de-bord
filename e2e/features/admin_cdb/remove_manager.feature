@@ -6,7 +6,7 @@ Fonctionnalité: Suppression d'un manager
 	En tant qu'admininstrateur carnet de bord
 	Je veux pouvoir supprimer un manager d'un déploiement
 
-	Scénario: Suppréssion d'un manager
+	Scénario: Suppression d'un manager
 		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
 		Quand je clique sur "expérimentation 51"
 		Alors je vois "Déploiement expérimentation 51"
