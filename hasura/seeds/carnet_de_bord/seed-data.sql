@@ -307,7 +307,7 @@ INSERT INTO public.account (id, username, type, professional_id, confirmed, onbo
 
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('607cb6f8-9e33-4ce8-98b1-38e60c9dda99', 'giulia.diaby@cd93.fr', 'Diaby', 'Giulia', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'giulia.diaby', 'orientation_manager', '607cb6f8-9e33-4ce8-98b1-38e60c9dda99', true, false);
-INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('b712740e-74da-4b0b-96c8-d689be164807', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('b712740e-74da-4b0b-96c8-d689be164807', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
 
 
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('a55d1dd2-2b09-4456-bcc5-1412695f684f', 'logement', '["Hébergé chez un tiers"]', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:15:54.752334+00', 'cer');
