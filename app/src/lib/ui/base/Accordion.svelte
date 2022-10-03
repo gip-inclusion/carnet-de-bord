@@ -11,7 +11,7 @@
 	$: expanded = $selectedItem === internalItemKey;
 
 	let overflow = false;
-	let timeout;
+	let timeout: ReturnType<typeof setTimeout>;
 
 	function disclose() {
 		// this is a fix to allow a component with a floating part to not be cropped by the parent accordeon
