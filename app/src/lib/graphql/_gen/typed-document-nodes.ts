@@ -22864,6 +22864,31 @@ export const InsertStructureAdminStructureDocument = {
 						arguments: [
 							{
 								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: {
+												kind: 'EnumValue',
+												value: 'admin_structure_structure_admin_structure_id_structure_id_key',
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'ListValue',
+												values: [{ kind: 'EnumValue', value: 'deletedAt' }],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
 								name: { kind: 'Name', value: 'object' },
 								value: {
 									kind: 'ObjectValue',

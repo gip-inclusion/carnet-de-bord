@@ -121,3 +121,16 @@ update_permissions:
             admin_structure_id:
               _eq: X-Hasura-adminStructure-Id
       check: null
+  - role: manager
+    permission:
+      columns:
+        - deleted_at
+      filter:
+        _and:
+          - admin_structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      check: null

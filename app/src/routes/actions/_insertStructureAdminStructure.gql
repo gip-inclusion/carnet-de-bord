@@ -1,5 +1,6 @@
 mutation InsertStructureAdminStructure($structureId: uuid!, $adminStructureId: uuid!) {
 	insert_admin_structure_structure_one(
+    on_conflict: { constraint: admin_structure_structure_admin_structure_id_structure_id_key, update_columns: [deletedAt]}
 		object: { adminStructureId: $adminStructureId, structureId: $structureId }
 	) {
 		id
