@@ -8,6 +8,7 @@ from asyncpg.connection import Connection
 from api.db.models.account import AccountInfo
 from api.db.models.action import Action
 from api.db.models.appointment import Appointment
+from api.db.models.beneficiary import BeneficiaryImport
 from api.db.models.focus import Focus
 from api.db.models.notebook import Notebook
 from api.db.models.notebook_member import NotebookMember, NotebookMemberInsert
@@ -570,3 +571,34 @@ async def get_notebook_by_id(
         """WHERE n.id = $1""",
         notebook_id,
     )
+
+
+async def create_new_notebook(
+    connection: Connection,
+    beneficiary_id: UUID,
+    beneficiary: BeneficiaryImport,
+):
+    record = await connection.fetchrow(
+        """
+        INSERT INTO public.notebook (
+            beneficiary_id,
+            right_rsa,
+            right_rqth,
+            right_are,
+            right_ass,
+            right_bonus
+            )
+        VALUES ($1, $2, $3, $4, $5, $6)
+        returning *
+        """,
+        beneficiary_id,
+        beneficiary.right_rsa,
+        beneficiary.right_rqth,
+        beneficiary.right_are,
+        beneficiary.right_ass,
+        beneficiary.right_bonus,
+    )
+
+
+#    if record:
+#        return await parse_notebook_from_record(record, record_prefix="")

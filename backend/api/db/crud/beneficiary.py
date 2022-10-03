@@ -133,30 +133,6 @@ returning id
     )
 
 
-async def import_beneficiary(
-    connection: Connection,
-    beneficiary: BeneficiaryImport,
-    deployment_id,
-):
-    existing_rows = await get_beneficiaries_like(connection, beneficiary, deployment_id)
-    match existing_rows:
-        case []:
-            record = await insert_beneficiary(connection, beneficiary, deployment_id)
-            logger.info("inserted new beneficiary %s", record["id"])
-        case [
-            row
-        ] if row.firstname == beneficiary.firstname and row.lastname == beneficiary.lastname and row.date_of_birth == beneficiary.date_of_birth and row.internal_id == beneficiary.si_id and row.deployment_id == deployment_id:
-            record = await update_beneficiary(
-                connection, beneficiary, deployment_id, existing_rows[0].id
-            )
-            logger.info("updated existing beneficiary %s", record["id"])
-        case other:
-            logger.info(
-                "block update for beneficiary %s",
-                [beneficiary.id for beneficiary in existing_rows],
-            )
-
-
 async def get_beneficiary_with_query(
     connection: Connection, query: str, *args
 ) -> Beneficiary | None:
@@ -174,7 +150,6 @@ async def get_beneficiary_with_query(
 
             if beneficiary is None:
                 beneficiary = Beneficiary.parse_obj(beneficiary_record)
-
             if beneficiary_record["n_id"] is not None:
                 beneficiary.notebook = await parse_notebook_from_record(
                     beneficiary_record,

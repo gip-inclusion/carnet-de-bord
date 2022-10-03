@@ -117,13 +117,13 @@ async def test_insert_beneficiary_check_all_fields(
     #   assert beneficiary_in_db.work_situation == harry_covert.work_situation
     assert beneficiary_in_db.caf_number == harry_covert.caf_number
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
+    assert beneficiary_in_db.notebook.right_rsa == harry_covert.right_rsa
+    assert beneficiary_in_db.notebook.right_are == True
+    assert beneficiary_in_db.notebook.right_ass == False
+    assert beneficiary_in_db.notebook.right_bonus == False
+    assert beneficiary_in_db.notebook.right_rqth == False
 
 
-#   assert beneficiary_in_db.right_rsa == harry_covert.right_rsa
-#   assert beneficiary_in_db.right_are == True
-#   assert beneficiary_in_db.right_ass == False
-#   assert beneficiary_in_db.right_bonus == False
-#   assert beneficiary_in_db.right_rqth == False
 #   assert beneficiary_in_db.geographical_area == harry_covert.geographical_area
 #   assert beneficiary_in_db.rome_code_description == harry_covert.rome_code_description
 #   assert beneficiary_in_db.education_level == harry_covert.education_level

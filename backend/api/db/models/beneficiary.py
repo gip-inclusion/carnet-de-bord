@@ -62,7 +62,13 @@ class BeneficiaryImport(BaseModel):
 
     @validator("right_are", "right_ass", "right_bonus", "right_rqth", pre=True)
     def parse_bool(cls, value):
-        if type(value) == str and value.lower().strip() in ["oui", "o"]:
-            return True
+        print(value, type(value))
+        if type(value) == str:
+            if value.lower().strip() in ["oui", "o"]:
+                return True
+            else:
+                return False
+        elif type(value) == bool:
+            return value
         else:
             return False
