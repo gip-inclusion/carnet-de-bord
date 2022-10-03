@@ -1,34 +1,34 @@
 table:
-  schema: public
   name: notebook_member
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    last_visited_at:
-      custom_name: lastVisitedAt
+    account_id:
+      custom_name: accountId
+    created_at:
+      custom_name: createdAt
+    creator_id:
+      custom_name: creatorId
     invitation_sent_at:
       custom_name: invitationSendAt
     last_modified_at:
       custom_name: lastModifiedAt
+    last_visited_at:
+      custom_name: lastVisitedAt
     member_type:
       custom_name: memberType
-    created_at:
-      custom_name: createdAt
-    account_id:
-      custom_name: accountId
     notebook_id:
       custom_name: notebookId
-    creator_id:
-      custom_name: creatorId
   custom_column_names:
-    last_visited_at: lastVisitedAt
+    account_id: accountId
+    created_at: createdAt
+    creator_id: creatorId
     invitation_sent_at: invitationSendAt
     last_modified_at: lastModifiedAt
+    last_visited_at: lastVisitedAt
     member_type: memberType
-    created_at: createdAt
-    account_id: accountId
     notebook_id: notebookId
-    creator_id: creatorId
+  custom_root_fields: {}
 object_relationships:
   - name: account
     using:

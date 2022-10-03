@@ -1,8 +1,7 @@
 table:
-  schema: public
   name: notebook_appointment
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
     account_id:
       custom_name: memberAccountId
@@ -11,6 +10,7 @@ configuration:
   custom_column_names:
     account_id: memberAccountId
     notebook_id: notebookId
+  custom_root_fields: {}
 object_relationships:
   - name: account
     using:

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: wanted_job
+  schema: public
 object_relationships:
   - name: notebook
     using:

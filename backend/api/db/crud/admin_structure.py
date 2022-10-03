@@ -48,6 +48,8 @@ async def insert_admin_structure_structure(
         """
             INSERT INTO public.admin_structure_structure(admin_structure_id, structure_id)
             VALUES ($1, $2)
+            ON CONFLICT ON CONSTRAINT admin_structure_structure_admin_structure_id_structure_id_key
+            DO UPDATE SET deleted_at = NULL
             RETURNING id
             """,
         admin_structure_id,

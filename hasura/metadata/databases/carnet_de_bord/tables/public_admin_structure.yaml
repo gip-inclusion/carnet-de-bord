@@ -1,32 +1,32 @@
 table:
-  schema: public
   name: admin_structure
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    deployment_id:
-      custom_name: deploymentId
-    updated_at:
-      custom_name: updatedAt
     created_at:
       custom_name: createdAt
+    deployment_id:
+      custom_name: deploymentId
     phone_numbers:
       custom_name: phoneNumbers
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
-    deployment_id: deploymentId
-    updated_at: updatedAt
     created_at: createdAt
+    deployment_id: deploymentId
     phone_numbers: phoneNumbers
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: account
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: account
-        insertion_order: null
         column_mapping:
           id: admin_structure_id
+        insertion_order: null
+        remote_table:
+          name: account
+          schema: public
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
@@ -36,8 +36,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: admin_structure_id
         table:
-          schema: public
           name: admin_structure_structure
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:

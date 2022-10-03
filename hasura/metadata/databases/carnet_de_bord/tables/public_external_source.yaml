@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: external_source
+  schema: public
 is_enum: true
 array_relationships:
   - name: external_data
@@ -8,5 +8,5 @@ array_relationships:
       foreign_key_constraint_on:
         column: source
         table:
-          schema: public
           name: external_data
+          schema: public

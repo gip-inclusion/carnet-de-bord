@@ -1,57 +1,57 @@
 table:
-  schema: public
   name: beneficiary
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    postal_code:
-      custom_name: postalCode
     caf_number:
       custom_name: cafNumber
+    created_at:
+      custom_name: createdAt
     date_of_birth:
       custom_name: dateOfBirth
     deployment_id:
       custom_name: deploymentId
-    pe_number:
-      custom_name: peNumber
-    mobile_number:
-      custom_name: mobileNumber
-    place_of_birth:
-      custom_name: placeOfBirth
-    updated_at:
-      custom_name: updatedAt
-    created_at:
-      custom_name: createdAt
     internal_id:
       custom_name: internalId
+    mobile_number:
+      custom_name: mobileNumber
+    pe_number:
+      custom_name: peNumber
+    place_of_birth:
+      custom_name: placeOfBirth
+    postal_code:
+      custom_name: postalCode
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
-    postal_code: postalCode
     caf_number: cafNumber
+    created_at: createdAt
     date_of_birth: dateOfBirth
     deployment_id: deploymentId
-    pe_number: peNumber
-    mobile_number: mobileNumber
-    place_of_birth: placeOfBirth
-    updated_at: updatedAt
-    created_at: createdAt
     internal_id: internalId
+    mobile_number: mobileNumber
+    pe_number: peNumber
+    place_of_birth: placeOfBirth
+    postal_code: postalCode
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: account
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: account
-        insertion_order: null
         column_mapping:
           id: beneficiary_id
+        insertion_order: null
+        remote_table:
+          name: account
+          schema: public
   - name: beneficiaryInfo
     using:
       foreign_key_constraint_on:
         column: beneficiary_id
         table:
-          schema: public
           name: beneficiary_info
+          schema: public
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
@@ -60,16 +60,16 @@ object_relationships:
       foreign_key_constraint_on:
         column: beneficiary_id
         table:
-          schema: public
           name: notebook
+          schema: public
 array_relationships:
   - name: structures
     using:
       foreign_key_constraint_on:
         column: beneficiary_id
         table:
-          schema: public
           name: beneficiary_structure
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:

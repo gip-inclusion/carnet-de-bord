@@ -1,19 +1,22 @@
 table:
-  schema: public
   name: admin_structure_structure
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
     admin_structure_id:
       custom_name: adminStructureId
-    structure_id:
-      custom_name: structureId
     created_at:
       custom_name: createdAt
+    deleted_at:
+      custom_name: deletedAt
+    structure_id:
+      custom_name: structureId
   custom_column_names:
     admin_structure_id: adminStructureId
-    structure_id: structureId
     created_at: createdAt
+    deleted_at: deletedAt
+    structure_id: structureId
+  custom_root_fields: {}
 object_relationships:
   - name: admin_structure
     using:
@@ -83,10 +86,13 @@ select_permissions:
         - structure_id
         - created_at
       filter:
-        structure:
-          admins:
-            admin_structure_id:
-              _eq: X-Hasura-adminStructure-Id
+        _and:
+          - structure:
+              admins:
+                admin_structure_id:
+                  _eq: X-Hasura-adminStructure-Id
+          - deleted_at:
+              _is_null: true
       allow_aggregations: true
   - role: manager
     permission:
@@ -104,3 +110,27 @@ select_permissions:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
+update_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - deleted_at
+      filter:
+        structure:
+          admins:
+            admin_structure_id:
+              _eq: X-Hasura-adminStructure-Id
+      check: null
+  - role: manager
+    permission:
+      columns:
+        - deleted_at
+      filter:
+        _and:
+          - admin_structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+          - structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
+      check: null

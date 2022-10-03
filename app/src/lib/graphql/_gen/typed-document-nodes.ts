@@ -457,6 +457,22 @@ export enum AccountInfoSelectColumn {
 	Lastname = 'lastname',
 }
 
+/** Streaming cursor of the table "account_info" */
+export type AccountInfoStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: AccountInfoStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AccountInfoStreamCursorValueInput = {
+	account_id?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	lastname?: InputMaybe<Scalars['String']>;
+};
+
 /** input type for inserting data into table "account" */
 export type AccountInsertInput = {
 	accessKey?: InputMaybe<Scalars['String']>;
@@ -677,6 +693,34 @@ export type AccountSetInput = {
 	username?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "account" */
+export type AccountStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: AccountStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AccountStreamCursorValueInput = {
+	accessKey?: InputMaybe<Scalars['String']>;
+	accessKeyDate?: InputMaybe<Scalars['timestamptz']>;
+	adminId?: InputMaybe<Scalars['uuid']>;
+	adminStructureId?: InputMaybe<Scalars['uuid']>;
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	confirmed?: InputMaybe<Scalars['Boolean']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastLogin?: InputMaybe<Scalars['timestamptz']>;
+	managerId?: InputMaybe<Scalars['uuid']>;
+	onboardingDone?: InputMaybe<Scalars['Boolean']>;
+	orientationManagerId?: InputMaybe<Scalars['uuid']>;
+	professionalId?: InputMaybe<Scalars['uuid']>;
+	type?: InputMaybe<RoleEnum>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	username?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "account" */
 export enum AccountUpdateColumn {
 	/** column name */
@@ -712,6 +756,12 @@ export enum AccountUpdateColumn {
 	/** column name */
 	Username = 'username',
 }
+
+export type AccountUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<AccountSetInput>;
+	where: AccountBoolExp;
+};
 
 /** columns and relationships of "admin_cdb" */
 export type AdminCdb = {
@@ -867,6 +917,24 @@ export type AdminCdbSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "admin_cdb" */
+export type AdminCdbStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: AdminCdbStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AdminCdbStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "admin_cdb" */
 export enum AdminCdbUpdateColumn {
 	/** column name */
@@ -882,6 +950,12 @@ export enum AdminCdbUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type AdminCdbUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<AdminCdbSetInput>;
+	where: AdminCdbBoolExp;
+};
 
 /** Table of structure manager, handle pro and brsa attachment */
 export type AdminStructure = {
@@ -1134,6 +1208,27 @@ export type AdminStructureSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "admin_structure" */
+export type AdminStructureStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: AdminStructureStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AdminStructureStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** associative table between admin_structure and structure (many ot many) */
 export type AdminStructureStructure = {
 	__typename?: 'admin_structure_structure';
@@ -1141,6 +1236,7 @@ export type AdminStructureStructure = {
 	/** An object relationship */
 	admin_structure: AdminStructure;
 	createdAt: Scalars['timestamptz'];
+	deletedAt?: Maybe<Scalars['timestamptz']>;
 	id: Scalars['uuid'];
 	/** An object relationship */
 	structure: Structure;
@@ -1190,6 +1286,7 @@ export type AdminStructureStructureBoolExp = {
 	adminStructureId?: InputMaybe<UuidComparisonExp>;
 	admin_structure?: InputMaybe<AdminStructureBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	deletedAt?: InputMaybe<TimestamptzComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	structure?: InputMaybe<StructureBoolExp>;
 	structureId?: InputMaybe<UuidComparisonExp>;
@@ -1208,6 +1305,7 @@ export type AdminStructureStructureInsertInput = {
 	adminStructureId?: InputMaybe<Scalars['uuid']>;
 	admin_structure?: InputMaybe<AdminStructureObjRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	structure?: InputMaybe<StructureObjRelInsertInput>;
 	structureId?: InputMaybe<Scalars['uuid']>;
@@ -1218,6 +1316,7 @@ export type AdminStructureStructureMaxFields = {
 	__typename?: 'admin_structure_structure_max_fields';
 	adminStructureId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	structureId?: Maybe<Scalars['uuid']>;
 };
@@ -1226,6 +1325,7 @@ export type AdminStructureStructureMaxFields = {
 export type AdminStructureStructureMaxOrderBy = {
 	adminStructureId?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	structureId?: InputMaybe<OrderBy>;
 };
@@ -1235,6 +1335,7 @@ export type AdminStructureStructureMinFields = {
 	__typename?: 'admin_structure_structure_min_fields';
 	adminStructureId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	structureId?: Maybe<Scalars['uuid']>;
 };
@@ -1243,6 +1344,7 @@ export type AdminStructureStructureMinFields = {
 export type AdminStructureStructureMinOrderBy = {
 	adminStructureId?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	structureId?: InputMaybe<OrderBy>;
 };
@@ -1268,6 +1370,7 @@ export type AdminStructureStructureOrderBy = {
 	adminStructureId?: InputMaybe<OrderBy>;
 	admin_structure?: InputMaybe<AdminStructureOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	structure?: InputMaybe<StructureOrderBy>;
 	structureId?: InputMaybe<OrderBy>;
@@ -1285,6 +1388,8 @@ export enum AdminStructureStructureSelectColumn {
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
+	DeletedAt = 'deletedAt',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	StructureId = 'structureId',
@@ -1294,6 +1399,24 @@ export enum AdminStructureStructureSelectColumn {
 export type AdminStructureStructureSetInput = {
 	adminStructureId?: InputMaybe<Scalars['uuid']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	structureId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "admin_structure_structure" */
+export type AdminStructureStructureStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: AdminStructureStructureStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AdminStructureStructureStreamCursorValueInput = {
+	adminStructureId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	structureId?: InputMaybe<Scalars['uuid']>;
 };
@@ -1305,10 +1428,18 @@ export enum AdminStructureStructureUpdateColumn {
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
+	DeletedAt = 'deletedAt',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	StructureId = 'structureId',
 }
+
+export type AdminStructureStructureUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<AdminStructureStructureSetInput>;
+	where: AdminStructureStructureBoolExp;
+};
 
 /** update columns of table "admin_structure" */
 export enum AdminStructureUpdateColumn {
@@ -1331,6 +1462,12 @@ export enum AdminStructureUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type AdminStructureUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<AdminStructureSetInput>;
+	where: AdminStructureBoolExp;
+};
 
 /** columns and relationships of "beneficiary" */
 export type Beneficiary = {
@@ -1623,6 +1760,22 @@ export type BeneficiaryInfoSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "beneficiary_info" */
+export type BeneficiaryInfoStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: BeneficiaryInfoStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type BeneficiaryInfoStreamCursorValueInput = {
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	orientation?: InputMaybe<OrientationTypeEnum>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "beneficiary_info" */
 export enum BeneficiaryInfoUpdateColumn {
 	/** column name */
@@ -1634,6 +1787,12 @@ export enum BeneficiaryInfoUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type BeneficiaryInfoUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<BeneficiaryInfoSetInput>;
+	where: BeneficiaryInfoBoolExp;
+};
 
 /** input type for inserting data into table "beneficiary" */
 export type BeneficiaryInsertInput = {
@@ -1860,6 +2019,35 @@ export type BeneficiarySetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "beneficiary" */
+export type BeneficiaryStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: BeneficiaryStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type BeneficiaryStreamCursorValueInput = {
+	address1?: InputMaybe<Scalars['String']>;
+	address2?: InputMaybe<Scalars['String']>;
+	cafNumber?: InputMaybe<Scalars['String']>;
+	city?: InputMaybe<Scalars['String']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	dateOfBirth?: InputMaybe<Scalars['date']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	internalId?: InputMaybe<Scalars['String']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	mobileNumber?: InputMaybe<Scalars['String']>;
+	peNumber?: InputMaybe<Scalars['String']>;
+	placeOfBirth?: InputMaybe<Scalars['String']>;
+	postalCode?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** associative table between beneficiary and structure (many ot many) */
 export type BeneficiaryStructure = {
 	__typename?: 'beneficiary_structure';
@@ -1941,7 +2129,7 @@ export type BeneficiaryStructureBoolExp = {
 export enum BeneficiaryStructureConstraint {
 	/** unique or primary key constraint on columns "id" */
 	BeneficiaryStructurePkey = 'beneficiary_structure_pkey',
-	/** unique or primary key constraint on columns "beneficiary_id", "structure_id" */
+	/** unique or primary key constraint on columns "structure_id", "beneficiary_id" */
 	BeneficiaryStructureStructureIdBeneficiaryIdKey = 'beneficiary_structure_structure_id_beneficiary_id_key',
 }
 
@@ -2083,6 +2271,25 @@ export type BeneficiaryStructureSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "beneficiary_structure" */
+export type BeneficiaryStructureStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: BeneficiaryStructureStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type BeneficiaryStructureStreamCursorValueInput = {
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	data?: InputMaybe<Scalars['jsonb']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+	structureId?: InputMaybe<Scalars['uuid']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "beneficiary_structure" */
 export enum BeneficiaryStructureUpdateColumn {
 	/** column name */
@@ -2100,6 +2307,22 @@ export enum BeneficiaryStructureUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type BeneficiaryStructureUpdates = {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: InputMaybe<BeneficiaryStructureAppendInput>;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: InputMaybe<BeneficiaryStructureDeleteAtPathInput>;
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: InputMaybe<BeneficiaryStructureDeleteElemInput>;
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: InputMaybe<BeneficiaryStructureDeleteKeyInput>;
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: InputMaybe<BeneficiaryStructurePrependInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<BeneficiaryStructureSetInput>;
+	where: BeneficiaryStructureBoolExp;
+};
 
 /** update columns of table "beneficiary" */
 export enum BeneficiaryUpdateColumn {
@@ -2138,6 +2361,12 @@ export enum BeneficiaryUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type BeneficiaryUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<BeneficiarySetInput>;
+	where: BeneficiaryBoolExp;
+};
 
 /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 export type BigintComparisonExp = {
@@ -2184,6 +2413,14 @@ export type CitextComparisonExp = {
 	/** does the column match the given SQL regular expression */
 	_similar?: InputMaybe<Scalars['citext']>;
 };
+
+/** ordering argument of a cursor */
+export enum CursorOrdering {
+	/** ascending ordering of the cursor */
+	Asc = 'ASC',
+	/** descending ordering of the cursor */
+	Desc = 'DESC',
+}
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
 export type DateComparisonExp = {
@@ -2489,6 +2726,23 @@ export type DeploymentSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "deployment" */
+export type DeploymentStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: DeploymentStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type DeploymentStreamCursorValueInput = {
+	config?: InputMaybe<Scalars['jsonb']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	label?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "deployment" */
 export enum DeploymentUpdateColumn {
 	/** column name */
@@ -2502,6 +2756,22 @@ export enum DeploymentUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type DeploymentUpdates = {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: InputMaybe<DeploymentAppendInput>;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: InputMaybe<DeploymentDeleteAtPathInput>;
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: InputMaybe<DeploymentDeleteElemInput>;
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: InputMaybe<DeploymentDeleteKeyInput>;
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: InputMaybe<DeploymentPrependInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<DeploymentSetInput>;
+	where: DeploymentBoolExp;
+};
 
 /** columns and relationships of "external_data" */
 export type ExternalData = {
@@ -2732,6 +3002,23 @@ export type ExternalDataInfoSetInput = {
 	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "external_data_info" */
+export type ExternalDataInfoStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ExternalDataInfoStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ExternalDataInfoStreamCursorValueInput = {
+	beneficiary_id?: InputMaybe<Scalars['uuid']>;
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	external_data_id?: InputMaybe<Scalars['uuid']>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "external_data_info" */
 export enum ExternalDataInfoUpdateColumn {
 	/** column name */
@@ -2745,6 +3032,12 @@ export enum ExternalDataInfoUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updated_at',
 }
+
+export type ExternalDataInfoUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ExternalDataInfoSetInput>;
+	where: ExternalDataInfoBoolExp;
+};
 
 /** input type for inserting data into table "external_data" */
 export type ExternalDataInsertInput = {
@@ -2854,6 +3147,24 @@ export type ExternalDataSetInput = {
 	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "external_data" */
+export type ExternalDataStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ExternalDataStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ExternalDataStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	data?: InputMaybe<Scalars['jsonb']>;
+	hash?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	source?: InputMaybe<ExternalSourceEnum>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "external_data" */
 export enum ExternalDataUpdateColumn {
 	/** column name */
@@ -2869,6 +3180,22 @@ export enum ExternalDataUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updated_at',
 }
+
+export type ExternalDataUpdates = {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: InputMaybe<ExternalDataAppendInput>;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: InputMaybe<ExternalDataDeleteAtPathInput>;
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: InputMaybe<ExternalDataDeleteElemInput>;
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: InputMaybe<ExternalDataDeleteKeyInput>;
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: InputMaybe<ExternalDataPrependInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ExternalDataSetInput>;
+	where: ExternalDataBoolExp;
+};
 
 /** columns and relationships of "external_source" */
 export type ExternalSource = {
@@ -3020,6 +3347,20 @@ export type ExternalSourceSetInput = {
 	value?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "external_source" */
+export type ExternalSourceStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ExternalSourceStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ExternalSourceStreamCursorValueInput = {
+	comment?: InputMaybe<Scalars['String']>;
+	value?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "external_source" */
 export enum ExternalSourceUpdateColumn {
 	/** column name */
@@ -3027,6 +3368,12 @@ export enum ExternalSourceUpdateColumn {
 	/** column name */
 	Value = 'value',
 }
+
+export type ExternalSourceUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ExternalSourceSetInput>;
+	where: ExternalSourceBoolExp;
+};
 
 export type JsonbCastExp = {
 	String?: InputMaybe<StringComparisonExp>;
@@ -3260,6 +3607,25 @@ export type ManagerSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "manager" */
+export type ManagerStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ManagerStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ManagerStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "manager" */
 export enum ManagerUpdateColumn {
 	/** column name */
@@ -3277,6 +3643,12 @@ export enum ManagerUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type ManagerUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ManagerSetInput>;
+	where: ManagerBoolExp;
+};
 
 /** mutation root */
 export type MutationRoot = {
@@ -3528,18 +3900,28 @@ export type MutationRoot = {
 	update_account?: Maybe<AccountMutationResponse>;
 	/** update single row of the table: "account" */
 	update_account_by_pk?: Maybe<Account>;
+	/** update multiples rows of table: "account" */
+	update_account_many?: Maybe<Array<Maybe<AccountMutationResponse>>>;
 	/** update data of the table: "admin_cdb" */
 	update_admin_cdb?: Maybe<AdminCdbMutationResponse>;
 	/** update single row of the table: "admin_cdb" */
 	update_admin_cdb_by_pk?: Maybe<AdminCdb>;
+	/** update multiples rows of table: "admin_cdb" */
+	update_admin_cdb_many?: Maybe<Array<Maybe<AdminCdbMutationResponse>>>;
 	/** update data of the table: "admin_structure" */
 	update_admin_structure?: Maybe<AdminStructureMutationResponse>;
 	/** update single row of the table: "admin_structure" */
 	update_admin_structure_by_pk?: Maybe<AdminStructure>;
+	/** update multiples rows of table: "admin_structure" */
+	update_admin_structure_many?: Maybe<Array<Maybe<AdminStructureMutationResponse>>>;
 	/** update data of the table: "admin_structure_structure" */
 	update_admin_structure_structure?: Maybe<AdminStructureStructureMutationResponse>;
 	/** update single row of the table: "admin_structure_structure" */
 	update_admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
+	/** update multiples rows of table: "admin_structure_structure" */
+	update_admin_structure_structure_many?: Maybe<
+		Array<Maybe<AdminStructureStructureMutationResponse>>
+	>;
 	/** update data of the table: "beneficiary" */
 	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
@@ -3548,14 +3930,22 @@ export type MutationRoot = {
 	update_beneficiary_info?: Maybe<BeneficiaryInfoMutationResponse>;
 	/** update single row of the table: "beneficiary_info" */
 	update_beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
+	/** update multiples rows of table: "beneficiary_info" */
+	update_beneficiary_info_many?: Maybe<Array<Maybe<BeneficiaryInfoMutationResponse>>>;
+	/** update multiples rows of table: "beneficiary" */
+	update_beneficiary_many?: Maybe<Array<Maybe<BeneficiaryMutationResponse>>>;
 	/** update data of the table: "beneficiary_structure" */
 	update_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
 	/** update single row of the table: "beneficiary_structure" */
 	update_beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
+	/** update multiples rows of table: "beneficiary_structure" */
+	update_beneficiary_structure_many?: Maybe<Array<Maybe<BeneficiaryStructureMutationResponse>>>;
 	/** update data of the table: "deployment" */
 	update_deployment?: Maybe<DeploymentMutationResponse>;
 	/** update single row of the table: "deployment" */
 	update_deployment_by_pk?: Maybe<Deployment>;
+	/** update multiples rows of table: "deployment" */
+	update_deployment_many?: Maybe<Array<Maybe<DeploymentMutationResponse>>>;
 	/** update data of the table: "external_data" */
 	update_external_data?: Maybe<ExternalDataMutationResponse>;
 	/** update single row of the table: "external_data" */
@@ -3564,86 +3954,130 @@ export type MutationRoot = {
 	update_external_data_info?: Maybe<ExternalDataInfoMutationResponse>;
 	/** update single row of the table: "external_data_info" */
 	update_external_data_info_by_pk?: Maybe<ExternalDataInfo>;
+	/** update multiples rows of table: "external_data_info" */
+	update_external_data_info_many?: Maybe<Array<Maybe<ExternalDataInfoMutationResponse>>>;
+	/** update multiples rows of table: "external_data" */
+	update_external_data_many?: Maybe<Array<Maybe<ExternalDataMutationResponse>>>;
 	/** update data of the table: "external_source" */
 	update_external_source?: Maybe<ExternalSourceMutationResponse>;
 	/** update single row of the table: "external_source" */
 	update_external_source_by_pk?: Maybe<ExternalSource>;
+	/** update multiples rows of table: "external_source" */
+	update_external_source_many?: Maybe<Array<Maybe<ExternalSourceMutationResponse>>>;
 	/** update data of the table: "manager" */
 	update_manager?: Maybe<ManagerMutationResponse>;
 	/** update single row of the table: "manager" */
 	update_manager_by_pk?: Maybe<Manager>;
+	/** update multiples rows of table: "manager" */
+	update_manager_many?: Maybe<Array<Maybe<ManagerMutationResponse>>>;
 	/** update data of the table: "notebook" */
 	update_notebook?: Maybe<NotebookMutationResponse>;
 	/** update data of the table: "notebook_action" */
 	update_notebook_action?: Maybe<NotebookActionMutationResponse>;
 	/** update single row of the table: "notebook_action" */
 	update_notebook_action_by_pk?: Maybe<NotebookAction>;
+	/** update multiples rows of table: "notebook_action" */
+	update_notebook_action_many?: Maybe<Array<Maybe<NotebookActionMutationResponse>>>;
 	/** update data of the table: "notebook_appointment" */
 	update_notebook_appointment?: Maybe<NotebookAppointmentMutationResponse>;
 	/** update single row of the table: "notebook_appointment" */
 	update_notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
+	/** update multiples rows of table: "notebook_appointment" */
+	update_notebook_appointment_many?: Maybe<Array<Maybe<NotebookAppointmentMutationResponse>>>;
 	/** update single row of the table: "notebook" */
 	update_notebook_by_pk?: Maybe<Notebook>;
 	/** update data of the table: "notebook_event" */
 	update_notebook_event?: Maybe<NotebookEventMutationResponse>;
 	/** update single row of the table: "notebook_event" */
 	update_notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** update multiples rows of table: "notebook_event" */
+	update_notebook_event_many?: Maybe<Array<Maybe<NotebookEventMutationResponse>>>;
 	/** update data of the table: "notebook_event_type" */
 	update_notebook_event_type?: Maybe<NotebookEventTypeMutationResponse>;
 	/** update single row of the table: "notebook_event_type" */
 	update_notebook_event_type_by_pk?: Maybe<NotebookEventType>;
+	/** update multiples rows of table: "notebook_event_type" */
+	update_notebook_event_type_many?: Maybe<Array<Maybe<NotebookEventTypeMutationResponse>>>;
 	/** update data of the table: "notebook_focus" */
 	update_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
 	/** update single row of the table: "notebook_focus" */
 	update_notebook_focus_by_pk?: Maybe<NotebookFocus>;
+	/** update multiples rows of table: "notebook_focus" */
+	update_notebook_focus_many?: Maybe<Array<Maybe<NotebookFocusMutationResponse>>>;
+	/** update multiples rows of table: "notebook" */
+	update_notebook_many?: Maybe<Array<Maybe<NotebookMutationResponse>>>;
 	/** update data of the table: "notebook_member" */
 	update_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** update single row of the table: "notebook_member" */
 	update_notebook_member_by_pk?: Maybe<NotebookMember>;
+	/** update multiples rows of table: "notebook_member" */
+	update_notebook_member_many?: Maybe<Array<Maybe<NotebookMemberMutationResponse>>>;
 	/** update data of the table: "notebook_target" */
 	update_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** update single row of the table: "notebook_target" */
 	update_notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** update multiples rows of table: "notebook_target" */
+	update_notebook_target_many?: Maybe<Array<Maybe<NotebookTargetMutationResponse>>>;
 	/** update data of the table: "orientation_manager" */
 	update_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
 	/** update single row of the table: "orientation_manager" */
 	update_orientation_manager_by_pk?: Maybe<OrientationManager>;
+	/** update multiples rows of table: "orientation_manager" */
+	update_orientation_manager_many?: Maybe<Array<Maybe<OrientationManagerMutationResponse>>>;
 	/** update data of the table: "orientation_type" */
 	update_orientation_type?: Maybe<OrientationTypeMutationResponse>;
 	/** update single row of the table: "orientation_type" */
 	update_orientation_type_by_pk?: Maybe<OrientationType>;
+	/** update multiples rows of table: "orientation_type" */
+	update_orientation_type_many?: Maybe<Array<Maybe<OrientationTypeMutationResponse>>>;
 	/** update data of the table: "professional" */
 	update_professional?: Maybe<ProfessionalMutationResponse>;
 	/** update single row of the table: "professional" */
 	update_professional_by_pk?: Maybe<Professional>;
+	/** update multiples rows of table: "professional" */
+	update_professional_many?: Maybe<Array<Maybe<ProfessionalMutationResponse>>>;
 	/** update data of the table: "ref_action" */
 	update_ref_action?: Maybe<RefActionMutationResponse>;
 	/** update single row of the table: "ref_action" */
 	update_ref_action_by_pk?: Maybe<RefAction>;
+	/** update multiples rows of table: "ref_action" */
+	update_ref_action_many?: Maybe<Array<Maybe<RefActionMutationResponse>>>;
 	/** update data of the table: "ref_situation" */
 	update_ref_situation?: Maybe<RefSituationMutationResponse>;
 	/** update single row of the table: "ref_situation" */
 	update_ref_situation_by_pk?: Maybe<RefSituation>;
+	/** update multiples rows of table: "ref_situation" */
+	update_ref_situation_many?: Maybe<Array<Maybe<RefSituationMutationResponse>>>;
 	/** update data of the table: "ref_target" */
 	update_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** update single row of the table: "ref_target" */
 	update_ref_target_by_pk?: Maybe<RefTarget>;
+	/** update multiples rows of table: "ref_target" */
+	update_ref_target_many?: Maybe<Array<Maybe<RefTargetMutationResponse>>>;
 	/** update data of the table: "role" */
 	update_role?: Maybe<RoleMutationResponse>;
 	/** update single row of the table: "role" */
 	update_role_by_pk?: Maybe<Role>;
+	/** update multiples rows of table: "role" */
+	update_role_many?: Maybe<Array<Maybe<RoleMutationResponse>>>;
 	/** update data of the table: "rome_code" */
 	update_rome_code?: Maybe<RomeCodeMutationResponse>;
 	/** update single row of the table: "rome_code" */
 	update_rome_code_by_pk?: Maybe<RomeCode>;
+	/** update multiples rows of table: "rome_code" */
+	update_rome_code_many?: Maybe<Array<Maybe<RomeCodeMutationResponse>>>;
 	/** update data of the table: "structure" */
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
 	update_structure_by_pk?: Maybe<Structure>;
+	/** update multiples rows of table: "structure" */
+	update_structure_many?: Maybe<Array<Maybe<StructureMutationResponse>>>;
 	/** update data of the table: "wanted_job" */
 	update_wanted_job?: Maybe<WantedJobMutationResponse>;
 	/** update single row of the table: "wanted_job" */
 	update_wanted_job_by_pk?: Maybe<WantedJob>;
+	/** update multiples rows of table: "wanted_job" */
+	update_wanted_job_many?: Maybe<Array<Maybe<WantedJobMutationResponse>>>;
 };
 
 /** mutation root */
@@ -4335,6 +4769,11 @@ export type MutationRootUpdateAccountByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateAccountManyArgs = {
+	updates: Array<AccountUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateAdminCdbArgs = {
 	_set?: InputMaybe<AdminCdbSetInput>;
 	where: AdminCdbBoolExp;
@@ -4344,6 +4783,11 @@ export type MutationRootUpdateAdminCdbArgs = {
 export type MutationRootUpdateAdminCdbByPkArgs = {
 	_set?: InputMaybe<AdminCdbSetInput>;
 	pk_columns: AdminCdbPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateAdminCdbManyArgs = {
+	updates: Array<AdminCdbUpdates>;
 };
 
 /** mutation root */
@@ -4359,6 +4803,11 @@ export type MutationRootUpdateAdminStructureByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateAdminStructureManyArgs = {
+	updates: Array<AdminStructureUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateAdminStructureStructureArgs = {
 	_set?: InputMaybe<AdminStructureStructureSetInput>;
 	where: AdminStructureStructureBoolExp;
@@ -4368,6 +4817,11 @@ export type MutationRootUpdateAdminStructureStructureArgs = {
 export type MutationRootUpdateAdminStructureStructureByPkArgs = {
 	_set?: InputMaybe<AdminStructureStructureSetInput>;
 	pk_columns: AdminStructureStructurePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateAdminStructureStructureManyArgs = {
+	updates: Array<AdminStructureStructureUpdates>;
 };
 
 /** mutation root */
@@ -4395,6 +4849,16 @@ export type MutationRootUpdateBeneficiaryInfoByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateBeneficiaryInfoManyArgs = {
+	updates: Array<BeneficiaryInfoUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateBeneficiaryManyArgs = {
+	updates: Array<BeneficiaryUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateBeneficiaryStructureArgs = {
 	_append?: InputMaybe<BeneficiaryStructureAppendInput>;
 	_delete_at_path?: InputMaybe<BeneficiaryStructureDeleteAtPathInput>;
@@ -4417,6 +4881,11 @@ export type MutationRootUpdateBeneficiaryStructureByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateBeneficiaryStructureManyArgs = {
+	updates: Array<BeneficiaryStructureUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateDeploymentArgs = {
 	_append?: InputMaybe<DeploymentAppendInput>;
 	_delete_at_path?: InputMaybe<DeploymentDeleteAtPathInput>;
@@ -4436,6 +4905,11 @@ export type MutationRootUpdateDeploymentByPkArgs = {
 	_prepend?: InputMaybe<DeploymentPrependInput>;
 	_set?: InputMaybe<DeploymentSetInput>;
 	pk_columns: DeploymentPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateDeploymentManyArgs = {
+	updates: Array<DeploymentUpdates>;
 };
 
 /** mutation root */
@@ -4473,6 +4947,16 @@ export type MutationRootUpdateExternalDataInfoByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateExternalDataInfoManyArgs = {
+	updates: Array<ExternalDataInfoUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateExternalDataManyArgs = {
+	updates: Array<ExternalDataUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateExternalSourceArgs = {
 	_set?: InputMaybe<ExternalSourceSetInput>;
 	where: ExternalSourceBoolExp;
@@ -4485,6 +4969,11 @@ export type MutationRootUpdateExternalSourceByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateExternalSourceManyArgs = {
+	updates: Array<ExternalSourceUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateManagerArgs = {
 	_set?: InputMaybe<ManagerSetInput>;
 	where: ManagerBoolExp;
@@ -4494,6 +4983,11 @@ export type MutationRootUpdateManagerArgs = {
 export type MutationRootUpdateManagerByPkArgs = {
 	_set?: InputMaybe<ManagerSetInput>;
 	pk_columns: ManagerPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateManagerManyArgs = {
+	updates: Array<ManagerUpdates>;
 };
 
 /** mutation root */
@@ -4515,6 +5009,11 @@ export type MutationRootUpdateNotebookActionByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookActionManyArgs = {
+	updates: Array<NotebookActionUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateNotebookAppointmentArgs = {
 	_set?: InputMaybe<NotebookAppointmentSetInput>;
 	where: NotebookAppointmentBoolExp;
@@ -4524,6 +5023,11 @@ export type MutationRootUpdateNotebookAppointmentArgs = {
 export type MutationRootUpdateNotebookAppointmentByPkArgs = {
 	_set?: InputMaybe<NotebookAppointmentSetInput>;
 	pk_columns: NotebookAppointmentPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookAppointmentManyArgs = {
+	updates: Array<NotebookAppointmentUpdates>;
 };
 
 /** mutation root */
@@ -4555,6 +5059,11 @@ export type MutationRootUpdateNotebookEventByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookEventManyArgs = {
+	updates: Array<NotebookEventUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateNotebookEventTypeArgs = {
 	_set?: InputMaybe<NotebookEventTypeSetInput>;
 	where: NotebookEventTypeBoolExp;
@@ -4564,6 +5073,11 @@ export type MutationRootUpdateNotebookEventTypeArgs = {
 export type MutationRootUpdateNotebookEventTypeByPkArgs = {
 	_set?: InputMaybe<NotebookEventTypeSetInput>;
 	pk_columns: NotebookEventTypePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookEventTypeManyArgs = {
+	updates: Array<NotebookEventTypeUpdates>;
 };
 
 /** mutation root */
@@ -4589,6 +5103,16 @@ export type MutationRootUpdateNotebookFocusByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookFocusManyArgs = {
+	updates: Array<NotebookFocusUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookManyArgs = {
+	updates: Array<NotebookUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateNotebookMemberArgs = {
 	_set?: InputMaybe<NotebookMemberSetInput>;
 	where: NotebookMemberBoolExp;
@@ -4598,6 +5122,11 @@ export type MutationRootUpdateNotebookMemberArgs = {
 export type MutationRootUpdateNotebookMemberByPkArgs = {
 	_set?: InputMaybe<NotebookMemberSetInput>;
 	pk_columns: NotebookMemberPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookMemberManyArgs = {
+	updates: Array<NotebookMemberUpdates>;
 };
 
 /** mutation root */
@@ -4613,6 +5142,11 @@ export type MutationRootUpdateNotebookTargetByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookTargetManyArgs = {
+	updates: Array<NotebookTargetUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateOrientationManagerArgs = {
 	_set?: InputMaybe<OrientationManagerSetInput>;
 	where: OrientationManagerBoolExp;
@@ -4622,6 +5156,11 @@ export type MutationRootUpdateOrientationManagerArgs = {
 export type MutationRootUpdateOrientationManagerByPkArgs = {
 	_set?: InputMaybe<OrientationManagerSetInput>;
 	pk_columns: OrientationManagerPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateOrientationManagerManyArgs = {
+	updates: Array<OrientationManagerUpdates>;
 };
 
 /** mutation root */
@@ -4637,6 +5176,11 @@ export type MutationRootUpdateOrientationTypeByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateOrientationTypeManyArgs = {
+	updates: Array<OrientationTypeUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateProfessionalArgs = {
 	_set?: InputMaybe<ProfessionalSetInput>;
 	where: ProfessionalBoolExp;
@@ -4646,6 +5190,11 @@ export type MutationRootUpdateProfessionalArgs = {
 export type MutationRootUpdateProfessionalByPkArgs = {
 	_set?: InputMaybe<ProfessionalSetInput>;
 	pk_columns: ProfessionalPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfessionalManyArgs = {
+	updates: Array<ProfessionalUpdates>;
 };
 
 /** mutation root */
@@ -4661,6 +5210,11 @@ export type MutationRootUpdateRefActionByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateRefActionManyArgs = {
+	updates: Array<RefActionUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateRefSituationArgs = {
 	_set?: InputMaybe<RefSituationSetInput>;
 	where: RefSituationBoolExp;
@@ -4670,6 +5224,11 @@ export type MutationRootUpdateRefSituationArgs = {
 export type MutationRootUpdateRefSituationByPkArgs = {
 	_set?: InputMaybe<RefSituationSetInput>;
 	pk_columns: RefSituationPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefSituationManyArgs = {
+	updates: Array<RefSituationUpdates>;
 };
 
 /** mutation root */
@@ -4685,6 +5244,11 @@ export type MutationRootUpdateRefTargetByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateRefTargetManyArgs = {
+	updates: Array<RefTargetUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateRoleArgs = {
 	_set?: InputMaybe<RoleSetInput>;
 	where: RoleBoolExp;
@@ -4694,6 +5258,11 @@ export type MutationRootUpdateRoleArgs = {
 export type MutationRootUpdateRoleByPkArgs = {
 	_set?: InputMaybe<RoleSetInput>;
 	pk_columns: RolePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRoleManyArgs = {
+	updates: Array<RoleUpdates>;
 };
 
 /** mutation root */
@@ -4709,6 +5278,11 @@ export type MutationRootUpdateRomeCodeByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateRomeCodeManyArgs = {
+	updates: Array<RomeCodeUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateStructureArgs = {
 	_set?: InputMaybe<StructureSetInput>;
 	where: StructureBoolExp;
@@ -4721,6 +5295,11 @@ export type MutationRootUpdateStructureByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateStructureManyArgs = {
+	updates: Array<StructureUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateWantedJobArgs = {
 	_set?: InputMaybe<WantedJobSetInput>;
 	where: WantedJobBoolExp;
@@ -4730,6 +5309,11 @@ export type MutationRootUpdateWantedJobArgs = {
 export type MutationRootUpdateWantedJobByPkArgs = {
 	_set?: InputMaybe<WantedJobSetInput>;
 	pk_columns: WantedJobPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateWantedJobManyArgs = {
+	updates: Array<WantedJobUpdates>;
 };
 
 /** columns and relationships of "notebook" */
@@ -4944,7 +5528,7 @@ export enum NotebookActionConstraint {
 	NotebookActionInitialIdKey = 'notebook_action_initial_id_key',
 	/** unique or primary key constraint on columns "id" */
 	NotebookActionPkey = 'notebook_action_pkey',
-	/** unique or primary key constraint on columns "target_id", "action" */
+	/** unique or primary key constraint on columns "action", "target_id" */
 	NotebookActionTargetIdActionKey = 'notebook_action_target_id_action_key',
 }
 
@@ -5079,6 +5663,26 @@ export type NotebookActionSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "notebook_action" */
+export type NotebookActionStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookActionStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookActionStreamCursorValueInput = {
+	action?: InputMaybe<Scalars['String']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	creatorId?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	initialId?: InputMaybe<Scalars['String']>;
+	status?: InputMaybe<Scalars['String']>;
+	targetId?: InputMaybe<Scalars['uuid']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "notebook_action" */
 export enum NotebookActionUpdateColumn {
 	/** column name */
@@ -5098,6 +5702,12 @@ export enum NotebookActionUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type NotebookActionUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookActionSetInput>;
+	where: NotebookActionBoolExp;
+};
 
 /** aggregated selection of "notebook" */
 export type NotebookAggregate = {
@@ -5342,6 +5952,27 @@ export type NotebookAppointmentSetInput = {
 	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "notebook_appointment" */
+export type NotebookAppointmentStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookAppointmentStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookAppointmentStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	date?: InputMaybe<Scalars['timestamp']>;
+	deleted_at?: InputMaybe<Scalars['timestamptz']>;
+	deleted_by?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	memberAccountId?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "notebook_appointment" */
 export enum NotebookAppointmentUpdateColumn {
 	/** column name */
@@ -5363,6 +5994,12 @@ export enum NotebookAppointmentUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updated_at',
 }
+
+export type NotebookAppointmentUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookAppointmentSetInput>;
+	where: NotebookAppointmentBoolExp;
+};
 
 /** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
 export type NotebookBoolExp = {
@@ -5626,6 +6263,25 @@ export type NotebookEventSetInput = {
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "notebook_event" */
+export type NotebookEventStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookEventStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookEventStreamCursorValueInput = {
+	creationDate?: InputMaybe<Scalars['timestamptz']>;
+	creatorId?: InputMaybe<Scalars['uuid']>;
+	event?: InputMaybe<Scalars['jsonb']>;
+	eventDate?: InputMaybe<Scalars['timestamptz']>;
+	eventType?: InputMaybe<NotebookEventTypeEnum>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** columns and relationships of "notebook_event_type" */
 export type NotebookEventType = {
 	__typename?: 'notebook_event_type';
@@ -5778,6 +6434,20 @@ export type NotebookEventTypeSetInput = {
 	value?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "notebook_event_type" */
+export type NotebookEventTypeStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookEventTypeStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookEventTypeStreamCursorValueInput = {
+	comment?: InputMaybe<Scalars['String']>;
+	value?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "notebook_event_type" */
 export enum NotebookEventTypeUpdateColumn {
 	/** column name */
@@ -5785,6 +6455,12 @@ export enum NotebookEventTypeUpdateColumn {
 	/** column name */
 	Value = 'value',
 }
+
+export type NotebookEventTypeUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookEventTypeSetInput>;
+	where: NotebookEventTypeBoolExp;
+};
 
 /** update columns of table "notebook_event" */
 export enum NotebookEventUpdateColumn {
@@ -5803,6 +6479,22 @@ export enum NotebookEventUpdateColumn {
 	/** column name */
 	NotebookId = 'notebookId',
 }
+
+export type NotebookEventUpdates = {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: InputMaybe<NotebookEventAppendInput>;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: InputMaybe<NotebookEventDeleteAtPathInput>;
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: InputMaybe<NotebookEventDeleteElemInput>;
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: InputMaybe<NotebookEventDeleteKeyInput>;
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: InputMaybe<NotebookEventPrependInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookEventSetInput>;
+	where: NotebookEventBoolExp;
+};
 
 /** columns and relationships of "notebook_focus" */
 export type NotebookFocus = {
@@ -6068,6 +6760,26 @@ export type NotebookFocusSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "notebook_focus" */
+export type NotebookFocusStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookFocusStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookFocusStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	creatorId?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	linkedTo?: InputMaybe<Scalars['String']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	situations?: InputMaybe<Scalars['jsonb']>;
+	theme?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "notebook_focus" */
 export enum NotebookFocusUpdateColumn {
 	/** column name */
@@ -6087,6 +6799,22 @@ export enum NotebookFocusUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type NotebookFocusUpdates = {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: InputMaybe<NotebookFocusAppendInput>;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: InputMaybe<NotebookFocusDeleteAtPathInput>;
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: InputMaybe<NotebookFocusDeleteElemInput>;
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: InputMaybe<NotebookFocusDeleteKeyInput>;
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: InputMaybe<NotebookFocusPrependInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookFocusSetInput>;
+	where: NotebookFocusBoolExp;
+};
 
 /** input type for inserting data into table "notebook" */
 export type NotebookInsertInput = {
@@ -6366,6 +7094,28 @@ export type NotebookMemberSetInput = {
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "notebook_member" */
+export type NotebookMemberStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookMemberStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookMemberStreamCursorValueInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
+	active?: InputMaybe<Scalars['Boolean']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	creatorId?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	invitationSendAt?: InputMaybe<Scalars['timestamptz']>;
+	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
+	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
+	memberType?: InputMaybe<Scalars['String']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "notebook_member" */
 export enum NotebookMemberUpdateColumn {
 	/** column name */
@@ -6389,6 +7139,12 @@ export enum NotebookMemberUpdateColumn {
 	/** column name */
 	NotebookId = 'notebookId',
 }
+
+export type NotebookMemberUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookMemberSetInput>;
+	where: NotebookMemberBoolExp;
+};
 
 /** aggregate min on columns */
 export type NotebookMinFields = {
@@ -6528,6 +7284,36 @@ export type NotebookSetInput = {
 	workSituationEndDate?: InputMaybe<Scalars['date']>;
 };
 
+/** Streaming cursor of the table "notebook" */
+export type NotebookStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookStreamCursorValueInput = {
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	contractEndDate?: InputMaybe<Scalars['date']>;
+	contractSignDate?: InputMaybe<Scalars['date']>;
+	contractStartDate?: InputMaybe<Scalars['date']>;
+	contractType?: InputMaybe<Scalars['String']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	educationLevel?: InputMaybe<Scalars['String']>;
+	geographicalArea?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	rightAre?: InputMaybe<Scalars['Boolean']>;
+	rightAss?: InputMaybe<Scalars['Boolean']>;
+	rightBonus?: InputMaybe<Scalars['Boolean']>;
+	rightRqth?: InputMaybe<Scalars['Boolean']>;
+	rightRsa?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	workSituation?: InputMaybe<Scalars['String']>;
+	workSituationDate?: InputMaybe<Scalars['date']>;
+	workSituationEndDate?: InputMaybe<Scalars['date']>;
+};
+
 /** columns and relationships of "notebook_target" */
 export type NotebookTarget = {
 	__typename?: 'notebook_target';
@@ -6620,7 +7406,7 @@ export type NotebookTargetBoolExp = {
 
 /** unique or primary key constraints on table "notebook_target" */
 export enum NotebookTargetConstraint {
-	/** unique or primary key constraint on columns "focus_id", "target" */
+	/** unique or primary key constraint on columns "target", "focus_id" */
 	NotebookTargetFocusIdTargetKey = 'notebook_target_focus_id_target_key',
 	/** unique or primary key constraint on columns "id" */
 	NotebookTargetPkey = 'notebook_target_pkey',
@@ -6757,6 +7543,25 @@ export type NotebookTargetSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "notebook_target" */
+export type NotebookTargetStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookTargetStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookTargetStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	creatorId?: InputMaybe<Scalars['uuid']>;
+	focusId?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	status?: InputMaybe<Scalars['String']>;
+	target?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "notebook_target" */
 export enum NotebookTargetUpdateColumn {
 	/** column name */
@@ -6774,6 +7579,12 @@ export enum NotebookTargetUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type NotebookTargetUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookTargetSetInput>;
+	where: NotebookTargetBoolExp;
+};
 
 /** update columns of table "notebook" */
 export enum NotebookUpdateColumn {
@@ -6814,6 +7625,12 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	WorkSituationEndDate = 'workSituationEndDate',
 }
+
+export type NotebookUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookSetInput>;
+	where: NotebookBoolExp;
+};
 
 /** column ordering options */
 export enum OrderBy {
@@ -7078,6 +7895,27 @@ export type OrientationManagerSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "orientation_manager" */
+export type OrientationManagerStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: OrientationManagerStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type OrientationManagerStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	/** liste des numéros de téléphones séparés par des virgules */
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "orientation_manager" */
 export enum OrientationManagerUpdateColumn {
 	/** column name */
@@ -7097,6 +7935,12 @@ export enum OrientationManagerUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type OrientationManagerUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<OrientationManagerSetInput>;
+	where: OrientationManagerBoolExp;
+};
 
 /** table contenant les différents types d’orientation */
 export type OrientationType = {
@@ -7252,6 +8096,20 @@ export type OrientationTypeSetInput = {
 	label?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "orientation_type" */
+export type OrientationTypeStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: OrientationTypeStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type OrientationTypeStreamCursorValueInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "orientation_type" */
 export enum OrientationTypeUpdateColumn {
 	/** column name */
@@ -7259,6 +8117,12 @@ export enum OrientationTypeUpdateColumn {
 	/** column name */
 	Label = 'label',
 }
+
+export type OrientationTypeUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<OrientationTypeSetInput>;
+	where: OrientationTypeBoolExp;
+};
 
 /** columns and relationships of "professional" */
 export type Professional = {
@@ -7486,6 +8350,27 @@ export type ProfessionalSetInput = {
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "professional" */
+export type ProfessionalStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ProfessionalStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ProfessionalStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	email?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	mobileNumber?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+	structureId?: InputMaybe<Scalars['uuid']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "professional" */
 export enum ProfessionalUpdateColumn {
 	/** column name */
@@ -7507,6 +8392,12 @@ export enum ProfessionalUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
+
+export type ProfessionalUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ProfessionalSetInput>;
+	where: ProfessionalBoolExp;
+};
 
 export type QueryRoot = {
 	__typename?: 'query_root';
@@ -8491,6 +9382,21 @@ export type RefActionSetInput = {
 	theme?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "ref_action" */
+export type RefActionStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RefActionStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RefActionStreamCursorValueInput = {
+	description?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	theme?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "ref_action" */
 export enum RefActionUpdateColumn {
 	/** column name */
@@ -8500,6 +9406,12 @@ export enum RefActionUpdateColumn {
 	/** column name */
 	Theme = 'theme',
 }
+
+export type RefActionUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RefActionSetInput>;
+	where: RefActionBoolExp;
+};
 
 /** columns and relationships of "ref_situation" */
 export type RefSituation = {
@@ -8614,6 +9526,21 @@ export type RefSituationSetInput = {
 	theme?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "ref_situation" */
+export type RefSituationStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RefSituationStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RefSituationStreamCursorValueInput = {
+	description?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	theme?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "ref_situation" */
 export enum RefSituationUpdateColumn {
 	/** column name */
@@ -8623,6 +9550,12 @@ export enum RefSituationUpdateColumn {
 	/** column name */
 	Theme = 'theme',
 }
+
+export type RefSituationUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RefSituationSetInput>;
+	where: RefSituationBoolExp;
+};
 
 /** columns and relationships of "ref_target" */
 export type RefTarget = {
@@ -8737,6 +9670,21 @@ export type RefTargetSetInput = {
 	theme?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "ref_target" */
+export type RefTargetStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RefTargetStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RefTargetStreamCursorValueInput = {
+	description?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	theme?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "ref_target" */
 export enum RefTargetUpdateColumn {
 	/** column name */
@@ -8746,6 +9694,12 @@ export enum RefTargetUpdateColumn {
 	/** column name */
 	Theme = 'theme',
 }
+
+export type RefTargetUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RefTargetSetInput>;
+	where: RefTargetBoolExp;
+};
 
 /** liste des roles */
 export type Role = {
@@ -8892,11 +9846,30 @@ export type RoleSetInput = {
 	label?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "role" */
+export type RoleStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RoleStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RoleStreamCursorValueInput = {
+	label?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "role" */
 export enum RoleUpdateColumn {
 	/** column name */
 	Label = 'label',
 }
+
+export type RoleUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RoleSetInput>;
+	where: RoleBoolExp;
+};
 
 /** columns and relationships of "rome_code" */
 export type RomeCode = {
@@ -9054,6 +10027,22 @@ export type RomeCodeSetInput = {
 	label?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "rome_code" */
+export type RomeCodeStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RomeCodeStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RomeCodeStreamCursorValueInput = {
+	code?: InputMaybe<Scalars['String']>;
+	description?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "rome_code" */
 export enum RomeCodeUpdateColumn {
 	/** column name */
@@ -9065,6 +10054,12 @@ export enum RomeCodeUpdateColumn {
 	/** column name */
 	Label = 'label',
 }
+
+export type RomeCodeUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RomeCodeSetInput>;
+	where: RomeCodeBoolExp;
+};
 
 export type SearchBeneficiariesArgs = {
 	search?: InputMaybe<Scalars['String']>;
@@ -9227,7 +10222,7 @@ export type StructureBoolExp = {
 
 /** unique or primary key constraints on table "structure" */
 export enum StructureConstraint {
-	/** unique or primary key constraint on columns "deployment_id", "name" */
+	/** unique or primary key constraint on columns "name", "deployment_id" */
 	StructureNameDeploymentIdKey = 'structure_name_deployment_id_key',
 	/** unique or primary key constraint on columns "id" */
 	StructurePkey = 'structure_pkey',
@@ -9429,6 +10424,32 @@ export type StructureSetInput = {
 	website?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "structure" */
+export type StructureStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: StructureStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type StructureStreamCursorValueInput = {
+	address1?: InputMaybe<Scalars['String']>;
+	address2?: InputMaybe<Scalars['String']>;
+	city?: InputMaybe<Scalars['String']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deploymentId?: InputMaybe<Scalars['uuid']>;
+	email?: InputMaybe<Scalars['String']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	name?: InputMaybe<Scalars['String']>;
+	phone?: InputMaybe<Scalars['String']>;
+	postalCode?: InputMaybe<Scalars['String']>;
+	shortDesc?: InputMaybe<Scalars['String']>;
+	siret?: InputMaybe<Scalars['String']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	website?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "structure" */
 export enum StructureUpdateColumn {
 	/** column name */
@@ -9461,6 +10482,12 @@ export enum StructureUpdateColumn {
 	Website = 'website',
 }
 
+export type StructureUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<StructureSetInput>;
+	where: StructureBoolExp;
+};
+
 export type SubscriptionRoot = {
 	__typename?: 'subscription_root';
 	/** fetch data from the table: "account" */
@@ -9473,24 +10500,34 @@ export type SubscriptionRoot = {
 	account_info: Array<AccountInfo>;
 	/** fetch aggregated fields from the table: "account_info" */
 	account_info_aggregate: AccountInfoAggregate;
+	/** fetch data from the table in a streaming manner : "account_info" */
+	account_info_stream: Array<AccountInfo>;
+	/** fetch data from the table in a streaming manner : "account" */
+	account_stream: Array<Account>;
 	/** fetch data from the table: "admin_cdb" */
 	admin_cdb: Array<AdminCdb>;
 	/** fetch aggregated fields from the table: "admin_cdb" */
 	admin_cdb_aggregate: AdminCdbAggregate;
 	/** fetch data from the table: "admin_cdb" using primary key columns */
 	admin_cdb_by_pk?: Maybe<AdminCdb>;
+	/** fetch data from the table in a streaming manner : "admin_cdb" */
+	admin_cdb_stream: Array<AdminCdb>;
 	/** fetch data from the table: "admin_structure" */
 	admin_structure: Array<AdminStructure>;
 	/** fetch aggregated fields from the table: "admin_structure" */
 	admin_structure_aggregate: AdminStructureAggregate;
 	/** fetch data from the table: "admin_structure" using primary key columns */
 	admin_structure_by_pk?: Maybe<AdminStructure>;
+	/** fetch data from the table in a streaming manner : "admin_structure" */
+	admin_structure_stream: Array<AdminStructure>;
 	/** fetch data from the table: "admin_structure_structure" */
 	admin_structure_structure: Array<AdminStructureStructure>;
 	/** fetch aggregated fields from the table: "admin_structure_structure" */
 	admin_structure_structure_aggregate: AdminStructureStructureAggregate;
 	/** fetch data from the table: "admin_structure_structure" using primary key columns */
 	admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
+	/** fetch data from the table in a streaming manner : "admin_structure_structure" */
+	admin_structure_structure_stream: Array<AdminStructureStructure>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
@@ -9503,18 +10540,26 @@ export type SubscriptionRoot = {
 	beneficiary_info_aggregate: BeneficiaryInfoAggregate;
 	/** fetch data from the table: "beneficiary_info" using primary key columns */
 	beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
+	/** fetch data from the table in a streaming manner : "beneficiary_info" */
+	beneficiary_info_stream: Array<BeneficiaryInfo>;
+	/** fetch data from the table in a streaming manner : "beneficiary" */
+	beneficiary_stream: Array<Beneficiary>;
 	/** fetch data from the table: "beneficiary_structure" */
 	beneficiary_structure: Array<BeneficiaryStructure>;
 	/** fetch aggregated fields from the table: "beneficiary_structure" */
 	beneficiary_structure_aggregate: BeneficiaryStructureAggregate;
 	/** fetch data from the table: "beneficiary_structure" using primary key columns */
 	beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
+	/** fetch data from the table in a streaming manner : "beneficiary_structure" */
+	beneficiary_structure_stream: Array<BeneficiaryStructure>;
 	/** fetch data from the table: "deployment" */
 	deployment: Array<Deployment>;
 	/** fetch aggregated fields from the table: "deployment" */
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table in a streaming manner : "deployment" */
+	deployment_stream: Array<Deployment>;
 	/** An array relationship */
 	external_data: Array<ExternalData>;
 	/** An aggregate relationship */
@@ -9527,18 +10572,26 @@ export type SubscriptionRoot = {
 	external_data_info_aggregate: ExternalDataInfoAggregate;
 	/** fetch data from the table: "external_data_info" using primary key columns */
 	external_data_info_by_pk?: Maybe<ExternalDataInfo>;
+	/** fetch data from the table in a streaming manner : "external_data_info" */
+	external_data_info_stream: Array<ExternalDataInfo>;
+	/** fetch data from the table in a streaming manner : "external_data" */
+	external_data_stream: Array<ExternalData>;
 	/** fetch data from the table: "external_source" */
 	external_source: Array<ExternalSource>;
 	/** fetch aggregated fields from the table: "external_source" */
 	external_source_aggregate: ExternalSourceAggregate;
 	/** fetch data from the table: "external_source" using primary key columns */
 	external_source_by_pk?: Maybe<ExternalSource>;
+	/** fetch data from the table in a streaming manner : "external_source" */
+	external_source_stream: Array<ExternalSource>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
 	manager_aggregate: ManagerAggregate;
 	/** fetch data from the table: "manager" using primary key columns */
 	manager_by_pk?: Maybe<Manager>;
+	/** fetch data from the table in a streaming manner : "manager" */
+	manager_stream: Array<Manager>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
 	/** fetch data from the table: "notebook_action" */
@@ -9547,6 +10600,8 @@ export type SubscriptionRoot = {
 	notebook_action_aggregate: NotebookActionAggregate;
 	/** fetch data from the table: "notebook_action" using primary key columns */
 	notebook_action_by_pk?: Maybe<NotebookAction>;
+	/** fetch data from the table in a streaming manner : "notebook_action" */
+	notebook_action_stream: Array<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
 	/** fetch data from the table: "notebook_appointment" */
@@ -9555,6 +10610,8 @@ export type SubscriptionRoot = {
 	notebook_appointment_aggregate: NotebookAppointmentAggregate;
 	/** fetch data from the table: "notebook_appointment" using primary key columns */
 	notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
+	/** fetch data from the table in a streaming manner : "notebook_appointment" */
+	notebook_appointment_stream: Array<NotebookAppointment>;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
 	/** fetch data from the table: "notebook_event" */
@@ -9563,78 +10620,106 @@ export type SubscriptionRoot = {
 	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
 	notebook_event_by_pk?: Maybe<NotebookEvent>;
+	/** fetch data from the table in a streaming manner : "notebook_event" */
+	notebook_event_stream: Array<NotebookEvent>;
 	/** fetch data from the table: "notebook_event_type" */
 	notebook_event_type: Array<NotebookEventType>;
 	/** fetch aggregated fields from the table: "notebook_event_type" */
 	notebook_event_type_aggregate: NotebookEventTypeAggregate;
 	/** fetch data from the table: "notebook_event_type" using primary key columns */
 	notebook_event_type_by_pk?: Maybe<NotebookEventType>;
+	/** fetch data from the table in a streaming manner : "notebook_event_type" */
+	notebook_event_type_stream: Array<NotebookEventType>;
 	/** fetch data from the table: "notebook_focus" */
 	notebook_focus: Array<NotebookFocus>;
 	/** fetch aggregated fields from the table: "notebook_focus" */
 	notebook_focus_aggregate: NotebookFocusAggregate;
 	/** fetch data from the table: "notebook_focus" using primary key columns */
 	notebook_focus_by_pk?: Maybe<NotebookFocus>;
+	/** fetch data from the table in a streaming manner : "notebook_focus" */
+	notebook_focus_stream: Array<NotebookFocus>;
 	/** fetch data from the table: "notebook_member" */
 	notebook_member: Array<NotebookMember>;
 	/** fetch aggregated fields from the table: "notebook_member" */
 	notebook_member_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "notebook_member" using primary key columns */
 	notebook_member_by_pk?: Maybe<NotebookMember>;
+	/** fetch data from the table in a streaming manner : "notebook_member" */
+	notebook_member_stream: Array<NotebookMember>;
+	/** fetch data from the table in a streaming manner : "notebook" */
+	notebook_stream: Array<Notebook>;
 	/** fetch data from the table: "notebook_target" */
 	notebook_target: Array<NotebookTarget>;
 	/** fetch aggregated fields from the table: "notebook_target" */
 	notebook_target_aggregate: NotebookTargetAggregate;
 	/** fetch data from the table: "notebook_target" using primary key columns */
 	notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** fetch data from the table in a streaming manner : "notebook_target" */
+	notebook_target_stream: Array<NotebookTarget>;
 	/** fetch data from the table: "orientation_manager" */
 	orientation_manager: Array<OrientationManager>;
 	/** fetch aggregated fields from the table: "orientation_manager" */
 	orientation_manager_aggregate: OrientationManagerAggregate;
 	/** fetch data from the table: "orientation_manager" using primary key columns */
 	orientation_manager_by_pk?: Maybe<OrientationManager>;
+	/** fetch data from the table in a streaming manner : "orientation_manager" */
+	orientation_manager_stream: Array<OrientationManager>;
 	/** fetch data from the table: "orientation_type" */
 	orientation_type: Array<OrientationType>;
 	/** fetch aggregated fields from the table: "orientation_type" */
 	orientation_type_aggregate: OrientationTypeAggregate;
 	/** fetch data from the table: "orientation_type" using primary key columns */
 	orientation_type_by_pk?: Maybe<OrientationType>;
+	/** fetch data from the table in a streaming manner : "orientation_type" */
+	orientation_type_stream: Array<OrientationType>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
 	/** fetch aggregated fields from the table: "professional" */
 	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
+	/** fetch data from the table in a streaming manner : "professional" */
+	professional_stream: Array<Professional>;
 	/** fetch data from the table: "ref_action" */
 	ref_action: Array<RefAction>;
 	/** fetch aggregated fields from the table: "ref_action" */
 	ref_action_aggregate: RefActionAggregate;
 	/** fetch data from the table: "ref_action" using primary key columns */
 	ref_action_by_pk?: Maybe<RefAction>;
+	/** fetch data from the table in a streaming manner : "ref_action" */
+	ref_action_stream: Array<RefAction>;
 	/** fetch data from the table: "ref_situation" */
 	ref_situation: Array<RefSituation>;
 	/** fetch aggregated fields from the table: "ref_situation" */
 	ref_situation_aggregate: RefSituationAggregate;
 	/** fetch data from the table: "ref_situation" using primary key columns */
 	ref_situation_by_pk?: Maybe<RefSituation>;
+	/** fetch data from the table in a streaming manner : "ref_situation" */
+	ref_situation_stream: Array<RefSituation>;
 	/** fetch data from the table: "ref_target" */
 	ref_target: Array<RefTarget>;
 	/** fetch aggregated fields from the table: "ref_target" */
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** fetch data from the table in a streaming manner : "ref_target" */
+	ref_target_stream: Array<RefTarget>;
 	/** fetch data from the table: "role" */
 	role: Array<Role>;
 	/** fetch aggregated fields from the table: "role" */
 	role_aggregate: RoleAggregate;
 	/** fetch data from the table: "role" using primary key columns */
 	role_by_pk?: Maybe<Role>;
+	/** fetch data from the table in a streaming manner : "role" */
+	role_stream: Array<Role>;
 	/** fetch data from the table: "rome_code" */
 	rome_code: Array<RomeCode>;
 	/** fetch aggregated fields from the table: "rome_code" */
 	rome_code_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "rome_code" using primary key columns */
 	rome_code_by_pk?: Maybe<RomeCode>;
+	/** fetch data from the table in a streaming manner : "rome_code" */
+	rome_code_stream: Array<RomeCode>;
 	/** execute function "search_beneficiaries" which returns "beneficiary" */
 	search_beneficiaries: Array<Beneficiary>;
 	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
@@ -9653,12 +10738,16 @@ export type SubscriptionRoot = {
 	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
+	/** fetch data from the table in a streaming manner : "structure" */
+	structure_stream: Array<Structure>;
 	/** fetch data from the table: "wanted_job" */
 	wanted_job: Array<WantedJob>;
 	/** fetch aggregated fields from the table: "wanted_job" */
 	wanted_job_aggregate: WantedJobAggregate;
 	/** fetch data from the table: "wanted_job" using primary key columns */
 	wanted_job_by_pk?: Maybe<WantedJob>;
+	/** fetch data from the table in a streaming manner : "wanted_job" */
+	wanted_job_stream: Array<WantedJob>;
 };
 
 export type SubscriptionRootAccountArgs = {
@@ -9697,6 +10786,18 @@ export type SubscriptionRootAccountInfoAggregateArgs = {
 	where?: InputMaybe<AccountInfoBoolExp>;
 };
 
+export type SubscriptionRootAccountInfoStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<AccountInfoStreamCursorInput>>;
+	where?: InputMaybe<AccountInfoBoolExp>;
+};
+
+export type SubscriptionRootAccountStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<AccountStreamCursorInput>>;
+	where?: InputMaybe<AccountBoolExp>;
+};
+
 export type SubscriptionRootAdminCdbArgs = {
 	distinct_on?: InputMaybe<Array<AdminCdbSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -9715,6 +10816,12 @@ export type SubscriptionRootAdminCdbAggregateArgs = {
 
 export type SubscriptionRootAdminCdbByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootAdminCdbStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<AdminCdbStreamCursorInput>>;
+	where?: InputMaybe<AdminCdbBoolExp>;
 };
 
 export type SubscriptionRootAdminStructureArgs = {
@@ -9737,6 +10844,12 @@ export type SubscriptionRootAdminStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootAdminStructureStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<AdminStructureStreamCursorInput>>;
+	where?: InputMaybe<AdminStructureBoolExp>;
+};
+
 export type SubscriptionRootAdminStructureStructureArgs = {
 	distinct_on?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -9755,6 +10868,12 @@ export type SubscriptionRootAdminStructureStructureAggregateArgs = {
 
 export type SubscriptionRootAdminStructureStructureByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootAdminStructureStructureStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<AdminStructureStructureStreamCursorInput>>;
+	where?: InputMaybe<AdminStructureStructureBoolExp>;
 };
 
 export type SubscriptionRootBeneficiaryArgs = {
@@ -9797,6 +10916,18 @@ export type SubscriptionRootBeneficiaryInfoByPkArgs = {
 	beneficiaryId: Scalars['uuid'];
 };
 
+export type SubscriptionRootBeneficiaryInfoStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<BeneficiaryInfoStreamCursorInput>>;
+	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+export type SubscriptionRootBeneficiaryStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<BeneficiaryStreamCursorInput>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
 export type SubscriptionRootBeneficiaryStructureArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -9817,6 +10948,12 @@ export type SubscriptionRootBeneficiaryStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootBeneficiaryStructureStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<BeneficiaryStructureStreamCursorInput>>;
+	where?: InputMaybe<BeneficiaryStructureBoolExp>;
+};
+
 export type SubscriptionRootDeploymentArgs = {
 	distinct_on?: InputMaybe<Array<DeploymentSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -9835,6 +10972,12 @@ export type SubscriptionRootDeploymentAggregateArgs = {
 
 export type SubscriptionRootDeploymentByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootDeploymentStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<DeploymentStreamCursorInput>>;
+	where?: InputMaybe<DeploymentBoolExp>;
 };
 
 export type SubscriptionRootExternalDataArgs = {
@@ -9877,6 +11020,18 @@ export type SubscriptionRootExternalDataInfoByPkArgs = {
 	external_data_id: Scalars['uuid'];
 };
 
+export type SubscriptionRootExternalDataInfoStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ExternalDataInfoStreamCursorInput>>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
+};
+
+export type SubscriptionRootExternalDataStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ExternalDataStreamCursorInput>>;
+	where?: InputMaybe<ExternalDataBoolExp>;
+};
+
 export type SubscriptionRootExternalSourceArgs = {
 	distinct_on?: InputMaybe<Array<ExternalSourceSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -9897,6 +11052,12 @@ export type SubscriptionRootExternalSourceByPkArgs = {
 	value: Scalars['String'];
 };
 
+export type SubscriptionRootExternalSourceStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ExternalSourceStreamCursorInput>>;
+	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
 export type SubscriptionRootManagerArgs = {
 	distinct_on?: InputMaybe<Array<ManagerSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -9915,6 +11076,12 @@ export type SubscriptionRootManagerAggregateArgs = {
 
 export type SubscriptionRootManagerByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootManagerStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ManagerStreamCursorInput>>;
+	where?: InputMaybe<ManagerBoolExp>;
 };
 
 export type SubscriptionRootNotebookArgs = {
@@ -9945,6 +11112,12 @@ export type SubscriptionRootNotebookActionByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootNotebookActionStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookActionStreamCursorInput>>;
+	where?: InputMaybe<NotebookActionBoolExp>;
+};
+
 export type SubscriptionRootNotebookAggregateArgs = {
 	distinct_on?: InputMaybe<Array<NotebookSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -9973,6 +11146,12 @@ export type SubscriptionRootNotebookAppointmentByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootNotebookAppointmentStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookAppointmentStreamCursorInput>>;
+	where?: InputMaybe<NotebookAppointmentBoolExp>;
+};
+
 export type SubscriptionRootNotebookByPkArgs = {
 	id: Scalars['uuid'];
 };
@@ -9997,6 +11176,12 @@ export type SubscriptionRootNotebookEventByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootNotebookEventStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookEventStreamCursorInput>>;
+	where?: InputMaybe<NotebookEventBoolExp>;
+};
+
 export type SubscriptionRootNotebookEventTypeArgs = {
 	distinct_on?: InputMaybe<Array<NotebookEventTypeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10015,6 +11200,12 @@ export type SubscriptionRootNotebookEventTypeAggregateArgs = {
 
 export type SubscriptionRootNotebookEventTypeByPkArgs = {
 	value: Scalars['String'];
+};
+
+export type SubscriptionRootNotebookEventTypeStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookEventTypeStreamCursorInput>>;
+	where?: InputMaybe<NotebookEventTypeBoolExp>;
 };
 
 export type SubscriptionRootNotebookFocusArgs = {
@@ -10037,6 +11228,12 @@ export type SubscriptionRootNotebookFocusByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootNotebookFocusStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookFocusStreamCursorInput>>;
+	where?: InputMaybe<NotebookFocusBoolExp>;
+};
+
 export type SubscriptionRootNotebookMemberArgs = {
 	distinct_on?: InputMaybe<Array<NotebookMemberSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10055,6 +11252,18 @@ export type SubscriptionRootNotebookMemberAggregateArgs = {
 
 export type SubscriptionRootNotebookMemberByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootNotebookMemberStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookMemberStreamCursorInput>>;
+	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+export type SubscriptionRootNotebookStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookStreamCursorInput>>;
+	where?: InputMaybe<NotebookBoolExp>;
 };
 
 export type SubscriptionRootNotebookTargetArgs = {
@@ -10077,6 +11286,12 @@ export type SubscriptionRootNotebookTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootNotebookTargetStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookTargetStreamCursorInput>>;
+	where?: InputMaybe<NotebookTargetBoolExp>;
+};
+
 export type SubscriptionRootOrientationManagerArgs = {
 	distinct_on?: InputMaybe<Array<OrientationManagerSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10095,6 +11310,12 @@ export type SubscriptionRootOrientationManagerAggregateArgs = {
 
 export type SubscriptionRootOrientationManagerByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootOrientationManagerStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<OrientationManagerStreamCursorInput>>;
+	where?: InputMaybe<OrientationManagerBoolExp>;
 };
 
 export type SubscriptionRootOrientationTypeArgs = {
@@ -10117,6 +11338,12 @@ export type SubscriptionRootOrientationTypeByPkArgs = {
 	id: Scalars['String'];
 };
 
+export type SubscriptionRootOrientationTypeStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<OrientationTypeStreamCursorInput>>;
+	where?: InputMaybe<OrientationTypeBoolExp>;
+};
+
 export type SubscriptionRootProfessionalArgs = {
 	distinct_on?: InputMaybe<Array<ProfessionalSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10135,6 +11362,12 @@ export type SubscriptionRootProfessionalAggregateArgs = {
 
 export type SubscriptionRootProfessionalByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootProfessionalStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ProfessionalStreamCursorInput>>;
+	where?: InputMaybe<ProfessionalBoolExp>;
 };
 
 export type SubscriptionRootRefActionArgs = {
@@ -10157,6 +11390,12 @@ export type SubscriptionRootRefActionByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootRefActionStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RefActionStreamCursorInput>>;
+	where?: InputMaybe<RefActionBoolExp>;
+};
+
 export type SubscriptionRootRefSituationArgs = {
 	distinct_on?: InputMaybe<Array<RefSituationSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10175,6 +11414,12 @@ export type SubscriptionRootRefSituationAggregateArgs = {
 
 export type SubscriptionRootRefSituationByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootRefSituationStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RefSituationStreamCursorInput>>;
+	where?: InputMaybe<RefSituationBoolExp>;
 };
 
 export type SubscriptionRootRefTargetArgs = {
@@ -10197,6 +11442,12 @@ export type SubscriptionRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootRefTargetStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RefTargetStreamCursorInput>>;
+	where?: InputMaybe<RefTargetBoolExp>;
+};
+
 export type SubscriptionRootRoleArgs = {
 	distinct_on?: InputMaybe<Array<RoleSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10217,6 +11468,12 @@ export type SubscriptionRootRoleByPkArgs = {
 	label: Scalars['String'];
 };
 
+export type SubscriptionRootRoleStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RoleStreamCursorInput>>;
+	where?: InputMaybe<RoleBoolExp>;
+};
+
 export type SubscriptionRootRomeCodeArgs = {
 	distinct_on?: InputMaybe<Array<RomeCodeSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10235,6 +11492,12 @@ export type SubscriptionRootRomeCodeAggregateArgs = {
 
 export type SubscriptionRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootRomeCodeStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RomeCodeStreamCursorInput>>;
+	where?: InputMaybe<RomeCodeBoolExp>;
 };
 
 export type SubscriptionRootSearchBeneficiariesArgs = {
@@ -10311,6 +11574,12 @@ export type SubscriptionRootStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootStructureStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<StructureStreamCursorInput>>;
+	where?: InputMaybe<StructureBoolExp>;
+};
+
 export type SubscriptionRootWantedJobArgs = {
 	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10329,6 +11598,12 @@ export type SubscriptionRootWantedJobAggregateArgs = {
 
 export type SubscriptionRootWantedJobByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootWantedJobStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<WantedJobStreamCursorInput>>;
+	where?: InputMaybe<WantedJobBoolExp>;
 };
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -10545,6 +11820,23 @@ export type WantedJobSetInput = {
 	updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "wanted_job" */
+export type WantedJobStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: WantedJobStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type WantedJobStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	rome_code_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "wanted_job" */
 export enum WantedJobUpdateColumn {
 	/** column name */
@@ -10558,6 +11850,12 @@ export enum WantedJobUpdateColumn {
 	/** column name */
 	UpdatedAt = 'updated_at',
 }
+
+export type WantedJobUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<WantedJobSetInput>;
+	where: WantedJobBoolExp;
+};
 
 export type DeleteManagerMutationVariables = Exact<{
 	id: Scalars['uuid'];
@@ -10623,6 +11921,22 @@ export type GetNotebookForBeneficiaryQuery = {
 			dateOfBirth: string;
 		};
 	}>;
+};
+
+export type RemoveAdminStructureStructureMutationMutationVariables = Exact<{
+	adminStructureId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+}>;
+
+export type RemoveAdminStructureStructureMutationMutation = {
+	__typename?: 'mutation_root';
+	update_admin_structure_structure?:
+		| {
+				__typename?: 'admin_structure_structure_mutation_response';
+				returning: Array<{ __typename?: 'admin_structure_structure'; id: string }>;
+		  }
+		| null
+		| undefined;
 };
 
 export type RemoveNotebookMembersMutationVariables = Exact<{
@@ -14223,6 +15537,118 @@ export const GetNotebookForBeneficiaryDocument = {
 } as unknown as DocumentNode<
 	GetNotebookForBeneficiaryQuery,
 	GetNotebookForBeneficiaryQueryVariables
+>;
+export const RemoveAdminStructureStructureMutationDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'RemoveAdminStructureStructureMutation' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'adminStructureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_admin_structure_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'adminStructureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'adminStructureId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'structureId' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deletedAt' },
+											value: { kind: 'StringValue', value: 'now', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	RemoveAdminStructureStructureMutationMutation,
+	RemoveAdminStructureStructureMutationMutationVariables
 >;
 export const RemoveNotebookMembersDocument = {
 	kind: 'Document',
@@ -21438,6 +22864,31 @@ export const InsertStructureAdminStructureDocument = {
 						arguments: [
 							{
 								kind: 'Argument',
+								name: { kind: 'Name', value: 'on_conflict' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: {
+												kind: 'EnumValue',
+												value: 'admin_structure_structure_admin_structure_id_structure_id_key',
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'ListValue',
+												values: [{ kind: 'EnumValue', value: 'deletedAt' }],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
 								name: { kind: 'Name', value: 'object' },
 								value: {
 									kind: 'ObjectValue',
@@ -26546,6 +27997,10 @@ export type AddNotebookMemberBatchMutationStore = OperationStore<
 export type GetNotebookForBeneficiaryQueryStore = OperationStore<
 	GetNotebookForBeneficiaryQuery,
 	GetNotebookForBeneficiaryQueryVariables
+>;
+export type RemoveAdminStructureStructureMutationMutationStore = OperationStore<
+	RemoveAdminStructureStructureMutationMutation,
+	RemoveAdminStructureStructureMutationMutationVariables
 >;
 export type RemoveNotebookMembersMutationStore = OperationStore<
 	RemoveNotebookMembersMutation,

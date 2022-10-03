@@ -1,22 +1,22 @@
 table:
-  schema: public
   name: beneficiary_structure
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
     beneficiary_id:
       custom_name: beneficiaryId
-    updated_at:
-      custom_name: updatedAt
-    structure_id:
-      custom_name: structureId
     created_at:
       custom_name: createdAt
+    structure_id:
+      custom_name: structureId
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
     beneficiary_id: beneficiaryId
-    updated_at: updatedAt
-    structure_id: structureId
     created_at: createdAt
+    structure_id: structureId
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: beneficiary
     using:

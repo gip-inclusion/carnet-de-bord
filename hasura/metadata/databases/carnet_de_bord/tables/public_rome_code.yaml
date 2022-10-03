@@ -1,14 +1,14 @@
 table:
-  schema: public
   name: rome_code
+  schema: public
 array_relationships:
   - name: wanted_by
     using:
       foreign_key_constraint_on:
         column: rome_code_id
         table:
-          schema: public
           name: wanted_job
+          schema: public
 insert_permissions:
   - role: professional
     permission:

@@ -1,25 +1,25 @@
 table:
-  schema: public
   name: notebook_focus
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    updated_at:
-      custom_name: updatedAt
     created_at:
       custom_name: createdAt
+    creator_id:
+      custom_name: creatorId
     linked_to:
       custom_name: linkedTo
     notebook_id:
       custom_name: notebookId
-    creator_id:
-      custom_name: creatorId
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
-    updated_at: updatedAt
     created_at: createdAt
+    creator_id: creatorId
     linked_to: linkedTo
     notebook_id: notebookId
-    creator_id: creatorId
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: creator
     using:
@@ -33,8 +33,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: focus_id
         table:
-          schema: public
           name: notebook_target
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:

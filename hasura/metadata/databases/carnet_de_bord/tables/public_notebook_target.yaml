@@ -1,22 +1,22 @@
 table:
-  schema: public
   name: notebook_target
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    updated_at:
-      custom_name: updatedAt
     created_at:
       custom_name: createdAt
     creator_id:
       custom_name: creatorId
     focus_id:
       custom_name: focusId
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
-    updated_at: updatedAt
     created_at: createdAt
     creator_id: creatorId
     focus_id: focusId
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: creator
     using:
@@ -30,8 +30,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: target_id
         table:
-          schema: public
           name: notebook_action
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:

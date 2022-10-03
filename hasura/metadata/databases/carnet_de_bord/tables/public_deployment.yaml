@@ -1,52 +1,52 @@
 table:
-  schema: public
   name: deployment
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    updated_at:
-      custom_name: updatedAt
     created_at:
       custom_name: createdAt
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
-    updated_at: updatedAt
     created_at: createdAt
+    updated_at: updatedAt
+  custom_root_fields: {}
 array_relationships:
   - name: admin_structures
     using:
       foreign_key_constraint_on:
         column: deployment_id
         table:
-          schema: public
           name: admin_structure
+          schema: public
   - name: beneficiaries
     using:
       foreign_key_constraint_on:
         column: deployment_id
         table:
-          schema: public
           name: beneficiary
+          schema: public
   - name: managers
     using:
       foreign_key_constraint_on:
         column: deployment_id
         table:
-          schema: public
           name: manager
+          schema: public
   - name: orientation_managers
     using:
       foreign_key_constraint_on:
         column: deployment_id
         table:
-          schema: public
           name: orientation_manager
+          schema: public
   - name: structures
     using:
       foreign_key_constraint_on:
         column: deployment_id
         table:
-          schema: public
           name: structure
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:

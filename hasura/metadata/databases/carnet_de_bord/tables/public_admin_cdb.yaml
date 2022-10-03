@@ -1,24 +1,24 @@
 table:
-  schema: public
   name: admin_cdb
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    updated_at:
-      custom_name: updatedAt
     created_at:
       custom_name: createdAt
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
-    updated_at: updatedAt
     created_at: createdAt
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: account
     using:
       foreign_key_constraint_on:
         column: admin_id
         table:
-          schema: public
           name: account
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:

@@ -1,61 +1,61 @@
 table:
-  schema: public
   name: notebook
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
-    right_rsa:
-      custom_name: rightRsa
-    right_bonus:
-      custom_name: rightBonus
-    work_situation:
-      custom_name: workSituation
-    education_level:
-      custom_name: educationLevel
-    work_situation_date:
-      custom_name: workSituationDate
-    geographical_area:
-      custom_name: geographicalArea
-    contract_end_date:
-      custom_name: contractEndDate
     beneficiary_id:
       custom_name: beneficiaryId
-    updated_at:
-      custom_name: updatedAt
-    created_at:
-      custom_name: createdAt
-    contract_type:
-      custom_name: contractType
+    contract_end_date:
+      custom_name: contractEndDate
     contract_sign_date:
       custom_name: contractSignDate
-    right_rqth:
-      custom_name: rightRqth
-    work_situation_end_date:
-      custom_name: workSituationEndDate
     contract_start_date:
       custom_name: contractStartDate
-    right_ass:
-      custom_name: rightAss
+    contract_type:
+      custom_name: contractType
+    created_at:
+      custom_name: createdAt
+    education_level:
+      custom_name: educationLevel
+    geographical_area:
+      custom_name: geographicalArea
     right_are:
       custom_name: rightAre
+    right_ass:
+      custom_name: rightAss
+    right_bonus:
+      custom_name: rightBonus
+    right_rqth:
+      custom_name: rightRqth
+    right_rsa:
+      custom_name: rightRsa
+    updated_at:
+      custom_name: updatedAt
+    work_situation:
+      custom_name: workSituation
+    work_situation_date:
+      custom_name: workSituationDate
+    work_situation_end_date:
+      custom_name: workSituationEndDate
   custom_column_names:
-    right_rsa: rightRsa
-    right_bonus: rightBonus
-    work_situation: workSituation
-    education_level: educationLevel
-    work_situation_date: workSituationDate
-    geographical_area: geographicalArea
-    contract_end_date: contractEndDate
     beneficiary_id: beneficiaryId
-    updated_at: updatedAt
-    created_at: createdAt
-    contract_type: contractType
+    contract_end_date: contractEndDate
     contract_sign_date: contractSignDate
-    right_rqth: rightRqth
-    work_situation_end_date: workSituationEndDate
     contract_start_date: contractStartDate
-    right_ass: rightAss
+    contract_type: contractType
+    created_at: createdAt
+    education_level: educationLevel
+    geographical_area: geographicalArea
     right_are: rightAre
+    right_ass: rightAss
+    right_bonus: rightBonus
+    right_rqth: rightRqth
+    right_rsa: rightRsa
+    updated_at: updatedAt
+    work_situation: workSituation
+    work_situation_date: workSituationDate
+    work_situation_end_date: workSituationEndDate
+  custom_root_fields: {}
 object_relationships:
   - name: beneficiary
     using:
@@ -66,42 +66,42 @@ array_relationships:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: notebook_appointment
+          schema: public
   - name: events
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: notebook_event
+          schema: public
   - name: focuses
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: notebook_focus
+          schema: public
   - name: members
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: notebook_member
+          schema: public
   - name: wantedJobs
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          schema: public
           name: wanted_job
+          schema: public
 computed_fields:
   - name: nbMembers
     definition:
       function:
-        schema: public
         name: nb_member
+        schema: public
     comment: return the number of professionnal for a notebook
 insert_permissions:
   - role: admin_cdb

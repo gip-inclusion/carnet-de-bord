@@ -1,0 +1,7 @@
+mutation RemoveAdminStructureStructureMutation($adminStructureId: uuid! $structureId: uuid!) {
+  update_admin_structure_structure(where: {adminStructureId: {_eq: $adminStructureId}, structureId: {_eq: $structureId}}, _set: {deletedAt: "now"}) {
+    returning {
+      id
+    }
+  }
+}

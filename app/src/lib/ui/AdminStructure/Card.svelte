@@ -2,21 +2,39 @@
 	import { Button, Card } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
-	import type { AdminStructure } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		AdminStructure,
+		RemoveAdminStructureStructureMutationDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import EditAdminStructureLayer from '$lib/ui/AdminStructure/EditAdminStructureLayer.svelte';
+	import Dialog from '$lib/ui/Dialog.svelte';
+	import { operationStore, mutation } from '@urql/svelte';
+	import { account } from '$lib/stores';
 
 	export let adminStructure: Pick<
 		AdminStructure,
 		'id' | 'firstname' | 'lastname' | 'phoneNumbers' | 'email'
 	>;
 	export let href: string = null;
+	export let structureId: string;
+
+	const isNotCurrentAccount = $account.id !== adminStructure.id;
 
 	function openUpdateAdminLayer() {
 		openComponent.open({
 			component: EditAdminStructureLayer,
 			props: { adminStructure },
 		});
+	}
+
+	const removeAdminStructureMutation = operationStore(
+		RemoveAdminStructureStructureMutationDocument
+	);
+	const removeAdminStructure = mutation(removeAdminStructureMutation);
+
+	async function removeAdminStructureFromStructure() {
+		await removeAdminStructure({ structureId, adminStructureId: adminStructure.id });
 	}
 </script>
 
@@ -46,9 +64,25 @@
 			/>
 		</div>
 	</span>
-	<span slot="actions">
+	<span slot="actions" class="flex flex-row gap-2">
 		<Button classNames="fr-btn--secondary fr-btn--sm" on:click={openUpdateAdminLayer}
 			>Mettre à jour</Button
 		>
+		{#if isNotCurrentAccount}
+			<Dialog
+				buttonCssClasses="fr-btn--sm"
+				buttonFullWidth={false}
+				buttonIcon="fr-icon-delete-bin-line"
+				title="Supprimer un gestionnaire de structure"
+				label="Supprimer"
+				on:confirm={() => removeAdminStructureFromStructure()}
+			>
+				<p>
+					Vous allez supprimer les droits de gestionnaire de structure au compte de
+					<strong>{displayFullName(adminStructure)}</strong>.
+					<br />Veuillez confirmer la suppression.
+				</p>
+			</Dialog>
+		{/if}
 	</span>
 </Card>

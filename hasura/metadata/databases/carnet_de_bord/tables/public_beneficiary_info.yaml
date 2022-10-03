@@ -1,19 +1,19 @@
 table:
-  schema: public
   name: beneficiary_info
+  schema: public
 configuration:
-  custom_root_fields: {}
   column_config:
     beneficiary_id:
       custom_name: beneficiaryId
-    updated_at:
-      custom_name: updatedAt
     created_at:
       custom_name: createdAt
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
     beneficiary_id: beneficiaryId
-    updated_at: updatedAt
     created_at: createdAt
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: beneficiary
     using:
