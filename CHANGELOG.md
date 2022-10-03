@@ -1,3 +1,10 @@
+# [1.147.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.146.3...v1.147.0) (2022-10-03)
+
+
+### Features
+
+* Suppression d'un gestionnaire de structure. ([#1143](https://github.com/SocialGouv/carnet-de-bord/issues/1143)) ([519fec7](https://github.com/SocialGouv/carnet-de-bord/commit/519fec776915abcbd52d887a947f0540a375767e))
+
 ## [1.146.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.146.2...v1.146.3) (2022-10-03)
 
 
