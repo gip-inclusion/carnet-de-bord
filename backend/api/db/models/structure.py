@@ -11,6 +11,8 @@ from api.core.settings import settings
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
+import phonenumbers
+
 
 class StructureInsert(BaseModel):
     siret: str | None
@@ -54,9 +56,7 @@ class StructureInputRow(BaseModel):
 
     @validator("siret", allow_reuse=True)
     def must_be_a_valid_siret(cls, value: str) -> str:
-        if not value:
-            return value
-        if not validate_luhn(value):
+        if value and not validate_luhn(value):
             raise ValueError(f"{value} not a valid siret")
         return value
 
@@ -64,7 +64,9 @@ class StructureInputRow(BaseModel):
     def must_be_a_valid_postal_code(cls, value: str) -> str:
         if not value:
             return value
-        if value[0:2] == "00":
+        if (
+            value[0:2] == "00"
+        ):  ## Les 2 premiers digits correspondent au numéro de departement, 00 n'est donc pas valide
             raise ValueError(f"{value} not a valid postal code")
         if not re.match("^[0-9]{5}$", value):
             raise ValueError(f"{value} not a valid postal code")
@@ -75,11 +77,18 @@ class StructureInputRow(BaseModel):
         if not value:
             return value
 
-        phones = value.split(",")
-        for phone in phones:
-            if not re.match(r"^((\+|00)33|0)\s?[1-9]([\s.-]*\d{2}){4}$", phone.strip()):
-                raise ValueError("not a valid phone number")
-        return ", ".join([phone.strip() for phone in phones])
+        try:
+            return ", ".join(
+                [
+                    phonenumbers.format_number(
+                        phonenumbers.parse(phone, "FR"),
+                        phonenumbers.PhoneNumberFormat.E164,
+                    )
+                    for phone in value.split(",")
+                ]
+            )
+        except Exception as exc:
+            raise ValueError("not a valid phone number") from exc
 
 
 class CsvFieldError(BaseModel):
