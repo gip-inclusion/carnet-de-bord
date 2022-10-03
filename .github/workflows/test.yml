@@ -38,7 +38,7 @@ jobs:
 
       - name: Setup Python tools
         run: |
-          apt-get install python-setuptools
+          sudo apt-get install python-setuptools
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
