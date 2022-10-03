@@ -1,6 +1,5 @@
 from datetime import datetime
 from uuid import UUID
-from xmlrpc.client import Boolean
 
 from pydantic import BaseModel
 
@@ -20,8 +19,8 @@ class AccountDB(BaseModel):
     admin_structure_id: UUID | None
     professional_id: UUID | None
     beneficiary_id: UUID | None
-    confirmed: Boolean = False
-    onboarding_done: Boolean = False
+    confirmed: bool = False
+    onboarding_done: bool = False
     created_at: datetime
     updated_at: datetime
 
