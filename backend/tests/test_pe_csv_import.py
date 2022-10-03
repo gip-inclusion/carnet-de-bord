@@ -201,4 +201,4 @@ async def test_parse_principal_csv_exception(
     with caplog.at_level(logging.ERROR):
         await import_beneficiaries(db_connection, pe_principal_csv_filepath)
 
-        assert "Exception while parsing CSV line: Parsing exception" in caplog.text
+        assert "Exception while processing CSV line: Parsing exception" in caplog.text
