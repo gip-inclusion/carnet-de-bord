@@ -1,3 +1,10 @@
+## [1.146.3](https://github.com/SocialGouv/carnet-de-bord/compare/v1.146.2...v1.146.3) (2022-10-03)
+
+
+### Bug Fixes
+
+* catch des exceptions lancées à chaque parsing de ligne CSV ([#1150](https://github.com/SocialGouv/carnet-de-bord/issues/1150)) ([1330b90](https://github.com/SocialGouv/carnet-de-bord/commit/1330b9076e0b4c42ca37534a1b555ed5b3822eae))
+
 ## [1.146.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.146.1...v1.146.2) (2022-09-29)
 
 
