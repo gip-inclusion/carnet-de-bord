@@ -31,7 +31,7 @@ async def test_structure_parse_csv_with_error(
             structure for structure in data if structure["valid"] is False
         ]
         assert len(structure_with_errors) == 3
-        assert structure_with_errors[0]["errors"][0]["key"] == "Nom*"
+        assert structure_with_errors[0]["errors"][0]["key"] == "Nom"
         assert (
             structure_with_errors[0]["errors"][0]["error"]
             == "none is not an allowed value"
@@ -48,7 +48,7 @@ async def test_structure_parse_csv_with_error(
             structure_with_errors[1]["errors"][1]["error"]
             == "value is not a valid email address"
         )
-        assert structure_with_errors[1]["errors"][2]["key"] == "Courriel responsable*"
+        assert structure_with_errors[1]["errors"][2]["key"] == "Courriel responsable"
         assert (
             structure_with_errors[1]["errors"][2]["error"]
             == "value is not a valid email address"
@@ -60,7 +60,7 @@ async def test_structure_parse_csv_with_error(
             structure_with_errors[2]["errors"][0]["error"]
             == "invalid or missing URL scheme"
         )
-        assert structure_with_errors[2]["errors"][1]["key"] == "Courriel responsable*"
+        assert structure_with_errors[2]["errors"][1]["key"] == "Courriel responsable"
         assert (
             structure_with_errors[2]["errors"][1]["error"]
             == "value is not a valid email address"

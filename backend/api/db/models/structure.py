@@ -2,7 +2,6 @@ import logging
 import re
 from datetime import datetime
 from uuid import UUID
-from xmlrpc.client import boolean
 
 from luhn_validator import validate as validate_luhn
 from pandas.core.series import Series
@@ -34,17 +33,17 @@ class Structure(StructureInsert):
 
 
 class StructureInputRow(BaseModel):
-    name: str = Field(alias="Nom*")
+    name: str = Field(alias="Nom")
     short_desc: str | None = Field(alias="Description")
     phone: str | None = Field(alias="Téléphones")
     address1: str | None = Field(alias="Adresse")
     address2: str | None = Field(alias="Adresse (complément)")
-    postal_code: str = Field(alias="Code postal*")
-    city: str = Field(alias="Ville*")
+    postal_code: str = Field(alias="Code postal")
+    city: str = Field(alias="Ville")
     website: HttpUrl | None = Field(alias="Site web")
     email: EmailStr | None = Field(alias="Courriel")
     siret: str | None = Field(alias="Siret")
-    admin_email: EmailStr = Field(alias="Courriel responsable*")
+    admin_email: EmailStr = Field(alias="Courriel responsable")
     admin_firstname: str | None = Field(alias="Prénom responsable")
     admin_lastname: str | None = Field(alias="Nom responsable")
     admin_phone_number: str | None = Field(alias="Téléphones responsable")
@@ -91,7 +90,7 @@ class CsvFieldError(BaseModel):
 class StructureCsvRowResponse(BaseModel):
     row: dict | None = None
     data: StructureInputRow | None = None
-    valid: boolean
+    valid: bool
     errors: list[CsvFieldError] | None = None
 
 
