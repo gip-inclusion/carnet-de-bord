@@ -1,4 +1,5 @@
 import logging
+import traceback
 import uuid
 from uuid import UUID
 
@@ -131,13 +132,13 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
 
 async def import_beneficiaries(connection: Connection, principal_csv: str):
 
-    try:
-        df = dd.read_csv(
-            principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
-        )
+    df = dd.read_csv(
+        principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
+    )
 
-        row: Series
-        for _, row in df.iterrows():
+    row: Series
+    for _, row in df.iterrows():
+        try:
 
             logging.info(
                 "{id} => Trying to import main row {id}".format(
@@ -196,8 +197,9 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                     )
                 )
 
-    except Exception as e:
-        logging.error("Exception while parsing CSV line: {}".format(e))
+        except Exception as e:
+            logging.error("Exception while parsing CSV line: {}".format(e))
+            traceback.print_exc()
 
 
 async def import_pe_referent(
