@@ -578,18 +578,21 @@ async def create_new_notebook(
     beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
 ):
-    record = await connection.fetchrow(
+    return await connection.fetchrow(
         """
-        INSERT INTO public.notebook (
-            beneficiary_id,
-            right_rsa,
-            right_rqth,
-            right_are,
-            right_ass,
-            right_bonus
-            )
-        VALUES ($1, $2, $3, $4, $5, $6)
-        returning *
+INSERT INTO public.notebook (
+    beneficiary_id,
+    right_rsa,
+    right_rqth,
+    right_are,
+    right_ass,
+    right_bonus,
+    work_situation,
+    education_level,
+    geographical_area
+    )
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+returning id
         """,
         beneficiary_id,
         beneficiary.right_rsa,
@@ -597,8 +600,42 @@ async def create_new_notebook(
         beneficiary.right_are,
         beneficiary.right_ass,
         beneficiary.right_bonus,
+        beneficiary.work_situation,
+        beneficiary.education_level,
+        beneficiary.geographical_area,
     )
 
 
 #    if record:
 #        return await parse_notebook_from_record(record, record_prefix="")
+
+
+async def update_notebook(
+    connection: Connection,
+    beneficiary_id: UUID,
+    beneficiary: BeneficiaryImport,
+):
+    return await connection.fetchrow(
+        """
+UPDATE public.notebook SET
+    right_rsa = $2,
+    right_rqth = $3,
+    right_are = $4,
+    right_ass = $5,
+    right_bonus = $6,
+    work_situation = $7,
+    education_level = $8,
+    geographical_area = $9
+WHERE beneficiary_id = $1
+returning id
+        """,
+        beneficiary_id,
+        beneficiary.right_rsa,
+        beneficiary.right_rqth,
+        beneficiary.right_are,
+        beneficiary.right_ass,
+        beneficiary.right_bonus,
+        beneficiary.work_situation,
+        beneficiary.education_level,
+        beneficiary.geographical_area,
+    )

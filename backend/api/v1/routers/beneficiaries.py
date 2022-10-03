@@ -10,7 +10,7 @@ from api.db.crud.beneficiary import (
     insert_beneficiary,
     update_beneficiary,
 )
-from api.db.crud.notebook import create_new_notebook
+from api.db.crud.notebook import create_new_notebook, update_notebook
 from api.db.models.beneficiary import BeneficiaryImport
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import extract_deployment_id
@@ -37,20 +37,20 @@ async def import_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ):
-    print(beneficiary)
     async with db.transaction():
         existing_rows = await get_beneficiaries_like(db, beneficiary, deployment_id)
         match existing_rows:
             case []:
                 record = await insert_beneficiary(db, beneficiary, deployment_id)
-                logger.info("inserted new beneficiary %s", record["id"])
                 await create_new_notebook(db, record["id"], beneficiary)
+                logger.info("inserted new beneficiary %s", record["id"])
             case [
                 row
             ] if row.firstname == beneficiary.firstname and row.lastname == beneficiary.lastname and row.date_of_birth == beneficiary.date_of_birth and row.internal_id == beneficiary.si_id and row.deployment_id == deployment_id:
                 record = await update_beneficiary(
                     db, beneficiary, deployment_id, existing_rows[0].id
                 )
+                await update_notebook(db, record["id"], beneficiary)
                 logger.info("updated existing beneficiary %s", record["id"])
             case other:
                 logger.info(
