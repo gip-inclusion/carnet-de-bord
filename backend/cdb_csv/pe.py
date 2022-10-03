@@ -1,4 +1,5 @@
 import logging
+import traceback
 import uuid
 from uuid import UUID
 
@@ -137,61 +138,68 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
 
     row: Series
     for _, row in df.iterrows():
+        try:
 
-        logging.info(
-            "{id} => Trying to import main row {id}".format(
-                id=row["identifiant_unique_de"]
-            )
-        )
-
-        csv_row: PrincipalCsvRow = await map_principal_row(row)
-        hash_result: str = await get_sha256(csv_row)
-
-        if csv_row.brsa:
-            beneficiary: Beneficiary | None = await import_beneficiary(
-                connection, csv_row, row["identifiant_unique_de"], hash_result
+            logging.info(
+                "{id} => Trying to import main row {id}".format(
+                    id=row["identifiant_unique_de"]
+                )
             )
 
-            # Keep track of the data we want to insert
-            if beneficiary:
-                await save_external_data(connection, beneficiary, csv_row, hash_result)
+            csv_row: PrincipalCsvRow = await map_principal_row(row)
+            hash_result: str = await get_sha256(csv_row)
 
-                if beneficiary.notebook:
-                    professional = await import_pe_referent(
-                        connection,
-                        csv_row,
-                        row["identifiant_unique_de"],
-                        beneficiary.deployment_id,
-                        beneficiary.notebook.id,
+            if csv_row.brsa:
+                beneficiary: Beneficiary | None = await import_beneficiary(
+                    connection, csv_row, row["identifiant_unique_de"], hash_result
+                )
+
+                # Keep track of the data we want to insert
+                if beneficiary:
+                    await save_external_data(
+                        connection, beneficiary, csv_row, hash_result
                     )
 
-                    if professional:
-                        await save_external_data(
+                    if beneficiary.notebook:
+                        professional = await import_pe_referent(
                             connection,
-                            beneficiary,
                             csv_row,
-                            hash_result,
-                            professional=professional,
+                            row["identifiant_unique_de"],
+                            beneficiary.deployment_id,
+                            beneficiary.notebook.id,
+                        )
+
+                        if professional:
+                            await save_external_data(
+                                connection,
+                                beneficiary,
+                                csv_row,
+                                hash_result,
+                                professional=professional,
+                            )
+                    else:
+                        logging.error(
+                            "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
+                                row["identifiant_unique_de"]
+                            )
                         )
                 else:
-                    logging.error(
-                        "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
+                    logging.info(
+                        "{} - No new beneficiary to import. Skipping.".format(
                             row["identifiant_unique_de"]
                         )
                     )
+
             else:
                 logging.info(
-                    "{} - No new beneficiary to import. Skipping.".format(
+                    "{} - Skipping, BRSA field value is No".format(
                         row["identifiant_unique_de"]
                     )
                 )
 
-        else:
-            logging.info(
-                "{} - Skipping, BRSA field value is No".format(
-                    row["identifiant_unique_de"]
-                )
-            )
+        except Exception as e:
+            logging.error("Exception while processing CSV line: {}".format(e))
+            traceback.print_exc()
 
 
 async def import_pe_referent(

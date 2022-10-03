@@ -1,4 +1,5 @@
 import logging
+from unittest import mock
 from uuid import UUID
 
 import httpx
@@ -183,3 +184,21 @@ async def test_insert_wanted_jobs_for_csv_row_and_notebook(
 
         assert sophie_tifour is not None and sophie_tifour.notebook is not None
         assert len(sophie_tifour.notebook.wanted_jobs) == 3
+
+
+@mock.patch("cdb_csv.pe.map_principal_row", side_effect=Exception("Parsing exception"))
+async def test_parse_principal_csv_exception(
+    mock_principal_row,
+    pe_principal_csv_filepath: str,
+    db_connection: Connection,
+    caplog,
+):
+    await import_beneficiaries(db_connection, pe_principal_csv_filepath)
+
+    # Every line of the CSV file should have been called
+    assert mock_principal_row.call_count == 4
+
+    with caplog.at_level(logging.ERROR):
+        await import_beneficiaries(db_connection, pe_principal_csv_filepath)
+
+        assert "Exception while processing CSV line: Parsing exception" in caplog.text
