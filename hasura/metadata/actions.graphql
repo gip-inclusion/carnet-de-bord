@@ -25,7 +25,7 @@ input InsertStructureWithAdminInput {
 }
 
 input StructureInput {
-  name: String
+  name: citext!
   phone: String
   email: String
   address1: String
@@ -52,7 +52,7 @@ type CreateDeploymentOutput {
 
 type InsertStructureWithAdminOutput {
   id: uuid!
-  name: String
+  name: citext
   phone: String
   email: citext
   address1: String

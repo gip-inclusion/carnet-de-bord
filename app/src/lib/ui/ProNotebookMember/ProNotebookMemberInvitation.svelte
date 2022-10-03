@@ -33,7 +33,7 @@
 
 	const searchProfessionalResult = operationStore(
 		SearchProfessionalDocument,
-		{ search: null },
+		{ search: null, searchStructure: null },
 		{ pause: true }
 	);
 
@@ -47,6 +47,7 @@
 		$searchProfessionalResult.context.pause = false;
 		$searchProfessionalResult.variables = {
 			search: `%${search}%`,
+			searchStructure: `%${search}%`,
 			accountIds,
 		};
 		$searchProfessionalResult.reexecute();

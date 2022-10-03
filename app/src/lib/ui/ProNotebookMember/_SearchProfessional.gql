@@ -1,10 +1,10 @@
-query SearchProfessional($search: String, $accountIds: [uuid!] = []) {
+query SearchProfessional($search: String, $searchStructure: citext, $accountIds: [uuid!] = []) {
   professionals: professional(
     where: {
       _or: [
         { firstname: { _ilike: $search } }
         { lastname: { _ilike: $search } }
-        { structure: { name: { _ilike: $search } } }
+        { structure: { name: { _ilike: $searchStructure } } }
         { structure: { postalCode: { _ilike: $search } } }
       ]
       _not: { account: { id: { _in: $accountIds } } }
@@ -29,7 +29,7 @@ query SearchProfessional($search: String, $accountIds: [uuid!] = []) {
       _or: [
         { firstname: { _ilike: $search } }
         { lastname: { _ilike: $search } }
-        { structure: { name: { _ilike: $search } } }
+        { structure: { name: { _ilike: $searchStructure } } }
         { structure: { postalCode: { _ilike: $search } } }
       ]
       _not: { account: { id: { _in: $accountIds } } }

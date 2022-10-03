@@ -63,7 +63,7 @@ export type InsertStructureWithAdminOutput = {
 	city?: Maybe<Scalars['String']>;
 	email?: Maybe<Scalars['citext']>;
 	id: Scalars['uuid'];
-	name?: Maybe<Scalars['String']>;
+	name?: Maybe<Scalars['citext']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
@@ -109,7 +109,7 @@ export type StructureInput = {
 	address2?: InputMaybe<Scalars['String']>;
 	city?: InputMaybe<Scalars['String']>;
 	email?: InputMaybe<Scalars['String']>;
-	name?: InputMaybe<Scalars['String']>;
+	name: Scalars['citext'];
 	phone?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	shortDesc?: InputMaybe<Scalars['String']>;
@@ -10107,7 +10107,7 @@ export type Structure = {
 	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
-	name?: Maybe<Scalars['String']>;
+	name: Scalars['citext'];
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -10224,7 +10224,7 @@ export type StructureBoolExp = {
 	deploymentId?: InputMaybe<UuidComparisonExp>;
 	email?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
-	name?: InputMaybe<StringComparisonExp>;
+	name?: InputMaybe<CitextComparisonExp>;
 	phone?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
 	professionals?: InputMaybe<ProfessionalBoolExp>;
@@ -10254,7 +10254,7 @@ export type StructureInsertInput = {
 	deploymentId?: InputMaybe<Scalars['uuid']>;
 	email?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	name?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['citext']>;
 	phone?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	professionals?: InputMaybe<ProfessionalArrRelInsertInput>;
@@ -10274,7 +10274,7 @@ export type StructureMaxFields = {
 	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	name?: Maybe<Scalars['String']>;
+	name?: Maybe<Scalars['citext']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
@@ -10311,7 +10311,7 @@ export type StructureMinFields = {
 	deploymentId?: Maybe<Scalars['uuid']>;
 	email?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
-	name?: Maybe<Scalars['String']>;
+	name?: Maybe<Scalars['citext']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	shortDesc?: Maybe<Scalars['String']>;
@@ -10429,7 +10429,7 @@ export type StructureSetInput = {
 	deploymentId?: InputMaybe<Scalars['uuid']>;
 	email?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	name?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['citext']>;
 	phone?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	shortDesc?: InputMaybe<Scalars['String']>;
@@ -10455,7 +10455,7 @@ export type StructureStreamCursorValueInput = {
 	deploymentId?: InputMaybe<Scalars['uuid']>;
 	email?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	name?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['citext']>;
 	phone?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	shortDesc?: InputMaybe<Scalars['String']>;
@@ -12013,7 +12013,7 @@ export type GetBeneficiariesQuery = {
 			| undefined;
 		structures: Array<{
 			__typename?: 'beneficiary_structure';
-			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+			structure: { __typename?: 'structure'; id: string; name: string };
 		}>;
 		notebook?:
 			| {
@@ -12083,7 +12083,7 @@ export type GetProfessionalsForManagerQuery = {
 		email: string;
 		structureId: string;
 		account?: { __typename?: 'account'; id: string } | null | undefined;
-		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+		structure: { __typename?: 'structure'; id: string; name: string };
 	}>;
 };
 
@@ -12103,7 +12103,7 @@ export type GetProfessionalsFromStructuresQuery = {
 		email: string;
 		structureId: string;
 		account?: { __typename?: 'account'; id: string } | null | undefined;
-		structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+		structure: { __typename?: 'structure'; id: string; name: string };
 	}>;
 };
 
@@ -12111,7 +12111,7 @@ export type GetStructuresForManagerQueryVariables = Exact<{ [key: string]: never
 
 export type GetStructuresForManagerQuery = {
 	__typename?: 'query_root';
-	structure: Array<{ __typename?: 'structure'; id: string; name?: string | null | undefined }>;
+	structure: Array<{ __typename?: 'structure'; id: string; name: string }>;
 };
 
 export type GetStructuresWithProQueryVariables = Exact<{ [key: string]: never }>;
@@ -12121,7 +12121,7 @@ export type GetStructuresWithProQuery = {
 	structure: Array<{
 		__typename?: 'structure';
 		id: string;
-		name?: string | null | undefined;
+		name: string;
 		professionals: Array<{
 			__typename?: 'professional';
 			id: string;
@@ -12132,7 +12132,7 @@ export type GetStructuresWithProQuery = {
 			email: string;
 			structureId: string;
 			account?: { __typename?: 'account'; id: string } | null | undefined;
-			structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+			structure: { __typename?: 'structure'; id: string; name: string };
 		}>;
 	}>;
 };
@@ -12405,7 +12405,7 @@ export type ImportBeneficiaryMutation = {
 };
 
 export type ImportStructureMutationVariables = Exact<{
-	name?: InputMaybe<Scalars['String']>;
+	name: Scalars['citext'];
 	phone?: InputMaybe<Scalars['String']>;
 	email?: InputMaybe<Scalars['String']>;
 	address1?: InputMaybe<Scalars['String']>;
@@ -12600,7 +12600,7 @@ export type GetNotebookFocusByIdQuery = {
 								structure: {
 									__typename?: 'structure';
 									id: string;
-									name?: string | null | undefined;
+									name: string;
 									phone?: string | null | undefined;
 									address1?: string | null | undefined;
 									address2?: string | null | undefined;
@@ -12666,6 +12666,7 @@ export type UpdateTargetStatusMutation = {
 
 export type SearchProfessionalQueryVariables = Exact<{
 	search?: InputMaybe<Scalars['String']>;
+	searchStructure?: InputMaybe<Scalars['citext']>;
 	accountIds?: InputMaybe<Array<Scalars['uuid']> | Scalars['uuid']>;
 }>;
 
@@ -12679,7 +12680,7 @@ export type SearchProfessionalQuery = {
 		structure: {
 			__typename?: 'structure';
 			id: string;
-			name?: string | null | undefined;
+			name: string;
 			postalCode?: string | null | undefined;
 			phone?: string | null | undefined;
 		};
@@ -12884,7 +12885,7 @@ export type UpdateStructureMutationVariables = Exact<{
 	shortDesc?: InputMaybe<Scalars['String']>;
 	siret?: InputMaybe<Scalars['String']>;
 	phone?: InputMaybe<Scalars['String']>;
-	name?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['citext']>;
 	email?: InputMaybe<Scalars['String']>;
 }>;
 
@@ -12941,7 +12942,7 @@ export type GetAccountByPkQuery = {
 							structure: {
 								__typename?: 'structure';
 								id: string;
-								name?: string | null | undefined;
+								name: string;
 								address1?: string | null | undefined;
 								address2?: string | null | undefined;
 								postalCode?: string | null | undefined;
@@ -13141,7 +13142,7 @@ export type InsertAccountAdminStructureMutation = {
 };
 
 export type InsertStructureMutationVariables = Exact<{
-	name?: InputMaybe<Scalars['String']>;
+	name: Scalars['citext'];
 	phone?: InputMaybe<Scalars['String']>;
 	email?: InputMaybe<Scalars['String']>;
 	address1?: InputMaybe<Scalars['String']>;
@@ -13210,7 +13211,7 @@ export type GetStructuresForDeploymentQuery = {
 		__typename?: 'structure';
 		id: string;
 		siret?: string | null | undefined;
-		name?: string | null | undefined;
+		name: string;
 		shortDesc?: string | null | undefined;
 		phone?: string | null | undefined;
 		email?: string | null | undefined;
@@ -13491,7 +13492,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 							structure: {
 								__typename?: 'structure';
 								id: string;
-								name?: string | null | undefined;
+								name: string;
 								address1?: string | null | undefined;
 								address2?: string | null | undefined;
 								postalCode?: string | null | undefined;
@@ -13521,7 +13522,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 							__typename?: 'professional';
 							firstname: string;
 							lastname: string;
-							structure: { __typename?: 'structure'; name?: string | null | undefined };
+							structure: { __typename?: 'structure'; name: string };
 					  }
 					| null
 					| undefined;
@@ -13545,7 +13546,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 								__typename?: 'professional';
 								firstname: string;
 								lastname: string;
-								structure: { __typename?: 'structure'; name?: string | null | undefined };
+								structure: { __typename?: 'structure'; name: string };
 						  }
 						| null
 						| undefined;
@@ -13570,7 +13571,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 									__typename?: 'professional';
 									firstname: string;
 									lastname: string;
-									structure: { __typename?: 'structure'; name?: string | null | undefined };
+									structure: { __typename?: 'structure'; name: string };
 							  }
 							| null
 							| undefined;
@@ -13656,7 +13657,7 @@ export type GetNotebookByIdQuery = {
 									structure: {
 										__typename?: 'structure';
 										id: string;
-										name?: string | null | undefined;
+										name: string;
 										address1?: string | null | undefined;
 										address2?: string | null | undefined;
 										postalCode?: string | null | undefined;
@@ -13686,7 +13687,7 @@ export type GetNotebookByIdQuery = {
 									__typename?: 'professional';
 									firstname: string;
 									lastname: string;
-									structure: { __typename?: 'structure'; name?: string | null | undefined };
+									structure: { __typename?: 'structure'; name: string };
 							  }
 							| null
 							| undefined;
@@ -13710,7 +13711,7 @@ export type GetNotebookByIdQuery = {
 										__typename?: 'professional';
 										firstname: string;
 										lastname: string;
-										structure: { __typename?: 'structure'; name?: string | null | undefined };
+										structure: { __typename?: 'structure'; name: string };
 								  }
 								| null
 								| undefined;
@@ -13735,7 +13736,7 @@ export type GetNotebookByIdQuery = {
 											__typename?: 'professional';
 											firstname: string;
 											lastname: string;
-											structure: { __typename?: 'structure'; name?: string | null | undefined };
+											structure: { __typename?: 'structure'; name: string };
 									  }
 									| null
 									| undefined;
@@ -13816,7 +13817,7 @@ export type NotebookFragmentFragment = {
 						structure: {
 							__typename?: 'structure';
 							id: string;
-							name?: string | null | undefined;
+							name: string;
 							address1?: string | null | undefined;
 							address2?: string | null | undefined;
 							postalCode?: string | null | undefined;
@@ -13846,7 +13847,7 @@ export type NotebookFragmentFragment = {
 						__typename?: 'professional';
 						firstname: string;
 						lastname: string;
-						structure: { __typename?: 'structure'; name?: string | null | undefined };
+						structure: { __typename?: 'structure'; name: string };
 				  }
 				| null
 				| undefined;
@@ -13870,7 +13871,7 @@ export type NotebookFragmentFragment = {
 							__typename?: 'professional';
 							firstname: string;
 							lastname: string;
-							structure: { __typename?: 'structure'; name?: string | null | undefined };
+							structure: { __typename?: 'structure'; name: string };
 					  }
 					| null
 					| undefined;
@@ -13895,7 +13896,7 @@ export type NotebookFragmentFragment = {
 								__typename?: 'professional';
 								firstname: string;
 								lastname: string;
-								structure: { __typename?: 'structure'; name?: string | null | undefined };
+								structure: { __typename?: 'structure'; name: string };
 						  }
 						| null
 						| undefined;
@@ -13930,7 +13931,7 @@ export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetStructuresQuery = {
 	__typename?: 'query_root';
-	structure: Array<{ __typename?: 'structure'; id: string; name?: string | null | undefined }>;
+	structure: Array<{ __typename?: 'structure'; id: string; name: string }>;
 };
 
 export type InsertProfessionalAccountMutationVariables = Exact<{
@@ -13944,10 +13945,7 @@ export type InsertProfessionalAccountMutation = {
 				__typename?: 'account';
 				id: string;
 				professional?:
-					| {
-							__typename?: 'professional';
-							structure: { __typename?: 'structure'; name?: string | null | undefined };
-					  }
+					| { __typename?: 'professional'; structure: { __typename?: 'structure'; name: string } }
 					| null
 					| undefined;
 		  }
@@ -14022,7 +14020,7 @@ export type GetDeploymentInfosQuery = {
 	structuresWithPros: Array<{
 		__typename?: 'structure';
 		id: string;
-		name?: string | null | undefined;
+		name: string;
 		professionals: Array<{
 			__typename?: 'professional';
 			id: string;
@@ -14077,7 +14075,7 @@ export type GetAccountsSummaryQuery = {
 					position?: string | null | undefined;
 					mobileNumber?: string | null | undefined;
 					email: string;
-					structure: { __typename?: 'structure'; id: string; name?: string | null | undefined };
+					structure: { __typename?: 'structure'; id: string; name: string };
 			  }
 			| null
 			| undefined;
@@ -14123,7 +14121,7 @@ export type GetNotebooksStatsQuery = {
 	structConnections: Array<{
 		__typename?: 'structure';
 		id: string;
-		name?: string | null | undefined;
+		name: string;
 		city?: string | null | undefined;
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
@@ -14321,7 +14319,7 @@ export type GetNotebookQuery = {
 									structure: {
 										__typename?: 'structure';
 										id: string;
-										name?: string | null | undefined;
+										name: string;
 										address1?: string | null | undefined;
 										address2?: string | null | undefined;
 										postalCode?: string | null | undefined;
@@ -14362,7 +14360,7 @@ export type GetNotebookQuery = {
 							| {
 									__typename?: 'professional';
 									structureId: string;
-									structure: { __typename?: 'structure'; name?: string | null | undefined };
+									structure: { __typename?: 'structure'; name: string };
 							  }
 							| null
 							| undefined;
@@ -14394,7 +14392,7 @@ export type GetNotebookEventsQuery = {
 				| {
 						__typename?: 'professional';
 						structureId: string;
-						structure: { __typename?: 'structure'; name?: string | null | undefined };
+						structure: { __typename?: 'structure'; name: string };
 				  }
 				| null
 				| undefined;
@@ -14415,7 +14413,7 @@ export type EventFieldsFragment = {
 			| {
 					__typename?: 'professional';
 					structureId: string;
-					structure: { __typename?: 'structure'; name?: string | null | undefined };
+					structure: { __typename?: 'structure'; name: string };
 			  }
 			| null
 			| undefined;
@@ -14603,7 +14601,7 @@ export type GetStructureQuery = {
 		| {
 				__typename?: 'structure';
 				id: string;
-				name?: string | null | undefined;
+				name: string;
 				phone?: string | null | undefined;
 				email?: string | null | undefined;
 				address1?: string | null | undefined;
@@ -14662,7 +14660,7 @@ export type GetManagedStructuresQuery = {
 		__typename?: 'structure';
 		id: string;
 		city?: string | null | undefined;
-		name?: string | null | undefined;
+		name: string;
 		beneficiaries_aggregate: {
 			__typename?: 'beneficiary_structure_aggregate';
 			aggregate?:
@@ -18296,7 +18294,10 @@ export const ImportStructureDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
@@ -19626,6 +19627,11 @@ export const SearchProfessionalDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'searchStructure' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountIds' } },
 					type: {
 						kind: 'ListType',
@@ -19721,7 +19727,7 @@ export const SearchProfessionalDocument = {
 																						name: { kind: 'Name', value: '_ilike' },
 																						value: {
 																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'search' },
+																							name: { kind: 'Name', value: 'searchStructure' },
 																						},
 																					},
 																				],
@@ -19921,7 +19927,7 @@ export const SearchProfessionalDocument = {
 																						name: { kind: 'Name', value: '_ilike' },
 																						value: {
 																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'search' },
+																							name: { kind: 'Name', value: 'searchStructure' },
 																						},
 																					},
 																				],
@@ -21373,7 +21379,7 @@ export const UpdateStructureDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
 				},
 				{
 					kind: 'VariableDefinition',
@@ -22986,7 +22992,10 @@ export const InsertStructureDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
+					},
 				},
 				{
 					kind: 'VariableDefinition',
