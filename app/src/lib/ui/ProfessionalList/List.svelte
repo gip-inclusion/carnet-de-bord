@@ -1,10 +1,20 @@
 <script lang="ts">
 	import type { GetProfessionalsForStructureQuery } from '$lib/graphql/_gen/typed-document-nodes';
-
+	import { Button } from '../base';
+	import { openComponent } from '$lib/stores';
+	import EditProfessionalAccountLayer from '$lib/ui/ProfessionalList/EditProfessionalAccountLayer.svelte';
 	import { displayFullName } from '../format';
+
 	type Professional = GetProfessionalsForStructureQuery['professional'][0];
 
 	export let professionals: Professional[];
+
+	function openEditProfessionalAccountLayer(professional: Professional) {
+		openComponent.open({
+			component: EditProfessionalAccountLayer,
+			props: { professional },
+		});
+	}
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
@@ -16,6 +26,7 @@
 			<th class="text-left">Email</th>
 			<th class="text-left">Onboarding</th>
 			<th class="text-right">BRSA suivis</th>
+			<th class="text-right">Gérer</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -38,10 +49,18 @@
 						{beneficiariesCount}
 					</a>
 				</td>
+				<td class="text-right">
+					<Button
+						classNames="fr-btn--sm fr-btn--secondary"
+						icon="fr-icon-edit-line"
+						title="Mettre à jour"
+						on:click={() => openEditProfessionalAccountLayer(professional)}>Mettre à jour</Button
+					>
+				</td>
 			</tr>
 		{/each}
 		{#if professionals.length === 0}
-			<tr><td colspan="5">Aucun professionel.</td></tr>
+			<tr><td colspan="6">Aucun professionel.</td></tr>
 		{/if}
 	</tbody>
 </table>
