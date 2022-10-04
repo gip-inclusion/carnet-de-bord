@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { GetProfessionalsForStructureQuery } from '$lib/graphql/_gen/typed-document-nodes';
-	import { Button } from '../base';
+	import { IconButton } from '../base';
 	import { openComponent } from '$lib/stores';
 	import EditProfessionalAccountLayer from '$lib/ui/ProfessionalList/EditProfessionalAccountLayer.svelte';
 	import { displayFullName } from '../format';
@@ -26,7 +26,7 @@
 			<th class="text-left">Email</th>
 			<th class="text-left">Onboarding</th>
 			<th class="text-right">BRSA suivis</th>
-			<th class="text-right">Gérer</th>
+			<th class="text-right">Éditer</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -50,12 +50,12 @@
 					</a>
 				</td>
 				<td class="text-right">
-					<Button
-						classNames="fr-btn--sm fr-btn--secondary"
+					<IconButton
+						class="fr-btn--sm fr-btn--tertiary fr-btn--tertiary-no-outline"
 						icon="fr-icon-edit-line"
 						title="Mettre à jour"
-						on:click={() => openEditProfessionalAccountLayer(professional)}>Mettre à jour</Button
-					>
+						on:click={() => openEditProfessionalAccountLayer(professional)}
+					/>
 				</td>
 			</tr>
 		{/each}
