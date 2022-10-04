@@ -1,9 +1,9 @@
 async def test_parse_csv(
     test_client,
-    csv_filepath,
+    csv_beneficiary_filepath,
     get_manager_jwt,
 ):
-    with open(csv_filepath, "rb") as file:
+    with open(csv_beneficiary_filepath, "rb") as file:
         response = test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},

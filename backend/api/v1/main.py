@@ -11,3 +11,4 @@ api_router.include_router(
 api_router.include_router(
     csv2json.router, prefix="/convert-file", tags=["Csv to Json parsing"]
 )
+api_router.include_router(csv2json.router, prefix="/structures", tags=["structures"])
