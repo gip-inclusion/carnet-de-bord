@@ -15,6 +15,8 @@ configuration:
       custom_name: beneficiaryId
     created_at:
       custom_name: createdAt
+    deleted_at:
+      custom_name: deletedAt
     last_login:
       custom_name: lastLogin
     manager_id:
@@ -34,6 +36,7 @@ configuration:
     admin_structure_id: adminStructureId
     beneficiary_id: beneficiaryId
     created_at: createdAt
+    deleted_at: deletedAt
     last_login: lastLogin
     manager_id: managerId
     onboarding_done: onboardingDone
