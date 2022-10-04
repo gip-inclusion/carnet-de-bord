@@ -12818,6 +12818,7 @@ export type GetProfessionalsForStructureQuery = {
 		lastname: string;
 		mobileNumber?: string | null | undefined;
 		email: string;
+		position?: string | null | undefined;
 		account?:
 			| {
 					__typename?: 'account';
@@ -12833,6 +12834,16 @@ export type GetProfessionalsForStructureQuery = {
 			| null
 			| undefined;
 	}>;
+};
+
+export type UpdateProfessionalAccountMutationVariables = Exact<{
+	id: Scalars['uuid'];
+	payload: ProfessionalSetInput;
+}>;
+
+export type UpdateProfessionalAccountMutation = {
+	__typename?: 'mutation_root';
+	update_professional_by_pk?: { __typename?: 'professional'; id: string } | null | undefined;
 };
 
 export type UpdateStructureMutationVariables = Exact<{
@@ -20973,6 +20984,30 @@ export const GetProfessionalsForStructureDocument = {
 									],
 								},
 							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'firstname' },
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastname' },
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'email' },
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+									],
+								},
+							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -20982,6 +21017,7 @@ export const GetProfessionalsForStructureDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'account' },
@@ -21021,6 +21057,71 @@ export const GetProfessionalsForStructureDocument = {
 } as unknown as DocumentNode<
 	GetProfessionalsForStructureQuery,
 	GetProfessionalsForStructureQueryVariables
+>;
+export const UpdateProfessionalAccountDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateProfessionalAccount' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'payload' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'professional_set_input' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_professional_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'payload' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	UpdateProfessionalAccountMutation,
+	UpdateProfessionalAccountMutationVariables
 >;
 export const UpdateStructureDocument = {
 	kind: 'Document',
@@ -28189,6 +28290,10 @@ export type GetRefTargetByFocusQueryStore = OperationStore<
 export type GetProfessionalsForStructureQueryStore = OperationStore<
 	GetProfessionalsForStructureQuery,
 	GetProfessionalsForStructureQueryVariables
+>;
+export type UpdateProfessionalAccountMutationStore = OperationStore<
+	UpdateProfessionalAccountMutation,
+	UpdateProfessionalAccountMutationVariables
 >;
 export type UpdateStructureMutationStore = OperationStore<
 	UpdateStructureMutation,

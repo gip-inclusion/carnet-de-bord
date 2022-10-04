@@ -304,3 +304,8 @@ Alors('je clique sur {string} dans la tuile {string}', (text, tileText) => {
 	const locator = locate('.fr-card').withDescendant(locate('*').withText(tileText));
 	I.click(locator.find(`//*[text()[contains(.,'${text}')]]`));
 });
+
+Alors('je clique sur {string} dans la ligne de {string}', (text, line) => {
+	const locator = locate('table tr').withText(line);
+	I.click(locator.find(`//*[text()[contains(.,'${text}')]]`));
+});

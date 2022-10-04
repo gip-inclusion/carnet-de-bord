@@ -197,6 +197,19 @@ update_permissions:
         - structure_id
       filter: {}
       check: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - email
+        - firstname
+        - lastname
+        - mobile_number
+        - position
+      filter:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      check: {}
   - role: manager
     permission:
       columns:
