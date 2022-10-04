@@ -1,3 +1,10 @@
+# [1.148.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.147.1...v1.148.0) (2022-10-04)
+
+
+### Features
+
+* add a csv to json structure ([#1136](https://github.com/SocialGouv/carnet-de-bord/issues/1136)) ([7b44484](https://github.com/SocialGouv/carnet-de-bord/commit/7b44484f9931be87c697dbd66204b0325f743e41))
+
 ## [1.147.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.147.0...v1.147.1) (2022-10-04)
 
 
