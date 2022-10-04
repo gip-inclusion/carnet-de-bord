@@ -50,8 +50,8 @@
 </script>
 
 <svelte:head>
-	<title>Liste des professionels - Carnet de bord</title>
+	<title>Liste des professionnels - Carnet de bord</title>
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
-<h1>Professionels</h1>
+<h1>Professionnels</h1>
 <Container {structureId} {filter} />
