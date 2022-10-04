@@ -1,3 +1,10 @@
+# [1.149.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.148.0...v1.149.0) (2022-10-04)
+
+
+### Features
+
+* Modification d'un professionel par le gestionnaire de structure. ([#1151](https://github.com/SocialGouv/carnet-de-bord/issues/1151)) ([8267fcb](https://github.com/SocialGouv/carnet-de-bord/commit/8267fcb87c54176df781aa67aecbf5b7597f98c2))
+
 # [1.148.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.147.1...v1.148.0) (2022-10-04)
 
 
