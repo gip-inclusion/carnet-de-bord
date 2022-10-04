@@ -1,3 +1,10 @@
+## [1.147.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.147.0...v1.147.1) (2022-10-04)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#1144](https://github.com/SocialGouv/carnet-de-bord/issues/1144)) ([f088c6e](https://github.com/SocialGouv/carnet-de-bord/commit/f088c6e35e5015534a9c8183ee8b87cb6860f79e))
+
 # [1.147.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.146.3...v1.147.0) (2022-10-03)
 
 
