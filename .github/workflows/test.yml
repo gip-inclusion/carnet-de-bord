@@ -8,7 +8,7 @@ on:
       - v*
 env:
   HASURA_VERSION: 2.12.0
-  POETRY_VERSION: 1.1.13
+  POETRY_VERSION: 1.2.0
   PYTHON_VERSION: 3.10.6
 
 concurrency:
@@ -35,10 +35,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{env.PYTHON_VERSION}}
-
-      - name: Setup Python tools
-        run: |
-          sudo apt-get install python-setuptools
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2.1.5
