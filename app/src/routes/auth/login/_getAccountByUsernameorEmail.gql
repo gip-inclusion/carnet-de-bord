@@ -1,5 +1,5 @@
 query GetAccountByUsername($comp: String_comparison_exp!) {
-  account(where: { username: $comp }) {
+  account(where: { username: $comp deletedAt: { _is_null: true } } ) {
     id
     username
     beneficiary {

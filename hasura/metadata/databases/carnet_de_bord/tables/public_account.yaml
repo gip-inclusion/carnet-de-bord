@@ -324,6 +324,7 @@ select_permissions:
         - beneficiary_id
         - confirmed
         - created_at
+        - deleted_at
         - id
         - onboarding_done
         - orientation_manager_id
@@ -332,14 +333,17 @@ select_permissions:
         - updated_at
         - username
       filter:
-        _or:
-          - professional:
-              structure:
-                deployment_id:
-                  _eq: X-Hasura-Deployment-Id
-          - orientation_manager:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
+        _and:
+          - _or:
+              - professional:
+                  structure:
+                    deployment_id:
+                      _eq: X-Hasura-Deployment-Id
+              - orientation_manager:
+                  deployment_id:
+                    _eq: X-Hasura-Deployment-Id
+          - deleted_at:
+              _is_null: true
 update_permissions:
   - role: admin_cdb
     permission:

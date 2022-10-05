@@ -138,6 +138,7 @@ export type Account = {
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	confirmed: Scalars['Boolean'];
 	createdAt: Scalars['timestamptz'];
+	deletedAt?: Maybe<Scalars['timestamptz']>;
 	id: Scalars['uuid'];
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
@@ -339,6 +340,7 @@ export type AccountBoolExp = {
 	beneficiaryId?: InputMaybe<UuidComparisonExp>;
 	confirmed?: InputMaybe<BooleanComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	deletedAt?: InputMaybe<TimestamptzComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	lastLogin?: InputMaybe<TimestamptzComparisonExp>;
 	manager?: InputMaybe<ManagerBoolExp>;
@@ -485,6 +487,7 @@ export type AccountInsertInput = {
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	confirmed?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastLogin?: InputMaybe<Scalars['timestamptz']>;
 	manager?: InputMaybe<ManagerObjRelInsertInput>;
@@ -515,6 +518,7 @@ export type AccountMaxFields = {
 	adminStructureId?: Maybe<Scalars['uuid']>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	managerId?: Maybe<Scalars['uuid']>;
@@ -532,6 +536,7 @@ export type AccountMaxOrderBy = {
 	adminStructureId?: InputMaybe<OrderBy>;
 	beneficiaryId?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	lastLogin?: InputMaybe<OrderBy>;
 	managerId?: InputMaybe<OrderBy>;
@@ -550,6 +555,7 @@ export type AccountMinFields = {
 	adminStructureId?: Maybe<Scalars['uuid']>;
 	beneficiaryId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastLogin?: Maybe<Scalars['timestamptz']>;
 	managerId?: Maybe<Scalars['uuid']>;
@@ -567,6 +573,7 @@ export type AccountMinOrderBy = {
 	adminStructureId?: InputMaybe<OrderBy>;
 	beneficiaryId?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	lastLogin?: InputMaybe<OrderBy>;
 	managerId?: InputMaybe<OrderBy>;
@@ -611,6 +618,7 @@ export type AccountOrderBy = {
 	beneficiaryId?: InputMaybe<OrderBy>;
 	confirmed?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	lastLogin?: InputMaybe<OrderBy>;
 	manager?: InputMaybe<ManagerOrderBy>;
@@ -654,6 +662,8 @@ export enum AccountSelectColumn {
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
+	DeletedAt = 'deletedAt',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	LastLogin = 'lastLogin',
@@ -682,6 +692,7 @@ export type AccountSetInput = {
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	confirmed?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastLogin?: InputMaybe<Scalars['timestamptz']>;
 	managerId?: InputMaybe<Scalars['uuid']>;
@@ -710,6 +721,7 @@ export type AccountStreamCursorValueInput = {
 	beneficiaryId?: InputMaybe<Scalars['uuid']>;
 	confirmed?: InputMaybe<Scalars['Boolean']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastLogin?: InputMaybe<Scalars['timestamptz']>;
 	managerId?: InputMaybe<Scalars['uuid']>;
@@ -737,6 +749,8 @@ export enum AccountUpdateColumn {
 	Confirmed = 'confirmed',
 	/** column name */
 	CreatedAt = 'createdAt',
+	/** column name */
+	DeletedAt = 'deletedAt',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -20988,22 +21002,37 @@ export const GetProfessionalsForStructureDocument = {
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },
 								value: {
-									kind: 'ObjectValue',
-									fields: [
+									kind: 'ListValue',
+									values: [
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'firstname' },
-											value: { kind: 'EnumValue', value: 'asc' },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'firstname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
 										},
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastname' },
-											value: { kind: 'EnumValue', value: 'asc' },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'lastname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
 										},
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: { kind: 'EnumValue', value: 'asc' },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'email' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
 										},
 									],
 								},
@@ -23624,6 +23653,20 @@ export const GetAccountByUsernameDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'username' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'comp' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deletedAt' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_is_null' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
 										},
 									],
 								},
