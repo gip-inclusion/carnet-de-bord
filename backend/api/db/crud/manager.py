@@ -5,7 +5,7 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
-from api.db.models.manager import Manager
+from api.db.models.manager import Manager, ManagerInput
 
 
 def parse_manager_from_record(record: Record) -> Manager:
@@ -14,7 +14,7 @@ def parse_manager_from_record(record: Record) -> Manager:
 
 async def insert_admin_pdi(
     connection: Connection,
-    data: Manager,
+    data: ManagerInput,
 ) -> Manager | None:
     record = await connection.fetchrow(
         """
@@ -31,7 +31,7 @@ async def insert_admin_pdi(
     if record:
         return parse_manager_from_record(record)
     else:
-        logging.error(f"insert fail {data}")
+        logging.error("insert fail %s", data)
 
 
 async def get_managers_from_deployment(

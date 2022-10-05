@@ -10,8 +10,26 @@ from api.db.crud.account import (
     get_accounts_with_query,
     insert_admin_structure_account,
 )
-from api.db.models.account import AccountDB
-from api.db.models.admin_structure import AdminStructure, AdminStructureStructureInput
+from api.db.models.account import AccountDB, AccountDBWithAccessKey
+from api.db.models.admin_structure import (
+    AdminStructure,
+    AdminStructureInput,
+    AdminStructureStructureInput,
+)
+
+
+async def get_admin_structure_by_email(
+    connection: Connection, email: str
+) -> AdminStructure | None:
+    return await get_admin_structure_with_query(
+        connection,
+        """
+            , public.account
+            WHERE account.admin_structure_id = admin_structure.id
+            AND admin_structure.email = $1
+            """,
+        email,
+    )
 
 
 def parse_admin_structure_from_record(record: Record) -> AdminStructure:
@@ -20,19 +38,20 @@ def parse_admin_structure_from_record(record: Record) -> AdminStructure:
 
 async def insert_admin_structure(
     connection: Connection,
-    data: AdminStructure,
+    data: AdminStructureInput,
 ) -> AdminStructure | None:
     record = await connection.fetchrow(
         """
-            INSERT INTO public.admin_structure(deployment_id, email, firstname, lastname, phone_numbers)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, firstname, lastname, email, phone_numbers, deployment_id, created_at, updated_at
+            INSERT INTO public.admin_structure(deployment_id, email, firstname, lastname, phone_numbers, position)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING id, firstname, lastname, email, phone_numbers, position, deployment_id, created_at, updated_at
             """,
         data.deployment_id,
         data.email.lower(),
         data.firstname,
         data.lastname,
         data.phone_numbers,
+        data.position,
     )
 
     if record:
@@ -57,10 +76,6 @@ async def insert_admin_structure_structure(
     )
     if record:
         return record["id"]
-    else:
-        logging.error(
-            f"insert_admin_structure_structure fail {admin_structure_id} {structure_id}"
-        )
 
 
 async def get_admin_structure_with_query(
@@ -83,47 +98,42 @@ async def get_admin_structure_with_query(
 
 async def create_admin_structure_with_account(
     connection: Connection, data: AdminStructureStructureInput
-) -> Tuple[AccountDB, AdminStructure]:
+) -> Tuple[AccountDBWithAccessKey, AdminStructure] | None:
     """
     Creation d'un profil admin_structure et du compte associé
     """
+    async with connection.transaction():
+        admin_structure: AdminStructure | None = await insert_admin_structure(
+            connection=connection, data=data.admin
+        )
 
-    admin_structure: AdminStructure | None = await insert_admin_structure(
-        connection=connection, data=data.admin
-    )
+        if not admin_structure:
+            logging.error(f"Insert admin structure {data.admin.email} failed")
+            return None
 
-    if admin_structure is None:
-        raise InsertFailError("insert admin_structure failed")
+        email_username: str = data.admin.email.split("@")[0].lower()
 
-    email_username: str = data.admin.email.split("@")[0].lower()
+        accounts: List[AccountDB] = await get_accounts_with_query(
+            connection,
+            """
+            WHERE account.username like $1
+            """,
+            email_username + "%",
+        )
 
-    accounts: List[AccountDB] = await get_accounts_with_query(
-        connection,
-        """
-        WHERE account.username like $1
-        """,
-        email_username + "%",
-    )
+        username: str = create_username(
+            email_username, [account.username for account in accounts]
+        )
 
-    username: str = create_username(
-        email_username, [account.username for account in accounts]
-    )
+        account: AccountDBWithAccessKey | None = await insert_admin_structure_account(
+            connection=connection,
+            admin_structure_id=admin_structure.id,
+            confirmed=True,
+            username=username,
+        )
 
-    account: AccountDB | None = await insert_admin_structure_account(
-        connection=connection,
-        admin_structure_id=admin_structure.id,
-        confirmed=True,
-        username=username,
-    )
+        if not account:
+            logging.error("Insert admin structure account failed for {username}")
+            return None
 
-    if not account:
-        logging.error("Insert account failed")
-        raise InsertFailError("insert account failed")
-
-    return account, admin_structure
-
-
-class InsertFailError(Exception):
-    """
-    utility class when insert goes wrong
-    """
+        return account, admin_structure

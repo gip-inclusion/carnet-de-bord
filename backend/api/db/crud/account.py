@@ -7,7 +7,7 @@ from asyncpg import Record
 from asyncpg.connection import Connection
 from dateutil.relativedelta import relativedelta
 
-from api.db.models.account import AccountDB
+from api.db.models.account import AccountDB, AccountDBWithAccessKey
 from api.db.models.role import RoleEnum
 
 
@@ -18,14 +18,16 @@ def parse_account_from_record(record: Record) -> AccountDB:
 async def insert_account(
     connection: Connection,
     username: str,
-    type: RoleEnum,
+    account_type: RoleEnum,
     confirmed: bool,
     foreign_key_id: UUID,
-) -> AccountDB | None:
+) -> AccountDBWithAccessKey | None:
 
     access_key = uuid4()
     access_key_date = datetime.now() + relativedelta(months=+1)
-    role_column_name = "admin_id" if type == RoleEnum.ADMIN_CDB else f"{type}_id"
+    role_column_name = (
+        "admin_id" if account_type == RoleEnum.ADMIN_CDB else f"{account_type}_id"
+    )
     record = await connection.fetchrow(
         """
             INSERT INTO public.account(username, type, confirmed, {role_column_name}, access_key, access_key_date)
@@ -35,7 +37,7 @@ async def insert_account(
             role_column_name=role_column_name
         ),
         username,
-        type,
+        account_type,
         confirmed,
         foreign_key_id,
         # access_key in DB has type character varying so we need to cast to str before
@@ -44,7 +46,7 @@ async def insert_account(
     )
 
     if record:
-        return parse_account_from_record(record)
+        return AccountDBWithAccessKey.parse_obj(record)
 
 
 async def insert_orientation_manager_account(
@@ -52,11 +54,11 @@ async def insert_orientation_manager_account(
     username: str,
     confirmed: bool,
     orientation_manager_id: UUID,
-) -> AccountDB | None:
+) -> AccountDBWithAccessKey | None:
     return await insert_account(
         connection=connection,
         username=username,
-        type=RoleEnum.ORIENTATION_MANAGER,
+        account_type=RoleEnum.ORIENTATION_MANAGER,
         confirmed=confirmed,
         foreign_key_id=orientation_manager_id,
     )
@@ -67,11 +69,11 @@ async def insert_admin_pdi_account(
     username: str,
     confirmed: bool,
     admin_pdi_id: UUID,
-) -> AccountDB | None:
+) -> AccountDBWithAccessKey | None:
     return await insert_account(
         connection=connection,
         username=username,
-        type=RoleEnum.MANAGER,
+        account_type=RoleEnum.MANAGER,
         confirmed=confirmed,
         foreign_key_id=admin_pdi_id,
     )
@@ -86,7 +88,7 @@ async def insert_professional_account(
     return await insert_account(
         connection=connection,
         username=username,
-        type=RoleEnum.PROFESSIONAL,
+        account_type=RoleEnum.PROFESSIONAL,
         confirmed=confirmed,
         foreign_key_id=professional_id,
     )
@@ -97,11 +99,11 @@ async def insert_admin_structure_account(
     username: str,
     confirmed: bool,
     admin_structure_id: UUID,
-) -> AccountDB | None:
+) -> AccountDBWithAccessKey | None:
     return await insert_account(
         connection=connection,
         username=username,
-        type=RoleEnum.ADMIN_STRUCTURE,
+        account_type=RoleEnum.ADMIN_STRUCTURE,
         confirmed=confirmed,
         foreign_key_id=admin_structure_id,
     )

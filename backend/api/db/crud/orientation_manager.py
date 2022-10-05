@@ -6,16 +6,16 @@ from asyncpg import Record
 from asyncpg.connection import Connection
 
 from api.core.settings import settings
-from api.db.models.orientation_manager import (
-    OrientationManagerCsvRow,
-    OrientationManagerDB,
-)
 from api.db.crud.account import (
     create_username,
     get_accounts_with_query,
     insert_orientation_manager_account,
 )
 from api.db.models.account import AccountDB, AccountDBWithAccessKey
+from api.db.models.orientation_manager import (
+    OrientationManagerCsvRow,
+    OrientationManagerDB,
+)
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
