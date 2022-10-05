@@ -1,13 +1,12 @@
 import logging
 import re
 from io import BytesIO
-from uuid import UUID
+from typing import Tuple
 
 import chardet
 import magic
 import numpy as np
 import pandas as pd
-from asyncpg.connection import Connection
 from asyncpg.exceptions import UniqueViolationError
 from fastapi import (
     APIRouter,
@@ -22,11 +21,10 @@ from pydantic import ValidationError
 
 from api.core.init import connection
 from api.core.settings import settings
-from api.db.crud.account import insert_orientation_manager_account
-from api.db.crud.orientation_manager import insert_orientation_manager
-from api.db.models.account import AccountDB
+from api.db.models.account import AccountDBWithAccessKey
 from api.db.models.orientation_manager import (
     OrientationManagerCsvRow,
+    OrientationManagerDB,
     OrientationManagerResponseModel,
     map_csv_row,
     map_row_response,
@@ -34,6 +32,10 @@ from api.db.models.orientation_manager import (
 from api.db.models.role import RoleEnum
 
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
+from api.core.exceptions import InsertFailError
+from api.db.crud.orientation_manager import (
+    create_orientation_manager_with_account,
+)
 from api.core.emails import send_invitation_email
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
@@ -91,9 +93,16 @@ async def create_upload_file(
     for _, row in df.iterrows():
         try:
             csv_row: OrientationManagerCsvRow = map_csv_row(row)
-            account = await create_orientation_manager(
+            account_manager_tuple: Tuple[
+                AccountDBWithAccessKey, OrientationManagerDB
+            ] | None = await create_orientation_manager_with_account(
                 connection=db, deployment_id=deployment_id, data=csv_row
             )
+
+            if not account_manager_tuple:
+                raise InsertFailError("imsert orientation manager failed")
+
+            account, _ = account_manager_tuple
             response_row: OrientationManagerResponseModel = map_row_response(
                 row, valid=True
             )
@@ -104,24 +113,24 @@ async def create_upload_file(
                 lastname=csv_row.lastname,
                 access_key=account.access_key,
             )
-        except KeyError as e:
-            logging.error(f"Key error: {e}")
+        except KeyError as err:
+            logging.error("Key error: %s", err)
             response_row: OrientationManagerResponseModel = map_row_response(
-                row, valid=False, error=f"clé manquante {e}"
+                row, valid=False, error=f"clé manquante {err}"
             )
-        except ValidationError as e:
-            [error] = e.errors()
-            logging.error("Validation error", error)
+        except ValidationError as err:
+            [error] = err.errors()
+            logging.error("Validation error %s", error)
             response_row: OrientationManagerResponseModel = map_row_response(
                 row, valid=False, error=error["msg"]
             )
-        except UniqueViolationError as e:
-            logging.error(f"Uniqueness error: {e}")
+        except UniqueViolationError as err:
+            logging.error("Uniqueness error: %s", err)
             response_row: OrientationManagerResponseModel = map_row_response(
-                row, valid=False, error=re.sub(r"\nDETAIL.*$", "", str(e))
+                row, valid=False, error=re.sub(r"\nDETAIL.*$", "", str(err))
             )
-        except Exception as e:
-            logging.error(f"Import error: {type(e).__name__} {e.args}")
+        except InsertFailError as err:
+            logging.error("Import error: %s %s", type(err).__name__, err.args)
             response_row: OrientationManagerResponseModel = map_row_response(
                 row, valid=False, error="erreur inconnue"
             )
@@ -129,22 +138,3 @@ async def create_upload_file(
         result.append(response_row)
 
     return result
-
-
-async def create_orientation_manager(
-    connection: Connection, deployment_id: UUID, data: OrientationManagerCsvRow
-) -> AccountDB | None:
-    async with connection.transaction():
-        orientation_manager = await insert_orientation_manager(
-            connection=connection, deployment_id=deployment_id, data=data
-        )
-        async with connection.transaction():
-            account = await insert_orientation_manager_account(
-                connection=connection,
-                username=orientation_manager.email,
-                confirmed=True,
-                orientation_manager_id=orientation_manager.id,
-            )
-            return account
-
-
