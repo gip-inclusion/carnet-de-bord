@@ -53,6 +53,7 @@ class StructureInputRow(BaseModel):
 
     class Config:
         anystr_strip_whitespace = True
+        allow_population_by_field_name = True
 
     @validator("siret", allow_reuse=True)
     def must_be_a_valid_siret(cls, value: str) -> str:
@@ -124,3 +125,21 @@ def map_csv_row(row: Series) -> StructureCsvRowResponse:
             valid=True,
             errors=[CsvFieldError(error=str(error))],
         )
+
+
+def map_input_row_to_structure_insert(
+    structure: StructureInputRow, deployment_id: UUID
+) -> StructureInsert:
+    return StructureInsert(
+        siret=structure.siret,
+        name=structure.name,
+        short_desc=structure.short_desc,
+        phone=structure.phone,
+        email=structure.email,
+        postal_code=structure.postal_code,
+        city=structure.city,
+        address1=structure.address1,
+        address2=structure.address2,
+        website=structure.website,
+        deployment_id=deployment_id,
+    )
