@@ -5,7 +5,6 @@ from uuid import UUID
 from asyncpg.exceptions import UniqueViolationError
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 
-from api.core.emails import generic_account_creation_email
 from api.core.init import connection
 from api.core.settings import settings
 from api.db.crud.admin_structure import (
@@ -17,8 +16,8 @@ from api.db.crud.admin_structure import (
 from api.db.models.account import AccountDB
 from api.db.models.admin_structure import AdminStructure, AdminStructureStructureInput
 from api.db.models.role import RoleEnum
-from api.sendmail import send_mail
 from api.v1.dependencies import allowed_jwt_roles
+from api.core.emails import send_invitation_email
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
@@ -89,15 +88,7 @@ async def create_admin_structure(
         except Exception as error:
             logging.error("insert fail {}".format(error))
             raise HTTPException(
-                status_code=500, detail="fail to create admin structure structure"
-            ) from error
-
-
-def send_invitation_email(
-    email: str, firstname: str | None, lastname: str | None, access_key: UUID
-) -> None:
-    """
-    gestion de l'envoi de mail depuis un template
-    """
-    message = generic_account_creation_email(email, firstname, lastname, access_key)
-    send_mail(email, "Création de compte sur Carnet de bord", message)
+                status_code=500,
+                detail="insert admin_structure_structure failed",
+            )
+        return admin_structure

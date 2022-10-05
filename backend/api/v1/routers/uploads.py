@@ -20,7 +20,6 @@ from fastapi import (
 from pandas.core.series import Series
 from pydantic import ValidationError
 
-from api.core.emails import generic_account_creation_email
 from api.core.init import connection
 from api.core.settings import settings
 from api.db.crud.account import insert_orientation_manager_account
@@ -33,8 +32,9 @@ from api.db.models.orientation_manager import (
     map_row_response,
 )
 from api.db.models.role import RoleEnum
-from api.sendmail import send_mail
+
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
+from api.core.emails import send_invitation_email
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
@@ -148,8 +148,3 @@ async def create_orientation_manager(
             return account
 
 
-def send_invitation_email(
-    email: str, firstname: str | None, lastname: str | None, access_key: UUID
-) -> None:
-    message = generic_account_creation_email(email, firstname, lastname, access_key)
-    send_mail(email, "Création de compte sur Carnet de bord", message)

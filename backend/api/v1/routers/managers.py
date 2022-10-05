@@ -4,8 +4,8 @@ from http.client import HTTPException
 
 from fastapi import APIRouter, BackgroundTasks, Depends
 
-from api.core.emails import generic_account_creation_email
 from api.core.init import connection
+from api.core.emails import send_invitation_email
 from api.core.settings import settings
 from api.db.crud.account import (
     create_username,
@@ -15,7 +15,6 @@ from api.db.crud.account import (
 from api.db.crud.manager import insert_admin_pdi
 from api.db.models.manager import Manager, ManagerInput
 from api.db.models.role import RoleEnum
-from api.sendmail import send_mail
 from api.v1.dependencies import allowed_jwt_roles
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
@@ -69,10 +68,3 @@ async def create_manager(
             access_key=account.access_key,
         )
         return admin_pdi
-
-
-def send_invitation_email(
-    email: str, firstname: str | None, lastname: str | None, access_key: uuid.UUID
-) -> None:
-    message = generic_account_creation_email(email, firstname, lastname, access_key)
-    send_mail(email, "Création de compte sur Carnet de bord", message)
