@@ -48,11 +48,11 @@ repos:
       - id: check-hasura-version
         name: ensure hasura version consistency
         language: system
+        pass_filenames: false
         files: |
           (?x)^(
             hasura/Dockerfile|
             hasura/.hasura_version|
-            .github/workflows/test.yml
           )
         entry: |
           ./scripts/check-hasura-version.sh

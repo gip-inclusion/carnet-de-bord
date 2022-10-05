@@ -7,7 +7,6 @@ on:
     tags-ignore:
       - v*
 env:
-  HASURA_VERSION: 2.12.0
   POETRY_VERSION: 1.2.0
   PYTHON_VERSION: 3.10.6
 
@@ -28,8 +27,6 @@ jobs:
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
-        with:
-          hasura-version: ${{env.HASURA_VERSION}}
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -74,8 +71,6 @@ jobs:
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
-        with:
-          hasura-version: ${{env.HASURA_VERSION}}
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -127,8 +122,6 @@ jobs:
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
-        with:
-          hasura-version: ${{env.HASURA_VERSION}}
 
       - name: Run functional tests
         run: |
