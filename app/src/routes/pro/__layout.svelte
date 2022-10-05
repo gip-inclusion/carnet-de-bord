@@ -38,27 +38,28 @@
 	result.subscribe((result) => {
 		if (result.data) {
 			const acc = result.data.account_by_pk;
-			if (acc) {
-				const { username, onboardingDone, confirmed, id: accountId } = acc;
-				const { id, firstname, lastname, email, mobileNumber, position, structure } =
-					acc.professional;
-				$account = {
-					type: 'pro',
-					id,
-					accountId,
-					username,
-					onboardingDone,
-					confirmed,
-					firstname,
-					lastname,
-					email,
-					mobileNumber,
-					position,
-				};
-				crispData.set({ username, firstname, lastname, email, mobileNumber, position, structure });
-				if (!onboardingDone && $page.url.pathname !== '/pro/moncompte') {
-					goto('/pro/moncompte');
-				}
+			if (!acc) {
+				goto('/auth/logout');
+			}
+			const { username, onboardingDone, confirmed, id: accountId } = acc;
+			const { id, firstname, lastname, email, mobileNumber, position, structure } =
+				acc.professional;
+			$account = {
+				type: 'pro',
+				id,
+				accountId,
+				username,
+				onboardingDone,
+				confirmed,
+				firstname,
+				lastname,
+				email,
+				mobileNumber,
+				position,
+			};
+			crispData.set({ username, firstname, lastname, email, mobileNumber, position, structure });
+			if (!onboardingDone && $page.url.pathname !== '/pro/moncompte') {
+				goto('/pro/moncompte');
 			}
 		}
 	});
