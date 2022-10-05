@@ -1,21 +1,23 @@
-from unittest.mock import MagicMock
+from unittest import mock
+from uuid import UUID
 
 from asyncpg.connection import Connection
 
-sendmail_path = "api.v1.routers.admin_structures.send_mail"
-api_path = "/v1/admin_structures/create"
+ENDPOINT_PATH = "/v1/admin_structures/create"
 sender_email = "test@toto.fr"
 
 
+@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
 async def test_jwt_token_verification(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
     get_professionnal_jwt,
-    mocker,
+    deployment_id_cd93: UUID,
+    structure_id_pe_livry: UUID,
 ):
-    mocker.patch(sendmail_path, return_value=True)
 
     response = test_client.post(
-        api_path,
+        ENDPOINT_PATH,
         json={
             "admin": {
                 "email": sender_email,
@@ -23,9 +25,9 @@ async def test_jwt_token_verification(
                 "lastname": "Bé",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": deployment_id,
+                "deployment_id": str(deployment_id_cd93),
             },
-            "structure_id": structure_id,
+            "structure_id": str(structure_id_pe_livry),
         },
         headers={"jwt-token": f"{get_professionnal_jwt}"},
     )
@@ -36,20 +38,18 @@ async def test_jwt_token_verification(
     assert json["detail"] == "Role not allowed"
 
 
-deployment_id = "4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"
-structure_id = "a81bc81b-dead-4e5d-abff-90865d1e13b2"  # pole emploi livry-gargan
-
-
+@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_admin_structure_with_structure_in_db(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
     db_connection: Connection,
     get_admin_structure_jwt,
-    mocker,
+    deployment_id_cd93: UUID,
+    structure_id_pe_livry: UUID,
 ):
-    mocker.patch(sendmail_path, return_value=True)
 
     response = test_client.post(
-        api_path,
+        ENDPOINT_PATH,
         json={
             "admin": {
                 "email": sender_email,
@@ -57,9 +57,9 @@ async def test_insert_admin_structure_with_structure_in_db(
                 "lastname": "Bé",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": deployment_id,
+                "deployment_id": str(deployment_id_cd93),
             },
-            "structure_id": structure_id,
+            "structure_id": str(structure_id_pe_livry),
         },
         headers={"jwt-token": f"{get_admin_structure_jwt}"},
     )
@@ -68,7 +68,7 @@ async def test_insert_admin_structure_with_structure_in_db(
 
     record = await db_connection.fetchrow(
         """
-            SELECT firstname, lastname, admin_structure.email as adm_email, confirmed, name
+            SELECT firstname, lastname, admin_structure.email as adm_email, confirmed, access_key, name
             FROM public.admin_structure, admin_structure_structure, structure, account
             WHERE admin_structure.id = admin_structure_structure.admin_structure_id
             AND admin_structure_structure.structure_id = structure.id
@@ -85,17 +85,26 @@ async def test_insert_admin_structure_with_structure_in_db(
     assert record["lastname"] == "Bé"
     assert record["name"] == "Pole Emploi Agence Livry-Gargnan"
 
+    mock_send_invitation_mail.assert_called_once()
+    mock_send_invitation_mail.assert_called_once_with(
+        email=sender_email,
+        firstname="lionel",
+        lastname="Bé",
+        access_key=UUID(record["access_key"]),
+    )
 
+
+@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_existing_admin_structure_in_structure_in_db(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
     db_connection: Connection,
     get_admin_structure_jwt,
-    mocker,
+    deployment_id_cd93: UUID,
+    structure_id_pe_livry: UUID,
 ):
-    mocker.patch(sendmail_path, return_value=True)
-
     response = test_client.post(
-        api_path,
+        ENDPOINT_PATH,
         json={
             "admin": {
                 "email": "vincent.timaitre@groupe-ns.fr ",
@@ -103,9 +112,9 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
                 "lastname": "timaitre",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": deployment_id,
+                "deployment_id": str(deployment_id_cd93),
             },
-            "structure_id": structure_id,
+            "structure_id": str(structure_id_pe_livry),
         },
         headers={"jwt-token": f"{get_admin_structure_jwt}"},
     )
@@ -132,15 +141,17 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
     assert records[1]["email"] == "vincent.timaitre@groupe-ns.fr"
 
 
+@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_existing_admin_structure_in_existing_structure(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
     get_admin_structure_jwt,
-    mocker,
+    deployment_id_cd93: UUID,
+    structure_id_pe_livry: UUID,
 ):
-    mocker.patch(sendmail_path, return_value=True)
 
     response = test_client.post(
-        api_path,
+        ENDPOINT_PATH,
         json={
             "admin": {
                 "email": "vincent.timaitre@groupe-ns.fr ",
@@ -148,9 +159,9 @@ async def test_insert_existing_admin_structure_in_existing_structure(
                 "lastname": "timaitre",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": deployment_id,
+                "deployment_id": str(deployment_id_cd93),
             },
-            "structure_id": "8b71184c-6479-4440-aa89-15da704cc792",
+            "structure_id": str(structure_id_pe_livry),
         },
         headers={"jwt-token": f"{get_admin_structure_jwt}"},
     )
@@ -158,13 +169,15 @@ async def test_insert_existing_admin_structure_in_existing_structure(
     assert response.status_code == 200
 
 
+@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_deleted_admin_structure_in_structure_in_db(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
     db_connection: Connection,
     get_admin_structure_jwt,
-    mocker,
+    deployment_id_cd93: UUID,
+    structure_id_pe_livry: UUID,
 ):
-    mocker.patch(sendmail_path, return_value=True)
 
     records = await db_connection.fetch(
         """
@@ -174,12 +187,12 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
             AND admin_structure_structure.structure_id = $1 AND admin_structure.email = $2
             RETURNING admin_structure_structure.id, admin_structure_structure.structure_id, admin_structure_structure.admin_structure_id
         """,
-        structure_id,
+        structure_id_pe_livry,
         "vincent.timaitre@groupe-ns.fr",
     )
 
     response = test_client.post(
-        api_path,
+        ENDPOINT_PATH,
         json={
             "admin": {
                 "email": "vincent.timaitre@groupe-ns.fr ",
@@ -187,9 +200,9 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
                 "lastname": "timaitre",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": deployment_id,
+                "deployment_id": str(deployment_id_cd93),
             },
-            "structure_id": structure_id,
+            "structure_id": str(structure_id_pe_livry),
         },
         headers={"jwt-token": f"{get_admin_structure_jwt}"},
     )
@@ -215,25 +228,3 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
     assert records[0]["email"] == "vincent.timaitre@groupe-ns.fr"
     assert records[1]["s_name"] == "Pole Emploi Agence Livry-Gargnan"
     assert records[1]["email"] == "vincent.timaitre@groupe-ns.fr"
-
-
-async def test_background_task(test_client, get_admin_structure_jwt: str, mocker):
-    mock: MagicMock = mocker.patch(sendmail_path, return_value=True)
-    test_client.post(
-        api_path,
-        json={
-            "admin": {
-                "email": sender_email,
-                "firstname": "lionel",
-                "lastname": "Bé",
-                "phone_numbers": "0601020304",
-                "position": "responsable",
-                "deployment_id": deployment_id,
-            },
-            "structure_id": structure_id,
-        },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
-    )
-    assert len(mock.mock_calls) == 1
-    assert mock.mock_calls[0].args[0] == sender_email
-    assert mock.mock_calls[0].args[1] == "Création de compte sur Carnet de bord"

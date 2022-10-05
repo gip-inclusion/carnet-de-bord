@@ -1,25 +1,24 @@
-from unittest.mock import MagicMock
+from unittest import mock
 
 from asyncpg.connection import Connection
 
 from api.db.crud.account import get_accounts_from_email
 from api.db.crud.orientation_manager import get_orientation_managers
 
-sendmail_path = "api.v1.routers.uploads.send_mail"
-api_path = "/v1/uploads/orientation_manager"
+ENDPOINT_PATH = "/v1/uploads/orientation_manager"
 
 
+@mock.patch("api.v1.routers.uploads.send_invitation_email")
 async def test_jwt_token_verification(
+    mock_send_invitation_email: mock.Mock,
     test_client,
     get_admin_structure_jwt,
     orientation_manager_csv_filepath,
-    mocker,
 ):
-    mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_csv_filepath, "rb") as f:
 
         response = test_client.post(
-            api_path,
+            ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_admin_structure_jwt}"},
         )
@@ -30,18 +29,18 @@ async def test_jwt_token_verification(
         assert json["detail"] == "Role not allowed"
 
 
+@mock.patch("api.v1.routers.uploads.send_invitation_email")
 async def test_insert_in_db(
+    mock_send_invitation_email: mock.Mock,
     test_client,
     db_connection: Connection,
     orientation_manager_csv_filepath,
     get_manager_jwt,
-    mocker,
 ):
-    mocker.patch(sendmail_path, return_value=True)
 
     with open(orientation_manager_csv_filepath, "rb") as f:
         test_client.post(
-            api_path,
+            ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
@@ -54,32 +53,28 @@ async def test_insert_in_db(
         account2 = await get_accounts_from_email(db_connection, "cyane@cd26.fr")
         assert account2[0] is not None
 
-
-async def test_background_task(
-    test_client, orientation_manager_csv_filepath, get_manager_jwt: str, mocker
-):
-    mock: MagicMock = mocker.patch(sendmail_path, return_value=True)
-    with open(orientation_manager_csv_filepath, "rb") as f:
-        test_client.post(
-            api_path,
-            files={"upload_file": ("filename", f, "text/plain")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+        assert mock_send_invitation_email.call_count == 2
+        assert (
+            mock_send_invitation_email.call_args_list[0].kwargs["email"]
+            == "woirnesse@cd26.fr"
+        )
+        assert (
+            mock_send_invitation_email.call_args_list[1].kwargs["email"]
+            == "cyane@cd26.fr"
         )
 
-    assert len(mock.mock_calls) == 2
-    assert mock.mock_calls[0].args[0] == "woirnesse@cd26.fr"
-    assert mock.mock_calls[0].args[1] == "Création de compte sur Carnet de bord"
-    assert mock.mock_calls[1].args[0] == "cyane@cd26.fr"
-    assert mock.mock_calls[1].args[1] == "Création de compte sur Carnet de bord"
 
-
+@mock.patch("api.v1.routers.uploads.send_invitation_email")
 async def test_validation_error(
-    test_client, orientation_manager_csv_filepath, get_manager_jwt: str, mocker
+    mock_send_invitation_email: mock.Mock,
+    test_client,
+    orientation_manager_csv_filepath,
+    get_manager_jwt: str,
 ):
-    mock: MagicMock = mocker.patch(sendmail_path, return_value=True)
+
     with open(orientation_manager_csv_filepath, "rb") as f:
         response = test_client.post(
-            api_path,
+            ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
@@ -93,13 +88,16 @@ async def test_validation_error(
         assert json[3]["error"] == "value is not a valid email address"
 
 
+@mock.patch("api.v1.routers.uploads.send_invitation_email")
 async def test_handle_xls(
-    test_client, orientation_manager_xls_filepath, get_manager_jwt: str, mocker
+    mock_send_invitation_email: mock.Mock,
+    test_client,
+    orientation_manager_xls_filepath,
+    get_manager_jwt: str,
 ):
-    mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_xls_filepath, "rb") as f:
         response = test_client.post(
-            api_path,
+            ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "application/vnd.ms-excel")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
@@ -110,13 +108,16 @@ async def test_handle_xls(
         assert json[1]["valid"]
 
 
+@mock.patch("api.v1.routers.uploads.send_invitation_email")
 async def test_handle_xlsx(
-    test_client, orientation_manager_xlsx_filepath, get_manager_jwt: str, mocker
+    mock_send_invitation_email: mock.Mock,
+    test_client,
+    orientation_manager_xlsx_filepath,
+    get_manager_jwt: str,
 ):
-    mocker.patch(sendmail_path, return_value=True)
     with open(orientation_manager_xlsx_filepath, "rb") as f:
         response = test_client.post(
-            api_path,
+            ENDPOINT_PATH,
             files={
                 "upload_file": (
                     "filename",

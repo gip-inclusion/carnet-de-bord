@@ -1,24 +1,24 @@
-from unittest.mock import MagicMock
+from unittest import mock
+from uuid import UUID
 
 from asyncpg.connection import Connection
 
 from api.db.crud.account import get_accounts_from_email
 from api.db.crud.manager import get_managers_from_deployment
 
-sendmail_path = "api.v1.routers.managers.send_mail"
-api_path = "/v1/managers/create"
+ENDPOINT_PATH = "/v1/managers/create"
 sender_email = "test@toto.fr"
 
 
+@mock.patch("api.v1.routers.managers.send_invitation_email")
 async def test_jwt_token_verification(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
     get_admin_structure_jwt,
-    mocker,
 ):
-    mocker.patch(sendmail_path, return_value=True)
 
     response = test_client.post(
-        api_path,
+        ENDPOINT_PATH,
         json={"email": sender_email, "firstname": "lionel", "lastname": "Bé"},
         headers={"jwt-token": f"{get_admin_structure_jwt}"},
     )
@@ -29,47 +29,37 @@ async def test_jwt_token_verification(
     assert json["detail"] == "Role not allowed"
 
 
-deployment_id = "4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"
-
-
+@mock.patch("api.v1.routers.managers.send_invitation_email")
 async def test_insert_admin_in_db(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
     db_connection: Connection,
     get_admin_cdb_jwt,
-    mocker,
+    deployment_id_cd93: UUID,
 ):
-    mocker.patch(sendmail_path, return_value=True)
 
     test_client.post(
-        api_path,
+        ENDPOINT_PATH,
         json={
             "email": sender_email,
             "firstname": "lionel",
             "lastname": "Bé",
-            "deployment_id": deployment_id,
+            "deployment_id": str(deployment_id_cd93),
         },
         headers={"jwt-token": f"{get_admin_cdb_jwt}"},
     )
-    admins = await get_managers_from_deployment(db_connection, deployment_id)
+    admins = await get_managers_from_deployment(db_connection, deployment_id_cd93)
 
     assert sender_email in [admin.email for admin in admins]
 
-    account1 = await get_accounts_from_email(db_connection, sender_email)
-    assert account1[0] is not None
+    [account] = await get_accounts_from_email(db_connection, sender_email)
+    assert account
 
-
-async def test_background_task(test_client, get_admin_cdb_jwt: str, mocker):
-    mock: MagicMock = mocker.patch(sendmail_path, return_value=True)
-    test_client.post(
-        api_path,
-        json={
-            "email": sender_email,
-            "firstname": "lionel",
-            "lastname": "Bé",
-            "deployment_id": deployment_id,
-        },
-        headers={"jwt-token": f"{get_admin_cdb_jwt}"},
+    assert mock_send_invitation_mail.call_count == 1
+    mock_send_invitation_mail.assert_called_once()
+    mock_send_invitation_mail.assert_called_once_with(
+        email=sender_email,
+        firstname="lionel",
+        lastname="Bé",
+        access_key=account.access_key,
     )
-    assert len(mock.mock_calls) == 1
-    assert mock.mock_calls[0].args[0] == sender_email
-    assert mock.mock_calls[0].args[1] == "Création de compte sur Carnet de bord"
