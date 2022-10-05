@@ -45,6 +45,19 @@ repos:
         entry: |
           bash -c 'yarn --cwd app --silent eslint "${@#*/}"' --
 
+      - id: check-hasura-version
+        name: ensure hasura version consistency
+        language: system
+        pass_filenames: false
+        files: |
+          (?x)^(
+            hasura/Dockerfile|
+            hasura/.hasura_version|
+          )
+        entry: |
+          ./scripts/check-hasura-version.sh
+
+
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: 'v8.0.0'
     hooks:

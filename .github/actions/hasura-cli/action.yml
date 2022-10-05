@@ -1,9 +1,5 @@
 name: "Setup Hasura CLI"
 description: "Installs the Hasura CLI"
-inputs:
-  hasura-version:
-    required: true
-    description: "Hasura version"
 
 runs:
   using: "composite"
@@ -11,8 +7,9 @@ runs:
     - name: Install Hasura cli
       shell: bash
       run: |
+        HASURA_VERSION=$(cat hasura/.hasura_version)
         BIN_DIR="$HOME/.hasura/bin"
         mkdir -p "$BIN_DIR"
-        curl --show-error --silent --fail --location --output "$BIN_DIR/hasura" https://github.com/hasura/graphql-engine/releases/download/v${{ inputs.hasura-version }}/cli-hasura-linux-amd64
+        curl --show-error --silent --fail --location --output "$BIN_DIR/hasura" https://github.com/hasura/graphql-engine/releases/download/v$HASURA_VERSION/cli-hasura-linux-amd64
         chmod +x "$BIN_DIR/hasura"
         echo "$BIN_DIR" >> "$GITHUB_PATH"
