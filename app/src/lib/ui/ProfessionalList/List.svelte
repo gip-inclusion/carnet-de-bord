@@ -68,7 +68,6 @@
 					/>
 					<Dialog
 						buttonCssClasses="fr-btn--sm fr-btn--tertiary fr-btn--tertiary-no-outline"
-						buttonFullWidth={false}
 						buttonIcon="fr-icon-delete-bin-line"
 						title="Supprimer"
 						buttonLabel={null}

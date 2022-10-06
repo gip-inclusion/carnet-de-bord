@@ -3,7 +3,7 @@
 	import { DialogOverlay, DialogContent } from 'svelte-accessible-dialog';
 	import { Button, IconButton } from '$lib/ui/base';
 
-	export let label: string;
+	export let label: string | null = null;
 	export let showButtons = true;
 	export let size: 'small' | 'medium' | 'large' = 'medium';
 	export let buttonLabel: string | null = label;
