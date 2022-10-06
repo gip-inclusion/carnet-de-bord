@@ -4,6 +4,7 @@ from typing import List
 from pydantic import BaseModel
 
 from api.db.crud.beneficiary import get_beneficiary_from_personal_information
+from api.db.crud.rome_code import get_rome_code_by_id
 from api.db.models.beneficiary import BeneficiaryImport
 
 
@@ -117,6 +118,7 @@ async def test_insert_beneficiary_check_all_fields(
     assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
     assert beneficiary_in_db.caf_number == harry_covert.caf_number
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
+
     assert beneficiary_in_db.notebook.right_rsa == harry_covert.right_rsa
     assert beneficiary_in_db.notebook.right_are == True
     assert beneficiary_in_db.notebook.right_ass == False
@@ -127,8 +129,13 @@ async def test_insert_beneficiary_check_all_fields(
     )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
-
-#    assert beneficiary_in_db.rome_code_description == harry_covert.rome_code_description
+    wanted_jobs = [
+        await get_rome_code_by_id(db_connection, wj.rome_code_id)
+        for wj in beneficiary_in_db.notebook.wanted_jobs
+    ]
+    assert harry_covert.rome_code_description in [
+        rome_code.label for rome_code in wanted_jobs
+    ]
 
 
 async def test_update_beneficiary_check_all_fields(
@@ -180,6 +187,31 @@ async def test_import_multiple_beneficiaries(
     assert response.ok
     assert harry_in_db
     assert betty_in_db
+
+
+async def test_import_multiple_wanted_jobs(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    harry_covert_wants_more = harry_covert.copy()
+    harry_covert_wants_more.rome_code_description = (
+        harry_covert.rome_code_description
+        + ", Chauffeur / Chauffeuse de machines agricoles (A1101)"
+    )
+    await post(test_client, get_manager_jwt, [harry_covert_wants_more])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+
+    wanted_jobs = [
+        await get_rome_code_by_id(db_connection, wj.rome_code_id)
+        for wj in beneficiary_in_db.notebook.wanted_jobs
+    ]
+    wanted_job_labels = [rome_code.label for rome_code in wanted_jobs]
+    assert "Chauffeur / Chauffeuse de machines agricoles (A1101)" in wanted_job_labels
+    assert "Pontier élingueur / Pontière élingueuse (N1104)" in wanted_job_labels
 
 
 # todo test creation / update notebook

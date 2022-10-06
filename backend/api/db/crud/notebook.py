@@ -606,10 +606,6 @@ returning id
     )
 
 
-#    if record:
-#        return await parse_notebook_from_record(record, record_prefix="")
-
-
 async def update_notebook(
     connection: Connection,
     beneficiary_id: UUID,

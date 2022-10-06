@@ -11,6 +11,7 @@ from api.db.crud.beneficiary import (
     update_beneficiary,
 )
 from api.db.crud.notebook import create_new_notebook, update_notebook
+from api.db.crud.wanted_job import insert_wanted_jobs
 from api.db.models.beneficiary import BeneficiaryImport
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import extract_deployment_id
@@ -42,7 +43,8 @@ async def import_beneficiary(
         match existing_rows:
             case []:
                 record = await insert_beneficiary(db, beneficiary, deployment_id)
-                await create_new_notebook(db, record["id"], beneficiary)
+                notebook = await create_new_notebook(db, record["id"], beneficiary)
+                await insert_wanted_jobs(db, notebook["id"], beneficiary)
                 logger.info("inserted new beneficiary %s", record["id"])
             case [
                 row
