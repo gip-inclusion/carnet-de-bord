@@ -324,7 +324,6 @@ select_permissions:
         - beneficiary_id
         - confirmed
         - created_at
-        - deleted_at
         - id
         - onboarding_done
         - orientation_manager_id
