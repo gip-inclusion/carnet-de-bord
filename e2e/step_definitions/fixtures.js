@@ -74,18 +74,6 @@ async function removeMember(email) {
 	);
 }
 
-async function removeNotebookMemberForBeneficiary(emails) {
-	await I.sendMutation(
-		`
-		mutation deleteNotebookMember($emails: [citext!]!) {
-			delete_notebook_member(where: {notebook: {beneficiary: {email: {_in: $emails}}}}) {
-				affected_rows
-			}
-		}
-		`,
-		{ emails }
-	);
-}
 
 function seedDatabase() {
 	const { execSync } = require("child_process");
@@ -93,90 +81,16 @@ function seedDatabase() {
 }
 
 async function setupBeforeFixturesByTags(tags) {
-	return;
 
 	for (const tag of tags) {
 		switch (tag) {
 			case "@pro":
 				await resetTifourReferent();
 				break;
-			case "@onboarding_manager":
-				await resetManagerInfo(
-					"support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
-				);
+			case '@orientation_manager_focuses':
+				await resetFocusesFixtures('Aguilar');
 				break;
-			case "@notebook_contract":
-				await clearNotebookContract();
-				break;
-			case "@import_pro":
-				await removeProfessionalsFixture();
-				break;
-			case "@deploiement":
-				await removeDeploymentFixture();
-				break;
-			case "@import_structures":
-				await removeStructuresFixture();
-				break;
-			case "@import_beneficiaires":
-				await removeBeneficiariesFixture();
-				break;
-			case "@rattachement_beneficiaires_via_admin_structure":
-				await removeNotebookMemberForBeneficiary([
-					"whitley.benjamin@sit.com",
-					"katrina.beach@magna.com",
-					"oconnor.carlson@aliqua.fr",
-					"corinne.cash@incididunt.com",
-					"alexandria.cobb@veniam.com",
-				]);
-				await resetTifourReferent();
-				await resetBeneficiaryStructure(
-					[
-						"corinne.cash@incididunt.com",
-						"alexandria.cobb@veniam.com",
-						"whitley.benjamin@sit.com",
-						"katrina.beach@magna.com",
-					],
-					"8b71184c-6479-4440-aa89-15da704cc792" // groupe ns
-				);
-				await resetBeneficiaryStructure(
-					["oconnor.carlson@aliqua.fr"],
-					"1c52e5ad-e0b9-48b9-a490-105a4effaaea"
-				); // Centre Communal d''action social Livry-Gargan
-				break;
-			case "@recherche_ajout_metiers":
-				await removeWantedJobs();
-				break;
-			case "@appointments":
-				await removeAllAppointments();
-				break;
-			case "@import_orientation_manager":
-				await removeImportedOrientationManager();
-				break;
-			case "@orientation_manager_rattachement":
-				await removeOrientationManagerAssignement("giulia.diaby@cd93.fr");
-				break;
-			case "@orientation_manager_notebook_edit":
-				await removeMember("giulia.diaby@cd93.fr");
-				await resetPhone();
-				await clearNotebookContract();
-				break;
-			case "@orientation_manager_notebook_members":
-				await removeMember("pcamara@seinesaintdenis.fr");
-				break;
-			case "@orientation_manager_focuses":
-				await resetFocusesFixtures("Aguilar");
-				break;
-			case "@beneficiary":
-				await removeBeneficiariesAccount(["stifour93@yahoo.fr"]);
-				break;
-			case "@add_admin_pdi":
-				// we reset manager info in case onboarding_manager have run before
-				await resetManagerInfo(
-					"support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
-				);
-				await removeManager("juste.leblanc@cd93.fr");
-				break;
-			case "@remove_admin_pdi":
+			case '@remove_admin_pdi':
 				await addManager(
 					"Siham",
 					"Froger",
@@ -184,70 +98,19 @@ async function setupBeforeFixturesByTags(tags) {
 					"c5c3a933-6f4a-4b2b-aa49-7a816eaef16b"
 				);
 				break;
-			case "@admin_structure_notebook_view":
-				await removeStructureReferent("Aguilar");
+			case '@recherche_ajout_metiers':
+				await removeWantedJobs();
 				break;
-			case "@modifier_rattachement_beneficiaire":
-			case "@orientation_manager_rattachement_beneficiaire":
-				await resetTifourReferent();
-				await removeNotebookMemberForBeneficiary([
-					"corinne.cash@incididunt.com",
-					"alexandria.cobb@veniam.com",
-				]);
-				await resetBeneficiaryStructure(
-					["corinne.cash@incididunt.com", "alexandria.cobb@veniam.com"],
-					"8b71184c-6479-4440-aa89-15da704cc792" // groupe ns
-				);
+			case '@notebook_contract':
+				await clearNotebookContract();
 				break;
-			case "@inscription":
-				await removeProfessionalAccount();
-				break;
-			case "@admin_cdb_update_structure":
-			case "@manager_update_structure":
-				await resetStructureInfo("Interlogement 51");
-				await removeProfessionalAccount();
-				break;
-			case "@professionnel_view":
-				await changeAccountConfirmed("bienvenu.lejeune", false);
+			case '@appointments':
+				await removeAllAppointments();
 				break;
 			default:
 				return;
 		}
 	}
-}
-
-async function setupAfterFixturesByTags(tags) {
-	for (const tag of tags) {
-		switch (tag) {
-			case "@admin_structure_delete_pro_account":
-				await undeleteAccount("pierre.chevalier");
-				break;
-			default:
-				return;
-		}
-	}
-}
-
-async function undeleteAccount(username) {
-	return await I.sendMutation(
-		`mutation undeleteAccount($username: String!) {
-			update_account(where: { username: {_eq: $username}}, _set: {deletedAt: null}) {
-				affected_rows
-			}
-		}`,
-		{ username }
-	);
-}
-
-async function resetManagerInfo(email) {
-	return await I.sendMutation(
-		`mutation resetManagerInfo($email: citext!) {
-		  update_manager(where: {email: {_eq: $email}}, _set: {firstname: "Agathe", lastname:"DeBlouze" }) {
-		    affected_rows
-		  }
-		}`,
-		{ email }
-	);
 }
 
 async function onBoardingSetup(userType, email, onBoardingDone) {
@@ -255,74 +118,6 @@ async function onBoardingSetup(userType, email, onBoardingDone) {
 	return await I.sendMutation(
 		`mutation SetupOnboardingFlag {
 		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onBoardingDone}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeProfessionalsFixture() {
-	return await I.sendMutation(
-		`mutation RemoveProfessionalsFixture {
-		  delete_account(where: {professional: {email: {_in: ["salome@cd26.fr", "sofia@cd26.fr"]}}}) {
-		    affected_rows
-		  }
-		  delete_professional(where: {email: {_in: ["salome@cd26.fr", "sofia@cd26.fr"]}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeDeploymentFixture() {
-	return await I.sendMutation(
-		`mutation RemoveDeploymentFixture {
-		  delete_account(where: {manager: {email: {_eq: "experimentation-e2e@noreply.beta.gouv.fr"}}}) {
-		    affected_rows
-		  }
-		  delete_manager(where: {email: {_eq: "experimentation-e2e@noreply.beta.gouv.fr"}}) {
-		    affected_rows
-		  }
-		  delete_deployment(where: {label: {_eq: "expérimentation e2e"}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeStructuresFixture() {
-	await removeBeneficiariesFixture();
-	return await I.sendMutation(
-		`mutation RemoveStructuresFixture {
-	    delete_admin_structure_structure(where: {admin_structure: {email: {_ilike: "%@cd93.fr"}}}) {
-		    affected_rows
-		  }
-		  delete_structure(where: {name: {_eq: "CD 93"}}) {
-		    affected_rows
-		  }
-		  delete_account(where: {admin_structure: {email: {_ilike: "%@cd93.fr"}}}) {
-		    affected_rows
-		  }
-		  delete_admin_structure(where: {email: {_ilike: "%@cd93.fr"}}) {
-		    affected_rows
-		  }
-		}`
-	);
-}
-
-async function removeBeneficiariesFixture() {
-	return await I.sendMutation(
-		`mutation RemoveBeneficiariesFixture {
-		  delete_wanted_job(where: {notebook: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}}) {
-		    affected_rows
-		  }
-		  delete_notebook(where: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}) {
-		    affected_rows
-		  }
-		  delete_beneficiary_structure(where: {beneficiary: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}}) {
-		    affected_rows
-		  }
-		  delete_beneficiary(where: {email: {_in: ["charlotte@laposte.fr", "charlie@ovh.fr"]}}) {
 		    affected_rows
 		  }
 		}`
@@ -342,15 +137,6 @@ const goToNotebookForLastName = async (lastname) => {
 	);
 	return result.data.data.notebook[0].id;
 };
-
-function removeProfessionalAccount() {
-	return I.sendMutation(
-		`mutation removeUser {
-			delete_account(where: {professional: {email: {_eq: "bobslaigue@afpa.fr"}}}) { affected_rows }
-			delete_professional(where: {email: {_eq: "bobslaigue@afpa.fr"}}) { affected_rows }
-		}`
-	);
-}
 
 function removeWantedJobs() {
 	return I.sendMutation(
@@ -377,63 +163,11 @@ function resetTifourReferent() {
 	);
 }
 
-function resetBeneficiaryStructure(emails, structureId) {
-	// reset GroupeNS to beneficiary
-	return I.sendMutation(
-		`mutation ResetBeneficiaryStructure($emails: [citext!]!, $id: uuid!) {
-			update_beneficiary_structure(where: {beneficiary: {email: {_in: $emails}}}, _set: {status: "pending", structureId: $id}) {
-				affected_rows
-			}
-		}`,
-		{ emails, id: structureId }
-	);
-}
-
 function removeAllAppointments() {
 	return I.sendMutation(
 		`mutation RemoveAppointments {
 			delete_notebook_appointment(where: {}) { affected_rows }
 		}`
-	);
-}
-
-function removeImportedOrientationManager() {
-	return I.sendMutation(
-		`mutation removeOrientationManager {
-			delete_account(where: {orientation_manager: {email: {_in:["woirnesse@cd26.fr", "cyane@cd26.fr"]}}}) { affected_rows }
-			delete_orientation_manager(where: {email: {_in:["woirnesse@cd26.fr", "cyane@cd26.fr"]}}) { affected_rows }
-		}
-		`
-	);
-}
-
-function removeOrientationManagerAssignement(email) {
-	return I.sendMutation(
-		`mutation removeOrientationManagerAssignement($email: citext!){
-			delete_notebook_member(where: { account: {orientation_manager: {email: {_eq: $email}}}}) { affected_rows }
-		}
-		`,
-		{ email }
-	);
-}
-
-function resetPhone() {
-	return I.sendMutation(
-		`mutation UpdatePhone {
-			update_beneficiary_by_pk(_set: {mobileNumber: "0601010101" },pk_columns: {id: "c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"}) { __typename }
-		}`
-	);
-}
-
-async function removeBeneficiariesAccount(emails) {
-	await I.sendMutation(
-		`mutation RemoveBeneficiaryAccountFixture($emails:[citext!]!) {
-
-		  delete_account(where: {beneficiary: {email: {_in: $emails}}}) {
-		    affected_rows
-		  }
-		}`,
-		{ emails }
 	);
 }
 
@@ -473,16 +207,6 @@ async function resetFocusesFixtures(name) {
 	);
 }
 
-async function removeManager(email) {
-	await I.sendMutation(
-		`mutation RemoveAdminPdi($email: citext!) {
-			delete_account(where: {manager: {email: {_eq: $email}}}) { affected_rows }
-			delete_manager(where: {email: {_eq: $email}}) { affected_rows }
-		}`,
-		{ email }
-	);
-}
-
 async function addManager(firstname, lastname, email, deployment) {
 	await I.sendMutation(
 		`
@@ -513,46 +237,6 @@ async function addManager(firstname, lastname, email, deployment) {
 		}
 	);
 }
-async function resetStructureInfo(name) {
-	await I.sendMutation(
-		`
-		mutation updateInterlogement($name: String!) {
-			update_structure(where: {name: {_eq: $name }}, _set: {postalCode: null, city:null}) {
-				affected_rows
-			}
-		}
-		`,
-		{ name }
-	);
-}
-
-async function removeStructureReferent(email) {
-	await I.sendMutation(
-		`
-		mutation resetStructureReferentFor($email: citext!) {
-			delete_beneficiary_structure(where: {beneficiary: {email: {_eq: $email}}}) {
-		    affected_rows
-		  }
-			delete_notebook_member(where: {beneficiary: { email: {_eq: $email}},memberType: {_eq: "referent"} }) {
-				affected_rows
-			}
-		}
-	`,
-		{ email }
-	);
-}
-
-async function changeAccountConfirmed(username, newStatus) {
-	await I.sendMutation(
-		`
-          mutation changeAccountConfirmed($username:String!, $newStatus:Boolean!) {
-            update_account(where: {username: {_eq: $username }}, _set: {confirmed: $newStatus}) {
-              affected_rows
-            }
-          }`,
-		{ newStatus, username }
-	);
-}
 
 module.exports = {
 	UUID,
@@ -562,6 +246,5 @@ module.exports = {
 	onBoardingSetup,
 	removeMember,
 	seedDatabase,
-	setupAfterFixturesByTags,
 	setupBeforeFixturesByTags,
 };

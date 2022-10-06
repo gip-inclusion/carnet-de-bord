@@ -3,7 +3,6 @@ const {
 	loginStub,
 	seedDatabase,
 	setupBeforeFixturesByTags,
-	setupAfterFixturesByTags,
 	onBoardingSetup,
 	goToNotebookForLastName,
 	addMember,
@@ -283,19 +282,9 @@ Quand('je téléverse le fichier {string}', (filename) => {
 	I.attachFile('.dropzone input[type=file]', filename);
 });
 
-/**
- * Dans ce hook, qui se lance après chaque test,
- * on peut executer des mutations afin de supprimer
- * les données générés suite aux tests.
- */
-
 Before(async (params) => {
 	seedDatabase();
 	setupBeforeFixturesByTags(params.tags);
-});
-
-After((params) => {
-	setupAfterFixturesByTags(params.tags);
 });
 
 Alors('je vois la colonne {string}', (text) => {
