@@ -12819,6 +12819,19 @@ export type GetRefTargetByFocusQuery = {
 	refTargets: Array<{ __typename?: 'ref_target'; id: string; description: string }>;
 };
 
+export type DeleteAccountMutationVariables = Exact<{
+	accountId: Scalars['uuid'];
+}>;
+
+export type DeleteAccountMutation = {
+	__typename?: 'mutation_root';
+	update_account_by_pk?: { __typename?: 'account'; id: string } | null | undefined;
+	update_notebook_member?:
+		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
+		| null
+		| undefined;
+};
+
 export type GetProfessionalsForStructureQueryVariables = Exact<{
 	structureId: Scalars['uuid'];
 }>;
@@ -12836,6 +12849,7 @@ export type GetProfessionalsForStructureQuery = {
 		account?:
 			| {
 					__typename?: 'account';
+					id: string;
 					onboardingDone?: boolean | null | undefined;
 					notebooksWhereMember_aggregate: {
 						__typename?: 'notebook_member_aggregate';
@@ -20948,6 +20962,130 @@ export const GetRefTargetByFocusDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetRefTargetByFocusQuery, GetRefTargetByFocusQueryVariables>;
+export const DeleteAccountDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'DeleteAccount' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_account_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deletedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accountId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<DeleteAccountMutation, DeleteAccountMutationVariables>;
 export const GetProfessionalsForStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -20990,6 +21128,29 @@ export const GetProfessionalsForStructureDocument = {
 														value: {
 															kind: 'Variable',
 															name: { kind: 'Name', value: 'structureId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'account' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deletedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
 														},
 													},
 												],
@@ -21053,6 +21214,7 @@ export const GetProfessionalsForStructureDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
 											{
 												kind: 'Field',
@@ -27769,6 +27931,40 @@ export const GetStructureDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals_aggregate' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'account' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deletedAt' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_is_null' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -28329,6 +28525,10 @@ export type AddNotebookTargetMutationStore = OperationStore<
 export type GetRefTargetByFocusQueryStore = OperationStore<
 	GetRefTargetByFocusQuery,
 	GetRefTargetByFocusQueryVariables
+>;
+export type DeleteAccountMutationStore = OperationStore<
+	DeleteAccountMutation,
+	DeleteAccountMutationVariables
 >;
 export type GetProfessionalsForStructureQueryStore = OperationStore<
 	GetProfessionalsForStructureQuery,

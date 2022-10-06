@@ -1,5 +1,8 @@
 query GetProfessionalsForStructure($structureId: uuid!) {
-	professional(where: { structureId: { _eq: $structureId } } order_by: [{firstname: asc}, {lastname: asc}, {email: asc}]) {
+	professional(
+    where: { structureId: { _eq: $structureId }, account: { deletedAt: { _is_null: true } } }
+    order_by: [{firstname: asc}, {lastname: asc}, {email: asc}]
+  ) {
 		id
 		firstname
 		lastname
@@ -7,6 +10,7 @@ query GetProfessionalsForStructure($structureId: uuid!) {
 		email
     position
     account {
+      id
       onboardingDone
       notebooksWhereMember_aggregate {
         aggregate {

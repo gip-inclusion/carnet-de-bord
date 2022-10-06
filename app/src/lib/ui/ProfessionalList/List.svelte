@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type { GetProfessionalsForStructureQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { DeleteAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { IconButton } from '../base';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { openComponent } from '$lib/stores';
 	import EditProfessionalAccountLayer from '$lib/ui/ProfessionalList/EditProfessionalAccountLayer.svelte';
+	import { operationStore, mutation } from '@urql/svelte';
 	import { displayFullName } from '../format';
 
 	type Professional = GetProfessionalsForStructureQuery['professional'][0];
@@ -17,8 +19,11 @@
 		});
 	}
 
-	function removeProfessional(professional: Professional) {
-		console.log(`Let's delete ${professional}`);
+	const deleteAccountMutation = operationStore(DeleteAccountDocument);
+	const deleteAccount = mutation(deleteAccountMutation);
+
+	async function removeProfessional(professional: Professional) {
+		await deleteAccount({ accountId: professional.account.id });
 	}
 </script>
 

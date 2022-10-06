@@ -1,0 +1,8 @@
+mutation DeleteAccount($accountId: uuid!) {
+	update_account_by_pk(pk_columns: { id: $accountId }, _set: { deletedAt: now }) {
+    id
+  }
+  update_notebook_member(where: { accountId: { _eq: $accountId }, active: { _eq: true }}, _set: { active: false }) {
+    affected_rows
+  }
+}
