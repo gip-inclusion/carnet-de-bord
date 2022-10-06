@@ -20,7 +20,7 @@ async def test_structure_import_json(
 
     response = test_client.post(
         ENDPOINT_PATH,
-        json={"structures": import_structures_json},
+        json={"structures": import_structures_json, "sendAccountEmail": True},
         headers={"jwt-token": f"{get_manager_jwt}"},
     )
 
@@ -76,7 +76,7 @@ async def test_structure_with_fail_structure_insert(
 
     response = test_client.post(
         ENDPOINT_PATH,
-        json={"structures": import_structures_json, "send_account_email": false},
+        json={"structures": import_structures_json},
         headers={"jwt-token": f"{get_manager_jwt}"},
     )
 
@@ -91,7 +91,6 @@ async def test_structure_with_fail_structure_insert(
         == f"import structure {structure_name}: insert structure failed"
     )
     assert len(structure_with_errors) == 1
-    mock_insert_structure.assert_not_called()
 
 
 @mock.patch(

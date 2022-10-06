@@ -96,7 +96,7 @@ class StructureInputRow(BaseModel):
 
 
 class CsvFieldError(BaseModel):
-    key: str
+    key: str | None = None
     error: str
 
 

@@ -98,6 +98,7 @@ async def create_structures(
 
                     account, admin_structure = account_admin_tuple
                     if data.send_account_email:
+                        print("send email")
                         background_tasks.add_task(
                             send_invitation_email,
                             email=admin_structure.email,
