@@ -2,7 +2,7 @@ import logging
 from typing import Tuple
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Request
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from api.core.exceptions import InsertFailError
 from api.core.init import connection
@@ -38,6 +38,7 @@ router = APIRouter(dependencies=[Depends(admin_only), Depends(extract_deployment
 
 
 class StructuresInputRow(BaseModel):
+    send_account_email: bool = Field(alias="sendAccountEmail", default=False)
     structures: list[StructureInputRow]
 
 
@@ -48,6 +49,7 @@ async def create_structures(
     background_tasks: BackgroundTasks,
     db=Depends(connection),
 ):
+    print(data.send_account_email)
     deployment_id = request.state.deployment_id
     result: list[StructureCsvRowResponse] = []
     for structure_row in data.structures:
@@ -95,14 +97,14 @@ async def create_structures(
                         raise InsertFailError("insert structure admin failed")
 
                     account, admin_structure = account_admin_tuple
-
-                    background_tasks.add_task(
-                        send_invitation_email,
-                        email=admin_structure.email,
-                        firstname=admin_structure.firstname,
-                        lastname=admin_structure.lastname,
-                        access_key=account.access_key,
-                    )
+                    if data.send_account_email:
+                        background_tasks.add_task(
+                            send_invitation_email,
+                            email=admin_structure.email,
+                            firstname=admin_structure.firstname,
+                            lastname=admin_structure.lastname,
+                            access_key=account.access_key,
+                        )
 
                 # 3 Assign admin structure to structure
 
