@@ -1,3 +1,6 @@
+# we use 2 search field type since hasura don't
+# let us use a string for citext search
+# https://github.com/hasura/graphql-engine/issues/9081
 query SearchProfessional($search: String, $searchStructure: citext, $accountIds: [uuid!] = []) {
   professionals: professional(
     where: {
