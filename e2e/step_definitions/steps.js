@@ -1,6 +1,7 @@
 const {
 	UUID,
 	loginStub,
+	seedDatabase,
 	setupBeforeFixturesByTags,
 	setupAfterFixturesByTags,
 	onBoardingSetup,
@@ -289,6 +290,7 @@ Quand('je téléverse le fichier {string}', (filename) => {
  */
 
 Before(async (params) => {
+	seedDatabase();
 	setupBeforeFixturesByTags(params.tags);
 });
 

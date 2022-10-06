@@ -87,6 +87,11 @@ async function removeNotebookMemberForBeneficiary(emails) {
 	);
 }
 
+function seedDatabase() {
+	const { execSync } = require("child_process");
+	execSync('HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --project ../hasura --database-name carnet_de_bord --log-level WARN --no-color');
+}
+
 async function setupBeforeFixturesByTags(tags) {
 	for (const tag of tags) {
 		switch (tag) {
@@ -554,6 +559,7 @@ module.exports = {
 	loginStub,
 	onBoardingSetup,
 	removeMember,
+	seedDatabase,
 	setupAfterFixturesByTags,
 	setupBeforeFixturesByTags,
 };
