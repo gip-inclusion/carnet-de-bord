@@ -146,7 +146,7 @@
 				<Alert type="info" title={`Lecture du fichier en cours...`} />
 			{:then parsedStructures}
 				<p>
-					Vous allez importer les professionnels suivants. Veuillez vérifier que les données sont
+					Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
 					correctes et confirmer.
 				</p>
 				<table class="w-full divide-y divide-gray-300">
@@ -247,7 +247,7 @@
 					sur ${insertResults.length}.`}
 			/>
 			<table class="w-full divide-y divide-gray-300">
-				<caption class="sr-only">Récapitulatif des structures crée</caption>
+				<caption class="sr-only">Récapitulatif des structures créées</caption>
 				<thead class="px-2 py-2">
 					<th class="text-left">Nom</th>
 					<th class="text-left">Email du Responsable</th>
