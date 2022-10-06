@@ -93,6 +93,8 @@ function seedDatabase() {
 }
 
 async function setupBeforeFixturesByTags(tags) {
+	return;
+
 	for (const tag of tags) {
 		switch (tag) {
 			case "@pro":
