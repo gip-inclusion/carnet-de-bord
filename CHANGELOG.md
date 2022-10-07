@@ -1,3 +1,10 @@
+# [1.150.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.149.0...v1.150.0) (2022-10-07)
+
+
+### Features
+
+* Supprimer un professionnel par un gestionnaire de structure. ([#1157](https://github.com/SocialGouv/carnet-de-bord/issues/1157)) ([9459e25](https://github.com/SocialGouv/carnet-de-bord/commit/9459e2581c578b37df17c466a9dae1fdf003f86a))
+
 # [1.149.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.148.0...v1.149.0) (2022-10-04)
 
 
