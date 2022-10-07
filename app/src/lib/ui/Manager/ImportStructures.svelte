@@ -12,7 +12,16 @@
 	let insertPromise;
 	let structurestoImport = [];
 
-	export function translateError(error = ''): string {
+	type StructureCsvResponse = {
+		data: unknown;
+		errors: CsvError[];
+		row: unknown;
+	};
+	type CsvError = {
+		key: string | null;
+		error: string;
+	};
+	function translateError(error = ''): string {
 		if (/none is not an allowed value/.test(error)) {
 			return `Champ obligatoire manquant`;
 		}
@@ -29,77 +38,77 @@
 			return `Code postal invalide`;
 		}
 		if (/URL/.test(error)) {
-			return `Format d'url invalide`;
+			return `Format d'URL invalide`;
 		}
 		if (/insert structure failed/.test(error)) {
 			return 'Création de la structure impossible';
 		}
 		if (/insert structure admin failed/.test(error)) {
-			return "Création de l'admin de structure impossible";
+			return 'Création du gestionnaire de structure impossible';
 		}
 		if (/add admin structure to structure failed"/.test(error)) {
-			return "Ajout de l'admin à la structure impossible";
+			return 'Ajout du gestionnaire à la structure impossible';
 		}
 		console.error(error);
 		return `Une erreur s'est produite lors de la lecture du fichier.`;
 	}
 
-	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: FileList }>): void {
-		const file = event.detail.acceptedFiles[0];
-		const formData = new FormData();
-		formData.append('upload_file', file);
-		parsePromise = fetch(`${$session.backendAPI}/v1/convert-file/structures`, {
+	function callApi(url: string, data: FormData | string): Promise<Response> {
+		return fetch(`${$session.backendAPI}/${url}`, {
 			method: 'POST',
 			headers: {
 				'jwt-token': $session.token,
 				Accept: 'application/json; version=1.0',
 			},
-			body: formData,
-		})
-			.then(async (response) => {
-				if (response.ok) {
-					return response.json();
-				}
-				const errorMessage = await response.text();
-				console.error(errorMessage);
-				return Promise.reject(
-					new Error(
-						`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
-					)
-				);
-			})
-			.then((structures) => {
-				return structures.map((structure) => {
-					if (structure.valid) {
-						const uuid = uuidv4();
-						structurestoImport.push(uuid);
-						return { uuid, ...structure };
-					}
-					return { ...structure };
-				});
-			});
+			body: data,
+		});
 	}
 
-	async function handleSubmit(structures) {
-		console.log('insert', structures);
-		insertPromise = fetch(`${$session.backendAPI}/v1/structures/import`, {
-			method: 'POST',
-			headers: {
-				'jwt-token': $session.token,
-				Accept: 'application/json; version=1.0',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ structures: structures.map(({ data }) => data), sendAccountEmail }),
-		}).then(async (response) => {
-			if (response.ok) {
-				return response.json();
+	async function convertCsvFile(formData: FormData): Promise<Response> {
+		const response = await callApi('/v1/convert-file/structures', formData);
+		if (!response.ok) {
+			const errorMessage = await response.text();
+			console.error(errorMessage);
+			throw new Error(
+				`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
+			);
+		}
+		const structures = await response.json();
+		return structures.map((structure) => {
+			if (structure.valid) {
+				const uuid = uuidv4();
+				structurestoImport.push(uuid);
+				return { uuid, ...structure };
 			}
+			return { ...structure };
+		});
+	}
+
+	async function insertStructure(payload: string): Promise<Response> {
+		const response = await callApi('/v1/structures/import', payload);
+		if (!response.ok) {
 			const errorMessage = await response.text();
 			console.error(errorMessage);
 			return Promise.reject(
 				new Error(`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`)
 			);
+		}
+		return response.json();
+	}
+
+	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: FileList }>): Promise<void> {
+		const file = event.detail.acceptedFiles[0];
+		const formData = new FormData();
+		formData.append('upload_file', file);
+		parsePromise = convertCsvFile(formData);
+	}
+
+	async function handleSubmit(structures: StructureCsvResponse[]) {
+		const payload = JSON.stringify({
+			structures: structures.map(({ data }) => data),
+			sendAccountEmail,
 		});
+		insertPromise = insertStructure(payload);
 	}
 
 	function backToFileSelect() {
