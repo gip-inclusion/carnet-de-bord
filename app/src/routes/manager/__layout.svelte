@@ -35,24 +35,25 @@
 	result.subscribe((result) => {
 		if (result.data) {
 			const acc = result.data.account_by_pk;
-			if (acc) {
-				const { username, onboardingDone, confirmed, id: accountId } = acc;
-				const { id, firstname, lastname, email } = acc.manager;
-				$account = {
-					type: 'manager',
-					accountId,
-					id,
-					username,
-					onboardingDone,
-					confirmed,
-					firstname,
-					lastname,
-					email,
-				};
+			if (!acc) {
+				goto('/auth/logout');
+			}
+			const { username, onboardingDone, confirmed, id: accountId } = acc;
+			const { id, firstname, lastname, email } = acc.manager;
+			$account = {
+				type: 'manager',
+				accountId,
+				id,
+				username,
+				onboardingDone,
+				confirmed,
+				firstname,
+				lastname,
+				email,
+			};
 
-				if (!onboardingDone && $page.url.pathname !== '/manager/moncompte') {
-					goto('/manager/moncompte');
-				}
+			if (!onboardingDone && $page.url.pathname !== '/manager/moncompte') {
+				goto('/manager/moncompte');
 			}
 		}
 	});

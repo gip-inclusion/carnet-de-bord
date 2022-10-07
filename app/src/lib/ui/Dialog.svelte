@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { DialogOverlay, DialogContent } from 'svelte-accessible-dialog';
-	import { Button } from '$lib/ui/base';
+	import { Button, IconButton } from '$lib/ui/base';
 
-	export let label: string;
+	export let label: string | null = null;
 	export let showButtons = true;
 	export let size: 'small' | 'medium' | 'large' = 'medium';
-	export let buttonLabel: string = label;
+	export let buttonLabel: string | null = label;
 	export let confirmLabel: string = label;
 	export let outlineButton = true;
 	export let buttonIcon: string | null = null;
@@ -52,18 +52,22 @@
 	};
 </script>
 
-<Button
-	icon={buttonIcon}
-	outline={outlineButton}
-	on:click={open}
-	classNames={`${buttonFullWidth ? 'flex-1' : ''} justify-center ${buttonCssClasses}`}
->
-	{#if $$slots.buttonLabel}
-		<slot name="buttonLabel" />
-	{:else}
-		{buttonLabel}
-	{/if}
-</Button>
+{#if buttonLabel}
+	<Button
+		icon={buttonIcon}
+		outline={outlineButton}
+		on:click={open}
+		classNames={`${buttonFullWidth ? 'flex-1' : ''} justify-center ${buttonCssClasses}`}
+	>
+		{#if $$slots.buttonLabel}
+			<slot name="buttonLabel" />
+		{:else}
+			{buttonLabel}
+		{/if}
+	</Button>
+{:else}
+	<IconButton title={label} icon={buttonIcon} on:click={open} class={buttonCssClasses} />
+{/if}
 <DialogOverlay {isOpen} onDismiss={close}>
 	<DialogContent aria-label={title}>
 		<div class="fr-container fr-container--fluid fr-container-md">

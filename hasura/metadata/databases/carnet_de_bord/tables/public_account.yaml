@@ -15,6 +15,8 @@ configuration:
       custom_name: beneficiaryId
     created_at:
       custom_name: createdAt
+    deleted_at:
+      custom_name: deletedAt
     last_login:
       custom_name: lastLogin
     manager_id:
@@ -34,6 +36,7 @@ configuration:
     admin_structure_id: adminStructureId
     beneficiary_id: beneficiaryId
     created_at: createdAt
+    deleted_at: deletedAt
     last_login: lastLogin
     manager_id: managerId
     onboarding_done: onboardingDone
@@ -204,6 +207,7 @@ select_permissions:
         - beneficiary_id
         - confirmed
         - created_at
+        - deleted_at
         - id
         - last_login
         - manager_id
@@ -329,14 +333,17 @@ select_permissions:
         - updated_at
         - username
       filter:
-        _or:
-          - professional:
-              structure:
-                deployment_id:
-                  _eq: X-Hasura-Deployment-Id
-          - orientation_manager:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
+        _and:
+          - _or:
+              - professional:
+                  structure:
+                    deployment_id:
+                      _eq: X-Hasura-Deployment-Id
+              - orientation_manager:
+                  deployment_id:
+                    _eq: X-Hasura-Deployment-Id
+          - deleted_at:
+              _is_null: true
 update_permissions:
   - role: admin_cdb
     permission:
@@ -360,10 +367,17 @@ update_permissions:
       columns:
         - access_key
         - access_key_date
+        - deleted_at
         - onboarding_done
       filter:
-        id:
-          _eq: X-Hasura-User-Id
+        _or:
+          - id:
+              _eq: X-Hasura-User-Id
+          - professional:
+              structure:
+                admins:
+                  admin_structure_id:
+                    _eq: X-Hasura-AdminStructure-Id
       check: null
   - role: beneficiary
     permission:

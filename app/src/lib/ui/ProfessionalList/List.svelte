@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { GetProfessionalsForStructureQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { DeleteAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { IconButton } from '../base';
+	import Dialog from '$lib/ui/Dialog.svelte';
 	import { openComponent } from '$lib/stores';
 	import EditProfessionalAccountLayer from '$lib/ui/ProfessionalList/EditProfessionalAccountLayer.svelte';
+	import { operationStore, mutation } from '@urql/svelte';
 	import { displayFullName } from '../format';
 
 	type Professional = GetProfessionalsForStructureQuery['professional'][0];
@@ -15,6 +18,13 @@
 			props: { professional },
 		});
 	}
+
+	const deleteAccountMutation = operationStore(DeleteAccountDocument);
+	const deleteAccount = mutation(deleteAccountMutation);
+
+	async function removeProfessional(professional: Professional) {
+		await deleteAccount({ accountId: professional.account.id });
+	}
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
@@ -26,7 +36,7 @@
 			<th class="text-left">Email</th>
 			<th class="text-left">Onboarding</th>
 			<th class="text-right">BRSA suivis</th>
-			<th class="text-right">Éditer</th>
+			<th class="text-right">Gérer</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -56,6 +66,20 @@
 						title="Mettre à jour"
 						on:click={() => openEditProfessionalAccountLayer(professional)}
 					/>
+					<Dialog
+						buttonCssClasses="fr-btn--sm fr-btn--tertiary fr-btn--tertiary-no-outline"
+						buttonIcon="fr-icon-delete-bin-line"
+						title="Supprimer"
+						buttonLabel={null}
+						label="Supprimer"
+						on:confirm={() => removeProfessional(professional)}
+					>
+						<p>
+							Vous allez supprimer le compte de
+							<strong>{displayFullName(professional)}</strong>.
+							<br />Veuillez confirmer la suppression.
+						</p>
+					</Dialog>
 				</td>
 			</tr>
 		{/each}

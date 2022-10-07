@@ -12,7 +12,11 @@
 
 	export const load: Load = ({ params }) => {
 		const structureId = params.uuid;
-		const getStructure = operationStore(GetStructureDocument, { structureId });
+		const getStructure = operationStore(
+			GetStructureDocument,
+			{ structureId },
+			{ additionalTypenames: ['professional'] }
+		);
 
 		return {
 			props: {

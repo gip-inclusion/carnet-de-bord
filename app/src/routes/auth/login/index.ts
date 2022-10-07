@@ -72,13 +72,18 @@ export const post: RequestHandler = async ({ request }) => {
 	const emailResult = await client
 		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
 			criteria: {
-				_or: [
-					{ beneficiary: { email: { _eq: username } } },
-					{ professional: { email: { _eq: username } } },
-					{ manager: { email: { _eq: username } } },
-					{ admin: { email: { _eq: username } } },
-					{ admin_structure: { email: { _eq: username } } },
-					{ orientation_manager: { email: { _eq: username } } },
+				_and: [
+					{ deletedAt: { _is_null: true } },
+					{
+						_or: [
+							{ beneficiary: { email: { _eq: username } } },
+							{ professional: { email: { _eq: username } } },
+							{ manager: { email: { _eq: username } } },
+							{ admin: { email: { _eq: username } } },
+							{ admin_structure: { email: { _eq: username } } },
+							{ orientation_manager: { email: { _eq: username } } },
+						],
+					},
 				],
 			},
 		})
