@@ -53,12 +53,17 @@
 		return `Une erreur s'est produite lors de la lecture du fichier.`;
 	}
 
-	function callApi(url: string, data: FormData | string): Promise<Response> {
-		return fetch(`${$session.backendAPI}/${url}`, {
+	function callApi(
+		url: string,
+		data: FormData | string,
+		headers: { [key: string]: string }
+	): Promise<Response> {
+		return fetch(`${$session.backendAPI}${url}`, {
 			method: 'POST',
 			headers: {
 				'jwt-token': $session.token,
 				Accept: 'application/json; version=1.0',
+				...headers,
 			},
 			body: data,
 		});
@@ -85,7 +90,9 @@
 	}
 
 	async function insertStructure(payload: string): Promise<Response> {
-		const response = await callApi('/v1/structures/import', payload);
+		const response = await callApi('/v1/structures/import', payload, {
+			'Content-Type': 'application/json',
+		});
 		if (!response.ok) {
 			const errorMessage = await response.text();
 			console.error(errorMessage);
@@ -105,8 +112,8 @@
 
 	async function handleSubmit(structures: StructureCsvResponse[]) {
 		const payload = JSON.stringify({
-			structures: structures.map(({ data }) => data),
 			sendAccountEmail,
+			structures: structures.map(({ data }) => data),
 		});
 		insertPromise = insertStructure(payload);
 	}
