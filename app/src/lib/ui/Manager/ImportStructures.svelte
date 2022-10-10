@@ -89,8 +89,8 @@
 		if (!response.ok) {
 			const errorMessage = await response.text();
 			console.error(errorMessage);
-			return Promise.reject(
-				new Error(`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`)
+			throw new Error(
+				`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
 			);
 		}
 		return response.json();
