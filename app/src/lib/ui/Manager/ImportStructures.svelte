@@ -56,7 +56,7 @@
 	function callApi(
 		url: string,
 		data: FormData | string,
-		headers: { [key: string]: string }
+		headers: { [key: string]: string } = {}
 	): Promise<Response> {
 		return fetch(`${$session.backendAPI}${url}`, {
 			method: 'POST',
