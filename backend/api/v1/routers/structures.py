@@ -49,7 +49,6 @@ async def create_structures(
     background_tasks: BackgroundTasks,
     db=Depends(connection),
 ):
-    print(data.send_account_email)
     deployment_id = request.state.deployment_id
     result: list[StructureCsvRowResponse] = []
     for structure_row in data.structures:
@@ -98,7 +97,11 @@ async def create_structures(
 
                     account, admin_structure = account_admin_tuple
                     if data.send_account_email:
-                        print("send email")
+                        logging.info(
+                            "sending account creation mail to %s for structure %s",
+                            admin_structure.email,
+                            structure.name,
+                        )
                         background_tasks.add_task(
                             send_invitation_email,
                             email=admin_structure.email,
