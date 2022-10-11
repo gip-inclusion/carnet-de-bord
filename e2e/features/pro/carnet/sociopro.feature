@@ -1,6 +1,5 @@
 #language: fr
 
-@notebook_contract @pro
 Fonctionnalité: Informations sur la situation socioprofessionnelle
 	En tant que pro
 	Je veux voir et mettre à jour les informations de sociopro du bénéficiaire

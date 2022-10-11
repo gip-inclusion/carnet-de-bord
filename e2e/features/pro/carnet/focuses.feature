@@ -1,6 +1,5 @@
 #language: fr
 
-@pro
 Fonctionnalité: Information sur les axes de travail depuis un carnet
 	En tant que pro
 	Je veux avoir des informations sur les axes de travail du carnet

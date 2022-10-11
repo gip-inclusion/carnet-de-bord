@@ -1,6 +1,5 @@
 #language: fr
 
-@rattachement_beneficiaires_via_admin_structure
 Fonctionnalité: Rattachement liste de bénéficiaires
 	Pour permettre aux professionnels de gérer leurs bénéficiaires
 	En tant qu'administrateur de structures

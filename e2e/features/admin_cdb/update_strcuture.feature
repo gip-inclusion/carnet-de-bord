@@ -1,6 +1,5 @@
 #language: fr
 
-@admin_cdb_update_structure
 Fonctionnalité: Modification d'un structure
 	Pour pouvoir garder des informations d'une structure à jour
 	En tant qu'admin de CdB

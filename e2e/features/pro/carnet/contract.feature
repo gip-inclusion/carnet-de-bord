@@ -1,6 +1,5 @@
 #language: fr
 
-@notebook_contract @pro
 Fonctionnalité: Information sur le contrat du bénéficiaire
 	En tant que pro
 	Je veux voir et mettre à jour les informations du contrat du bénéficiaire

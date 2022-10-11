@@ -1,6 +1,5 @@
 #language: fr
 
-@orientation_manager_rattachement
 Fonctionnalité: Assignation d'un chargé d'orientation
 	Pour pouvoir gérer les orientation
 	En tant que chargé d'orientation

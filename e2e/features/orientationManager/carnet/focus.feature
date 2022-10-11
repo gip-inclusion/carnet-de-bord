@@ -1,6 +1,5 @@
 #language: fr
 
-@orientation_manager_focuses
 Fonctionnalité: Information sur les axes de travail depuis un carnet
 	En tant que chargé d'orientation
 	Je veux avoir des informations sur les axes de travail du carnet

@@ -1,6 +1,5 @@
 #language: fr
 
-@onboarding_manager
 Fonctionnalité: Onboarding manager
 	Pour pouvoir finaliser la création de mon compte
 	En tant que manager d'un déploiement

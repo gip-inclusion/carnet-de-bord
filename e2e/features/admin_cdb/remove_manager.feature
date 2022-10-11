@@ -1,6 +1,5 @@
 #language: fr
 
-@remove_admin_pdi
 Fonctionnalité: Suppression d'un manager
 	Pour pouvoir gérer plus facilement l'administration d'un déploiement
 	En tant qu'admininstrateur carnet de bord

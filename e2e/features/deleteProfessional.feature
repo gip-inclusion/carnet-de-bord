@@ -1,6 +1,5 @@
 #language: fr
 
-@admin_structure_delete_pro_account
 Fonctionnalité: Suppression d'un professionnel
 	Pour pouvoir gérer plus facilement l'administration d'une structure
 	En tant que gestionnaire de structure

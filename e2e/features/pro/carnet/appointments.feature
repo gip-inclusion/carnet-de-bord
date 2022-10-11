@@ -1,6 +1,5 @@
 #language: fr
 
-@appointments @pro
 Fonctionnalité: Gestion des RDV bénéficiaires
 	En tant que pro
 	Je veux consulter et gérer les RDV de mes bénéficiaires

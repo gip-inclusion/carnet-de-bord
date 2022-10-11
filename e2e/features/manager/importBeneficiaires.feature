@@ -1,6 +1,5 @@
 #language: fr
 
-@import_beneficiaires
 Fonctionnalité: Import de bénéficiaires
 	Pour pouvoir ajouter de nouveaux bénéficiaires à la plateforme
 	En tant que manager d'un déploiement

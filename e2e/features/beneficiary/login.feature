@@ -1,6 +1,5 @@
 #language: fr
 
-@beneficiary
 Fonctionnalité: login beneficiaire
 	Pour pouvoir voir mon carnet de bord
 	En tant que beneficiaire

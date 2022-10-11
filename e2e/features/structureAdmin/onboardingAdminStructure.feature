@@ -1,6 +1,5 @@
 #language: fr
 
-@onboarding_admin_structure
 Fonctionnalité: Onboarding administrateur de structure
 	Pour pouvoir finaliser la création de mon compte
 	En tant qu'administrateur de structure

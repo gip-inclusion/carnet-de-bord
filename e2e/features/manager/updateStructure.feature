@@ -1,6 +1,5 @@
 #language: fr
 
-@manager_update_structure
 Fonctionnalité: Modification d'un structure
 	Pour pouvoir garder des informations d'une structure à jour
 	En tant que manager

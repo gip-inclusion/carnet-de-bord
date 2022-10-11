@@ -1,6 +1,5 @@
 #language: fr
 
-@orientation_manager_rattachement_beneficiaire
 Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 	Pour pouvoir gérer les orientation
 	En tant que chargé d'orientation

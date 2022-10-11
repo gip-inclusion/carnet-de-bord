@@ -1,6 +1,5 @@
 #language: fr
 
-@import_pro
 Fonctionnalité: Import de professionnels
 	Pour pouvoir inviter des professionnels sur CdB
 	En tant qu'administrateur de structures

@@ -1,6 +1,5 @@
 #language: fr
 
-@import_structures
 Fonctionnalité: Import structures
 	Pour pouvoir ajouter de nouvelles structures à la plateforme
 	En tant que manager d'un déploiement

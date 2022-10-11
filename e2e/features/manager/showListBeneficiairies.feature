@@ -1,6 +1,5 @@
 #language: fr
 
-@admin_structure_beneficiaries_list_view
 Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 	En tant que manager
 	Je veux voir la liste des bénéficiaires
