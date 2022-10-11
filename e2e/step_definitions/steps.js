@@ -2,7 +2,6 @@ const {
 	UUID,
 	loginStub,
 	seedDatabase,
-	setupBeforeFixturesByTags,
 	onBoardingSetup,
 	goToNotebookForLastName,
 	addMember,
@@ -11,7 +10,10 @@ const { Alors, Quand, Soit } = require('./fr');
 
 const { I } = inject();
 
-//
+// The database is seed before each test
+Before(async (params) => {
+	seedDatabase();
+});
 
 Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
@@ -280,11 +282,6 @@ Alors("j'ai téléchargé le fichier {string}", (filename) => {
 
 Quand('je téléverse le fichier {string}', (filename) => {
 	I.attachFile('.dropzone input[type=file]', filename);
-});
-
-Before(async (params) => {
-	seedDatabase();
-	setupBeforeFixturesByTags(params.tags);
 });
 
 Alors('je vois la colonne {string}', (text) => {
