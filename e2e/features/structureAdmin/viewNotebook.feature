@@ -1,10 +1,10 @@
 #language: fr
 
-Fonctionnalité: Consultation d'un carnet par un manager
-	En tant que manager
+Fonctionnalité: Consultation d'un carnet par un gestionnaire de structure
+	En tant que gestionnaire de structure
 	Je veux voir le carnet d'un bénéficiaire
 
-	Scénario: voir un carnet
+	Scénario: voir un carnet par un gestionnaire de structure
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je clique sur "Bénéficiaires non rattachés"
