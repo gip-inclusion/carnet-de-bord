@@ -103,7 +103,7 @@ const validateBody = (body: unknown): body is QueryUser => {
 	return queryUserSchema.isType(body);
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	try {
 		authorizeOnly(['professional'])(request);
 	} catch (e) {

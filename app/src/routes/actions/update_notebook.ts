@@ -52,7 +52,7 @@ type Body = {
 	};
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const { input } = (await request.json()) as Body;
 	try {
 		actionsGuard(request.headers);

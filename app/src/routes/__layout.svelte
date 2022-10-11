@@ -2,7 +2,7 @@
 	import '../app.css';
 
 	import type { Client } from '@urql/core';
-	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
+	import type { LoadEvent, LoadOutput } from '@sveltejs/kit';
 	import redirectUrl from '$lib/utils/redirectUrl';
 	import createClient from '$lib/graphql/createClient';
 	import { offCanvas } from '$lib/stores';
@@ -11,7 +11,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import * as Matomo from '$lib/tracking/matomo';
 
-	export async function load({ url, session }: LoadInput): Promise<LoadOutput> {
+	export async function load({ url, session }: LoadEvent): Promise<LoadOutput> {
 		try {
 			const redirect = redirectUrl(url, session);
 			if (redirect) {

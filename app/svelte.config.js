@@ -21,25 +21,7 @@ const config = {
 				],
 			},
 		},
-		vite: {
-			envDir: '..',
-			optimizeDeps: {
-				//https://formidable.com/open-source/urql/docs/basics/svelte/
-				exclude: ['@urql/svelte', 'matomo-tracker'],
-			},
-			ssr: {
-				// https://github.com/FormidableLabs/urql/issues/1819
-				noExternal: ['@urql/svelte'],
-			},
-			build: {
-				rollupOptions: {
-					external: [/\.test\.(t|j)s$/],
-				},
-			},
-			define: {
-				__version__: JSON.stringify(process.env.npm_package_version),
-			},
-		},
+
 		adapter: adapter({
 			// default options are shown
 			out: 'build',

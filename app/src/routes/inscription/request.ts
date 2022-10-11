@@ -54,7 +54,7 @@ const validateBody = (body: unknown): body is InscriptionRequest => {
 	return inscriptionRequestSchema.isType(body);
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 
 	if (!validateBody(body)) {

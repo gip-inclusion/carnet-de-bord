@@ -13,7 +13,7 @@ import type {
 } from '../actions/update_notebook';
 import type { MarneInput, MarneAction, MarneFocus } from './marne.types';
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const { url, headers, input, accountId, notebookId, focuses } =
 		(await request.json()) as ExternalDeploymentApiBody;
 	try {

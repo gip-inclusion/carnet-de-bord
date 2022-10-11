@@ -28,7 +28,7 @@ const validateBody = (body: unknown): body is CarnetInvitation => {
 	return carnetInvitationSchema.isType(body);
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 
 	if (!validateBody(body)) {

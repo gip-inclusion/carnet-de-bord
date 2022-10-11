@@ -44,7 +44,7 @@ const validateBody = (body: unknown): body is Login => {
  * - try to find an account by email
  * - try to find an account by username (deprecated)
  */
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 	if (!validateBody(body)) {
 		return {

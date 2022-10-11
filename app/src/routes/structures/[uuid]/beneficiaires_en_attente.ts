@@ -5,7 +5,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 import { parse } from 'cookie';
 
-export const get: RequestHandler = async ({ request, params }) => {
+export const GET: RequestHandler = async ({ request, params }) => {
 	console.log('list beneficiary');
 	try {
 		authorizeOnly(['admin_structure'])(request);

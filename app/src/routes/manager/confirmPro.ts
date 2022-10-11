@@ -36,7 +36,7 @@ const validateBody = (body: unknown): body is ConfirmPro => {
 	return confirmProSchema.isType(body);
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	try {
 		authorizeOnly(['manager'])(request);
 	} catch (e) {

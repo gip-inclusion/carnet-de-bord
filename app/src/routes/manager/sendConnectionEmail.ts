@@ -30,7 +30,7 @@ const validateBody = (body: unknown): body is SendConnectionEmail => {
 	return sendConnectionEmailSchema.isType(body);
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	try {
 		authorizeOnly(['manager'])(request);
 	} catch (e) {

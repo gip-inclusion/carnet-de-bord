@@ -36,7 +36,7 @@ const Matomo = new MatomoTracker(getMatomoSiteId(), `${getMatomoUrl()}/matomo.ph
  * - number of notebook with new focus / target / action for the day
  * - number of notebook with 2 members of more
  */
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	try {
 		actionsGuard(request.headers);
 	} catch (error) {
