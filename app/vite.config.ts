@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { plugin } from 'vite-plugin-elm';
 
-/** @type {import('vite').UserConfig} */
 const config = {
 	server: {
 		port: 3000,
@@ -8,7 +8,10 @@ const config = {
 	preview: {
 		port: 3000,
 	},
-	plugins: [sveltekit()],
+	plugins: [
+		sveltekit(),
+		plugin(),
+	],
 	optimizeDeps: {
 		//https://formidable.com/open-source/urql/docs/basics/svelte/
 		exclude: ['@urql/svelte', 'matomo-tracker'],
