@@ -10,5 +10,12 @@
 		"sourceMap": true,
 		"target": "ES2019",
 		"preserveValueImports": false
-	}
+	},
+	"include": [
+		"src/**/*.d.ts",
+		"src/**/*.js",
+		"src/**/*.ts",
+		"src/**/*.svelte",
+		"elm/**/*.d.ts"
+	]
 }
