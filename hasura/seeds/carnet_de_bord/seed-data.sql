@@ -318,6 +318,10 @@ INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at
 INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('8445b9bc-e523-4ff3-91dd-fd11bb413ae5', 'd4bf4811-bbce-4f99-8b57-358187653b59', 'Accéder à l’emploi', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:35:11.636378+00');
 INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('d93cbf83-74f0-4992-ac33-dd563558bc05', 'd4bf4811-bbce-4f99-8b57-358187653b59', 'Accéder à l’emploi 2', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:35:11.636378+00');
 
+-- Focus and target for Lindsay Aguilar's notebook
+INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('5179594a-ccc1-4f1d-90ce-3bd4eeed1160', 'formation', '["Prêt à suivre une formation"]', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '79bc73e3-45d7-467f-ae3e-d395e338386c', '2021-09-21 13:15:54.752334+00', 'cer');
+INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('fc92ff8a-c9db-4016-87b2-73095d463603', '5179594a-ccc1-4f1d-90ce-3bd4eeed1160', 'Se former', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:17:53.594417+00');
+
 INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('2ce91415-b3bb-404f-adec-bbc6ea5af464', '19911b5c-e614-450d-bbeb-eba0d8ae1e18', 'Travailler l’accès aux droits', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 14:55:12.797276+00');
 INSERT INTO public.notebook_action (id, action, target_id, status, creator_id, created_at) VALUES ('3d0dc2b5-3dc8-4f5d-9e82-661299b3d522', 'Avoir un pass IAE validé', '8445b9bc-e523-4ff3-91dd-fd11bb413ae5', 'in_progress', '17434464-5f69-40cc-8172-40160958a33d', '2021-06-08 13:42:53.239372+00');
 INSERT INTO public.notebook_action (id, action, target_id, status, creator_id, created_at) VALUES ('3d0dc2b5-3dc8-4f5d-9e82-661299b3d533', 'Formation certifiante', '8445b9bc-e523-4ff3-91dd-fd11bb413ae5', 'in_progress', 'a501db53-1b79-4a60-860b-5972bd184f98', '2021-07-01 15:34:53.239372+00');
