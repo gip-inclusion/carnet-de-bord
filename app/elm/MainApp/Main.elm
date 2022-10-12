@@ -1,4 +1,4 @@
-port module Main exposing (..)
+port module MainApp.Main exposing (..)
 
 import Browser
 import Html exposing (..)
@@ -76,7 +76,7 @@ subscriptions _ =
 view : Model -> Html Msg
 view _ =
     div []
-        [ text "Hello from Elm" ]
+        [ text "Hello from Main Elm" ]
 
 
 

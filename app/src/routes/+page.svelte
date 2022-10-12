@@ -4,17 +4,20 @@
 
 	import { Link } from '$lib/ui/base';
 
-	import { Elm } from '../../elm/Main.elm';
+	import { Elm } from '../../elm/MainApp/Main.elm';
+	import { Elm as ElmSecond } from '../../elm/SecondApp/Main.elm';
 
 	import { onMount } from 'svelte';
 
 	let node;
+	let nodeSecond;
 	onMount(() => {
-		let app = Elm.Main.init({ node, flags: null });
+		let app = Elm.MainApp.Main.init({ node, flags: null });
 		app.ports.sendMessage.subscribe(function (message) {
 			console.log('Received from Elm: ' + message);
 			app.ports.messageReceiver.send('Msg from Svelte');
 		});
+		ElmSecond.SecondApp.Main.init({ node: nodeSecond, flags: null });
 	});
 </script>
 
@@ -118,6 +121,7 @@
 					>Voir l'actualité de la communauté</Link
 				>
 				<div bind:this={node} />
+				<div bind:this={nodeSecond} />
 			</div>
 		</div>
 		<div class="w-5/12 -mb-8">
