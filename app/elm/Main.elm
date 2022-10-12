@@ -53,11 +53,7 @@ update msg model =
             , sendMessage "Out of elm"
             )
 
-        Recv message ->
-            let
-                _ =
-                    Debug.log "Received by Elm: " message
-            in
+        Recv _ ->
             ( model, Cmd.none )
 
 
