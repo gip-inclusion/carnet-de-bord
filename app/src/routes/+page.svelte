@@ -10,7 +10,11 @@
 
 	let node;
 	onMount(() => {
-		Elm.Main.init({ node });
+		let app = Elm.Main.init({ node });
+		app.ports.sendMessage.subscribe(function (message) {
+			console.log('Received from Elm: ' + message);
+			app.ports.messageReceiver.send('Msg from Svelte');
+		});
 	});
 </script>
 
