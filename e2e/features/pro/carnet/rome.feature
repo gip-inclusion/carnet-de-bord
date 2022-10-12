@@ -5,7 +5,7 @@ Fonctionnalité: Ajout de code ROME dans un carnet de bénéficiaire
 	Je veux pouvoir modifier le code ROME d'un carnet
 
 Scénario: Recherche correcte même avec des trous
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
 	Quand je clique sur "Situation socioprofessionnelle"
 	Quand je clique sur "Mettre à jour" sous le titre "Situation socioprofessionnelle"
 	Alors je vois "Veuillez cliquer sur un champ pour le modifier"
@@ -18,7 +18,7 @@ Scénario: Recherche correcte même avec des trous
 	Alors je vois "Agent / Agente de production laitière (A1302)"
 
 Scénario: Ajout de plusieurs métiers
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
 	Quand je clique sur "Situation socioprofessionnelle"
 	Quand je clique sur "Mettre à jour" sous le titre "Situation socioprofessionnelle"
 	Alors je vois "Veuillez cliquer sur un champ pour le modifier"
