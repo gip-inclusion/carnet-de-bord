@@ -3,9 +3,10 @@ from typing import List
 
 from pydantic import BaseModel
 
+from api.db.crud.account import get_accounts_from_email
 from api.db.crud.beneficiary import get_beneficiary_from_personal_information
 from api.db.crud.rome_code import get_rome_code_by_id
-from api.db.models.beneficiary import BeneficiaryImport
+from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 
 
 async def post(client, token: str, beneficiaries: list[BeneficiaryImport]):
@@ -101,7 +102,7 @@ async def test_insert_beneficiary_check_all_fields(
 ):
     await post(test_client, get_manager_jwt, [harry_covert])
 
-    beneficiary_in_db = await get_beneficiary_from_personal_information(
+    beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.firstname == harry_covert.firstname
@@ -136,6 +137,8 @@ async def test_insert_beneficiary_check_all_fields(
     assert harry_covert.rome_code_description in [
         rome_code.label for rome_code in wanted_jobs
     ]
+    referent = await get_accounts_from_email(db_connection, harry_covert.advisor_email)
+    assert referent[0].id == beneficiary_in_db.notebook.members[0].account_id
 
 
 async def test_update_beneficiary_check_all_fields(
@@ -245,7 +248,7 @@ harry_covert = BeneficiaryImport(
     rome_code_description="Pontier élingueur / Pontière élingueuse (N1104)",
     education_level="level_4",
     structure_name="Pôle emploi de Normandie",
-    advisor_email="",
+    advisor_email="dunord@pole-emploi.fr",
 )
 
 harry_covert_phoneless = BeneficiaryImport(

@@ -42,7 +42,7 @@ async def get_beneficiaries_like(
     deployment_id,
 ) -> list[Beneficiary]:
     matching_beneficiaries: list[Record] = await connection.fetch(
-        f"""
+        """
 SELECT *
 FROM beneficiary
 WHERE (lower(trim(firstname)) = $1 AND lower(trim(lastname)) = $2 AND date_of_birth = $3)
@@ -94,9 +94,9 @@ async def insert_beneficiary(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id,
-):
-    return await connection.fetchrow(
-        f"""
+) -> UUID:
+    created_beneficiary: Record = await connection.fetchrow(
+        """
 INSERT INTO BENEFICIARY (
     firstname,
     lastname,
@@ -131,6 +131,8 @@ returning id
         beneficiary.pe_number,
         beneficiary.email,
     )
+
+    return created_beneficiary["id"]
 
 
 async def get_beneficiary_with_query(
