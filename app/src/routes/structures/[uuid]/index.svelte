@@ -15,7 +15,7 @@
 		const getStructure = operationStore(
 			GetStructureDocument,
 			{ structureId },
-			{ additionalTypenames: ['professional'] }
+			{ additionalTypenames: ['professional', 'beneficiary_structure', 'notebook_member'] }
 		);
 
 		return {
