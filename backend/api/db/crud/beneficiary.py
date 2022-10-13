@@ -11,7 +11,11 @@ from api.db.crud.notebook import (
     NOTEBOOK_BASE_JOINS,
     parse_notebook_from_record,
 )
-from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+from api.db.models.beneficiary import (
+    Beneficiary,
+    BeneficiaryImport,
+    BeneficiaryStructure,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -176,6 +180,48 @@ async def get_beneficiary_from_personal_information(
         lastname,
         birth_date,
     )
+
+
+async def add_beneficiary_to_structure(
+    connection: Connection,
+    beneficiary_id: UUID,
+    structure_id: UUID,
+    status: str,
+) -> UUID:
+    return await connection.fetchrow(
+        """
+INSERT INTO beneficiary_structure (beneficiary_id, structure_id, status)
+VALUES ($1, $2, $3)
+RETURNING id
+        """,
+        beneficiary_id,
+        structure_id,
+        status,
+    )
+
+
+async def get_structures_for_beneficiary(
+    connection: Connection,
+    beneficiary_id: UUID,
+) -> list[BeneficiaryStructure]:
+    rows: list[Record] = await connection.fetch(
+        """
+SELECT (struct.id, struct.name, b_struct.status)
+FROM public.beneficiary_structure AS b_struct
+LEFT JOIN public.structure AS struct
+    ON struct.id = b_struct.structure_id
+WHERE b_struct.beneficiary_id = $1
+        """,
+        beneficiary_id,
+    )
+    return [
+        BeneficiaryStructure(
+            structure_id=row["row"][0],
+            structure_name=row["row"][1],
+            beneficiary_status=row["row"][2],
+        )
+        for row in rows
+    ]
 
 
 async def get_beneficiary_by_id(

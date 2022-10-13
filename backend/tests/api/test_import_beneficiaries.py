@@ -3,8 +3,11 @@ from typing import List
 
 from pydantic import BaseModel
 
-from api.db.crud.account import get_accounts_from_email
-from api.db.crud.beneficiary import get_beneficiary_from_personal_information
+from api.db.crud.beneficiary import (
+    get_beneficiary_from_personal_information,
+    get_structures_for_beneficiary,
+)
+from api.db.crud.professional import get_professional_by_email
 from api.db.crud.rome_code import get_rome_code_by_id
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 
@@ -137,8 +140,10 @@ async def test_insert_beneficiary_check_all_fields(
     assert harry_covert.rome_code_description in [
         rome_code.label for rome_code in wanted_jobs
     ]
-    referent = await get_accounts_from_email(db_connection, harry_covert.advisor_email)
-    assert referent[0].id == beneficiary_in_db.notebook.members[0].account_id
+    referent = await get_professional_by_email(
+        db_connection, harry_covert.advisor_email
+    )
+    assert referent.account_id == beneficiary_in_db.notebook.members[0].account_id
 
 
 async def test_update_beneficiary_check_all_fields(
@@ -170,9 +175,6 @@ async def test_update_beneficiary_check_all_fields(
         beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
     )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
-
-
-#   assert beneficiary_in_db.rome_code_description == harry_covert.rome_code_description
 
 
 async def test_import_multiple_beneficiaries(
@@ -217,7 +219,166 @@ async def test_import_multiple_wanted_jobs(
     assert "Pontier élingueur / Pontière élingueuse (N1104)" in wanted_job_labels
 
 
-# todo test creation / update notebook
+async def test_matched_existing_referent_and_structure(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    await post(test_client, get_manager_jwt, [harry_covert])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    associated_structures = await get_structures_for_beneficiary(
+        db_connection, beneficiary_in_db.id
+    )
+
+    assert associated_structures[0].structure_name == harry_covert.structure_name
+    assert associated_structures[0].beneficiary_status == "done"
+
+    referent = await get_professional_by_email(
+        db_connection, harry_covert.advisor_email
+    )
+
+    assert referent.account_id in [
+        member.account_id
+        for member in beneficiary_in_db.notebook.members
+        if member.member_type == "referent"
+    ]
+
+
+async def test_existing_structure_no_referent(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    harry = harry_covert.copy()
+    harry.advisor_email = None
+    await post(test_client, get_manager_jwt, [harry])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    associated_structures = await get_structures_for_beneficiary(
+        db_connection, beneficiary_in_db.id
+    )
+
+    assert associated_structures[0].structure_name == harry.structure_name
+    assert associated_structures[0].beneficiary_status == "pending"
+
+    assert not beneficiary_in_db.notebook.members
+
+
+async def test_existing_referent_no_structure(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    harry = harry_covert.copy()
+    harry.structure_name = None
+    await post(test_client, get_manager_jwt, [harry])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    associated_structures = await get_structures_for_beneficiary(
+        db_connection, beneficiary_in_db.id
+    )
+    referent = await get_professional_by_email(
+        db_connection, harry_covert.advisor_email
+    )
+
+    assert associated_structures[0].structure_id == referent.structure_id
+    assert associated_structures[0].beneficiary_status == "done"
+
+    assert referent.account_id in [
+        member.account_id
+        for member in beneficiary_in_db.notebook.members
+        if member.member_type == "referent"
+    ]
+
+
+async def test_existing_referent_not_in_existing_structure(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    harry = harry_covert.copy()
+    harry.structure_name = "Service Social Départemental"
+    await post(test_client, get_manager_jwt, [harry])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    associated_structures = await get_structures_for_beneficiary(
+        db_connection, beneficiary_in_db.id
+    )
+
+    assert associated_structures[0].structure_name == harry.structure_name
+    assert associated_structures[0].beneficiary_status == "pending"
+    assert not beneficiary_in_db.notebook.members
+
+
+async def test_non_existing_structure(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    harry = harry_covert.copy()
+    harry.structure_name = "Not an existing Structure"
+    await post(test_client, get_manager_jwt, [harry])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    associated_structures = await get_structures_for_beneficiary(
+        db_connection, beneficiary_in_db.id
+    )
+
+    assert not associated_structures
+    assert not beneficiary_in_db.notebook.members
+
+
+async def test_existing_structure_non_existing_referent(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    harry = harry_covert.copy()
+    harry.advisor_email = "jean.biche@nullepart.fr"
+    await post(test_client, get_manager_jwt, [harry])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    associated_structures = await get_structures_for_beneficiary(
+        db_connection, beneficiary_in_db.id
+    )
+
+    assert associated_structures[0].structure_name == harry.structure_name
+    assert associated_structures[0].beneficiary_status == "pending"
+    assert not beneficiary_in_db.notebook.members
+
+
+async def test_no_structure_non_existing_referent(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    harry = harry_covert.copy()
+    harry.structure_name = None
+    harry.advisor_email = "jean.biche@nullepart.fr"
+    await post(test_client, get_manager_jwt, [harry])
+
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    associated_structures = await get_structures_for_beneficiary(
+        db_connection, beneficiary_in_db.id
+    )
+
+    assert not associated_structures
+    assert not beneficiary_in_db.notebook.members
 
 
 class ListOf(BaseModel):
@@ -247,7 +408,7 @@ harry_covert = BeneficiaryImport(
     geographical_area="between_20_30",
     rome_code_description="Pontier élingueur / Pontière élingueuse (N1104)",
     education_level="level_4",
-    structure_name="Pôle emploi de Normandie",
+    structure_name="Pole Emploi Agence Livry-Gargnan",
     advisor_email="dunord@pole-emploi.fr",
 )
 

@@ -6,6 +6,12 @@ from pydantic import BaseModel, Field, validator
 from api.db.models.notebook import Notebook
 
 
+class BeneficiaryStructure(BaseModel):
+    structure_id: UUID
+    structure_name: str
+    beneficiary_status: str
+
+
 class Beneficiary(BaseModel):
     id: UUID
     email: str | None

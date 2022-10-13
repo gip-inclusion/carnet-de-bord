@@ -15,5 +15,6 @@ class ProfessionalInsert(BaseModel):
 
 class Professional(ProfessionalInsert):
     id: UUID
+    account_id: UUID
     created_at: datetime
     updated_at: datetime
