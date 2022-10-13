@@ -1,12 +1,11 @@
 #language: fr
 
-@admin_cdb_update_structure
 Fonctionnalité: Modification d'un structure
 	Pour pouvoir garder des informations d'une structure à jour
 	En tant qu'admin de CdB
 	Je veux pouvoir modifier à les informations d'une structure
 
-	Scénario: Mise à jour d'une structure
+	Scénario: Mise à jour d'une structure par l'administrateur CdB
 		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
 		Quand je clique sur "expérimentation 51"
 		Alors je vois "1" dans la tuile "Structures"

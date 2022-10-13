@@ -1,6 +1,5 @@
 #language: fr
 
-@pro
 Fonctionnalité: Recherche de bénéficiaires sur l'accueil
 	En tant que pro
 	Je veux pouvoir rechercher les bénéficiaires que je suis et accéder à leur carnet

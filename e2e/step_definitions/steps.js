@@ -1,8 +1,7 @@
 const {
 	UUID,
 	loginStub,
-	setupBeforeFixturesByTags,
-	setupAfterFixturesByTags,
+	seedDatabase,
 	onBoardingSetup,
 	goToNotebookForLastName,
 	addMember,
@@ -11,7 +10,10 @@ const { Alors, Quand, Soit } = require('./fr');
 
 const { I } = inject();
 
-//
+// The database is seed before each test
+Before(async (params) => {
+	seedDatabase();
+});
 
 Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
@@ -280,20 +282,6 @@ Alors("j'ai téléchargé le fichier {string}", (filename) => {
 
 Quand('je téléverse le fichier {string}', (filename) => {
 	I.attachFile('.dropzone input[type=file]', filename);
-});
-
-/**
- * Dans ce hook, qui se lance après chaque test,
- * on peut executer des mutations afin de supprimer
- * les données générés suite aux tests.
- */
-
-Before(async (params) => {
-	setupBeforeFixturesByTags(params.tags);
-});
-
-After((params) => {
-	setupAfterFixturesByTags(params.tags);
 });
 
 Alors('je vois la colonne {string}', (text) => {

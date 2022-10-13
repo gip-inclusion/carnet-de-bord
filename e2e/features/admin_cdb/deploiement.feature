@@ -1,6 +1,5 @@
 #language: fr
 
-@deploiement
 Fonctionnalité: Parcours Admin CdB
 	Pour pouvoir ajouter un nouveau conseil départemental
 	En tant qu'admin de CdB

@@ -1,6 +1,5 @@
 #language: fr
 
-@modifier_rattachement_beneficiaire
 Fonctionnalité: Rattachement pro
 	Pour pouvoir gérer les réorientation
 	En tant que manager d'un déploiement

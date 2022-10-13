@@ -1,6 +1,5 @@
 #language: fr
 
-@add_admin_pdi
 Fonctionnalité: Ajout d'un manager
 	Pour pouvoir gérer plus facilement l'administration d'un déploiement
 	En tant qu'admininstrateur carnet de bord

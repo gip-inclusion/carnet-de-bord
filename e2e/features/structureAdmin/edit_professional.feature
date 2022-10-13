@@ -1,6 +1,5 @@
 #language: fr
 
-@manager_update_structure
 Fonctionnalité: Modification d'un professionnel
 	Pour pouvoir gérer plus facilement l'administration d'une structure
 	En tant que gestionnaire de structure

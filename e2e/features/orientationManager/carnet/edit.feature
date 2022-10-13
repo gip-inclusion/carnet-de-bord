@@ -1,6 +1,5 @@
 #language: fr
 
-@orientation_manager_notebook_edit
 Fonctionnalité: Mise à jour du carnet par un chargé d'orientation
 	En tant que chargé d'orientaion assigné
 	Je veux voir et mettre à jour les informations de sociopro du bénéficiaire

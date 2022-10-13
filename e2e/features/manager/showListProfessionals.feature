@@ -1,6 +1,5 @@
 #language: fr
 
-@admin_structure_professionals_list_view
 Fonctionnalité: Consultation de la liste des professionnels par un administrateur de structure
 	En tant qu'administrateur de structure
 	Je veux voir la liste des professionnels de la structure

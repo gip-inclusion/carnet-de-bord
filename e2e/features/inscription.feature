@@ -1,6 +1,5 @@
 #language: fr
 
-@inscription
 Fonctionnalité: Inscription
 	Pour pouvoir utiliser le carnet de bord
 	En tant que Professionnel

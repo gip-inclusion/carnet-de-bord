@@ -1,6 +1,5 @@
 #language: fr
 
-@orientation_manager_notebook_members
 Fonctionnalité: Ajout d'un membre dans le carnet par un chargé d'orientation
 	En tant que chargé d'orientaion assigné
 	Je veux ajouter un accompagnant dans le groupe de suivi du bénéficiaire

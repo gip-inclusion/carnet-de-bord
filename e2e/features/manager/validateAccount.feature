@@ -1,6 +1,5 @@
 #language: fr
 
-@professionnel_view
 Fonctionnalité: Gestion de professionnels d'un déploiement
 	Pour pouvoir gérer les professionnels de la plateforme
 	En tant que manager d'un déploiement

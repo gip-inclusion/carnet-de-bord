@@ -1,6 +1,5 @@
 #language: fr
 
-@pro
 Fonctionnalité: Login pro
 	En tant que pro
 	Je veux pouvoir me connecter et voir ma page d'accueil

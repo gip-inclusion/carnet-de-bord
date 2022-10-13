@@ -1,6 +1,5 @@
 #language: fr
 
-@import_orientation_manager
 Fonctionnalité: Import des chargés d'orientation
 	Pour pouvoir ajouter de nouveaux chargés d'orientation à la plateforme
 	En tant que manager d'un déploiement

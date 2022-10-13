@@ -1,6 +1,5 @@
 #language: fr
 
-@onboarding_orientation_manager
 Fonctionnalité: Onboarding chargé d'orientation
 	Pour pouvoir finaliser la création de mon compte
 	En tant que chargé d'orientation
