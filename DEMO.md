@@ -31,7 +31,7 @@ Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la 
 
 ## Compte chargé d'orientation (role: orientation_manager)
 | username | email |  onboarding |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | giulia.diaby | giulia.diaby@cd93.fr | non |
 
 ## Compte d'accompagnant (role: professional)
