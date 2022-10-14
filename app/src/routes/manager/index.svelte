@@ -12,7 +12,11 @@
 	import UpdateNotebookMembers from '$lib/ui/Manager/UpdateNotebookMembers.svelte';
 	import ImportOrientationManager from '$lib/ui/Manager/ImportOrientationManager.svelte';
 	const deploymentId = $session.user.deploymentId;
-	const result = operationStore(GetDeploymentInfosDocument, { id: deploymentId });
+	const result = operationStore(
+		GetDeploymentInfosDocument,
+		{ id: deploymentId },
+		{ additionalTypenames: ['structure', 'professional', 'beneficiary'] }
+	);
 	query(result);
 
 	$: deploymentInfo = $result.data;
