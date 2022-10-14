@@ -1,4 +1,3 @@
-import type { Action } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import crypto from 'crypto';
 
@@ -44,18 +43,12 @@ const validateBody = (body: unknown): body is Login => {
  * - try to find an account by email
  * - try to find an account by username (deprecated)
  */
-export const POST: Action = async ({ request }) => {
+export const POST = async ({ request }) => {
 	const body = await request.json();
 	if (!validateBody(body)) {
 		throw new Error(
 			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
 		);
-		return {
-			status: 400,
-			body: {
-				errors: 'INVALID_BODY',
-			},
-		};
 	}
 
 	const { username } = body;
@@ -67,12 +60,6 @@ export const POST: Action = async ({ request }) => {
 		throw new Error(
 			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
 		);
-		return {
-			status: 500,
-			body: {
-				error: 'SERVER_ERROR',
-			},
-		};
 	}
 
 	const emailResult = await client
@@ -109,12 +96,6 @@ export const POST: Action = async ({ request }) => {
 			throw new Error(
 				'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
 			);
-			return {
-				status: 401,
-				body: {
-					errors: 'USER_NOT_FOUND',
-				},
-			};
 		}
 
 		if (!usernameResult.data || usernameResult.data.account.length === 0) {
@@ -123,12 +104,6 @@ export const POST: Action = async ({ request }) => {
 			throw new Error(
 				'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
 			);
-			return {
-				status: 401,
-				body: {
-					errors: 'USER_NOT_FOUND',
-				},
-			};
 		}
 
 		// otherwise, we have a winner
@@ -144,12 +119,6 @@ export const POST: Action = async ({ request }) => {
 		throw new Error(
 			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
 		);
-		return {
-			status: 403,
-			body: {
-				errors: 'ACCOUNT_NOT_CONFIRMED',
-			},
-		};
 	}
 
 	const { id, beneficiary, manager, admin, professional, admin_structure, orientation_manager } =
@@ -168,12 +137,6 @@ export const POST: Action = async ({ request }) => {
 		throw new Error(
 			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
 		);
-		return {
-			status: 500,
-			body: {
-				errors: 'SERVER_ERROR',
-			},
-		};
 	}
 	const accessKey = result.data.account.accessKey;
 	const { firstname, lastname, email } = user;
@@ -206,14 +169,6 @@ export const POST: Action = async ({ request }) => {
 	throw new Error(
 		'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
 	);
-	return {
-		status: 200,
-
-		body: {
-			email,
-			...{ accessUrl: process.env['SANDBOX_LOGIN'] ? `/auth/jwt/${accessKey}` : null },
-		},
-	};
 };
 
 async function createBeneficiaryIfNotExist(username: string) {

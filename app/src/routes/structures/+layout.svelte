@@ -1,34 +1,9 @@
-<script context="module" lang="ts">
-	throw new Error(
-		'@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)'
-	);
-
-	// import type { GetAccountByPkQuery } from '$lib/graphql/_gen/typed-document-nodes';
-	// import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	// import type { Load } from '@sveltejs/kit';
-	// import type { OperationStore } from '@urql/svelte';
-	// import { operationStore, query } from '@urql/svelte';
-	// import { getCrispWebsiteId } from '$lib/config/variables/public';
-	// import Crisp from '$lib/chat/Crisp.svelte';
-	// const CRISP_WEBSITE_ID = getCrispWebsiteId();
-
-	// export const load: Load = async ({ session }) => {
-	// 	const accountId = session.user.id;
-	// 	const result = operationStore(GetAccountByPkDocument, { accountId });
-
-	// 	return {
-	// 		props: {
-	// 			result,
-	// 		},
-	// 	};
-	// };
-</script>
-
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
+	import { GetAccountByPkDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { operationStore, query } from '@urql/svelte';
+	import { getCrispWebsiteId } from '$lib/config/variables/public';
+	import Crisp from '$lib/chat/Crisp.svelte';
+	const CRISP_WEBSITE_ID = getCrispWebsiteId();
 	import { account } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 	import Footer from '$lib/ui/base/Footer.svelte';
@@ -39,7 +14,10 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { homeForRole } from '$lib/routes';
 
-	export let result: OperationStore<GetAccountByPkQuery>;
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+	const result = operationStore(GetAccountByPkDocument, { accountId: data.accountId });
 
 	query(result);
 

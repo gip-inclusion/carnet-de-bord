@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { crispData } from '$lib/stores';
 	import { displayFullName } from '$lib/ui/format';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 	export let websiteId: string;
 
 	let unsubscribe: () => void;

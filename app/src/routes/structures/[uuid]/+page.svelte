@@ -42,7 +42,7 @@
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import ProfessionalsImport from '$lib/ui/AdminStructure/ImportProfessionals.svelte';
 	import ImportNotebookMembers from '$lib/ui/AdminStructure/ImportNotebookMembers.svelte';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 	import { pluralize } from '$lib/helpers';
 	import { openComponent } from '$lib/stores';
 	import AddAdminStructureLayer from '$lib/ui/AdminStructure/AddAdminStructureLayer.svelte';

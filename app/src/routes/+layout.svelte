@@ -1,63 +1,21 @@
-<script context="module" lang="ts">
-	throw new Error(
-		'@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)'
-	);
-
-	// import '../app.css';
-
-	// import type { Client } from '@urql/core';
-	// import type { LoadEvent, LoadOutput } from '@sveltejs/kit';
-	// import redirectUrl from '$lib/utils/redirectUrl';
-	// import createClient from '$lib/graphql/createClient';
-	// import { offCanvas } from '$lib/stores';
-	// import * as yup from 'yup';
-	// import * as yupFrLocale from '$lib/utils/yupFrLocale';
-	// import { onDestroy, onMount } from 'svelte';
-	// import * as Matomo from '$lib/tracking/matomo';
-
-	// export async function load({ url, session }: LoadEvent): Promise<LoadOutput> {
-	// 	try {
-	// 		const redirect = redirectUrl(url, session);
-	// 		if (redirect) {
-	// 			return {
-	// 				status: 302,
-	// 				redirect,
-	// 			};
-	// 		}
-	// 	} catch (error) {
-	// 		return {
-	// 			status: 302,
-	// 			redirect: '/auth/logout',
-	// 		};
-	// 	}
-
-	// 	const client: Client = createClient(session);
-
-	// 	return {
-	// 		props: {
-	// 			client,
-	// 		},
-	// 	};
-	// }
-	// yup.setLocale(yupFrLocale);
-</script>
-
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
-	import { page } from '$app/stores';
-	import { browser } from '$app/env';
-	import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
+	import '../app.css';
 	import { setClient } from '@urql/svelte';
+	import type { Client } from '@urql/core';
 	// DSFR Assets
 	import appleTouchFavicon from '@gouvfr/dsfr/dist/favicon/apple-touch-icon.png';
 	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
 	import icoFavicon from '@gouvfr/dsfr/dist/favicon/favicon.ico';
 	import manifest from '@gouvfr/dsfr/dist/favicon/manifest.webmanifest';
+	import { onDestroy, onMount } from 'svelte';
+	import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
+	import * as Matomo from '$lib/tracking/matomo';
+	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
+	import createClient from '$lib/graphql/createClient';
 
-	export let client: Client;
+	export let data;
+	const client: Client = createClient(data.graphqlAPI, data.token);
 	setClient(client);
 
 	const MATOMO_URL = getMatomoUrl();
@@ -67,6 +25,7 @@
 	let unsubscribe: () => void;
 
 	onMount(async () => {
+		console.log('coucocuoucou');
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
 		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
 
@@ -106,11 +65,11 @@
 		}, 100);
 	});
 
-	onDestroy(unsubscribe);
+	// onDestroy(unsubscribe);
 </script>
 
 <svelte:head>
-	{#if $offCanvas}
+	<!-- {#if $offCanvas}
 		<style>
 			body {
 				height: 100vh;
@@ -118,7 +77,7 @@
 				padding-right: var(--scrollbarWidth);
 			}
 		</style>
-	{/if}
+	{/if} -->
 	<link rel="apple-touch-icon" href={appleTouchFavicon} />
 	<!-- 180×180 -->
 	<link rel="icon" href={svgFavicon} type="image/svg+xml" />
