@@ -1,3 +1,10 @@
+# [1.151.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.150.0...v1.151.0) (2022-10-14)
+
+
+### Features
+
+* **data:** remove rqth from situations ([#1163](https://github.com/SocialGouv/carnet-de-bord/issues/1163)) ([450e61e](https://github.com/SocialGouv/carnet-de-bord/commit/450e61e2300e53b6ecb952577e7eceddcfe6c2be))
+
 # [1.150.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.149.0...v1.150.0) (2022-10-07)
 
 
