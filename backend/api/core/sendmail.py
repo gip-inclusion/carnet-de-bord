@@ -23,7 +23,7 @@ def send_mail(to: str, subject: str, message: str) -> None:
     part1 = MIMEText(html, "html")
 
     msg.attach(part1)
-    s = smtplib.SMTP(settings.smtp_host, settings.smtp_port)
+    s = smtplib.SMTP(settings.smtp_host, int(settings.smtp_port))
 
     s.set_debuglevel(True)
 
@@ -34,7 +34,15 @@ def send_mail(to: str, subject: str, message: str) -> None:
         s.login(settings.smtp_user, settings.smtp_pass)
     try:
         s.sendmail(msg["From"], msg["To"], msg.as_string())
-    except Exception as e:
-        logging.error("send mail error", e)
+    except smtplib.SMTPRecipientsRefused as err:
+        logging.error("sendmail error: %s", err)
+    except smtplib.SMTPHeloError as err:
+        logging.error("sendmail error: %s", err)
+    except smtplib.SMTPSenderRefused as err:
+        logging.error("sendmail error: %s", err)
+    except smtplib.SMTPDataError as err:
+        logging.error("sendmail error: %s", err)
+    except smtplib.SMTPNotSupportedError as err:
+        logging.error("send mail error %s", err)
     finally:
         s.quit()

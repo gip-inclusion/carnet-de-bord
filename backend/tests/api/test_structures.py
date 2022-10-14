@@ -1,86 +1,153 @@
-async def test_structure_parse_csv(
+from unittest import mock
+
+from asyncpg.connection import Connection
+
+from api.db.crud.account import get_accounts_from_email
+from api.db.crud.admin_structure import get_admin_structure_by_email
+from api.db.crud.structure import get_structure_by_name
+
+ENDPOINT_PATH = "/v1/structures/import"
+
+
+@mock.patch("api.v1.routers.structures.send_invitation_email")
+async def test_structure_import_json(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
-    csv_structure_filepath,
-    get_manager_jwt,
+    import_structures_json: list[dict],
+    get_manager_jwt: str,
+    db_connection: Connection,
 ):
-    with open(csv_structure_filepath, "rb") as file:
-        response = test_client.post(
-            "/v1/convert-file/structures",
-            files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
-        )
 
-        data = response.json()
-        assert response.status_code == 200
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={"structures": import_structures_json},
+        headers={"jwt-token": f"{get_manager_jwt}"},
+    )
+
+    data = response.json()
+    structure_with_errors = [
+        structure for structure in data if structure["valid"] is False
+    ]
+    assert response.status_code == 200
+    assert len(structure_with_errors) == 0
+
+    structure = await get_structure_by_name(db_connection, "ins'Hair")
+    assert structure
+    admin = await get_admin_structure_by_email(db_connection, "admin@inshair.fr")
+    assert admin
+    [account] = await get_accounts_from_email(db_connection, "admin@inshair.fr")
+    assert account
+
+    mock_send_invitation_mail.assert_called_once()
+    mock_send_invitation_mail.assert_called_once_with(
+        email="admin@inshair.fr",
+        access_key=account.access_key,
+        firstname=None,
+        lastname=None,
+    )
 
 
-async def test_structure_parse_csv_with_error(
+@mock.patch("api.v1.routers.structures.send_invitation_email")
+async def test_structure_with_buggy_import_json(
+    mock_send_invitation_mail: mock.Mock,
     test_client,
-    csv_structure_buggy_filepath,
-    get_manager_jwt,
+    import_structures_json_with_errors: list[dict],
+    get_manager_jwt: str,
+    db_connection: Connection,
 ):
-    with open(csv_structure_buggy_filepath, "rb") as file:
-        response = test_client.post(
-            "/v1/convert-file/structures",
-            files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
-        )
-        data = response.json()
 
-        structure_with_errors = [
-            structure for structure in data if structure["valid"] is False
-        ]
-        assert len(structure_with_errors) == 3
-        assert structure_with_errors[0]["errors"][0]["key"] == "Nom"
-        assert (
-            structure_with_errors[0]["errors"][0]["error"]
-            == "none is not an allowed value"
-        )
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={"structures": import_structures_json_with_errors},
+        headers={"jwt-token": f"{get_manager_jwt}"},
+    )
 
-        assert len(structure_with_errors[1]["errors"]) == 3
-        assert structure_with_errors[1]["errors"][0]["key"] == "Site web"
-        assert (
-            structure_with_errors[1]["errors"][0]["error"]
-            == "invalid or missing URL scheme"
-        )
-        assert structure_with_errors[1]["errors"][1]["key"] == "Courriel"
-        assert (
-            structure_with_errors[1]["errors"][1]["error"]
-            == "value is not a valid email address"
-        )
-        assert structure_with_errors[1]["errors"][2]["key"] == "Courriel responsable"
-        assert (
-            structure_with_errors[1]["errors"][2]["error"]
-            == "value is not a valid email address"
-        )
-
-        assert len(structure_with_errors[2]["errors"]) == 2
-        assert structure_with_errors[2]["errors"][0]["key"] == "Site web"
-        assert (
-            structure_with_errors[2]["errors"][0]["error"]
-            == "invalid or missing URL scheme"
-        )
-        assert structure_with_errors[2]["errors"][1]["key"] == "Courriel responsable"
-        assert (
-            structure_with_errors[2]["errors"][1]["error"]
-            == "value is not a valid email address"
-        )
+    data = response.json()
+    assert response.status_code == 422
 
 
-async def test_structure_parse_csv_with_missing_column_should_not_fail(
+@mock.patch("api.v1.routers.structures.insert_structure", return_value=None)
+async def test_structure_with_fail_structure_insert(
+    mock_insert_structure: mock.Mock,
     test_client,
-    csv_structure_missing_key_filepath,
-    get_manager_jwt,
+    import_structures_json: list[dict],
+    get_manager_jwt: str,
 ):
-    with open(csv_structure_missing_key_filepath, "rb") as file:
-        response = test_client.post(
-            "/v1/convert-file/structures",
-            files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
-        )
-        data = response.json()
 
-        structure_with_errors = [
-            structure for structure in data if structure["valid"] is False
-        ]
-        assert len(structure_with_errors) == 0
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={"structures": import_structures_json},
+        headers={"jwt-token": f"{get_manager_jwt}"},
+    )
+
+    data = response.json()
+    structure_with_errors = [
+        structure for structure in data if structure["valid"] is False
+    ]
+    assert response.status_code == 200
+    structure_name = import_structures_json[0]["name"]
+    assert (
+        structure_with_errors[0]["errors"][0]["error"]
+        == f"import structure {structure_name}: insert structure failed"
+    )
+    assert len(structure_with_errors) == 1
+
+
+@mock.patch(
+    "api.v1.routers.structures.create_admin_structure_with_account", return_value=None
+)
+async def test_structure_with_fail_admin_insert(
+    mock_create_admin_structure_with_account: mock.Mock,
+    test_client,
+    import_structures_json: list[dict],
+    get_manager_jwt: str,
+):
+
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={"structures": import_structures_json},
+        headers={"jwt-token": f"{get_manager_jwt}"},
+    )
+
+    data = response.json()
+    structure_with_errors = [
+        structure for structure in data if structure["valid"] is False
+    ]
+    assert response.status_code == 200
+    structure_name = import_structures_json[0]["name"]
+    assert (
+        structure_with_errors[0]["errors"][0]["error"]
+        == f"import structure {structure_name}: insert structure admin failed"
+    )
+    assert len(structure_with_errors) == 1
+
+
+@mock.patch(
+    "api.v1.routers.structures.insert_admin_structure_structure", return_value=None
+)
+@mock.patch("api.v1.routers.structures.send_invitation_email")
+async def test_structure_with_fail_admin_structure_structure_insert(
+    mock_create_admin_structure_with_account: mock.Mock,
+    mock_send_invitation_email: mock.Mock,
+    test_client,
+    import_structures_json: list[dict],
+    get_manager_jwt: str,
+):
+
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={"structures": import_structures_json},
+        headers={"jwt-token": f"{get_manager_jwt}"},
+    )
+
+    data = response.json()
+    structure_with_errors = [
+        structure for structure in data if structure["valid"] is False
+    ]
+    assert response.status_code == 200
+    structure_name = import_structures_json[0]["name"]
+    assert (
+        structure_with_errors[0]["errors"][0]["error"]
+        == f"import structure {structure_name}: add admin structure to structure failed"
+    )
+    assert len(structure_with_errors) == 1

@@ -241,3 +241,44 @@ def get_admin_cdb_jwt() -> str:
 @pytest.fixture
 def get_professionnal_jwt() -> str:
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsicHJvZmVzc2lvbmFsIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InByb2Zlc3Npb25hbCIsIngtaGFzdXJhLXVzZXItaWQiOiIxNzQzNDQ2NC01ZjY5LTQwY2MtODE3Mi00MDE2MDk1OGEzM2QiLCJ4LWhhc3VyYS1wcm9mZXNzaW9uYWwtaWQiOiIxYTViODE3Yi02YjgxLTRhNGQtOTk1My0yNjcwN2E1NGUwZTkiLCJ4LWhhc3VyYS1kZXBsb3ltZW50LWlkIjoiNGRhYjgwMzYtYTg2ZS00ZDVmLTliZDQtNmNlODhjMTk0MGQwIn0sImlkIjoiMTc0MzQ0NjQtNWY2OS00MGNjLTgxNzItNDAxNjA5NThhMzNkIiwicm9sZSI6InByb2Zlc3Npb25hbCIsInByb2Zlc3Npb25hbElkIjoiMWE1YjgxN2ItNmI4MS00YTRkLTk5NTMtMjY3MDdhNTRlMGU5IiwiZGVwbG95bWVudElkIjoiNGRhYjgwMzYtYTg2ZS00ZDVmLTliZDQtNmNlODhjMTk0MGQwIiwiaWF0IjoxNjYxODY2NzkzLCJleHAiOjE5Nzc0NDI3OTMsInN1YiI6IjE3NDM0NDY0LTVmNjktNDBjYy04MTcyLTQwMTYwOTU4YTMzZCJ9.sSj94JD2BvBjjUttMhfNQnVwvj6vOWnKW3Vkkbsskxs"
+
+
+@pytest.fixture
+def import_structures_json() -> list[dict]:
+    return [
+        {
+            "name": "ins'Hair",
+            "short_desc": "l'insertion par la coiffure",
+            "postal_code": "93001",
+            "city": "Livry Gargan",
+            "admin_email": "admin@inshair.fr",
+        },
+    ]
+
+
+@pytest.fixture
+def import_structures_json_with_errors() -> list[dict]:
+    return [
+        {
+            "name": "ins'Hair",
+            "short_desc": "l'insertion par la coiffure",
+            "postal_code": "93001",
+            "city": "Livry Gargan",
+            "admin_email": "admin@inshair.fr",
+        },
+        {
+            "name": "test",
+            "postal_code": "93001",
+            "admin_email": "admin@test93.fr",
+        },
+    ]
+
+
+@pytest.fixture
+def deployment_id_cd93() -> UUID:
+    return UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0")
+
+
+@pytest.fixture
+def structure_id_pe_livry() -> UUID:
+    return UUID("a81bc81b-dead-4e5d-abff-90865d1e13b2")

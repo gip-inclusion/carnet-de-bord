@@ -8,7 +8,7 @@ mutation updateStructure(
   $shortDesc: String
   $siret: String
   $phone: String
-  $name: String
+  $name: citext
   $email: String
 ) {
   update_structure_by_pk(

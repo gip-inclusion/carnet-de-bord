@@ -25,6 +25,11 @@ class AccountDB(BaseModel):
     updated_at: datetime
 
 
+class AccountDBWithAccessKey(AccountDB):
+    access_key: UUID
+    access_key_date: datetime
+
+
 class AccountInfo(BaseModel):
     account_id: UUID
     firstname: str
