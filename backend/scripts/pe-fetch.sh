@@ -23,7 +23,7 @@ sftp -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE/$MAIN_FILE .
 
 # sftp -i ./pe_server.pem $PE_SERVER_URL:/OI33SPIE/actions .
 
-openssl smime -decrypt -in principal -binary -inform DEM -inkey pe_file.pem -out principal.csv
+openssl smime -decrypt -in $MAIN_FILE -binary -inform DEM -inkey pe_file.pem -out principal.csv
 # openssl smime -decrypt -in actions -binary -inform DEM -inkey pe_file.pem -out actions.csv
 
 echo "fichier principal: $(wc -l principal.csv) lignes"
