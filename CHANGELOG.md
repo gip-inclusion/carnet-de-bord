@@ -1,3 +1,10 @@
+# [1.152.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.151.1...v1.152.0) (2022-10-14)
+
+
+### Features
+
+* **backend:**  nouvelle route d'api d'import des structures  ([#1158](https://github.com/SocialGouv/carnet-de-bord/issues/1158)) ([9fb7941](https://github.com/SocialGouv/carnet-de-bord/commit/9fb79414ed9b534726eecc16d65d3bde6ce739e2))
+
 ## [1.151.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.151.0...v1.151.1) (2022-10-14)
 
 
