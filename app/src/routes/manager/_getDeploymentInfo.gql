@@ -9,7 +9,7 @@ query GetDeploymentInfos($id: uuid!) {
 	}
 	beneficiariesWithNoStructure: beneficiary_aggregate(
 		where: {
-			_and: [
+			_or: [
 				{ _not: { structures: {} } }
 				{ notebook: { members: { _not: { active: { _eq: true } } } } }
 			]
