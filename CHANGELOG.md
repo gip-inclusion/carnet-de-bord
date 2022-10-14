@@ -1,3 +1,10 @@
+## [1.151.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.151.0...v1.151.1) (2022-10-14)
+
+
+### Bug Fixes
+
+* **data:** recupération correcte du dernier fichier PE ([#1176](https://github.com/SocialGouv/carnet-de-bord/issues/1176)) ([557f2fe](https://github.com/SocialGouv/carnet-de-bord/commit/557f2fe0cafc30f1cf3e20bde99f53fbb32784b6))
+
 # [1.151.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.150.0...v1.151.0) (2022-10-14)
 
 
