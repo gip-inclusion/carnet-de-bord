@@ -20,7 +20,7 @@ async def test_structure_import_json(
 
     response = test_client.post(
         ENDPOINT_PATH,
-        json={"structures": import_structures_json},
+        json={"structures": import_structures_json, "sendAccountEmail": True},
         headers={"jwt-token": f"{get_manager_jwt}"},
     )
 

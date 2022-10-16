@@ -58,7 +58,7 @@ class StructureInputRow(BaseModel):
     @validator("siret", allow_reuse=True)
     def must_be_a_valid_siret(cls, value: str) -> str:
         if value and not validate_luhn(value):
-            raise ValueError(f"{value} not a valid siret")
+            raise ValueError("value is not a valid siret")
         return value
 
     @validator("postal_code", allow_reuse=True)
@@ -68,28 +68,31 @@ class StructureInputRow(BaseModel):
         if (
             value[0:2] == "00"
         ):  ## Les 2 premiers digits correspondent au numéro de departement, 00 n'est donc pas valide
-            raise ValueError(f"{value} not a valid postal code")
+            raise ValueError("value is not a valid postal code")
         if not re.match("^[0-9]{5}$", value):
-            raise ValueError(f"{value} not a valid postal code")
+            raise ValueError("value is not a valid postal code")
         return value
 
-    @validator("phone", allow_reuse=True)
+    @validator("phone", "admin_phone_number", allow_reuse=True)
     def must_be_a_valid_phone(cls, value: str) -> str:
         if not value:
             return value
 
-        try:
-            return ", ".join(
-                [
-                    phonenumbers.format_number(
-                        phonenumbers.parse(phone, "FR"),
-                        phonenumbers.PhoneNumberFormat.E164,
-                    )
-                    for phone in value.split(",")
-                ]
-            )
-        except Exception as exc:
-            raise ValueError("not a valid phone number") from exc
+        for phone in value.split(","):
+            parsed_number = phonenumbers.parse(phone, "FR")
+
+            if not phonenumbers.is_possible_number(parsed_number):
+                raise ValueError("value is not a valid phone number")
+
+        return ", ".join(
+            [
+                phonenumbers.format_number(
+                    phonenumbers.parse(phone, "FR"),
+                    phonenumbers.PhoneNumberFormat.E164,
+                )
+                for phone in value.split(",")
+            ]
+        )
 
 
 class CsvFieldError(BaseModel):
@@ -117,13 +120,6 @@ def map_csv_row(row: Series) -> StructureCsvRowResponse:
                 CsvFieldError(key="".join(str(err["loc"][0])), error=err["msg"])
                 for err in error.errors()
             ],
-        )
-
-    except Exception as error:
-        return StructureCsvRowResponse(
-            row=row.to_dict(),
-            valid=True,
-            errors=[CsvFieldError(error=str(error))],
         )
 
 

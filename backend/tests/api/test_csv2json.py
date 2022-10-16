@@ -72,7 +72,7 @@ async def test_structure_parse_csv_with_error(
             == "none is not an allowed value"
         )
 
-        assert len(structure_with_errors[1]["errors"]) == 3
+        assert len(structure_with_errors[1]["errors"]) == 4
         assert structure_with_errors[1]["errors"][0]["key"] == "Site web"
         assert (
             structure_with_errors[1]["errors"][0]["error"]
@@ -83,13 +83,17 @@ async def test_structure_parse_csv_with_error(
             structure_with_errors[1]["errors"][1]["error"]
             == "value is not a valid email address"
         )
-        assert structure_with_errors[1]["errors"][2]["key"] == "Courriel responsable"
+        assert structure_with_errors[1]["errors"][2]["key"] == "Siret"
         assert (
             structure_with_errors[1]["errors"][2]["error"]
+            == "value is not a valid siret"
+        )
+        assert structure_with_errors[1]["errors"][3]["key"] == "Courriel responsable"
+        assert (
+            structure_with_errors[1]["errors"][3]["error"]
             == "value is not a valid email address"
         )
-
-        assert len(structure_with_errors[2]["errors"]) == 2
+        assert len(structure_with_errors[2]["errors"]) == 3
         assert structure_with_errors[2]["errors"][0]["key"] == "Site web"
         assert (
             structure_with_errors[2]["errors"][0]["error"]
@@ -99,6 +103,11 @@ async def test_structure_parse_csv_with_error(
         assert (
             structure_with_errors[2]["errors"][1]["error"]
             == "value is not a valid email address"
+        )
+        assert structure_with_errors[2]["errors"][2]["key"] == "Téléphones responsable"
+        assert (
+            structure_with_errors[2]["errors"][2]["error"]
+            == "value is not a valid phone number"
         )
 
 

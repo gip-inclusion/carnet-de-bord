@@ -9,16 +9,6 @@ actions:
           value_from_env: ACTION_SECRET
     permissions:
       - role: admin_cdb
-  - name: insertStructureWithAdmin
-    definition:
-      kind: synchronous
-      handler: '{{ACTION_BASE_URL}}/insert_structure'
-      forward_client_headers: true
-      headers:
-        - name: secret_token
-          value_from_env: ACTION_SECRET
-    permissions:
-      - role: manager
   - name: updateNotebookAct
     definition:
       kind: synchronous
@@ -31,12 +21,8 @@ actions:
       - role: admin_cdb
 custom_types:
   enums: []
-  input_objects:
-    - name: InsertStructureWithAdminInput
-    - name: StructureInput
-    - name: AdminStructureInput
+  input_objects: []
   objects:
     - name: CreateDeploymentOutput
-    - name: InsertStructureWithAdminOutput
     - name: UpdateNotebookOutput
   scalars: []

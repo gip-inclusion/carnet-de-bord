@@ -17,4 +17,4 @@ Fonctionnalité: Import structures
 		Alors je vois "Vous allez importer les structures suivantes. Veuillez vérifier que les données sont correctes et confirmer."
 		Alors je vois "2 structures sélectionnées sur 2"
 		Quand je clique sur "Confirmer"
-		Alors je vois "2 structures importées sur 2 demandées."
+		Alors je vois "2 structures importées sur 2."
