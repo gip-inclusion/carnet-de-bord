@@ -12,7 +12,9 @@ from api.db.crud.rome_code import get_rome_code_by_id
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 
 
-async def post(client, token: str, beneficiaries: list[BeneficiaryImport]):
+async def import_beneficiaries(
+    client, token: str, beneficiaries: list[BeneficiaryImport]
+):
     return client.post(
         "/v1/beneficiaries/bulk",
         headers={"jwt-token": f"{token}"},
@@ -24,7 +26,7 @@ async def test_import_beneficiaries(
     test_client,
     get_manager_jwt,
 ):
-    response = await post(test_client, get_manager_jwt, [])
+    response = await import_beneficiaries(test_client, get_manager_jwt, [])
     assert response.ok
 
 
@@ -33,7 +35,7 @@ async def test_import_a_new_beneficiary(
     get_manager_jwt,
     db_connection,
 ):
-    response = await post(test_client, get_manager_jwt, [harry_covert])
+    response = await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
@@ -46,14 +48,14 @@ async def test_update_existing_beneficiary_same_name(
     get_manager_jwt,
     db_connection,
 ):
-    await post(test_client, get_manager_jwt, [harry_covert_phoneless])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.mobile_number == None
 
-    await post(test_client, get_manager_jwt, [harry_covert])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -66,14 +68,14 @@ async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
     get_manager_jwt,
     db_connection,
 ):
-    await post(test_client, get_manager_jwt, [harry_covert_phoneless])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.mobile_number is None
 
-    await post(test_client, get_manager_jwt, [harry_covert_typo])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_typo])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -86,9 +88,11 @@ async def test_update_beneficiary_with_different_capitalization_and_spacing(
     get_manager_jwt,
     db_connection,
 ):
-    await post(test_client, get_manager_jwt, [harry_covert_phoneless])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
 
-    await post(test_client, get_manager_jwt, [harry_covert_with_caps_and_space])
+    await import_beneficiaries(
+        test_client, get_manager_jwt, [harry_covert_with_caps_and_space]
+    )
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -103,7 +107,7 @@ async def test_insert_beneficiary_check_all_fields(
     get_manager_jwt,
     db_connection,
 ):
-    await post(test_client, get_manager_jwt, [harry_covert])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
 
     beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -151,8 +155,8 @@ async def test_update_beneficiary_check_all_fields(
     get_manager_jwt,
     db_connection,
 ):
-    await post(test_client, get_manager_jwt, [harry_covert_phoneless])
-    await post(test_client, get_manager_jwt, [harry_covert])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -182,7 +186,9 @@ async def test_import_multiple_beneficiaries(
     get_manager_jwt,
     db_connection,
 ):
-    response = await post(test_client, get_manager_jwt, [harry_covert, betty_bois])
+    response = await import_beneficiaries(
+        test_client, get_manager_jwt, [harry_covert, betty_bois]
+    )
     harry_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
@@ -204,7 +210,7 @@ async def test_import_multiple_wanted_jobs(
         harry_covert.rome_code_description
         + ", Chauffeur / Chauffeuse de machines agricoles (A1101)"
     )
-    await post(test_client, get_manager_jwt, [harry_covert_wants_more])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_wants_more])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -224,7 +230,7 @@ async def test_matched_existing_referent_and_structure(
     get_manager_jwt,
     db_connection,
 ):
-    await post(test_client, get_manager_jwt, [harry_covert])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -254,7 +260,7 @@ async def test_existing_structure_no_referent(
 ):
     harry = harry_covert.copy()
     harry.advisor_email = None
-    await post(test_client, get_manager_jwt, [harry])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -276,7 +282,7 @@ async def test_existing_referent_no_structure(
 ):
     harry = harry_covert.copy()
     harry.structure_name = None
-    await post(test_client, get_manager_jwt, [harry])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -305,7 +311,7 @@ async def test_existing_referent_not_in_existing_structure(
 ):
     harry = harry_covert.copy()
     harry.structure_name = "Service Social Départemental"
-    await post(test_client, get_manager_jwt, [harry])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -326,7 +332,7 @@ async def test_non_existing_structure(
 ):
     harry = harry_covert.copy()
     harry.structure_name = "Not an existing Structure"
-    await post(test_client, get_manager_jwt, [harry])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -346,7 +352,7 @@ async def test_existing_structure_non_existing_referent(
 ):
     harry = harry_covert.copy()
     harry.advisor_email = "jean.biche@nullepart.fr"
-    await post(test_client, get_manager_jwt, [harry])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
@@ -368,7 +374,7 @@ async def test_no_structure_non_existing_referent(
     harry = harry_covert.copy()
     harry.structure_name = None
     harry.advisor_email = "jean.biche@nullepart.fr"
-    await post(test_client, get_manager_jwt, [harry])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry])
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
