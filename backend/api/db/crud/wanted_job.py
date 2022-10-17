@@ -83,8 +83,11 @@ SELECT id from public.rome_code where label = $1
                     """
 INSERT INTO public.wanted_job (notebook_id, rome_code_id)
 VALUES ($1, $2)
+ON CONFLICT do nothing
 returning id
                     """,
                     notebook_id,
                     rome_code_id["id"],
                 )
+            else:
+                logging.error(f"Notebook {notebook_id} - Rome code not found '({job}'")

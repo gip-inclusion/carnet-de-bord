@@ -611,8 +611,8 @@ async def update_notebook(
     connection: Connection,
     beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
-):
-    return await connection.fetchrow(
+) -> UUID | None:
+    result: Record = await connection.fetchrow(
         """
 UPDATE public.notebook SET
     right_rsa = $2,
@@ -636,3 +636,5 @@ returning id
         beneficiary.education_level,
         beneficiary.geographical_area,
     )
+    if result:
+        return result["id"]

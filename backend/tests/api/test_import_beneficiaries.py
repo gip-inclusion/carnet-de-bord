@@ -167,9 +167,9 @@ async def test_update_beneficiary_check_all_fields(
     assert beneficiary_in_db.address2 == harry_covert.address2
     assert beneficiary_in_db.postal_code == harry_covert.postal_code
     assert beneficiary_in_db.city == harry_covert.city
+    assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
     assert beneficiary_in_db.caf_number == harry_covert.caf_number
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
-    assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
     assert beneficiary_in_db.notebook.right_rsa == harry_covert.right_rsa
     assert beneficiary_in_db.notebook.right_are == True
     assert beneficiary_in_db.notebook.right_ass == False
@@ -179,6 +179,23 @@ async def test_update_beneficiary_check_all_fields(
         beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
     )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
+
+    wanted_jobs = [
+        await get_rome_code_by_id(db_connection, wj.rome_code_id)
+        for wj in beneficiary_in_db.notebook.wanted_jobs
+    ]
+    assert harry_covert.rome_code_description in [
+        rome_code.label for rome_code in wanted_jobs
+    ]
+
+
+async def test_update_beneficiary_no_field_changed(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
 
 
 async def test_import_multiple_beneficiaries(

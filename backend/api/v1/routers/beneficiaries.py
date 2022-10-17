@@ -61,7 +61,11 @@ async def import_beneficiary(
                 record = await update_beneficiary(
                     db, beneficiary, deployment_id, existing_rows[0].id
                 )
-                await update_notebook(db, record["id"], beneficiary)
+                nb_id: UUID | None = await update_notebook(
+                    db, record["id"], beneficiary
+                )
+                if nb_id:
+                    await insert_wanted_jobs(db, nb_id, beneficiary)
                 logger.info("updated existing beneficiary %s", record["id"])
             case other:
                 logger.info(
