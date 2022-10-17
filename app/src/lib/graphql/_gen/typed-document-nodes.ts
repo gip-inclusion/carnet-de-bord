@@ -21,6 +21,14 @@ export type Scalars = {
 	uuid: string;
 };
 
+export type AdminStructureInput = {
+	adminEmail?: InputMaybe<Scalars['citext']>;
+	firstname?: InputMaybe<Scalars['String']>;
+	lastname?: InputMaybe<Scalars['String']>;
+	phoneNumbers?: InputMaybe<Scalars['String']>;
+	position?: InputMaybe<Scalars['String']>;
+};
+
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type BooleanComparisonExp = {
 	_eq?: InputMaybe<Scalars['Boolean']>;
@@ -38,6 +46,29 @@ export type CreateDeploymentOutput = {
 	__typename?: 'CreateDeploymentOutput';
 	id: Scalars['uuid'];
 	label: Scalars['String'];
+};
+
+export type InsertStructureWithAdminInput = {
+	adminStructure?: InputMaybe<AdminStructureInput>;
+	forceUpdate?: InputMaybe<Scalars['Boolean']>;
+	sendAccountEmail?: InputMaybe<Scalars['Boolean']>;
+	structure?: InputMaybe<StructureInput>;
+};
+
+export type InsertStructureWithAdminOutput = {
+	__typename?: 'InsertStructureWithAdminOutput';
+	address1?: Maybe<Scalars['String']>;
+	address2?: Maybe<Scalars['String']>;
+	adminEmails?: Maybe<Array<Maybe<Scalars['String']>>>;
+	city?: Maybe<Scalars['String']>;
+	email?: Maybe<Scalars['citext']>;
+	id: Scalars['uuid'];
+	name?: Maybe<Scalars['citext']>;
+	phone?: Maybe<Scalars['String']>;
+	postalCode?: Maybe<Scalars['String']>;
+	shortDesc?: Maybe<Scalars['String']>;
+	siret?: Maybe<Scalars['String']>;
+	website?: Maybe<Scalars['String']>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -71,6 +102,19 @@ export type StringComparisonExp = {
 	_regex?: InputMaybe<Scalars['String']>;
 	/** does the column match the given SQL regular expression */
 	_similar?: InputMaybe<Scalars['String']>;
+};
+
+export type StructureInput = {
+	address1?: InputMaybe<Scalars['String']>;
+	address2?: InputMaybe<Scalars['String']>;
+	city?: InputMaybe<Scalars['String']>;
+	email?: InputMaybe<Scalars['String']>;
+	name: Scalars['citext'];
+	phone?: InputMaybe<Scalars['String']>;
+	postalCode?: InputMaybe<Scalars['String']>;
+	shortDesc?: InputMaybe<Scalars['String']>;
+	siret?: InputMaybe<Scalars['String']>;
+	website?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateNotebookOutput = {
@@ -3744,6 +3788,7 @@ export type MutationRoot = {
 	delete_wanted_job?: Maybe<WantedJobMutationResponse>;
 	/** delete single row from the table: "wanted_job" */
 	delete_wanted_job_by_pk?: Maybe<WantedJob>;
+	insertStructureWithAdmin?: Maybe<InsertStructureWithAdminOutput>;
 	/** insert data into the table: "account" */
 	insert_account?: Maybe<AccountMutationResponse>;
 	/** insert a single row into the table: "account" */
@@ -4353,6 +4398,11 @@ export type MutationRootDeleteWantedJobArgs = {
 /** mutation root */
 export type MutationRootDeleteWantedJobByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootInsertStructureWithAdminArgs = {
+	data: InsertStructureWithAdminInput;
 };
 
 /** mutation root */

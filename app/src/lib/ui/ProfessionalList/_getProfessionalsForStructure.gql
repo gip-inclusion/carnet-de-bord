@@ -1,32 +1,13 @@
 query GetProfessionalsForStructure($structureId: uuid!) {
-<<<<<<< HEAD
 	professional(
     where: { structureId: { _eq: $structureId }, account: { deletedAt: { _is_null: true } } }
-    order_by: [{firstname: asc}, {lastname: asc}, {email: asc}]
-  ) {
-		id
-		firstname
-		lastname
-		mobileNumber
-		email
-||||||| parent of 5d84df22 (fix: update name colum, to be case insensitive)
-	professional(where: { structureId: { _eq: $structureId } } order_by: [{firstname, asc}, {lastname: asc}, {emaill: asc}]) {
-		id
-		firstname
-		lastname
-		mobileNumber
-		email
-=======
-  professional(
-    where: { structureId: { _eq: $structureId } }
     order_by: [{ firstname: asc }, { lastname: asc }, { email: asc }]
   ) {
-    id
-    firstname
-    lastname
-    mobileNumber
-    email
->>>>>>> 5d84df22 (fix: update name colum, to be case insensitive)
+		id
+		firstname
+		lastname
+		mobileNumber
+		email
     position
     account {
       id
