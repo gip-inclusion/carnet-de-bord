@@ -1,8 +1,9 @@
 import logging
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from asyncpg.connection import Connection
 from fastapi import APIRouter, Depends, Request
+from pydantic import BaseModel
 
 from api.core.init import connection
 from api.db.crud.beneficiary import (
@@ -28,50 +29,91 @@ router = APIRouter(dependencies=[Depends(extract_deployment_id)])
 logger = logging.getLogger(__name__)
 
 
+class BeneficiaryImportResult(BaseModel):
+    beneficiary: UUID | None
+    action: str
+    error: str | None
+
+
+class BeneficiariesImportResult(BaseModel):
+    uuid: UUID
+    result: list[BeneficiaryImportResult]
+
+
 @router.post("/bulk")
 async def import_beneficiaries(
     beneficiaries: list[BeneficiaryImport],
     request: Request,
     db=Depends(connection),
-):
+) -> BeneficiariesImportResult:
+    import_uuid: UUID = uuid4()
     deployment_id: UUID = UUID(request.state.deployment_id)
-    [
+    result = [
         await import_beneficiary(db, beneficiary, deployment_id)
         for beneficiary in beneficiaries
     ]
+    return BeneficiariesImportResult(
+        uuid=import_uuid,
+        result=result,
+    )
 
 
 async def import_beneficiary(
     db: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id,
-):
+) -> BeneficiaryImportResult:
     async with db.transaction():
-        existing_rows = await get_beneficiaries_like(db, beneficiary, deployment_id)
-        match existing_rows:
-            case []:
-                b_id: UUID = await insert_beneficiary(db, beneficiary, deployment_id)
-                nb_id: UUID = await create_new_notebook(db, b_id, beneficiary)
-                await insert_wanted_jobs(db, nb_id, beneficiary)
-                await insert_referent_and_structure(db, b_id, nb_id, beneficiary)
-                logger.info("inserted new beneficiary %s", b_id)
-            case [
-                row
-            ] if row.firstname == beneficiary.firstname and row.lastname == beneficiary.lastname and row.date_of_birth == beneficiary.date_of_birth and row.internal_id == beneficiary.si_id and row.deployment_id == deployment_id:
-                record = await update_beneficiary(
-                    db, beneficiary, deployment_id, existing_rows[0].id
-                )
-                nb_id: UUID | None = await update_notebook(
-                    db, record["id"], beneficiary
-                )
-                if nb_id:
+        try:
+            existing_rows = await get_beneficiaries_like(db, beneficiary, deployment_id)
+            match existing_rows:
+                case []:
+                    b_id: UUID = await insert_beneficiary(
+                        db, beneficiary, deployment_id
+                    )
+                    nb_id: UUID = await create_new_notebook(db, b_id, beneficiary)
                     await insert_wanted_jobs(db, nb_id, beneficiary)
-                logger.info("updated existing beneficiary %s", record["id"])
-            case other:
-                logger.info(
-                    "block new beneficiary conflicting with existing beneficiaries: %s",
-                    [beneficiary.id for beneficiary in existing_rows],
-                )
+                    await insert_referent_and_structure(db, b_id, nb_id, beneficiary)
+                    logger.info("inserted new beneficiary %s", b_id)
+                    return BeneficiaryImportResult(
+                        beneficiary=b_id,
+                        action="Creation",
+                        error=None,
+                    )
+                case [
+                    row
+                ] if row.firstname == beneficiary.firstname and row.lastname == beneficiary.lastname and row.date_of_birth == beneficiary.date_of_birth and row.internal_id == beneficiary.si_id and row.deployment_id == deployment_id:
+                    record = await update_beneficiary(
+                        db, beneficiary, deployment_id, existing_rows[0].id
+                    )
+                    nb_id: UUID | None = await update_notebook(
+                        db, record["id"], beneficiary
+                    )
+                    if nb_id:
+                        await insert_wanted_jobs(db, nb_id, beneficiary)
+                    logger.info("updated existing beneficiary %s", record["id"])
+                    return BeneficiaryImportResult(
+                        beneficiary=record["id"],
+                        action="Update",
+                        error=None,
+                    )
+                case other:
+                    logger.info(
+                        "block new beneficiary conflicting with existing beneficiaries: %s",
+                        [beneficiary.id for beneficiary in existing_rows],
+                    )
+                    return BeneficiaryImportResult(
+                        beneficiary=None,
+                        action="No action",
+                        error="New beneficiary conflicting with existing beneficiaries",
+                    )
+
+        except Exception:
+            return BeneficiaryImportResult(
+                beneficiary=None,
+                action="No action",
+                error="An internal error occured while processing this beneficiary",
+            )
 
 
 async def insert_referent_and_structure(
