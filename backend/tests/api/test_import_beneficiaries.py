@@ -12,6 +12,18 @@ from api.db.crud.rome_code import get_rome_code_by_id
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 
 
+async def test_import_beneficiaries_must_be_done_by_a_manager(
+    test_client,
+    get_professionnal_jwt,
+):
+    response = test_client.post(
+        "/v1/beneficiaries/bulk",
+        headers={"jwt-token": f"{get_professionnal_jwt}"},
+        data=ListOf.parse_obj([]).json(),
+    )
+    assert response.status_code == 400
+
+
 async def import_beneficiaries(
     client, token: str, beneficiaries: list[BeneficiaryImport]
 ):

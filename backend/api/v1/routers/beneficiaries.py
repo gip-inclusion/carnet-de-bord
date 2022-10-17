@@ -23,9 +23,10 @@ from api.db.crud.wanted_job import insert_wanted_jobs
 from api.db.models.beneficiary import BeneficiaryImport
 from api.db.models.notebook_member import NotebookMemberInsert
 from api.db.models.role import RoleEnum
-from api.v1.dependencies import extract_deployment_id
+from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
 
-router = APIRouter(dependencies=[Depends(extract_deployment_id)])
+manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
+router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
 logger = logging.getLogger(__name__)
 
 
@@ -83,17 +84,15 @@ async def import_beneficiary(
                 case [
                     row
                 ] if row.firstname == beneficiary.firstname and row.lastname == beneficiary.lastname and row.date_of_birth == beneficiary.date_of_birth and row.internal_id == beneficiary.si_id and row.deployment_id == deployment_id:
-                    record = await update_beneficiary(
+                    b_id = await update_beneficiary(
                         db, beneficiary, deployment_id, existing_rows[0].id
                     )
-                    nb_id: UUID | None = await update_notebook(
-                        db, record["id"], beneficiary
-                    )
+                    nb_id: UUID | None = await update_notebook(db, b_id, beneficiary)
                     if nb_id:
                         await insert_wanted_jobs(db, nb_id, beneficiary)
-                    logger.info("updated existing beneficiary %s", record["id"])
+                    logger.info("updated existing beneficiary %s", b_id)
                     return BeneficiaryImportResult(
-                        beneficiary=record["id"],
+                        beneficiary=b_id,
                         action="Update",
                         error=None,
                     )

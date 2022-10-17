@@ -68,8 +68,8 @@ async def update_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
     id,
-):
-    return await connection.fetchrow(
+) -> UUID:
+    result = await connection.fetchrow(
         f"""
 UPDATE beneficiary SET mobile_number = $2,
     address1 = $3,
@@ -92,6 +92,7 @@ returning id
         beneficiary.pe_number,
         beneficiary.email,
     )
+    return result["id"]
 
 
 async def insert_beneficiary(
