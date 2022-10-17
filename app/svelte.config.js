@@ -2,7 +2,7 @@ import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-node';
 import { resolve } from 'path';
 
-const config = {
+let config = {
 	kit: {
 		env: {
 			dir: resolve('..'),
@@ -14,7 +14,7 @@ const config = {
 				'font-src': ['self', 'data:', 'blob:', '*.crisp.chat'],
 				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', '*.crisp.chat'],
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
-				//'script-src': ['unsafe-eval'],
+				'script-src': [process.env.NODE_ENV === 'development' ? 'unsafe-eval' : ''],
 				'connect-src': [
 					'self',
 					'wss:',
