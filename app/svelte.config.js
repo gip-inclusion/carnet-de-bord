@@ -2,7 +2,7 @@ import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-node';
 import { resolve } from 'path';
 
-let config = {
+const config = {
 	kit: {
 		env: {
 			dir: resolve('..'),

@@ -2,6 +2,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { plugin as elmPlugin } from 'vite-plugin-elm';
 
 const config = {
+	envDir: '..',
 	server: {
 		port: 3000,
 	},
