@@ -98,8 +98,6 @@ async def test_parse_principal_csv(
     assert external_data.data["parsed"]["beneficiary"] is not None
     assert external_data.data["parsed"]["professional"] is not None
 
-    print(external_data.data["parsed"]["beneficiary"])
-
     assert (
         external_data.data["parsed"]["professional"]["email"]
         == "referent_prenom4.referent_nom4@pole-emploi.net"
