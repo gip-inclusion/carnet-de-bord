@@ -1,5 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { plugin } from 'vite-plugin-elm';
+import { plugin as elmPlugin } from 'vite-plugin-elm';
 
 const config = {
 	server: {
@@ -10,7 +10,7 @@ const config = {
 	},
 	plugins: [
 		sveltekit(),
-		plugin(),
+		elmPlugin(),
 	],
 	optimizeDeps: {
 		//https://formidable.com/open-source/urql/docs/basics/svelte/
