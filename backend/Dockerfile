@@ -1,7 +1,7 @@
 # build from
 # https://github.com/python-poetry/poetry/discussions/1879#discussioncomment-216865
 # https://github.com/python-poetry/poetry/issues/1178#issuecomment-998549092
-FROM python:3.10.6-slim-bullseye as base
+FROM python:3.10.8-slim-bullseye as base
 
 WORKDIR /app
 
