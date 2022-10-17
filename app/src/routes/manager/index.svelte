@@ -15,7 +15,7 @@
 	const result = operationStore(
 		GetDeploymentInfosDocument,
 		{ id: deploymentId },
-		{ additionalTypenames: ['structure', 'professional', 'beneficiary'] }
+		{ additionalTypenames: ['structure', 'professional', 'beneficiary', 'notebook_member'] }
 	);
 	query(result);
 
