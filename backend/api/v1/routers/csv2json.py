@@ -66,7 +66,10 @@ def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
         parse_field("Prénom*", beneficiary, validators=[mandatory]),
         parse_field("Nom*", beneficiary, validators=[mandatory]),
         parse_field(
-            "Date de naissance*", beneficiary, validators=[mandatory, date_format]
+            "Date de naissance*",
+            beneficiary,
+            validators=[mandatory, date_format],
+            parser=parse_date,
         ),
         parse_field("Lieu de naissance", beneficiary),
         parse_field("Téléphone", beneficiary),
@@ -91,12 +94,14 @@ def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
     ]
 
 
-def parse_field(col_name: str, line, validators=[]):
+def parse_field(col_name: str, line, validators=[], parser=lambda field: field):
     try:
         value = line[col_name]
         validation_errors = [check(value) for check in validators if check(value)]
         if not validation_errors:
-            return FieldValue.parse_obj({"column_name": col_name, "value": value})
+            return FieldValue.parse_obj(
+                {"column_name": col_name, "value": parser(value)}
+            )
         else:
             return ParseError.parse_obj(
                 {
@@ -126,7 +131,24 @@ def date_format(field: str):
         try:
             datetime.datetime.strptime(field, "%Y-%m-%d")
         except ValueError:
-            return "Incorrect date format, The date must be formated as: YYYY-MM-DD"
+            try:
+                datetime.datetime.strptime(field, "%d/%m/%Y")
+            except ValueError:
+                try:
+                    datetime.datetime.strptime(field, "%d-%m-%Y")
+                except ValueError:
+                    return "Incorrect date format, The date must be formated as: YYYY-MM-DD"
+
+
+def parse_date(field: str):
+    try:
+        value = datetime.datetime.strptime(field, "%Y-%m-%d")
+    except ValueError:
+        try:
+            value = datetime.datetime.strptime(field, "%d/%m/%Y")
+        except ValueError:
+            value = datetime.datetime.strptime(field, "%d-%m-%Y")
+    return value.strftime("%Y-%m-%d")
 
 
 async def file_to_json(
