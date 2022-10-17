@@ -176,6 +176,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                                 csv_row,
                                 hash_result,
                                 professional=professional,
+                                check_hash=False,
                             )
                     else:
                         logging.error(
@@ -399,6 +400,7 @@ async def save_external_data(
     csv_row: PrincipalCsvRow,
     hash_result: str,
     professional: Professional | None = None,
+    check_hash: bool = True,
 ) -> ExternalData | None:
 
     # Do we already have some external data for this beneficiary?
@@ -414,7 +416,7 @@ async def save_external_data(
 
     # If we have no external_data or we already have some,
     # but the hash is not the same
-    if external_data is None or hash_result != external_data.hash:
+    if external_data is None or hash_result != external_data.hash or not check_hash:
 
         if external_data is None:
             logging.info("No external_data for {}".format(beneficiary.id))

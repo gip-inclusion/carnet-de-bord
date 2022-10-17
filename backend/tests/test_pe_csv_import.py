@@ -37,6 +37,7 @@ async def test_parse_principal_csv(
     db_connection: Connection,
     beneficiary_sophie_tifour: Beneficiary,
     beneficiary_hendrix_dorsey: Beneficiary,
+    beneficiary_edwina_skinner: Beneficiary,
     caplog,
 ):
 
@@ -90,14 +91,17 @@ async def test_parse_principal_csv(
 
     # External data should have been tracked
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
-        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
+        db_connection, beneficiary_edwina_skinner.id, ExternalSource.PE
     )
 
     assert external_data is not None and external_data.info is not None
-    assert external_data.info.beneficiary_id == beneficiary_sophie_tifour.id
+    assert external_data.data["parsed"]["beneficiary"] is not None
+    assert external_data.data["parsed"]["professional"] is not None
+
+    assert external_data.info.beneficiary_id == beneficiary_edwina_skinner.id
     assert (
         external_data.hash
-        == "d10ed5fee17aa3cb36117a1d1eb1f4cd12514046c53bf8990f34d9d8233badd4"
+        == "860045a8c8bf7ac4ce7af38fd7d90cee553252144cb7e55022010bf7b21e4d1c"
     )
 
     sophie_tifour = await get_beneficiary_by_id(

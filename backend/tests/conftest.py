@@ -158,6 +158,14 @@ async def beneficiary_sophie_tifour(db_connection) -> Beneficiary | None:
 
 @pytest.fixture
 @pytest.mark.asyncio
+async def beneficiary_edwina_skinner(db_connection) -> Beneficiary | None:
+    return await get_beneficiary_by_id(
+        db_connection, UUID("0af66131-727b-4d47-b0d2-92d363ed145b")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
 async def beneficiary_hendrix_dorsey(db_connection) -> Beneficiary | None:
     return await get_beneficiary_by_id(
         db_connection, UUID("c09d2326-c37c-40ee-8b49-71eeb67c1871")
