@@ -145,14 +145,12 @@ def date_format(field: str):
 
 
 def parse_date(field: str):
-    try:
-        value = datetime.datetime.strptime(field, DATE_YMD_HYPHEN_FORMAT)
-    except ValueError:
+    for date_format in DATE_FORMATS:
         try:
-            value = datetime.datetime.strptime(field, DATE_DMY_SLASH_FORMAT)
+            value = datetime.datetime.strptime(field, date_format)
+            return value.strftime(DATE_YMD_HYPHEN_FORMAT)
         except ValueError:
-            value = datetime.datetime.strptime(field, DATE_DMY_HYPHEN_FORMAT)
-    return value.strftime("%Y-%m-%d")
+            pass
 
 
 async def file_to_json(
