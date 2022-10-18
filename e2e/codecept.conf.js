@@ -1,34 +1,36 @@
 exports.config = {
 	bootstrap: null,
 	gherkin: {
-		features: './features/**/*.feature',
-		steps: ['./step_definitions/steps.js'],
+		features: "./features/**/*.feature",
+		steps: ["./step_definitions/steps.js"],
 	},
 	helpers: {
 		Downloads: {
-			require: './step_definitions/downloads_helper.js',
+			require: "./step_definitions/downloads_helper.js",
 		},
 		FileSystem: {},
 		GraphQL: {
 			defaultHeaders: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				"x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET || "admin",
 			},
-			endpoint: process.env.HASURA_BASEURL || 'http://localhost:5000/v1/graphql',
+			endpoint: `${
+				process.env.HASURA_BASEURL || "http://localhost:5000"
+			}/v1/graphql`,
 		},
 		Playwright: {
-			browser: 'chromium',
-			locale: 'fr',
+			browser: "chromium",
+			locale: "fr",
 			show: process.env.CODECEPT_UI ? true : false,
-			url: process.env.CODECEPT_BASEURL || 'http://localhost:3000',
+			url: process.env.CODECEPT_BASEURL || "http://localhost:3000",
 			video: true,
 		},
 	},
 	hooks: [],
 	mocha: {},
-	name: 'Carnet de bord',
-	output: './output',
+	name: "Carnet de bord",
+	output: "./output",
 	plugins: {
 		pauseOnFail: {},
 		retryFailedStep: {
@@ -54,16 +56,16 @@ exports.config = {
 	stepTimeout: 0,
 	stepTimeoutOverride: [
 		{
-			pattern: 'wait.*',
+			pattern: "wait.*",
 			timeout: 0,
 		},
 		{
-			pattern: 'amOnPage',
+			pattern: "amOnPage",
 			timeout: 0,
 		},
 	],
 	teardown: null,
-	tests: './__tests__/*.ts',
+	tests: "./__tests__/*.ts",
 	timeout: null,
-	translation: 'fr-FR',
+	translation: "fr-FR",
 };

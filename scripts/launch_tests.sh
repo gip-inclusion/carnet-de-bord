@@ -100,13 +100,12 @@ cd $ROOT_DIR
 function start_svelte() {
   >&2 echo "-> Starting Svelte kit"
 
-  cd app
   # Start dev server
   # Need to listen on all addresses (0.0.0.0) to be reachable from Hasura in Docker on all platforms.
   # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
   # output.
-  yarn svelte-kit dev --host 0.0.0.0 --port 3001 | cat &
-	cd ..
+  yarn --cwd app dev --host 0.0.0.0 --port 3001 | cat &
+
 
   until curl -s http://localhost:3001/ > /dev/null ; do
     >&2 echo "-> Svelte kit is still unavailable - sleeping"
@@ -148,7 +147,7 @@ if [ "$ACTION" = "e2e" ]; then
   start_backend
 
   >&2 echo "-> Starting e2e tests"
-  HASURA_BASEURL=http://localhost:5001/v1/graphql \
+  HASURA_BASEURL=http://localhost:5001 \
   HASURA_ADMIN_SECRET=$HASURA_GRAPHQL_ADMIN_SECRET \
   CODECEPT_BASEURL=http://localhost:3001 \
     yarn --cwd e2e test "$@"

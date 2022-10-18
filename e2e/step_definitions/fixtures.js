@@ -74,10 +74,12 @@ async function removeMember(email) {
 	);
 }
 
-
 function seedDatabase() {
 	const { execSync } = require("child_process");
-	execSync('HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --project ../hasura --database-name carnet_de_bord --log-level WARN --no-color');
+	const graphqlEndpoint = process.env.HASURA_BASEURL ?? "http://localhost:5000";
+	execSync(
+		`HASURA_GRAPHQL_ENDPOINT=${graphqlEndpoint} hasura seed apply --project ../hasura --database-name carnet_de_bord --log-level WARN --no-color`
+	);
 }
 
 async function onBoardingSetup(userType, email, onBoardingDone) {

@@ -21,7 +21,7 @@
 	"devDependencies": {
 		"@socialgouv/eslint-config-recommended": "^1.109.0",
 		"eslint": "^8.13.0",
-		"playwright": "^1",
+		"playwright": "^1.27.0",
 		"prettier": "^2.6.2"
 	},
 	"private": true
