@@ -36,6 +36,11 @@ class Beneficiary(BaseModel):
     account_id: UUID | None
 
 
+def snake_to_camel(field):
+    parts = field.split("_")
+    return "".join(parts[0:1] + [part.title() for part in parts[1:]])
+
+
 class BeneficiaryImport(BaseModel):
     si_id: str = Field(..., title="Identifiant du SI interne")
     firstname: str = Field(..., title="Prénom")
@@ -61,6 +66,10 @@ class BeneficiaryImport(BaseModel):
     education_level: str | None = Field(None, title="Niveau de formation")
     structure_name: str | None = Field(None, title="Structure d'accompagnement")
     advisor_email: str | None = Field(None, title="Accompagnateur référent")
+
+    class Config:
+        alias_generator = snake_to_camel
+        allow_population_by_field_name = True
 
     @validator("firstname", "lastname")
     def capitalize(cls, value):
