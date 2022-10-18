@@ -1,4 +1,5 @@
 import logging
+import re
 import traceback
 import uuid
 from uuid import UUID
@@ -242,15 +243,24 @@ async def import_pe_referent(
         logging.info(
             "{} - Structure '{}' found".format(pe_unique_id, csv_row.struct_principale)
         )
+    pro_email: str | None = net_email_to_fr_email(csv_row.referent_mail)
+
+    if pro_email is None:
+        logging.error(
+            "{} - Unable to convert email to .fr for email '{}'. Using original '{}' instead.".format(
+                pe_unique_id, csv_row.referent_mail, csv_row.referent_mail
+            )
+        )
+        pro_email = csv_row.referent_mail
 
     professional: Professional | None = await get_professional_by_email(
-        connection, csv_row.referent_mail
+        connection, pro_email
     )
 
     if not professional:
         professional_insert = ProfessionalInsert(
             structure_id=structure.id,
-            email=csv_row.referent_mail,
+            email=pro_email,
             lastname=csv_row.referent_nom,
             firstname=csv_row.referent_prenom,
             mobile_number=None,
@@ -290,7 +300,7 @@ async def import_pe_referent(
         logging.info("{} - Professional already exists".format(pe_unique_id))
 
         account: AccountDB | None = await get_account_by_professional_email(
-            connection, csv_row.referent_mail
+            connection, pro_email
         )
 
         if account:
@@ -313,6 +323,14 @@ async def import_pe_referent(
                 )
         else:
             logging.error("{} - No account found for Professional".format(pe_unique_id))
+
+
+def net_email_to_fr_email(net_email: str) -> str | None:
+
+    match: None | re.Match = re.search(r"^[0-9]*(.*)\.net$", net_email)
+
+    if match:
+        return match.group(1) + ".fr"
 
 
 async def add_account_to_notebook_members(

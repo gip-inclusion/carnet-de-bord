@@ -29,6 +29,7 @@ from cdb_csv.pe import (
     import_pe_referent,
     insert_wanted_jobs_for_csv_row_and_notebook,
     map_principal_row,
+    net_email_to_fr_email,
 )
 from pe.pole_emploi_client import PoleEmploiApiClient
 from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
@@ -111,7 +112,7 @@ async def test_parse_principal_csv(
     assert len(sophie_tifour.notebook.wanted_jobs) == 3
 
     professional = await get_professional_by_email(
-        db_connection, "referent_prenom4.referent_nom4@pole-emploi.net"
+        db_connection, "referent_prenom4.referent_nom4@pole-emploi.fr"
     )
 
     assert professional is not None
@@ -207,6 +208,13 @@ async def test_parse_principal_csv_exception(
         assert "Exception while processing CSV line: Parsing exception" in caplog.text
 
 
+async def test_email_conversion():
+    assert (
+        net_email_to_fr_email("051referent_prenom4.referent_nom4@pole-emploi.net")
+        == "referent_prenom4.referent_nom4@pole-emploi.fr"
+    )
+
+
 async def test_import_pe_referent(
     db_connection: Connection, pe_principal_csv_series: DataFrame
 ):
@@ -227,3 +235,4 @@ async def test_import_pe_referent(
         )
 
         assert professional is not None
+        assert professional.email == "referent_prenom4.referent_nom4@pole-emploi.fr"
