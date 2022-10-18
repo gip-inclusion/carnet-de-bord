@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { Button, Input, Link } from '$lib/ui/base';
+	import { Button, Input } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
 	import type { RequestStep } from '$lib/types';
 
@@ -82,7 +82,7 @@
 					</div>
 					-->
 			{#if magicLink}
-				<div><Link href={magicLink}>Ouvrir Carnet de bord</Link></div>
+				<div><a href={magicLink}>Ouvrir Carnet de bord</a></div>
 			{/if}
 		</div>
 		<div class="flex flex-col gap-6">

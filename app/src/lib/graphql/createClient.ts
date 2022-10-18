@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@urql/svelte';
-import { getGraphqlAPI } from '$lib/config/variables/private';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default (api_url: string, token?: string) => {
-	const graphqlAPI = api_url ? api_url : getGraphqlAPI();
+export default (api_url: string, token?: string, fetch) => {
+	const graphqlAPI = api_url;
 	return createClient({
 		url: graphqlAPI,
 		fetch,

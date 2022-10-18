@@ -2,13 +2,13 @@
 	import { formatDateLocale } from '$lib/utils/date';
 
 	import {
-		GetNotebookFocusByIdQuery,
+		type GetNotebookFocusByIdQuery,
 		UpdateActionStatusDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 
 	import type { UpdateNotebookActionMutation } from '$lib/graphql/_gen/typed-document-nodes';
 
-	import { mutation, OperationStore, operationStore } from '@urql/svelte';
+	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
 	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 	import { Alert, Select } from '$lib/ui/base';
 	import { ActionStatus } from '$lib/enums';

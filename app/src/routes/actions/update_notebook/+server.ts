@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import {
 	GetNotebookInfoDocument,
@@ -57,32 +57,17 @@ export const POST: RequestHandler = async ({ request }) => {
 	const { input } = (await request.json()) as Body;
 	try {
 		actionsGuard(request.headers);
-	} catch (error) {
-		throw new Error(
-			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
-		);
-		// Suggestion (check for correctness before using):
-		// return new Response(error.message, { status: 401 });
-		return {
-			status: 401,
-			body: error.message,
-		};
+	} catch (err) {
+		throw error(500, 'update_notebook: unauthorize action');
 	}
 
-	const { error, data } = await client
+	const { error: err, data } = await client
 		.query<GetNotebookInfoQuery>(GetNotebookInfoDocument, { id: input.id })
 		.toPromise();
 
-	if (error || !data.notebook) {
+	if (err || !data.notebook) {
 		console.error('update_notebook', `notebook ${input.id} not found`);
-		return json$1(
-			{
-				message: 'NOTEBOOK_NOT_FOUND',
-			},
-			{
-				status: 401,
-			}
-		);
+		throw error(500, 'update_notebook: notebook not found');
 	}
 
 	// TODO(Augustin): actually check that we get a DeploymentConfig instead
@@ -114,14 +99,9 @@ export const POST: RequestHandler = async ({ request }) => {
 			const errorMessage = await response.text();
 			return Promise.reject(new Error(errorMessage));
 		});
-	} catch (error) {
-		console.error(`echec de mise à jour du carnet ${input.id}`, error, url, callback);
-		return json$1(
-			{ error: 'CALLBACK_FAILED' },
-			{
-				status: 400,
-			}
-		);
+	} catch (err) {
+		console.error(`echec de mise à jour du carnet ${input.id}`, err, url, callback);
+		throw error(500, 'update_notebook: callback failed');
 	}
 
 	const updateResult = await client
@@ -137,12 +117,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 	if (updateResult.error) {
 		console.error(updateResult.error);
-		return json$1(
-			{ error: 'UPDATE_FAILED' },
-			{
-				status: 500,
-			}
-		);
+		throw error(500, 'update_notebook: update failed');
 	}
-	return json$1({ id: input.id });
+	return json({ id: input.id });
 };

@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { openComponent } from '$lib/stores';
+	import { backendAPI, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
 	import {
 		deploymentAdminPdiSchema,
-		DeploymentAdminPdiType,
+		type DeploymentAdminPdiType,
 	} from '../Deployment/adminDeployment.schema';
 	import { postManager } from '$lib/services/backend';
-	import { session } from '$app/stores';
+	import { token } from '$lib/stores';
 
 	export let deploymentId = '';
 	export let onClose: () => void;
@@ -23,8 +23,8 @@
 	async function handleSubmit(values: DeploymentAdminPdiType) {
 		const data = Object.assign(values, { deployment_id: deploymentId });
 		try {
-			await postManager(`${$session.backendAPI}/v1/managers/create`, data, {
-				'jwt-token': $session.token,
+			await postManager(`${$backendAPI}/v1/managers/create`, data, {
+				'jwt-token': $token,
 			});
 			close();
 		} catch (error) {
@@ -59,6 +59,8 @@
 		let:isSubmitting
 		let:isValid
 	>
+		<label class="fr-label" for="emailtest">Email</label>
+		<input name="emailtest" class="fr-input" id="emailtest" />
 		<Input name="email" required inputLabel="Courriel" />
 		<Input name="firstname" required inputLabel="Prénom" />
 		<Input name="lastname" required inputLabel="Nom" />

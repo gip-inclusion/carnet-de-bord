@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { connectedUser } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 
 	import { NavBar } from '$lib/ui/base';
@@ -62,12 +62,12 @@
 				</div>
 				<div class="fr-header__tools">
 					<div class="fr-header__tools-links">
-						{#if $page.user}
+						{#if $connectedUser}
 							<ul class="fr-btns-group">
 								<li>
 									<a
 										class="fr-btn fr-icon-account-line"
-										href={`${baseUrlForRole($page.user.role)}/moncompte`}
+										href={`${baseUrlForRole($connectedUser.role)}/moncompte`}
 									>
 										Mon compte
 									</a>
@@ -98,7 +98,7 @@
 				Fermer
 			</button>
 			<div class="fr-header__menu-links" />
-			{#if $page.user}
+			{#if $connectedUser}
 				<NavBar {menuItems} />
 			{/if}
 		</div>

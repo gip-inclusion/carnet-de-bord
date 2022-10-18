@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
 import {
@@ -41,21 +41,14 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		actionsGuard(request.headers);
 	} catch (error) {
-		return new Response(`[STAT action] ${error.message}`, { status: 401 });
+		throw error(500, 'matomo_dashboard: unhautorized action');
 	}
 
 	const deploymentResult = await client.query(ListDeploymentIdDocument).toPromise();
 
 	if (deploymentResult.error) {
 		console.error(deploymentResult.error);
-		return json$1(
-			{
-				message: '[STATS action] Error retrieving deployment',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(500, 'matomo_dashboard: error retrieving deployment');
 	}
 	const day = formatDateISO(new Date());
 	const last30Days = formatDateISO(subDays(new Date(), 30));
@@ -65,14 +58,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			.toPromise();
 		if (statResult.error) {
 			console.error(statResult.error);
-			return json$1(
-				{
-					message: `[STATS action] Error retrieving deployment ${id} stats`,
-				},
-				{
-					status: 400,
-				}
-			);
+			throw error(500, 'matomo_dashboard: Error retrieving deployment ${id} stats');
 		}
 
 		const {
@@ -152,7 +138,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			});
 		}
 	}
-	return json$1({
+	return json({
 		message: 'stats sent successfully',
 	});
 };

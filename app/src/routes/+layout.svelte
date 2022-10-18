@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
-	import { setClient } from '@urql/svelte';
-	import type { Client } from '@urql/core';
+
+	import { type Client, setClient } from '@urql/svelte';
 	// DSFR Assets
 	import appleTouchFavicon from '@gouvfr/dsfr/dist/favicon/apple-touch-icon.png';
 	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
@@ -13,19 +13,27 @@
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import createClient from '$lib/graphql/createClient';
+	import { offCanvas, graphqlAPI, backendAPI } from '$lib/stores';
+	import type { PageData } from './$types';
 
-	export let data;
-	const client: Client = createClient(data.graphqlAPI, data.token);
-	setClient(client);
+	import * as yup from 'yup';
+	import * as yupFrLocale from '$lib/utils/yupFrLocale';
+	yup.setLocale(yupFrLocale);
 
 	const MATOMO_URL = getMatomoUrl();
 	const MATOMO_SITE_ID = getMatomoSiteId();
 
 	let scrollbarWidth = '0';
-	let unsubscribe: () => void;
+
+	export let data: PageData;
+
+	$backendAPI = data.backendAPI;
+	$graphqlAPI = data.graphqlAPI;
+
+	const client: Client = createClient(data.graphqlAPI, null, fetch);
+	setClient(client);
 
 	onMount(async () => {
-		console.log('coucocuoucou');
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
 		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
 
@@ -46,7 +54,7 @@
 
 		Matomo.load(MATOMO_URL, MATOMO_SITE_ID);
 	});
-	unsubscribe = page.subscribe(({ url }) => {
+	let unsubscribe = page.subscribe(({ url }) => {
 		if (!browser || !url.pathname || !MATOMO_URL || !MATOMO_SITE_ID) {
 			return;
 		}
@@ -65,11 +73,11 @@
 		}, 100);
 	});
 
-	// onDestroy(unsubscribe);
+	onDestroy(unsubscribe);
 </script>
 
 <svelte:head>
-	<!-- {#if $offCanvas}
+	{#if $offCanvas}
 		<style>
 			body {
 				height: 100vh;
@@ -77,7 +85,7 @@
 				padding-right: var(--scrollbarWidth);
 			}
 		</style>
-	{/if} -->
+	{/if}
 	<link rel="apple-touch-icon" href={appleTouchFavicon} />
 	<!-- 180×180 -->
 	<link rel="icon" href={svgFavicon} type="image/svg+xml" />

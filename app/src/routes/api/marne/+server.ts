@@ -6,43 +6,29 @@ import type {
 	NotebookTargetInsertInput,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import type { BeneficiaryAccount } from '$lib/types';
-import type { RequestHandler } from '@sveltejs/kit';
+import { error, json, type RequestHandler } from '@sveltejs/kit';
 import type {
 	ExternalDeploymentApiBody,
 	ExternalDeploymentApiOutput,
-} from '../../actions/update_notebook';
-import type { MarneInput, MarneAction, MarneFocus } from '../marne.types';
+} from '../../actions/update_notebook/+server';
+
+import type { MarneInput, MarneAction, MarneFocus } from './marne.type';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const { url, headers, input, accountId, notebookId, focuses } =
 		(await request.json()) as ExternalDeploymentApiBody;
-	try {
-		const data: MarneInput = await fetch(`${url}${urlify(input)}`, { headers }).then(
-			async (response) => {
-				if (response.ok) {
-					return response.json();
-				}
-				const errorMessage = await response.text();
-				return Promise.reject(
-					new Error(
-						`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
-					)
-				);
+
+	const data: MarneInput = await fetch(`${url}${urlify(input)}`, { headers }).then(
+		async (response) => {
+			if (response.ok) {
+				return response.json();
 			}
-		);
-		throw new Error(
-			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
-		);
-		// Suggestion (check for correctness before using):
-		// return new Response(parse(data, accountId, notebookId, focuses));
-		return {
-			status: 200,
-			body: parse(data, accountId, notebookId, focuses),
-		};
-	} catch (error) {
-		console.error('[marne parser]', error, input);
-		return new Response('API PARSE ERROR', { status: 500 });
-	}
+			const errorMessage = await response.text();
+			console.error('[marne parser]', input, errorMessage);
+			throw error(500, 'marne api parse error');
+		}
+	);
+	return json(parse(data, accountId, notebookId, focuses));
 };
 
 function parse(

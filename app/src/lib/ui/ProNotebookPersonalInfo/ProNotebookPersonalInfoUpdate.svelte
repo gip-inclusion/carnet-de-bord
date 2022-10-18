@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {
-		Beneficiary,
+		type Beneficiary,
 		UpdateBeneficiaryPersonalInfoDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { account, openComponent } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button } from '$lib/ui/base';
 	import {
-		BeneficiaryAccountInput,
+		type BeneficiaryAccountInput,
 		beneficiaryAccountSchema,
 		beneficiaryAccountPartialSchema,
 	} from '$lib/ui/ProBeneficiaryUpdate/beneficiary.schema';

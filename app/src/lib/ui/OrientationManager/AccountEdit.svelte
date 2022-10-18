@@ -2,11 +2,11 @@
 	import { UpdateOrientationManagerProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { UpdateOrientationManagerProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import AdminStructureForm from '$lib/ui/AdminStructure/AdminStructureForm.svelte';
-	import { mutation, OperationStore, operationStore } from '@urql/svelte';
+	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
 	import { openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { OrientationManagerAccountInput } from './orientationManager.schema';
-	import { account, ConnectedOrientationManager } from '$lib/stores/account';
+	import { account, type ConnectedOrientationManager } from '$lib/stores/account';
 
 	export let orientationManager: ConnectedOrientationManager;
 

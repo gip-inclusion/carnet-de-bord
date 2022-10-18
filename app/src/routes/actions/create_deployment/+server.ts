@@ -1,9 +1,8 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl } from '$lib/config/variables/private';
 import send from '$lib/emailing';
 import { CreateDeploymentFromApiDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
-import { actionError } from '$lib/utils/actions';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
@@ -18,10 +17,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			{ headers: request.headers, body },
 			error
 		);
-		throw new Error(
-			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
-		);
-		return actionError(error.message, 401);
+		throw error(500, 'create_deployment: unauthorize action');
 	}
 
 	const client = createClient({
@@ -63,20 +59,14 @@ export const POST: RequestHandler = async ({ request }) => {
 			email,
 			deployment,
 		});
-		throw new Error(
-			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
-		);
-		return actionError(updateResult.error.message, 400);
+		throw error(500, 'create deployment failed');
 	}
 
 	const id = updateResult.data?.insert_deployment_one?.managers[0]?.account?.id;
 
 	if (!id) {
 		console.error('Could not get id of newly created manager', { email, deployment });
-		throw new Error(
-			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
-		);
-		return actionError(`[createDeployement] update failed`, 400);
+		throw error(500, 'create_deployment: missing id');
 	}
 
 	const result = await updateAccessKey(client, id);
@@ -86,10 +76,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			email,
 			deployment,
 		});
-		throw new Error(
-			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)'
-		);
-		return actionError(`[createDeployement] Error updating access key for magic link`, 400);
+		throw error(500, 'update access key failed');
 	}
 
 	const accessKey = result.data.account.accessKey;
@@ -115,7 +102,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		console.error('Could not send email', { error: emailError, email, deployment });
 	});
 
-	return json$1({
+	return json({
 		id: updateResult.data?.insert_deployment_one?.id,
 		label: updateResult.data?.insert_deployment_one?.label,
 	});

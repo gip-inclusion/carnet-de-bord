@@ -2,7 +2,7 @@
 	import type { Option } from '$lib/types';
 
 	import { getContext } from 'svelte';
-	import { FormProps, key } from 'svelte-forms-lib';
+	import { type FormProps, key } from 'svelte-forms-lib';
 	import type { Writable } from 'svelte/store';
 
 	export let name: string;
