@@ -25,6 +25,8 @@ DATE_YMD_HYPHEN_FORMAT = "%Y-%m-%d"
 DATE_DMY_SLASH_FORMAT = "%d/%m/%Y"
 DATE_DMY_HYPHEN_FORMAT = "%d-%m-%Y"
 
+DATE_FORMATS = [DATE_YMD_HYPHEN_FORMAT, DATE_DMY_SLASH_FORMAT, DATE_DMY_HYPHEN_FORMAT]
+
 
 class FieldValue(BaseModel):
     column_name: str
@@ -132,16 +134,14 @@ def mandatory(field: str):
 
 def date_format(field: str):
     if field:
-        try:
-            datetime.datetime.strptime(field, DATE_YMD_HYPHEN_FORMAT)
-        except ValueError:
+        for date_format in DATE_FORMATS:
             try:
-                datetime.datetime.strptime(field, DATE_DMY_SLASH_FORMAT)
+                datetime.datetime.strptime(field, date_format)
+                return
             except ValueError:
-                try:
-                    datetime.datetime.strptime(field, DATE_DMY_HYPHEN_FORMAT)
-                except ValueError:
-                    return "Incorrect date format, The date must be formated as: YYYY-MM-DD"
+                pass
+
+        return "Incorrect date format, The date must be formated as: YYYY-MM-DD"
 
 
 def parse_date(field: str):
