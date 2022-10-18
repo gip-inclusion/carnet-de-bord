@@ -1,6 +1,7 @@
 import { json, error } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
+import { env } from '$env/dynamic/private';
+
 import {
 	GetDeploymentStatForDayDocument,
 	ListDeploymentIdDocument,
@@ -24,7 +25,7 @@ const client = createClient({
 	url: getGraphqlAPI(),
 });
 
-const Matomo = new MatomoTracker(getMatomoSiteId(), `${getMatomoUrl()}/matomo.php`);
+const Matomo = new MatomoTracker(env.PUBLIC_MATOMO_SITE_ID, `${env.PUBLIC_MATOMO_URL}/matomo.php`);
 
 /**
  * Endpoint that will be triggerd by an Hasura Scheduled Event

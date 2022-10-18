@@ -9,7 +9,6 @@ const config = {
 		port: 3000,
 	},
 	plugins: [sveltekit()],
-	envDir: '..',
 	optimizeDeps: {
 		//https://formidable.com/open-source/urql/docs/basics/svelte/
 		exclude: ['@urql/svelte', 'matomo-tracker'],

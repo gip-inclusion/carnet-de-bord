@@ -6,11 +6,10 @@ import type { Client } from '@urql/svelte';
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async (event) => {
-	console.log('++++ auth Layout Load');
 	const data = await event.parent();
 	connectedUser.set(data.user);
 	token.set(data.token);
-	const client: Client = createClient(data.graphqlAPI, data.token, event.fetch);
+	const client: Client = createClient(event.fetch, data.graphqlAPI, data.token);
 
 	const accountInfo = await getAccount(client, data.user.id);
 	account.set(accountInfo);

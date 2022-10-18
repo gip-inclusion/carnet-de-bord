@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import { getApiParticulierConfig } from '$lib/config/variables/private';
 import type { CAFResponse, PEResponse } from '$lib/services/particuliers.api';
 import {
@@ -108,20 +108,13 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		authorizeOnly(['professional'])(request);
 	} catch (e) {
-		return new Response(undefined, { status: 403 });
+		throw error(403, 'queryuser: unauthorized');
 	}
 
 	const body = await request.json();
 
 	if (!validateBody(body)) {
-		return json$1(
-			{
-				errors: 'INVALID_BODY',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(400, 'queryuser: invalid body');
 	}
 
 	const { service, data } = body;
@@ -135,26 +128,12 @@ export const POST: RequestHandler = async ({ request }) => {
 			users = await getPEUsers(data);
 		}
 	} catch (err) {
-		return json$1(
-			{
-				error: err.message,
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(400, `queryuser: get ${service} user failed`);
 	}
 
 	if (!users) {
-		return json$1(
-			{
-				error: "Impossible de trouver l'utilisateur demandé",
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(400, `queryuser: ${service} user user unknown`);
 	}
 
-	return json$1({ users });
+	return json({ users });
 };

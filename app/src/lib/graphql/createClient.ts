@@ -2,10 +2,13 @@
 import { createClient } from '@urql/svelte';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default (api_url: string, token?: string, fetch) => {
-	const graphqlAPI = api_url;
+export default (
+	fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>,
+	api_url: string,
+	token?: string
+) => {
 	return createClient({
-		url: graphqlAPI,
+		url: api_url,
 		fetch,
 		fetchOptions: () => {
 			if (token) {

@@ -171,7 +171,7 @@ async function createBeneficiaryIfNotExist(username: string) {
 		.then((response) => {
 			if (response.error) {
 				return Promise.reject(
-					new Error(`GetBeneficiaryByEmailDocument errror for ${username} ${response.error}`)
+					new Error(`GetBeneficiaryByEmailDocument error for ${username} ${response.error}`)
 				);
 			}
 			return response.data;
@@ -192,7 +192,7 @@ async function createBeneficiaryIfNotExist(username: string) {
 					if (response.error) {
 						return Promise.reject(
 							new Error(
-								`CreateBeneficiaryAccountDocument errror for beneficiary ${id} ${response.error}`
+								`CreateBeneficiaryAccountDocument error for beneficiary ${id} ${response.error}`
 							)
 						);
 					}

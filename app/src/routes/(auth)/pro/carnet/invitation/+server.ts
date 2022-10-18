@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { createClient } from '@urql/core';
@@ -7,6 +7,7 @@ import type { GetNotebookMemberByIdQuery } from '$lib/graphql/_gen/typed-documen
 import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
+import { authorizeOnly } from '$lib/utils/security';
 
 const client = createClient({
 	fetch,
@@ -31,51 +32,35 @@ const validateBody = (body: unknown): body is CarnetInvitation => {
 
 export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
+	try {
+		authorizeOnly(['professional'])(request);
+	} catch (e) {
+		throw error(403, 'invitation: unauthorized');
+	}
 
 	if (!validateBody(body)) {
-		return json$1(
-			{
-				errors: 'INVALID_BODY',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(400, 'invitation: invalid body');
 	}
 
 	const { notebookMemberId } = body;
 
-	const { data, error } = await client
+	const { data, error: err } = await client
 		.query<GetNotebookMemberByIdQuery>(GetNotebookMemberByIdDocument, { id: notebookMemberId })
 		.toPromise();
 
-	if (error || !data) {
-		return json$1(
-			{
-				errors: 'NOTEBOOK_MEMBER_NOT_FOUND',
-			},
-			{
-				status: 401,
-			}
-		);
+	if (err || !data) {
+		throw error(401, 'invitation: notebook member not found');
 	}
 	const { notebookId, creator, account } = data.member;
 	/**
 	 * If professional account is not confirmed, we don't send invitation
 	 */
 	if (!account?.confirmed) {
-		return json$1({});
+		return json({});
 	}
 	const result = await updateAccessKey(client, account.id);
 	if (result.error) {
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+		throw error(500, "invitation: can't update access key");
 	}
 	const accessKey = result.data?.account?.accessKey;
 	const appUrl = getAppUrl();
@@ -98,7 +83,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		console.error(emailError);
 	});
 
-	return json$1({
+	return json({
 		email: account.professional.email,
 	});
 };

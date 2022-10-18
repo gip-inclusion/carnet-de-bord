@@ -1,9 +1,13 @@
 import preprocess from 'svelte-preprocess';
 /** @type {import('@sveltejs/kit').Config} */
 import adapter from '@sveltejs/adapter-node';
-
+import { resolve } from 'path';
+/** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
+		env: {
+			dir: resolve('..'),
+		},
 		csp: {
 			mode: 'auto',
 			directives: {

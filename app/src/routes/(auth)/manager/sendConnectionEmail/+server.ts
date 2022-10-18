@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import send from '$lib/emailing';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
@@ -35,62 +35,34 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		authorizeOnly(['manager'])(request);
 	} catch (e) {
-		return new Response(undefined, { status: 403 });
+		throw error(403, 'sendConnectionEmail: unauthorized');
 	}
 
 	const body = await request.json();
 
 	if (!validateBody(body)) {
-		return json$1(
-			{
-				errors: 'INVALID_BODY',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(400, 'sendConnectionEmail: invalid body');
 	}
 
 	const { id } = body;
 
 	const appUrl = getAppUrl();
 
-	const { error, data } = await client
+	const { error: err, data } = await client
 		.query<GetAccountByIdQuery>(GetAccountByIdDocument, { id })
 		.toPromise();
 
-	if (error) {
-		console.error('sendConnectionEmail', error);
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+	if (err) {
+		console.error('sendConnectionEmail', err);
+		throw error(500, 'sendConnectionEmail: server error');
 	}
 
 	if (!data.account) {
-		return json$1(
-			{
-				errors: 'Account not found',
-			},
-			{
-				status: 404,
-			}
-		);
+		throw error(500, 'sendConnectionEmail: account not found');
 	}
 
 	if (!accountHasRelation(data.account)) {
-		return json$1(
-			{
-				errors: 'sendConfirmationEmail: Invalid account type',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(500, 'sendConnectionEmail: Invalid account type');
 	}
 
 	const { email, lastname, firstname } =
@@ -102,27 +74,13 @@ export const POST: RequestHandler = async ({ request }) => {
 			lastname,
 			firstname,
 		});
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+		throw error(500, 'sendConnectionEmail: unconfirmed account');
 	}
 
 	const result = await updateAccessKey(client, id);
 	if (result.error) {
 		console.error('Could not update access key', { error: result.error });
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+		throw error(500, 'sendConnectionEmail: cannot update access key');
 	}
 	const accessKey = result.data.account.accessKey;
 	const username = data.account.username;
@@ -151,5 +109,5 @@ export const POST: RequestHandler = async ({ request }) => {
 		console.error(emailError);
 	});
 
-	return json$1({});
+	return json({});
 };

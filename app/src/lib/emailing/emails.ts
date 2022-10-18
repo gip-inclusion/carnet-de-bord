@@ -1,5 +1,5 @@
 import { displayFullName } from '$lib/ui/format';
-import type { InscriptionRequest } from 'src/routes/inscription/request';
+import type { InscriptionRequest } from 'src/routes/inscription/request/+server';
 
 type Person = {
 	firstname: string;

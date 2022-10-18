@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
 import send from '$lib/emailing';
 import {
@@ -59,14 +59,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 
 	if (!validateBody(body)) {
-		return json$1(
-			{
-				errors: 'INVALID_BODY',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(400, 'inscription: invalid body');
 	}
 
 	const { accountRequest, structureId, requester, autoConfirm } = body;
@@ -89,44 +82,23 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	if (emailResult.error || !emailResult.data) {
 		console.error(emailResult);
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+		throw error(500, 'inscription: server error');
 	}
 
 	if (emailResult.data.account.length > 0) {
 		console.error(`l'email ${email} est déjà utilisé`);
-		return json$1(
-			{
-				errors: { email: 'Cet email est déjà utilisé.' },
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(400, 'inscription: email already used');
 	}
 
-	const { error, data } = await client
+	const { error: err, data } = await client
 		.query<GetAccountByUsernameQuery>(GetAccountByUsernameDocument, {
 			comp: { _ilike: `${username.toLowerCase()}%` },
 		})
 		.toPromise();
 
-	if (error || !data) {
-		console.error(error);
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+	if (err || !data) {
+		console.error(err);
+		throw error(500, 'inscription: get account failed');
 	}
 
 	if (data.account.length > 0) {
@@ -156,14 +128,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	if (insertResult.error || !insertResult.data) {
 		console.error(error);
-		return json$1(
-			{
-				errors: 'INSERTION_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+		throw error(500, 'inscription: insert failed');
 	}
 
 	const { account } = insertResult.data;
@@ -172,14 +137,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		const result = await updateAccessKey(client, account.id);
 		if (result.error) {
 			console.error('login', result.error);
-			return json$1(
-				{
-					errors: 'SERVER_ERROR',
-				},
-				{
-					status: 500,
-				}
-			);
+			throw error(500, 'server error');
 		}
 		const accessKey = result.data.account.accessKey;
 		send({
@@ -206,29 +164,22 @@ export const POST: RequestHandler = async ({ request }) => {
 		});
 	} else {
 		// send email to all deployment managers for the target structure
-		const { error, data } = await client
+		const { error: err, data } = await client
 			.query<GetDeploymentManagersForStructureQuery>(GetDeploymentManagersForStructureDocument, {
 				structureId,
 			})
 			.toPromise();
-		if (error) {
+		if (err) {
 			// instead of erroring for the end-user (in spite of the accounts having been created in actuality),
 			// we should return a success and send an admin-level error to handle notifying the managers
-			return json$1(
-				{
-					errors: 'SERVER_ERROR',
-				},
-				{
-					status: 500,
-				}
-			);
+			throw error(500, 'server error');
 		}
 
 		const emails: string[] = data?.structure?.deployment?.managers?.map(({ email }) => email);
 		sendEmailNotifications(emails, accountRequest, account.professional.structure.name, requester);
 	}
 
-	return json$1({ accountId: account.id });
+	return json({ accountId: account.id });
 };
 
 function createUsername(accounts: Pick<Account, 'username'>[], username: string): string {

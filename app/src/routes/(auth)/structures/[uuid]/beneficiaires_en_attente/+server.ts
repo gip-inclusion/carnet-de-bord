@@ -1,4 +1,4 @@
-import { error, json as json$1 } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { getGraphqlAPI } from '$lib/config/variables/private';
 import { GetPendingBeneficiariesDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import { authorizeOnly } from '$lib/utils/security';
@@ -11,15 +11,8 @@ export const GET: RequestHandler = async ({ request, params }) => {
 	try {
 		authorizeOnly(['admin_structure'])(request);
 	} catch (e) {
-		console.log('pag');
-		return json$1(
-			{
-				message: 'unauthorized',
-			},
-			{
-				status: 403,
-			}
-		);
+		console.log('unauthorized');
+		throw error(403, 'unauthorized');
 	}
 	const cookie = parse(request.headers.get('cookie'));
 

@@ -1,4 +1,4 @@
-import { json as json$1 } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import send from '$lib/emailing';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
@@ -41,62 +41,34 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		authorizeOnly(['manager'])(request);
 	} catch (e) {
-		return new Response(undefined, { status: 403 });
+		throw error(403, 'confirmPro: unauthorized');
 	}
 
 	const body = await request.json();
 
 	if (!validateBody(body)) {
-		return json$1(
-			{
-				errors: 'INVALID_BODY',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(500, 'confirmPro: invalid body');
 	}
 
 	const { id } = body;
 
 	const appUrl = getAppUrl();
 
-	const { error, data } = await client
+	const { error: err, data } = await client
 		.query<GetAccountByIdQuery>(GetAccountByIdDocument, { id })
 		.toPromise();
 
-	if (error) {
-		console.error('confirmPro', error);
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+	if (err) {
+		console.error('confirmPro', err);
+		throw error(500, 'confirmPro: server error');
 	}
 
 	if (!data.account) {
-		return json$1(
-			{
-				errors: 'Account not found',
-			},
-			{
-				status: 404,
-			}
-		);
+		throw error(403, 'confirmPro: account not found');
 	}
 
 	if (!accountHasRelation(data.account)) {
-		return json$1(
-			{
-				errors: 'confirmpro: Invalid account type',
-			},
-			{
-				status: 400,
-			}
-		);
+		throw error(403, 'confirmPro: invalid account type');
 	}
 
 	const { email, lastname, firstname } =
@@ -112,14 +84,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	if (result.error) {
 		console.error('Could not confirm pro', { id, email, firstname, lastname, error: result.error });
-		return json$1(
-			{
-				errors: 'SERVER_ERROR',
-			},
-			{
-				status: 500,
-			}
-		);
+		throw error(403, 'confirmPro: server error');
 	}
 
 	const accessKey = result.data.account.accessKey;
@@ -147,7 +112,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		console.error(emailError);
 	});
 
-	return json$1({});
+	return json({});
 };
 
 export function accountHasRelation(account: GetAccountByIdQuery['account']) {

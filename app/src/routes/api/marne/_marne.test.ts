@@ -1,8 +1,6 @@
-import type { EndpointOutput } from '@sveltejs/kit';
-import type { ExternalDeploymentApiOutput } from '../actions/update_notebook';
 import mockRequest from '$lib/tests/mockRequest';
 import fixtures from './fixtures.json';
-import { post } from './marne';
+import { POST } from './+server';
 
 global.fetch = jest
 	.fn()
@@ -10,7 +8,7 @@ global.fetch = jest
 
 describe('marne request handler', () => {
 	test('should call the correct url', async () => {
-		await mockRequest(post, {
+		await mockRequest(POST, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {
@@ -104,7 +102,7 @@ describe('marne request handler', () => {
 			actions: [],
 		};
 
-		const result = await mockRequest(post, {
+		const result = await mockRequest(POST, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {
@@ -117,7 +115,7 @@ describe('marne request handler', () => {
 			focuses: [],
 		});
 
-		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
+		expect(result).toEqual({
 			status: 200,
 			body: expectedBody,
 		});
@@ -196,7 +194,7 @@ describe('marne request handler', () => {
 			],
 			actions: [],
 		};
-		const result = await mockRequest(post, {
+		const result = await mockRequest(POST, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {
@@ -223,7 +221,7 @@ describe('marne request handler', () => {
 			],
 		});
 
-		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
+		expect(result).toEqual({
 			status: 200,
 			body: expectedBody,
 		});
@@ -294,7 +292,7 @@ describe('marne request handler', () => {
 			],
 		};
 
-		const result = await mockRequest(post, {
+		const result = await mockRequest(POST, {
 			url: 'service.url',
 			headers: { Authorization: 'bearer 1234567890' },
 			input: {
@@ -321,7 +319,7 @@ describe('marne request handler', () => {
 			],
 		});
 
-		expect(result).toEqual<EndpointOutput<ExternalDeploymentApiOutput>>({
+		expect(result).toEqual({
 			status: 200,
 			body: expectedBody,
 		});

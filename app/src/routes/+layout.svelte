@@ -8,7 +8,7 @@
 	import icoFavicon from '@gouvfr/dsfr/dist/favicon/favicon.ico';
 	import manifest from '@gouvfr/dsfr/dist/favicon/manifest.webmanifest';
 	import { onDestroy, onMount } from 'svelte';
-	import { getMatomoSiteId, getMatomoUrl } from '$lib/config/variables/public';
+	import { env } from '$env/dynamic/public';
 	import * as Matomo from '$lib/tracking/matomo';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
@@ -20,8 +20,8 @@
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	yup.setLocale(yupFrLocale);
 
-	const MATOMO_URL = getMatomoUrl();
-	const MATOMO_SITE_ID = getMatomoSiteId();
+	const MATOMO_URL = env.PUBLIC_MATOMO_URL;
+	const MATOMO_SITE_ID = env.PUBLIC_MATOMO_SITE_ID;
 
 	let scrollbarWidth = '0';
 
@@ -30,9 +30,8 @@
 	$backendAPI = data.backendAPI;
 	$graphqlAPI = data.graphqlAPI;
 
-	const client: Client = createClient(data.graphqlAPI, null, fetch);
+	const client: Client = createClient(fetch, data.graphqlAPI);
 	setClient(client);
-
 	onMount(async () => {
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
 		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');

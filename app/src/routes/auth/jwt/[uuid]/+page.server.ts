@@ -1,7 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 import { createJwt } from '$lib/utils/getJwt';
 
-import { createClient } from '@urql/svelte';
+import { createClient } from '@urql/core';
 import {
 	GetAccountInfoDocument,
 	ResetAccountAccessKeyDocument,

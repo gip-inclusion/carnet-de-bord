@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
-import source from '../../fixtures.json';
+import source from '../../marne/fixtures.json';
 
 export const GET: RequestHandler = async ({ locals, url, params, request }) => {
 	const { headers } = request;
