@@ -258,6 +258,10 @@ Alors('je vois {string} sous le titre {string}', async (text, title) => {
 	I.see(text, item);
 });
 
+Alors('je ne vois pas d\'alerte', () => {
+	I.dontSee(locate('.ri-alert-line'));
+});
+
 Alors('je ne vois pas le thème {string}', (theme) => {
 	I.dontSeeElement(`//a[text()="${theme}" and starts-with(@href, "/themes/")]`);
 });

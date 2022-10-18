@@ -17,4 +17,12 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je vois "4 bénéficiaires sélectionnés sur 4"
 		Quand je clique sur "Confirmer"
 		Alors je vois "3 bénéficiaires importés sur 4 demandés."
-		Alors je vois "Un bénéficiaire avec les mêmes prénom, nom et date de naissance existe déjà sur ce territoire." sur la ligne "charlie"
+
+	Scénario: Import de bénéficiaires avec différents formats de date
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand je clique sur "Importer des bénéficiaires"
+		Alors je vois "Importer des bénéficiaires"
+		Quand je téléverse le fichier "/resources/import_beneficiaires_with_all_date_formats.csv"
+		Alors je vois "Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont correctes et confirmer."
+		Alors je vois "4 bénéficiaires sélectionnés sur 4"
+		Alors je ne vois pas d'alerte
