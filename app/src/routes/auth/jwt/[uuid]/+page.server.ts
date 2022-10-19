@@ -22,10 +22,10 @@ const client = createClient({
 	requestPolicy: 'network-only',
 });
 
-// export const GET: RequestHandler = async ({ params, cookies, setHeaders }) => {
-export const load: PageServerLoad = async ({ params, cookies, setHeaders }) => {
-	console.log('/auth/jwt/[uuid]/+server.ts');
+export const load: PageServerLoad = async ({ params, url, cookies, setHeaders }) => {
 	const accessKey = params.uuid;
+	const redirectUrl = url.searchParams.get('url');
+
 	const getAccountResult = await client
 		.query<GetAccountInfoQuery>(GetAccountInfoDocument, { accessKey })
 		.toPromise();
@@ -84,5 +84,5 @@ export const load: PageServerLoad = async ({ params, cookies, setHeaders }) => {
 
 	cookies.set('jwt', token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
 	setHeaders({ 'Cache-Control': 'private' });
-	throw redirect(302, '/');
+	throw redirect(302, redirectUrl ?? '/');
 };
