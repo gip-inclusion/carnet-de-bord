@@ -2,7 +2,6 @@
 	import type { MenuItem } from '$lib/types';
 	import Footer from '$lib/ui/base/Footer.svelte';
 	import Header from '$lib/ui/base/Header.svelte';
-	import { LayerCDB } from '$lib/ui/index';
 	import { baseUrlForRole, homeForRole } from '$lib/routes';
 	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 
@@ -22,7 +21,6 @@
 
 <div class="fr-container fr-pb-6w fr-px-2w" style="min-height: calc(100vh - 200px)">
 	<slot />
-	<LayerCDB />
 </div>
 
 <Footer />

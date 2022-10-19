@@ -1,8 +1,6 @@
-import type { PageLoad, PageParentData } from './$types';
+import type { PageLoad } from './$types';
 
-export const load: PageLoad = async ({ parent, params }) => {
-	const parentData: PageParentData = await parent();
-	console.log('++++', { parentData, params });
+export const load: PageLoad = async ({ params }) => {
 	return {
 		deploymentId: params.uuid,
 	};

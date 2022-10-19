@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 
-	import { type Client, setClient } from '@urql/svelte';
 	// DSFR Assets
 	import appleTouchFavicon from '@gouvfr/dsfr/dist/favicon/apple-touch-icon.png';
 	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
@@ -12,12 +11,14 @@
 	import * as Matomo from '$lib/tracking/matomo';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import createClient from '$lib/graphql/createClient';
-	import { offCanvas, graphqlAPI, backendAPI } from '$lib/stores';
+	import { offCanvas, graphqlAPI, backendAPI, token, connectedUser } from '$lib/stores';
 	import type { PageData } from './$types';
 
 	import * as yup from 'yup';
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
+	import createClient from '$lib/graphql/createClient';
+	import { setClient } from '@urql/svelte';
+	import LayerCdb from '$lib/ui/LayerCDB.svelte';
 	yup.setLocale(yupFrLocale);
 
 	const MATOMO_URL = env.PUBLIC_MATOMO_URL;
@@ -30,8 +31,13 @@
 	$backendAPI = data.backendAPI;
 	$graphqlAPI = data.graphqlAPI;
 
-	const client: Client = createClient(fetch, data.graphqlAPI);
-	setClient(client);
+	$: {
+		const client = createClient(fetch, data.graphqlAPI, data.token);
+		setClient(client);
+		$token = data.token;
+		$connectedUser = data.user;
+	}
+
 	onMount(async () => {
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
 		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
@@ -94,6 +100,7 @@
 </svelte:head>
 
 <slot />
+<LayerCdb />
 
 <style>
 	:global(body::after) {

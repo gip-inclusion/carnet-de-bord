@@ -1,20 +1,17 @@
 import createClient from '$lib/graphql/createClient';
 import { GetAccountByPkDocument, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
-import { account, connectedUser, token } from '$lib/stores';
+import { account } from '$lib/stores';
 import type { ConnectedUser } from '$lib/stores/account';
-import type { Client } from '@urql/svelte';
+import type { Client } from '@urql/core';
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async (event) => {
 	const data = await event.parent();
-	connectedUser.set(data.user);
-	token.set(data.token);
 	const client: Client = createClient(event.fetch, data.graphqlAPI, data.token);
 
 	const accountInfo = await getAccount(client, data.user.id);
 	account.set(accountInfo);
 	return {
-		client,
 		account: accountInfo,
 	};
 };
