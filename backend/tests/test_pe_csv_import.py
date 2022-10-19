@@ -218,21 +218,19 @@ async def test_email_conversion():
 async def test_import_pe_referent(
     db_connection: Connection, pe_principal_csv_series: DataFrame
 ):
-    iterator = pe_principal_csv_series.iterrows()
-    for i, (_, row_content) in enumerate(iterator):
-        # Get the 4th element
-        if i < 3:
-            continue
+    rows = list(pe_principal_csv_series.iterrows())
 
-        csv_row: PrincipalCsvRow = await map_principal_row(row_content)
+    _, row_content = rows[3]
 
-        professional: Professional | None = await import_pe_referent(
-            db_connection,
-            csv_row,
-            csv_row.identifiant_unique_de,
-            UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
-            UUID("9c0e5236-a03d-4e5f-b945-c6bc556cf9f3"),
-        )
+    csv_row: PrincipalCsvRow = await map_principal_row(row_content)
 
-        assert professional is not None
-        assert professional.email == "referent_prenom4.referent_nom4@pole-emploi.fr"
+    professional: Professional | None = await import_pe_referent(
+        db_connection,
+        csv_row,
+        csv_row.identifiant_unique_de,
+        UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
+        UUID("9c0e5236-a03d-4e5f-b945-c6bc556cf9f3"),
+    )
+
+    assert professional is not None
+    assert professional.email == "referent_prenom4.referent_nom4@pole-emploi.fr"
