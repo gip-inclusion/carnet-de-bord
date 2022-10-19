@@ -41,7 +41,7 @@ class BeneficiariesImportResult(BaseModel):
     result: list[BeneficiaryImportResult]
 
 
-@router.post("/bulk")
+@router.post("/bulk", response_model=BeneficiariesImportResult)
 async def import_beneficiaries(
     beneficiaries: list[BeneficiaryImport],
     request: Request,
