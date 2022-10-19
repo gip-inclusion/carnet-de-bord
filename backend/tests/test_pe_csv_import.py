@@ -5,6 +5,7 @@ from uuid import UUID
 import httpx
 import respx
 from asyncpg.connection import Connection
+from dask.dataframe.core import DataFrame
 
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_by_id
@@ -20,12 +21,15 @@ from api.db.crud.structure import get_structures
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.external_data import ExternalSource
 from api.db.models.notebook import NotebookMember
+from api.db.models.professional import Professional
 from api.db.models.structure import Structure
 from cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb_csv.pe import (
     import_beneficiaries,
+    import_pe_referent,
     insert_wanted_jobs_for_csv_row_and_notebook,
     map_principal_row,
+    net_email_to_fr_email,
 )
 from pe.pole_emploi_client import PoleEmploiApiClient
 from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
@@ -108,7 +112,7 @@ async def test_parse_principal_csv(
     assert len(sophie_tifour.notebook.wanted_jobs) == 3
 
     professional = await get_professional_by_email(
-        db_connection, "referent_prenom4.referent_nom4@pole-emploi.net"
+        db_connection, "referent_prenom4.referent_nom4@pole-emploi.fr"
     )
 
     assert professional is not None
@@ -202,3 +206,31 @@ async def test_parse_principal_csv_exception(
         await import_beneficiaries(db_connection, pe_principal_csv_filepath)
 
         assert "Exception while processing CSV line: Parsing exception" in caplog.text
+
+
+async def test_email_conversion():
+    assert (
+        net_email_to_fr_email("051referent_prenom4.referent_nom4@pole-emploi.net")
+        == "referent_prenom4.referent_nom4@pole-emploi.fr"
+    )
+
+
+async def test_import_pe_referent(
+    db_connection: Connection, pe_principal_csv_series: DataFrame
+):
+    rows = list(pe_principal_csv_series.iterrows())
+
+    _, row_content = rows[3]
+
+    csv_row: PrincipalCsvRow = await map_principal_row(row_content)
+
+    professional: Professional | None = await import_pe_referent(
+        db_connection,
+        csv_row,
+        csv_row.identifiant_unique_de,
+        UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
+        UUID("9c0e5236-a03d-4e5f-b945-c6bc556cf9f3"),
+    )
+
+    assert professional is not None
+    assert professional.email == "referent_prenom4.referent_nom4@pole-emploi.fr"
