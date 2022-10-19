@@ -11,7 +11,7 @@
 	"license": "Apache-2.0",
 	"scripts": {
 		"hasura:console": "hasura console --project ../hasura",
-		"hasura:seed": "hasura seed apply --database-name carnet_de_bord  --project ../hasura",
+		"hasura:seed": "hasura seed apply --database-name carnet_de_bord --project ../hasura",
 		"compose": "docker-compose up --build",
 		"dev": "vite dev --host",
 		"build": "vite build",
