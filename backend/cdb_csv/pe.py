@@ -247,7 +247,7 @@ async def import_pe_referent(
 
     if pro_email is None:
         logging.error(
-            "{} - Unable to convert email to .fr for email '{}'. Using original '{}' instead.".format(
+            "{} - Unable to convert email {} to .fr. Using original '{}' instead.".format(
                 pe_unique_id, csv_row.referent_mail, csv_row.referent_mail
             )
         )
