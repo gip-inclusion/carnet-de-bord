@@ -442,7 +442,7 @@ harry_covert = BeneficiaryImport(
     right_rqth="Non",
     geographical_area="between_20_30",
     rome_code_description="Pontier élingueur / Pontière élingueuse (N1104)",
-    education_level="level_4",
+    education_level="NV1",
     structure_name="Pole Emploi Agence Livry-Gargnan",
     advisor_email="dunord@pole-emploi.fr",
 )

@@ -86,3 +86,80 @@ class BeneficiaryImport(BaseModel):
             return value
         else:
             return False
+
+    @validator("right_rsa")
+    def parse_right_rsa(cls, right_rsa):
+        if right_rsa and right_rsa.strip() in [
+            "rsa_droit_ouvert_et_suspendu",
+            "rsa_droit_ouvert_versable",
+            "rsa_droit_ouvert_versement_suspendu",
+        ]:
+            return right_rsa.strip()
+        else:
+            return None
+
+    @validator("geographical_area")
+    def parse_geographical_area(cls, geographical_area):
+        if geographical_area and geographical_area.strip() in [
+            "none",
+            "less_10",
+            "between_10_20",
+            "between_20_30",
+            "plus_30",
+        ]:
+            return geographical_area.strip()
+        else:
+            return None
+
+    @validator("work_situation")
+    def parse_work_situation(cls, work_situation):
+        if work_situation and work_situation.strip() in [
+            "recherche_emploi",
+            "recherche_formation",
+            "recherche_alternance",
+            "recherche_stage",
+            "emploi",
+            "formation",
+            "stage",
+            "alternance",
+            "service_civique",
+            "iae",
+            "interim",
+            "construction_projet",
+            "projet_entrepreneurial",
+            "entrepreneur",
+            "etudiant",
+            "scolarisé",
+            "enretraite",
+            "maladie",
+            "invalidite",
+            "conge_parental",
+            "au_foyer",
+            "autre",
+            "cdi_temps_plein",
+            "cdi_temps_partiel",
+            "cdd_temps_plein",
+            "cdd_temps_partiel",
+            "intermittent",
+        ]:
+            return work_situation.strip()
+        else:
+            return None
+
+    @validator("education_level")
+    def parse_education_level(cls, education_level):
+        if education_level and education_level.strip() in [
+            "AFS",
+            "C12",
+            "C3A",
+            "CFG",
+            "CP4",
+            "NV5",
+            "NV4",
+            "NV3",
+            "NV2",
+            "NV1",
+        ]:
+            return education_level.strip()
+        else:
+            return None
