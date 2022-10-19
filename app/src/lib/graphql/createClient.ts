@@ -4,11 +4,11 @@ import { createClient } from '@urql/svelte';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default (
 	fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>,
-	api_url: string,
+	apiUrl: string,
 	token?: string
 ) => {
 	return createClient({
-		url: api_url,
+		url: apiUrl,
 		fetch,
 		fetchOptions: () => {
 			if (token) {
