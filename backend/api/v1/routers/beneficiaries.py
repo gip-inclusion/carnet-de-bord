@@ -13,7 +13,7 @@ from api.db.crud.beneficiary import (
     update_beneficiary,
 )
 from api.db.crud.notebook import (
-    create_new_notebook,
+    insert_notebook,
     insert_notebook_member,
     update_notebook,
 )
@@ -72,7 +72,7 @@ async def import_beneficiary(
                     b_id: UUID = await insert_beneficiary(
                         db, beneficiary, deployment_id
                     )
-                    nb_id: UUID = await create_new_notebook(db, b_id, beneficiary)
+                    nb_id: UUID = await insert_notebook(db, b_id, beneficiary)
                     await insert_wanted_jobs(db, nb_id, beneficiary)
                     await insert_referent_and_structure(db, b_id, nb_id, beneficiary)
                     logger.info("inserted new beneficiary %s", b_id)

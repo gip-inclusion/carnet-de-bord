@@ -573,7 +573,7 @@ async def get_notebook_by_id(
     )
 
 
-async def create_new_notebook(
+async def insert_notebook(
     connection: Connection,
     beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
