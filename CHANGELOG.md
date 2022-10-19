@@ -1,3 +1,10 @@
+# [1.153.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.152.0...v1.153.0) (2022-10-19)
+
+
+### Features
+
+* importer les pro PE avec leur adresse .fr au lieu de .net ([#1181](https://github.com/SocialGouv/carnet-de-bord/issues/1181)) ([2dd2670](https://github.com/SocialGouv/carnet-de-bord/commit/2dd2670913e0aac2d2bdb89651fbfa7593c3d342))
+
 # [1.152.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.151.1...v1.152.0) (2022-10-14)
 
 
