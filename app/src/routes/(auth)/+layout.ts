@@ -16,7 +16,7 @@ export const load: LayoutLoad = async (event) => {
 	};
 };
 
-async function getAccount(client, accountId: string): Promise<ConnectedUser | null> {
+async function getAccount(client: Client, accountId: string): Promise<ConnectedUser | null> {
 	const result = await client.query(GetAccountByPkDocument, { accountId }).toPromise();
 	if (result.data) {
 		const { confirmed, onboardingDone, username, type } = result.data.account_by_pk;
