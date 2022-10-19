@@ -9,8 +9,8 @@ const { Alors, Quand, Soit } = require("./fr");
 
 const { I } = inject();
 
-// The database is seed before each test
-Before(async (params) => {
+// The database is sed before each test
+Before(async () => {
 	seedDatabase();
 });
 

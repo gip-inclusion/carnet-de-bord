@@ -8,8 +8,9 @@
 	"main": "codecept.conf.js",
 	"license": "Apache-2.0",
 	"scripts": {
+		"lint": "pre-commit run --all-files",
 		"lint:prettier": "prettier --config .prettierrc --check .",
-		"lint:eslint": "eslint --config=.eslintrc.cjs ",
+		"lint:eslint": "eslint --config=.eslintrc.cjs .",
 		"fix": "yarn fix:prettier && yarn fix:eslint",
 		"fix:prettier": "yarn lint:prettier --write",
 		"fix:eslint": "yarn lint:eslint --fix --cache",

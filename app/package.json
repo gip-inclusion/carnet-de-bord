@@ -20,7 +20,7 @@
 		"svelte-check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "pre-commit run --all-files && yarn svelte-check",
 		"lint:pre-commit": "pre-commit run --all-files",
-		"lint:prettier": "prettier --config .prettierrc --check src ./*.{svelte,cjs,js,json,md}",
+		"lint:prettier": "prettier --config .prettierrc --check src ./**/*.{svelte,cjs,js,json}",
 		"lint:eslint": "eslint --config=.eslintrc.cjs --ignore-pattern e2e src .",
 		"fix": "yarn fix:prettier && yarn fix:eslint",
 		"fix:prettier": "yarn lint:prettier --write",

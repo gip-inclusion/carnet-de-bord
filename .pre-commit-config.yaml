@@ -28,22 +28,38 @@ repos:
 
   - repo: local
     hooks:
-      - id: prettier
-        name: run prettier
+      - id: app-prettier
+        name: run prettier (app)
         language: system
         files: ^app/.*$
         types_or: [javascript, ts, svelte]
         entry: |
-          bash -c 'yarn --cwd app --silent prettier --write "${@#*/}"' --
+          bash -c 'yarn --cwd app --silent fix:prettier "${@#*/}"' --
 
-      - id: eslint
-        name: run eslint
+      - id: app-eslint
+        name: run eslint (app)
         language: system
         files: ^app/.*$
         types_or: [javascript, ts, svelte]
         exclude: /_gen/
         entry: |
-          bash -c 'yarn --cwd app --silent eslint "${@#*/}"' --
+          bash -c 'yarn --cwd app --silent fix:eslint "${@#*/}"' --
+
+      - id: e2e-prettier
+        name: run prettier (e2e)
+        language: system
+        files: ^e2e/.*$
+        types_or: [javascript]
+        entry: |
+          bash -c 'yarn --cwd e2e --silent fix:prettier "${@#*/}"' --
+
+      - id: e2e-eslint
+        name: run eslint (e2e)
+        language: system
+        files: ^e2e/.*$
+        types_or: [javascript]
+        entry: |
+          bash -c 'yarn --cwd e2e --silent fix:eslint "${@#*/}"' --
 
       - id: check-hasura-version
         name: ensure hasura version consistency

@@ -10,3 +10,5 @@ __pycache__
 # IDE
 .idea
 .testmondata
+app/.eslintcache
+e2e/.eslintcache

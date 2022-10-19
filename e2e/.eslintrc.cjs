@@ -28,4 +28,7 @@ module.exports = {
 			},
 		},
 	],
+	rules: {
+		'jest/no-deprecated-functions': 'off',
+	},
 };
