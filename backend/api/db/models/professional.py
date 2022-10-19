@@ -15,6 +15,6 @@ class ProfessionalInsert(BaseModel):
 
 class Professional(ProfessionalInsert):
     id: UUID
-    account_id: UUID
+    account_id: UUID | None
     created_at: datetime
     updated_at: datetime

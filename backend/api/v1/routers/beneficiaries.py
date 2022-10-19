@@ -146,7 +146,7 @@ async def insert_referent_and_structure(
             db, beneficiary_id, referent.structure_id, "done"
         )
 
-    if referent:
+    if referent and referent.account_id:
         if not structure or structure.id == referent.structure_id:
             referent = NotebookMemberInsert(
                 notebook_id=notebook_id,
