@@ -208,7 +208,7 @@ async def get_structures_for_beneficiary(
 ) -> list[BeneficiaryStructure]:
     rows: list[Record] = await connection.fetch(
         """
-SELECT (struct.id, struct.name, b_struct.status)
+SELECT struct.id, struct.name, b_struct.status
 FROM public.beneficiary_structure AS b_struct
 LEFT JOIN public.structure AS struct
     ON struct.id = b_struct.structure_id
@@ -218,9 +218,9 @@ WHERE b_struct.beneficiary_id = $1
     )
     return [
         BeneficiaryStructure(
-            structure_id=row["row"][0],
-            structure_name=row["row"][1],
-            beneficiary_status=row["row"][2],
+            structure_id=row["id"],
+            structure_name=row["name"],
+            beneficiary_status=row["status"],
         )
         for row in rows
     ]
