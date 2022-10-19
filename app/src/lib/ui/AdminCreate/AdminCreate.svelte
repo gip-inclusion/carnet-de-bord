@@ -59,8 +59,6 @@
 		let:isSubmitting
 		let:isValid
 	>
-		<label class="fr-label" for="emailtest">Email</label>
-		<input name="emailtest" class="fr-input" id="emailtest" />
 		<Input name="email" required inputLabel="Courriel" />
 		<Input name="firstname" required inputLabel="Prénom" />
 		<Input name="lastname" required inputLabel="Nom" />
