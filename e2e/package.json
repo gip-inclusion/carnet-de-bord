@@ -8,7 +8,11 @@
 	"main": "codecept.conf.js",
 	"license": "Apache-2.0",
 	"scripts": {
-		"lint": "eslint ./step_definitions",
+		"lint:prettier": "prettier --config .prettierrc --check .",
+		"lint:eslint": "eslint --config=.eslintrc.cjs ",
+		"fix": "yarn fix:prettier && yarn fix:eslint",
+		"fix:prettier": "yarn lint:prettier --write",
+		"fix:eslint": "yarn lint:eslint --fix --cache",
 		"test": "LANGUAGE=fr codeceptjs run",
 		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
 		"test:ui": "LANGUAGE=fr CODECEPT_UI=true codecept-ui --app"
