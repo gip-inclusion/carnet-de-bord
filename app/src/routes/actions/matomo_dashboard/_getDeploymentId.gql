@@ -1,5 +1,5 @@
 query ListDeploymentId {
-	deployments: deployment(order_by: { createdAt: desc }) {
-		id
-	}
+  deployments: deployment(order_by: { createdAt: desc }) {
+    id
+  }
 }

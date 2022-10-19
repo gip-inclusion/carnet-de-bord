@@ -1,18 +1,18 @@
 query GetProfessionalsFromStructures($id: uuid!) {
-	professional(where: { structureId: { _eq: $id } }) {
-		account {
-			id
-		}
-		id
-		firstname
-		lastname
-		mobileNumber
-		position
-		email
-		structureId
-		structure {
-			id
-			name
-		}
-	}
+  professional(where: { structureId: { _eq: $id } }) {
+    account {
+      id
+    }
+    id
+    firstname
+    lastname
+    mobileNumber
+    position
+    email
+    structureId
+    structure {
+      id
+      name
+    }
+  }
 }

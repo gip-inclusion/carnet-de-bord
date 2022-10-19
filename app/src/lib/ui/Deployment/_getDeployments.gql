@@ -1,12 +1,12 @@
 query GetDeployments {
-	deployments: deployment(order_by: { createdAt: desc }) {
-		id
-		label
-		managers {
-			id
-			firstname
-			lastname
-			email
-		}
-	}
+  deployments: deployment(order_by: { createdAt: desc }) {
+    id
+    label
+    managers {
+      id
+      firstname
+      lastname
+      email
+    }
+  }
 }

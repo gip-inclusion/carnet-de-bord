@@ -1,5 +1,5 @@
 mutation RemoveNotebookMembers($remove: notebook_member_bool_exp!) {
-	delete_notebook_member(where: $remove) {
-		affected_rows
-	}
+  delete_notebook_member(where: $remove) {
+    affected_rows
+  }
 }

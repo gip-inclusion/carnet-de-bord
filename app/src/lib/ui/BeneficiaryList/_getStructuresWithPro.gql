@@ -1,22 +1,22 @@
 query GetStructuresWithPro {
-	structure {
-		id
-		name
-		professionals {
-			account {
-				id
-			}
-			id
-			firstname
-			lastname
-			mobileNumber
-			position
-			email
-			structureId
-			structure {
-				id
-				name
-			}
-		}
-	}
+  structure {
+    id
+    name
+    professionals {
+      account {
+        id
+      }
+      id
+      firstname
+      lastname
+      mobileNumber
+      position
+      email
+      structureId
+      structure {
+        id
+        name
+      }
+    }
+  }
 }

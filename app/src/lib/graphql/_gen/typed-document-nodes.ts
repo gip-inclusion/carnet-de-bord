@@ -73,6 +73,11 @@ export type StringComparisonExp = {
 	_similar?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateNotebookOutput = {
+	__typename?: 'UpdateNotebookOutput';
+	id: Scalars['uuid'];
+};
+
 /** columns and relationships of "account" */
 export type Account = {
 	__typename?: 'account';
@@ -3859,6 +3864,7 @@ export type MutationRoot = {
 	insert_wanted_job?: Maybe<WantedJobMutationResponse>;
 	/** insert a single row into the table: "wanted_job" */
 	insert_wanted_job_one?: Maybe<WantedJob>;
+	updateNotebookAct?: Maybe<UpdateNotebookOutput>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<AccountMutationResponse>;
 	/** update single row of the table: "account" */
@@ -4707,6 +4713,11 @@ export type MutationRootInsertWantedJobArgs = {
 export type MutationRootInsertWantedJobOneArgs = {
 	object: WantedJobInsertInput;
 	on_conflict?: InputMaybe<WantedJobOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookActArgs = {
+	id: Scalars['uuid'];
 };
 
 /** mutation root */

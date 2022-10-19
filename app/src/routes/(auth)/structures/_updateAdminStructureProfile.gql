@@ -1,31 +1,31 @@
 mutation UpdateAdminStructureProfile(
-	$firstname: String!
-	$lastname: String!
-	$email: citext!
-	$phoneNumbers: String
-	$id: uuid!
-	$accountId: uuid!
+  $firstname: String!
+  $lastname: String!
+  $email: citext!
+  $phoneNumbers: String
+  $id: uuid!
+  $accountId: uuid!
 ) {
-	updateAdminStructure: update_admin_structure_by_pk(
-		_set: { firstname: $firstname, lastname: $lastname, email: $email, phoneNumbers: $phoneNumbers }
-		pk_columns: { id: $id }
-	) {
-		id
-	}
-	updateAccount: update_account_by_pk(
-		pk_columns: { id: $accountId }
-		_set: { onboardingDone: true }
-	) {
-		id
-		onboardingDone
-		confirmed
-		username
-		admin_structure {
-			id
-			firstname
-			lastname
-			email
-			phoneNumbers
-		}
-	}
+  updateAdminStructure: update_admin_structure_by_pk(
+    _set: { firstname: $firstname, lastname: $lastname, email: $email, phoneNumbers: $phoneNumbers }
+    pk_columns: { id: $id }
+  ) {
+    id
+  }
+  updateAccount: update_account_by_pk(
+    pk_columns: { id: $accountId }
+    _set: { onboardingDone: true }
+  ) {
+    id
+    onboardingDone
+    confirmed
+    username
+    admin_structure {
+      id
+      firstname
+      lastname
+      email
+      phoneNumbers
+    }
+  }
 }
