@@ -189,7 +189,7 @@ async def add_beneficiary_to_structure(
     structure_id: UUID,
     status: str,
 ) -> UUID:
-    return await connection.fetchrow(
+    result = await connection.fetchrow(
         """
 INSERT INTO beneficiary_structure (beneficiary_id, structure_id, status)
 VALUES ($1, $2, $3)
@@ -199,6 +199,7 @@ RETURNING id
         structure_id,
         status,
     )
+    return result["id"]
 
 
 async def get_structures_for_beneficiary(
