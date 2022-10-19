@@ -104,7 +104,7 @@ async def import_beneficiary(
                     return BeneficiaryImportResult(
                         beneficiary=None,
                         action="No action",
-                        error="New beneficiary conflicting with existing beneficiaries",
+                        error="Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire.",
                     )
 
         except Exception:
