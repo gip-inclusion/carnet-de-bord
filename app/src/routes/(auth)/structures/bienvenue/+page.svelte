@@ -15,7 +15,6 @@
 	const updateProfile = mutation(updateProfileResult);
 	let updateResult: OperationStore<UpdateAdminStructureProfileMutation>;
 
-	console.log('page bienvenue');
 	let error: string;
 
 	let { id, accountId, email, firstname, lastname } = $account;

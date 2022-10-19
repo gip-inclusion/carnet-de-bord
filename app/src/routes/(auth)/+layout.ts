@@ -47,11 +47,11 @@ async function getAccount(client: Client, accountId: string): Promise<ConnectedU
 			}),
 			...(type === RoleEnum.AdminStructure && {
 				type: RoleEnum.AdminStructure,
-				mobileNumber: result.data.account_by_pk.admin_structure.phoneNumbers,
+				phoneNumbers: result.data.account_by_pk.admin_structure.phoneNumbers,
 			}),
 			...(type === RoleEnum.OrientationManager && {
 				type: RoleEnum.OrientationManager,
-				mobileNumber: result.data.account_by_pk.orientation_manager.phoneNumbers,
+				phoneNumbers: result.data.account_by_pk.orientation_manager.phoneNumbers,
 			}),
 			...(type === RoleEnum.Manager && {
 				type: RoleEnum.Manager,
