@@ -73,11 +73,6 @@ export type StringComparisonExp = {
 	_similar?: InputMaybe<Scalars['String']>;
 };
 
-export type UpdateNotebookOutput = {
-	__typename?: 'UpdateNotebookOutput';
-	id: Scalars['uuid'];
-};
-
 /** columns and relationships of "account" */
 export type Account = {
 	__typename?: 'account';
@@ -3864,7 +3859,6 @@ export type MutationRoot = {
 	insert_wanted_job?: Maybe<WantedJobMutationResponse>;
 	/** insert a single row into the table: "wanted_job" */
 	insert_wanted_job_one?: Maybe<WantedJob>;
-	updateNotebookAct?: Maybe<UpdateNotebookOutput>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<AccountMutationResponse>;
 	/** update single row of the table: "account" */
@@ -4713,11 +4707,6 @@ export type MutationRootInsertWantedJobArgs = {
 export type MutationRootInsertWantedJobOneArgs = {
 	object: WantedJobInsertInput;
 	on_conflict?: InputMaybe<WantedJobOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootUpdateNotebookActArgs = {
-	id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -12268,15 +12257,6 @@ export type GetDeploymentNotebooksQuery = {
 	}>;
 };
 
-export type UpdateNotebookActionMutationVariables = Exact<{
-	id: Scalars['uuid'];
-}>;
-
-export type UpdateNotebookActionMutation = {
-	__typename?: 'mutation_root';
-	updateNotebookAct?: { __typename?: 'UpdateNotebookOutput'; id: string } | null | undefined;
-};
-
 export type DeactivateNotebookMemberMutationVariables = Exact<{
 	member: NotebookMemberBoolExp;
 }>;
@@ -13544,57 +13524,6 @@ export type GetAccountsSummaryQuery = {
 	}>;
 };
 
-export type GetNotebooksStatsQueryVariables = Exact<{
-	afterDate: TimestamptzComparisonExp;
-}>;
-
-export type GetNotebooksStatsQuery = {
-	__typename?: 'query_root';
-	created: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
-	};
-	shared: {
-		__typename?: 'notebook_aggregate';
-		nodes: Array<{
-			__typename?: 'notebook';
-			id: string;
-			members_aggregate: {
-				__typename?: 'notebook_member_aggregate';
-				aggregate?:
-					| { __typename?: 'notebook_member_aggregate_fields'; count: number }
-					| null
-					| undefined;
-			};
-		}>;
-	};
-	open: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
-	};
-	modified: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
-	};
-	infoAdded: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
-	};
-	structConnections: Array<{
-		__typename?: 'structure';
-		id: string;
-		name: string;
-		city?: string | null | undefined;
-		professionals_aggregate: {
-			__typename?: 'professional_aggregate';
-			aggregate?:
-				| { __typename?: 'professional_aggregate_fields'; count: number }
-				| null
-				| undefined;
-		};
-	}>;
-};
-
 export type UpdateOrientationManagerProfileMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
@@ -14182,6 +14111,53 @@ export type UpdateAdminStructureProfileMutation = {
 		| undefined;
 };
 
+export type GetDeploymentManagersForStructureQueryVariables = Exact<{
+	structureId: Scalars['uuid'];
+}>;
+
+export type GetDeploymentManagersForStructureQuery = {
+	__typename?: 'query_root';
+	structure?:
+		| {
+				__typename?: 'structure';
+				deployment?:
+					| {
+							__typename?: 'deployment';
+							managers: Array<{ __typename?: 'manager'; email: string }>;
+					  }
+					| null
+					| undefined;
+		  }
+		| null
+		| undefined;
+};
+
+export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetStructuresQuery = {
+	__typename?: 'query_root';
+	structure: Array<{ __typename?: 'structure'; id: string; name: string }>;
+};
+
+export type InsertProfessionalAccountMutationVariables = Exact<{
+	account: AccountInsertInput;
+}>;
+
+export type InsertProfessionalAccountMutation = {
+	__typename?: 'mutation_root';
+	account?:
+		| {
+				__typename?: 'account';
+				id: string;
+				professional?:
+					| { __typename?: 'professional'; structure: { __typename?: 'structure'; name: string } }
+					| null
+					| undefined;
+		  }
+		| null
+		| undefined;
+};
+
 export type CreateDeploymentFromApiMutationVariables = Exact<{
 	object: DeploymentInsertInput;
 }>;
@@ -14257,85 +14233,6 @@ export type GetDeploymentStatForDayQuery = {
 		__typename?: 'notebook_aggregate';
 		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
 	};
-};
-
-export type GetExistingAdminStructureQueryVariables = Exact<{
-	email: Scalars['citext'];
-}>;
-
-export type GetExistingAdminStructureQuery = {
-	__typename?: 'query_root';
-	admin: Array<{
-		__typename?: 'admin_structure';
-		id: string;
-		account?: { __typename?: 'account'; id: string } | null | undefined;
-	}>;
-};
-
-export type GetNotebookInfoQueryVariables = Exact<{
-	id: Scalars['uuid'];
-}>;
-
-export type GetNotebookInfoQuery = {
-	__typename?: 'query_root';
-	notebook?:
-		| {
-				__typename?: 'notebook';
-				beneficiary: {
-					__typename?: 'beneficiary';
-					id: string;
-					firstname: string;
-					lastname: string;
-					dateOfBirth: string;
-					deployment: { __typename?: 'deployment'; config?: any | null | undefined };
-				};
-				focuses: Array<{
-					__typename?: 'notebook_focus';
-					id: string;
-					theme: string;
-					linkedTo?: string | null | undefined;
-					targets: Array<{
-						__typename?: 'notebook_target';
-						id: string;
-						target: string;
-						actions: Array<{
-							__typename?: 'notebook_action';
-							initialId?: string | null | undefined;
-						}>;
-					}>;
-				}>;
-				members: Array<{ __typename?: 'notebook_member'; accountId: string }>;
-		  }
-		| null
-		| undefined;
-};
-
-export type UpdateNotebookFromApiMutationVariables = Exact<{
-	notebookId: Scalars['uuid'];
-	notebook?: InputMaybe<NotebookSetInput>;
-	beneficiaryId: Scalars['uuid'];
-	beneficiary: BeneficiarySetInput;
-	focuses: Array<NotebookFocusInsertInput> | NotebookFocusInsertInput;
-	targets: Array<NotebookTargetInsertInput> | NotebookTargetInsertInput;
-	actions: Array<NotebookActionInsertInput> | NotebookActionInsertInput;
-}>;
-
-export type UpdateNotebookFromApiMutation = {
-	__typename?: 'mutation_root';
-	update_notebook_by_pk?: { __typename?: 'notebook'; id: string } | null | undefined;
-	update_beneficiary_by_pk?: { __typename?: 'beneficiary'; id: string } | null | undefined;
-	insert_notebook_focus?:
-		| { __typename?: 'notebook_focus_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	insert_notebook_target?:
-		| { __typename?: 'notebook_target_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	insert_notebook_action?:
-		| { __typename?: 'notebook_action_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
 };
 
 export type GetAccountInfoQueryVariables = Exact<{
@@ -14531,53 +14428,6 @@ export type UpdateAccountAccessKeyMutationVariables = Exact<{
 export type UpdateAccountAccessKeyMutation = {
 	__typename?: 'mutation_root';
 	account?: { __typename?: 'account'; accessKey?: string | null | undefined } | null | undefined;
-};
-
-export type GetDeploymentManagersForStructureQueryVariables = Exact<{
-	structureId: Scalars['uuid'];
-}>;
-
-export type GetDeploymentManagersForStructureQuery = {
-	__typename?: 'query_root';
-	structure?:
-		| {
-				__typename?: 'structure';
-				deployment?:
-					| {
-							__typename?: 'deployment';
-							managers: Array<{ __typename?: 'manager'; email: string }>;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
-};
-
-export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetStructuresQuery = {
-	__typename?: 'query_root';
-	structure: Array<{ __typename?: 'structure'; id: string; name: string }>;
-};
-
-export type InsertProfessionalAccountMutationVariables = Exact<{
-	account: AccountInsertInput;
-}>;
-
-export type InsertProfessionalAccountMutation = {
-	__typename?: 'mutation_root';
-	account?:
-		| {
-				__typename?: 'account';
-				id: string;
-				professional?:
-					| { __typename?: 'professional'; structure: { __typename?: 'structure'; name: string } }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
 };
 
 export const NotebookFragmentFragmentDoc = {
@@ -17449,46 +17299,6 @@ export const GetDeploymentNotebooksDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetDeploymentNotebooksQuery, GetDeploymentNotebooksQueryVariables>;
-export const UpdateNotebookActionDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateNotebookAction' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'updateNotebookAct' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<UpdateNotebookActionMutation, UpdateNotebookActionMutationVariables>;
 export const DeactivateNotebookMemberDocument = {
 	kind: 'Document',
 	definitions: [
@@ -22127,554 +21937,6 @@ export const GetAccountsSummaryDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
-export const GetNotebooksStatsDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetNotebooksStats' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'timestamptz_comparison_exp' },
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'created' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_and' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'createdAt' },
-																value: {
-																	kind: 'Variable',
-																	name: { kind: 'Name', value: 'afterDate' },
-																},
-															},
-														],
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'count' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'shared' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_and' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'createdAt' },
-																value: {
-																	kind: 'Variable',
-																	name: { kind: 'Name', value: 'afterDate' },
-																},
-															},
-														],
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'nodes' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'members_aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'aggregate' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'count' },
-																		arguments: [
-																			{
-																				kind: 'Argument',
-																				name: { kind: 'Name', value: 'distinct' },
-																				value: { kind: 'BooleanValue', value: false },
-																			},
-																		],
-																	},
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'open' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'members' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'lastVisitedAt' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'count' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'modified' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'members' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'lastModifiedAt' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'afterDate' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'count' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'infoAdded' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'focuses' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_or' },
-														value: {
-															kind: 'ListValue',
-															values: [
-																{
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'createdAt' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'afterDate' },
-																			},
-																		},
-																	],
-																},
-																{
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'updatedAt' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'afterDate' },
-																			},
-																		},
-																	],
-																},
-																{
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'targets' },
-																			value: {
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: '_or' },
-																						value: {
-																							kind: 'ListValue',
-																							values: [
-																								{
-																									kind: 'ObjectValue',
-																									fields: [
-																										{
-																											kind: 'ObjectField',
-																											name: { kind: 'Name', value: 'createdAt' },
-																											value: {
-																												kind: 'Variable',
-																												name: { kind: 'Name', value: 'afterDate' },
-																											},
-																										},
-																									],
-																								},
-																								{
-																									kind: 'ObjectValue',
-																									fields: [
-																										{
-																											kind: 'ObjectField',
-																											name: { kind: 'Name', value: 'updatedAt' },
-																											value: {
-																												kind: 'Variable',
-																												name: { kind: 'Name', value: 'afterDate' },
-																											},
-																										},
-																									],
-																								},
-																								{
-																									kind: 'ObjectValue',
-																									fields: [
-																										{
-																											kind: 'ObjectField',
-																											name: { kind: 'Name', value: 'actions' },
-																											value: {
-																												kind: 'ObjectValue',
-																												fields: [
-																													{
-																														kind: 'ObjectField',
-																														name: { kind: 'Name', value: '_or' },
-																														value: {
-																															kind: 'ListValue',
-																															values: [
-																																{
-																																	kind: 'ObjectValue',
-																																	fields: [
-																																		{
-																																			kind: 'ObjectField',
-																																			name: {
-																																				kind: 'Name',
-																																				value: 'createdAt',
-																																			},
-																																			value: {
-																																				kind: 'Variable',
-																																				name: {
-																																					kind: 'Name',
-																																					value: 'afterDate',
-																																				},
-																																			},
-																																		},
-																																	],
-																																},
-																																{
-																																	kind: 'ObjectValue',
-																																	fields: [
-																																		{
-																																			kind: 'ObjectField',
-																																			name: {
-																																				kind: 'Name',
-																																				value: 'updatedAt',
-																																			},
-																																			value: {
-																																				kind: 'Variable',
-																																				name: {
-																																					kind: 'Name',
-																																					value: 'afterDate',
-																																				},
-																																			},
-																																		},
-																																	],
-																																},
-																															],
-																														},
-																													},
-																												],
-																											},
-																										},
-																									],
-																								},
-																							],
-																						},
-																					},
-																				],
-																			},
-																		},
-																	],
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'count' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'distinct' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'structConnections' },
-						name: { kind: 'Name', value: 'structure' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professionals_aggregate' },
-									arguments: [
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'where' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'account' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'lastLogin' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'afterDate' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'count' },
-															arguments: [
-																{
-																	kind: 'Argument',
-																	name: { kind: 'Name', value: 'distinct' },
-																	value: { kind: 'BooleanValue', value: false },
-																},
-															],
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetNotebooksStatsQuery, GetNotebooksStatsQueryVariables>;
 export const UpdateOrientationManagerProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -25313,6 +24575,157 @@ export const UpdateAdminStructureProfileDocument = {
 	UpdateAdminStructureProfileMutation,
 	UpdateAdminStructureProfileMutationVariables
 >;
+export const GetDeploymentManagersForStructureDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetDeploymentManagersForStructure' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'structure' },
+						name: { kind: 'Name', value: 'structure_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'deployment' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'managers' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetDeploymentManagersForStructureQuery,
+	GetDeploymentManagersForStructureQueryVariables
+>;
+export const GetStructuresDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructures' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
+export const InsertProfessionalAccountDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'insertProfessionalAccount' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'account' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'account_insert_input' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'account' },
+						name: { kind: 'Name', value: 'insert_account_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'account' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'professional' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structure' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	InsertProfessionalAccountMutation,
+	InsertProfessionalAccountMutationVariables
+>;
 export const CreateDeploymentFromApiDocument = {
 	kind: 'Document',
 	definitions: [
@@ -26253,429 +25666,6 @@ export const GetDeploymentStatForDayDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetDeploymentStatForDayQuery, GetDeploymentStatForDayQueryVariables>;
-export const GetExistingAdminStructureDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetExistingAdminStructure' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'admin' },
-						name: { kind: 'Name', value: 'admin_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'email' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'account' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetExistingAdminStructureQuery,
-	GetExistingAdminStructureQueryVariables
->;
-export const GetNotebookInfoDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetNotebookInfo' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'notebook' },
-						name: { kind: 'Name', value: 'notebook_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiary' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'deployment' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'config' } }],
-												},
-											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'focuses' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'linkedTo' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'targets' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'target' } },
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'actions' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'initialId' } },
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'members' },
-									arguments: [
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'where' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'memberType' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: { kind: 'StringValue', value: 'referent', block: false },
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'accountId' } }],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetNotebookInfoQuery, GetNotebookInfoQueryVariables>;
-export const UpdateNotebookFromApiDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateNotebookFromApi' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_set_input' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiary' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_set_input' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'focuses' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_focus_insert_input' },
-								},
-							},
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'targets' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_target_insert_input' },
-								},
-							},
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'actions' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_action_insert_input' },
-								},
-							},
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiary' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_focus' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'focuses' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'on_conflict' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: { kind: 'EnumValue', value: 'notebook_focus_pkey' },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: {
-												kind: 'ListValue',
-												values: [{ kind: 'EnumValue', value: 'situations' }],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_target' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'targets' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_action' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'actions' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<UpdateNotebookFromApiMutation, UpdateNotebookFromApiMutationVariables>;
 export const GetAccountInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -27338,157 +26328,6 @@ export const UpdateAccountAccessKeyDocument = {
 	UpdateAccountAccessKeyMutation,
 	UpdateAccountAccessKeyMutationVariables
 >;
-export const GetDeploymentManagersForStructureDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetDeploymentManagersForStructure' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'structure' },
-						name: { kind: 'Name', value: 'structure_by_pk' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'id' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'deployment' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'managers' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetDeploymentManagersForStructureQuery,
-	GetDeploymentManagersForStructureQueryVariables
->;
-export const GetStructuresDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetStructures' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'structure' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
-export const InsertProfessionalAccountDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'insertProfessionalAccount' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'account' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'account_insert_input' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'account' },
-						name: { kind: 'Name', value: 'insert_account_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'account' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	InsertProfessionalAccountMutation,
-	InsertProfessionalAccountMutationVariables
->;
 export type DeleteManagerMutationStore = OperationStore<
 	DeleteManagerMutation,
 	DeleteManagerMutationVariables
@@ -27580,10 +26419,6 @@ export type GetDeploymentsQueryStore = OperationStore<
 export type GetDeploymentNotebooksQueryStore = OperationStore<
 	GetDeploymentNotebooksQuery,
 	GetDeploymentNotebooksQueryVariables
->;
-export type UpdateNotebookActionMutationStore = OperationStore<
-	UpdateNotebookActionMutation,
-	UpdateNotebookActionMutationVariables
 >;
 export type DeactivateNotebookMemberMutationStore = OperationStore<
 	DeactivateNotebookMemberMutation,
@@ -27737,10 +26572,6 @@ export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
 	GetAccountsSummaryQueryVariables
 >;
-export type GetNotebooksStatsQueryStore = OperationStore<
-	GetNotebooksStatsQuery,
-	GetNotebooksStatsQueryVariables
->;
 export type UpdateOrientationManagerProfileMutationStore = OperationStore<
 	UpdateOrientationManagerProfileMutation,
 	UpdateOrientationManagerProfileMutationVariables
@@ -27784,6 +26615,18 @@ export type UpdateAdminStructureProfileMutationStore = OperationStore<
 	UpdateAdminStructureProfileMutation,
 	UpdateAdminStructureProfileMutationVariables
 >;
+export type GetDeploymentManagersForStructureQueryStore = OperationStore<
+	GetDeploymentManagersForStructureQuery,
+	GetDeploymentManagersForStructureQueryVariables
+>;
+export type GetStructuresQueryStore = OperationStore<
+	GetStructuresQuery,
+	GetStructuresQueryVariables
+>;
+export type InsertProfessionalAccountMutationStore = OperationStore<
+	InsertProfessionalAccountMutation,
+	InsertProfessionalAccountMutationVariables
+>;
 export type CreateDeploymentFromApiMutationStore = OperationStore<
 	CreateDeploymentFromApiMutation,
 	CreateDeploymentFromApiMutationVariables
@@ -27795,18 +26638,6 @@ export type ListDeploymentIdQueryStore = OperationStore<
 export type GetDeploymentStatForDayQueryStore = OperationStore<
 	GetDeploymentStatForDayQuery,
 	GetDeploymentStatForDayQueryVariables
->;
-export type GetExistingAdminStructureQueryStore = OperationStore<
-	GetExistingAdminStructureQuery,
-	GetExistingAdminStructureQueryVariables
->;
-export type GetNotebookInfoQueryStore = OperationStore<
-	GetNotebookInfoQuery,
-	GetNotebookInfoQueryVariables
->;
-export type UpdateNotebookFromApiMutationStore = OperationStore<
-	UpdateNotebookFromApiMutation,
-	UpdateNotebookFromApiMutationVariables
 >;
 export type GetAccountInfoQueryStore = OperationStore<
 	GetAccountInfoQuery,
@@ -27835,16 +26666,4 @@ export type GetBeneficiaryByEmailQueryStore = OperationStore<
 export type UpdateAccountAccessKeyMutationStore = OperationStore<
 	UpdateAccountAccessKeyMutation,
 	UpdateAccountAccessKeyMutationVariables
->;
-export type GetDeploymentManagersForStructureQueryStore = OperationStore<
-	GetDeploymentManagersForStructureQuery,
-	GetDeploymentManagersForStructureQueryVariables
->;
-export type GetStructuresQueryStore = OperationStore<
-	GetStructuresQuery,
-	GetStructuresQueryVariables
->;
-export type InsertProfessionalAccountMutationStore = OperationStore<
-	InsertProfessionalAccountMutation,
-	InsertProfessionalAccountMutationVariables
 >;

@@ -4,9 +4,8 @@
 	import {
 		type GetNotebookFocusByIdQuery,
 		UpdateActionStatusDocument,
+		type UpdateActionStatusMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-
-	import type { UpdateNotebookActionMutation } from '$lib/graphql/_gen/typed-document-nodes';
 
 	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
 	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
@@ -31,7 +30,7 @@
 
 	const updateNotebookActionResult = operationStore(UpdateActionStatusDocument);
 	const updateNotebookAction = mutation(updateNotebookActionResult);
-	let updateResult: OperationStore<UpdateNotebookActionMutation>;
+	let updateResult: OperationStore<UpdateActionStatusMutation>;
 
 	let error: string;
 
