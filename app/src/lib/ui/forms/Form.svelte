@@ -4,7 +4,7 @@
 	import { writable } from 'svelte/store';
 	import { createForm, key } from 'svelte-forms-lib';
 	import type { ObjectSchema } from 'yup';
-	import { dev } from '$app/env';
+	import { dev } from '$app/environment';
 	import DebugForm from './DebugForm.svelte';
 	import type { ObjectShape } from 'yup/lib/object';
 

@@ -1,12 +1,9 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import { Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
-</script>
-
-<script lang="ts">
 	import type { GetStructuresForDeploymentQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-	import { StructureFormInput, structureSchema } from './structure.schema';
+	import { type StructureFormInput, structureSchema } from './structure.schema';
 
 	export let submitLabel = 'Mettre à jour';
 	export let initialValues: GetStructuresForDeploymentQuery['structure'][0];

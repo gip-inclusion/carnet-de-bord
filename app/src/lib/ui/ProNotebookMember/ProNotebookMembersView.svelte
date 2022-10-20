@@ -6,7 +6,7 @@
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { formatDateTimeLocale } from '$lib/utils/date';
-	import { GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import { type GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '../format';
 
 	type Member = GetNotebookQuery['notebook']['members'][0];
