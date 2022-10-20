@@ -2,7 +2,7 @@
 	import { openComponent } from '$lib/stores';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
 	import AdminStructureForm from './AdminStructureForm.svelte';
-	import { connectedUser, backendAPI, token } from '$lib/stores';
+	import { connectedUser, token } from '$lib/stores';
 	import { postAdminStructure } from '$lib/services/backend';
 	import Alert from '../base/Alert.svelte';
 
@@ -19,7 +19,7 @@
 		const admin = Object.assign(data, { deployment_id: $connectedUser.deploymentId });
 		try {
 			await postAdminStructure(
-				`${$backendAPI}/v1/admin_structures/create`,
+				'/v1/admin_structures/create',
 				{
 					admin,
 					structure_id: structureId,

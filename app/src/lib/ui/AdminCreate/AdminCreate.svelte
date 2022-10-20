@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { backendAPI, openComponent } from '$lib/stores';
+	import { openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
 	import {
@@ -23,7 +23,7 @@
 	async function handleSubmit(values: DeploymentAdminPdiType) {
 		const data = Object.assign(values, { deployment_id: deploymentId });
 		try {
-			await postManager(`${$backendAPI}/v1/managers/create`, data, {
+			await postManager('/v1/managers/create', data, {
 				'jwt-token': $token,
 			});
 			close();

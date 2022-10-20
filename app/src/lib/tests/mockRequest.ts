@@ -21,9 +21,7 @@ function _mockRequest(data: unknown, headers: Record<string, string> = {}): Requ
 	return {
 		cookies: mockCookies({}),
 		fetch: () => Promise.resolve(new Response()),
-		setHeaders: (_: Record<string, string>) => {
-			console.log('set headers');
-		},
+		setHeaders: (_: Record<string, string>) => ({}),
 		url: new URL('https://io.io'),
 		locals: {},
 		params: {},

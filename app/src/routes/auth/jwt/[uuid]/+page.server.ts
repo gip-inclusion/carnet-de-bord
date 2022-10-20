@@ -84,5 +84,5 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 
 	cookies.set('jwt', token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
 	setHeaders({ 'Cache-Control': 'private' });
-	throw redirect(302, redirectAfterLogin ? `${redirectAfterLogin}` : '/');
+	throw redirect(302, redirectAfterLogin ?? '/');
 };
