@@ -23881,7 +23881,7 @@ export const GetDeploymentInfosDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_and' },
+											name: { kind: 'Name', value: '_or' },
 											value: {
 												kind: 'ListValue',
 												values: [

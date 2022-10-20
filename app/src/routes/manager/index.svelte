@@ -12,7 +12,11 @@
 	import UpdateNotebookMembers from '$lib/ui/Manager/UpdateNotebookMembers.svelte';
 	import ImportOrientationManager from '$lib/ui/Manager/ImportOrientationManager.svelte';
 	const deploymentId = $session.user.deploymentId;
-	const result = operationStore(GetDeploymentInfosDocument, { id: deploymentId });
+	const result = operationStore(
+		GetDeploymentInfosDocument,
+		{ id: deploymentId },
+		{ additionalTypenames: ['structure', 'professional', 'beneficiary', 'notebook_member'] }
+	);
 	query(result);
 
 	$: deploymentInfo = $result.data;
@@ -28,6 +32,10 @@
 	function colorize(quantity: number, flip = false) {
 		const success = flip ? quantity === 0 : quantity !== 0;
 		return success ? '!text-success' : '!text-marianne-red';
+	}
+
+	function refreshMetrics() {
+		return result.reexecute({ requestPolicy: 'network-only' });
 	}
 </script>
 
@@ -98,6 +106,7 @@
 				title="Importer des structures"
 				size={'large'}
 				showButtons={false}
+				on:close={refreshMetrics}
 			>
 				<ImportStructures />
 			</Dialog>
@@ -109,6 +118,7 @@
 				title="Importer des bénéficiaires"
 				size={'large'}
 				showButtons={false}
+				on:close={refreshMetrics}
 			>
 				<ImportBeneficiaries />
 			</Dialog>
@@ -119,6 +129,7 @@
 				title="Procéder à des réorientations"
 				size={'large'}
 				showButtons={false}
+				on:close={refreshMetrics}
 			>
 				<svelte:fragment slot="buttonLabel">
 					<span class="block w-44"> Importer une liste<br />de réorientations</span>
@@ -132,6 +143,7 @@
 				title="Importer des chargés d'orientation"
 				size={'large'}
 				showButtons={false}
+				on:close={refreshMetrics}
 			>
 				<svelte:fragment slot="buttonLabel">
 					<span class="block w-44">Importer une liste de chargés d'orientation</span>
