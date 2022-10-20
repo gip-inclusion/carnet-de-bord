@@ -1,4 +1,4 @@
-query GetDeploymentInfos($id: uuid!, $dummy: String) {
+query GetDeploymentInfos($id: uuid!) {
   deployment: deployment_by_pk(id: $id) {
     label
   }
