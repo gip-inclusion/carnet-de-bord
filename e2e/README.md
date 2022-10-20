@@ -39,7 +39,7 @@ npm && npm test
 Par défaut, les tests se lancent en mode _headless_ mais on peut aussi les lancer avec l'interface de Codecept - CodeceptUI - grâce à la commande :
 
 ```sh
-npm test:ui
+npm run test:ui
 ```
 
 ![CodeceptUI](./codeceptui.png)
@@ -50,7 +50,7 @@ Pour l'exemple, nous allons écrire le test pour un konami code
 
 1. Créer le fichier konami-code.feature
 1. Ecrire le test
-1. lancer `npm codeceptjs gherkin:snippets`
+1. lancer `npm run codeceptjs gherkin:snippets`
 1. Implementer les snippets manquants
 1. Lancer les test.
 
