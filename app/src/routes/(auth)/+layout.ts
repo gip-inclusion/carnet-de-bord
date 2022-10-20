@@ -10,7 +10,6 @@ export const load: LayoutLoad = async (event) => {
 	const client: Client = createClient(event.fetch, data.graphqlAPI, data.token);
 
 	const accountInfo = await getAccount(client, data.user.id);
-	console.log(accountInfo);
 	account.set(accountInfo);
 	return {
 		account: accountInfo,

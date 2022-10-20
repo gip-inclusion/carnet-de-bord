@@ -7,11 +7,9 @@ import { createClient } from '@urql/core';
 import { parse } from 'cookie';
 
 export const GET: RequestHandler = async ({ request, params }) => {
-	console.log('list beneficiary');
 	try {
 		authorizeOnly(['admin_structure'])(request);
 	} catch (e) {
-		console.log('unauthorized');
 		throw error(403, 'unauthorized');
 	}
 	const cookie = parse(request.headers.get('cookie'));
