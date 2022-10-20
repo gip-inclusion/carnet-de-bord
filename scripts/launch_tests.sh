@@ -141,7 +141,7 @@ if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then
   (cd backend && poetry run pytest "$@")
 fi
 
-if [ "$ACTION" = "e2e" ]; then
+if [ "$ACTION" = "all" ] || [ "$ACTION" = "e2e" ]; then
   start_svelte
   start_backend
 
@@ -150,5 +150,9 @@ if [ "$ACTION" = "e2e" ]; then
   HASURA_ADMIN_SECRET=$HASURA_GRAPHQL_ADMIN_SECRET \
   CODECEPT_BASEURL=http://localhost:3001 \
     npm -w e2e run test "$@"
+
+	# Need to kill svelte app since it doesn't end when process end
+	echo "terminating svelte app"
+	kill -TERM $(lsof -t -i:"3001")
 
 fi
