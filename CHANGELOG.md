@@ -1,3 +1,10 @@
+## [1.153.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.1...v1.153.2) (2022-10-20)
+
+
+### Bug Fixes
+
+* Restauration du support des formats de date lors des imports via fichier csv. ([#1180](https://github.com/SocialGouv/carnet-de-bord/issues/1180)) ([65bdc53](https://github.com/SocialGouv/carnet-de-bord/commit/65bdc53c63f53c02746656fdb2b2e48750f1d9dc))
+
 ## [1.153.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.0...v1.153.1) (2022-10-20)
 
 
