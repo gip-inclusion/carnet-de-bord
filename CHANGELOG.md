@@ -1,3 +1,10 @@
+# [1.154.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.2...v1.154.0) (2022-10-20)
+
+
+### Features
+
+* actualisation des données des bénéficiaires par import ([9d4713d](https://github.com/SocialGouv/carnet-de-bord/commit/9d4713de8c2c03d8e0dab6cf0c7b7484f2968d00))
+
 ## [1.153.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.1...v1.153.2) (2022-10-20)
 
 
