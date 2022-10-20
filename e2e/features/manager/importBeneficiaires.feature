@@ -17,6 +17,7 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je vois "4 bénéficiaires sélectionnés sur 4"
 		Quand je clique sur "Confirmer"
 		Alors je vois "3 bénéficiaires importés sur 4 demandés."
+		Alors je vois "Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire." sur la ligne "charlie"
 
 	Scénario: Import de bénéficiaires avec différents formats de date
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"

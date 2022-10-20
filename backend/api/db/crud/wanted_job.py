@@ -1,9 +1,10 @@
 import logging
+from uuid import UUID
 
 from asyncpg.connection import Connection
 
 from api.db.crud.rome_code import get_rome_code_by_description_and_code
-from api.db.models.beneficiary import Beneficiary
+from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from api.db.models.notebook import Notebook
 from api.db.models.rome_code import RomeCode
 from api.db.models.wanted_job import WantedJob
@@ -61,3 +62,32 @@ async def insert_wanted_job_for_notebook(
         logging.error(
             f"Beneficiary {notebook.beneficiary_id} - Rome code not found '({rome_code_id}) {description}'"
         )
+
+
+async def insert_wanted_jobs(
+    db: Connection,
+    notebook_id: UUID,
+    beneficiary: BeneficiaryImport,
+):
+    if beneficiary.rome_code_description:
+        for job in beneficiary.rome_code_description.split(","):
+
+            rome_code_id: UUID = await db.fetchrow(
+                """
+SELECT id from public.rome_code where label = $1
+                """,
+                job.strip(),
+            )
+            if rome_code_id:
+                await db.fetch(
+                    """
+INSERT INTO public.wanted_job (notebook_id, rome_code_id)
+VALUES ($1, $2)
+ON CONFLICT do nothing
+returning id
+                    """,
+                    notebook_id,
+                    rome_code_id["id"],
+                )
+            else:
+                logging.error(f"Notebook {notebook_id} - Rome code not found '({job}'")
