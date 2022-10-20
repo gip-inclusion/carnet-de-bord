@@ -48,9 +48,6 @@ export const GET: RequestHandler = async ({ request, params }) => {
 	const csv = encoder.encode(
 		`\ufeffid; nom; prénom; date de naissance; emails des professionnels\n${data}\n`
 	);
-	console.log(
-		`${result.data.structure_by_pk.beneficiaries.length} en attente - taille ${csv.length}o`
-	);
 	const headers = new Headers();
 	headers.append('Content-Type', 'data:text/csv;charset=UTF-8');
 	headers.append('Content-Disposition', 'attachment;filename=beneficiaires_en_attente.csv');
