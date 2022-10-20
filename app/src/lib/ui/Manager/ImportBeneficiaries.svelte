@@ -132,7 +132,7 @@
 		});
 	}
 
-	async function importBeneficiariesApi(beneficiaries) {
+	async function importBeneficiaries(beneficiaries) {
 		return await fetch(`${$session.backendAPI}/v1/beneficiaries/bulk`, {
 			method: 'POST',
 			body: JSON.stringify(beneficiaries),
@@ -193,9 +193,9 @@
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
-		const response = await importBeneficiariesApi(beneficiariesToImport);
+		const response = await importBeneficiaries(beneficiariesToImport);
 
-		const insertOperation = await response.json();
+		const insertOperationResponse = await response.json();
 		for (var i = 0; i < beneficiariesToImport.length; i++) {
 			insertResult = [
 				...insertResult,
@@ -207,7 +207,7 @@
 						dateOfBirth: beneficiariesToImport[i].dateOfBirth,
 						placeOfBirth: beneficiariesToImport[i].placeOfBirth,
 					},
-					error: insertOperation.result[i].error,
+					error: insertOperationResponse.result[i].error,
 				},
 			];
 		}

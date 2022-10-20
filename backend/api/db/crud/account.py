@@ -170,7 +170,6 @@ async def get_account_with_query(
         return parse_account_from_record(record)
 
 
-# FIXME shouldn't use like here, should trim, lower email as in professional
 async def get_account_by_professional_email(
     connection: Connection, email: str
 ) -> AccountDB | None:
