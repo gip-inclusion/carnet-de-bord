@@ -201,6 +201,7 @@
 				...insertResult,
 				{
 					benef: {
+						siId: beneficiariesToImport[i].siId,
 						firstname: beneficiariesToImport[i].firstname,
 						lastname: beneficiariesToImport[i].lastname,
 						dateOfBirth: beneficiariesToImport[i].dateOfBirth,
