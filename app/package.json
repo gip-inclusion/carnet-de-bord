@@ -1,5 +1,5 @@
 {
-	"name": "carnet-de-bord",
+	"name": "@cdb/app",
 	"version": "1.154.2",
 	"engines": {
 		"node": "16"

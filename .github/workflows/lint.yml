@@ -32,10 +32,8 @@ jobs:
           cache-dependency-path: "**/package-lock.json"
 
       - name: Install dependencies
-        working-directory: app
         run: |
           npm ci
           pip install pre-commit
       - name: Run linting
-        run: |
-          npm run lint
+        run: npm run lint --workspaces --if-present
