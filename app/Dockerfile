@@ -11,10 +11,10 @@ ENV PUBLIC_MATOMO_SITE_ID=$PUBLIC_MATOMO_SITE_ID
 ENV PUBLIC_CRISP_WEBSITE_ID=$PUBLIC_CRISP_WEBSITE_ID
 
 COPY ./package.json package.json
-COPY ./yarn.lock yarn.lock
+COPY ./package-lock.json package-lock.json
 
 # TODO: Sort dependencies and add "--production" install flag
-RUN yarn --frozen-lockfile && yarn cache clean
+RUN npm ci && npm clean cache --force
 
 COPY ./src src
 COPY ./static static
@@ -23,7 +23,7 @@ COPY ./tsconfig.json tsconfig.json
 COPY ./tailwind.config.cjs tailwind.config.cjs
 COPY ./postcss.config.cjs postcss.config.cjs
 
-RUN yarn build
+RUN npm run build
 
 EXPOSE 3000
 

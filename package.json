@@ -1,0 +1,9 @@
+{
+	"name": "carnet-de-bord",
+	"private": true,
+	"version": "1.153.2",
+	"workspaces": [
+		"./app",
+		"./e2e"
+	]
+}

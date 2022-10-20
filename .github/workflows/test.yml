@@ -62,13 +62,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ".nvmrc"
-          cache: yarn
-          cache-dependency-path: "**/yarn.lock"
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
 
       - name: Install dependencies
-        run: |
-          cd app && yarn install --prefer-offline --frozen-lockfile && cd -
-          cd e2e && yarn install --prefer-offline --frozen-lockfile && cd -
+        run: npm ci
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
@@ -113,13 +111,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: ".nvmrc"
-          cache: yarn
-          cache-dependency-path: "app/yarn.lock"
+          cache: npm
+          cache-dependency-path: "app/package-lock.json"
 
       - name: Install dependencies
-        run: |
-          cd app
-          yarn install --prefer-offline --frozen-lockfile
+        run: npm ci
 
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli

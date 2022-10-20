@@ -32,7 +32,7 @@ on génère les types avec `codegen`
 
 ```sh
 # depuis le répertoire app
-yarn codegen
+npm run codegen
 ```
 
 Les types graphql sont générés dans `src/_gen`. On peut alors les utiliser dans les composants
