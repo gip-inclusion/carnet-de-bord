@@ -1,3 +1,10 @@
+## [1.153.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.0...v1.153.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* Mettre à jour les indicateurs de l'accueil après une action / un import. ([#1175](https://github.com/SocialGouv/carnet-de-bord/issues/1175)) ([9f1c24d](https://github.com/SocialGouv/carnet-de-bord/commit/9f1c24d9080bb088abcca1433d337038dbef02ab))
+
 # [1.153.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.152.0...v1.153.0) (2022-10-19)
 
 
