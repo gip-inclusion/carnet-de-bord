@@ -13,6 +13,7 @@ function needAuth(pathname: string) {
 }
 
 export const load: LayoutServerLoad = async (event) => {
+	console.log('+layout.server', event.url.pathname);
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 	let user: JwtPayload | null;
 

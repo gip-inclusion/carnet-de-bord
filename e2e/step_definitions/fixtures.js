@@ -77,6 +77,7 @@ async function removeMember(email) {
 function seedDatabase() {
 	const { execSync } = require("child_process");
 	const graphqlEndpoint = process.env.HASURA_BASEURL ?? "http://localhost:5000";
+	console.log("seed");
 	execSync(
 		`HASURA_GRAPHQL_ENDPOINT=${graphqlEndpoint} hasura seed apply --project ../hasura --database-name carnet_de_bord --log-level WARN --no-color`
 	);

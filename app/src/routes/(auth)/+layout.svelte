@@ -6,6 +6,7 @@
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
+
 	onMount(() => {
 		Matomo.setCustomDimension(Matomo.CustomDimensions.Role, data.user.role);
 		Matomo.setCustomDimension(Matomo.CustomDimensions.Deployment, data.user.deploymentId);

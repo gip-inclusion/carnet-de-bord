@@ -22,9 +22,9 @@ const client = createClient({
 	requestPolicy: 'network-only',
 });
 
-export const load: PageServerLoad = async ({ params, url, cookies, setHeaders }) => {
+export const load: PageServerLoad = async ({ url, params, cookies, setHeaders }) => {
+	const redirectAfterLogin = url.searchParams.get('url');
 	const accessKey = params.uuid;
-	const redirectUrl = url.searchParams.get('url');
 
 	const getAccountResult = await client
 		.query<GetAccountInfoQuery>(GetAccountInfoDocument, { accessKey })
@@ -84,5 +84,5 @@ export const load: PageServerLoad = async ({ params, url, cookies, setHeaders })
 
 	cookies.set('jwt', token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
 	setHeaders({ 'Cache-Control': 'private' });
-	throw redirect(302, redirectUrl ?? '/');
+	throw redirect(302, redirectAfterLogin ? `${redirectAfterLogin}` : '/');
 };
