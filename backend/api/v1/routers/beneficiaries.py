@@ -125,6 +125,7 @@ async def insert_referent_and_structure(
     if beneficiary.structure_name:
         structure = await get_structure_by_name(db, beneficiary.structure_name)
         if structure == None:
+            # Si une structure est fournie dans l'import mais n'existe pas, on ne fait rien.
             logger.info(
                 'Trying to associate structure with beneficiary: structure "%s" does not exist',
                 beneficiary.structure_name,
@@ -136,17 +137,25 @@ async def insert_referent_and_structure(
             db, beneficiary.advisor_email.strip()
         )
     if structure:
+        # Si on a pu récupérer la structure, on associe la structure au bénéficiaire.
+        # Le status indique si la structure a déjà désigné un référent unique.
         if referent and referent.structure_id == structure.id:
+            # Si on a structure ET un référent, le status est 'done'
             status = "done"
         else:
+            # Sinon c'est 'pending'.
             status = "pending"
         await add_beneficiary_to_structure(db, beneficiary_id, structure.id, status)
     elif referent:
+        # Si la structure n'est pas fournie dans l'import mais le référent est fourni,
+        # Alors on ajout la structure du référent au bénéficiaire avec le status 'done'.
         await add_beneficiary_to_structure(
             db, beneficiary_id, referent.structure_id, "done"
         )
 
     if referent and referent.account_id:
+        # Si on a pu récupérer le compte du référent fourni, on l'ajoute dans le
+        # groupe de suivi en tant que référent.
         if not structure or structure.id == referent.structure_id:
             referent = NotebookMemberInsert(
                 notebook_id=notebook_id,
@@ -155,6 +164,7 @@ async def insert_referent_and_structure(
             )
             await insert_notebook_member(db, referent)
     else:
+        # Si un référent est fourni mais qu'on ne le connaît pas, on ne fait rien.
         logger.info(
             "trying to create referent: no account with email: %s",
             beneficiary.advisor_email,
