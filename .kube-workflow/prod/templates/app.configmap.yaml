@@ -1,9 +1,0 @@
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: app-configmap
-data:
-  SMTP_HOST: smtp.tipimail.com
-  SMTP_PORT: '2500'
-  SMTP_FROM: support.carnet-de-bord@fabrique.social.gouv.fr
-  API_PARTICULIER_URL: https://particulier.api.gouv.fr/api
