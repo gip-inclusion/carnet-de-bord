@@ -1,9 +1,9 @@
 const { I } = inject();
 const { USER_TYPES } = require("./fr");
-
-const UUID = "c86dc6b9-8eb9-455e-a483-a2f50810e2ac";
+const { v4: uuid4 } = require("uuid");
 
 async function loginStub(userType, email) {
+	const uuid = uuid4();
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	if (type.code === "beneficiary") {
 		const result = await I.sendQuery(
@@ -18,17 +18,18 @@ async function loginStub(userType, email) {
 		await I.sendMutation(
 			`
 		mutation createAccount($id: uuid!) {
-			insert_account_one(object: {beneficiaryId: $id, accessKey: "${UUID}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
+			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
 		}`,
 			{ id: result.data.data.beneficiary[0].id }
 		);
 	} else {
 		await I.sendMutation(
 			`mutation setAccessToken {
-				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${UUID}"}) { affected_rows }
+				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
 		}`
 		);
 	}
+	return uuid;
 }
 
 async function addMember(email, notebookId) {
@@ -109,7 +110,6 @@ const goToNotebookForLastName = async (lastname) => {
 };
 
 module.exports = {
-	UUID,
 	addMember,
 	goToNotebookForLastName,
 	loginStub,
