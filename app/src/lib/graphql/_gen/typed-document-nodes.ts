@@ -13453,6 +13453,7 @@ export type GetAccountByIdQuery = {
 
 export type GetDeploymentInfosQueryVariables = Exact<{
 	id: Scalars['uuid'];
+	dummy?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GetDeploymentInfosQuery = {
@@ -21424,6 +21425,11 @@ export const GetDeploymentInfosDocument = {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'dummy' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
 			],
 			selectionSet: {
