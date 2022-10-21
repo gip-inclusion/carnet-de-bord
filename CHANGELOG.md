@@ -1,3 +1,10 @@
+## [1.154.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.154.0...v1.154.1) (2022-10-21)
+
+
+### Bug Fixes
+
+* L'espace professionnel n'est plus fonctionnel ([#1191](https://github.com/SocialGouv/carnet-de-bord/issues/1191)) ([b1de4dd](https://github.com/SocialGouv/carnet-de-bord/commit/b1de4ddaa32078f07de7dd4393d73410fecfa85f))
+
 # [1.154.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.2...v1.154.0) (2022-10-20)
 
 
