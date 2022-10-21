@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
+import type { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 
 export type ConnectedUser =
 	| ConnectedPro
@@ -11,6 +12,7 @@ export type ConnectedUser =
 
 type BaseConnectedUser = {
 	id: string;
+	type: RoleEnum;
 	accountId: string;
 	onboardingDone: boolean;
 	confirmed: boolean;
@@ -20,37 +22,37 @@ type BaseConnectedUser = {
 };
 
 export type ConnectedPro = BaseConnectedUser & {
-	type: 'pro';
+	type: RoleEnum.Professional;
 	email: string;
 	position: string;
 	mobileNumber: string;
 };
 
 export type ConnectedAdminStructure = BaseConnectedUser & {
-	type: 'adminStructure';
+	type: RoleEnum.AdminStructure;
 	email: string;
 	phoneNumbers: string;
 };
 
 export type ConnectedOrientationManager = BaseConnectedUser & {
-	type: 'orientationManager';
+	type: RoleEnum.OrientationManager;
 	email: string;
 	phoneNumbers: string;
 };
 
 export type ConnectedManager = BaseConnectedUser & {
-	type: 'manager';
+	type: RoleEnum.Manager;
 	email: string;
 };
 
 export type ConnectedBeneficiary = BaseConnectedUser & {
-	type: 'beneficiary';
+	type: RoleEnum.Beneficiary;
 	email: string;
 	mobileNumber: string;
 };
 
 export type ConnectedAdmin = BaseConnectedUser & {
-	type: 'adminCdb';
+	type: RoleEnum.AdminCdb;
 	email: string;
 };
 

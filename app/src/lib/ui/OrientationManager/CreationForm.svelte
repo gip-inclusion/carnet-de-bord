@@ -5,7 +5,7 @@
 	import { Form, Input } from '$lib/ui/forms';
 	import {
 		orientationManagerAccountSchema,
-		OrientationManagerAccountInput,
+		type OrientationManagerAccountInput,
 	} from './orientationManager.schema';
 </script>
 

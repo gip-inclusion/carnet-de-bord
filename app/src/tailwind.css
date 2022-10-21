@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
 since tailwind override dsfr rule we need to control how css are loaded
 https://tailwindcss.com/docs/using-with-preprocessors#build-time-imports

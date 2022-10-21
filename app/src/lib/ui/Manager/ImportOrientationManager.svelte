@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { session } from '$app/stores';
+	import { backendAPI, token } from '$lib/stores';
 	import { pluralize } from '$lib/helpers';
 
 	import Dropzone from 'svelte-file-dropzone';
@@ -11,10 +11,10 @@
 		const file = event.detail.acceptedFiles[0];
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		resultPromise = fetch(`${$session.backendAPI}/v1/uploads/orientation_manager`, {
+		resultPromise = fetch(`${$backendAPI}/v1/uploads/orientation_manager`, {
 			method: 'POST',
 			headers: {
-				'jwt-token': $session.token,
+				'jwt-token': $token,
 				Accept: 'application/json; version=1.0',
 			},
 			body: formData,

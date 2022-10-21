@@ -1,9 +1,13 @@
 import preprocess from 'svelte-preprocess';
 /** @type {import('@sveltejs/kit').Config} */
 import adapter from '@sveltejs/adapter-node';
-
+import { resolve } from 'path';
+/** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
+		env: {
+			dir: resolve('..'),
+		},
 		csp: {
 			mode: 'auto',
 			directives: {
@@ -21,25 +25,7 @@ const config = {
 				],
 			},
 		},
-		vite: {
-			envDir: '..',
-			optimizeDeps: {
-				//https://formidable.com/open-source/urql/docs/basics/svelte/
-				exclude: ['@urql/svelte', 'matomo-tracker'],
-			},
-			ssr: {
-				// https://github.com/FormidableLabs/urql/issues/1819
-				noExternal: ['@urql/svelte'],
-			},
-			build: {
-				rollupOptions: {
-					external: [/\.test\.(t|j)s$/],
-				},
-			},
-			define: {
-				__version__: JSON.stringify(process.env.npm_package_version),
-			},
-		},
+
 		adapter: adapter({
 			// default options are shown
 			out: 'build',

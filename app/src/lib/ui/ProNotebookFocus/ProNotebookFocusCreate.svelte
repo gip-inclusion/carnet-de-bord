@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { session } from '$app/stores';
+	import { connectedUser } from '$lib/stores';
 	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
 	import {
 		AddNotebookFocusDocument,
@@ -48,7 +48,7 @@
 		if (store.error) {
 			console.log('createFocus error', {
 				error: store.error,
-				creatorId: $session.user.id,
+				creatorId: $connectedUser.id,
 			});
 		} else {
 			openComponent.replace({ component: ProNotebookFocusConfirmation });

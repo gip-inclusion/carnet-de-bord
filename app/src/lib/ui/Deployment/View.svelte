@@ -6,8 +6,6 @@
 		ProfessionalAggregate,
 		StructureAggregate,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import Dialog from '$lib/ui/Dialog.svelte';
-	import AdminNotebookUpdate from './NotebookUpdate.svelte';
 	import Button from '../base/Button.svelte';
 	import AdminCreate from '../AdminCreate/AdminCreate.svelte';
 	import { openComponent } from '$lib/stores';
@@ -85,23 +83,6 @@
 					<span class="font-normal leading-6 text-sm">Bénéficiaires</span>
 				</p>
 			</Card>
-		</div>
-	</div>
-	<div class="fr-grid-row fr-grid-row--gutters">
-		<div class="fr-col-md-4 fr-col-sm-6 fr-col-12 fr-p-4v">
-			<div class="flex">
-				{#if deployment?.config?.url && deployment?.config?.callback}
-					<Dialog
-						label="Mise a jour des carnets"
-						buttonLabel="Mettre à jour les carnets"
-						title="Mise a jour des carnets"
-						size={'large'}
-						showButtons={false}
-					>
-						<AdminNotebookUpdate deploymentId={deployment?.id} />
-					</Dialog>
-				{/if}
-			</div>
 		</div>
 	</div>
 </div>

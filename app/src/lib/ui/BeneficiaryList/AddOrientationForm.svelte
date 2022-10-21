@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		GetOrientationTypeDocument,
-		GetOrientationTypeQuery,
+		type GetOrientationTypeQuery,
 		OrientationTypeEnum,
 		UpdateOrientationDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';

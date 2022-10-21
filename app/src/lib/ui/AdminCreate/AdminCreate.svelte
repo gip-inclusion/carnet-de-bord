@@ -4,10 +4,10 @@
 	import { Form, Input } from '$lib/ui/forms';
 	import {
 		deploymentAdminPdiSchema,
-		DeploymentAdminPdiType,
+		type DeploymentAdminPdiType,
 	} from '../Deployment/adminDeployment.schema';
 	import { postManager } from '$lib/services/backend';
-	import { session } from '$app/stores';
+	import { token } from '$lib/stores';
 
 	export let deploymentId = '';
 	export let onClose: () => void;
@@ -23,8 +23,8 @@
 	async function handleSubmit(values: DeploymentAdminPdiType) {
 		const data = Object.assign(values, { deployment_id: deploymentId });
 		try {
-			await postManager(`${$session.backendAPI}/v1/managers/create`, data, {
-				'jwt-token': $session.token,
+			await postManager('/v1/managers/create', data, {
+				'jwt-token': $token,
 			});
 			close();
 		} catch (error) {

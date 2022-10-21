@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		GetStructuresWithProDocument,
-		GetStructuresWithProQuery,
+		type GetStructuresWithProQuery,
 		RemoveReferentDocument,
 		UpdateReferentWithStructureDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';

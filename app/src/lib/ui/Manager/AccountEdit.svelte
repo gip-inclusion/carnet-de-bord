@@ -5,7 +5,7 @@
 		UpdateManagerProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import ManagerCreationForm from '$lib/ui/Manager/CreationForm.svelte';
-	import { mutation, OperationStore, operationStore } from '@urql/svelte';
+	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
 	import { account, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { ManagerAccountInput } from './manager.schema';
