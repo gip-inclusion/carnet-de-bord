@@ -5,6 +5,7 @@
 	import { account, openComponent } from '$lib/stores';
 	import ProAccountEdit from '$lib/ui/ProAccount/ProAccountEdit.svelte';
 	import ProWithStructureView from '$lib/ui/ProNotebookMember/ProWithStructureView.svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button } from '$lib/ui/base';
 
 	const getAccountStore = operationStore(GetAccountByPkDocument, { accountId: $connectedUser.id });
@@ -15,7 +16,7 @@
 	function editAccount() {
 		openComponent.open({
 			component: ProAccountEdit,
-			props: { professional: accountInfo.professional },
+			props: { professional: accountInfo?.professional },
 		});
 	}
 </script>
@@ -36,10 +37,12 @@
 			Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 		</p>
 	{/if}
-	{#if accountInfo.professional}
-		<ProWithStructureView account={accountInfo} proFirst mainTitle="Informations personnelles" />
-	{/if}
-	<div>
-		<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
-	</div>
+	<LoaderIndicator result={getAccountStore}>
+		{#if accountInfo?.professional}
+			<ProWithStructureView account={accountInfo} proFirst mainTitle="Informations personnelles" />
+		{/if}
+		<div>
+			<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
+		</div>
+	</LoaderIndicator>
 {/if}
