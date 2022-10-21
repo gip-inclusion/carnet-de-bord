@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		DeleteManagerDocument,
-		type GetDeploymentByIdQuery,
+		GetDeploymentByIdQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import IconButton from '$lib/ui/base/IconButton.svelte';

@@ -3,7 +3,7 @@
 	import { Text } from '$lib/ui/utils';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import {
-		type AdminStructure,
+		AdminStructure,
 		RemoveAdminStructureStructureMutationDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';

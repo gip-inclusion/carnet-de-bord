@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		GetOrientationManagerDocument,
-		type GetOrientationManagerQuery,
+		GetOrientationManagerQuery,
 		UpdateOrientationManagerDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Select } from '../base';

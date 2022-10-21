@@ -5,7 +5,7 @@
 	import { page } from '$app/stores';
 	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
-		type BeneficiaryBoolExp,
+		BeneficiaryBoolExp,
 		GetBeneficiariesDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 
@@ -19,7 +19,7 @@
 	import BeneficiaryListWithStructure from '$lib/ui/BeneficiaryList/ListWithStructure.svelte';
 	import BeneficiaryListWithOrientation from '$lib/ui/BeneficiaryList/ListWithOrientation.svelte';
 
-	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
+	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
 	import { openComponent } from '$lib/stores';

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { type GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
 	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
-	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
+	import { selectionContextKey, SelectionStore } from './MultipageSelectionStore';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 

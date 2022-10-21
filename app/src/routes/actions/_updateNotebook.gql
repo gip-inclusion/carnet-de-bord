@@ -1,0 +1,28 @@
+mutation UpdateNotebookFromApi(
+	$notebookId: uuid!
+	$notebook: notebook_set_input
+	$beneficiaryId: uuid!
+	$beneficiary: beneficiary_set_input!
+	$focuses: [notebook_focus_insert_input!]!
+	$targets: [notebook_target_insert_input!]!
+	$actions: [notebook_action_insert_input!]!
+) {
+	update_notebook_by_pk(pk_columns: { id: $notebookId }, _set: $notebook) {
+		id
+	}
+	update_beneficiary_by_pk(pk_columns: { id: $beneficiaryId }, _set: $beneficiary) {
+		id
+	}
+	insert_notebook_focus(
+		objects: $focuses
+		on_conflict: { constraint: notebook_focus_pkey, update_columns: [situations] }
+	) {
+		affected_rows
+	}
+	insert_notebook_target(objects: $targets) {
+		affected_rows
+	}
+	insert_notebook_action(objects: $actions) {
+		affected_rows
+	}
+}

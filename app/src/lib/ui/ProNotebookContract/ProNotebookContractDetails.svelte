@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { contractTypeFullKeys } from '$lib/constants/keys';
 	import {
-		type GetNotebookQuery,
+		GetNotebookQuery,
 		UpdateNotebookContractDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
@@ -11,7 +11,7 @@
 	import { formatDateISO } from '$lib/utils/date';
 	import { add } from 'date-fns';
 	import {
-		type ProNotebookContractInput,
+		ProNotebookContractInput,
 		proNotebookContractSchema,
 	} from './ProNotebookContract.schema';
 	import { Form, Input, Radio } from '$lib/ui/forms';

@@ -2,14 +2,14 @@
 	import {
 		AddNotebookActionDocument,
 		GetRefActionsDocument,
-		type NotebookTarget,
+		NotebookTarget,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { Button } from '$lib/ui/base';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { ActionStatus } from '$lib/enums';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
-	import Autocomplete, { type AutoCompleteOption } from '../base/Autocomplete.svelte';
+	import Autocomplete, { AutoCompleteOption } from '../base/Autocomplete.svelte';
 
 	export let target: Pick<NotebookTarget, 'id' | 'target'>;
 	export let theme: string;

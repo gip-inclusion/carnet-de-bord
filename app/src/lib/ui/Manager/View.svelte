@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { connectedUser } from '$lib/stores';
+	import { session } from '$app/stores';
 	import type { Manager } from '$lib/graphql/_gen/typed-document-nodes';
 
 	export type Mana = Pick<Manager, 'id' | 'firstname' | 'lastname' | 'email'>;
@@ -12,7 +12,7 @@
 	import { Text } from '$lib/ui/utils';
 
 	$: deploymentName = $result.data?.deployment?.label;
-	const deploymentId = $connectedUser.deploymentId;
+	const deploymentId = $session.user.deploymentId;
 	const result = operationStore(GetDeploymentInfosDocument, { id: deploymentId });
 	query(result);
 	export let manager: Mana;

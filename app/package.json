@@ -13,9 +13,9 @@
 		"hasura:console": "hasura console --project ../hasura",
 		"hasura:seed": "hasura seed apply --database-name carnet_de_bord  --project ../hasura",
 		"compose": "docker-compose up --build",
-		"dev": "vite dev --host",
-		"build": "vite build",
-		"preview": "vite preview",
+		"dev": "svelte-kit dev --host",
+		"build": "svelte-kit build",
+		"preview": "svelte-kit preview",
 		"svelte-check": "svelte-check --tsconfig ./tsconfig.json",
 		"svelte-check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "pre-commit run --all-files && yarn svelte-check",
@@ -37,8 +37,8 @@
 		"@graphql-codegen/typescript": "^2.4.1",
 		"@graphql-codegen/typescript-operations": "^2.2.1",
 		"@graphql-codegen/urql-svelte-operations-store": "^1.1.8",
-		"@sveltejs/adapter-node": "^1.0.0-next.98",
-		"@sveltejs/kit": "1.0.0-next.516",
+		"@sveltejs/adapter-node": "^1.0.0-next.60",
+		"@sveltejs/kit": "^1.0.0-next.215",
 		"@tailwindcss/forms": "^0.5.0",
 		"@tailwindcss/typography": "^0.5.0",
 		"@testing-library/jest-dom": "^5.16.1",
@@ -75,8 +75,7 @@
 		"tailwindcss": "^3.0.7",
 		"ts-jest": "^29.0.0",
 		"tslib": "^2.3.1",
-		"typescript": "^4.8.4",
-		"vite": "3.1.0"
+		"typescript": "^4.5.4"
 	},
 	"dependencies": {
 		"@babel/core": "^7.16.5",
@@ -103,9 +102,6 @@
 		"uuid": "^8.3.2",
 		"xlsx": "^0.18.5",
 		"yup": "^0.32.11"
-	},
-	"resolutions": {
-		"@sveltejs/vite-plugin-svelte": "1.0.5"
 	},
 	"type": "module"
 }

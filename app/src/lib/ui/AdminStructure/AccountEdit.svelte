@@ -2,7 +2,7 @@
 	import { UpdateAdminStructureProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { UpdateAdminStructureProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import AdminStructureForm from '$lib/ui/AdminStructure/AdminStructureForm.svelte';
-	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
+	import { mutation, OperationStore, operationStore } from '@urql/svelte';
 	import { account, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';

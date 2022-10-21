@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {
-		type GetNotebookByBeneficiaryIdQuery,
+		GetNotebookByBeneficiaryIdQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 

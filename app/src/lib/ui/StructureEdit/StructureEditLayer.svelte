@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {
-		type GetStructuresForDeploymentQuery,
+		GetStructuresForDeploymentQuery,
 		UpdateStructureDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore } from '@urql/svelte';

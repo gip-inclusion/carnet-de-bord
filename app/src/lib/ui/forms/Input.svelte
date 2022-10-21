@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { InputType } from '$lib/types';
 	import { getContext } from 'svelte';
-	import { type FormProps, key } from 'svelte-forms-lib';
+	import { FormProps, key } from 'svelte-forms-lib';
 	import { Input } from '$lib/ui/base';
 	import type { Writable } from 'svelte/store';
 

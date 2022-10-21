@@ -12,7 +12,7 @@ const login: Route = {
 	path: '/auth/login',
 };
 const proHome: Route = {
-	path: '/pro',
+	path: '/pro/accueil',
 };
 const adminHome: Route = {
 	path: '/admin',
