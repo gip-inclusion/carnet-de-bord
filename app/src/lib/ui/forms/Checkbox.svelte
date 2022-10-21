@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { type FormProps, key } from 'svelte-forms-lib';
+	import { FormProps, key } from 'svelte-forms-lib';
 	import type { Writable } from 'svelte/store';
 
 	uniqueId += 1;

@@ -1,6 +1,9 @@
-@charset "UTF-8";
 @import url('./tailwind.css');
-@import url('./dsfr.css');
+
+@import url('remixicon/fonts/remixicon.css');
+
+@import url("@gouvfr/dsfr/dist/dsfr/dsfr.min.css");
+@import url("@gouvfr/dsfr/dist/utility/icons/icons.css");
 
 .custom-svelecte .inputBox {
 	height: auto !important;

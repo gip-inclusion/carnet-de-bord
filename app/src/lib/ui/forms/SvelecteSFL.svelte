@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { key, type FormProps } from 'svelte-forms-lib';
+	import { key, FormProps } from 'svelte-forms-lib';
 	import Svelecte, { config } from 'svelecte';
 	import type { Writable } from 'svelte/store';
 	import { pluck } from '$lib/helpers';

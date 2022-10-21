@@ -15,7 +15,7 @@
 	import { add } from 'date-fns';
 	import { formatDateISO } from '$lib/utils/date';
 	import {
-		type ProNotebookSocioproInput,
+		ProNotebookSocioproInput,
 		proNotebookSocioproSchema,
 	} from './ProNotebookSocioPro.schema';
 	import { Form, Select, Input, Radio, Checkbox } from '$lib/ui/forms';

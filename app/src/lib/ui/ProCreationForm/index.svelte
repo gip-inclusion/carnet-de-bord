@@ -4,11 +4,11 @@
 	import type { GetStructuresQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { AccountRequest } from '$lib/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { operationStore, type OperationStore, query } from '@urql/svelte';
+	import { operationStore, OperationStore, query } from '@urql/svelte';
 
 	import { Button } from '$lib/ui/base';
 	import { Form, Input, SvelecteSFL } from '$lib/ui/forms';
-	import { type ProAccountWithStructureInput, proAccountSchemaWithStructure } from './pro.schema';
+	import { ProAccountWithStructureInput, proAccountSchemaWithStructure } from './pro.schema';
 </script>
 
 <script lang="ts">

@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { backendAPI, token } from '$lib/stores';
+	import { session } from '$app/stores';
 	import {
 		GetProfessionalsForManagerDocument,
-		type Professional,
+		Professional,
 		GetStructuresForManagerDocument,
-		type Structure,
+		Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		GetProfessionalsForManagerQuery,
 		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, type OperationStore, query } from '@urql/svelte';
+	import { operationStore, OperationStore, query } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text, ImportParserError } from '$lib/ui/utils';
@@ -122,22 +122,22 @@
 	async function fileValidationApi(file) {
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		return await fetch(`${$backendAPI}/v1/convert-file/beneficiaries`, {
+		return await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
 			method: 'POST',
 			body: formData,
 			headers: {
-				'jwt-token': $token,
+				'jwt-token': $session.token,
 				Accept: 'application/json; version=1.0',
 			},
 		});
 	}
 
 	async function importBeneficiaries(beneficiaries) {
-		return await fetch(`${$backendAPI}/v1/beneficiaries/bulk`, {
+		return await fetch(`${$session.backendAPI}/v1/beneficiaries/bulk`, {
 			method: 'POST',
 			body: JSON.stringify(beneficiaries),
 			headers: {
-				'jwt-token': $token,
+				'jwt-token': $session.token,
 				Accept: 'application/json; version=1.0',
 				'Content-Type': 'application/json',
 			},

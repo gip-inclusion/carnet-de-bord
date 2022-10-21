@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { backendAPI, token } from '$lib/stores';
+	import { session } from '$app/stores';
 	import Dropzone from 'svelte-file-dropzone';
 	import { Button, Checkbox, GroupCheckbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
@@ -58,10 +58,10 @@
 		data: FormData | string,
 		headers: { [key: string]: string } = {}
 	): Promise<Response> {
-		return fetch(`${$backendAPI}${url}`, {
+		return fetch(`${$session.backendAPI}${url}`, {
 			method: 'POST',
 			headers: {
-				'jwt-token': $token,
+				'jwt-token': $session.token,
 				Accept: 'application/json; version=1.0',
 				...headers,
 			},
