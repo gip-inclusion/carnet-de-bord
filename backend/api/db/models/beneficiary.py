@@ -34,6 +34,7 @@ class Beneficiary(BaseModel):
     # BRSA users may not have an account
     # (account is created on the first login attempt)
     account_id: UUID | None
+    nir: str | None
 
 
 def snake_to_camel(field):

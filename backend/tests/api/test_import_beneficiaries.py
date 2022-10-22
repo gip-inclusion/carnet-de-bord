@@ -445,6 +445,7 @@ harry_covert = BeneficiaryImport(
     education_level="NV1",
     structure_name="Pole Emploi Agence Livry-Gargnan",
     advisor_email="dunord@pole-emploi.fr",
+    nir="185077505612323",
 )
 
 harry_covert_phoneless = BeneficiaryImport(
