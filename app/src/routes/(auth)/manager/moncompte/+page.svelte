@@ -5,6 +5,7 @@
 	import { connectedUser } from '$lib/stores';
 	import { account, openComponent } from '$lib/stores';
 	import ManagerAccountEdit from '$lib/ui/Manager/AccountEdit.svelte';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import ManagerView from '$lib/ui/Manager/View.svelte';
 	import { Button } from '$lib/ui/base';
 
@@ -37,10 +38,12 @@
 			Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 		</p>
 	{/if}
-	{#if manager}
-		<ManagerView {manager} />
-	{/if}
-	<div>
-		<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
-	</div>
+	<LoaderIndicator result={getAccountStore}>
+		{#if manager}
+			<ManagerView {manager} />
+		{/if}
+		<div>
+			<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
+		</div>
+	</LoaderIndicator>
 {/if}
