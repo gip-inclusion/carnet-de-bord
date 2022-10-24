@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { UpdateManagerProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import type {
-		Manager,
-		UpdateManagerProfileMutation,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import type { UpdateManagerProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import ManagerCreationForm from '$lib/ui/Manager/CreationForm.svelte';
 	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
-	import { account, openComponent } from '$lib/stores';
+	import { openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { ManagerAccountInput } from './manager.schema';
+	import { accountData } from '$lib/stores/account';
 
-	export let manager: Manager;
-	let { email, firstname, lastname } = manager;
+	let { id, email, firstname, lastname } = $accountData.manager;
+
 	let initialValues = {
 		email,
 		firstname,
@@ -26,19 +24,19 @@
 
 	async function handleSubmit(values: ManagerAccountInput) {
 		updateResult = await updateProfile({
-			id: manager.id,
-			accountId: $account.accountId,
+			id: id,
+			accountId: $accountData.id,
 			...values,
 		});
 
 		if (updateResult.data?.updateAccount) {
 			const { confirmed, onboardingDone, username, manager } = updateResult.data.updateAccount;
-			$account = {
-				...$account,
+			$accountData = {
+				...$accountData,
 				confirmed,
 				onboardingDone,
 				username,
-				...manager,
+				manager: manager,
 			};
 		}
 		if (updateResult.error) {

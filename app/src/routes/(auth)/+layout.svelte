@@ -4,8 +4,10 @@
 	import { getCrispWebsiteId } from '$lib/config/variables/public';
 	import Crisp from '$lib/chat/Crisp.svelte';
 	import type { LayoutData } from './$types';
+	import { accountData } from '$lib/stores';
 
 	export let data: LayoutData;
+	$accountData = data.account;
 
 	onMount(() => {
 		Matomo.setCustomDimension(Matomo.CustomDimensions.Role, data.user.role);

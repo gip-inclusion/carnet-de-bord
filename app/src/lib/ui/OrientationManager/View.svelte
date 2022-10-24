@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { ConnectedOrientationManager } from '$lib/stores/account';
+	import type { AccountData } from '$lib/stores/account';
 
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 
-	export let orientationManager: ConnectedOrientationManager;
+	export let orientationManager: AccountData['orientation_manager'];
 	export let mainTitle = 'Gestionnaire de structure';
 </script>
 

@@ -4,15 +4,14 @@
 	import OrientationManagerView from '$lib/ui/OrientationManager/View.svelte';
 	import { Button } from '$lib/ui/base';
 	import { Breadcrumbs } from '$lib/ui/base';
-	import type { ConnectedOrientationManager, ConnectedUser } from '$lib/stores/account';
-	import { account } from '$lib/stores/account';
+	import { accountData } from '$lib/stores/account';
 	import { homeForRole, type Segment } from '$lib/routes';
 	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 
 	function editAccount() {
 		openComponent.open({
 			component: OrientationManagerAccountEdit,
-			props: { orientationManager: $account },
+			props: { orientationManager: $accountData },
 		});
 	}
 
@@ -28,10 +27,6 @@
 			label: 'Mon compte',
 		},
 	];
-
-	function toConnectedOrientationManager(admin: ConnectedUser) {
-		return admin as ConnectedOrientationManager;
-	}
 </script>
 
 <svelte:head>
@@ -41,7 +36,7 @@
 <Breadcrumbs segments={breadcrumbs} />
 
 <h1>Mon compte</h1>
-<OrientationManagerView orientationManager={toConnectedOrientationManager($account)} />
+<OrientationManagerView orientationManager={$accountData.orientation_manager} />
 <div class="pt-8">
 	<Button on:click={editAccount} outline={true}>Mettre à jour</Button>
 </div>

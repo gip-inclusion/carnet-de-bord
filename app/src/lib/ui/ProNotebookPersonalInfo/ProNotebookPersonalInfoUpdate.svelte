@@ -3,7 +3,7 @@
 		type Beneficiary,
 		UpdateBeneficiaryPersonalInfoDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { account, openComponent } from '$lib/stores';
+	import { accountData, openComponent } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button } from '$lib/ui/base';
 	import {
@@ -50,7 +50,7 @@
 		cafNumber: beneficiary.cafNumber,
 	};
 
-	const isPartialUpdate = $account.type !== 'manager';
+	const isPartialUpdate = $accountData.type !== 'manager';
 
 	const validationSchema = isPartialUpdate
 		? beneficiaryAccountPartialSchema

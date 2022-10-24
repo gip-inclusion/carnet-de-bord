@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { ConnectedAdminStructure } from '$lib/stores/account';
+	import type { AccountData } from '$lib/stores/account';
 
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 
-	export let adminStructure: ConnectedAdminStructure;
+	export let adminStructure: AccountData['admin_structure'];
 	export let mainTitle = 'Gestionnaire de structure';
 </script>
 

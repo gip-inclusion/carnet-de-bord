@@ -10,7 +10,7 @@
 	export let submitLabel = 'Je valide mon inscription';
 	export let accountRequest: Partial<AccountRequest> = {};
 	export let onSubmit: (values: ManagerAccountInput) => void;
-	export let onCancel: () => void;
+	export let onCancel: () => void = null;
 	export let hiddenFields: Partial<Record<keyof AccountRequest, boolean>> = {};
 </script>
 
@@ -51,7 +51,7 @@
 			<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}
 				>{submitLabel}</Button
 			>
-			<Button outline={true} on:click={onCancel}>Annuler</Button>
+			{#if onCancel}<Button outline={true} on:click={onCancel}>Annuler</Button>{/if}
 		</div>
 	</div>
 </Form>

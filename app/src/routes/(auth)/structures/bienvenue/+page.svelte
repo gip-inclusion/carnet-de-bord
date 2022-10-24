@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { account } from '$lib/stores/account';
+	import { accountData } from '$lib/stores/account';
 	import AdminStructureForm from '$lib/ui/AdminStructure/AdminStructureForm.svelte';
 	import {
 		RoleEnum,
@@ -17,13 +17,7 @@
 
 	let error: string;
 
-	let { id, accountId, email, firstname, lastname } = $account;
-
-	let phoneNumbers: string | undefined;
-
-	if ($account.type === RoleEnum.AdminStructure) {
-		phoneNumbers = $account.phoneNumbers;
-	}
+	let { id, email, firstname, lastname, phoneNumbers } = $accountData.admin_structure;
 
 	let initialValues = {
 		email,
@@ -35,7 +29,7 @@
 	async function handleSubmit(values: AdminStructureAccountInput) {
 		updateResult = await updateProfile({
 			id,
-			accountId,
+			accountId: $accountData.id,
 			...values,
 		});
 
@@ -43,12 +37,12 @@
 			const { confirmed, onboardingDone, username, admin_structure } =
 				updateResult.data.updateAccount;
 
-			$account = {
-				...$account,
+			$accountData = {
+				...$accountData,
 				confirmed,
 				onboardingDone,
 				username,
-				...admin_structure,
+				admin_structure,
 			};
 		}
 		if (updateResult.error) {

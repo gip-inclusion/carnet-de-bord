@@ -4,9 +4,9 @@
 	import { operationStore, query } from '@urql/svelte';
 	import { goto } from '$app/navigation';
 	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
-	import { account } from '$lib/stores';
+	import { accountData } from '$lib/stores';
 
-	const result = operationStore(GetLastVisitedOrUpdatedDocument, { accountId: $account.accountId });
+	const result = operationStore(GetLastVisitedOrUpdatedDocument, { accountId: $accountData.id });
 
 	query(result);
 
