@@ -4,7 +4,7 @@ export interface ElmApp {
 	};
 }
 
-export type Flags = null;
+export type Flags = { [key: string]: any };
 
 export as namespace Elm;
 
