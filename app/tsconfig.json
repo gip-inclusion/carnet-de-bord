@@ -8,6 +8,7 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
-		"target": "ES2019"
+		"target": "ES2019",
+		"preserveValueImports": false
 	}
 }

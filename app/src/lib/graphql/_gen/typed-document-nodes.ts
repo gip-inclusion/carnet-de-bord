@@ -11816,11 +11816,8 @@ export type DeleteManagerMutationVariables = Exact<{
 
 export type DeleteManagerMutation = {
 	__typename?: 'mutation_root';
-	delete_account?:
-		| { __typename?: 'account_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	delete_manager_by_pk?: { __typename?: 'manager'; id: string } | null | undefined;
+	delete_account?: { __typename?: 'account_mutation_response'; affected_rows: number } | null;
+	delete_manager_by_pk?: { __typename?: 'manager'; id: string } | null;
 };
 
 export type AddNotebookMembersMutationVariables = Exact<{
@@ -11830,14 +11827,14 @@ export type AddNotebookMembersMutationVariables = Exact<{
 
 export type AddNotebookMembersMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	update_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	insert_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type AddNotebookMemberBatchMutationVariables = Exact<{
@@ -11847,14 +11844,14 @@ export type AddNotebookMemberBatchMutationVariables = Exact<{
 
 export type AddNotebookMemberBatchMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	update_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	insert_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type GetNotebookForBeneficiaryQueryVariables = Exact<{
@@ -11883,13 +11880,10 @@ export type RemoveAdminStructureStructureMutationMutationVariables = Exact<{
 
 export type RemoveAdminStructureStructureMutationMutation = {
 	__typename?: 'mutation_root';
-	update_admin_structure_structure?:
-		| {
-				__typename?: 'admin_structure_structure_mutation_response';
-				returning: Array<{ __typename?: 'admin_structure_structure'; id: string }>;
-		  }
-		| null
-		| undefined;
+	update_admin_structure_structure?: {
+		__typename?: 'admin_structure_structure_mutation_response';
+		returning: Array<{ __typename?: 'admin_structure_structure'; id: string }>;
+	} | null;
 };
 
 export type RemoveNotebookMembersMutationVariables = Exact<{
@@ -11898,10 +11892,10 @@ export type RemoveNotebookMembersMutationVariables = Exact<{
 
 export type RemoveNotebookMembersMutation = {
 	__typename?: 'mutation_root';
-	delete_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	delete_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type UpdateAdminStructureByIdMutationVariables = Exact<{
@@ -11911,17 +11905,14 @@ export type UpdateAdminStructureByIdMutationVariables = Exact<{
 
 export type UpdateAdminStructureByIdMutation = {
 	__typename?: 'mutation_root';
-	update_admin_structure_by_pk?:
-		| {
-				__typename?: 'admin_structure';
-				id: string;
-				firstname?: string | null | undefined;
-				lastname?: string | null | undefined;
-				email: string;
-				phoneNumbers?: string | null | undefined;
-		  }
-		| null
-		| undefined;
+	update_admin_structure_by_pk?: {
+		__typename?: 'admin_structure';
+		id: string;
+		firstname?: string | null;
+		lastname?: string | null;
+		email: string;
+		phoneNumbers?: string | null;
+	} | null;
 };
 
 export type GetBeneficiariesQueryVariables = Exact<{
@@ -11935,7 +11926,7 @@ export type GetBeneficiariesQuery = {
 	__typename?: 'query_root';
 	search_beneficiaries_aggregate: {
 		__typename?: 'beneficiary_aggregate';
-		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null;
 	};
 	beneficiaries: Array<{
 		__typename?: 'beneficiary';
@@ -11943,47 +11934,40 @@ export type GetBeneficiariesQuery = {
 		firstname: string;
 		lastname: string;
 		dateOfBirth: string;
-		beneficiaryInfo?:
-			| {
-					__typename?: 'beneficiary_info';
-					orientation_type: { __typename?: 'orientation_type'; id: string; label: string };
-			  }
-			| null
-			| undefined;
+		beneficiaryInfo?: {
+			__typename?: 'beneficiary_info';
+			orientation_type: { __typename?: 'orientation_type'; id: string; label: string };
+		} | null;
 		structures: Array<{
 			__typename?: 'beneficiary_structure';
 			structure: { __typename?: 'structure'; id: string; name: string };
 		}>;
-		notebook?:
-			| {
-					__typename?: 'notebook';
+		notebook?: {
+			__typename?: 'notebook';
+			id: string;
+			members: Array<{
+				__typename?: 'notebook_member';
+				id: string;
+				createdAt: string;
+				account: {
+					__typename?: 'account';
 					id: string;
-					members: Array<{
-						__typename?: 'notebook_member';
+					type: RoleEnum;
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
 						id: string;
-						createdAt: string;
-						account: {
-							__typename?: 'account';
-							id: string;
-							type: RoleEnum;
-							orientation_manager?:
-								| {
-										__typename?: 'orientation_manager';
-										id: string;
-										firstname?: string | null | undefined;
-										lastname?: string | null | undefined;
-								  }
-								| null
-								| undefined;
-							professional?:
-								| { __typename?: 'professional'; id: string; firstname: string; lastname: string }
-								| null
-								| undefined;
-						};
-					}>;
-			  }
-			| null
-			| undefined;
+						firstname?: string | null;
+						lastname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						id: string;
+						firstname: string;
+						lastname: string;
+					} | null;
+				};
+			}>;
+		} | null;
 	}>;
 };
 
@@ -11994,10 +11978,10 @@ export type GetOrientationManagerQuery = {
 	orientation_manager: Array<{
 		__typename?: 'orientation_manager';
 		id: string;
-		firstname?: string | null | undefined;
-		lastname?: string | null | undefined;
+		firstname?: string | null;
+		lastname?: string | null;
 		email: string;
-		account?: { __typename?: 'account'; id: string } | null | undefined;
+		account?: { __typename?: 'account'; id: string } | null;
 	}>;
 };
 
@@ -12017,11 +12001,11 @@ export type GetProfessionalsForManagerQuery = {
 		id: string;
 		firstname: string;
 		lastname: string;
-		mobileNumber?: string | null | undefined;
-		position?: string | null | undefined;
+		mobileNumber?: string | null;
+		position?: string | null;
 		email: string;
 		structureId: string;
-		account?: { __typename?: 'account'; id: string } | null | undefined;
+		account?: { __typename?: 'account'; id: string } | null;
 		structure: { __typename?: 'structure'; id: string; name: string };
 	}>;
 };
@@ -12037,11 +12021,11 @@ export type GetProfessionalsFromStructuresQuery = {
 		id: string;
 		firstname: string;
 		lastname: string;
-		mobileNumber?: string | null | undefined;
-		position?: string | null | undefined;
+		mobileNumber?: string | null;
+		position?: string | null;
 		email: string;
 		structureId: string;
-		account?: { __typename?: 'account'; id: string } | null | undefined;
+		account?: { __typename?: 'account'; id: string } | null;
 		structure: { __typename?: 'structure'; id: string; name: string };
 	}>;
 };
@@ -12066,11 +12050,11 @@ export type GetStructuresWithProQuery = {
 			id: string;
 			firstname: string;
 			lastname: string;
-			mobileNumber?: string | null | undefined;
-			position?: string | null | undefined;
+			mobileNumber?: string | null;
+			position?: string | null;
 			email: string;
 			structureId: string;
-			account?: { __typename?: 'account'; id: string } | null | undefined;
+			account?: { __typename?: 'account'; id: string } | null;
 			structure: { __typename?: 'structure'; id: string; name: string };
 		}>;
 	}>;
@@ -12082,10 +12066,10 @@ export type UpdateOrientationMutationVariables = Exact<{
 
 export type UpdateOrientationMutation = {
 	__typename?: 'mutation_root';
-	insert_beneficiary_info?:
-		| { __typename?: 'beneficiary_info_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	insert_beneficiary_info?: {
+		__typename?: 'beneficiary_info_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type UpdateOrientationManagerMutationVariables = Exact<{
@@ -12095,14 +12079,14 @@ export type UpdateOrientationManagerMutationVariables = Exact<{
 
 export type UpdateOrientationManagerMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	insert_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
+	insert_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type UpdateReferentMutationVariables = Exact<{
@@ -12112,18 +12096,18 @@ export type UpdateReferentMutationVariables = Exact<{
 
 export type UpdateReferentMutation = {
 	__typename?: 'mutation_root';
-	update_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	update_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	insert_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
+	insert_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type UpdateReferentWithStructureMutationVariables = Exact<{
@@ -12136,22 +12120,22 @@ export type UpdateReferentWithStructureMutationVariables = Exact<{
 
 export type UpdateReferentWithStructureMutation = {
 	__typename?: 'mutation_root';
-	delete_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	insert_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	update_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	insert_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	delete_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
+	insert_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
+	insert_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type RemoveReferentMutationVariables = Exact<{
@@ -12160,10 +12144,10 @@ export type RemoveReferentMutationVariables = Exact<{
 
 export type RemoveReferentMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type CreateDeploymentMutationVariables = Exact<{
@@ -12173,10 +12157,11 @@ export type CreateDeploymentMutationVariables = Exact<{
 
 export type CreateDeploymentMutation = {
 	__typename?: 'mutation_root';
-	createDeploymentWithEmail?:
-		| { __typename?: 'CreateDeploymentOutput'; id: string; label: string }
-		| null
-		| undefined;
+	createDeploymentWithEmail?: {
+		__typename?: 'CreateDeploymentOutput';
+		id: string;
+		label: string;
+	} | null;
 };
 
 export type GetDeploymentByIdQueryVariables = Exact<{
@@ -12185,43 +12170,31 @@ export type GetDeploymentByIdQueryVariables = Exact<{
 
 export type GetDeploymentByIdQuery = {
 	__typename?: 'query_root';
-	deployment?:
-		| {
-				__typename?: 'deployment';
-				id: string;
-				label: string;
-				config?: any | null | undefined;
-				managers: Array<{
-					__typename?: 'manager';
-					id: string;
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-					account?:
-						| { __typename?: 'account'; onboardingDone?: boolean | null | undefined }
-						| null
-						| undefined;
-				}>;
-				beneficiaries_aggregate: {
-					__typename?: 'beneficiary_aggregate';
-					aggregate?:
-						| { __typename?: 'beneficiary_aggregate_fields'; count: number }
-						| null
-						| undefined;
-				};
-				structures_aggregate: {
-					__typename?: 'structure_aggregate';
-					aggregate?:
-						| { __typename?: 'structure_aggregate_fields'; count: number }
-						| null
-						| undefined;
-				};
-		  }
-		| null
-		| undefined;
+	deployment?: {
+		__typename?: 'deployment';
+		id: string;
+		label: string;
+		config?: any | null;
+		managers: Array<{
+			__typename?: 'manager';
+			id: string;
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+			account?: { __typename?: 'account'; onboardingDone?: boolean | null } | null;
+		}>;
+		beneficiaries_aggregate: {
+			__typename?: 'beneficiary_aggregate';
+			aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null;
+		};
+		structures_aggregate: {
+			__typename?: 'structure_aggregate';
+			aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null;
+		};
+	} | null;
 	professional_aggregate: {
 		__typename?: 'professional_aggregate';
-		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
 	};
 };
 
@@ -12236,8 +12209,8 @@ export type GetDeploymentsQuery = {
 		managers: Array<{
 			__typename?: 'manager';
 			id: string;
-			firstname?: string | null | undefined;
-			lastname?: string | null | undefined;
+			firstname?: string | null;
+			lastname?: string | null;
 			email: string;
 		}>;
 	}>;
@@ -12249,7 +12222,7 @@ export type GetDeploymentNotebooksQueryVariables = Exact<{
 
 export type GetDeploymentNotebooksQuery = {
 	__typename?: 'query_root';
-	deployment?: { __typename?: 'deployment'; label: string; id: string } | null | undefined;
+	deployment?: { __typename?: 'deployment'; label: string; id: string } | null;
 	notebooks: Array<{
 		__typename?: 'notebook';
 		id: string;
@@ -12263,10 +12236,10 @@ export type DeactivateNotebookMemberMutationVariables = Exact<{
 
 export type DeactivateNotebookMemberMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables = Exact<{
@@ -12276,17 +12249,14 @@ export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables = E
 
 export type AddNotebookMemberWithBeneficiaryStructureUpdateMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_member_one?:
-		| {
-				__typename?: 'notebook_member';
-				notebook: { __typename?: 'notebook'; beneficiaryId: string };
-		  }
-		| null
-		| undefined;
-	update_beneficiary_structure?:
-		| { __typename?: 'beneficiary_structure_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	insert_notebook_member_one?: {
+		__typename?: 'notebook_member';
+		notebook: { __typename?: 'notebook'; beneficiaryId: string };
+	} | null;
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type AttachBeneficiaryToStructureMutationVariables = Exact<{
@@ -12296,10 +12266,7 @@ export type AttachBeneficiaryToStructureMutationVariables = Exact<{
 
 export type AttachBeneficiaryToStructureMutation = {
 	__typename?: 'mutation_root';
-	insert_beneficiary_structure_one?:
-		| { __typename?: 'beneficiary_structure'; id: string }
-		| null
-		| undefined;
+	insert_beneficiary_structure_one?: { __typename?: 'beneficiary_structure'; id: string } | null;
 };
 
 export type ImportBeneficiaryMutationVariables = Exact<{
@@ -12331,7 +12298,7 @@ export type ImportBeneficiaryMutationVariables = Exact<{
 
 export type ImportBeneficiaryMutation = {
 	__typename?: 'mutation_root';
-	newNotebook?: { __typename?: 'notebook'; id: string } | null | undefined;
+	newNotebook?: { __typename?: 'notebook'; id: string } | null;
 };
 
 export type UpdateManagerProfileMutationVariables = Exact<{
@@ -12344,27 +12311,21 @@ export type UpdateManagerProfileMutationVariables = Exact<{
 
 export type UpdateManagerProfileMutation = {
 	__typename?: 'mutation_root';
-	updateManager?: { __typename?: 'manager'; id: string } | null | undefined;
-	updateAccount?:
-		| {
-				__typename?: 'account';
-				id: string;
-				onboardingDone?: boolean | null | undefined;
-				confirmed: boolean;
-				username: string;
-				manager?:
-					| {
-							__typename?: 'manager';
-							id: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							email: string;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+	updateManager?: { __typename?: 'manager'; id: string } | null;
+	updateAccount?: {
+		__typename?: 'account';
+		id: string;
+		onboardingDone?: boolean | null;
+		confirmed: boolean;
+		username: string;
+		manager?: {
+			__typename?: 'manager';
+			id: string;
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
+	} | null;
 };
 
 export type AddNotebookActionMutationVariables = Exact<{
@@ -12375,14 +12336,11 @@ export type AddNotebookActionMutationVariables = Exact<{
 
 export type AddNotebookActionMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_action_one?:
-		| {
-				__typename?: 'notebook_action';
-				id: string;
-				target: { __typename?: 'notebook_target'; id: string };
-		  }
-		| null
-		| undefined;
+	insert_notebook_action_one?: {
+		__typename?: 'notebook_action';
+		id: string;
+		target: { __typename?: 'notebook_target'; id: string };
+	} | null;
 };
 
 export type GetRefActionsQueryVariables = Exact<{ [key: string]: never }>;
@@ -12399,7 +12357,7 @@ export type UpdateActionStatusMutationVariables = Exact<{
 
 export type UpdateActionStatusMutation = {
 	__typename?: 'mutation_root';
-	updateStatus?: { __typename?: 'notebook_action'; id: string } | null | undefined;
+	updateStatus?: { __typename?: 'notebook_action'; id: string } | null;
 };
 
 export type UpdateNotebookContractMutationVariables = Exact<{
@@ -12412,7 +12370,7 @@ export type UpdateNotebookContractMutationVariables = Exact<{
 
 export type UpdateNotebookContractMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_by_pk?: { __typename?: 'notebook'; id: string } | null | undefined;
+	update_notebook_by_pk?: { __typename?: 'notebook'; id: string } | null;
 };
 
 export type AddNotebookFocusMutationVariables = Exact<{
@@ -12424,7 +12382,7 @@ export type AddNotebookFocusMutationVariables = Exact<{
 
 export type AddNotebookFocusMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_focus_one?: { __typename?: 'notebook_focus'; id: string } | null | undefined;
+	insert_notebook_focus_one?: { __typename?: 'notebook_focus'; id: string } | null;
 };
 
 export type DeleteNotebookFocusByIdMutationVariables = Exact<{
@@ -12433,7 +12391,7 @@ export type DeleteNotebookFocusByIdMutationVariables = Exact<{
 
 export type DeleteNotebookFocusByIdMutation = {
 	__typename?: 'mutation_root';
-	delete_notebook_focus_by_pk?: { __typename?: 'notebook_focus'; id: string } | null | undefined;
+	delete_notebook_focus_by_pk?: { __typename?: 'notebook_focus'; id: string } | null;
 };
 
 export type GetNotebookFocusByIdQueryVariables = Exact<{
@@ -12442,84 +12400,74 @@ export type GetNotebookFocusByIdQueryVariables = Exact<{
 
 export type GetNotebookFocusByIdQuery = {
 	__typename?: 'query_root';
-	focus?:
-		| {
-				__typename?: 'notebook_focus';
+	focus?: {
+		__typename?: 'notebook_focus';
+		id: string;
+		situations?: any | null;
+		linkedTo?: string | null;
+		theme: string;
+		createdAt: string;
+		targets: Array<{
+			__typename?: 'notebook_target';
+			target: string;
+			status: string;
+			id: string;
+			actions: Array<{
+				__typename?: 'notebook_action';
 				id: string;
-				situations?: any | null | undefined;
-				linkedTo?: string | null | undefined;
-				theme: string;
 				createdAt: string;
-				targets: Array<{
-					__typename?: 'notebook_target';
-					target: string;
-					status: string;
-					id: string;
-					actions: Array<{
-						__typename?: 'notebook_action';
-						id: string;
-						createdAt: string;
-						status: string;
-						action: string;
-						creator: {
-							__typename?: 'account';
-							orientation_manager?:
-								| {
-										__typename?: 'orientation_manager';
-										id: string;
-										lastname?: string | null | undefined;
-										firstname?: string | null | undefined;
-								  }
-								| null
-								| undefined;
-							professional?:
-								| { __typename?: 'professional'; id: string; lastname: string; firstname: string }
-								| null
-								| undefined;
-						};
-					}>;
-				}>;
+				status: string;
+				action: string;
 				creator: {
 					__typename?: 'account';
-					orientation_manager?:
-						| {
-								__typename?: 'orientation_manager';
-								id: string;
-								lastname?: string | null | undefined;
-								firstname?: string | null | undefined;
-								phoneNumbers?: string | null | undefined;
-								email: string;
-						  }
-						| null
-						| undefined;
-					professional?:
-						| {
-								__typename?: 'professional';
-								id: string;
-								position?: string | null | undefined;
-								firstname: string;
-								lastname: string;
-								mobileNumber?: string | null | undefined;
-								email: string;
-								structureId: string;
-								structure: {
-									__typename?: 'structure';
-									id: string;
-									name: string;
-									phone?: string | null | undefined;
-									address1?: string | null | undefined;
-									address2?: string | null | undefined;
-									city?: string | null | undefined;
-									postalCode?: string | null | undefined;
-									website?: string | null | undefined;
-								};
-						  }
-						| null
-						| undefined;
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						id: string;
+						lastname?: string | null;
+						firstname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						id: string;
+						lastname: string;
+						firstname: string;
+					} | null;
 				};
-		  }
-		| null
-		| undefined;
+			}>;
+		}>;
+		creator: {
+			__typename?: 'account';
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				id: string;
+				lastname?: string | null;
+				firstname?: string | null;
+				phoneNumbers?: string | null;
+				email: string;
+			} | null;
+			professional?: {
+				__typename?: 'professional';
+				id: string;
+				position?: string | null;
+				firstname: string;
+				lastname: string;
+				mobileNumber?: string | null;
+				email: string;
+				structureId: string;
+				structure: {
+					__typename?: 'structure';
+					id: string;
+					name: string;
+					phone?: string | null;
+					address1?: string | null;
+					address2?: string | null;
+					city?: string | null;
+					postalCode?: string | null;
+					website?: string | null;
+				};
+			} | null;
+		};
+	} | null;
 };
 
 export type GetRefSituationsQueryVariables = Exact<{ [key: string]: never }>;
@@ -12556,7 +12504,7 @@ export type UpdateNotebookFocusMutationVariables = Exact<{
 
 export type UpdateNotebookFocusMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_focus_by_pk?: { __typename?: 'notebook_focus'; id: string } | null | undefined;
+	update_notebook_focus_by_pk?: { __typename?: 'notebook_focus'; id: string } | null;
 };
 
 export type UpdateTargetStatusMutationVariables = Exact<{
@@ -12566,7 +12514,7 @@ export type UpdateTargetStatusMutationVariables = Exact<{
 
 export type UpdateTargetStatusMutation = {
 	__typename?: 'mutation_root';
-	updateStatus?: { __typename?: 'notebook_target'; id: string } | null | undefined;
+	updateStatus?: { __typename?: 'notebook_target'; id: string } | null;
 };
 
 export type SearchProfessionalQueryVariables = Exact<{
@@ -12586,14 +12534,14 @@ export type SearchProfessionalQuery = {
 			__typename?: 'structure';
 			id: string;
 			name: string;
-			postalCode?: string | null | undefined;
-			phone?: string | null | undefined;
+			postalCode?: string | null;
+			phone?: string | null;
 		};
-		account?: { __typename?: 'account'; id: string } | null | undefined;
+		account?: { __typename?: 'account'; id: string } | null;
 	}>;
 	count: {
 		__typename?: 'professional_aggregate';
-		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
 	};
 };
 
@@ -12606,13 +12554,10 @@ export type AddNotebookAppointmentMutationVariables = Exact<{
 
 export type AddNotebookAppointmentMutation = {
 	__typename?: 'mutation_root';
-	addAppointment?:
-		| {
-				__typename?: 'notebook_appointment_mutation_response';
-				returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
-		  }
-		| null
-		| undefined;
+	addAppointment?: {
+		__typename?: 'notebook_appointment_mutation_response';
+		returning: Array<{ __typename?: 'notebook_appointment'; id: string; notebookId: string }>;
+	} | null;
 };
 
 export type AddNotebookMemberMutationVariables = Exact<{
@@ -12622,7 +12567,7 @@ export type AddNotebookMemberMutationVariables = Exact<{
 
 export type AddNotebookMemberMutation = {
 	__typename?: 'mutation_root';
-	newMember?: { __typename?: 'notebook_member'; id: string } | null | undefined;
+	newMember?: { __typename?: 'notebook_member'; id: string } | null;
 };
 
 export type DeleteNotebookAppointmentMutationVariables = Exact<{
@@ -12632,7 +12577,7 @@ export type DeleteNotebookAppointmentMutationVariables = Exact<{
 
 export type DeleteNotebookAppointmentMutation = {
 	__typename?: 'mutation_root';
-	updateNotbookAppointment?: { __typename?: 'notebook_appointment'; id: string } | null | undefined;
+	updateNotbookAppointment?: { __typename?: 'notebook_appointment'; id: string } | null;
 };
 
 export type GetNotebookAppointmentsQueryVariables = Exact<{
@@ -12658,10 +12603,11 @@ export type UpdateNotebookAppointmentMutationVariables = Exact<{
 
 export type UpdateNotebookAppointmentMutation = {
 	__typename?: 'mutation_root';
-	updateNotbookAppointment?:
-		| { __typename?: 'notebook_appointment'; id: string; notebookId: string }
-		| null
-		| undefined;
+	updateNotbookAppointment?: {
+		__typename?: 'notebook_appointment';
+		id: string;
+		notebookId: string;
+	} | null;
 };
 
 export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
@@ -12671,11 +12617,8 @@ export type UpdateBeneficiaryPersonalInfoMutationVariables = Exact<{
 
 export type UpdateBeneficiaryPersonalInfoMutation = {
 	__typename?: 'mutation_root';
-	updateMember?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	update?: { __typename?: 'beneficiary'; id: string } | null | undefined;
+	updateMember?: { __typename?: 'notebook_member_mutation_response'; affected_rows: number } | null;
+	update?: { __typename?: 'beneficiary'; id: string } | null;
 };
 
 export type UpdateSocioProMutationVariables = Exact<{
@@ -12695,15 +12638,9 @@ export type UpdateSocioProMutationVariables = Exact<{
 
 export type UpdateSocioProMutation = {
 	__typename?: 'mutation_root';
-	update?: { __typename?: 'notebook'; id: string } | null | undefined;
-	delete_wanted_job?:
-		| { __typename?: 'wanted_job_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
-	insert_wanted_job?:
-		| { __typename?: 'wanted_job_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	update?: { __typename?: 'notebook'; id: string } | null;
+	delete_wanted_job?: { __typename?: 'wanted_job_mutation_response'; affected_rows: number } | null;
+	insert_wanted_job?: { __typename?: 'wanted_job_mutation_response'; affected_rows: number } | null;
 };
 
 export type AddNotebookTargetMutationVariables = Exact<{
@@ -12713,7 +12650,7 @@ export type AddNotebookTargetMutationVariables = Exact<{
 
 export type AddNotebookTargetMutation = {
 	__typename?: 'mutation_root';
-	insert_notebook_target_one?: { __typename?: 'notebook_target'; id: string } | null | undefined;
+	insert_notebook_target_one?: { __typename?: 'notebook_target'; id: string } | null;
 };
 
 export type GetRefTargetByFocusQueryVariables = Exact<{
@@ -12731,11 +12668,11 @@ export type DeleteAccountMutationVariables = Exact<{
 
 export type DeleteAccountMutation = {
 	__typename?: 'mutation_root';
-	update_account_by_pk?: { __typename?: 'account'; id: string } | null | undefined;
-	update_notebook_member?:
-		| { __typename?: 'notebook_member_mutation_response'; affected_rows: number }
-		| null
-		| undefined;
+	update_account_by_pk?: { __typename?: 'account'; id: string } | null;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type GetProfessionalsForStructureQueryVariables = Exact<{
@@ -12749,24 +12686,18 @@ export type GetProfessionalsForStructureQuery = {
 		id: string;
 		firstname: string;
 		lastname: string;
-		mobileNumber?: string | null | undefined;
+		mobileNumber?: string | null;
 		email: string;
-		position?: string | null | undefined;
-		account?:
-			| {
-					__typename?: 'account';
-					id: string;
-					onboardingDone?: boolean | null | undefined;
-					notebooksWhereMember_aggregate: {
-						__typename?: 'notebook_member_aggregate';
-						aggregate?:
-							| { __typename?: 'notebook_member_aggregate_fields'; count: number }
-							| null
-							| undefined;
-					};
-			  }
-			| null
-			| undefined;
+		position?: string | null;
+		account?: {
+			__typename?: 'account';
+			id: string;
+			onboardingDone?: boolean | null;
+			notebooksWhereMember_aggregate: {
+				__typename?: 'notebook_member_aggregate';
+				aggregate?: { __typename?: 'notebook_member_aggregate_fields'; count: number } | null;
+			};
+		} | null;
 	}>;
 };
 
@@ -12777,7 +12708,7 @@ export type UpdateProfessionalAccountMutationVariables = Exact<{
 
 export type UpdateProfessionalAccountMutation = {
 	__typename?: 'mutation_root';
-	update_professional_by_pk?: { __typename?: 'professional'; id: string } | null | undefined;
+	update_professional_by_pk?: { __typename?: 'professional'; id: string } | null;
 };
 
 export type UpdateStructureMutationVariables = Exact<{
@@ -12796,7 +12727,7 @@ export type UpdateStructureMutationVariables = Exact<{
 
 export type UpdateStructureMutation = {
 	__typename?: 'mutation_root';
-	update_structure_by_pk?: { __typename?: 'structure'; id: string } | null | undefined;
+	update_structure_by_pk?: { __typename?: 'structure'; id: string } | null;
 };
 
 export type GetAccountByPkQueryVariables = Exact<{
@@ -12805,84 +12736,67 @@ export type GetAccountByPkQueryVariables = Exact<{
 
 export type GetAccountByPkQuery = {
 	__typename?: 'query_root';
-	account_by_pk?:
-		| {
-				__typename?: 'account';
+	account_by_pk?: {
+		__typename?: 'account';
+		id: string;
+		onboardingDone?: boolean | null;
+		confirmed: boolean;
+		username: string;
+		type: RoleEnum;
+		beneficiary?: {
+			__typename?: 'beneficiary';
+			id: string;
+			firstname: string;
+			lastname: string;
+			email?: string | null;
+			mobileNumber?: string | null;
+			dateOfBirth: string;
+		} | null;
+		manager?: {
+			__typename?: 'manager';
+			id: string;
+			email: string;
+			firstname?: string | null;
+			lastname?: string | null;
+		} | null;
+		professional?: {
+			__typename?: 'professional';
+			id: string;
+			firstname: string;
+			lastname: string;
+			mobileNumber?: string | null;
+			email: string;
+			position?: string | null;
+			structure: {
+				__typename?: 'structure';
 				id: string;
-				onboardingDone?: boolean | null | undefined;
-				confirmed: boolean;
-				username: string;
-				type: RoleEnum;
-				beneficiary?:
-					| {
-							__typename?: 'beneficiary';
-							id: string;
-							firstname: string;
-							lastname: string;
-							email?: string | null | undefined;
-							mobileNumber?: string | null | undefined;
-							dateOfBirth: string;
-					  }
-					| null
-					| undefined;
-				manager?:
-					| {
-							__typename?: 'manager';
-							id: string;
-							email: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-				professional?:
-					| {
-							__typename?: 'professional';
-							id: string;
-							firstname: string;
-							lastname: string;
-							mobileNumber?: string | null | undefined;
-							email: string;
-							position?: string | null | undefined;
-							structure: {
-								__typename?: 'structure';
-								id: string;
-								name: string;
-								address1?: string | null | undefined;
-								address2?: string | null | undefined;
-								postalCode?: string | null | undefined;
-								city?: string | null | undefined;
-								website?: string | null | undefined;
-								deployment?: { __typename?: 'deployment'; label: string } | null | undefined;
-							};
-					  }
-					| null
-					| undefined;
-				admin_structure?:
-					| {
-							__typename?: 'admin_structure';
-							id: string;
-							email: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							phoneNumbers?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-				orientation_manager?:
-					| {
-							__typename?: 'orientation_manager';
-							id: string;
-							email: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							phoneNumbers?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+				name: string;
+				address1?: string | null;
+				address2?: string | null;
+				postalCode?: string | null;
+				city?: string | null;
+				website?: string | null;
+				deployment?: { __typename?: 'deployment'; label: string } | null;
+			};
+		} | null;
+		admin_structure?: {
+			__typename?: 'admin_structure';
+			id: string;
+			email: string;
+			firstname?: string | null;
+			lastname?: string | null;
+			position?: string | null;
+			phoneNumbers?: string | null;
+		} | null;
+		orientation_manager?: {
+			__typename?: 'orientation_manager';
+			id: string;
+			email: string;
+			firstname?: string | null;
+			lastname?: string | null;
+			phoneNumbers?: string | null;
+		} | null;
+	} | null;
 };
 
 export type GetStructuresForDeploymentQueryVariables = Exact<{
@@ -12894,16 +12808,16 @@ export type GetStructuresForDeploymentQuery = {
 	structure: Array<{
 		__typename?: 'structure';
 		id: string;
-		siret?: string | null | undefined;
+		siret?: string | null;
 		name: string;
-		shortDesc?: string | null | undefined;
-		phone?: string | null | undefined;
-		email?: string | null | undefined;
-		postalCode?: string | null | undefined;
-		city?: string | null | undefined;
-		address1?: string | null | undefined;
-		address2?: string | null | undefined;
-		website?: string | null | undefined;
+		shortDesc?: string | null;
+		phone?: string | null;
+		email?: string | null;
+		postalCode?: string | null;
+		city?: string | null;
+		address1?: string | null;
+		address2?: string | null;
+		website?: string | null;
 	}>;
 };
 
@@ -12916,105 +12830,93 @@ export type GetNotebookByBeneficiaryIdQuery = {
 	notebook: Array<{
 		__typename?: 'notebook';
 		id: string;
-		workSituation?: string | null | undefined;
-		workSituationDate?: string | null | undefined;
-		workSituationEndDate?: string | null | undefined;
+		workSituation?: string | null;
+		workSituationDate?: string | null;
+		workSituationEndDate?: string | null;
 		rightAre: boolean;
-		rightAss?: boolean | null | undefined;
-		rightRsa?: string | null | undefined;
+		rightAss?: boolean | null;
+		rightRsa?: string | null;
 		rightRqth: boolean;
 		rightBonus: boolean;
-		contractType?: string | null | undefined;
-		contractSignDate?: string | null | undefined;
-		contractStartDate?: string | null | undefined;
-		contractEndDate?: string | null | undefined;
-		educationLevel?: string | null | undefined;
-		geographicalArea?: string | null | undefined;
+		contractType?: string | null;
+		contractSignDate?: string | null;
+		contractStartDate?: string | null;
+		contractEndDate?: string | null;
+		educationLevel?: string | null;
+		geographicalArea?: string | null;
 		wantedJobs: Array<{
 			__typename?: 'wanted_job';
 			rome_code: { __typename?: 'rome_code'; id: string; label: string };
 		}>;
 		beneficiary: {
 			__typename?: 'beneficiary';
-			address1?: string | null | undefined;
-			address2?: string | null | undefined;
-			cafNumber?: string | null | undefined;
-			city?: string | null | undefined;
+			address1?: string | null;
+			address2?: string | null;
+			cafNumber?: string | null;
+			city?: string | null;
 			dateOfBirth: string;
-			email?: string | null | undefined;
+			email?: string | null;
 			firstname: string;
 			id: string;
 			lastname: string;
-			mobileNumber?: string | null | undefined;
-			peNumber?: string | null | undefined;
-			postalCode?: string | null | undefined;
+			mobileNumber?: string | null;
+			peNumber?: string | null;
+			postalCode?: string | null;
 		};
 		members: Array<{
 			__typename?: 'notebook_member';
 			id: string;
 			memberType: string;
-			lastModifiedAt?: string | null | undefined;
-			lastVisitedAt?: string | null | undefined;
+			lastModifiedAt?: string | null;
+			lastVisitedAt?: string | null;
 			account: {
 				__typename?: 'account';
 				type: RoleEnum;
-				orientation_manager?:
-					| {
-							__typename?: 'orientation_manager';
-							id: string;
-							lastname?: string | null | undefined;
-							firstname?: string | null | undefined;
-							email: string;
-							phoneNumbers?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-				professional?:
-					| {
-							__typename?: 'professional';
-							id: string;
-							lastname: string;
-							firstname: string;
-							position?: string | null | undefined;
-							email: string;
-							mobileNumber?: string | null | undefined;
-							structure: {
-								__typename?: 'structure';
-								id: string;
-								name: string;
-								address1?: string | null | undefined;
-								address2?: string | null | undefined;
-								postalCode?: string | null | undefined;
-								city?: string | null | undefined;
-							};
-					  }
-					| null
-					| undefined;
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					id: string;
+					lastname?: string | null;
+					firstname?: string | null;
+					email: string;
+					phoneNumbers?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					id: string;
+					lastname: string;
+					firstname: string;
+					position?: string | null;
+					email: string;
+					mobileNumber?: string | null;
+					structure: {
+						__typename?: 'structure';
+						id: string;
+						name: string;
+						address1?: string | null;
+						address2?: string | null;
+						postalCode?: string | null;
+						city?: string | null;
+					};
+				} | null;
 			};
 		}>;
 		focuses: Array<{
 			__typename?: 'notebook_focus';
 			theme: string;
-			situations?: any | null | undefined;
+			situations?: any | null;
 			creator: {
 				__typename?: 'account';
-				orientation_manager?:
-					| {
-							__typename?: 'orientation_manager';
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-				professional?:
-					| {
-							__typename?: 'professional';
-							firstname: string;
-							lastname: string;
-							structure: { __typename?: 'structure'; name: string };
-					  }
-					| null
-					| undefined;
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
 			};
 			targets: Array<{
 				__typename?: 'notebook_target';
@@ -13022,23 +12924,17 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				createdAt: string;
 				creator: {
 					__typename?: 'account';
-					orientation_manager?:
-						| {
-								__typename?: 'orientation_manager';
-								firstname?: string | null | undefined;
-								lastname?: string | null | undefined;
-						  }
-						| null
-						| undefined;
-					professional?:
-						| {
-								__typename?: 'professional';
-								firstname: string;
-								lastname: string;
-								structure: { __typename?: 'structure'; name: string };
-						  }
-						| null
-						| undefined;
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						firstname?: string | null;
+						lastname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name: string };
+					} | null;
 				};
 				actions: Array<{
 					__typename?: 'notebook_action';
@@ -13047,23 +12943,17 @@ export type GetNotebookByBeneficiaryIdQuery = {
 					status: string;
 					creator: {
 						__typename?: 'account';
-						orientation_manager?:
-							| {
-									__typename?: 'orientation_manager';
-									firstname?: string | null | undefined;
-									lastname?: string | null | undefined;
-							  }
-							| null
-							| undefined;
-						professional?:
-							| {
-									__typename?: 'professional';
-									firstname: string;
-									lastname: string;
-									structure: { __typename?: 'structure'; name: string };
-							  }
-							| null
-							| undefined;
+						orientation_manager?: {
+							__typename?: 'orientation_manager';
+							firstname?: string | null;
+							lastname?: string | null;
+						} | null;
+						professional?: {
+							__typename?: 'professional';
+							firstname: string;
+							lastname: string;
+							structure: { __typename?: 'structure'; name: string };
+						} | null;
 					};
 				}>;
 			}>;
@@ -13077,269 +12967,230 @@ export type GetNotebookByIdQueryVariables = Exact<{
 
 export type GetNotebookByIdQuery = {
 	__typename?: 'query_root';
-	notebook?:
-		| {
-				__typename?: 'notebook';
-				id: string;
-				workSituation?: string | null | undefined;
-				workSituationDate?: string | null | undefined;
-				workSituationEndDate?: string | null | undefined;
-				rightAre: boolean;
-				rightAss?: boolean | null | undefined;
-				rightRsa?: string | null | undefined;
-				rightRqth: boolean;
-				rightBonus: boolean;
-				contractType?: string | null | undefined;
-				contractSignDate?: string | null | undefined;
-				contractStartDate?: string | null | undefined;
-				contractEndDate?: string | null | undefined;
-				educationLevel?: string | null | undefined;
-				geographicalArea?: string | null | undefined;
-				wantedJobs: Array<{
-					__typename?: 'wanted_job';
-					rome_code: { __typename?: 'rome_code'; id: string; label: string };
-				}>;
-				beneficiary: {
-					__typename?: 'beneficiary';
-					address1?: string | null | undefined;
-					address2?: string | null | undefined;
-					cafNumber?: string | null | undefined;
-					city?: string | null | undefined;
-					dateOfBirth: string;
-					email?: string | null | undefined;
-					firstname: string;
+	notebook?: {
+		__typename?: 'notebook';
+		id: string;
+		workSituation?: string | null;
+		workSituationDate?: string | null;
+		workSituationEndDate?: string | null;
+		rightAre: boolean;
+		rightAss?: boolean | null;
+		rightRsa?: string | null;
+		rightRqth: boolean;
+		rightBonus: boolean;
+		contractType?: string | null;
+		contractSignDate?: string | null;
+		contractStartDate?: string | null;
+		contractEndDate?: string | null;
+		educationLevel?: string | null;
+		geographicalArea?: string | null;
+		wantedJobs: Array<{
+			__typename?: 'wanted_job';
+			rome_code: { __typename?: 'rome_code'; id: string; label: string };
+		}>;
+		beneficiary: {
+			__typename?: 'beneficiary';
+			address1?: string | null;
+			address2?: string | null;
+			cafNumber?: string | null;
+			city?: string | null;
+			dateOfBirth: string;
+			email?: string | null;
+			firstname: string;
+			id: string;
+			lastname: string;
+			mobileNumber?: string | null;
+			peNumber?: string | null;
+			postalCode?: string | null;
+		};
+		members: Array<{
+			__typename?: 'notebook_member';
+			id: string;
+			memberType: string;
+			lastModifiedAt?: string | null;
+			lastVisitedAt?: string | null;
+			account: {
+				__typename?: 'account';
+				type: RoleEnum;
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					id: string;
+					lastname?: string | null;
+					firstname?: string | null;
+					email: string;
+					phoneNumbers?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
 					id: string;
 					lastname: string;
-					mobileNumber?: string | null | undefined;
-					peNumber?: string | null | undefined;
-					postalCode?: string | null | undefined;
-				};
-				members: Array<{
-					__typename?: 'notebook_member';
-					id: string;
-					memberType: string;
-					lastModifiedAt?: string | null | undefined;
-					lastVisitedAt?: string | null | undefined;
-					account: {
-						__typename?: 'account';
-						type: RoleEnum;
-						orientation_manager?:
-							| {
-									__typename?: 'orientation_manager';
-									id: string;
-									lastname?: string | null | undefined;
-									firstname?: string | null | undefined;
-									email: string;
-									phoneNumbers?: string | null | undefined;
-							  }
-							| null
-							| undefined;
-						professional?:
-							| {
-									__typename?: 'professional';
-									id: string;
-									lastname: string;
-									firstname: string;
-									position?: string | null | undefined;
-									email: string;
-									mobileNumber?: string | null | undefined;
-									structure: {
-										__typename?: 'structure';
-										id: string;
-										name: string;
-										address1?: string | null | undefined;
-										address2?: string | null | undefined;
-										postalCode?: string | null | undefined;
-										city?: string | null | undefined;
-									};
-							  }
-							| null
-							| undefined;
+					firstname: string;
+					position?: string | null;
+					email: string;
+					mobileNumber?: string | null;
+					structure: {
+						__typename?: 'structure';
+						id: string;
+						name: string;
+						address1?: string | null;
+						address2?: string | null;
+						postalCode?: string | null;
+						city?: string | null;
 					};
-				}>;
-				focuses: Array<{
-					__typename?: 'notebook_focus';
-					theme: string;
-					situations?: any | null | undefined;
+				} | null;
+			};
+		}>;
+		focuses: Array<{
+			__typename?: 'notebook_focus';
+			theme: string;
+			situations?: any | null;
+			creator: {
+				__typename?: 'account';
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			};
+			targets: Array<{
+				__typename?: 'notebook_target';
+				target: string;
+				createdAt: string;
+				creator: {
+					__typename?: 'account';
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						firstname?: string | null;
+						lastname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name: string };
+					} | null;
+				};
+				actions: Array<{
+					__typename?: 'notebook_action';
+					action: string;
+					createdAt: string;
+					status: string;
 					creator: {
 						__typename?: 'account';
-						orientation_manager?:
-							| {
-									__typename?: 'orientation_manager';
-									firstname?: string | null | undefined;
-									lastname?: string | null | undefined;
-							  }
-							| null
-							| undefined;
-						professional?:
-							| {
-									__typename?: 'professional';
-									firstname: string;
-									lastname: string;
-									structure: { __typename?: 'structure'; name: string };
-							  }
-							| null
-							| undefined;
+						orientation_manager?: {
+							__typename?: 'orientation_manager';
+							firstname?: string | null;
+							lastname?: string | null;
+						} | null;
+						professional?: {
+							__typename?: 'professional';
+							firstname: string;
+							lastname: string;
+							structure: { __typename?: 'structure'; name: string };
+						} | null;
 					};
-					targets: Array<{
-						__typename?: 'notebook_target';
-						target: string;
-						createdAt: string;
-						creator: {
-							__typename?: 'account';
-							orientation_manager?:
-								| {
-										__typename?: 'orientation_manager';
-										firstname?: string | null | undefined;
-										lastname?: string | null | undefined;
-								  }
-								| null
-								| undefined;
-							professional?:
-								| {
-										__typename?: 'professional';
-										firstname: string;
-										lastname: string;
-										structure: { __typename?: 'structure'; name: string };
-								  }
-								| null
-								| undefined;
-						};
-						actions: Array<{
-							__typename?: 'notebook_action';
-							action: string;
-							createdAt: string;
-							status: string;
-							creator: {
-								__typename?: 'account';
-								orientation_manager?:
-									| {
-											__typename?: 'orientation_manager';
-											firstname?: string | null | undefined;
-											lastname?: string | null | undefined;
-									  }
-									| null
-									| undefined;
-								professional?:
-									| {
-											__typename?: 'professional';
-											firstname: string;
-											lastname: string;
-											structure: { __typename?: 'structure'; name: string };
-									  }
-									| null
-									| undefined;
-							};
-						}>;
-					}>;
 				}>;
-		  }
-		| null
-		| undefined;
+			}>;
+		}>;
+	} | null;
 };
 
 export type NotebookFragmentFragment = {
 	__typename?: 'notebook';
 	id: string;
-	workSituation?: string | null | undefined;
-	workSituationDate?: string | null | undefined;
-	workSituationEndDate?: string | null | undefined;
+	workSituation?: string | null;
+	workSituationDate?: string | null;
+	workSituationEndDate?: string | null;
 	rightAre: boolean;
-	rightAss?: boolean | null | undefined;
-	rightRsa?: string | null | undefined;
+	rightAss?: boolean | null;
+	rightRsa?: string | null;
 	rightRqth: boolean;
 	rightBonus: boolean;
-	contractType?: string | null | undefined;
-	contractSignDate?: string | null | undefined;
-	contractStartDate?: string | null | undefined;
-	contractEndDate?: string | null | undefined;
-	educationLevel?: string | null | undefined;
-	geographicalArea?: string | null | undefined;
+	contractType?: string | null;
+	contractSignDate?: string | null;
+	contractStartDate?: string | null;
+	contractEndDate?: string | null;
+	educationLevel?: string | null;
+	geographicalArea?: string | null;
 	wantedJobs: Array<{
 		__typename?: 'wanted_job';
 		rome_code: { __typename?: 'rome_code'; id: string; label: string };
 	}>;
 	beneficiary: {
 		__typename?: 'beneficiary';
-		address1?: string | null | undefined;
-		address2?: string | null | undefined;
-		cafNumber?: string | null | undefined;
-		city?: string | null | undefined;
+		address1?: string | null;
+		address2?: string | null;
+		cafNumber?: string | null;
+		city?: string | null;
 		dateOfBirth: string;
-		email?: string | null | undefined;
+		email?: string | null;
 		firstname: string;
 		id: string;
 		lastname: string;
-		mobileNumber?: string | null | undefined;
-		peNumber?: string | null | undefined;
-		postalCode?: string | null | undefined;
+		mobileNumber?: string | null;
+		peNumber?: string | null;
+		postalCode?: string | null;
 	};
 	members: Array<{
 		__typename?: 'notebook_member';
 		id: string;
 		memberType: string;
-		lastModifiedAt?: string | null | undefined;
-		lastVisitedAt?: string | null | undefined;
+		lastModifiedAt?: string | null;
+		lastVisitedAt?: string | null;
 		account: {
 			__typename?: 'account';
 			type: RoleEnum;
-			orientation_manager?:
-				| {
-						__typename?: 'orientation_manager';
-						id: string;
-						lastname?: string | null | undefined;
-						firstname?: string | null | undefined;
-						email: string;
-						phoneNumbers?: string | null | undefined;
-				  }
-				| null
-				| undefined;
-			professional?:
-				| {
-						__typename?: 'professional';
-						id: string;
-						lastname: string;
-						firstname: string;
-						position?: string | null | undefined;
-						email: string;
-						mobileNumber?: string | null | undefined;
-						structure: {
-							__typename?: 'structure';
-							id: string;
-							name: string;
-							address1?: string | null | undefined;
-							address2?: string | null | undefined;
-							postalCode?: string | null | undefined;
-							city?: string | null | undefined;
-						};
-				  }
-				| null
-				| undefined;
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				id: string;
+				lastname?: string | null;
+				firstname?: string | null;
+				email: string;
+				phoneNumbers?: string | null;
+			} | null;
+			professional?: {
+				__typename?: 'professional';
+				id: string;
+				lastname: string;
+				firstname: string;
+				position?: string | null;
+				email: string;
+				mobileNumber?: string | null;
+				structure: {
+					__typename?: 'structure';
+					id: string;
+					name: string;
+					address1?: string | null;
+					address2?: string | null;
+					postalCode?: string | null;
+					city?: string | null;
+				};
+			} | null;
 		};
 	}>;
 	focuses: Array<{
 		__typename?: 'notebook_focus';
 		theme: string;
-		situations?: any | null | undefined;
+		situations?: any | null;
 		creator: {
 			__typename?: 'account';
-			orientation_manager?:
-				| {
-						__typename?: 'orientation_manager';
-						firstname?: string | null | undefined;
-						lastname?: string | null | undefined;
-				  }
-				| null
-				| undefined;
-			professional?:
-				| {
-						__typename?: 'professional';
-						firstname: string;
-						lastname: string;
-						structure: { __typename?: 'structure'; name: string };
-				  }
-				| null
-				| undefined;
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				firstname?: string | null;
+				lastname?: string | null;
+			} | null;
+			professional?: {
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				structure: { __typename?: 'structure'; name: string };
+			} | null;
 		};
 		targets: Array<{
 			__typename?: 'notebook_target';
@@ -13347,23 +13198,17 @@ export type NotebookFragmentFragment = {
 			createdAt: string;
 			creator: {
 				__typename?: 'account';
-				orientation_manager?:
-					| {
-							__typename?: 'orientation_manager';
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-				professional?:
-					| {
-							__typename?: 'professional';
-							firstname: string;
-							lastname: string;
-							structure: { __typename?: 'structure'; name: string };
-					  }
-					| null
-					| undefined;
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
 			};
 			actions: Array<{
 				__typename?: 'notebook_action';
@@ -13372,23 +13217,17 @@ export type NotebookFragmentFragment = {
 				status: string;
 				creator: {
 					__typename?: 'account';
-					orientation_manager?:
-						| {
-								__typename?: 'orientation_manager';
-								firstname?: string | null | undefined;
-								lastname?: string | null | undefined;
-						  }
-						| null
-						| undefined;
-					professional?:
-						| {
-								__typename?: 'professional';
-								firstname: string;
-								lastname: string;
-								structure: { __typename?: 'structure'; name: string };
-						  }
-						| null
-						| undefined;
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						firstname?: string | null;
+						lastname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name: string };
+					} | null;
 				};
 			}>;
 		}>;
@@ -13403,10 +13242,7 @@ export type ConfirmAccountByIdMutationVariables = Exact<{
 
 export type ConfirmAccountByIdMutation = {
 	__typename?: 'mutation_root';
-	account?:
-		| { __typename?: 'account'; id: string; accessKey?: string | null | undefined }
-		| null
-		| undefined;
+	account?: { __typename?: 'account'; id: string; accessKey?: string | null } | null;
 };
 
 export type GetAccountByIdQueryVariables = Exact<{
@@ -13415,29 +13251,25 @@ export type GetAccountByIdQueryVariables = Exact<{
 
 export type GetAccountByIdQuery = {
 	__typename?: 'query_root';
-	account?:
-		| {
-				__typename?: 'account';
-				id: string;
-				username: string;
-				confirmed: boolean;
-				type: RoleEnum;
-				orientation_manager?:
-					| {
-							__typename?: 'orientation_manager';
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							email: string;
-					  }
-					| null
-					| undefined;
-				professional?:
-					| { __typename?: 'professional'; firstname: string; lastname: string; email: string }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+	account?: {
+		__typename?: 'account';
+		id: string;
+		username: string;
+		confirmed: boolean;
+		type: RoleEnum;
+		orientation_manager?: {
+			__typename?: 'orientation_manager';
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
+		professional?: {
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: string;
+		} | null;
+	} | null;
 };
 
 export type GetDeploymentInfosQueryVariables = Exact<{
@@ -13446,18 +13278,18 @@ export type GetDeploymentInfosQueryVariables = Exact<{
 
 export type GetDeploymentInfosQuery = {
 	__typename?: 'query_root';
-	deployment?: { __typename?: 'deployment'; label: string } | null | undefined;
+	deployment?: { __typename?: 'deployment'; label: string } | null;
 	beneficiaries: {
 		__typename?: 'beneficiary_aggregate';
-		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null;
 	};
 	beneficiariesWithNoStructure: {
 		__typename?: 'beneficiary_aggregate';
-		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null;
 	};
 	structures: {
 		__typename?: 'structure_aggregate';
-		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null;
 	};
 	structuresWithPros: Array<{
 		__typename?: 'structure';
@@ -13469,12 +13301,12 @@ export type GetDeploymentInfosQuery = {
 			email: string;
 			firstname: string;
 			lastname: string;
-			account?: { __typename?: 'account'; id: string } | null | undefined;
+			account?: { __typename?: 'account'; id: string } | null;
 		}>;
 	}>;
 	structuresWithNoBeneficiary: {
 		__typename?: 'structure_aggregate';
-		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null;
 	};
 };
 
@@ -13487,40 +13319,31 @@ export type GetAccountsSummaryQuery = {
 		id: string;
 		type: RoleEnum;
 		username: string;
-		lastLogin?: string | null | undefined;
+		lastLogin?: string | null;
 		confirmed: boolean;
-		onboardingDone?: boolean | null | undefined;
-		orientation_manager?:
-			| {
-					__typename?: 'orientation_manager';
-					id: string;
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-					phoneNumbers?: string | null | undefined;
-			  }
-			| null
-			| undefined;
+		onboardingDone?: boolean | null;
+		orientation_manager?: {
+			__typename?: 'orientation_manager';
+			id: string;
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+			phoneNumbers?: string | null;
+		} | null;
 		notebookCount: {
 			__typename?: 'notebook_member_aggregate';
-			aggregate?:
-				| { __typename?: 'notebook_member_aggregate_fields'; count: number }
-				| null
-				| undefined;
+			aggregate?: { __typename?: 'notebook_member_aggregate_fields'; count: number } | null;
 		};
-		professional?:
-			| {
-					__typename?: 'professional';
-					id: string;
-					firstname: string;
-					lastname: string;
-					position?: string | null | undefined;
-					mobileNumber?: string | null | undefined;
-					email: string;
-					structure: { __typename?: 'structure'; id: string; name: string };
-			  }
-			| null
-			| undefined;
+		professional?: {
+			__typename?: 'professional';
+			id: string;
+			firstname: string;
+			lastname: string;
+			position?: string | null;
+			mobileNumber?: string | null;
+			email: string;
+			structure: { __typename?: 'structure'; id: string; name: string };
+		} | null;
 	}>;
 };
 
@@ -13535,28 +13358,22 @@ export type UpdateOrientationManagerProfileMutationVariables = Exact<{
 
 export type UpdateOrientationManagerProfileMutation = {
 	__typename?: 'mutation_root';
-	updateOrientationManager?: { __typename?: 'orientation_manager'; id: string } | null | undefined;
-	updateAccount?:
-		| {
-				__typename?: 'account';
-				id: string;
-				onboardingDone?: boolean | null | undefined;
-				confirmed: boolean;
-				username: string;
-				orientation_manager?:
-					| {
-							__typename?: 'orientation_manager';
-							id: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							email: string;
-							phoneNumbers?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+	updateOrientationManager?: { __typename?: 'orientation_manager'; id: string } | null;
+	updateAccount?: {
+		__typename?: 'account';
+		id: string;
+		onboardingDone?: boolean | null;
+		confirmed: boolean;
+		username: string;
+		orientation_manager?: {
+			__typename?: 'orientation_manager';
+			id: string;
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+			phoneNumbers?: string | null;
+		} | null;
+	} | null;
 };
 
 export type GetLastVisitedOrUpdatedQueryVariables = Exact<{
@@ -13575,7 +13392,7 @@ export type GetLastVisitedOrUpdatedQuery = {
 				id: string;
 				firstname: string;
 				lastname: string;
-				mobileNumber?: string | null | undefined;
+				mobileNumber?: string | null;
 				dateOfBirth: string;
 			};
 		};
@@ -13590,7 +13407,7 @@ export type GetLastVisitedOrUpdatedQuery = {
 				id: string;
 				firstname: string;
 				lastname: string;
-				mobileNumber?: string | null | undefined;
+				mobileNumber?: string | null;
 				dateOfBirth: string;
 			};
 		};
@@ -13617,7 +13434,7 @@ export type SearchNotebookMemberQuery = {
 				firstname: string;
 				id: string;
 				lastname: string;
-				mobileNumber?: string | null | undefined;
+				mobileNumber?: string | null;
 			};
 		};
 	}>;
@@ -13631,135 +13448,120 @@ export type GetNotebookQueryVariables = Exact<{
 
 export type GetNotebookQuery = {
 	__typename?: 'query_root';
-	notebook?:
-		| {
-				__typename?: 'notebook';
+	notebook?: {
+		__typename?: 'notebook';
+		id: string;
+		workSituationDate?: string | null;
+		workSituationEndDate?: string | null;
+		workSituation?: string | null;
+		rightRsa?: string | null;
+		rightRqth: boolean;
+		rightAre: boolean;
+		rightAss?: boolean | null;
+		rightBonus: boolean;
+		geographicalArea?: string | null;
+		educationLevel?: string | null;
+		contractType?: string | null;
+		contractSignDate?: string | null;
+		contractStartDate?: string | null;
+		contractEndDate?: string | null;
+		wantedJobs: Array<{
+			__typename?: 'wanted_job';
+			rome_code: { __typename?: 'rome_code'; id: string; label: string };
+		}>;
+		beneficiary: {
+			__typename?: 'beneficiary';
+			address1?: string | null;
+			address2?: string | null;
+			cafNumber?: string | null;
+			city?: string | null;
+			dateOfBirth: string;
+			email?: string | null;
+			firstname: string;
+			id: string;
+			lastname: string;
+			mobileNumber?: string | null;
+			peNumber?: string | null;
+			postalCode?: string | null;
+		};
+		focuses: Array<{
+			__typename?: 'notebook_focus';
+			id: string;
+			theme: string;
+			situations?: any | null;
+			linkedTo?: string | null;
+			targets: Array<{
+				__typename?: 'notebook_target';
 				id: string;
-				workSituationDate?: string | null | undefined;
-				workSituationEndDate?: string | null | undefined;
-				workSituation?: string | null | undefined;
-				rightRsa?: string | null | undefined;
-				rightRqth: boolean;
-				rightAre: boolean;
-				rightAss?: boolean | null | undefined;
-				rightBonus: boolean;
-				geographicalArea?: string | null | undefined;
-				educationLevel?: string | null | undefined;
-				contractType?: string | null | undefined;
-				contractSignDate?: string | null | undefined;
-				contractStartDate?: string | null | undefined;
-				contractEndDate?: string | null | undefined;
-				wantedJobs: Array<{
-					__typename?: 'wanted_job';
-					rome_code: { __typename?: 'rome_code'; id: string; label: string };
-				}>;
-				beneficiary: {
-					__typename?: 'beneficiary';
-					address1?: string | null | undefined;
-					address2?: string | null | undefined;
-					cafNumber?: string | null | undefined;
-					city?: string | null | undefined;
-					dateOfBirth: string;
-					email?: string | null | undefined;
-					firstname: string;
+				target: string;
+				actions_aggregate: {
+					__typename?: 'notebook_action_aggregate';
+					aggregate?: { __typename?: 'notebook_action_aggregate_fields'; count: number } | null;
+				};
+			}>;
+		}>;
+		members: Array<{
+			__typename?: 'notebook_member';
+			id: string;
+			memberType: string;
+			lastModifiedAt?: string | null;
+			lastVisitedAt?: string | null;
+			createdAt: string;
+			account: {
+				__typename?: 'account';
+				id: string;
+				type: RoleEnum;
+				professional?: {
+					__typename?: 'professional';
 					id: string;
 					lastname: string;
-					mobileNumber?: string | null | undefined;
-					peNumber?: string | null | undefined;
-					postalCode?: string | null | undefined;
-				};
-				focuses: Array<{
-					__typename?: 'notebook_focus';
-					id: string;
-					theme: string;
-					situations?: any | null | undefined;
-					linkedTo?: string | null | undefined;
-					targets: Array<{
-						__typename?: 'notebook_target';
+					firstname: string;
+					position?: string | null;
+					email: string;
+					mobileNumber?: string | null;
+					structure: {
+						__typename?: 'structure';
 						id: string;
-						target: string;
-						actions_aggregate: {
-							__typename?: 'notebook_action_aggregate';
-							aggregate?:
-								| { __typename?: 'notebook_action_aggregate_fields'; count: number }
-								| null
-								| undefined;
-						};
-					}>;
-				}>;
-				members: Array<{
-					__typename?: 'notebook_member';
-					id: string;
-					memberType: string;
-					lastModifiedAt?: string | null | undefined;
-					lastVisitedAt?: string | null | undefined;
-					createdAt: string;
-					account: {
-						__typename?: 'account';
-						id: string;
-						type: RoleEnum;
-						professional?:
-							| {
-									__typename?: 'professional';
-									id: string;
-									lastname: string;
-									firstname: string;
-									position?: string | null | undefined;
-									email: string;
-									mobileNumber?: string | null | undefined;
-									structure: {
-										__typename?: 'structure';
-										id: string;
-										name: string;
-										address1?: string | null | undefined;
-										address2?: string | null | undefined;
-										postalCode?: string | null | undefined;
-										city?: string | null | undefined;
-										website?: string | null | undefined;
-									};
-							  }
-							| null
-							| undefined;
-						orientation_manager?:
-							| {
-									__typename?: 'orientation_manager';
-									id: string;
-									lastname?: string | null | undefined;
-									firstname?: string | null | undefined;
-									email: string;
-									phoneNumbers?: string | null | undefined;
-							  }
-							| null
-							| undefined;
+						name: string;
+						address1?: string | null;
+						address2?: string | null;
+						postalCode?: string | null;
+						city?: string | null;
+						website?: string | null;
 					};
-				}>;
-				appointments: Array<{
-					__typename?: 'notebook_appointment';
-					date: any;
-					memberAccountId: string;
-				}>;
-				events: Array<{
-					__typename?: 'notebook_event';
+				} | null;
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
 					id: string;
-					eventDate: string;
-					event: any;
-					eventType: NotebookEventTypeEnum;
-					creatorId: string;
-					creator: {
-						__typename?: 'account';
-						professional?:
-							| {
-									__typename?: 'professional';
-									structureId: string;
-									structure: { __typename?: 'structure'; name: string };
-							  }
-							| null
-							| undefined;
-					};
-				}>;
-		  }
-		| null
-		| undefined;
+					lastname?: string | null;
+					firstname?: string | null;
+					email: string;
+					phoneNumbers?: string | null;
+				} | null;
+			};
+		}>;
+		appointments: Array<{
+			__typename?: 'notebook_appointment';
+			date: any;
+			memberAccountId: string;
+		}>;
+		events: Array<{
+			__typename?: 'notebook_event';
+			id: string;
+			eventDate: string;
+			event: any;
+			eventType: NotebookEventTypeEnum;
+			creatorId: string;
+			creator: {
+				__typename?: 'account';
+				professional?: {
+					__typename?: 'professional';
+					structureId: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			};
+		}>;
+	} | null;
 };
 
 export type GetNotebookEventsQueryVariables = Exact<{
@@ -13779,14 +13581,11 @@ export type GetNotebookEventsQuery = {
 		creatorId: string;
 		creator: {
 			__typename?: 'account';
-			professional?:
-				| {
-						__typename?: 'professional';
-						structureId: string;
-						structure: { __typename?: 'structure'; name: string };
-				  }
-				| null
-				| undefined;
+			professional?: {
+				__typename?: 'professional';
+				structureId: string;
+				structure: { __typename?: 'structure'; name: string };
+			} | null;
 		};
 	}>;
 };
@@ -13800,14 +13599,11 @@ export type EventFieldsFragment = {
 	creatorId: string;
 	creator: {
 		__typename?: 'account';
-		professional?:
-			| {
-					__typename?: 'professional';
-					structureId: string;
-					structure: { __typename?: 'structure'; name: string };
-			  }
-			| null
-			| undefined;
+		professional?: {
+			__typename?: 'professional';
+			structureId: string;
+			structure: { __typename?: 'structure'; name: string };
+		} | null;
 	};
 };
 
@@ -13817,64 +13613,46 @@ export type GetNotebookMemberByIdQueryVariables = Exact<{
 
 export type GetNotebookMemberByIdQuery = {
 	__typename?: 'query_root';
-	member?:
-		| {
-				__typename?: 'notebook_member';
-				notebookId: string;
-				creator?:
-					| {
-							__typename?: 'account';
-							professional?:
-								| {
-										__typename?: 'professional';
-										firstname: string;
-										lastname: string;
-										email: string;
-										id: string;
-								  }
-								| null
-								| undefined;
-							orientation_manager?:
-								| {
-										__typename?: 'orientation_manager';
-										firstname?: string | null | undefined;
-										lastname?: string | null | undefined;
-										email: string;
-										id: string;
-								  }
-								| null
-								| undefined;
-					  }
-					| null
-					| undefined;
-				account: {
-					__typename?: 'account';
-					id: string;
-					confirmed: boolean;
-					professional?:
-						| {
-								__typename?: 'professional';
-								firstname: string;
-								lastname: string;
-								email: string;
-								id: string;
-						  }
-						| null
-						| undefined;
-					orientation_manager?:
-						| {
-								__typename?: 'orientation_manager';
-								firstname?: string | null | undefined;
-								lastname?: string | null | undefined;
-								email: string;
-								id: string;
-						  }
-						| null
-						| undefined;
-				};
-		  }
-		| null
-		| undefined;
+	member?: {
+		__typename?: 'notebook_member';
+		notebookId: string;
+		creator?: {
+			__typename?: 'account';
+			professional?: {
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				email: string;
+				id: string;
+			} | null;
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				firstname?: string | null;
+				lastname?: string | null;
+				email: string;
+				id: string;
+			} | null;
+		} | null;
+		account: {
+			__typename?: 'account';
+			id: string;
+			confirmed: boolean;
+			professional?: {
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				email: string;
+				id: string;
+			} | null;
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				firstname?: string | null;
+				lastname?: string | null;
+				email: string;
+				id: string;
+			} | null;
+		};
+	} | null;
 };
 
 export type GetRomeCodesQueryVariables = Exact<{
@@ -13907,13 +13685,10 @@ export type UpdateNotebookVisitDateMutationVariables = Exact<{
 
 export type UpdateNotebookVisitDateMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_member?:
-		| {
-				__typename?: 'notebook_member_mutation_response';
-				returning: Array<{ __typename?: 'notebook_member'; id: string }>;
-		  }
-		| null
-		| undefined;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		returning: Array<{ __typename?: 'notebook_member'; id: string }>;
+	} | null;
 };
 
 export type UpdateProfessionalProfileMutationVariables = Exact<{
@@ -13929,29 +13704,23 @@ export type UpdateProfessionalProfileMutationVariables = Exact<{
 
 export type UpdateProfessionalProfileMutation = {
 	__typename?: 'mutation_root';
-	updateProfessional?: { __typename?: 'professional'; id: string } | null | undefined;
-	updateAccount?:
-		| {
-				__typename?: 'account';
-				id: string;
-				onboardingDone?: boolean | null | undefined;
-				confirmed: boolean;
-				username: string;
-				professional?:
-					| {
-							__typename?: 'professional';
-							id: string;
-							firstname: string;
-							lastname: string;
-							mobileNumber?: string | null | undefined;
-							email: string;
-							position?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+	updateProfessional?: { __typename?: 'professional'; id: string } | null;
+	updateAccount?: {
+		__typename?: 'account';
+		id: string;
+		onboardingDone?: boolean | null;
+		confirmed: boolean;
+		username: string;
+		professional?: {
+			__typename?: 'professional';
+			id: string;
+			firstname: string;
+			lastname: string;
+			mobileNumber?: string | null;
+			email: string;
+			position?: string | null;
+		} | null;
+	} | null;
 };
 
 export type GetPendingBeneficiariesQueryVariables = Exact<{
@@ -13960,22 +13729,19 @@ export type GetPendingBeneficiariesQueryVariables = Exact<{
 
 export type GetPendingBeneficiariesQuery = {
 	__typename?: 'query_root';
-	structure_by_pk?:
-		| {
-				__typename?: 'structure';
-				beneficiaries: Array<{
-					__typename?: 'beneficiary_structure';
-					beneficiary: {
-						__typename?: 'beneficiary';
-						firstname: string;
-						lastname: string;
-						dateOfBirth: string;
-						notebook?: { __typename?: 'notebook'; id: string } | null | undefined;
-					};
-				}>;
-		  }
-		| null
-		| undefined;
+	structure_by_pk?: {
+		__typename?: 'structure';
+		beneficiaries: Array<{
+			__typename?: 'beneficiary_structure';
+			beneficiary: {
+				__typename?: 'beneficiary';
+				firstname: string;
+				lastname: string;
+				dateOfBirth: string;
+				notebook?: { __typename?: 'notebook'; id: string } | null;
+			};
+		}>;
+	} | null;
 };
 
 export type GetStructureQueryVariables = Exact<{
@@ -13986,59 +13752,50 @@ export type GetStructureQuery = {
 	__typename?: 'query_root';
 	beneficiaries: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
-	structure_by_pk?:
-		| {
-				__typename?: 'structure';
-				id: string;
-				name: string;
-				phone?: string | null | undefined;
-				email?: string | null | undefined;
-				address1?: string | null | undefined;
-				address2?: string | null | undefined;
-				postalCode?: string | null | undefined;
-				city?: string | null | undefined;
-				website?: string | null | undefined;
-				pendingBeneficiaries: {
-					__typename?: 'beneficiary_structure_aggregate';
-					aggregate?:
-						| { __typename?: 'beneficiary_structure_aggregate_fields'; count: number }
-						| null
-						| undefined;
-				};
-				professionals: Array<{
-					__typename?: 'professional';
+	structure_by_pk?: {
+		__typename?: 'structure';
+		id: string;
+		name: string;
+		phone?: string | null;
+		email?: string | null;
+		address1?: string | null;
+		address2?: string | null;
+		postalCode?: string | null;
+		city?: string | null;
+		website?: string | null;
+		pendingBeneficiaries: {
+			__typename?: 'beneficiary_structure_aggregate';
+			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
+		};
+		professionals: Array<{
+			__typename?: 'professional';
+			id: string;
+			email: string;
+			firstname: string;
+			lastname: string;
+			account?: { __typename?: 'account'; id: string } | null;
+		}>;
+		professionals_aggregate: {
+			__typename?: 'professional_aggregate';
+			aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
+		};
+		admins_aggregate: {
+			__typename?: 'admin_structure_structure_aggregate';
+			nodes: Array<{
+				__typename?: 'admin_structure_structure';
+				admin_structure: {
+					__typename?: 'admin_structure';
 					id: string;
 					email: string;
-					firstname: string;
-					lastname: string;
-					account?: { __typename?: 'account'; id: string } | null | undefined;
-				}>;
-				professionals_aggregate: {
-					__typename?: 'professional_aggregate';
-					aggregate?:
-						| { __typename?: 'professional_aggregate_fields'; count: number }
-						| null
-						| undefined;
+					firstname?: string | null;
+					lastname?: string | null;
+					phoneNumbers?: string | null;
 				};
-				admins_aggregate: {
-					__typename?: 'admin_structure_structure_aggregate';
-					nodes: Array<{
-						__typename?: 'admin_structure_structure';
-						admin_structure: {
-							__typename?: 'admin_structure';
-							id: string;
-							email: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							phoneNumbers?: string | null | undefined;
-						};
-					}>;
-				};
-		  }
-		| null
-		| undefined;
+			}>;
+		};
+	} | null;
 };
 
 export type GetManagedStructuresQueryVariables = Exact<{
@@ -14050,28 +13807,22 @@ export type GetManagedStructuresQuery = {
 	structures: Array<{
 		__typename?: 'structure';
 		id: string;
-		city?: string | null | undefined;
+		city?: string | null;
 		name: string;
 		beneficiaries_aggregate: {
 			__typename?: 'beneficiary_structure_aggregate';
-			aggregate?:
-				| { __typename?: 'beneficiary_structure_aggregate_fields'; count: number }
-				| null
-				| undefined;
+			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
 		};
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
-			aggregate?:
-				| { __typename?: 'professional_aggregate_fields'; count: number }
-				| null
-				| undefined;
+			aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
 		};
 		admins_aggregate: {
 			__typename?: 'admin_structure_structure_aggregate';
-			aggregate?:
-				| { __typename?: 'admin_structure_structure_aggregate_fields'; count: number }
-				| null
-				| undefined;
+			aggregate?: {
+				__typename?: 'admin_structure_structure_aggregate_fields';
+				count: number;
+			} | null;
 		};
 	}>;
 };
@@ -14087,28 +13838,22 @@ export type UpdateAdminStructureProfileMutationVariables = Exact<{
 
 export type UpdateAdminStructureProfileMutation = {
 	__typename?: 'mutation_root';
-	updateAdminStructure?: { __typename?: 'admin_structure'; id: string } | null | undefined;
-	updateAccount?:
-		| {
-				__typename?: 'account';
-				id: string;
-				onboardingDone?: boolean | null | undefined;
-				confirmed: boolean;
-				username: string;
-				admin_structure?:
-					| {
-							__typename?: 'admin_structure';
-							id: string;
-							firstname?: string | null | undefined;
-							lastname?: string | null | undefined;
-							email: string;
-							phoneNumbers?: string | null | undefined;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+	updateAdminStructure?: { __typename?: 'admin_structure'; id: string } | null;
+	updateAccount?: {
+		__typename?: 'account';
+		id: string;
+		onboardingDone?: boolean | null;
+		confirmed: boolean;
+		username: string;
+		admin_structure?: {
+			__typename?: 'admin_structure';
+			id: string;
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+			phoneNumbers?: string | null;
+		} | null;
+	} | null;
 };
 
 export type GetDeploymentManagersForStructureQueryVariables = Exact<{
@@ -14117,19 +13862,13 @@ export type GetDeploymentManagersForStructureQueryVariables = Exact<{
 
 export type GetDeploymentManagersForStructureQuery = {
 	__typename?: 'query_root';
-	structure?:
-		| {
-				__typename?: 'structure';
-				deployment?:
-					| {
-							__typename?: 'deployment';
-							managers: Array<{ __typename?: 'manager'; email: string }>;
-					  }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+	structure?: {
+		__typename?: 'structure';
+		deployment?: {
+			__typename?: 'deployment';
+			managers: Array<{ __typename?: 'manager'; email: string }>;
+		} | null;
+	} | null;
 };
 
 export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
@@ -14145,17 +13884,14 @@ export type InsertProfessionalAccountMutationVariables = Exact<{
 
 export type InsertProfessionalAccountMutation = {
 	__typename?: 'mutation_root';
-	account?:
-		| {
-				__typename?: 'account';
-				id: string;
-				professional?:
-					| { __typename?: 'professional'; structure: { __typename?: 'structure'; name: string } }
-					| null
-					| undefined;
-		  }
-		| null
-		| undefined;
+	account?: {
+		__typename?: 'account';
+		id: string;
+		professional?: {
+			__typename?: 'professional';
+			structure: { __typename?: 'structure'; name: string };
+		} | null;
+	} | null;
 };
 
 export type CreateDeploymentFromApiMutationVariables = Exact<{
@@ -14164,18 +13900,15 @@ export type CreateDeploymentFromApiMutationVariables = Exact<{
 
 export type CreateDeploymentFromApiMutation = {
 	__typename?: 'mutation_root';
-	insert_deployment_one?:
-		| {
-				__typename?: 'deployment';
-				id: string;
-				label: string;
-				managers: Array<{
-					__typename?: 'manager';
-					account?: { __typename?: 'account'; id: string } | null | undefined;
-				}>;
-		  }
-		| null
-		| undefined;
+	insert_deployment_one?: {
+		__typename?: 'deployment';
+		id: string;
+		label: string;
+		managers: Array<{
+			__typename?: 'manager';
+			account?: { __typename?: 'account'; id: string } | null;
+		}>;
+	} | null;
 };
 
 export type ListDeploymentIdQueryVariables = Exact<{ [key: string]: never }>;
@@ -14195,43 +13928,43 @@ export type GetDeploymentStatForDayQuery = {
 	__typename?: 'query_root';
 	nbNotebooks: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 	nbStructures: {
 		__typename?: 'structure_aggregate';
-		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'structure_aggregate_fields'; count: number } | null;
 	};
 	nbProfessionals: {
 		__typename?: 'professional_aggregate';
-		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
 	};
 	nbNotebookWithActions: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 	nbNotebookModifiedSince30d: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 	nbNotebookCreatedToday: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 	nbNotebookVisitedToday: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 	nbNotebookModifiedToday: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 	nbNotbookWith2MembersOrMore: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 	nbNotebookWithActionsCreated: {
 		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null | undefined;
+		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
 };
 
@@ -14246,24 +13979,19 @@ export type GetAccountInfoQuery = {
 		id: string;
 		type: RoleEnum;
 		username: string;
-		beneficiaryId?: string | null | undefined;
-		professionalId?: string | null | undefined;
-		managerId?: string | null | undefined;
-		adminStructureId?: string | null | undefined;
-		orientationManagerId?: string | null | undefined;
-		professional?:
-			| {
-					__typename?: 'professional';
-					structure: { __typename?: 'structure'; deploymentId?: string | null | undefined };
-			  }
-			| null
-			| undefined;
-		manager?: { __typename?: 'manager'; deploymentId: string } | null | undefined;
-		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null | undefined;
-		orientationManager?:
-			| { __typename?: 'orientation_manager'; deploymentId: string }
-			| null
-			| undefined;
+		beneficiaryId?: string | null;
+		professionalId?: string | null;
+		managerId?: string | null;
+		adminStructureId?: string | null;
+		orientationManagerId?: string | null;
+		professional?: {
+			__typename?: 'professional';
+			structure: { __typename?: 'structure'; deploymentId?: string | null };
+		} | null;
+		manager?: { __typename?: 'manager'; deploymentId: string } | null;
+		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null;
+		orientationManager?: { __typename?: 'orientation_manager'; deploymentId: string } | null;
+		beneficiary?: { __typename?: 'beneficiary'; deploymentId: string } | null;
 	}>;
 };
 
@@ -14274,10 +14002,7 @@ export type ResetAccountAccessKeyMutationVariables = Exact<{
 
 export type ResetAccountAccessKeyMutation = {
 	__typename?: 'mutation_root';
-	update_account_by_pk?:
-		| { __typename?: 'account'; lastLogin?: string | null | undefined }
-		| null
-		| undefined;
+	update_account_by_pk?: { __typename?: 'account'; lastLogin?: string | null } | null;
 };
 
 export type CreateBeneficiaryAccountMutationVariables = Exact<{
@@ -14287,7 +14012,7 @@ export type CreateBeneficiaryAccountMutationVariables = Exact<{
 
 export type CreateBeneficiaryAccountMutation = {
 	__typename?: 'mutation_root';
-	insert_account_one?: { __typename?: 'account'; id: string } | null | undefined;
+	insert_account_one?: { __typename?: 'account'; id: string } | null;
 };
 
 export type GetAccountByUsernameQueryVariables = Exact<{
@@ -14301,50 +14026,37 @@ export type GetAccountByUsernameQuery = {
 		id: string;
 		username: string;
 		confirmed: boolean;
-		beneficiary?:
-			| {
-					__typename?: 'beneficiary';
-					firstname: string;
-					lastname: string;
-					email?: string | null | undefined;
-			  }
-			| null
-			| undefined;
-		professional?:
-			| { __typename?: 'professional'; firstname: string; lastname: string; email: string }
-			| null
-			| undefined;
-		admin?:
-			| { __typename?: 'admin_cdb'; firstname: string; lastname: string; email: string }
-			| null
-			| undefined;
-		manager?:
-			| {
-					__typename?: 'manager';
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-			  }
-			| null
-			| undefined;
-		admin_structure?:
-			| {
-					__typename?: 'admin_structure';
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-			  }
-			| null
-			| undefined;
-		orientation_manager?:
-			| {
-					__typename?: 'orientation_manager';
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-			  }
-			| null
-			| undefined;
+		beneficiary?: {
+			__typename?: 'beneficiary';
+			firstname: string;
+			lastname: string;
+			email?: string | null;
+		} | null;
+		professional?: {
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: string;
+		} | null;
+		admin?: { __typename?: 'admin_cdb'; firstname: string; lastname: string; email: string } | null;
+		manager?: {
+			__typename?: 'manager';
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
+		admin_structure?: {
+			__typename?: 'admin_structure';
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
+		orientation_manager?: {
+			__typename?: 'orientation_manager';
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
 	}>;
 };
 
@@ -14359,50 +14071,37 @@ export type GetAccountByEmailQuery = {
 		id: string;
 		username: string;
 		confirmed: boolean;
-		beneficiary?:
-			| {
-					__typename?: 'beneficiary';
-					firstname: string;
-					lastname: string;
-					email?: string | null | undefined;
-			  }
-			| null
-			| undefined;
-		professional?:
-			| { __typename?: 'professional'; firstname: string; lastname: string; email: string }
-			| null
-			| undefined;
-		admin?:
-			| { __typename?: 'admin_cdb'; firstname: string; lastname: string; email: string }
-			| null
-			| undefined;
-		manager?:
-			| {
-					__typename?: 'manager';
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-			  }
-			| null
-			| undefined;
-		admin_structure?:
-			| {
-					__typename?: 'admin_structure';
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-			  }
-			| null
-			| undefined;
-		orientation_manager?:
-			| {
-					__typename?: 'orientation_manager';
-					firstname?: string | null | undefined;
-					lastname?: string | null | undefined;
-					email: string;
-			  }
-			| null
-			| undefined;
+		beneficiary?: {
+			__typename?: 'beneficiary';
+			firstname: string;
+			lastname: string;
+			email?: string | null;
+		} | null;
+		professional?: {
+			__typename?: 'professional';
+			firstname: string;
+			lastname: string;
+			email: string;
+		} | null;
+		admin?: { __typename?: 'admin_cdb'; firstname: string; lastname: string; email: string } | null;
+		manager?: {
+			__typename?: 'manager';
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
+		admin_structure?: {
+			__typename?: 'admin_structure';
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
+		orientation_manager?: {
+			__typename?: 'orientation_manager';
+			firstname?: string | null;
+			lastname?: string | null;
+			email: string;
+		} | null;
 	}>;
 };
 
@@ -14427,7 +14126,7 @@ export type UpdateAccountAccessKeyMutationVariables = Exact<{
 
 export type UpdateAccountAccessKeyMutation = {
 	__typename?: 'mutation_root';
-	account?: { __typename?: 'account'; accessKey?: string | null | undefined } | null | undefined;
+	account?: { __typename?: 'account'; accessKey?: string | null } | null;
 };
 
 export const NotebookFragmentFragmentDoc = {
@@ -21025,6 +20724,7 @@ export const GetAccountByPkDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'position' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'phoneNumbers' } },
 										],
 									},
@@ -25765,6 +25465,14 @@ export const GetAccountInfoDocument = {
 									kind: 'Field',
 									alias: { kind: 'Name', value: 'orientationManager' },
 									name: { kind: 'Name', value: 'orientation_manager' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } }],

@@ -83,13 +83,15 @@ select_permissions:
   - role: admin_cdb
     permission:
       columns:
-        - firstname
-        - lastname
         - created_at
-        - updated_at
-        - email
         - deployment_id
+        - email
+        - firstname
         - id
+        - lastname
+        - phone_numbers
+        - position
+        - updated_at
       filter: {}
       allow_aggregations: true
   - role: admin_structure
@@ -113,7 +115,16 @@ select_permissions:
       allow_aggregations: true
   - role: beneficiary
     permission:
-      columns: []
+      columns:
+        - firstname
+        - lastname
+        - phone_numbers
+        - position
+        - created_at
+        - updated_at
+        - email
+        - deployment_id
+        - id
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id

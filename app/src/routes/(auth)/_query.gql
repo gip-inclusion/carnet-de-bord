@@ -44,6 +44,7 @@ query GetAccountByPk($accountId: uuid!) {
       email
       firstname
       lastname
+      position
       phoneNumbers
     }
     orientation_manager {

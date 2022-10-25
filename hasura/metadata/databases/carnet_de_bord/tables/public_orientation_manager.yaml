@@ -50,9 +50,7 @@ select_permissions:
         - deployment_id
         - created_at
         - updated_at
-      filter:
-        deployment_id:
-          _eq: X-Hasura-Deployment-Id
+      filter: {}
   - role: admin_structure
     permission:
       columns:
