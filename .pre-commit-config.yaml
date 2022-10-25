@@ -34,7 +34,7 @@ repos:
         files: ^app/.*$
         types_or: [javascript, ts, svelte]
         entry: |
-          bash -c 'cd app & npm --prefix app --silent run fix:prettier --write "${@#*/}"' --
+          bash -c 'npm --prefix app --silent run fix:prettier --write "${@#*/}"' --
 
       - id: app-eslint
         name: run eslint (app)
