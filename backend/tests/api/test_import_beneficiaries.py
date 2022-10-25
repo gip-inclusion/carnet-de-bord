@@ -138,6 +138,7 @@ async def test_insert_beneficiary_check_all_fields(
     assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
     assert beneficiary_in_db.caf_number == harry_covert.caf_number
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
+    assert beneficiary_in_db.nir == harry_covert.nir
 
     assert beneficiary_in_db.notebook.right_rsa == harry_covert.right_rsa
     assert beneficiary_in_db.notebook.right_are == True
@@ -199,6 +200,8 @@ async def test_update_beneficiary_check_all_fields(
     assert harry_covert.rome_code_description in [
         rome_code.label for rome_code in wanted_jobs
     ]
+    # not re-imported:
+    assert beneficiary_in_db.nir == None
 
 
 async def test_update_beneficiary_no_field_changed(

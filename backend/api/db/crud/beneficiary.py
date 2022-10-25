@@ -116,9 +116,10 @@ INSERT INTO BENEFICIARY (
     city,
     caf_number,
     pe_number,
-    email
+    email,
+    nir
     )
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
 returning id
         """,
         beneficiary.firstname,
@@ -135,6 +136,7 @@ returning id
         beneficiary.caf_number,
         beneficiary.pe_number,
         beneficiary.email,
+        beneficiary.nir,
     )
 
     return created_beneficiary["id"]

@@ -67,6 +67,7 @@ class BeneficiaryImport(BaseModel):
     education_level: str | None = Field(None, title="Niveau de formation")
     structure_name: str | None = Field(None, title="Structure d'accompagnement")
     advisor_email: str | None = Field(None, title="Accompagnateur référent")
+    nir: str | None = Field(None, title="NIR (numéro de sécurité sociale)")
 
     class Config:
         alias_generator = snake_to_camel
