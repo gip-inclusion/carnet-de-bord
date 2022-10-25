@@ -34,7 +34,7 @@ repos:
         files: ^app/.*$
         types_or: [javascript, ts, svelte]
         entry: |
-          bash -c 'npm --workspace app --silent run fix:prettier --write "${@#*/}"' --
+          bash -c 'cd app & npm --prefix app --silent run fix:prettier --write "${@#*/}"' --
 
       - id: app-eslint
         name: run eslint (app)
@@ -43,7 +43,7 @@ repos:
         types_or: [javascript, ts, svelte]
         exclude: /_gen/
         entry: |
-          bash -c 'npm --workspace app --silent run fix:eslint "${@#*/}"' --
+          bash -c 'npm --prefix app --silent run fix:eslint "${@#*/}"' --
 
       - id: e2e-prettier
         name: run prettier (e2e)
@@ -51,7 +51,7 @@ repos:
         files: ^e2e/.*$
         types_or: [javascript]
         entry: |
-          bash -c 'npm --workspace e2e --silent run fix:prettier "${@#*/}"' --
+          bash -c 'npm --prefix e2e --silent run fix:prettier "${@#*/}"' --
 
       - id: e2e-eslint
         name: run eslint (e2e)
@@ -59,7 +59,7 @@ repos:
         files: ^e2e/.*$
         types_or: [javascript]
         entry: |
-          bash -c 'npm --workspace e2e --silent run fix:eslint "${@#*/}"' --
+          bash -c 'npm --prefix e2e --silent run fix:eslint "${@#*/}"' --
 
       - id: check-hasura-version
         name: ensure hasura version consistency

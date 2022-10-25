@@ -36,4 +36,4 @@ jobs:
           npm ci
           pip install pre-commit
       - name: Run linting
-        run: npm run lint --workspaces --if-present
+        run: npm run lint --prefixs --if-present
