@@ -1,7 +1,11 @@
 {
 	"name": "carnet-de-bord",
 	"private": true,
-	"version": "1.153.2",
+	"version": "1.154.1",
+	"scripts": {
+		"lint": "pre-commit run --all-files",
+		"codegen": "npm run --workspace app codegen"
+	},
 	"workspaces": [
 		"./app",
 		"./e2e"
