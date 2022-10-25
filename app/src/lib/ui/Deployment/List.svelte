@@ -14,6 +14,7 @@
 <LoaderIndicator result={deploymentsStore}>
 	<div class="w-full fr-table fr-table--layout-fixed">
 		<table>
+			<caption>Liste des déploiements</caption>
 			<thead>
 				<tr>
 					<th>Déploiement</th>
