@@ -1,32 +1,32 @@
 <script lang="ts">
-	import OrientationManagerCreationForm from '$lib/ui/OrientationManager/CreationForm.svelte';
+	import { accountData } from '$lib/stores/account';
 	import {
 		RoleEnum,
-		UpdateOrientationManagerProfileDocument,
-		type UpdateOrientationManagerProfileMutation,
+		UpdateManagerProfileDocument,
+		type UpdateManagerProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore, type OperationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
 	import { Alert } from '$lib/ui/base';
-	import type { OrientationManagerAccountInput } from '$lib/ui/OrientationManager/orientationManager.schema';
-	import { accountData } from '$lib/stores';
+	import ManagerCreationForm from '$lib/ui/Manager/CreationForm.svelte';
 
-	const updateProfileResult = operationStore(UpdateOrientationManagerProfileDocument);
+	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
+
+	const updateProfileResult = operationStore(UpdateManagerProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
-	let updateResult: OperationStore<UpdateOrientationManagerProfileMutation>;
+	let updateResult: OperationStore<UpdateManagerProfileMutation>;
 
 	let error: string;
 
-	let { id, email, firstname, lastname, phoneNumbers } = $accountData.orientation_manager;
+	let { id, email, firstname, lastname } = $accountData.manager;
 
 	let initialValues = {
 		email,
 		firstname,
 		lastname,
-		phoneNumbers,
 	};
 
-	async function handleSubmit(values: OrientationManagerAccountInput) {
+	async function handleSubmit(values: ProAccountWithStructureInput) {
 		updateResult = await updateProfile({
 			id,
 			accountId: $accountData.id,
@@ -34,15 +34,14 @@
 		});
 
 		if (updateResult.data?.updateAccount) {
-			const { confirmed, onboardingDone, username, orientation_manager } =
-				updateResult.data.updateAccount;
+			const { confirmed, onboardingDone, username, manager } = updateResult.data.updateAccount;
 
 			$accountData = {
 				...$accountData,
 				confirmed,
 				onboardingDone,
 				username,
-				orientation_manager,
+				manager,
 			};
 		}
 		if (updateResult.error) {
@@ -56,15 +55,18 @@
 </svelte:head>
 <div class="pt-12">
 	{#if !$updateResult?.data && !$updateResult?.error}
-		<h1>Création de mon compte Chargé d'orientation</h1>
+		<h1>Création de mon compte Admin PDI</h1>
 		<p>
-			Vous avez été invité(e) à créer votre compte de Chargé d'orientation.
-			<br />Il ne reste plus que quelques étapes pour accéder à tous les services proposés !
+			Bienvenue sur Carnet de bord ! Pour cette première connexion, nous vous invitons à vérifier et
+			mettre à jour les informations ci-dessous puis à cliquer sur le bouton "Créer mon compte".
+			<br />
+			Vous pourrez les modifier à nouveau plus tard en cliquant sur "Mon compte" dans la barre de menu.
 		</p>
-		<OrientationManagerCreationForm
+		<ManagerCreationForm
 			onSubmit={handleSubmit}
 			accountRequest={initialValues}
 			submitLabel="Créer mon compte"
+			hiddenFields={{ email: true }}
 		/>
 	{/if}
 	{#if $updateResult?.data}
@@ -74,7 +76,7 @@
 			Cliquez sur le bouton ci-dessous pour accéder à votre compte.
 		</p>
 		<div>
-			<a class="fr-btn" href={homeForRole(RoleEnum.OrientationManager)} title="Aller à l'accueil">
+			<a class="fr-btn" href={homeForRole(RoleEnum.Manager)} title="Aller à l'accueil">
 				Accéder à mon compte
 			</a>
 		</div>

@@ -3,14 +3,11 @@
 	import type { UpdateOrientationManagerProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import AdminStructureForm from '$lib/ui/AdminStructure/AdminStructureForm.svelte';
 	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
-	import { openComponent } from '$lib/stores';
+	import { accountData, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { OrientationManagerAccountInput } from './orientationManager.schema';
-	import { account, type ConnectedOrientationManager } from '$lib/stores/account';
 
-	export let orientationManager: ConnectedOrientationManager;
-
-	let { email, firstname, lastname, phoneNumbers } = orientationManager;
+	let { id, email, firstname, lastname, phoneNumbers } = $accountData.orientation_manager;
 
 	let initialValues = {
 		email,
@@ -27,8 +24,8 @@
 
 	async function handleSubmit(values: OrientationManagerAccountInput) {
 		updateResult = await updateProfile({
-			id: orientationManager.id,
-			accountId: orientationManager.accountId,
+			id,
+			accountId: $accountData.id,
 			...values,
 		});
 
@@ -36,12 +33,12 @@
 			const { confirmed, onboardingDone, username, orientation_manager } =
 				updateResult.data.updateAccount;
 
-			$account = {
-				...$account,
+			$accountData = {
+				...$accountData,
 				confirmed,
 				onboardingDone,
 				username,
-				...orientation_manager,
+				orientation_manager: orientation_manager,
 			};
 		}
 		if (updateResult.error) {

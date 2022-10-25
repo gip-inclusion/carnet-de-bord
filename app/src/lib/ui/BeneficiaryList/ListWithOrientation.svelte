@@ -2,7 +2,7 @@
 	import { type GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
-	import { account, openComponent } from '$lib/stores';
+	import { accountData, openComponent } from '$lib/stores';
 	import { getContext } from 'svelte';
 	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
@@ -57,7 +57,7 @@
 		selectionStore.toggle(beneficiary.notebook.id, beneficiary);
 	}
 	function getNotebookUrl(beneficiary: Beneficiary) {
-		return beneficiary.notebook.members.some((member) => member.account.id === $account.accountId)
+		return beneficiary.notebook.members.some((member) => member.account.id === $accountData.id)
 			? `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/edition/${beneficiary.notebook.id}`
 			: `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/${beneficiary.notebook.id}`;
 	}

@@ -31,8 +31,10 @@
 	$backendAPI = data.backendAPI;
 	$graphqlAPI = data.graphqlAPI;
 
+	let client;
+
 	$: {
-		const client = createClient(fetch, data.graphqlAPI, data.token);
+		client = createClient(fetch, data.graphqlAPI, data.token);
 		setClient(client);
 		$token = data.token;
 		$connectedUser = data.user;
@@ -100,7 +102,10 @@
 </svelte:head>
 
 <slot />
-<LayerCdb />
+
+{#key data.token}
+	<LayerCdb />
+{/key}
 
 <style>
 	:global(body::after) {

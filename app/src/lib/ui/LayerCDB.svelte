@@ -12,7 +12,6 @@
 	function close() {
 		openComponent.close();
 	}
-
 	$: currentLayer = $openComponent.slice(-1)[0];
 </script>
 

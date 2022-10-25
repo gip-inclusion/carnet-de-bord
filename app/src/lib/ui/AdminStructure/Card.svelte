@@ -10,7 +10,7 @@
 	import EditAdminStructureLayer from '$lib/ui/AdminStructure/EditAdminStructureLayer.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { operationStore, mutation } from '@urql/svelte';
-	import { account } from '$lib/stores';
+	import { accountData } from '$lib/stores';
 
 	export let adminStructure: Pick<
 		AdminStructure,
@@ -19,7 +19,7 @@
 	export let href: string = null;
 	export let structureId: string;
 
-	const isNotCurrentAccount = $account.id !== adminStructure.id;
+	const isNotCurrentAccount = $accountData.admin_structure.id !== adminStructure.id;
 
 	function openUpdateAdminLayer() {
 		openComponent.open({

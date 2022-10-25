@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { GetManagedStructuresDocument, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
-	import { account } from '$lib/stores';
+	import { accountData } from '$lib/stores';
 	import StructureList from '$lib/ui/AdminStructure/StructureList.svelte';
 	import { homeForRole, type Segment } from '$lib/routes';
 	import { pluralize } from '$lib/helpers';
@@ -10,7 +10,7 @@
 	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let structureResult = operationStore(GetManagedStructuresDocument, {
-		adminId: $account.id,
+		adminId: $accountData.admin_structure.id,
 	});
 
 	query(structureResult);
