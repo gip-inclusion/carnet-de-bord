@@ -3,7 +3,7 @@ name: Review
 on:
   pull_request:
     types: [opened, reopened]
-needs: [pytest, e2e, functional_tests]
+
 concurrency:
   cancel-in-progress: true
   group: review-scalingo-${{ github.ref }}
