@@ -35,6 +35,7 @@ jobs:
         run: |
           npm ci --prefix app
           npm ci --prefix e2e
+          npm run postinstall --prefix e2e
           pip install pre-commit
       - name: Run linting
         # TODO: precommit does not run svelte-check
