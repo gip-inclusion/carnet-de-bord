@@ -1,4 +1,4 @@
-name: Scalingo review app creation
+name: Review
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   scalingo-link:
-    name: Link Scalingo review apps
+    name: Create and link Scalingo review apps
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -19,12 +19,12 @@ jobs:
       - name: Install Scalingo CLI
         uses: ./.github/actions/scalingo-cli
 
-      - name: Run linking script
+      - name: Run creation script
         env:
           SCALINGO_API_TOKEN: ${{ secrets.SCALINGO_API_TOKEN }}
-          SUFFIX: -review-pr${{ github.event.number }}
         run: |
-          ./scripts/link-scalingo-apps.sh
+          ./scripts/create-review-apps.sh "${{ github.event.number }}"
+
   add-pull-request-comment:
     name: Add review app URL to Pull Request
     runs-on: ubuntu-latest
