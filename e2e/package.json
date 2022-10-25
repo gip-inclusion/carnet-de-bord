@@ -10,7 +10,7 @@
 	"scripts": {
 		"lint": "npm run lint:prettier && npm run lint:eslint",
 		"lint:prettier": "prettier --config .prettierrc --check",
-		"lint:prettier:all": "npm run lint:prettier  ./**/*.{cjs,js,json}",
+		"lint:prettier:all": "npm run lint:prettier ./**/*.{cjs,js,json}",
 		"lint:eslint": "eslint --config=.eslintrc.cjs",
 		"lint:eslint:all": "npm run lint:eslint .",
 		"fix": "npm run fix:prettier && npm run fix:eslint",
@@ -20,11 +20,11 @@
 		"fix:eslint:all": "npm run lint:eslint:all --fix --cache",
 		"test": "LANGUAGE=fr codeceptjs run",
 		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
-		"test:ui": "LANGUAGE=fr CODECEPT_UI=true codecept-ui --app"
+		"test:ui": "LANGUAGE=fr codecept-ui --app"
 	},
 	"dependencies": {
-		"@codeceptjs/helper": "^2.0.0",
-		"@codeceptjs/ui": "^0.4.0",
+		"@codeceptjs/helper": "^2.0.1",
+		"@codeceptjs/ui": "^0.4.7",
 		"@socialgouv/eslint-config-recommended": "^1.129.0",
 		"codeceptjs": "^3.3.6",
 		"eslint": "^7.32.0",
