@@ -5,7 +5,7 @@
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
-	import { adminDeploymentSchema, AdminDeploymentType } from './adminDeployment.schema';
+	import { adminDeploymentSchema, type AdminDeploymentType } from './adminDeployment.schema';
 
 	const deploymentStore = operationStore(CreateDeploymentDocument, null, {
 		additionalTypenames: ['deployment'],

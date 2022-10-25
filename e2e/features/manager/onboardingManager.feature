@@ -7,11 +7,11 @@ Fonctionnalité: Onboarding manager
 
 	Scénario: Première connexion - Mise à jour profil
 		Soit un "administrateur pdi" authentifié pour la première fois avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
-		Quand je vois "Première connexion à Carnet de bord"
-		Quand je vois "Manager du déploiement"
-		Quand je clique sur "Mettre à jour"
-		Alors je vois "Mettre à jour mon compte"
-		Quand je renseigne "Gérard" dans le champ "Prénom"
-		Quand je renseigne "Manvol" dans le champ "Nom"
-		Quand j'appuie sur Entrée
-		Alors je vois "Votre compte a été modifié avec succès"
+		Quand je vois "Création de mon compte Admin PDI"
+
+		Alors je vois "Agathe" dans le champ "Prénom"
+		Alors je vois "DeBlouze" dans le champ "Nom"
+		Alors je vois "support.carnet-de-bord+cd93@fabrique.social.gouv.fr" dans le champ "Courriel"
+		Quand je clique sur "Créer mon compte"
+		Alors je vois "Votre compte a été créé avec succès"
+		Alors le lien "Accéder à mon compte" pointe sur "/manager"

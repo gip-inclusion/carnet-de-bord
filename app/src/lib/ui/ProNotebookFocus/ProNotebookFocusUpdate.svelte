@@ -2,7 +2,7 @@
 	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
 	import {
 		GetRefSituationsByThemeDocument,
-		NotebookFocus,
+		type NotebookFocus,
 		UpdateNotebookFocusDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';

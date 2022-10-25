@@ -4,18 +4,18 @@
 	import type { GetStructuresQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { AccountRequest } from '$lib/types';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { operationStore, OperationStore, query } from '@urql/svelte';
+	import { operationStore, type OperationStore, query } from '@urql/svelte';
 
 	import { Button } from '$lib/ui/base';
 	import { Form, Input, SvelecteSFL } from '$lib/ui/forms';
-	import { ProAccountWithStructureInput, proAccountSchemaWithStructure } from './pro.schema';
+	import { type ProAccountWithStructureInput, proAccountSchemaWithStructure } from './pro.schema';
 </script>
 
 <script lang="ts">
 	export let submitLabel = 'Je valide mon inscription';
 	export let accountRequest: Partial<AccountRequest> = {};
 	export let onSubmit: (values: ProAccountWithStructureInput) => void;
-	export let onCancel: () => void;
+	export let onCancel: () => void = null;
 	export let hiddenFields: Partial<Record<keyof AccountRequest, boolean>> = {};
 
 	let result: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument, {});
@@ -94,7 +94,7 @@
 				<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}
 					>{submitLabel}</Button
 				>
-				<Button outline={true} on:click={onCancel}>Annuler</Button>
+				{#if onCancel}<Button outline={true} on:click={onCancel}>Annuler</Button>{/if}
 			</div>
 		</div>
 	{/if}

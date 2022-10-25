@@ -3,14 +3,14 @@
 
 	import { Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
-	import { managerAccountSchema, ManagerAccountInput } from './manager.schema';
+	import { managerAccountSchema, type ManagerAccountInput } from './manager.schema';
 </script>
 
 <script lang="ts">
 	export let submitLabel = 'Je valide mon inscription';
 	export let accountRequest: Partial<AccountRequest> = {};
 	export let onSubmit: (values: ManagerAccountInput) => void;
-	export let onCancel: () => void;
+	export let onCancel: () => void = null;
 	export let hiddenFields: Partial<Record<keyof AccountRequest, boolean>> = {};
 </script>
 
@@ -51,7 +51,7 @@
 			<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}
 				>{submitLabel}</Button
 			>
-			<Button outline={true} on:click={onCancel}>Annuler</Button>
+			{#if onCancel}<Button outline={true} on:click={onCancel}>Annuler</Button>{/if}
 		</div>
 	</div>
 </Form>

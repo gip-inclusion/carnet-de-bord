@@ -1,11 +1,8 @@
-<script context="module" lang="ts">
-	import { session } from '$app/stores';
+<script lang="ts">
+	import { connectedUser } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 
 	import { NavBar } from '$lib/ui/base';
-</script>
-
-<script lang="ts">
 	import { baseUrlForRole } from '$lib/routes';
 
 	export let menuItems: MenuItem[];
@@ -65,12 +62,12 @@
 				</div>
 				<div class="fr-header__tools">
 					<div class="fr-header__tools-links">
-						{#if $session.user}
+						{#if $connectedUser}
 							<ul class="fr-btns-group">
 								<li>
 									<a
 										class="fr-btn fr-icon-account-line"
-										href={`${baseUrlForRole($session.user.role)}/moncompte`}
+										href={`${baseUrlForRole($connectedUser.role)}/moncompte`}
 									>
 										Mon compte
 									</a>
@@ -101,7 +98,7 @@
 				Fermer
 			</button>
 			<div class="fr-header__menu-links" />
-			{#if $session.user}
+			{#if $connectedUser}
 				<NavBar {menuItems} />
 			{/if}
 		</div>
