@@ -3,7 +3,7 @@ import { createJwt } from '../src/lib/utils/getJwt';
 import type { GetAccountInfoQuery } from '../src/lib/graphql/_gen/typed-document-nodes';
 
 export async function getAccountAndJwtForUser(user: string) {
-	const data = await fetch(process.env.GRAPHQL_API_URL, {
+	const data = await fetch(process.env.GRAPHQL_API_URL ?? 'http://localhost:5000/v1/graphql', {
 		method: 'POST',
 		headers: {
 			'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',
@@ -55,13 +55,13 @@ query userInfo($user:String!, $mail: citext!) {
 		throw Error('Account not found');
 	}
 	const { id, username, type, professionalId, beneficiaryId, managerId, adminStructureId } = data;
-	let deploymentId = null;
+	let deploymentId: string | null = null;
 	if (data.professional) {
-		deploymentId = data.professional.structure.deploymentId;
+		deploymentId = data.professional.structure.deploymentId ?? null;
 	} else if (data.manager) {
 		deploymentId = data.manager.deploymentId;
-	} else if (data.admin_structure) {
-		deploymentId = data.admin_structure.deploymentId;
+	} else if (data.adminStructure) {
+		deploymentId = data.adminStructure.deploymentId;
 	}
 	const account = {
 		id,

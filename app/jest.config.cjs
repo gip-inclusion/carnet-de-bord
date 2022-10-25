@@ -15,6 +15,11 @@ const config = {
 	moduleFileExtensions: ['js', 'svelte', 'ts'],
 	setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
 	reporters: ['default', 'github-actions'],
+	globals: {
+		'ts-jest': {
+			tsConfig: 'tsconfig.test.json',
+		},
+	},
 };
 
 module.exports = config;
