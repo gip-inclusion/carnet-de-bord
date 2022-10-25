@@ -4,7 +4,7 @@
 	import { GetNotebookByBeneficiaryIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import type { PageData } from './$types';
-	import { Elm } from '../../../elm/BeneficiaryApp/Main.elm';
+	import { Elm } from '../../../../elm/BeneficiaryApp/Main.elm';
 	import { onMount } from 'svelte';
 	import { graphqlAPI, token, connectedUser } from '$lib/stores';
 
