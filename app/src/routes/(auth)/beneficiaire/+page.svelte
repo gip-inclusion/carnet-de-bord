@@ -20,7 +20,7 @@
 			node,
 			flags: {
 				token: $session.token,
-				serverUrl: 'http://localhost:5000/v1/graphql',
+				serverUrl: $session.graphqlAPI,
 				beneficiaryId: $session.user.beneficiaryId,
 			},
 		});
