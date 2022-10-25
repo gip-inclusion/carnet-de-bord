@@ -28,6 +28,7 @@ jobs:
   add-pull-request-comment:
     name: Add review app URL to Pull Request
     runs-on: ubuntu-latest
+    needs: [scalingo-link]
     steps:
       - name: Add review app URL
         uses: blablacar/action-sticky-description@df5650c838f2bbc860ab8edd059b6e255fd7bb82
