@@ -18,7 +18,11 @@
 	onMount(() => {
 		let app = Elm.BeneficiaryApp.Main.init({
 			node,
-			flags: { token: $session.token, serverUrl: 'http://localhost:5000/v1/graphql' },
+			flags: {
+				token: $session.token,
+				serverUrl: 'http://localhost:5000/v1/graphql',
+				beneficiaryId: $session.user.beneficiaryId,
+			},
 		});
 		app.ports.sendMessage.subscribe(function (message) {
 			console.log('Received from Elm: ' + message);
