@@ -38,4 +38,4 @@ jobs:
           pip install pre-commit
       - name: Run linting
         # TODO: precommit does not run svelte-check
-        run: pre-commit run --all-files
+        run: pre-commit run --all-files --verbose
