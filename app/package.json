@@ -33,7 +33,8 @@
 		"codegen": "graphql-codegen --config codegen.cjs",
 		"test": "jest",
 		"test:watch": "jest --watch",
-		"test:experimental": "./scripts/launch_tests.sh"
+		"test:experimental": "./scripts/launch_tests.sh",
+		"postinstall": "svelte-kit sync"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.16.5",
