@@ -4,13 +4,13 @@ on:
   pull_request:
     types: [opened, reopened]
 
-needs: [pytest, e2e, functional_tests]
-
 concurrency:
   cancel-in-progress: true
   group: review-scalingo-${{ github.ref }}
 
 jobs:
+  needs: [pytest, e2e, functional_tests]
+
   scalingo-link:
     name: Create and link Scalingo review apps
     runs-on: ubuntu-latest
