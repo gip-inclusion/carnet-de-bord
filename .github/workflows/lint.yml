@@ -14,7 +14,7 @@ jobs:
   ## Full linting/checking running on all branches
   ##############################################################################
   pre-commit:
-    name: run full linting on project using pre-commit
+    name: Run full linting on project using pre-commit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
