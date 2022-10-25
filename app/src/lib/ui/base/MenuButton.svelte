@@ -6,7 +6,7 @@
 <script lang="ts">
 	import { setContext, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
-	import { MENU } from './menu';
+	import { MENU, type MenuContext } from './menu';
 	export let ref = null;
 	export let icon: string;
 	export let label: string;
@@ -18,7 +18,8 @@
 	let focusedItem: Writable<Record<never, never>> = writable(null);
 
 	let menuItems: Record<never, never>[] = [];
-	setContext(MENU, {
+
+	setContext<MenuContext>(MENU, {
 		registerMenuItem: (menuItem: Record<never, never>) => {
 			menuItems.push(menuItem);
 
