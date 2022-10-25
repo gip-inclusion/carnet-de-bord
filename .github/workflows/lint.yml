@@ -34,8 +34,8 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci --prefix app
+          npm run sync --prefix app
           npm ci --prefix e2e
-          npm run postinstall --prefix app
           pip install pre-commit
       - name: Run linting
         # TODO: precommit does not run svelte-check

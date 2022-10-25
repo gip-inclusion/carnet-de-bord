@@ -34,7 +34,7 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"test:experimental": "./scripts/launch_tests.sh",
-		"postinstall": "svelte-kit sync"
+		"sync": "svelte-kit sync"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.16.5",
