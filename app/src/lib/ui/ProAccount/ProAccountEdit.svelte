@@ -1,24 +1,21 @@
 <script lang="ts">
 	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import type {
-		Professional,
-		UpdateProfessionalProfileMutation,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import type { UpdateProfessionalProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
-	import { mutation, OperationStore, operationStore } from '@urql/svelte';
-	import { account, openComponent } from '$lib/stores';
+	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
+	import { accountData, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
 
-	export let professional: Professional;
-	let { email, firstname, lastname, position, mobileNumber } = professional;
+	let { id, email, firstname, lastname, position, mobileNumber } = $accountData.professional;
+
 	let initialValues = {
 		email,
 		firstname,
 		lastname,
 		position,
 		mobileNumber,
-		structureId: professional.structure.id,
+		structureId: $accountData.professional.structure.id,
 	};
 
 	const updateProfileResult = operationStore(UpdateProfessionalProfileDocument);
@@ -29,19 +26,22 @@
 
 	async function handleSubmit(values: ProAccountWithStructureInput) {
 		updateResult = await updateProfile({
-			id: professional.id,
-			accountId: $account.accountId,
+			id,
+			accountId: $accountData.id,
 			...values,
 		});
 
 		if (updateResult.data?.updateAccount) {
 			const { confirmed, onboardingDone, username, professional } = updateResult.data.updateAccount;
-			$account = {
-				...$account,
+			$accountData = {
+				...$accountData,
 				confirmed,
 				onboardingDone,
 				username,
-				...professional,
+				professional: {
+					...professional,
+					structure: $accountData.professional.structure,
+				},
 			};
 		}
 		if (updateResult.error) {
@@ -57,12 +57,11 @@
 </script>
 
 <div class="flex flex-col gap-4">
+	<h1>Mettre à jour mon compte</h1>
 	{#if $updateResult?.data}
-		<h1>Mettre à jour mon compte</h1>
 		<p>Votre compte a été modifié avec succès !</p>
 		<div><Button on:click={openComponent.close}>J'ai compris</Button></div>
 	{:else}
-		<h1>Mettre à jour mon compte</h1>
 		<ProCreationForm
 			onSubmit={handleSubmit}
 			{onCancel}

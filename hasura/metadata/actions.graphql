@@ -5,17 +5,7 @@ type Mutation {
   ): CreateDeploymentOutput
 }
 
-type Mutation {
-  updateNotebookAct(
-    id: uuid!
-  ): UpdateNotebookOutput
-}
-
 type CreateDeploymentOutput {
   id: uuid!
   label: String!
-}
-
-type UpdateNotebookOutput {
-  id: uuid!
 }

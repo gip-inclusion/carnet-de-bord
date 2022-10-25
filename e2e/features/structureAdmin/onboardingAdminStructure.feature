@@ -14,3 +14,4 @@ Fonctionnalité: Onboarding administrateur de structure
 		Alors je vois "0102030405" dans le champ "Numéros de téléphone"
 		Quand je clique sur "Créer mon compte"
 		Alors je vois "Votre compte a été créé avec succès"
+		Alors le lien "Accéder à mon compte" pointe sur "/structures"
