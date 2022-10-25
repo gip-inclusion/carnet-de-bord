@@ -9,10 +9,7 @@ const config = {
 	preview: {
 		port: 3000,
 	},
-	plugins: [
-		sveltekit(),
-		elmPlugin(),
-	],
+	plugins: [sveltekit(), elmPlugin()],
 	optimizeDeps: {
 		//https://formidable.com/open-source/urql/docs/basics/svelte/
 		exclude: ['@urql/svelte', 'matomo-tracker'],
