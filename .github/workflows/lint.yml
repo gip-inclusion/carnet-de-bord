@@ -35,6 +35,8 @@ jobs:
         run: |
           cd app
           npm ci
+          cd e2e
+          npm ci
           pip install pre-commit
       - name: Run linting
         run: pre-commit run --all-files
