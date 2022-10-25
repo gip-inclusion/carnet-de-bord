@@ -12,3 +12,4 @@ __pycache__
 .testmondata
 app/.eslintcache
 e2e/.eslintcache
+node_modules
