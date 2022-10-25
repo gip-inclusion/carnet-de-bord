@@ -9,9 +9,8 @@ concurrency:
   group: review-scalingo-${{ github.ref }}
 
 jobs:
-  needs: [pytest, e2e, functional_tests]
-
   scalingo-link:
+    needs: [pytest, e2e, functional_tests]
     name: Create and link Scalingo review apps
     runs-on: ubuntu-latest
     steps:
@@ -28,9 +27,9 @@ jobs:
           ./scripts/create-review-apps.sh "${{ github.event.number }}"
 
   add-pull-request-comment:
+    needs: scalingo-link
     name: Add review app URL to Pull Request
     runs-on: ubuntu-latest
-    needs: [scalingo-link]
     steps:
       - name: Add review app URL
         uses: blablacar/action-sticky-description@df5650c838f2bbc860ab8edd059b6e255fd7bb82
