@@ -16,8 +16,8 @@
 		"fix": "npm run fix:prettier && npm run fix:eslint",
 		"fix:prettier": "npm run lint:prettier --write",
 		"fix:prettier:all": "npm run lint:prettier:all --write",
-		"fix:eslint": "npm run lint:eslint --fix --cache",
-		"fix:eslint:all": "npm run lint:eslint:all --fix --cache",
+		"fix:eslint": "npm run lint:eslint --fix",
+		"fix:eslint:all": "npm run lint:eslint:all --fix",
 		"test": "LANGUAGE=fr codeceptjs run",
 		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
 		"test:ui": "LANGUAGE=fr codecept-ui --app"
