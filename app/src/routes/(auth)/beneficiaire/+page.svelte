@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import { Elm } from '../../../elm/BeneficiaryApp/Main.elm';
 	import { onMount } from 'svelte';
+	import { graphqlAPI, token, connectedUser } from '$lib/stores';
 
 	export let data: PageData;
 
@@ -19,12 +20,12 @@
 		let app = Elm.BeneficiaryApp.Main.init({
 			node,
 			flags: {
-				token: $session.token,
-				serverUrl: $session.graphqlAPI,
-				beneficiaryId: $session.user.beneficiaryId,
+				token: $token,
+				serverUrl: $graphqlAPI,
+				beneficiaryId: $connectedUser.beneficiaryId,
 			},
 		});
-		app.ports.sendMessage.subscribe(function (message) {
+		app.ports.sendMessage.subscribe((message) => {
 			console.log('Received from Elm: ' + message);
 			app.ports.messageReceiver.send('Msg from Svelte');
 		});
