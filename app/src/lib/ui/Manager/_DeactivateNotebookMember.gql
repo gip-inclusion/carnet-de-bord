@@ -1,5 +1,5 @@
 mutation DeactivateNotebookMember($member: notebook_member_bool_exp!) {
-	update_notebook_member(where: $member, _set: { active: false }) {
-		affected_rows
-	}
+  update_notebook_member(where: $member, _set: { active: false }) {
+    affected_rows
+  }
 }

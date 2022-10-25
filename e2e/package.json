@@ -8,7 +8,17 @@
 	"main": "codecept.conf.js",
 	"license": "Apache-2.0",
 	"scripts": {
-		"lint": "eslint ./step_definitions",
+		"lint": "pre-commit run --all-files",
+		"lint:pre-commit": "pre-commit run --all-files",
+		"lint:prettier": "prettier --config .prettierrc --check",
+		"lint:prettier:all": "yarn lint:prettier src ./**/*.{svelte,cjs,js,json}",
+		"lint:eslint": "eslint --config=.eslintrc.cjs",
+		"lint:eslint:all": "yarn lint:eslint .",
+		"fix": "yarn fix:prettier && yarn fix:eslint",
+		"fix:prettier": "yarn lint:prettier --write",
+		"fix:prettier:all": "yarn lint:prettier:all --write",
+		"fix:eslint": "yarn lint:eslint --fix --cache",
+		"fix:eslint:all": "yarn lint:eslint:all --fix --cache",
 		"test": "LANGUAGE=fr codeceptjs run",
 		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
 		"test:ui": "LANGUAGE=fr CODECEPT_UI=true codecept-ui --app"

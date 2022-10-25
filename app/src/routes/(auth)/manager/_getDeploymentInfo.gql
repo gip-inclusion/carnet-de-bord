@@ -1,54 +1,54 @@
 query GetDeploymentInfos($id: uuid!) {
-	deployment: deployment_by_pk(id: $id) {
-		label
-	}
-	beneficiaries: beneficiary_aggregate {
-		aggregate {
-			count
-		}
-	}
-	beneficiariesWithNoStructure: beneficiary_aggregate(
-		where: {
-			_or: [
-				{ _not: { structures: {} } }
-				{ notebook: { members: { _not: { active: { _eq: true } } } } }
-			]
-		}
-	) {
-		aggregate {
-			count
-		}
-	}
-	structures: structure_aggregate {
-		aggregate {
-			count
-		}
-	}
-	structuresWithPros: structure {
-		id
-		name
-		professionals {
-			id
-			email
-			firstname
-			lastname
-			account {
-				id
-			}
-		}
-	}
-	structuresWithNoBeneficiary: structure_aggregate(
-		where: {
-			_not: {
-				_or: [
-					{ beneficiaries: { status: { _eq: "pending" } } }
-					{ professionals: { account: { notebooksWhereMember: { active: { _eq: true } } } } }
-				]
-			}
-		}
-	) {
-		aggregate {
-			count
-		}
-	}
+  deployment: deployment_by_pk(id: $id) {
+    label
+  }
+  beneficiaries: beneficiary_aggregate {
+    aggregate {
+      count
+    }
+  }
+  beneficiariesWithNoStructure: beneficiary_aggregate(
+    where: {
+      _or: [
+        { _not: { structures: {} } }
+        { notebook: { members: { _not: { active: { _eq: true } } } } }
+      ]
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  structures: structure_aggregate {
+    aggregate {
+      count
+    }
+  }
+  structuresWithPros: structure {
+    id
+    name
+    professionals {
+      id
+      email
+      firstname
+      lastname
+      account {
+        id
+      }
+    }
+  }
+  structuresWithNoBeneficiary: structure_aggregate(
+    where: {
+      _not: {
+        _or: [
+          { beneficiaries: { status: { _eq: "pending" } } }
+          { professionals: { account: { notebooksWhereMember: { active: { _eq: true } } } } }
+        ]
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
 }

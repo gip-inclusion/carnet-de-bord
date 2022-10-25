@@ -1,10 +1,10 @@
 mutation UpdateNotebookVisitDate($id: uuid!, $date: timestamptz!) {
-	update_notebook_member(
-		where: { notebook: { id: { _eq: $id } } }
-		_set: { lastVisitedAt: $date }
-	) {
-		returning {
-			id
-		}
-	}
+  update_notebook_member(
+    where: { notebook: { id: { _eq: $id } } }
+    _set: { lastVisitedAt: $date }
+  ) {
+    returning {
+      id
+    }
+  }
 }

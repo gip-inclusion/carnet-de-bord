@@ -3,9 +3,10 @@ name: Test
 on:
   push:
     branches:
-      - "*"
+      - "**"
     tags:
       - "!v*"
+
 env:
   POETRY_VERSION: 1.2.0
   PYTHON_VERSION: 3.10.6
@@ -19,7 +20,7 @@ jobs:
   ## Python backend tests
   ##############################################################################
   pytest:
-    name: run pytest tests
+    name: Run pytest tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -51,7 +52,7 @@ jobs:
   ## End To End Tests
   ##############################################################################
   e2e:
-    name: run CodeceptJS tests
+    name: Run CodeceptJS tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -102,7 +103,7 @@ jobs:
   ## Functional Tests (endpoints & hasura)
   ##############################################################################
   functional_tests:
-    name: run functional tests
+    name: Run functional tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

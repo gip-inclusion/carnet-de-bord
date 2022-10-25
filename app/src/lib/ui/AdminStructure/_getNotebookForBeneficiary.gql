@@ -1,11 +1,11 @@
 query GetNotebookForBeneficiary($array: [notebook_bool_exp!]) {
-	notebook(where: { _or: $array }) {
-		id
-		beneficiaryId
-		beneficiary {
-			firstname
-			lastname
-			dateOfBirth
-		}
-	}
+  notebook(where: { _or: $array }) {
+    id
+    beneficiaryId
+    beneficiary {
+      firstname
+      lastname
+      dateOfBirth
+    }
+  }
 }

@@ -1,9 +1,9 @@
 query GetDeploymentManagersForStructure($structureId: uuid!) {
-	structure: structure_by_pk(id: $structureId) {
-		deployment {
-			managers {
-				email
-			}
-		}
-	}
+  structure: structure_by_pk(id: $structureId) {
+    deployment {
+      managers {
+        email
+      }
+    }
+  }
 }
