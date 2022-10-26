@@ -104,7 +104,7 @@ async def test_parse_principal_csv(
 
     assert (
         external_data.data["parsed"]["professional"]["email"]
-        == "referent_prenom4.referent_nom4@pole-emploi.net"
+        == "referent_prenom4.referent_nom4@pole-emploi.fr"
     )
 
     assert (
@@ -115,7 +115,7 @@ async def test_parse_principal_csv(
     assert external_data.info.beneficiary_id == beneficiary_edwina_skinner.id
     assert (
         external_data.hash
-        == "860045a8c8bf7ac4ce7af38fd7d90cee553252144cb7e55022010bf7b21e4d1c"
+        == "7ae664ec9134a62371c75c32f0a91a7162eac396a7f3db4119ea0b5eda88e380"
     )
 
     sophie_tifour = await get_beneficiary_by_id(
