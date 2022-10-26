@@ -157,9 +157,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
 
                 # Keep track of the data we want to insert
                 if beneficiary:
-                    await save_external_data(
-                        connection, beneficiary, csv_row, hash_result
-                    )
+                    professional = None
 
                     if beneficiary.notebook:
                         professional = await import_pe_referent(
@@ -169,21 +167,20 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                             beneficiary.deployment_id,
                             beneficiary.notebook.id,
                         )
-
-                        if professional:
-                            await save_external_data(
-                                connection,
-                                beneficiary,
-                                csv_row,
-                                hash_result,
-                                professional=professional,
-                            )
                     else:
                         logging.error(
                             "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
                                 row["identifiant_unique_de"]
                             )
                         )
+
+                    await save_external_data(
+                        connection,
+                        beneficiary,
+                        csv_row,
+                        hash_result,
+                        professional=professional,
+                    )
                 else:
                     logging.info(
                         "{} - No new beneficiary to import. Skipping.".format(
@@ -430,28 +427,29 @@ async def save_external_data(
     if professional:
         external_data_dict["professional"] = professional.dict()
 
-    # If we have no external_data or we already have some,
-    # but the hash is not the same
-    if external_data is None or hash_result != external_data.hash:
+    # If we have some external_data and the hash is the same
+    # return
+    if external_data and hash_result == external_data.hash:
+        return external_data
 
-        if external_data is None:
-            logging.info("No external_data for {}".format(beneficiary.id))
-        else:
-            logging.info(
-                "Data has changed, setting up new version of external data for {}".format(
-                    beneficiary.id
-                )
-            )
-        external_data: ExternalData | None = (
-            await insert_external_data_for_beneficiary_and_professional(
-                connection,
-                beneficiary,
-                ExternalSource.PE,
-                format_external_data(csv_row.dict(), external_data_dict),
-                hash_result,
-                professional=professional,
+    if external_data is None:
+        logging.info("No external_data for {}".format(beneficiary.id))
+    else:
+        logging.info(
+            "Data has changed, setting up new version of external data for {}".format(
+                beneficiary.id
             )
         )
+    external_data: ExternalData | None = (
+        await insert_external_data_for_beneficiary_and_professional(
+            connection,
+            beneficiary,
+            ExternalSource.PE,
+            format_external_data(csv_row.dict(), external_data_dict),
+            hash_result,
+            professional=professional,
+        )
+    )
 
     return external_data
 
