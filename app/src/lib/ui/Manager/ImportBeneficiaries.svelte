@@ -57,6 +57,7 @@
 		educationLevel?: string;
 		structureName?: string;
 		advisorEmail?: string;
+		nir?: string;
 	};
 
 	type BeneficiaryImport = Beneficiary & {
@@ -108,6 +109,7 @@
 			educationLevel: line[21].value,
 			structureName: line[22].value || '',
 			advisorEmail: line[23].value || '',
+			nir: line[24].value,
 		};
 	};
 
