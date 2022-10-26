@@ -33,13 +33,13 @@ Pour lancer les tests e2e sur sa machine :
 
 ```sh
 cd e2e
-yarn && yarn test
+npm && npm test
 ```
 
 Par défaut, les tests se lancent en mode _headless_ mais on peut aussi les lancer avec l'interface de Codecept - CodeceptUI - grâce à la commande :
 
 ```sh
-yarn test:ui
+npm run test:ui
 ```
 
 ![CodeceptUI](./codeceptui.png)
@@ -50,7 +50,7 @@ Pour l'exemple, nous allons écrire le test pour un konami code
 
 1. Créer le fichier konami-code.feature
 1. Ecrire le test
-1. lancer `yarn codeceptjs gherkin:snippets`
+1. lancer `npm run codeceptjs gherkin:snippets`
 1. Implementer les snippets manquants
 1. Lancer les test.
 
@@ -67,7 +67,7 @@ Les snippets se trouvent dans le fichier `steps.js`
 #### Lancer un test en mode debug
 
 ```sh
-$ yarn test --steps --verbose --grep "@home" -p pauseOnFail
+$ npm run test --steps --verbose --grep "@home" -p pauseOnFail
 ```
 
 #### Mettre une pause dans le test

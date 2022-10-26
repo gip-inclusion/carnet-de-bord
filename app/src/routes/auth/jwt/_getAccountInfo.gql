@@ -22,5 +22,8 @@ query GetAccountInfo($accessKey: String!) {
     orientationManager: orientation_manager {
       deploymentId
     }
+    beneficiary {
+      deploymentId
+    }
   }
 }

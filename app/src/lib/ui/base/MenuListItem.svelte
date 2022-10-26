@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, getContext } from 'svelte';
-	import { MENU } from './menu';
-	const { registerMenuItem, selectedItem, focusedItem } = getContext(MENU);
+	import { MENU, type MenuContext } from './menu';
+	const { registerMenuItem, selectedItem, focusedItem } = getContext<MenuContext>(MENU);
 
 	export let disabled = false;
 	export let href: string = null;

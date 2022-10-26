@@ -8,32 +8,29 @@
 	"main": "codecept.conf.js",
 	"license": "Apache-2.0",
 	"scripts": {
-		"lint": "pre-commit run --all-files",
-		"lint:pre-commit": "pre-commit run --all-files",
+		"lint": "npm run lint:prettier && npm run lint:eslint",
 		"lint:prettier": "prettier --config .prettierrc --check",
-		"lint:prettier:all": "yarn lint:prettier src ./**/*.{svelte,cjs,js,json}",
+		"lint:prettier:all": "npm run lint:prettier ./**/*.{cjs,js,json}",
 		"lint:eslint": "eslint --config=.eslintrc.cjs",
-		"lint:eslint:all": "yarn lint:eslint .",
-		"fix": "yarn fix:prettier && yarn fix:eslint",
-		"fix:prettier": "yarn lint:prettier --write",
-		"fix:prettier:all": "yarn lint:prettier:all --write",
-		"fix:eslint": "yarn lint:eslint --fix --cache",
-		"fix:eslint:all": "yarn lint:eslint:all --fix --cache",
+		"lint:eslint:all": "npm run lint:eslint .",
+		"fix": "npm run fix:prettier && npm run fix:eslint",
+		"fix:prettier": "npm run lint:prettier --write",
+		"fix:prettier:all": "npm run lint:prettier:all --write",
+		"fix:eslint": "npm run lint:eslint --fix",
+		"fix:eslint:all": "npm run lint:eslint:all --fix",
 		"test": "LANGUAGE=fr codeceptjs run",
 		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
-		"test:ui": "LANGUAGE=fr CODECEPT_UI=true codecept-ui --app"
+		"test:ui": "LANGUAGE=fr codecept-ui --app"
 	},
 	"dependencies": {
-		"@codeceptjs/helper": "^2.0.0",
-		"@codeceptjs/ui": "^0.4.6",
-		"codeceptjs": "^3.3.0",
+		"@codeceptjs/helper": "^2.0.1",
+		"@codeceptjs/ui": "^0.4.7",
+		"@socialgouv/eslint-config-recommended": "^1.129.0",
+		"codeceptjs": "^3.3.6",
+		"eslint": "^7.32.0",
+		"playwright": "^1.27.1",
+		"prettier": "^2.5.1",
 		"uuid": "^9.0.0"
-	},
-	"devDependencies": {
-		"@socialgouv/eslint-config-recommended": "^1.109.0",
-		"eslint": "^8.13.0",
-		"playwright": "^1.27.0",
-		"prettier": "^2.6.2"
 	},
 	"private": true
 }

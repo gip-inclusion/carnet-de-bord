@@ -3,11 +3,15 @@ import fs from 'fs';
 import path from 'path';
 import { getAccountAndJwtForUser } from '../login_as';
 import { formatDateISO } from '../../src/lib/utils/date';
+import { it, beforeAll, beforeEach, describe, expect } from '@jest/globals';
+import { config } from 'dotenv';
+
+config({ path: '../.env' });
 
 const graphql =
 	(headers) =>
 	async (query, variables = null) => {
-		return await fetch(process.env.GRAPHQL_API_URL, {
+		return await fetch(process.env.GRAPHQL_API_URL || 'http://localhost:5000/v1/graphql', {
 			method: 'POST',
 			headers,
 			body: JSON.stringify({ query, variables }),

@@ -2,11 +2,15 @@ require('isomorphic-fetch');
 import fs from 'fs';
 import path from 'path';
 import { getAccountAndJwtForUser } from '../login_as';
+import { it, beforeAll, describe, expect } from '@jest/globals';
+import { config } from 'dotenv';
+
+config({ path: '../.env' });
 
 const graphql =
 	(headers) =>
 	async (query, variables = null) => {
-		return await fetch(process.env.GRAPHQL_API_URL, {
+		return await fetch(process.env.GRAPHQL_API_URL || 'http://localhost:5000/v1/graphql', {
 			method: 'POST',
 			headers,
 			body: JSON.stringify({ query, variables }),
@@ -72,7 +76,6 @@ describe('notebook_event trigger', () => {
 			console.error(addActionPayload.errors);
 		}
 		const payload = await graphqlPro(eventQuery);
-		console.log(eventQuery, payload.data.notebook_event);
 
 		const [{ id, eventType, event }] = payload.data.notebook_event;
 		expect(eventType).toEqual('action');

@@ -54,6 +54,7 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 		manager,
 		adminStructure,
 		orientationManager,
+		beneficiary,
 	} = getAccountResult.data.account[0];
 	let deploymentId = null;
 	if (professional) {
@@ -64,6 +65,8 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 		deploymentId = adminStructure.deploymentId;
 	} else if (orientationManager) {
 		deploymentId = orientationManager.deploymentId;
+	} else if (beneficiary) {
+		deploymentId = beneficiary.deploymentId;
 	}
 
 	const token = createJwt({

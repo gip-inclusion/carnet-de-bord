@@ -2,12 +2,12 @@
 	import { onDestroy, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { Writable } from 'svelte/store';
-	import { ACCORDION } from './accordion';
+	import { ACCORDION, type AccordionContext } from './accordion';
 
 	let accordionItems: Writable<Record<never, never>[]> = writable([]);
 	let selectedItem: Writable<Record<never, never>> = writable(null);
 
-	setContext(ACCORDION, {
+	setContext<AccordionContext>(ACCORDION, {
 		registerAccordionItem: (accordion: Record<never, never>): void => {
 			accordionItems.set($accordionItems.concat(accordion));
 			onDestroy(() => {
