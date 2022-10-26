@@ -41,6 +41,7 @@ repos:
         language: system
         files: ^app/.*$
         types_or: [javascript, ts, svelte]
+        pass_filenames: false
         entry: |
           bash -c 'npm --prefix app run check' --
 
