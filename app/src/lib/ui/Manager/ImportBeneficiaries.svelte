@@ -21,6 +21,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { postApiFormData, postApiJson } from '$lib/utils/post';
 	import { translateError } from './errorMessage';
+	import { Spinner } from '$lib/ui/base';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
@@ -204,7 +205,6 @@
 				<a href="https://pad.incubateur.net/s/nLmDl89Oi#" target="_blank" rel="noopener noreferrer"
 					>consulter la notice de remplissage</a
 				>.
-				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
 				<span class="cursor-default">
@@ -213,7 +213,7 @@
 			</Dropzone>
 		{:else}
 			{#await parsePromise}
-				<Alert type="info" title={`Lecture du fichier en cours...`} />
+				<Spinner label="Lecture du fichier en cours..." />
 			{:then parsedBeneficiaries}
 				<p>
 					Vous allez importer {pluralize('le', parsedBeneficiaries.length)}
@@ -346,12 +346,12 @@
 		{/if}
 	{:else}
 		{#await insertPromise}
-			<Alert
-				type="info"
-				title={`Ajout ${pluralize("d'un", beneficiariesToImport.length, 'des')} ${pluralize(
+			<Spinner
+				label={`Import ${pluralize("d'un", beneficiariesToImport.length, 'des')} ${pluralize(
 					'bénéficiaire',
 					beneficiariesToImport.length
 				)} en cours...`}
+			/>
 			/>
 		{:then insertResults}
 			{@const nbBeneficiaryError = insertResults.filter(({ valid }) => !valid).length}
