@@ -8,7 +8,17 @@
 	"main": "codecept.conf.js",
 	"license": "Apache-2.0",
 	"scripts": {
-		"lint": "eslint ./step_definitions",
+		"lint": "pre-commit run --all-files",
+		"lint:pre-commit": "pre-commit run --all-files",
+		"lint:prettier": "prettier --config .prettierrc --check",
+		"lint:prettier:all": "yarn lint:prettier src ./**/*.{svelte,cjs,js,json}",
+		"lint:eslint": "eslint --config=.eslintrc.cjs",
+		"lint:eslint:all": "yarn lint:eslint .",
+		"fix": "yarn fix:prettier && yarn fix:eslint",
+		"fix:prettier": "yarn lint:prettier --write",
+		"fix:prettier:all": "yarn lint:prettier:all --write",
+		"fix:eslint": "yarn lint:eslint --fix --cache",
+		"fix:eslint:all": "yarn lint:eslint:all --fix --cache",
 		"test": "LANGUAGE=fr codeceptjs run",
 		"test:debug": "LANGUAGE=fr codeceptjs run --debug --steps --verbose",
 		"test:ui": "LANGUAGE=fr CODECEPT_UI=true codecept-ui --app"
@@ -16,12 +26,13 @@
 	"dependencies": {
 		"@codeceptjs/helper": "^2.0.0",
 		"@codeceptjs/ui": "^0.4.6",
-		"codeceptjs": "^3.3.0"
+		"codeceptjs": "^3.3.0",
+		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
 		"@socialgouv/eslint-config-recommended": "^1.109.0",
 		"eslint": "^8.13.0",
-		"playwright": "^1",
+		"playwright": "^1.27.0",
 		"prettier": "^2.6.2"
 	},
 	"private": true

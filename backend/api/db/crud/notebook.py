@@ -8,6 +8,7 @@ from asyncpg.connection import Connection
 from api.db.models.account import AccountInfo
 from api.db.models.action import Action
 from api.db.models.appointment import Appointment
+from api.db.models.beneficiary import BeneficiaryImport
 from api.db.models.focus import Focus
 from api.db.models.notebook import Notebook
 from api.db.models.notebook_member import NotebookMember, NotebookMemberInsert
@@ -570,3 +571,70 @@ async def get_notebook_by_id(
         """WHERE n.id = $1""",
         notebook_id,
     )
+
+
+async def insert_notebook(
+    connection: Connection,
+    beneficiary_id: UUID,
+    beneficiary: BeneficiaryImport,
+) -> UUID:
+    created_notebook: Record = await connection.fetchrow(
+        """
+INSERT INTO public.notebook (
+    beneficiary_id,
+    right_rsa,
+    right_rqth,
+    right_are,
+    right_ass,
+    right_bonus,
+    work_situation,
+    education_level,
+    geographical_area
+    )
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+returning id
+        """,
+        beneficiary_id,
+        beneficiary.right_rsa,
+        beneficiary.right_rqth,
+        beneficiary.right_are,
+        beneficiary.right_ass,
+        beneficiary.right_bonus,
+        beneficiary.work_situation,
+        beneficiary.education_level,
+        beneficiary.geographical_area,
+    )
+    return created_notebook["id"]
+
+
+async def update_notebook(
+    connection: Connection,
+    beneficiary_id: UUID,
+    beneficiary: BeneficiaryImport,
+) -> UUID | None:
+    result: Record = await connection.fetchrow(
+        """
+UPDATE public.notebook SET
+    right_rsa = $2,
+    right_rqth = $3,
+    right_are = $4,
+    right_ass = $5,
+    right_bonus = $6,
+    work_situation = $7,
+    education_level = $8,
+    geographical_area = $9
+WHERE beneficiary_id = $1
+returning id
+        """,
+        beneficiary_id,
+        beneficiary.right_rsa,
+        beneficiary.right_rqth,
+        beneficiary.right_are,
+        beneficiary.right_ass,
+        beneficiary.right_bonus,
+        beneficiary.work_situation,
+        beneficiary.education_level,
+        beneficiary.geographical_area,
+    )
+    if result:
+        return result["id"]

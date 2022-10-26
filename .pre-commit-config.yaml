@@ -28,22 +28,38 @@ repos:
 
   - repo: local
     hooks:
-      - id: prettier
-        name: run prettier
+      - id: app-prettier
+        name: run prettier (app)
         language: system
         files: ^app/.*$
         types_or: [javascript, ts, svelte]
         entry: |
-          bash -c 'yarn --cwd app --silent prettier --write "${@#*/}"' --
+          bash -c 'yarn --cwd app --silent fix:prettier "${@#*/}"' --
 
-      - id: eslint
-        name: run eslint
+      - id: app-eslint
+        name: run eslint (app)
         language: system
         files: ^app/.*$
         types_or: [javascript, ts, svelte]
         exclude: /_gen/
         entry: |
-          bash -c 'yarn --cwd app --silent eslint "${@#*/}"' --
+          bash -c 'yarn --cwd app --silent fix:eslint "${@#*/}"' --
+
+      - id: e2e-prettier
+        name: run prettier (e2e)
+        language: system
+        files: ^e2e/.*$
+        types_or: [javascript]
+        entry: |
+          bash -c 'yarn --cwd e2e --silent fix:prettier "${@#*/}"' --
+
+      - id: e2e-eslint
+        name: run eslint (e2e)
+        language: system
+        files: ^e2e/.*$
+        types_or: [javascript]
+        entry: |
+          bash -c 'yarn --cwd e2e --silent fix:eslint "${@#*/}"' --
 
       - id: check-hasura-version
         name: ensure hasura version consistency
@@ -57,6 +73,22 @@ repos:
         entry: |
           ./scripts/check-hasura-version.sh
 
+      - id: check-codegen
+        name: check if codegen needs to be ran
+        language: system
+        pass_filenames: false
+        files: ^app/.*\.gql$
+        # To determine if codegen needs to be ran, modification and commit dates
+        # of all *.gql files and the generated file are computed, and then sorted.
+        # For this we use git log and git status commands.
+        # The most recent date is kept.
+        # Finally, the most recent date shall be the one of the generated file.
+        # Otherwise, it means that genereted file has to be re-generated.
+        entry: |
+          bash -c 'for i in "*.gql" app/src/lib/graphql/_gen/typed-document-nodes.ts;
+            do echo $(git log -1 --format=%ct $i) $i;
+            git status --porcelain "$i" |cut -c4-|xargs stat -f "%m %N";
+          done | sort | tail -1 | grep -F "app/src/lib/graphql/_gen/typed-document-nodes.ts"' --
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: 'v8.0.0'

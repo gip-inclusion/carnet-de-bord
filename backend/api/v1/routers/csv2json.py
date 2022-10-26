@@ -21,6 +21,12 @@ manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 
 router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
 
+DATE_YMD_HYPHEN_FORMAT = "%Y-%m-%d"
+DATE_DMY_SLASH_FORMAT = "%d/%m/%Y"
+DATE_DMY_HYPHEN_FORMAT = "%d-%m-%Y"
+
+DATE_FORMATS = [DATE_YMD_HYPHEN_FORMAT, DATE_DMY_SLASH_FORMAT, DATE_DMY_HYPHEN_FORMAT]
+
 
 class FieldValue(BaseModel):
     column_name: str
@@ -66,7 +72,10 @@ def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
         parse_field("Prénom*", beneficiary, validators=[mandatory]),
         parse_field("Nom*", beneficiary, validators=[mandatory]),
         parse_field(
-            "Date de naissance*", beneficiary, validators=[mandatory, date_format]
+            "Date de naissance*",
+            beneficiary,
+            validators=[mandatory, date_format],
+            parser=parse_date,
         ),
         parse_field("Lieu de naissance", beneficiary),
         parse_field("Téléphone", beneficiary),
@@ -91,12 +100,14 @@ def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
     ]
 
 
-def parse_field(col_name: str, line, validators=[]):
+def parse_field(col_name: str, line, validators=[], parser=lambda field: field):
     try:
         value = line[col_name]
         validation_errors = [check(value) for check in validators if check(value)]
         if not validation_errors:
-            return FieldValue.parse_obj({"column_name": col_name, "value": value})
+            return FieldValue.parse_obj(
+                {"column_name": col_name, "value": parser(value)}
+            )
         else:
             return ParseError.parse_obj(
                 {
@@ -123,10 +134,23 @@ def mandatory(field: str):
 
 def date_format(field: str):
     if field:
+        for date_format in DATE_FORMATS:
+            try:
+                datetime.datetime.strptime(field, date_format)
+                return
+            except ValueError:
+                pass
+
+        return "Incorrect date format, The date must be formated as: YYYY-MM-DD"
+
+
+def parse_date(field: str):
+    for date_format in DATE_FORMATS:
         try:
-            datetime.datetime.strptime(field, "%Y-%m-%d")
+            value = datetime.datetime.strptime(field, date_format)
+            return value.strftime(DATE_YMD_HYPHEN_FORMAT)
         except ValueError:
-            return "Incorrect date format, The date must be formated as: YYYY-MM-DD"
+            pass
 
 
 async def file_to_json(

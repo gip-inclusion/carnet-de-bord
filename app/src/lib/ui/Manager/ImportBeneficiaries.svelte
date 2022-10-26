@@ -1,27 +1,21 @@
 <script lang="ts">
-	import { session } from '$app/stores';
+	import { backendAPI, token } from '$lib/stores';
 	import {
-		ImportBeneficiaryDocument,
 		GetProfessionalsForManagerDocument,
-		Professional,
+		type Professional,
 		GetStructuresForManagerDocument,
-		Structure,
-		GetRomeCodesDocument,
+		type Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
-		ImportBeneficiaryMutation,
-		ImportBeneficiaryMutationVariables,
 		GetProfessionalsForManagerQuery,
-		GetRomeCodesQuery,
 		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, OperationStore, query, mutation, getClient } from '@urql/svelte';
+	import { operationStore, type OperationStore, query } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text, ImportParserError } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
 	import { displayFullName } from '$lib/ui/format';
-	import * as keys from '$lib/constants/keys';
 	import { pluralize } from '$lib/helpers';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { v4 as uuidv4 } from 'uuid';
@@ -39,12 +33,12 @@
 	query(queryStructures);
 
 	type Beneficiary = {
-		internalId: string;
+		siId: string;
 		firstname: string;
 		lastname: string;
 		dateOfBirth: string;
 		placeOfBirth?: string;
-		mobileNumber?: string;
+		phoneNumber?: string;
 		email?: string;
 		address1?: string;
 		address2?: string;
@@ -61,8 +55,8 @@
 		geographicalArea?: string;
 		wantedJobs?: string;
 		educationLevel?: string;
-		structureNames?: string;
-		proEmails?: string;
+		structureName?: string;
+		advisorEmail?: string;
 	};
 
 	type BeneficiaryImport = Beneficiary & {
@@ -90,12 +84,12 @@
 		return {
 			uid: uuidv4(),
 			valid: line.filter((field) => field.error_messages).length === 0,
-			internalId: line[0].value,
+			siId: line[0].value,
 			firstname: line[1].value,
 			lastname: line[2].value,
 			dateOfBirth: line[3].value || '--',
 			placeOfBirth: line[4].value,
-			mobileNumber: line[5].value,
+			phoneNumber: line[5].value,
 			email: line[6].value,
 			address1: line[7].value,
 			address2: line[8].value,
@@ -112,8 +106,8 @@
 			geographicalArea: line[19].value,
 			wantedJobs: line[20].value,
 			educationLevel: line[21].value,
-			structureNames: line[22].value || '',
-			proEmails: line[23].value || '',
+			structureName: line[22].value || '',
+			advisorEmail: line[23].value || '',
 		};
 	};
 
@@ -128,12 +122,24 @@
 	async function fileValidationApi(file) {
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		return await fetch(`${$session.backendAPI}/v1/convert-file/beneficiaries`, {
+		return await fetch(`${$backendAPI}/v1/convert-file/beneficiaries`, {
 			method: 'POST',
 			body: formData,
 			headers: {
-				'jwt-token': $session.token,
+				'jwt-token': $token,
 				Accept: 'application/json; version=1.0',
+			},
+		});
+	}
+
+	async function importBeneficiaries(beneficiaries) {
+		return await fetch(`${$backendAPI}/v1/beneficiaries/bulk`, {
+			method: 'POST',
+			body: JSON.stringify(beneficiaries),
+			headers: {
+				'jwt-token': $token,
+				Accept: 'application/json; version=1.0',
+				'Content-Type': 'application/json',
 			},
 		});
 	}
@@ -157,49 +163,11 @@
 		}
 	}
 
-	const insertStore: OperationStore<
-		ImportBeneficiaryMutation,
-		ImportBeneficiaryMutationVariables,
-		Beneficiary
-	> = operationStore(ImportBeneficiaryDocument, null, { additionalTypenames: ['beneficiary'] });
-	const inserter = mutation(insertStore);
 	let insertInProgress = false;
 	let insertResult: { benef: Beneficiary; error: string | null }[];
 
-	function stringToBool(s: string): boolean {
-		if (!s) {
-			return false;
-		}
-		if ('Oui' === s.trim()) {
-			return true;
-		}
-		return false;
-	}
-
-	function stringToRightRsa(s: string): string {
-		return keys.rsaRightKeys.byValue[s] || null;
-	}
-
-	function stringToWorkSituation(s: string): string {
-		return keys.workSituationKeys.byValue[s] || null;
-	}
-
-	function stringToGeographicalArea(s: string): string {
-		return keys.geographicalAreaKeys.byValue[s] || null;
-	}
-
-	function stringToRomeCode(map: Record<string, string>) {
-		return function (s: string): string {
-			return map[s] || null;
-		};
-	}
-
-	function stringToEducationLevel(s: string): string {
-		return keys.educationLevelKeys.byValue[s] || null;
-	}
-
-	function structureNamesToStructure(structureNames = ''): Structure[] {
-		const names = structureNames.trim().split(',');
+	function structureNameToStructure(structureName = ''): Structure[] {
+		const names = structureName.trim().split(',');
 		const structs = names.reduce((acc, name) => {
 			const struct = structures[name.trim()];
 			if (struct) {
@@ -210,8 +178,8 @@
 		return structs;
 	}
 
-	function proEmailsToPros(proEmails = ''): Professional[] {
-		const emails = proEmails.trim().split(',');
+	function advisorEmailToPros(advisorEmail = ''): Professional[] {
+		const emails = advisorEmail.trim().split(',');
 		const pros = emails.reduce((acc, email) => {
 			const pro = professionals[email.trim()];
 			if (pro) {
@@ -222,92 +190,37 @@
 		return pros;
 	}
 
-	function getStatusForStructureAssignement(structureId: string, pros: Professional[]): string {
-		if (pros.map((pro) => pro.structureId).includes(structureId)) {
-			return 'done';
-		}
-		return 'pending';
-	}
-
-	const client = getClient();
-
 	async function handleSubmit() {
 		insertInProgress = true;
 		insertResult = [];
+		const response = await importBeneficiaries(beneficiariesToImport);
 
-		const labels = beneficiariesToImport.flatMap(
-			(beneficiary) => beneficiary.wantedJobs?.split(',').map((s) => s.trim()) ?? []
-		);
-		const romeCodesResult = await client
-			.query<GetRomeCodesQuery>(GetRomeCodesDocument, { search: '', labels })
-			.toPromise();
-
-		const labelToRomeCode = romeCodesResult.data?.batch.reduce(
-			(acc, { id, label }) => ({ ...acc, [label]: id }),
-			{}
-		);
-		const romeCodeMatcher = stringToRomeCode(labelToRomeCode);
-		for (const beneficiary of beneficiariesToImport) {
-			const { uid, valid, proEmails = '', structureNames = '', ...benef } = beneficiary;
-			const accountIds = proEmailsToPros(proEmails).map(({ account }) => account.id);
-			const members = accountIds.map((accountId) => ({ memberType: 'referent', accountId }));
-			const structureIds = structureNamesToStructure(structureNames).map(({ id }) => id);
-			const structs = structureIds.map((structureId) => ({
-				structureId,
-				status: getStatusForStructureAssignement(structureId, proEmailsToPros(proEmails)),
-			}));
-			const payload = {
-				...benef,
-				workSituation: stringToWorkSituation(benef.workSituation),
-				rightRsa: stringToRightRsa(benef.rightRsa),
-				rightAre: stringToBool(benef.rightAre),
-				rightAss: stringToBool(benef.rightAss),
-				rightBonus: stringToBool(benef.rightBonus),
-				rightRqth: stringToBool(benef.rightRqth),
-				geographicalArea: stringToGeographicalArea(benef.geographicalArea),
-				educationLevel: stringToEducationLevel(benef.educationLevel),
-				members,
-				structures: structs,
-				wantedJobs:
-					beneficiary.wantedJobs
-						?.split(',')
-						.map((s) => s.trim())
-						.map(romeCodeMatcher)
-						.filter(Boolean)
-						.map((rome_code_id) => ({
-							rome_code_id,
-						})) || [],
-			};
-			await Promise.all([
-				inserter(payload),
-				new Promise((resolve) => {
-					setTimeout(resolve, 500);
-				}),
-			]);
-			let errorMessage = "Une erreur s'est produite, le bénéficiaire n'a pas été importé.";
-			if (
-				/uniqueness.*firstname_lastname_date_of_birth_unique_idx/i.test(insertStore.error?.message)
-			) {
-				errorMessage =
-					'Un bénéficiaire avec les mêmes prénom, nom et date de naissance existe déjà sur ce territoire.';
-			} else if (/uniqueness.*beneficiary_internal_id_key/i.test(insertStore.error?.message)) {
-				errorMessage = "Un bénéficiaire avec le même 'identifiant SI' existe déjà.";
-			}
+		const insertOperationResponse = await response.json();
+		for (var i = 0; i < beneficiariesToImport.length; i++) {
 			insertResult = [
 				...insertResult,
-				{ benef, ...(insertStore.error && { error: errorMessage }) },
+				{
+					benef: {
+						siId: beneficiariesToImport[i].siId,
+						firstname: beneficiariesToImport[i].firstname,
+						lastname: beneficiariesToImport[i].lastname,
+						dateOfBirth: beneficiariesToImport[i].dateOfBirth,
+						placeOfBirth: beneficiariesToImport[i].placeOfBirth,
+					},
+					error: insertOperationResponse.result[i].error,
+				},
 			];
 		}
 		insertInProgress = false;
 	}
 
 	const headers = [
-		{ label: 'Identifiant dans le SI*', key: 'internalId' },
+		{ label: 'Identifiant dans le SI*', key: 'siId' },
 		{ label: 'Prénom*', key: 'firstname' },
 		{ label: 'Nom*', key: 'lastname' },
 		{ label: 'Date de naissance*', key: 'dateOfBirth' },
 		{ label: 'Lieu de naissance', key: 'placeOfBirth' },
-		{ label: 'Téléphone', key: 'mobileNumber' },
+		{ label: 'Téléphone', key: 'phoneNumber' },
 		{ label: 'Courriel', key: 'email' },
 		{ label: 'Adresse', key: 'address1' },
 		{ label: 'Adresse (complément)', key: 'address2' },
@@ -324,8 +237,8 @@
 		{ label: 'Zone de mobilité', key: 'geographicalArea' },
 		{ label: 'Emplois recherchés (texte + code ROME)', key: 'wantedJobs' },
 		{ label: 'Niveau de formation', key: 'educationLevel' },
-		{ label: 'Structure', key: 'structureNames' },
-		{ label: 'Accompagnateurs', key: 'proEmails' },
+		{ label: 'Structure', key: 'structureName' },
+		{ label: 'Accompagnateurs', key: 'advisorEmail' },
 	];
 
 	function backToFileSelect() {
@@ -383,7 +296,7 @@
 									{/if}
 								</td>
 								{#each headers as { key } (key)}
-									{#if key !== 'proEmails' && key !== 'structureNames'}
+									{#if key !== 'advisorEmail' && key !== 'structureName'}
 										<td class="px-2 py-2">
 											{#if key === 'dateOfBirth'}
 												<Text value={formatDateLocale(beneficiary[key])} />
@@ -395,14 +308,16 @@
 								{/each}
 								<td class="px-2 py-2">
 									<Text
-										value={structureNamesToStructure(beneficiary.structureNames)
+										value={structureNameToStructure(beneficiary.structureName)
 											.map((s) => s.name)
 											.join(', ')}
 									/>
 								</td>
 								<td class="px-2 py-2">
 									<Text
-										value={proEmailsToPros(beneficiary.proEmails).map(displayFullName).join(', ')}
+										value={advisorEmailToPros(beneficiary.advisorEmail)
+											.map(displayFullName)
+											.join(', ')}
 									/>
 								</td>
 							</tr>
@@ -454,7 +369,7 @@
 			{:else}
 				<Alert
 					type={successfulImports ? 'success' : 'error'}
-					title={`${successfulImports || 'Aucune'}
+					title={`${successfulImports || 'Aucun'}
 					${pluralize('bénéficiaire', successfulImports)}
 					${pluralize('importé', successfulImports)}
 					sur ${toImport.length}

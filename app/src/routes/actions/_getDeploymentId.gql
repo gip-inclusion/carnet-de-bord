@@ -1,5 +1,0 @@
-query ListDeploymentId {
-	deployments: deployment(order_by: { createdAt: desc }) {
-		id
-	}
-}

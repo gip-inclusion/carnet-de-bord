@@ -1,5 +1,5 @@
 mutation DeleteNotebookFocusById($id: uuid!) {
-	delete_notebook_focus_by_pk(id: $id) {
-		id
-	}
+  delete_notebook_focus_by_pk(id: $id) {
+    id
+  }
 }

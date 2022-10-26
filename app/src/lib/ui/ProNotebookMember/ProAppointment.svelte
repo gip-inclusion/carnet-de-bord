@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Button } from '$lib/ui/base/index';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import { mutation, OperationStore, operationStore, query } from '@urql/svelte';
+	import { mutation, type OperationStore, operationStore, query } from '@urql/svelte';
 	import {
 		AddNotebookAppointmentDocument,
 		DeleteNotebookAppointmentDocument,
 		GetNotebookAppointmentsDocument,
-		GetNotebookAppointmentsQuery,
-		GetNotebookAppointmentsQueryVariables,
+		type GetNotebookAppointmentsQuery,
+		type GetNotebookAppointmentsQueryVariables,
 		UpdateNotebookAppointmentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { AppointmentUI } from '$lib/models/Appointment';
@@ -20,7 +20,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Member } from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { session } from '$app/stores';
+	import { connectedUser } from '$lib/stores';
 	import { parseISO } from 'date-fns';
 	import { formatDateTimeLocale } from '$lib/utils/date';
 	export let member: Member;
@@ -135,7 +135,7 @@
 
 	function userRole() {
 		// we use baseUrlForRole since first event categorie for professional where pro
-		return $session.user.role === 'professional' ? 'pro' : $session.user.role;
+		return $connectedUser.role === 'professional' ? 'pro' : $connectedUser.role;
 	}
 
 	async function deleteAppointment(index: number) {
@@ -143,7 +143,7 @@
 		const appointmentToDelete = appointmentAtIndex(index);
 		const result = await deleteAppointmentByIdMutation({
 			id: appointmentToDelete.id,
-			deletedBy: $session.user.id,
+			deletedBy: $connectedUser.id,
 		});
 		if (result.error) {
 			console.error(result.error);

@@ -1,18 +1,18 @@
 query GetProfessionalsForManager {
-	professional {
-		id
-		firstname
-		lastname
-		mobileNumber
-		position
-		email
-		structureId
-		account {
-			id
-		}
-		structure {
-			id
-			name
-		}
-	}
+  professional {
+    id
+    firstname
+    lastname
+    mobileNumber
+    position
+    email
+    structureId
+    account {
+      id
+    }
+    structure {
+      id
+      name
+    }
+  }
 }

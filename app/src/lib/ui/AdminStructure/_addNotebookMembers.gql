@@ -1,11 +1,11 @@
 mutation AddNotebookMembers($objects: [notebook_member_insert_input!]!, $notebookId: uuid!) {
-	insert_notebook_member(objects: $objects) {
-		affected_rows
-	}
-	update_beneficiary_structure(
-		where: { beneficiary: { notebook: { id: { _eq: $notebookId } } } }
-		_set: { status: "done" }
-	) {
-		affected_rows
-	}
+  insert_notebook_member(objects: $objects) {
+    affected_rows
+  }
+  update_beneficiary_structure(
+    where: { beneficiary: { notebook: { id: { _eq: $notebookId } } } }
+    _set: { status: "done" }
+  ) {
+    affected_rows
+  }
 }

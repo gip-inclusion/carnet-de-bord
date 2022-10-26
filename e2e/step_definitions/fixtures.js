@@ -1,11 +1,11 @@
 const { I } = inject();
-const { USER_TYPES } = require("./fr");
-
-const UUID = "c86dc6b9-8eb9-455e-a483-a2f50810e2ac";
+const { USER_TYPES } = require('./fr');
+const { v4: uuid4 } = require('uuid');
 
 async function loginStub(userType, email) {
+	const uuid = uuid4();
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
-	if (type.code === "beneficiary") {
+	if (type.code === 'beneficiary') {
 		const result = await I.sendQuery(
 			`
 		query getBeneficiaryIdByEmail($email: citext!) {
@@ -18,17 +18,18 @@ async function loginStub(userType, email) {
 		await I.sendMutation(
 			`
 		mutation createAccount($id: uuid!) {
-			insert_account_one(object: {beneficiaryId: $id, accessKey: "${UUID}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
+			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
 		}`,
 			{ id: result.data.data.beneficiary[0].id }
 		);
 	} else {
 		await I.sendMutation(
 			`mutation setAccessToken {
-				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${UUID}"}) { affected_rows }
+				update_account(where: {${type.code}: {email: {_eq: "${email}"}}} _set: {accessKey: "${uuid}"}) { affected_rows }
 		}`
 		);
 	}
+	return uuid;
 }
 
 async function addMember(email, notebookId) {
@@ -74,10 +75,12 @@ async function removeMember(email) {
 	);
 }
 
-
 function seedDatabase() {
-	const { execSync } = require("child_process");
-	execSync('HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura seed apply --project ../hasura --database-name carnet_de_bord --log-level WARN --no-color');
+	const { execSync } = require('child_process');
+	const graphqlEndpoint = process.env.HASURA_BASEURL ?? 'http://localhost:5000';
+	execSync(
+		`HASURA_GRAPHQL_ENDPOINT=${graphqlEndpoint} hasura seed apply --project ../hasura --database-name carnet_de_bord --log-level INFO --no-color`
+	);
 }
 
 async function onBoardingSetup(userType, email, onBoardingDone) {
@@ -106,7 +109,6 @@ const goToNotebookForLastName = async (lastname) => {
 };
 
 module.exports = {
-	UUID,
 	addMember,
 	goToNotebookForLastName,
 	loginStub,

@@ -2,15 +2,12 @@
 	import { UpdateAdminStructureProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { UpdateAdminStructureProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import AdminStructureForm from '$lib/ui/AdminStructure/AdminStructureForm.svelte';
-	import { mutation, OperationStore, operationStore } from '@urql/svelte';
-	import { account, openComponent } from '$lib/stores';
+	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
+	import { accountData, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
-	import type { ConnectedAdminStructure } from '$lib/stores/account';
 
-	export let adminStructure: ConnectedAdminStructure;
-
-	let { email, firstname, lastname, phoneNumbers } = adminStructure;
+	let { id, email, firstname, lastname, phoneNumbers } = $accountData.admin_structure;
 
 	let initialValues = {
 		email,
@@ -27,8 +24,8 @@
 
 	async function handleSubmit(values: AdminStructureAccountInput) {
 		updateResult = await updateProfile({
-			id: adminStructure.id,
-			accountId: adminStructure.accountId,
+			id,
+			accountId: $accountData.id,
 			...values,
 		});
 
@@ -36,12 +33,12 @@
 			const { confirmed, onboardingDone, username, admin_structure } =
 				updateResult.data.updateAccount;
 
-			$account = {
-				...$account,
+			$accountData = {
+				...$accountData,
 				confirmed,
 				onboardingDone,
 				username,
-				...admin_structure,
+				admin_structure,
 			};
 		}
 		if (updateResult.error) {

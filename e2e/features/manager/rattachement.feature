@@ -1,7 +1,7 @@
 #language: fr
 
 Fonctionnalité: Rattachement pro
-	Pour pouvoir gérer les réorientation
+	Pour pouvoir gérer les réorientations
 	En tant que manager d'un déploiement
 	Je veux pouvoir assigner de nouveaux référents aux bénéficiaires
 

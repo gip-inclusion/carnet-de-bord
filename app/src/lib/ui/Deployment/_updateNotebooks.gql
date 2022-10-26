@@ -1,5 +1,0 @@
-mutation UpdateNotebookAction($id: uuid!) {
-	updateNotebookAct(id: $id) {
-		id
-	}
-}

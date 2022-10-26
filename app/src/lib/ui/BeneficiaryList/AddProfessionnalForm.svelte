@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		GetProfessionalsFromStructuresDocument,
-		GetProfessionalsFromStructuresQuery,
+		type GetProfessionalsFromStructuresQuery,
 		RemoveReferentDocument,
 		UpdateReferentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';

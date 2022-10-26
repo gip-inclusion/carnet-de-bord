@@ -7,8 +7,7 @@
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button } from '$lib/ui/base';
-	import { openComponent } from '$lib/stores';
-	import { session } from '$app/stores';
+	import { accountData, openComponent } from '$lib/stores';
 	import { post } from '$lib/utils/post';
 	import type { SvelteEventHandler } from '$lib/types';
 	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
@@ -68,11 +67,12 @@
 	}
 
 	function showAddNoteBookMember() {
+		const { lastname, firstname } = $accountData.professional || $accountData.professional;
 		openComponent.open({
 			component: ProNotebookMemberForm,
 			props: {
-				firstname: $session.user.firstname,
-				lastname: $session.user.lastname,
+				firstname,
+				lastname,
 				notebookId,
 			},
 		});

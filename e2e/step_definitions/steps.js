@@ -1,5 +1,4 @@
 const {
-	UUID,
 	loginStub,
 	seedDatabase,
 	onBoardingSetup,
@@ -10,8 +9,8 @@ const { Alors, Quand, Soit } = require('./fr');
 
 const { I } = inject();
 
-// The database is seed before each test
-Before(async (params) => {
+// The database is sed before each test
+Before(async () => {
 	seedDatabase();
 });
 
@@ -21,16 +20,16 @@ Soit("un utilisateur sur la page d'accueil", () => {
 
 Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
 	await onBoardingSetup(userType, email, true);
-	await loginStub(userType, email);
-	I.amOnPage(`/auth/jwt/${UUID}`);
+	const uuid = await loginStub(userType, email);
+	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
 Soit(
 	"un {string} authentifié pour la première fois avec l'email {string}",
 	async (userType, email) => {
 		await onBoardingSetup(userType, email, false);
-		await loginStub(userType, email);
-		I.amOnPage(`/auth/jwt/${UUID}`);
+		const uuid = await loginStub(userType, email);
+		I.amOnPage(`/auth/jwt/${uuid}`);
 	}
 );
 
@@ -39,32 +38,32 @@ Soit('un utilisateur sur la page {string}', (page) => {
 });
 
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
-	await loginStub('pro', email);
-	I.amOnPage(`/auth/jwt/${UUID}`);
+	const uuid = await loginStub('pro', email);
+	I.amOnPage(`/auth/jwt/${uuid}`);
 });
 
 Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
-	await loginStub('pro', email);
+	const uuid = await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastName(lastname);
-	I.amOnPage(`/auth/jwt/${UUID}?url=/pro/carnet/${notebookId}`);
+	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
 });
 
 Soit(
 	"le chargé d'orientation assigné {string} sur le carnet de {string}",
 	async (email, lastname) => {
 		await onBoardingSetup("chargé d'orientation", email, true);
-		await loginStub("chargé d'orientation", email);
+		const uuid = await loginStub("chargé d'orientation", email);
 		const notebookId = await goToNotebookForLastName(lastname);
 		await addMember(email, notebookId);
-		I.amOnPage(`/auth/jwt/${UUID}?url=/orientation/carnets/edition/${notebookId}`);
+		I.amOnPage(`/auth/jwt/${uuid}?url=/orientation/carnets/edition/${notebookId}`);
 	}
 );
 
 Soit("le chargé d'orientation {string} sur le carnet de {string}", async (email, lastname) => {
 	await onBoardingSetup("chargé d'orientation", email, true);
-	await loginStub("chargé d'orientation", email);
+	const uuid = await loginStub("chargé d'orientation", email);
 	const notebookId = await goToNotebookForLastName(lastname);
-	I.amOnPage(`/auth/jwt/${UUID}?url=/orientation/carnets/${notebookId}`);
+	I.amOnPage(`/auth/jwt/${uuid}?url=/orientation/carnets/${notebookId}`);
 });
 
 //
@@ -256,6 +255,10 @@ Alors('je vois {string} sous le titre {string}', async (text, title) => {
 		.find(`//*[text()[contains(.,'${text}')]]`);
 
 	I.see(text, item);
+});
+
+Alors("je ne vois pas d'alerte", () => {
+	I.dontSee(locate('.ri-alert-line'));
 });
 
 Alors('je ne vois pas le thème {string}', (theme) => {

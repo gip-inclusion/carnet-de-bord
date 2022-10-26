@@ -1,11 +1,11 @@
 mutation AddNotebookMemberBatch(
-	$member: notebook_member_insert_input!
-	$structure: beneficiary_structure_bool_exp!
+  $member: notebook_member_insert_input!
+  $structure: beneficiary_structure_bool_exp!
 ) {
-	insert_notebook_member(objects: [$member]) {
-		affected_rows
-	}
-	update_beneficiary_structure(where: $structure, _set: { status: "done" }) {
-		affected_rows
-	}
+  insert_notebook_member(objects: [$member]) {
+    affected_rows
+  }
+  update_beneficiary_structure(where: $structure, _set: { status: "done" }) {
+    affected_rows
+  }
 }

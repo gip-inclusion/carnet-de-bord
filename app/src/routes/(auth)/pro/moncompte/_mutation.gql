@@ -1,0 +1,41 @@
+mutation UpdateProfessionalProfile(
+  $firstname: String!
+  $lastname: String!
+  $mobileNumber: String!
+  $email: citext!
+  $position: String!
+  $id: uuid!
+  $structureId: uuid
+  $accountId: uuid!
+) {
+  updateProfessional: update_professional_by_pk(
+    _set: {
+      firstname: $firstname
+      lastname: $lastname
+      position: $position
+      email: $email
+      mobileNumber: $mobileNumber
+      structureId: $structureId
+    }
+    pk_columns: { id: $id }
+  ) {
+    id
+  }
+  updateAccount: update_account_by_pk(
+    pk_columns: { id: $accountId }
+    _set: { onboardingDone: true }
+  ) {
+    id
+    onboardingDone
+    confirmed
+    username
+    professional {
+      id
+      firstname
+      lastname
+      mobileNumber
+      email
+      position
+    }
+  }
+}

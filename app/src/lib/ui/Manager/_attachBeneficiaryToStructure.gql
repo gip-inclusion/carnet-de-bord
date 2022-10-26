@@ -1,7 +1,7 @@
 mutation AttachBeneficiaryToStructure($beneficiaryId: uuid!, $structureId: uuid!) {
-	insert_beneficiary_structure_one(
-		object: { beneficiaryId: $beneficiaryId, structureId: $structureId }
-	) {
-		id
-	}
+  insert_beneficiary_structure_one(
+    object: { beneficiaryId: $beneficiaryId, structureId: $structureId }
+  ) {
+    id
+  }
 }

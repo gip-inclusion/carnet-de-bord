@@ -1,3 +1,38 @@
+## [1.154.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.154.0...v1.154.1) (2022-10-21)
+
+
+### Bug Fixes
+
+* L'espace professionnel n'est plus fonctionnel ([#1191](https://github.com/SocialGouv/carnet-de-bord/issues/1191)) ([b1de4dd](https://github.com/SocialGouv/carnet-de-bord/commit/b1de4ddaa32078f07de7dd4393d73410fecfa85f))
+
+# [1.154.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.2...v1.154.0) (2022-10-20)
+
+
+### Features
+
+* actualisation des données des bénéficiaires par import ([9d4713d](https://github.com/SocialGouv/carnet-de-bord/commit/9d4713de8c2c03d8e0dab6cf0c7b7484f2968d00))
+
+## [1.153.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.1...v1.153.2) (2022-10-20)
+
+
+### Bug Fixes
+
+* Restauration du support des formats de date lors des imports via fichier csv. ([#1180](https://github.com/SocialGouv/carnet-de-bord/issues/1180)) ([65bdc53](https://github.com/SocialGouv/carnet-de-bord/commit/65bdc53c63f53c02746656fdb2b2e48750f1d9dc))
+
+## [1.153.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.153.0...v1.153.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* Mettre à jour les indicateurs de l'accueil après une action / un import. ([#1175](https://github.com/SocialGouv/carnet-de-bord/issues/1175)) ([9f1c24d](https://github.com/SocialGouv/carnet-de-bord/commit/9f1c24d9080bb088abcca1433d337038dbef02ab))
+
+# [1.153.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.152.0...v1.153.0) (2022-10-19)
+
+
+### Features
+
+* importer les pro PE avec leur adresse .fr au lieu de .net ([#1181](https://github.com/SocialGouv/carnet-de-bord/issues/1181)) ([2dd2670](https://github.com/SocialGouv/carnet-de-bord/commit/2dd2670913e0aac2d2bdb89651fbfa7593c3d342))
+
 # [1.152.0](https://github.com/SocialGouv/carnet-de-bord/compare/v1.151.1...v1.152.0) (2022-10-14)
 
 

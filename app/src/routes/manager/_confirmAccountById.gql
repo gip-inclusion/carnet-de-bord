@@ -1,9 +1,0 @@
-mutation ConfirmAccountById($id: uuid!, $accessKey: String!, $accessKeyDate: timestamptz!) {
-	account: update_account_by_pk(
-		pk_columns: { id: $id }
-		_set: { confirmed: true, accessKey: $accessKey, accessKeyDate: $accessKeyDate }
-	) {
-		id
-		accessKey
-	}
-}

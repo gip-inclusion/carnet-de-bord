@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createClient } from '@urql/svelte';
-import { getGraphqlAPI } from '$lib/config/variables/private';
-
-function getToken(session: { token?: string }) {
-	return session.token;
-}
+import { createClient } from '@urql/core';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default (session: any) => {
-	const graphqlAPI = session.graphqlAPI ? session.graphqlAPI : getGraphqlAPI();
+export default (
+	fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>,
+	apiUrl: string,
+	token?: string
+) => {
 	return createClient({
-		url: graphqlAPI,
+		url: apiUrl,
 		fetch,
 		fetchOptions: () => {
-			const token = getToken(session);
 			if (token) {
 				return {
 					headers: {

@@ -1,0 +1,14 @@
+query GetRomeCodes($search: String!, $labels: [String!]) {
+  search_rome_codes(args: { search: $search }, limit: 20) {
+    id
+    code
+    description
+    label
+  }
+  batch: rome_code(where: { label: { _in: $labels } }) {
+    id
+    code
+    description
+    label
+  }
+}

@@ -12,12 +12,21 @@ const mockHeader = (headers: Record<string, string> = {}) => {
 	const map = new Map(Object.entries(headers));
 	return Object.assign(map, { append: () => ({}) });
 };
+const mockCookies = (cookies: Record<string, string> = {}) => {
+	const map = new Map(Object.entries(cookies));
+	return Object.assign(map, { append: () => ({}), serialize: () => '' });
+};
 
 function _mockRequest(data: unknown, headers: Record<string, string> = {}): RequestEvent {
 	return {
+		cookies: mockCookies({}),
+		fetch: () => Promise.resolve(new Response()),
+		setHeaders: (_: Record<string, string>) => ({}),
 		url: new URL('https://io.io'),
 		locals: {},
 		params: {},
+		routeId: 'route',
+		getClientAddress: () => '',
 		platform: 'test',
 		request: {
 			formData: null,

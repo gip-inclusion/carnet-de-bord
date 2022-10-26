@@ -1,5 +1,5 @@
 mutation UpdateProfessionalAccount($id: uuid!, $payload: professional_set_input!) {
-  update_professional_by_pk(_set: $payload pk_columns: {id: $id}) {
+  update_professional_by_pk(_set: $payload, pk_columns: { id: $id }) {
     id
   }
 }

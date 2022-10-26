@@ -2,7 +2,7 @@
 	import { openComponent } from '$lib/stores';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
 	import AdminStructureForm from './AdminStructureForm.svelte';
-	import { session } from '$app/stores';
+	import { connectedUser, token } from '$lib/stores';
 	import { postAdminStructure } from '$lib/services/backend';
 	import Alert from '../base/Alert.svelte';
 
@@ -16,16 +16,16 @@
 	}
 
 	async function insertAdminSubmitHandler(data: AdminStructureAccountInput) {
-		const admin = Object.assign(data, { deployment_id: $session.user.deploymentId });
+		const admin = Object.assign(data, { deployment_id: $connectedUser.deploymentId });
 		try {
 			await postAdminStructure(
-				`${$session.backendAPI}/v1/admin_structures/create`,
+				'/v1/admin_structures/create',
 				{
 					admin,
 					structure_id: structureId,
 				},
 				{
-					'jwt-token': $session.token,
+					'jwt-token': $token,
 				}
 			);
 			if (onClose) {
