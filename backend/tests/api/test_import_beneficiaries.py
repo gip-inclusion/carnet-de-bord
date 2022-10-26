@@ -201,7 +201,7 @@ async def test_update_beneficiary_check_all_fields(
         rome_code.label for rome_code in wanted_jobs
     ]
     # not re-imported:
-    assert beneficiary_in_db.nir == None
+    assert beneficiary_in_db.nir == harry_covert.nir
 
 
 async def test_update_beneficiary_no_field_changed(
