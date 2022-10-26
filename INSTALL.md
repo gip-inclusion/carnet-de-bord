@@ -33,9 +33,7 @@ cp .env.sample .env
 **3/** Récupérer les dépendances du projet
 
 ```sh
-cd app
-yarn # installer les dépendances de l'application
-cd -
+npm ci --prefix app # installer les dépendances de l'application
 pre-commit install # installer les hooks Git
 ```
 
@@ -68,8 +66,7 @@ hasura console --envfile ../.env # lancer la console hasura en utilisant les var
 Dans un troisième terminal :
 
 ```sh
-cd app
-yarn dev # démarrer le serveur de développement SvelteKit
+npm --prefix app run dev # démarrer le serveur de développement SvelteKit
 ```
 
 **7/** Configurer et démarrer l'API back-end métier
