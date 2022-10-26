@@ -157,9 +157,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
 
                 # Keep track of the data we want to insert
                 if beneficiary:
-                    await save_external_data(
-                        connection, beneficiary, csv_row, hash_result
-                    )
+                    professional = None
 
                     if beneficiary.notebook:
                         professional = await import_pe_referent(
@@ -169,22 +167,20 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                             beneficiary.deployment_id,
                             beneficiary.notebook.id,
                         )
-
-                        if professional:
-                            await save_external_data(
-                                connection,
-                                beneficiary,
-                                csv_row,
-                                hash_result,
-                                professional=professional,
-                                check_hash=False,
-                            )
                     else:
                         logging.error(
                             "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
                                 row["identifiant_unique_de"]
                             )
                         )
+
+                    await save_external_data(
+                        connection,
+                        beneficiary,
+                        csv_row,
+                        hash_result,
+                        professional=professional,
+                    )
                 else:
                     logging.info(
                         "{} - No new beneficiary to import. Skipping.".format(
@@ -418,7 +414,6 @@ async def save_external_data(
     csv_row: PrincipalCsvRow,
     hash_result: str,
     professional: Professional | None = None,
-    check_hash: bool = True,
 ) -> ExternalData | None:
 
     # Do we already have some external data for this beneficiary?
@@ -432,9 +427,9 @@ async def save_external_data(
     if professional:
         external_data_dict["professional"] = professional.dict()
 
-    # If we have some external_data and the hash is the same and
-    # we've been asked to check the hash value, return
-    if external_data and hash_result == external_data.hash and check_hash:
+    # If we have some external_data and the hash is the same
+    # return
+    if external_data and hash_result == external_data.hash:
         return external_data
 
     if external_data is None:
