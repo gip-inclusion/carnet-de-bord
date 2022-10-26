@@ -1,4 +1,4 @@
-from api.v1.routers.csv2json import nir_format
+from api.db.models.nir import nir_format
 
 
 async def test_nir_length():

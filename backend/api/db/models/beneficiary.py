@@ -3,6 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field, validator
 
+from api.db.models.nir import nir_format
 from api.db.models.notebook import Notebook
 
 
@@ -163,5 +164,13 @@ class BeneficiaryImport(BaseModel):
             "NV1",
         ]:
             return education_level.strip()
+        else:
+            return None
+
+    @validator("nir")
+    def parse_nir(cls, nir: str):
+        validation_error = nir_format(nir)
+        if not validation_error:
+            return nir
         else:
             return None

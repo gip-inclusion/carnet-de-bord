@@ -11,6 +11,7 @@ from pandas import DataFrame
 from pydantic import BaseModel
 
 from api.core.settings import settings
+from api.db.models.nir import nir_format
 from api.db.models.role import RoleEnum
 from api.db.models.structure import StructureCsvRowResponse, map_csv_row
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
@@ -152,20 +153,6 @@ def parse_date(field: str):
             return value.strftime(DATE_YMD_HYPHEN_FORMAT)
         except ValueError:
             pass
-
-
-def nir_format(field: str):
-    if field:
-        nir = field.strip()
-        if len(nir) != 15:
-            return "The NIR must be 15 digit long"
-        if not all([char.isdigit() for char in nir]):
-            return "The NIR cannot contain letters"
-        payload = int(nir[:13])
-        check = int(nir[13:])
-        valid = 97 - payload % 97 == check
-        if not valid:
-            return "The NIR provided has invalid format"
 
 
 async def file_to_json(
