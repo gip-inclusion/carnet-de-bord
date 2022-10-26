@@ -97,6 +97,7 @@ def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
         parse_field("Niveau de formation", beneficiary),
         parse_field("Structure", beneficiary),
         parse_field("Accompagnateurs", beneficiary),
+        parse_field("NIR", beneficiary, validators=[nir_format]),
     ]
 
 
@@ -151,6 +152,19 @@ def parse_date(field: str):
             return value.strftime(DATE_YMD_HYPHEN_FORMAT)
         except ValueError:
             pass
+
+
+def nir_format(field: str):
+    nir = field.strip()
+    if len(nir) != 15:
+        return "The NIR must be 15 digit long"
+    if not all([char.isdigit() for char in nir]):
+        return "The NIR cannot contain letters"
+    payload = int(nir[:13])
+    check = int(nir[13:])
+    valid = 97 - payload % 97 == check
+    if not valid:
+        return "The NIR provided has invalid format"
 
 
 async def file_to_json(
