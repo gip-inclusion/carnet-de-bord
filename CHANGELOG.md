@@ -1,3 +1,10 @@
+## [1.154.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.154.1...v1.154.2) (2022-10-26)
+
+
+### Bug Fixes
+
+* les professionnels sont maintenant correctement enregistrés dans l'historique d'import PE ([#1179](https://github.com/SocialGouv/carnet-de-bord/issues/1179)) ([26cb81f](https://github.com/SocialGouv/carnet-de-bord/commit/26cb81f88c761f407a2b30d98115f1a1c2c68198))
+
 ## [1.154.1](https://github.com/SocialGouv/carnet-de-bord/compare/v1.154.0...v1.154.1) (2022-10-21)
 
 
