@@ -36,6 +36,14 @@ repos:
         entry: |
           bash -c 'npm --prefix app run fix:prettier --write "${@#*/}"' --
 
+      - id: app-check
+        name: run svelte-check (app)
+        language: system
+        files: ^app/.*$
+        types_or: [javascript, ts, svelte]
+        entry: |
+          bash -c 'npm --prefix app run check' --
+
       - id: app-eslint
         name: run eslint (app)
         language: system
