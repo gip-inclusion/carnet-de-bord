@@ -13,4 +13,4 @@ async def test_nir_only_digits():
 
 
 async def test_nir_wrong_key():
-    assert nir_format("185077505612324") == "The NIR provided has invalid format"
+    assert nir_format("185077505612324") == "The provided NIR is not valid"

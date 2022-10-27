@@ -9,4 +9,4 @@ def nir_format(field: str):
         check = int(nir[13:])
         valid = 97 - payload % 97 == check
         if not valid:
-            return "The NIR provided has invalid format"
+            return "The provided NIR is not valid"
