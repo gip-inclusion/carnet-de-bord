@@ -1,4 +1,5 @@
 import logging
+import json
 from datetime import date
 from typing import List
 
@@ -20,7 +21,13 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
     response = test_client.post(
         "/v1/beneficiaries/bulk",
         headers={"jwt-token": f"{get_professionnal_jwt}"},
-        data=ListOf.parse_obj([]).json(),
+        data=json.dumps(
+            {
+                "beneficiaries": [],
+                "need_orientation": True,
+            },
+            default=str,
+        ),
     )
     assert response.status_code == 400
 
@@ -31,7 +38,13 @@ async def import_beneficiaries(
     return client.post(
         "/v1/beneficiaries/bulk",
         headers={"jwt-token": f"{token}"},
-        data=ListOf.parse_obj(beneficiaries).json(),
+        data=json.dumps(
+            {
+                "need_orientation": True,
+                "beneficiaries": [benef.dict() for benef in beneficiaries],
+            },
+            default=str,
+        ),
     )
 
 

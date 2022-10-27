@@ -24,6 +24,7 @@ from api.db.models.beneficiary import (
 )
 from api.db.models.notebook_member import NotebookMemberInsert
 from api.db.models.professional import Professional
+from api.db.crud.notebook_info import insert_or_update_need_orientation
 
 logger = logging.getLogger(__name__)
 
@@ -253,6 +254,7 @@ async def create_beneficiary_with_notebook_and_referent(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id: UUID,
+    need_orientation: bool,
 ) -> UUID:
 
     beneficiary_id: UUID | None = await insert_beneficiary(
@@ -268,6 +270,10 @@ async def create_beneficiary_with_notebook_and_referent(
 
     if not new_notebook_id:
         raise InsertFailError("insert notebook failed")
+
+    await insert_or_update_need_orientation(
+        connection, new_notebook_id, None, need_orientation
+    )
 
     await insert_wanted_jobs(connection, new_notebook_id, beneficiary)
     await add_referent_and_structure_to_beneficiary(
