@@ -1583,7 +1583,7 @@ export enum BeneficiaryConstraint {
 	FirstnameLastnameDateOfBirthUniqueIdx = 'firstname_lastname_date_of_birth_unique_idx',
 }
 
-/** beneficiary orientation info */
+/** beneficiary orientation infos */
 export type BeneficiaryInfo = {
 	__typename?: 'beneficiary_info';
 	/** An object relationship */
@@ -3716,6 +3716,10 @@ export type MutationRoot = {
 	delete_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
 	/** delete single row from the table: "notebook_focus" */
 	delete_notebook_focus_by_pk?: Maybe<NotebookFocus>;
+	/** delete data from the table: "notebook_info" */
+	delete_notebook_info?: Maybe<NotebookInfoMutationResponse>;
+	/** delete single row from the table: "notebook_info" */
+	delete_notebook_info_by_pk?: Maybe<NotebookInfo>;
 	/** delete data from the table: "notebook_member" */
 	delete_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** delete single row from the table: "notebook_member" */
@@ -3838,6 +3842,10 @@ export type MutationRoot = {
 	insert_notebook_focus?: Maybe<NotebookFocusMutationResponse>;
 	/** insert a single row into the table: "notebook_focus" */
 	insert_notebook_focus_one?: Maybe<NotebookFocus>;
+	/** insert data into the table: "notebook_info" */
+	insert_notebook_info?: Maybe<NotebookInfoMutationResponse>;
+	/** insert a single row into the table: "notebook_info" */
+	insert_notebook_info_one?: Maybe<NotebookInfo>;
 	/** insert data into the table: "notebook_member" */
 	insert_notebook_member?: Maybe<NotebookMemberMutationResponse>;
 	/** insert a single row into the table: "notebook_member" */
@@ -4000,6 +4008,12 @@ export type MutationRoot = {
 	update_notebook_focus_by_pk?: Maybe<NotebookFocus>;
 	/** update multiples rows of table: "notebook_focus" */
 	update_notebook_focus_many?: Maybe<Array<Maybe<NotebookFocusMutationResponse>>>;
+	/** update data of the table: "notebook_info" */
+	update_notebook_info?: Maybe<NotebookInfoMutationResponse>;
+	/** update single row of the table: "notebook_info" */
+	update_notebook_info_by_pk?: Maybe<NotebookInfo>;
+	/** update multiples rows of table: "notebook_info" */
+	update_notebook_info_many?: Maybe<Array<Maybe<NotebookInfoMutationResponse>>>;
 	/** update multiples rows of table: "notebook" */
 	update_notebook_many?: Maybe<Array<Maybe<NotebookMutationResponse>>>;
 	/** update data of the table: "notebook_member" */
@@ -4266,6 +4280,16 @@ export type MutationRootDeleteNotebookFocusArgs = {
 /** mutation root */
 export type MutationRootDeleteNotebookFocusByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookInfoArgs = {
+	where: NotebookInfoBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookInfoByPkArgs = {
+	notebookId: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -4606,6 +4630,18 @@ export type MutationRootInsertNotebookFocusArgs = {
 export type MutationRootInsertNotebookFocusOneArgs = {
 	object: NotebookFocusInsertInput;
 	on_conflict?: InputMaybe<NotebookFocusOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookInfoArgs = {
+	objects: Array<NotebookInfoInsertInput>;
+	on_conflict?: InputMaybe<NotebookInfoOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookInfoOneArgs = {
+	object: NotebookInfoInsertInput;
+	on_conflict?: InputMaybe<NotebookInfoOnConflict>;
 };
 
 /** mutation root */
@@ -5122,6 +5158,23 @@ export type MutationRootUpdateNotebookFocusManyArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookInfoArgs = {
+	_set?: InputMaybe<NotebookInfoSetInput>;
+	where: NotebookInfoBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookInfoByPkArgs = {
+	_set?: InputMaybe<NotebookInfoSetInput>;
+	pk_columns: NotebookInfoPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookInfoManyArgs = {
+	updates: Array<NotebookInfoUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateNotebookManyArgs = {
 	updates: Array<NotebookUpdates>;
 };
@@ -5379,6 +5432,8 @@ export type Notebook = {
 	members_aggregate: NotebookMemberAggregate;
 	/** return the number of professionnal for a notebook */
 	nbMembers?: Maybe<Scalars['bigint']>;
+	/** An object relationship */
+	notebookInfo?: Maybe<NotebookInfo>;
 	rightAre: Scalars['Boolean'];
 	rightAss?: Maybe<Scalars['Boolean']>;
 	rightBonus: Scalars['Boolean'];
@@ -6052,6 +6107,7 @@ export type NotebookBoolExp = {
 	id?: InputMaybe<UuidComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
 	nbMembers?: InputMaybe<BigintComparisonExp>;
+	notebookInfo?: InputMaybe<NotebookInfoBoolExp>;
 	rightAre?: InputMaybe<BooleanComparisonExp>;
 	rightAss?: InputMaybe<BooleanComparisonExp>;
 	rightBonus?: InputMaybe<BooleanComparisonExp>;
@@ -6847,6 +6903,215 @@ export type NotebookFocusUpdates = {
 	where: NotebookFocusBoolExp;
 };
 
+/** notebook orientation infos */
+export type NotebookInfo = {
+	__typename?: 'notebook_info';
+	createdAt: Scalars['timestamptz'];
+	needOrientation: Scalars['Boolean'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebookId: Scalars['uuid'];
+	orientation: OrientationTypeEnum;
+	/** An object relationship */
+	orientationType: OrientationType;
+	updatedAt: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "notebook_info" */
+export type NotebookInfoAggregate = {
+	__typename?: 'notebook_info_aggregate';
+	aggregate?: Maybe<NotebookInfoAggregateFields>;
+	nodes: Array<NotebookInfo>;
+};
+
+/** aggregate fields of "notebook_info" */
+export type NotebookInfoAggregateFields = {
+	__typename?: 'notebook_info_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookInfoMaxFields>;
+	min?: Maybe<NotebookInfoMinFields>;
+};
+
+/** aggregate fields of "notebook_info" */
+export type NotebookInfoAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_info" */
+export type NotebookInfoAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<NotebookInfoMaxOrderBy>;
+	min?: InputMaybe<NotebookInfoMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "notebook_info" */
+export type NotebookInfoArrRelInsertInput = {
+	data: Array<NotebookInfoInsertInput>;
+	/** upsert condition */
+	on_conflict?: InputMaybe<NotebookInfoOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_info". All fields are combined with a logical 'AND'. */
+export type NotebookInfoBoolExp = {
+	_and?: InputMaybe<Array<NotebookInfoBoolExp>>;
+	_not?: InputMaybe<NotebookInfoBoolExp>;
+	_or?: InputMaybe<Array<NotebookInfoBoolExp>>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	needOrientation?: InputMaybe<BooleanComparisonExp>;
+	notebook?: InputMaybe<NotebookBoolExp>;
+	notebookId?: InputMaybe<UuidComparisonExp>;
+	orientation?: InputMaybe<OrientationTypeEnumComparisonExp>;
+	orientationType?: InputMaybe<OrientationTypeBoolExp>;
+	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_info" */
+export enum NotebookInfoConstraint {
+	/** unique or primary key constraint on columns "notebook_id" */
+	NotebookInfoPkey = 'notebook_info_pkey',
+}
+
+/** input type for inserting data into table "notebook_info" */
+export type NotebookInfoInsertInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	needOrientation?: InputMaybe<Scalars['Boolean']>;
+	notebook?: InputMaybe<NotebookObjRelInsertInput>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	orientation?: InputMaybe<OrientationTypeEnum>;
+	orientationType?: InputMaybe<OrientationTypeObjRelInsertInput>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type NotebookInfoMaxFields = {
+	__typename?: 'notebook_info_max_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "notebook_info" */
+export type NotebookInfoMaxOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type NotebookInfoMinFields = {
+	__typename?: 'notebook_info_min_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "notebook_info" */
+export type NotebookInfoMinOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "notebook_info" */
+export type NotebookInfoMutationResponse = {
+	__typename?: 'notebook_info_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookInfo>;
+};
+
+/** input type for inserting object relation for remote table "notebook_info" */
+export type NotebookInfoObjRelInsertInput = {
+	data: NotebookInfoInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<NotebookInfoOnConflict>;
+};
+
+/** on_conflict condition type for table "notebook_info" */
+export type NotebookInfoOnConflict = {
+	constraint: NotebookInfoConstraint;
+	update_columns?: Array<NotebookInfoUpdateColumn>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_info". */
+export type NotebookInfoOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	needOrientation?: InputMaybe<OrderBy>;
+	notebook?: InputMaybe<NotebookOrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	orientation?: InputMaybe<OrderBy>;
+	orientationType?: InputMaybe<OrientationTypeOrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_info */
+export type NotebookInfoPkColumnsInput = {
+	notebookId: Scalars['uuid'];
+};
+
+/** select columns of table "notebook_info" */
+export enum NotebookInfoSelectColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	NeedOrientation = 'needOrientation',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	Orientation = 'orientation',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "notebook_info" */
+export type NotebookInfoSetInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	needOrientation?: InputMaybe<Scalars['Boolean']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	orientation?: InputMaybe<OrientationTypeEnum>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "notebook_info" */
+export type NotebookInfoStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookInfoStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookInfoStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	needOrientation?: InputMaybe<Scalars['Boolean']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	orientation?: InputMaybe<OrientationTypeEnum>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "notebook_info" */
+export enum NotebookInfoUpdateColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	NeedOrientation = 'needOrientation',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	Orientation = 'orientation',
+	/** column name */
+	UpdatedAt = 'updatedAt',
+}
+
+export type NotebookInfoUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookInfoSetInput>;
+	where: NotebookInfoBoolExp;
+};
+
 /** input type for inserting data into table "notebook" */
 export type NotebookInsertInput = {
 	appointments?: InputMaybe<NotebookAppointmentArrRelInsertInput>;
@@ -6863,6 +7128,7 @@ export type NotebookInsertInput = {
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
+	notebookInfo?: InputMaybe<NotebookInfoObjRelInsertInput>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
@@ -7236,6 +7502,7 @@ export type NotebookOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	nbMembers?: InputMaybe<OrderBy>;
+	notebookInfo?: InputMaybe<NotebookInfoOrderBy>;
 	rightAre?: InputMaybe<OrderBy>;
 	rightAss?: InputMaybe<OrderBy>;
 	rightBonus?: InputMaybe<OrderBy>;
@@ -8264,6 +8531,10 @@ export type OrientationType = {
 	beneficiary_infos_aggregate: BeneficiaryInfoAggregate;
 	id: Scalars['String'];
 	label: Scalars['String'];
+	/** An array relationship */
+	notebook_infos: Array<NotebookInfo>;
+	/** An aggregate relationship */
+	notebook_infos_aggregate: NotebookInfoAggregate;
 };
 
 /** table contenant les différents types d’orientation */
@@ -8282,6 +8553,24 @@ export type OrientationTypeBeneficiaryInfosAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
 	where?: InputMaybe<BeneficiaryInfoBoolExp>;
+};
+
+/** table contenant les différents types d’orientation */
+export type OrientationTypeNotebookInfosArgs = {
+	distinct_on?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookInfoOrderBy>>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
+};
+
+/** table contenant les différents types d’orientation */
+export type OrientationTypeNotebookInfosAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookInfoOrderBy>>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
 };
 
 /** aggregated selection of "orientation_type" */
@@ -8313,6 +8602,7 @@ export type OrientationTypeBoolExp = {
 	beneficiary_infos?: InputMaybe<BeneficiaryInfoBoolExp>;
 	id?: InputMaybe<StringComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
+	notebook_infos?: InputMaybe<NotebookInfoBoolExp>;
 };
 
 /** unique or primary key constraints on table "orientation_type" */
@@ -8344,6 +8634,7 @@ export type OrientationTypeInsertInput = {
 	beneficiary_infos?: InputMaybe<BeneficiaryInfoArrRelInsertInput>;
 	id?: InputMaybe<Scalars['String']>;
 	label?: InputMaybe<Scalars['String']>;
+	notebook_infos?: InputMaybe<NotebookInfoArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -8388,6 +8679,7 @@ export type OrientationTypeOrderBy = {
 	beneficiary_infos_aggregate?: InputMaybe<BeneficiaryInfoAggregateOrderBy>;
 	id?: InputMaybe<OrderBy>;
 	label?: InputMaybe<OrderBy>;
+	notebook_infos_aggregate?: InputMaybe<NotebookInfoAggregateOrderBy>;
 };
 
 /** primary key columns input for table: orientation_type */
@@ -8826,6 +9118,12 @@ export type QueryRoot = {
 	notebook_focus_aggregate: NotebookFocusAggregate;
 	/** fetch data from the table: "notebook_focus" using primary key columns */
 	notebook_focus_by_pk?: Maybe<NotebookFocus>;
+	/** fetch data from the table: "notebook_info" */
+	notebook_info: Array<NotebookInfo>;
+	/** fetch aggregated fields from the table: "notebook_info" */
+	notebook_info_aggregate: NotebookInfoAggregate;
+	/** fetch data from the table: "notebook_info" using primary key columns */
+	notebook_info_by_pk?: Maybe<NotebookInfo>;
 	/** fetch data from the table: "notebook_member" */
 	notebook_member: Array<NotebookMember>;
 	/** fetch aggregated fields from the table: "notebook_member" */
@@ -9292,6 +9590,26 @@ export type QueryRootNotebookFocusAggregateArgs = {
 
 export type QueryRootNotebookFocusByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootNotebookInfoArgs = {
+	distinct_on?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookInfoOrderBy>>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
+};
+
+export type QueryRootNotebookInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookInfoOrderBy>>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
+};
+
+export type QueryRootNotebookInfoByPkArgs = {
+	notebookId: Scalars['uuid'];
 };
 
 export type QueryRootNotebookMemberArgs = {
@@ -10977,6 +11295,14 @@ export type SubscriptionRoot = {
 	notebook_focus_by_pk?: Maybe<NotebookFocus>;
 	/** fetch data from the table in a streaming manner : "notebook_focus" */
 	notebook_focus_stream: Array<NotebookFocus>;
+	/** fetch data from the table: "notebook_info" */
+	notebook_info: Array<NotebookInfo>;
+	/** fetch aggregated fields from the table: "notebook_info" */
+	notebook_info_aggregate: NotebookInfoAggregate;
+	/** fetch data from the table: "notebook_info" using primary key columns */
+	notebook_info_by_pk?: Maybe<NotebookInfo>;
+	/** fetch data from the table in a streaming manner : "notebook_info" */
+	notebook_info_stream: Array<NotebookInfo>;
 	/** fetch data from the table: "notebook_member" */
 	notebook_member: Array<NotebookMember>;
 	/** fetch aggregated fields from the table: "notebook_member" */
@@ -11579,6 +11905,32 @@ export type SubscriptionRootNotebookFocusStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<NotebookFocusStreamCursorInput>>;
 	where?: InputMaybe<NotebookFocusBoolExp>;
+};
+
+export type SubscriptionRootNotebookInfoArgs = {
+	distinct_on?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookInfoOrderBy>>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
+};
+
+export type SubscriptionRootNotebookInfoAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookInfoOrderBy>>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
+};
+
+export type SubscriptionRootNotebookInfoByPkArgs = {
+	notebookId: Scalars['uuid'];
+};
+
+export type SubscriptionRootNotebookInfoStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookInfoStreamCursorInput>>;
+	where?: InputMaybe<NotebookInfoBoolExp>;
 };
 
 export type SubscriptionRootNotebookMemberArgs = {
@@ -12354,17 +12706,13 @@ export type GetBeneficiariesQuery = {
 		firstname: string;
 		lastname: string;
 		dateOfBirth: string;
-		beneficiaryInfo?: {
-			__typename?: 'beneficiary_info';
-			orientation_type: { __typename?: 'orientation_type'; id: string; label: string };
-		} | null;
-		structures: Array<{
-			__typename?: 'beneficiary_structure';
-			structure: { __typename?: 'structure'; id: string; name: string };
-		}>;
 		notebook?: {
 			__typename?: 'notebook';
 			id: string;
+			notebookInfo?: {
+				__typename?: 'notebook_info';
+				orientationType: { __typename?: 'orientation_type'; id: string; label: string };
+			} | null;
 			members: Array<{
 				__typename?: 'notebook_member';
 				id: string;
@@ -12388,6 +12736,10 @@ export type GetBeneficiariesQuery = {
 				};
 			}>;
 		} | null;
+		structures: Array<{
+			__typename?: 'beneficiary_structure';
+			structure: { __typename?: 'structure'; id: string; name: string };
+		}>;
 	}>;
 };
 
@@ -12481,13 +12833,13 @@ export type GetStructuresWithProQuery = {
 };
 
 export type UpdateOrientationMutationVariables = Exact<{
-	objects: Array<BeneficiaryInfoInsertInput> | BeneficiaryInfoInsertInput;
+	objects: Array<NotebookInfoInsertInput> | NotebookInfoInsertInput;
 }>;
 
 export type UpdateOrientationMutation = {
 	__typename?: 'mutation_root';
-	insert_beneficiary_info?: {
-		__typename?: 'beneficiary_info_mutation_response';
+	insert_notebook_info?: {
+		__typename?: 'notebook_info_mutation_response';
 		affected_rows: number;
 	} | null;
 };
@@ -15846,18 +16198,27 @@ export const GetBeneficiariesDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiaryInfo' },
+									name: { kind: 'Name', value: 'notebook' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'orientation_type' },
+												name: { kind: 'Name', value: 'notebookInfo' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientationType' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
 													],
 												},
 											},
@@ -16336,7 +16697,7 @@ export const UpdateOrientationDocument = {
 								kind: 'NonNullType',
 								type: {
 									kind: 'NamedType',
-									name: { kind: 'Name', value: 'beneficiary_info_insert_input' },
+									name: { kind: 'Name', value: 'notebook_info_insert_input' },
 								},
 							},
 						},
@@ -16348,7 +16709,7 @@ export const UpdateOrientationDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_beneficiary_info' },
+						name: { kind: 'Name', value: 'insert_notebook_info' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -16364,7 +16725,7 @@ export const UpdateOrientationDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'constraint' },
-											value: { kind: 'EnumValue', value: 'beneficiary_info_pkey' },
+											value: { kind: 'EnumValue', value: 'notebook_info_pkey' },
 										},
 										{
 											kind: 'ObjectField',

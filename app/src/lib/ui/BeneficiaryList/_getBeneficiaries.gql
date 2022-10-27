@@ -20,10 +20,12 @@ query GetBeneficiaries(
     firstname
     lastname
     dateOfBirth
-    beneficiaryInfo {
-      orientation_type {
-        id
-        label
+    notebook {
+      notebookInfo {
+        orientationType {
+          id
+          label
+        }
       }
     }
     structures {

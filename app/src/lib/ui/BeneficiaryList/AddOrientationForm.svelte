@@ -43,7 +43,7 @@
 					orientation: selectedOrientation,
 				})),
 			},
-			{ additionalTypenames: ['beneficiary_info'] }
+			{ additionalTypenames: ['notebook_info'] }
 		);
 		if (updateResponse.error) {
 			error = true;

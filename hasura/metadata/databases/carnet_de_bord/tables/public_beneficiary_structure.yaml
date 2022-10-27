@@ -58,7 +58,14 @@ insert_permissions:
 select_permissions:
   - role: admin_cdb
     permission:
-      columns: []
+      columns:
+        - status
+        - data
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+        - structure_id
       filter: {}
   - role: admin_structure
     permission:

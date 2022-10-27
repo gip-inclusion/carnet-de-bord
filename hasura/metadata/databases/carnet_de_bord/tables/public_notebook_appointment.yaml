@@ -53,6 +53,19 @@ insert_permissions:
         - notebook_id
         - status
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - status
+        - date
+        - created_at
+        - deleted_at
+        - updated_at
+        - account_id
+        - deleted_by
+        - id
+        - notebook_id
+      filter: {}
   - role: orientation_manager
     permission:
       columns:

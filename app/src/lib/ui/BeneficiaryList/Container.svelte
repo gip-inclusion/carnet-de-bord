@@ -82,7 +82,7 @@
 			withMembers: getWithMemberFilter(filter),
 		},
 		{
-			additionalTypenames: ['beneficiary', 'notebook_member', 'beneficiary_info'],
+			additionalTypenames: ['beneficiary', 'notebook_member', 'notebook_info'],
 			requestPolicy: 'cache-and-network',
 		}
 	);
