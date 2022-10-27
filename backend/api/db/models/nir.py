@@ -2,7 +2,7 @@ def nir_format(field: str):
     if field:
         nir = field.strip()
         if len(nir) != 15:
-            return "The NIR must be 15 digit long"
+            return "The NIR must be 15 digits long"
         if not all([char.isdigit() for char in nir]):
             return "The NIR cannot contain letters"
         payload = int(nir[:13])
