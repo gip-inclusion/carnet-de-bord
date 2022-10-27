@@ -95,6 +95,7 @@
 	let parsePromise: Promise<BeneficiaryCsvResponse[]>;
 	let insertPromise: Promise<BeneficiaryCsvResponse[]>;
 	let beneficiariesToImport = [];
+	let mode: 'oriented' | 'unoriented' | null = null;
 
 	async function convertCsvFile(formData: FormData): Promise<BeneficiaryCsvResponse[]> {
 		const beneficiaries = await postApiFormData<BeneficiaryCsvResponse[]>(
@@ -195,7 +196,32 @@
 </script>
 
 <div class="flex flex-col gap-6">
-	{#if insertPromise === undefined}
+	{#if !mode}
+		<div class="flex justify-around">
+			<Button
+				outline
+				icon="fr-icon-group-line"
+				iconSide="left"
+				classNames="fr-btn--lg"
+				on:click={() => {
+					mode = 'unoriented';
+				}}
+			>
+				<span class="block max-w-min">Importer des nouveaux bénéficiaires</span>
+			</Button>
+			<Button
+				outline
+				icon="fr-icon-group-fill"
+				iconSide="left"
+				classNames="fr-btn--lg"
+				on:click={() => {
+					mode = 'oriented';
+				}}
+			>
+				<span class="block max-w-min">Importer des bénéficiaires existants</span>
+			</Button>
+		</div>
+	{:else if insertPromise === undefined}
 		{#if parsePromise === undefined}
 			<div>
 				Veuillez fournir un fichier au format EXCEL ou CSV.
