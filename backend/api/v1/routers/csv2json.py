@@ -103,29 +103,22 @@ def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
 
 
 def parse_field(col_name: str, line, validators=[], parser=lambda field: field):
+    value = None
     try:
         value = line[col_name]
-        validation_errors = [check(value) for check in validators if check(value)]
-        if not validation_errors:
-            return FieldValue.parse_obj(
-                {"column_name": col_name, "value": parser(value)}
-            )
-        else:
-            return ParseError.parse_obj(
-                {
-                    "column_name": col_name,
-                    "value": value,
-                    "error_messages": validation_errors,
-                },
-            )
-
     except KeyError:
+        pass
+
+    validation_errors = [check(value) for check in validators if check(value)]
+    if not validation_errors:
+        return FieldValue.parse_obj({"column_name": col_name, "value": parser(value)})
+    else:
         return ParseError.parse_obj(
             {
                 "column_name": col_name,
-                "value": None,
-                "error_messages": [f"Missing column {col_name}"],
-            }
+                "value": value,
+                "error_messages": validation_errors,
+            },
         )
 
 
