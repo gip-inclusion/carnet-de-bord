@@ -163,6 +163,7 @@ async def file_to_json(
             df = pd.read_excel(
                 data,
                 header=0,
+                dtype=object,
             )
     elif file_info.mime_type in ["text/plain", "text/csv"]:
 
@@ -175,6 +176,7 @@ async def file_to_json(
                 encoding=charset["encoding"],
                 skip_blank_lines=True,
                 sep=";",
+                dtype=object,
             )
     else:
         raise HTTPException(
