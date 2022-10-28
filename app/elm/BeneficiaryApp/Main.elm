@@ -6,6 +6,8 @@ import Html exposing (..)
 import Http
 import Json.Encode
 
+import BeneficiaryApp.Notebook exposing (rootDecoder, Root)
+
 
 type alias Flags =
     { token : Token, serverUrl : String, beneficiaryId : String }
@@ -37,7 +39,7 @@ type alias GqlVariables =
     }
 
 
-getBeneficiary : String -> String -> Token -> (Result Http.Error String -> msg) -> Cmd msg
+getBeneficiary : String -> String -> Token -> (Result Http.Error Root -> msg) -> Cmd msg
 getBeneficiary beneficiaryId serverUrl token msg =
     let
         gqlQuery =
@@ -210,7 +212,7 @@ fragment notebookFragment on notebook {
         , headers = [ Http.header "authorization" ("Bearer " ++ token) ]
         , url = serverUrl
         , body = Http.jsonBody (encodeGqlQuery gqlQuery)
-        , expect = Http.expectString msg
+        , expect = Http.expectJson msg rootDecoder
         , timeout = Nothing
         , tracker = Nothing
         }
@@ -224,7 +226,7 @@ type alias Model =
     { token : Token
     , serverUrl : String
     , beneficiaryId : String
-    , beneficiaryContent : Maybe String
+    , beneficiaryContent : Maybe Root
     }
 
 
@@ -237,7 +239,7 @@ init flags =
       }
     , Cmd.batch
         [ sendMessage "Out of elm"
-        , getBeneficiary flags.beneficiaryId flags.serverUrl flags.token BeneficiaryReceived
+        , getBeneficiary flags.beneficiaryId flags.serverUrl flags.token GotBeneficiary
         ]
     )
 
@@ -249,7 +251,7 @@ init flags =
 type Msg
     = Send
     | Recv String
-    | BeneficiaryReceived (Result Http.Error String)
+    | GotBeneficiary (Result Http.Error Root)
 
 
 
@@ -267,11 +269,14 @@ update msg model =
             , sendMessage "Out of elm"
             )
 
-        BeneficiaryReceived result ->
+        GotBeneficiary result ->
+            let
+                _ = Debug.log "GotBeneficiary" result
+            in
             case result of
                 -- Do nothing for now
                 Ok beneficiaryContent ->
-                    ( { model | beneficiaryContent = Just beneficiaryContent }, Cmd.none )
+                    ( { model | beneficiaryContent = Just beneficiaryContent} , Cmd.none )
 
                 Err e ->
                     ( model, Cmd.none )
@@ -312,7 +317,9 @@ view model =
                         "No content loaded"
 
                     Just content ->
-                        content
+                        case (List.head content.data.notebook) of
+                            Just notebook -> "Got JSON for id: " ++ notebook.id
+                            Nothing -> "No notebook found for beneficiary"
             ]
         ]
 
