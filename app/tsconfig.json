@@ -12,10 +12,18 @@
 		"preserveValueImports": false
 	},
 	"include": [
-		"src/**/*.d.ts",
+		".svelte-kit/ambient.d.ts",
+		".svelte-kit/types/**/$types.d.ts",
+		"vite.config.ts",
 		"src/**/*.js",
 		"src/**/*.ts",
 		"src/**/*.svelte",
+		"src/**/*.js",
+		"src/**/*.ts",
+		"src/**/*.svelte",
+		"__tests__/**/*.js",
+		"__tests__/**/*.ts",
+		"__tests__/**/*.svelte",
 		"elm/**/*.d.ts"
 	]
 }
