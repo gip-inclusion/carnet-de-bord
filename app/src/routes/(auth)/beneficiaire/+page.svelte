@@ -26,8 +26,7 @@
 			},
 		});
 		app.ports.sendMessage.subscribe((message) => {
-			console.log('Received from Elm: ' + message);
-			app.ports.messageReceiver.send('Msg from Svelte');
+			app.ports.messageReceiver.send('Msg from Svelte' + message);
 		});
 	});
 </script>
