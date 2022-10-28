@@ -44,9 +44,8 @@ getBeneficiary beneficiaryId serverUrl token msg =
     let
         gqlQuery =
             { query = """query GetNotebookByBeneficiaryId($id: uuid!) {
-  notebook(where: {beneficiaryId: {_eq: $id}}) {
+  notebook(where: { beneficiaryId: { _eq: $id } }) {
     ...notebookFragment
-    __typename
   }
 }
 
@@ -69,9 +68,7 @@ fragment notebookFragment on notebook {
     rome_code {
       id
       label
-      __typename
     }
-    __typename
   }
   geographicalArea
   beneficiary {
@@ -87,12 +84,8 @@ fragment notebookFragment on notebook {
     mobileNumber
     peNumber
     postalCode
-    __typename
   }
-  members(
-    where: {active: {_eq: true}}
-    order_by: {lastModifiedAt: desc_nulls_last}
-  ) {
+  members(where: { active: { _eq: true } }, order_by: { lastModifiedAt: desc_nulls_last }) {
     id
     memberType
     lastModifiedAt
@@ -105,7 +98,6 @@ fragment notebookFragment on notebook {
         firstname
         email
         phoneNumbers
-        __typename
       }
       professional {
         id
@@ -121,60 +113,45 @@ fragment notebookFragment on notebook {
           address2
           postalCode
           city
-          __typename
         }
-        __typename
       }
-      __typename
     }
-    __typename
   }
-  focuses(order_by: {createdAt: desc_nulls_first}) {
+  focuses(order_by: { createdAt: desc_nulls_first }) {
     theme
     situations
     creator {
       orientation_manager {
         firstname
         lastname
-        __typename
       }
       professional {
         firstname
         lastname
         structure {
           name
-          __typename
         }
-        __typename
       }
-      __typename
     }
-    targets(
-      where: {status: {_eq: "in_progress"}}
-      order_by: {createdAt: desc_nulls_first}
-    ) {
+    targets(where: { status: { _eq: "in_progress" } }, order_by: { createdAt: desc_nulls_first }) {
       target
       createdAt
       creator {
         orientation_manager {
           firstname
           lastname
-          __typename
         }
         professional {
           firstname
           lastname
           structure {
             name
-            __typename
           }
-          __typename
         }
-        __typename
       }
       actions(
-        where: {status: {_eq: "in_progress"}}
-        order_by: {createdAt: desc_nulls_first}
+        where: { status: { _eq: "in_progress" } }
+        order_by: { createdAt: desc_nulls_first }
       ) {
         action
         createdAt
@@ -183,26 +160,20 @@ fragment notebookFragment on notebook {
           orientation_manager {
             firstname
             lastname
-            __typename
           }
           professional {
             firstname
             lastname
             structure {
               name
-              __typename
             }
-            __typename
           }
-          __typename
         }
-        __typename
       }
-      __typename
     }
-    __typename
   }
 }"""
+
             , operationName = "GetNotebookByBeneficiaryId"
             , variables = { id = beneficiaryId }
             }
