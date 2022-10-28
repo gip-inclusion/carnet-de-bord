@@ -241,9 +241,6 @@ update msg model =
             )
 
         GotBeneficiary result ->
-            let
-                _ = Debug.log "GotBeneficiary" result
-            in
             case result of
                 -- Do nothing for now
                 Ok beneficiaryContent ->
