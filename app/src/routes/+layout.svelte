@@ -5,7 +5,6 @@
 	import appleTouchFavicon from '@gouvfr/dsfr/dist/favicon/apple-touch-icon.png';
 	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
 	import icoFavicon from '@gouvfr/dsfr/dist/favicon/favicon.ico';
-	import manifest from '@gouvfr/dsfr/dist/favicon/manifest.webmanifest';
 	import { onDestroy, onMount } from 'svelte';
 	import { env } from '$env/dynamic/public';
 	import * as Matomo from '$lib/tracking/matomo';
@@ -96,9 +95,8 @@
 	<link rel="apple-touch-icon" href={appleTouchFavicon} />
 	<!-- 180×180 -->
 	<link rel="icon" href={svgFavicon} type="image/svg+xml" />
-	<link rel="shortcut icon" href={icoFavicon} type="image/x-icon" />
 	<!-- 32×32 -->
-	<link rel="manifest" href={manifest} crossorigin="use-credentials" />
+	<link rel="shortcut icon" href={icoFavicon} type="image/x-icon" />
 </svelte:head>
 
 <slot />
