@@ -1,8 +1,7 @@
 import preprocess from 'svelte-preprocess';
-/** @type {import('@sveltejs/kit').Config} */
 import adapter from '@sveltejs/adapter-node';
 import { resolve } from 'path';
-/** @type {import('@sveltejs/kit').Config} */
+
 const config = {
 	kit: {
 		env: {
@@ -15,6 +14,7 @@ const config = {
 				'font-src': ['self', 'data:', 'blob:', '*.crisp.chat'],
 				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', '*.crisp.chat'],
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
+				'script-src': [process.env.NODE_ENV === 'production' ? '' : 'unsafe-eval'],
 				'connect-src': [
 					'self',
 					'wss:',
@@ -25,7 +25,6 @@ const config = {
 				],
 			},
 		},
-
 		adapter: adapter({
 			// default options are shown
 			out: 'build',

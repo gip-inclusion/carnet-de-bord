@@ -4,6 +4,9 @@
 	import { GetNotebookByBeneficiaryIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import type { PageData } from './$types';
+	//import { Elm } from '../../../../elm/BeneficiaryApp/Main.elm';
+	//import { onMount } from 'svelte';
+	//import { graphqlAPI, token, connectedUser } from '$lib/stores';
 
 	export let data: PageData;
 
@@ -11,11 +14,28 @@
 		id: data.user.beneficiaryId,
 	});
 	query(getNotebookResult);
+
+	//let node;
+	//onMount(() => {
+	//	let app = Elm.BeneficiaryApp.Main.init({
+	//		node,
+	//		flags: {
+	//			token: $token,
+	//			serverUrl: $graphqlAPI,
+	//			beneficiaryId: $connectedUser.beneficiaryId,
+	//		},
+	//	});
+	//	app.ports.sendMessage.subscribe((message) => {
+	//		app.ports.messageReceiver.send('Msg from Svelte' + message);
+	//	});
+	//});
 </script>
 
 <svelte:head>
 	<title>Accueil Bénéficiaire - Carnet de bord</title>
 </svelte:head>
+
+<!--<div bind:this={node} />-->
 
 <LoaderIndicator result={getNotebookResult}>
 	<NotebookView notebook={getNotebookResult.data.notebook[0]} />
