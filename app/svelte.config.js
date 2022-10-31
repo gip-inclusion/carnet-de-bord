@@ -2,6 +2,8 @@ import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-node';
 import { resolve } from 'path';
 
+const defaultSrc = ['self', '*.fabrique.social.gouv.fr', '*.crisp.chat'];
+
 const config = {
 	kit: {
 		env: {
@@ -10,11 +12,12 @@ const config = {
 		csp: {
 			mode: 'auto',
 			directives: {
-				'default-src': ['self', '*.fabrique.social.gouv.fr', '*.crisp.chat'],
+				'default-src': defaultSrc,
 				'font-src': ['self', 'data:', 'blob:', '*.crisp.chat'],
 				'img-src': ['self', 'data:', '*.fabrique.social.gouv.fr', '*.crisp.chat'],
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
-				'script-src': [process.env.NODE_ENV === 'production' ? '' : 'unsafe-eval'],
+				'script-src':
+					process.env.NODE_ENV === 'production' ? defaultSrc : [...defaultSrc, 'unsafe-eval'],
 				'connect-src': [
 					'self',
 					'wss:',
