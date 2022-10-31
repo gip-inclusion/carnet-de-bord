@@ -1441,8 +1441,6 @@ export type Beneficiary = {
 	account?: Maybe<Account>;
 	address1?: Maybe<Scalars['String']>;
 	address2?: Maybe<Scalars['String']>;
-	/** An object relationship */
-	beneficiaryInfo?: Maybe<BeneficiaryInfo>;
 	cafNumber?: Maybe<Scalars['String']>;
 	city?: Maybe<Scalars['String']>;
 	createdAt: Scalars['timestamptz'];
@@ -1456,6 +1454,7 @@ export type Beneficiary = {
 	internalId?: Maybe<Scalars['String']>;
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
+	nir?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	notebook?: Maybe<Notebook>;
 	/** An array relationship */
@@ -1551,7 +1550,6 @@ export type BeneficiaryBoolExp = {
 	account?: InputMaybe<AccountBoolExp>;
 	address1?: InputMaybe<StringComparisonExp>;
 	address2?: InputMaybe<StringComparisonExp>;
-	beneficiaryInfo?: InputMaybe<BeneficiaryInfoBoolExp>;
 	cafNumber?: InputMaybe<StringComparisonExp>;
 	city?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -1564,6 +1562,7 @@ export type BeneficiaryBoolExp = {
 	internalId?: InputMaybe<StringComparisonExp>;
 	lastname?: InputMaybe<StringComparisonExp>;
 	mobileNumber?: InputMaybe<StringComparisonExp>;
+	nir?: InputMaybe<StringComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	orientationRequest?: InputMaybe<OrientationRequestBoolExp>;
 	peNumber?: InputMaybe<StringComparisonExp>;
@@ -1577,217 +1576,19 @@ export type BeneficiaryBoolExp = {
 export enum BeneficiaryConstraint {
 	/** unique or primary key constraint on columns "internal_id" */
 	BeneficiaryInternalIdKey = 'beneficiary_internal_id_key',
+	/** unique or primary key constraint on columns "nir" */
+	BeneficiaryNirKey = 'beneficiary_nir_key',
 	/** unique or primary key constraint on columns "id" */
 	BeneficiaryPkey = 'beneficiary_pkey',
 	/** unique or primary key constraint on columns "date_of_birth", "deployment_id" */
 	FirstnameLastnameDateOfBirthUniqueIdx = 'firstname_lastname_date_of_birth_unique_idx',
 }
 
-/** beneficiary orientation infos */
-export type BeneficiaryInfo = {
-	__typename?: 'beneficiary_info';
-	/** An object relationship */
-	beneficiary: Beneficiary;
-	beneficiaryId: Scalars['uuid'];
-	createdAt: Scalars['timestamptz'];
-	orientation: OrientationTypeEnum;
-	/** An object relationship */
-	orientation_type: OrientationType;
-	updatedAt: Scalars['timestamptz'];
-};
-
-/** aggregated selection of "beneficiary_info" */
-export type BeneficiaryInfoAggregate = {
-	__typename?: 'beneficiary_info_aggregate';
-	aggregate?: Maybe<BeneficiaryInfoAggregateFields>;
-	nodes: Array<BeneficiaryInfo>;
-};
-
-/** aggregate fields of "beneficiary_info" */
-export type BeneficiaryInfoAggregateFields = {
-	__typename?: 'beneficiary_info_aggregate_fields';
-	count: Scalars['Int'];
-	max?: Maybe<BeneficiaryInfoMaxFields>;
-	min?: Maybe<BeneficiaryInfoMinFields>;
-};
-
-/** aggregate fields of "beneficiary_info" */
-export type BeneficiaryInfoAggregateFieldsCountArgs = {
-	columns?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
-	distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "beneficiary_info" */
-export type BeneficiaryInfoAggregateOrderBy = {
-	count?: InputMaybe<OrderBy>;
-	max?: InputMaybe<BeneficiaryInfoMaxOrderBy>;
-	min?: InputMaybe<BeneficiaryInfoMinOrderBy>;
-};
-
-/** input type for inserting array relation for remote table "beneficiary_info" */
-export type BeneficiaryInfoArrRelInsertInput = {
-	data: Array<BeneficiaryInfoInsertInput>;
-	/** upsert condition */
-	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
-};
-
-/** Boolean expression to filter rows from the table "beneficiary_info". All fields are combined with a logical 'AND'. */
-export type BeneficiaryInfoBoolExp = {
-	_and?: InputMaybe<Array<BeneficiaryInfoBoolExp>>;
-	_not?: InputMaybe<BeneficiaryInfoBoolExp>;
-	_or?: InputMaybe<Array<BeneficiaryInfoBoolExp>>;
-	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
-	beneficiaryId?: InputMaybe<UuidComparisonExp>;
-	createdAt?: InputMaybe<TimestamptzComparisonExp>;
-	orientation?: InputMaybe<OrientationTypeEnumComparisonExp>;
-	orientation_type?: InputMaybe<OrientationTypeBoolExp>;
-	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
-};
-
-/** unique or primary key constraints on table "beneficiary_info" */
-export enum BeneficiaryInfoConstraint {
-	/** unique or primary key constraint on columns "beneficiary_id" */
-	BeneficiaryInfoPkey = 'beneficiary_info_pkey',
-}
-
-/** input type for inserting data into table "beneficiary_info" */
-export type BeneficiaryInfoInsertInput = {
-	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
-	beneficiaryId?: InputMaybe<Scalars['uuid']>;
-	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	orientation?: InputMaybe<OrientationTypeEnum>;
-	orientation_type?: InputMaybe<OrientationTypeObjRelInsertInput>;
-	updatedAt?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** aggregate max on columns */
-export type BeneficiaryInfoMaxFields = {
-	__typename?: 'beneficiary_info_max_fields';
-	beneficiaryId?: Maybe<Scalars['uuid']>;
-	createdAt?: Maybe<Scalars['timestamptz']>;
-	updatedAt?: Maybe<Scalars['timestamptz']>;
-};
-
-/** order by max() on columns of table "beneficiary_info" */
-export type BeneficiaryInfoMaxOrderBy = {
-	beneficiaryId?: InputMaybe<OrderBy>;
-	createdAt?: InputMaybe<OrderBy>;
-	updatedAt?: InputMaybe<OrderBy>;
-};
-
-/** aggregate min on columns */
-export type BeneficiaryInfoMinFields = {
-	__typename?: 'beneficiary_info_min_fields';
-	beneficiaryId?: Maybe<Scalars['uuid']>;
-	createdAt?: Maybe<Scalars['timestamptz']>;
-	updatedAt?: Maybe<Scalars['timestamptz']>;
-};
-
-/** order by min() on columns of table "beneficiary_info" */
-export type BeneficiaryInfoMinOrderBy = {
-	beneficiaryId?: InputMaybe<OrderBy>;
-	createdAt?: InputMaybe<OrderBy>;
-	updatedAt?: InputMaybe<OrderBy>;
-};
-
-/** response of any mutation on the table "beneficiary_info" */
-export type BeneficiaryInfoMutationResponse = {
-	__typename?: 'beneficiary_info_mutation_response';
-	/** number of rows affected by the mutation */
-	affected_rows: Scalars['Int'];
-	/** data from the rows affected by the mutation */
-	returning: Array<BeneficiaryInfo>;
-};
-
-/** input type for inserting object relation for remote table "beneficiary_info" */
-export type BeneficiaryInfoObjRelInsertInput = {
-	data: BeneficiaryInfoInsertInput;
-	/** upsert condition */
-	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
-};
-
-/** on_conflict condition type for table "beneficiary_info" */
-export type BeneficiaryInfoOnConflict = {
-	constraint: BeneficiaryInfoConstraint;
-	update_columns?: Array<BeneficiaryInfoUpdateColumn>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
-};
-
-/** Ordering options when selecting data from "beneficiary_info". */
-export type BeneficiaryInfoOrderBy = {
-	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
-	beneficiaryId?: InputMaybe<OrderBy>;
-	createdAt?: InputMaybe<OrderBy>;
-	orientation?: InputMaybe<OrderBy>;
-	orientation_type?: InputMaybe<OrientationTypeOrderBy>;
-	updatedAt?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: beneficiary_info */
-export type BeneficiaryInfoPkColumnsInput = {
-	beneficiaryId: Scalars['uuid'];
-};
-
-/** select columns of table "beneficiary_info" */
-export enum BeneficiaryInfoSelectColumn {
-	/** column name */
-	BeneficiaryId = 'beneficiaryId',
-	/** column name */
-	CreatedAt = 'createdAt',
-	/** column name */
-	Orientation = 'orientation',
-	/** column name */
-	UpdatedAt = 'updatedAt',
-}
-
-/** input type for updating data in table "beneficiary_info" */
-export type BeneficiaryInfoSetInput = {
-	beneficiaryId?: InputMaybe<Scalars['uuid']>;
-	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	orientation?: InputMaybe<OrientationTypeEnum>;
-	updatedAt?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** Streaming cursor of the table "beneficiary_info" */
-export type BeneficiaryInfoStreamCursorInput = {
-	/** Stream column input with initial value */
-	initial_value: BeneficiaryInfoStreamCursorValueInput;
-	/** cursor ordering */
-	ordering?: InputMaybe<CursorOrdering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type BeneficiaryInfoStreamCursorValueInput = {
-	beneficiaryId?: InputMaybe<Scalars['uuid']>;
-	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	orientation?: InputMaybe<OrientationTypeEnum>;
-	updatedAt?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** update columns of table "beneficiary_info" */
-export enum BeneficiaryInfoUpdateColumn {
-	/** column name */
-	BeneficiaryId = 'beneficiaryId',
-	/** column name */
-	CreatedAt = 'createdAt',
-	/** column name */
-	Orientation = 'orientation',
-	/** column name */
-	UpdatedAt = 'updatedAt',
-}
-
-export type BeneficiaryInfoUpdates = {
-	/** sets the columns of the filtered rows to the given values */
-	_set?: InputMaybe<BeneficiaryInfoSetInput>;
-	where: BeneficiaryInfoBoolExp;
-};
-
 /** input type for inserting data into table "beneficiary" */
 export type BeneficiaryInsertInput = {
 	account?: InputMaybe<AccountObjRelInsertInput>;
 	address1?: InputMaybe<Scalars['String']>;
 	address2?: InputMaybe<Scalars['String']>;
-	beneficiaryInfo?: InputMaybe<BeneficiaryInfoObjRelInsertInput>;
 	cafNumber?: InputMaybe<Scalars['String']>;
 	city?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -1800,6 +1601,7 @@ export type BeneficiaryInsertInput = {
 	internalId?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
+	nir?: InputMaybe<Scalars['String']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	orientationRequest?: InputMaybe<OrientationRequestArrRelInsertInput>;
 	peNumber?: InputMaybe<Scalars['String']>;
@@ -1825,6 +1627,7 @@ export type BeneficiaryMaxFields = {
 	internalId?: Maybe<Scalars['String']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
+	nir?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
@@ -1846,6 +1649,7 @@ export type BeneficiaryMaxOrderBy = {
 	internalId?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
+	nir?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
@@ -1868,6 +1672,7 @@ export type BeneficiaryMinFields = {
 	internalId?: Maybe<Scalars['String']>;
 	lastname?: Maybe<Scalars['String']>;
 	mobileNumber?: Maybe<Scalars['String']>;
+	nir?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
@@ -1889,6 +1694,7 @@ export type BeneficiaryMinOrderBy = {
 	internalId?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
+	nir?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
@@ -1923,7 +1729,6 @@ export type BeneficiaryOrderBy = {
 	account?: InputMaybe<AccountOrderBy>;
 	address1?: InputMaybe<OrderBy>;
 	address2?: InputMaybe<OrderBy>;
-	beneficiaryInfo?: InputMaybe<BeneficiaryInfoOrderBy>;
 	cafNumber?: InputMaybe<OrderBy>;
 	city?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
@@ -1936,6 +1741,7 @@ export type BeneficiaryOrderBy = {
 	internalId?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
+	nir?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	orientationRequest_aggregate?: InputMaybe<OrientationRequestAggregateOrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
@@ -1979,6 +1785,8 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	MobileNumber = 'mobileNumber',
 	/** column name */
+	Nir = 'nir',
+	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
 	PlaceOfBirth = 'placeOfBirth',
@@ -2003,6 +1811,7 @@ export type BeneficiarySetInput = {
 	internalId?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
+	nir?: InputMaybe<Scalars['String']>;
 	peNumber?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
@@ -2032,6 +1841,7 @@ export type BeneficiaryStreamCursorValueInput = {
 	internalId?: InputMaybe<Scalars['String']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
+	nir?: InputMaybe<Scalars['String']>;
 	peNumber?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
@@ -2342,6 +2152,8 @@ export enum BeneficiaryUpdateColumn {
 	Lastname = 'lastname',
 	/** column name */
 	MobileNumber = 'mobileNumber',
+	/** column name */
+	Nir = 'nir',
 	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
@@ -3664,10 +3476,6 @@ export type MutationRoot = {
 	delete_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** delete single row from the table: "beneficiary" */
 	delete_beneficiary_by_pk?: Maybe<Beneficiary>;
-	/** delete data from the table: "beneficiary_info" */
-	delete_beneficiary_info?: Maybe<BeneficiaryInfoMutationResponse>;
-	/** delete single row from the table: "beneficiary_info" */
-	delete_beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
 	/** delete data from the table: "beneficiary_structure" */
 	delete_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
 	/** delete single row from the table: "beneficiary_structure" */
@@ -3790,10 +3598,6 @@ export type MutationRoot = {
 	insert_admin_structure_structure_one?: Maybe<AdminStructureStructure>;
 	/** insert data into the table: "beneficiary" */
 	insert_beneficiary?: Maybe<BeneficiaryMutationResponse>;
-	/** insert data into the table: "beneficiary_info" */
-	insert_beneficiary_info?: Maybe<BeneficiaryInfoMutationResponse>;
-	/** insert a single row into the table: "beneficiary_info" */
-	insert_beneficiary_info_one?: Maybe<BeneficiaryInfo>;
 	/** insert a single row into the table: "beneficiary" */
 	insert_beneficiary_one?: Maybe<Beneficiary>;
 	/** insert data into the table: "beneficiary_structure" */
@@ -3930,12 +3734,6 @@ export type MutationRoot = {
 	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
 	update_beneficiary_by_pk?: Maybe<Beneficiary>;
-	/** update data of the table: "beneficiary_info" */
-	update_beneficiary_info?: Maybe<BeneficiaryInfoMutationResponse>;
-	/** update single row of the table: "beneficiary_info" */
-	update_beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
-	/** update multiples rows of table: "beneficiary_info" */
-	update_beneficiary_info_many?: Maybe<Array<Maybe<BeneficiaryInfoMutationResponse>>>;
 	/** update multiples rows of table: "beneficiary" */
 	update_beneficiary_many?: Maybe<Array<Maybe<BeneficiaryMutationResponse>>>;
 	/** update data of the table: "beneficiary_structure" */
@@ -4150,16 +3948,6 @@ export type MutationRootDeleteBeneficiaryArgs = {
 /** mutation root */
 export type MutationRootDeleteBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type MutationRootDeleteBeneficiaryInfoArgs = {
-	where: BeneficiaryInfoBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteBeneficiaryInfoByPkArgs = {
-	beneficiaryId: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -4474,18 +4262,6 @@ export type MutationRootInsertAdminStructureStructureOneArgs = {
 export type MutationRootInsertBeneficiaryArgs = {
 	objects: Array<BeneficiaryInsertInput>;
 	on_conflict?: InputMaybe<BeneficiaryOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertBeneficiaryInfoArgs = {
-	objects: Array<BeneficiaryInfoInsertInput>;
-	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertBeneficiaryInfoOneArgs = {
-	object: BeneficiaryInfoInsertInput;
-	on_conflict?: InputMaybe<BeneficiaryInfoOnConflict>;
 };
 
 /** mutation root */
@@ -4884,23 +4660,6 @@ export type MutationRootUpdateBeneficiaryArgs = {
 export type MutationRootUpdateBeneficiaryByPkArgs = {
 	_set?: InputMaybe<BeneficiarySetInput>;
 	pk_columns: BeneficiaryPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateBeneficiaryInfoArgs = {
-	_set?: InputMaybe<BeneficiaryInfoSetInput>;
-	where: BeneficiaryInfoBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateBeneficiaryInfoByPkArgs = {
-	_set?: InputMaybe<BeneficiaryInfoSetInput>;
-	pk_columns: BeneficiaryInfoPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateBeneficiaryInfoManyArgs = {
-	updates: Array<BeneficiaryInfoUpdates>;
 };
 
 /** mutation root */
@@ -6911,9 +6670,9 @@ export type NotebookInfo = {
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
-	orientation: OrientationTypeEnum;
+	orientation?: Maybe<OrientationTypeEnum>;
 	/** An object relationship */
-	orientationType: OrientationType;
+	orientationType?: Maybe<OrientationType>;
 	updatedAt: Scalars['timestamptz'];
 };
 
@@ -8525,34 +8284,12 @@ export type OrientationRequestUpdates = {
 /** table contenant les différents types d’orientation */
 export type OrientationType = {
 	__typename?: 'orientation_type';
-	/** An array relationship */
-	beneficiary_infos: Array<BeneficiaryInfo>;
-	/** An aggregate relationship */
-	beneficiary_infos_aggregate: BeneficiaryInfoAggregate;
 	id: Scalars['String'];
 	label: Scalars['String'];
 	/** An array relationship */
 	notebook_infos: Array<NotebookInfo>;
 	/** An aggregate relationship */
 	notebook_infos_aggregate: NotebookInfoAggregate;
-};
-
-/** table contenant les différents types d’orientation */
-export type OrientationTypeBeneficiaryInfosArgs = {
-	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
-};
-
-/** table contenant les différents types d’orientation */
-export type OrientationTypeBeneficiaryInfosAggregateArgs = {
-	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
 };
 
 /** table contenant les différents types d’orientation */
@@ -8599,7 +8336,6 @@ export type OrientationTypeBoolExp = {
 	_and?: InputMaybe<Array<OrientationTypeBoolExp>>;
 	_not?: InputMaybe<OrientationTypeBoolExp>;
 	_or?: InputMaybe<Array<OrientationTypeBoolExp>>;
-	beneficiary_infos?: InputMaybe<BeneficiaryInfoBoolExp>;
 	id?: InputMaybe<StringComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
 	notebook_infos?: InputMaybe<NotebookInfoBoolExp>;
@@ -8631,7 +8367,6 @@ export type OrientationTypeEnumComparisonExp = {
 
 /** input type for inserting data into table "orientation_type" */
 export type OrientationTypeInsertInput = {
-	beneficiary_infos?: InputMaybe<BeneficiaryInfoArrRelInsertInput>;
 	id?: InputMaybe<Scalars['String']>;
 	label?: InputMaybe<Scalars['String']>;
 	notebook_infos?: InputMaybe<NotebookInfoArrRelInsertInput>;
@@ -8676,7 +8411,6 @@ export type OrientationTypeOnConflict = {
 
 /** Ordering options when selecting data from "orientation_type". */
 export type OrientationTypeOrderBy = {
-	beneficiary_infos_aggregate?: InputMaybe<BeneficiaryInfoAggregateOrderBy>;
 	id?: InputMaybe<OrderBy>;
 	label?: InputMaybe<OrderBy>;
 	notebook_infos_aggregate?: InputMaybe<NotebookInfoAggregateOrderBy>;
@@ -9040,12 +8774,6 @@ export type QueryRoot = {
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
-	/** fetch data from the table: "beneficiary_info" */
-	beneficiary_info: Array<BeneficiaryInfo>;
-	/** fetch aggregated fields from the table: "beneficiary_info" */
-	beneficiary_info_aggregate: BeneficiaryInfoAggregate;
-	/** fetch data from the table: "beneficiary_info" using primary key columns */
-	beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
 	/** fetch data from the table: "beneficiary_structure" */
 	beneficiary_structure: Array<BeneficiaryStructure>;
 	/** fetch aggregated fields from the table: "beneficiary_structure" */
@@ -9330,26 +9058,6 @@ export type QueryRootBeneficiaryAggregateArgs = {
 
 export type QueryRootBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
-};
-
-export type QueryRootBeneficiaryInfoArgs = {
-	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
-};
-
-export type QueryRootBeneficiaryInfoAggregateArgs = {
-	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
-};
-
-export type QueryRootBeneficiaryInfoByPkArgs = {
-	beneficiaryId: Scalars['uuid'];
 };
 
 export type QueryRootBeneficiaryStructureArgs = {
@@ -11191,14 +10899,6 @@ export type SubscriptionRoot = {
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
-	/** fetch data from the table: "beneficiary_info" */
-	beneficiary_info: Array<BeneficiaryInfo>;
-	/** fetch aggregated fields from the table: "beneficiary_info" */
-	beneficiary_info_aggregate: BeneficiaryInfoAggregate;
-	/** fetch data from the table: "beneficiary_info" using primary key columns */
-	beneficiary_info_by_pk?: Maybe<BeneficiaryInfo>;
-	/** fetch data from the table in a streaming manner : "beneficiary_info" */
-	beneficiary_info_stream: Array<BeneficiaryInfo>;
 	/** fetch data from the table in a streaming manner : "beneficiary" */
 	beneficiary_stream: Array<Beneficiary>;
 	/** fetch data from the table: "beneficiary_structure" */
@@ -11567,32 +11267,6 @@ export type SubscriptionRootBeneficiaryAggregateArgs = {
 
 export type SubscriptionRootBeneficiaryByPkArgs = {
 	id: Scalars['uuid'];
-};
-
-export type SubscriptionRootBeneficiaryInfoArgs = {
-	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
-};
-
-export type SubscriptionRootBeneficiaryInfoAggregateArgs = {
-	distinct_on?: InputMaybe<Array<BeneficiaryInfoSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<BeneficiaryInfoOrderBy>>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
-};
-
-export type SubscriptionRootBeneficiaryInfoByPkArgs = {
-	beneficiaryId: Scalars['uuid'];
-};
-
-export type SubscriptionRootBeneficiaryInfoStreamArgs = {
-	batch_size: Scalars['Int'];
-	cursor: Array<InputMaybe<BeneficiaryInfoStreamCursorInput>>;
-	where?: InputMaybe<BeneficiaryInfoBoolExp>;
 };
 
 export type SubscriptionRootBeneficiaryStreamArgs = {
@@ -12711,7 +12385,7 @@ export type GetBeneficiariesQuery = {
 			id: string;
 			notebookInfo?: {
 				__typename?: 'notebook_info';
-				orientationType: { __typename?: 'orientation_type'; id: string; label: string };
+				orientationType?: { __typename?: 'orientation_type'; id: string; label: string } | null;
 			} | null;
 			members: Array<{
 				__typename?: 'notebook_member';

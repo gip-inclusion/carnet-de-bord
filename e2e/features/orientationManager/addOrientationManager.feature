@@ -7,6 +7,7 @@ Fonctionnalité: Assignation d'un chargé d'orientation
 
 	Scénario: Modifier le rattachement d'un bénéficiaire
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
+		Quand je clique sur "bénéficiaires"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
 		Quand je recherche "Aguilar"
 		Quand je clique sur "Rechercher"

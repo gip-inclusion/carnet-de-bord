@@ -104,7 +104,7 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
-					{#if beneficiary.notebook?.notebookInfo}
+					{#if beneficiary.notebook?.notebookInfo?.orientationType}
 						<button
 							class="fr-tag fr-tag-sm  fr-tag--yellow-tournesol"
 							on:click={() => openOrientationLayer(beneficiary)}
@@ -169,6 +169,7 @@
 						href={getNotebookUrl(beneficiary)}
 						class="fr-link"
 						target="_blank"
+						rel="noreferrer"
 						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />

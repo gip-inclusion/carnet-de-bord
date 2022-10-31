@@ -7,6 +7,7 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 
 	Scénario: Modifier le rattachement d'un bénéficiaire
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
+		Quand je clique sur "bénéficiaires"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
 		Quand je recherche "tif"
 		Quand je clique sur "Rechercher"
@@ -23,6 +24,7 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 
 	Scénario: Ré-orienter des bénéficiaires
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
+		Quand je clique sur "bénéficiaires"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
 		Alors je scroll à "Cash"
 		Alors je choisis "Sélectionner Corinne Cash"

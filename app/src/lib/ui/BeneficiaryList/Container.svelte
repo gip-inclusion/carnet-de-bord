@@ -32,7 +32,7 @@
 	export let filter: MemberFilter;
 	export let currentPage: number;
 	export let member: string;
-
+	export let need_orientation: boolean | null = null;
 	export let structureId: string = null;
 	export let listType: BeneficiaryListType = 'manager';
 
@@ -44,6 +44,15 @@
 		const graphqlFilter: BeneficiaryBoolExp = {
 			...(structureId && { structures: { structureId: { _eq: structureId } } }),
 			notebook: {
+				...(need_orientation === false && {
+					_or: [
+						{ notebookInfo: { needOrientation: { _eq: false } } },
+						{ _not: { notebookInfo: {} } },
+					],
+				}),
+				...(need_orientation === true && {
+					notebookInfo: { needOrientation: { _eq: true } },
+				}),
 				...(member && {
 					members: {
 						active: { _eq: true },
