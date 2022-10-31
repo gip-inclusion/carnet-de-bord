@@ -1,3 +1,10 @@
+## [1.154.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.154.2...v1.154.3) (2022-10-31)
+
+
+### Bug Fixes
+
+* remove unused and broken webmanifest reference ([#1210](https://github.com/gip-inclusion/carnet-de-bord/issues/1210)) ([dd23a9b](https://github.com/gip-inclusion/carnet-de-bord/commit/dd23a9bafff16092d4768a0f929227f56df70f8f))
+
 ## [1.154.2](https://github.com/SocialGouv/carnet-de-bord/compare/v1.154.1...v1.154.2) (2022-10-26)
 
 
