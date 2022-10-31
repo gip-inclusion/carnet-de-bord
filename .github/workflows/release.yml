@@ -25,4 +25,4 @@ jobs:
             @semantic-release/git@10.0.1
             @semantic-release/exec@6.0.3
         env:
-          GITHUB_TOKEN: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
+          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
