@@ -4,18 +4,18 @@
 
 	import { Link } from '$lib/ui/base';
 
-	import { Elm } from '../../elm/MainApp/Main.elm';
+	//import { Elm } from '../../elm/MainApp/Main.elm';
 
-	import { onMount } from 'svelte';
+	//import { onMount } from 'svelte';
 
-	let node;
-	onMount(() => {
-		let app = Elm.MainApp.Main.init({ node, flags: null });
-		app.ports.sendMessage.subscribe(function (message) {
-			console.log('Received from Elm: ' + message);
-			app.ports.messageReceiver.send('Msg from Svelte');
-		});
-	});
+	//let node;
+	//onMount(() => {
+	//	let app = Elm.MainApp.Main.init({ node, flags: null });
+	//	app.ports.sendMessage.subscribe(function (message) {
+	//		console.log('Received from Elm: ' + message);
+	//		app.ports.messageReceiver.send('Msg from Svelte');
+	//	});
+	//});
 </script>
 
 <svelte:head>
@@ -117,7 +117,7 @@
 				<Link href="https://communaute.inclusion.beta.gouv.fr/" classNames="fr-btn"
 					>Voir l'actualité de la communauté</Link
 				>
-				<div bind:this={node} />
+				<!--<div bind:this={node} />-->
 			</div>
 		</div>
 		<div class="w-5/12 -mb-8">
