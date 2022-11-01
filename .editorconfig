@@ -23,3 +23,6 @@ trim_trailing_whitespace = false
 [*.{gql,graphql}]
 	indent_style = space
 	indent_size = 2
+
+[*.elm]
+	indent_style = space
