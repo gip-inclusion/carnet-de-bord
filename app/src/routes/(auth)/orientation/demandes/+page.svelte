@@ -43,14 +43,15 @@
 
 	const result = operationStore(BeneficiariesWithOrientationRequestDocument, null, {
 		additionalTypenames: [
-			'structure',
 			'notebook_member',
 			'beneficiary_info',
+			'beneficiary_structure',
 			'orientation_request',
 		],
-		requestPolicy: 'cache-and-network',
 	});
 	query(result);
+
+	$: beneficiaries = $result?.data?.beneficiaries ?? [];
 </script>
 
 <svelte:head>
@@ -61,7 +62,7 @@
 <LoaderIndicator {result}>
 	<table class="w-full fr-table fr-table--layout-fixed">
 		<caption class="sr-only">Liste des demandes de réorientation</caption>
-		{#each result.data.beneficiaries as beneficiary}
+		{#each beneficiaries as beneficiary}
 			{@const referents = beneficiary.notebook.members.filter(
 				(member) => member.account.type === RoleEnum.Professional
 			)}
@@ -142,7 +143,7 @@
 				</tr>
 			</tbody>
 		{/each}
-		{#if result.data?.beneficiaries.length === 0}
+		{#if beneficiaries.length === 0}
 			<div>Aucune demande.</div>
 		{/if}
 	</table>

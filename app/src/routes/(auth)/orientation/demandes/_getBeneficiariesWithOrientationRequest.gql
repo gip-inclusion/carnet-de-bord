@@ -1,5 +1,7 @@
 query BeneficiariesWithOrientationRequest {
-  beneficiaries: beneficiary(where: {orientationRequest: {decided_orientation_type_id: {_is_null: true}}}) {
+  beneficiaries: beneficiary(
+    where: { orientationRequest: { decided_orientation_type_id: { _is_null: true } } }
+  ) {
     id
     firstname
     lastname
@@ -22,7 +24,10 @@ query BeneficiariesWithOrientationRequest {
     }
     notebook {
       id
-      members(where: {active: {_eq: true}, memberType: {_in: ["orientation_manager", "referent"]}}, order_by: {createdAt: desc}) {
+      members(
+        where: { active: { _eq: true }, memberType: { _in: ["orientation_manager", "referent"] } }
+        order_by: { createdAt: desc }
+      ) {
         account {
           id
           type

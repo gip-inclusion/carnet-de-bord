@@ -13767,6 +13767,18 @@ export type GetAccountsSummaryQuery = {
 	}>;
 };
 
+export type BeneficiariesWithOrientationRequestCountQueryVariables = Exact<{
+	[key: string]: never;
+}>;
+
+export type BeneficiariesWithOrientationRequestCountQuery = {
+	__typename?: 'query_root';
+	count: {
+		__typename?: 'beneficiary_aggregate';
+		aggregate?: { __typename?: 'beneficiary_aggregate_fields'; count: number } | null;
+	};
+};
+
 export type UpdateOrientationManagerProfileMutationVariables = Exact<{
 	firstname: Scalars['String'];
 	lastname: Scalars['String'];
@@ -22105,6 +22117,76 @@ export const GetAccountsSummaryDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
+export const BeneficiariesWithOrientationRequestCountDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'BeneficiariesWithOrientationRequestCount' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'count' },
+						name: { kind: 'Name', value: 'beneficiary_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'orientationRequest' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'decided_orientation_type_id' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'aggregate' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	BeneficiariesWithOrientationRequestCountQuery,
+	BeneficiariesWithOrientationRequestCountQueryVariables
+>;
 export const UpdateOrientationManagerProfileDocument = {
 	kind: 'Document',
 	definitions: [
@@ -26993,6 +27075,10 @@ export type GetDeploymentInfosQueryStore = OperationStore<
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
 	GetAccountsSummaryQueryVariables
+>;
+export type BeneficiariesWithOrientationRequestCountQueryStore = OperationStore<
+	BeneficiariesWithOrientationRequestCountQuery,
+	BeneficiariesWithOrientationRequestCountQueryVariables
 >;
 export type UpdateOrientationManagerProfileMutationStore = OperationStore<
 	UpdateOrientationManagerProfileMutation,

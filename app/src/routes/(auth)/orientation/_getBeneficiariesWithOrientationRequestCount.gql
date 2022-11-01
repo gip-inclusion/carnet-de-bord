@@ -1,0 +1,9 @@
+query BeneficiariesWithOrientationRequestCount {
+  count: beneficiary_aggregate(
+    where: { orientationRequest: { decided_orientation_type_id: { _is_null: true } } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
