@@ -169,8 +169,9 @@ class BeneficiaryImport(BaseModel):
 
     @validator("nir")
     def parse_nir(cls, nir: str):
-        validation_error = nir_format(nir)
+        stripped_nir = nir.strip()
+        validation_error = nir_format(stripped_nir)
         if not validation_error:
-            return nir
+            return stripped_nir
         else:
             return None
