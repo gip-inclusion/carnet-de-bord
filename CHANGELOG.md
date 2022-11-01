@@ -1,3 +1,10 @@
+## [1.154.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.154.3...v1.154.4) (2022-11-01)
+
+
+### Bug Fixes
+
+* Restauration du support des scripts permettant le support par clavardage (crisp). ([#1213](https://github.com/gip-inclusion/carnet-de-bord/issues/1213)) ([d57944a](https://github.com/gip-inclusion/carnet-de-bord/commit/d57944afa3298bb303bb928d2a0c44b17c0aa7e9))
+
 ## [1.154.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.154.2...v1.154.3) (2022-10-31)
 
 
