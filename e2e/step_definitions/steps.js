@@ -46,6 +46,10 @@ Soit('un utilisateur sur la page {string}', (page) => {
 	I.amOnPage(`${page}`);
 });
 
+Quand('je vais sur la page {string}', (page) => {
+	I.amOnPage(page);
+});
+
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	const uuid = await loginStub('pro', email);
 	plainGoto(`/auth/jwt/${uuid}`);
