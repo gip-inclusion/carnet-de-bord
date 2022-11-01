@@ -120,7 +120,8 @@
 					</td>
 					<td class="!text-center">
 						<Dialog
-							label={null}
+							label={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
+							buttonLabel={null}
 							title={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
 							size={'large'}
 							showButtons={false}

@@ -270,6 +270,10 @@ Alors('je vois {string} sous le titre {string}', async (text, title) => {
 	I.see(text, item);
 });
 
+Alors('je suis sur la page {string}', (url) => {
+	I.seeInCurrentUrl(url);
+});
+
 Alors("je ne vois pas d'alerte", () => {
 	I.dontSee(locate('.ri-alert-line'));
 });
