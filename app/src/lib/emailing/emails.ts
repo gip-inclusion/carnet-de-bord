@@ -1,7 +1,7 @@
 import { displayFullName } from '$lib/ui/format';
 import type { InscriptionRequest } from 'src/routes/(public)/inscription/request/+server';
 
-type Person = {
+export type Person = {
 	firstname: string;
 	lastname: string;
 };
@@ -11,7 +11,7 @@ type IncompletePerson = {
 	lastname?: string;
 };
 
-type Pro = Person;
+export type Pro = Person;
 
 type AccountRequest = InscriptionRequest['accountRequest'];
 
@@ -25,7 +25,7 @@ type Url = {
 	redirectUrl?: string;
 };
 
-function createLink({ appUrl, accessKey, redirectUrl }: Url) {
+export function createLink({ appUrl, accessKey, redirectUrl }: Url) {
 	return `${appUrl}${accessKey ? `/auth/jwt/${accessKey}` : ''}${
 		redirectUrl ? `?url=${redirectUrl}` : ''
 	}`;
@@ -190,7 +190,7 @@ export function managerOnboarding({ url, deployment }: { url: Url; deployment: s
   `;
 }
 
-export default {
+export const templates = {
 	notebookInvitation,
 	loginRequest,
 	forgotLoginRequest,

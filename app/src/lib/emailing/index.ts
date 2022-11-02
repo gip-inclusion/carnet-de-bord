@@ -1,9 +1,9 @@
 import { send as sender } from './send';
-import templates from './emails';
+import { templates, createLink } from './emails';
 import type Mail from 'nodemailer/lib/mailer';
 import type { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 
-function send<K extends keyof typeof templates>({
+async function send<K extends keyof typeof templates>({
 	options,
 	template,
 	params,
@@ -19,7 +19,15 @@ function send<K extends keyof typeof templates>({
 			)}.`
 		);
 	}
-	return sender({ ...options, html: templates[template].apply(null, params) });
+	const Component = (await import(`./templates/${capitalizeFirstLetter(template)}.svelte`)).default;
+	const emailParams = { ...params[0], link: createLink(params[0].url) };
+	const html = Component.render(emailParams).html;
+
+	return sender({ ...options, html });
 }
 
 export default send;
+
+function capitalizeFirstLetter(str: string) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
