@@ -221,6 +221,7 @@
 		{ label: 'Prénom*', key: 'firstname' },
 		{ label: 'Nom*', key: 'lastname' },
 		{ label: 'Date de naissance*', key: 'dateOfBirth' },
+		{ label: 'NIR', key: 'nir' },
 		{ label: 'Lieu de naissance', key: 'placeOfBirth' },
 		{ label: 'Téléphone', key: 'phoneNumber' },
 		{ label: 'Courriel', key: 'email' },
