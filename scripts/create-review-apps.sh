@@ -111,8 +111,8 @@ function deploy_app() {
   #   Application: cdb-app-review-pr1194 (6356af2f623d3a0010ba5db2)
   #   Integration: GitHub (185f8b27-5abb-49f0-9d27-18add5460eb8)
   #   Linker: service-dev
-  #   Repository: SocialGouv/carnet-de-bord
-  #   Auto Deploy: ✔ SocialGouv:chore/move-back-jest-test-folder
+  #   Repository: gip-inclusion/carnet-de-bord
+  #   Auto Deploy: ✔ gip-inclusion:chore/move-back-jest-test-folder
   #   Review Apps Deploy: ✘
 
   local branch="$(scalingo -a "$app" integration-link | awk -F: '/Auto/{print $3}')"

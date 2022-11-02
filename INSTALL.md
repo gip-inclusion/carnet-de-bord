@@ -20,7 +20,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 **1/** Récupérer les sources du projet
 
 ```sh
-git clone git@github.com:SocialGouv/carnet-de-bord.git
+git clone git@github.com:gip-inclusion/carnet-de-bord.git
 cd carnet-de-bord
 ```
 
