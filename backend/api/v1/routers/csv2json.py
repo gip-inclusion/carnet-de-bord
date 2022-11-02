@@ -11,6 +11,7 @@ from pandas import DataFrame
 from pydantic import BaseModel
 
 from api.core.settings import settings
+from api.db.models.nir import nir_format
 from api.db.models.role import RoleEnum
 from api.db.models.structure import StructureCsvRowResponse, map_csv_row
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
@@ -97,33 +98,27 @@ def validate_beneficiary(beneficiary: dict) -> list[ParseError | FieldValue]:
         parse_field("Niveau de formation", beneficiary),
         parse_field("Structure", beneficiary),
         parse_field("Accompagnateurs", beneficiary),
+        parse_field("NIR", beneficiary, validators=[nir_format]),
     ]
 
 
 def parse_field(col_name: str, line, validators=[], parser=lambda field: field):
+    value = None
     try:
         value = line[col_name]
-        validation_errors = [check(value) for check in validators if check(value)]
-        if not validation_errors:
-            return FieldValue.parse_obj(
-                {"column_name": col_name, "value": parser(value)}
-            )
-        else:
-            return ParseError.parse_obj(
-                {
-                    "column_name": col_name,
-                    "value": value,
-                    "error_messages": validation_errors,
-                },
-            )
-
     except KeyError:
+        pass
+
+    validation_errors = [check(value) for check in validators if check(value)]
+    if not validation_errors:
+        return FieldValue.parse_obj({"column_name": col_name, "value": parser(value)})
+    else:
         return ParseError.parse_obj(
             {
                 "column_name": col_name,
-                "value": None,
-                "error_messages": [f"Missing column {col_name}"],
-            }
+                "value": value,
+                "error_messages": validation_errors,
+            },
         )
 
 
@@ -168,6 +163,7 @@ async def file_to_json(
             df = pd.read_excel(
                 data,
                 header=0,
+                dtype=object,
             )
     elif file_info.mime_type in ["text/plain", "text/csv"]:
 
@@ -180,6 +176,7 @@ async def file_to_json(
                 encoding=charset["encoding"],
                 skip_blank_lines=True,
                 sep=";",
+                dtype=object,
             )
     else:
         raise HTTPException(

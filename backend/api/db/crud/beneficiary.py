@@ -78,7 +78,8 @@ UPDATE beneficiary SET mobile_number = $2,
     city = $6,
     caf_number = $7,
     pe_number = $8,
-    email = $9
+    email = $9,
+    nir=$10
 where id = $1
 returning id
         """,
@@ -91,6 +92,7 @@ returning id
         beneficiary.caf_number,
         beneficiary.pe_number,
         beneficiary.email,
+        beneficiary.nir,
     )
     return result["id"]
 
@@ -116,9 +118,10 @@ INSERT INTO BENEFICIARY (
     city,
     caf_number,
     pe_number,
-    email
+    email,
+    nir
     )
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
 returning id
         """,
         beneficiary.firstname,
@@ -135,6 +138,7 @@ returning id
         beneficiary.caf_number,
         beneficiary.pe_number,
         beneficiary.email,
+        beneficiary.nir,
     )
 
     return created_beneficiary["id"]

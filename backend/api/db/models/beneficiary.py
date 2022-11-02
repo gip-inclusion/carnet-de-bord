@@ -3,6 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field, validator
 
+from api.db.models.nir import nir_format
 from api.db.models.notebook import Notebook
 
 
@@ -34,6 +35,7 @@ class Beneficiary(BaseModel):
     # BRSA users may not have an account
     # (account is created on the first login attempt)
     account_id: UUID | None
+    nir: str | None
 
 
 def snake_to_camel(field):
@@ -66,19 +68,21 @@ class BeneficiaryImport(BaseModel):
     education_level: str | None = Field(None, title="Niveau de formation")
     structure_name: str | None = Field(None, title="Structure d'accompagnement")
     advisor_email: str | None = Field(None, title="Accompagnateur référent")
+    nir: str | None = Field(None, title="NIR (numéro de sécurité sociale)")
 
     class Config:
+        anystr_strip_whitespace = True
         alias_generator = snake_to_camel
         allow_population_by_field_name = True
 
     @validator("firstname", "lastname")
     def capitalize(cls, value):
-        return value.lower().strip()
+        return value.lower()
 
     @validator("right_are", "right_ass", "right_bonus", "right_rqth", pre=True)
     def parse_bool(cls, value):
         if type(value) == str:
-            if value.lower().strip() in ["oui", "o"]:
+            if value.lower() in ["oui", "o"]:
                 return True
             else:
                 return False
@@ -89,31 +93,31 @@ class BeneficiaryImport(BaseModel):
 
     @validator("right_rsa")
     def parse_right_rsa(cls, right_rsa):
-        if right_rsa and right_rsa.strip() in [
+        if right_rsa in [
             "rsa_droit_ouvert_et_suspendu",
             "rsa_droit_ouvert_versable",
             "rsa_droit_ouvert_versement_suspendu",
         ]:
-            return right_rsa.strip()
+            return right_rsa
         else:
             return None
 
     @validator("geographical_area")
     def parse_geographical_area(cls, geographical_area):
-        if geographical_area and geographical_area.strip() in [
+        if geographical_area in [
             "none",
             "less_10",
             "between_10_20",
             "between_20_30",
             "plus_30",
         ]:
-            return geographical_area.strip()
+            return geographical_area
         else:
             return None
 
     @validator("work_situation")
     def parse_work_situation(cls, work_situation):
-        if work_situation and work_situation.strip() in [
+        if work_situation in [
             "recherche_emploi",
             "recherche_formation",
             "recherche_alternance",
@@ -148,7 +152,7 @@ class BeneficiaryImport(BaseModel):
 
     @validator("education_level")
     def parse_education_level(cls, education_level):
-        if education_level and education_level.strip() in [
+        if education_level in [
             "AFS",
             "C12",
             "C3A",
@@ -161,5 +165,13 @@ class BeneficiaryImport(BaseModel):
             "NV1",
         ]:
             return education_level.strip()
+        else:
+            return None
+
+    @validator("nir")
+    def parse_nir(cls, nir: str):
+        validation_error = nir_format(nir)
+        if not validation_error:
+            return nir
         else:
             return None
