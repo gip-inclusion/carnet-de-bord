@@ -55,8 +55,8 @@
 			<h1>Demande d'inscription envoyée</h1>
 			<p>Nous avons bien pris en compte votre demande de nouvelle inscription.</p>
 			<p>
-				Vous recevrez un courriel de confirmation, avec un lien pour vous connecter au Carnet de
-				bord.
+				Si votre inscription est validée, vous recevrez un courriel de confirmation, avec un lien
+				pour vous connecter à Carnet de bord.
 			</p>
 		</div>
 	{/if}
