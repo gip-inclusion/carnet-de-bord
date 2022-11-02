@@ -1,3 +1,10 @@
+# [1.155.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.154.4...v1.155.0) (2022-11-02)
+
+
+### Features
+
+* add nir to validation report during beneficiary import ([#1218](https://github.com/gip-inclusion/carnet-de-bord/issues/1218)) ([aec9171](https://github.com/gip-inclusion/carnet-de-bord/commit/aec91714444cf8e624f311617b3afa4f6af36665))
+
 ## [1.154.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.154.3...v1.154.4) (2022-11-01)
 
 
