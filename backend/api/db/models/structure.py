@@ -8,10 +8,10 @@ from pandas.core.series import Series
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, ValidationError, validator
 
 from api.core.settings import settings
+from api.db.models.csv import CsvFieldError
+from api.db.models.validator import phone_validator, postal_code_validator
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
-
-import phonenumbers
 
 
 class StructureInsert(BaseModel):
@@ -61,43 +61,9 @@ class StructureInputRow(BaseModel):
             raise ValueError("value is not a valid siret")
         return value
 
-    @validator("postal_code", allow_reuse=True)
-    def must_be_a_valid_postal_code(cls, value: str) -> str:
-        if not value:
-            return value
-        if (
-            value[0:2] == "00"
-        ):  ## Les 2 premiers digits correspondent au numéro de departement, 00 n'est donc pas valide
-            raise ValueError("value is not a valid postal code")
-        if not re.match("^[0-9]{5}$", value):
-            raise ValueError("value is not a valid postal code")
-        return value
+    _postal_code_validator = postal_code_validator("postal_code")
 
-    @validator("phone", "admin_phone_number", allow_reuse=True)
-    def must_be_a_valid_phone(cls, value: str) -> str:
-        if not value:
-            return value
-
-        for phone in value.split(","):
-            parsed_number = phonenumbers.parse(phone, "FR")
-
-            if not phonenumbers.is_possible_number(parsed_number):
-                raise ValueError("value is not a valid phone number")
-
-        return ", ".join(
-            [
-                phonenumbers.format_number(
-                    phonenumbers.parse(phone, "FR"),
-                    phonenumbers.PhoneNumberFormat.E164,
-                )
-                for phone in value.split(",")
-            ]
-        )
-
-
-class CsvFieldError(BaseModel):
-    key: str | None = None
-    error: str
+    _phone_validator = phone_validator("phone", "admin_phone_number", pre=True)
 
 
 class StructureCsvRowResponse(BaseModel):
