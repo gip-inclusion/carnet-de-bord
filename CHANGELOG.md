@@ -1,3 +1,10 @@
+# [1.156.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.155.0...v1.156.0) (2022-11-02)
+
+
+### Features
+
+* Préciser l'action attendue dans le mail de notification de demande de création de compte ([#1217](https://github.com/gip-inclusion/carnet-de-bord/issues/1217)) ([713ab7c](https://github.com/gip-inclusion/carnet-de-bord/commit/713ab7ca7e05899ce3d1f39f5173ccc8318ad174))
+
 # [1.155.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.154.4...v1.155.0) (2022-11-02)
 
 
