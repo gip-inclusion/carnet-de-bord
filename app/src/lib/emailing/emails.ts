@@ -136,6 +136,7 @@ export function accountRequest({
 		  ${pro.mobileNumber && `<li>téléphone: ${pro.mobileNumber}</li>`}
 		  ${pro.position && `<li>position: ${pro.position}</li>`}
     ${requester ? `<p>Cette demande a été soumise par ${displayFullName(requester)}.</p>` : ''}
+    <p>Vous recevez ce message parce que vous êtes manager de ce déploiement. Veuillez vous connecter à Carnet de bord pour confirmer cette inscription.</p>
     ${createAccessButton(url)}
     ${footer()}
   `;
