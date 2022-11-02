@@ -31,7 +31,7 @@
 	let breadcrumbs = [
 		{
 			name: 'accueil',
-			path: homeForRole(RoleEnum.Manager),
+			path: homeForRole(RoleEnum.OrientationManager),
 			label: 'Accueil',
 		},
 		{
