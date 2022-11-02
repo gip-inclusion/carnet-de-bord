@@ -1,13 +1,25 @@
 #!/bin/bash
 
-# To determine if codegen needs to be ran, modification and commit dates
-# of all *.gql files and the generated file are computed, and then sorted.
-# For this we use git log and git status commands.
-# The most recent date is kept.
-# Finally, the most recent date shall be the one of the generated file.
-# Otherwise, it means that genereted file has to be re-generated.
+# Modification timestamp is the newest date between commit date and file modification
+function get_file_modification_timestamp() {
+	local pattern=$1
+	local fs_ts=$(for f in $(git status --porcelain "$pattern"|cut -c4-); do
+		if [[ -f "$f" ]]; then date -r "$f" '+%s'; else date '+%s'; fi # for deleted files, we use the current date
+	done)
+	local commit_ts=$(git log -1 --format=%ct $pattern)
+  if [[ "$commit_ts" -gt "$fs_ts" ]]; then
+		echo "$commit_ts"
+	else
+		echo "$fs_ts"
+	fi
+}
 
-for i in "*.gql" app/src/lib/graphql/_gen/typed-document-nodes.ts;
-do echo $(git log -1 --format=%ct $i) $i;
-	git status --porcelain "$i" |cut -c4-|xargs stat -f "%m %N";
-done | sort | tail -1 | grep -F "app/src/lib/graphql/_gen/typed-document-nodes.ts"
+gql_ts="$(get_file_modification_timestamp '*.gql')"
+generated_file_ts="$(get_file_modification_timestamp 'app/src/lib/graphql/_gen/typed-document-nodes.ts')"
+
+if [[ "$gql_ts" -gt "$generated_file_ts" ]]; then
+	echo "Generated file is older than source file: codegen needs to be ran"
+	exit 1
+else
+	echo "Generated file is newer than source file: everything is fine."
+fi
