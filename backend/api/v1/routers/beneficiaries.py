@@ -20,7 +20,12 @@ from api.db.crud.notebook import (
 from api.db.crud.professional import get_professional_by_email
 from api.db.crud.structure import get_structure_by_name
 from api.db.crud.wanted_job import insert_wanted_jobs
-from api.db.models.beneficiary import BeneficiaryImport
+from api.db.models.beneficiary import (
+    Beneficiary,
+    BeneficiaryCsvRowResponse,
+    BeneficiaryImport,
+    is_same_name,
+)
 from api.db.models.notebook_member import NotebookMemberInsert
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
@@ -47,6 +52,7 @@ async def import_beneficiaries(
     request: Request,
     db=Depends(connection),
 ) -> BeneficiariesImportResult:
+
     import_uuid: UUID = uuid4()
     deployment_id: UUID = UUID(request.state.deployment_id)
     result = [
@@ -64,50 +70,75 @@ async def import_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ) -> BeneficiaryImportResult:
+
     async with db.transaction():
         try:
-            existing_rows = await get_beneficiaries_like(db, beneficiary, deployment_id)
-            match existing_rows:
-                case []:
-                    b_id: UUID = await insert_beneficiary(
-                        db, beneficiary, deployment_id
-                    )
-                    nb_id: UUID = await insert_notebook(db, b_id, beneficiary)
-                    await insert_wanted_jobs(db, nb_id, beneficiary)
-                    await insert_referent_and_structure(db, b_id, nb_id, beneficiary)
-                    logger.info("inserted new beneficiary %s", b_id)
-                    return BeneficiaryImportResult(
-                        beneficiary=b_id,
-                        action="Creation",
-                        error=None,
-                    )
-                case [
-                    row
-                ] if row.firstname == beneficiary.firstname and row.lastname == beneficiary.lastname and row.date_of_birth == beneficiary.date_of_birth and row.internal_id == beneficiary.si_id and row.deployment_id == deployment_id:
-                    b_id = await update_beneficiary(
-                        db, beneficiary, deployment_id, existing_rows[0].id
-                    )
-                    nb_id: UUID | None = await update_notebook(db, b_id, beneficiary)
-                    if nb_id:
-                        await insert_wanted_jobs(db, nb_id, beneficiary)
-                    logger.info("updated existing beneficiary %s", b_id)
-                    return BeneficiaryImportResult(
-                        beneficiary=b_id,
-                        action="Update",
-                        error=None,
-                    )
-                case other:
-                    logger.info(
-                        "block new beneficiary conflicting with existing beneficiaries: %s",
-                        [beneficiary.id for beneficiary in existing_rows],
-                    )
-                    return BeneficiaryImportResult(
-                        beneficiary=None,
-                        action="No action",
-                        error="Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire.",
-                    )
+            existing_rows: list[Beneficiary] = await get_beneficiaries_like(
+                db, beneficiary, deployment_id
+            )
 
-        except Exception:
+            if len(existing_rows) == 0:
+                beneficiary_id: UUID = await insert_beneficiary(
+                    db, beneficiary, deployment_id
+                )
+                new_notebook_id: UUID = await insert_notebook(
+                    db, beneficiary_id, beneficiary
+                )
+                await insert_wanted_jobs(db, new_notebook_id, beneficiary)
+                await insert_referent_and_structure(
+                    db, beneficiary_id, new_notebook_id, beneficiary
+                )
+                logger.info("inserted new beneficiary %s", beneficiary_id)
+                return BeneficiaryImportResult(
+                    beneficiary=beneficiary_id,
+                    action="Creation",
+                    error=None,
+                )
+
+            if (
+                len(existing_rows) == 1
+                and is_same_name(
+                    existing_rows[0].firstname,
+                    beneficiary.firstname,
+                    existing_rows[0].lastname,
+                    beneficiary.lastname,
+                )
+                and existing_rows[0].date_of_birth == beneficiary.date_of_birth
+                and existing_rows[0].internal_id == beneficiary.si_id
+                and existing_rows[0].deployment_id == deployment_id
+            ):
+                beneficiary_id = await update_beneficiary(
+                    db, beneficiary, deployment_id, existing_rows[0].id
+                )
+                notebook_id: UUID | None = await update_notebook(
+                    db, beneficiary_id, beneficiary
+                )
+                if notebook_id:
+                    await insert_wanted_jobs(db, notebook_id, beneficiary)
+                logger.info("updated existing beneficiary %s", beneficiary_id)
+                return BeneficiaryImportResult(
+                    beneficiary=beneficiary_id,
+                    action="Update",
+                    error=None,
+                )
+
+            logger.info(
+                "block new beneficiary conflicting with existing beneficiaries: %s",
+                [beneficiary.id for beneficiary in existing_rows],
+            )
+            return BeneficiaryImportResult(
+                beneficiary=None,
+                action="No action",
+                error="Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire.",
+            )
+
+        except Exception as e:
+            logging.error(
+                "An internal error occured while processing this beneficiary: {}".format(
+                    e
+                )
+            )
+
             return BeneficiaryImportResult(
                 beneficiary=None,
                 action="No action",

@@ -49,7 +49,7 @@ async def get_beneficiaries_like(
         """
 SELECT *
 FROM beneficiary
-WHERE (lower(trim(firstname)) = $1 AND lower(trim(lastname)) = $2 AND date_of_birth = $3 AND deployment_id = $5)
+WHERE (lower(trim(firstname)) = lower(trim($1)) AND lower(trim(lastname)) = lower(trim($2)) AND date_of_birth = $3 AND deployment_id = $5)
 OR (internal_id = $4 AND deployment_id = $5)
         """,
         beneficiary.firstname,

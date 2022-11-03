@@ -50,6 +50,13 @@ def snake_to_camel(field):
     return "".join(parts[0:1] + [part.title() for part in parts[1:]])
 
 
+def is_same_name(firstname1, firstname2, lastname1, lastname2):
+    return (
+        firstname1.lower().strip() == firstname2.lower().strip()
+        and lastname1.lower().strip() == lastname2.lower().strip()
+    )
+
+
 class BeneficiaryImport(BaseModel):
     si_id: str = Field(..., title="Identifiant du SI interne")
     firstname: str = Field(..., title="Prénom")
@@ -84,11 +91,6 @@ class BeneficiaryImport(BaseModel):
 
     _phone_validator = phone_validator("phone_number")
     _postal_code_validator = postal_code_validator("postal_code")
-
-    @validator("firstname", "lastname")
-    def capitalize(cls, value):
-        return value.lower()
-
     _is_bool_validator = is_bool_validator(
         "right_are", "right_ass", "right_bonus", "right_rqth", pre=True
     )
