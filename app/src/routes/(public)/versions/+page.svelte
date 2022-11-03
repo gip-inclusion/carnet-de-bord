@@ -1,8 +1,10 @@
 <script lang="ts">
+	import type { PageData } from './$types';
 	import Markdown from '@magidoc/plugin-svelte-marked';
-	import fs from 'fs';
-
-	const changelogContent = fs.readFileSync('../CHANGELOG.md', { encoding: 'utf-8' });
+	export let data: PageData;
 </script>
 
-<Markdown source={changelogContent} />
+<div class=" fr-py-6w fr-px-2w">
+	<h1>Journal des modificitions</h1>
+	<Markdown source={data.changelogContent} />
+</div>
