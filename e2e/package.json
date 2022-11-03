@@ -2,9 +2,9 @@
 	"name": "@cdb/e2e",
 	"version": "1.0.0",
 	"description": "e2e tests for carnet-de-bord",
-	"repository": "git@github.com:SocialGouv/carnet-de-bord.git",
-	"author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
-	"bugs": "https://github.com/SocialGouv/carnet-de-bord/issues",
+	"repository": "git@github.com:gip-inclusion/carnet-de-bord.git",
+	"author": "GIP Plateforme de l'inclusion (https://inclusion.beta.gouv.fr)",
+	"bugs": "https://github.com/gip-inclusion/carnet-de-bord/issues",
 	"main": "codecept.conf.js",
 	"license": "Apache-2.0",
 	"scripts": {

@@ -5,9 +5,9 @@
 		"node": "16"
 	},
 	"private": true,
-	"repository": "git@github.com:SocialGouv/carnet-de-bord.git",
-	"author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
-	"bugs": "https://github.com/SocialGouv/carnet-de-bord/issues",
+	"repository": "git@github.com:gip-inclusion/carnet-de-bord.git",
+	"author": "GIP Plateforme de l'inclusion (https://inclusion.beta.gouv.fr)",
+	"bugs": "https://github.com/gip-inclusion/carnet-de-bord/issues",
 	"license": "Apache-2.0",
 	"scripts": {
 		"hasura:console": "hasura console --project ../hasura",
