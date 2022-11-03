@@ -13,7 +13,7 @@ async function send({
 	template: Templates;
 	params: unknown;
 }): Promise<SentMessageInfo> {
-	const Component = (await import(`./templates/${capitalizeFirstLetter(template)}.svelte`)).default;
+	const Component = (await import(`./templates/${template}.svelte`)).default;
 	const emailParams = { ...params[0], link: createLink(params[0].url) };
 	const html = Component.render(emailParams).html;
 
@@ -21,7 +21,3 @@ async function send({
 }
 
 export default send;
-
-function capitalizeFirstLetter(str: string) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}
