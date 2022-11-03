@@ -7,14 +7,13 @@ Fonctionnalité: Assignation d'un chargé d'orientation
 
 	Scénario: Modifier le rattachement d'un bénéficiaire
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
-		Quand je clique sur "bénéficiaires"
+		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
-		Quand je recherche "Aguilar"
-		Quand je clique sur "Rechercher"
-		Alors je vois "Non assigné" sur la ligne "Aguilar"
-		Quand je clique sur "Non assigné"
+		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
+		Quand je clique sur "Non assigné" dans la ligne de "Conley"
 		Alors je vois "Assigner un chargé d'orientation"
 		Alors j'attends que le texte "Veuillez sélectionner le chargé d'orientation" apparaisse
 		Alors je selectionne l'option "Giulia Diaby" dans la liste "Nom du chargé d’orientation"
 		Quand je clique sur "Assigner"
-		Alors je vois "Giulia Diaby" sur la ligne "Aguilar"
+		Quand je selectionne l'option "Bénéficiaires de mon portefeuille" dans la liste "Bénéficiaires"
+		Alors je vois "Giulia Diaby" sur la ligne "Conley"
