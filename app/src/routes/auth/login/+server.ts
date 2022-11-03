@@ -143,7 +143,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			to: email,
 			subject: 'Accédez à Carnet de bord',
 		},
-		template: 'loginRequest',
+		template: 'LoginRequest',
 		params: [
 			{
 				pro: {

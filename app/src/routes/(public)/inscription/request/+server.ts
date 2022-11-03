@@ -146,7 +146,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				to: email,
 				subject: 'Création de compte sur Carnet de bord',
 			},
-			template: 'accountCreatedByAdmin',
+			template: 'AccountCreatedByAdmin',
 			params: [
 				{
 					account: {
@@ -211,7 +211,7 @@ function sendEmailNotifications(
 				to: email,
 				subject: 'Demande de création de compte',
 			},
-			template: 'accountRequest',
+			template: 'AccountRequest',
 			params: [
 				{
 					pro: accountRequest,

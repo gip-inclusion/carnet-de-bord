@@ -20,12 +20,12 @@ export function createLink({ appUrl, accessKey, redirectUrl }: Url) {
 }
 
 export type Templates =
-	| 'notebookInvitation'
-	| 'loginRequest'
-	| 'forgotLoginRequest'
-	| 'accountRequestValidate'
-	| 'accountRequest'
-	| 'accountCreatedByAdmin'
-	| 'adminStructureAccountCreation'
-	| 'adminStructureAddedToStructure'
-	| 'managerOnboarding';
+	| 'NotebookInvitation'
+	| 'LoginRequest'
+	| 'ForgotLoginRequest'
+	| 'AccountRequestValidate'
+	| 'AccountRequest'
+	| 'AccountCreatedByAdmin'
+	| 'AdminStructureAccountCreation' // FIXME: Not used ?
+	| 'AdminStructureAddedToStructure' // FIXME: Not used ?
+	| 'ManagerOnboarding';
