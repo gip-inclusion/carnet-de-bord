@@ -1,24 +1,18 @@
 import { send as sender } from './send';
-import { templates, createLink } from './emails';
+import { createLink } from './emails';
+import type { Templates } from './emails';
 import type Mail from 'nodemailer/lib/mailer';
 import type { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 
-async function send<K extends keyof typeof templates>({
+async function send({
 	options,
 	template,
 	params,
 }: {
 	options: Mail.Options;
-	template: K;
-	params: Parameters<typeof templates[K]>;
+	template: Templates;
+	params: unknown;
 }): Promise<SentMessageInfo> {
-	if (!templates[template]) {
-		return Promise.reject(
-			`Invalid template name: ${template}. Available templates are: ${Object.keys(templates).join(
-				', '
-			)}.`
-		);
-	}
 	const Component = (await import(`./templates/${capitalizeFirstLetter(template)}.svelte`)).default;
 	const emailParams = { ...params[0], link: createLink(params[0].url) };
 	const html = Component.render(emailParams).html;
