@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { createMail } from './';
+import { prepareEmail } from './';
 import { render } from '@testing-library/svelte';
 
 const url = {
@@ -14,11 +14,12 @@ const url = {
 describe('creating email', () => {
 	describe('login email', () => {
 		it('render email template as html string', async () => {
-			const email = await createMail({
+			const { Component, formattedParams } = await prepareEmail({
 				template: 'LoginRequest',
 				params: [{ url, pro: { firstname: 'Prénom', lastname: 'Nom' } }],
-				render,
 			});
+
+			const email = render(Component, { ...formattedParams }).container.firstChild;
 
 			expect(email).toMatchSnapshot();
 		});
