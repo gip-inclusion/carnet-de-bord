@@ -141,7 +141,7 @@ async def test_parse_principal_csv(
         db_connection, skinner_edwina.notebook.id
     )
 
-    assert len(notebook_members) == 1
+    assert len(notebook_members) == 2
 
     # Account of sanka@groupe-ns.fr
     notebook_member = await get_notebook_member_by_notebook_id_and_account_id(
