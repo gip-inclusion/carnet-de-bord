@@ -1,10 +1,17 @@
 from datetime import date, datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Field, validator
+from pandas.core.series import Series
+from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 
+from api.db.models.csv import CsvFieldError
 from api.db.models.nir import nir_format
 from api.db.models.notebook import Notebook
+from api.db.models.validator import (
+    is_bool_validator,
+    phone_validator,
+    postal_code_validator,
+)
 
 
 class BeneficiaryStructure(BaseModel):
@@ -50,7 +57,7 @@ class BeneficiaryImport(BaseModel):
     date_of_birth: date = Field(..., title="Date de naissance")
     place_of_birth: str | None = Field(None, title="Lieu de naissance")
     phone_number: str | None = Field(None, title="Numéro de téléphone")
-    email: str | None = Field(None, title="Email")
+    email: EmailStr | None = Field(None, title="Email")
     address1: str | None = Field(None, title="Adresse")
     address2: str | None = Field(None, title="Complément d'adresse")
     postal_code: str | None = Field(None, title="Code postal")
@@ -67,7 +74,7 @@ class BeneficiaryImport(BaseModel):
     rome_code_description: str | None = Field(None, title="Emploi recherché")
     education_level: str | None = Field(None, title="Niveau de formation")
     structure_name: str | None = Field(None, title="Structure d'accompagnement")
-    advisor_email: str | None = Field(None, title="Accompagnateur référent")
+    advisor_email: EmailStr | None = Field(None, title="Accompagnateur référent")
     nir: str | None = Field(None, title="NIR (numéro de sécurité sociale)")
 
     class Config:
@@ -75,21 +82,16 @@ class BeneficiaryImport(BaseModel):
         alias_generator = snake_to_camel
         allow_population_by_field_name = True
 
+    _phone_validator = phone_validator("phone_number")
+    _postal_code_validator = postal_code_validator("postal_code")
+
     @validator("firstname", "lastname")
     def capitalize(cls, value):
         return value.lower()
 
-    @validator("right_are", "right_ass", "right_bonus", "right_rqth", pre=True)
-    def parse_bool(cls, value):
-        if type(value) == str:
-            if value.lower() in ["oui", "o"]:
-                return True
-            else:
-                return False
-        elif type(value) == bool:
-            return value
-        else:
-            return False
+    _is_bool_validator = is_bool_validator(
+        "right_are", "right_ass", "right_bonus", "right_rqth", pre=True
+    )
 
     @validator("right_rsa")
     def parse_right_rsa(cls, right_rsa):
@@ -175,3 +177,26 @@ class BeneficiaryImport(BaseModel):
             return nir
         else:
             return None
+
+
+class BeneficiaryCsvRowResponse(BaseModel):
+    row: dict | None = None
+    data: BeneficiaryImport | None = None
+    valid: bool
+    errors: list[CsvFieldError] | None = None
+
+
+def map_csv_row(row: Series) -> BeneficiaryCsvRowResponse:
+    try:
+        data = BeneficiaryImport.parse_obj(row)
+        return BeneficiaryCsvRowResponse(data=data, valid=True)
+
+    except ValidationError as error:
+        return BeneficiaryCsvRowResponse(
+            row=row.to_dict(),
+            valid=False,
+            errors=[
+                CsvFieldError(key="".join(str(err["loc"][0])), error=err["msg"])
+                for err in error.errors()
+            ],
+        )
