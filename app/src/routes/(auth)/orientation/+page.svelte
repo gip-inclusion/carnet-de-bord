@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { accountData, connectedUser, graphqlAPI, token } from '$lib/stores';
+	import { connectedUser, graphqlAPI, token } from '$lib/stores';
 	import { Elm } from '../../../../elm/OrientationHome/Main.elm';
 	import { onMount } from 'svelte';
 
@@ -12,7 +12,6 @@
 				token: $token,
 				serverUrl: $graphqlAPI,
 				accountId: $connectedUser.id,
-				email: $accountData.orientation_manager.email,
 			},
 		});
 	});

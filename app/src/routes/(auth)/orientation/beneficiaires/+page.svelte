@@ -35,9 +35,9 @@
 <h1>Orientation des bénéficiaires</h1>
 <Container
 	listType="orientation"
-	filter={data.filter}
 	search={data.search}
 	currentPage={data.currentPage}
-	member={data.member}
-	need_orientation={data.need_orientation}
+	beneficiaryFilter={data.beneficiaryFilter}
+	withoutOrientationManager={data.withoutOrientationManager}
+	orientationStatusFilter={data.orientationStatusFilter}
 />

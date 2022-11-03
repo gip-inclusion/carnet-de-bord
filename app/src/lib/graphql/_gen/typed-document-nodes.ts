@@ -12364,7 +12364,7 @@ export type UpdateAdminStructureByIdMutation = {
 export type GetBeneficiariesQueryVariables = Exact<{
 	offset?: Scalars['Int'];
 	limit?: Scalars['Int'];
-	withMembers?: BeneficiaryBoolExp;
+	where?: BeneficiaryBoolExp;
 	search?: Scalars['String'];
 }>;
 
@@ -15741,7 +15741,7 @@ export const GetBeneficiariesDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'beneficiary_bool_exp' } },
@@ -15782,7 +15782,7 @@ export const GetBeneficiariesDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
 							},
 						],
 						selectionSet: {
@@ -15860,7 +15860,7 @@ export const GetBeneficiariesDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'withMembers' } },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
 							},
 						],
 						selectionSet: {

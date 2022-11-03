@@ -1,10 +1,10 @@
 query GetBeneficiaries(
   $offset: Int! = 0
   $limit: Int! = 20
-  $withMembers: beneficiary_bool_exp! = {}
+  $where: beneficiary_bool_exp! = {}
   $search: String! = ""
 ) {
-  search_beneficiaries_aggregate(args: { search: $search }, where: $withMembers) {
+  search_beneficiaries_aggregate(args: { search: $search }, where: $where) {
     aggregate {
       count
     }
@@ -14,7 +14,7 @@ query GetBeneficiaries(
     limit: $limit
     offset: $offset
     order_by: [{ lastname: asc }, { firstname: asc }]
-    where: $withMembers
+    where: $where
   ) {
     id
     firstname

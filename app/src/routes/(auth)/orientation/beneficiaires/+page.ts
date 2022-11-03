@@ -1,19 +1,29 @@
-import { getFilter } from '$lib/ui/BeneficiaryList/Filters.svelte';
+import type { BeneficiaryFilter, OrientedFilter } from '$lib/ui/BeneficiaryList/OrientationFilter';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async (event) => {
 	const params = event.url.searchParams;
-	let need_orientation: boolean | null = null;
-	if (params.get('orientation') === 'oui') {
-		need_orientation = false;
-	} else if (params.get('orientation') === 'non') {
-		need_orientation = true;
+	let orientationStatusFilter: OrientedFilter = 'non-oriente';
+	let withoutOrientationManager = false;
+	let beneficiaryFilter: BeneficiaryFilter = 'mes-beneficiaires';
+
+	if (params.get('oriente') === 'oui') {
+		orientationStatusFilter = 'oriente';
 	}
+
+	if (params.get('co') === 'avec') {
+		withoutOrientationManager = true;
+	}
+
+	if (params.get('brsa') === 'non-suivi') {
+		beneficiaryFilter = 'autres-beneficiaires';
+	}
+
 	return {
 		currentPage: parseInt(params.get('page') || '1', 10),
-		filter: getFilter(params.get('filter')),
 		search: params.get('search') || '',
-		member: params.get('member'),
-		need_orientation,
+		orientationStatusFilter,
+		withoutOrientationManager,
+		beneficiaryFilter,
 	};
 };

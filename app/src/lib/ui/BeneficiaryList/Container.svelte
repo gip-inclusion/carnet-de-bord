@@ -22,17 +22,27 @@
 	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
-	import { openComponent } from '$lib/stores';
+	import { connectedUser, openComponent } from '$lib/stores';
 	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
+	import FilterOrientation from './FilterOrientation.svelte';
+	import type { BeneficiaryFilter, OrientedFilter } from './OrientationFilter';
 
 	type BeneficiaryListType = 'orientation' | 'manager' | 'structure';
 
-	export let search: string;
-	export let filter: MemberFilter;
+	// global filter
 	export let currentPage: number;
-	export let member: string;
-	export let need_orientation: boolean | null = null;
+	export let search: string;
+
+	// structure / manager filter
+	export let filter: MemberFilter | null = null;
+	export let member: string | null = null;
+
+	// orientation filter
+	export let beneficiaryFilter: BeneficiaryFilter | null = null;
+	export let orientationStatusFilter: OrientedFilter | null = null;
+	export let withoutOrientationManager: boolean | null = null;
+
 	export let structureId: string = null;
 	export let listType: BeneficiaryListType = 'manager';
 
@@ -40,19 +50,34 @@
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
-	function getWithMemberFilter(filter: MemberFilter): BeneficiaryBoolExp {
+	function getWhereFilter(): BeneficiaryBoolExp {
 		const graphqlFilter: BeneficiaryBoolExp = {
 			...(structureId && { structures: { structureId: { _eq: structureId } } }),
 			notebook: {
-				...(need_orientation === false && {
-					_or: [
-						{ notebookInfo: { needOrientation: { _eq: false } } },
-						{ _not: { notebookInfo: {} } },
-					],
-				}),
-				...(need_orientation === true && {
-					notebookInfo: { needOrientation: { _eq: true } },
-				}),
+				_and: [
+					...((beneficiaryFilter === 'autres-beneficiaires' && [
+						{ _not: { members: { accountId: { _eq: $connectedUser.id } } } },
+						...((withoutOrientationManager && [
+							{
+								_not: { members: { account: { orientation_manager: {} } } },
+							},
+						]) ||
+							[]),
+					]) ||
+						[]),
+					...((beneficiaryFilter === 'mes-beneficiaires' && [
+						{ members: { accountId: { _eq: $connectedUser.id } } },
+					]) ||
+						[]),
+					...((orientationStatusFilter === 'oriente' && [
+						{ _not: { notebookInfo: { needOrientation: { _eq: true } } } },
+					]) ||
+						[]),
+					...((orientationStatusFilter === 'non-oriente' && [
+						{ notebookInfo: { needOrientation: { _eq: true } } },
+					]) ||
+						[]),
+				],
 				...(member && {
 					members: {
 						active: { _eq: true },
@@ -88,7 +113,7 @@
 			search: search,
 			offset: (currentPage - 1) * pageSize,
 			limit: pageSize,
-			withMembers: getWithMemberFilter(filter),
+			where: getWhereFilter(),
 		},
 		{
 			additionalTypenames: ['beneficiary', 'notebook_member', 'notebook_info'],
@@ -103,7 +128,7 @@
 			search,
 			offset: (currentPage - 1) * pageSize,
 			limit: pageSize,
-			withMembers: getWithMemberFilter(filter),
+			where: getWhereFilter(),
 		};
 		$result.reexecute();
 	});
@@ -125,6 +150,27 @@
 		if (event.detail.resetMember) {
 			urlParams.delete('member');
 		}
+		urlParams.set('page', '1');
+		goto(`?${urlParams.toString()}`);
+		selectionStore.reset();
+	}
+
+	function updateOrientationFilter(
+		event: CustomEvent<{
+			orientationStatusFilter: OrientedFilter;
+			withoutOrientationManager: boolean;
+			beneficiaryFilter: BeneficiaryFilter;
+			search;
+		}>
+	) {
+		const urlParams = new URLSearchParams([...$page.url.searchParams.entries()]);
+		urlParams.set(
+			'brsa',
+			event.detail.beneficiaryFilter === 'mes-beneficiaires' ? 'suivi' : 'non-suivi'
+		);
+		urlParams.set('oriente', event.detail.orientationStatusFilter === 'oriente' ? 'oui' : 'non');
+		urlParams.set('co', event.detail.withoutOrientationManager ? 'avec' : 'sans');
+		urlParams.set('search', event.detail.search);
 		urlParams.set('page', '1');
 		goto(`?${urlParams.toString()}`);
 		selectionStore.reset();
@@ -191,7 +237,17 @@
 </script>
 
 <div class="flex flex-col gap-8">
-	<BeneficiaryFilterView {filter} {search} on:filter-update={updateFilters} {member} />
+	{#if listType === 'orientation'}
+		<FilterOrientation
+			{search}
+			on:filter-update={updateOrientationFilter}
+			{orientationStatusFilter}
+			{beneficiaryFilter}
+			{withoutOrientationManager}
+		/>
+	{:else}
+		<BeneficiaryFilterView {filter} {search} on:filter-update={updateFilters} {member} />
+	{/if}
 	<LoaderIndicator {result}>
 		{#if listType === 'manager'}
 			<BeneficiaryListWithStructure beneficiaries={$result.data.beneficiaries} />
