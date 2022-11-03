@@ -429,7 +429,7 @@ harry_covert = BeneficiaryImport(
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
     place_of_birth="Paris",
-    phone_number="06579123",
+    phone_number="0657912322",
     email="harry.covert@caramail.fr",
     address1="1 Rue des Champs",
     address2="1er étage",
@@ -463,7 +463,7 @@ harry_covert_typo = BeneficiaryImport(
     firstname="Harry,",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
-    phone_number="06579123",
+    phone_number="0657912322",
 )
 
 harry_covert_with_caps_and_space = BeneficiaryImport(
@@ -471,7 +471,7 @@ harry_covert_with_caps_and_space = BeneficiaryImport(
     firstname="Harry ",
     lastname="  CoVert",
     date_of_birth=date(1985, 7, 23),
-    phone_number="06579123",
+    phone_number="0657912322",
 )
 
 betty_bois = BeneficiaryImport(
