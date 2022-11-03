@@ -42,6 +42,7 @@
 						class="fr-footer__bottom-link"
 						href="https://github.com/gip-inclusion/carnet-de-bord/blob/master/CHANGELOG.md"
 						target="_blank"
+						rel="noreferrer"
 					>
 						Version {appVersion}
 					</a>
@@ -71,6 +72,7 @@
 				<p>
 					Sauf mention contraire, tous les textes de ce site sont sous <a
 						href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+						rel="noreferrer"
 						target="_blank">licence etalab-2.0</a
 					>
 				</p>
