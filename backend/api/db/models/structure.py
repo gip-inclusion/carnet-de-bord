@@ -1,5 +1,4 @@
 import logging
-import re
 from datetime import datetime
 from uuid import UUID
 
