@@ -41,8 +41,9 @@ const Matomo = new MatomoTracker(env.PUBLIC_MATOMO_SITE_ID, `${env.PUBLIC_MATOMO
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		actionsGuard(request.headers);
-	} catch (error) {
-		throw error(500, 'matomo_dashboard: unhautorized action');
+	} catch (e) {
+		console.error(e);
+		throw error(401, 'matomo_dashboard: unhautorized action');
 	}
 
 	const deploymentResult = await client.query(ListDeploymentIdDocument).toPromise();
