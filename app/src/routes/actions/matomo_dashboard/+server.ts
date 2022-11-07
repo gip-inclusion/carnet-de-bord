@@ -1,6 +1,6 @@
 import { json, error } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/public';
 
 import {
 	GetDeploymentStatForDayDocument,
