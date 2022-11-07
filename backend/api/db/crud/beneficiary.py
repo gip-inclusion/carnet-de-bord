@@ -101,7 +101,7 @@ async def insert_beneficiary(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id,
-) -> UUID:
+) -> UUID | None:
     created_beneficiary: Record = await connection.fetchrow(
         """
 INSERT INTO BENEFICIARY (
@@ -141,7 +141,8 @@ returning id
         beneficiary.nir,
     )
 
-    return created_beneficiary["id"]
+    if created_beneficiary:
+        return created_beneficiary["id"]
 
 
 async def get_beneficiary_with_query(
