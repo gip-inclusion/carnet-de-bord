@@ -1,7 +1,34 @@
+import datetime
 import re
 
 import phonenumbers
 from pydantic import validator
+
+DATE_YMD_HYPHEN_FORMAT = "%Y-%m-%d"
+DATE_DMY_SLASH_FORMAT = "%d/%m/%Y"
+DATE_DMY_HYPHEN_FORMAT = "%d-%m-%Y"
+
+DATE_FORMATS = [DATE_YMD_HYPHEN_FORMAT, DATE_DMY_SLASH_FORMAT, DATE_DMY_HYPHEN_FORMAT]
+
+
+def date(value: str) -> str:
+    if not value or type(value) is not str:
+        return value
+
+    for date_format in DATE_FORMATS:
+        try:
+            parsed_date = datetime.datetime.strptime(value, date_format)
+            return parsed_date.strftime(DATE_YMD_HYPHEN_FORMAT)
+        except ValueError:
+            pass
+
+    raise ValueError("Value is not a known date format. Valid format: YYYY-MM-DD.")
+
+
+def date_validator(*args, **kwargs):
+    decorator = validator(*args, **kwargs, allow_reuse=True)
+    decorated = decorator(date)
+    return decorated
 
 
 def phone(value: str) -> str:

@@ -8,6 +8,7 @@ from api.db.models.csv import CsvFieldError
 from api.db.models.nir import nir_format
 from api.db.models.notebook import Notebook
 from api.db.models.validator import (
+    date_validator,
     is_bool_validator,
     phone_validator,
     postal_code_validator,
@@ -58,30 +59,32 @@ def is_same_name(firstname1, firstname2, lastname1, lastname2):
 
 
 class BeneficiaryImport(BaseModel):
-    si_id: str = Field(..., title="Identifiant du SI interne")
-    firstname: str = Field(..., title="Prénom")
-    lastname: str = Field(..., title="Nom")
-    date_of_birth: date = Field(..., title="Date de naissance")
-    place_of_birth: str | None = Field(None, title="Lieu de naissance")
-    phone_number: str | None = Field(None, title="Numéro de téléphone")
-    email: EmailStr | None = Field(None, title="Email")
-    address1: str | None = Field(None, title="Adresse")
-    address2: str | None = Field(None, title="Complément d'adresse")
-    postal_code: str | None = Field(None, title="Code postal")
-    city: str | None = Field(None, title="Ville")
-    work_situation: str | None = Field(None, title="Situation professionnelle")
-    caf_number: str | None = Field(None, title="Numéro CAF/MSA")
-    pe_number: str | None = Field(None, title="Identifiant Pole Emploi")
-    right_rsa: str | None = Field(None, title="Droits RSA")
-    right_are: bool | None = Field(None, title="Droits ARE")
-    right_ass: bool | None = Field(None, title="Droits ASS")
-    right_bonus: bool | None = Field(None, title="Droits Bonus")
-    right_rqth: bool | None = Field(None, title="Droits RQTH")
-    geographical_area: str | None = Field(None, title="Zone de mobilité")
-    rome_code_description: str | None = Field(None, title="Emploi recherché")
-    education_level: str | None = Field(None, title="Niveau de formation")
-    structure_name: str | None = Field(None, title="Structure d'accompagnement")
-    advisor_email: EmailStr | None = Field(None, title="Accompagnateur référent")
+    si_id: str = Field(..., alias="Identifiant dans le SI*")
+    firstname: str = Field(..., alias="Prénom*")
+    lastname: str = Field(..., alias="Nom*")
+    date_of_birth: date = Field(..., alias="Date de naissance*")
+    place_of_birth: str | None = Field(None, alias="Lieu de naissance")
+    phone_number: str | None = Field(None, alias="Téléphone")
+    email: EmailStr | None = Field(None, alias="Email")
+    address1: str | None = Field(None, alias="Adresse")
+    address2: str | None = Field(None, alias="Adresse (complément)")
+    postal_code: str | None = Field(None, alias="Code postal")
+    city: str | None = Field(None, alias="Ville")
+    work_situation: str | None = Field(None, alias="Situation")
+    caf_number: str | None = Field(None, alias="Numéro allocataire CAF/MSA")
+    pe_number: str | None = Field(None, alias="Identifiant Pôle Emploi")
+    right_rsa: str | None = Field(None, alias="Droits RSA")
+    right_are: bool | None = Field(None, alias="Droits ARE")
+    right_ass: bool | None = Field(None, alias="Droits ASS")
+    right_bonus: bool | None = Field(None, alias="Prime d'activité")
+    right_rqth: bool | None = Field(None, alias="Droits RQTH")
+    geographical_area: str | None = Field(None, alias="Zone de mobilité")
+    rome_code_description: str | None = Field(
+        None, alias="Emploi recherché (code ROME)"
+    )
+    education_level: str | None = Field(None, alias="Niveau de formation")
+    structure_name: str | None = Field(None, alias="Structure")
+    advisor_email: EmailStr | None = Field(None, alias="Accompagnateurs")
     nir: str | None = Field(None, title="NIR (numéro de sécurité sociale)")
 
     class Config:
@@ -94,6 +97,7 @@ class BeneficiaryImport(BaseModel):
     _is_bool_validator = is_bool_validator(
         "right_are", "right_ass", "right_bonus", "right_rqth", pre=True
     )
+    _date_validator = date_validator("date_of_birth", pre=True)
 
     @validator("right_rsa")
     def parse_right_rsa(cls, right_rsa):
