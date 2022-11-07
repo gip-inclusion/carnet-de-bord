@@ -17,8 +17,8 @@
 
 <svelte:window on:keydown={handleKeyDown} />
 {#if currentLayer}
-	<div transition:fade on:click={close} class="!m-0 fixed inset-0 layer">
-		<div class="absolute inset-0 bg-black opacity-50" tabindex="0" />
+	<div transition:fade on:click={close} on:keydown={handleKeyDown} class="!m-0 fixed inset-0 layer">
+		<div class="absolute inset-0 bg-black opacity-50" />
 	</div>
 {/if}
 

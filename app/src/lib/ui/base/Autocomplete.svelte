@@ -109,6 +109,11 @@
 		toggleSelection(suggestionIndex, shouldClose);
 	}
 
+	function suggestionKeyDownHandler(event: KeyboardEvent, suggestionIndex: number) {
+		const shouldClose = !multiple;
+		toggleSelection(suggestionIndex, shouldClose);
+	}
+
 	function toggleSelection(suggestionIndex: number, close = true) {
 		if (multiple) {
 			selectedItems = internalOptions.flatMap((o) => {
@@ -241,7 +246,6 @@
 						on:focus={positionCursor}
 						bind:this={input}
 						class="fr-input"
-						role="search"
 						autocomplete="off"
 						autocapitalize="off"
 						spellcheck="false"
@@ -260,6 +264,7 @@
 							{#each suggestions as suggestion}
 								<div
 									on:click={(e) => suggestionClickHandler(e, suggestion.index)}
+									on:keydown={(e) => suggestionKeyDownHandler(e, suggestion.index)}
 									role="option"
 									tabindex="0"
 									class="option"

@@ -17,13 +17,11 @@
 
 <div
 	on:click={onClick}
-	class={`
-fr-card
-${horizontal ? 'fr-card--horizontal' : ''}
-${largeLink ? 'fr-enlarge-link' : ''}
-${hideArrow ? 'fr-card--no-arrow' : ''}
-${$$props.class}
-`}
+	on:keydown={onClick}
+	class={`fr-card ${$$props.class}`}
+	class:fr-card--horizontal={horizontal}
+	class:fr-enlarge-link={largeLink}
+	class:fr-card--no-arrow={hideArrow}
 	class:force-disable-hover={disabledHover}
 >
 	<div class="fr-card__body">

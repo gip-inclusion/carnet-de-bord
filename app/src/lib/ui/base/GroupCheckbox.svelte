@@ -24,7 +24,7 @@
 	}
 </script>
 
-<div class={`fr-checkbox-group ${classNames}`} on:click={input.click}>
+<div class={`fr-checkbox-group ${classNames}`} on:click={input.click} on:keydown={input.click}>
 	<input
 		bind:this={input}
 		type="checkbox"
