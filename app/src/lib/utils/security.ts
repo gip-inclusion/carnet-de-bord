@@ -22,6 +22,6 @@ export const authorizeOnly =
 export const actionsGuard = (headers: Headers): void => {
 	const actionSecret = getActionSecret();
 	if (actionSecret !== headers.get('secret_token')) {
-		throw Error('ACTION_SECRET header not match');
+		throw Error('ACTION_SECRET header does not match');
 	}
 };
