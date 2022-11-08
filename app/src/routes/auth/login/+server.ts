@@ -18,6 +18,7 @@ import send from '$lib/emailing';
 import * as yup from 'yup';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { logger } from '$lib/utils/logger';
 
 const client = createClient({
 	fetch,
@@ -90,13 +91,13 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		if (usernameResult.error) {
 			// something went wrong but we're not saying what at the moment
-			console.info('Could not find account with email', { username });
+			logger.info({ username }, 'Could not find account with username');
 			throw error(401, 'User not found');
 		}
 
 		if (!usernameResult.data || usernameResult.data.account.length === 0) {
 			// it went fine but we still found no user, time to give up
-			console.info('Could not find username', { username });
+			logger.info({ username }, 'Could not find username');
 			throw error(401, 'User not found');
 		}
 
@@ -109,7 +110,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	if (!account.confirmed) {
 		// OK, you do have an account, but it's not confirmed/enabled yet, so no dice!
-		console.info('Refused log-in for unconfirmed account', { username });
+		logger.info({ username }, 'Refused log-in for unconfirmed account');
 		throw error(403, 'Account not confirmed');
 	}
 
@@ -121,11 +122,14 @@ export const POST: RequestHandler = async ({ request }) => {
 	const result = await updateAccessKey(client, id);
 
 	if (result.error) {
-		console.error('Could not update access key when logging in', {
-			error: result.error,
-			id,
-			username,
-		});
+		logger.error(
+			{
+				error: result.error,
+				id,
+				username,
+			},
+			'Could not update access key when logging in'
+		);
 		throw error(500, 'Could not update access key');
 	}
 	const accessKey = result.data.account.accessKey;
@@ -153,7 +157,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			},
 		],
 	}).catch((emailError) => {
-		console.error('Failed sending login email', { emailError, id, username, email });
+		logger.error({ emailError, id, username, email }, 'Failed sending login email');
 	});
 
 	return json({
@@ -181,7 +185,7 @@ async function createBeneficiaryIfNotExist(username: string) {
 				return;
 			}
 			const [{ id, firstname, lastname }] = beneficiary;
-			console.info(`beneficiary found with email ${username}`);
+			logger.info(`beneficiary found with email ${username}`);
 			return client
 				.mutation(CreateBeneficiaryAccountDocument, {
 					username: `${firstname}.${lastname}.${crypto.randomBytes(6).toString('hex')}`,

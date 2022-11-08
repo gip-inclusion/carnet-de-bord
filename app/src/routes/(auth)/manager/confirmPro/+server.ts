@@ -13,6 +13,7 @@ import type {
 	GetAccountByIdQuery,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { authorizeOnly } from '$lib/utils/security';
+import { logger } from '$lib/utils/logger';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
@@ -59,7 +60,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (err) {
-		console.error('confirmPro', err);
+		logger.error(err, 'confirmPro');
 		throw error(500, 'confirmPro: server error');
 	}
 
@@ -83,7 +84,14 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (result.error) {
-		console.error('Could not confirm pro', { id, email, firstname, lastname, error: result.error });
+		logger.error({
+			message: 'Could not confirm pro',
+			id,
+			email,
+			firstname,
+			lastname,
+			error: result.error,
+		});
 		throw error(403, 'confirmPro: server error');
 	}
 
@@ -109,7 +117,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			},
 		],
 	}).catch((emailError) => {
-		console.error(emailError);
+		logger.error(emailError);
 	});
 
 	return json({});

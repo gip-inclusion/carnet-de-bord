@@ -8,6 +8,7 @@ import { updateAccessKey } from '$lib/services/account';
 import send from '$lib/emailing';
 import * as yup from 'yup';
 import { authorizeOnly } from '$lib/utils/security';
+import { logger } from '$lib/utils/logger';
 
 const client = createClient({
 	fetch,
@@ -80,7 +81,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			},
 		],
 	}).catch((emailError) => {
-		console.error(emailError);
+		logger.error(emailError);
 	});
 
 	return json({

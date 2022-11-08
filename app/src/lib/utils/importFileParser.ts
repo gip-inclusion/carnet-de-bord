@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { proAccountSchema } from '$lib/ui/ProCreationForm/pro.schema';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { parseImportedDate } from './date';
+import { logger } from '$lib/utils/logger';
 
 interface ImportParsingException {
 	code: string;
@@ -146,7 +147,7 @@ function validate(entity: null | undefined | Record<string, unknown>, entityType
 				proAccountSchema.validateSync(entity);
 				return true;
 			} catch (e) {
-				console.error(e);
+				logger.error(e);
 				return false;
 			}
 		default:

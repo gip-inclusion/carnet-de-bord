@@ -1,4 +1,5 @@
 import type { Algorithm } from 'jsonwebtoken';
+import { logger } from '$lib/utils/logger';
 
 export const getBackendAPI = (): string => {
 	return process.env['BACKEND_API_URL'];
@@ -55,7 +56,7 @@ export function getJwtKey(): JwtKey {
 	try {
 		jwtSecret = JSON.parse(hasuraJwtSecret);
 	} catch (error) {
-		console.error(`[JWT], HASURA_GRAPHQL_JWT_SECRET is not a valid json ${hasuraJwtSecret}`);
+		logger.error(`[JWT], HASURA_GRAPHQL_JWT_SECRET is not a valid json ${hasuraJwtSecret}`);
 	}
 	return jwtSecret;
 }

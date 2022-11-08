@@ -6,6 +6,7 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { accountData } from '$lib/stores';
 import { error } from '@sveltejs/kit';
+import { logger } from '$lib/utils/logger';
 
 import type { Client } from '@urql/core';
 import type { LayoutLoad } from './$types';
@@ -29,10 +30,12 @@ async function getAccount(
 ): Promise<GetAccountByPkQuery['account_by_pk'] | null> {
 	const result = await client.query(GetAccountByPkDocument, { accountId }).toPromise();
 	if (result.error) {
-		console.error(
-			`Récuparation du compte utilisateur ${accountId} impossible`,
-			result.error,
-			browser
+		logger.error(
+			{
+				err: result.error,
+				browser,
+			},
+			`Récupération du compte utilisateur ${accountId} impossible`
 		);
 	}
 	if (result.data) {

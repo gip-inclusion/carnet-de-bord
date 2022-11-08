@@ -6,16 +6,16 @@ import { updateAccessKey } from '$lib/services/account';
 import { actionsGuard } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
+import { logger } from '$lib/utils/logger';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 	try {
 		actionsGuard(request.headers);
 	} catch (error) {
-		console.error(
-			'Rejected access to actions/create_deployment because request lacked proper headers',
-			{ headers: request.headers, body },
-			error
+		logger.error(
+			{ error, headers: request.headers, body },
+			'Rejected access to actions/create_deployment because request lacked proper headers'
 		);
 		throw error(500, 'create_deployment: unauthorize action');
 	}
@@ -54,28 +54,30 @@ export const POST: RequestHandler = async ({ request }) => {
 		})
 		.toPromise();
 	if (updateResult.error) {
-		console.error('Error inserting new deployment and manager', {
-			error: updateResult.error,
-			email,
-			deployment,
-		});
+		logger.error(
+			{
+				error: updateResult.error,
+				email,
+				deployment,
+			},
+			'Error inserting new deployment and manager'
+		);
 		throw error(500, 'create deployment failed');
 	}
 
 	const id = updateResult.data?.insert_deployment_one?.managers[0]?.account?.id;
 
 	if (!id) {
-		console.error('Could not get id of newly created manager', { email, deployment });
+		logger.error({ email, deployment }, 'Could not get id of newly created manager');
 		throw error(500, 'create_deployment: missing id');
 	}
 
 	const result = await updateAccessKey(client, id);
 	if (result.error) {
-		console.error('Error updating access key for magic link', {
-			error: result.error,
-			email,
-			deployment,
-		});
+		logger.error(
+			{ error: result.error, email, deployment },
+			'Error updating access key for magic link'
+		);
 		throw error(500, 'update access key failed');
 	}
 
@@ -99,7 +101,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			},
 		],
 	}).catch((emailError) => {
-		console.error('Could not send email', { error: emailError, email, deployment });
+		logger.error({ error: emailError, email, deployment }, 'Could not send email');
 	});
 
 	return json({
