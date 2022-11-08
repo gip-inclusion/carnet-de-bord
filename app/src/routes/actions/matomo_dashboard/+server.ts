@@ -13,6 +13,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 import MatomoTracker from 'matomo-tracker';
 import { subDays } from 'date-fns';
+import { logger } from '$lib/utils/logger';
 
 const client = createClient({
 	fetchOptions: {
@@ -49,8 +50,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	const deploymentResult = await client.query(ListDeploymentIdDocument).toPromise();
 
 	if (deploymentResult.error) {
-		console.error(deploymentResult.error);
-		throw error(500, 'matomo_dashboard: error retrieving deployment');
+		logAndThrow(deploymentResult.error, 500, 'matomo_dashboard: error retrieving deployment');
 	}
 	const day = formatDateISO(new Date());
 	const last30Days = formatDateISO(subDays(new Date(), 30));
@@ -59,8 +59,11 @@ export const POST: RequestHandler = async ({ request }) => {
 			.query(GetDeploymentStatForDayDocument, { deploymentId: id, day, last30Days })
 			.toPromise();
 		if (statResult.error) {
-			console.error(statResult.error);
-			throw error(500, 'matomo_dashboard: Error retrieving deployment ${id} stats');
+			logAndThrow(
+				statResult.error,
+				500,
+				'matomo_dashboard: Error retrieving deployment ${id} stats'
+			);
 		}
 
 		const {
@@ -130,7 +133,8 @@ export const POST: RequestHandler = async ({ request }) => {
 				[`dimension${CustomDimensions.Deployment}`]: id,
 				[`dimension${CustomDimensions.Role}`]: 'export bot',
 			});
-			console.log('send ', {
+			logger.debug({
+				event: 'Matomo dashboard: information sent',
 				e_c: 'dashboard',
 				e_a: 'stats',
 				e_n: label,
@@ -144,3 +148,15 @@ export const POST: RequestHandler = async ({ request }) => {
 		message: 'stats sent successfully',
 	});
 };
+
+function logAndThrow(e: Error, status: number, message: string) {
+	logger.error({
+		status,
+		message,
+		err: {
+			message: e.message,
+			stack: e.stack,
+		},
+	});
+	throw error(status, message);
+}
