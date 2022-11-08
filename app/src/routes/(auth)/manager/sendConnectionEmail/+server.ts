@@ -64,8 +64,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	if (!accountHasRelation(data.account)) {
-		logger.error('sendConnectionEmail: Invalid account type');
-		throw error(500, 'sendConnectionEmail: Invalid account type');
+		logger.error('sendConnectionEmail: invalid account type');
+		throw error(500, 'sendConnectionEmail: invalid account type');
 	}
 
 	const { email, lastname, firstname } =
