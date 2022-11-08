@@ -43,7 +43,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		actionsGuard(request.headers);
 	} catch (e) {
 		console.error(e);
-		throw error(401, 'matomo_dashboard: unhautorized action');
+		return new Response('matomo_dashboard: unauthorized action', { status: 401 });
 	}
 
 	const deploymentResult = await client.query(ListDeploymentIdDocument).toPromise();

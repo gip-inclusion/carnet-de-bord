@@ -1,5 +1,4 @@
-require('isomorphic-fetch');
-import { it, expect } from '@jest/globals';
+export {};
 
 it('should check hasura health point', async () => {
 	try {
