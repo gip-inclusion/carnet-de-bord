@@ -14,7 +14,7 @@ from api.db.crud.out import notebook_to_out
 from api.db.models.notebook import Notebook
 from api.db.models.out import NotebookOut
 
-sentry_sdk.init()
+sentry_sdk.init(attach_stacktrace=True)
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
