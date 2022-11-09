@@ -9,7 +9,6 @@ import {
 import type { GetAccountInfoQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { getGraphqlAPI, getHasuraAdminSecret } from '$lib/config/variables/private';
 import type { PageServerLoad } from './$types';
-import { logger } from '$lib/utils/logger';
 
 const client = createClient({
 	url: getGraphqlAPI(),
@@ -37,7 +36,7 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 		getAccountResult?.data.account.length === 0
 	) {
 		if (getAccountResult.error) {
-			logger.error(error);
+			console.error(error);
 		}
 		throw error(401, `no account for key ${accessKey}`);
 	}

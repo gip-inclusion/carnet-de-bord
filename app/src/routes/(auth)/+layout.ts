@@ -6,7 +6,6 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { accountData } from '$lib/stores';
 import { error } from '@sveltejs/kit';
-import { logger } from '$lib/utils/logger';
 
 import type { Client } from '@urql/core';
 import type { LayoutLoad } from './$types';
@@ -30,7 +29,7 @@ async function getAccount(
 ): Promise<GetAccountByPkQuery['account_by_pk'] | null> {
 	const result = await client.query(GetAccountByPkDocument, { accountId }).toPromise();
 	if (result.error) {
-		logger.error(
+		console.error(
 			{
 				err: result.error,
 				browser,
