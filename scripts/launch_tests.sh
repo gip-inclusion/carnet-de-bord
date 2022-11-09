@@ -136,8 +136,8 @@ function start_backend() {
 }
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
-  >&2 echo "-> Starting Jest tests"
-	(cd app && npx jest "$@")
+  >&2 echo "-> Starting js tests"
+	npm --prefix app test "$@"
 fi
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then

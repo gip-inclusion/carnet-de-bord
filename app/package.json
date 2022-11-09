@@ -31,8 +31,8 @@
 		"fix:eslint:all": "npm run lint:eslint:all -- --fix",
 		"format": "npm run fix:prettier",
 		"codegen": "graphql-codegen --config codegen.cjs",
-		"test": "jest",
-		"test:watch": "jest --watch",
+		"test": "vitest run ",
+		"test:watch": "vitest watch",
 		"test:experimental": "./scripts/launch_tests.sh",
 		"sync": "svelte-kit sync"
 	},
@@ -80,13 +80,15 @@
 		"svelte": "^3.44.3",
 		"svelte-check": "^2.2.11",
 		"svelte-jester": "^2.1.5",
+		"svelte-kit-test-helpers": "1.0.1",
 		"svelte-preprocess": "^4.10.1",
 		"tailwindcss": "^3.0.7",
 		"ts-jest": "^29.0.0",
 		"tslib": "^2.3.1",
 		"typescript": "^4.5.4",
 		"vite": "3.1.0",
-		"vite-plugin-elm": "^2.7.2"
+		"vite-plugin-elm": "^2.7.2",
+		"vitest": "0.25.0"
 	},
 	"dependencies": {
 		"@gouvfr/dsfr": "^1.7.2",
