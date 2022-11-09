@@ -1,3 +1,10 @@
+## [1.156.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.1...v1.156.2) (2022-11-09)
+
+
+### Bug Fixes
+
+* Réparation de l'envoi quotidien des données vers MATOMO. ([#1226](https://github.com/gip-inclusion/carnet-de-bord/issues/1226)) ([7141a9e](https://github.com/gip-inclusion/carnet-de-bord/commit/7141a9e4113b9e0fdb0aa2f30a2ac5f131c8a000))
+
 ## [1.156.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.0...v1.156.1) (2022-11-09)
 
 
