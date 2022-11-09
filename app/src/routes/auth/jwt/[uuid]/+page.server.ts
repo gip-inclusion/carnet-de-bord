@@ -1,4 +1,4 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { createJwt } from '$lib/utils/getJwt';
 
 import { createClient } from '@urql/core';
@@ -85,7 +85,9 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 		.mutation(ResetAccountAccessKeyDocument, { id, now: new Date().toISOString() })
 		.toPromise();
 
-	cookies.set('jwt', token, { path: '/', httpOnly: true, secure: true, sameSite: 'strict' });
+	cookies.set('jwt', token, { path: '/', httpOnly: true, /* secure: true, */ sameSite: 'strict' });
+
 	setHeaders({ 'Cache-Control': 'private' });
-	throw redirect(302, redirectAfterLogin ?? '/');
+
+	return { redirectAfterLogin };
 };
