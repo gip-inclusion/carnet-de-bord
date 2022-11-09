@@ -1,3 +1,10 @@
+## [1.156.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.0...v1.156.1) (2022-11-09)
+
+
+### Bug Fixes
+
+* redirection après connexion ([#1225](https://github.com/gip-inclusion/carnet-de-bord/issues/1225)) ([e3a77e5](https://github.com/gip-inclusion/carnet-de-bord/commit/e3a77e53f78c12f5e1334650ecbff09be530f202))
+
 # [1.156.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.155.0...v1.156.0) (2022-11-02)
 
 
