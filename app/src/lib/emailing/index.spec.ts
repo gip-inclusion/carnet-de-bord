@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { prepareEmail } from './';
 import { render } from '@testing-library/svelte';
 
