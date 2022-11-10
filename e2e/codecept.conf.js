@@ -44,24 +44,6 @@ exports.config = {
 			enabled: true,
 		},
 	},
-	// rerun is not working anymore in codecept3
-	rerun: {
-		// how many times to try to rerun all tests
-		maxReruns: 3,
-		// how many times all tests should pass
-		minSuccess: 1,
-	},
-	stepTimeout: 0,
-	stepTimeoutOverride: [
-		{
-			pattern: 'wait.*',
-			timeout: 0,
-		},
-		{
-			pattern: 'amOnPage',
-			timeout: 0,
-		},
-	],
 	teardown: null,
 	tests: './__tests__/*.ts',
 	timeout: null,
