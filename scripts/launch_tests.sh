@@ -104,7 +104,11 @@ function start_svelte() {
   # Need to listen on all addresses (0.0.0.0) to be reachable from Hasura in Docker on all platforms.
   # Piping through "cat" to disable annoying terminal control codes from svelte-kit that mess up the
   # output.
-  npm run dev --prefix app -- --port 3001 | cat &
+  # npm run dev --prefix app -- --port 3001 &
+  cd app
+  npm run build
+  PORT=3001 ORIGIN=http://localhost:3001 node build &
+  cd ..
 
   until curl -s http://localhost:3001/ > /dev/null ; do
     >&2 echo "-> Svelte kit is still unavailable - sleeping"
@@ -132,8 +136,8 @@ function start_backend() {
 }
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
-  >&2 echo "-> Starting Jest tests"
-	(cd app && npx jest "$@")
+  >&2 echo "-> Starting js tests"
+	npm --prefix app test "$@"
 fi
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "python" ]; then

@@ -24,6 +24,18 @@ const config = {
 	},
 	define: {
 		__version__: JSON.stringify(process.env.npm_package_version),
+		// Eliminate in-source test code
+		'import.meta.vitest': 'undefined',
+	},
+	test: {
+		// jest like globals
+		globals: true,
+		environment: 'jsdom',
+		// in-source testing
+		includeSource: ['src/**/*.{js,ts,svelte}'],
+		// Add @testing-library/jest-dom matchers & mocks of SvelteKit modules
+		setupFiles: ['./setupTest.ts'],
+		silent: false,
 	},
 };
 

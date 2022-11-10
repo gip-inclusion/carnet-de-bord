@@ -1,6 +1,6 @@
 import { json, error } from '@sveltejs/kit';
 import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
-import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/public';
 
 import {
 	GetDeploymentStatForDayDocument,
@@ -41,8 +41,9 @@ const Matomo = new MatomoTracker(env.PUBLIC_MATOMO_SITE_ID, `${env.PUBLIC_MATOMO
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		actionsGuard(request.headers);
-	} catch (error) {
-		throw error(500, 'matomo_dashboard: unhautorized action');
+	} catch (e) {
+		console.error(e);
+		return new Response('matomo_dashboard: unauthorized action', { status: 401 });
 	}
 
 	const deploymentResult = await client.query(ListDeploymentIdDocument).toPromise();

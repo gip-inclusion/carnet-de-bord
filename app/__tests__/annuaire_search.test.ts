@@ -1,7 +1,6 @@
 require('isomorphic-fetch');
 import fs from 'fs';
 import path from 'path';
-import { it, expect } from '@jest/globals';
 import { config } from 'dotenv';
 
 config({ path: '../.env' });

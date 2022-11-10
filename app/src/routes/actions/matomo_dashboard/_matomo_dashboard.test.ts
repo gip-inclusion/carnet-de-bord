@@ -1,29 +1,26 @@
 import { POST } from './+server';
 import Matomo from 'matomo-tracker';
-import mockRequest from '$lib/tests/mockRequest';
+import { request } from 'svelte-kit-test-helpers';
+vi.mock('matomo-tracker');
 
-jest.mock('matomo-tracker');
-
-Matomo.track = jest.fn();
-
-global.fetch = jest.fn().mockImplementation((_, params) =>
-	Promise.resolve({
-		ok: true,
-		json: () => {
-			if (params.body.match(/ListDeploymentId/)) {
-				return Promise.resolve({
-					data: {
+vi.mock('@urql/core', () => {
+	return {
+		createClient: () => ({
+			query: (params) => {
+				const operation = params.definitions[0].name.value;
+				let data = {};
+				if (operation === 'ListDeploymentId') {
+					data = {
 						deployments: [
 							{
 								id: 'deployment-uuid',
 							},
 						],
-					},
-				});
-			}
-			if (params.body.match(/GetDeploymentStatForDay/)) {
-				return Promise.resolve({
-					data: {
+					};
+				}
+
+				if (operation === 'GetDeploymentStatForDay') {
+					data = {
 						nbNotebooks: { aggregate: { count: 10 } },
 						nbProfessionals: { aggregate: { count: 20 } },
 						nbStructures: { aggregate: { count: 30 } },
@@ -34,26 +31,32 @@ global.fetch = jest.fn().mockImplementation((_, params) =>
 						nbNotebookVisitedToday: { aggregate: { count: 3 } },
 						nbNotebookWithActionsCreated: { aggregate: { count: 4 } },
 						nbNotbookWith2MembersOrMore: { aggregate: { count: 5 } },
-					},
-				});
-			}
-		},
-	})
-);
+					};
+				}
+
+				return {
+					toPromise: async () => ({ data }),
+				};
+			},
+		}),
+	};
+});
+
+Matomo.track = vi.fn();
 
 describe('matomo_dashboard', () => {
 	test('should return 401 if action does not have secret token', async () => {
-		const response = await mockRequest(POST, {});
-		expect(response).toEqual({
-			status: 401,
-			body: '[STAT action] ACTION_SECRET header not match',
-		});
+		const response = await request(POST);
+		expect(String(response.body)).toEqual('matomo_dashboard: unauthorized action');
+		expect(response.status).toEqual(401);
 	});
 	test('should return 200', async () => {
-		const response = await mockRequest(POST, {}, { secret_token: process.env.ACTION_SECRET });
-		expect(response).toEqual({
-			status: 200,
-			body: { message: 'stats sent successfully' },
+		const response = await request(POST, {
+			headers: {
+				secret_token: process.env.ACTION_SECRET,
+			},
 		});
+		expect(JSON.parse(response.body)).toEqual({ message: 'stats sent successfully' });
+		expect(response.status).toEqual(200);
 	});
 });

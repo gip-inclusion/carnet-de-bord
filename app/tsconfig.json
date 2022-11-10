@@ -9,7 +9,8 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"target": "ES2019",
-		"preserveValueImports": false
+		"preserveValueImports": false,
+		"types": ["vitest/globals"]
 	},
 	"include": [
 		".svelte-kit/ambient.d.ts",
