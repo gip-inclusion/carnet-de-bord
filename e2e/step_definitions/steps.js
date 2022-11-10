@@ -18,10 +18,19 @@ Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
 });
 
+// This function is similar to the I.amOnPage step, except that it does not
+// try to collect page load timings, which can cause the step to fail if
+// the page automatically navigates away from the requested URL.
+function plainGoto(url) {
+	return I.usePlaywrightTo('go to URL', async ({ page, options }) => {
+		await page.goto(`${options.url}${url}`);
+	});
+}
+
 Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
 	await onBoardingSetup(userType, email, true);
 	const uuid = await loginStub(userType, email);
-	I.amOnPage(`/auth/jwt/${uuid}`);
+	plainGoto(`/auth/jwt/${uuid}`);
 });
 
 Soit(
@@ -29,7 +38,7 @@ Soit(
 	async (userType, email) => {
 		await onBoardingSetup(userType, email, false);
 		const uuid = await loginStub(userType, email);
-		I.amOnPage(`/auth/jwt/${uuid}`);
+		plainGoto(`/auth/jwt/${uuid}`);
 	}
 );
 
@@ -39,13 +48,13 @@ Soit('un utilisateur sur la page {string}', (page) => {
 
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	const uuid = await loginStub('pro', email);
-	I.amOnPage(`/auth/jwt/${uuid}`);
+	plainGoto(`/auth/jwt/${uuid}`);
 });
 
 Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	const uuid = await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastName(lastname);
-	I.amOnPage(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
+	plainGoto(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
 });
 
 Soit(
@@ -55,7 +64,7 @@ Soit(
 		const uuid = await loginStub("chargé d'orientation", email);
 		const notebookId = await goToNotebookForLastName(lastname);
 		await addMember(email, notebookId);
-		I.amOnPage(`/auth/jwt/${uuid}?url=/orientation/carnets/edition/${notebookId}`);
+		plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/edition/${notebookId}`);
 	}
 );
 
@@ -63,7 +72,7 @@ Soit("le chargé d'orientation {string} sur le carnet de {string}", async (email
 	await onBoardingSetup("chargé d'orientation", email, true);
 	const uuid = await loginStub("chargé d'orientation", email);
 	const notebookId = await goToNotebookForLastName(lastname);
-	I.amOnPage(`/auth/jwt/${uuid}?url=/orientation/carnets/${notebookId}`);
+	plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/${notebookId}`);
 });
 
 //
