@@ -2,6 +2,7 @@ import { getSmtpConfig } from '$lib/config/variables/private';
 import nodemailer from 'nodemailer';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { logger } from '$lib/utils/logger';
 
 const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = getSmtpConfig();
 
@@ -32,7 +33,7 @@ export function send({
 	bcc,
 }: Mail.Options): Promise<SMTPTransport.SentMessageInfo> {
 	if (!smtpConfig.host) {
-		console.log('send mail', to, subject);
+		logger.info('send mail', to, subject);
 		return Promise.resolve(null);
 	}
 	const transporter = nodemailer.createTransport(smtpConfig);

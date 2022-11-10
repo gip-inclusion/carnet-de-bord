@@ -30,9 +30,11 @@ async function getAccount(
 	const result = await client.query(GetAccountByPkDocument, { accountId }).toPromise();
 	if (result.error) {
 		console.error(
-			`Récuparation du compte utilisateur ${accountId} impossible`,
-			result.error,
-			browser
+			{
+				err: result.error,
+				browser,
+			},
+			`Récupération du compte utilisateur ${accountId} impossible`
 		);
 	}
 	if (result.data) {

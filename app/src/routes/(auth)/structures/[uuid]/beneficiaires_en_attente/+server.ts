@@ -5,6 +5,7 @@ import { authorizeOnly } from '$lib/utils/security';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createClient } from '@urql/core';
 import { parse } from 'cookie';
+import { logger } from '$lib/utils/logger';
 
 export const GET: RequestHandler = async ({ request, params }) => {
 	try {
@@ -28,13 +29,11 @@ export const GET: RequestHandler = async ({ request, params }) => {
 
 	const structureId = params.uuid;
 
-	console.log(`[get pending beneficiary for structure] ${params.uuid}`);
+	logger.debug(`[get pending beneficiary for structure] ${params.uuid}`);
 
 	const result = await client.query(GetPendingBeneficiariesDocument, { structureId }).toPromise();
 	if (result.error) {
-		console.error(`Error query pending beneficiary for structure ${structureId}`, {
-			error: result.error,
-		});
+		logger.error(result.error, `Error query pending beneficiary for structure ${structureId}`);
 		throw error(500, 'error retriving pending beneficiaries');
 	}
 

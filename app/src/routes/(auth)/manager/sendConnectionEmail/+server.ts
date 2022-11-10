@@ -7,6 +7,7 @@ import { GetAccountByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import type { GetAccountByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';
 import { authorizeOnly } from '$lib/utils/security';
+import { logger } from '$lib/utils/logger';
 import * as yup from 'yup';
 import { accountHasRelation } from '../confirmPro/+server';
 
@@ -53,23 +54,26 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (err) {
-		console.error('sendConnectionEmail', err);
+		logger.error(err, 'sendConnectionEmail');
 		throw error(500, 'sendConnectionEmail: server error');
 	}
 
 	if (!data.account) {
+		logger.error('sendConnectionEmail: account not found');
 		throw error(500, 'sendConnectionEmail: account not found');
 	}
 
 	if (!accountHasRelation(data.account)) {
-		throw error(500, 'sendConnectionEmail: Invalid account type');
+		logger.error('sendConnectionEmail: invalid account type');
+		throw error(500, 'sendConnectionEmail: invalid account type');
 	}
 
 	const { email, lastname, firstname } =
 		data.account.professional || data.account.orientation_manager;
 
 	if (!data.account.confirmed) {
-		console.error('Did not send email to unconfirmed account', {
+		logger.error({
+			message: 'Did not send email to unconfirmed account',
 			email,
 			lastname,
 			firstname,
@@ -79,7 +83,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const result = await updateAccessKey(client, id);
 	if (result.error) {
-		console.error('Could not update access key', { error: result.error });
+		logger.error(result.error, 'Could not update access key');
 		throw error(500, 'sendConnectionEmail: cannot update access key');
 	}
 	const accessKey = result.data.account.accessKey;
@@ -106,7 +110,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			},
 		],
 	}).catch((emailError) => {
-		console.error(emailError);
+		logger.error(emailError);
 	});
 
 	return json({});

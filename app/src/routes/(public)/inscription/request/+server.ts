@@ -18,6 +18,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { updateAccessKey } from '$lib/services/account';
 import { createClient } from '@urql/core';
 import * as yup from 'yup';
+import { logger } from '$lib/utils/logger';
 
 const client = createClient({
 	fetch,
@@ -81,12 +82,12 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (emailResult.error || !emailResult.data) {
-		console.error(emailResult);
+		logger.error(emailResult);
 		throw error(500, 'inscription: server error');
 	}
 
 	if (emailResult.data.account.length > 0) {
-		console.error(`l'email ${email} est déjà utilisé`);
+		logger.error(`l'email ${email} est déjà utilisé`);
 		throw error(400, 'inscription: email already used');
 	}
 
@@ -97,7 +98,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (err || !data) {
-		console.error(err);
+		logger.error(err);
 		throw error(500, 'inscription: get account failed');
 	}
 
@@ -127,7 +128,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (insertResult.error || !insertResult.data) {
-		console.error(error);
+		logger.error(error);
 		throw error(500, 'inscription: insert failed');
 	}
 
@@ -136,7 +137,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	if (autoConfirm) {
 		const result = await updateAccessKey(client, account.id);
 		if (result.error) {
-			console.error('login', result.error);
+			logger.error(result.error, 'login');
 			throw error(500, 'server error');
 		}
 		const accessKey = result.data.account.accessKey;
@@ -160,7 +161,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				},
 			],
 		}).catch((emailError) => {
-			console.error(emailError);
+			logger.error(emailError);
 		});
 	} else {
 		// send email to all deployment managers for the target structure
@@ -222,7 +223,7 @@ function sendEmailNotifications(
 				},
 			],
 		}).catch((emailError) => {
-			console.error(emailError);
+			logger.error(emailError);
 		});
 	}
 }
