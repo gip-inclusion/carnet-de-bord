@@ -1,3 +1,10 @@
+## [1.156.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.2...v1.156.3) (2022-11-10)
+
+
+### Bug Fixes
+
+* attach stack trace to all loggin errors ([#1229](https://github.com/gip-inclusion/carnet-de-bord/issues/1229)) ([0671ada](https://github.com/gip-inclusion/carnet-de-bord/commit/0671ada7034be224130111db97b85948bf2ebd54))
+
 ## [1.156.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.1...v1.156.2) (2022-11-09)
 
 
