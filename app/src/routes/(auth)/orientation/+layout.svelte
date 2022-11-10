@@ -1,17 +1,42 @@
 <script lang="ts">
-	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		BeneficiariesWithOrientationRequestCountDocument,
+		RoleEnum,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { homeForRole } from '$lib/routes';
 	import type { MenuItem } from '$lib/types';
 	import Footer from '$lib/ui/base/Footer.svelte';
 	import Header from '$lib/ui/base/Header.svelte';
+	import { operationStore, query } from '@urql/svelte';
+	import { onDestroy } from 'svelte';
 
-	const menuItems: MenuItem[] = [
+	let menuItems: MenuItem[] = [
 		{
 			id: 'accueil',
 			path: homeForRole(RoleEnum.OrientationManager),
 			label: 'Accueil',
 		},
 	];
+
+	const beneficiariesWithOrientationRequestCountQuery = operationStore(
+		BeneficiariesWithOrientationRequestCountDocument
+	);
+	const result = query(beneficiariesWithOrientationRequestCountQuery);
+
+	const unsubscribe = result.subscribe(({ data }) => {
+		if (data?.count.aggregate.count > 0) {
+			menuItems = [
+				...menuItems,
+				{
+					id: 'demandes',
+					path: '/orientation/demandes',
+					label: 'Demandes de réorientation',
+				},
+			];
+		}
+	});
+
+	onDestroy(unsubscribe);
 </script>
 
 <Header {menuItems} />

@@ -46,6 +46,10 @@ Soit('un utilisateur sur la page {string}', (page) => {
 	I.amOnPage(`${page}`);
 });
 
+Quand('je vais sur la page {string}', (page) => {
+	I.amOnPage(page);
+});
+
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	const uuid = await loginStub('pro', email);
 	plainGoto(`/auth/jwt/${uuid}`);
@@ -264,6 +268,10 @@ Alors('je vois {string} sous le titre {string}', async (text, title) => {
 		.find(`//*[text()[contains(.,'${text}')]]`);
 
 	I.see(text, item);
+});
+
+Alors('je suis sur la page {string}', (url) => {
+	I.seeInCurrentUrl(url);
 });
 
 Alors("je ne vois pas d'alerte", () => {

@@ -45,7 +45,7 @@ async def test_insert_in_db(
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
         orientation_managers = await get_orientation_managers(db_connection)
-        assert len(orientation_managers) == 3
+        assert len(orientation_managers) == 4
 
         account1 = await get_accounts_from_email(db_connection, "woirnesse@cd26.fr")
         assert account1[0] is not None

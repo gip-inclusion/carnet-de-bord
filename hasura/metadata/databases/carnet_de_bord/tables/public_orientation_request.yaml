@@ -1,0 +1,55 @@
+table:
+  name: orientation_request
+  schema: public
+object_relationships:
+  - name: beneficiary
+    using:
+      manual_configuration:
+        column_mapping:
+          beneficiary_id: id
+        insertion_order: null
+        remote_table:
+          name: beneficiary
+          schema: public
+  - name: decided_orientation_type
+    using:
+      manual_configuration:
+        column_mapping:
+          decided_orientation_type_id: id
+        insertion_order: null
+        remote_table:
+          name: orientation_type
+          schema: public
+  - name: requested_orientation_type
+    using:
+      manual_configuration:
+        column_mapping:
+          requested_orientation_type_id: id
+        insertion_order: null
+        remote_table:
+          name: orientation_type
+          schema: public
+  - name: requestor
+    using:
+      manual_configuration:
+        column_mapping:
+          requestor_account_id: id
+        insertion_order: null
+        remote_table:
+          name: account
+          schema: public
+select_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - beneficiary_id
+        - created_at
+        - decided_at
+        - decided_orientation_type_id
+        - id
+        - reason
+        - requested_orientation_type_id
+        - requestor_account_id
+        - status
+        - updated_at
+      filter: {}

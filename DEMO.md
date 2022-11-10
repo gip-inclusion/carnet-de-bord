@@ -33,6 +33,7 @@ Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la 
 | username | email |  onboarding |
 | --- | --- | --- |
 | giulia.diaby | giulia.diaby@cd93.fr | non |
+| laure.loge | laure.loge@cd51.fr | non |
 
 ## Compte d'accompagnant (role: professional)
 | username | email |  structure | onboarding |
@@ -42,7 +43,7 @@ Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la 
 | pcamara | pcamara@seinesaintdenis.fr | Service Social Départemental | oui |
 | sanka | sanka@groupe-ns.fr | Groupe NS | oui |
 | thierry.dunord | dunord@pole-emploi.fr | Pole Emploi Agence Livry-Gargnan | oui |
-| jean.poiret | eanpoiret@mission-locale.fr | Interlogement 93 | non |
+| jean.poiret | jeanpoiret@mission-locale.fr | Interlogement 93 | non |
 
 ## Compte de bénéficiaire (role: beneficiary)
 | email | deploiement |

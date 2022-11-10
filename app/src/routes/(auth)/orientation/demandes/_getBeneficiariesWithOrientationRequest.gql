@@ -1,0 +1,48 @@
+query BeneficiariesWithOrientationRequest {
+  beneficiaries: beneficiary(
+    where: { orientationRequest: { decided_orientation_type_id: { _is_null: true } } }
+  ) {
+    id
+    firstname
+    lastname
+    structures {
+      structure {
+        id
+        name
+      }
+    }
+    orientationRequest {
+      id
+      requested_orientation_type {
+        label
+      }
+      decided_orientation_type {
+        label
+      }
+      reason
+      created_at
+    }
+    notebook {
+      id
+      members(
+        where: { active: { _eq: true }, memberType: { _in: ["orientation_manager", "referent"] } }
+        order_by: { createdAt: desc }
+      ) {
+        account {
+          id
+          type
+          professional {
+            id
+            firstname
+            lastname
+          }
+          orientation_manager {
+            id
+            firstname
+            lastname
+          }
+        }
+      }
+    }
+  }
+}
