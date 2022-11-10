@@ -5,6 +5,6 @@
 </script>
 
 <div class=" fr-py-6w fr-px-2w">
-	<h1>Journal des modificitions</h1>
+	<h1>Journal des modifications</h1>
 	<Markdown source={data.changelogContent} />
 </div>
