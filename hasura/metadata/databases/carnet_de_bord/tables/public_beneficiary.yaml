@@ -360,10 +360,8 @@ update_permissions:
         - place_of_birth
         - postal_code
       filter:
-        notebook:
-          members:
-            account_id:
-              _eq: X-Hasura-User-Id
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
       check: null
   - role: professional
     permission:

@@ -2,7 +2,7 @@
 	import { type GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
-	import { accountData, openComponent } from '$lib/stores';
+	import { openComponent } from '$lib/stores';
 	import { getContext } from 'svelte';
 	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
@@ -55,11 +55,6 @@
 
 	function updateSelection(beneficiary: Beneficiary) {
 		selectionStore.toggle(beneficiary.notebook.id, beneficiary);
-	}
-	function getNotebookUrl(beneficiary: Beneficiary) {
-		return beneficiary.notebook.members.some((member) => member.account.id === $accountData.id)
-			? `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/edition/${beneficiary.notebook.id}`
-			: `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/${beneficiary.notebook.id}`;
 	}
 </script>
 
@@ -166,9 +161,12 @@
 				</td>
 				<td class="!text-center">
 					<a
-						href={getNotebookUrl(beneficiary)}
+						href={`${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/${
+							beneficiary.notebook.id
+						}`}
 						class="fr-link"
 						target="_blank"
+						rel="noreferrer"
 						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />

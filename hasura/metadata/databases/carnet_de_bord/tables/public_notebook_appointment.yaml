@@ -26,12 +26,9 @@ insert_permissions:
     permission:
       check:
         notebook:
-          members:
-            _and:
-              - account_id:
-                  _eq: X-Hasura-User-Id
-              - active:
-                  _eq: true
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
       columns:
         - account_id
         - date
@@ -96,12 +93,9 @@ update_permissions:
         - status
       filter:
         notebook:
-          members:
-            _and:
-              - account_id:
-                  _eq: X-Hasura-User-Id
-              - active:
-                  _eq: true
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
       check: null
   - role: professional
     permission:
@@ -125,12 +119,9 @@ delete_permissions:
       backend_only: false
       filter:
         notebook:
-          members:
-            _and:
-              - account_id:
-                  _eq: X-Hasura-User-Id
-              - active:
-                  _eq: true
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: professional
     permission:
       backend_only: false

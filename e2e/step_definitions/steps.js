@@ -68,7 +68,7 @@ Soit(
 		const uuid = await loginStub("chargé d'orientation", email);
 		const notebookId = await goToNotebookForLastName(lastname);
 		await addMember(email, notebookId);
-		plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/edition/${notebookId}`);
+		plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/${notebookId}`);
 	}
 );
 

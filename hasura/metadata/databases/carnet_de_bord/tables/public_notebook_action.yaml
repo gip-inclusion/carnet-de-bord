@@ -44,12 +44,9 @@ insert_permissions:
         target:
           focus:
             notebook:
-              members:
-                _and:
-                  - account_id:
-                      _eq: X-Hasura-User-Id
-                  - active:
-                      _eq: true
+              beneficiary:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
       set:
         creator_id: X-Hasura-User-Id
       columns:
@@ -215,12 +212,9 @@ update_permissions:
         target:
           focus:
             notebook:
-              members:
-                _and:
-                  - account_id:
-                      _eq: X-Hasura-User-Id
-                  - active:
-                      _eq: true
+              beneficiary:
+                deployment_id:
+                  _eq: X-Hasura-Deployment-Id
       check: {}
   - role: professional
     permission:
