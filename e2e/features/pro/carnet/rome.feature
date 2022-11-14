@@ -6,7 +6,6 @@ Fonctionnalité: Ajout de code ROME dans un carnet de bénéficiaire
 
 Scénario: Recherche correcte même avec des trous
 	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
-	Quand je clique sur "Situation socioprofessionnelle"
 	Quand je clique sur "Mettre à jour" sous le titre "Situation socioprofessionnelle"
 	Alors je vois "Veuillez cliquer sur un champ pour le modifier"
 	Quand je renseigne "Agent production" dans le champ "Emploi recherché"
@@ -19,7 +18,6 @@ Scénario: Recherche correcte même avec des trous
 
 Scénario: Ajout de plusieurs métiers
 	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
-	Quand je clique sur "Situation socioprofessionnelle"
 	Quand je clique sur "Mettre à jour" sous le titre "Situation socioprofessionnelle"
 	Alors je vois "Veuillez cliquer sur un champ pour le modifier"
 	Quand je renseigne "Agent production" dans le champ "Emploi recherché"

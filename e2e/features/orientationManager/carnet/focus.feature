@@ -6,7 +6,6 @@ Fonctionnalité: Information sur les axes de travail depuis un carnet
 
 Scénario: Ajout d'un axe de travail
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
-	Quand je clique sur "Plan d'action"
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
 	Quand je choisis "Aucun"
@@ -19,7 +18,6 @@ Scénario: Ajout d'un axe de travail
 
 Scénario: Ajout d'un objectif
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
-	Quand je clique sur "Plan d'action"
 	Alors je clique sur le texte "Formation"
 	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
 	Quand je clique sur "Ajouter un objectif"
@@ -30,7 +28,6 @@ Scénario: Ajout d'un objectif
 
 Scénario: Ajout d'une action
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
-	Quand je clique sur "Plan d'action"
 	Alors je clique sur le texte "Formation"
 	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
 	Quand je clique sur "Se former"
