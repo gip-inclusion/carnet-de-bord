@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { key, type FormProps } from 'svelte-forms-lib';
+	import { type FormProps, key } from 'svelte-forms-lib';
 	import type { Writable } from 'svelte/store';
 
 	const { touched, errors, state, isValid, isSubmitted, isValidating, isSubmitting } = getContext<

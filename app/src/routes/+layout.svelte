@@ -10,7 +10,7 @@
 	import * as Matomo from '$lib/tracking/matomo';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { offCanvas, graphqlAPI, backendAPI, token, connectedUser } from '$lib/stores';
+	import { backendAPI, connectedUser, graphqlAPI, offCanvas, token } from '$lib/stores';
 	import type { PageData } from './$types';
 
 	import * as yup from 'yup';

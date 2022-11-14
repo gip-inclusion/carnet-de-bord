@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import { Text, ImportParserError } from '$lib/ui/utils';
+	import { ImportParserError, Text } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
 	import type { ProAccountInput } from '../ProCreationForm/pro.schema';

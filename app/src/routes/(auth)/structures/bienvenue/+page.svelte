@@ -6,7 +6,7 @@
 		UpdateAdminStructureProfileDocument,
 		type UpdateAdminStructureProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { mutation, operationStore, type OperationStore } from '@urql/svelte';
+	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
 	import { Alert } from '$lib/ui/base';
 	import type { AdminStructureAccountInput } from '$lib/ui/AdminStructure/adminStructure.schema';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
-		type BeneficiariesWithOrientationRequestQuery,
 		BeneficiariesWithOrientationRequestDocument,
+		type BeneficiariesWithOrientationRequestQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { homeForRole } from '$lib/routes';

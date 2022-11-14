@@ -3,7 +3,7 @@
 	import type { Segment } from '$lib/routes';
 
 	import { openComponent } from '$lib/stores';
-	import { AdminDeploymentList, AdminDeploymentCreateLayer } from '$lib/ui/Deployment';
+	import { AdminDeploymentCreateLayer, AdminDeploymentList } from '$lib/ui/Deployment';
 	import { Breadcrumbs, Button } from '$lib/ui/base';
 	import { operationStore, query } from '@urql/svelte';
 

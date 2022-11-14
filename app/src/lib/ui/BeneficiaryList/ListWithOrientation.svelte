@@ -4,7 +4,7 @@
 	import { displayFullName } from '$lib/ui/format';
 	import { accountData, openComponent } from '$lib/stores';
 	import { getContext } from 'svelte';
-	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
+	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 	import AddOrientationManagerForm from './AddOrientationManagerForm.svelte';
 	import AddOrientationForm from './AddOrientationForm.svelte';

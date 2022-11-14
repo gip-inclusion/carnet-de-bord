@@ -5,13 +5,13 @@
 		GetStructureQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { AddNotebookMembersDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, mutation } from '@urql/svelte';
+	import { mutation, operationStore } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
 </script>
 
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import { Text, ImportParserError } from '$lib/ui/utils';
+	import { ImportParserError, Text } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { page } from '$app/stores';
 	import { pluralize } from '$lib/helpers';

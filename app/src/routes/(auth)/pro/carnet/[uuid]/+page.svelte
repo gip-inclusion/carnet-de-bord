@@ -4,17 +4,17 @@
 	import type { GetNotebookEventsQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		GetNotebookDocument,
-		UpdateNotebookVisitDateDocument,
 		GetNotebookEventsDocument,
+		UpdateNotebookVisitDateDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { stringsMatch } from '$lib/helpers';
-	import { MainAccordion, Accordions, Select, SearchBar } from '$lib/ui/base';
+	import { Accordions, MainAccordion, SearchBar, Select } from '$lib/ui/base';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import { LoaderIndicator } from '$lib/ui/utils';
-	import { statusValues, eventTypes } from '$lib/constants';
+	import { eventTypes, statusValues } from '$lib/constants';
 	import { EventType } from '$lib/enums';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { mutation, operationStore, query } from '@urql/svelte';

@@ -1,5 +1,5 @@
-import { json, error } from '@sveltejs/kit';
-import { getGraphqlAPI, getAppUrl } from '$lib/config/variables/private';
+import { error, json } from '@sveltejs/kit';
+import { getAppUrl, getGraphqlAPI } from '$lib/config/variables/private';
 import send from '$lib/emailing';
 import { CreateDeploymentFromApiDocument } from '$lib/graphql/_gen/typed-document-nodes';
 import { updateAccessKey } from '$lib/services/account';

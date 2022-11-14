@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-	import { setContext, onDestroy } from 'svelte';
+	import { onDestroy, setContext } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { MENU, type MenuContext } from './menu';
 	export let ref = null;

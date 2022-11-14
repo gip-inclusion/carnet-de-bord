@@ -1,7 +1,7 @@
 import {
-	validateLuhn,
 	cityOrNameValidation,
 	validateCodePostal,
+	validateLuhn,
 	validatePhoneNumber,
 } from '$lib/validation';
 import * as yup from 'yup';

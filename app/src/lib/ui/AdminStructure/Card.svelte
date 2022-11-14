@@ -9,7 +9,7 @@
 	import { openComponent } from '$lib/stores';
 	import EditAdminStructureLayer from '$lib/ui/AdminStructure/EditAdminStructureLayer.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import { operationStore, mutation } from '@urql/svelte';
+	import { mutation, operationStore } from '@urql/svelte';
 	import { accountData } from '$lib/stores';
 
 	export let adminStructure: Pick<

@@ -3,7 +3,7 @@
 	import { operationStore, query } from '@urql/svelte';
 	import { accountData } from '$lib/stores';
 	import StructureList from '$lib/ui/AdminStructure/StructureList.svelte';
-	import { homeForRole, type Segment } from '$lib/routes';
+	import { type Segment, homeForRole } from '$lib/routes';
 	import { pluralize } from '$lib/helpers';
 
 	import { Breadcrumbs } from '$lib/ui/base';

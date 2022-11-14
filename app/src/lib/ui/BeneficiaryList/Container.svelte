@@ -19,7 +19,7 @@
 	import BeneficiaryListWithStructure from '$lib/ui/BeneficiaryList/ListWithStructure.svelte';
 	import BeneficiaryListWithOrientation from '$lib/ui/BeneficiaryList/ListWithOrientation.svelte';
 
-	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
+	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
 	import { connectedUser, openComponent } from '$lib/stores';

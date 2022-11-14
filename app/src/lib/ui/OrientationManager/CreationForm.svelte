@@ -4,8 +4,8 @@
 	import { Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
 	import {
-		orientationManagerAccountSchema,
 		type OrientationManagerAccountInput,
+		orientationManagerAccountSchema,
 	} from './orientationManager.schema';
 </script>
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/ui/base/index';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import { mutation, type OperationStore, operationStore, query } from '@urql/svelte';
+	import { type OperationStore, mutation, operationStore, query } from '@urql/svelte';
 	import {
 		AddNotebookAppointmentDocument,
 		DeleteNotebookAppointmentDocument,

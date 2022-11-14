@@ -1,5 +1,5 @@
-import { json, error } from '@sveltejs/kit';
-import { getGraphqlAPI, getAppUrl, getHasuraAdminSecret } from '$lib/config/variables/private';
+import { error, json } from '@sveltejs/kit';
+import { getAppUrl, getGraphqlAPI, getHasuraAdminSecret } from '$lib/config/variables/private';
 import { env } from '$env/dynamic/public';
 
 import {

@@ -5,7 +5,7 @@
 	import { openComponent } from '$lib/stores';
 	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
-	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
+	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];

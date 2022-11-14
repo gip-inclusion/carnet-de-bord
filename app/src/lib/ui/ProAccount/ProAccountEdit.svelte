@@ -2,7 +2,7 @@
 	import { UpdateProfessionalProfileDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { UpdateProfessionalProfileMutation } from '$lib/graphql/_gen/typed-document-nodes';
 	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
-	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
+	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import { accountData, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';

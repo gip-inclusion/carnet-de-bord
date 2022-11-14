@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { openComponent } from '$lib/stores';
 	import type { Professional, ProfessionalSetInput } from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, mutation } from '@urql/svelte';
+	import { mutation, operationStore } from '@urql/svelte';
 	import { UpdateProfessionalAccountDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { Form, Input } from '$lib/ui/forms';
 	import { Alert, Button } from '../base/';

@@ -10,7 +10,7 @@
 		GetProfessionalsForManagerQuery,
 		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, type OperationStore, query } from '@urql/svelte';
+	import { type OperationStore, operationStore, query } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
