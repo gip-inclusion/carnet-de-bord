@@ -2,8 +2,8 @@
 	import { token } from '$lib/stores';
 	import {
 		GetProfessionalsForManagerDocument,
-		type Professional,
 		GetStructuresForManagerDocument,
+		type Professional,
 		type Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
