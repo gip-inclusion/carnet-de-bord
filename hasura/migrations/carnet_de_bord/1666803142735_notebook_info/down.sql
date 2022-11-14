@@ -21,3 +21,5 @@ insert into beneficiary_info(beneficiary_id, orientation, created_at, updated_at
 	select notebook.beneficiary_id, orientation, notebook_info.created_at, notebook_info.updated_at
 	from notebook_info, notebook
 	where notebook.id = notebook_info.notebook_id;
+
+DROP table "public"."notebook_info";
