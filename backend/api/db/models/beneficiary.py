@@ -188,6 +188,7 @@ class BeneficiaryCsvRowResponse(BaseModel):
     row: dict | None = None
     data: BeneficiaryImport | None = None
     valid: bool
+    update: bool = False
     errors: list[CsvFieldError] | None = None
 
 

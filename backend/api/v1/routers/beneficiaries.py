@@ -177,7 +177,9 @@ async def import_beneficiary(
                     await insert_wanted_jobs(db, notebook_id, beneficiary)
                 logger.info("updated existing beneficiary %s", beneficiary_id)
 
-                return BeneficiaryCsvRowResponse(valid=True, data=beneficiary)
+                return BeneficiaryCsvRowResponse(
+                    valid=True, update=True, data=beneficiary
+                )
 
             logger.info(
                 "block new beneficiary conflicting with existing beneficiaries: %s",
