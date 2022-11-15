@@ -1,7 +1,11 @@
+import logging
+
 from asyncpg import Record
 from asyncpg.connection import Connection
 
 from api.db.models.professional import Professional, ProfessionalInsert
+
+logger = logging.getLogger(__name__)
 
 
 async def get_professional_with_query(
