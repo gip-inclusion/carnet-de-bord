@@ -1,0 +1,6 @@
+mutation DenyOrientationRequest($id: uuid!) {
+  update_orientation_request_by_pk(pk_columns: {id: $id}, _set: {decidedAt: now, status: "denied"}) {
+    status
+    decidedAt
+  }
+}

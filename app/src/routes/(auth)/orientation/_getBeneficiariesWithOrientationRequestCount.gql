@@ -1,6 +1,6 @@
 query BeneficiariesWithOrientationRequestCount {
   count: beneficiary_aggregate(
-    where: { orientationRequest: { decidedOrientationTypeId: { _is_null: true } } }
+    where: { orientationRequest: { decidedAt: { _is_null: true } } }
   ) {
     aggregate {
       count

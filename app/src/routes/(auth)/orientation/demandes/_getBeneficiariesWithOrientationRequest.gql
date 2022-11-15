@@ -1,6 +1,6 @@
 query BeneficiariesWithOrientationRequest {
   beneficiaries: beneficiary(
-    where: { orientationRequest: { decidedOrientationTypeId: { _is_null: true } } }
+    where: { orientationRequest: { decidedAt: { _is_null: true } } }
   ) {
     id
     firstname

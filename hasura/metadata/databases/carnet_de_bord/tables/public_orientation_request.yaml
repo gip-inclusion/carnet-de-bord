@@ -93,3 +93,12 @@ select_permissions:
         - status
         - updated_at
       filter: {}
+update_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - decided_at
+        - decided_orientation_type_id
+        - status
+      filter: {}
+      check: null

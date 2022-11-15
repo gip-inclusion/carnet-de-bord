@@ -12785,6 +12785,19 @@ export type UpdateManagerProfileMutation = {
 	} | null;
 };
 
+export type DenyOrientationRequestMutationVariables = Exact<{
+	id: Scalars['uuid'];
+}>;
+
+export type DenyOrientationRequestMutation = {
+	__typename?: 'mutation_root';
+	update_orientation_request_by_pk?: {
+		__typename?: 'orientation_request';
+		status?: string | null;
+		decidedAt?: string | null;
+	} | null;
+};
+
 export type AddNotebookActionMutationVariables = Exact<{
 	action: Scalars['String'];
 	targetId: Scalars['uuid'];
@@ -13319,7 +13332,12 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
-			orientationRequest: Array<{ __typename?: 'orientation_request'; createdAt: string }>;
+			orientationRequest: Array<{
+				__typename?: 'orientation_request';
+				id: string;
+				createdAt: string;
+				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+			}>;
 		};
 		members: Array<{
 			__typename?: 'notebook_member';
@@ -13460,7 +13478,12 @@ export type GetNotebookByIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
-			orientationRequest: Array<{ __typename?: 'orientation_request'; createdAt: string }>;
+			orientationRequest: Array<{
+				__typename?: 'orientation_request';
+				id: string;
+				createdAt: string;
+				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+			}>;
 		};
 		members: Array<{
 			__typename?: 'notebook_member';
@@ -13595,7 +13618,12 @@ export type NotebookFragmentFragment = {
 		mobileNumber?: string | null;
 		peNumber?: string | null;
 		postalCode?: string | null;
-		orientationRequest: Array<{ __typename?: 'orientation_request'; createdAt: string }>;
+		orientationRequest: Array<{
+			__typename?: 'orientation_request';
+			id: string;
+			createdAt: string;
+			requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+		}>;
 	};
 	members: Array<{
 		__typename?: 'notebook_member';
@@ -14725,7 +14753,7 @@ export const NotebookFragmentFragmentDoc = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'decidedOrientationTypeId' },
+														name: { kind: 'Name', value: 'decidedAt' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
@@ -14743,7 +14771,18 @@ export const NotebookFragmentFragmentDoc = {
 									],
 									selectionSet: {
 										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } }],
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'requestedOrientationType' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'label' } }],
+												},
+											},
+										],
 									},
 								},
 							],
@@ -18379,6 +18418,80 @@ export const UpdateManagerProfileDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateManagerProfileMutation, UpdateManagerProfileMutationVariables>;
+export const DenyOrientationRequestDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'DenyOrientationRequest' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_orientation_request_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'pk_columns' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'id' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'decidedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'denied', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	DenyOrientationRequestMutation,
+	DenyOrientationRequestMutationVariables
+>;
 export const AddNotebookActionDocument = {
 	kind: 'Document',
 	definitions: [
@@ -22230,7 +22343,7 @@ export const BeneficiariesWithOrientationRequestCountDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'decidedOrientationTypeId' },
+														name: { kind: 'Name', value: 'decidedAt' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
@@ -22477,7 +22590,7 @@ export const BeneficiariesWithOrientationRequestDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'decidedOrientationTypeId' },
+														name: { kind: 'Name', value: 'decidedAt' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
@@ -27035,6 +27148,10 @@ export type ImportBeneficiaryMutationStore = OperationStore<
 export type UpdateManagerProfileMutationStore = OperationStore<
 	UpdateManagerProfileMutation,
 	UpdateManagerProfileMutationVariables
+>;
+export type DenyOrientationRequestMutationStore = OperationStore<
+	DenyOrientationRequestMutation,
+	DenyOrientationRequestMutationVariables
 >;
 export type AddNotebookActionMutationStore = OperationStore<
 	AddNotebookActionMutation,

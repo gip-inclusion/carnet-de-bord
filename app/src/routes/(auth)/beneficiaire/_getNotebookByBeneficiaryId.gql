@@ -45,8 +45,12 @@ fragment notebookFragment on notebook {
     mobileNumber
     peNumber
     postalCode
-    orientationRequest(where: { decidedOrientationTypeId: { _is_null: true } }) {
+    orientationRequest(where: { decidedAt: { _is_null: true } }) {
+      id
       createdAt
+      requestedOrientationType {
+        label
+      }
     }
   }
   members(where: { active: { _eq: true } }, order_by: { lastModifiedAt: desc_nulls_last }) {

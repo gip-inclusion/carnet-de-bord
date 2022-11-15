@@ -8,6 +8,7 @@
 	import NotebookMembers from '../Beneficiary/NotebookMembers.svelte';
 	import Accordion from '../base/Accordion.svelte';
 	import ProNotebookPersonalInfoView from '$lib/ui/ProNotebookPersonalInfo/ProNotebookPersonalInfoView.svelte';
+	import OrientationRequestBanner from '../OrientationRequest/OrientationRequestBanner.svelte';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 
@@ -16,8 +17,13 @@
 	$: beneficiary = notebook.beneficiary;
 	$: members = notebook.members;
 	$: lastUpdateFrom = members[0]?.account?.professional || members[0]?.account?.orientation_manager;
+	$: orientationRequest =
+		beneficiary.orientationRequest.length > 0 ? beneficiary.orientationRequest[0] : undefined;
 </script>
 
+{#if orientationRequest}
+	<OrientationRequestBanner {orientationRequest} />
+{/if}
 <ProNotebookPersonalInfoView
 	{beneficiary}
 	lastUpdateDate={members[0]?.lastModifiedAt}
