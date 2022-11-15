@@ -1,76 +1,33 @@
 <script lang="ts">
-	import { backendAPI, token } from '$lib/stores';
+	import { token } from '$lib/stores';
 	import Dropzone from 'svelte-file-dropzone';
 	import { Button, Checkbox, GroupCheckbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { Alert } from '$lib/ui/base';
 	import { v4 as uuidv4 } from 'uuid';
 	import { pluralize } from '$lib/helpers';
+	import { post } from '$lib/utils/post';
+	import { translateError } from './errorMessage';
 
 	let sendAccountEmail = false;
-	let parsePromise;
-	let insertPromise;
+	let parsePromise: Promise<StructureCsvResponse[]>;
+	let insertPromise: Promise<StructureCsvResponse[]>;
 	let structurestoImport = [];
 
 	type StructureCsvResponse = {
 		data: unknown;
 		errors: CsvError[];
 		row: unknown;
+		valid: boolean;
+		uuid: string;
 	};
 	type CsvError = {
 		key: string | null;
 		error: string;
 	};
-	function translateError(error = ''): string {
-		if (/none is not an allowed value/.test(error)) {
-			return `Champ obligatoire manquant`;
-		}
-		if (/not a valid email address/.test(error)) {
-			return `Format d'adresse mail invalide`;
-		}
-		if (/not a valid siret/.test(error)) {
-			return `Numéro siret invalide`;
-		}
-		if (/not a valid phone/.test(error)) {
-			return `Numéro de téléphone invalide`;
-		}
-		if (/not a valid postal code/.test(error)) {
-			return `Code postal invalide`;
-		}
-		if (/URL/.test(error)) {
-			return `Format d'URL invalide`;
-		}
-		if (/insert structure failed/.test(error)) {
-			return 'Création de la structure impossible';
-		}
-		if (/insert structure admin failed/.test(error)) {
-			return 'Création du gestionnaire de structure impossible';
-		}
-		if (/add admin structure to structure failed"/.test(error)) {
-			return 'Ajout du gestionnaire à la structure impossible';
-		}
-		console.error(error);
-		return `Une erreur s'est produite lors de la lecture du fichier.`;
-	}
 
-	function callApi(
-		url: string,
-		data: FormData | string,
-		headers: { [key: string]: string } = {}
-	): Promise<Response> {
-		return fetch(`${$backendAPI}${url}`, {
-			method: 'POST',
-			headers: {
-				'jwt-token': $token,
-				Accept: 'application/json; version=1.0',
-				...headers,
-			},
-			body: data,
-		});
-	}
-
-	async function convertCsvFile(formData: FormData): Promise<Response> {
-		const response = await callApi('/v1/convert-file/structures', formData);
+	async function convertCsvFile(formData: FormData): Promise<StructureCsvResponse[]> {
+		const response = await post('/v1/convert-file/structures', formData, { 'jwt-token': $token });
 		if (!response.ok) {
 			const errorMessage = await response.text();
 			console.error(errorMessage);
@@ -89,9 +46,11 @@
 		});
 	}
 
-	async function insertStructure(payload: string): Promise<Response> {
-		const response = await callApi('/v1/structures/import', payload, {
+	async function insertStructure(payload: string): Promise<StructureCsvResponse[]> {
+		const response = await post('/v1/structures/import', payload, {
 			'Content-Type': 'application/json',
+			Accept: 'application/json; version=1.0',
+			'jwt-token': $token,
 		});
 		if (!response.ok) {
 			const errorMessage = await response.text();
@@ -113,14 +72,17 @@
 	async function handleSubmit(structures: StructureCsvResponse[]) {
 		const payload = JSON.stringify({
 			sendAccountEmail,
-			structures: structures.map(({ data }) => data),
+			structures: structures.flatMap(({ uuid, data }) =>
+				structurestoImport.includes(uuid) ? data : []
+			),
 		});
 		insertPromise = insertStructure(payload);
 	}
 
 	function backToFileSelect() {
 		structurestoImport = [];
-		parsePromise = [];
+		parsePromise = undefined;
+		insertPromise = undefined;
 	}
 
 	const headers = [
@@ -193,7 +155,7 @@
 									{:else}
 										<i
 											class="ri-alert-line text-error relative left-3"
-											title="La structure ne contient pas les informations obligatoires (marquées d'un astérisque)"
+											title="La structure contient des champs invalides"
 										/>
 									{/if}
 								</td>
@@ -233,16 +195,15 @@
 				<div class="mt-6 flex justify-end flex-row gap-4">
 					<Button on:click={backToFileSelect} outline={true}>Retour</Button>
 					<Button
-						on:click={() =>
-							handleSubmit(
-								parsedStructures.filter(({ uuid }) => structurestoImport.includes(uuid))
-							)}
+						on:click={() => handleSubmit(parsedStructures)}
 						disabled={structurestoImport.length < 1}
-						>Confirmer
+					>
+						Confirmer
 					</Button>
 				</div>
 			{:catch error}
 				<Alert type="error" title="lecture du fichier impossible, veuillez contacter le support." />
+				<Button on:click={backToFileSelect} outline={true}>Retour</Button>
 				<details>
 					<summary>voir le detail</summary>
 					<pre>{error.message}</pre>
@@ -303,7 +264,8 @@
 				</tbody>
 			</table>
 		{:catch error}
-			<Alert type="error" title="import du fichier impossible, veuillez contacter le support." />
+			<Alert type="error" title="import des structure impossible, veuillez contacter le support." />
+			<Button on:click={backToFileSelect} outline={true}>Retour</Button>
 			<details>
 				<summary>voir le detail</summary>
 				<pre>{error.message}</pre>

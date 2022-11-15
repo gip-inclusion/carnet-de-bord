@@ -16,8 +16,9 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je vois "Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont correctes et confirmer."
 		Alors je vois "4 bénéficiaires sélectionnés sur 4"
 		Quand je clique sur "Confirmer"
-		Alors je vois "3 bénéficiaires importés sur 4 demandés."
+		Alors je vois "2 bénéficiaires importés sur 4 demandés."
 		Alors je vois "Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire." sur la ligne "charlie"
+		Alors je vois "Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire." sur la ligne "Charlotte"
 
 	Scénario: Import de bénéficiaires avec différents formats de date
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
@@ -27,3 +28,24 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je vois "Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont correctes et confirmer."
 		Alors je vois "4 bénéficiaires sélectionnés sur 4"
 		Alors je ne vois pas d'alerte
+
+	Scénario: Import de bénéficiaires avec un fichier partiel (identifiant, nom, prenom, date de naissance et nir)
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand je clique sur "Importer des bénéficiaires"
+		Alors je vois "Importer des bénéficiaires"
+		Quand je téléverse le fichier "/resources/import_beneficiaires_partial.csv"
+		Alors je vois "Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont correctes et confirmer."
+		Alors je vois "2 bénéficiaires sélectionnés sur 4"
+		Quand je clique sur "Confirmer"
+		Alors je vois "2 bénéficiaires importés sur 2 demandés."
+
+	Scénario: Ré-Import de bénéficiaires
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand je clique sur "Importer des bénéficiaires"
+		Alors je vois "Importer des bénéficiaires"
+		Quand je téléverse le fichier "/resources/re_import_beneficiaires.csv"
+		Alors je vois "Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont correctes et confirmer."
+		Alors je vois "2 bénéficiaires sélectionnés sur 2"
+		Quand je clique sur "Confirmer"
+		Alors je vois "1 bénéficiaire importé"
+		Alors je vois "1 bénéficiaire mis à jour"
