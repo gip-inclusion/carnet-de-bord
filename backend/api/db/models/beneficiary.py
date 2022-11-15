@@ -85,6 +85,11 @@ class BeneficiaryImportOut(BaseModel):
     advisor_email: EmailStr | None
     nir: str | None
 
+    class Config:
+        anystr_strip_whitespace = True
+        allow_population_by_field_name = True
+        alias_generator = snake_to_camel
+
 
 class BeneficiaryImport(BaseModel):
     si_id: str = Field(..., alias="Identifiant dans le SI*")
