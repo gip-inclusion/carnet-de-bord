@@ -1,31 +1,19 @@
 <script lang="ts">
-	import { backendAPI, token } from '$lib/stores';
+	import { token } from '$lib/stores';
 	import { pluralize } from '$lib/helpers';
 
 	import Dropzone from 'svelte-file-dropzone';
 	import Alert from '../base/Alert.svelte';
 	import Text from '../utils/Text.svelte';
+	import { postApiFormData } from '$lib/utils/post';
 	let resultPromise;
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: FileList }>): void {
 		const file = event.detail.acceptedFiles[0];
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		resultPromise = fetch(`${$backendAPI}/v1/uploads/orientation_manager`, {
-			method: 'POST',
-			headers: {
-				'jwt-token': $token,
-				Accept: 'application/json; version=1.0',
-			},
-			body: formData,
-		}).then(async (response) => {
-			if (response.ok) {
-				return response.json();
-			}
-			const errorMessage = await response.text();
-			return Promise.reject(
-				new Error(`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`)
-			);
+		resultPromise = postApiFormData(`/v1/uploads/orientation_manager`, formData, {
+			'jwt-token': $token,
 		});
 	}
 

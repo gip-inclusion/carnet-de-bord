@@ -31,18 +31,16 @@
 
 	async function onSubmit(values: AccountRequest & { structureId: string }) {
 		const { structureId, ...accountRequest } = values;
-		const response = await post('/inscription/request', {
-			accountRequest,
-			structureId,
-			requester: { firstname, lastname },
-		});
-
-		if (response.ok) {
-			const { accountId } = await response.json();
+		try {
+			const { accountId } = await post<{ accountId: string }>('/inscription/request', {
+				accountRequest,
+				structureId,
+				requester: { firstname, lastname },
+			});
 			await addMemberToNotebook(accountId);
-
 			openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: false } });
-		} else {
+		} catch (err) {
+			console.error(err);
 			error = "La création d'un nouvel accompagnant a échoué.";
 		}
 	}

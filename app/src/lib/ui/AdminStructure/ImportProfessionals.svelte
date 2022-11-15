@@ -47,15 +47,11 @@
 			const { uid, valid, ...pro_ } = pro;
 			let error: string;
 			try {
-				const response = await post('/inscription/request', {
+				await post('/inscription/request', {
 					accountRequest: pro_,
 					structureId,
 					autoConfirm: true,
 				});
-
-				if (!response.ok) {
-					error = await response.json();
-				}
 			} catch (e) {
 				error = e;
 			}

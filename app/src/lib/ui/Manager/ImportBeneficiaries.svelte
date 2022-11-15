@@ -19,7 +19,7 @@
 	import { pluralize } from '$lib/helpers';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { v4 as uuidv4 } from 'uuid';
-	import { post } from '$lib/utils/post';
+	import { postApiFormData, postApiJson } from '$lib/utils/post';
 	import { translateError } from './errorMessage';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
@@ -96,17 +96,14 @@
 	let beneficiariesToImport = [];
 
 	async function convertCsvFile(formData: FormData): Promise<BeneficiaryCsvResponse[]> {
-		const response = await post('/v1/convert-file/beneficiaries', formData, {
-			'jwt-token': $token,
-		});
-		if (!response.ok) {
-			const errorMessage = await response.text();
-			console.error(errorMessage);
-			throw new Error(
-				`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
-			);
-		}
-		const beneficiaries = await response.json();
+		const beneficiaries = await postApiFormData<BeneficiaryCsvResponse[]>(
+			'/v1/convert-file/beneficiaries',
+			formData,
+			{
+				'jwt-token': $token,
+			}
+		);
+
 		return beneficiaries.map((beneficiary) => {
 			if (beneficiary.valid) {
 				const uuid = uuidv4();
@@ -148,26 +145,13 @@
 		return pros;
 	}
 
-	async function importBeneficiaries(payload: string) {
-		const response = await post('/v1/beneficiaries/bulk', payload, {
-			'Content-Type': 'application/json',
-			Accept: 'application/json; version=1.0',
-			'jwt-token': $token,
-		});
-		if (!response.ok) {
-			const errorMessage = await response.text();
-			console.error(errorMessage);
-			throw new Error(
-				`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
-			);
-		}
-		return response.json();
-	}
 	async function handleSubmit(beneficiaries: BeneficiaryCsvResponse[]) {
 		const payload = JSON.stringify(
 			beneficiaries.flatMap(({ uuid, data }) => (beneficiariesToImport.includes(uuid) ? data : []))
 		);
-		insertPromise = importBeneficiaries(payload);
+		insertPromise = postApiJson<BeneficiaryCsvResponse[]>('/v1/beneficiaries/bulk', payload, {
+			'jwt-token': $token,
+		});
 	}
 
 	const headers = [
@@ -336,12 +320,13 @@
 					</Button>
 				</div>
 			{:catch error}
-				<Alert type="error" title="lecture du fichier impossible, veuillez contacter le support." />
+				<Alert type="error" title="lecture du fichier impossible, veuillez contacter le support.">
+					<details>
+						<summary>voir le detail</summary>
+						<pre>{error}</pre>
+					</details>
+				</Alert>
 				<Button on:click={backToFileSelect} outline={true}>Retour</Button>
-				<details>
-					<summary>voir le detail</summary>
-					<pre>{error.message}</pre>
-				</details>
 			{/await}
 		{/if}
 	{:else}
@@ -428,12 +413,13 @@
 			<Alert
 				type="error"
 				title="import des bénéficiaires impossible, veuillez contacter le support."
-			/>
+			>
+				<details>
+					<summary>voir le detail</summary>
+					<pre>{error}</pre>
+				</details>
+			</Alert>
 			<Button on:click={backToFileSelect} outline={true}>Retour</Button>
-			<details>
-				<summary>voir le detail</summary>
-				<pre>{error.message}</pre>
-			</details>
 		{/await}
 	{/if}
 </div>

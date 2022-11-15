@@ -15,16 +15,13 @@
 
 	async function handleSubmit() {
 		request = 'loading';
-		const response = await post('/auth/login', { username });
-		if (response.status === 401) {
-			request = 'error';
-		}
-		if (response.status === 200) {
-			const { accessUrl } = await response.json();
+		magicLink = '';
+		try {
+			const { accessUrl } = await post<{ accessUrl?: string }>('/auth/login', { username });
 			magicLink = accessUrl;
 			request = 'success';
-		} else {
-			magicLink = '';
+		} catch (error) {
+			request = 'error';
 		}
 	}
 </script>
@@ -33,11 +30,11 @@
 	<title>Connexion - Carnet de bord</title>
 </svelte:head>
 
+<h1>
+	<div>Se connecter</div>
+	<div>au Carnet de bord</div>
+</h1>
 {#if request !== 'success'}
-	<h1>
-		<div>Se connecter</div>
-		<div>au Carnet de bord</div>
-	</h1>
 	<form class="flex w-full flex-col space-y-6" on:submit|preventDefault={handleSubmit}>
 		<div>Veuillez saisir votre adresse de courriel pour recevoir votre lien de connexion.</div>
 		<div class="flex w-full flex-col gap-8">
@@ -71,16 +68,7 @@
 {:else}
 	<div class="flex w-full flex-col gap-16">
 		<div class="flex w-full flex-col gap-6">
-			<h1 style="margin-bottom: 0;">
-				<div>Connectez-vous</div>
-				<div>au Carnet de bord</div>
-			</h1>
 			<div>Un lien vous a été envoyé pour vous connecter au Carnet de bord.</div>
-			<!-- @TODO what is this button supposed to do?
-					<div>
-						<Button>J'ai compris</Button>
-					</div>
-					-->
 			{#if magicLink}
 				<div><a href={magicLink}>Ouvrir Carnet de bord</a></div>
 			{/if}
@@ -90,7 +78,7 @@
 				Si vous n'avez pas reçu le lien, vous pouvez cliquer sur le bouton ci-dessous.
 			</div>
 			<div>
-				<Button outline={true}>Renvoyer le lien</Button>
+				<Button on:click={handleSubmit} outline={true}>Renvoyer le lien</Button>
 			</div>
 		</div>
 	</div>

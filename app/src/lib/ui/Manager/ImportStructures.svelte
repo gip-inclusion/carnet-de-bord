@@ -6,7 +6,7 @@
 	import { Alert } from '$lib/ui/base';
 	import { v4 as uuidv4 } from 'uuid';
 	import { pluralize } from '$lib/helpers';
-	import { post } from '$lib/utils/post';
+	import { postApiFormData, postApiJson } from '$lib/utils/post';
 	import { translateError } from './errorMessage';
 
 	let sendAccountEmail = false;
@@ -27,15 +27,14 @@
 	};
 
 	async function convertCsvFile(formData: FormData): Promise<StructureCsvResponse[]> {
-		const response = await post('/v1/convert-file/structures', formData, { 'jwt-token': $token });
-		if (!response.ok) {
-			const errorMessage = await response.text();
-			console.error(errorMessage);
-			throw new Error(
-				`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
-			);
-		}
-		const structures = await response.json();
+		const structures = await postApiFormData<StructureCsvResponse[]>(
+			'/v1/convert-file/structures',
+			formData,
+			{
+				'jwt-token': $token,
+			}
+		);
+
 		return structures.map((structure) => {
 			if (structure.valid) {
 				const uuid = uuidv4();
@@ -44,22 +43,6 @@
 			}
 			return { ...structure };
 		});
-	}
-
-	async function insertStructure(payload: string): Promise<StructureCsvResponse[]> {
-		const response = await post('/v1/structures/import', payload, {
-			'Content-Type': 'application/json',
-			Accept: 'application/json; version=1.0',
-			'jwt-token': $token,
-		});
-		if (!response.ok) {
-			const errorMessage = await response.text();
-			console.error(errorMessage);
-			throw new Error(
-				`api call failed (${response.status} - ${response.statusText})\n${errorMessage}`
-			);
-		}
-		return response.json();
 	}
 
 	async function handleFilesSelect(event: CustomEvent<{ acceptedFiles: FileList }>): Promise<void> {
@@ -76,7 +59,9 @@
 				structurestoImport.includes(uuid) ? data : []
 			),
 		});
-		insertPromise = insertStructure(payload);
+		insertPromise = postApiJson<StructureCsvResponse[]>('/v1/structures/import', payload, {
+			'jwt-token': $token,
+		});
 	}
 
 	function backToFileSelect() {
