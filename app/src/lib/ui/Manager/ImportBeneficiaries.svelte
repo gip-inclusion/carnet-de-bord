@@ -322,7 +322,7 @@
 			{:catch error}
 				<Alert type="error" title="lecture du fichier impossible, veuillez contacter le support.">
 					<details>
-						<summary>voir le detail</summary>
+						<summary>voir le détail</summary>
 						<pre>{error}</pre>
 					</details>
 				</Alert>
