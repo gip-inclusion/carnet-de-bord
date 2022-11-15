@@ -1,3 +1,6 @@
+import json
+
+
 async def test_parse_csv(
     test_client,
     csv_beneficiary_filepath,
@@ -12,8 +15,8 @@ async def test_parse_csv(
 
         assert response.status_code == 200
 
-        assert response.json()[0]["data"]["Identifiant dans le SI*"] == "1234"
-        assert response.json()[0]["data"]["Prénom*"] == "Charlotte"
+        assert response.json()[0]["data"]["si_id"] == "1234"
+        assert response.json()[0]["data"]["firstname"] == "Charlotte"
 
 
 async def test_parse_csv_with_all_date_formats(
@@ -28,10 +31,10 @@ async def test_parse_csv_with_all_date_formats(
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
 
-        assert response.json()[0]["data"]["Identifiant dans le SI*"] == "1234"
-        assert response.json()[0]["data"]["Prénom*"] == "Charlotte"
-        assert response.json()[0]["data"]["Date de naissance*"] == "1998-05-25"
-        assert response.json()[1]["data"]["Date de naissance*"] == "1997-04-22"
+        assert response.json()[0]["data"]["si_id"] == "1234"
+        assert response.json()[0]["data"]["firstname"] == "Charlotte"
+        assert response.json()[0]["data"]["date_of_birth"] == "1998-05-25"
+        assert response.json()[1]["data"]["date_of_birth"] == "1997-04-22"
 
 
 async def test_parse_csv_errors(

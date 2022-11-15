@@ -58,6 +58,34 @@ def is_same_name(firstname1, firstname2, lastname1, lastname2):
     )
 
 
+class BeneficiaryImportOut(BaseModel):
+    si_id: str
+    firstname: str
+    lastname: str
+    date_of_birth: date
+    place_of_birth: str | None
+    phone_number: str | None
+    email: EmailStr | None
+    address1: str | None
+    address2: str | None
+    postal_code: str | None
+    city: str | None
+    work_situation: str | None
+    caf_number: str | None
+    pe_number: str | None
+    right_rsa: str | None
+    right_are: bool | None
+    right_ass: bool | None
+    right_bonus: bool | None
+    right_rqth: bool | None
+    geographical_area: str | None
+    rome_code_description: str | None
+    education_level: str | None
+    structure_name: str | None
+    advisor_email: EmailStr | None
+    nir: str | None
+
+
 class BeneficiaryImport(BaseModel):
     si_id: str = Field(..., alias="Identifiant dans le SI*")
     firstname: str = Field(..., alias="Prénom*")
@@ -187,7 +215,7 @@ class BeneficiaryImport(BaseModel):
 
 class BeneficiaryCsvRowResponse(BaseModel):
     row: dict | None = None
-    data: BeneficiaryImport | None = None
+    data: BeneficiaryImportOut | None = None
     valid: bool
     errors: list[CsvFieldError] | None = None
 
