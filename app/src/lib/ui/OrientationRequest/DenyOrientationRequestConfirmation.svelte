@@ -1,11 +1,12 @@
 <script lang="ts">
 	import {
-		GetNotebookByBeneficiaryIdQuery,
+		type GetNotebookByBeneficiaryIdQuery,
 		DenyOrientationRequestDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button } from '$lib/ui/base';
+
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 
 	const updateStore = operationStore(DenyOrientationRequestDocument);
