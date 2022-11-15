@@ -182,12 +182,12 @@ async def import_beneficiary(
                 )
 
             logger.info(
-                "block new beneficiary conflicting with existing beneficiaries: %s",
+                "block beneficiary creation as it is conflicting with existing beneficiaries: %s",
                 [beneficiary.id for beneficiary in existing_rows],
             )
 
             return BeneficiaryCsvRowResponse(
-                row=beneficiary.dict(),
+                row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
                         error="Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire."
@@ -199,7 +199,7 @@ async def import_beneficiary(
         except InsertFailError as error:
             logging.error(error)
             return BeneficiaryCsvRowResponse(
-                row=beneficiary.dict(),
+                row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
                         error=f"import beneficiary {beneficiary.si_id}: {error}"
@@ -210,10 +210,10 @@ async def import_beneficiary(
         except Exception as error:
             logging.error("unhandled exception %s", error)
             return BeneficiaryCsvRowResponse(
-                row=beneficiary.dict(),
+                row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
-                        error=f"import structure {beneficiary.si_id}: erreur inconnue"
+                        error=f"import beneficiary {beneficiary.si_id}: erreur inconnue"
                     )
                 ],
                 valid=False,

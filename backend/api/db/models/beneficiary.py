@@ -85,7 +85,7 @@ class BeneficiaryImport(BaseModel):
     education_level: str | None = Field(None, alias="Niveau de formation")
     structure_name: str | None = Field(None, alias="Structure")
     advisor_email: EmailStr | None = Field(None, alias="Accompagnateurs")
-    nir: str | None = Field(None, title="NIR (numéro de sécurité sociale)")
+    nir: str | None = Field(None, alias="NIR")
 
     class Config:
         anystr_strip_whitespace = True
@@ -100,31 +100,29 @@ class BeneficiaryImport(BaseModel):
 
     @validator("right_rsa")
     def parse_right_rsa(cls, right_rsa):
-        if right_rsa in [
+        if right_rsa and right_rsa not in [
             "rsa_droit_ouvert_et_suspendu",
             "rsa_droit_ouvert_versable",
             "rsa_droit_ouvert_versement_suspendu",
         ]:
-            return right_rsa
-        else:
-            return None
+            raise ValueError(f"value {right_rsa} unknown")
+        return right_rsa
 
     @validator("geographical_area")
     def parse_geographical_area(cls, geographical_area):
-        if geographical_area in [
+        if geographical_area and geographical_area not in [
             "none",
             "less_10",
             "between_10_20",
             "between_20_30",
             "plus_30",
         ]:
-            return geographical_area
-        else:
-            return None
+            raise ValueError(f"value {geographical_area} unknown")
+        return geographical_area
 
     @validator("work_situation")
     def parse_work_situation(cls, work_situation):
-        if work_situation in [
+        if work_situation and work_situation not in [
             "recherche_emploi",
             "recherche_formation",
             "recherche_alternance",
@@ -153,13 +151,12 @@ class BeneficiaryImport(BaseModel):
             "cdd_temps_partiel",
             "intermittent",
         ]:
-            return work_situation.strip()
-        else:
-            return None
+            raise ValueError(f"value {work_situation} unknown")
+        return work_situation
 
     @validator("education_level")
     def parse_education_level(cls, education_level):
-        if education_level in [
+        if education_level and education_level not in [
             "AFS",
             "C12",
             "C3A",
@@ -171,17 +168,15 @@ class BeneficiaryImport(BaseModel):
             "NV2",
             "NV1",
         ]:
-            return education_level.strip()
-        else:
-            return None
+            raise ValueError(f"value {education_level} unknown")
+        return education_level
 
     @validator("nir")
     def parse_nir(cls, nir: str):
         validation_error = nir_format(nir)
-        if not validation_error:
-            return nir
-        else:
-            return None
+        if validation_error:
+            raise ValueError(validation_error)
+        return nir
 
 
 class BeneficiaryCsvRowResponse(BaseModel):

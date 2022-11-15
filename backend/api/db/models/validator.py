@@ -35,9 +35,11 @@ def phone(value: str) -> str:
     if not value:
         return value
 
-    for phone in value.split(","):
-        parsed_number = phonenumbers.parse(phone, "FR")
-
+    for phone_value in value.split(","):
+        try:
+            parsed_number = phonenumbers.parse(phone_value, "FR")
+        except Exception as error:
+            raise ValueError("value is not a valid phone number") from error
         if not phonenumbers.is_possible_number(parsed_number):
             raise ValueError("value is not a valid phone number")
 
