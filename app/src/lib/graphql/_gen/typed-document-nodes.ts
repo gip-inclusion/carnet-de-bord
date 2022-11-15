@@ -8004,22 +8004,26 @@ export type OrientationRequest = {
 	__typename?: 'orientation_request';
 	/** An object relationship */
 	beneficiary?: Maybe<Beneficiary>;
-	beneficiary_id: Scalars['uuid'];
-	created_at: Scalars['timestamptz'];
-	decided_at?: Maybe<Scalars['timestamptz']>;
+	beneficiaryId: Scalars['uuid'];
+	createdAt: Scalars['timestamptz'];
+	decidedAt?: Maybe<Scalars['timestamptz']>;
+	/** An object relationship */
+	decidedOrientationType?: Maybe<OrientationType>;
+	decidedOrientationTypeId?: Maybe<OrientationTypeEnum>;
 	/** An object relationship */
 	decided_orientation_type?: Maybe<OrientationType>;
-	decided_orientation_type_id?: Maybe<OrientationTypeEnum>;
 	id: Scalars['uuid'];
 	reason?: Maybe<Scalars['String']>;
 	/** An object relationship */
+	requestedOrientationType?: Maybe<OrientationType>;
+	requestedOrientationTypeId: OrientationTypeEnum;
+	/** An object relationship */
 	requested_orientation_type?: Maybe<OrientationType>;
-	requested_orientation_type_id: OrientationTypeEnum;
 	/** An object relationship */
 	requestor?: Maybe<Account>;
 	requestor_account_id: Scalars['uuid'];
 	status?: Maybe<Scalars['String']>;
-	updated_at: Scalars['timestamptz'];
+	updatedAt: Scalars['timestamptz'];
 };
 
 /** aggregated selection of "orientation_request" */
@@ -8063,19 +8067,21 @@ export type OrientationRequestBoolExp = {
 	_not?: InputMaybe<OrientationRequestBoolExp>;
 	_or?: InputMaybe<Array<OrientationRequestBoolExp>>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
-	beneficiary_id?: InputMaybe<UuidComparisonExp>;
-	created_at?: InputMaybe<TimestamptzComparisonExp>;
-	decided_at?: InputMaybe<TimestamptzComparisonExp>;
+	beneficiaryId?: InputMaybe<UuidComparisonExp>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	decidedAt?: InputMaybe<TimestamptzComparisonExp>;
+	decidedOrientationType?: InputMaybe<OrientationTypeBoolExp>;
+	decidedOrientationTypeId?: InputMaybe<OrientationTypeEnumComparisonExp>;
 	decided_orientation_type?: InputMaybe<OrientationTypeBoolExp>;
-	decided_orientation_type_id?: InputMaybe<OrientationTypeEnumComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	reason?: InputMaybe<StringComparisonExp>;
+	requestedOrientationType?: InputMaybe<OrientationTypeBoolExp>;
+	requestedOrientationTypeId?: InputMaybe<OrientationTypeEnumComparisonExp>;
 	requested_orientation_type?: InputMaybe<OrientationTypeBoolExp>;
-	requested_orientation_type_id?: InputMaybe<OrientationTypeEnumComparisonExp>;
 	requestor?: InputMaybe<AccountBoolExp>;
 	requestor_account_id?: InputMaybe<UuidComparisonExp>;
 	status?: InputMaybe<StringComparisonExp>;
-	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "orientation_request" */
@@ -8087,69 +8093,71 @@ export enum OrientationRequestConstraint {
 /** input type for inserting data into table "orientation_request" */
 export type OrientationRequestInsertInput = {
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
-	beneficiary_id?: InputMaybe<Scalars['uuid']>;
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	decided_at?: InputMaybe<Scalars['timestamptz']>;
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	decidedAt?: InputMaybe<Scalars['timestamptz']>;
+	decidedOrientationType?: InputMaybe<OrientationTypeObjRelInsertInput>;
+	decidedOrientationTypeId?: InputMaybe<OrientationTypeEnum>;
 	decided_orientation_type?: InputMaybe<OrientationTypeObjRelInsertInput>;
-	decided_orientation_type_id?: InputMaybe<OrientationTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	reason?: InputMaybe<Scalars['String']>;
+	requestedOrientationType?: InputMaybe<OrientationTypeObjRelInsertInput>;
+	requestedOrientationTypeId?: InputMaybe<OrientationTypeEnum>;
 	requested_orientation_type?: InputMaybe<OrientationTypeObjRelInsertInput>;
-	requested_orientation_type_id?: InputMaybe<OrientationTypeEnum>;
 	requestor?: InputMaybe<AccountObjRelInsertInput>;
 	requestor_account_id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type OrientationRequestMaxFields = {
 	__typename?: 'orientation_request_max_fields';
-	beneficiary_id?: Maybe<Scalars['uuid']>;
-	created_at?: Maybe<Scalars['timestamptz']>;
-	decided_at?: Maybe<Scalars['timestamptz']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	decidedAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	reason?: Maybe<Scalars['String']>;
 	requestor_account_id?: Maybe<Scalars['uuid']>;
 	status?: Maybe<Scalars['String']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "orientation_request" */
 export type OrientationRequestMaxOrderBy = {
-	beneficiary_id?: InputMaybe<OrderBy>;
-	created_at?: InputMaybe<OrderBy>;
-	decided_at?: InputMaybe<OrderBy>;
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	decidedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	reason?: InputMaybe<OrderBy>;
 	requestor_account_id?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type OrientationRequestMinFields = {
 	__typename?: 'orientation_request_min_fields';
-	beneficiary_id?: Maybe<Scalars['uuid']>;
-	created_at?: Maybe<Scalars['timestamptz']>;
-	decided_at?: Maybe<Scalars['timestamptz']>;
+	beneficiaryId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	decidedAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
 	reason?: Maybe<Scalars['String']>;
 	requestor_account_id?: Maybe<Scalars['uuid']>;
 	status?: Maybe<Scalars['String']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "orientation_request" */
 export type OrientationRequestMinOrderBy = {
-	beneficiary_id?: InputMaybe<OrderBy>;
-	created_at?: InputMaybe<OrderBy>;
-	decided_at?: InputMaybe<OrderBy>;
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	decidedAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	reason?: InputMaybe<OrderBy>;
 	requestor_account_id?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "orientation_request" */
@@ -8171,19 +8179,21 @@ export type OrientationRequestOnConflict = {
 /** Ordering options when selecting data from "orientation_request". */
 export type OrientationRequestOrderBy = {
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
-	beneficiary_id?: InputMaybe<OrderBy>;
-	created_at?: InputMaybe<OrderBy>;
-	decided_at?: InputMaybe<OrderBy>;
+	beneficiaryId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	decidedAt?: InputMaybe<OrderBy>;
+	decidedOrientationType?: InputMaybe<OrientationTypeOrderBy>;
+	decidedOrientationTypeId?: InputMaybe<OrderBy>;
 	decided_orientation_type?: InputMaybe<OrientationTypeOrderBy>;
-	decided_orientation_type_id?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	reason?: InputMaybe<OrderBy>;
+	requestedOrientationType?: InputMaybe<OrientationTypeOrderBy>;
+	requestedOrientationTypeId?: InputMaybe<OrderBy>;
 	requested_orientation_type?: InputMaybe<OrientationTypeOrderBy>;
-	requested_orientation_type_id?: InputMaybe<OrderBy>;
 	requestor?: InputMaybe<AccountOrderBy>;
 	requestor_account_id?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: orientation_request */
@@ -8194,39 +8204,39 @@ export type OrientationRequestPkColumnsInput = {
 /** select columns of table "orientation_request" */
 export enum OrientationRequestSelectColumn {
 	/** column name */
-	BeneficiaryId = 'beneficiary_id',
+	BeneficiaryId = 'beneficiaryId',
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
-	DecidedAt = 'decided_at',
+	DecidedAt = 'decidedAt',
 	/** column name */
-	DecidedOrientationTypeId = 'decided_orientation_type_id',
+	DecidedOrientationTypeId = 'decidedOrientationTypeId',
 	/** column name */
 	Id = 'id',
 	/** column name */
 	Reason = 'reason',
 	/** column name */
-	RequestedOrientationTypeId = 'requested_orientation_type_id',
+	RequestedOrientationTypeId = 'requestedOrientationTypeId',
 	/** column name */
 	RequestorAccountId = 'requestor_account_id',
 	/** column name */
 	Status = 'status',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "orientation_request" */
 export type OrientationRequestSetInput = {
-	beneficiary_id?: InputMaybe<Scalars['uuid']>;
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	decided_at?: InputMaybe<Scalars['timestamptz']>;
-	decided_orientation_type_id?: InputMaybe<OrientationTypeEnum>;
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	decidedAt?: InputMaybe<Scalars['timestamptz']>;
+	decidedOrientationTypeId?: InputMaybe<OrientationTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	reason?: InputMaybe<Scalars['String']>;
-	requested_orientation_type_id?: InputMaybe<OrientationTypeEnum>;
+	requestedOrientationTypeId?: InputMaybe<OrientationTypeEnum>;
 	requestor_account_id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** Streaming cursor of the table "orientation_request" */
@@ -8239,40 +8249,40 @@ export type OrientationRequestStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type OrientationRequestStreamCursorValueInput = {
-	beneficiary_id?: InputMaybe<Scalars['uuid']>;
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	decided_at?: InputMaybe<Scalars['timestamptz']>;
-	decided_orientation_type_id?: InputMaybe<OrientationTypeEnum>;
+	beneficiaryId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	decidedAt?: InputMaybe<Scalars['timestamptz']>;
+	decidedOrientationTypeId?: InputMaybe<OrientationTypeEnum>;
 	id?: InputMaybe<Scalars['uuid']>;
 	reason?: InputMaybe<Scalars['String']>;
-	requested_orientation_type_id?: InputMaybe<OrientationTypeEnum>;
+	requestedOrientationTypeId?: InputMaybe<OrientationTypeEnum>;
 	requestor_account_id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<Scalars['String']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** update columns of table "orientation_request" */
 export enum OrientationRequestUpdateColumn {
 	/** column name */
-	BeneficiaryId = 'beneficiary_id',
+	BeneficiaryId = 'beneficiaryId',
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
-	DecidedAt = 'decided_at',
+	DecidedAt = 'decidedAt',
 	/** column name */
-	DecidedOrientationTypeId = 'decided_orientation_type_id',
+	DecidedOrientationTypeId = 'decidedOrientationTypeId',
 	/** column name */
 	Id = 'id',
 	/** column name */
 	Reason = 'reason',
 	/** column name */
-	RequestedOrientationTypeId = 'requested_orientation_type_id',
+	RequestedOrientationTypeId = 'requestedOrientationTypeId',
 	/** column name */
 	RequestorAccountId = 'requestor_account_id',
 	/** column name */
 	Status = 'status',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	UpdatedAt = 'updatedAt',
 }
 
 export type OrientationRequestUpdates = {
@@ -13309,6 +13319,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
+			orientationRequest: Array<{ __typename?: 'orientation_request'; createdAt: string }>;
 		};
 		members: Array<{
 			__typename?: 'notebook_member';
@@ -13449,6 +13460,7 @@ export type GetNotebookByIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
+			orientationRequest: Array<{ __typename?: 'orientation_request'; createdAt: string }>;
 		};
 		members: Array<{
 			__typename?: 'notebook_member';
@@ -13583,6 +13595,7 @@ export type NotebookFragmentFragment = {
 		mobileNumber?: string | null;
 		peNumber?: string | null;
 		postalCode?: string | null;
+		orientationRequest: Array<{ __typename?: 'orientation_request'; createdAt: string }>;
 	};
 	members: Array<{
 		__typename?: 'notebook_member';
@@ -13852,10 +13865,11 @@ export type BeneficiariesWithOrientationRequestQuery = {
 			__typename?: 'orientation_request';
 			id: string;
 			reason?: string | null;
-			created_at: string;
-			requested_orientation_type?: { __typename?: 'orientation_type'; label: string } | null;
-			decided_orientation_type?: { __typename?: 'orientation_type'; label: string } | null;
+			createdAt: string;
+			requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+			decidedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
 		}>;
+		beneficiaryInfo?: { __typename?: 'beneficiary_info'; orientation: OrientationTypeEnum } | null;
 		notebook?: {
 			__typename?: 'notebook';
 			id: string;
@@ -14699,6 +14713,39 @@ export const NotebookFragmentFragmentDoc = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientationRequest' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'decidedOrientationTypeId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } }],
+									},
+								},
 							],
 						},
 					},
@@ -22183,7 +22230,7 @@ export const BeneficiariesWithOrientationRequestCountDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'decided_orientation_type_id' },
+														name: { kind: 'Name', value: 'decidedOrientationTypeId' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
@@ -22430,7 +22477,7 @@ export const BeneficiariesWithOrientationRequestDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'decided_orientation_type_id' },
+														name: { kind: 'Name', value: 'decidedOrientationTypeId' },
 														value: {
 															kind: 'ObjectValue',
 															fields: [
@@ -22484,7 +22531,7 @@ export const BeneficiariesWithOrientationRequestDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'requested_orientation_type' },
+												name: { kind: 'Name', value: 'requestedOrientationType' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'label' } }],
@@ -22492,15 +22539,23 @@ export const BeneficiariesWithOrientationRequestDocument = {
 											},
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'decided_orientation_type' },
+												name: { kind: 'Name', value: 'decidedOrientationType' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'label' } }],
 												},
 											},
 											{ kind: 'Field', name: { kind: 'Name', value: 'reason' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'created_at' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiaryInfo' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'orientation' } }],
 									},
 								},
 								{

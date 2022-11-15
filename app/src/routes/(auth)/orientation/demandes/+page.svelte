@@ -80,7 +80,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>{formatDateLocale(orientationRequest.created_at)}</td>
+					<td>{formatDateLocale(orientationRequest.createdAt)}</td>
 					<td>{displayFullName(beneficiary)}</td>
 					<td>
 						{#if referents.length > 0 || beneficiary.structures.length > 0}
@@ -105,14 +105,14 @@
 					</td>
 					<td>
 						<div class="flex">
-							<Text class="flex-auto" value={orientationRequest.requested_orientation_type.label} />
+							<Text class="flex-auto" value={beneficiary.beneficiaryInfo.orientation} />
 							<span class="flex-none fr-icon-arrow-right-line text-france-blue" aria-hidden />
 						</div>
 					</td>
 					<td>
 						<Text
 							class="fr-text--bold"
-							value={orientationRequest.decided_orientation_type?.label}
+							value={orientationRequest.requestedOrientationType.label}
 						/>
 					</td>
 					<td class="!text-center">

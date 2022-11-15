@@ -1,6 +1,28 @@
 table:
   name: orientation_request
   schema: public
+configuration:
+  column_config:
+    beneficiary_id:
+      custom_name: beneficiaryId
+    created_at:
+      custom_name: createdAt
+    decided_at:
+      custom_name: decidedAt
+    decided_orientation_type_id:
+      custom_name: decidedOrientationTypeId
+    requested_orientation_type_id:
+      custom_name: requestedOrientationTypeId
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    beneficiary_id: beneficiaryId
+    created_at: createdAt
+    decided_at: decidedAt
+    decided_orientation_type_id: decidedOrientationTypeId
+    requested_orientation_type_id: requestedOrientationTypeId
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: beneficiary
     using:
@@ -11,11 +33,29 @@ object_relationships:
         remote_table:
           name: beneficiary
           schema: public
+  - name: decidedOrientationType
+    using:
+      manual_configuration:
+        column_mapping:
+          decided_orientation_type_id: id
+        insertion_order: null
+        remote_table:
+          name: orientation_type
+          schema: public
   - name: decided_orientation_type
     using:
       manual_configuration:
         column_mapping:
           decided_orientation_type_id: id
+        insertion_order: null
+        remote_table:
+          name: orientation_type
+          schema: public
+  - name: requestedOrientationType
+    using:
+      manual_configuration:
+        column_mapping:
+          requested_orientation_type_id: id
         insertion_order: null
         remote_table:
           name: orientation_type
