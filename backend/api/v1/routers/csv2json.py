@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from pandas import DataFrame
-from pydantic import BaseModel
 
 from api.core.settings import settings
 from api.db.models.beneficiary import BeneficiaryCsvRowResponse
@@ -22,17 +21,6 @@ logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 
 router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
-
-
-class FieldValue(BaseModel):
-    column_name: str
-    value: str | None
-
-
-class ParseError(BaseModel):
-    column_name: str
-    value: str | None
-    error_messages: list[str]
 
 
 @router.post("/structures", response_model=list[StructureCsvRowResponse])
@@ -51,9 +39,7 @@ async def parse_beneficiaries(
     return [map_csv_row_beneficiary(row) for _, row in dataframe.iterrows()]
 
 
-async def file_to_json(
-    upload_file: UploadFile,
-) -> DataFrame:
+async def file_to_json(upload_file: UploadFile) -> DataFrame:
     file_info: magic.FileMagic = magic.detect_from_fobj(upload_file.file)
 
     if file_info.mime_type in [
