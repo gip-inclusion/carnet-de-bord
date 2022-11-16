@@ -14,6 +14,7 @@ from api.db.crud.notebook import (
     insert_notebook_member,
     parse_notebook_from_record,
 )
+from api.db.crud.notebook_info import insert_or_update_need_orientation
 from api.db.crud.professional import get_professional_by_email
 from api.db.crud.structure import get_structure_by_name
 from api.db.crud.wanted_job import insert_wanted_jobs
@@ -24,7 +25,6 @@ from api.db.models.beneficiary import (
 )
 from api.db.models.notebook_member import NotebookMemberInsert
 from api.db.models.professional import Professional
-from api.db.crud.notebook_info import insert_or_update_need_orientation
 
 logger = logging.getLogger(__name__)
 

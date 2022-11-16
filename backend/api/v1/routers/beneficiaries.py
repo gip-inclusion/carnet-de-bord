@@ -13,7 +13,7 @@ from api.db.crud.beneficiary import (
     update_beneficiary,
 )
 from api.db.crud.notebook import update_notebook
-
+from api.db.crud.notebook_info import insert_or_update_need_orientation
 from api.db.crud.wanted_job import insert_wanted_jobs
 from api.db.models.beneficiary import (
     Beneficiary,
@@ -24,7 +24,6 @@ from api.db.models.beneficiary import (
 from api.db.models.csv import CsvFieldError
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
-from api.db.crud.notebook_info import insert_or_update_need_orientation
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
@@ -47,7 +46,7 @@ class BeneficiariesImportInput(BaseModel):
     beneficiaries: list[BeneficiaryImport]
 
 
-@router.post("/bulk", response_model=BeneficiariesImportResult)
+@router.post("/bulk", response_model=list[BeneficiaryCsvRowResponse])
 async def import_beneficiaries(
     data: BeneficiariesImportInput,
     request: Request,

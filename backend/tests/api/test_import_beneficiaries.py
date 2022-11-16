@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 from datetime import date
 from typing import List
 
@@ -76,14 +76,14 @@ async def test_update_existing_beneficiary_same_name(
 ):
     await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
 
-    beneficiary_in_db = await get_beneficiary_from_personal_information(
+    beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.mobile_number == None
 
     await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
 
-    beneficiary_in_db = await get_beneficiary_from_personal_information(
+    beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.mobile_number == harry_covert.phone_number
