@@ -47,15 +47,11 @@
 			const { uid, valid, ...pro_ } = pro;
 			let error: string;
 			try {
-				const response = await post('/inscription/request', {
+				await post('/inscription/request', {
 					accountRequest: pro_,
 					structureId,
 					autoConfirm: true,
 				});
-
-				if (!response.ok) {
-					error = await response.json();
-				}
 			} catch (e) {
 				error = e;
 			}
@@ -129,10 +125,10 @@
 									<Text value={pro.lastname} />
 								</td>
 								<td class="px-2 py-2">
-									<Text value={pro.mobileNumber} />
+									<Text value={pro.mobileNumber} defaultValue="" />
 								</td>
 								<td class="px-2 py-2">
-									<Text value={pro.position} />
+									<Text value={pro.position} defaultValue="" />
 								</td>
 							</tr>
 						{/each}

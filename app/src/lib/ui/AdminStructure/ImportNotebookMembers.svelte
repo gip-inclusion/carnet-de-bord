@@ -269,7 +269,7 @@
 									</td>
 									<td class="px-2 py-2 ">
 										{#if member.error}
-											<Text classNames="text-error" value={member.error} />
+											<Text class="text-error" value={member.error} />
 										{:else}
 											<span
 												class="fr-icon-success-fill text-success"

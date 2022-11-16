@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 from typing import List
 
@@ -96,22 +97,24 @@ async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
 
 
 async def test_update_beneficiary_with_different_capitalization_and_spacing(
-    test_client,
-    get_manager_jwt,
-    db_connection,
+    test_client, get_manager_jwt, db_connection, caplog
 ):
-    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
 
-    await import_beneficiaries(
-        test_client, get_manager_jwt, [harry_covert_with_caps_and_space]
-    )
+    with caplog.at_level(logging.INFO):
+        await import_beneficiaries(
+            test_client, get_manager_jwt, [sophie_tifour_bad_caps]
+        )
 
-    beneficiary_in_db = await get_beneficiary_from_personal_information(
-        db_connection, "Harry", "Covert", date(1985, 7, 23)
-    )
-    assert (
-        beneficiary_in_db.mobile_number == harry_covert_with_caps_and_space.phone_number
-    )
+        beneficiary_in_db: Beneficiary | None = (
+            await get_beneficiary_from_personal_information(
+                db_connection, "Sophie", "Tifour", date(1982, 2, 1)
+            )
+        )
+
+        assert "updated existing beneficiary" in caplog.text
+
+        assert beneficiary_in_db is not None
+        assert beneficiary_in_db.internal_id == sophie_tifour_bad_caps.si_id
 
 
 async def test_insert_beneficiary_check_all_fields(
@@ -423,13 +426,21 @@ class ListOf(BaseModel):
     __root__: List[BeneficiaryImport]
 
 
+sophie_tifour_bad_caps = BeneficiaryImport(
+    si_id="1234",
+    firstname="SoPhiE",
+    lastname="TIFOUR",
+    date_of_birth=date(1982, 2, 1),
+)
+
+
 harry_covert = BeneficiaryImport(
     si_id="123",
     firstname="Harry",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
     place_of_birth="Paris",
-    phone_number="06579123",
+    phone_number="0657912322",
     email="harry.covert@caramail.fr",
     address1="1 Rue des Champs",
     address2="1er étage",
@@ -463,7 +474,7 @@ harry_covert_typo = BeneficiaryImport(
     firstname="Harry,",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
-    phone_number="06579123",
+    phone_number="0657912322",
 )
 
 harry_covert_with_caps_and_space = BeneficiaryImport(
@@ -471,7 +482,7 @@ harry_covert_with_caps_and_space = BeneficiaryImport(
     firstname="Harry ",
     lastname="  CoVert",
     date_of_birth=date(1985, 7, 23),
-    phone_number="06579123",
+    phone_number="0657912322",
 )
 
 betty_bois = BeneficiaryImport(

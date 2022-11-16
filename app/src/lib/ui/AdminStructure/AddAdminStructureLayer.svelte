@@ -3,8 +3,8 @@
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
 	import AdminStructureForm from './AdminStructureForm.svelte';
 	import { connectedUser, token } from '$lib/stores';
-	import { postAdminStructure } from '$lib/services/backend';
 	import Alert from '../base/Alert.svelte';
+	import { postApiJson } from '$lib/utils/post';
 
 	export let structureId: string;
 	export let onClose: () => void;
@@ -18,7 +18,7 @@
 	async function insertAdminSubmitHandler(data: AdminStructureAccountInput) {
 		const admin = Object.assign(data, { deployment_id: $connectedUser.deploymentId });
 		try {
-			await postAdminStructure(
+			await postApiJson(
 				'/v1/admin_structures/create',
 				{
 					admin,
@@ -34,7 +34,7 @@
 			closeLayer();
 		} catch (error) {
 			console.error(error);
-			errorMessage = 'Impossible de rajouter cet admin';
+			errorMessage = error;
 		}
 	}
 </script>
@@ -54,7 +54,11 @@
 	/>
 	{#if errorMessage}
 		<div class="mb-8">
-			<Alert type="error" description={errorMessage} />
+			<Alert
+				type="error"
+				title="Impossible de rajouter cet administrateur"
+				description={errorMessage}
+			/>
 		</div>
 	{/if}
 </div>

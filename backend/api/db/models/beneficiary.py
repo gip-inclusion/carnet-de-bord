@@ -1,10 +1,18 @@
 from datetime import date, datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Field, validator
+from pandas.core.series import Series
+from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 
+from api.db.models.csv import CsvFieldError
 from api.db.models.nir import nir_format
 from api.db.models.notebook import Notebook
+from api.db.models.validator import (
+    date_validator,
+    is_bool_validator,
+    phone_validator,
+    postal_code_validator,
+)
 
 
 class BeneficiaryStructure(BaseModel):
@@ -43,81 +51,78 @@ def snake_to_camel(field):
     return "".join(parts[0:1] + [part.title() for part in parts[1:]])
 
 
+def is_same_name(firstname1, firstname2, lastname1, lastname2):
+    return (
+        firstname1.lower().strip() == firstname2.lower().strip()
+        and lastname1.lower().strip() == lastname2.lower().strip()
+    )
+
+
 class BeneficiaryImport(BaseModel):
-    si_id: str = Field(..., title="Identifiant du SI interne")
-    firstname: str = Field(..., title="Prénom")
-    lastname: str = Field(..., title="Nom")
-    date_of_birth: date = Field(..., title="Date de naissance")
-    place_of_birth: str | None = Field(None, title="Lieu de naissance")
-    phone_number: str | None = Field(None, title="Numéro de téléphone")
-    email: str | None = Field(None, title="Email")
-    address1: str | None = Field(None, title="Adresse")
-    address2: str | None = Field(None, title="Complément d'adresse")
-    postal_code: str | None = Field(None, title="Code postal")
-    city: str | None = Field(None, title="Ville")
-    work_situation: str | None = Field(None, title="Situation professionnelle")
-    caf_number: str | None = Field(None, title="Numéro CAF/MSA")
-    pe_number: str | None = Field(None, title="Identifiant Pole Emploi")
-    right_rsa: str | None = Field(None, title="Droits RSA")
-    right_are: bool | None = Field(None, title="Droits ARE")
-    right_ass: bool | None = Field(None, title="Droits ASS")
-    right_bonus: bool | None = Field(None, title="Droits Bonus")
-    right_rqth: bool | None = Field(None, title="Droits RQTH")
-    geographical_area: str | None = Field(None, title="Zone de mobilité")
-    rome_code_description: str | None = Field(None, title="Emploi recherché")
-    education_level: str | None = Field(None, title="Niveau de formation")
-    structure_name: str | None = Field(None, title="Structure d'accompagnement")
-    advisor_email: str | None = Field(None, title="Accompagnateur référent")
-    nir: str | None = Field(None, title="NIR (numéro de sécurité sociale)")
+    si_id: str = Field(..., alias="Identifiant dans le SI*")
+    firstname: str = Field(..., alias="Prénom*")
+    lastname: str = Field(..., alias="Nom*")
+    date_of_birth: date = Field(..., alias="Date de naissance*")
+    place_of_birth: str | None = Field(None, alias="Lieu de naissance")
+    phone_number: str | None = Field(None, alias="Téléphone")
+    email: EmailStr | None = Field(None, alias="Email")
+    address1: str | None = Field(None, alias="Adresse")
+    address2: str | None = Field(None, alias="Adresse (complément)")
+    postal_code: str | None = Field(None, alias="Code postal")
+    city: str | None = Field(None, alias="Ville")
+    work_situation: str | None = Field(None, alias="Situation")
+    caf_number: str | None = Field(None, alias="Numéro allocataire CAF/MSA")
+    pe_number: str | None = Field(None, alias="Identifiant Pôle Emploi")
+    right_rsa: str | None = Field(None, alias="Droits RSA")
+    right_are: bool | None = Field(None, alias="Droits ARE")
+    right_ass: bool | None = Field(None, alias="Droits ASS")
+    right_bonus: bool | None = Field(None, alias="Prime d'activité")
+    right_rqth: bool | None = Field(None, alias="Droits RQTH")
+    geographical_area: str | None = Field(None, alias="Zone de mobilité")
+    rome_code_description: str | None = Field(
+        None, alias="Emploi recherché (code ROME)"
+    )
+    education_level: str | None = Field(None, alias="Niveau de formation")
+    structure_name: str | None = Field(None, alias="Structure")
+    advisor_email: EmailStr | None = Field(None, alias="Accompagnateurs")
+    nir: str | None = Field(None, alias="NIR")
 
     class Config:
         anystr_strip_whitespace = True
-        alias_generator = snake_to_camel
         allow_population_by_field_name = True
 
-    @validator("firstname", "lastname")
-    def capitalize(cls, value):
-        return value.lower()
-
-    @validator("right_are", "right_ass", "right_bonus", "right_rqth", pre=True)
-    def parse_bool(cls, value):
-        if type(value) == str:
-            if value.lower() in ["oui", "o"]:
-                return True
-            else:
-                return False
-        elif type(value) == bool:
-            return value
-        else:
-            return False
+    _phone_validator = phone_validator("phone_number")
+    _postal_code_validator = postal_code_validator("postal_code")
+    _is_bool_validator = is_bool_validator(
+        "right_are", "right_ass", "right_bonus", "right_rqth", pre=True
+    )
+    _date_validator = date_validator("date_of_birth", pre=True)
 
     @validator("right_rsa")
     def parse_right_rsa(cls, right_rsa):
-        if right_rsa in [
+        if right_rsa and right_rsa not in [
             "rsa_droit_ouvert_et_suspendu",
             "rsa_droit_ouvert_versable",
             "rsa_droit_ouvert_versement_suspendu",
         ]:
-            return right_rsa
-        else:
-            return None
+            raise ValueError("value unknown")
+        return right_rsa
 
     @validator("geographical_area")
     def parse_geographical_area(cls, geographical_area):
-        if geographical_area in [
+        if geographical_area and geographical_area not in [
             "none",
             "less_10",
             "between_10_20",
             "between_20_30",
             "plus_30",
         ]:
-            return geographical_area
-        else:
-            return None
+            raise ValueError("value unknown")
+        return geographical_area
 
     @validator("work_situation")
     def parse_work_situation(cls, work_situation):
-        if work_situation in [
+        if work_situation and work_situation not in [
             "recherche_emploi",
             "recherche_formation",
             "recherche_alternance",
@@ -146,13 +151,12 @@ class BeneficiaryImport(BaseModel):
             "cdd_temps_partiel",
             "intermittent",
         ]:
-            return work_situation.strip()
-        else:
-            return None
+            raise ValueError("value unknown")
+        return work_situation
 
     @validator("education_level")
     def parse_education_level(cls, education_level):
-        if education_level in [
+        if education_level and education_level not in [
             "AFS",
             "C12",
             "C3A",
@@ -164,14 +168,36 @@ class BeneficiaryImport(BaseModel):
             "NV2",
             "NV1",
         ]:
-            return education_level.strip()
-        else:
-            return None
+            raise ValueError("value unknown")
+        return education_level
 
     @validator("nir")
     def parse_nir(cls, nir: str):
         validation_error = nir_format(nir)
-        if not validation_error:
-            return nir
-        else:
-            return None
+        if validation_error:
+            raise ValueError(validation_error)
+        return nir
+
+
+class BeneficiaryCsvRowResponse(BaseModel):
+    row: dict | None = None
+    data: BeneficiaryImport | None = None
+    valid: bool
+    update: bool = False
+    errors: list[CsvFieldError] | None = None
+
+
+def map_csv_row(row: Series) -> BeneficiaryCsvRowResponse:
+    try:
+        data = BeneficiaryImport.parse_obj(row)
+        return BeneficiaryCsvRowResponse(data=data, valid=True)
+
+    except ValidationError as error:
+        return BeneficiaryCsvRowResponse(
+            row=row.to_dict(),
+            valid=False,
+            errors=[
+                CsvFieldError(key="".join(str(err["loc"][0])), error=err["msg"])
+                for err in error.errors()
+            ],
+        )

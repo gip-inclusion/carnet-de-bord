@@ -80,7 +80,7 @@
 							value={nbActions > 0
 								? `${nbActions} ${pluralize('action', nbActions)}`
 								: 'Aucune action'}
-							classNames="text-success font-bold"
+							class="text-success font-bold"
 						/>
 					</span>
 				</Card>

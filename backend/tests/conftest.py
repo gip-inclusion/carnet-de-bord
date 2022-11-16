@@ -183,6 +183,14 @@ async def beneficiary_hendrix_dorsey(db_connection) -> Beneficiary | None:
 
 @pytest.fixture
 @pytest.mark.asyncio
+async def beneficiary_noel_keller(db_connection) -> Beneficiary | None:
+    return await get_beneficiary_by_id(
+        db_connection, UUID("ba6dc97e-05dd-4053-a810-b12605a11bba")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
 async def professional_pierre_chevalier(db_connection) -> Professional | None:
     return await get_professional_by_email(
         db_connection, "pierre.chevalier@livry-gargan.fr"

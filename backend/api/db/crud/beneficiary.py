@@ -6,16 +6,24 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
+from api.core.exceptions import InsertFailError
 from api.db.crud.notebook import (
     NOTEBOOK_BASE_FIELDS,
     NOTEBOOK_BASE_JOINS,
+    insert_notebook,
+    insert_notebook_member,
     parse_notebook_from_record,
 )
+from api.db.crud.professional import get_professional_by_email
+from api.db.crud.structure import get_structure_by_name
+from api.db.crud.wanted_job import insert_wanted_jobs
 from api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryImport,
     BeneficiaryStructure,
 )
+from api.db.models.notebook_member import NotebookMemberInsert
+from api.db.models.professional import Professional
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +57,7 @@ async def get_beneficiaries_like(
         """
 SELECT *
 FROM beneficiary
-WHERE (lower(trim(firstname)) = $1 AND lower(trim(lastname)) = $2 AND date_of_birth = $3 AND deployment_id = $5)
+WHERE (lower(trim(firstname)) = lower(trim($1)) AND lower(trim(lastname)) = lower(trim($2)) AND date_of_birth = $3 AND deployment_id = $5)
 OR (internal_id = $4 AND deployment_id = $5)
         """,
         beneficiary.firstname,
@@ -66,9 +74,8 @@ OR (internal_id = $4 AND deployment_id = $5)
 async def update_beneficiary(
     connection: Connection,
     beneficiary: BeneficiaryImport,
-    deployment_id,
-    id,
-) -> UUID:
+    beneficiary_id: UUID,
+) -> UUID | None:
     result = await connection.fetchrow(
         f"""
 UPDATE beneficiary SET mobile_number = $2,
@@ -83,7 +90,7 @@ UPDATE beneficiary SET mobile_number = $2,
 where id = $1
 returning id
         """,
-        id,
+        beneficiary_id,
         beneficiary.phone_number,
         beneficiary.address1,
         beneficiary.address2,
@@ -94,14 +101,15 @@ returning id
         beneficiary.email,
         beneficiary.nir,
     )
-    return result["id"]
+    if result:
+        return result["id"]
 
 
 async def insert_beneficiary(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id,
-) -> UUID:
+) -> UUID | None:
     created_beneficiary: Record = await connection.fetchrow(
         """
 INSERT INTO BENEFICIARY (
@@ -141,7 +149,8 @@ returning id
         beneficiary.nir,
     )
 
-    return created_beneficiary["id"]
+    if created_beneficiary:
+        return created_beneficiary["id"]
 
 
 async def get_beneficiary_with_query(
@@ -192,7 +201,7 @@ async def add_beneficiary_to_structure(
     beneficiary_id: UUID,
     structure_id: UUID,
     status: str,
-) -> UUID:
+) -> UUID | None:
     result = await connection.fetchrow(
         """
 INSERT INTO beneficiary_structure (beneficiary_id, structure_id, status)
@@ -203,7 +212,8 @@ RETURNING id
         structure_id,
         status,
     )
-    return result["id"]
+    if result:
+        return result["id"]
 
 
 async def get_structures_for_beneficiary(
@@ -237,3 +247,89 @@ async def get_beneficiary_by_id(
     return await get_beneficiary_with_query(
         connection, "WHERE b.id = $1", beneficiary_id
     )
+
+
+async def create_beneficiary_with_notebook_and_referent(
+    connection: Connection,
+    beneficiary: BeneficiaryImport,
+    deployment_id: UUID,
+) -> UUID:
+
+    beneficiary_id: UUID | None = await insert_beneficiary(
+        connection, beneficiary, deployment_id
+    )
+
+    if not beneficiary_id:
+        raise InsertFailError("insert beneficiary failed")
+
+    new_notebook_id: UUID | None = await insert_notebook(
+        connection, beneficiary_id, beneficiary
+    )
+
+    if not new_notebook_id:
+        raise InsertFailError("insert notebook failed")
+
+    await insert_wanted_jobs(connection, new_notebook_id, beneficiary)
+    await add_referent_and_structure_to_beneficiary(
+        connection, beneficiary_id, new_notebook_id, beneficiary
+    )
+    logger.info("inserted new beneficiary %s", beneficiary_id)
+    return beneficiary_id
+
+
+async def add_referent_and_structure_to_beneficiary(
+    connection: Connection,
+    beneficiary_id: UUID,
+    notebook_id: UUID,
+    beneficiary: BeneficiaryImport,
+):
+    structure = None
+    if beneficiary.structure_name:
+        structure = await get_structure_by_name(connection, beneficiary.structure_name)
+        if structure is None:
+            # Si une structure est fournie dans l'import mais n'existe pas, on ne fait rien.
+            logger.info(
+                'Trying to associate structure with beneficiary: structure "%s" does not exist',
+                beneficiary.structure_name,
+            )
+            return
+    referent = None
+    if beneficiary.advisor_email:
+        referent: Professional | None = await get_professional_by_email(
+            connection, beneficiary.advisor_email.strip()
+        )
+    if structure:
+        # Si on a pu récupérer la structure, on associe la structure au bénéficiaire.
+        # Le status indique si la structure a déjà désigné un référent unique.
+        if referent and referent.structure_id == structure.id:
+            # Si on a structure ET un référent, le status est 'done'
+            status = "done"
+        else:
+            # Sinon c'est 'pending'.
+            status = "pending"
+        await add_beneficiary_to_structure(
+            connection, beneficiary_id, structure.id, status
+        )
+    elif referent:
+        # Si la structure n'est pas fournie dans l'import mais le référent est fourni,
+        # Alors on ajout la structure du référent au bénéficiaire avec le status 'done'.
+        await add_beneficiary_to_structure(
+            connection, beneficiary_id, referent.structure_id, "done"
+        )
+
+    if referent and referent.account_id:
+        # Si on a pu récupérer le compte du référent fourni, on l'ajoute dans le
+        # groupe de suivi en tant que référent.
+        if not structure or structure.id == referent.structure_id:
+            referent_member = NotebookMemberInsert(
+                notebook_id=notebook_id,
+                account_id=referent.account_id,
+                member_type="referent",
+            )
+            await insert_notebook_member(connection, referent_member)
+    else:
+        # Si un référent est fourni mais qu'on ne le connaît pas, on ne fait rien.
+        logger.info(
+            "trying to create referent: no account with email: %s",
+            beneficiary.advisor_email,
+        )

@@ -6,8 +6,8 @@
 		deploymentAdminPdiSchema,
 		type DeploymentAdminPdiType,
 	} from '../Deployment/adminDeployment.schema';
-	import { postManager } from '$lib/services/backend';
 	import { token } from '$lib/stores';
+	import { postApiJson } from '$lib/utils/post';
 
 	export let deploymentId = '';
 	export let onClose: () => void;
@@ -23,13 +23,13 @@
 	async function handleSubmit(values: DeploymentAdminPdiType) {
 		const data = Object.assign(values, { deployment_id: deploymentId });
 		try {
-			await postManager('/v1/managers/create', data, {
+			await postApiJson('/v1/managers/create', data, {
 				'jwt-token': $token,
 			});
 			close();
 		} catch (error) {
 			console.error(error);
-			errorMessage = 'Impossible de rajouter cet admin';
+			errorMessage = error;
 		}
 	}
 
@@ -64,7 +64,11 @@
 		<Input name="lastname" required inputLabel="Nom" />
 		{#if errorMessage}
 			<div class="mb-8">
-				<Alert type="error" description={errorMessage} />
+				<Alert
+					type="error"
+					title="Impossible de rajouter cet administrateur"
+					description={errorMessage}
+				/>
 			</div>
 		{/if}
 		<div class="flex flex-row gap-6 mt-12">

@@ -54,7 +54,7 @@
 					value={account.professional.position}
 				/>
 				<Text
-					classNames="font-bold"
+					class="font-bold"
 					defaultValueClassNames="italic"
 					defaultValue="Pas de numéro de téléphone"
 					value={account.professional.mobileNumber}
@@ -78,7 +78,7 @@
 			<div class="flex flex-col gap-1">
 				<Text defaultValueClassNames="italic" value="Chargé d'orientation" />
 				<Text
-					classNames="font-bold"
+					class="font-bold"
 					defaultValueClassNames="italic"
 					defaultValue="Pas de numéro de téléphone"
 					value={account.orientation_manager.phoneNumbers}

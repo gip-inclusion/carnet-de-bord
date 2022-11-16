@@ -9,10 +9,11 @@ async def test_parse_csv(
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
-        assert response.json()[0][0]["column_name"] == "Identifiant dans le SI*"
-        assert response.json()[0][0]["value"] == "1234"
-        assert response.json()[0][1]["column_name"] == "Prénom*"
-        assert response.json()[0][1]["value"] == "Charlotte"
+
+        assert response.status_code == 200
+
+        assert response.json()[0]["data"]["Identifiant dans le SI*"] == "1234"
+        assert response.json()[0]["data"]["Prénom*"] == "Charlotte"
 
 
 async def test_parse_csv_with_all_date_formats(
@@ -26,14 +27,11 @@ async def test_parse_csv_with_all_date_formats(
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
-        assert response.json()[0][0]["column_name"] == "Identifiant dans le SI*"
-        assert response.json()[0][0]["value"] == "1234"
-        assert response.json()[0][1]["column_name"] == "Prénom*"
-        assert response.json()[0][1]["value"] == "Charlotte"
-        assert response.json()[0][3]["column_name"] == "Date de naissance*"
-        assert response.json()[0][3]["value"] == "1998-05-25"
-        assert response.json()[1][3]["column_name"] == "Date de naissance*"
-        assert response.json()[1][3]["value"] == "1997-04-22"
+
+        assert response.json()[0]["data"]["Identifiant dans le SI*"] == "1234"
+        assert response.json()[0]["data"]["Prénom*"] == "Charlotte"
+        assert response.json()[0]["data"]["Date de naissance*"] == "1998-05-25"
+        assert response.json()[1]["data"]["Date de naissance*"] == "1997-04-22"
 
 
 async def test_parse_csv_errors(
@@ -46,12 +44,17 @@ async def test_parse_csv_errors(
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
-        assert response.json()[0][3]["column_name"] == "Date de naissance*"
-        assert response.json()[0][3]["error_messages"] == ["A value must be provided"]
-        assert response.json()[1][3]["column_name"] == "Date de naissance*"
-        assert response.json()[1][3]["error_messages"] == [
-            "Incorrect date format, The date must be formated as: YYYY-MM-DD"
-        ]
+
+        assert response.json()[0]["errors"][0]["key"] == "Date de naissance*"
+        assert (
+            response.json()[0]["errors"][0]["error"] == "none is not an allowed value"
+        )
+
+        assert response.json()[1]["errors"][0]["key"] == "Date de naissance*"
+        assert (
+            response.json()[1]["errors"][0]["error"]
+            == "Value is not a known date format. Valid format: YYYY-MM-DD."
+        )
 
 
 async def test_structure_parse_csv(
@@ -66,7 +69,6 @@ async def test_structure_parse_csv(
             headers={"jwt-token": f"{get_manager_jwt}"},
         )
 
-        data = response.json()
         assert response.status_code == 200
 
 

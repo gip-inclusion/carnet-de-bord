@@ -577,8 +577,8 @@ async def insert_notebook(
     connection: Connection,
     beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
-) -> UUID:
-    created_notebook: Record = await connection.fetchrow(
+) -> UUID | None:
+    created_notebook: Record | None = await connection.fetchrow(
         """
 INSERT INTO public.notebook (
     beneficiary_id,
@@ -604,7 +604,9 @@ returning id
         beneficiary.education_level,
         beneficiary.geographical_area,
     )
-    return created_notebook["id"]
+
+    if created_notebook:
+        return created_notebook["id"]
 
 
 async def update_notebook(

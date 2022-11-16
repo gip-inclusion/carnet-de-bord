@@ -7,13 +7,16 @@
 
 	async function handleSubmit() {
 		users = RD.loading;
-		const response = await post('/pro/queryUser', { service: 'CAF', data: { postalCode, idCAF } });
-		if (response.status >= 400) {
-			users = RD.failure((await response.json()).error);
+		try {
+			const data = await post<{ users: ExternalUser[] }>('/pro/queryUser', {
+				service: 'CAF',
+				data: { postalCode, idCAF },
+			});
+			users = RD.success(data.users);
+		} catch (error) {
+			users = RD.failure(error);
 		}
-		if (response.status === 200) {
-			users = RD.success((await response.json()).users);
-		}
+
 		return;
 	}
 

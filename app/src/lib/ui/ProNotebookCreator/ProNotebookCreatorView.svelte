@@ -65,7 +65,7 @@
 					/>
 				{/if}
 				<Text
-					classNames="font-bold"
+					class="font-bold"
 					defaultValueClassNames="italic"
 					defaultValue="Pas de numéro de téléphone"
 					value={creator.professional

@@ -13,20 +13,16 @@
 	async function onSubmit(values: ProAccountWithStructureInput) {
 		const { structureId, ...accountRequest } = values;
 		requestStep = 'loading';
-		const response = await post('/inscription/request', {
-			accountRequest,
-			structureId,
-		});
-		if (response.ok) {
+		try {
+			await post('/inscription/request', {
+				accountRequest,
+				structureId,
+			});
 			requestStep = 'success';
-		} else {
+		} catch (err) {
+			console.error(err);
 			requestStep = 'error';
-			const rawError = await response.json();
-			if (response.status === 400) {
-				error = `La création de compte a échoué. ${rawError.errors.email}`;
-			} else {
-				error = 'La création de compte a échoué. Veuillez contacter le support.';
-			}
+			error = 'La création de compte a échoué. Veuillez contacter le support.';
 		}
 	}
 
