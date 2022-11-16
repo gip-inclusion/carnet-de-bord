@@ -1462,6 +1462,7 @@ export type Beneficiary = {
 	/** An aggregate relationship */
 	orientationRequest_aggregate: OrientationRequestAggregate;
 	peNumber?: Maybe<Scalars['String']>;
+	peUniqueId?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -1566,6 +1567,7 @@ export type BeneficiaryBoolExp = {
 	notebook?: InputMaybe<NotebookBoolExp>;
 	orientationRequest?: InputMaybe<OrientationRequestBoolExp>;
 	peNumber?: InputMaybe<StringComparisonExp>;
+	peUniqueId?: InputMaybe<StringComparisonExp>;
 	placeOfBirth?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
 	structures?: InputMaybe<BeneficiaryStructureBoolExp>;
@@ -1605,6 +1607,7 @@ export type BeneficiaryInsertInput = {
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	orientationRequest?: InputMaybe<OrientationRequestArrRelInsertInput>;
 	peNumber?: InputMaybe<Scalars['String']>;
+	peUniqueId?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	structures?: InputMaybe<BeneficiaryStructureArrRelInsertInput>;
@@ -1629,6 +1632,7 @@ export type BeneficiaryMaxFields = {
 	mobileNumber?: Maybe<Scalars['String']>;
 	nir?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
+	peUniqueId?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -1651,6 +1655,7 @@ export type BeneficiaryMaxOrderBy = {
 	mobileNumber?: InputMaybe<OrderBy>;
 	nir?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
+	peUniqueId?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
@@ -1674,6 +1679,7 @@ export type BeneficiaryMinFields = {
 	mobileNumber?: Maybe<Scalars['String']>;
 	nir?: Maybe<Scalars['String']>;
 	peNumber?: Maybe<Scalars['String']>;
+	peUniqueId?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -1696,6 +1702,7 @@ export type BeneficiaryMinOrderBy = {
 	mobileNumber?: InputMaybe<OrderBy>;
 	nir?: InputMaybe<OrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
+	peUniqueId?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
@@ -1745,6 +1752,7 @@ export type BeneficiaryOrderBy = {
 	notebook?: InputMaybe<NotebookOrderBy>;
 	orientationRequest_aggregate?: InputMaybe<OrientationRequestAggregateOrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
+	peUniqueId?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
@@ -1789,6 +1797,8 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	PeNumber = 'peNumber',
 	/** column name */
+	PeUniqueId = 'peUniqueId',
+	/** column name */
 	PlaceOfBirth = 'placeOfBirth',
 	/** column name */
 	PostalCode = 'postalCode',
@@ -1813,6 +1823,7 @@ export type BeneficiarySetInput = {
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	nir?: InputMaybe<Scalars['String']>;
 	peNumber?: InputMaybe<Scalars['String']>;
+	peUniqueId?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -1843,6 +1854,7 @@ export type BeneficiaryStreamCursorValueInput = {
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	nir?: InputMaybe<Scalars['String']>;
 	peNumber?: InputMaybe<Scalars['String']>;
+	peUniqueId?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -2154,6 +2166,8 @@ export enum BeneficiaryUpdateColumn {
 	Nir = 'nir',
 	/** column name */
 	PeNumber = 'peNumber',
+	/** column name */
+	PeUniqueId = 'peUniqueId',
 	/** column name */
 	PlaceOfBirth = 'placeOfBirth',
 	/** column name */
@@ -13222,6 +13236,18 @@ export type UpdateProfessionalAccountMutation = {
 	update_professional_by_pk?: { __typename?: 'professional'; id: string } | null;
 };
 
+export type ReorientationRequestMutationVariables = Exact<{
+	beneficiaryId: Scalars['uuid'];
+	reason?: InputMaybe<Scalars['String']>;
+	requestedOrientation: OrientationTypeEnum;
+	requesterAccount: Scalars['uuid'];
+}>;
+
+export type ReorientationRequestMutation = {
+	__typename?: 'mutation_root';
+	insert_orientation_request_one?: { __typename?: 'orientation_request'; id: string } | null;
+};
+
 export type UpdateStructureMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	address1?: InputMaybe<Scalars['String']>;
@@ -16456,7 +16482,7 @@ export const GetProfessionalsFromStructuresDocument = {
 											fields: [
 												{
 													kind: 'ObjectField',
-													name: { kind: 'Name', value: 'firstname' },
+													name: { kind: 'Name', value: 'lastname' },
 													value: { kind: 'EnumValue', value: 'asc' },
 												},
 											],
@@ -16466,7 +16492,7 @@ export const GetProfessionalsFromStructuresDocument = {
 											fields: [
 												{
 													kind: 'ObjectField',
-													name: { kind: 'Name', value: 'lastname' },
+													name: { kind: 'Name', value: 'firstname' },
 													value: { kind: 'EnumValue', value: 'asc' },
 												},
 											],
@@ -21656,7 +21682,7 @@ export const GetProfessionalsForStructureDocument = {
 											fields: [
 												{
 													kind: 'ObjectField',
-													name: { kind: 'Name', value: 'firstname' },
+													name: { kind: 'Name', value: 'lastname' },
 													value: { kind: 'EnumValue', value: 'asc' },
 												},
 											],
@@ -21666,7 +21692,7 @@ export const GetProfessionalsForStructureDocument = {
 											fields: [
 												{
 													kind: 'ObjectField',
-													name: { kind: 'Name', value: 'lastname' },
+													name: { kind: 'Name', value: 'firstname' },
 													value: { kind: 'EnumValue', value: 'asc' },
 												},
 											],
@@ -21800,6 +21826,97 @@ export const UpdateProfessionalAccountDocument = {
 	UpdateProfessionalAccountMutation,
 	UpdateProfessionalAccountMutationVariables
 >;
+export const ReorientationRequestDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'ReorientationRequest' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'reason' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'requestedOrientation' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'orientation_type_enum' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'requesterAccount' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_orientation_request_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'reason' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'reason' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'requestedOrientationTypeId' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'requestedOrientation' },
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'requestor_account_id' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'requesterAccount' },
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<ReorientationRequestMutation, ReorientationRequestMutationVariables>;
 export const UpdateStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -28034,6 +28151,10 @@ export type GetProfessionalsForStructureQueryStore = OperationStore<
 export type UpdateProfessionalAccountMutationStore = OperationStore<
 	UpdateProfessionalAccountMutation,
 	UpdateProfessionalAccountMutationVariables
+>;
+export type ReorientationRequestMutationStore = OperationStore<
+	ReorientationRequestMutation,
+	ReorientationRequestMutationVariables
 >;
 export type UpdateStructureMutationStore = OperationStore<
 	UpdateStructureMutation,
