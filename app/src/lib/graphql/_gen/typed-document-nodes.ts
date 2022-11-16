@@ -16309,6 +16309,68 @@ export const GetProfessionalsFromStructuresDocument = {
 												],
 											},
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'account' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deletedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ListValue',
+									values: [
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'firstname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
+										},
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'lastname' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
+										},
+										{
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'email' },
+													value: { kind: 'EnumValue', value: 'asc' },
+												},
+											],
+										},
 									],
 								},
 							},
