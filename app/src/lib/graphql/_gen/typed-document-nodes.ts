@@ -13236,6 +13236,18 @@ export type UpdateProfessionalAccountMutation = {
 	update_professional_by_pk?: { __typename?: 'professional'; id: string } | null;
 };
 
+export type ReorientationRequestMutationVariables = Exact<{
+	beneficiaryId: Scalars['uuid'];
+	reason?: InputMaybe<Scalars['String']>;
+	requestedOrientation: OrientationTypeEnum;
+	requesterAccount: Scalars['uuid'];
+}>;
+
+export type ReorientationRequestMutation = {
+	__typename?: 'mutation_root';
+	insert_orientation_request_one?: { __typename?: 'orientation_request'; id: string } | null;
+};
+
 export type UpdateStructureMutationVariables = Exact<{
 	id: Scalars['uuid'];
 	address1?: InputMaybe<Scalars['String']>;
@@ -21814,6 +21826,97 @@ export const UpdateProfessionalAccountDocument = {
 	UpdateProfessionalAccountMutation,
 	UpdateProfessionalAccountMutationVariables
 >;
+export const ReorientationRequestDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'ReorientationRequest' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'reason' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'requestedOrientation' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'orientation_type_enum' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'requesterAccount' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_orientation_request_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'reason' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'reason' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'requestedOrientationTypeId' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'requestedOrientation' },
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'requestor_account_id' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'requesterAccount' },
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<ReorientationRequestMutation, ReorientationRequestMutationVariables>;
 export const UpdateStructureDocument = {
 	kind: 'Document',
 	definitions: [
@@ -28062,6 +28165,10 @@ export type GetProfessionalsForStructureQueryStore = OperationStore<
 export type UpdateProfessionalAccountMutationStore = OperationStore<
 	UpdateProfessionalAccountMutation,
 	UpdateProfessionalAccountMutationVariables
+>;
+export type ReorientationRequestMutationStore = OperationStore<
+	ReorientationRequestMutation,
+	ReorientationRequestMutationVariables
 >;
 export type UpdateStructureMutationStore = OperationStore<
 	UpdateStructureMutation,

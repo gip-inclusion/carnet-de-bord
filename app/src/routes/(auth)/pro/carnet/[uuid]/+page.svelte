@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Button } from '$lib/ui/base';
+	import { openComponent } from '$lib/stores';
 	import { baseUrlForRole } from '$lib/routes';
 	import type { GetNotebookEventsQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
@@ -13,6 +15,7 @@
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
+	import { RequireReorientation } from '$lib/ui/RequireReorientation';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import { eventTypes, statusValues } from '$lib/constants';
 	import { EventType } from '$lib/enums';
@@ -128,6 +131,15 @@
 		$getNotebookEvents.variables = buildQueryVariables(variables, selected);
 		$getNotebookEvents.reexecute();
 	}
+
+	const requireReorientation = () => {
+		openComponent.open({
+			component: RequireReorientation,
+			props: {
+				beneficiaryId: beneficiary.id,
+			},
+		});
+	};
 
 	$: notebook = $getNotebook.data?.notebook;
 	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook?.events;
@@ -250,5 +262,6 @@
 				</div>
 			</MainSection>
 		</div>
+		<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
 	{/if}
 </LoaderIndicator>
