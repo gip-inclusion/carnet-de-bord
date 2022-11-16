@@ -135,7 +135,7 @@
 											option={{ name: structure.uuid, label: '' }}
 											title={`${
 												structurestoImport.includes(structure.uuid) ? 'Ne pas importer' : 'Importer'
-											} la structure`}
+											} la structure ${structure.data['Nom']}`}
 										/>
 									{:else}
 										<i

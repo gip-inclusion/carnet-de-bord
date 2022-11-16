@@ -283,7 +283,9 @@
 													beneficiariesToImport.includes(beneficiary.uuid)
 														? 'Ne pas importer'
 														: 'Importer'
-												} le bénéficiaire`}
+												} le bénéficiaire ${beneficiary.data['Nom*']} ${
+													beneficiary.data['Prénom*']
+												}`}
 											/>
 										{:else}
 											<i

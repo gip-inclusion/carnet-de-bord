@@ -26,6 +26,7 @@ query GetBeneficiaries(
           id
           label
         }
+        needOrientation
       }
     }
     structures {

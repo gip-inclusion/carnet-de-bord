@@ -12,6 +12,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je selectionne l'option "Orienté" dans la liste "Statut"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
 		Alors je recherche "ca"
+		Quand je clique sur "Rechercher"
 		Alors je vois "Non assigné" sur la ligne "Cash"
 		Alors je vois "Non assigné" sur la ligne "Carlson"
 

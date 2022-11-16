@@ -49,3 +49,16 @@ Fonctionnalité: Import de bénéficiaires
 		Quand je clique sur "Confirmer"
 		Alors je vois "1 bénéficiaire importé"
 		Alors je vois "1 bénéficiaire mis à jour"
+
+	Scénario: Import de nouveaux bénéficiaires
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand je clique sur "Importer des bénéficiaires"
+		Quand je clique sur "Importer des nouveaux bénéficiaires"
+ 		Quand je téléverse le fichier "/resources/import_beneficiaires.csv"
+		Quand je clique sur "Confirmer"
+		Quand je clique sur "Fermer"
+		Quand je clique sur "Bénéficiaires"
+		Quand j'attends que la table "Liste des bénéficiaires" apparaisse
+		Alors je recherche "fon"
+		Quand je clique sur "Rechercher"
+		Alors je vois "à orienter" sur la ligne "Fondue"
