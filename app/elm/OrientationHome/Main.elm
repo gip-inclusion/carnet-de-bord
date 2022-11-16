@@ -27,8 +27,10 @@ type Msg
 type alias OrientationHomeInfos =
     { nbOriented : Int
     , nbUnoriented : Int
+    , nbOrientationRequest : Int
     , nbOtherOriented : Int
     , nbOtherUnoriented : Int
+    , nbOtherOrientationRequest : Int
     }
 
 
@@ -62,6 +64,14 @@ orientationHomeInfoDecoder =
                     )
                 )
 
+        orientationRequestParser =
+            Json.Decode.field "data"
+                (Json.Decode.field "orientationRequestCount"
+                    (Json.Decode.field "aggregate"
+                        (Json.Decode.field "count" Json.Decode.int)
+                    )
+                )
+
         otherUnorientedBeneficiaryParser =
             Json.Decode.field "data"
                 (Json.Decode.field "otherUnorientedBeneficiaryCount"
@@ -77,12 +87,22 @@ orientationHomeInfoDecoder =
                         (Json.Decode.field "count" Json.Decode.int)
                     )
                 )
+
+        otherOrientationRequestParser =
+            Json.Decode.field "data"
+                (Json.Decode.field "otherOrientationRequestCount"
+                    (Json.Decode.field "aggregate"
+                        (Json.Decode.field "count" Json.Decode.int)
+                    )
+                )
     in
-    Json.Decode.map4 OrientationHomeInfos
+    Json.Decode.map6 OrientationHomeInfos
         orientedBeneficiaryParser
         unOrientedBeneficiaryParser
+        orientationRequestParser
         otherOrientedBeneficiaryParser
         otherUnorientedBeneficiaryParser
+        otherOrientationRequestParser
 
 
 encodeGqlQuery : GqlQuery -> Json.Encode.Value
@@ -124,6 +144,13 @@ query GetBeneficiaryDashboard($id: uuid!) {
       count
     }
   }
+  orientationRequestCount: beneficiary_aggregate( where: {
+    orientationRequest: { decided_orientation_type_id: { _is_null: true } }
+    }) {
+    aggregate {
+      count
+    }
+  }
   otherUnorientedBeneficiaryCount: beneficiary_aggregate(where: {
     notebook: {
       _and: [
@@ -142,6 +169,14 @@ query GetBeneficiaryDashboard($id: uuid!) {
         {_not: {members: {accountId: {_eq: $id}}}}
       ]
     }}) {
+    aggregate {
+      count
+    }
+  }
+  otherOrientationRequestCount: beneficiary_aggregate( where: {
+      notebook: { _not: { members: { accountId: { _eq: $id } } } }
+      orientationRequest: { decided_orientation_type_id: { _is_null: true } }
+    }) {
     aggregate {
       count
     }
@@ -187,7 +222,7 @@ init flags =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
@@ -206,9 +241,22 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        extract : (OrientationHomeInfos -> Int) -> String
-        extract accessor =
+        extractString : (OrientationHomeInfos -> Int) -> String
+        extractString accessor =
             Maybe.withDefault "--" (Maybe.map (accessor >> String.fromInt) model.orientationHomeInfos)
+
+        extractInt : (OrientationHomeInfos -> Int) -> Int
+        extractInt accessor =
+            Maybe.withDefault 0 (Maybe.map accessor model.orientationHomeInfos)
+
+        -- -- For educational purpose, same as above
+        -- extractIntCase : (OrientationHomeInfos -> Int) -> Int
+        -- extractIntCase accessor =
+        --     case model.orientationHomeInfos of
+        --         Just orientationHomeInfos ->
+        --             accessor orientationHomeInfos
+        --         Nothing ->
+        --             0
     in
     div [ class "flex flex-col gap-4" ]
         [ h2 [ class "fr-h4 text-france-blue" ]
@@ -218,11 +266,19 @@ view model =
             [ card "Bénéficiaires orientés"
                 "Liste des bénéficiaires orientés"
                 "/orientation/beneficiaires?oriente=oui&brsa=suivi"
-                (extract .nbOriented)
+                (extractString .nbOriented)
             , card "Bénéficiaires à orienter"
                 "Liste des bénéficiaires à orienter"
                 "/orientation/beneficiaires?oriente=non&brsa=suivi"
-                (extract .nbUnoriented)
+                (extractString .nbUnoriented)
+            , if extractInt .nbOrientationRequest > 0 then
+                card "Demandes de réorientation"
+                    "Liste des demandes de réorientation"
+                    "/orientation/demandes?brsa=suivi"
+                    (extractString .nbOrientationRequest)
+
+              else
+                text ""
             ]
         , h2 [ class "fr-h4 text-france-blue" ]
             [ text "Autres bénéficiaires de mon territoire" ]
@@ -231,11 +287,19 @@ view model =
             [ card "Bénéficiaires orientés"
                 "Liste des autres bénéficiaires orientés"
                 "/orientation/beneficiaires?oriente=oui&brsa=non-suivi"
-                (extract .nbOtherOriented)
+                (extractString .nbOtherOriented)
             , card "Bénéficiaires à orienter"
                 "Liste des autres bénéficiaires à orienter"
                 "/orientation/beneficiaires?oriente=non&brsa=non-suivi"
-                (extract .nbOtherUnoriented)
+                (extractString .nbOtherUnoriented)
+            , if extractInt .nbOtherOrientationRequest > 0 then
+                card "Demandes de réorientation"
+                    "Liste des autres demandes de réorientation"
+                    "/orientation/demandes?brsa=non-suivi"
+                    (extractString .nbOrientationRequest)
+
+              else
+                text ""
             ]
         ]
 
