@@ -267,19 +267,19 @@
 										<td class="px-2 py-2">
 											{#if beneficiary.valid}
 												{#if key === 'Date de naissance*'}
-													<Text value={formatDateLocale(beneficiary.data[key])} />
+													<Text value={formatDateLocale(beneficiary.data[key])} defaultValue="" />
 												{:else}
-													<Text value={beneficiary.data[key]} />
+													<Text value={beneficiary.data[key]} defaultValue="" />
 												{/if}
 											{:else if lineErrors[key]}
-												<p
+												<Text
 													class="text-error border-dashed border-b-1"
 													title={translateError(lineErrors[key])}
-												>
-													<Text value={beneficiary.row[key]} />
-												</p>
+													value={beneficiary.row[key]}
+													defaultValue=""
+												/>
 											{:else}
-												<Text value={beneficiary.row[key]} />
+												<Text value={beneficiary.row[key]} defaultValue="" />
 											{/if}
 										</td>
 									{/each}
@@ -288,6 +288,7 @@
 											value={structureNameToStructure(structureValue ?? '')
 												.map((s) => s.name)
 												.join(', ')}
+											defaultValue=""
 										/>
 									</td>
 									<td class="px-2 py-2">
@@ -295,6 +296,7 @@
 											value={advisorEmailToPros(proValue ?? '')
 												.map(displayFullName)
 												.join(', ')}
+											defaultValue=""
 										/>
 									</td>
 								</tr>
@@ -400,7 +402,7 @@
 								<td class="px-2 py-2 ">
 									{#if beneficiary.errors}
 										{#each beneficiary.errors as error}
-											<Text classNames="text-error" value={error.error} />
+											<Text class="text-error" value={error.error} />
 										{/each}
 									{/if}
 								</td>

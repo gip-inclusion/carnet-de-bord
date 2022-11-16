@@ -54,14 +54,14 @@
 		{/if}
 
 		{#if notebook.rightRqth}
-			<Text classNames="w-1/2" value="Usager disposant de la RQTH" />
+			<Text class="w-1/2" value="Usager disposant de la RQTH" />
 		{/if}
 	</div>
 
 	<div class="flex flex-row flex-wrap">
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Droits</strong>
-			<Text classNames="mb-2" value={`RSA - ${rsaRightKeys.byKey[notebook.rightRsa]}`} />
+			<Text class="mb-2" value={`RSA - ${rsaRightKeys.byKey[notebook.rightRsa]}`} />
 			{#if [notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter( (field) => Boolean(field) ).length > 0}
 				<p>
 					{[notebook.rightAre && 'ARE', notebook.rightAss && 'ASS', notebook.rightBonus && 'Bonus']
@@ -77,17 +77,17 @@
 				{pluralize('recherché', notebook.wantedJobs.length)}
 			</strong>
 			<Text
-				classNames="mb-2"
+				class="mb-2"
 				value={notebook.wantedJobs.map(({ rome_code }) => rome_code.label).join(', ')}
 			/>
 		</div>
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Zone de mobilité</strong>
-			<Text classNames="mb-2" value={geographicalAreaKeys.byKey[notebook.geographicalArea]} />
+			<Text class="mb-2" value={geographicalAreaKeys.byKey[notebook.geographicalArea]} />
 		</div>
 		<div class="w-1/2">
 			<strong class="text-base text-france-blue">Niveau de formation</strong>
-			<Text classNames="mb-2" value={educationLevelKeys.byKey[notebook.educationLevel]} />
+			<Text class="mb-2" value={educationLevelKeys.byKey[notebook.educationLevel]} />
 		</div>
 	</div>
 	<Button classNames="self-start" on:click={() => editSocioProSituation()} outline

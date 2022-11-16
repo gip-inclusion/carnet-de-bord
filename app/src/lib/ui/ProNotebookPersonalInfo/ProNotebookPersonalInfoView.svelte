@@ -95,7 +95,7 @@
 		</div>
 		<div class="w-full">
 			<strong class="text-base text-france-blue">Identifiant Pôle emploi</strong>
-			<Text classNames="mb-2" value={beneficiary.peNumber} />
+			<Text class="mb-2" value={beneficiary.peNumber} />
 			<strong class="text-france-blue">Identifiant CAF/MSA</strong>
 			<Text value={beneficiary.cafNumber} />
 		</div>

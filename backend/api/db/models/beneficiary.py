@@ -105,7 +105,7 @@ class BeneficiaryImport(BaseModel):
             "rsa_droit_ouvert_versable",
             "rsa_droit_ouvert_versement_suspendu",
         ]:
-            raise ValueError(f"value {right_rsa} unknown")
+            raise ValueError("value unknown")
         return right_rsa
 
     @validator("geographical_area")
@@ -117,7 +117,7 @@ class BeneficiaryImport(BaseModel):
             "between_20_30",
             "plus_30",
         ]:
-            raise ValueError(f"value {geographical_area} unknown")
+            raise ValueError("value unknown")
         return geographical_area
 
     @validator("work_situation")
@@ -151,7 +151,7 @@ class BeneficiaryImport(BaseModel):
             "cdd_temps_partiel",
             "intermittent",
         ]:
-            raise ValueError(f"value {work_situation} unknown")
+            raise ValueError("value unknown")
         return work_situation
 
     @validator("education_level")
@@ -168,7 +168,7 @@ class BeneficiaryImport(BaseModel):
             "NV2",
             "NV1",
         ]:
-            raise ValueError(f"value {education_level} unknown")
+            raise ValueError("value unknown")
         return education_level
 
     @validator("nir")

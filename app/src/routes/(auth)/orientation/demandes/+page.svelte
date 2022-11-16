@@ -105,16 +105,13 @@
 					</td>
 					<td>
 						<div class="flex">
-							<Text
-								classNames="flex-auto"
-								value={orientationRequest.requested_orientation_type.label}
-							/>
+							<Text class="flex-auto" value={orientationRequest.requested_orientation_type.label} />
 							<span class="flex-none fr-icon-arrow-right-line text-france-blue" aria-hidden />
 						</div>
 					</td>
 					<td>
 						<Text
-							classNames="fr-text--bold"
+							class="fr-text--bold"
 							value={orientationRequest.decided_orientation_type?.label}
 						/>
 					</td>

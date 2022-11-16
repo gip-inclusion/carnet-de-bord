@@ -156,13 +156,10 @@
 									: "Chargé d'orientation"}
 							/>
 							{#if focus.creator.professional}
-								<Text classNames="font-bold" value={focus.creator.professional.mobileNumber} />
+								<Text class="font-bold" value={focus.creator.professional.mobileNumber} />
 							{/if}
 							{#if focus.creator.orientation_manager}
-								<Text
-									classNames="font-bold"
-									value={focus.creator.orientation_manager.phoneNumbers}
-								/>
+								<Text class="font-bold" value={focus.creator.orientation_manager.phoneNumbers} />
 							{/if}
 						</span>
 					</Card>

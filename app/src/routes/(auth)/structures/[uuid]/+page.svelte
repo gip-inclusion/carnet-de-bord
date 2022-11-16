@@ -117,13 +117,13 @@
 					<Text
 						defaultValueClassNames="italic"
 						defaultValue="Pas de numéro de téléphone"
-						classNames="font-bold text-xl"
+						class="font-bold text-xl"
 						value={structure?.phone}
 					/>
 					<Text
 						defaultValueClassNames="italic"
 						defaultValue="Pas d'adresse email"
-						classNames="font-bold"
+						class="font-bold"
 						value={structure?.email}
 					/>
 					{#each [structure?.address1, structure?.address2].filter( (field) => Boolean(field) ) as line}

@@ -147,16 +147,16 @@
 								{#each headers as { csvName }}
 									<td class="px-2 py-2">
 										{#if structure.valid}
-											<Text value={structure.data[csvName]} />
+											<Text value={structure.data[csvName]} defaultValue="" />
 										{:else if lineErrors[csvName]}
-											<p
+											<Text
+												value={structure.row[csvName]}
+												defaultValue=""
 												class="text-error border-dashed border-b-1"
 												title={translateError(lineErrors[csvName])}
-											>
-												<Text value={structure.row[csvName]} />
-											</p>
+											/>
 										{:else}
-											<Text value={structure.row[csvName]} />
+											<Text value={structure.row[csvName]} defaultValue="" />
 										{/if}
 									</td>
 								{/each}

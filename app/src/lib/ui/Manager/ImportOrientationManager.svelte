@@ -76,10 +76,10 @@
 								<Text value={orientation_manager.email} />
 							</td>
 							<td class="px-2 py-2 ">
-								<Text value={orientation_manager.lastname} />
+								<Text value={orientation_manager.lastname} defaultValue="" />
 							</td>
 							<td class="px-2 py-2 ">
-								<Text value={orientation_manager.firstname} />
+								<Text value={orientation_manager.firstname} defaultValue="" />
 							</td>
 
 							<td class="px-2 py-2 ">

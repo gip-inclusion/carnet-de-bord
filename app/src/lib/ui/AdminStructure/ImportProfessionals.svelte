@@ -125,10 +125,10 @@
 									<Text value={pro.lastname} />
 								</td>
 								<td class="px-2 py-2">
-									<Text value={pro.mobileNumber} />
+									<Text value={pro.mobileNumber} defaultValue="" />
 								</td>
 								<td class="px-2 py-2">
-									<Text value={pro.position} />
+									<Text value={pro.position} defaultValue="" />
 								</td>
 							</tr>
 						{/each}

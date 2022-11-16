@@ -1,17 +1,15 @@
 <script lang="ts">
+	import { pluck } from '$lib/helpers';
+
 	export let value: string;
-	export let classNames = '';
 	export let defaultValue = '--';
 	export let defaultValueClassNames = '';
+	$: textProps = pluck(['class'], $$props);
 </script>
 
-<div class={classNames}>
+<div {...textProps} class={`${$$props.class} ${!value ? defaultValueClassNames : ''}`}>
 	{#if value}
 		{value}
-	{:else if defaultValueClassNames}
-		<span class={defaultValueClassNames}>
-			{defaultValue}
-		</span>
 	{:else}
 		{defaultValue}
 	{/if}
