@@ -8,58 +8,64 @@
 		type GetProfessionalsFromStructuresQuery,
 		GetProfessionalsFromStructuresDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+	import * as yup from 'yup';
 	import { query, operationStore, type OperationStore } from '@urql/svelte';
-	import { Select } from '../base';
-	import Button from '../base/Button.svelte';
+	import { Alert, Button } from '$lib/ui/base';
+	import { Form, Select } from '$lib/ui/forms';
+	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { openComponent } from '$lib/stores';
-	import Alert from '../base/Alert.svelte';
 	import { displayFullName } from '../format';
 
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 
-	let selectedProfessional: string = null;
-	let selectedOrientationType: string = null;
-	let selectedStructure = null;
+	let selectedStructureId: string = null;
 	let error = false;
 
-	let orientationTypeStore: OperationStore<GetOrientationTypeQuery> = operationStore(
+	let orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
 		GetOrientationTypeDocument
 	);
-	query(orientationTypeStore);
+	query(orientationTypes);
 
 	$: orientationOptions =
-		$orientationTypeStore.data?.orientation_type.map(({ id, label }) => ({
+		$orientationTypes.data?.orientation_type.map(({ id, label }) => ({
 			name: id,
 			label,
 		})) ?? [];
 
-	let structureStore: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument);
-	query(structureStore);
+	let structures: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument);
+	query(structures);
 	$: structureOptions =
-		$structureStore.data?.structure.map(({ id, name }) => ({
+		$structures.data?.structure.map(({ id, name }) => ({
 			name: id,
 			label: name,
 		})) ?? [];
 
 	$: professionalOptions = (() => {
-		selectedProfessional = null;
 		let professionalsStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
 			GetProfessionalsFromStructuresDocument,
-			{ id: selectedStructure }
+			{ id: selectedStructureId }
 		);
 
 		query(professionalsStore);
 
 		return (
 			professionalsStore.data?.professional.map((pro) => ({
-				name: pro.id,
+				name: pro.account.id,
 				label: displayFullName(pro),
 			})) ?? []
 		);
 	})();
 
-	async function handleSubmit() {
-		console.log(`Acceptation de la demande ${orientationRequest}`);
+	const validationSchema = yup.object().shape({
+		orientationType: yup.string().required().min(1),
+		structureId: yup.string().required().min(1),
+		professionalAccountId: yup.string().nullable(),
+	});
+
+	const initialValues = {};
+
+	async function handleSubmit(values: yup.InferType<typeof validationSchema>) {
+		console.log(`Acceptation de la demande ${orientationRequest}, ${JSON.stringify(values)}`);
 		error = true;
 	}
 
@@ -70,40 +76,54 @@
 
 <section class="flex flex-col w-full">
 	<h1>Réorientation des bénéficiaires</h1>
-	<form on:submit|preventDefault={handleSubmit}>
-		<p>
-			Veuillez sélectionner l'orientation ansi que la nouvelle structure et le nouveau référent.
-		</p>
-		<Select
-			bind:selected={selectedOrientationType}
-			selectLabel="Orientation"
-			selectHint="Sélectionner..."
-			options={orientationOptions}
-			name="orientationType"
-			id="orientationType"
-		/>
-		<Select
-			bind:selected={selectedStructure}
-			selectLabel="Structure d‘accompagnement"
-			selectHint="Sélectionner..."
-			options={structureOptions}
-			name="structure"
-			id="structure"
-		/>
-		<Select
-			bind:selected={selectedProfessional}
-			selectLabel="Référent unique"
-			selectHint="Sélectionner..."
-			options={professionalOptions}
-			name="professional"
-			id="professional"
-		/>
-		{#if error}
-			<Alert type="error" size="sm">Impossible de modifier l'orientation</Alert>
-		{/if}
-		<div class="flex flex-row gap-6 mt-12">
-			<Button type="submit">Valider</Button>
-			<Button outline on:click={close}>Annuler</Button>
-		</div>
-	</form>
+	<Form
+		onSubmit={handleSubmit}
+		{initialValues}
+		{validationSchema}
+		let:isSubmitting
+		let:isSubmitted
+		let:isValid
+		let:form
+	>
+		<LoaderIndicator result={structures}>
+			<p>
+				Veuillez sélectionner l'orientation ansi que la nouvelle structure et le nouveau référent.
+			</p>
+			<Select
+				required
+				selectLabel="Type d'orientation"
+				selectHint="Sélectionner un type d'orientation"
+				options={orientationOptions}
+				name="orientationType"
+			/>
+			<Select
+				required
+				selectLabel="Nom de la structure"
+				selectHint="Sélectionner une structure"
+				options={structureOptions}
+				name="structureId"
+				on:select={() => {
+					// FIXME: on:select is never called
+					form.professionalAccountId = null;
+					console.log(form.structureId);
+					selectedStructureId = String(form.structureId);
+				}}
+			/>
+			<Select
+				selectLabel="Nom du référent unique"
+				selectHint="Sélectionner un professionnel"
+				additionalLabel="La sélection du professionnel n’est pas obligatoire."
+				options={professionalOptions}
+				name="professionalAccountId"
+				disabled={!form.selectedStructureId}
+			/>
+			{#if error}
+				<Alert type="error" size="sm">Impossible de modifier l'orientation</Alert>
+			{/if}
+			<div class="pt-4">
+				<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}>Valider</Button>
+				<Button outline on:click={close}>Annuler</Button>
+			</div>
+		</LoaderIndicator>
+	</Form>
 </section>

@@ -10,6 +10,7 @@
 
 	const getNotebookResult = operationStore(GetNotebookByIdDocument, {
 		id: data.notebookId,
+		withOrientationRequests: true,
 	});
 	query(getNotebookResult);
 

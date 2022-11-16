@@ -13293,6 +13293,7 @@ export type GetStructuresForDeploymentQuery = {
 
 export type GetNotebookByBeneficiaryIdQueryVariables = Exact<{
 	id: Scalars['uuid'];
+	withOrientationRequests?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GetNotebookByBeneficiaryIdQuery = {
@@ -13332,7 +13333,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
-			orientationRequest: Array<{
+			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
 				createdAt: string;
@@ -13439,6 +13440,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 
 export type GetNotebookByIdQueryVariables = Exact<{
 	id: Scalars['uuid'];
+	withOrientationRequests?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GetNotebookByIdQuery = {
@@ -13478,7 +13480,7 @@ export type GetNotebookByIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
-			orientationRequest: Array<{
+			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
 				createdAt: string;
@@ -13618,7 +13620,7 @@ export type NotebookFragmentFragment = {
 		mobileNumber?: string | null;
 		peNumber?: string | null;
 		postalCode?: string | null;
-		orientationRequest: Array<{
+		orientationRequest?: Array<{
 			__typename?: 'orientation_request';
 			id: string;
 			createdAt: string;
@@ -14747,26 +14749,38 @@ export const NotebookFragmentFragmentDoc = {
 									arguments: [
 										{
 											kind: 'Argument',
-											name: { kind: 'Name', value: 'where' },
+											name: { kind: 'Name', value: 'order_by' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'decidedAt' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_is_null' },
-																	value: { kind: 'BooleanValue', value: true },
-																},
-															],
-														},
+														name: { kind: 'Name', value: 'createdAt' },
+														value: { kind: 'EnumValue', value: 'desc' },
 													},
 												],
 											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'limit' },
+											value: { kind: 'IntValue', value: '1' },
+										},
+									],
+									directives: [
+										{
+											kind: 'Directive',
+											name: { kind: 'Name', value: 'include' },
+											arguments: [
+												{
+													kind: 'Argument',
+													name: { kind: 'Name', value: 'if' },
+													value: {
+														kind: 'Variable',
+														name: { kind: 'Name', value: 'withOrientationRequests' },
+													},
+												},
+											],
 										},
 									],
 									selectionSet: {
@@ -21582,6 +21596,12 @@ export const GetNotebookByBeneficiaryIdDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withOrientationRequests' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+					defaultValue: { kind: 'BooleanValue', value: false },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -21645,6 +21665,12 @@ export const GetNotebookByIdDocument = {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withOrientationRequests' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+					defaultValue: { kind: 'BooleanValue', value: false },
 				},
 			],
 			selectionSet: {

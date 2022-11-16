@@ -18,7 +18,7 @@
 	$: members = notebook.members;
 	$: lastUpdateFrom = members[0]?.account?.professional || members[0]?.account?.orientation_manager;
 	$: orientationRequest =
-		beneficiary.orientationRequest.length > 0 ? beneficiary.orientationRequest[0] : undefined;
+		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 </script>
 
 {#if orientationRequest}
