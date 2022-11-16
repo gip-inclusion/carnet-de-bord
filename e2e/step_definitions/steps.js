@@ -235,6 +235,14 @@ Alors('je vois {string} dans la tuile {string}', (nb, tileText) => {
 	I.see(nb, locator);
 });
 
+Alors('je vois {string} dans la tuile {string} sous le titre {string}', (nb, tileText, title) => {
+	const locator = locate('.fr-card')
+		.withDescendant(locate('*').withText(tileText))
+		.inside(locate('*').after(locate('h2').withText(title)));
+	I.see(nb, locator);
+	// locate('.fr-card').withDescendant(locate('*').withText(tileText)).inside(locate('*').after(locate('h2').withText(title)));
+});
+
 Alors('je vois {string} sur la ligne {string}', (text, ligneText) => {
 	const locator = locate('tr').withChild(locate('td').withText(ligneText));
 	I.see(text, locator);

@@ -267,6 +267,39 @@ INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('441ad1df-
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('e9070329-dcdb-431d-a92f-ca03940a0a5f', '0e97a8ac-98ec-4712-b0f4-086c5f5982db', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'));
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('07a24076-f0f9-4e99-8767-d7201d41fbc4', 'a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Conducteur / Conductrice d''engins d''exploitation agricole (A1101)'));
 
+-- notebook_info
+-- need orientation assigned to giulia.diaby
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('79470217-45e1-4a8d-a762-46bca43ec5dc', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('4e6157e1-c2ef-48a6-a05c-8d3bda831169', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('f82fa38e-547a-49cd-b061-4ec9c6f2e1b9', NULL, true);
+
+-- need orientation assigned to samy.raoute
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('4067f34d-7321-4400-a5a2-a06a59538983', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('5eef857d-f99b-4b2c-a45b-e493175ff52a', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('526e4f48-eb36-491c-9cb3-1ed08068ff53', NULL, true);
+
+-- need orientation without co
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('86d71dc4-4719-470e-bffd-17a1593f4b60', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('3c220ce4-df2c-44a1-9cc9-bfbb7102d2d1', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('865c293e-63d1-4475-b6c3-bce29e0adcb9', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('633f6b90-4ab8-4b74-8e37-eca75a137f09', NULL, true);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('ba7a2a67-0ad5-4813-a2f4-cff216f24b60', NULL, true);
+
+--  assigned to samy.raoute
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('6dd78bd1-bad5-4914-a73f-aca9e71f6d2b', 'pro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('03d656fd-11bf-4937-a57d-5752174eaa42', 'pro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('05a5aab2-457b-4a03-8167-e3ff132c1ce8', 'pro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('fcb9cd63-7623-4175-a061-1e372cb3259b', 'pro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('761f99be-e1ac-4499-92e3-d07f22083f92', 'social', false);
+
+-- assigned to giulia.diaby
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('a3f1cae1-0c97-4b21-8519-ea4c2b0907db', 'social', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('5b5475ed-1458-4ffd-9d07-204b6c9f00d4', 'social', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('0e97a8ac-98ec-4712-b0f4-086c5f5982db', 'sociopro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('9c0e5236-a03d-4e5f-b945-c6bc556cf9f3', 'sociopro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('d235c967-29dc-47bc-b2f3-43aa46c9f54f', 'sociopro', false);
+
+
 
 -- Other account and notebook data
 INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('c2a346cd-b3dd-4892-a33d-7ada82654f97', 'vincent.timaitre@groupe-ns.fr', 'Vincent', 'Timaitre', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
@@ -310,6 +343,27 @@ INSERT INTO public.account (id, username, type, orientation_manager_id, confirme
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('b712740e-74da-4b0b-96c8-d689be164807', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('f96735c3-dcbd-4115-88e0-b1364ff193e3', '24e335cb-4e2b-481b-84b7-617d77f60f56', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
 
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('bff79f25-271c-4f98-877a-8c306b9627d7', '79470217-45e1-4a8d-a762-46bca43ec5dc', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('7941efa3-8cb8-4368-a472-c5fccb1e662e', '4e6157e1-c2ef-48a6-a05c-8d3bda831169', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('8ee0d4c4-26c7-4c8a-98e0-a65b1d864f84', 'f82fa38e-547a-49cd-b061-4ec9c6f2e1b9', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('04d2feb7-979d-47de-aebe-2b7bbcf41021', 'a3f1cae1-0c97-4b21-8519-ea4c2b0907db', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('67f9dbf5-ed8f-4ba3-8085-0fafeef85882', '5b5475ed-1458-4ffd-9d07-204b6c9f00d4', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('aa89170c-b73a-4f80-aa8f-5f50a8f8644a', '0e97a8ac-98ec-4712-b0f4-086c5f5982db', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('57bb5b99-552c-4d14-af7b-3c230c997eb8', '9c0e5236-a03d-4e5f-b945-c6bc556cf9f3', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('d173dc3a-d88a-48c3-b6eb-24f1fdc53a25', 'd235c967-29dc-47bc-b2f3-43aa46c9f54f', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+
+INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('3f82fc22-12f0-4c0b-85d5-57ae054a2ee3', 'samy.rouate@cd93.fr', 'Rouate', 'Samy', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('23e910a6-0b3d-4147-ac6f-9efbcecaab70', 'samy.rouate', 'orientation_manager', '3f82fc22-12f0-4c0b-85d5-57ae054a2ee3', true, true);
+
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('d3ebbda7-7e71-4fbb-afb6-00f031e9c86a', '4067f34d-7321-4400-a5a2-a06a59538983', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('6622fbdf-a302-4724-a7da-7d335c3b8ed5', '5eef857d-f99b-4b2c-a45b-e493175ff52a', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('dee93a6c-d26d-4674-9767-47c610b132ac', '526e4f48-eb36-491c-9cb3-1ed08068ff53', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('222e926d-05be-44cd-9f15-109828bfeb48', '6dd78bd1-bad5-4914-a73f-aca9e71f6d2b', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('ba503099-0b6f-433c-ba3f-7e7e74b531b2', '03d656fd-11bf-4937-a57d-5752174eaa42', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('3f50f205-0bcd-4490-a7a1-c419bce3556d', '05a5aab2-457b-4a03-8167-e3ff132c1ce8', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('05e4a22a-acb2-40e4-be35-fc5b67d7acdd', 'fcb9cd63-7623-4175-a061-1e372cb3259b', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('e2c63fbd-0fa0-47e6-b6f0-ac0c40668eb6', '761f99be-e1ac-4499-92e3-d07f22083f92', '23e910a6-0b3d-4147-ac6f-9efbcecaab70', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
+
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('3dbb610e-916f-49e0-8860-b5dc39decd49', 'laure.loge@cd51.fr', 'Loge', 'Laure', '0987654321, 0687654321', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('f29ca78a-4719-4658-8d19-48d3df9178b5', 'laure.loge', 'orientation_manager', '3dbb610e-916f-49e0-8860-b5dc39decd49', true, false);
 
@@ -322,7 +376,6 @@ INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at
 INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('d93cbf83-74f0-4992-ac33-dd563558bc05', 'd4bf4811-bbce-4f99-8b57-358187653b59', 'Accéder à l’emploi 2', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 13:35:11.636378+00');
 
 -- Orientation Requests
-INSERT INTO public.beneficiary_info (beneficiary_id, orientation, created_at) values ('3c1a9fdf-a231-4659-9a91-630ff12c5774', 'pro', '2022-08-01 14:00:00.0000+00');
 INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('eabf6fda-26b5-4aeb-8179-6050a826cde6', '3c1a9fdf-a231-4659-9a91-630ff12c5774', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'social', 'pending', 'Ceci est la raison pour laquelle on souhaite changer l’orientation', '2022-09-01 14:00:00.0000+00');
 -- Focus and target for Lindsay Aguilar's notebook
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('5179594a-ccc1-4f1d-90ce-3bd4eeed1160', 'formation', '["Prêt à suivre une formation"]', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '79bc73e3-45d7-467f-ae3e-d395e338386c', '2021-09-21 13:15:54.752334+00', 'cer');

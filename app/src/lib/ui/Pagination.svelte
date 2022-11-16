@@ -11,13 +11,12 @@
 	$: nbPages = Math.ceil(count / pageSize);
 
 	function getPaginationHref(pageIndex: number): string {
-		const urlParams = new URLSearchParams([...$page.url.searchParams.entries()]);
 		urlParams.set('page', pageIndex.toString());
 		return `?${urlParams.toString()}`;
 	}
 
 	let paginationButtons = [];
-
+	$: urlParams = new URLSearchParams([...$page.url.searchParams.entries()]);
 	$: {
 		paginationButtons = [];
 

@@ -7,11 +7,11 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 
 	Scénario: Modifier le rattachement d'un bénéficiaire
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
+		Quand je clique sur "Bénéficiaires"
+		Quand je selectionne l'option "Orienté" dans la liste "Statut"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
-		Quand je recherche "tif"
-		Quand je clique sur "Rechercher"
 		Alors je vois "Pierre Chevalier" sur la ligne "Tifour"
-		Quand je clique sur "Pierre Chevalier"
+		Quand je clique sur "Pierre Chevalier" dans la ligne de "Tifour"
 		Alors je vois "Rattacher des bénéficiaires"
 		Alors j'attends que le texte "Veuillez sélectionner la structure d'accueil" apparaisse
 		Alors je selectionne l'option "Groupe NS" dans la liste "Nom de la structure"
@@ -23,15 +23,15 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 
 	Scénario: Ré-orienter des bénéficiaires
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
+		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
-		Alors je scroll à "Cash"
-		Alors je choisis "Sélectionner Corinne Cash"
-		Alors je choisis "Sélectionner Alexandria Cobb"
+ 		Alors je choisis "Sélectionner Myrna Henderson"
+		Alors je choisis "Sélectionner Della Lynch"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher des bénéficiaires"
 		Alors j'attends que le texte "Veuillez sélectionner la structure d'accueil" apparaisse
 		Alors je selectionne l'option "Service Social Départemental" dans la liste "Nom de la structure"
 		Quand je clique sur "Rattacher" dans le volet
-		Alors je vois "Service Social Départemental" sur la ligne "Cash"
-		Alors je vois "Service Social Départemental" sur la ligne "Cobb"
+		Alors je vois "Service Social Départemental" sur la ligne "Henderson"
+		Alors je vois "Service Social Départemental" sur la ligne "Lynch"

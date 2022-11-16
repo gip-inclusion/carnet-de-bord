@@ -28,7 +28,8 @@
 	const dispatch = createEventDispatcher();
 	const handleSelect: SvelteEventHandler<HTMLSelectElement> = async function handleSelect(event) {
 		selected = event.currentTarget.value;
-		dispatch('select', { selected });
+		name = event.currentTarget.name;
+		dispatch('select', { name, selected });
 	};
 
 	const selectHintOption = 'select_hint_option';

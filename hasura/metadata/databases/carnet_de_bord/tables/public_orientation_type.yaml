@@ -3,12 +3,12 @@ table:
   schema: public
 is_enum: true
 array_relationships:
-  - name: beneficiary_infos
+  - name: notebook_infos
     using:
       foreign_key_constraint_on:
         column: orientation
         table:
-          name: beneficiary_info
+          name: notebook_info
           schema: public
 select_permissions:
   - role: admin_cdb

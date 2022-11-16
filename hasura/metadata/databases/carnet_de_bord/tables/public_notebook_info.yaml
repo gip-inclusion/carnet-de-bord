@@ -1,0 +1,155 @@
+table:
+  name: notebook_info
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    need_orientation:
+      custom_name: needOrientation
+    notebook_id:
+      custom_name: notebookId
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    need_orientation: needOrientation
+    notebook_id: notebookId
+    updated_at: updatedAt
+  custom_root_fields: {}
+object_relationships:
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
+  - name: orientationType
+    using:
+      foreign_key_constraint_on: orientation
+insert_permissions:
+  - role: manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      columns:
+        - need_orientation
+        - notebook_id
+        - orientation
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      columns:
+        - need_orientation
+        - notebook_id
+        - orientation
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+        - created_at
+        - updated_at
+        - notebook_id
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - notebook_id
+        - orientation
+        - need_orientation
+        - created_at
+        - updated_at
+      filter:
+        notebook:
+          beneficiary:
+            structures:
+              structure:
+                admins:
+                  admin_structure_id:
+                    _eq: X-Hasura-AdminStructure-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+        - created_at
+        - updated_at
+        - notebook_id
+      filter:
+        notebook:
+          beneficiary:
+            account:
+              id:
+                _eq: X-Hasura-User-Id
+  - role: manager
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+        - created_at
+        - updated_at
+        - notebook_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+        - created_at
+        - updated_at
+        - notebook_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+        - created_at
+        - updated_at
+        - notebook_id
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: manager
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: orientation_manager
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      check: null

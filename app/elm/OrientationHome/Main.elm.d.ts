@@ -1,4 +1,4 @@
-export namespace BeneficiaryApp.Main {
+export namespace OrientationHome.Main {
 	function init(options: { node?: HTMLElement | null; flags: Flags }): ElmApp;
 }
 export interface ElmApp {

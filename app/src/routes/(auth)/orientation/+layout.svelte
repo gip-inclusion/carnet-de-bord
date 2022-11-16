@@ -3,7 +3,8 @@
 		BeneficiariesWithOrientationRequestCountDocument,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { homeForRole } from '$lib/routes';
+	import { baseUrlForRole, homeForRole } from '$lib/routes';
+	import { accountData } from '$lib/stores';
 	import type { MenuItem } from '$lib/types';
 	import Footer from '$lib/ui/base/Footer.svelte';
 	import Header from '$lib/ui/base/Header.svelte';
@@ -15,6 +16,11 @@
 			id: 'accueil',
 			path: homeForRole(RoleEnum.OrientationManager),
 			label: 'Accueil',
+		},
+		{
+			id: 'beneficiaires',
+			path: `${baseUrlForRole($accountData.type)}/beneficiaires`,
+			label: 'Bénéficiaires',
 		},
 	];
 

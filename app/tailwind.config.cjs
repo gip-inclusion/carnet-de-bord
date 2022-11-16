@@ -16,9 +16,11 @@ const config = {
 				bg: '#F8F8F8',
 			},
 			'france-blue': { DEFAULT: '#000091', 100: '#F2F2F9', 500: '#000091' },
+			'france-bleu': { DEFAULT: '#000091', 100: '#F2F2F9', 500: '#000091' },
 			white: '#FFFFFF',
 			black: '#000000',
 			'marianne-red': '#E1000F',
+			'marianne-rouge': '#E1000F',
 			magenta: {
 				80: '#AF8EF3',
 				60: '#C3AAF6',

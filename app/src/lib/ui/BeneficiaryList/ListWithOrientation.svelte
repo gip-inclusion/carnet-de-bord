@@ -47,7 +47,7 @@
 			component: AddOrientationForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				orientation_type: beneficiary.beneficiaryInfo?.orientation_type.id ?? null,
+				orientation_type: beneficiary.notebook.notebookInfo?.orientationType.id ?? null,
 			},
 		});
 	}
@@ -104,11 +104,11 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
-					{#if beneficiary.beneficiaryInfo}
+					{#if beneficiary.notebook?.notebookInfo?.orientationType}
 						<button
 							class="fr-tag fr-tag-sm  fr-tag--yellow-tournesol"
 							on:click={() => openOrientationLayer(beneficiary)}
-							>{beneficiary.beneficiaryInfo.orientation_type.label}
+							>{beneficiary.notebook?.notebookInfo.orientationType.label}
 						</button>
 					{:else}
 						<button
@@ -169,6 +169,7 @@
 						href={getNotebookUrl(beneficiary)}
 						class="fr-link"
 						target="_blank"
+						rel="noreferrer"
 						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />

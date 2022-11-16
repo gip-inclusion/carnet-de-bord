@@ -45,13 +45,6 @@ object_relationships:
         remote_table:
           name: account
           schema: public
-  - name: beneficiaryInfo
-    using:
-      foreign_key_constraint_on:
-        column: beneficiary_id
-        table:
-          name: beneficiary_info
-          schema: public
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
@@ -156,6 +149,7 @@ select_permissions:
         - email
         - firstname
         - id
+        - internal_id
         - lastname
         - mobile_number
         - pe_number

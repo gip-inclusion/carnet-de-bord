@@ -19,6 +19,14 @@ insert_permissions:
         - description
         - label
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - code
+        - description
+        - label
+        - id
+      filter: {}
   - role: admin_structure
     permission:
       columns:
