@@ -306,7 +306,7 @@
 				</div>
 				<div class="mt-6 flex justify-end flex-row gap-4">
 					<span>
-						{beneficiariesToImport.length || 'Aucune'}
+						{beneficiariesToImport.length || 'Aucun'}
 						{pluralize('bénéficiaire', beneficiariesToImport.length)}
 						{pluralize('sélectionné', beneficiariesToImport.length)}
 						sur {parsedBeneficiaries.length}
