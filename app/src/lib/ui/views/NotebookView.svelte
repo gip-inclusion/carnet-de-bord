@@ -21,7 +21,7 @@
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 </script>
 
-{#if orientationRequest}
+{#if !orientationRequest?.decidedAt}
 	<OrientationRequestBanner {orientationRequest} />
 {/if}
 <ProNotebookPersonalInfoView

@@ -7,9 +7,11 @@
 		type GetStructuresQuery,
 		type GetProfessionalsFromStructuresQuery,
 		GetProfessionalsFromStructuresDocument,
+		AcceptOrientationRequestDocument,
+		OrientationTypeEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import * as yup from 'yup';
-	import { query, operationStore, type OperationStore } from '@urql/svelte';
+	import { query, mutation, operationStore, type OperationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Select } from '$lib/ui/forms';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
@@ -21,6 +23,7 @@
 	let selectedStructureId: string = null;
 	let error = false;
 
+	const acceptOrientationRequest = mutation({ query: AcceptOrientationRequestDocument });
 	let orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
 		GetOrientationTypeDocument
 	);
@@ -57,7 +60,10 @@
 	})();
 
 	const validationSchema = yup.object().shape({
-		orientationType: yup.string().required().min(1),
+		orientationType: yup
+			.mixed<OrientationTypeEnum>()
+			.oneOf(Object.values(OrientationTypeEnum))
+			.required(),
 		structureId: yup.string().required().min(1),
 		professionalAccountId: yup.string().nullable(),
 	});
@@ -65,8 +71,21 @@
 	const initialValues = {};
 
 	async function handleSubmit(values: yup.InferType<typeof validationSchema>) {
-		console.log(`Acceptation de la demande ${orientationRequest}, ${JSON.stringify(values)}`);
-		error = true;
+		const response = await acceptOrientationRequest({
+			id: orientationRequest.id,
+			orientationType: values.orientationType,
+			notebookId: orientationRequest.beneficiary.notebook.id,
+			beneficiaryId: orientationRequest.beneficiary.id,
+			structureId: values.structureId,
+			professionalAccountId: values.professionalAccountId,
+			withProfessionalAccountId: !!values.professionalAccountId,
+		});
+		if (response.error) {
+			error = true;
+			console.error(error);
+			return;
+		}
+		openComponent.close();
 	}
 
 	function close() {

@@ -48,8 +48,15 @@ fragment notebookFragment on notebook {
     orientationRequest(order_by: {createdAt: desc}, limit: 1) @include(if: $withOrientationRequests) {
       id
       createdAt
+      decidedAt
       requestedOrientationType {
         label
+      }
+      beneficiary {
+        id
+        notebook {
+          id
+        }
       }
     }
   }
