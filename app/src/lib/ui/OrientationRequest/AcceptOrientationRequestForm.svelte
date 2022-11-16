@@ -1,16 +1,62 @@
 <script lang="ts">
-	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		type GetNotebookByBeneficiaryIdQuery,
+		type GetOrientationTypeQuery,
+		GetOrientationTypeDocument,
+		GetStructuresDocument,
+		type GetStructuresQuery,
+		type GetProfessionalsFromStructuresQuery,
+		GetProfessionalsFromStructuresDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { query, operationStore, type OperationStore } from '@urql/svelte';
 	import { Select } from '../base';
 	import Button from '../base/Button.svelte';
 	import { openComponent } from '$lib/stores';
 	import Alert from '../base/Alert.svelte';
+	import { displayFullName } from '../format';
 
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 
-	let selectedMember: string = null;
+	let selectedProfessional: string = null;
 	let selectedOrientationType: string = null;
-	let selectedStructure: string = null;
+	let selectedStructure = null;
 	let error = false;
+
+	let orientationTypeStore: OperationStore<GetOrientationTypeQuery> = operationStore(
+		GetOrientationTypeDocument
+	);
+	query(orientationTypeStore);
+
+	$: orientationOptions =
+		$orientationTypeStore.data?.orientation_type.map(({ id, label }) => ({
+			name: id,
+			label,
+		})) ?? [];
+
+	let structureStore: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument);
+	query(structureStore);
+	$: structureOptions =
+		$structureStore.data?.structure.map(({ id, name }) => ({
+			name: id,
+			label: name,
+		})) ?? [];
+
+	$: professionalOptions = (() => {
+		selectedProfessional = null;
+		let professionalsStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
+			GetProfessionalsFromStructuresDocument,
+			{ id: selectedStructure }
+		);
+
+		query(professionalsStore);
+
+		return (
+			professionalsStore.data?.professional.map((pro) => ({
+				name: pro.id,
+				label: displayFullName(pro),
+			})) ?? []
+		);
+	})();
 
 	async function handleSubmit() {
 		console.log(`Acceptation de la demande ${orientationRequest}`);
@@ -26,38 +72,29 @@
 	<h1>Réorientation des bénéficiaires</h1>
 	<form on:submit|preventDefault={handleSubmit}>
 		<p>
-			Veuillez sélectionner l'orientation ansi que la nouvelle structure et/ou le nouveau référent.
+			Veuillez sélectionner l'orientation ansi que la nouvelle structure et le nouveau référent.
 		</p>
 		<Select
 			bind:selected={selectedOrientationType}
 			selectLabel="Orientation"
 			selectHint="Sélectionner..."
-			options={[
-				{ name: 'test', label: 'test' },
-				{ name: 'test2', label: 'test2' },
-			]}
+			options={orientationOptions}
 			name="orientationType"
 			id="orientationType"
 		/>
 		<Select
-			bind:selected={selectedMember}
+			bind:selected={selectedStructure}
 			selectLabel="Structure d‘accompagnement"
 			selectHint="Sélectionner..."
-			options={[
-				{ name: 'test', label: 'test' },
-				{ name: 'test2', label: 'test2' },
-			]}
+			options={structureOptions}
 			name="structure"
 			id="structure"
 		/>
 		<Select
-			bind:selected={selectedStructure}
+			bind:selected={selectedProfessional}
 			selectLabel="Référent unique"
 			selectHint="Sélectionner..."
-			options={[
-				{ name: 'test', label: 'test' },
-				{ name: 'test2', label: 'test2' },
-			]}
+			options={professionalOptions}
 			name="professional"
 			id="professional"
 		/>

@@ -297,6 +297,7 @@ select_permissions:
         - beneficiary_id
         - confirmed
         - created_at
+        - deleted_at
         - id
         - last_login
         - onboarding_done
