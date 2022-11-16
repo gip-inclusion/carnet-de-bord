@@ -148,9 +148,12 @@
 	}
 
 	async function handleSubmit(beneficiaries: BeneficiaryCsvResponse[]) {
-		const payload = JSON.stringify(
-			beneficiaries.flatMap(({ uuid, data }) => (beneficiariesToImport.includes(uuid) ? data : []))
-		);
+		const payload = JSON.stringify({
+			need_orientation: mode === 'unoriented',
+			beneficiaries: beneficiaries.flatMap(({ uuid, data }) =>
+				beneficiariesToImport.includes(uuid) ? data : []
+			),
+		});
 		insertPromise = postApiJson<BeneficiaryCsvResponse[]>('/v1/beneficiaries/bulk', payload, {
 			'jwt-token': $token,
 		});

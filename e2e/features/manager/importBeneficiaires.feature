@@ -32,8 +32,8 @@ Fonctionnalité: Import de bénéficiaires
 	Scénario: Import de bénéficiaires avec un fichier partiel (identifiant, nom, prenom, date de naissance et nir)
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
-		Alors je vois "Importer des bénéficiaires"
-		Quand je téléverse le fichier "/resources/import_beneficiaires_partial.csv"
+		Quand je clique sur "Importer des nouveaux bénéficiaires"
+ 		Quand je téléverse le fichier "/resources/import_beneficiaires_partial.csv"
 		Alors je vois "Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont correctes et confirmer."
 		Alors je vois "2 bénéficiaires sélectionnés sur 4"
 		Quand je clique sur "Confirmer"
@@ -42,7 +42,7 @@ Fonctionnalité: Import de bénéficiaires
 	Scénario: Ré-Import de bénéficiaires
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
-		Alors je vois "Importer des bénéficiaires"
+		Quand je clique sur "Importer des nouveaux bénéficiaires"
 		Quand je téléverse le fichier "/resources/re_import_beneficiaires.csv"
 		Alors je vois "Vous allez importer les bénéficiaires suivants. Veuillez vérifier que les données sont correctes et confirmer."
 		Alors je vois "2 bénéficiaires sélectionnés sur 2"
