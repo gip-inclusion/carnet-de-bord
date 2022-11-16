@@ -272,8 +272,9 @@
 													<Text value={beneficiary.data[key]} defaultValue="" />
 												{/if}
 											{:else if lineErrors[key]}
+												<i class="ri-alert-line text-error " title={lineErrors[key]} />
 												<Text
-													class="text-error border-dashed border-b-1"
+													class="text-error border-dashed border-b-1 "
 													title={translateError(lineErrors[key])}
 													value={beneficiary.row[key]}
 													defaultValue=""
@@ -284,20 +285,32 @@
 										</td>
 									{/each}
 									<td class="px-2 py-2">
-										<Text
-											value={structureNameToStructure(structureValue ?? '')
-												.map((s) => s.name)
-												.join(', ')}
-											defaultValue=""
-										/>
+										{#if lineErrors['Structure']}
+											<i class="ri-alert-line text-error " title={lineErrors['Structure']} />
+											<Text value={structureValue} class="text-error" />
+										{:else}
+											<Text
+												value={structureNameToStructure(structureValue ?? '')
+													.map((s) => s.name)
+													.join(', ')}
+												defaultValue=""
+											/>
+										{/if}
 									</td>
 									<td class="px-2 py-2">
-										<Text
-											value={advisorEmailToPros(proValue ?? '')
-												.map(displayFullName)
-												.join(', ')}
-											defaultValue=""
-										/>
+										{#if lineErrors['Accompagnateurs']}
+											<div class="flex">
+												<i class="ri-alert-line text-error" title={lineErrors['Accompagnateurs']} />
+												<Text value={proValue} class="text-error " />
+											</div>
+										{:else}
+											<Text
+												value={advisorEmailToPros(proValue ?? '')
+													.map(displayFullName)
+													.join(', ')}
+												defaultValue=""
+											/>
+										{/if}
 									</td>
 								</tr>
 							{/each}
