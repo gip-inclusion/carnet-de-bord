@@ -1,3 +1,10 @@
+# [1.157.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.3...v1.157.0) (2022-11-16)
+
+
+### Features
+
+* **orientation:** support des filtres statut d'orientation et mes bénéficaires ([#1211](https://github.com/gip-inclusion/carnet-de-bord/issues/1211)) ([a172160](https://github.com/gip-inclusion/carnet-de-bord/commit/a172160a94c35921778aab9dcae5905086bbbddd)), closes [#1023](https://github.com/gip-inclusion/carnet-de-bord/issues/1023)
+
 ## [1.156.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.2...v1.156.3) (2022-11-10)
 
 
