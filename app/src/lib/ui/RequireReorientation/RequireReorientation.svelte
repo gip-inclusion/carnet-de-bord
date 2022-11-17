@@ -64,7 +64,7 @@
 	<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:isValid>
 		<Textarea
 			name="reason"
-			placeholder="Je souhaite réorienté ..."
+			placeholder="Je souhaite réorienter ..."
 			label="Motif de demande de réorientation"
 		/>
 		<Select
