@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as yup from 'yup';
 	import { Form, Select, Textarea } from '$lib/ui/forms';
+	import Dialog from '$lib/ui/Dialog.svelte';
 	import { Alert, Button } from '../base';
 	import { openComponent } from '$lib/stores';
 	import { operationStore, query, mutation } from '@urql/svelte';
@@ -48,7 +49,7 @@
 	}
 
 	const validationSchema = yup.object().shape({
-		reason: yup.string().nullable().trim(),
+		reason: yup.string().nullable().trim().required(),
 		orientation: yup.string().trim().required(),
 	});
 </script>
@@ -61,7 +62,7 @@
 			recommandez.
 		</p>
 	</div>
-	<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:isValid>
+	<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:isValid let:form>
 		<Textarea
 			name="reason"
 			placeholder="Je souhaite réorienter ..."
@@ -76,7 +77,14 @@
 		/>
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
-			<Button type="submit" disabled={!isValid}>Envoyer ma demande</Button>
+			<Dialog
+				title="Confirmation de l'envoi"
+				label="Envoyer ma demande"
+				outlineButton={false}
+				on:confirm={() => handleSubmit(form)}
+			>
+				<p>Etes-vous sûr de vouloir envoyer la demande ?</p>
+			</Dialog>
 			<Button outline on:click={close}>Annuler</Button>
 		</div>
 		{#if errorMessage}
