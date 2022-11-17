@@ -10,7 +10,6 @@
 		type GetOrientationTypeQuery,
 		ReorientationRequestDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { accountData } from '$lib/stores';
 
 	export let beneficiaryId: string;
 
@@ -40,7 +39,6 @@
 			beneficiaryId: beneficiaryId,
 			reason: values.reason,
 			requestedOrientation: values.orientation,
-			requesterAccount: $accountData.id,
 		});
 	}
 
