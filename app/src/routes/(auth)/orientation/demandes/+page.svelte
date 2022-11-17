@@ -62,22 +62,22 @@
 <LoaderIndicator {result}>
 	<table class="w-full fr-table fr-table--layout-fixed">
 		<caption class="sr-only">Liste des demandes de réorientation</caption>
+		<thead>
+			<tr>
+				<th class="text-left">Reçu le</th>
+				<th class="text-left">Nom & Prénom</th>
+				<th class="text-left">Référent unique</th>
+				<th class="text-left">Orientation actuelle</th>
+				<th class="text-left">Orientation recommandée</th>
+				<th class="text-left">Motif</th>
+				<th class="text-left">Voir le carnet</th>
+			</tr>
+		</thead>
 		{#each beneficiaries as beneficiary}
 			{@const referents = beneficiary.notebook.members.filter(
 				(member) => member.account.type === RoleEnum.Professional
 			)}
 			{@const orientationRequest = beneficiary.orientationRequest[0]}
-			<thead>
-				<tr>
-					<th class="text-left">Reçu le</th>
-					<th class="text-left">Nom & Prénom</th>
-					<th class="text-left">Référent unique</th>
-					<th class="text-left">Orientation actuelle</th>
-					<th class="text-left">Orientation recommandée</th>
-					<th class="text-left">Motif</th>
-					<th class="text-left">Voir le carnet</th>
-				</tr>
-			</thead>
 			<tbody>
 				<tr>
 					<td>{formatDateLocale(orientationRequest.createdAt)}</td>
@@ -116,16 +116,20 @@
 						/>
 					</td>
 					<td class="!text-center">
-						<Dialog
-							label={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
-							buttonLabel={null}
-							title={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
-							size={'large'}
-							showButtons={false}
-							buttonCssClasses="fr-btn--tertiary-no-outline fr-icon-message-2-line"
-						>
-							<Text value={beneficiary.orientationRequest[0].reason} />
-						</Dialog>
+						{#if beneficiary.orientationRequest[0].reason}
+							<Dialog
+								label={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
+								buttonLabel={null}
+								title={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
+								size={'large'}
+								showButtons={false}
+								buttonCssClasses="fr-btn--tertiary-no-outline fr-icon-message-2-line"
+							>
+								<Text value={beneficiary.orientationRequest[0].reason} />
+							</Dialog>
+						{:else}
+							--
+						{/if}
 					</td>
 					<td class="!text-center">
 						<a
@@ -142,7 +146,7 @@
 			</tbody>
 		{/each}
 		{#if beneficiaries.length === 0}
-			<div>Aucune demande.</div>
+			<tr><td class="text-center" colspan="7">Aucune demande.</td></tr>
 		{/if}
 	</table>
 </LoaderIndicator>
