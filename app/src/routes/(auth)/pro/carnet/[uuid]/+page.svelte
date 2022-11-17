@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Alert from '$lib/ui/base/Alert.svelte';
 	import { Button } from '$lib/ui/base';
-	import { openComponent } from '$lib/stores';
+	import { accountData, openComponent } from '$lib/stores';
 	import { baseUrlForRole } from '$lib/routes';
 	import type { GetNotebookEventsQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
@@ -144,7 +144,7 @@
 	$: notebook = $getNotebook.data?.notebook;
 	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook?.events;
 	$: beneficiary = notebook?.beneficiary;
-	$: members = notebook?.members;
+	$: members = notebook?.members ?? [];
 	$: appointments = notebook?.appointments;
 	$: lastMember = members?.length ? members[0] : null;
 
@@ -162,6 +162,9 @@
 				matcher(constantToString(filtered_event.event.status, statusValues))
 		);
 	}
+	$: isReferent = members.some(
+		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
+	);
 </script>
 
 <svelte:head>
@@ -262,6 +265,8 @@
 				</div>
 			</MainSection>
 		</div>
-		<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
+		{#if isReferent}
+			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
+		{/if}
 	{/if}
 </LoaderIndicator>
