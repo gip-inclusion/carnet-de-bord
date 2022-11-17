@@ -2,7 +2,7 @@
 	import { focusThemeKeys } from '$lib/constants/keys';
 	import { displayFullName } from '$lib/ui/format';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { Accordions, MainAccordion } from '$lib/ui/base';
+	import { Accordions, MainSection } from '$lib/ui/base';
 	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import SocioProView from '../Beneficiary/SocioProView.svelte';
 	import NotebookMembers from '../Beneficiary/NotebookMembers.svelte';
@@ -24,13 +24,13 @@
 	{lastUpdateFrom}
 />
 <div>
-	<MainAccordion title="Situation socioprofessionnelle">
+	<MainSection title="Situation socioprofessionnelle">
 		<SocioProView {notebook} />
-	</MainAccordion>
-	<MainAccordion title="Groupe de suivi">
+	</MainSection>
+	<MainSection title="Groupe de suivi">
 		<NotebookMembers members={notebook.members} />
-	</MainAccordion>
-	<MainAccordion title="Plan d'action">
+	</MainSection>
+	<MainSection title="Plan d'action">
 		{#if notebook.focuses.length === 0}
 			Pas d'actions en cours
 		{/if}
@@ -72,5 +72,5 @@
 				</li>
 			{/each}
 		</ul>
-	</MainAccordion>
+	</MainSection>
 </div>

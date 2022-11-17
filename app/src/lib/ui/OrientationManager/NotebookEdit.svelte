@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MainAccordion from '$lib/ui/base/MainAccordion.svelte';
+	import MainSection from '$lib/ui/base/MainSection.svelte';
 
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
@@ -25,10 +25,10 @@
 			notebook.members[0]?.account?.orientation_manager}
 	/>
 	<div>
-		<MainAccordion title="Situation socioprofessionnelle">
+		<MainSection title="Situation socioprofessionnelle">
 			<ProNotebookSocioProView {notebook} />
-		</MainAccordion>
-		<MainAccordion title="Groupe de suivi">
+		</MainSection>
+		<MainSection title="Groupe de suivi">
 			<ProNotebookMembersView
 				members={notebook.members}
 				notebookId={notebook.id}
@@ -36,9 +36,9 @@
 				beneficiaryLastname={notebook.beneficiary.lastname}
 				appointments={notebook?.appointments}
 			/>
-		</MainAccordion>
-		<MainAccordion title="Plan d'action">
+		</MainSection>
+		<MainSection title="Plan d'action">
 			<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
-		</MainAccordion>
+		</MainSection>
 	</div>
 </div>
