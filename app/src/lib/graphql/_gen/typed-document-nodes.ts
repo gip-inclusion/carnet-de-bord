@@ -13240,7 +13240,6 @@ export type ReorientationRequestMutationVariables = Exact<{
 	beneficiaryId: Scalars['uuid'];
 	reason?: InputMaybe<Scalars['String']>;
 	requestedOrientation: OrientationTypeEnum;
-	requesterAccount: Scalars['uuid'];
 }>;
 
 export type ReorientationRequestMutation = {
@@ -21855,14 +21854,6 @@ export const ReorientationRequestDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'orientation_type_enum' } },
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'requesterAccount' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -21893,14 +21884,6 @@ export const ReorientationRequestDocument = {
 											value: {
 												kind: 'Variable',
 												name: { kind: 'Name', value: 'requestedOrientation' },
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'requestor_account_id' },
-											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'requesterAccount' },
 											},
 										},
 									],

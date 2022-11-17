@@ -3,13 +3,11 @@ mutation ReorientationRequest(
     $beneficiaryId: uuid!
     $reason: String
     $requestedOrientation: orientation_type_enum!
-    $requesterAccount: uuid!
     ) {
   insert_orientation_request_one(object: {
     beneficiaryId: $beneficiaryId,
     reason: $reason,
-    requestedOrientationTypeId: $requestedOrientation,
-    requestor_account_id: $requesterAccount}) {
+    requestedOrientationTypeId: $requestedOrientation}) {
     id
   }
 }
