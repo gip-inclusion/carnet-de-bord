@@ -23,7 +23,7 @@
 	lastUpdateDate={members[0]?.lastModifiedAt}
 	{lastUpdateFrom}
 />
-<Accordions isFixed={true}>
+<div>
 	<MainAccordion title="Situation socioprofessionnelle">
 		<SocioProView {notebook} />
 	</MainAccordion>
@@ -73,4 +73,4 @@
 			{/each}
 		</ul>
 	</MainAccordion>
-</Accordions>
+</div>

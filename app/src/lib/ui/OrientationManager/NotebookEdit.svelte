@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Accordions from '$lib/ui/base/Accordions.svelte';
 	import MainAccordion from '$lib/ui/base/MainAccordion.svelte';
 
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
@@ -25,7 +24,7 @@
 		lastUpdateFrom={notebook.members[0]?.account?.professional ||
 			notebook.members[0]?.account?.orientation_manager}
 	/>
-	<Accordions isFixed={true}>
+	<div>
 		<MainAccordion title="Situation socioprofessionnelle">
 			<ProNotebookSocioProView {notebook} />
 		</MainAccordion>
@@ -41,5 +40,5 @@
 		<MainAccordion title="Plan d'action">
 			<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 		</MainAccordion>
-	</Accordions>
+	</div>
 </div>

@@ -8,7 +8,7 @@
 		UpdateNotebookVisitDateDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { stringsMatch } from '$lib/helpers';
-	import { Accordions, MainAccordion, SearchBar, Select } from '$lib/ui/base';
+	import { MainAccordion, SearchBar, Select } from '$lib/ui/base';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
@@ -172,7 +172,7 @@
 			lastUpdateDate={lastMember?.lastModifiedAt}
 			lastUpdateFrom={lastMember?.account?.professional || lastMember?.account?.orientation_manager}
 		/>
-		<Accordions isFixed={true}>
+		<div>
 			<MainAccordion title="Situation socioprofessionnelle">
 				<ProNotebookSocioProView {notebook} />
 			</MainAccordion>
@@ -249,6 +249,6 @@
 					</table>
 				</div>
 			</MainAccordion>
-		</Accordions>
+		</div>
 	{/if}
 </LoaderIndicator>
