@@ -25,7 +25,9 @@ query BeneficiariesWithOrientationRequest {
     notebook {
       id
       notebookInfo {
-        orientation
+        orientationType {
+          label
+        }
       }
       members(
         where: { active: { _eq: true }, memberType: { _in: ["orientation_manager", "referent"] } }

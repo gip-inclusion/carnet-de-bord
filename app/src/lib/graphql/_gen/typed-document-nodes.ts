@@ -13947,7 +13947,7 @@ export type BeneficiariesWithOrientationRequestQuery = {
 			id: string;
 			notebookInfo?: {
 				__typename?: 'notebook_info';
-				orientation?: OrientationTypeEnum | null;
+				orientationType?: { __typename?: 'orientation_type'; label: string } | null;
 			} | null;
 			members: Array<{
 				__typename?: 'notebook_member';
@@ -23270,7 +23270,16 @@ export const BeneficiariesWithOrientationRequestDocument = {
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'orientation' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientationType' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
 													],
 												},
 											},

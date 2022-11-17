@@ -44,7 +44,7 @@
 	const result = operationStore(BeneficiariesWithOrientationRequestDocument, null, {
 		additionalTypenames: [
 			'notebook_member',
-			'beneficiary_info',
+			'notebook_info',
 			'beneficiary_structure',
 			'orientation_request',
 		],
@@ -105,7 +105,10 @@
 					</td>
 					<td>
 						<div class="flex">
-							<Text class="flex-auto" value={beneficiary.notebook.notebookInfo?.orientation} />
+							<Text
+								class="flex-auto"
+								value={beneficiary.notebook.notebookInfo?.orientationType?.label}
+							/>
 							<span class="flex-none fr-icon-arrow-right-line text-france-blue" aria-hidden />
 						</div>
 					</td>
