@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as yup from 'yup';
 	import { Form, Select, Textarea } from '$lib/ui/forms';
-	import { Button } from '../base';
+	import { Alert, Button } from '../base';
 	import { openComponent } from '$lib/stores';
 	import { operationStore, query, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
@@ -32,14 +32,20 @@
 
 	const reorientationStore = operationStore(ReorientationRequestDocument);
 	const requireReorientation = mutation(reorientationStore);
-
+	let errorMessage = null;
 	async function handleSubmit(values) {
-		console.log(values);
-		await requireReorientation({
+		errorMessage = null;
+		const { error } = await requireReorientation({
 			beneficiaryId: beneficiaryId,
 			reason: values.reason,
 			requestedOrientation: values.orientation,
 		});
+		console.log(error);
+		if (error) {
+			errorMessage = error.message;
+		} else {
+			openComponent.close();
+		}
 	}
 
 	const validationSchema = yup.object().shape({
@@ -56,7 +62,7 @@
 			recommandez.
 		</p>
 	</div>
-	<Form {initialValues} onSubmit={handleSubmit} {validationSchema}>
+	<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:isValid>
 		<Textarea
 			name="reason"
 			placeholder="Je souhaite réorienté ..."
@@ -71,8 +77,16 @@
 		/>
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
-			<Button type="submit">Envoyer ma demande</Button>
+			<Button type="submit" disabled={!isValid}>Envoyer ma demande</Button>
 			<Button outline on:click={close}>Annuler</Button>
 		</div>
+		{#if errorMessage}
+			<Alert type="error" size="sm" title="La demande de réorientation a échoué">
+				<details>
+					<summary>Voir le détail</summary>
+					<pre>{JSON.stringify(errorMessage, null, 2)}</pre>
+				</details>
+			</Alert>
+		{/if}
 	</Form>
 </section>
