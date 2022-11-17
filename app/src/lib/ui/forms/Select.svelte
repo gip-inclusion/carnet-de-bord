@@ -35,4 +35,5 @@
 	selected={$form[name]}
 	on:change={handleChange}
 	on:blur={handleChange}
+	on:select
 />

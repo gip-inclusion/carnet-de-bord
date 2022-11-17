@@ -73,12 +73,12 @@
 				<th class="text-left">Voir le carnet</th>
 			</tr>
 		</thead>
-		{#each beneficiaries as beneficiary}
-			{@const referents = beneficiary.notebook.members.filter(
-				(member) => member.account.type === RoleEnum.Professional
-			)}
-			{@const orientationRequest = beneficiary.orientationRequest[0]}
-			<tbody>
+		<tbody>
+			{#each beneficiaries as beneficiary}
+				{@const referents = beneficiary.notebook.members.filter(
+					(member) => member.account.type === RoleEnum.Professional
+				)}
+				{@const orientationRequest = beneficiary.orientationRequest[0]}
 				<tr>
 					<td>{formatDateLocale(orientationRequest.createdAt)}</td>
 					<td>{displayFullName(beneficiary)}</td>
@@ -105,15 +105,12 @@
 					</td>
 					<td>
 						<div class="flex">
-							<Text class="flex-auto" value={beneficiary.beneficiaryInfo.orientation} />
+							<Text class="flex-auto" value={beneficiary.notebook.notebookInfo?.orientation} />
 							<span class="flex-none fr-icon-arrow-right-line text-france-blue" aria-hidden />
 						</div>
 					</td>
 					<td>
-						<Text
-							class="fr-text--bold"
-							value={orientationRequest.requestedOrientationType.label}
-						/>
+						<Text class="fr-text--bold" value={orientationRequest.requestedOrientationType.label} />
 					</td>
 					<td class="!text-center">
 						{#if beneficiary.orientationRequest[0].reason}
@@ -143,10 +140,10 @@
 						</a>
 					</td>
 				</tr>
-			</tbody>
-		{/each}
-		{#if beneficiaries.length === 0}
-			<tr><td class="text-center" colspan="7">Aucune demande.</td></tr>
-		{/if}
+			{/each}
+			{#if beneficiaries.length === 0}
+				<tr><td class="text-center" colspan="7">Aucune demande.</td></tr>
+			{/if}
+		</tbody>
 	</table>
 </LoaderIndicator>

@@ -122,9 +122,7 @@
 				options={structureOptions}
 				name="structureId"
 				on:select={() => {
-					// FIXME: on:select is never called
 					form.professionalAccountId = null;
-					console.log(form.structureId);
 					selectedStructureId = String(form.structureId);
 				}}
 			/>
@@ -134,7 +132,7 @@
 				additionalLabel="La sélection du professionnel n’est pas obligatoire."
 				options={professionalOptions}
 				name="professionalAccountId"
-				disabled={!form.selectedStructureId}
+				disabled={!form.structureId}
 			/>
 			{#if error}
 				<Alert type="error" size="sm">Impossible de modifier l'orientation</Alert>

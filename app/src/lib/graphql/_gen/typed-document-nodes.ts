@@ -12795,7 +12795,7 @@ export type AcceptOrientationRequestMutationVariables = Exact<{
 
 export type AcceptOrientationRequestMutation = {
 	__typename?: 'mutation_root';
-	insert_beneficiary_info_one?: { __typename?: 'beneficiary_info'; beneficiaryId: string } | null;
+	insert_notebook_info_one?: { __typename?: 'notebook_info'; notebookId: string } | null;
 	update_notebook_member?: {
 		__typename?: 'notebook_member_mutation_response';
 		affected_rows: number;
@@ -13942,10 +13942,13 @@ export type BeneficiariesWithOrientationRequestQuery = {
 			requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
 			decidedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
 		}>;
-		beneficiaryInfo?: { __typename?: 'beneficiary_info'; orientation: OrientationTypeEnum } | null;
 		notebook?: {
 			__typename?: 'notebook';
 			id: string;
+			notebookInfo?: {
+				__typename?: 'notebook_info';
+				orientation?: OrientationTypeEnum | null;
+			} | null;
 			members: Array<{
 				__typename?: 'notebook_member';
 				account: {
@@ -18623,7 +18626,7 @@ export const AcceptOrientationRequestDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_beneficiary_info_one' },
+						name: { kind: 'Name', value: 'insert_notebook_info_one' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -18633,8 +18636,8 @@ export const AcceptOrientationRequestDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiaryId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -18653,7 +18656,7 @@ export const AcceptOrientationRequestDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'constraint' },
-											value: { kind: 'EnumValue', value: 'beneficiary_info_pkey' },
+											value: { kind: 'EnumValue', value: 'notebook_info_pkey' },
 										},
 										{
 											kind: 'ObjectField',
@@ -18669,7 +18672,7 @@ export const AcceptOrientationRequestDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } }],
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } }],
 						},
 					},
 					{
@@ -23256,19 +23259,21 @@ export const BeneficiariesWithOrientationRequestDocument = {
 								},
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiaryInfo' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'orientation' } }],
-									},
-								},
-								{
-									kind: 'Field',
 									name: { kind: 'Name', value: 'notebook' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'notebookInfo' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'orientation' } },
+													],
+												},
+											},
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'members' },

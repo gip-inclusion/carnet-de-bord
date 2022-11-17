@@ -1,6 +1,6 @@
 mutation AcceptOrientationRequest($id: uuid!, $orientationType: orientation_type_enum, $notebookId: uuid!, $beneficiaryId: uuid!, $structureId: uuid!, $professionalAccountId: uuid, $withProfessionalAccountId: Boolean = false) {
-  insert_beneficiary_info_one(object: {beneficiaryId: $beneficiaryId, orientation: $orientationType}, on_conflict: {constraint: beneficiary_info_pkey, update_columns: [orientation]}) {
-    beneficiaryId
+  insert_notebook_info_one(object: {notebookId: $notebookId, orientation: $orientationType}, on_conflict: {constraint: notebook_info_pkey, update_columns: [orientation]}) {
+    notebookId
   }
   update_notebook_member(where: {notebookId: {_eq: $notebookId}, memberType: {_eq: "referent"}}, _set: {memberType: "former_referent"}) {
     affected_rows

@@ -75,6 +75,7 @@
 		{name}
 		on:change={handleSelect}
 		on:change
+		on:select={handleSelect}
 		{disabled}
 		{...selectProps}
 	>
