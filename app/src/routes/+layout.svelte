@@ -115,7 +115,7 @@
 		font-weight: bold;
 		padding: 0.2rem 1.9rem;
 		position: fixed;
-		z-index: 2;
+		z-index: 501;
 		top: 0.3rem;
 		left: -1.8rem;
 		transform: rotate(-45deg);
