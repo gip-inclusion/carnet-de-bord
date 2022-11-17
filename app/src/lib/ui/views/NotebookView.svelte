@@ -24,7 +24,7 @@
 	{lastUpdateFrom}
 />
 <div class="py-8">
-	<Accordions>
+	<Accordions isFixed={true}>
 		<MainAccordion title="Situation socioprofessionnelle">
 			<SocioProView {notebook} />
 		</MainAccordion>

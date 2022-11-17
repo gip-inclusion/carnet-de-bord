@@ -172,7 +172,7 @@
 			lastUpdateDate={lastMember?.lastModifiedAt}
 			lastUpdateFrom={lastMember?.account?.professional || lastMember?.account?.orientation_manager}
 		/>
-		<Accordions>
+		<Accordions isFixed={true}>
 			<MainAccordion title="Situation socioprofessionnelle">
 				<ProNotebookSocioProView {notebook} />
 			</MainAccordion>

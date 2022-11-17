@@ -4,8 +4,10 @@
 	import type { Writable } from 'svelte/store';
 	import { ACCORDION, type AccordionContext } from './accordion';
 
+	export let isFixed = false;
 	let accordionItems: Writable<Record<never, never>[]> = writable([]);
 	let selectedItem: Writable<Record<never, never>> = writable(null);
+	let isFixedStore: Writable<boolean> = writable(isFixed);
 
 	setContext<AccordionContext>(ACCORDION, {
 		registerAccordionItem: (accordion: Record<never, never>): void => {
@@ -19,6 +21,7 @@
 		},
 		accordionItems,
 		selectedItem,
+		isFixed: isFixedStore,
 	});
 </script>
 

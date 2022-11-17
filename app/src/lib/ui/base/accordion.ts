@@ -8,4 +8,5 @@ export type AccordionContext = {
 	registerAccordionItem: (accordion: Record<never, never>) => void;
 	accordionItems: Writable<Record<never, never>>;
 	selectedItem: Writable<Record<never, never>>;
+	isFixed: Writable<boolean>;
 };
