@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as yup from 'yup';
-	import { Form, Select, Input } from '$lib/ui/forms';
+	import { Form, Select, Textarea } from '$lib/ui/forms';
 	import { Button } from '../base';
 	import { openComponent } from '$lib/stores';
 	import { operationStore, query, mutation } from '@urql/svelte';
@@ -45,8 +45,8 @@
 	}
 
 	const validationSchema = yup.object().shape({
-		reason: yup.string().nullable(),
-		orientation: yup.string(),
+		reason: yup.string().nullable().trim(),
+		orientation: yup.string().trim().required(),
 	});
 </script>
 
@@ -59,12 +59,17 @@
 		</p>
 	</div>
 	<Form {initialValues} onSubmit={handleSubmit} {validationSchema}>
-		<Input name="reason" inputLabel="Motif de demande de réorientation" type="text" />
+		<Textarea
+			name="reason"
+			placeholder="Je souhaite réorienté ..."
+			label="Motif de demande de réorientation"
+		/>
 		<Select
 			name="orientation"
 			selectLabel={'Orientation recommandée'}
 			selectHint={'Sélectionnez un dispositif'}
 			options={orientationOptions}
+			required
 		/>
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
