@@ -64,7 +64,11 @@
 			<Text class="mb-2" value={`RSA - ${rsaRightKeys.byKey[notebook.rightRsa]}`} />
 			{#if [notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter( (field) => Boolean(field) ).length > 0}
 				<p>
-					{[notebook.rightAre && 'ARE', notebook.rightAss && 'ASS', notebook.rightBonus && 'Bonus']
+					{[
+						notebook.rightAre && 'ARE',
+						notebook.rightAss && 'ASS',
+						notebook.rightBonus && "Prime d'activité",
+					]
 						.filter((field) => Boolean(field))
 						.join(', ')}
 				</p>

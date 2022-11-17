@@ -8,8 +8,8 @@
 	import { Button } from '$lib/ui/base';
 	import {
 		type BeneficiaryAccountInput,
-		beneficiaryAccountSchema,
 		beneficiaryAccountPartialSchema,
+		beneficiaryAccountSchema,
 	} from '$lib/ui/ProBeneficiaryUpdate/beneficiary.schema';
 	import Form from '$lib/ui/forms/Form.svelte';
 	import ProBeneficiaryUpdateFields from '$lib/ui/ProBeneficiaryUpdate/ProBeneficiaryUpdateFields.svelte';

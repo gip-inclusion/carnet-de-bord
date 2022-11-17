@@ -3,7 +3,7 @@
 
 	import { Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
-	import { managerAccountSchema, type ManagerAccountInput } from './manager.schema';
+	import { type ManagerAccountInput, managerAccountSchema } from './manager.schema';
 </script>
 
 <script lang="ts">

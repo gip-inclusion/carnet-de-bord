@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { DialogOverlay, DialogContent } from 'svelte-accessible-dialog';
+	import { DialogContent, DialogOverlay } from 'svelte-accessible-dialog';
 	import { Button, IconButton } from '$lib/ui/base';
 
 	export let label: string | null = null;

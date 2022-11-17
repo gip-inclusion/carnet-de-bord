@@ -14,7 +14,7 @@
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { displayFullName } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
-	import { mutation, type OperationStore, operationStore, query } from '@urql/svelte';
+	import { type OperationStore, mutation, operationStore, query } from '@urql/svelte';
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';

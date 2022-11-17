@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { OperationStore } from '@urql/svelte';
+	import { Spinner } from '$lib/ui/base';
 
 	export let result: OperationStore;
 </script>
 
 {#if $result.fetching}
-	<div class="flex items-center justify-center">
-		<p>Chargement en cours...</p>
+	<div class="flex items-center justify-center my-10">
+		<Spinner />
 	</div>
 {:else if $result.error}
 	<div class="flex items-center justify-center">

@@ -6,7 +6,7 @@
 		UpdateOrientationDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Select } from '../base';
-	import { operationStore, mutation, query } from '@urql/svelte';
+	import { mutation, operationStore, query } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import Button from '../base/Button.svelte';
 	import { openComponent } from '$lib/stores';

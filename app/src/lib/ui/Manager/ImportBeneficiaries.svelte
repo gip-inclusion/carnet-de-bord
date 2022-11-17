@@ -2,15 +2,15 @@
 	import { token } from '$lib/stores';
 	import {
 		GetProfessionalsForManagerDocument,
-		type Professional,
 		GetStructuresForManagerDocument,
+		type Professional,
 		type Structure,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type {
 		GetProfessionalsForManagerQuery,
 		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, type OperationStore, query } from '@urql/svelte';
+	import { type OperationStore, operationStore, query } from '@urql/svelte';
 	import Dropzone from 'svelte-file-dropzone';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
@@ -21,6 +21,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { postApiFormData, postApiJson } from '$lib/utils/post';
 	import { translateError } from './errorMessage';
+	import { Spinner } from '$lib/ui/base';
 
 	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
@@ -94,6 +95,7 @@
 	let parsePromise: Promise<BeneficiaryCsvResponse[]>;
 	let insertPromise: Promise<BeneficiaryCsvResponse[]>;
 	let beneficiariesToImport = [];
+	let mode: 'oriented' | 'unoriented' | null = null;
 
 	async function convertCsvFile(formData: FormData): Promise<BeneficiaryCsvResponse[]> {
 		const beneficiaries = await postApiFormData<BeneficiaryCsvResponse[]>(
@@ -146,9 +148,12 @@
 	}
 
 	async function handleSubmit(beneficiaries: BeneficiaryCsvResponse[]) {
-		const payload = JSON.stringify(
-			beneficiaries.flatMap(({ uuid, data }) => (beneficiariesToImport.includes(uuid) ? data : []))
-		);
+		const payload = JSON.stringify({
+			need_orientation: mode === 'unoriented',
+			beneficiaries: beneficiaries.flatMap(({ uuid, data }) =>
+				beneficiariesToImport.includes(uuid) ? data : []
+			),
+		});
 		insertPromise = postApiJson<BeneficiaryCsvResponse[]>('/v1/beneficiaries/bulk', payload, {
 			'jwt-token': $token,
 		});
@@ -194,7 +199,32 @@
 </script>
 
 <div class="flex flex-col gap-6">
-	{#if insertPromise === undefined}
+	{#if !mode}
+		<div class="flex justify-around">
+			<Button
+				outline
+				icon="fr-icon-group-line"
+				iconSide="left"
+				classNames="fr-btn--lg"
+				on:click={() => {
+					mode = 'unoriented';
+				}}
+			>
+				<span class="block max-w-min">Importer des nouveaux bénéficiaires</span>
+			</Button>
+			<Button
+				outline
+				icon="fr-icon-group-fill"
+				iconSide="left"
+				classNames="fr-btn--lg"
+				on:click={() => {
+					mode = 'oriented';
+				}}
+			>
+				<span class="block max-w-min">Importer des bénéficiaires existants</span>
+			</Button>
+		</div>
+	{:else if insertPromise === undefined}
 		{#if parsePromise === undefined}
 			<div>
 				Veuillez fournir un fichier au format EXCEL ou CSV.
@@ -204,7 +234,6 @@
 				<a href="https://pad.incubateur.net/s/nLmDl89Oi#" target="_blank" rel="noopener noreferrer"
 					>consulter la notice de remplissage</a
 				>.
-				<br />Il est recommandé de ne pas importer plus d'environ 300 bénéficiaires à la fois.
 			</div>
 			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
 				<span class="cursor-default">
@@ -213,7 +242,7 @@
 			</Dropzone>
 		{:else}
 			{#await parsePromise}
-				<Alert type="info" title={`Lecture du fichier en cours...`} />
+				<Spinner label="Lecture du fichier en cours..." />
 			{:then parsedBeneficiaries}
 				<p>
 					Vous allez importer {pluralize('le', parsedBeneficiaries.length)}
@@ -254,7 +283,9 @@
 													beneficiariesToImport.includes(beneficiary.uuid)
 														? 'Ne pas importer'
 														: 'Importer'
-												} le bénéficiaire`}
+												} le bénéficiaire ${beneficiary.data['Nom*']} ${
+													beneficiary.data['Prénom*']
+												}`}
 											/>
 										{:else}
 											<i
@@ -346,12 +377,12 @@
 		{/if}
 	{:else}
 		{#await insertPromise}
-			<Alert
-				type="info"
-				title={`Ajout ${pluralize("d'un", beneficiariesToImport.length, 'des')} ${pluralize(
+			<Spinner
+				label={`Import ${pluralize("d'un", beneficiariesToImport.length, 'des')} ${pluralize(
 					'bénéficiaire',
 					beneficiariesToImport.length
 				)} en cours...`}
+			/>
 			/>
 		{:then insertResults}
 			{@const nbBeneficiaryError = insertResults.filter(({ valid }) => !valid).length}

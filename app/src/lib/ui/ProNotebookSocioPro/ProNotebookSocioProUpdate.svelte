@@ -18,7 +18,7 @@
 		type ProNotebookSocioproInput,
 		proNotebookSocioproSchema,
 	} from './ProNotebookSocioPro.schema';
-	import { Form, Select, Input, Radio, Checkbox } from '$lib/ui/forms';
+	import { Checkbox, Form, Input, Radio, Select } from '$lib/ui/forms';
 
 	export let options: { id: string; label: string }[];
 	export let notebook: Pick<

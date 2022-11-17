@@ -12385,6 +12385,7 @@ export type GetBeneficiariesQuery = {
 			id: string;
 			notebookInfo?: {
 				__typename?: 'notebook_info';
+				needOrientation: boolean;
 				orientationType?: { __typename?: 'orientation_type'; id: string; label: string } | null;
 			} | null;
 			members: Array<{
@@ -15893,6 +15894,7 @@ export const GetBeneficiariesDocument = {
 																],
 															},
 														},
+														{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } },
 													],
 												},
 											},

@@ -5,7 +5,7 @@
 	import { openComponent } from '$lib/stores';
 	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
-	import { selectionContextKey, type SelectionStore } from './MultipageSelectionStore';
+	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
 	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
@@ -40,6 +40,7 @@
 			<th class="text-left">Date de naissance</th>
 			<th class="text-left">Structure</th>
 			<th class="text-left">Référent unique</th>
+			<th class="text-left">Orientation</th>
 			<th class="text-left">Depuis le</th>
 			<th class="!text-center">Voir le carnet</th>
 		</tr>
@@ -101,6 +102,7 @@
 						</button>
 					{/if}
 				</td>
+				<td>{beneficiary.notebook.notebookInfo?.needOrientation ? 'à orienter' : 'orienté'}</td>
 				<td>
 					{#if beneficiary.notebook.members.length > 0}
 						{formatDateLocale(beneficiary.notebook?.members[0].createdAt)}
@@ -113,6 +115,7 @@
 						href={`carnets/${beneficiary.notebook.id}`}
 						class="fr-link"
 						target="_blank"
+						rel="noreferrer"
 						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />

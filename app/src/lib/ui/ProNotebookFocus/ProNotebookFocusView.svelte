@@ -6,7 +6,7 @@
 	import { Button, Card } from '$lib/ui/base';
 	import ProNotebookContractDetails from '$lib/ui/ProNotebookContract/ProNotebookContractDetails.svelte';
 	import { Text } from '$lib/ui/utils';
-	import { formatDateLocale, dateInterval } from '$lib/utils/date';
+	import { dateInterval, formatDateLocale } from '$lib/utils/date';
 	import ProNotebookFocusCreate from './ProNotebookFocusCreate.svelte';
 	import ProNotebookFocusDetails from './ProNotebookFocusDetails.svelte';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';

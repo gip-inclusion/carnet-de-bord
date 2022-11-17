@@ -7,7 +7,7 @@
 	} from '$lib/constants/keys';
 	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { pluralize } from '$lib/helpers';
-	import { formatDateLocale, dateInterval } from '$lib/utils/date';
+	import { dateInterval, formatDateLocale } from '$lib/utils/date';
 	import { Text } from '../utils';
 
 	export let notebook: GetNotebookByBeneficiaryIdQuery['notebook'][0];

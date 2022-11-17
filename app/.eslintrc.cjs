@@ -1,5 +1,5 @@
 module.exports = {
-	plugins: ['svelte3', '@typescript-eslint'],
+	plugins: ['svelte3', '@typescript-eslint', 'eslint-plugin-simple-import-sort'],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		sourceType: 'module',

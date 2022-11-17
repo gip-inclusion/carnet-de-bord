@@ -4,7 +4,7 @@
 		AdminStructure,
 		AdminStructureSetInput,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, mutation } from '@urql/svelte';
+	import { mutation, operationStore } from '@urql/svelte';
 	import { UpdateAdminStructureByIdDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import AdminStructureForm from './AdminStructureForm.svelte';
 	import Alert from '../base/Alert.svelte';

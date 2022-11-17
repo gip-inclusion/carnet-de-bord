@@ -5,7 +5,7 @@
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { openComponent } from '$lib/stores';
 	import EditProfessionalAccountLayer from '$lib/ui/ProfessionalList/EditProfessionalAccountLayer.svelte';
-	import { operationStore, mutation } from '@urql/svelte';
+	import { mutation, operationStore } from '@urql/svelte';
 	import { displayFullName } from '../format';
 
 	type Professional = GetProfessionalsForStructureQuery['professional'][0];

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { token } from '$lib/stores';
 	import Dropzone from 'svelte-file-dropzone';
-	import { Button, Checkbox, GroupCheckbox } from '$lib/ui/base';
+	import { Button, Checkbox, GroupCheckbox, Spinner } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { Alert } from '$lib/ui/base';
 	import { v4 as uuidv4 } from 'uuid';
@@ -106,7 +106,7 @@
 			</Dropzone>
 		{:else}
 			{#await parsePromise}
-				<Alert type="info" title={`Lecture du fichier en cours...`} />
+				<Spinner label="Lecture du fichier en cours..." />
 			{:then parsedStructures}
 				<p>
 					Vous allez importer les structures suivantes. Veuillez vérifier que les données sont
@@ -135,7 +135,7 @@
 											option={{ name: structure.uuid, label: '' }}
 											title={`${
 												structurestoImport.includes(structure.uuid) ? 'Ne pas importer' : 'Importer'
-											} la structure`}
+											} la structure ${structure.data['Nom']}`}
 										/>
 									{:else}
 										<i
@@ -197,7 +197,12 @@
 		{/if}
 	{:else}
 		{#await insertPromise}
-			<Alert type="info" title={`Création des structures en cours...`} />
+			<Spinner
+				label={`Import ${pluralize('de la', structurestoImport.length, 'des')} ${pluralize(
+					'structure',
+					structurestoImport.length
+				)} en cours...`}
+			/>
 		{:then insertResults}
 			{@const nbStructureInserted = insertResults.filter(({ valid }) => valid).length}
 

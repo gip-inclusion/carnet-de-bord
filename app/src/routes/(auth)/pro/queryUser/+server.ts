@@ -1,4 +1,4 @@
-import { json, error } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import { getApiParticulierConfig } from '$lib/config/variables/private';
 import type { CAFResponse, PEResponse } from '$lib/services/particuliers.api';
 import {

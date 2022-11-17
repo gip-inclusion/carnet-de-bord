@@ -5,7 +5,7 @@
 	import { Button } from '$lib/ui/base';
 	import { Breadcrumbs } from '$lib/ui/base';
 	import { accountData } from '$lib/stores/account';
-	import { homeForRole, type Segment } from '$lib/routes';
+	import { type Segment, homeForRole } from '$lib/routes';
 	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 
 	function editAccount() {

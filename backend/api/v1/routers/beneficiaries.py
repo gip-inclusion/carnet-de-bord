@@ -13,6 +13,7 @@ from api.db.crud.beneficiary import (
     update_beneficiary,
 )
 from api.db.crud.notebook import update_notebook
+from api.db.crud.notebook_info import insert_or_update_need_orientation
 from api.db.crud.wanted_job import insert_wanted_jobs
 from api.db.models.beneficiary import (
     Beneficiary,
@@ -37,20 +38,25 @@ class BeneficiaryImportResult(BaseModel):
 
 class BeneficiariesImportResult(BaseModel):
     uuid: UUID
-    result: list[BeneficiaryImportResult]
+    result: list[BeneficiaryCsvRowResponse]
+
+
+class BeneficiariesImportInput(BaseModel):
+    need_orientation: bool = False
+    beneficiaries: list[BeneficiaryImport]
 
 
 @router.post("/bulk", response_model=list[BeneficiaryCsvRowResponse])
 async def import_beneficiaries(
-    beneficiaries: list[BeneficiaryImport],
+    data: BeneficiariesImportInput,
     request: Request,
     db=Depends(connection),
 ) -> list[BeneficiaryCsvRowResponse]:
 
     deployment_id: UUID = UUID(request.state.deployment_id)
     result = [
-        await import_beneficiary(db, beneficiary, deployment_id)
-        for beneficiary in beneficiaries
+        await import_beneficiary(db, beneficiary, deployment_id, data.need_orientation)
+        for beneficiary in data.beneficiaries
     ]
     return result
 
@@ -58,9 +64,9 @@ async def import_beneficiaries(
 async def import_beneficiary(
     db: Connection,
     beneficiary: BeneficiaryImport,
-    deployment_id,
+    deployment_id: UUID,
+    need_orientation: bool,
 ) -> BeneficiaryCsvRowResponse:
-
     async with db.transaction():
         try:
             records: list[Beneficiary] = await get_beneficiaries_like(
@@ -69,10 +75,14 @@ async def import_beneficiary(
 
             if no_matching_beneficiary(records):
                 beneficiary_id = await create_beneficiary_with_notebook_and_referent(
-                    db, beneficiary, deployment_id
+                    connection=db,
+                    beneficiary=beneficiary,
+                    deployment_id=deployment_id,
+                    need_orientation=need_orientation,
                 )
                 logger.info("inserted new beneficiary %s", beneficiary_id)
                 return BeneficiaryCsvRowResponse(valid=True, data=beneficiary)
+
             if one_matching_beneficiary(records, deployment_id, beneficiary):
                 beneficiary_id = await update_beneficiary(
                     db, beneficiary, records[0].id
@@ -84,6 +94,9 @@ async def import_beneficiary(
                     db, beneficiary_id, beneficiary
                 )
                 if notebook_id:
+                    await insert_or_update_need_orientation(
+                        db, notebook_id, None, need_orientation
+                    )
                     await insert_wanted_jobs(db, notebook_id, beneficiary)
                 logger.info("updated existing beneficiary %s", beneficiary_id)
 

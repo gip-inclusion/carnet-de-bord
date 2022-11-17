@@ -7,7 +7,7 @@
 		type UpdateActionStatusMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 
-	import { mutation, type OperationStore, operationStore } from '@urql/svelte';
+	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import ProNotebookActionCreate from './ProNotebookActionCreate.svelte';
 	import { Alert, Select } from '$lib/ui/base';
 	import { ActionStatus } from '$lib/enums';

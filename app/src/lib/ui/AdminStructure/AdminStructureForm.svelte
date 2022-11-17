@@ -4,8 +4,8 @@
 	import { Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
 	import {
-		adminStructureAccountSchema,
 		type AdminStructureAccountInput,
+		adminStructureAccountSchema,
 	} from './adminStructure.schema';
 </script>
 

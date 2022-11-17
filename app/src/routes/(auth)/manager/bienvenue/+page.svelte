@@ -5,7 +5,7 @@
 		UpdateManagerProfileDocument,
 		type UpdateManagerProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { mutation, operationStore, type OperationStore } from '@urql/svelte';
+	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
 	import { Alert } from '$lib/ui/base';
 	import ManagerCreationForm from '$lib/ui/Manager/CreationForm.svelte';

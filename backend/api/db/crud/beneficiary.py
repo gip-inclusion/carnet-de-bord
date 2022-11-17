@@ -14,6 +14,7 @@ from api.db.crud.notebook import (
     insert_notebook_member,
     parse_notebook_from_record,
 )
+from api.db.crud.notebook_info import insert_or_update_need_orientation
 from api.db.crud.professional import get_professional_by_email
 from api.db.crud.structure import get_structure_by_name
 from api.db.crud.wanted_job import insert_wanted_jobs
@@ -253,6 +254,7 @@ async def create_beneficiary_with_notebook_and_referent(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     deployment_id: UUID,
+    need_orientation: bool,
 ) -> UUID:
 
     beneficiary_id: UUID | None = await insert_beneficiary(
@@ -268,6 +270,10 @@ async def create_beneficiary_with_notebook_and_referent(
 
     if not new_notebook_id:
         raise InsertFailError("insert notebook failed")
+
+    await insert_or_update_need_orientation(
+        connection, new_notebook_id, None, need_orientation
+    )
 
     await insert_wanted_jobs(connection, new_notebook_id, beneficiary)
     await add_referent_and_structure_to_beneficiary(

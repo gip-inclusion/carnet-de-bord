@@ -3,8 +3,8 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
 	import {
-		deploymentAdminPdiSchema,
 		type DeploymentAdminPdiType,
+		deploymentAdminPdiSchema,
 	} from '../Deployment/adminDeployment.schema';
 	import { token } from '$lib/stores';
 	import { postApiJson } from '$lib/utils/post';

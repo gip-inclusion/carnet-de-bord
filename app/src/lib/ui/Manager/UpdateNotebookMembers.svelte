@@ -9,15 +9,15 @@
 	import {
 		AddNotebookMemberWithBeneficiaryStructureUpdateDocument,
 		AttachBeneficiaryToStructureDocument,
-		GetNotebookForBeneficiaryDocument,
 		DeactivateNotebookMemberDocument,
+		GetNotebookForBeneficiaryDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { operationStore, mutation, getClient } from '@urql/svelte';
+	import { getClient, mutation, operationStore } from '@urql/svelte';
 </script>
 
 <script lang="ts">
 	import Dropzone from 'svelte-file-dropzone';
-	import { Text, ImportParserError } from '$lib/ui/utils';
+	import { ImportParserError, Text } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { pluralize } from '$lib/helpers';
 	import { displayFullName } from '$lib/ui/format';

@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import date
 from typing import List
@@ -20,7 +21,13 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
     response = test_client.post(
         "/v1/beneficiaries/bulk",
         headers={"jwt-token": f"{get_professionnal_jwt}"},
-        data=ListOf.parse_obj([]).json(),
+        data=json.dumps(
+            {
+                "beneficiaries": [],
+                "need_orientation": True,
+            },
+            default=str,
+        ),
     )
     assert response.status_code == 400
 
@@ -31,7 +38,13 @@ async def import_beneficiaries(
     return client.post(
         "/v1/beneficiaries/bulk",
         headers={"jwt-token": f"{token}"},
-        data=ListOf.parse_obj(beneficiaries).json(),
+        data=json.dumps(
+            {
+                "need_orientation": True,
+                "beneficiaries": [benef.dict() for benef in beneficiaries],
+            },
+            default=str,
+        ),
     )
 
 
@@ -63,14 +76,14 @@ async def test_update_existing_beneficiary_same_name(
 ):
     await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
 
-    beneficiary_in_db = await get_beneficiary_from_personal_information(
+    beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.mobile_number == None
 
     await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
 
-    beneficiary_in_db = await get_beneficiary_from_personal_information(
+    beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.mobile_number == harry_covert.phone_number
