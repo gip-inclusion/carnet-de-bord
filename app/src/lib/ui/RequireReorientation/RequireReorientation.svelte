@@ -40,7 +40,6 @@
 			reason: values.reason,
 			requestedOrientation: values.orientation,
 		});
-		console.log(error);
 		if (error) {
 			errorMessage = error.message;
 		} else {
