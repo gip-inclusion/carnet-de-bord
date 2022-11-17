@@ -1,3 +1,10 @@
+# [1.159.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.158.0...v1.159.0) (2022-11-17)
+
+
+### Features
+
+* Suppression des accordéons sur la vue du carnet ([#1242](https://github.com/gip-inclusion/carnet-de-bord/issues/1242)) ([38c4f78](https://github.com/gip-inclusion/carnet-de-bord/commit/38c4f78e9f5e348dc9e6a323aa7338328394cf42))
+
 # [1.158.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.157.1...v1.158.0) (2022-11-17)
 
 
