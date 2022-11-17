@@ -1,3 +1,10 @@
+# [1.158.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.157.1...v1.158.0) (2022-11-17)
+
+
+### Features
+
+* Distinction des nouveaux entrant de ceux déjà suivis  ([#1207](https://github.com/gip-inclusion/carnet-de-bord/issues/1207)) ([3ce20e2](https://github.com/gip-inclusion/carnet-de-bord/commit/3ce20e268b72e7197ea742d82d49d22e5a55b0d0)), closes [#1197](https://github.com/gip-inclusion/carnet-de-bord/issues/1197) [#1198](https://github.com/gip-inclusion/carnet-de-bord/issues/1198) [#1198](https://github.com/gip-inclusion/carnet-de-bord/issues/1198)
+
 ## [1.157.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.157.0...v1.157.1) (2022-11-17)
 
 # [1.157.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.156.3...v1.157.0) (2022-11-16)
