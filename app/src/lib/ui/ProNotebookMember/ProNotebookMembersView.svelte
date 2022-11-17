@@ -51,7 +51,7 @@
 		}}>Inviter un accompagnateur</Button
 	>
 </div>
-<div class={`fr-table fr-table--layout-fixed`}>
+<div class="fr-table fr-table--layout-fixed !mb-0">
 	<table>
 		<caption class="sr-only">Liste des membres du groupe de suivi</caption>
 		<thead>

@@ -19,7 +19,7 @@
 </script>
 
 <li>
-	<section data-dsfr-accordion class="fr-accordion">
+	<section data-dsfr-accordion class="fr-accordion pb-8">
 		<h2 class="fr-accordion__title ">
 			{#if isFixed}
 				<div class="fr-accordion__btn !py-6 !pl-0 after:content-none" aria-controls={accordionId}>
