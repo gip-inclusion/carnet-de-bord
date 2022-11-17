@@ -6,7 +6,6 @@ Fonctionnalité: Ajout d'un membre dans le carnet par un chargé d'orientation
 
 	Scénario: Ajout d'un membre dans le groupe de suivi par le chargé d'orientation
 		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Tifour"
-		Quand je clique sur "Groupe de suivi"
 		Alors je vois "Pierre Chevalier" dans le tableau "Liste des membres du groupe de suivi"
 		Quand je clique sur "Inviter un accompagnateur"
 		Alors je vois "Inviter un accompagnateur"

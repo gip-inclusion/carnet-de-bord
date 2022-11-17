@@ -6,13 +6,11 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 
 	Scénario: Aucun rendez-vous
 		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
-		Quand je clique sur "Groupe de suivi"
 		Quand je clique sur la ligne du tableau contenant le texte "Paul Camara"
 		Alors je vois "Aucun rendez-vous n'a été pris avec cet accompagnateur." dans le tableau "Liste des rendez-vous"
 
 	Scénario: Ajout de RDV
 		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
-		Quand je clique sur "Groupe de suivi"
 		Quand je clique sur la ligne du tableau contenant le texte "Paul Camara"
 		Quand je clique sur "Ajouter un rendez-vous"
 		Quand je renseigne "15/05/2020" dans le champ "Date de rendez-vous"
@@ -26,7 +24,6 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 
 	Scénario: Derniers RDV dans Groupe de suivi
 		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
-		Quand je clique sur "Groupe de suivi"
 		Quand je clique sur la ligne du tableau contenant le texte "Paul Camara"
 		Quand je clique sur "Ajouter un rendez-vous"
 		Quand je renseigne "15/05/2020" dans le champ "Date de rendez-vous"
@@ -40,7 +37,6 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 
 	Scénario: Suppression d'un RDV
 		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
-		Quand je clique sur "Groupe de suivi"
 		Quand je clique sur la ligne du tableau contenant le texte "Paul Camara"
 		Quand je clique sur "Ajouter un rendez-vous"
 		Quand je renseigne "15/05/2020" dans le champ "Date de rendez-vous"

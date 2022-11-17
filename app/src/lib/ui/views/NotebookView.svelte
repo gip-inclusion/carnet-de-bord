@@ -2,7 +2,7 @@
 	import { focusThemeKeys } from '$lib/constants/keys';
 	import { displayFullName } from '$lib/ui/format';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { Accordions, MainAccordion } from '$lib/ui/base';
+	import { Accordions, MainSection } from '$lib/ui/base';
 	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import SocioProView from '../Beneficiary/SocioProView.svelte';
 	import NotebookMembers from '../Beneficiary/NotebookMembers.svelte';
@@ -23,56 +23,54 @@
 	lastUpdateDate={members[0]?.lastModifiedAt}
 	{lastUpdateFrom}
 />
-<div class="py-8">
-	<Accordions>
-		<MainAccordion title="Situation socioprofessionnelle">
-			<SocioProView {notebook} />
-		</MainAccordion>
-		<MainAccordion title="Groupe de suivi">
-			<NotebookMembers members={notebook.members} />
-		</MainAccordion>
-		<MainAccordion title="Plan d'action">
-			{#if notebook.focuses.length === 0}
-				Pas d'actions en cours
-			{/if}
-			<ul class="list-none pl-0">
-				{#each notebook.focuses as focus}
-					<li>
-						<h3 class="fr-h4">
-							<span><span class="fr-icon-arrow-right-s-line" aria-hidden="true" /></span
-							>{focusThemeKeys.byKey[focus.theme]}
-						</h3>
-						{#if focus.situations.length > 0}
-							<ul class="list-none pl-0">
-								{#each focus.situations as situation}
-									<li>{situation}</li>
-								{/each}
-							</ul>
-						{/if}
-						<div class="py-4">
-							<Accordions>
-								{#each focus.targets as target}
-									<Accordion title={target.target}>
-										<ul>
-											{#each target.actions as action}
-												<li>
-													{action.action}
-													créé le {formatDateLocale(action.createdAt)}
-													{#if action.creator}
-														par {displayFullName(
-															action.creator?.professional || action.creator?.orientation_manager
-														)}
-													{/if}
-												</li>
-											{/each}
-										</ul>
-									</Accordion>
-								{/each}
-							</Accordions>
-						</div>
-					</li>
-				{/each}
-			</ul>
-		</MainAccordion>
-	</Accordions>
+<div>
+	<MainSection title="Situation socioprofessionnelle">
+		<SocioProView {notebook} />
+	</MainSection>
+	<MainSection title="Groupe de suivi">
+		<NotebookMembers members={notebook.members} />
+	</MainSection>
+	<MainSection title="Plan d'action">
+		{#if notebook.focuses.length === 0}
+			Pas d'actions en cours
+		{/if}
+		<ul class="list-none pl-0">
+			{#each notebook.focuses as focus}
+				<li>
+					<h3 class="fr-h4">
+						<span><span class="fr-icon-arrow-right-s-line" aria-hidden="true" /></span
+						>{focusThemeKeys.byKey[focus.theme]}
+					</h3>
+					{#if focus.situations.length > 0}
+						<ul class="list-none pl-0">
+							{#each focus.situations as situation}
+								<li>{situation}</li>
+							{/each}
+						</ul>
+					{/if}
+					<div class="py-4">
+						<Accordions>
+							{#each focus.targets as target}
+								<Accordion title={target.target}>
+									<ul>
+										{#each target.actions as action}
+											<li>
+												{action.action}
+												créé le {formatDateLocale(action.createdAt)}
+												{#if action.creator}
+													par {displayFullName(
+														action.creator?.professional || action.creator?.orientation_manager
+													)}
+												{/if}
+											</li>
+										{/each}
+									</ul>
+								</Accordion>
+							{/each}
+						</Accordions>
+					</div>
+				</li>
+			{/each}
+		</ul>
+	</MainSection>
 </div>

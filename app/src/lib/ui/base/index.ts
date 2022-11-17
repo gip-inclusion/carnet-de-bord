@@ -17,7 +17,7 @@ export { default as Radio } from './Radio.svelte';
 export { default as SearchBar } from './SearchBar.svelte';
 export { default as Select } from './Select.svelte';
 export { default as Accordions } from './Accordions.svelte';
-export { default as MainAccordion } from './MainAccordion.svelte';
+export { default as MainSection } from './MainSection.svelte';
 export { default as Accordion } from './Accordion.svelte';
 export { default as Video } from './Video.svelte';
 export { default as Spinner } from './Spinner.svelte';

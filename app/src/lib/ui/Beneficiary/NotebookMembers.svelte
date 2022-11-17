@@ -9,7 +9,7 @@
 	export let members: GetNotebookByBeneficiaryIdQuery['notebook'][0]['members'];
 </script>
 
-<div class={`fr-table fr-table--layout-fixed`}>
+<div class="fr-table fr-table--layout-fixed !mb-0">
 	<table>
 		<thead>
 			<tr>

@@ -18,7 +18,7 @@
 </svelte:head>
 
 <LoaderIndicator result={getNotebookResult}>
-	<div class="my-6">
+	<div class="flex flex-col gap-8 my-6">
 		<NotebookView notebook={$getNotebookResult.data.notebook} />
 	</div>
 </LoaderIndicator>

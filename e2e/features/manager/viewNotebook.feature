@@ -20,7 +20,6 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Quand je clique sur "Voir le carnet de Katharine Chandler"
 		Quand je vais sur l'onglet suivant
 		Alors j'attends que le texte "Katharine Chandler" apparaisse
-		Quand je clique sur "Situation socioprofessionnelle"
 		Alors je vois "Usager disposant de la RQTH"
 
 	Scénario: Mettre à jour les informations personnelles
