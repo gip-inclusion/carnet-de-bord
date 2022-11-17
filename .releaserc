@@ -1,5 +1,9 @@
 plugins:
-  - "@semantic-release/commit-analyzer"
+  - - "@semantic-release/commit-analyzer"
+    - releaseRules:
+      - type: feat
+        release: minor
+      - release: patch
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/changelog"
 # bump frontend version (package.json)
