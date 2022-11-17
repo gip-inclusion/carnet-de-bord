@@ -72,6 +72,11 @@ async def import_beneficiary(
             records: list[Beneficiary] = await get_beneficiaries_like(
                 db, beneficiary, deployment_id
             )
+            # todo:
+            # handle None Value for insert / update
+            # If a None value is provided, do not update the cell
+            # Get the list of cells where value is not None
+            # build the update / insert request accordingly
 
             if no_matching_beneficiary(records):
                 beneficiary_id = await create_beneficiary_with_notebook_and_referent(
