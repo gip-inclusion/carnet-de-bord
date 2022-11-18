@@ -23,7 +23,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
-		Alors je vois "21" dans la tuile "Bénéficiaires non rattachés"
+		Alors je vois "20" dans la tuile "Bénéficiaires non rattachés"
 		Alors je clique sur "Bénéficiaires non rattachés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
@@ -42,7 +42,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
-		Alors je vois "21" dans la tuile "Bénéficiaires non rattachés"
+		Alors je vois "20" dans la tuile "Bénéficiaires non rattachés"
 		Alors je clique sur "Bénéficiaires non rattachés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"

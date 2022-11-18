@@ -7,7 +7,7 @@ Fonctionnalité: Rattachement à une structure
 
 	Scénario: Modifier la structure de rattachement d'un bénéficiaire
 		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
-		Alors je vois "6"
+		Alors je vois "5"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je vois "Centre Communal d'action social Livry-Gargan" sur la ligne "Aguilar"
@@ -18,4 +18,4 @@ Fonctionnalité: Rattachement à une structure
 		Quand je clique sur "Rattacher"
 		Alors je vois "AFPA" sur la ligne "Aguilar"
 		Quand je clique sur "Accueil"
-		Alors je vois "5"
+		Alors je vois "4"
