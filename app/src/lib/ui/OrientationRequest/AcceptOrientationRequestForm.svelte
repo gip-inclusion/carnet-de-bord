@@ -94,7 +94,7 @@
 </script>
 
 <section class="flex flex-col w-full">
-	<h1>Réorientation des bénéficiaires</h1>
+	<h1>Réorienter</h1>
 	<Form
 		onSubmit={handleSubmit}
 		{initialValues}
