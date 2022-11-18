@@ -145,7 +145,8 @@ query GetBeneficiaryDashboard($id: uuid!) {
     }
   }
   orientationRequestCount: beneficiary_aggregate( where: {
-    orientationRequest: { decided_orientation_type_id: { _is_null: true } }
+    notebook: { members: {accountId: {_eq: $id}} },
+    orientationRequest: { decidedAt: { _is_null: true } }
     }) {
     aggregate {
       count
@@ -175,7 +176,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
   }
   otherOrientationRequestCount: beneficiary_aggregate( where: {
       notebook: { _not: { members: { accountId: { _eq: $id } } } }
-      orientationRequest: { decided_orientation_type_id: { _is_null: true } }
+      orientationRequest: { decidedAt: { _is_null: true } }
     }) {
     aggregate {
       count
@@ -296,7 +297,7 @@ view model =
                 card "Demandes de réorientation"
                     "Liste des autres demandes de réorientation"
                     "/orientation/demandes?brsa=non-suivi"
-                    (extractString .nbOrientationRequest)
+                    (extractString .nbOtherOrientationRequest)
 
               else
                 text ""
