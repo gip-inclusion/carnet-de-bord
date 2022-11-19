@@ -12681,7 +12681,23 @@ export type GetDeploymentNotebooksQuery = {
 	notebooks: Array<{
 		__typename?: 'notebook';
 		id: string;
-		beneficiary: { __typename?: 'beneficiary'; firstname: string; lastname: string };
+		beneficiary: {
+			__typename?: 'beneficiary';
+			firstname: string;
+			lastname: string;
+			orientationRequest: Array<{
+				__typename?: 'orientation_request';
+				id: string;
+				createdAt: string;
+				decidedAt?: string | null;
+				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				beneficiary?: {
+					__typename?: 'beneficiary';
+					id: string;
+					notebook?: { __typename?: 'notebook'; id: string } | null;
+				} | null;
+			}>;
+		};
 	}>;
 };
 
@@ -14041,6 +14057,7 @@ export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
 	eventsStart?: InputMaybe<Scalars['timestamptz']>;
 	eventsEnd?: InputMaybe<Scalars['timestamptz']>;
+	withOrientationRequests?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GetNotebookQuery = {
@@ -14080,6 +14097,18 @@ export type GetNotebookQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
+			orientationRequest?: Array<{
+				__typename?: 'orientation_request';
+				id: string;
+				createdAt: string;
+				decidedAt?: string | null;
+				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				beneficiary?: {
+					__typename?: 'beneficiary';
+					id: string;
+					notebook?: { __typename?: 'notebook'; id: string } | null;
+				} | null;
+			}>;
 		};
 		focuses: Array<{
 			__typename?: 'notebook_focus';
@@ -17733,6 +17762,69 @@ export const GetDeploymentNotebooksDocument = {
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationRequest' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'limit' },
+														value: { kind: 'IntValue', value: '1' },
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'requestedOrientationType' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'beneficiary' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'notebook' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
+													],
+												},
+											},
 										],
 									},
 								},
@@ -23790,6 +23882,12 @@ export const GetNotebookDocument = {
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
 					defaultValue: { kind: 'StringValue', value: 'infinity', block: false },
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withOrientationRequests' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+					defaultValue: { kind: 'BooleanValue', value: false },
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -23861,6 +23959,85 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationRequest' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'limit' },
+														value: { kind: 'IntValue', value: '1' },
+													},
+												],
+												directives: [
+													{
+														kind: 'Directive',
+														name: { kind: 'Name', value: 'include' },
+														arguments: [
+															{
+																kind: 'Argument',
+																name: { kind: 'Name', value: 'if' },
+																value: {
+																	kind: 'Variable',
+																	name: { kind: 'Name', value: 'withOrientationRequests' },
+																},
+															},
+														],
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'requestedOrientationType' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'beneficiary' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'notebook' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
+													],
+												},
+											},
 										],
 									},
 								},

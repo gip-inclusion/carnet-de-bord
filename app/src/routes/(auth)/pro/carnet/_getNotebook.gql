@@ -2,6 +2,7 @@ query GetNotebook(
   $id: uuid!
   $eventsStart: timestamptz = "-infinity"
   $eventsEnd: timestamptz = "infinity"
+  $withOrientationRequests: Boolean = false
 ) {
   notebook: notebook_by_pk(id: $id) {
     id
@@ -38,6 +39,20 @@ query GetNotebook(
       mobileNumber
       peNumber
       postalCode
+      orientationRequest(order_by: {createdAt: desc}, limit: 1) @include(if: $withOrientationRequests) {
+        id
+        createdAt
+        decidedAt
+        requestedOrientationType {
+          label
+        }
+        beneficiary {
+          id
+          notebook {
+            id
+          }
+        }
+      }
     }
     focuses(order_by: { theme: asc_nulls_last }) {
       id
