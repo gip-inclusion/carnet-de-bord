@@ -3,10 +3,8 @@
 		type GetNotebookByBeneficiaryIdQuery,
 		type GetOrientationTypeQuery,
 		GetOrientationTypeDocument,
-		GetStructuresDocument,
-		type GetStructuresQuery,
-		type GetProfessionalsFromStructuresQuery,
-		GetProfessionalsFromStructuresDocument,
+		GetStructuresWithProDocument,
+		type GetStructuresWithProQuery,
 		AcceptOrientationRequestDocument,
 		OrientationTypeEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
@@ -35,7 +33,9 @@
 			label,
 		})) ?? [];
 
-	let structures: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument);
+	let structures: OperationStore<GetStructuresWithProQuery> = operationStore(
+		GetStructuresWithProDocument
+	);
 	query(structures);
 	$: structureOptions =
 		$structures.data?.structure.map(({ id, name }) => ({
@@ -43,21 +43,13 @@
 			label: name,
 		})) ?? [];
 
-	$: professionalOptions = (() => {
-		let professionalsStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
-			GetProfessionalsFromStructuresDocument,
-			{ id: selectedStructureId }
-		);
+	$: structure = $structures.data?.structure.find(({ id }) => id === selectedStructureId) ?? null;
 
-		query(professionalsStore);
-
-		return (
-			professionalsStore.data?.professional.map((pro) => ({
-				name: pro.account.id,
-				label: displayFullName(pro),
-			})) ?? []
-		);
-	})();
+	$: professionalOptions =
+		structure?.professionals.map((pro) => ({
+			name: pro.account.id,
+			label: displayFullName(pro),
+		})) ?? [];
 
 	const validationSchema = yup.object().shape({
 		orientationType: yup
@@ -121,9 +113,9 @@
 				selectHint="Sélectionner une structure"
 				options={structureOptions}
 				name="structureId"
-				on:select={() => {
+				on:select={(event) => {
 					form.professionalAccountId = null;
-					selectedStructureId = String(form.structureId);
+					selectedStructureId = event.detail.selected;
 				}}
 			/>
 			<Select
