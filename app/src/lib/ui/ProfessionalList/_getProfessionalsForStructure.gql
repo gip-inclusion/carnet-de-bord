@@ -1,7 +1,7 @@
 query GetProfessionalsForStructure($structureId: uuid!) {
   professional(
     where: { structureId: { _eq: $structureId }, account: { deletedAt: { _is_null: true } } }
-    order_by: [{ firstname: asc }, { lastname: asc }, { email: asc }]
+    order_by: [{ lastname: asc }, { firstname: asc }, { email: asc }]
   ) {
     id
     firstname
