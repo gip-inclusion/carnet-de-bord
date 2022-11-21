@@ -64,7 +64,7 @@ OR (internal_id = $4 AND deployment_id = $5)
         beneficiary.firstname,
         beneficiary.lastname,
         beneficiary.date_of_birth,
-        beneficiary.si_id,
+        beneficiary.internal_id,
         deployment_id,
     )
     return [
@@ -94,34 +94,54 @@ returning id
 
 async def update_beneficiary(
     connection: Connection,
-    beneficiary: BeneficiaryImport,
+    fields: list[tuple[str, str | None]],
     beneficiary_id: UUID,
 ) -> UUID | None:
-    result: Record | None = await connection.fetchrow(
-        f"""
-UPDATE beneficiary SET mobile_number = $2,
-    address1 = $3,
-    address2 = $4,
-    postal_code = $5,
-    city = $6,
-    caf_number = $7,
-    pe_number = $8,
-    email = $9,
-    nir=$10
-where id = $1
-returning id
-        """,
+
+    ALLOWED_FIELDS_UPDATE = [
+        "place_of_birth",
+        "mobile_number",
+        "address1",
+        "address2",
+        "postal_code",
+        "city",
+        "caf_number",
+        "pe_number",
+        "email",
+        "nir",
+    ]
+
+    fields_to_update = [
+        (key, value) for (key, value) in fields if key in ALLOWED_FIELDS_UPDATE
+    ]
+    # Special case for address where we need to clean address2 if address1 is provided but not address2
+    field_keys = [key for (key, _) in fields_to_update]
+    if "address1" in field_keys and "address2" not in field_keys:
+        fields_to_update.append(("address2", None))
+
+    if len(fields_to_update) == 0:
+        logger.info("trying to udpate beneficiary but no fields where updated.")
+        return beneficiary_id
+    sql_fields = [
+        # ["postal_code = $2", ...]
+        f"{key} = ${index+2}"
+        for (index, (key, _)) in enumerate(fields_to_update)
+    ]
+    sql_values = [value for (_, value) in fields_to_update]
+
+    sql = f"""
+            UPDATE beneficiary
+                SET {", ".join(sql_fields)}
+                WHERE id=$1
+                returning id
+        """
+
+    result = await connection.fetchrow(
+        sql,
         beneficiary_id,
-        beneficiary.phone_number,
-        beneficiary.address1,
-        beneficiary.address2,
-        beneficiary.postal_code,
-        beneficiary.city,
-        beneficiary.caf_number,
-        beneficiary.pe_number,
-        beneficiary.email,
-        beneficiary.nir,
+        *sql_values,
     )
+
     if result:
         return result["id"]
 
@@ -155,11 +175,11 @@ returning id
         """,
         beneficiary.firstname,
         beneficiary.lastname,
-        beneficiary.si_id,
+        beneficiary.internal_id,
         beneficiary.date_of_birth,
         deployment_id,
         beneficiary.place_of_birth,
-        beneficiary.phone_number,
+        beneficiary.mobile_number,
         beneficiary.address1,
         beneficiary.address2,
         beneficiary.postal_code,

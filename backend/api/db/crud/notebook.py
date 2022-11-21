@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Callable
 from uuid import UUID
 
@@ -15,6 +16,8 @@ from api.db.models.notebook_member import NotebookMember, NotebookMemberInsert
 from api.db.models.rome_code import RomeCode
 from api.db.models.target import Target
 from api.db.models.wanted_job import WantedJob
+
+logger = logging.getLogger(__name__)
 
 NOTEBOOK_BASE_FIELDS = """
 n.id as n_id,
@@ -578,31 +581,38 @@ async def insert_notebook(
     beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
 ) -> UUID | None:
+
+    INSERTABLE_VALUE = [
+        "right_rsa",
+        "right_rqth",
+        "right_are",
+        "right_ass",
+        "right_bonus",
+        "work_situation",
+        "education_level",
+        "geographical_area",
+    ]
+
+    fields_to_insert = [
+        (fieldname, value)
+        for (fieldname, value) in beneficiary.dict().items()
+        if value is not None and fieldname in INSERTABLE_VALUE
+    ]
+    fields_to_insert.append(("beneficiary_id", beneficiary_id))
+
+    sql_fields: list[str] = [key for (key, _) in fields_to_insert]
+    sql_values: list[str] = [value for (_, value) in fields_to_insert]
+
     created_notebook: Record | None = await connection.fetchrow(
-        """
+        f"""
 INSERT INTO public.notebook (
-    beneficiary_id,
-    right_rsa,
-    right_rqth,
-    right_are,
-    right_ass,
-    right_bonus,
-    work_situation,
-    education_level,
-    geographical_area
+
+    {", ".join(sql_fields)}
     )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+VALUES (  {", ".join([f"${x+1}" for x in range(len(sql_fields))])})
 returning id
         """,
-        beneficiary_id,
-        beneficiary.right_rsa,
-        beneficiary.right_rqth,
-        beneficiary.right_are,
-        beneficiary.right_ass,
-        beneficiary.right_bonus,
-        beneficiary.work_situation,
-        beneficiary.education_level,
-        beneficiary.geographical_area,
+        *sql_values,
     )
 
     if created_notebook:
@@ -612,31 +622,39 @@ returning id
 async def update_notebook(
     connection: Connection,
     beneficiary_id: UUID,
-    beneficiary: BeneficiaryImport,
+    fields: list[tuple[str, str]],
 ) -> UUID | None:
-    result: Record = await connection.fetchrow(
+
+    ALLOWED_FIELDS_UPDATE = [
+        "right_rsa",
+        "right_rqth",
+        "right_are",
+        "right_ass",
+        "right_bonus",
+        "work_situation",
+        "education_level",
+        "geographical_area",
+    ]
+
+    fields_to_update = [
+        (key, value) for (key, value) in fields if key in ALLOWED_FIELDS_UPDATE
+    ]
+
+    if len(fields_to_update) == 0:
+        logger.info("trying to udpate notebook but no fields where updated.")
+        return None
+
+    sql_fields: list[str] = [
+        f"{key} = ${index+2}" for (index, (key, _)) in enumerate(fields_to_update)
+    ]
+    sql_values: list[str] = [value for (_, value) in fields_to_update]
+    sql = f"""
+            UPDATE notebook
+                SET {", ".join(sql_fields)}
+                WHERE beneficiary_id=$1
+                returning id
         """
-UPDATE public.notebook SET
-    right_rsa = $2,
-    right_rqth = $3,
-    right_are = $4,
-    right_ass = $5,
-    right_bonus = $6,
-    work_situation = $7,
-    education_level = $8,
-    geographical_area = $9
-WHERE beneficiary_id = $1
-returning id
-        """,
-        beneficiary_id,
-        beneficiary.right_rsa,
-        beneficiary.right_rqth,
-        beneficiary.right_are,
-        beneficiary.right_ass,
-        beneficiary.right_bonus,
-        beneficiary.work_situation,
-        beneficiary.education_level,
-        beneficiary.geographical_area,
-    )
+    result = await connection.fetchrow(sql, beneficiary_id, *sql_values)
+
     if result:
         return result["id"]

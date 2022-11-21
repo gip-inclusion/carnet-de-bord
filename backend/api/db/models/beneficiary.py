@@ -60,12 +60,12 @@ def is_same_name(firstname1, firstname2, lastname1, lastname2):
 
 
 class BeneficiaryImport(BaseModel):
-    si_id: str = Field(..., alias="Identifiant dans le SI*")
+    internal_id: str = Field(..., alias="Identifiant dans le SI*")
     firstname: str = Field(..., alias="Prénom*")
     lastname: str = Field(..., alias="Nom*")
     date_of_birth: date = Field(..., alias="Date de naissance*")
     place_of_birth: str | None = Field(None, alias="Lieu de naissance")
-    phone_number: str | None = Field(None, alias="Téléphone")
+    mobile_number: str | None = Field(None, alias="Téléphone")
     email: EmailStr | None = Field(None, alias="Email")
     address1: str | None = Field(None, alias="Adresse")
     address2: str | None = Field(None, alias="Adresse (complément)")
@@ -92,7 +92,7 @@ class BeneficiaryImport(BaseModel):
         anystr_strip_whitespace = True
         allow_population_by_field_name = True
 
-    _phone_validator = phone_validator("phone_number")
+    _phone_validator = phone_validator("mobile_number")
     _postal_code_validator = postal_code_validator("postal_code")
     _is_bool_validator = is_bool_validator(
         "right_are", "right_ass", "right_bonus", "right_rqth", pre=True

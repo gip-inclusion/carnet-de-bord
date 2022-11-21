@@ -14,6 +14,22 @@ from api.db.crud.rome_code import get_rome_code_by_id
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 
 
+async def import_beneficiaries(
+    client, token: str, beneficiaries: list[BeneficiaryImport]
+):
+    return client.post(
+        "/v1/beneficiaries/bulk",
+        headers={"jwt-token": f"{token}"},
+        data=json.dumps(
+            {
+                "need_orientation": True,
+                "beneficiaries": [benef.dict() for benef in beneficiaries],
+            },
+            default=str,
+        ),
+    )
+
+
 async def test_import_beneficiaries_must_be_done_by_a_manager(
     test_client,
     get_professionnal_jwt,
@@ -30,22 +46,6 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
         ),
     )
     assert response.status_code == 400
-
-
-async def import_beneficiaries(
-    client, token: str, beneficiaries: list[BeneficiaryImport]
-):
-    return client.post(
-        "/v1/beneficiaries/bulk",
-        headers={"jwt-token": f"{token}"},
-        data=json.dumps(
-            {
-                "need_orientation": True,
-                "beneficiaries": [benef.dict() for benef in beneficiaries],
-            },
-            default=str,
-        ),
-    )
 
 
 async def test_import_beneficiaries(
@@ -70,9 +70,7 @@ async def test_import_a_new_beneficiary(
 
 
 async def test_update_existing_beneficiary_same_name(
-    test_client,
-    get_manager_jwt,
-    db_connection,
+    test_client, get_manager_jwt, db_connection, caplog
 ):
     await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
 
@@ -86,7 +84,7 @@ async def test_update_existing_beneficiary_same_name(
     beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
-    assert beneficiary_in_db.mobile_number == harry_covert.phone_number
+    assert beneficiary_in_db.mobile_number == harry_covert.mobile_number
 
 
 async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
@@ -101,12 +99,18 @@ async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
     )
     assert beneficiary_in_db.mobile_number is None
 
-    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_typo])
+    response = await import_beneficiaries(
+        test_client, get_manager_jwt, [harry_covert_typo]
+    )
 
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
     assert beneficiary_in_db.mobile_number is None
+    assert (
+        response.json()[0]["errors"][0]["error"]
+        == "Un bénéficiaire existe déjà avec cet identifiant SI sur le territoire."
+    )
 
 
 async def test_update_beneficiary_with_different_capitalization_and_spacing(
@@ -125,9 +129,8 @@ async def test_update_beneficiary_with_different_capitalization_and_spacing(
         )
 
         assert "updated existing beneficiary" in caplog.text
-
         assert beneficiary_in_db is not None
-        assert beneficiary_in_db.internal_id == sophie_tifour_bad_caps.si_id
+        assert beneficiary_in_db.internal_id == sophie_tifour_bad_caps.internal_id
 
 
 async def test_insert_beneficiary_check_all_fields(
@@ -143,9 +146,9 @@ async def test_insert_beneficiary_check_all_fields(
     assert beneficiary_in_db.firstname == harry_covert.firstname
     assert beneficiary_in_db.lastname == harry_covert.lastname
     assert beneficiary_in_db.date_of_birth == harry_covert.date_of_birth
-    assert beneficiary_in_db.internal_id == harry_covert.si_id
+    assert beneficiary_in_db.internal_id == harry_covert.internal_id
     assert beneficiary_in_db.place_of_birth == harry_covert.place_of_birth
-    assert beneficiary_in_db.mobile_number == harry_covert.phone_number
+    assert beneficiary_in_db.mobile_number == harry_covert.mobile_number
     assert beneficiary_in_db.email == harry_covert.email
     assert beneficiary_in_db.address1 == harry_covert.address1
     assert beneficiary_in_db.address2 == harry_covert.address2
@@ -190,7 +193,48 @@ async def test_update_beneficiary_check_all_fields(
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
-    assert beneficiary_in_db.mobile_number == harry_covert.phone_number
+    assert beneficiary_in_db.mobile_number == harry_covert.mobile_number
+    assert beneficiary_in_db.email == harry_covert.email
+    assert beneficiary_in_db.address1 == harry_covert.address1
+    assert beneficiary_in_db.address2 == harry_covert.address2
+    assert beneficiary_in_db.postal_code == harry_covert.postal_code
+    assert beneficiary_in_db.city == harry_covert.city
+    assert beneficiary_in_db.caf_number == harry_covert.caf_number
+    assert beneficiary_in_db.pe_number == harry_covert.pe_number
+    assert beneficiary_in_db.nir == harry_covert.nir
+    assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
+    assert beneficiary_in_db.notebook.right_rsa == harry_covert.right_rsa
+    assert beneficiary_in_db.notebook.right_are == True
+    assert beneficiary_in_db.notebook.right_ass == False
+    assert beneficiary_in_db.notebook.right_bonus == False
+    assert beneficiary_in_db.notebook.right_rqth == False
+    assert (
+        beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
+    )
+    assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
+    wanted_jobs = [
+        await get_rome_code_by_id(db_connection, wj.rome_code_id)
+        for wj in beneficiary_in_db.notebook.wanted_jobs
+    ]
+    assert harry_covert.rome_code_description in [
+        rome_code.label for rome_code in wanted_jobs
+    ]
+
+
+async def test_dont_update_beneficiary_with_empty_fields(
+    test_client,
+    get_manager_jwt,
+    db_connection,
+):
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_phoneless])
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    assert beneficiary_in_db.mobile_number == harry_covert.mobile_number
     assert beneficiary_in_db.email == harry_covert.email
     assert beneficiary_in_db.address1 == harry_covert.address1
     assert beneficiary_in_db.address2 == harry_covert.address2
@@ -199,6 +243,7 @@ async def test_update_beneficiary_check_all_fields(
     assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
     assert beneficiary_in_db.caf_number == harry_covert.caf_number
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
+    assert beneficiary_in_db.nir == harry_covert.nir
     assert beneficiary_in_db.notebook.right_rsa == harry_covert.right_rsa
     assert beneficiary_in_db.notebook.right_are == True
     assert beneficiary_in_db.notebook.right_ass == False
@@ -209,24 +254,39 @@ async def test_update_beneficiary_check_all_fields(
     )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
-    wanted_jobs = [
-        await get_rome_code_by_id(db_connection, wj.rome_code_id)
-        for wj in beneficiary_in_db.notebook.wanted_jobs
-    ]
-    assert harry_covert.rome_code_description in [
-        rome_code.label for rome_code in wanted_jobs
-    ]
-    # not re-imported:
-    assert beneficiary_in_db.nir == harry_covert.nir
 
-
-async def test_update_beneficiary_no_field_changed(
+async def test_only_update_beneficiary_with_not_null_fields(
     test_client,
     get_manager_jwt,
     db_connection,
 ):
     await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
-    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert])
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    await import_beneficiaries(test_client, get_manager_jwt, [harry_covert_reimport])
+    beneficiary_in_db = await get_beneficiary_from_personal_information(
+        db_connection, "Harry", "Covert", date(1985, 7, 23)
+    )
+    assert beneficiary_in_db.mobile_number == harry_covert_reimport.mobile_number
+    assert beneficiary_in_db.email == harry_covert_reimport.email
+    assert beneficiary_in_db.address1 == harry_covert_reimport.address1
+    assert beneficiary_in_db.address2 == harry_covert_reimport.address2
+    assert beneficiary_in_db.postal_code == harry_covert_reimport.postal_code
+    assert beneficiary_in_db.city == harry_covert_reimport.city
+    assert beneficiary_in_db.nir == harry_covert_reimport.nir
+    assert beneficiary_in_db.caf_number == harry_covert.caf_number
+    assert beneficiary_in_db.pe_number == harry_covert.pe_number
+    assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
+    assert beneficiary_in_db.notebook.right_rsa == harry_covert.right_rsa
+    assert beneficiary_in_db.notebook.right_are == True
+    assert beneficiary_in_db.notebook.right_ass == False
+    assert beneficiary_in_db.notebook.right_bonus == False
+    assert beneficiary_in_db.notebook.right_rqth == False
+    assert (
+        beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
+    )
+    assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
 
 async def test_import_multiple_beneficiaries(
@@ -440,7 +500,7 @@ class ListOf(BaseModel):
 
 
 sophie_tifour_bad_caps = BeneficiaryImport(
-    si_id="1234",
+    internal_id="1234",
     firstname="SoPhiE",
     lastname="TIFOUR",
     date_of_birth=date(1982, 2, 1),
@@ -448,12 +508,12 @@ sophie_tifour_bad_caps = BeneficiaryImport(
 
 
 harry_covert = BeneficiaryImport(
-    si_id="123",
+    internal_id="123",
     firstname="Harry",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
     place_of_birth="Paris",
-    phone_number="0657912322",
+    mobile_number="0657912322",
     email="harry.covert@caramail.fr",
     address1="1 Rue des Champs",
     address2="1er étage",
@@ -475,31 +535,60 @@ harry_covert = BeneficiaryImport(
     nir="185077505612323",
 )
 
+harry_covert_reimport = BeneficiaryImport(
+    internal_id="123",
+    firstname="Harry",
+    lastname="Covert",
+    date_of_birth=date(1985, 7, 23),
+    place_of_birth="Lyon",
+    mobile_number="0600000000",
+    email="harry.covert@lycos.fr",
+    address1="1 Grande rue",
+    address2=None,
+    postal_code="26270",
+    city="Loriol",
+    work_situation=None,
+    caf_number=None,
+    pe_number=None,
+    right_rsa=None,
+    right_are=None,
+    right_ass=None,
+    right_bonus=None,
+    right_rqth=None,
+    geographical_area=None,
+    rome_code_description=None,
+    education_level=None,
+    structure_name=None,
+    advisor_email=None,
+    nir="100000000000047",
+)
+
 harry_covert_phoneless = BeneficiaryImport(
-    si_id="123",
+    internal_id="123",
     firstname="Harry",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
 )
 
 harry_covert_typo = BeneficiaryImport(
-    si_id="123",
+    internal_id="123",
     firstname="Harry,",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
-    phone_number="0657912322",
+    mobile_number="0657912322",
 )
 
 harry_covert_with_caps_and_space = BeneficiaryImport(
-    si_id="123",
+    internal_id="123",
     firstname="Harry ",
     lastname="  CoVert",
     date_of_birth=date(1985, 7, 23),
-    phone_number="0657912322",
+    mobile_number="0657912322",
 )
 
+
 betty_bois = BeneficiaryImport(
-    si_id="1234",
+    internal_id="1234",
     firstname="Betty",
     lastname="Bois",
     date_of_birth=date(1970, 9, 15),

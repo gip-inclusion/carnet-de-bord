@@ -72,7 +72,6 @@ async def import_beneficiary(
             records: list[Beneficiary] = await get_beneficiaries_like(
                 db, beneficiary, deployment_id
             )
-
             if no_matching_beneficiary(records):
                 beneficiary_id = await create_beneficiary_with_notebook_and_referent(
                     connection=db,
@@ -80,18 +79,28 @@ async def import_beneficiary(
                     deployment_id=deployment_id,
                     need_orientation=need_orientation,
                 )
+
+                if not beneficiary_id:
+                    raise UpdateFailError(f"fail to insert beneficiary {records[0].id}")
+
                 logger.info("inserted new beneficiary %s", beneficiary_id)
                 return BeneficiaryCsvRowResponse(valid=True, data=beneficiary)
 
-            if one_matching_beneficiary(records, deployment_id, beneficiary):
+            elif one_matching_beneficiary(records, beneficiary):
+                # pour chaque ligne, on renvoie une liste de tuple [nom, valeur] si valeur != none
+                fieldsToUpdate = [
+                    (fieldname, value)
+                    for (fieldname, value) in beneficiary.dict().items()
+                    if value is not None
+                ]
                 beneficiary_id = await update_beneficiary(
-                    db, beneficiary, records[0].id
+                    db, fieldsToUpdate, records[0].id
                 )
                 if not beneficiary_id:
-                    raise UpdateFailError(f"update beneficiary {records[0].id}")
+                    raise UpdateFailError(f"fail to insert beneficiary {records[0].id}")
 
                 notebook_id: UUID | None = await update_notebook(
-                    db, beneficiary_id, beneficiary
+                    db, beneficiary_id, fieldsToUpdate
                 )
                 if notebook_id:
                     await insert_or_update_need_orientation(
@@ -104,20 +113,36 @@ async def import_beneficiary(
                     valid=True, update=True, data=beneficiary
                 )
 
-            logger.info(
-                "block beneficiary creation as it is conflicting with existing beneficiaries: %s",
-                [beneficiary.id for beneficiary in records],
-            )
+            elif same_si_id_but_different_user_info(records, beneficiary):
+                logger.info(
+                    "block beneficiary creation as it is conflicting with existing beneficiaries(same id): %s",
+                    [beneficiary.id for beneficiary in records],
+                )
+                return BeneficiaryCsvRowResponse(
+                    row=beneficiary.dict(by_alias=True),
+                    errors=[
+                        CsvFieldError(
+                            error="Un bénéficiaire existe déjà avec cet identifiant SI sur le territoire."
+                        )
+                    ],
+                    valid=False,
+                )
+            else:
+                # same user info but different si_id
+                logger.info(
+                    "block beneficiary creation as it is conflicting with existing beneficiaries(same lastname / firstname / date of birth): %s",
+                    [beneficiary.id for beneficiary in records],
+                )
 
-            return BeneficiaryCsvRowResponse(
-                row=beneficiary.dict(by_alias=True),
-                errors=[
-                    CsvFieldError(
-                        error="Un bénéficiaire existant utilise cet internalId ou ce nom/prénom/date de naissance sur le territoire."
-                    )
-                ],
-                valid=False,
-            )
+                return BeneficiaryCsvRowResponse(
+                    row=beneficiary.dict(by_alias=True),
+                    errors=[
+                        CsvFieldError(
+                            error="Un bénéficiaire existe déjà avec ce nom/prénom/date de naissance sur le territoire."
+                        )
+                    ],
+                    valid=False,
+                )
 
         except InsertFailError as error:
             logging.error(error)
@@ -125,7 +150,7 @@ async def import_beneficiary(
                 row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
-                        error=f"import beneficiary {beneficiary.si_id}: {error}"
+                        error=f"import beneficiary {beneficiary.internal_id}: {error}"
                     )
                 ],
                 valid=False,
@@ -136,7 +161,7 @@ async def import_beneficiary(
                 row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
-                        error=f"import beneficiary {beneficiary.si_id}: {error}"
+                        error=f"import beneficiary {beneficiary.internal_id}: {error}"
                     )
                 ],
                 valid=False,
@@ -147,7 +172,7 @@ async def import_beneficiary(
                 row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
-                        error=f"import beneficiary {beneficiary.si_id}: erreur inconnue"
+                        error=f"import beneficiary {beneficiary.internal_id}: erreur inconnue"
                     )
                 ],
                 valid=False,
@@ -159,7 +184,7 @@ def no_matching_beneficiary(records: list[Beneficiary]) -> bool:
 
 
 def one_matching_beneficiary(
-    records, deployment_id: UUID, beneficiary: BeneficiaryImport
+    records: list[Beneficiary], beneficiary: BeneficiaryImport
 ) -> bool:
     if len(records) != 1:
         return False
@@ -173,6 +198,18 @@ def one_matching_beneficiary(
             beneficiary.lastname,
         )
         and matching_beneficiary.date_of_birth == beneficiary.date_of_birth
-        and matching_beneficiary.internal_id == beneficiary.si_id
-        and matching_beneficiary.deployment_id == deployment_id
+        and matching_beneficiary.internal_id == beneficiary.internal_id
+    )
+
+
+def same_si_id_but_different_user_info(records, beneficiary: BeneficiaryImport) -> bool:
+    matching_beneficiary = records[0]
+    return matching_beneficiary.internal_id == beneficiary.internal_id and not (
+        is_same_name(
+            matching_beneficiary.firstname,
+            beneficiary.firstname,
+            matching_beneficiary.lastname,
+            beneficiary.lastname,
+        )
+        and matching_beneficiary.date_of_birth == beneficiary.date_of_birth
     )

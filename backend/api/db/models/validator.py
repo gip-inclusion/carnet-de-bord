@@ -87,7 +87,7 @@ def is_bool(value):
     elif type(value) == bool:
         return value
     else:
-        return False
+        return None
 
 
 def is_bool_validator(*args, **kwargs):
