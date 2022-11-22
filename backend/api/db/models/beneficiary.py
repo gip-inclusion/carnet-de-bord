@@ -44,6 +44,7 @@ class Beneficiary(BaseModel):
     # (account is created on the first login attempt)
     account_id: UUID | None
     nir: str | None
+    pe_unique_import_id: str | None
 
 
 def snake_to_camel(field):

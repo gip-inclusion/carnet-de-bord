@@ -17,6 +17,8 @@ configuration:
       custom_name: mobileNumber
     pe_number:
       custom_name: peNumber
+    pe_unique_import_id:
+      custom_name: peUniqueId
     place_of_birth:
       custom_name: placeOfBirth
     postal_code:
@@ -31,6 +33,7 @@ configuration:
     internal_id: internalId
     mobile_number: mobileNumber
     pe_number: peNumber
+    pe_unique_import_id: peUniqueId
     place_of_birth: placeOfBirth
     postal_code: postalCode
     updated_at: updatedAt

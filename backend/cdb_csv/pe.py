@@ -15,7 +15,10 @@ from api.db.crud.account import (
     get_account_by_professional_email,
     insert_professional_account,
 )
-from api.db.crud.beneficiary import get_beneficiary_from_personal_information
+from api.db.crud.beneficiary import (
+    get_beneficiary_from_personal_information,
+    update_beneficiary_field,
+)
 from api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
     insert_external_data_for_beneficiary_and_professional,
@@ -93,7 +96,7 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
             if beneficiary and beneficiary.notebook is not None:
 
                 logging.info(
-                    f"{pe_unique_id} - Found matching beneficiary {beneficiary.id}"
+                    f"{pe_unique_id} - Found matching beneficiary for pro {beneficiary.id}"
                 )
 
                 account: AccountDB | None = await get_account_by_professional_email(
@@ -374,6 +377,16 @@ async def import_beneficiary(
     )
 
     if beneficiary and beneficiary.notebook is not None:
+
+        if beneficiary.pe_unique_import_id != pe_unique_id:
+            beneficiary_uuid: UUID | None = await update_beneficiary_field(
+                connection, "pe_unique_import_id", pe_unique_id, beneficiary.id
+            )
+
+            if beneficiary_uuid:
+                logging.info(
+                    f"{pe_unique_id} - Updated beneficiary pe_unique_import_id to value {pe_unique_id}"
+                )
 
         # Do we already have some external data for this beneficiary?
         external_data: ExternalData | None = (
