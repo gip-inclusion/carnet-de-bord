@@ -1,3 +1,10 @@
+## [1.161.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.0...v1.161.1) (2022-11-22)
+
+
+### Bug Fixes
+
+* Ne pas permettre l'attaque par spoofing lors des envois de courriels. ([#1221](https://github.com/gip-inclusion/carnet-de-bord/issues/1221)) ([6e5c443](https://github.com/gip-inclusion/carnet-de-bord/commit/6e5c443c9c440fc0c69b58fa206f3f9d721031d4))
+
 # [1.161.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.160.0...v1.161.0) (2022-11-22)
 
 
