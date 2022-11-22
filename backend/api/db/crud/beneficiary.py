@@ -72,12 +72,32 @@ OR (internal_id = $4 AND deployment_id = $5)
     ]
 
 
+async def update_beneficiary_field(
+    connection: Connection,
+    field_name: str,
+    field_value: str,
+    beneficiary_id: UUID,
+) -> UUID | None:
+
+    result: Record | None = await connection.fetchrow(
+        f"""
+UPDATE beneficiary SET {field_name} = $2
+where id = $1
+returning id
+        """,
+        beneficiary_id,
+        field_value,
+    )
+    if result:
+        return result["id"]
+
+
 async def update_beneficiary(
     connection: Connection,
     beneficiary: BeneficiaryImport,
     beneficiary_id: UUID,
 ) -> UUID | None:
-    result = await connection.fetchrow(
+    result: Record | None = await connection.fetchrow(
         f"""
 UPDATE beneficiary SET mobile_number = $2,
     address1 = $3,
