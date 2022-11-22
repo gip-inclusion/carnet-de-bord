@@ -170,8 +170,6 @@
 					<a
 						href={getNotebookUrl(beneficiary)}
 						class="fr-link"
-						target="_blank"
-						rel="noreferrer"
 						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />
