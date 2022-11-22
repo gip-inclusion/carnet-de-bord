@@ -33,7 +33,7 @@ const client = createClient({
 });
 
 const inscriptionRequestSchema = yup.object().shape({
-	accountRequest: yup.object().shape({
+	accountRequest: yup.object({
 		email: yup.string().required(),
 		firstname: yup.string().required(),
 		lastname: yup.string().required(),
