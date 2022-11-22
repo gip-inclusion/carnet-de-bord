@@ -1,3 +1,10 @@
+# [1.161.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.160.0...v1.161.0) (2022-11-22)
+
+
+### Features
+
+* stockage de l'identifiant unique Pôle Emploi lors de l'import ([#1277](https://github.com/gip-inclusion/carnet-de-bord/issues/1277)) ([4e288aa](https://github.com/gip-inclusion/carnet-de-bord/commit/4e288aa88fe5130ec92b66fa7680086d09c5212d))
+
 # [1.160.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.159.1...v1.160.0) (2022-11-22)
 
 
