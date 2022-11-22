@@ -136,52 +136,6 @@ describe('creating email', () => {
 		});
 	});
 
-	describe('adminStructureAccountCreation email', () => {
-		it('renders email template as html string', async () => {
-			const { Component, formattedParams } = await prepareEmail({
-				template: 'AdminStructureAccountCreation',
-				params: [
-					{
-						url,
-						email: 'prenom@nom.org',
-						account: {
-							firstname: 'Prénom',
-							lastname: 'Nom',
-						},
-						structure: 'Meilleure structure',
-					},
-				],
-			});
-
-			const email = render(Component, { ...formattedParams }).container.firstChild;
-
-			expect(email).toMatchSnapshot();
-		});
-	});
-
-	describe('adminStructureAddedToStructure email', () => {
-		it('renders email template as html string', async () => {
-			const { Component, formattedParams } = await prepareEmail({
-				template: 'AdminStructureAddedToStructure',
-				params: [
-					{
-						url,
-						email: 'prenom@nom.org',
-						account: {
-							firstname: 'Prénom',
-							lastname: 'Nom',
-						},
-						structure: 'Meilleure structure',
-					},
-				],
-			});
-
-			const email = render(Component, { ...formattedParams }).container.firstChild;
-
-			expect(email).toMatchSnapshot();
-		});
-	});
-
 	describe('managerOnboarding email', () => {
 		it('renders email template as html string', async () => {
 			const { Component, formattedParams } = await prepareEmail({

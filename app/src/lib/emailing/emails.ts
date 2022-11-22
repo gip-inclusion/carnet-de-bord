@@ -26,6 +26,4 @@ export type Templates =
 	| 'AccountRequestValidate'
 	| 'AccountRequest'
 	| 'AccountCreatedByAdmin'
-	| 'AdminStructureAccountCreation' // FIXME: Not used ?
-	| 'AdminStructureAddedToStructure' // FIXME: Not used ?
 	| 'ManagerOnboarding';
