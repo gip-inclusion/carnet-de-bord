@@ -17,7 +17,7 @@
 </script>
 
 <div>
-	<Greeting person={pro} />
+	<Greeting />
 	<p>Une demande de création d'un compte pour {displayFullName(pro)} a été reçue.</p>
 	<b>Informations personnelles :</b>
 	<ul>

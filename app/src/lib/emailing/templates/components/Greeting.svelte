@@ -2,7 +2,7 @@
 	import { displayFullName } from '$lib/ui/format';
 	import type { Person } from '../../emails';
 
-	export let person: Person;
+	export let person: Person | undefined = undefined;
 </script>
 
 <p>

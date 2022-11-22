@@ -53,9 +53,7 @@ exports[`creating email > accountRequest email > renders email template as html 
 <div>
   <div>
     <p>
-      Bonjour 
-      Prénom Nom
-      ,
+      Bonjour,
     </p>
     <!--&lt;Greeting&gt;-->
      
@@ -494,39 +492,5 @@ exports[`creating email > notebookInvitation email > renders email template as h
     <!--&lt;Footer&gt;-->
   </div>
   <!--&lt;NotebookInvitation&gt;-->
-</div>
-`;
-
-exports[`creating email login email render email template as html string 1`] = `
-<div>
-  <div>
-    <p>
-      Bonjour 
-      Prénom Nom
-      ,
-    </p>
-     
-    <p>
-      Pour accéder à Carnet de bord, veuillez cliquer sur le lien ci-dessous :
-    </p>
-     
-    <p
-      style="padding-left: 20%;"
-    >
-      <a
-        href="some-url.com/auth/jwt/access-key?url=redirect-to-url.com"
-        rel="nofollow"
-        style="background-color: rgb(106, 32, 174); font-size: 14px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 8px 10px; color: rgb(255, 255, 255); border-radius: 5px; display: inline-block;"
-      >
-        <span>
-          Accédez à Carnet de bord
-        </span>
-      </a>
-    </p>
-     
-    <p>
-      L'équipe Carnet de bord
-    </p>
-  </div>
 </div>
 `;
