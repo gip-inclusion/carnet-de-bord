@@ -18,7 +18,5 @@
 </svelte:head>
 
 <LoaderIndicator result={getNotebookResult}>
-	<div class="my-6">
-		<NotebookView notebook={getNotebookResult.data.notebook} />
-	</div>
+	<NotebookView notebook={getNotebookResult.data.notebook} />
 </LoaderIndicator>

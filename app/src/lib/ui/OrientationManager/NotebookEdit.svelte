@@ -7,8 +7,13 @@
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { displayFullName } from '../format';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import OrientationRequestBanner from '../OrientationRequest/OrientationRequestBanner.svelte';
 
 	export let notebook: GetNotebookQuery['notebook'];
+
+	$: beneficiary = notebook.beneficiary;
+	$: orientationRequest =
+		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 </script>
 
 <svelte:head>
@@ -16,6 +21,9 @@
 </svelte:head>
 
 <div class="fr-py-6w flex flex-col gap-8">
+	{#if orientationRequest && !orientationRequest?.decidedAt}
+		<OrientationRequestBanner {orientationRequest} />
+	{/if}
 	<ProNotebookPersonalInfoView
 		beneficiary={notebook.beneficiary}
 		on:edit={() => alert('Not implemented!')}

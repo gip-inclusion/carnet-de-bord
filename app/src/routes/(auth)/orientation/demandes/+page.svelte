@@ -44,7 +44,7 @@
 	const result = operationStore(BeneficiariesWithOrientationRequestDocument, null, {
 		additionalTypenames: [
 			'notebook_member',
-			'beneficiary_info',
+			'notebook_info',
 			'beneficiary_structure',
 			'orientation_request',
 		],
@@ -62,25 +62,25 @@
 <LoaderIndicator {result}>
 	<table class="w-full fr-table fr-table--layout-fixed">
 		<caption class="sr-only">Liste des demandes de réorientation</caption>
-		{#each beneficiaries as beneficiary}
-			{@const referents = beneficiary.notebook.members.filter(
-				(member) => member.account.type === RoleEnum.Professional
-			)}
-			{@const orientationRequest = beneficiary.orientationRequest[0]}
-			<thead>
+		<thead>
+			<tr>
+				<th class="text-left">Reçu le</th>
+				<th class="text-left">Nom & Prénom</th>
+				<th class="text-left">Référent unique</th>
+				<th class="text-left">Orientation actuelle</th>
+				<th class="text-left">Orientation recommandée</th>
+				<th class="text-left">Motif</th>
+				<th class="text-left">Voir le carnet</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each beneficiaries as beneficiary}
+				{@const referents = beneficiary.notebook.members.filter(
+					(member) => member.account.type === RoleEnum.Professional
+				)}
+				{@const orientationRequest = beneficiary.orientationRequest[0]}
 				<tr>
-					<th class="text-left">Reçu le</th>
-					<th class="text-left">Nom & Prénom</th>
-					<th class="text-left">Référent unique</th>
-					<th class="text-left">Orientation actuelle</th>
-					<th class="text-left">Orientation recommandée</th>
-					<th class="text-left">Motif</th>
-					<th class="text-left">Voir le carnet</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{formatDateLocale(orientationRequest.created_at)}</td>
+					<td>{formatDateLocale(orientationRequest.createdAt)}</td>
 					<td>{displayFullName(beneficiary)}</td>
 					<td>
 						{#if referents.length > 0 || beneficiary.structures.length > 0}
@@ -105,44 +105,46 @@
 					</td>
 					<td>
 						<div class="flex">
-							<Text class="flex-auto" value={orientationRequest.requested_orientation_type.label} />
+							<Text
+								class="flex-auto"
+								value={beneficiary.notebook.notebookInfo?.orientationType?.label}
+							/>
 							<span class="flex-none fr-icon-arrow-right-line text-france-blue" aria-hidden />
 						</div>
 					</td>
 					<td>
-						<Text
-							class="fr-text--bold"
-							value={orientationRequest.decided_orientation_type?.label}
-						/>
+						<Text class="fr-text--bold" value={orientationRequest.requestedOrientationType.label} />
 					</td>
 					<td class="!text-center">
-						<Dialog
-							label={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
-							buttonLabel={null}
-							title={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
-							size={'large'}
-							showButtons={false}
-							buttonCssClasses="fr-btn--tertiary-no-outline fr-icon-message-2-line"
-						>
-							<Text value={beneficiary.orientationRequest[0].reason} />
-						</Dialog>
+						{#if beneficiary.orientationRequest[0].reason}
+							<Dialog
+								label={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
+								buttonLabel={null}
+								title={`Motif de la demande de réorientation de ${displayFullName(beneficiary)}`}
+								size={'large'}
+								showButtons={false}
+								buttonCssClasses="fr-btn--tertiary-no-outline fr-icon-message-2-line"
+							>
+								<Text value={beneficiary.orientationRequest[0].reason} />
+							</Dialog>
+						{:else}
+							--
+						{/if}
 					</td>
 					<td class="!text-center">
 						<a
 							href={`carnets/${beneficiary.notebook.id}`}
 							class="fr-link"
-							target="_blank"
-							rel="noreferrer"
 							title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
 						>
 							<span class="fr-icon-file-line" aria-hidden />
 						</a>
 					</td>
 				</tr>
-			</tbody>
-		{/each}
-		{#if beneficiaries.length === 0}
-			<div>Aucune demande.</div>
-		{/if}
+			{/each}
+			{#if beneficiaries.length === 0}
+				<tr><td class="text-center" colspan="7">Aucune demande.</td></tr>
+			{/if}
+		</tbody>
 	</table>
 </LoaderIndicator>

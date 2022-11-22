@@ -45,6 +45,7 @@ Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la 
 | sanka | sanka@groupe-ns.fr | Groupe NS | oui |
 | thierry.dunord | dunord@pole-emploi.fr | Pole Emploi Agence Livry-Gargnan | oui |
 | jean.poiret | jeanpoiret@mission-locale.fr | Interlogement 93 | non |
+| edith.orial | edith.orial@interlogement93.fr | Interlogement 93 | non |
 
 ## Compte de bénéficiaire (role: beneficiary)
 | email | deploiement |

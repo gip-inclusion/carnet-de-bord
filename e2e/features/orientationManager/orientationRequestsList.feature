@@ -29,5 +29,4 @@ Fonctionnalité: Liste des demandes de réorientation
 		Alors je vois "Ceci est la raison pour laquelle on souhaite changer l’orientation"
 		Alors je clique sur "Fermer"
 		Quand je clique sur "Voir le carnet de Etta Bullock"
-		Quand je vais sur l'onglet suivant
 		Alors je suis sur la page "/orientation/carnets/24e335cb-4e2b-481b-84b7-617d77f60f56"

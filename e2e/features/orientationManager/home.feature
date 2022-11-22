@@ -12,3 +12,4 @@ Fonctionnalité: Accueil d'un chargé d'orientation
 		Alors je vois "3" dans la tuile "Bénéficiaires à orienter" sous le titre "Mon portefeuille"
 		Alors je vois "40" dans la tuile "Bénéficiaires orientés" sous le titre "Autres bénéficiaires de mon territoire"
 		Alors je vois "8" dans la tuile "Bénéficiaires à orienter" sous le titre "Autres bénéficiaires de mon territoire"
+		Alors je vois "5" dans la tuile "Demandes de réorientation" sous le titre "Autres bénéficiaires de mon territoire"

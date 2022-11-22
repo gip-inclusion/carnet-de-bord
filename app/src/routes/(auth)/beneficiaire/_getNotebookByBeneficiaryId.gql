@@ -1,10 +1,10 @@
-query GetNotebookByBeneficiaryId($id: uuid!) {
+query GetNotebookByBeneficiaryId($id: uuid!, $withOrientationRequests: Boolean = false) {
   notebook(where: { beneficiaryId: { _eq: $id } }) {
     ...notebookFragment
   }
 }
 
-query GetNotebookById($id: uuid!) {
+query GetNotebookById($id: uuid!, $withOrientationRequests: Boolean = false) {
   notebook: notebook_by_pk(id: $id) {
     ...notebookFragment
   }
@@ -45,6 +45,20 @@ fragment notebookFragment on notebook {
     mobileNumber
     peNumber
     postalCode
+    orientationRequest(order_by: {createdAt: desc}, limit: 1) @include(if: $withOrientationRequests) {
+      id
+      createdAt
+      decidedAt
+      requestedOrientationType {
+        label
+      }
+      beneficiary {
+        id
+        notebook {
+          id
+        }
+      }
+    }
   }
   members(where: { active: { _eq: true } }, order_by: { lastModifiedAt: desc_nulls_last }) {
     id

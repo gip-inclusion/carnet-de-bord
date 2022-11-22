@@ -132,7 +132,7 @@ INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, stat
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('0d706d35-2159-4b39-8c6a-cf176127423f', '2603e9a7-f31d-4a57-a15c-4f2cbd7af82a', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:44.419056+00', '2022-03-30 09:29:44.419056+00');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('2f062f42-4299-497c-95b8-81236e8fef97', 'a3592348-f1ff-4092-b3bb-1ec06440b64e', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:45.419791+00', '2022-03-30 09:29:45.419791+00');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('5c411967-9d8b-4480-b8d4-2c3e15470117', '0dca2451-0ca3-448c-a320-0e822511fa7a', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:46.425676+00', '2022-03-30 09:29:46.425676+00');
-INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('385881d0-29df-4b7a-96ef-b8a725f6fac2', 'da7da91b-f31d-4e70-867e-d4b0d3b794af', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:47.416592+00', '2022-03-30 09:29:47.416592+00');
+INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('385881d0-29df-4b7a-96ef-b8a725f6fac2', 'da7da91b-f31d-4e70-867e-d4b0d3b794af', 'c0b8aee3-c061-4023-b57e-92880627d589', 'pending', '{}', '2022-03-30 09:29:47.416592+00', '2022-03-30 09:29:47.416592+00');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('36e17d36-e6a2-4503-a3ac-219746d21981', 'c727865f-749a-44f5-969a-bac4b5971a58', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:48.424798+00', '2022-03-30 09:29:48.424798+00');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('5c9a3e07-5257-4b32-9b36-92785abf3a74', '68e96d69-c84c-4226-8a48-763f3917f5ea', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:49.426152+00', '2022-03-30 09:29:49.426152+00');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at) VALUES ('89985440-84a5-43e6-bc8c-0a3da818fabc', 'c09d2326-c37c-40ee-8b49-71eeb67c1871', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:50.430904+00', '2022-03-30 09:29:50.430904+00');
@@ -299,6 +299,10 @@ INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VA
 INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('9c0e5236-a03d-4e5f-b945-c6bc556cf9f3', 'sociopro', false);
 INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('d235c967-29dc-47bc-b2f3-43aa46c9f54f', 'sociopro', false);
 
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('798d152c-c812-4708-a2dc-5582f07c71d2', 'sociopro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('d64a615e-6332-4c30-b3ac-341ff57a779b', 'pro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('fb0e54ce-5cb8-460c-952c-9256d4c6102e', 'social', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('b76fca49-ff9a-49b6-9a83-ee656730297a', 'pro', false);
 
 
 -- Other account and notebook data
@@ -337,6 +341,8 @@ INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('1b45defb-d1d1-4c07-af47-b1062cb9b5f5', 'alaise.blaise', 'professional', '3de46574-311a-462c-88d4-e2e89d2bd136', true, false);
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('b7f75b75-8a3f-4143-a7fa-cefec88634a6', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'bienvenu.lejeune@mission-locale.fr', 'Bienvenu', 'Lejeune', '', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('32609be3-2282-4303-9ebd-4f419cf558d9', 'bienvenu.lejeune', 'professional', 'b7f75b75-8a3f-4143-a7fa-cefec88634a6', false, false);
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('db09d6b1-8891-4638-b483-5eb917e8098d', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'edith.orial@interlogement93.fr', 'Edith', 'Orial', '', '');
+INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('521a2983-17e2-43a9-abf6-7ed9f93cf7f9', 'edith.orial', 'professional', 'db09d6b1-8891-4638-b483-5eb917e8098d', false, false);
 
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('607cb6f8-9e33-4ce8-98b1-38e60c9dda99', 'giulia.diaby@cd93.fr', 'Diaby', 'Giulia', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'giulia.diaby', 'orientation_manager', '607cb6f8-9e33-4ce8-98b1-38e60c9dda99', true, false);
@@ -377,6 +383,16 @@ INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at
 
 -- Orientation Requests
 INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('eabf6fda-26b5-4aeb-8179-6050a826cde6', '3c1a9fdf-a231-4659-9a91-630ff12c5774', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'social', 'pending', 'Ceci est la raison pour laquelle on souhaite changer l’orientation', '2022-09-01 14:00:00.0000+00');
+
+-- with reason
+INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('1f696530-984c-4f92-be13-c477097b02b7', '695b2792-93ad-4819-954f-b022006bd92e', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'social', 'pending', 'Ceci est la raison pour laquelle on souhaite changer l’orientation', '2022-09-01 14:00:00.0000+00');
+-- without reasaon
+INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('34cf537f-dbf2-4ffd-8adc-72bdebd65adf', '69719e18-36a0-4e93-8d85-c6e592161041', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'social', 'pending', NULL, '2022-09-01 14:00:00.0000+00');
+-- with Edith Orial as referent
+INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('521c419c-d8a0-450d-941b-30bc3eb9909c', 'df791447-246b-4370-aa32-4258393cd78e', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'pro', 'pending', 'Un accompagnement pro sera plus adapté.', '2022-09-01 14:00:00.0000+00');
+-- without referent
+INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('51c33ea2-c5cc-4dc0-92b6-639b837c11d6', 'db285eb8-ac5c-49fc-9daa-2d823738a392', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'sociopro', 'pending', NULL, '2022-09-01 14:00:00.0000+00');
+
 -- Focus and target for Lindsay Aguilar's notebook
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('5179594a-ccc1-4f1d-90ce-3bd4eeed1160', 'formation', '["Prêt à suivre une formation"]', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '79bc73e3-45d7-467f-ae3e-d395e338386c', '2021-09-21 13:15:54.752334+00', 'cer');
 INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('fc92ff8a-c9db-4016-87b2-73095d463603', '5179594a-ccc1-4f1d-90ce-3bd4eeed1160', 'Se former', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:17:53.594417+00');
@@ -401,3 +417,5 @@ INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, stat
 
 
 INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('4d1fff01-463b-4c1b-94e2-f3588a6cbf88', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-08-11 13:15:00.000+00', 'pending', '2021-08-11 13:15:00.000+00', '2021-08-11 13:06:45.076+00');
+
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('7e44c14e-29de-47d3-aaf2-8fac7c281359', '798d152c-c812-4708-a2dc-5582f07c71d2', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', '2021-09-21 13:06:45.076+00', 'referent', true);

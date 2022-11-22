@@ -8,6 +8,20 @@ query GetDeploymentNotebooks($deploymentId: uuid!) {
     beneficiary {
       firstname
       lastname
+      orientationRequest(order_by: {createdAt: desc}, limit: 1) {
+        id
+        createdAt
+        decidedAt
+        requestedOrientationType {
+          label
+        }
+        beneficiary {
+          id
+          notebook {
+            id
+          }
+        }
+      }
     }
   }
 }

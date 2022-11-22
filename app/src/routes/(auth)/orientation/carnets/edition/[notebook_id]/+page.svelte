@@ -9,7 +9,7 @@
 
 	const getNotebookResult = operationStore(
 		GetNotebookDocument,
-		{ id: data.notebookId },
+		{ id: data.notebookId, withOrientationRequests: true },
 		{
 			additionalTypenames: [
 				'beneficiary',
