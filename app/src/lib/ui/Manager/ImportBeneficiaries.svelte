@@ -174,7 +174,7 @@
 		{ label: 'Ville', key: 'Ville', mandatory: false },
 		{ label: 'Situation de travail', key: 'Situation', mandatory: false },
 		{ label: 'N° CAF/MSA', key: 'Numéro allocataire CAF/MSA', mandatory: false },
-		{ label: 'N° Pôle emploi', key: 'Identifiant Pôle Emploi', mandatory: false },
+		{ label: 'N° Pôle emploi', key: 'Identifiant Pôle emploi', mandatory: false },
 		{ label: 'Droits RSA', key: 'Droits RSA', mandatory: false },
 		{ label: 'Droits ARE', key: 'Droits ARE', mandatory: false },
 		{ label: 'Droits ASS', key: 'Droits ASS', mandatory: false },
@@ -183,7 +183,7 @@
 		{ label: 'Zone de mobilité', key: 'Zone de mobilité', mandatory: false },
 		{
 			label: 'Emplois recherchés (texte + code ROME)',
-			key: 'Emploi recherché (code ROME)"',
+			key: 'Emploi recherché (code ROME)',
 			mandatory: false,
 		},
 		{ label: 'Niveau de formation', key: 'Niveau de formation', mandatory: false },
@@ -235,10 +235,13 @@
 					>consulter la notice de remplissage</a
 				>.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
-				<span class="cursor-default">
-					Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
-				</span>
+			<Dropzone
+				on:drop={handleFilesSelect}
+				multiple={false}
+				accept=".csv,.xls,.xlsx"
+				containerClasses="cursor-pointer dropzone"
+			>
+				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
 		{:else}
 			{#await parsePromise}
@@ -299,12 +302,16 @@
 											{#if beneficiary.valid}
 												{#if key === 'Date de naissance*'}
 													<Text value={formatDateLocale(beneficiary.data[key])} defaultValue="" />
+												{:else if ["Prime d'activité", 'Droits ARE', 'Droits ASS', 'Droits RQTH'].includes(key)}
+													<Text value={beneficiary.data[key] ? 'Oui' : 'Non'} defaultValue="" />
 												{:else}
 													<Text value={beneficiary.data[key]} defaultValue="" />
 												{/if}
 											{:else if lineErrors[key]}
-												<i class="ri-alert-line text-error " title={lineErrors[key]} />
-												<Text
+												<i
+													class="ri-alert-line text-error "
+													title={translateError(lineErrors[key])}
+												/><Text
 													class="text-error border-dashed border-b-1 "
 													title={translateError(lineErrors[key])}
 													value={beneficiary.row[key]}
@@ -469,3 +476,12 @@
 		{/await}
 	{/if}
 </div>
+
+<style>
+	:global(.dropzone):hover {
+		border-color: var(--blue-france-main-525);
+	}
+	:global(.dropzone):focus {
+		border-color: var(--blue-france-main-525);
+	}
+</style>
