@@ -19,7 +19,7 @@
 	}
 </script>
 
-<div class="flex flex-row mb-8">
+<div class="flex flex-row mb-8 items-center">
 	<div class="text-france-blue fr-icon-info-fill" />
 	<div class="fr-container">
 		<div class="fr-text--bold text-france-blue">
@@ -29,7 +29,7 @@
 			Orientation recommandée : {orientationRequest.requestedOrientationType.label}
 		</div>
 	</div>
-	<div class="flex flex-row flex-none gap-4 h-8">
+	<div class="flex flex-row flex-none items-center gap-6 h-8">
 		<Button title="Réorienter" on:click={() => acceptOrientationRequest()}>Réorienter</Button>
 		<Button title="Maintenir l'accompagnement" on:click={() => denyOrientationRequest()}>
 			Maintenir l'accompagnement
