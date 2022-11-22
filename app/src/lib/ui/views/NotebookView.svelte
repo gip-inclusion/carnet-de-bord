@@ -9,6 +9,7 @@
 	import Accordion from '../base/Accordion.svelte';
 	import ProNotebookPersonalInfoView from '$lib/ui/ProNotebookPersonalInfo/ProNotebookPersonalInfoView.svelte';
 	import OrientationRequestBanner from '../OrientationRequest/OrientationRequestBanner.svelte';
+	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 
@@ -24,6 +25,8 @@
 <div class="fr-py-6w flex flex-col gap-8">
 	{#if orientationRequest && !orientationRequest?.decidedAt}
 		<OrientationRequestBanner {orientationRequest} />
+	{:else}
+		<OrientationHeader {notebook} />
 	{/if}
 	<ProNotebookPersonalInfoView
 		{beneficiary}

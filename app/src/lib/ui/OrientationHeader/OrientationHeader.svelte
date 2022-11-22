@@ -1,10 +1,12 @@
 <script lang="ts">
-	import type {
-		GetNotebookByBeneficiaryIdQuery,
-		GetNotebookQuery,
+	import {
+		type GetNotebookByBeneficiaryIdQuery,
+		type GetNotebookQuery,
+		ChangeBeneficiaryOrientationDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Button } from '$lib/ui/base';
 	import { openComponent } from '$lib/stores';
+	import { mutation } from '@urql/svelte';
 	import OrientationForm, {
 		type OrientationValidationSchema,
 	} from '../OrientationManager/OrientationForm.svelte';
@@ -12,12 +14,26 @@
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
 		| GetNotebookQuery['notebook'];
-	$: error = false;
+	$: error = false; // FIXME: find correct way to update open component when error changes
 	const buttonTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
 
+	const changeBeneficiaryOrientation = mutation({ query: ChangeBeneficiaryOrientationDocument });
+
 	async function handleSubmit(values: OrientationValidationSchema) {
-		console.debug({ values, notebook });
-		error = true;
+		const response = await changeBeneficiaryOrientation({
+			orientationType: values.orientationType,
+			notebookId: notebook.id,
+			beneficiaryId: notebook.beneficiary.id,
+			structureId: values.structureId,
+			professionalAccountId: values.professionalAccountId,
+			withProfessionalAccountId: !!values.professionalAccountId,
+		});
+		if (response.error) {
+			error = true;
+			console.error(error);
+			return;
+		}
+		openComponent.close();
 	}
 
 	function openOrientationForm() {

@@ -1,0 +1,20 @@
+mutation ChangeBeneficiaryOrientation($orientationType: orientation_type_enum, $notebookId: uuid!, $beneficiaryId: uuid!, $structureId: uuid!, $professionalAccountId: uuid, $withProfessionalAccountId: Boolean = false) {
+  insert_notebook_info_one(object: {notebookId: $notebookId, orientation: $orientationType, needOrientation: false}, on_conflict: {constraint: notebook_info_pkey, update_columns: [orientation]}) {
+    notebookId
+  }
+  update_notebook_member(where: {notebookId: {_eq: $notebookId}, memberType: {_eq: "referent"}}, _set: {memberType: "former_referent"}) {
+    affected_rows
+  }
+  update_beneficiary_structure(where: {beneficiaryId: {_eq: $beneficiaryId}}, _set: {status: "outdated"}) {
+    affected_rows
+  }
+  createDoneBeneficiaryStructure: insert_beneficiary_structure_one(object: {beneficiaryId: $beneficiaryId, structureId: $structureId, status: "done"}) @include(if: $withProfessionalAccountId) {
+    id
+  }
+  createPendingBeneficiaryStructure: insert_beneficiary_structure_one(object: {beneficiaryId: $beneficiaryId, structureId: $structureId, status: "pending"}) @skip(if: $withProfessionalAccountId) {
+    id
+  }
+  insert_notebook_member_one(object: {notebookId: $notebookId, memberType: "referent", accountId: $professionalAccountId}) @include(if: $withProfessionalAccountId) {
+    id
+  }
+}
