@@ -124,7 +124,7 @@ async def test_parse_principal_csv(
 
     assert sophie_tifour is not None and sophie_tifour.notebook is not None
     assert len(sophie_tifour.notebook.wanted_jobs) == 3
-    assert sophie_tifour.pe_unique_id == "71288a46-3c4d-4372-9298-c32936d7e76d"
+    assert sophie_tifour.pe_unique_import_id == "71288a46-3c4d-4372-9298-c32936d7e76d"
 
     professional = await get_professional_by_email(
         db_connection, "referent_prenom4.referent_nom4@pole-emploi.fr"

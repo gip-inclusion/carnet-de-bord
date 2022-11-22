@@ -378,14 +378,14 @@ async def import_beneficiary(
 
     if beneficiary and beneficiary.notebook is not None:
 
-        if beneficiary.pe_unique_id != pe_unique_id:
+        if beneficiary.pe_unique_import_id != pe_unique_id:
             beneficiary_uuid: UUID | None = await update_beneficiary_field(
-                connection, "pe_unique_id", pe_unique_id, beneficiary.id
+                connection, "pe_unique_import_id", pe_unique_id, beneficiary.id
             )
 
             if beneficiary_uuid:
                 logging.info(
-                    f"{pe_unique_id} - Updated beneficiary pe_unique_id to value {pe_unique_id}"
+                    f"{pe_unique_id} - Updated beneficiary pe_unique_import_id to value {pe_unique_id}"
                 )
 
         # Do we already have some external data for this beneficiary?
