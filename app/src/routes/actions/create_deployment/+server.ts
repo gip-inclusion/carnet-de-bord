@@ -90,7 +90,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			to: email,
 			subject: 'Bienvenue sur Carnet de bord',
 		},
-		template: 'managerOnboarding',
+		template: 'ManagerOnboarding',
 		params: [
 			{
 				url: {

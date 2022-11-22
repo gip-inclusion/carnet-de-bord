@@ -1,25 +1,50 @@
 import { send as sender } from './send';
-import templates from './emails';
+import { createLink } from './emails';
+import type { Templates } from './emails';
 import type Mail from 'nodemailer/lib/mailer';
 import type { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
+import type { SvelteComponent } from 'svelte/types/runtime';
 
-function send<K extends keyof typeof templates>({
+type Constructor<T> = new (...args: any[]) => T;
+
+export default async function send({
 	options,
 	template,
 	params,
 }: {
 	options: Mail.Options;
-	template: K;
-	params: Parameters<typeof templates[K]>;
+	template: Templates;
+	params: object;
 }): Promise<SentMessageInfo> {
-	if (!templates[template]) {
-		return Promise.reject(
-			`Invalid template name: ${template}. Available templates are: ${Object.keys(templates).join(
-				', '
-			)}.`
-		);
+	const html = await createMail({ template, params });
+	if (typeof html !== 'string') {
+		throw new Error('impossible to send non string');
 	}
-	return sender({ ...options, html: templates[template].apply(null, params) });
+	return sender({ ...options, html });
 }
 
-export default send;
+export async function createMail({
+	template,
+	params,
+}: {
+	template: Templates;
+	params: object;
+}): Promise<string> {
+	const { Component, formattedParams } = await prepareEmail({ template, params });
+
+	return (Component as any).render(formattedParams).html;
+}
+
+export async function prepareEmail({
+	template,
+	params,
+}: {
+	template: Templates;
+	params: object;
+}): Promise<{ Component: Constructor<SvelteComponent>; formattedParams: object }> {
+	const Component = (await import(`./templates/${template}.svelte`)).default;
+	const formattedParams = { ...params[0], link: createLink(params[0].url) };
+	delete formattedParams.url;
+
+	return { Component, formattedParams };
+}

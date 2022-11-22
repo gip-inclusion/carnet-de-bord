@@ -44,10 +44,9 @@
 
 	function toList(account: GetAccountsSummaryQuery['accounts'][0]): AccountSummary {
 		if (account.type === RoleEnum.Professional) {
-			const { id } = account;
 			const { firstname, lastname, email, structure, mobileNumber } = account.professional;
 			return {
-				id,
+				id: account.id,
 				firstname,
 				lastname,
 				email,
@@ -59,9 +58,9 @@
 				nbBeneficiaries: account.notebookCount.aggregate.count,
 			};
 		} else if (account.type === RoleEnum.OrientationManager) {
-			const { id, firstname, lastname, email, phoneNumbers } = account.orientation_manager;
+			const { firstname, lastname, email, phoneNumbers } = account.orientation_manager;
 			return {
-				id,
+				id: account.id,
 				firstname,
 				lastname,
 				email,

@@ -103,7 +103,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			to: email,
 			subject: "Votre demande d'inscription à Carnet de Bord est validée",
 		},
-		template: 'accountRequestValidate',
+		template: 'AccountRequestValidate',
 		params: [
 			{
 				pro: {

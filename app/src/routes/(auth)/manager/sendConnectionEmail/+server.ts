@@ -95,7 +95,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			to: email,
 			subject: 'Accédez à votre espace Carnet de bord',
 		},
-		template: 'forgotLoginRequest',
+		template: 'ForgotLoginRequest',
 		params: [
 			{
 				account: {

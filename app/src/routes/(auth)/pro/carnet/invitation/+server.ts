@@ -72,7 +72,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			to: account.professional.email,
 			subject: 'Invitation à rejoindre un carnet de bord',
 		},
-		template: 'notebookInvitation',
+		template: 'NotebookInvitation',
 		params: [
 			{
 				pro: account.professional,
