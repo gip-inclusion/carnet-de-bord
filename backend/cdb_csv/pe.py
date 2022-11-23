@@ -61,6 +61,7 @@ logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 class ParseActionEnum(StrEnum):
     IMPORT_BENEFICIARIES = "import_beneficiaries"
+    IMPORT_ACTIONS = "import_actions"
     MATCH_BENEFICIARIES_AND_PROS = "match_beneficiaries_and_pros"
 
 
@@ -201,6 +202,11 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
         except Exception as e:
             logging.error("Exception while processing CSV line: {}".format(e))
             traceback.print_exc()
+
+
+async def import_actions(connection: Connection, action_csv_path: str):
+
+    logging.info("Running 'import_actions' on pe actions file")
 
 
 async def import_pe_referent(
@@ -467,7 +473,7 @@ async def save_external_data(
     return external_data
 
 
-async def parse_principal_csv(
+async def parse_pe_csv(
     principal_csv: str, action: ParseActionEnum = ParseActionEnum.IMPORT_BENEFICIARIES
 ):
     pool = await get_connection_pool(settings.database_url)
@@ -478,6 +484,8 @@ async def parse_principal_csv(
             # Open a transaction.
 
             match action:
+                case ParseActionEnum.IMPORT_ACTIONS:
+                    await import_actions(connection, principal_csv)
                 case ParseActionEnum.IMPORT_BENEFICIARIES:
                     await import_beneficiaries(connection, principal_csv)
                 case ParseActionEnum.MATCH_BENEFICIARIES_AND_PROS:
