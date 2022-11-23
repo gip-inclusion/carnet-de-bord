@@ -4,6 +4,40 @@ from datetime import date, datetime
 from pydantic import BaseModel, Field, validator
 
 
+def parse_date(value: str):
+    if value != "NULL":
+        return datetime.strptime(value, "%Y-%m-%d %H:%M:%S.%f").date()
+
+
+def date_validator(*args, **kwargs):
+    decorator = validator(*args, **kwargs, allow_reuse=True)
+    decorated = decorator(parse_date)
+    return decorated
+
+
+class ActionCsvRow(BaseModel):
+    identifiant_unique_de: str
+    codeaction: str
+    lblaction: str
+    objectif_formation: str | None
+    date_prescription: date
+    date_realisation_action: date | None
+    date_prev_debut: date | None
+    date_debut: date | None
+    date_fin: date | None
+    formation: str | None
+    adr_dc_commune_id: int = Field(None, alias="adr.dc_commune_id")
+
+    _date_validator = date_validator(
+        "date_prescription",
+        "date_realisation_action",
+        "date_prev_debut",
+        "date_debut",
+        "date_fin",
+        pre=True,
+    )
+
+
 class PrincipalCsvRow(BaseModel):
     identifiant_unique_de: str
     civilite: str
@@ -73,7 +107,7 @@ class PrincipalCsvRow(BaseModel):
         else:
             return False
 
-    @validator(
+    _date_validator = date_validator(
         "date_naissance",
         "der_entretien_ppae",
         "der_entretien",
@@ -82,9 +116,6 @@ class PrincipalCsvRow(BaseModel):
         "suivi_fin_prev",
         pre=True,
     )
-    def parse_date(cls, value):
-        if value != "NULL":
-            return datetime.strptime(value, "%Y-%m-%d %H:%M:%S.%f").date()
 
 
 async def get_sha256(csv_row: PrincipalCsvRow) -> str:

@@ -52,7 +52,7 @@ from api.db.models.notebook_member import (
 from api.db.models.professional import Professional, ProfessionalInsert
 from api.db.models.structure import Structure
 from api.db.models.wanted_job import WantedJob
-from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
+from cdb_csv.models.csv_row import ActionCsvRow, PrincipalCsvRow, get_sha256
 from pe.models.agence import Agence
 from pe.pole_emploi_client import PoleEmploiApiClient
 
@@ -67,6 +67,10 @@ class ParseActionEnum(StrEnum):
 
 async def map_principal_row(row: Series) -> PrincipalCsvRow:
     return PrincipalCsvRow.parse_obj(row)
+
+
+async def map_action_row(row: Series) -> ActionCsvRow:
+    return ActionCsvRow.parse_obj(row)
 
 
 async def match_beneficiaries_and_pros(connection: Connection, principal_csv: str):
@@ -200,13 +204,35 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                 )
 
         except Exception as e:
-            logging.error("Exception while processing CSV line: {}".format(e))
+            logging.error("Exception while processing main CSV line: {}".format(e))
             traceback.print_exc()
 
 
 async def import_actions(connection: Connection, action_csv_path: str):
 
     logging.info("Running 'import_actions' on pe actions file")
+
+    df = dd.read_csv(
+        action_csv_path, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
+    )
+
+    row: Series
+    for _, row in df.iterrows():
+        try:
+
+            logging.info(
+                "{id} => Trying to import action row {id}".format(
+                    id=row["identifiant_unique_de"]
+                )
+            )
+
+            csv_row: ActionCsvRow = await map_action_row(row)
+
+            logging.info(f"{csv_row.identifiant_unique_de}")
+
+        except Exception as e:
+            logging.error("Exception while processing action CSV line: {}".format(e))
+            traceback.print_exc()
 
 
 async def import_pe_referent(
