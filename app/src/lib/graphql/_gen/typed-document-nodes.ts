@@ -14125,6 +14125,7 @@ export type GetNotebookQuery = {
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
+				status?: string | null;
 				createdAt: string;
 				decidedAt?: string | null;
 				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
@@ -23986,7 +23987,7 @@ export const GetNotebookDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withOrientationRequests' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
-					defaultValue: { kind: 'BooleanValue', value: false },
+					defaultValue: { kind: 'BooleanValue', value: true },
 				},
 			],
 			selectionSet: {
@@ -24103,6 +24104,7 @@ export const GetNotebookDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
 														{
