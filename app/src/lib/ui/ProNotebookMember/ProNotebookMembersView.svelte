@@ -66,10 +66,13 @@
 			{#each members.filter(({ account }) => account.type === RoleEnum.Professional) as member}
 				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
 					<td>
-						<div class="flex flex-row gap-2">
+						<span class="inline-flex gap-2" class:font-bold={member.memberType === 'referent'}>
 							<Text value={displayFullName(member.account?.professional)} />
-							<Text value={`(${member.account?.professional.structure.name})`} />
-						</div>
+							{#if member.memberType === 'referent'}
+								(référent)
+							{/if}
+						</span>
+						<Text value={member.account?.professional.structure.name} />
 					</td>
 					<td>
 						<Text value={member.account?.professional.position} />
