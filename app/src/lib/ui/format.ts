@@ -40,3 +40,10 @@ export const displayFullAddress = ({
 		[address1, address2].filter((field) => notNullish(field)).join(', '),
 		[postalCode, city].join(' - '),
 	].join(' - ');
+
+export function displayBoolean(value: unknown): string | null {
+	if (typeof value === 'boolean') {
+		return value ? 'Oui' : 'Non';
+	}
+	return null;
+}

@@ -15,7 +15,7 @@
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
-	import { displayFullName } from '$lib/ui/format';
+	import { displayBoolean, displayFullName } from '$lib/ui/format';
 	import { pluralize } from '$lib/helpers';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { v4 as uuidv4 } from 'uuid';
@@ -195,13 +195,6 @@
 		beneficiariesToImport = [];
 		parsePromise = undefined;
 		insertPromise = undefined;
-	}
-
-	function displayBoolean(value: unknown): string | null {
-		console.log(value);
-		if (typeof value === 'boolean') {
-			return value ? 'Oui' : 'Non';
-		}
 	}
 </script>
 
