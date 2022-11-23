@@ -16,8 +16,8 @@ Fonctionnalité: Changer l'orientation d'un bénéficiaire
 		Quand je clique sur "Valider" dans le volet
 		Alors je ne vois pas "Orienter"
 		Alors je vois "Réorienter"
-		Alors je vois "Thierry Dunord"
-		Alors je vois "(Pole Emploi Agence Livry-Gargnan)"
+		Alors je vois "référent" sur la ligne "Thierry Dunord"
+		Alors je vois "Pole Emploi Agence Livry-Gargnan" sur la ligne "Thierry Dunord"
 
 	Scénario: Réorienter un bénéficiaire
 		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Tifour"
@@ -31,4 +31,5 @@ Fonctionnalité: Changer l'orientation d'un bénéficiaire
 		Alors je ne vois pas "Orienter"
 		Alors je vois "Réorienter"
 		Alors je vois "Thierry Dunord"
-		Alors je vois "(Pole Emploi Agence Livry-Gargnan)"
+		Alors je vois "référent" sur la ligne "Thierry Dunord"
+		Alors je vois "Pole Emploi Agence Livry-Gargnan" sur la ligne "Thierry Dunord"
