@@ -36,6 +36,8 @@ async def parse_beneficiaries(
     upload_file: UploadFile,
 ):
     dataframe = await file_to_json(upload_file)
+    for line in dataframe.iterrows():
+        print(line)
     return [map_csv_row_beneficiary(row) for _, row in dataframe.iterrows()]
 
 

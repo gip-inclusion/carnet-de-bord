@@ -73,7 +73,7 @@ class BeneficiaryImport(BaseModel):
     city: str | None = Field(None, alias="Ville")
     work_situation: str | None = Field(None, alias="Situation")
     caf_number: str | None = Field(None, alias="Numéro allocataire CAF/MSA")
-    pe_number: str | None = Field(None, alias="Identifiant Pôle Emploi")
+    pe_number: str | None = Field(None, alias="Identifiant Pôle emploi")
     right_rsa: str | None = Field(None, alias="Droits RSA")
     right_are: bool | None = Field(None, alias="Droits ARE")
     right_ass: bool | None = Field(None, alias="Droits ASS")
