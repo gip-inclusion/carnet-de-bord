@@ -18943,7 +18943,10 @@ export const ChangeBeneficiaryOrientationDocument = {
 											name: { kind: 'Name', value: 'update_columns' },
 											value: {
 												kind: 'ListValue',
-												values: [{ kind: 'EnumValue', value: 'orientation' }],
+												values: [
+													{ kind: 'EnumValue', value: 'orientation' },
+													{ kind: 'EnumValue', value: 'needOrientation' },
+												],
 											},
 										},
 									],
@@ -19339,7 +19342,10 @@ export const AcceptOrientationRequestDocument = {
 											name: { kind: 'Name', value: 'update_columns' },
 											value: {
 												kind: 'ListValue',
-												values: [{ kind: 'EnumValue', value: 'orientation' }],
+												values: [
+													{ kind: 'EnumValue', value: 'orientation' },
+													{ kind: 'EnumValue', value: 'needOrientation' },
+												],
 											},
 										},
 									],
