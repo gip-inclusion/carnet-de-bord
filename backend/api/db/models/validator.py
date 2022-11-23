@@ -80,6 +80,7 @@ def postal_code_validator(*args, **kwargs):
 
 def is_bool(value):
     if type(value) == str:
+        print(value, value.lower() in ["oui", "o"])
         if value.lower() in ["oui", "o"]:
             return True
         else:

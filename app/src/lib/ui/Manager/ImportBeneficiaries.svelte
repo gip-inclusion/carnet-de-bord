@@ -179,7 +179,7 @@
 		{ label: 'Droits ARE', key: 'Droits ARE', mandatory: false },
 		{ label: 'Droits ASS', key: 'Droits ASS', mandatory: false },
 		{ label: "Prime d'activité", key: "Prime d'activité", mandatory: false },
-		{ label: 'RQTH', key: 'Droits RQTH', mandatory: false },
+		{ label: 'RQTH', key: 'RQTH', mandatory: false },
 		{ label: 'Zone de mobilité', key: 'Zone de mobilité', mandatory: false },
 		{
 			label: 'Emplois recherchés (texte + code ROME)',
@@ -195,6 +195,13 @@
 		beneficiariesToImport = [];
 		parsePromise = undefined;
 		insertPromise = undefined;
+	}
+
+	function displayBoolean(value: unknown): string | null {
+		console.log(value);
+		if (typeof value === 'boolean') {
+			return value ? 'Oui' : 'Non';
+		}
 	}
 </script>
 
@@ -302,8 +309,8 @@
 											{#if beneficiary.valid}
 												{#if key === 'Date de naissance*'}
 													<Text value={formatDateLocale(beneficiary.data[key])} defaultValue="" />
-												{:else if ["Prime d'activité", 'Droits ARE', 'Droits ASS', 'Droits RQTH'].includes(key)}
-													<Text value={beneficiary.data[key] ? 'Oui' : 'Non'} defaultValue="" />
+												{:else if ["Prime d'activité", 'Droits ARE', 'Droits ASS', 'RQTH'].includes(key)}
+													<Text value={displayBoolean(beneficiary.data[key])} defaultValue="" />
 												{:else}
 													<Text value={beneficiary.data[key]} defaultValue="" />
 												{/if}

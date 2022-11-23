@@ -78,7 +78,7 @@ class BeneficiaryImport(BaseModel):
     right_are: bool | None = Field(None, alias="Droits ARE")
     right_ass: bool | None = Field(None, alias="Droits ASS")
     right_bonus: bool | None = Field(None, alias="Prime d'activité")
-    right_rqth: bool | None = Field(None, alias="Droits RQTH")
+    right_rqth: bool | None = Field(None, alias="RQTH")
     geographical_area: str | None = Field(None, alias="Zone de mobilité")
     rome_code_description: str | None = Field(
         None, alias="Emploi recherché (code ROME)"
