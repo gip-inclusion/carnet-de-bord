@@ -15,6 +15,11 @@ def date_validator(*args, **kwargs):
     return decorated
 
 
+class ActionMappingCsvRow(BaseModel):
+    actions: str
+    focus: str | None
+
+
 class ActionCsvRow(BaseModel):
     identifiant_unique_de: str
     codeaction: str

@@ -1,4 +1,5 @@
 import logging
+import os
 import re
 import traceback
 import uuid
@@ -52,6 +53,7 @@ from api.db.models.notebook_member import (
 from api.db.models.professional import Professional, ProfessionalInsert
 from api.db.models.structure import Structure
 from api.db.models.wanted_job import WantedJob
+from cdb_csv.crud.actions import load_action_mapping_file
 from cdb_csv.models.csv_row import ActionCsvRow, PrincipalCsvRow, get_sha256
 from pe.models.agence import Agence
 from pe.pole_emploi_client import PoleEmploiApiClient
@@ -74,7 +76,7 @@ async def map_action_row(row: Series) -> ActionCsvRow:
 
 
 async def match_beneficiaries_and_pros(connection: Connection, principal_csv: str):
-    df = dd.read_csv(
+    df = dd.read_csv(  # type: ignore
         principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
     )
 
@@ -141,7 +143,7 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
 
 async def import_beneficiaries(connection: Connection, principal_csv: str):
 
-    df = dd.read_csv(
+    df = dd.read_csv(  # type: ignore
         principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
     )
 
@@ -212,8 +214,14 @@ async def import_actions(connection: Connection, action_csv_path: str):
 
     logging.info("Running 'import_actions' on pe actions file")
 
-    df = dd.read_csv(
+    df = dd.read_csv(  # type: ignore
         action_csv_path, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
+    )
+
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+
+    mapping: dict[str, str] = await load_action_mapping_file(
+        os.path.join(current_dir, "categorisation_des_actions_du_fichier_PE.csv")
     )
 
     row: Series
@@ -228,7 +236,14 @@ async def import_actions(connection: Connection, action_csv_path: str):
 
             csv_row: ActionCsvRow = await map_action_row(row)
 
-            logging.info(f"{csv_row.identifiant_unique_de}")
+            focus: str | None = mapping[csv_row.lblaction]
+
+            if focus:
+                logging.info(f"Mapped focus: {focus}")
+            else:
+                logging.error(
+                    f"Mapped focus not found for action '{csv_row.lblaction}': {focus}"
+                )
 
         except Exception as e:
             logging.error("Exception while processing action CSV line: {}".format(e))
