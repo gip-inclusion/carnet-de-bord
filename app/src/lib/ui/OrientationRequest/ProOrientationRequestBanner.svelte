@@ -2,24 +2,28 @@
 	import { formatDateLocale } from '$lib/utils/date';
 
 	export let reorientationRequest;
+
+	$: color =
+		reorientationRequest.status == 'denied'
+			? 'text-marianne-red'
+			: reorientationRequest.status == 'accepted'
+			? 'text-success'
+			: 'text-france-blue';
+
+	$: decision =
+		reorientationRequest.status == 'denied'
+			? 'refusée'
+			: reorientationRequest.status == 'accepted'
+			? 'acceptée'
+			: 'envoyée';
 </script>
 
 <div class="flex flex-row mb-8 items-center">
-	<div class="text-france-blue fr-icon-info-fill" />
+	<div class="{color} fr-icon-info-fill" />
 	<div class="fr-container">
-		{#if reorientationRequest.status == 'pending'}
-			<div class="fr-text--bold text-france-blue">
-				Demande de réorientation envoyée le {formatDateLocale(reorientationRequest.createdAt)}
-			</div>
-		{:else if reorientationRequest.status == 'accepted'}
-			<div class="fr-text--bold text-france-green">
-				Demande de réorientation acceptée le {formatDateLocale(reorientationRequest.decidedAt)}
-			</div>
-		{:else if reorientationRequest.status == 'denied'}
-			<div class="fr-text--bold text-france-red">
-				Demande de réorientation refusée le {formatDateLocale(reorientationRequest.decidedAt)}
-			</div>
-		{/if}
+		<div class="fr-text--bold {color}">
+			Demande de réorientation {decision} le {formatDateLocale(reorientationRequest.createdAt)}
+		</div>
 		<div>
 			Orientation recommandée : {reorientationRequest.requestedOrientationType.label}
 		</div>
