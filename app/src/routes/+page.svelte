@@ -3,19 +3,6 @@
 	import Header from '$lib/ui/base/Header.svelte';
 
 	import { Link } from '$lib/ui/base';
-
-	//import { Elm } from '../../elm/MainApp/Main.elm';
-
-	//import { onMount } from 'svelte';
-
-	//let node;
-	//onMount(() => {
-	//	let app = Elm.MainApp.Main.init({ node, flags: null });
-	//	app.ports.sendMessage.subscribe(function (message) {
-	//		console.log('Received from Elm: ' + message);
-	//		app.ports.messageReceiver.send('Msg from Svelte');
-	//	});
-	//});
 </script>
 
 <svelte:head>

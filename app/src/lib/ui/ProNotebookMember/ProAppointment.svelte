@@ -128,8 +128,6 @@
 
 	function showDeleteButton(index: number) {
 		const appointment = appointments[index];
-		console.log({ index });
-		console.log({ appointment: JSON.stringify(appointment) });
 		return appointment.id;
 	}
 

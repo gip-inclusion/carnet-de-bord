@@ -29,7 +29,6 @@
 		});
 	}
 	function updateFilters() {
-		console.log(withoutOrientationManager);
 		dispatch('filter-update', {
 			orientationStatusFilter,
 			withoutOrientationManager,

@@ -46,7 +46,7 @@
 			linkedTo: formData.linkedTo,
 		});
 		if (store.error) {
-			console.log('createFocus error', {
+			console.error('createFocus error', {
 				error: store.error,
 				creatorId: $connectedUser.id,
 			});
