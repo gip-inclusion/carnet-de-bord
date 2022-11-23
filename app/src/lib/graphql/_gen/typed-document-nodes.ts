@@ -19315,6 +19315,11 @@ export const AcceptOrientationRequestDocument = {
 											name: { kind: 'Name', value: 'orientation' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'orientationType' } },
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'needOrientation' },
+											value: { kind: 'BooleanValue', value: false },
+										},
 									],
 								},
 							},
