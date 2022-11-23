@@ -1,3 +1,10 @@
+## [1.161.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.1...v1.161.2) (2022-11-23)
+
+
+### Bug Fixes
+
+* add missing fields in import preview ([#1284](https://github.com/gip-inclusion/carnet-de-bord/issues/1284)) ([f1c47cf](https://github.com/gip-inclusion/carnet-de-bord/commit/f1c47cfaba100a4500f4862979518745eaebbbcb)), closes [#1279](https://github.com/gip-inclusion/carnet-de-bord/issues/1279)
+
 ## [1.161.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.0...v1.161.1) (2022-11-22)
 
 
