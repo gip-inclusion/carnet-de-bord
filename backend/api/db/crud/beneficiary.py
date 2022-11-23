@@ -94,52 +94,29 @@ returning id
 
 async def update_beneficiary(
     connection: Connection,
-    fields: list[tuple[str, str | None]],
+    beneficiary: BeneficiaryImport,
     beneficiary_id: UUID,
 ) -> UUID | None:
 
-    ALLOWED_FIELDS_UPDATE = [
-        "place_of_birth",
-        "mobile_number",
-        "address1",
-        "address2",
-        "postal_code",
-        "city",
-        "caf_number",
-        "pe_number",
-        "email",
-        "nir",
-    ]
+    keys_to_update = beneficiary.get_beneficiary_editable_keys()
 
-    fields_to_update = [
-        (key, value) for (key, value) in fields if key in ALLOWED_FIELDS_UPDATE
-    ]
-    # Special case for address where we need to clean address2 if address1 is provided but not address2
-    field_keys = [key for (key, _) in fields_to_update]
-    if "address1" in field_keys and "address2" not in field_keys:
-        fields_to_update.append(("address2", None))
-
-    if len(fields_to_update) == 0:
-        logger.info("trying to udpate beneficiary but no fields where updated.")
+    if len(keys_to_update) == 0:
+        logger.info("trying to update beneficiary but no fields where updated.")
         return beneficiary_id
-    sql_fields = [
-        # ["postal_code = $2", ...]
-        f"{key} = ${index+2}"
-        for (index, (key, _)) in enumerate(fields_to_update)
-    ]
-    sql_values = [value for (_, value) in fields_to_update]
+
+    sql_fields = [f"{key} = ${index+2}" for (index, key) in enumerate(keys_to_update)]
 
     sql = f"""
-            UPDATE beneficiary
-                SET {", ".join(sql_fields)}
-                WHERE id=$1
-                returning id
-        """
+        UPDATE beneficiary
+        SET {", ".join(sql_fields)}
+        WHERE id=$1
+            returning id
+"""
 
     result = await connection.fetchrow(
         sql,
         beneficiary_id,
-        *sql_values,
+        *beneficiary.get_values_for_keys(keys_to_update),
     )
 
     if result:

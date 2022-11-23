@@ -9,7 +9,7 @@ from api.db.models.nir import nir_format
 from api.db.models.notebook import Notebook
 from api.db.models.validator import (
     date_validator,
-    is_bool_validator,
+    parse_bool_validator,
     phone_validator,
     postal_code_validator,
 )
@@ -94,7 +94,7 @@ class BeneficiaryImport(BaseModel):
 
     _phone_validator = phone_validator("mobile_number")
     _postal_code_validator = postal_code_validator("postal_code")
-    _is_bool_validator = is_bool_validator(
+    _parse_bool_validator = parse_bool_validator(
         "right_are", "right_ass", "right_bonus", "right_rqth", pre=True
     )
     _date_validator = date_validator("date_of_birth", pre=True)
@@ -178,6 +178,53 @@ class BeneficiaryImport(BaseModel):
         if validation_error:
             raise ValueError(validation_error)
         return nir
+
+    # TODO Should be possible to use decorator to mark field for beneficiary
+    def get_beneficiary_editable_keys(self) -> list[str]:
+        BENEFICIARY_EDITABLE_FIELDS = [
+            "place_of_birth",
+            "mobile_number",
+            "address1",
+            "address2",
+            "postal_code",
+            "city",
+            "caf_number",
+            "pe_number",
+            "email",
+            "nir",
+        ]
+        return self._filter_updatable_field_keys(BENEFICIARY_EDITABLE_FIELDS)
+
+    # TODO Should be possible to use decorator to mark field for notebook
+    def get_notebook_editable_keys(self) -> list[str]:
+        NOTEBOOK_EDITABLE_FIELDS = [
+            "right_rsa",
+            "right_rqth",
+            "right_are",
+            "right_ass",
+            "right_bonus",
+            "work_situation",
+            "education_level",
+            "geographical_area",
+        ]
+        return self._filter_updatable_field_keys(NOTEBOOK_EDITABLE_FIELDS)
+
+    def _filter_updatable_field_keys(self, allowed_fields) -> list[str]:
+        filled_fields = self._get_filled_field_keys()
+        keys_to_update = [key for key in filled_fields if key in allowed_fields]
+        # Special case for address where we need to clean address2 if address1 is provided but not address2
+        if "address1" in keys_to_update and "address2" not in keys_to_update:
+            keys_to_update.append("address2")
+
+        return keys_to_update
+
+    def get_values_for_keys(self, keys: list[str]) -> list[object]:
+        return [self.dict().get(key) for key in keys]
+
+    def _get_filled_field_keys(self):
+        return [
+            fieldname for (fieldname, value) in self.dict().items() if value is not None
+        ]
 
 
 class BeneficiaryCsvRowResponse(BaseModel):

@@ -113,7 +113,7 @@ async def get_accounts_from_email(
     connection: Connection, email: str
 ) -> List[AccountDB]:
     """
-    Since email are store in different tables (manager / professionnal / orientation_manager)
+    Since email are store in different tables (manager / professional / orientation_manager)
     And since there is no unicity constraint accross multiple table
     we could have multiple results given a single email (ex: one for pro and one for orientation_manager)
     """

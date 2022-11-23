@@ -2,7 +2,7 @@ from datetime import date
 
 from api.db.crud.beneficiary import get_beneficiary_from_personal_information
 from api.db.crud.wanted_job import find_wanted_job_for_beneficiary
-from api.db.models.beneficiary import Beneficiary
+from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from cdb_csv import pe
 from cdb_csv.models.csv_row import PrincipalCsvRow
 
@@ -136,3 +136,58 @@ async def test_get_beneficiary_with_unknown_rome_code(
                 )
 
                 assert "Rome code not found" in caplog.text
+
+
+def test_beneficiary_model_beneficiary_filled_keys(
+    beneficiary_import_alain_die: BeneficiaryImport,
+):
+    editable_keys = beneficiary_import_alain_die.get_beneficiary_editable_keys()
+    editable_keys.sort()
+    assert editable_keys == [
+        "address1",
+        "address2",
+        "city",
+        "email",
+        "mobile_number",
+        "place_of_birth",
+        "postal_code",
+    ]
+
+
+def test_beneficiary_model_notebook_filled_keys(
+    beneficiary_import_alain_die: BeneficiaryImport,
+):
+    editable_keys = beneficiary_import_alain_die.get_notebook_editable_keys()
+    editable_keys.sort()
+    assert editable_keys == [
+        "geographical_area",
+        "right_ass",
+        "right_rsa",
+        "work_situation",
+    ]
+
+
+def test_beneficairy_get_values_for_keys(
+    beneficiary_import_alain_die: BeneficiaryImport,
+):
+    beneficiary_import_alain_die.right_are = True
+    beneficiary_import_alain_die.right_ass = True
+    beneficiary_import_alain_die.right_bonus = True
+    values = beneficiary_import_alain_die.get_values_for_keys(
+        [
+            "geographical_area",
+            "right_are",
+            "right_ass",
+            "right_bonus",
+            "right_rsa",
+            "work_situation",
+        ]
+    )
+    assert values == [
+        "between_20_30",
+        True,
+        True,
+        True,
+        "rsa_droit_ouvert_versable",
+        "iae",
+    ]

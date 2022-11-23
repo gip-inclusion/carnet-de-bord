@@ -36,8 +36,6 @@ async def parse_beneficiaries(
     upload_file: UploadFile,
 ):
     dataframe = await file_to_json(upload_file)
-    for line in dataframe.iterrows():
-        print(line)
     return [map_csv_row_beneficiary(row) for _, row in dataframe.iterrows()]
 
 
@@ -52,9 +50,7 @@ async def file_to_json(upload_file: UploadFile) -> DataFrame:
         contents = await upload_file.read()
         with BytesIO(contents) as data:
             df = pd.read_excel(
-                data,
-                header=0,
-                dtype=object,
+                data, header=0, dtype=object, na_values="", keep_default_na=False
             )
     elif file_info.mime_type in ["text/plain", "text/csv"]:
 
@@ -68,6 +64,8 @@ async def file_to_json(upload_file: UploadFile) -> DataFrame:
                 skip_blank_lines=True,
                 sep=";",
                 dtype=object,
+                na_values="",
+                keep_default_na=False,
             )
     else:
         raise HTTPException(

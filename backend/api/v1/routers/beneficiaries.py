@@ -81,26 +81,23 @@ async def import_beneficiary(
                 )
 
                 if not beneficiary_id:
-                    raise UpdateFailError(f"fail to insert beneficiary {records[0].id}")
+                    raise UpdateFailError(
+                        f"failed to insert beneficiary {records[0].id}"
+                    )
 
                 logger.info("inserted new beneficiary %s", beneficiary_id)
                 return BeneficiaryCsvRowResponse(valid=True, data=beneficiary)
 
             elif one_matching_beneficiary(records, beneficiary):
-                # pour chaque ligne, on renvoie une liste de tuple [nom, valeur] si valeur != none
-                fieldsToUpdate = [
-                    (fieldname, value)
-                    for (fieldname, value) in beneficiary.dict().items()
-                    if value is not None
-                ]
                 beneficiary_id = await update_beneficiary(
-                    db, fieldsToUpdate, records[0].id
+                    db, beneficiary, records[0].id
                 )
                 if not beneficiary_id:
-                    raise UpdateFailError(f"fail to insert beneficiary {records[0].id}")
-
+                    raise UpdateFailError(
+                        f"failed to insert beneficiary {records[0].id}"
+                    )
                 notebook_id: UUID | None = await update_notebook(
-                    db, beneficiary_id, fieldsToUpdate
+                    db, beneficiary, beneficiary_id
                 )
                 if notebook_id:
                     await insert_or_update_need_orientation(
