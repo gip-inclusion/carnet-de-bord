@@ -23,7 +23,7 @@
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
 	import { focusThemeKeys } from '$lib/constants/keys';
-	import OrientationRequestBanner from '$lib/ui/OrientationRequest/OrientationRequestBanner.svelte';
+	import ProOrientationRequestBanner from '$lib/ui/OrientationRequest/ProOrientationRequestBanner.svelte';
 
 	import type { PageData } from './$types';
 
@@ -148,10 +148,10 @@
 	$: members = notebook?.members ?? [];
 	$: appointments = notebook?.appointments;
 	$: lastMember = members?.length ? members[0] : null;
-	$: orientationRequest =
+	$: reorientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 
-	$: console.log(orientationRequest);
+	$: console.log(reorientationRequest);
 
 	let search = '';
 
@@ -185,8 +185,8 @@
 			> pour rechercher le bénéficiaire.</Alert
 		>
 	{:else}
-		{#if orientationRequest}
-			<OrientationRequestBanner {orientationRequest} />
+		{#if reorientationRequest}
+			<ProOrientationRequestBanner {reorientationRequest} />
 		{/if}
 		<ProNotebookPersonalInfoView
 			{beneficiary}
@@ -273,7 +273,7 @@
 				</div>
 			</MainSection>
 		</div>
-		{#if isReferent && (!orientationRequest || orientationRequest.status != 'pending')}
+		{#if isReferent && (!reorientationRequest || reorientationRequest.status != 'pending')}
 			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
 		{/if}
 	{/if}
