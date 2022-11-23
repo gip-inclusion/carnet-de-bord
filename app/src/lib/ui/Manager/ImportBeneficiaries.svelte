@@ -390,7 +390,6 @@
 					beneficiariesToImport.length
 				)} en cours...`}
 			/>
-			/>
 		{:then insertResults}
 			{@const nbBeneficiaryError = insertResults.filter(({ valid }) => !valid).length}
 			{@const nbBeneficiaryInserted = insertResults.filter(
