@@ -273,7 +273,7 @@
 				</div>
 			</MainSection>
 		</div>
-		{#if isReferent && !orientationRequest}
+		{#if isReferent && (!orientationRequest || orientationRequest.status != 'pending')}
 			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
 		{/if}
 	{/if}
