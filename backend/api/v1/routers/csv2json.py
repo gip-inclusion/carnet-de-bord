@@ -40,9 +40,9 @@ async def parse_beneficiaries(
 
 
 async def file_to_json(upload_file: UploadFile) -> DataFrame:
-    file_info: magic.FileMagic = magic.detect_from_fobj(upload_file.file)
+    mime_type: str = magic.from_descriptor(upload_file.file.fileno(), mime=True)
 
-    if file_info.mime_type in [
+    if mime_type in [
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "application/vnd.ms-excel",
     ]:
@@ -52,7 +52,7 @@ async def file_to_json(upload_file: UploadFile) -> DataFrame:
             df = pd.read_excel(
                 data, header=0, dtype=object, na_values="", keep_default_na=False
             )
-    elif file_info.mime_type in ["text/plain", "text/csv"]:
+    elif mime_type in ["text/plain", "text/csv"]:
 
         contents = await upload_file.read()
         charset = chardet.detect(contents)
@@ -70,7 +70,7 @@ async def file_to_json(upload_file: UploadFile) -> DataFrame:
     else:
         raise HTTPException(
             status_code=400,
-            detail=f"File type '{file_info.mime_type}' not supported. Allowed types are csv or excel",
+            detail=f"File type '{mime_type}' not supported. Allowed types are csv or excel",
         )
 
     data_frame = df.replace({np.nan: None})

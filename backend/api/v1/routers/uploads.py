@@ -52,9 +52,9 @@ async def create_upload_file(
 ):
     deployment_id = request.state.deployment_id
 
-    file_info: magic.FileMagic = magic.detect_from_fobj(upload_file.file)
+    mime_type: str = magic.from_descriptor(upload_file.file.fileno(), mime=True)
 
-    if file_info.mime_type in [
+    if mime_type in [
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "application/vnd.ms-excel",
     ]:
@@ -65,7 +65,7 @@ async def create_upload_file(
                 data,
                 header=0,
             )
-    elif file_info.mime_type in ["text/plain", "text/csv"]:
+    elif mime_type in ["text/plain", "text/csv"]:
 
         contents = await upload_file.read()
         charset = chardet.detect(contents)
@@ -80,7 +80,7 @@ async def create_upload_file(
     else:
         raise HTTPException(
             status_code=400,
-            detail=f"File type '{file_info.mime_type}' not supported. Allowed types are csv or excel",
+            detail=f"File type '{mime_type}' not supported. Allowed types are csv or excel",
         )
 
     df = df.replace({np.nan: None})
