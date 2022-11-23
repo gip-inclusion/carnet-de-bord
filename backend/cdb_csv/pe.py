@@ -242,8 +242,9 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 logging.info(f"Mapped focus: {focus}")
             else:
                 logging.error(
-                    f"Mapped focus not found for action '{csv_row.lblaction}': {focus}"
+                    f"Mapped focus not found for action '{csv_row.lblaction}': {focus}. Skipping row."
                 )
+                continue
 
         except Exception as e:
             logging.error("Exception while processing action CSV line: {}".format(e))
