@@ -14032,6 +14032,14 @@ export type GetLastVisitedOrUpdatedQuery = {
 				lastname: string;
 				mobileNumber?: string | null;
 				dateOfBirth: string;
+				orientationRequest: Array<{
+					__typename?: 'orientation_request';
+					id: string;
+					status?: string | null;
+					createdAt: string;
+					decidedAt?: string | null;
+					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				}>;
 			};
 		};
 	}>;
@@ -14047,6 +14055,14 @@ export type GetLastVisitedOrUpdatedQuery = {
 				lastname: string;
 				mobileNumber?: string | null;
 				dateOfBirth: string;
+				orientationRequest: Array<{
+					__typename?: 'orientation_request';
+					id: string;
+					status?: string | null;
+					createdAt: string;
+					decidedAt?: string | null;
+					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				}>;
 			};
 		};
 	}>;
@@ -14073,6 +14089,14 @@ export type SearchNotebookMemberQuery = {
 				id: string;
 				lastname: string;
 				mobileNumber?: string | null;
+				orientationRequest: Array<{
+					__typename?: 'orientation_request';
+					id: string;
+					status?: string | null;
+					createdAt: string;
+					decidedAt?: string | null;
+					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				}>;
 			};
 		};
 	}>;
@@ -23716,6 +23740,50 @@ export const GetLastVisitedOrUpdatedDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientationRequest' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'order_by' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'createdAt' },
+																				value: { kind: 'EnumValue', value: 'desc' },
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'limit' },
+																	value: { kind: 'IntValue', value: '1' },
+																},
+															],
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'requestedOrientationType' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
 													],
 												},
 											},
@@ -23808,6 +23876,50 @@ export const GetLastVisitedOrUpdatedDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientationRequest' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'order_by' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'createdAt' },
+																				value: { kind: 'EnumValue', value: 'desc' },
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'limit' },
+																	value: { kind: 'IntValue', value: '1' },
+																},
+															],
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'requestedOrientationType' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
 													],
 												},
 											},
@@ -23941,6 +24053,50 @@ export const SearchNotebookMemberDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientationRequest' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'order_by' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'createdAt' },
+																				value: { kind: 'EnumValue', value: 'desc' },
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'limit' },
+																	value: { kind: 'IntValue', value: '1' },
+																},
+															],
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'requestedOrientationType' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
 													],
 												},
 											},
