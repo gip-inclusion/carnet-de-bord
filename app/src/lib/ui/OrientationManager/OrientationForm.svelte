@@ -27,7 +27,7 @@
 	import { openComponent } from '$lib/stores';
 	import { displayFullName } from '../format';
 
-	export let error = false;
+	export let displayError = false;
 	export let formTitle = 'Réorienter';
 	export let handleSubmit: (values: OrientationValidationSchema) => Promise<void>;
 
@@ -110,7 +110,7 @@
 				name="professionalAccountId"
 				disabled={!form.structureId}
 			/>
-			{#if error}
+			{#if displayError}
 				<Alert type="error" size="sm">Impossible de modifier l'orientation</Alert>
 			{/if}
 			<div class="pt-4">

@@ -11,7 +11,7 @@
 
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 	const acceptOrientationRequest = mutation({ query: AcceptOrientationRequestDocument });
-	let error = false;
+	let displayError = false;
 
 	async function handleSubmit(values: OrientationValidationSchema) {
 		const response = await acceptOrientationRequest({
@@ -24,12 +24,12 @@
 			withProfessionalAccountId: !!values.professionalAccountId,
 		});
 		if (response.error) {
-			error = true;
-			console.error(error);
+			displayError = true;
+			console.error(displayError);
 			return;
 		}
 		openComponent.close();
 	}
 </script>
 
-<OrientationForm {error} {handleSubmit} />
+<OrientationForm {displayError} {handleSubmit} />

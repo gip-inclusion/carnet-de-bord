@@ -1,11 +1,11 @@
 <script lang="ts">
-	import {
-		type GetNotebookByBeneficiaryIdQuery,
-		type GetNotebookQuery,
-		ChangeBeneficiaryOrientationDocument,
+	import type {
+		GetNotebookByBeneficiaryIdQuery,
+		GetNotebookQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { token } from '$lib/stores';
 	import { openComponent } from '$lib/stores';
-	import { mutation } from '@urql/svelte';
+	import { postApiJson } from '$lib/utils/post';
 	import OrientationForm, {
 		type OrientationValidationSchema,
 	} from '../OrientationManager/OrientationForm.svelte';
@@ -13,27 +13,29 @@
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
 		| GetNotebookQuery['notebook'];
-	let error = false;
+	let displayError = false;
 	const formTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
 
-	const changeBeneficiaryOrientation = mutation({ query: ChangeBeneficiaryOrientationDocument });
-
 	async function handleSubmit(values: OrientationValidationSchema) {
-		const response = await changeBeneficiaryOrientation({
-			orientationType: values.orientationType,
-			notebookId: notebook.id,
-			beneficiaryId: notebook.beneficiary.id,
-			structureId: values.structureId,
-			professionalAccountId: values.professionalAccountId,
-			withProfessionalAccountId: !!values.professionalAccountId,
-		});
-		if (response.error) {
-			error = true;
-			console.error(error);
+		try {
+			await postApiJson(
+				'/v1/change-beneficiary-orientation',
+				{
+					orientation_type: values.orientationType,
+					notebook_id: notebook.id,
+					beneficiary_id: notebook.beneficiary.id,
+					structure_id: values.structureId,
+					professional_account_id: values.professionalAccountId,
+				},
+				{ 'jwt-token': $token }
+			);
+		} catch (err) {
+			console.error(err);
+			displayError = true;
 			return;
 		}
 		openComponent.close();
 	}
 </script>
 
-<OrientationForm {handleSubmit} {error} {formTitle} />
+<OrientationForm {handleSubmit} {displayError} {formTitle} />

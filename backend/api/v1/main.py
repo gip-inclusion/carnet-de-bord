@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from api.v1.routers import (
     admin_structures,
     beneficiaries,
+    change_beneficiary_orientation,
     csv2json,
     managers,
     structures,
@@ -23,4 +24,7 @@ api_router.include_router(
     beneficiaries.router,
     prefix="/beneficiaries",
     tags=["Import or reimport beneficiaries"],
+)
+api_router.include_router(
+    change_beneficiary_orientation.router, tags=["Orientation", "Réorientation"]
 )
