@@ -50,7 +50,7 @@ const validateBody = (body: unknown): body is Login => {
 export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 	if (!validateBody(body)) {
-		return error(400, 'Invalid body');
+		throw error(400, 'INVALID_BODY');
 	}
 
 	const { username } = body;
@@ -58,7 +58,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		await createBeneficiaryIfNotExist(username);
 	} catch (err) {
-		throw error(500, "can't create beneficiary account");
+		logger.error(err);
+		throw error(500, 'SERVER_ERROR');
 	}
 
 	const emailResult = await client
@@ -82,7 +83,12 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 	let account: typeof emailResult.data.account[0];
 
-	if (emailResult.error || emailResult.data.account.length === 0) {
+	if (emailResult.error) {
+		logger.error(emailResult.error);
+		throw error(500, 'SERVER_ERROR');
+	}
+
+	if (emailResult.data.account.length === 0) {
 		// if we fail to find an account for the given email address,
 		// we try searching by the now-deprecated username
 		const usernameResult = await client
@@ -91,27 +97,29 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		if (usernameResult.error) {
 			// something went wrong but we're not saying what at the moment
-			logger.info({ username }, 'Could not find account with username');
-			throw error(401, 'User not found');
+			logger.info({ username }, 'Could not find account with username', usernameResult.error);
+			throw error(500, 'SERVER_ERROR');
 		}
 
 		if (!usernameResult.data || usernameResult.data.account.length === 0) {
 			// it went fine but we still found no user, time to give up
 			logger.info({ username }, 'Could not find username');
-			throw error(401, 'User not found');
+			throw error(401, 'ACCOUNT_NOT_FOUND');
 		}
 
 		// otherwise, we have a winner
 		account = usernameResult.data.account[0];
 	} else {
 		// we did get an answer,let's use it!
+		// in case we have multiple account with same email
+		// here is the order admin_structure, orientation_manager, manager, professional
 		account = emailResult.data.account[0];
 	}
 
 	if (!account.confirmed) {
 		// OK, you do have an account, but it's not confirmed/enabled yet, so no dice!
-		logger.info({ username }, 'Refused log-in for unconfirmed account');
-		throw error(403, 'Account not confirmed');
+		logger.error(`Refused log-in for unconfirmed account ${username}`, error);
+		throw error(403, 'ACCOUNT_NOT_CONFIRMED');
 	}
 
 	const { id, beneficiary, manager, admin, professional, admin_structure, orientation_manager } =
@@ -122,16 +130,10 @@ export const POST: RequestHandler = async ({ request }) => {
 	const result = await updateAccessKey(client, id);
 
 	if (result.error) {
-		logger.error(
-			{
-				error: result.error,
-				id,
-				username,
-			},
-			'Could not update access key when logging in'
-		);
-		throw error(500, 'Could not update access key');
+		logger.error(`Could not update access key for username ${username} id:${id}`, result.error);
+		throw error(500, 'SERVER_ERROR');
 	}
+
 	const accessKey = result.data.account.accessKey;
 	const { firstname, lastname, email } = user;
 
@@ -167,40 +169,42 @@ export const POST: RequestHandler = async ({ request }) => {
 };
 
 async function createBeneficiaryIfNotExist(username: string) {
-	return client
+	const existingBeneficiaryResponse = await client
 		.query<GetBeneficiaryByEmailQuery>(GetBeneficiaryByEmailDocument, {
 			email: username,
 		})
-		.toPromise()
-		.then((response) => {
-			if (response.error) {
-				return Promise.reject(
-					new Error(`GetBeneficiaryByEmailDocument error for ${username} ${response.error}`)
-				);
-			}
-			return response.data;
+		.toPromise();
+
+	if (existingBeneficiaryResponse.error) {
+		console.error(
+			`GetBeneficiaryByEmailDocument error for ${username}`,
+			existingBeneficiaryResponse.error
+		);
+		throw error(500, 'SERVER_ERROR');
+	}
+
+	if (existingBeneficiaryResponse.data.beneficiary.length === 0) {
+		// We don't need to create an account since the email
+		// does not belong to a beneficiary
+		return;
+	}
+
+	const [{ id, firstname, lastname }] = existingBeneficiaryResponse.data.beneficiary;
+	logger.debug(`beneficiary found with email ${username}`);
+
+	const createBeneficiaryAccountResponse = await client
+		.mutation(CreateBeneficiaryAccountDocument, {
+			username: `${firstname}.${lastname}.${crypto.randomBytes(6).toString('hex')}`,
+			beneficiaryId: id,
 		})
-		.then(({ beneficiary }: GetBeneficiaryByEmailQuery) => {
-			if (beneficiary.length === 0) {
-				return;
-			}
-			const [{ id, firstname, lastname }] = beneficiary;
-			logger.info(`beneficiary found with email ${username}`);
-			return client
-				.mutation(CreateBeneficiaryAccountDocument, {
-					username: `${firstname}.${lastname}.${crypto.randomBytes(6).toString('hex')}`,
-					beneficiaryId: id,
-				})
-				.toPromise()
-				.then((response) => {
-					if (response.error) {
-						return Promise.reject(
-							new Error(
-								`CreateBeneficiaryAccountDocument error for beneficiary ${id} ${response.error}`
-							)
-						);
-					}
-					return response.data;
-				});
-		});
+		.toPromise();
+
+	if (createBeneficiaryAccountResponse.error) {
+		logger.error(
+			`CreateBeneficiaryAccountDocument error for beneficiary ${id}`,
+			createBeneficiaryAccountResponse.error
+		);
+		throw error(500, 'SERVER_ERROR');
+	}
+	return createBeneficiaryAccountResponse.data;
 }
