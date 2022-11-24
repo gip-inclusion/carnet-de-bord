@@ -1,3 +1,10 @@
+# [1.162.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.5...v1.162.0) (2022-11-24)
+
+
+### Features
+
+* Supprimer les termes "de santé" du référentiel de situations. ([#1303](https://github.com/gip-inclusion/carnet-de-bord/issues/1303)) ([4cbc55d](https://github.com/gip-inclusion/carnet-de-bord/commit/4cbc55d04a4675e83d283a6a42059b0f078ed558))
+
 ## [1.161.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.4...v1.161.5) (2022-11-24)
 
 
