@@ -186,6 +186,9 @@
 		{#if reorientationRequest}
 			<ProOrientationRequestBanner {reorientationRequest} />
 		{/if}
+		{#if isReferent && (!reorientationRequest || reorientationRequest.status != 'pending')}
+			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
+		{/if}
 		<ProNotebookPersonalInfoView
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}
@@ -271,8 +274,5 @@
 				</div>
 			</MainSection>
 		</div>
-		{#if isReferent && (!reorientationRequest || reorientationRequest.status != 'pending')}
-			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
-		{/if}
 	{/if}
 </LoaderIndicator>
