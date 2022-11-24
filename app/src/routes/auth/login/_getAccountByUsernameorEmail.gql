@@ -36,7 +36,7 @@ query GetAccountByUsername($comp: String_comparison_exp!) {
   }
 }
 query GetAccountByEmail($criteria: account_bool_exp!) {
-  account(where: $criteria) {
+  account(where: $criteria, order_by: { type: asc }) {
     id
     username
     beneficiary {

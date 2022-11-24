@@ -6,7 +6,7 @@
 
 	let request: RequestStep = 'start';
 	let username = '';
-
+	let errorMessage = '';
 	let magicLink = '';
 
 	async function registration() {
@@ -22,6 +22,15 @@
 			request = 'success';
 		} catch (error) {
 			request = 'error';
+			console.error(error.statusText, error.status, error.message);
+			if (error.message === 'ACCOUNT_NOT_FOUND') {
+				errorMessage = "Ce courriel n'est pas rattaché à un compte existant";
+			} else if (error.message === 'ACCOUNT_NOT_CONFIRMED') {
+				errorMessage =
+					"Ce compte n'est pas confirmé. Contactez votre administrateur de territoire de Carnet de Bord.";
+			} else {
+				errorMessage = 'Une erreur est survenue, veuillez ré-essayer ultérieurement.';
+			}
 		}
 	}
 </script>
@@ -44,7 +53,7 @@
 					bind:value={username}
 					inputLabel="Courriel"
 					placeholder="nour@social.gouv.fr"
-					error={request === 'error' ? "Ce courriel n'est pas rattaché à un compte existant" : ''}
+					error={request === 'error' ? errorMessage : ''}
 					required={true}
 				/>
 				<div>

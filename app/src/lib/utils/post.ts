@@ -41,6 +41,23 @@ async function handleResponse<T>(response: Response): Promise<T> {
 	if (response.ok) {
 		return response.json();
 	}
+
+	if (response.headers.get('Content-type').includes('application/json')) {
+		const { message } = await response.json();
+		if (message) {
+			throw new HTTPError(message, response.status, response.statusText);
+		}
+	}
 	const errorMessage = await response.text();
-	return Promise.reject(new Error(`${response.status} - ${response.statusText}\n${errorMessage}`));
+	throw new HTTPError(errorMessage, response.status, response.statusText);
+}
+
+class HTTPError extends Error {
+	status: string;
+	statusText: string;
+	constructor(message, status, statusText) {
+		super(message);
+		this.status = status;
+		this.statusText = statusText;
+	}
 }
