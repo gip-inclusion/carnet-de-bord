@@ -1,3 +1,10 @@
+## [1.161.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.4...v1.161.5) (2022-11-24)
+
+
+### Bug Fixes
+
+* améliorer les messages d'erreur de connexion ([#1298](https://github.com/gip-inclusion/carnet-de-bord/issues/1298)) ([9d66f75](https://github.com/gip-inclusion/carnet-de-bord/commit/9d66f751dbf11c6b85fc8ace6ce8fac88e20aba5)), closes [#1142](https://github.com/gip-inclusion/carnet-de-bord/issues/1142)
+
 ## [1.161.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.3...v1.161.4) (2022-11-24)
 
 ## [1.161.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.2...v1.161.3) (2022-11-23)
