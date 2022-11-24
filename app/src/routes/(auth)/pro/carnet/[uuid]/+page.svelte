@@ -151,8 +151,6 @@
 	$: reorientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 
-	$: console.log(reorientationRequest);
-
 	let search = '';
 
 	$: filteredEvents = events;
