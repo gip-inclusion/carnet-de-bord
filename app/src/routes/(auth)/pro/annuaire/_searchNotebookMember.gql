@@ -17,6 +17,15 @@ query SearchNotebookMember(
         id
         lastname
         mobileNumber
+        orientationRequest(order_by: {createdAt: desc}, limit: 1) {
+          id
+          status
+          createdAt
+          decidedAt
+          requestedOrientationType {
+            label
+          }
+        }
       }
     }
   }

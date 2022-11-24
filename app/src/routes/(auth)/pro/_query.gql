@@ -12,6 +12,15 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
         lastname
         mobileNumber
         dateOfBirth
+        orientationRequest(order_by: {createdAt: desc}, limit: 1) {
+          id
+          status
+          createdAt
+          decidedAt
+          requestedOrientationType {
+            label
+          }
+        }
       }
     }
   }
@@ -28,6 +37,15 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
         lastname
         mobileNumber
         dateOfBirth
+        orientationRequest(order_by: {createdAt: desc}, limit: 1) {
+          id
+          status
+          createdAt
+          decidedAt
+          requestedOrientationType {
+            label
+          }
+        }
       }
     }
   }
