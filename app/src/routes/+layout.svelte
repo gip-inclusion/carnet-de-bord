@@ -13,6 +13,7 @@
 	import type { PageData } from './$types';
 
 	import * as Sentry from '@sentry/svelte';
+	import { initSentry } from '$lib/utils/sentry';
 	import * as yup from 'yup';
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	import createClient from '$lib/graphql/createClient';
@@ -26,12 +27,8 @@
 
 	export let data: PageData;
 
-	const appVersion = __version__;
-	Sentry.init({
-		dsn: env.PUBLIC_SENTRY_DSN,
-		environment: env.PUBLIC_SENTRY_ENVIRONMENT,
-		release: `carnet-de-bord-app@${appVersion}`,
-	});
+	initSentry(Sentry);
+
 	$backendAPI = data.backendAPI;
 	$graphqlAPI = data.graphqlAPI;
 

@@ -1,14 +1,9 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { logger } from '$lib/utils/logger';
 import * as Sentry from '@sentry/node';
-import { env } from '$env/dynamic/public';
+import { initSentry } from '$lib/utils/sentry';
 
-const appVersion = __version__;
-Sentry.init({
-	dsn: env.PUBLIC_SENTRY_DSN,
-	environment: env.PUBLIC_SENTRY_ENVIRONMENT,
-	release: `carnet-de-bord-app@${appVersion}`,
-});
+initSentry(Sentry);
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const requestStartTime = Date.now();
