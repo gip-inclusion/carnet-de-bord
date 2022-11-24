@@ -81,6 +81,7 @@
 				title="Confirmation de l'envoi"
 				label="Envoyer ma demande"
 				outlineButton={false}
+				buttonFullWidth={false}
 				on:confirm={() => handleSubmit(form)}
 			>
 				<p>Etes-vous sûr de vouloir envoyer la demande ?</p>
