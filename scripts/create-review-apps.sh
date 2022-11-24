@@ -48,6 +48,25 @@ function wait_for_service_status() {
   exit 1
 }
 
+function wait_for_addons_running() {
+  local appname=$1
+
+  log "* Waiting for ${appname}'s addons to be running..."
+
+  local waited=0
+
+  while [[ $waited -lt $TIMEOUT ]]; do
+    if scalingo -a $appname addons 2>/dev/null|grep "running" >/dev/null; then
+      return
+    fi
+    sleep 5
+    waited=$((waited + 5))
+  done
+
+  log "ERROR: ${appname}'s addons were not running after $TIMEOUT seconds"
+  exit 1
+}
+
 function wait_for_apps_status() {
   local status_re=$1
 
@@ -101,6 +120,8 @@ function create_apps() {
   scalingo -a "$(get_parent_app_name hasura)" integration-link-manual-review-app "$PR"
   scalingo -a "$(get_parent_app_name backend)" integration-link-manual-review-app "$PR"
   scalingo -a "$(get_parent_app_name app)" integration-link-manual-review-app "$PR"
+
+  wait_for_addons_running "$(get_review_app_name hasura)"
 }
 
 function deploy_app() {
