@@ -22,9 +22,9 @@ async def test_verify_no_token(
             "professional_account_id": str(professional_pierre_chevalier.account_id),
         },
     )
-    assert response.status_code == 400
+    assert response.status_code == 401
     json = response.json()
-    assert json["detail"] == "Missing jwt token"
+    assert json["detail"] == "Missing credentials"
 
 
 async def test_professional_not_allowed_to_change_orientation(
@@ -44,9 +44,9 @@ async def test_professional_not_allowed_to_change_orientation(
         },
         headers={"jwt-token": f"{get_professionnal_jwt}"},
     )
-    assert response.status_code == 400
+    assert response.status_code == 403
     json = response.json()
-    assert json["detail"] == "Role not allowed"
+    assert json["detail"] == "Operation forbidden to the given role"
 
 
 async def test_change_orientation_with_exisiting_pro_in_members(

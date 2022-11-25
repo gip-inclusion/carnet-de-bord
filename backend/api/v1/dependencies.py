@@ -14,20 +14,22 @@ class allowed_jwt_roles:
 
     def __call__(self, jwt_token: str | None = Header(default=None)) -> None:
         if not jwt_token:
-            raise HTTPException(status_code=400, detail="Missing jwt token")
+            raise HTTPException(status_code=401, detail="Missing credentials")
         jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
         token = jwt.decode(
             jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]]
         )
         if token["role"] not in self.allowed_roles:
-            raise HTTPException(status_code=400, detail="Role not allowed")
+            raise HTTPException(
+                status_code=403, detail="Operation forbidden to the given role"
+            )
 
 
 async def extract_deployment_id(
     request: Request, jwt_token: str | None = Header(default=None)
 ):
     if not jwt_token:
-        raise HTTPException(status_code=400, detail="Missing jwt token")
+        raise HTTPException(status_code=401, detail="Missing credentials")
     jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
     token = jwt.decode(jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]])
     request.state.deployment_id = token["deploymentId"]

@@ -45,7 +45,7 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
             default=str,
         ),
     )
-    assert response.status_code == 400
+    assert response.status_code == 403
 
 
 async def test_import_beneficiaries(
