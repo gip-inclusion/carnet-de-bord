@@ -57,6 +57,11 @@ mutation ChangeBeneficiaryOrientation(
       notebookId: $notebook_id
       memberType: "referent"
       accountId: $professional_account_id
+      active: true
+    }
+    on_conflict: {
+      constraint: notebook_member_notebook_id_account_id_key
+      update_columns: [memberType, active]
     }
   ) @include(if: $with_professional_account_id) {
     id

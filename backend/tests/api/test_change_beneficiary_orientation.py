@@ -11,6 +11,26 @@ async def test_verify_no_token(
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
+):
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(beneficiary_sophie_tifour.notebook.id),
+            "beneficiary_id": str(beneficiary_sophie_tifour.id),
+            "structure_id": str(professional_pierre_chevalier.structure_id),
+            "professional_account_id": str(professional_pierre_chevalier.account_id),
+        },
+    )
+    assert response.status_code == 400
+    json = response.json()
+    assert json["detail"] == "Missing jwt token"
+
+
+async def test_professional_not_allowed_to_change_orientation(
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
     get_professionnal_jwt: str,
 ):
     response = test_client.post(
@@ -20,13 +40,13 @@ async def test_verify_no_token(
             "notebook_id": str(beneficiary_sophie_tifour.notebook.id),
             "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
-            "professional_account_id": str(professional_pierre_chevalier.id),
+            "professional_account_id": str(professional_pierre_chevalier.account_id),
         },
         headers={"jwt-token": f"{get_professionnal_jwt}"},
     )
-    assert response.status_code == 401
+    assert response.status_code == 400
     json = response.json()
-    assert json["detail"] == "unauthorized"
+    assert json["detail"] == "Role not allowed"
 
 
 async def test_change_orientation_with_exisiting_pro_in_members(
@@ -42,7 +62,7 @@ async def test_change_orientation_with_exisiting_pro_in_members(
             "notebook_id": str(beneficiary_sophie_tifour.notebook.id),
             "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
-            "professional_account_id": str(professional_pierre_chevalier.id),
+            "professional_account_id": str(professional_pierre_chevalier.account_id),
         },
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )
