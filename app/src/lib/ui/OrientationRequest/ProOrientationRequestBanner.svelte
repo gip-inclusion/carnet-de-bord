@@ -18,7 +18,7 @@
 			: 'envoyée';
 </script>
 
-<div class="flex flex-row mb-8 items-center">
+<div class="flex flex-row mb-8 items-center --bg-grey-975">
 	<div class="{color} fr-icon-info-fill" />
 	<div class="fr-container">
 		<div class="fr-text--bold {color}">
