@@ -48,16 +48,6 @@ async def change_beneficiary_orientation(
         url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
     )
 
-    # Add a background task with these parameter to send 3 email
-    # get beneficiary firstname / lastname
-    # get previous referent firstname, lastname, email
-    # get previous referent's structure
-    # get previous referent's structure admin email / firstname / lastname
-    # get new referent firstname, lastname email
-    # get new referent's structure admin email / firstname / lastname
-
-    # Using `async with` on the client will start a connection on the transport
-    # and provide a `session` variable to execute queries on this connection
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
@@ -70,11 +60,9 @@ async def change_beneficiary_orientation(
         ) as f:
             change_orientation_mutation = f.read()
         if change_orientation_mutation:
-            # Execute single query
-            query = gql(change_orientation_mutation)
-
-            result = await session.execute(query, variable_values=data.gql_variables())
-            logger.info(result)
+            result = await session.execute(
+                gql(change_orientation_mutation), variable_values=data.gql_variables()
+            )
 
             return result
         else:
