@@ -1,6 +1,6 @@
 #language: fr
 
-Fonctionnalité: Création d'une demande de réorientation
+Fonctionnalité: Demande de réorientation
         Pour pouvoir accompagner l'évolution du parcours d'un bénéficiaire
         En tant que référent
         Je veux pouvoir demander la réorientation d'un bénéficiaire
@@ -13,4 +13,14 @@ Fonctionnalité: Création d'une demande de réorientation
                 Quand je clique sur "Envoyer ma demande"
                 Quand je clique sur le bouton "Envoyer ma demande"
 		Alors je vois "Demande de réorientation envoyée"
+                Alors je vois "Orientation recommandée : Social"
+
+        Scénario: Affichage d'un bénéficiaire pour lequel la demande de réorientation a été acceptée
+                Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Rose"
+		Alors je vois "Demande de réorientation refusée"
+                Alors je vois "Orientation recommandée : Social"
+
+        Scénario: Affichage d'un bénéficiaire pour lequel la demande de réorientation a été refusée
+                Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Herring"
+		Alors je vois "Demande de réorientation acceptée"
                 Alors je vois "Orientation recommandée : Social"

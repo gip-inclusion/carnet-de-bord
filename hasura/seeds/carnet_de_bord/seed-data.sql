@@ -193,6 +193,8 @@ INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, stat
 VALUES ('f244fde3-7825-4548-a43e-5fa80c5a96b3', 'c0b14f09-9dab-425f-addc-2e4b44003632', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:36.734947+00', '2022-03-30 09:29:36.734947+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('879a25f0-e10c-4081-bde3-4aef77826d1a', 'c0b14f09-9dab-425f-addc-2e4b44003632', '2022-03-30 09:29:36.734947+00', NULL, true, false, true, false, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:36.734947+00');
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('1aad3d7a-dd76-4097-a02e-875fc2e6636f', '879a25f0-e10c-4081-bde3-4aef77826d1a', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', NULL, NULL);
+INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at, decided_orientation_type_id, decided_at) VALUES ('fbed211b-16fb-4315-8be6-a77208a6b210', 'c0b14f09-9dab-425f-addc-2e4b44003632', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', 'social', 'denied', 'La raison', '2022-09-01 14:00:00.0000+00', 'pro', '2022-09-03 16:00:00.0000+00');
 
 -- Janie Herring
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
@@ -201,6 +203,8 @@ INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, stat
 VALUES ('ae0832d4-4d80-4e83-a54b-91b8376b659a', 'e2a8c7dc-054d-4ce3-9a78-0419642e5538', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:37.238863+00', '2022-03-30 09:29:37.238863+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('6df5ad80-6b22-4620-b6ea-137d5d74089e', 'e2a8c7dc-054d-4ce3-9a78-0419642e5538', '2022-03-30 09:29:37.238863+00', NULL, true, true, true, false, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:37.238863+00');
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('08fa32ed-e208-4d4c-aa5d-bc92b4c80173', '6df5ad80-6b22-4620-b6ea-137d5d74089e', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '2021-09-21 13:06:45.076+00', 'referent', '2021-09-21 11:51:37.295647+00', NULL, NULL);
+INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at, decided_orientation_type_id, decided_at) VALUES ('84f40134-f2a2-45ae-993a-a9d0d1077f31', 'e2a8c7dc-054d-4ce3-9a78-0419642e5538', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'social', 'accepted', 'Une bonne raison', '2022-09-01 14:00:00.0000+00', 'social', '2022-09-03 15:00:00.0000+00');
 
 -- Ross Bryant
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
