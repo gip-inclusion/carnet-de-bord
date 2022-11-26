@@ -24,8 +24,12 @@
 
 	query(getNotebookResult);
 	$: notebook = $getNotebookResult.data?.notebook;
+
+	function refreshNotebook() {
+		getNotebookResult.reexecute({ requestPolicy: 'network-only' });
+	}
 </script>
 
 <LoaderIndicator result={getNotebookResult}>
-	<NotebookEdit {notebook} />
+	<NotebookEdit {notebook} on:beneficiary-orientation-changed={refreshNotebook} />
 </LoaderIndicator>

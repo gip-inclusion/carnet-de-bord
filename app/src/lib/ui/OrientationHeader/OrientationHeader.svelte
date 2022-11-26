@@ -6,14 +6,24 @@
 	import { Button } from '$lib/ui/base';
 	import { openComponent } from '$lib/stores';
 	import ChangeOrientationForm from '../OrientationRequest/ChangeOrientationForm.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
 		| GetNotebookQuery['notebook'];
 	$: buttonTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
 
+	const dispatch = createEventDispatcher();
+
+	function onBeneficiaryOrientationChanged() {
+		dispatch('beneficiary-orientation-changed');
+	}
+
 	function openChangeOrientationForm() {
-		openComponent.open({ component: ChangeOrientationForm, props: { notebook } });
+		openComponent.open({
+			component: ChangeOrientationForm,
+			props: { notebook, onBeneficiaryOrientationChanged },
+		});
 	}
 </script>
 

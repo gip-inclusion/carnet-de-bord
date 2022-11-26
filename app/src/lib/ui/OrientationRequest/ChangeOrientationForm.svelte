@@ -13,6 +13,8 @@
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
 		| GetNotebookQuery['notebook'];
+	export let onBeneficiaryOrientationChanged: () => void;
+
 	let displayError = false;
 	const formTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
 
@@ -34,6 +36,7 @@
 			displayError = true;
 			return;
 		}
+		onBeneficiaryOrientationChanged();
 		openComponent.close();
 	}
 </script>

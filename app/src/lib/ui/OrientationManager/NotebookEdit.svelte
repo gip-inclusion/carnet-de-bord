@@ -25,7 +25,7 @@
 	{#if orientationRequest && !orientationRequest?.decidedAt}
 		<OrientationRequestBanner {orientationRequest} />
 	{:else}
-		<OrientationHeader {notebook} />
+		<OrientationHeader {notebook} on:beneficiary-orientation-changed />
 	{/if}
 	<ProNotebookPersonalInfoView
 		beneficiary={notebook.beneficiary}
