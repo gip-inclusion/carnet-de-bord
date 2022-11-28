@@ -102,6 +102,7 @@ function env_set() {
 function set_backend_env() {
   env_set backend DATABASE_URL "$DATABASE_URL"
   env_set backend APP_URL "$APP_URL"
+  env_set backend GRAPHQL_API_URL "$GRAPHQL_URL"
 }
 
 function set_hasura_env() {
