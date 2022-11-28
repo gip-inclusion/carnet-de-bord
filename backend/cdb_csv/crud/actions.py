@@ -26,8 +26,10 @@ async def load_action_mapping_file(action_mapping_csv_path: str) -> dict[str, st
 
         csv_row: ActionMappingCsvRow = await map_action_mapping_row(row)
 
-        logging.debug(f"Reading {csv_row.actions} => {csv_row.focus}")
+        row_focus = csv_row.focus.lower() if csv_row.focus else None
 
-        mapping[csv_row.actions] = csv_row.focus
+        logging.debug(f"Reading {csv_row.actions} => {row_focus}")
+
+        mapping[csv_row.actions] = row_focus
 
     return mapping

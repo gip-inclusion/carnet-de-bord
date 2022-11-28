@@ -5,9 +5,15 @@ from pydantic import BaseModel
 from strenum import StrEnum
 
 
+class EventStatus(StrEnum):
+    done = "done"
+    target = "in_progress"
+    abandoned = "abandoned"
+
+
 class EventType(StrEnum):
-    action = "Action d'un objectif"
-    target = "Objectif d'un parcours"
+    action = "action"
+    target = "target"
 
 
 class NotebookEventInsert(BaseModel):

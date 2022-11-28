@@ -3,6 +3,7 @@ import os
 import re
 import traceback
 import uuid
+from datetime import datetime
 from uuid import UUID
 
 import dask.dataframe as dd
@@ -29,6 +30,7 @@ from api.db.crud.notebook import (
     get_notebook_member_by_notebook_id_and_account_id,
     insert_notebook_member,
 )
+from api.db.crud.notebook_event import create_notebook_event, insert_notebook_event
 from api.db.crud.professional import get_professional_by_email, insert_professional
 from api.db.crud.structure import (
     create_structure_from_agences_list,
@@ -46,7 +48,12 @@ from api.db.models.external_data import (
     format_external_data,
 )
 from api.db.models.notebook import Notebook
-from api.db.models.notebook_event import NotebookEventInsert
+from api.db.models.notebook_event import (
+    EventStatus,
+    EventType,
+    NotebookEvent,
+    NotebookEventInsert,
+)
 from api.db.models.notebook_member import (
     NotebookMember,
     NotebookMemberInsert,
@@ -61,6 +68,8 @@ from pe.models.agence import Agence
 from pe.pole_emploi_client import PoleEmploiApiClient
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
+
+FORMATION_DOMAINE_SUIVANT_LABEL = "UNE FORMATION DANS LE DOMAINE SUIVANT"
 
 
 class ParseActionEnum(StrEnum):
@@ -229,22 +238,30 @@ async def import_actions(connection: Connection, action_csv_path: str):
     row: Series
     for _, row in df.iterrows():
         try:
-
+            pe_unique_import_id: str = row["identifiant_unique_de"]
             logging.info(
-                "{id} => Trying to import action row {id}".format(
-                    id=row["identifiant_unique_de"]
-                )
+                f"{pe_unique_import_id} => Trying to import action row {pe_unique_import_id}"
             )
 
             csv_row: ActionCsvRow = await map_action_row(row)
 
+            if (
+                csv_row.lblaction == FORMATION_DOMAINE_SUIVANT_LABEL
+                and csv_row.formation is None
+            ):
+
+                logging.error(
+                    f"{pe_unique_import_id} => Line '{FORMATION_DOMAINE_SUIVANT_LABEL}' with empty 'formation' column. Skipping row."
+                )
+                continue
+
             focus: str | None = mapping[csv_row.lblaction]
 
             if focus:
-                logging.info(f"Mapped focus: {focus}")
+                logging.info(f"{pe_unique_import_id} => Mapped focus: {focus}")
             else:
                 logging.error(
-                    f"Mapped focus not found for action '{csv_row.lblaction}': {focus}. Skipping row."
+                    f"{pe_unique_import_id} => Mapped focus not found for action '{csv_row.lblaction}': {focus}. Skipping row."
                 )
                 continue
 
@@ -252,14 +269,65 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 connection, csv_row.identifiant_unique_de
             )
 
-            if notebook:
-                logging.info("fOUND notebook")
+            if not notebook:
+                logging.error(
+                    f"{pe_unique_import_id} => Notebook NOT FOUND for action import"
+                )
+                continue
             else:
-                logging.error("Notebook NOT FOUND")
+                logging.info(
+                    f"{pe_unique_import_id} => Notebook FOUND for action import"
+                )
+
+            notebook_event_insert: NotebookEventInsert = NotebookEventInsert(
+                notebook_id=notebook.id,
+                event_date=compute_action_date(
+                    csv_row.date_prescription,
+                    csv_row.date_realisation_action,
+                    csv_row.date_fin,
+                    csv_row.lblaction,
+                ),
+                creator_id=None,
+                event=create_notebook_event(
+                    status=EventStatus.done, category=focus, label=csv_row.lblaction
+                ),
+                event_type=EventType.action,
+            )
+
+            logging.info(
+                f"{pe_unique_import_id} => Importing event {notebook_event_insert}"
+            )
+
+            notebook_event: NotebookEvent | None = await insert_notebook_event(
+                connection, notebook_event_insert
+            )
+
+            if notebook_event:
+                logging.info(
+                    f"{pe_unique_import_id} => Imported event {notebook_event}"
+                )
+            else:
+                logging.error(f"{pe_unique_import_id} => Failed to import event")
 
         except Exception as e:
             logging.error("Exception while processing action CSV line: {}".format(e))
             traceback.print_exc()
+
+
+def compute_action_date(
+    date_prescription: datetime,
+    date_realisation_action: datetime | None,
+    date_fin: datetime | None,
+    label: str,
+) -> datetime:
+
+    if label != FORMATION_DOMAINE_SUIVANT_LABEL:
+        if date_fin is not None and date_realisation_action is not None:
+            return date_realisation_action
+    elif date_fin:
+        return date_fin
+
+    return date_prescription
 
 
 async def import_pe_referent(
