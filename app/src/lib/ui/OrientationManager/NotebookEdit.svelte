@@ -23,7 +23,7 @@
 
 <div class="fr-py-6w flex flex-col gap-8">
 	{#if orientationRequest && !orientationRequest?.decidedAt}
-		<OrientationRequestBanner {orientationRequest} />
+		<OrientationRequestBanner {notebook} {orientationRequest} on:beneficiary-orientation-changed />
 	{:else}
 		<OrientationHeader {notebook} on:beneficiary-orientation-changed />
 	{/if}

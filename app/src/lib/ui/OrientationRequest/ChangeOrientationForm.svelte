@@ -14,6 +14,7 @@
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
 		| GetNotebookQuery['notebook'];
 	export let onBeneficiaryOrientationChanged: () => void;
+	export let orientationRequestId: string | undefined;
 
 	let displayError = false;
 	const formTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
@@ -23,6 +24,7 @@
 			await postApiJson(
 				'/v1/change-beneficiary-orientation',
 				{
+					orientation_request_id: orientationRequestId,
 					orientation_type: values.orientationType,
 					notebook_id: notebook.id,
 					beneficiary_id: notebook.beneficiary.id,

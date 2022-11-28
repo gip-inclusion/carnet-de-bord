@@ -1,16 +1,37 @@
 <script lang="ts">
-	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		GetNotebookQuery,
+		GetNotebookByBeneficiaryIdQuery,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Button } from '$lib/ui/base';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { openComponent } from '$lib/stores';
 	import DenyOrientationRequestConfirmation from './DenyOrientationRequestConfirmation.svelte';
-	import AcceptOrientationRequestForm from './AcceptOrientationRequestForm.svelte';
+	import ChangeOrientationForm from './ChangeOrientationForm.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
+	export let notebook:
+		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
+		| GetNotebookQuery['notebook'];
+
+	const dispatch = createEventDispatcher();
+
+	function onBeneficiaryOrientationChanged() {
+		dispatch('beneficiary-orientation-changed');
+	}
 
 	function acceptOrientationRequest() {
-		openComponent.open({ component: AcceptOrientationRequestForm, props: { orientationRequest } });
+		openComponent.open({
+			component: ChangeOrientationForm,
+			props: {
+				notebook,
+				orientationRequestId: orientationRequest.id,
+				onBeneficiaryOrientationChanged,
+			},
+		});
 	}
+
 	function denyOrientationRequest() {
 		openComponent.open({
 			component: DenyOrientationRequestConfirmation,
