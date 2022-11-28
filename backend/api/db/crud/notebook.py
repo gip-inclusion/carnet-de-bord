@@ -551,7 +551,8 @@ async def get_notebook_with_query(
             *args,
         )
 
-        return await parse_notebook_from_record(record)
+        if record:
+            return await parse_notebook_from_record(record)
 
 
 async def get_notebooks_by_structure_id(
@@ -573,6 +574,17 @@ async def get_notebook_by_id(
         connection,
         """WHERE n.id = $1""",
         notebook_id,
+    )
+
+
+async def get_notebook_by_pe_unique_import_id(
+    connection: Connection, pe_unique_import_id: str
+) -> Notebook | None:
+    return await get_notebook_with_query(
+        connection,
+        """JOIN beneficiary on n.beneficiary_id = beneficiary.id
+        WHERE beneficiary.pe_unique_import_id = $1""",
+        pe_unique_import_id,
     )
 
 

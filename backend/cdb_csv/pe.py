@@ -25,6 +25,7 @@ from api.db.crud.external_data import (
     insert_external_data_for_beneficiary_and_professional,
 )
 from api.db.crud.notebook import (
+    get_notebook_by_pe_unique_import_id,
     get_notebook_member_by_notebook_id_and_account_id,
     insert_notebook_member,
 )
@@ -45,6 +46,7 @@ from api.db.models.external_data import (
     format_external_data,
 )
 from api.db.models.notebook import Notebook
+from api.db.models.notebook_event import NotebookEventInsert
 from api.db.models.notebook_member import (
     NotebookMember,
     NotebookMemberInsert,
@@ -245,6 +247,15 @@ async def import_actions(connection: Connection, action_csv_path: str):
                     f"Mapped focus not found for action '{csv_row.lblaction}': {focus}. Skipping row."
                 )
                 continue
+
+            notebook: Notebook | None = await get_notebook_by_pe_unique_import_id(
+                connection, csv_row.identifiant_unique_de
+            )
+
+            if notebook:
+                logging.info("fOUND notebook")
+            else:
+                logging.error("Notebook NOT FOUND")
 
         except Exception as e:
             logging.error("Exception while processing action CSV line: {}".format(e))
