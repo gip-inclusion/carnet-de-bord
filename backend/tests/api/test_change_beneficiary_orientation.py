@@ -34,7 +34,7 @@ async def test_professional_not_allowed_to_change_orientation(
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
-    get_professionnal_jwt: str,
+    get_professional_jwt: str,
 ):
     response = test_client.post(
         ENDPOINT_PATH,
@@ -45,7 +45,7 @@ async def test_professional_not_allowed_to_change_orientation(
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "professional_account_id": str(professional_pierre_chevalier.account_id),
         },
-        headers={"jwt-token": f"{get_professionnal_jwt}"},
+        headers={"jwt-token": f"{get_professional_jwt}"},
     )
     assert response.status_code == 403
     json = response.json()
