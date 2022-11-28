@@ -15,7 +15,7 @@
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
-	import { displayFullName } from '$lib/ui/format';
+	import { displayBoolean, displayFullName } from '$lib/ui/format';
 	import { pluralize } from '$lib/helpers';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { v4 as uuidv4 } from 'uuid';
@@ -179,7 +179,7 @@
 		{ label: 'Droits ARE', key: 'Droits ARE', mandatory: false },
 		{ label: 'Droits ASS', key: 'Droits ASS', mandatory: false },
 		{ label: "Prime d'activité", key: "Prime d'activité", mandatory: false },
-		{ label: 'RQTH', key: 'Droits RQTH', mandatory: false },
+		{ label: 'RQTH', key: 'RQTH', mandatory: false },
 		{ label: 'Zone de mobilité', key: 'Zone de mobilité', mandatory: false },
 		{
 			label: 'Emplois recherchés (texte + code ROME)',
@@ -302,8 +302,8 @@
 											{#if beneficiary.valid}
 												{#if key === 'Date de naissance*'}
 													<Text value={formatDateLocale(beneficiary.data[key])} defaultValue="" />
-												{:else if ["Prime d'activité", 'Droits ARE', 'Droits ASS', 'Droits RQTH'].includes(key)}
-													<Text value={beneficiary.data[key] ? 'Oui' : 'Non'} defaultValue="" />
+												{:else if ["Prime d'activité", 'Droits ARE', 'Droits ASS', 'RQTH'].includes(key)}
+													<Text value={displayBoolean(beneficiary.data[key])} defaultValue="" />
 												{:else}
 													<Text value={beneficiary.data[key]} defaultValue="" />
 												{/if}
@@ -389,7 +389,6 @@
 					'bénéficiaire',
 					beneficiariesToImport.length
 				)} en cours...`}
-			/>
 			/>
 		{:then insertResults}
 			{@const nbBeneficiaryError = insertResults.filter(({ valid }) => !valid).length}

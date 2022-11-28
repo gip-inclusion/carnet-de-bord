@@ -42,7 +42,7 @@
 				return data.search_rome_codes;
 			})
 			.catch((error) => {
-				console.log('Error fetching ROME codes', { error, search });
+				console.error('Error fetching ROME codes', { error, search });
 				return [];
 			});
 </script>

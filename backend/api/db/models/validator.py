@@ -78,19 +78,21 @@ def postal_code_validator(*args, **kwargs):
     return decorated
 
 
-def is_bool(value):
+def parse_bool(value):
     if type(value) == str:
         if value.lower() in ["oui", "o"]:
             return True
-        else:
+        elif value.lower() in ["non", "n"]:
             return False
+        else:
+            return None
     elif type(value) == bool:
         return value
     else:
-        return False
+        return None
 
 
-def is_bool_validator(*args, **kwargs):
+def parse_bool_validator(*args, **kwargs):
     decorator = validator(*args, **kwargs, allow_reuse=True)
-    decorated = decorator(is_bool)
+    decorated = decorator(parse_bool)
     return decorated

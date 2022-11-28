@@ -55,7 +55,7 @@
 			});
 			if (deleteResponse.error) {
 				error = true;
-				console.log(deleteResponse.error);
+				console.error(deleteResponse.error);
 				return;
 			}
 		}
@@ -81,7 +81,7 @@
 		);
 		if (updateResponse.error) {
 			error = true;
-			console.log(updateResponse.error);
+			console.error(updateResponse.error);
 			return;
 		}
 		if (onClose) onClose();

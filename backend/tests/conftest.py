@@ -12,7 +12,7 @@ from api.core.init import create_app
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_by_id
 from api.db.crud.professional import get_professional_by_email
-from api.db.models.beneficiary import Beneficiary
+from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
@@ -264,7 +264,7 @@ def get_admin_cdb_jwt() -> str:
 
 
 @pytest.fixture
-def get_professionnal_jwt() -> str:
+def get_professional_jwt() -> str:
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsicHJvZmVzc2lvbmFsIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InByb2Zlc3Npb25hbCIsIngtaGFzdXJhLXVzZXItaWQiOiIxNzQzNDQ2NC01ZjY5LTQwY2MtODE3Mi00MDE2MDk1OGEzM2QiLCJ4LWhhc3VyYS1wcm9mZXNzaW9uYWwtaWQiOiIxYTViODE3Yi02YjgxLTRhNGQtOTk1My0yNjcwN2E1NGUwZTkiLCJ4LWhhc3VyYS1kZXBsb3ltZW50LWlkIjoiNGRhYjgwMzYtYTg2ZS00ZDVmLTliZDQtNmNlODhjMTk0MGQwIn0sImlkIjoiMTc0MzQ0NjQtNWY2OS00MGNjLTgxNzItNDAxNjA5NThhMzNkIiwicm9sZSI6InByb2Zlc3Npb25hbCIsInByb2Zlc3Npb25hbElkIjoiMWE1YjgxN2ItNmI4MS00YTRkLTk5NTMtMjY3MDdhNTRlMGU5IiwiZGVwbG95bWVudElkIjoiNGRhYjgwMzYtYTg2ZS00ZDVmLTliZDQtNmNlODhjMTk0MGQwIiwiaWF0IjoxNjYxODY2NzkzLCJleHAiOjE5Nzc0NDI3OTMsInN1YiI6IjE3NDM0NDY0LTVmNjktNDBjYy04MTcyLTQwMTYwOTU4YTMzZCJ9.sSj94JD2BvBjjUttMhfNQnVwvj6vOWnKW3Vkkbsskxs"
 
 
@@ -307,3 +307,24 @@ def deployment_id_cd93() -> UUID:
 @pytest.fixture
 def structure_id_pe_livry() -> UUID:
     return UUID("a81bc81b-dead-4e5d-abff-90865d1e13b2")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def beneficiary_import_alain_die() -> BeneficiaryImport:
+    return BeneficiaryImport(
+        internal_id="1234",
+        firstname="Alain",
+        lastname="Die",
+        date_of_birth="1980-01-01",
+        place_of_birth="Lyon",
+        mobile_number="0601020304",
+        email="alain.die@lycos.com",
+        address1="Rue",
+        postal_code="69900",
+        city="Lyon",
+        work_situation="iae",
+        right_rsa="rsa_droit_ouvert_versable",
+        right_ass=True,
+        geographical_area="between_20_30",
+    )

@@ -50,7 +50,7 @@
 		);
 		if (updateResponse.error) {
 			error = true;
-			console.log(updateResponse.error);
+			console.error(updateResponse.error);
 			return;
 		}
 		if (onClose) onClose();

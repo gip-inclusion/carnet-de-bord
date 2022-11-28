@@ -35,6 +35,9 @@ export function translateError(error = ''): string {
 	if (/value unknown/i.test(error)) {
 		return 'Valeur non supportée';
 	}
+	if (/allowed value/i.test(error)) {
+		return 'Valeur non supportée';
+	}
 	console.error('unhandle import error message', error);
 	return `Une erreur s'est produite lors de la lecture du fichier.`;
 }

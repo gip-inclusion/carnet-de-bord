@@ -64,7 +64,7 @@ OR (internal_id = $4 AND deployment_id = $5)
         beneficiary.firstname,
         beneficiary.lastname,
         beneficiary.date_of_birth,
-        beneficiary.si_id,
+        beneficiary.internal_id,
         deployment_id,
     )
     return [
@@ -97,31 +97,28 @@ async def update_beneficiary(
     beneficiary: BeneficiaryImport,
     beneficiary_id: UUID,
 ) -> UUID | None:
-    result: Record | None = await connection.fetchrow(
-        f"""
-UPDATE beneficiary SET mobile_number = $2,
-    address1 = $3,
-    address2 = $4,
-    postal_code = $5,
-    city = $6,
-    caf_number = $7,
-    pe_number = $8,
-    email = $9,
-    nir=$10
-where id = $1
-returning id
-        """,
+
+    keys_to_update = beneficiary.get_beneficiary_editable_keys()
+
+    if len(keys_to_update) == 0:
+        logger.info("trying to update beneficiary but no fields where updated.")
+        return beneficiary_id
+
+    sql_fields = [f"{key} = ${index+2}" for (index, key) in enumerate(keys_to_update)]
+
+    sql = f"""
+        UPDATE beneficiary
+        SET {", ".join(sql_fields)}
+        WHERE id=$1
+            returning id
+"""
+
+    result = await connection.fetchrow(
+        sql,
         beneficiary_id,
-        beneficiary.phone_number,
-        beneficiary.address1,
-        beneficiary.address2,
-        beneficiary.postal_code,
-        beneficiary.city,
-        beneficiary.caf_number,
-        beneficiary.pe_number,
-        beneficiary.email,
-        beneficiary.nir,
+        *beneficiary.get_values_for_keys(keys_to_update),
     )
+
     if result:
         return result["id"]
 
@@ -155,11 +152,11 @@ returning id
         """,
         beneficiary.firstname,
         beneficiary.lastname,
-        beneficiary.si_id,
+        beneficiary.internal_id,
         beneficiary.date_of_birth,
         deployment_id,
         beneficiary.place_of_birth,
-        beneficiary.phone_number,
+        beneficiary.mobile_number,
         beneficiary.address1,
         beneficiary.address2,
         beneficiary.postal_code,

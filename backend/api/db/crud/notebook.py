@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Callable
 from uuid import UUID
 
@@ -15,6 +16,8 @@ from api.db.models.notebook_member import NotebookMember, NotebookMemberInsert
 from api.db.models.rome_code import RomeCode
 from api.db.models.target import Target
 from api.db.models.wanted_job import WantedJob
+
+logger = logging.getLogger(__name__)
 
 NOTEBOOK_BASE_FIELDS = """
 n.id as n_id,
@@ -578,32 +581,19 @@ async def insert_notebook(
     beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
 ) -> UUID | None:
-    created_notebook: Record | None = await connection.fetchrow(
-        """
-INSERT INTO public.notebook (
-    beneficiary_id,
-    right_rsa,
-    right_rqth,
-    right_are,
-    right_ass,
-    right_bonus,
-    work_situation,
-    education_level,
-    geographical_area
-    )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-returning id
-        """,
-        beneficiary_id,
-        beneficiary.right_rsa,
-        beneficiary.right_rqth,
-        beneficiary.right_are,
-        beneficiary.right_ass,
-        beneficiary.right_bonus,
-        beneficiary.work_situation,
-        beneficiary.education_level,
-        beneficiary.geographical_area,
-    )
+
+    keys_to_insert = beneficiary.get_notebook_editable_keys()
+    sql_values = beneficiary.get_values_for_keys(keys_to_insert)
+    # manually add beneficiary_id and its value for insert request
+    # since we do not want to add it to editable_fields
+    keys_to_insert.append("beneficiary_id")
+    sql_values.append(beneficiary_id)
+    sql = f"""
+        INSERT INTO public.notebook ({", ".join(keys_to_insert)})
+        VALUES ({", ".join([f"${x+1}" for x in range(len(keys_to_insert))])})
+            returning id
+"""
+    created_notebook: Record | None = await connection.fetchrow(sql, *sql_values)
 
     if created_notebook:
         return created_notebook["id"]
@@ -611,32 +601,29 @@ returning id
 
 async def update_notebook(
     connection: Connection,
-    beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
+    beneficiary_id: UUID,
 ) -> UUID | None:
-    result: Record = await connection.fetchrow(
-        """
-UPDATE public.notebook SET
-    right_rsa = $2,
-    right_rqth = $3,
-    right_are = $4,
-    right_ass = $5,
-    right_bonus = $6,
-    work_situation = $7,
-    education_level = $8,
-    geographical_area = $9
-WHERE beneficiary_id = $1
-returning id
-        """,
+
+    keys_to_update = beneficiary.get_notebook_editable_keys()
+
+    if len(keys_to_update) == 0:
+        logger.info("trying to update notebook but no fields where updated.")
+        return None
+
+    sql_fields = [f"{key} = ${index+2}" for (index, key) in enumerate(keys_to_update)]
+
+    sql = f"""
+        UPDATE notebook
+        SET {", ".join(sql_fields)}
+        WHERE beneficiary_id=$1
+            returning id
+"""
+    result = await connection.fetchrow(
+        sql,
         beneficiary_id,
-        beneficiary.right_rsa,
-        beneficiary.right_rqth,
-        beneficiary.right_are,
-        beneficiary.right_ass,
-        beneficiary.right_bonus,
-        beneficiary.work_situation,
-        beneficiary.education_level,
-        beneficiary.geographical_area,
+        *beneficiary.get_values_for_keys(keys_to_update),
     )
+
     if result:
         return result["id"]

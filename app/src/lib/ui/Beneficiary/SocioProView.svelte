@@ -22,15 +22,17 @@
 
 <div class="flex flex-col space-y-6">
 	<div class="flex flex-row flex-wrap">
-		{#if notebook.workSituationDate && notebook.workSituation}
+		{#if notebook.workSituation}
 			<div class="w-1/2">
 				<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong>
-				{contractDatesTemplating(notebook.workSituationDate, notebook.workSituationEndDate)}
-				{#if notebook.workSituationEndDate}
-					-
-					<span class="italic font-bold">
-						({dateInterval(notebook.workSituationDate, notebook.workSituationEndDate)})
-					</span>
+				{#if notebook.workSituationDate}
+					{contractDatesTemplating(notebook.workSituationDate, notebook.workSituationEndDate)}
+					{#if notebook.workSituationEndDate}
+						-
+						<span class="italic font-bold">
+							({dateInterval(notebook.workSituationDate, notebook.workSituationEndDate)})
+						</span>
+					{/if}
 				{/if}
 			</div>
 		{/if}
