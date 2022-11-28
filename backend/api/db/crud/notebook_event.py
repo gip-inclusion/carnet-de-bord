@@ -4,7 +4,12 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
-from api.db.models.notebook_event import EventStatus, NotebookEvent, NotebookEventInsert
+from api.db.models.notebook_event import (
+    EventFrom,
+    EventStatus,
+    NotebookEvent,
+    NotebookEventInsert,
+)
 
 
 def parse_notebook_event(record: Record) -> NotebookEvent:
@@ -19,8 +24,15 @@ def parse_notebook_event(record: Record) -> NotebookEvent:
     )
 
 
-def create_notebook_event(status: EventStatus, category: str, label: str) -> dict:
-    return {"status": str(status), "category": category, "event_label": label}
+def create_notebook_event(
+    status: EventStatus, category: str, label: str, event_from: EventFrom
+) -> dict:
+    return {
+        "status": str(status),
+        "category": category,
+        "event_label": label,
+        "from": event_from,
+    }
 
 
 async def insert_notebook_event(
