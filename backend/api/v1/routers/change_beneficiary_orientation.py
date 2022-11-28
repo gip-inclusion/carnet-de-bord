@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class ChangeBeneficiaryOrientationInput(BaseModel):
+    orientation_request_id: UUID | None
     orientation_type: str
     notebook_id: UUID
     beneficiary_id: UUID
@@ -26,7 +27,12 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
     professional_account_id: UUID | None
 
     def gql_variables(self):
-        return {
+        variables = (
+            {"orientation_request_id": str(self.orientation_request_id)}
+            if self.orientation_request_id
+            else {}
+        )
+        return variables | {
             "orientation_type": self.orientation_type,
             "notebook_id": str(self.notebook_id),
             "beneficiary_id": str(self.beneficiary_id),
@@ -51,19 +57,25 @@ async def change_beneficiary_orientation(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        change_orientation_mutation = ""
-        with open(
-            os.path.join(
-                os.path.dirname(__file__), "_changeBeneficiaryOrientation.gql"
-            ),
-            encoding="utf-8",
-        ) as f:
-            change_orientation_mutation = f.read()
-        if change_orientation_mutation:
-            result = await session.execute(
-                gql(change_orientation_mutation), variable_values=data.gql_variables()
+        mutation_filename = (
+            "_changeBeneficiaryOrientation.gql"
+            if data.orientation_request_id is None
+            else "_acceptOrientationRequest.gql"
+        )
+
+        mutation = load_mutation_from_file(mutation_filename)
+
+        if mutation is None:
+            raise HTTPException(
+                status_code=500,
+                detail="Error while reading `" + mutation_filename + "` mutation file",
             )
 
-            return result
-        else:
-            raise HTTPException(status_code=500, detail="Pb de lecture du fichier")
+        return await session.execute(
+            gql(mutation), variable_values=data.gql_variables()
+        )
+
+
+def load_mutation_from_file(filename: str):
+    with open(os.path.join(os.path.dirname(__file__), filename), encoding="utf-8") as f:
+        return f.read()

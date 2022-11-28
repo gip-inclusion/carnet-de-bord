@@ -11,6 +11,7 @@ from api.core.db import get_connection_pool
 from api.core.init import create_app
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_by_id
+from api.db.crud.orientation_request import get_orientation_request_by_id
 from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from api.db.models.professional import Professional
@@ -186,6 +187,22 @@ async def beneficiary_hendrix_dorsey(db_connection) -> Beneficiary | None:
 async def beneficiary_noel_keller(db_connection) -> Beneficiary | None:
     return await get_beneficiary_by_id(
         db_connection, UUID("ba6dc97e-05dd-4053-a810-b12605a11bba")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def beneficiary_jennings_dee(db_connection) -> Beneficiary | None:
+    return await get_beneficiary_by_id(
+        db_connection, UUID("695b2792-93ad-4819-954f-b022006bd92e")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_request_jennings_dee(db_connection) -> Beneficiary | None:
+    return await get_orientation_request_by_id(
+        db_connection, UUID("1f696530-984c-4f92-be13-c477097b02b7")
     )
 
 
