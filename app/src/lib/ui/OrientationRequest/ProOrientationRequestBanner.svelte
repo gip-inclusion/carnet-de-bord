@@ -18,14 +18,18 @@
 			: 'envoyée';
 </script>
 
-<div class="flex flex-row mb-8 items-center --bg-grey-975">
-	<div class="{color} fr-icon-info-fill" />
+<div class="bg-gray-100">
 	<div class="fr-container">
-		<div class="fr-text--bold {color}">
-			Demande de réorientation {decision} le {formatDateLocale(reorientationRequest.createdAt)}
-		</div>
-		<div>
-			Orientation recommandée : {reorientationRequest.requestedOrientationType.label}
+		<div class="flex flex-row gap-4 items-top fr-py-2w">
+			<div class="{color} fr-icon-info-fill" aria-hidden />
+			<div>
+				<div class="fr-text--bold {color}">
+					Demande de réorientation {decision} le {formatDateLocale(reorientationRequest.createdAt)}
+				</div>
+				<div>
+					Orientation recommandée : {reorientationRequest.requestedOrientationType.label}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

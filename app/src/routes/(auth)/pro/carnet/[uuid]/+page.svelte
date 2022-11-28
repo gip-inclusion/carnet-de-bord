@@ -25,6 +25,8 @@
 	import { focusThemeKeys } from '$lib/constants/keys';
 	import ProOrientationRequestBanner from '$lib/ui/OrientationRequest/ProOrientationRequestBanner.svelte';
 
+	import Portal from 'svelte-portal';
+
 	import type { PageData } from './$types';
 
 	function toDateFormat(date: Date) {
@@ -184,7 +186,9 @@
 		>
 	{:else}
 		{#if reorientationRequest}
-			<ProOrientationRequestBanner {reorientationRequest} />
+			<Portal target="#bandeau">
+				<ProOrientationRequestBanner {reorientationRequest} />
+			</Portal>
 		{/if}
 		{#if isReferent && (!reorientationRequest || reorientationRequest.status != 'pending')}
 			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
