@@ -291,10 +291,17 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 csv_row.lblaction,
             )
 
+            updated_label = csv_row.lblaction
+            if (
+                csv_row.formation is not None
+                and csv_row.lblaction == FORMATION_DOMAINE_SUIVANT_LABEL
+            ):
+                updated_label = "UNE FORMATION DANS LE DOMAINE " + csv_row.formation
+
             notebook_event: NotebookEvent | None = await get_notebook_event_pe(
                 connection,
                 notebook_id=notebook.id,
-                label=csv_row.lblaction,
+                label=updated_label,
                 date=event_date,
             )
 
@@ -312,7 +319,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 event=create_notebook_event(
                     status=EventStatus.done,
                     category=focus,
-                    label=csv_row.lblaction,
+                    label=updated_label,
                     event_from=EventFrom.pe,
                 ),
                 event_type=EventType.action,
