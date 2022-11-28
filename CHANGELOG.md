@@ -1,3 +1,10 @@
+## [1.162.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.162.0...v1.162.1) (2022-11-28)
+
+
+### Bug Fixes
+
+* Ré-import partiel de bénéficiaires ([#1274](https://github.com/gip-inclusion/carnet-de-bord/issues/1274)) ([fee9577](https://github.com/gip-inclusion/carnet-de-bord/commit/fee9577962d9a0b5f5db998d36d02e4ca9c99296)), closes [#1265](https://github.com/gip-inclusion/carnet-de-bord/issues/1265) [#1264](https://github.com/gip-inclusion/carnet-de-bord/issues/1264) [#1273](https://github.com/gip-inclusion/carnet-de-bord/issues/1273)
+
 # [1.162.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.161.5...v1.162.0) (2022-11-24)
 
 
