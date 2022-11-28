@@ -4,11 +4,7 @@ from uuid import UUID
 from pydantic import BaseModel
 from strenum import StrEnum
 
-
-class OrientationType(StrEnum):
-    pro = "pro"
-    social = "social"
-    sociopro = "sociopro"
+from api.db.models.orientation_type import OrientationType
 
 
 class NotebookInfo(BaseModel):

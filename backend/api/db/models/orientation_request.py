@@ -2,13 +2,8 @@ from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel, Field
-from strenum import StrEnum
 
-
-class OrientationType(StrEnum):
-    pro = "pro"
-    social = "social"
-    sociopro = "sociopro"
+from api.db.models.orientation_type import OrientationType
 
 
 class OrientationRequest(BaseModel):
