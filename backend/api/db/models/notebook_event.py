@@ -5,6 +5,10 @@ from pydantic import BaseModel
 from strenum import StrEnum
 
 
+class EventFrom(StrEnum):
+    pe = "pole_emploi"
+
+
 class EventStatus(StrEnum):
     done = "done"
     target = "in_progress"

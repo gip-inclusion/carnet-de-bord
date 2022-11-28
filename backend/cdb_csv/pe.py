@@ -49,6 +49,7 @@ from api.db.models.external_data import (
 )
 from api.db.models.notebook import Notebook
 from api.db.models.notebook_event import (
+    EventFrom,
     EventStatus,
     EventType,
     NotebookEvent,
@@ -289,7 +290,10 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 ),
                 creator_id=None,
                 event=create_notebook_event(
-                    status=EventStatus.done, category=focus, label=csv_row.lblaction
+                    status=EventStatus.done,
+                    category=focus,
+                    label=csv_row.lblaction,
+                    event_from=EventFrom.pe,
                 ),
                 event_type=EventType.action,
             )
