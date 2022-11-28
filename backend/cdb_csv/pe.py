@@ -30,7 +30,11 @@ from api.db.crud.notebook import (
     get_notebook_member_by_notebook_id_and_account_id,
     insert_notebook_member,
 )
-from api.db.crud.notebook_event import create_notebook_event, insert_notebook_event
+from api.db.crud.notebook_event import (
+    create_notebook_event,
+    get_notebook_event_pe,
+    insert_notebook_event,
+)
 from api.db.crud.professional import get_professional_by_email, insert_professional
 from api.db.crud.structure import (
     create_structure_from_agences_list,
@@ -280,14 +284,30 @@ async def import_actions(connection: Connection, action_csv_path: str):
                     f"{pe_unique_import_id} => Notebook FOUND for action import"
                 )
 
+            event_date = compute_action_date(
+                csv_row.date_prescription,
+                csv_row.date_realisation_action,
+                csv_row.date_fin,
+                csv_row.lblaction,
+            )
+
+            notebook_event: NotebookEvent | None = await get_notebook_event_pe(
+                connection,
+                notebook_id=notebook.id,
+                label=csv_row.lblaction,
+                date=event_date,
+            )
+
+            # Don't import event/actions twice
+            if notebook_event:
+                logging.info(
+                    f"{pe_unique_import_id} => Event already imported. Database id: {notebook_event.id}, skipping."
+                )
+                continue
+
             notebook_event_insert: NotebookEventInsert = NotebookEventInsert(
                 notebook_id=notebook.id,
-                event_date=compute_action_date(
-                    csv_row.date_prescription,
-                    csv_row.date_realisation_action,
-                    csv_row.date_fin,
-                    csv_row.lblaction,
-                ),
+                event_date=event_date,
                 creator_id=None,
                 event=create_notebook_event(
                     status=EventStatus.done,
