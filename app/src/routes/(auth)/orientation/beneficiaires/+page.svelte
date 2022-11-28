@@ -32,7 +32,7 @@
 	<title>Liste des bénéficiaires - Carnet de bord</title>
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
-<h1>Orientation des bénéficiaires</h1>
+<h1>Bénéficiaires</h1>
 <Container
 	listType="orientation"
 	search={data.search}

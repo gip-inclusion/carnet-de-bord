@@ -8,7 +8,7 @@ Fonctionnalité: Liste des demandes de réorientation
 	Scénario: Aucune demande de réorientation
 		Soit un "chargé d'orientation" authentifié avec l'email "laure.loge@cd51.fr"
 		Quand je clique sur "Bénéficiaires"
-		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je ne vois pas "Demandes de réorientation"
 		Quand je vais sur la page "/orientation/demandes"
 		Quand j'attends que le titre de page "Demandes de réorientation" apparaisse
@@ -17,7 +17,7 @@ Fonctionnalité: Liste des demandes de réorientation
   Scénario: Une demande de réorientation
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
-		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je vois "Demandes de réorientation"
 		Quand je clique sur "Demandes de réorientation"
 		Quand j'attends que le titre de page "Demandes de réorientation" apparaisse
