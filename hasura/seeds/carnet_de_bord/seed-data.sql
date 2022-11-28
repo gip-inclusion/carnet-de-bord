@@ -133,8 +133,8 @@ INSERT INTO public.account (id, username, type, orientation_manager_id, confirme
 
 -- Beneficiaries:
 --Sophie Tifour
-INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
-VALUES ('c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', 'stifour93@yahoo.fr', 'Tifour', 'Sophie', '2055990', '300000L', '93190', 'Livry-Gargan', '7 chemin du soleil', NULL, '0606060606', '1982-02-01', 'Châlon en Champagne', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:02:50.597956+00', '2022-03-30 09:02:50.597956+00', '1234');
+INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id, pe_unique_import_id)
+VALUES ('c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', 'stifour93@yahoo.fr', 'Tifour', 'Sophie', '2055990', '300000L', '93190', 'Livry-Gargan', '7 chemin du soleil', NULL, '0606060606', '1982-02-01', 'Châlon en Champagne', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:02:50.597956+00', '2022-03-30 09:02:50.597956+00', '1234', '71288a46-3c4d-4372-9298-c32936d7e76d');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
 VALUES ('5b7c51b1-b738-4805-bc06-a4119527f3f9', 'c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'done', '{}', '2022-03-24 17:22:38.219997+00', '2022-03-24 17:22:38.219997+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
