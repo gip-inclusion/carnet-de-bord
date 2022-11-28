@@ -1,13 +1,26 @@
+import json
 from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
 
-from api.db.models.notebook_event import EventType, NotebookEvent, NotebookEventInsert
+from api.db.models.notebook_event import EventStatus, NotebookEvent, NotebookEventInsert
 
 
 def parse_notebook_event(record: Record) -> NotebookEvent:
-    return NotebookEvent.parse_obj(record)
+    return NotebookEvent(
+        notebook_id=record["notebook_id"],
+        event_date=record["event_date"],
+        creator_id=record["creator_id"],
+        event=json.loads(record["event"]),
+        event_type=record["event_type"],
+        id=record["id"],
+        creation_date=record["creation_date"],
+    )
+
+
+def create_notebook_event(status: EventStatus, category: str, label: str) -> dict:
+    return {"status": str(status), "category": category, "event_label": label}
 
 
 async def insert_notebook_event(
@@ -22,7 +35,7 @@ async def insert_notebook_event(
         notebook_event.notebook_id,
         notebook_event.event_date,
         notebook_event.creator_id,
-        notebook_event.event,
+        json.dumps(notebook_event.event),
         notebook_event.event_type,
     )
 

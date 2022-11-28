@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, validator
 
 def parse_date(value: str):
     if value != "NULL":
-        return datetime.strptime(value, "%Y-%m-%d %H:%M:%S.%f").date()
+        return datetime.strptime(value, "%Y-%m-%d %H:%M:%S.%f")
 
 
 def date_validator(*args, **kwargs):
@@ -25,11 +25,11 @@ class ActionCsvRow(BaseModel):
     codeaction: str
     lblaction: str
     objectif_formation: str | None
-    date_prescription: date
-    date_realisation_action: date | None
-    date_prev_debut: date | None
-    date_debut: date | None
-    date_fin: date | None
+    date_prescription: datetime
+    date_realisation_action: datetime | None
+    date_prev_debut: datetime | None
+    date_debut: datetime | None
+    date_fin: datetime | None
     formation: str | None
     adr_dc_commune_id: int = Field(None, alias="adr.dc_commune_id")
 
