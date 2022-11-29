@@ -34,6 +34,13 @@ const config = {
 			accent: '#6A20AE',
 			error: '#ED4737',
 		},
+		listStyleType: {
+			none: 'none',
+			disc: 'disc',
+			decimal: 'decimal',
+			square: 'square',
+			roman: 'upper-roman',
+		},
 		fontFamily: {
 			sans: ['Marianne'],
 		},
