@@ -2,7 +2,49 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from cdb_csv.pe import compute_action_date
+from api.db.crud.notebook_event import get_notebook_event_pe
+from api.db.models.notebook import Notebook
+from api.db.models.notebook_event import NotebookEvent
+from cdb_csv.pe import compute_action_date, import_actions
+
+
+async def test_parse_action_csv_correctly_imported(
+    pe_action_csv_filepath: str, db_connection, notebook_sophie_tifour: Notebook
+):
+
+    await import_actions(db_connection, pe_action_csv_filepath)
+    event_date = datetime.strptime("2021-07-05 00:00:00.0", "%Y-%m-%d %H:%M:%S.%f")
+
+    notebook_event: NotebookEvent | None = await get_notebook_event_pe(
+        db_connection,
+        notebook_id=notebook_sophie_tifour.id,
+        label="UNE FORMATION DANS LE DOMAINE ENGIN MANUTENTION LEVAGE",
+        date=event_date,
+    )
+
+    assert notebook_event is not None
+
+    event_date = datetime.strptime("2013-11-06 00:00:00.0", "%Y-%m-%d %H:%M:%S.%f")
+
+    notebook_event: NotebookEvent | None = await get_notebook_event_pe(
+        db_connection,
+        notebook_id=notebook_sophie_tifour.id,
+        label="UNE AUTRE ACTION D'AIDE A LA REALISATION DE PROJET",
+        date=event_date,
+    )
+
+    assert notebook_event is not None
+
+    event_date = datetime.strptime("2012-11-19 00:00:00.0", "%Y-%m-%d %H:%M:%S.%f")
+
+    notebook_event: NotebookEvent | None = await get_notebook_event_pe(
+        db_connection,
+        notebook_id=notebook_sophie_tifour.id,
+        label="SUIVI DELEGUE A UN PARTENAIRE NON INFORMATISE",
+        date=event_date,
+    )
+
+    assert notebook_event is not None
 
 
 # See https://github.com/gip-inclusion/carnet-de-bord/issues/755#issuecomment-1265523681
