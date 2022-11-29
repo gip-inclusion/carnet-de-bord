@@ -1,3 +1,10 @@
+# [1.165.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.164.1...v1.165.0) (2022-11-29)
+
+
+### Features
+
+* Ajout des CGU ([#1309](https://github.com/gip-inclusion/carnet-de-bord/issues/1309)) ([8f91252](https://github.com/gip-inclusion/carnet-de-bord/commit/8f91252c265a6e2053a74800e0ef96540cec4d99))
+
 ## [1.164.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.164.0...v1.164.1) (2022-11-29)
 
 
