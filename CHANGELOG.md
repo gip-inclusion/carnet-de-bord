@@ -1,3 +1,10 @@
+# [1.163.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.162.2...v1.163.0) (2022-11-29)
+
+
+### Features
+
+* Permettre au référent de demander la réorientation ([#1165](https://github.com/gip-inclusion/carnet-de-bord/issues/1165)) ([#1259](https://github.com/gip-inclusion/carnet-de-bord/issues/1259)) ([53b42a5](https://github.com/gip-inclusion/carnet-de-bord/commit/53b42a5cef3f611310553c31ee2ffe7fe52ae001))
+
 ## [1.162.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.162.1...v1.162.2) (2022-11-29)
 
 ## [1.162.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.162.0...v1.162.1) (2022-11-28)
