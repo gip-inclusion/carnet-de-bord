@@ -26,7 +26,7 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
     structure_id: UUID
     professional_account_id: UUID | None
 
-    def gql_variables(self):
+    def gql_variables(self) -> dict[str, str | bool]:
         variables = (
             {"orientation_request_id": str(self.orientation_request_id)}
             if self.orientation_request_id
