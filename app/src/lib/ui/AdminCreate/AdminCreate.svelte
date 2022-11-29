@@ -43,7 +43,7 @@
 
 <div class="flex flex-col gap-6">
 	<div>
-		<h1>Ajouter un Admin PDI</h1>
+		<h1>Ajouter un Admin de territoire</h1>
 		<p class="mb-0">
 			Veuillez renseigner les informations ci-dessous pour ajouter un nouvel administrateur.
 		</p>

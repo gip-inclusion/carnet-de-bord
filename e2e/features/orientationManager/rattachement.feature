@@ -9,7 +9,7 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Orienté" dans la liste "Statut"
-		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je vois "Pierre Chevalier" sur la ligne "Tifour"
 		Quand je clique sur "Pierre Chevalier" dans la ligne de "Tifour"
 		Alors je vois "Rattacher des bénéficiaires"
@@ -24,7 +24,7 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 	Scénario: Ré-orienter des bénéficiaires
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
-		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
  		Alors je choisis "Sélectionner Myrna Henderson"
 		Alors je choisis "Sélectionner Della Lynch"
 		Alors je vois "2 sélectionnés"

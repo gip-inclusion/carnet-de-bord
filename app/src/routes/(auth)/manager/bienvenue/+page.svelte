@@ -55,7 +55,7 @@
 </svelte:head>
 <div class="pt-12">
 	{#if !$updateResult?.data && !$updateResult?.error}
-		<h1>Création de mon compte Admin PDI</h1>
+		<h1>Création de mon compte Admin de territoire</h1>
 		<p>
 			Bienvenue sur Carnet de bord ! Pour cette première connexion, nous vous invitons à vérifier et
 			mettre à jour les informations ci-dessous puis à cliquer sur le bouton "Créer mon compte".

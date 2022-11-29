@@ -10,7 +10,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
 		Quand je selectionne l'option "Orienté" dans la liste "Statut"
-		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je recherche "ca"
 		Quand je clique sur "Rechercher"
 		Alors je vois "Non assigné" sur la ligne "Cash"
@@ -19,7 +19,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 	Scénario: Afficher la liste des bénéficiaires à orienter de mon portefeuille
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
-		Quand j'attends que le titre de page "Orientation des bénéficiaires" apparaisse
+		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je vois "Samy Rouate" sur la ligne "Mcleod"
 		Alors je vois "Samy Rouate" sur la ligne "Terry"
 		Alors je vois "Samy Rouate" sur la ligne "Tran"
