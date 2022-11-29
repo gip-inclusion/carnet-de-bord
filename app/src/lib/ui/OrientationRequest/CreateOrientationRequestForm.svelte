@@ -9,8 +9,9 @@
 	import {
 		GetOrientationTypeDocument,
 		type GetOrientationTypeQuery,
-		ReorientationRequestDocument,
+		InsertOrientationRequestDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
 
 	export let beneficiaryId: string;
 
@@ -31,12 +32,12 @@
 		openComponent.close();
 	}
 
-	const reorientationStore = operationStore(ReorientationRequestDocument);
-	const requireReorientation = mutation(reorientationStore);
+	const orientationRequestStore = operationStore(InsertOrientationRequestDocument);
+	const insertOrientationRequest = mutation(orientationRequestStore);
 	let errorMessage = null;
 	async function handleSubmit(values) {
 		errorMessage = null;
-		const { error } = await requireReorientation({
+		const { error } = await insertOrientationRequest({
 			beneficiaryId: beneficiaryId,
 			reason: values.reason,
 			requestedOrientation: values.orientation,
@@ -62,39 +63,41 @@
 			recommandez.
 		</p>
 	</div>
-	<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:isValid let:form>
-		<Textarea
-			name="reason"
-			placeholder="Je souhaite réorienter ..."
-			label="Motif de demande de réorientation"
-		/>
-		<Select
-			name="orientation"
-			selectLabel={'Orientation recommandée'}
-			selectHint={'Sélectionnez un dispositif'}
-			options={orientationOptions}
-			required
-		/>
+	<LoaderIndicator result={orientationTypeStore}>
+		<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:form>
+			<Textarea
+				name="reason"
+				placeholder="Je souhaite réorienter ..."
+				label="Motif de demande de réorientation"
+			/>
+			<Select
+				name="orientation"
+				selectLabel={'Orientation recommandée'}
+				selectHint={'Sélectionnez un dispositif'}
+				options={orientationOptions}
+				required
+			/>
 
-		<div class="flex flex-row gap-6 pt-4 pb-12">
-			<Dialog
-				title="Confirmation de l'envoi"
-				label="Envoyer ma demande"
-				outlineButton={false}
-				buttonFullWidth={false}
-				on:confirm={() => handleSubmit(form)}
-			>
-				<p>Etes-vous sûr de vouloir envoyer la demande ?</p>
-			</Dialog>
-			<Button outline on:click={close}>Annuler</Button>
-		</div>
-		{#if errorMessage}
-			<Alert type="error" size="sm" title="La demande de réorientation a échoué">
-				<details>
-					<summary>Voir le détail</summary>
-					<pre>{JSON.stringify(errorMessage, null, 2)}</pre>
-				</details>
-			</Alert>
-		{/if}
-	</Form>
+			<div class="flex flex-row gap-6 pt-4 pb-12">
+				<Dialog
+					title="Confirmation de l'envoi"
+					label="Envoyer ma demande"
+					outlineButton={false}
+					buttonFullWidth={false}
+					on:confirm={() => handleSubmit(form)}
+				>
+					<p>Etes-vous sûr de vouloir envoyer la demande ?</p>
+				</Dialog>
+				<Button outline on:click={close}>Annuler</Button>
+			</div>
+			{#if errorMessage}
+				<Alert type="error" size="sm" title="La demande de réorientation a échoué">
+					<details>
+						<summary>Voir le détail</summary>
+						<pre>{JSON.stringify(errorMessage, null, 2)}</pre>
+					</details>
+				</Alert>
+			{/if}
+		</Form>
+	</LoaderIndicator>
 </section>

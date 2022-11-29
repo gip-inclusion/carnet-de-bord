@@ -5,23 +5,7 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
     where: { accountId: { _eq: $accountId }, lastVisitedAt: { _is_null: false } }
   ) {
     notebook {
-      id
-      beneficiary {
-        id
-        firstname
-        lastname
-        mobileNumber
-        dateOfBirth
-        orientationRequest(order_by: {createdAt: desc}, limit: 1) {
-          id
-          status
-          createdAt
-          decidedAt
-          requestedOrientationType {
-            label
-          }
-        }
-      }
+      ...notebookRecentFragment
     }
   }
   lastUpdated: notebook_member(
@@ -30,22 +14,26 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
     where: { accountId: { _eq: $accountId }, lastModifiedAt: { _is_null: false } }
   ) {
     notebook {
+      ...notebookRecentFragment
+    }
+  }
+}
+
+fragment notebookRecentFragment on notebook {
+  id
+  beneficiary {
+    id
+    firstname
+    lastname
+    mobileNumber
+    dateOfBirth
+    orientationRequest(order_by: { createdAt: desc }, limit: 1) {
       id
-      beneficiary {
-        id
-        firstname
-        lastname
-        mobileNumber
-        dateOfBirth
-        orientationRequest(order_by: {createdAt: desc}, limit: 1) {
-          id
-          status
-          createdAt
-          decidedAt
-          requestedOrientationType {
-            label
-          }
-        }
+      status
+      createdAt
+      decidedAt
+      requestedOrientationType {
+        label
       }
     }
   }

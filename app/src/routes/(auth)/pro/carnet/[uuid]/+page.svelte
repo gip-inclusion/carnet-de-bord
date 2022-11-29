@@ -15,7 +15,7 @@
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
-	import { RequireReorientation } from '$lib/ui/RequireReorientation';
+	import CreateOrientationRequest from '$lib/ui/OrientationRequest/CreateOrientationRequestForm.svelte';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import { eventTypes, statusValues } from '$lib/constants';
 	import { EventType } from '$lib/enums';
@@ -137,7 +137,7 @@
 
 	const requireReorientation = () => {
 		openComponent.open({
-			component: RequireReorientation,
+			component: CreateOrientationRequest,
 			props: {
 				beneficiaryId: beneficiary.id,
 			},

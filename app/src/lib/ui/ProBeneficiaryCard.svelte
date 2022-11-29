@@ -3,12 +3,9 @@
 	import { Card } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
-	/* import type { Beneficiary } from '$lib/graphql/_gen/typed-document-nodes';*/
+	import type { SearchNotebookMemberQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-	export let beneficiary;
-	/* Pick<Beneficiary,
-		'id' | 'firstname' | 'lastname' | 'dateOfBirth' | 'mobileNumber' | 'orientationRequest'
-	>; */
+	export let beneficiary: SearchNotebookMemberQuery['search_notebook_members'][0]['notebook']['beneficiary'];
 	export let href: string;
 
 	$: orientationRequest =
