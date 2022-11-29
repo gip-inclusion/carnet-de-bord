@@ -20,15 +20,15 @@
 
 <div class="bg-gray-100">
 	<div class="fr-container">
-		<div class="flex flex-row gap-4 items-top fr-py-2w">
+		<div class="flex flex-row gap-4 items-top fr-py-3w">
 			<div class="{color} fr-icon-info-fill" aria-hidden />
 			<div>
-				<div class="fr-text--bold {color}">
+				<p class="fr-text--bold {color} mb-0">
 					Demande de réorientation {decision} le {formatDateLocale(reorientationRequest.createdAt)}
-				</div>
-				<div>
+				</p>
+				<p class="mb-0">
 					Orientation recommandée : {reorientationRequest.requestedOrientationType.label}
-				</div>
+				</p>
 			</div>
 		</div>
 	</div>

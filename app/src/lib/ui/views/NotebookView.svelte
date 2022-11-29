@@ -11,6 +11,8 @@
 	import OrientationRequestBanner from '../OrientationRequest/OrientationRequestBanner.svelte';
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 
+	import Portal from 'svelte-portal';
+
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 
 	export let notebook: Notebook;
@@ -22,12 +24,14 @@
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 </script>
 
-<div class="fr-py-6w flex flex-col gap-8">
-	{#if orientationRequest && !orientationRequest?.decidedAt}
+{#if orientationRequest && !orientationRequest?.decidedAt}
+	<Portal target="#bandeau">
 		<OrientationRequestBanner {notebook} {orientationRequest} on:beneficiary-orientation-changed />
-	{:else}
-		<OrientationHeader {notebook} on:beneficiary-orientation-changed />
-	{/if}
+	</Portal>
+{:else}
+	<OrientationHeader {notebook} on:beneficiary-orientation-changed />
+{/if}
+<div class="fr-py-6w flex flex-col gap-8">
 	<ProNotebookPersonalInfoView
 		{beneficiary}
 		lastUpdateDate={members[0]?.lastModifiedAt}
