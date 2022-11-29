@@ -352,9 +352,12 @@ def compute_action_date(
     label: str,
 ) -> datetime:
 
-    if label != FORMATION_DOMAINE_SUIVANT_LABEL:
-        if date_fin is not None and date_realisation_action is not None:
-            return date_realisation_action
+    if (
+        label != FORMATION_DOMAINE_SUIVANT_LABEL
+        and date_fin is not None
+        and date_realisation_action is not None
+    ):
+        return date_realisation_action
     elif date_fin:
         return date_fin
 
