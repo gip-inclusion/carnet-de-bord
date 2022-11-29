@@ -1,3 +1,10 @@
+# [1.164.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.163.0...v1.164.0) (2022-11-29)
+
+
+### Features
+
+* **CO:** Réorienter un bénéficiaire depuis le carnet de bord. ([#1283](https://github.com/gip-inclusion/carnet-de-bord/issues/1283)) ([87ec794](https://github.com/gip-inclusion/carnet-de-bord/commit/87ec79400cc3d6e6519e163165f8ca50236490ba))
+
 # [1.163.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.162.2...v1.163.0) (2022-11-29)
 
 
