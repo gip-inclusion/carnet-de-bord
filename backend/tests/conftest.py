@@ -67,6 +67,15 @@ def pe_principal_csv_filepath() -> str:
 
 
 @pytest.fixture
+def pe_action_csv_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "actions_example.csv",
+    )
+
+
+@pytest.fixture
 def orientation_manager_csv_filepath() -> str:
     return os.path.join(
         test_dir,
@@ -114,8 +123,20 @@ def csv_beneficiary_with_all_date_formats_filepath() -> str:
 @pytest.fixture
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
-    return dd.read_csv(
+    return dd.read_csv(  # type: ignore
         pe_principal_csv_filepath,
+        sep=";",
+        dtype=str,
+        keep_default_na=False,
+        na_values=["_"],
+    )
+
+
+@pytest.fixture
+def pe_action_csv_series(pe_action_csv_filepath) -> DataFrame:
+
+    return dd.read_csv(  # type: ignore
+        pe_action_csv_filepath,
         sep=";",
         dtype=str,
         keep_default_na=False,
