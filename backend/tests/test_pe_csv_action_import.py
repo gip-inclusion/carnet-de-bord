@@ -23,6 +23,11 @@ async def test_parse_action_csv_correctly_imported(
     )
 
     assert notebook_event is not None
+    assert notebook_event.event["from"] == "pole_emploi"
+    assert (
+        notebook_event.event["event_label"]
+        == "UNE FORMATION DANS LE DOMAINE ENGIN MANUTENTION LEVAGE"
+    )
 
     event_date = datetime.strptime("2013-11-06 00:00:00.0", "%Y-%m-%d %H:%M:%S.%f")
 
@@ -34,6 +39,11 @@ async def test_parse_action_csv_correctly_imported(
     )
 
     assert notebook_event is not None
+    assert notebook_event.event["from"] == "pole_emploi"
+    assert (
+        notebook_event.event["event_label"]
+        == "UNE AUTRE ACTION D'AIDE A LA REALISATION DE PROJET"
+    )
 
     event_date = datetime.strptime("2012-11-19 00:00:00.0", "%Y-%m-%d %H:%M:%S.%f")
 
@@ -45,6 +55,11 @@ async def test_parse_action_csv_correctly_imported(
     )
 
     assert notebook_event is not None
+    assert notebook_event.event["from"] == "pole_emploi"
+    assert (
+        notebook_event.event["event_label"]
+        == "SUIVI DELEGUE A UN PARTENAIRE NON INFORMATISE"
+    )
 
 
 # See https://github.com/gip-inclusion/carnet-de-bord/issues/755#issuecomment-1265523681
