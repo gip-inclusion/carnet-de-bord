@@ -25,8 +25,8 @@ async def test_jwt_token_verification(
 
         json = response.json()
 
-        assert response.status_code == 400
-        assert json["detail"] == "Role not allowed"
+        assert response.status_code == 403
+        assert json["detail"] == "Operation forbidden to the given role"
 
 
 @mock.patch("api.v1.routers.uploads.send_invitation_email")

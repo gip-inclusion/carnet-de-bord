@@ -46,7 +46,6 @@
 </script>
 
 <Header {menuItems} />
-
 <div class="fr-container">
 	<slot />
 </div>

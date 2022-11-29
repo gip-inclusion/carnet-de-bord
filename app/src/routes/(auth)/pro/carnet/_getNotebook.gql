@@ -20,6 +20,9 @@ query GetNotebook(
     contractSignDate
     contractStartDate
     contractEndDate
+    notebookInfo {
+      needOrientation
+    }
     wantedJobs {
       rome_code {
         id

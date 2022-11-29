@@ -17,6 +17,10 @@
 	$: name = $getNotebookResult.data?.notebook
 		? displayFullName($getNotebookResult.data?.notebook.beneficiary)
 		: '';
+
+	function refreshNotebook() {
+		getNotebookResult.reexecute({ requestPolicy: 'network-only' });
+	}
 </script>
 
 <svelte:head>
@@ -24,5 +28,8 @@
 </svelte:head>
 
 <LoaderIndicator result={getNotebookResult}>
-	<NotebookView notebook={$getNotebookResult.data.notebook} />
+	<NotebookView
+		notebook={$getNotebookResult.data.notebook}
+		on:beneficiary-orientation-changed={refreshNotebook}
+	/>
 </LoaderIndicator>

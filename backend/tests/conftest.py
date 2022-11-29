@@ -11,6 +11,7 @@ from api.core.db import get_connection_pool
 from api.core.init import create_app
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_by_id
+from api.db.crud.orientation_request import get_orientation_request_by_id
 from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from api.db.models.professional import Professional
@@ -191,6 +192,22 @@ async def beneficiary_noel_keller(db_connection) -> Beneficiary | None:
 
 @pytest.fixture
 @pytest.mark.asyncio
+async def beneficiary_jennings_dee(db_connection) -> Beneficiary | None:
+    return await get_beneficiary_by_id(
+        db_connection, UUID("695b2792-93ad-4819-954f-b022006bd92e")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_request_jennings_dee(db_connection) -> Beneficiary | None:
+    return await get_orientation_request_by_id(
+        db_connection, UUID("1f696530-984c-4f92-be13-c477097b02b7")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
 async def professional_pierre_chevalier(db_connection) -> Professional | None:
     return await get_professional_by_email(
         db_connection, "pierre.chevalier@livry-gargan.fr"
@@ -266,6 +283,11 @@ def get_admin_cdb_jwt() -> str:
 @pytest.fixture
 def get_professional_jwt() -> str:
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsicHJvZmVzc2lvbmFsIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InByb2Zlc3Npb25hbCIsIngtaGFzdXJhLXVzZXItaWQiOiIxNzQzNDQ2NC01ZjY5LTQwY2MtODE3Mi00MDE2MDk1OGEzM2QiLCJ4LWhhc3VyYS1wcm9mZXNzaW9uYWwtaWQiOiIxYTViODE3Yi02YjgxLTRhNGQtOTk1My0yNjcwN2E1NGUwZTkiLCJ4LWhhc3VyYS1kZXBsb3ltZW50LWlkIjoiNGRhYjgwMzYtYTg2ZS00ZDVmLTliZDQtNmNlODhjMTk0MGQwIn0sImlkIjoiMTc0MzQ0NjQtNWY2OS00MGNjLTgxNzItNDAxNjA5NThhMzNkIiwicm9sZSI6InByb2Zlc3Npb25hbCIsInByb2Zlc3Npb25hbElkIjoiMWE1YjgxN2ItNmI4MS00YTRkLTk5NTMtMjY3MDdhNTRlMGU5IiwiZGVwbG95bWVudElkIjoiNGRhYjgwMzYtYTg2ZS00ZDVmLTliZDQtNmNlODhjMTk0MGQwIiwiaWF0IjoxNjYxODY2NzkzLCJleHAiOjE5Nzc0NDI3OTMsInN1YiI6IjE3NDM0NDY0LTVmNjktNDBjYy04MTcyLTQwMTYwOTU4YTMzZCJ9.sSj94JD2BvBjjUttMhfNQnVwvj6vOWnKW3Vkkbsskxs"
+
+
+@pytest.fixture
+def guilia_diaby_jwt() -> str:
+    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsib3JpZW50YXRpb25fbWFuYWdlciJdLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJvcmllbnRhdGlvbl9tYW5hZ2VyIiwieC1oYXN1cmEtdXNlci1pZCI6IjJhZGRkMTBmLTliZDMtNGQzNy1iM2M5LTEwYTZlMmM0YmU0ZiIsIngtaGFzdXJhLW9yaWVudGF0aW9uTWFuYWdlci1pZCI6IjYwN2NiNmY4LTllMzMtNGNlOC05OGIxLTM4ZTYwYzlkZGE5OSIsIngtaGFzdXJhLWRlcGxveW1lbnQtaWQiOiI0ZGFiODAzNi1hODZlLTRkNWYtOWJkNC02Y2U4OGMxOTQwZDAifSwiaWQiOiIyYWRkZDEwZi05YmQzLTRkMzctYjNjOS0xMGE2ZTJjNGJlNGYiLCJyb2xlIjoib3JpZW50YXRpb25fbWFuYWdlciIsImRlcGxveW1lbnRJZCI6IjRkYWI4MDM2LWE4NmUtNGQ1Zi05YmQ0LTZjZTg4YzE5NDBkMCIsIm9yaWVudGF0aW9uTWFuYWdlcklkIjoiNjA3Y2I2ZjgtOWUzMy00Y2U4LTk4YjEtMzhlNjBjOWRkYTk5IiwiaWF0IjoxNjY5MzAyNzYxLCJleHAiOjE5ODQ4Nzg3NjEsInN1YiI6IjJhZGRkMTBmLTliZDMtNGQzNy1iM2M5LTEwYTZlMmM0YmU0ZiJ9.X-4PFqGMLszH2_x1wSUkV-cME0Ln1WljeSMnyQ1LJA0"
 
 
 @pytest.fixture

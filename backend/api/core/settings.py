@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     app_url: str
     database_url: str
     hasura_graphql_jwt_secret: str
+    graphql_api_url: str
 
     smtp_host: str
     smtp_port: str

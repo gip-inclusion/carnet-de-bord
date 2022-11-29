@@ -17,7 +17,6 @@
 
 <Header {menuItems} />
 
-<div id="bandeau" />
 <div class="fr-container fr-py-6w fr-px-1w ">
 	<div class="flex flex-col gap-8">
 		<slot />
