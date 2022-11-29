@@ -1,3 +1,10 @@
+## [1.164.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.164.0...v1.164.1) (2022-11-29)
+
+
+### Bug Fixes
+
+* modify beneficiary search function to allow for unaccented searches ([#1306](https://github.com/gip-inclusion/carnet-de-bord/issues/1306)) ([551cc7e](https://github.com/gip-inclusion/carnet-de-bord/commit/551cc7ed0277ce57c9f07f673b537a256da9da91))
+
 # [1.164.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.163.0...v1.164.0) (2022-11-29)
 
 
