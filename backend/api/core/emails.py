@@ -30,4 +30,14 @@ def send_invitation_email(
     email: str, firstname: str | None, lastname: str | None, access_key: UUID
 ) -> None:
     message = generic_account_creation_email(email, firstname, lastname, access_key)
-    send_mail(email, "Création de compte sur Carnet de bord", message)
+    send_mail(
+        to=email, subject="Création de compte sur Carnet de bord", message=message
+    )
+
+
+def send_former_referent_email(email: str) -> None:
+    send_mail(to=email, subject="Fin de mandat", message="message")
+
+
+def send_new_referent_email(email: str) -> None:
+    send_mail(to=email, subject="Mandat d'orientation", message="message")

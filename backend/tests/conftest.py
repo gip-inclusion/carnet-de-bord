@@ -246,6 +246,12 @@ async def professional_pierre_chevalier(db_connection) -> Professional | None:
 
 
 @pytest.fixture
+@pytest.mark.asyncio
+async def professional_paul_camara(db_connection) -> Professional | None:
+    return await get_professional_by_email(db_connection, "pcamara@seinesaintdenis.fr")
+
+
+@pytest.fixture
 def beneficiary_without_account(beneficiary: Beneficiary) -> Beneficiary:
     beneficiary.account_id = None
     return beneficiary

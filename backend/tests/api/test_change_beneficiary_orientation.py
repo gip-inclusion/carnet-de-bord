@@ -1,3 +1,5 @@
+from unittest import mock
+
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
@@ -102,3 +104,34 @@ async def test_change_orientation_with_orientation_request(
     assert orientation_request.status == "accepted"
 
     assert response.status_code == 200
+
+
+@mock.patch("api.core.emails.send_mail")
+async def test_send_email_to_former_referent(
+    mock_send_email: mock.Mock,
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    professional_paul_camara: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
+    guilia_diaby_jwt: str,
+):
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(beneficiary_sophie_tifour.notebook.id),
+            "beneficiary_id": str(beneficiary_sophie_tifour.id),
+            "structure_id": str(professional_paul_camara.structure_id),
+            "professional_account_id": str(professional_paul_camara.account_id),
+        },
+        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+    )
+    assert response.status_code == 200
+    assert mock_send_email.call_count == 2
+    assert (
+        mock_send_email.call_args_list[0].kwargs["to"]
+        == professional_pierre_chevalier.email
+    )
+    assert (
+        mock_send_email.call_args_list[1].kwargs["to"] == professional_paul_camara.email
+    )
