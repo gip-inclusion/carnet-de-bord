@@ -49,18 +49,22 @@
 
 <div class="flex flex-col gap-4">
 	<div>
-		<div class="text-france-blue underline cursor-pointer" on:click={openContract}>
+		<div
+			class="text-france-blue underline cursor-pointer"
+			on:keydown={openContract}
+			on:click={openContract}
+		>
 			{contractLabel}
 		</div>
 		{#if notebook.contractSignDate}
 			<div>
 				{contractDatesTemplating(notebook.contractStartDate, notebook.contractEndDate)}
-				{#if notebook.contractEndDate}
-					-
-					<span class="italic font-bold">
-						({dateInterval(notebook.contractStartDate, notebook.contractEndDate)})
-					</span>
-				{/if}
+				-
+				<span class="italic font-bold">
+					({notebook.contractEndDate
+						? dateInterval(notebook.contractStartDate, notebook.contractEndDate)
+						: 'durée indéterminée'})
+				</span>
 			</div>
 			<div>Signé le {formatDateLocale(notebook.contractSignDate)}</div>
 		{/if}

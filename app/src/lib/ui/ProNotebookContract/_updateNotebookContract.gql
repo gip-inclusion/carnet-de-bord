@@ -3,7 +3,7 @@ mutation UpdateNotebookContract(
   $contractType: String!
   $contractSignDate: date!
   $contractStartDate: date!
-  $contractEndDate: date!
+  $contractEndDate: date
 ) {
   update_notebook_by_pk(
     _set: {
