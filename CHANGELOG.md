@@ -1,3 +1,10 @@
+## [1.165.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.165.0...v1.165.1) (2022-11-29)
+
+
+### Bug Fixes
+
+* mise à jour de la politique de confidentialitée ([#1308](https://github.com/gip-inclusion/carnet-de-bord/issues/1308)) ([d6b9168](https://github.com/gip-inclusion/carnet-de-bord/commit/d6b9168db40b1f5fff665813aa3e06c6ec320764))
+
 # [1.165.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.164.1...v1.165.0) (2022-11-29)
 
 
