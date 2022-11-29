@@ -26,3 +26,19 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 		Quand je clique sur "Supprimer le filtre"
 		Alors je ne vois pas "Supprimer le filtre"
 		Alors je vois "Aguilar" dans le tableau "Liste des bénéficiaires"
+
+	Scénario: rechercher un bénéficiaire par préfixe
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand je clique sur "Bénéficiaires"
+		Quand je recherche "gon"
+		Quand je clique sur "Rechercher"
+		Quand j'attends que la table "Liste des bénéficiaires" apparaisse
+		Alors je vois "Gônzalez" sur la ligne "Bolton"
+
+	Scénario: rechercher un bénéficiaire par suffixe
+		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand je clique sur "Bénéficiaires"
+		Quand je recherche "alez"
+		Quand je clique sur "Rechercher"
+		Quand j'attends que la table "Liste des bénéficiaires" apparaisse
+		Alors je vois "Gônzalez" sur la ligne "Bolton"
