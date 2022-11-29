@@ -68,7 +68,7 @@ async def change_beneficiary_orientation(
         if mutation is None:
             raise HTTPException(
                 status_code=500,
-                detail="Error while reading `" + mutation_filename + "` mutation file",
+                detail=f"Error while reading `{mutation_filename}` mutation file",
             )
 
         return await session.execute(
