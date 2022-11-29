@@ -221,18 +221,18 @@ Alors('je vois {string} suggestions', (num) => {
 	I.seeNumberOfVisibleElements("//ul[@role='listbox']//li", parseInt(num, 10));
 });
 
-Alors('je vois {string} résultats sous le texte {string}', (num, title) => {
+Alors('je vois {int} résultats sous le texte {string}', (num, title) => {
 	const target = `following-sibling::*//li//a`;
 	const textMatcher = `text()[starts-with(., "${title}")]`;
 	I.seeNumberOfVisibleElements(
 		`//header[*[${textMatcher}]]/${target} | //div/*[${textMatcher}]/${target}`,
-		parseInt(num, 10)
+		num
 	);
 });
 
-Alors('je vois {string} dans la tuile {string}', (nb, tileText) => {
+Alors('je vois {string} dans la tuile {string}', (text, tileText) => {
 	const locator = locate('.fr-card').withDescendant(locate('*').withText(tileText));
-	I.see(nb, locator);
+	I.see(text, locator);
 });
 
 Alors('je vois {string} dans la tuile {string} sous le titre {string}', (nb, tileText, title) => {
