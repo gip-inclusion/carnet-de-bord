@@ -244,7 +244,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
     for _, row in df.iterrows():
         try:
             pe_unique_import_id: str = row["identifiant_unique_de"]
-            logging.info(
+            logging.debug(
                 f"{pe_unique_import_id} => Trying to import action row {pe_unique_import_id}"
             )
 
@@ -263,7 +263,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
             focus: str | None = mapping[csv_row.lblaction]
 
             if focus:
-                logging.info(f"{pe_unique_import_id} => Mapped focus: {focus}")
+                logging.debug(f"{pe_unique_import_id} => Mapped focus: {focus}")
             else:
                 logging.error(
                     f"{pe_unique_import_id} => Mapped focus not found for action '{csv_row.lblaction}': {focus}. Skipping row."
@@ -280,7 +280,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 )
                 continue
             else:
-                logging.info(
+                logging.debug(
                     f"{pe_unique_import_id} => Notebook FOUND for action import"
                 )
 
@@ -307,7 +307,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
 
             # Don't import event/actions twice
             if notebook_event:
-                logging.info(
+                logging.debug(
                     f"{pe_unique_import_id} => Event already imported. Database id: {notebook_event.id}, skipping."
                 )
                 continue
@@ -325,7 +325,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 event_type=EventType.action,
             )
 
-            logging.info(
+            logging.debug(
                 f"{pe_unique_import_id} => Importing event {notebook_event_insert}"
             )
 
@@ -334,7 +334,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
             )
 
             if notebook_event:
-                logging.info(
+                logging.debug(
                     f"{pe_unique_import_id} => Imported event {notebook_event}"
                 )
             else:
