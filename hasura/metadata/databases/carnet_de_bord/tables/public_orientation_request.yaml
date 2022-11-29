@@ -78,6 +78,29 @@ object_relationships:
         remote_table:
           name: account
           schema: public
+insert_permissions:
+  - role: professional
+    permission:
+      check:
+        beneficiary:
+          notebook:
+            members:
+              _and:
+                - account_id:
+                    _eq: X-Hasura-User-Id
+                - active:
+                    _eq: true
+                - member_type:
+                    _eq: referent
+      set:
+        requestor_account_id: x-hasura-User-Id
+        status: pending
+      columns:
+        - beneficiary_id
+        - reason
+        - requested_orientation_type_id
+        - requestor_account_id
+        - status
 select_permissions:
   - role: orientation_manager
     permission:
@@ -93,6 +116,30 @@ select_permissions:
         - status
         - updated_at
       filter: {}
+  - role: professional
+    permission:
+      columns:
+        - decided_orientation_type_id
+        - reason
+        - requested_orientation_type_id
+        - status
+        - created_at
+        - decided_at
+        - updated_at
+        - beneficiary_id
+        - id
+        - requestor_account_id
+      filter:
+        beneficiary:
+          notebook:
+            members:
+              _and:
+                - account_id:
+                    _eq: X-Hasura-User-Id
+                - active:
+                    _eq: true
+                - member_type:
+                    _eq: referent
 update_permissions:
   - role: orientation_manager
     permission:

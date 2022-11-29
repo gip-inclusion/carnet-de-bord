@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Alert from '$lib/ui/base/Alert.svelte';
+	import { Button } from '$lib/ui/base';
+	import { accountData, openComponent } from '$lib/stores';
 	import { baseUrlForRole } from '$lib/routes';
 	import type { GetNotebookEventsQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
@@ -13,6 +15,7 @@
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
+	import CreateOrientationRequest from '$lib/ui/OrientationRequest/CreateOrientationRequestForm.svelte';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import { eventTypes, statusValues } from '$lib/constants';
 	import { EventType } from '$lib/enums';
@@ -20,6 +23,9 @@
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
 	import { focusThemeKeys } from '$lib/constants/keys';
+	import ProOrientationRequestBanner from '$lib/ui/OrientationRequest/ProOrientationRequestBanner.svelte';
+
+	import Portal from 'svelte-portal';
 
 	import type { PageData } from './$types';
 
@@ -109,7 +115,7 @@
 	const getNotebook = operationStore(
 		GetNotebookDocument,
 		buildQueryVariables(variables, selected),
-		{ additionalTypenames: ['notebook_action', 'notebook_appointment'] }
+		{ additionalTypenames: ['notebook_action', 'notebook_appointment', 'orientation_request'] }
 	);
 
 	query(getNotebook);
@@ -129,12 +135,23 @@
 		$getNotebookEvents.reexecute();
 	}
 
+	const requireReorientation = () => {
+		openComponent.open({
+			component: CreateOrientationRequest,
+			props: {
+				beneficiaryId: beneficiary.id,
+			},
+		});
+	};
+
 	$: notebook = $getNotebook.data?.notebook;
 	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook?.events;
 	$: beneficiary = notebook?.beneficiary;
-	$: members = notebook?.members;
+	$: members = notebook?.members ?? [];
 	$: appointments = notebook?.appointments;
 	$: lastMember = members?.length ? members[0] : null;
+	$: reorientationRequest =
+		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 
 	let search = '';
 
@@ -150,6 +167,9 @@
 				matcher(constantToString(filtered_event.event.status, statusValues))
 		);
 	}
+	$: isReferent = members.some(
+		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
+	);
 </script>
 
 <svelte:head>
@@ -165,6 +185,14 @@
 			> pour rechercher le bénéficiaire.</Alert
 		>
 	{:else}
+		{#if reorientationRequest}
+			<Portal target="#bandeau">
+				<ProOrientationRequestBanner {reorientationRequest} />
+			</Portal>
+		{/if}
+		{#if isReferent && (!reorientationRequest || reorientationRequest.status != 'pending')}
+			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
+		{/if}
 		<ProNotebookPersonalInfoView
 			{beneficiary}
 			on:edit={() => alert('Not implemented!')}

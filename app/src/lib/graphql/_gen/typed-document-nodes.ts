@@ -12853,6 +12853,17 @@ export type DenyOrientationRequestMutation = {
 	} | null;
 };
 
+export type InsertOrientationRequestMutationVariables = Exact<{
+	beneficiaryId: Scalars['uuid'];
+	reason?: InputMaybe<Scalars['String']>;
+	requestedOrientation: OrientationTypeEnum;
+}>;
+
+export type InsertOrientationRequestMutation = {
+	__typename?: 'mutation_root';
+	insert_orientation_request_one?: { __typename?: 'orientation_request'; id: string } | null;
+};
+
 export type AddNotebookActionMutationVariables = Exact<{
 	action: Scalars['String'];
 	targetId: Scalars['uuid'];
@@ -14021,6 +14032,14 @@ export type GetLastVisitedOrUpdatedQuery = {
 				lastname: string;
 				mobileNumber?: string | null;
 				dateOfBirth: string;
+				orientationRequest: Array<{
+					__typename?: 'orientation_request';
+					id: string;
+					status?: string | null;
+					createdAt: string;
+					decidedAt?: string | null;
+					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				}>;
 			};
 		};
 	}>;
@@ -14036,9 +14055,38 @@ export type GetLastVisitedOrUpdatedQuery = {
 				lastname: string;
 				mobileNumber?: string | null;
 				dateOfBirth: string;
+				orientationRequest: Array<{
+					__typename?: 'orientation_request';
+					id: string;
+					status?: string | null;
+					createdAt: string;
+					decidedAt?: string | null;
+					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				}>;
 			};
 		};
 	}>;
+};
+
+export type NotebookRecentFragmentFragment = {
+	__typename?: 'notebook';
+	id: string;
+	beneficiary: {
+		__typename?: 'beneficiary';
+		id: string;
+		firstname: string;
+		lastname: string;
+		mobileNumber?: string | null;
+		dateOfBirth: string;
+		orientationRequest: Array<{
+			__typename?: 'orientation_request';
+			id: string;
+			status?: string | null;
+			createdAt: string;
+			decidedAt?: string | null;
+			requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+		}>;
+	};
 };
 
 export type SearchNotebookMemberQueryVariables = Exact<{
@@ -14062,6 +14110,14 @@ export type SearchNotebookMemberQuery = {
 				id: string;
 				lastname: string;
 				mobileNumber?: string | null;
+				orientationRequest: Array<{
+					__typename?: 'orientation_request';
+					id: string;
+					status?: string | null;
+					createdAt: string;
+					decidedAt?: string | null;
+					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				}>;
 			};
 		};
 	}>;
@@ -14114,6 +14170,7 @@ export type GetNotebookQuery = {
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
+				status?: string | null;
 				createdAt: string;
 				decidedAt?: string | null;
 				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
@@ -15297,6 +15354,78 @@ export const NotebookFragmentFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<NotebookFragmentFragment, unknown>;
+export const NotebookRecentFragmentFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'notebookRecentFragment' },
+			typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook' } },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'beneficiary' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientationRequest' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'createdAt' },
+														value: { kind: 'EnumValue', value: 'desc' },
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'limit' },
+											value: { kind: 'IntValue', value: '1' },
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'requestedOrientationType' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'label' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<NotebookRecentFragmentFragment, unknown>;
 export const EventFieldsFragmentDoc = {
 	kind: 'Document',
 	definitions: [
@@ -19179,6 +19308,84 @@ export const DenyOrientationRequestDocument = {
 } as unknown as DocumentNode<
 	DenyOrientationRequestMutation,
 	DenyOrientationRequestMutationVariables
+>;
+export const InsertOrientationRequestDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'InsertOrientationRequest' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'reason' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'requestedOrientation' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'orientation_type_enum' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_orientation_request_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'reason' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'reason' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'requestedOrientationTypeId' },
+											value: {
+												kind: 'Variable',
+												name: { kind: 'Name', value: 'requestedOrientation' },
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	InsertOrientationRequestMutation,
+	InsertOrientationRequestMutationVariables
 >;
 export const AddNotebookActionDocument = {
 	kind: 'Document',
@@ -23617,20 +23824,9 @@ export const GetLastVisitedOrUpdatedDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'beneficiary' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-													],
-												},
+												kind: 'FragmentSpread',
+												name: { kind: 'Name', value: 'notebookRecentFragment' },
 											},
 										],
 									},
@@ -23709,20 +23905,9 @@ export const GetLastVisitedOrUpdatedDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'beneficiary' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-													],
-												},
+												kind: 'FragmentSpread',
+												name: { kind: 'Name', value: 'notebookRecentFragment' },
 											},
 										],
 									},
@@ -23733,6 +23918,7 @@ export const GetLastVisitedOrUpdatedDocument = {
 				],
 			},
 		},
+		...NotebookRecentFragmentFragmentDoc.definitions,
 	],
 } as unknown as DocumentNode<GetLastVisitedOrUpdatedQuery, GetLastVisitedOrUpdatedQueryVariables>;
 export const SearchNotebookMemberDocument = {
@@ -23854,6 +24040,50 @@ export const SearchNotebookMemberDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientationRequest' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'order_by' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'createdAt' },
+																				value: { kind: 'EnumValue', value: 'desc' },
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'limit' },
+																	value: { kind: 'IntValue', value: '1' },
+																},
+															],
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'requestedOrientationType' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
 													],
 												},
 											},
@@ -23900,7 +24130,7 @@ export const GetNotebookDocument = {
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withOrientationRequests' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
-					defaultValue: { kind: 'BooleanValue', value: false },
+					defaultValue: { kind: 'BooleanValue', value: true },
 				},
 			],
 			selectionSet: {
@@ -24017,6 +24247,7 @@ export const GetNotebookDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
 														{
@@ -27966,6 +28197,10 @@ export type AcceptOrientationRequestMutationStore = OperationStore<
 export type DenyOrientationRequestMutationStore = OperationStore<
 	DenyOrientationRequestMutation,
 	DenyOrientationRequestMutationVariables
+>;
+export type InsertOrientationRequestMutationStore = OperationStore<
+	InsertOrientationRequestMutation,
+	InsertOrientationRequestMutationVariables
 >;
 export type AddNotebookActionMutationStore = OperationStore<
 	AddNotebookActionMutation,
