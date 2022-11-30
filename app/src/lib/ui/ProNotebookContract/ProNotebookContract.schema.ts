@@ -8,14 +8,19 @@ export function transformDate(_, originalValue) {
 }
 
 export const proNotebookContractSchema = yup.object().shape({
-	contractType: yup.string().oneOf(contractTypeFullKeys.keys).trim().required(),
+	contractType: yup
+		.string()
+		.nullable()
+		.oneOf(contractTypeFullKeys.keys, 'Ce choix est obligatoire')
+		.trim()
+		.required(),
 	contractSignDate: yup.mixed().when('contractType', {
 		is: (val) => val !== 'no',
-		then: yup.date().required().transform(transformDate),
+		then: yup.date().nullable().required().transform(transformDate),
 	}),
 	contractStartDate: yup.mixed().when('contractType', {
 		is: (val) => val !== 'no',
-		then: yup.date().required().transform(transformDate),
+		then: yup.date().nullable().required().transform(transformDate),
 	}),
 	contractEndDate: yup
 		.mixed()
