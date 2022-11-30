@@ -5,7 +5,6 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 
-from api.core.settings import settings
 from api.db.crud.account import (
     create_username,
     get_accounts_with_query,
@@ -16,8 +15,6 @@ from api.db.models.orientation_manager import (
     OrientationManagerCsvRow,
     OrientationManagerDB,
 )
-
-logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 def parse_orientation_manager_from_record(record: Record) -> OrientationManagerDB:

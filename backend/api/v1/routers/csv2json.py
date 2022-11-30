@@ -1,4 +1,3 @@
-import logging
 from io import BytesIO
 
 import chardet
@@ -8,15 +7,12 @@ import pandas as pd
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from pandas import DataFrame
 
-from api.core.settings import settings
 from api.db.models.beneficiary import BeneficiaryCsvRowResponse
 from api.db.models.beneficiary import map_csv_row as map_csv_row_beneficiary
 from api.db.models.role import RoleEnum
 from api.db.models.structure import StructureCsvRowResponse
 from api.db.models.structure import map_csv_row as map_csv_row_structure
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
-
-logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 
