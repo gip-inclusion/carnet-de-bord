@@ -1,3 +1,10 @@
+## [1.166.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.3...v1.166.4) (2022-11-30)
+
+
+### Bug Fixes
+
+* date shown on reorientation decision banner ([#1315](https://github.com/gip-inclusion/carnet-de-bord/issues/1315)) ([3741744](https://github.com/gip-inclusion/carnet-de-bord/commit/374174440d4dc4b1e03fae5f58441523849ceb32))
+
 ## [1.166.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.2...v1.166.3) (2022-11-30)
 
 ## [1.166.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.1...v1.166.2) (2022-11-30)
