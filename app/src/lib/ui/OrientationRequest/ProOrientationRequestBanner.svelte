@@ -16,6 +16,11 @@
 			: reorientationRequest.status == 'accepted'
 			? 'acceptée'
 			: 'envoyée';
+
+	$: date =
+		reorientationRequest.status == 'denied' || reorientationRequest.status == 'accepted'
+			? formatDateLocale(reorientationRequest.decidedAt)
+			: formatDateLocale(reorientationRequest.createdAt);
 </script>
 
 <div class="bg-gray-100">
@@ -24,7 +29,7 @@
 			<div class="{color} fr-icon-info-fill" aria-hidden />
 			<div>
 				<p class="fr-text--bold {color} mb-0">
-					Demande de réorientation {decision} le {formatDateLocale(reorientationRequest.createdAt)}
+					Demande de réorientation {decision} le {date}
 				</p>
 				<p class="mb-0">
 					Orientation recommandée : {reorientationRequest.requestedOrientationType.label}
