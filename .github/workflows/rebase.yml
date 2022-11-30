@@ -1,0 +1,41 @@
+name: Jean michel rebase
+
+on:
+  pull_request:
+    types: [synchronize, labeled]
+
+env:
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+
+jobs:
+  rebase-pull-request:
+    name: Rebase a pull request to keep it in sync with default branch
+    if: ${{ contains(github.event.*.labels.*.name, 'rebase') || (github.event.action == 'Synchronise') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: perform rebase
+        run: |
+          git config --global user.email "${GITHUB_ACTOR}"
+          git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+          git status
+          git pull
+          git checkout "$DEFAULT_BRANCH"
+          git status
+          git pull
+          git checkout "$GITHUB_HEAD_REF"
+          git rebase "$DEFAULT_BRANCH"
+          git push --force-with-lease
+          git status
+      # https://github.com/marketplace/actions/actions-ecosystem-remove-labels
+      - name: remove label
+        if: always()
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: rebase
