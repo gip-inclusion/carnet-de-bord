@@ -276,7 +276,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
 
             if not notebook:
                 logging.error(
-                    f"{pe_unique_import_id} => Notebook NOT FOUND for action import"
+                    f"{pe_unique_import_id} => Corresponding notebook NOT FOUND for this action. Skipping row."
                 )
                 continue
             else:
