@@ -23,8 +23,6 @@ def send_mail(to: str, subject: str, message: str) -> None:
     msg.attach(part1)
     s = smtplib.SMTP(settings.smtp_host, int(settings.smtp_port))
 
-    s.set_debuglevel(True)
-
     if "maildev" not in settings.smtp_host:
         s.starttls()
 
@@ -41,6 +39,6 @@ def send_mail(to: str, subject: str, message: str) -> None:
     except smtplib.SMTPDataError as err:
         logging.error("sendmail error: %s", err)
     except smtplib.SMTPNotSupportedError as err:
-        logging.error("send mail error %s", err)
+        logging.error("sendmail error %s", err)
     finally:
         s.quit()
