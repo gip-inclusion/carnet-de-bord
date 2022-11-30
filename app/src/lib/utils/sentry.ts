@@ -15,5 +15,6 @@ export function initSentry(Sentry: SentryInterface) {
 		dsn: env.PUBLIC_SENTRY_DSN,
 		environment: env.PUBLIC_SENTRY_ENVIRONMENT || 'local-development',
 		release: `carnet-de-bord-app@${appVersion}`,
+		autoSessionTracking: false,
 	});
 }
