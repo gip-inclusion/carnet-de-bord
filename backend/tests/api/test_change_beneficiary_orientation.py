@@ -238,7 +238,6 @@ async def test_unallowed_orientation_request(
     # We should not be able to change the beneficiary orientation with
     # an orientation_request_id that is not pending and that does not
     # match the correct beneficary notebook
-    # /!\
     # orientation_request_id : Diane Rose
     # notebook_id : Sophie Tifour
     assert response.status_code == 403
