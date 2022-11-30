@@ -1,3 +1,10 @@
+# [1.166.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.165.1...v1.166.0) (2022-11-30)
+
+
+### Features
+
+* import des actions Pôle Emploi ([#1267](https://github.com/gip-inclusion/carnet-de-bord/issues/1267)) ([4634543](https://github.com/gip-inclusion/carnet-de-bord/commit/4634543f3716fe2dcd080a65933462d50893d3ed))
+
 ## [1.165.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.165.0...v1.165.1) (2022-11-29)
 
 
