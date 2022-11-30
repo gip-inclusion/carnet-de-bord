@@ -149,7 +149,6 @@ if [ "$ACTION" = "all" ] || [ "$ACTION" = "e2e" ]; then
 
   >&2 echo "-> Starting e2e tests"
   HASURA_BASEURL=http://localhost:5001 \
-  HASURA_ADMIN_SECRET=$HASURA_GRAPHQL_ADMIN_SECRET \
   CODECEPT_BASEURL=http://localhost:3001 \
     npm --prefix e2e run test -- "$@"
 fi

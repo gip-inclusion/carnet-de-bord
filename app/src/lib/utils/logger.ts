@@ -6,7 +6,7 @@ const loggerOptions = {
 };
 
 const developmentOptions =
-	process.env.NODE_ENV === 'production'
+	env.NODE_ENV === 'production'
 		? {}
 		: {
 				transport: {

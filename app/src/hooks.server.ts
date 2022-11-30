@@ -1,13 +1,5 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
-import path from 'path';
-import { config as configDotenv } from 'dotenv';
 import { logger } from '$lib/utils/logger';
-
-// hack: this is still needed since providing .env in svelte.config
-// do not work properly (ie: $env/dynamic/public are not set correctly)
-if (process.env.NODE_ENV !== 'production') {
-	configDotenv({ path: path.resolve('../.env') });
-}
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const requestStartTime = Date.now();

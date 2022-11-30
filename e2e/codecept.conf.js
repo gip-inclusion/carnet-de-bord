@@ -13,7 +13,7 @@ exports.config = {
 			defaultHeaders: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',
+				'x-hasura-admin-secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET || 'admin',
 			},
 			endpoint: `${process.env.HASURA_BASEURL || 'http://localhost:5000'}/v1/graphql`,
 		},
