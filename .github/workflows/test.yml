@@ -3,10 +3,14 @@ name: Test
 on:
   push:
     branches:
-      - "**"
+      - "master"
     tags:
       - "!v*"
-
+    pull_request:
+      types:
+        - synchronize
+        - opened
+        - reopened
 env:
   POETRY_VERSION: 1.2.0
   PYTHON_VERSION: 3.10.6
