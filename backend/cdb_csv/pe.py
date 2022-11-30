@@ -1,7 +1,9 @@
 import logging
+import os
 import re
 import traceback
 import uuid
+from datetime import datetime
 from uuid import UUID
 
 import dask.dataframe as dd
@@ -24,8 +26,14 @@ from api.db.crud.external_data import (
     insert_external_data_for_beneficiary_and_professional,
 )
 from api.db.crud.notebook import (
+    get_notebook_by_pe_unique_import_id,
     get_notebook_member_by_notebook_id_and_account_id,
     insert_notebook_member,
+)
+from api.db.crud.notebook_event import (
+    create_notebook_event_payload,
+    get_notebook_event_pe,
+    insert_notebook_event,
 )
 from api.db.crud.professional import get_professional_by_email, insert_professional
 from api.db.crud.structure import (
@@ -44,6 +52,13 @@ from api.db.models.external_data import (
     format_external_data,
 )
 from api.db.models.notebook import Notebook
+from api.db.models.notebook_event import (
+    EventFrom,
+    EventStatus,
+    EventType,
+    NotebookEvent,
+    NotebookEventInsert,
+)
 from api.db.models.notebook_member import (
     NotebookMember,
     NotebookMemberInsert,
@@ -52,15 +67,19 @@ from api.db.models.notebook_member import (
 from api.db.models.professional import Professional, ProfessionalInsert
 from api.db.models.structure import Structure
 from api.db.models.wanted_job import WantedJob
-from cdb_csv.models.csv_row import PrincipalCsvRow, get_sha256
+from cdb_csv.crud.actions import load_action_mapping_file
+from cdb_csv.models.csv_row import ActionCsvRow, PrincipalCsvRow, get_sha256
 from pe.models.agence import Agence
 from pe.pole_emploi_client import PoleEmploiApiClient
 
 logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
+FORMATION_DOMAINE_SUIVANT_LABEL = "UNE FORMATION DANS LE DOMAINE SUIVANT"
+
 
 class ParseActionEnum(StrEnum):
     IMPORT_BENEFICIARIES = "import_beneficiaries"
+    IMPORT_ACTIONS = "import_actions"
     MATCH_BENEFICIARIES_AND_PROS = "match_beneficiaries_and_pros"
 
 
@@ -68,8 +87,12 @@ async def map_principal_row(row: Series) -> PrincipalCsvRow:
     return PrincipalCsvRow.parse_obj(row)
 
 
+async def map_action_row(row: Series) -> ActionCsvRow:
+    return ActionCsvRow.parse_obj(row)
+
+
 async def match_beneficiaries_and_pros(connection: Connection, principal_csv: str):
-    df = dd.read_csv(
+    df = dd.read_csv(  # type: ignore
         principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
     )
 
@@ -136,7 +159,7 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
 
 async def import_beneficiaries(connection: Connection, principal_csv: str):
 
-    df = dd.read_csv(
+    df = dd.read_csv(  # type: ignore
         principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
     )
 
@@ -199,8 +222,146 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                 )
 
         except Exception as e:
-            logging.error("Exception while processing CSV line: {}".format(e))
+            logging.error("Exception while processing main CSV line: {}".format(e))
             traceback.print_exc()
+
+
+async def import_actions(connection: Connection, action_csv_path: str):
+
+    logging.info("Running 'import_actions' on pe actions file")
+
+    df = dd.read_csv(  # type: ignore
+        action_csv_path, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
+    )
+
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+
+    mapping: dict[str, str] = await load_action_mapping_file(
+        os.path.join(current_dir, "categorisation_des_actions_du_fichier_PE.csv")
+    )
+
+    row: Series
+    for _, row in df.iterrows():
+        try:
+            pe_unique_import_id: str = row["identifiant_unique_de"]
+            logging.debug(
+                f"{pe_unique_import_id} => Trying to import action row {pe_unique_import_id}"
+            )
+
+            csv_row: ActionCsvRow = await map_action_row(row)
+
+            if (
+                csv_row.lblaction == FORMATION_DOMAINE_SUIVANT_LABEL
+                and csv_row.formation is None
+            ):
+
+                logging.error(
+                    f"{pe_unique_import_id} => Line '{FORMATION_DOMAINE_SUIVANT_LABEL}' with empty 'formation' column. Skipping row."
+                )
+                continue
+
+            focus: str | None = mapping[csv_row.lblaction]
+
+            if focus:
+                logging.debug(f"{pe_unique_import_id} => Mapped focus: {focus}")
+            else:
+                logging.error(
+                    f"{pe_unique_import_id} => Mapped focus not found for action '{csv_row.lblaction}': {focus}. Skipping row."
+                )
+                continue
+
+            notebook: Notebook | None = await get_notebook_by_pe_unique_import_id(
+                connection, csv_row.identifiant_unique_de
+            )
+
+            if not notebook:
+                logging.error(
+                    f"{pe_unique_import_id} => Corresponding notebook NOT FOUND for this action. Skipping row."
+                )
+                continue
+            else:
+                logging.debug(
+                    f"{pe_unique_import_id} => Notebook FOUND for action import"
+                )
+
+            event_date = compute_action_date(
+                csv_row.date_prescription,
+                csv_row.date_realisation_action,
+                csv_row.date_fin,
+                csv_row.lblaction,
+            )
+
+            updated_label = csv_row.lblaction
+            if (
+                csv_row.formation is not None
+                and csv_row.lblaction == FORMATION_DOMAINE_SUIVANT_LABEL
+            ):
+                updated_label = "UNE FORMATION DANS LE DOMAINE " + csv_row.formation
+
+            notebook_event: NotebookEvent | None = await get_notebook_event_pe(
+                connection,
+                notebook_id=notebook.id,
+                label=updated_label,
+                date=event_date,
+            )
+
+            # Don't import event/actions twice
+            if notebook_event:
+                logging.debug(
+                    f"{pe_unique_import_id} => Event already imported. Database id: {notebook_event.id}, skipping."
+                )
+                continue
+
+            notebook_event_insert: NotebookEventInsert = NotebookEventInsert(
+                notebook_id=notebook.id,
+                event_date=event_date,
+                creator_id=None,
+                event=create_notebook_event_payload(
+                    status=EventStatus.done,
+                    category=focus,
+                    label=updated_label,
+                    event_from=EventFrom.pe,
+                ),
+                event_type=EventType.action,
+            )
+
+            logging.debug(
+                f"{pe_unique_import_id} => Importing event {notebook_event_insert}"
+            )
+
+            notebook_event: NotebookEvent | None = await insert_notebook_event(
+                connection, notebook_event_insert
+            )
+
+            if notebook_event:
+                logging.debug(
+                    f"{pe_unique_import_id} => Imported event {notebook_event}"
+                )
+            else:
+                logging.error(f"{pe_unique_import_id} => Failed to import event")
+
+        except Exception as e:
+            logging.error("Exception while processing action CSV line: {}".format(e))
+            traceback.print_exc()
+
+
+def compute_action_date(
+    date_prescription: datetime,
+    date_realisation_action: datetime | None,
+    date_fin: datetime | None,
+    label: str,
+) -> datetime:
+
+    if (
+        label != FORMATION_DOMAINE_SUIVANT_LABEL
+        and date_fin is not None
+        and date_realisation_action is not None
+    ):
+        return date_realisation_action
+    elif date_fin:
+        return date_fin
+
+    return date_prescription
 
 
 async def import_pe_referent(
@@ -467,7 +628,7 @@ async def save_external_data(
     return external_data
 
 
-async def parse_principal_csv(
+async def parse_pe_csv(
     principal_csv: str, action: ParseActionEnum = ParseActionEnum.IMPORT_BENEFICIARIES
 ):
     pool = await get_connection_pool(settings.database_url)
@@ -478,6 +639,8 @@ async def parse_principal_csv(
             # Open a transaction.
 
             match action:
+                case ParseActionEnum.IMPORT_ACTIONS:
+                    await import_actions(connection, principal_csv)
                 case ParseActionEnum.IMPORT_BENEFICIARIES:
                     await import_beneficiaries(connection, principal_csv)
                 case ParseActionEnum.MATCH_BENEFICIARIES_AND_PROS:

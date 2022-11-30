@@ -11,9 +11,11 @@ from api.core.db import get_connection_pool
 from api.core.init import create_app
 from api.core.settings import settings
 from api.db.crud.beneficiary import get_beneficiary_by_id
+from api.db.crud.notebook import get_notebook_by_id
 from api.db.crud.orientation_request import get_orientation_request_by_id
 from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+from api.db.models.notebook import Notebook
 from api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
@@ -67,6 +69,15 @@ def pe_principal_csv_filepath() -> str:
 
 
 @pytest.fixture
+def pe_action_csv_filepath() -> str:
+    return os.path.join(
+        test_dir,
+        "fixtures",
+        "actions_example.csv",
+    )
+
+
+@pytest.fixture
 def orientation_manager_csv_filepath() -> str:
     return os.path.join(
         test_dir,
@@ -114,8 +125,20 @@ def csv_beneficiary_with_all_date_formats_filepath() -> str:
 @pytest.fixture
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
-    return dd.read_csv(
+    return dd.read_csv(  # type: ignore
         pe_principal_csv_filepath,
+        sep=";",
+        dtype=str,
+        keep_default_na=False,
+        na_values=["_"],
+    )
+
+
+@pytest.fixture
+def pe_action_csv_series(pe_action_csv_filepath) -> DataFrame:
+
+    return dd.read_csv(  # type: ignore
+        pe_action_csv_filepath,
         sep=";",
         dtype=str,
         keep_default_na=False,
@@ -163,6 +186,14 @@ async def beneficiary_martin_gal(db_connection) -> Beneficiary | None:
 async def beneficiary_sophie_tifour(db_connection) -> Beneficiary | None:
     return await get_beneficiary_by_id(
         db_connection, UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def notebook_sophie_tifour(db_connection) -> Notebook | None:
+    return await get_notebook_by_id(
+        db_connection, UUID("9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d")
     )
 
 
