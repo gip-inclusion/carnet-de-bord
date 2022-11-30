@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information de suivi du bénéficiaire {{beneficiary_firstname}} {{beneficiary_lastname}}</title>
+  </head>
+  <body>
+    <p>Bonjour {{old_referent_firstname}} {{old_referent_lastname}}</p>
+    {% if is_orientation_request %}
+      <p><strong>Votre demande de réorientation a été acceptée</strong>, vous pouvez modifier le carnet jusqu'au {{ formatted_access_date }}.</p>
+      <p>Demande envoyée le {{ formatted_request_date }}.</p>
+    {% else %}
+      <p>À partir d'aujourd'hui vous n'avez plus en charge le suivi du bénéficiaire suivant.</p>
+    {% endif %}
+    <p>Bénéficiaire&nbsp;: {{beneficiary_firstname}} {{beneficiary_lastname}}</p>
+    <p>Réorientation&nbsp;: {{orientation_type}}</p>
+    <p>Nouveau suivi&nbsp;: {% if new_referent_firstname and new_referent_lastname %}
+        {{new_referent_firstname}} {{new_referent_lastname}} ({{new_referent_structure}})
+      {% else %}
+        {{ new_referent_structure }}
+      {% endif %}</p>
+    <p>Pour accéder à Carnet de bord, veuillez cliquer sur le lien ci-dessous&nbsp;:</p>
+    <p style="padding-left: 20%">
+      <a
+        rel="nofollow"
+        href="{{url}}"
+        style="
+        background-color: #6a20ae;
+        font-size: 14px;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 10px;
+        color: #ffffff;
+        border-radius: 5px;
+        display: inline-block;
+        "
+        >
+        <span>Accédez à Carnet de bord</span>
+      </a>
+    </p>
+    <p>L'équipe Carnet de bord</p>
+  </body>
+</html>

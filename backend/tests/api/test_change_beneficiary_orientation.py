@@ -128,6 +128,7 @@ async def test_change_orientation_with_orientation_request(
         db_connection, orientation_request_jennings_dee.id
     )
 
+    assert orientation_request is not None
     assert orientation_request.decided_at != None
     assert orientation_request.decided_orientation_type_id == OrientationType.social
     assert orientation_request.status == "accepted"
@@ -136,7 +137,43 @@ async def test_change_orientation_with_orientation_request(
 
 
 @mock.patch("api.core.emails.send_mail")
-async def test_send_email_to_former_referent(
+async def test_send_email_to_former_referent_with_orientation_request(
+    mock_send_email: mock.Mock,
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    professional_paul_camara: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
+    guilia_diaby_jwt: str,
+):
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(beneficiary_sophie_tifour.notebook.id),
+            "beneficiary_id": str(beneficiary_sophie_tifour.id),
+            "structure_id": str(professional_paul_camara.structure_id),
+            "professional_account_id": str(professional_paul_camara.account_id),
+            "orientation_request_id": "fbed211b-16fb-4315-8be6-a77208a6b210",
+        },
+        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+    )
+    assert response.status_code == 200
+    assert mock_send_email.call_count == 1
+    assert (
+        mock_send_email.call_args_list[0].kwargs["to"]
+        == professional_pierre_chevalier.email
+    )
+    assert mock_send_email.call_args_list[0].kwargs["subject"] == "Fin de suivi"
+
+    assert "Nouveau suivi" in mock_send_email.call_args_list[0].kwargs["message"]
+    assert (
+        "Votre demande de réorientation"
+        in mock_send_email.call_args_list[0].kwargs["message"]
+    )
+
+
+@mock.patch("api.core.emails.send_mail")
+async def test_send_email_to_former_referent_without_orientation_request(
     mock_send_email: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
@@ -156,11 +193,20 @@ async def test_send_email_to_former_referent(
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )
     assert response.status_code == 200
-    assert mock_send_email.call_count == 2
+    assert mock_send_email.call_count == 1
     assert (
         mock_send_email.call_args_list[0].kwargs["to"]
         == professional_pierre_chevalier.email
     )
+    assert mock_send_email.call_args_list[0].kwargs["subject"] == "Fin de suivi"
+
+    assert "Nouveau suivi" in mock_send_email.call_args_list[0].kwargs["message"]
     assert (
-        mock_send_email.call_args_list[1].kwargs["to"] == professional_paul_camara.email
+        "Votre demande de réorientation"
+        not in mock_send_email.call_args_list[0].kwargs["message"]
+    )
+
+    assert (
+        "Information de suivi du bénéficiaire Sophie Tifour"
+        in mock_send_email.call_args_list[0].kwargs["message"]
     )

@@ -1,5 +1,7 @@
 import logging
 import os
+from datetime import datetime
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
@@ -8,8 +10,9 @@ from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
-from api.core.emails import send_former_referent_email, send_new_referent_email
+from api.core.emails import send_orientation_referent_email
 from api.core.settings import settings
+from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
 
@@ -23,7 +26,7 @@ logger = logging.getLogger(__name__)
 class ChangeBeneficiaryOrientationInput(BaseModel):
     beneficiary_id: UUID
     notebook_id: UUID
-    orientation_type: str
+    orientation_type: OrientationType
     structure_id: UUID
     orientation_request_id: UUID | None
     professional_account_id: UUID | None
@@ -35,7 +38,7 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
             else {}
         )
         return variables | {
-            "orientation_type": self.orientation_type,
+            "orientation_type": str(self.orientation_type),
             "notebook_id": str(self.notebook_id),
             "beneficiary_id": str(self.beneficiary_id),
             "structure_id": str(self.structure_id),
@@ -75,10 +78,10 @@ async def change_beneficiary_orientation(
             else "_acceptOrientationRequest.gql"
         )
 
-        mutation = load_mutation_from_file(mutation_filename)
+        mutation = load_gql_file(mutation_filename)
 
         notification_response = await session.execute(
-            gql(get_infos_for_notification_query()),
+            gql(load_gql_file("notificationInfo.gql")),
             variable_values=data.gql_variables_for_query(),
         )
 
@@ -92,45 +95,71 @@ async def change_beneficiary_orientation(
             gql(mutation), variable_values=data.gql_variables_for_mutation()
         )
         for referent in notification_response["notebook_by_pk"]["former_referents"]:
+
+            kwargs = extract_email_kwargs(notification_response, referent, data)
             background_tasks.add_task(
-                send_former_referent_email,
+                send_orientation_referent_email,
                 email=referent["account"]["professional"]["email"],
+                subject="Fin de suivi",
+                template_path="former_notebook_member_email.html",
+                **kwargs,
             )
 
         if "newReferent" in notification_response:
             for newReferent in notification_response["newReferent"]:
-                background_tasks.add_task(
-                    send_new_referent_email,
-                    email=newReferent["email"],
-                )
+                pass
+
+                # @TODO
+                # kwargs = extract_email_kwargs(notification_response, referent, data))
+                # background_tasks.add_task(
+                # send_orientation_referent_email,
+                # email=referent["account"]["professional"]["email"],
+                # subject="Fin de suivi",
+                # template_path="former_notebook_member_email.html",
+                # **kwargs
+                # )
 
         return response
 
 
-def load_mutation_from_file(filename: str):
-    with open(os.path.join(os.path.dirname(__file__), filename), encoding="utf-8") as f:
+def extract_email_kwargs(
+    notification_response: dict,
+    former_referent: dict,
+    data: ChangeBeneficiaryOrientationInput,
+) -> dict[str, Any]:
+
+    new_referent_firstname = None
+    new_referent_lastname = None
+    if (
+        "newReferent" in notification_response
+        and len(notification_response["newReferent"]) > 0
+    ):
+        new_referent_firstname = notification_response["newReferent"][0]["firstname"]
+        new_referent_lastname = notification_response["newReferent"][0]["lastname"]
+
+    return {
+        "beneficiary_firstname": notification_response["notebook_by_pk"]["beneficiary"][
+            "firstname"
+        ],
+        "beneficiary_lastname": notification_response["notebook_by_pk"]["beneficiary"][
+            "lastname"
+        ],
+        "old_referent_firstname": former_referent["account"]["professional"][
+            "firstname"
+        ],
+        "old_referent_lastname": former_referent["account"]["professional"]["lastname"],
+        "old_referent_structure": former_referent["account"]["professional"][
+            "structure"
+        ]["name"],
+        "new_referent_firstname": new_referent_firstname,
+        "new_referent_lastname": new_referent_lastname,
+        "new_referent_structure": notification_response["newStructure"]["name"],
+        "is_orientation_request": data.orientation_request_id is not None,
+        "orientation_type": OrientationType.get_label(data.orientation_type),
+        "orientation_date": datetime.now(),
+    }
+
+
+def load_gql_file(filename: str, path: str = os.path.dirname(__file__)):
+    with open(os.path.join(path, filename), encoding="utf-8") as f:
         return f.read()
-
-
-def get_infos_for_notification_query() -> str:
-    return """
-query notificationInfos($notebook_id:uuid!, $structure_id: uuid!, $with_professional_account_id: Boolean!, $professional_account_id:uuid) {
-  notebook_by_pk(id: $notebook_id) {
-  	beneficiary {
-      firstname, lastname, address1, address2 postalCode city cafNumber
-    }
-    former_referents: members(where: {memberType: {_eq: "referent"} active: {_eq: true}}) {
-      account { professional {
-        firstname lastname
-      	email, structure { name }
-    	}}
-    }
-  }
-  newStructure: structure_by_pk(id: $structure_id) {
-    name
-  }
-  newReferent: professional(where: {account: {id: {_eq: $professional_account_id}}}) @include(if: $with_professional_account_id) {
-    email, firstname, lastname
-  }
-}
-    """
