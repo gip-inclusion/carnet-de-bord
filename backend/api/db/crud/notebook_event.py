@@ -25,7 +25,7 @@ def parse_notebook_event(record: Record) -> NotebookEvent:
     )
 
 
-def create_notebook_event(
+def create_notebook_event_payload(
     status: EventStatus, category: str, label: str, event_from: EventFrom
 ) -> dict:
     return {

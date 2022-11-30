@@ -31,7 +31,7 @@ from api.db.crud.notebook import (
     insert_notebook_member,
 )
 from api.db.crud.notebook_event import (
-    create_notebook_event,
+    create_notebook_event_payload,
     get_notebook_event_pe,
     insert_notebook_event,
 )
@@ -316,7 +316,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 notebook_id=notebook.id,
                 event_date=event_date,
                 creator_id=None,
-                event=create_notebook_event(
+                event=create_notebook_event_payload(
                     status=EventStatus.done,
                     category=focus,
                     label=updated_label,
