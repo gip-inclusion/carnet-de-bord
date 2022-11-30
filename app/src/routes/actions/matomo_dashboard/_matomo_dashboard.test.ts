@@ -1,6 +1,8 @@
 import { POST } from './+server';
 import Matomo from 'matomo-tracker';
 import { request } from 'svelte-kit-test-helpers';
+import { env } from '$env/dynamic/private';
+
 vi.mock('matomo-tracker');
 
 vi.mock('@urql/core', () => {
@@ -53,7 +55,7 @@ describe('matomo_dashboard', () => {
 	test('should return 200', async () => {
 		const response = await request(POST, {
 			headers: {
-				secret_token: process.env.ACTION_SECRET,
+				secret_token: env.ACTION_SECRET,
 			},
 		});
 		expect(JSON.parse(response.body)).toEqual({ message: 'stats sent successfully' });

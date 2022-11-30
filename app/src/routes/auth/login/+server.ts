@@ -1,4 +1,9 @@
-import { getAppUrl, getGraphqlAPI, getHasuraAdminSecret } from '$lib/config/variables/private';
+import {
+	getAppUrl,
+	getGraphqlAPI,
+	getHasuraAdminSecret,
+	getSandboxLogin,
+} from '$lib/config/variables/private';
 import crypto from 'crypto';
 
 import {
@@ -164,7 +169,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	return json({
 		email,
-		...{ accessUrl: process.env['SANDBOX_LOGIN'] ? `/auth/jwt/${accessKey}` : null },
+		...{ accessUrl: getSandboxLogin() ? `/auth/jwt/${accessKey}` : null },
 	});
 };
 

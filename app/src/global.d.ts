@@ -1,12 +1,5 @@
 /// <reference types="@sveltejs/kit" />
 
-interface ImportMeta {
-	env: {
-		VITE_MATOMO_URL: string;
-		VITE_MATOMO_SITE_ID: string;
-	};
-}
-
 // support for Crisp
 interface Window {
 	$crisp: any;

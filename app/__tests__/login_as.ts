@@ -1,12 +1,13 @@
 require('isomorphic-fetch');
 import { createJwt } from '../src/lib/utils/getJwt';
 import type { GetAccountInfoQuery } from '../src/lib/graphql/_gen/typed-document-nodes';
+import { env } from '$env/dynamic/private';
 
 export async function getAccountAndJwtForUser(user: string) {
-	const data = await fetch(process.env.GRAPHQL_API_URL ?? 'http://localhost:5000/v1/graphql', {
+	const data = await fetch(env.GRAPHQL_API_URL, {
 		method: 'POST',
 		headers: {
-			'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',
+			'x-hasura-admin-secret': env.HASURA_GRAPHQL_ADMIN_SECRET,
 		},
 		body: JSON.stringify({
 			query: `
@@ -52,7 +53,7 @@ query userInfo($user:String!, $mail: citext!) {
 			return (payload.data as GetAccountInfoQuery).account[0];
 		});
 	if (!data) {
-		throw Error('Account not found');
+		throw Error(`Account '${user}' not found`);
 	}
 	const { id, username, type, professionalId, beneficiaryId, managerId, adminStructureId } = data;
 	let deploymentId: string | null = null;

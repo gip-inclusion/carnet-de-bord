@@ -1,24 +1,8 @@
 require('isomorphic-fetch');
 import fs from 'fs';
 import path from 'path';
+import { graphql, graphqlAdmin } from '../graphql';
 import { getAccountAndJwtForUser } from '../login_as';
-import { config } from 'dotenv';
-
-config({ path: '../.env' });
-
-const graphql =
-	(headers) =>
-	async (query, variables = null) => {
-		return await fetch(process.env.GRAPHQL_API_URL || 'http://localhost:5000/v1/graphql', {
-			method: 'POST',
-			headers,
-			body: JSON.stringify({ query, variables }),
-		}).then((response) => response.json());
-	};
-
-const graphqlAdmin = graphql({
-	'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'admin',
-});
 
 let token, graphqlPro, eventQuery;
 const sofieTifourNotebookId = '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d';

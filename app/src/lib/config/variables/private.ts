@@ -1,12 +1,13 @@
 import type { Algorithm } from 'jsonwebtoken';
 import { logger } from '$lib/utils/logger';
+import { env } from '$env/dynamic/private';
 
 export const getBackendAPI = (): string => {
-	return process.env['BACKEND_API_URL'];
+	return env['BACKEND_API_URL'];
 };
 
 export const getGraphqlAPI = (): string => {
-	return process.env['GRAPHQL_API_URL'];
+	return env['GRAPHQL_API_URL'];
 };
 
 export function getApiParticulierConfig(): {
@@ -15,18 +16,18 @@ export function getApiParticulierConfig(): {
 	API_PARTICULIER_TOKEN_PE: string;
 } {
 	return {
-		API_PARTICULIER_URL: process.env['API_PARTICULIER_URL'],
-		API_PARTICULIER_TOKEN_CAF: process.env['API_PARTICULIER_TOKEN_CAF'],
-		API_PARTICULIER_TOKEN_PE: process.env['API_PARTICULIER_TOKEN_PE'],
+		API_PARTICULIER_URL: env['API_PARTICULIER_URL'],
+		API_PARTICULIER_TOKEN_CAF: env['API_PARTICULIER_TOKEN_CAF'],
+		API_PARTICULIER_TOKEN_PE: env['API_PARTICULIER_TOKEN_PE'],
 	};
 }
 
 export function getDatabaseUrl(): string {
-	return process.env['DATABASE_URL'] || process.env['HASURA_GRAPHQL_DATABASE_URL'];
+	return env['DATABASE_URL'] || env['HASURA_GRAPHQL_DATABASE_URL'];
 }
 
 export function getAppUrl(): string {
-	return process.env['APP_URL'];
+	return env['APP_URL'];
 }
 
 export function getSmtpConfig(): {
@@ -36,7 +37,7 @@ export function getSmtpConfig(): {
 	SMTP_PORT: number;
 	SMTP_USER: string;
 } {
-	const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = process.env;
+	const { SMTP_FROM, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } = env;
 	return {
 		SMTP_FROM,
 		SMTP_HOST,
@@ -51,7 +52,7 @@ type JwtKey = {
 	type: Algorithm;
 };
 export function getJwtKey(): JwtKey {
-	const hasuraJwtSecret = process.env['HASURA_GRAPHQL_JWT_SECRET'];
+	const hasuraJwtSecret = env['HASURA_GRAPHQL_JWT_SECRET'];
 	let jwtSecret: JwtKey;
 	try {
 		jwtSecret = JSON.parse(hasuraJwtSecret);
@@ -62,9 +63,13 @@ export function getJwtKey(): JwtKey {
 }
 
 export function getHasuraAdminSecret(): string {
-	return process.env['HASURA_GRAPHQL_ADMIN_SECRET'];
+	return env['HASURA_GRAPHQL_ADMIN_SECRET'];
 }
 
 export function getActionSecret(): string {
-	return process.env['ACTION_SECRET'];
+	return env['ACTION_SECRET'];
+}
+
+export function getSandboxLogin(): boolean {
+	return env['SANDBOX_LOGIN'] === 'true';
 }

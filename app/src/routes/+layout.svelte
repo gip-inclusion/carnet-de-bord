@@ -6,7 +6,6 @@
 	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
 	import icoFavicon from '@gouvfr/dsfr/dist/favicon/favicon.ico';
 	import { onDestroy, onMount } from 'svelte';
-	import { env } from '$env/dynamic/public';
 	import * as Matomo from '$lib/tracking/matomo';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
@@ -18,10 +17,9 @@
 	import createClient from '$lib/graphql/createClient';
 	import { setClient } from '@urql/svelte';
 	import LayerCdb from '$lib/ui/LayerCDB.svelte';
-	yup.setLocale(yupFrLocale);
+	import { getMatomoUrl, getMatomoSiteId } from '$lib/config/variables/public';
 
-	const MATOMO_URL = env.PUBLIC_MATOMO_URL;
-	const MATOMO_SITE_ID = env.PUBLIC_MATOMO_SITE_ID;
+	yup.setLocale(yupFrLocale);
 
 	let scrollbarWidth = '0';
 
@@ -58,10 +56,10 @@
 		body.removeChild(scrollDiv);
 		body.style.setProperty('--scrollbarWidth', scrollbarWidth);
 
-		Matomo.load(MATOMO_URL, MATOMO_SITE_ID);
+		Matomo.load(getMatomoUrl(), getMatomoSiteId());
 	});
 	let unsubscribe = page.subscribe(({ url }) => {
-		if (!browser || !url.pathname || !MATOMO_URL || !MATOMO_SITE_ID) {
+		if (!browser || !url.pathname || !getMatomoUrl() || !getMatomoSiteId()) {
 			return;
 		}
 		// we don't want to track /auth/jwt
