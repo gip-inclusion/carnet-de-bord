@@ -210,3 +210,35 @@ async def test_send_email_to_former_referent_without_orientation_request(
         "Information de suivi du bénéficiaire Sophie Tifour"
         in mock_send_email.call_args_list[0].kwargs["message"]
     )
+
+
+@mock.patch("api.core.emails.send_mail")
+async def test_unallowed_orientation_request(
+    mock_send_email: mock.Mock,
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    professional_paul_camara: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
+    guilia_diaby_jwt: str,
+):
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(beneficiary_sophie_tifour.notebook.id),
+            "beneficiary_id": str(beneficiary_sophie_tifour.id),
+            "structure_id": str(professional_paul_camara.structure_id),
+            "professional_account_id": str(professional_paul_camara.account_id),
+            # Diane Rose
+            "orientation_request_id": "fbed211b-16fb-4315-8be6-a77208a6b210",
+        },
+        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+    )
+
+    # We should not be able to change the beneficiary orientation with
+    # an orientation_request_id that is not pending and that does not
+    # match the correct beneficary notebook
+    # /!\
+    # orientation_request_id : Diane Rose
+    # notebook_id : Sophie Tifour
+    assert response.status_code == 403
