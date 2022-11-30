@@ -9,7 +9,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 - node (version 16)
 - hasura-cli (latest)
 - pre-commit https://pre-commit.com
-- poetry (1.1.13)
+- poetry (1.2)
 
 > ℹ️️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
 
