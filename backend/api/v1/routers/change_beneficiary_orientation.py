@@ -9,7 +9,6 @@ from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
 from api.core.emails import send_former_referent_email, send_new_referent_email
-from api.core.init import connection
 from api.core.settings import settings
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -22,11 +21,11 @@ logger = logging.getLogger(__name__)
 
 
 class ChangeBeneficiaryOrientationInput(BaseModel):
-    orientation_request_id: UUID | None
-    orientation_type: str
-    notebook_id: UUID
     beneficiary_id: UUID
+    notebook_id: UUID
+    orientation_type: str
     structure_id: UUID
+    orientation_request_id: UUID | None
     professional_account_id: UUID | None
 
     def gql_variables_for_mutation(self) -> dict[str, str | bool]:
@@ -50,6 +49,7 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
             "notebook_id": str(self.notebook_id),
             "structure_id": str(self.structure_id),
             "professional_account_id": str(self.professional_account_id),
+            "with_professional_account_id": self.professional_account_id is not None,
         }
 
 
@@ -57,7 +57,6 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
 async def change_beneficiary_orientation(
     data: ChangeBeneficiaryOrientationInput,
     background_tasks: BackgroundTasks,
-    db=Depends(connection),
     jwt_token: str | None = Header(default=None),
 ):
     if not jwt_token:
@@ -98,11 +97,12 @@ async def change_beneficiary_orientation(
                 email=referent["account"]["professional"]["email"],
             )
 
-        for newReferent in notification_response["newReferent"]:
-            background_tasks.add_task(
-                send_new_referent_email,
-                email=newReferent["email"],
-            )
+        if "newReferent" in notification_response:
+            for newReferent in notification_response["newReferent"]:
+                background_tasks.add_task(
+                    send_new_referent_email,
+                    email=newReferent["email"],
+                )
 
         return response
 
@@ -114,7 +114,7 @@ def load_mutation_from_file(filename: str):
 
 def get_infos_for_notification_query() -> str:
     return """
-query notificationInfos($notebook_id:uuid!, $structure_id: uuid!, $professional_account_id:uuid) {
+query notificationInfos($notebook_id:uuid!, $structure_id: uuid!, $with_professional_account_id: Boolean!, $professional_account_id:uuid) {
   notebook_by_pk(id: $notebook_id) {
   	beneficiary {
       firstname, lastname, address1, address2 postalCode city cafNumber
@@ -129,9 +129,8 @@ query notificationInfos($notebook_id:uuid!, $structure_id: uuid!, $professional_
   newStructure: structure_by_pk(id: $structure_id) {
     name
   }
-  newReferent: professional(where: {account: {id: {_eq: $professional_account_id}}}) {
+  newReferent: professional(where: {account: {id: {_eq: $professional_account_id}}}) @include(if: $with_professional_account_id) {
     email, firstname, lastname
-}
-
+  }
 }
     """

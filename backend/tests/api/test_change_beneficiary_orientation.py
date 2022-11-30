@@ -12,7 +12,9 @@ from api.db.models.professional import Professional
 ENDPOINT_PATH = "/v1/change-beneficiary-orientation"
 
 
+@mock.patch("api.core.emails.send_mail")
 async def test_verify_no_token(
+    mock_send_email: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
@@ -32,7 +34,9 @@ async def test_verify_no_token(
     assert json["detail"] == "Missing credentials"
 
 
+@mock.patch("api.core.emails.send_mail")
 async def test_professional_not_allowed_to_change_orientation(
+    mock_send_email: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
@@ -54,7 +58,9 @@ async def test_professional_not_allowed_to_change_orientation(
     assert json["detail"] == "Operation forbidden to the given role"
 
 
+@mock.patch("api.core.emails.send_mail")
 async def test_change_orientation_with_exisiting_pro_in_members(
+    mock_send_email: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
@@ -74,7 +80,30 @@ async def test_change_orientation_with_exisiting_pro_in_members(
     assert response.status_code == 200
 
 
+@mock.patch("api.core.emails.send_mail")
+async def test_change_orientation_with_structure_only(
+    mock_send_email: mock.Mock,
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
+    guilia_diaby_jwt: str,
+):
+    response = test_client.post(
+        ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(beneficiary_sophie_tifour.notebook.id),
+            "beneficiary_id": str(beneficiary_sophie_tifour.id),
+            "structure_id": str(professional_pierre_chevalier.structure_id),
+        },
+        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+    )
+    assert response.status_code == 200
+
+
+@mock.patch("api.core.emails.send_mail")
 async def test_change_orientation_with_orientation_request(
+    mock_send_email: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_jennings_dee: Beneficiary,
