@@ -1,3 +1,24 @@
+## [1.165.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.165.0...v1.165.1) (2022-11-29)
+
+
+### Bug Fixes
+
+* mise à jour de la politique de confidentialitée ([#1308](https://github.com/gip-inclusion/carnet-de-bord/issues/1308)) ([d6b9168](https://github.com/gip-inclusion/carnet-de-bord/commit/d6b9168db40b1f5fff665813aa3e06c6ec320764))
+
+# [1.165.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.164.1...v1.165.0) (2022-11-29)
+
+
+### Features
+
+* Ajout des CGU ([#1309](https://github.com/gip-inclusion/carnet-de-bord/issues/1309)) ([8f91252](https://github.com/gip-inclusion/carnet-de-bord/commit/8f91252c265a6e2053a74800e0ef96540cec4d99))
+
+## [1.164.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.164.0...v1.164.1) (2022-11-29)
+
+
+### Bug Fixes
+
+* modify beneficiary search function to allow for unaccented searches ([#1306](https://github.com/gip-inclusion/carnet-de-bord/issues/1306)) ([551cc7e](https://github.com/gip-inclusion/carnet-de-bord/commit/551cc7ed0277ce57c9f07f673b537a256da9da91))
+
 # [1.164.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.163.0...v1.164.0) (2022-11-29)
 
 

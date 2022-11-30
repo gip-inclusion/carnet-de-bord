@@ -10,7 +10,7 @@
 			<div class="fr-footer__brand fr-enlarge-link">
 				<Link href={landing} title="Retour à l’accueil">
 					<p class="fr-logo" title="république française">
-						Ministère<br />du Travail,<br />de l'Emploi<br />et de l'Insertion
+						Ministère<br />du Travail,<br />du Plein Emploi<br />et de l'Insertion
 					</p>
 				</Link>
 			</div>
@@ -62,6 +62,9 @@
 					<a class="fr-footer__bottom-link" href="/politique-confidentialite">
 						Politique de confidentialité
 					</a>
+				</li>
+				<li class="fr-footer__bottom-item">
+					<a class="fr-footer__bottom-link" href="/cgu"> CGU </a>
 				</li>
 			</ul>
 			<div class="fr-footer__bottom-copy">

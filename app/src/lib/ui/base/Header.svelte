@@ -23,7 +23,7 @@
 					<div class="fr-header__brand-top">
 						<div class="fr-header__logo">
 							<p class="fr-logo">
-								Ministère<br />du Travail,<br />de l'Emploi<br />et de l'Insertion
+								Ministère<br />du Travail,<br />du Plein Emploi<br />et de l'Insertion
 							</p>
 						</div>
 						<div class="fr-header__operator">

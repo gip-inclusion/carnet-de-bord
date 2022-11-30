@@ -255,9 +255,9 @@ INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id
 values ('34cf537f-dbf2-4ffd-8adc-72bdebd65adf', '69719e18-36a0-4e93-8d85-c6e592161041', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'social', 'pending', NULL, '2022-09-01 14:00:00.0000+00');
 INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('d64a615e-6332-4c30-b3ac-341ff57a779b', 'pro', false);
 
--- Bolton Gonzalez
+-- Bolton Gônzalez
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
-VALUES ('2f5fdd18-823c-45c7-80de-a2419070fb15', 'bolton.gonzalez@deserunt.com', 'Gonzalez', 'Bolton', '2108141P', '5815707', '54212', 'Belva', '783 Huron Street', NULL, '0746341282', '1994-09-22', 'Nadine', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:40.261111+00', '2022-03-30 09:29:40.261111+00', '96bbd44c-ed58-448c-91ba-e58cc069ac82');
+VALUES ('2f5fdd18-823c-45c7-80de-a2419070fb15', 'bolton.gonzalez@deserunt.com', 'Gônzalez', 'Bolton', '2108141P', '5815707', '54212', 'Belva', '783 Huron Street', NULL, '0746341282', '1994-09-22', 'Nadine', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:40.261111+00', '2022-03-30 09:29:40.261111+00', '96bbd44c-ed58-448c-91ba-e58cc069ac82');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
 VALUES ('bf1140e5-6ecc-4b03-a1b9-521ea286f380', '2f5fdd18-823c-45c7-80de-a2419070fb15', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:40.261111+00', '2022-03-30 09:29:40.261111+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
