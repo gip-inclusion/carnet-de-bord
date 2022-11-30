@@ -81,7 +81,7 @@ async def test_actions_are_not_imported_twice(
 
 
 # See https://github.com/gip-inclusion/carnet-de-bord/issues/755#issuecomment-1265523681
-async def test_import_pe_referent():
+async def test_compute_action_date():
 
     now = datetime.now()
     one_month_later = now + relativedelta(months=+1)
