@@ -1,5 +1,9 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { logger } from '$lib/utils/logger';
+import * as Sentry from '@sentry/node';
+import { initSentry } from '$lib/utils/sentry';
+
+initSentry(Sentry);
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const requestStartTime = Date.now();
@@ -33,4 +37,5 @@ export const handleError: HandleServerError = ({ error, event }) => {
 		method: event.request.method,
 		url: event.url,
 	});
+	Sentry.captureException(err);
 };

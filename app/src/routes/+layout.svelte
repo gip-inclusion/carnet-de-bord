@@ -12,6 +12,7 @@
 	import { backendAPI, connectedUser, graphqlAPI, offCanvas, token } from '$lib/stores';
 	import type { PageData } from './$types';
 
+	import { initSentry } from '$lib/utils/sentry';
 	import * as yup from 'yup';
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	import createClient from '$lib/graphql/createClient';
@@ -38,6 +39,9 @@
 	}
 
 	onMount(async () => {
+		const Sentry = await import('@sentry/svelte');
+		initSentry(Sentry);
+
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
 		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
 
