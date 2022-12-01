@@ -1,3 +1,10 @@
+## [1.166.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.5...v1.166.6) (2022-12-01)
+
+
+### Bug Fixes
+
+* Permettre la saisie de contrat à durée indéterminée. ([#1311](https://github.com/gip-inclusion/carnet-de-bord/issues/1311)) ([5436d84](https://github.com/gip-inclusion/carnet-de-bord/commit/5436d84edc3b393c43351b802d107323f7e7c2bc))
+
 ## [1.166.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.4...v1.166.5) (2022-12-01)
 
 ## [1.166.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.3...v1.166.4) (2022-11-30)
