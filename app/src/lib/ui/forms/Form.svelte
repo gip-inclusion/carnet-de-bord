@@ -52,7 +52,7 @@
 		// If errors we scroll to the first error
 		// and focus the input
 		const [key] = Object.entries($errors).find(([, value]) => Boolean(value)) ?? [];
-		if (key && formRef[key]) {
+		if (key && formRef[key] && formRef[key].focus) {
 			formRef[key].focus();
 			const labelEl: HTMLLabelElement = formRef.querySelector(`label[for=${formRef[key].id}]`);
 			if (labelEl) {

@@ -15,7 +15,7 @@ export function formatDateLocale(value: string, dateFormat?: Intl.DateTimeFormat
 	if (date.toString() === 'Invalid Date') {
 		return value;
 	}
-	return date.toLocaleDateString('fr-FR', dateFormat);
+	return date.toLocaleDateString('fr-FR', { ...dateFormat, timeZone: 'UTC' });
 }
 
 export function formatDateTimeLocale(value: string): string {

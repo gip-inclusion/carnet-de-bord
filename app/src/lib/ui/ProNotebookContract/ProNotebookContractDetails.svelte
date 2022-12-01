@@ -23,10 +23,10 @@
 
 	function initFormData() {
 		return {
-			contractType: notebook.contractType ?? '',
-			contractSignDate: notebook.contractSignDate ?? '',
-			contractStartDate: notebook.contractStartDate ?? '',
-			contractEndDate: notebook.contractEndDate ?? '',
+			contractType: notebook.contractType || null,
+			contractSignDate: notebook.contractSignDate || null,
+			contractStartDate: notebook.contractStartDate || null,
+			contractEndDate: notebook.contractEndDate || null,
 		};
 	}
 
@@ -147,7 +147,7 @@
 							>
 							-
 							<button
-								id="12-months"
+								id="24-months"
 								aria-controls="contract-end-date"
 								aria-label="Définir la fin du contrat dans 24 mois"
 								type="button"
@@ -167,7 +167,7 @@
 								type="button"
 								class="cursor-pointer underline"
 								on:click={() => {
-									updateValidateField('contractEndDate', '');
+									updateValidateField('contractEndDate', null);
 								}}>indéterminée</button
 							>
 						</div>

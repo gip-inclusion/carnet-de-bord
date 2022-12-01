@@ -12875,7 +12875,7 @@ export type UpdateNotebookContractMutationVariables = Exact<{
 	contractType: Scalars['String'];
 	contractSignDate: Scalars['date'];
 	contractStartDate: Scalars['date'];
-	contractEndDate: Scalars['date'];
+	contractEndDate?: InputMaybe<Scalars['date']>;
 }>;
 
 export type UpdateNotebookContractMutation = {
@@ -19203,10 +19203,7 @@ export const UpdateNotebookContractDocument = {
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'contractEndDate' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
-					},
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
 				},
 			],
 			selectionSet: {
