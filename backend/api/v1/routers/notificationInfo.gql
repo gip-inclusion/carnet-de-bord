@@ -1,19 +1,50 @@
-query notificationInfos($notebook_id:uuid!, $structure_id: uuid!, $with_professional_account_id: Boolean!, $professional_account_id:uuid) {
+query notificationInfos(
+  $notebook_id: uuid!
+  $structure_id: uuid!
+  $with_professional_account_id: Boolean!
+  $professional_account_id: uuid
+) {
   notebook_by_pk(id: $notebook_id) {
     beneficiary {
-      firstname, lastname, address1, address2 postalCode city cafNumber
+      orientation_request: orientationRequest(
+        where: { decidedAt: { _is_null: true } }
+      ) {
+        id
+      }
+      firstname
+      lastname
+      address1
+      address2
+      postalCode
+      city
+      cafNumber
     }
-    former_referents: members(where: {memberType: {_eq: "referent"} active: {_eq: true}}) {
-      account { professional {
-        firstname lastname
-        email, structure { name }
-      }}
+    former_referents: members(
+      where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+    ) {
+      account {
+        professional {
+          firstname
+          lastname
+          email
+          structure {
+            name
+          }
+        }
+      }
     }
   }
   newStructure: structure_by_pk(id: $structure_id) {
     name
   }
-  newReferent: professional(where: {account: {id: {_eq: $professional_account_id}}}) @include(if: $with_professional_account_id) {
-    email, firstname, lastname
+  newReferent: professional(
+    where: { account: { id: { _eq: $professional_account_id } } }
+  ) @include(if: $with_professional_account_id) {
+    email
+    firstname
+    lastname
+    structure {
+      name
+    }
   }
 }

@@ -1,13 +1,46 @@
 from datetime import datetime
+from typing import Any
 from urllib import parse
 from uuid import UUID
 
-from dateutil.relativedelta import relativedelta
+from pydantic import BaseModel
 
 from api.core.jinja import jinja_env
 from api.core.sendmail import send_mail
 from api.core.settings import settings
 from api.db.models.orientation_type import OrientationType
+
+
+class Person(BaseModel):
+    firstname: str
+    lastname: str
+
+    def get_name(self):
+        return f"{self.firstname} {self.lastname}"
+
+    @classmethod
+    def parse_from_gql(cls, data: dict[str, str]):
+        return Person(firstname=data["firstname"], lastname=data["lastname"])
+
+
+class Member(Person):
+    email: str
+    structure: str | None
+
+    def get_name_and_structure(self):
+        if self.structure:
+            return f"{self.firstname} {self.lastname} ({self.structure})"
+        else:
+            return self.get_name()
+
+    @classmethod
+    def parse_from_gql(cls, person: dict[str, Any]):
+        return Member(
+            firstname=person["firstname"],
+            lastname=person["lastname"],
+            email=person["email"],
+            structure=person["structure"]["name"] if person["structure"] else None,
+        )
 
 
 def create_magic_link(access_key: UUID, redirect_path: str | None = None) -> str:
@@ -39,78 +72,25 @@ def send_invitation_email(
     )
 
 
-def orientation_notebook_member_email(
-    beneficiary_firstname: str,
-    beneficiary_lastname: str,
-    new_referent_structure: str,
-    old_referent_firstname: str,
-    old_referent_lastname: str,
-    old_referent_structure: str,
-    orientation_type: OrientationType,
-    template_path: str,
-    orientation_date: datetime | None,  # Can be none if there is no orientation request
-    new_referent_firstname: str | None,
-    new_referent_lastname: str | None,
-    is_orientation_request: bool = False,
-) -> str:
-    template = jinja_env.get_template(template_path)
+def send_notebook_member_email(
+    to_email: str,
+    beneficiary: Person,
+    orientation: OrientationType,
+    former_referents: list[Member],
+    new_referent: Member | None,
+    new_structure: str,
+):
+    template = jinja_env.get_template("notebook_member_email.html")
+    subject = "Orientation d'un bénéficiaire"
+    if len(former_referents) > 0:
+        subject = "Réorientation d'un bénéficiaire"
 
-    if orientation_date is not None:
-        date_format = "%d/%m/%Y"
-        formatted_request_date = orientation_date.strftime(date_format)
-
-        formatted_access_date = (orientation_date + relativedelta(months=+1)).strftime(
-            date_format
-        )
-    else:
-        formatted_access_date = ""
-        formatted_request_date = ""
-
-    return template.render(
-        beneficiary_firstname=beneficiary_firstname,
-        beneficiary_lastname=beneficiary_lastname,
-        old_referent_firstname=old_referent_firstname,
-        old_referent_lastname=old_referent_lastname,
-        old_referent_structure=old_referent_structure,
-        new_referent_firstname=new_referent_firstname,
-        new_referent_lastname=new_referent_lastname,
-        new_referent_structure=new_referent_structure,
+    message = template.render(
+        beneficiary=beneficiary,
+        orientation=orientation,
+        former_referents=former_referents,
+        new_referent=new_referent,
+        new_structure=new_structure,
         url=settings.app_url,
-        is_orientation_request=is_orientation_request,
-        orientation_type=orientation_type,
-        formatted_access_date=formatted_access_date,
-        formatted_request_date=formatted_request_date,
     )
-
-
-def send_orientation_referent_email(
-    email: str,
-    subject: str,
-    beneficiary_firstname: str,
-    beneficiary_lastname: str,
-    new_referent_structure: str,
-    old_referent_firstname: str,
-    old_referent_lastname: str,
-    old_referent_structure: str,
-    orientation_type: OrientationType,
-    template_path: str,
-    orientation_date: datetime | None,  # Can be none if there is no orientation request
-    new_referent_firstname: str | None,
-    new_referent_lastname: str | None,
-    is_orientation_request: bool = False,
-) -> None:
-    message = orientation_notebook_member_email(
-        beneficiary_firstname=beneficiary_firstname,
-        beneficiary_lastname=beneficiary_lastname,
-        old_referent_firstname=old_referent_firstname,
-        old_referent_lastname=old_referent_lastname,
-        old_referent_structure=old_referent_structure,
-        new_referent_firstname=new_referent_firstname,
-        new_referent_lastname=new_referent_lastname,
-        new_referent_structure=new_referent_structure,
-        is_orientation_request=is_orientation_request,
-        orientation_type=orientation_type,
-        orientation_date=orientation_date,
-        template_path=template_path,
-    )
-    send_mail(to=email, subject=subject, message=message)
+    send_mail(to=to_email, subject=subject, message=message)

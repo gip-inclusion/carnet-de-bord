@@ -10,8 +10,9 @@ from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
-from api.core.emails import send_orientation_referent_email
+from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
+from api.db.models.orientation_request import OrientationRequest
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -85,6 +86,27 @@ async def change_beneficiary_orientation(
             variable_values=data.gql_variables_for_query(),
         )
 
+        if data.orientation_request_id:
+            beneficiary = notification_response["notebook_by_pk"]["beneficiary"]
+
+            try:
+                raise_if_orientation_request_not_match_beneficiary(
+                    str(data.orientation_request_id),
+                    str(beneficiary["orientation_request"][0]["id"])
+                    if len(beneficiary["orientation_request"]) > 0
+                    else "",
+                )
+            except Exception as exception:
+                logging.error(
+                    "%s not match beneficiary_id %s",
+                    data.orientation_request_id,
+                    data.beneficiary_id,
+                )
+                raise HTTPException(
+                    status_code=403,
+                    detail="orientation_request_id and beneficiary does not match",
+                ) from exception
+
         if mutation is None:
             raise HTTPException(
                 status_code=500,
@@ -94,72 +116,55 @@ async def change_beneficiary_orientation(
         response = await session.execute(
             gql(mutation), variable_values=data.gql_variables_for_mutation()
         )
-        for referent in notification_response["notebook_by_pk"]["former_referents"]:
-
-            kwargs = extract_email_kwargs(notification_response, referent, data)
+        former_referents = [
+            Member.parse_from_gql(member["account"]["professional"])
+            for member in notification_response["notebook_by_pk"]["former_referents"]
+        ]
+        beneficiary = Person.parse_from_gql(
+            notification_response["notebook_by_pk"]["beneficiary"]
+        )
+        new_structure = notification_response["newStructure"]["name"]
+        for referent in former_referents:
             background_tasks.add_task(
-                send_orientation_referent_email,
-                email=referent["account"]["professional"]["email"],
-                subject="Fin de suivi",
-                template_path="former_notebook_member_email.html",
-                **kwargs,
+                send_notebook_member_email,
+                to_email=referent.email,
+                beneficiary=beneficiary,
+                orientation=data.orientation_type,
+                former_referents=former_referents,
+                new_structure=new_structure,
+                new_referent=Member.parse_from_gql(
+                    notification_response["newReferent"][0]
+                )
+                if "newReferent" in notification_response
+                and len(notification_response["newReferent"]) > 0
+                else None,
             )
 
         if "newReferent" in notification_response:
-            for newReferent in notification_response["newReferent"]:
-                pass
+            for new_referent in notification_response["newReferent"]:
+                new_referent = Member.parse_from_gql(new_referent)
 
-                # @TODO
-                # kwargs = extract_email_kwargs(notification_response, referent, data))
-                # background_tasks.add_task(
-                # send_orientation_referent_email,
-                # email=referent["account"]["professional"]["email"],
-                # subject="Fin de suivi",
-                # template_path="former_notebook_member_email.html",
-                # **kwargs
-                # )
+                background_tasks.add_task(
+                    send_notebook_member_email,
+                    to_email=new_referent.email,
+                    new_referent=new_referent,
+                    beneficiary=beneficiary,
+                    former_referents=former_referents,
+                    orientation=data.orientation_type,
+                    new_structure=new_structure,
+                )
 
         return response
-
-
-def extract_email_kwargs(
-    notification_response: dict,
-    former_referent: dict,
-    data: ChangeBeneficiaryOrientationInput,
-) -> dict[str, Any]:
-
-    new_referent_firstname = None
-    new_referent_lastname = None
-    if (
-        "newReferent" in notification_response
-        and len(notification_response["newReferent"]) > 0
-    ):
-        new_referent_firstname = notification_response["newReferent"][0]["firstname"]
-        new_referent_lastname = notification_response["newReferent"][0]["lastname"]
-
-    return {
-        "beneficiary_firstname": notification_response["notebook_by_pk"]["beneficiary"][
-            "firstname"
-        ],
-        "beneficiary_lastname": notification_response["notebook_by_pk"]["beneficiary"][
-            "lastname"
-        ],
-        "old_referent_firstname": former_referent["account"]["professional"][
-            "firstname"
-        ],
-        "old_referent_lastname": former_referent["account"]["professional"]["lastname"],
-        "old_referent_structure": former_referent["account"]["professional"][
-            "structure"
-        ]["name"],
-        "new_referent_firstname": new_referent_firstname,
-        "new_referent_lastname": new_referent_lastname,
-        "new_referent_structure": notification_response["newStructure"]["name"],
-        "is_orientation_request": data.orientation_request_id is not None,
-        "orientation_type": OrientationType.get_label(data.orientation_type),
-        "orientation_date": datetime.now(),
-    }
 
 
 def load_gql_file(filename: str, path: str = os.path.dirname(__file__)):
     with open(os.path.join(path, filename), encoding="utf-8") as f:
         return f.read()
+
+
+def raise_if_orientation_request_not_match_beneficiary(
+    orientation_request_id: str, beneficiary_request_id: str
+) -> None:
+
+    if orientation_request_id != beneficiary_request_id:
+        raise Exception("orientation_request_id not match beneficiary_id")

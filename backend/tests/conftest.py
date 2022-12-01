@@ -16,6 +16,7 @@ from api.db.crud.orientation_request import get_orientation_request_by_id
 from api.db.crud.professional import get_professional_by_email
 from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from api.db.models.notebook import Notebook
+from api.db.models.orientation_request import OrientationRequest
 from api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
@@ -223,6 +224,14 @@ async def beneficiary_noel_keller(db_connection) -> Beneficiary | None:
 
 @pytest.fixture
 @pytest.mark.asyncio
+async def notebook_noel_keller(db_connection) -> Notebook | None:
+    return await get_notebook_by_id(
+        db_connection, UUID("a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
 async def beneficiary_jennings_dee(db_connection) -> Beneficiary | None:
     return await get_beneficiary_by_id(
         db_connection, UUID("695b2792-93ad-4819-954f-b022006bd92e")
@@ -231,7 +240,15 @@ async def beneficiary_jennings_dee(db_connection) -> Beneficiary | None:
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def orientation_request_jennings_dee(db_connection) -> Beneficiary | None:
+async def notebook_jennings_dee(db_connection) -> Notebook | None:
+    return await get_notebook_by_id(
+        db_connection, UUID("798d152c-c812-4708-a2dc-5582f07c71d2")
+    )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_request_jennings_dee(db_connection) -> OrientationRequest | None:
     return await get_orientation_request_by_id(
         db_connection, UUID("1f696530-984c-4f92-be13-c477097b02b7")
     )
@@ -249,6 +266,14 @@ async def professional_pierre_chevalier(db_connection) -> Professional | None:
 @pytest.mark.asyncio
 async def professional_paul_camara(db_connection) -> Professional | None:
     return await get_professional_by_email(db_connection, "pcamara@seinesaintdenis.fr")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def professional_edith_orial(db_connection) -> Professional | None:
+    return await get_professional_by_email(
+        db_connection, "edith.orial@interlogement93.fr"
+    )
 
 
 @pytest.fixture
