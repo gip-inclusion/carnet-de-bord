@@ -1,3 +1,10 @@
+## [1.166.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.7...v1.166.8) (2022-12-05)
+
+
+### Bug Fixes
+
+* display Pôle Emploi structure for PE events ([#1330](https://github.com/gip-inclusion/carnet-de-bord/issues/1330)) ([745c4e8](https://github.com/gip-inclusion/carnet-de-bord/commit/745c4e8eab81ec4b6ebc8f5f0b46f8cf548c06e5))
+
 ## [1.166.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.6...v1.166.7) (2022-12-01)
 
 ## [1.166.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.5...v1.166.6) (2022-12-01)
