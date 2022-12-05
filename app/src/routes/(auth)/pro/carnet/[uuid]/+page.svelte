@@ -259,7 +259,13 @@
 									<td>{formatDateLocale(event.eventDate)} </td>
 									<td>{eventCategory(event)}</td>
 									<td>{event.event.event_label}</td>
-									<td>{event.creator?.professional?.structure.name ?? '-'} </td>
+									<td
+										>{#if !event.creator && event.event.from == 'pole_emploi'}
+											Pôle Emploi
+										{:else}
+											{event.creator?.professional?.structure.name ?? '-'}
+										{/if}</td
+									>
 									<td>{constantToString(event.event.status, statusValues)}</td>
 								</tr>
 							{:else}
