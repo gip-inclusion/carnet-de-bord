@@ -28,7 +28,8 @@ class Settings(BaseSettings):
     V1_PREFIX: str = "/v1"
     MAIL_FROM: str = "support.carnet-de-bord@fabrique.social.gouv.fr"
     LOG_FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
-    LOG_LEVEL: str
+    LOG_LEVEL: str = "INFO"
+    LOG_AS_JSON: bool = True
 
     @validator("LOG_LEVEL")
     def uppercase(raw: str) -> str:
