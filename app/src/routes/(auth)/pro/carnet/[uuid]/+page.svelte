@@ -38,14 +38,17 @@
 	}
 
 	function eventCategory(event): string {
-		if (event.eventType == EventType.Action || event.eventType == EventType.Target) {
+		if (
+			(event.eventType == EventType.Action || event.eventType == EventType.Target) &&
+			focusThemeKeys.byKey[event.event.category]
+		) {
 			return (
 				constantToString(event.eventType, eventTypes) +
 				' ' +
 				focusThemeKeys.byKey[event.event.category]
 			);
 		} else {
-			return 'Inconnue';
+			return 'Action inconnue';
 		}
 	}
 
