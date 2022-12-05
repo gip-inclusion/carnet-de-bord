@@ -6,9 +6,12 @@ from pythonjsonlogger import jsonlogger
 from api.core.init import create_app
 from api.core.settings import settings
 
-logging.basicConfig(level=settings.LOG_LEVEL, format=settings.LOG_FORMAT)
+uvicorn_logger = logging.getLogger("uvicorn")
+uvicorn_logger.removeHandler(uvicorn_logger.handlers[0])
+
 logger = logging.getLogger()
 logHandler = logging.StreamHandler()
+logger.setLevel(settings.LOG_LEVEL)
 formatter = jsonlogger.JsonFormatter()
 logHandler.setFormatter(formatter)
 logger.addHandler(logHandler)
