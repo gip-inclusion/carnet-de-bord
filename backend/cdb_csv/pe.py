@@ -260,7 +260,10 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 )
                 continue
 
-            focus: str | None = mapping[csv_row.lblaction]
+            try:
+                focus: str | None = mapping[csv_row.lblaction]
+            except KeyError:
+                focus = None
 
             if focus:
                 logging.debug(f"{pe_unique_import_id} => Mapped focus: {focus}")
