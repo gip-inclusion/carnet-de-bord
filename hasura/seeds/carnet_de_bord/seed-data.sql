@@ -241,9 +241,9 @@ INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, stat
 VALUES ('9b5ebf66-1f53-4001-9720-ed826fceefa9', '695b2792-93ad-4819-954f-b022006bd92e', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:39.257085+00', '2022-03-30 09:29:39.257085+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('798d152c-c812-4708-a2dc-5582f07c71d2', '695b2792-93ad-4819-954f-b022006bd92e', '2022-03-30 09:29:39.257085+00', NULL, true, true, false, true, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:39.257085+00');
-INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('798d152c-c812-4708-a2dc-5582f07c71d2', 'sociopro', false);
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('798d152c-c812-4708-a2dc-5582f07c71d2', NULL, false);
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('7e44c14e-29de-47d3-aaf2-8fac7c281359', '798d152c-c812-4708-a2dc-5582f07c71d2', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', '2021-09-21 13:06:45.076+00', 'referent', true);
-INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('1f696530-984c-4f92-be13-c477097b02b7', '695b2792-93ad-4819-954f-b022006bd92e', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'social', 'pending', 'Ceci est la raison pour laquelle on souhaite changer l’orientation', '2022-09-01 14:00:00.0000+00');
+INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('1f696530-984c-4f92-be13-c477097b02b7', '695b2792-93ad-4819-954f-b022006bd92e', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', 'social', 'pending', 'Ceci est la raison pour laquelle on souhaite changer l’orientation', '2022-09-01 14:00:00.0000+00');
 
 -- Maricela Valenzuela
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
@@ -703,6 +703,7 @@ VALUES ('703ff102-ff41-4fc5-b66f-1fe608b2a71f', 'ba6dc97e-05dd-4053-a810-b12605a
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, work_situation_end_date, contract_start_date, contract_end_date, updated_at)
 VALUES ('a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8', 'ba6dc97e-05dd-4053-a810-b12605a11bba', '2022-03-30 09:30:25.617229+00', 'rsa_droit_ouvert_et_suspendu', true, true, true, true, 'between_10_20', 'NV4', '2022-07-22', 'cer', '2021-01-05', 'iae', '2022-01-05', '2022-03-05', '2022-05-05', '2022-03-30 09:30:25.617229+00');
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('07a24076-f0f9-4e99-8767-d7201d41fbc4', 'a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Conducteur / Conductrice d''engins d''exploitation agricole (A1101)'));
+INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('a89cf5f3-7013-480a-a3bf-e10ad0b6f9e8', NULL, true);
 
 -- Martin Gal
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)

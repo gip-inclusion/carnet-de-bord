@@ -1,7 +1,5 @@
 import logging
 import os
-from datetime import datetime
-from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
@@ -12,7 +10,6 @@ from pydantic import BaseModel
 
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
-from api.db.models.orientation_request import OrientationRequest
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -86,6 +83,12 @@ async def change_beneficiary_orientation(
             variable_values=data.gql_variables_for_query(),
         )
 
+        if notification_response is None:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error while reading notificationInfo.gql mutation file",
+            )
+
         if data.orientation_request_id:
             beneficiary = notification_response["notebook_by_pk"]["beneficiary"]
 
@@ -98,20 +101,14 @@ async def change_beneficiary_orientation(
                 )
             except Exception as exception:
                 logging.error(
-                    "%s not match beneficiary_id %s",
+                    "%s does not match beneficiary_id %s",
                     data.orientation_request_id,
                     data.beneficiary_id,
                 )
                 raise HTTPException(
                     status_code=403,
-                    detail="orientation_request_id and beneficiary does not match",
+                    detail="orientation_request_id and beneficiary don't match",
                 ) from exception
-
-        if mutation is None:
-            raise HTTPException(
-                status_code=500,
-                detail=f"Error while reading `{mutation_filename}` mutation file",
-            )
 
         response = await session.execute(
             gql(mutation), variable_values=data.gql_variables_for_mutation()
@@ -167,4 +164,6 @@ def raise_if_orientation_request_not_match_beneficiary(
 ) -> None:
 
     if orientation_request_id != beneficiary_request_id:
-        raise Exception("orientation_request_id not match beneficiary_id")
+        raise Exception(
+            f"orientation_request_id {orientation_request_id} does not match beneficiary_request_id {beneficiary_request_id}"
+        )

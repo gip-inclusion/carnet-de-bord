@@ -1,19 +1,20 @@
 # name: test_send_email_to_members_first_orientation
   dict({
     'email_new_referent': '''
+      
+      
+      
       <!DOCTYPE html>
       <html lang="fr">
       	<head>
       		<meta charset="UTF-8" />
       		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
       		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      		<title>Orientation d'un bénéficiaire</title>
-      		
+      		<title>Orientation d’un bénéficiaire</title>
       	</head>
       	<body>
       		<h1>
-      			 Orientation d'un bénéficiaire
-      			
+      			Orientation d’un bénéficiaire
       		</h1>
       		<p>Bénéficiaire&nbsp;: <strong>KELLER Noel</strong></p>
       
@@ -56,19 +57,20 @@
 # name: test_send_email_to_members_with_orientation_request
   dict({
     'email_new_referent': '''
+      
+      
+      
       <!DOCTYPE html>
       <html lang="fr">
       	<head>
       		<meta charset="UTF-8" />
       		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
       		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      		<title>Réorientation d'un bénéficiaire</title>
-      		
+      		<title>Réorientation d’un bénéficiaire</title>
       	</head>
       	<body>
       		<h1>
-      			 Réorientation d'un bénéficiaire
-      			
+      			Réorientation d’un bénéficiaire
       		</h1>
       		<p>Bénéficiaire&nbsp;: <strong>Dee Jennings</strong></p>
       
@@ -121,19 +123,20 @@
       </html>
     ''',
     'former_email_referent': '''
+      
+      
+      
       <!DOCTYPE html>
       <html lang="fr">
       	<head>
       		<meta charset="UTF-8" />
       		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
       		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      		<title>Réorientation d'un bénéficiaire</title>
-      		
+      		<title>Réorientation d’un bénéficiaire</title>
       	</head>
       	<body>
       		<h1>
-      			 Réorientation d'un bénéficiaire
-      			
+      			Réorientation d’un bénéficiaire
       		</h1>
       		<p>Bénéficiaire&nbsp;: <strong>Dee Jennings</strong></p>
       
@@ -190,19 +193,20 @@
 # name: test_send_email_to_members_without_orientation_request
   dict({
     'email_new_referent': '''
+      
+      
+      
       <!DOCTYPE html>
       <html lang="fr">
       	<head>
       		<meta charset="UTF-8" />
       		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
       		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      		<title>Réorientation d'un bénéficiaire</title>
-      		
+      		<title>Réorientation d’un bénéficiaire</title>
       	</head>
       	<body>
       		<h1>
-      			 Réorientation d'un bénéficiaire
-      			
+      			Réorientation d’un bénéficiaire
       		</h1>
       		<p>Bénéficiaire&nbsp;: <strong>Sophie Tifour</strong></p>
       
@@ -255,19 +259,20 @@
       </html>
     ''',
     'former_email_referent': '''
+      
+      
+      
       <!DOCTYPE html>
       <html lang="fr">
       	<head>
       		<meta charset="UTF-8" />
       		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
       		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      		<title>Réorientation d'un bénéficiaire</title>
-      		
+      		<title>Réorientation d’un bénéficiaire</title>
       	</head>
       	<body>
       		<h1>
-      			 Réorientation d'un bénéficiaire
-      			
+      			Réorientation d’un bénéficiaire
       		</h1>
       		<p>Bénéficiaire&nbsp;: <strong>Sophie Tifour</strong></p>
       

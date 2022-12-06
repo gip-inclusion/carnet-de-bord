@@ -171,11 +171,11 @@ async def test_send_email_to_members_with_orientation_request(
 
     former_email_referent = mock_send_email.call_args_list[0]
     assert former_email_referent.kwargs["to"] == professional_edith_orial.email
-    assert former_email_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
+    assert former_email_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
 
     email_new_referent = mock_send_email.call_args_list[1]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
-    assert email_new_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
+    assert email_new_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
 
     assert snapshot == {
         "former_email_referent": former_email_referent.kwargs["message"],
@@ -210,11 +210,11 @@ async def test_send_email_to_members_without_orientation_request(
 
     former_email_referent = mock_send_email.call_args_list[0]
     assert former_email_referent.kwargs["to"] == professional_pierre_chevalier.email
-    assert former_email_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
+    assert former_email_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
 
     email_new_referent = mock_send_email.call_args_list[1]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
-    assert email_new_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
+    assert email_new_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
 
     assert snapshot == {
         "former_email_referent": former_email_referent.kwargs["message"],
@@ -248,7 +248,7 @@ async def test_send_email_to_members_first_orientation(
 
     email_new_referent = mock_send_email.call_args_list[0]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
-    assert email_new_referent.kwargs["subject"] == "Orientation d'un bénéficiaire"
+    assert email_new_referent.kwargs["subject"] == "Orientation d’un bénéficiaire"
     assert snapshot == {"email_new_referent": email_new_referent.kwargs["message"]}
 
 

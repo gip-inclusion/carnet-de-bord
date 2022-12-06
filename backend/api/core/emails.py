@@ -1,46 +1,11 @@
-from datetime import datetime
-from typing import Any
 from urllib import parse
 from uuid import UUID
-
-from pydantic import BaseModel
 
 from api.core.jinja import jinja_env
 from api.core.sendmail import send_mail
 from api.core.settings import settings
+from api.db.models.email import Member, Person
 from api.db.models.orientation_type import OrientationType
-
-
-class Person(BaseModel):
-    firstname: str
-    lastname: str
-
-    def get_name(self):
-        return f"{self.firstname} {self.lastname}"
-
-    @classmethod
-    def parse_from_gql(cls, data: dict[str, str]):
-        return Person(firstname=data["firstname"], lastname=data["lastname"])
-
-
-class Member(Person):
-    email: str
-    structure: str | None
-
-    def get_name_and_structure(self):
-        if self.structure:
-            return f"{self.firstname} {self.lastname} ({self.structure})"
-        else:
-            return self.get_name()
-
-    @classmethod
-    def parse_from_gql(cls, person: dict[str, Any]):
-        return Member(
-            firstname=person["firstname"],
-            lastname=person["lastname"],
-            email=person["email"],
-            structure=person["structure"]["name"] if person["structure"] else None,
-        )
 
 
 def create_magic_link(access_key: UUID, redirect_path: str | None = None) -> str:
@@ -81,9 +46,9 @@ def send_notebook_member_email(
     new_structure: str,
 ):
     template = jinja_env.get_template("notebook_member_email.html")
-    subject = "Orientation d'un bénéficiaire"
+    subject = "Orientation d’un bénéficiaire"
     if len(former_referents) > 0:
-        subject = "Réorientation d'un bénéficiaire"
+        subject = "Réorientation d’un bénéficiaire"
 
     message = template.render(
         beneficiary=beneficiary,

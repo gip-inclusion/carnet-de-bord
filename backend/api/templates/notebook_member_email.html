@@ -1,18 +1,19 @@
+{% if former_referents %}
+{% set title="Réorientation d’un bénéficiaire" %}
+{% else %}
+{% set title="Orientation d’un bénéficiaire" %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		{% if former_referents %}<title>Réorientation d'un bénéficiaire</title>
-		{% else %}<title>Orientation d'un bénéficiaire</title>
-		{% endif %}
+		<title>{{ title }}</title>
 	</head>
 	<body>
 		<h1>
-			{% if former_referents %} Réorientation d'un bénéficiaire
-			{% else %} Orientation d'un bénéficiaire
-			{% endif %}
+			{{title}}
 		</h1>
 		<p>Bénéficiaire&nbsp;: <strong>{{beneficiary.get_name()}}</strong></p>
 
