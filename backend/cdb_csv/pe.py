@@ -260,7 +260,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 )
                 continue
 
-            focus: str | None = mapping[csv_row.lblaction]
+            focus: str | None = mapping.get(csv_row.lblaction, None)
 
             if focus:
                 logging.debug(f"{pe_unique_import_id} => Mapped focus: {focus}")

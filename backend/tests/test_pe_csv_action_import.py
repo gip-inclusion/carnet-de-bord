@@ -10,7 +10,7 @@ from cdb_csv.pe import compute_action_date, import_actions
 
 
 async def test_parse_action_csv_correctly_imported(
-    pe_action_csv_filepath: str, db_connection, notebook_sophie_tifour: Notebook
+    caplog, pe_action_csv_filepath: str, db_connection, notebook_sophie_tifour: Notebook
 ):
 
     await import_actions(db_connection, pe_action_csv_filepath)
@@ -61,6 +61,8 @@ async def test_parse_action_csv_correctly_imported(
         == "SUIVI DELEGUE A UN PARTENAIRE NON INFORMATISE"
     )
 
+    assert "Mapped focus not found for action" in caplog.text
+
 
 async def test_actions_are_not_imported_twice(
     pe_action_csv_filepath: str, db_connection, notebook_sophie_tifour: Notebook
@@ -77,7 +79,7 @@ async def test_actions_are_not_imported_twice(
         EventFrom.pe,
     )
 
-    assert len(records) == 3
+    assert len(records) == 89
 
 
 # See https://github.com/gip-inclusion/carnet-de-bord/issues/755#issuecomment-1265523681
