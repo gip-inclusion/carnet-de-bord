@@ -26,7 +26,7 @@
 		<div style="display: flex">
 			<p>Suivi précédent&nbsp;:</p>
 			<div>
-				<ul>
+				<ul style="list-style-type:none; margin: 0; padding: 0">
 					{% for referent in former_referents %}
 					<li><strong>{{referent.get_name_and_structure()}}</strong></li>
 					{% endfor %}

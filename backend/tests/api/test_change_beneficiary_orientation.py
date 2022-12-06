@@ -145,6 +145,7 @@ async def test_change_orientation_with_orientation_request(
 @mock.patch("api.core.emails.send_mail")
 async def test_send_email_to_members_with_orientation_request(
     mock_send_email: mock.Mock,
+    snapshot,
     test_client: TestClient,
     professional_paul_camara: Professional,
     professional_edith_orial: Professional,
@@ -171,28 +172,21 @@ async def test_send_email_to_members_with_orientation_request(
     former_email_referent = mock_send_email.call_args_list[0]
     assert former_email_referent.kwargs["to"] == professional_edith_orial.email
     assert former_email_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
-    assert "Réorientation d'un bénéficiaire" in former_email_referent.kwargs["message"]
-    assert "<li><strong>Orial Edith" in former_email_referent.kwargs["message"]
-    assert (
-        "Nouveau suivi&nbsp;:<strong>Paul Camara (Service Social Départemental)</strong>"
-        in former_email_referent.kwargs["message"]
-    )
 
     email_new_referent = mock_send_email.call_args_list[1]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
     assert email_new_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
-    assert "Réorientation d'un bénéficiaire" in email_new_referent.kwargs["message"]
-    assert "<li><strong>Orial Edith" in email_new_referent.kwargs["message"]
 
-    assert (
-        "Nouveau suivi&nbsp;:<strong>Paul Camara (Service Social Départemental)</strong>"
-        in email_new_referent.kwargs["message"]
-    )
+    assert snapshot == {
+        "former_email_referent": former_email_referent.kwargs["message"],
+        "email_new_referent": email_new_referent.kwargs["message"],
+    }
 
 
 @mock.patch("api.core.emails.send_mail")
 async def test_send_email_to_members_without_orientation_request(
     mock_send_email: mock.Mock,
+    snapshot,
     test_client: TestClient,
     professional_paul_camara: Professional,
     professional_pierre_chevalier: Professional,
@@ -217,29 +211,22 @@ async def test_send_email_to_members_without_orientation_request(
     former_email_referent = mock_send_email.call_args_list[0]
     assert former_email_referent.kwargs["to"] == professional_pierre_chevalier.email
     assert former_email_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
-    assert "Réorientation d'un bénéficiaire" in former_email_referent.kwargs["message"]
-    assert "<li><strong>Pierre Chevalier" in former_email_referent.kwargs["message"]
-    assert (
-        "Nouveau suivi&nbsp;:<strong>Paul Camara (Service Social Départemental)</strong>"
-        in former_email_referent.kwargs["message"]
-    )
 
     email_new_referent = mock_send_email.call_args_list[1]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
     assert email_new_referent.kwargs["subject"] == "Réorientation d'un bénéficiaire"
-    assert "Réorientation d'un bénéficiaire" in email_new_referent.kwargs["message"]
-    assert "<li><strong>Pierre Chevalier" in email_new_referent.kwargs["message"]
 
-    assert (
-        "Nouveau suivi&nbsp;:<strong>Paul Camara (Service Social Départemental)</strong>"
-        in email_new_referent.kwargs["message"]
-    )
+    assert snapshot == {
+        "former_email_referent": former_email_referent.kwargs["message"],
+        "email_new_referent": email_new_referent.kwargs["message"],
+    }
 
 
 @mock.patch("api.core.emails.send_mail")
 async def test_send_email_to_members_first_orientation(
     mock_send_email: mock.Mock,
     test_client: TestClient,
+    snapshot,
     professional_paul_camara: Professional,
     beneficiary_noel_keller: Beneficiary,
     notebook_noel_keller: Beneficiary,
@@ -258,11 +245,11 @@ async def test_send_email_to_members_first_orientation(
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 1
+
     email_new_referent = mock_send_email.call_args_list[0]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
     assert email_new_referent.kwargs["subject"] == "Orientation d'un bénéficiaire"
-
-    assert "Orientation d'un bénéficiaire" in email_new_referent.kwargs["message"]
+    assert snapshot == {"email_new_referent": email_new_referent.kwargs["message"]}
 
 
 @mock.patch("api.core.emails.send_mail")
