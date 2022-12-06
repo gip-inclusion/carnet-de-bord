@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "backend"
-version = "1.166.9"
+version = "1.166.10"
 description = ""
 authors = ["LionelB <lionel@lumographe.fr>"]
 

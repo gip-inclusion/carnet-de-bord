@@ -1,3 +1,10 @@
+## [1.166.10](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.9...v1.166.10) (2022-12-06)
+
+
+### Bug Fixes
+
+* amélioration de la gestion des exceptions lors de l'import des actions PE ([#1331](https://github.com/gip-inclusion/carnet-de-bord/issues/1331)) ([9ece772](https://github.com/gip-inclusion/carnet-de-bord/commit/9ece772677564f9af7e5eafc1e99a2d5ae159932))
+
 ## [1.166.9](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.8...v1.166.9) (2022-12-06)
 
 ## [1.166.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.7...v1.166.8) (2022-12-05)
