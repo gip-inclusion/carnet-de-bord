@@ -1,0 +1,18 @@
+mutation DenyOrientationRequest($id: uuid!) {
+  orientation_request: update_orientation_request_by_pk(
+    pk_columns: { id: $id }
+    _set: { decidedAt: now, status: "denied" }
+  ) {
+    status
+    decidedAt
+    requestor {
+      professional {
+        email
+      }
+    }
+    beneficiary {
+      firstname
+      lastname
+    }
+  }
+}

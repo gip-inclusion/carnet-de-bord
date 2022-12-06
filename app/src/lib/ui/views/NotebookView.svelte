@@ -24,14 +24,18 @@
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 </script>
 
-{#if orientationRequest && !orientationRequest?.decidedAt}
-	<Portal target="#bandeau">
-		<OrientationRequestBanner {notebook} {orientationRequest} on:beneficiary-orientation-changed />
-	</Portal>
-{:else}
-	<OrientationHeader {notebook} on:beneficiary-orientation-changed />
-{/if}
 <div class="fr-py-6w flex flex-col gap-8">
+	{#if orientationRequest && !orientationRequest?.decidedAt}
+		<Portal target="#bandeau">
+			<OrientationRequestBanner
+				{notebook}
+				{orientationRequest}
+				on:beneficiary-orientation-changed
+			/>
+		</Portal>
+	{:else}
+		<OrientationHeader {notebook} on:beneficiary-orientation-changed />
+	{/if}
 	<ProNotebookPersonalInfoView
 		{beneficiary}
 		lastUpdateDate={members[0]?.lastModifiedAt}

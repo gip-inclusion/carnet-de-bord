@@ -10,7 +10,8 @@ from api.db.models.notebook_info import OrientationType
 from api.db.models.orientation_request import OrientationRequest
 from api.db.models.professional import Professional
 
-ENDPOINT_PATH = "/v1/change-beneficiary-orientation"
+UPDATE_ORIENTATION_ENDPOINT_PATH = "/v1/change-beneficiary-orientation"
+DENY_ORIENTATION_ENDPOINT_PATH = "/v1/deny-orientation-request"
 
 
 @mock.patch("api.core.emails.send_mail")
@@ -22,7 +23,7 @@ async def test_verify_no_token(
     notebook_sophie_tifour: Notebook,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
@@ -46,7 +47,7 @@ async def test_professional_not_allowed_to_change_orientation(
     get_professional_jwt: str,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
@@ -71,7 +72,7 @@ async def test_change_orientation_with_exisiting_pro_in_members(
     guilia_diaby_jwt: str,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
@@ -94,7 +95,7 @@ async def test_change_orientation_with_structure_only(
     guilia_diaby_jwt: str,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
@@ -118,7 +119,7 @@ async def test_change_orientation_with_orientation_request(
     db_connection: Connection,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_request_id": str(orientation_request_jennings_dee.id),
             "orientation_type": OrientationType.social,
@@ -155,7 +156,7 @@ async def test_send_email_to_members_with_orientation_request(
     guilia_diaby_jwt: str,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_jennings_dee.id),
@@ -195,7 +196,7 @@ async def test_send_email_to_members_without_orientation_request(
     guilia_diaby_jwt: str,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
@@ -233,7 +234,7 @@ async def test_send_email_to_members_first_orientation(
     guilia_diaby_jwt: str,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_noel_keller.id),
@@ -263,7 +264,7 @@ async def test_unallowed_orientation_request(
     guilia_diaby_jwt: str,
 ):
     response = test_client.post(
-        ENDPOINT_PATH,
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
@@ -275,3 +276,29 @@ async def test_unallowed_orientation_request(
     )
 
     assert response.status_code == 403
+
+
+@mock.patch("api.core.emails.send_mail")
+async def test_deny_orientation_request_email(
+    mock_send_email: mock.Mock,
+    test_client: TestClient,
+    snapshot,
+    professional_edith_orial: Professional,
+    orientation_request_jennings_dee: OrientationRequest,
+    guilia_diaby_jwt: str,
+):
+    response = test_client.post(
+        DENY_ORIENTATION_ENDPOINT_PATH,
+        json={
+            "orientation_request_id": str(orientation_request_jennings_dee.id),
+        },
+        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+    )
+    print(response.json())
+    assert response.status_code == 200
+    assert mock_send_email.call_count == 1
+
+    email_new_referent = mock_send_email.call_args_list[0]
+    assert email_new_referent.kwargs["to"] == professional_edith_orial.email
+    assert email_new_referent.kwargs["subject"] == "Maintien de l’accompagnement"
+    assert snapshot == {"email_new_referent": email_new_referent.kwargs["message"]}

@@ -8,7 +8,12 @@ from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
-from api.core.emails import Member, Person, send_notebook_member_email
+from api.core.emails import (
+    Member,
+    Person,
+    send_deny_orientation_request_email,
+    send_notebook_member_email,
+)
 from api.core.settings import settings
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
@@ -152,6 +157,51 @@ async def change_beneficiary_orientation(
                 )
 
         return response
+
+
+class DenyBeneficiaryOrientationInput(BaseModel):
+    orientation_request_id: UUID
+
+    def gql_variables(self):
+        return {"id": str(self.orientation_request_id)}
+
+
+@router.post("/deny-orientation-request")
+async def deny_orientation_request(
+    data: DenyBeneficiaryOrientationInput,
+    background_tasks: BackgroundTasks,
+    jwt_token: str | None = Header(default=None),
+):
+    if not jwt_token:
+        raise HTTPException(status_code=401, detail="unauthorized")
+
+    transport = AIOHTTPTransport(
+        url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
+    )
+
+    async with Client(
+        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
+    ) as session:
+
+        deny_response = await session.execute(
+            gql(load_gql_file("_denyOrientationRequestById.gql")),
+            variable_values=data.gql_variables(),
+        )
+        if deny_response is None:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error while reading _denyOrientationRequestById.gql mutation file",
+            )
+        beneficiary = Person.parse_from_gql(
+            deny_response["orientation_request"]["beneficiary"]
+        )
+        background_tasks.add_task(
+            send_deny_orientation_request_email,
+            to_email=deny_response["orientation_request"]["requestor"]["professional"][
+                "email"
+            ],
+            beneficiary=beneficiary,
+        )
 
 
 def load_gql_file(filename: str, path: str = os.path.dirname(__file__)):
