@@ -1,3 +1,10 @@
+## [1.166.11](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.10...v1.166.11) (2022-12-06)
+
+
+### Bug Fixes
+
+* Permettre à tous les accompagnants d'un notebook de voir le flag de réorientation ([#1333](https://github.com/gip-inclusion/carnet-de-bord/issues/1333)) ([5ee1c80](https://github.com/gip-inclusion/carnet-de-bord/commit/5ee1c8032ee649a4b5cc90c87bee0de3a09d0aa3))
+
 ## [1.166.10](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.9...v1.166.10) (2022-12-06)
 
 
