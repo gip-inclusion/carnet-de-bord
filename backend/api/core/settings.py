@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     LOG_AS_JSON: bool = True
 
+    SENTRY_DSN: str | None
+    SENTRY_ENVIRONMENT: str | None
+
     @validator("LOG_LEVEL")
     def uppercase(raw: str) -> str:
         return raw.upper()

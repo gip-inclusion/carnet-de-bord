@@ -864,6 +864,18 @@ tests = ["coverage[toml]", "freezegun (>=0.2.8)", "pretend", "pytest (>=6.0)", "
 typing = ["mypy", "rich", "twisted"]
 
 [[package]]
+name = "structlog-sentry"
+version = "2.0.0"
+description = "Sentry integration for structlog"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+
+[package.dependencies]
+sentry-sdk = "*"
+structlog = "*"
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -971,7 +983,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10,<3.12"
-content-hash = "560fb34d81ead6c1d0d1ebafe84a0767476b7c5c4860ab038aa70c425429d746"
+content-hash = "7def1eeff7b901ec64fd9f99fdbae7e38e19e98b2df4970a698f6edacdf09ae4"
 
 [metadata.files]
 aiohttp = [
@@ -1690,6 +1702,10 @@ StrEnum = [
 structlog = [
     {file = "structlog-22.3.0-py3-none-any.whl", hash = "sha256:b403f344f902b220648fa9f286a23c0cc5439a5844d271fec40562dbadbc70ad"},
     {file = "structlog-22.3.0.tar.gz", hash = "sha256:e7509391f215e4afb88b1b80fa3ea074be57a5a17d794bd436a5c949da023333"},
+]
+structlog-sentry = [
+    {file = "structlog-sentry-2.0.0.tar.gz", hash = "sha256:0149f42a51b32deb036fa4fdb8a77d106b08cf227c963f28faf1abcbb3b38b2d"},
+    {file = "structlog_sentry-2.0.0-py3-none-any.whl", hash = "sha256:67e9d56a73b9a09b3122f0beb5da3706423d890ae440961c8f8e9b0b7bd1e1fa"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},

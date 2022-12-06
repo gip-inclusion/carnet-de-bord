@@ -9,7 +9,11 @@ from api.core.init import create_app
 from api.core.logging import setup_logging
 from api.core.settings import settings
 
-sentry_sdk.init(attach_stacktrace=True)
+sentry_sdk.init(
+    attach_stacktrace=True,
+    dsn=settings.SENTRY_DSN,
+    environment=settings.SENTRY_ENVIRONMENT,
+)
 
 setup_logging(json_logs=settings.LOG_AS_JSON, log_level=settings.LOG_LEVEL)
 access_logger = structlog.stdlib.get_logger("api.access")
@@ -28,7 +32,6 @@ async def logging_middleware(request: Request, call_next) -> Response:
     try:
         response = await call_next(request)
     except Exception:
-        # Est-ce qu'on devrait envoyer l'exception à Sentry ?
         structlog.stdlib.get_logger("api.error").exception("Uncaught exception")
         raise
     finally:

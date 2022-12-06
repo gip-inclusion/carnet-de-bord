@@ -3,6 +3,7 @@ import sys
 
 import structlog
 from structlog.types import EventDict, Processor
+from structlog_sentry import SentryProcessor
 
 # inspired by https://gist.github.com/nymous/f138c7f06062b7c43c060bf03759c29e
 
@@ -41,6 +42,7 @@ def setup_logging(json_logs: bool, log_level: str):
         drop_color_message_key,
         timestamper,
         structlog.processors.StackInfoRenderer(),
+        SentryProcessor(event_level=logging.ERROR),
     ]
 
     if json_logs:
