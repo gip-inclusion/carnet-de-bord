@@ -22,7 +22,6 @@ from pydantic import ValidationError
 from api.core.emails import send_invitation_email
 from api.core.exceptions import InsertFailError
 from api.core.init import connection
-from api.core.settings import settings
 from api.db.crud.orientation_manager import create_orientation_manager_with_account
 from api.db.models.account import AccountDBWithAccessKey
 from api.db.models.orientation_manager import (
@@ -34,8 +33,6 @@ from api.db.models.orientation_manager import (
 )
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
-
-logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 

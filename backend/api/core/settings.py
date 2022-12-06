@@ -1,6 +1,6 @@
 import os
 
-from pydantic import BaseSettings
+from pydantic import BaseSettings, validator
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -28,6 +28,15 @@ class Settings(BaseSettings):
     V1_PREFIX: str = "/v1"
     MAIL_FROM: str = "support.carnet-de-bord@fabrique.social.gouv.fr"
     LOG_FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
+    LOG_LEVEL: str = "INFO"
+    LOG_AS_JSON: bool = True
+
+    SENTRY_DSN: str | None
+    SENTRY_ENVIRONMENT: str | None
+
+    @validator("LOG_LEVEL")
+    def uppercase(raw: str) -> str:
+        return raw.upper()
 
     class Config:
         env_file = ".env"

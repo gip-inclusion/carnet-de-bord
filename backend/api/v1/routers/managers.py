@@ -4,7 +4,6 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 
 from api.core.emails import send_invitation_email
 from api.core.init import connection
-from api.core.settings import settings
 from api.db.crud.account import (
     create_username,
     get_accounts_with_query,
@@ -15,8 +14,6 @@ from api.db.models.account import AccountDBWithAccessKey
 from api.db.models.manager import Manager, ManagerInput
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
-
-logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 admin_cdb_only = allowed_jwt_roles([RoleEnum.ADMIN_CDB])
 

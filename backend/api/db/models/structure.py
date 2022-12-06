@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from uuid import UUID
 
@@ -6,11 +5,8 @@ from luhn_validator import validate as validate_luhn
 from pandas.core.series import Series
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, ValidationError, validator
 
-from api.core.settings import settings
 from api.db.models.csv import CsvFieldError
 from api.db.models.validator import phone_validator, postal_code_validator
-
-logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 class StructureInsert(BaseModel):

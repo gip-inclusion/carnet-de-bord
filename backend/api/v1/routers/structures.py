@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field
 
 from api.core.exceptions import InsertFailError
 from api.core.init import connection
-from api.core.settings import settings
 from api.db.crud.admin_structure import (
     create_admin_structure_with_account,
     get_admin_structure_by_email,
@@ -29,8 +28,6 @@ from api.db.models.structure import (
 )
 from api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
 from api.v1.routers.admin_structures import send_invitation_email
-
-logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 admin_only = allowed_jwt_roles([RoleEnum.MANAGER])
 
