@@ -138,8 +138,6 @@ select_permissions:
                     _eq: X-Hasura-User-Id
                 - active:
                     _eq: true
-                - member_type:
-                    _eq: referent
 update_permissions:
   - role: orientation_manager
     permission:
