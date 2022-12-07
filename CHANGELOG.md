@@ -1,3 +1,10 @@
+## [1.166.13](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.12...v1.166.13) (2022-12-07)
+
+
+### Bug Fixes
+
+* Afficher la nouvelle structure de rattachement dans la liste des bénéficiaires. ([#1336](https://github.com/gip-inclusion/carnet-de-bord/issues/1336)) ([886cbd1](https://github.com/gip-inclusion/carnet-de-bord/commit/886cbd1e66cc93d5ffb23c842651c93cc8a45360))
+
 ## [1.166.12](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.11...v1.166.12) (2022-12-06)
 
 ## [1.166.11](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.10...v1.166.11) (2022-12-06)
