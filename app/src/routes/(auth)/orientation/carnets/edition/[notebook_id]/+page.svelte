@@ -18,6 +18,7 @@
 				'notebook_appointment',
 				'notebook_focus',
 				'notebook_action',
+				'orientation_request',
 			],
 		}
 	);

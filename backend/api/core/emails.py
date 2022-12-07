@@ -59,3 +59,17 @@ def send_notebook_member_email(
         url=settings.app_url,
     )
     send_mail(to=to_email, subject=subject, message=message)
+
+
+def send_deny_orientation_request_email(
+    to_email: str,
+    beneficiary: Person,
+):
+    template = jinja_env.get_template("deny_orientation_request_email.html")
+    subject = "Maintien de l’accompagnement"
+
+    message = template.render(
+        beneficiary=beneficiary,
+        url=settings.app_url,
+    )
+    send_mail(to=to_email, subject=subject, message=message)

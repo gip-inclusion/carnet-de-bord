@@ -48,6 +48,7 @@
 			'beneficiary_structure',
 			'orientation_request',
 		],
+		requestPolicy: 'network-only',
 	});
 	query(result);
 
