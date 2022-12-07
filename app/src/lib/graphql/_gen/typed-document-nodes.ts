@@ -5904,8 +5904,8 @@ export type NotebookEvent = {
 	__typename?: 'notebook_event';
 	creationDate: Scalars['timestamptz'];
 	/** An object relationship */
-	creator: Account;
-	creatorId: Scalars['uuid'];
+	creator?: Maybe<Account>;
+	creatorId?: Maybe<Scalars['uuid']>;
 	event: Scalars['jsonb'];
 	eventDate: Scalars['timestamptz'];
 	eventType: NotebookEventTypeEnum;
@@ -14226,15 +14226,15 @@ export type GetNotebookQuery = {
 			eventDate: string;
 			event: any;
 			eventType: NotebookEventTypeEnum;
-			creatorId: string;
-			creator: {
+			creatorId?: string | null;
+			creator?: {
 				__typename?: 'account';
 				professional?: {
 					__typename?: 'professional';
 					structureId: string;
 					structure: { __typename?: 'structure'; name: string };
 				} | null;
-			};
+			} | null;
 		}>;
 	} | null;
 };
@@ -14253,15 +14253,15 @@ export type GetNotebookEventsQuery = {
 		eventDate: string;
 		event: any;
 		eventType: NotebookEventTypeEnum;
-		creatorId: string;
-		creator: {
+		creatorId?: string | null;
+		creator?: {
 			__typename?: 'account';
 			professional?: {
 				__typename?: 'professional';
 				structureId: string;
 				structure: { __typename?: 'structure'; name: string };
 			} | null;
-		};
+		} | null;
 	}>;
 };
 
@@ -14271,15 +14271,15 @@ export type EventFieldsFragment = {
 	eventDate: string;
 	event: any;
 	eventType: NotebookEventTypeEnum;
-	creatorId: string;
-	creator: {
+	creatorId?: string | null;
+	creator?: {
 		__typename?: 'account';
 		professional?: {
 			__typename?: 'professional';
 			structureId: string;
 			structure: { __typename?: 'structure'; name: string };
 		} | null;
-	};
+	} | null;
 };
 
 export type GetNotebookMemberByIdQueryVariables = Exact<{
@@ -16229,6 +16229,31 @@ export const GetBeneficiariesDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'structures' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_neq' },
+																	value: { kind: 'StringValue', value: 'outdated', block: false },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -23079,6 +23104,31 @@ export const BeneficiariesWithOrientationRequestDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'structures' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_neq' },
+																	value: { kind: 'StringValue', value: 'outdated', block: false },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
