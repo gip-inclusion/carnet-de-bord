@@ -40,7 +40,7 @@
 		<p class="mb-0">Êtes-vous sûr de vouloir maintenir l'accompagnement ?</p>
 	</div>
 	{#if displayError}
-		<Alert type="error" size="sm">Impossible de modifier l'orientation</Alert>
+		<Alert type="error" size="sm">Impossible de valider le maintien de l'orientation.</Alert>
 		<Button outline={true} on:click={cancelOrientationRequestDenial}>Fermer</Button>
 	{:else}
 		<div class="flex flex-row gap-6 mt-12">
