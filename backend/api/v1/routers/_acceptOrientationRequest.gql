@@ -1,5 +1,5 @@
 mutation AcceptOrientationRequest(
-  $orientation_request_id: uuid!,
+  $orientation_request_id: uuid!
   $orientation_type: orientation_type_enum
   $notebook_id: uuid!
   $beneficiary_id: uuid!
@@ -67,10 +67,15 @@ mutation AcceptOrientationRequest(
   ) @include(if: $with_professional_account_id) {
     id
   }
-  update_orientation_request_by_pk(
-    pk_columns: {id: $orientation_request_id},
-    _set: {decidedAt: now, status: "accepted", decidedOrientationTypeId: $orientation_type}
+  orientation_request: update_orientation_request_by_pk(
+    pk_columns: { id: $orientation_request_id }
+    _set: {
+      decidedAt: now
+      status: "accepted"
+      decidedOrientationTypeId: $orientation_type
+    }
   ) {
     id
+    createdAt
   }
 }
