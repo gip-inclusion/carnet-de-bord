@@ -9,6 +9,6 @@ export interface ElmApp {
 
 export type Flags = { [key: string]: any };
 
-export as namespace Elm;
+export as namespace ElmRo;
 
-export { Elm };
+export { ElmRo };

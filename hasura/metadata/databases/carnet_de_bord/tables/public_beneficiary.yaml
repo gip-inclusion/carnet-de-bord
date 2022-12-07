@@ -282,11 +282,7 @@ select_permissions:
         - pe_number
         - postal_code
         - updated_at
-      filter:
-        notebook:
-          members:
-            account_id:
-              _eq: X-Hasura-User-Id
+      filter: {}
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb

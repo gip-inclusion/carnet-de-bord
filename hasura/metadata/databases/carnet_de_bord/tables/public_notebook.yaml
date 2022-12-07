@@ -347,13 +347,7 @@ select_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      filter:
-        members:
-          _and:
-            - account_id:
-                _eq: X-Hasura-User-Id
-            - active:
-                _eq: true
+      filter: {}
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb

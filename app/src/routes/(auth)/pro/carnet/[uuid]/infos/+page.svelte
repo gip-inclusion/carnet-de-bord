@@ -4,7 +4,7 @@
 
 	export let data: PageData;
 
-	import { Elm as ElmRO } from '../../../../../../../elm/ReadOnlyNotebook/Main.elm';
+	import { ElmRo as Elm } from '../../../../../../../elm/ReadOnlyNotebook/Main.elm';
 	import { onMount } from 'svelte';
 
 	let elmNode: HTMLElement;

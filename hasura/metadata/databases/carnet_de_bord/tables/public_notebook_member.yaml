@@ -215,10 +215,6 @@ select_permissions:
         - notebook_id
       filter:
         _and:
-          - notebook:
-              members:
-                account_id:
-                  _eq: X-Hasura-User-Id
           - active:
               _eq: true
           - notebook:

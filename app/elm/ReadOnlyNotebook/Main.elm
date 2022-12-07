@@ -1,8 +1,7 @@
 module ReadOnlyNotebook.Main exposing (..)
 
 import Browser
-import Html exposing (Html, a, div, h2, h3, p, text)
-import Html.Attributes exposing (class, href, title)
+import Html exposing (Html, div, h1, text)
 import Http
 import Json.Decode
 import Json.Encode
@@ -28,13 +27,23 @@ type alias Model =
 
 
 type NotebookLoadingState
-    = Loaded Notebook
+    = Loaded Data
     | Loading
     | LoadingError
 
 
 type Msg
-    = NotebookResult (Result Http.Error Notebook)
+    = NotebookResult (Result Http.Error Data)
+
+
+type alias Data =
+    { data : NotebookData
+    }
+
+
+type alias NotebookData =
+    { notebook : Notebook
+    }
 
 
 type alias Notebook =
@@ -47,15 +56,15 @@ type alias Beneficiary =
     { id : String
     , firstname : String
     , lastname : String
-    , mobileNumber : String
-    , email : String
     , dateOfBirth : String
-    , address1 : String
-    , address2 : String
-    , city : String
-    , postalCode : String
-    , cafNumber : String
-    , peNumber : String
+    , mobileNumber : Maybe String
+    , email : Maybe String
+    , address1 : Maybe String
+    , address2 : Maybe String
+    , postalCode : Maybe String
+    , city : Maybe String
+    , cafNumber : Maybe String
+    , peNumber : Maybe String
     }
 
 
@@ -64,17 +73,23 @@ type alias Structure =
     }
 
 
+type alias OrientationManagerData =
+    { firstname : String
+    , lastname : String
+    }
+
+
+type alias ProData =
+    { firstname : String
+    , lastname : String
+    , position : String
+    , structure : Structure
+    }
+
+
 type Account
-    = Pro
-        { firstname : String
-        , lastname : String
-        , position : String
-        , structure : Structure
-        }
-    | OrientationManager
-        { firstname : String
-        , lastname : String
-        }
+    = Pro ProData
+    | OrientationManager OrientationManagerData
 
 
 type alias NotebookMember =
@@ -94,28 +109,89 @@ type alias GqlQuery =
     }
 
 
+beneficiaryDecoder : Json.Decode.Decoder Beneficiary
+beneficiaryDecoder =
+    let
+        fieldSet0 =
+            Json.Decode.map6 Beneficiary
+                (Json.Decode.field "id" Json.Decode.string)
+                (Json.Decode.field "firstname" Json.Decode.string)
+                (Json.Decode.field "lastname" Json.Decode.string)
+                (Json.Decode.field "dateOfBirth" Json.Decode.string)
+                (Json.Decode.field "mobileNumber" <| Json.Decode.nullable Json.Decode.string)
+                (Json.Decode.field "email" <| Json.Decode.nullable Json.Decode.string)
+
+        fieldSet1 =
+            Json.Decode.map6 (<|)
+                fieldSet0
+                (Json.Decode.field "address1" <| Json.Decode.nullable Json.Decode.string)
+                (Json.Decode.field "address2" <| Json.Decode.nullable Json.Decode.string)
+                (Json.Decode.field "city" <| Json.Decode.nullable Json.Decode.string)
+                (Json.Decode.field "postalCode" <| Json.Decode.nullable Json.Decode.string)
+                (Json.Decode.field "cafNumber" <| Json.Decode.nullable Json.Decode.string)
+    in
+    Json.Decode.map2 (<|)
+        fieldSet1
+        (Json.Decode.field "peNumber" <| Json.Decode.nullable Json.Decode.string)
+
+
+accountDecoder : Json.Decode.Decoder Account
+accountDecoder =
+    Json.Decode.field "type" Json.Decode.string
+        |> Json.Decode.andThen
+            (\type_ ->
+                case type_ of
+                    "professional" ->
+                        Json.Decode.field "professional" proDecoder
+
+                    "orientation_manager" ->
+                        Json.Decode.field "orientation_manager" orientationManagerDecoder
+
+                    _ ->
+                        Json.Decode.fail <| "Elm Json decoding failed: unknown type " ++ type_
+            )
+
+
+proDecoder : Json.Decode.Decoder Account
+proDecoder =
+    Json.Decode.map Pro <|
+        Json.Decode.map4 ProData
+            (Json.Decode.field "firstname" Json.Decode.string)
+            (Json.Decode.field "lastname" Json.Decode.string)
+            (Json.Decode.field "position" Json.Decode.string)
+            (Json.Decode.map Structure <| Json.Decode.at [ "structure", "name" ] Json.Decode.string)
+
+
+orientationManagerDecoder : Json.Decode.Decoder Account
+orientationManagerDecoder =
+    Json.Decode.map OrientationManager <|
+        Json.Decode.map2 OrientationManagerData
+            (Json.Decode.field "firstname" Json.Decode.string)
+            (Json.Decode.field "lastname" Json.Decode.string)
+
+
+notebookMemberDecoder : Json.Decode.Decoder NotebookMember
+notebookMemberDecoder =
+    Json.Decode.map2 NotebookMember
+        (Json.Decode.field "memberType" Json.Decode.string)
+        (Json.Decode.field "account" <| Json.Decode.nullable accountDecoder)
+
+
+dataDecoder : Json.Decode.Decoder Data
+dataDecoder =
+    Json.Decode.map Data (Json.Decode.field "data" notebookDataDecoder)
+
+
+notebookDataDecoder : Json.Decode.Decoder NotebookData
+notebookDataDecoder =
+    Json.Decode.map NotebookData (Json.Decode.field "notebook" notebookDecoder)
+
+
 notebookDecoder : Json.Decode.Decoder Notebook
 notebookDecoder =
-    let
-        unOrientedBeneficiaryParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "unorientedBeneficiaryCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
-                    )
-                )
-
-        orientedBeneficiaryParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "orientedBeneficiaryCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
-                    )
-                )
-    in
     Json.Decode.map2 Notebook
-        orientedBeneficiaryParser
-        unOrientedBeneficiaryParser
+        (Json.Decode.field "beneficiary" beneficiaryDecoder)
+        (Json.Decode.field "members" <| Json.Decode.list notebookMemberDecoder)
 
 
 encodeGqlQuery : GqlQuery -> Json.Encode.Value
@@ -133,66 +209,44 @@ encodeGqlQueryVariables record =
         ]
 
 
-getNotebook : Token -> String -> String -> (Result Http.Error Notebook -> msg) -> Cmd msg
+getNotebook : Token -> String -> String -> (Result Http.Error Data -> msg) -> Cmd msg
 getNotebook token serverUrl notebookId toMsg =
     let
         gqlQuery =
             { query = """
-query GetBeneficiaryDashboard($id: uuid!) {
-  unorientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      members: {accountId: {_eq: $id}},
-      notebookInfo: {needOrientation: {_eq: true}}
-    }}) {
-    aggregate {
-      count
+query GetNotebookInfo($id: uuid!) {
+  notebook:notebook_by_pk(id: $id) {
+    members {
+      memberType
+      account {
+        type
+        professional {
+          firstname
+          lastname
+          position
+          structure {
+            name
+          }
+        }
+        orientation_manager {
+          firstname
+          lastname
+        }
+      }
     }
-  }
-  orientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      members: {accountId: {_eq: $id}},
-      _not: {notebookInfo: {needOrientation: {_eq: true}}}
-    }}) {
-    aggregate {
-      count
-    }
-  }
-  orientationRequestCount: beneficiary_aggregate( where: {
-    notebook: { members: {accountId: {_eq: $id}} },
-    orientationRequest: { decidedAt: { _is_null: true } }
-    }) {
-    aggregate {
-      count
-    }
-  }
-  otherUnorientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      _and: [
-        {notebookInfo: {needOrientation: {_eq: true}}},
-        {_not: {members: {accountId: {_eq: $id}}}}
-      ]
-    }}) {
-    aggregate {
-      count
-    }
-  }
-  otherOrientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      _and: [
-        {_not: {notebookInfo: {needOrientation: {_eq: true}}}},
-        {_not: {members: {accountId: {_eq: $id}}}}
-      ]
-    }}) {
-    aggregate {
-      count
-    }
-  }
-  otherOrientationRequestCount: beneficiary_aggregate( where: {
-      notebook: { _not: { members: { accountId: { _eq: $id } } } }
-      orientationRequest: { decidedAt: { _is_null: true } }
-    }) {
-    aggregate {
-      count
+    beneficiary {
+      id
+      firstname
+      lastname
+      dateOfBirth
+      postalCode
+      city
+      address1
+      address2
+      mobileNumber
+      email
+      peNumber
+      cafNumber
     }
   }
 }
@@ -205,7 +259,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
         , headers = [ Http.header "authorization" ("Bearer " ++ token) ]
         , url = serverUrl
         , body = Http.jsonBody (encodeGqlQuery gqlQuery)
-        , expect = Http.expectJson toMsg notebookDecoder
+        , expect = Http.expectJson toMsg dataDecoder
         , timeout = Nothing
         , tracker = Nothing
         }
@@ -252,10 +306,19 @@ update msg model =
                 Ok notebook ->
                     ( { model | notebook = Loaded notebook }, Cmd.none )
 
-                Err _ ->
+                Err e ->
+                    let
+                        _ =
+                            Debug.log "ERR" e
+                    in
                     ( { model | notebook = LoadingError }, Cmd.none )
 
 
 view : Model -> Html Msg
 view model =
-    text "coucou"
+    case model.notebook of
+        Loaded root ->
+            h1 [] [ text <| root.data.notebook.beneficiary.firstname ++ " " ++ root.data.notebook.beneficiary.lastname ]
+
+        _ ->
+            text ""
