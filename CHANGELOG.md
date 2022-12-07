@@ -1,3 +1,10 @@
+# [1.167.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.13...v1.167.0) (2022-12-07)
+
+
+### Features
+
+* notifier les acteurs(référents / structures)  après une orientation ([#1310](https://github.com/gip-inclusion/carnet-de-bord/issues/1310)) ([0e99e9b](https://github.com/gip-inclusion/carnet-de-bord/commit/0e99e9b7818dc81130ea07418fcbea076f8af25f)), closes [#1222](https://github.com/gip-inclusion/carnet-de-bord/issues/1222) [#1170](https://github.com/gip-inclusion/carnet-de-bord/issues/1170)
+
 ## [1.166.13](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.12...v1.166.13) (2022-12-07)
 
 
