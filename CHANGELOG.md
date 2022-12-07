@@ -1,3 +1,10 @@
+# [1.168.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.167.0...v1.168.0) (2022-12-07)
+
+
+### Features
+
+* notifier le référent du maintien de l'accompagnement ([#1334](https://github.com/gip-inclusion/carnet-de-bord/issues/1334)) ([1977581](https://github.com/gip-inclusion/carnet-de-bord/commit/19775815fec77098175efa3800f2f62413c90a79))
+
 # [1.167.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.166.13...v1.167.0) (2022-12-07)
 
 
