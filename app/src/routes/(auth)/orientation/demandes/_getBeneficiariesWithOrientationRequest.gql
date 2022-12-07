@@ -5,7 +5,7 @@ query BeneficiariesWithOrientationRequest {
     id
     firstname
     lastname
-    structures {
+    structures(where: { status: { _neq: "outdated" } }) {
       structure {
         id
         name

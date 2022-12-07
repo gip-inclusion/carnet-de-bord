@@ -29,7 +29,7 @@ query GetBeneficiaries(
         needOrientation
       }
     }
-    structures {
+    structures(where: { status: { _neq: "outdated" } }) {
       structure {
         id
         name
