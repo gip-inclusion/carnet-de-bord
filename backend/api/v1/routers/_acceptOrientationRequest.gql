@@ -8,7 +8,7 @@ mutation AcceptOrientationRequest(
   $with_old_referent: Boolean = false
   $new_referent_account_id: uuid
   $with_new_referent: Boolean = false
-  $date: timestamp
+  $date: date
 ) {
   insert_notebook_info_one(
     object: {
@@ -36,7 +36,7 @@ mutation AcceptOrientationRequest(
     where: {
       notebookId: { _eq: $notebook_id }
       accountId: { _eq: $new_referent_account_id }
-      active: true
+      active: { _eq: true }
     }
     _set: { active: false,  membership_ends_at: $date }
   ) {
@@ -61,10 +61,6 @@ mutation AcceptOrientationRequest(
       memberType: "referent"
       accountId: $new_referent_account_id
       active: true
-    }
-    on_conflict: {
-      constraint: notebook_member_notebook_id_account_id_key
-      update_columns: [memberType, active]
     }
   ) @include(if: $with_new_referent) {
     id

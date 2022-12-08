@@ -98,6 +98,7 @@ insert_permissions:
         - account_id
         - active
         - member_type
+        - membership_ends_at
         - notebook_id
   - role: professional
     permission:
@@ -185,16 +186,17 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - id
-        - notebook_id
         - account_id
-        - last_visited_at
-        - member_type
-        - last_modified_at
+        - active
         - created_at
         - creator_id
+        - id
         - invitation_sent_at
-        - active
+        - last_modified_at
+        - last_visited_at
+        - member_type
+        - membership_ends_at
+        - notebook_id
       filter:
         notebook:
           beneficiary:
@@ -263,6 +265,7 @@ update_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ends_at
       filter:
         notebook:
           beneficiary:
