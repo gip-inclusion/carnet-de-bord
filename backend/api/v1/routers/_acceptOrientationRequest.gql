@@ -35,24 +35,13 @@ mutation AcceptOrientationRequest(
   ) {
     affected_rows
   }
-  createDoneBeneficiaryStructure: insert_beneficiary_structure_one(
-    object: {
-      beneficiaryId: $beneficiary_id
-      structureId: $structure_id
-      status: "done"
-    }
-  ) @include(if: $with_professional_account_id) {
+
+  createBeneficiaryStructure: insert_beneficiary_structure_one(
+    object: { beneficiaryId: $beneficiary_id, structureId: $structure_id }
+  ) {
     id
   }
-  createPendingBeneficiaryStructure: insert_beneficiary_structure_one(
-    object: {
-      beneficiaryId: $beneficiary_id
-      structureId: $structure_id
-      status: "pending"
-    }
-  ) @skip(if: $with_professional_account_id) {
-    id
-  }
+
   insert_notebook_member_one(
     object: {
       notebookId: $notebook_id

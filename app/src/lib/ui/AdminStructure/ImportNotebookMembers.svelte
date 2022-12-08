@@ -108,7 +108,7 @@
 				notebookId,
 				accountId,
 			}));
-			const result = await inserter({ objects, notebookId });
+			const result = await inserter({ objects });
 			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";
 			if (/uniqueness/i.test(result.error?.message)) {
 				errorMessage = 'Ce rattachement existe déjà.';

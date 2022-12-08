@@ -348,7 +348,7 @@ async def test_matched_existing_referent_and_structure(
     )
 
     assert associated_structures[0].structure_name == harry_covert.structure_name
-    assert associated_structures[0].beneficiary_status == "done"
+    assert associated_structures[0].beneficiary_status == "current"
 
     referent = await get_professional_by_email(
         db_connection, harry_covert.advisor_email
@@ -378,7 +378,7 @@ async def test_existing_structure_no_referent(
     )
 
     assert associated_structures[0].structure_name == harry.structure_name
-    assert associated_structures[0].beneficiary_status == "pending"
+    assert associated_structures[0].beneficiary_status == "current"
 
     assert not beneficiary_in_db.notebook.members
 
@@ -403,7 +403,7 @@ async def test_existing_referent_no_structure(
     )
 
     assert associated_structures[0].structure_id == referent.structure_id
-    assert associated_structures[0].beneficiary_status == "done"
+    assert associated_structures[0].beneficiary_status == "current"
 
     assert referent.account_id in [
         member.account_id
@@ -429,7 +429,7 @@ async def test_existing_referent_not_in_existing_structure(
     )
 
     assert associated_structures[0].structure_name == harry.structure_name
-    assert associated_structures[0].beneficiary_status == "pending"
+    assert associated_structures[0].beneficiary_status == "current"
     assert not beneficiary_in_db.notebook.members
 
 
@@ -470,7 +470,7 @@ async def test_existing_structure_non_existing_referent(
     )
 
     assert associated_structures[0].structure_name == harry.structure_name
-    assert associated_structures[0].beneficiary_status == "pending"
+    assert associated_structures[0].beneficiary_status == "current"
     assert not beneficiary_in_db.notebook.members
 
 

@@ -322,22 +322,12 @@ async def add_referent_and_structure_to_beneficiary(
             connection, beneficiary.advisor_email.strip()
         )
     if structure:
-        # Si on a pu récupérer la structure, on associe la structure au bénéficiaire.
-        # Le status indique si la structure a déjà désigné un référent unique.
-        if referent and referent.structure_id == structure.id:
-            # Si on a structure ET un référent, le status est 'done'
-            status = "done"
-        else:
-            # Sinon c'est 'pending'.
-            status = "pending"
         await add_beneficiary_to_structure(
-            connection, beneficiary_id, structure.id, status
+            connection, beneficiary_id, structure.id, "current"
         )
     elif referent:
-        # Si la structure n'est pas fournie dans l'import mais le référent est fourni,
-        # Alors on ajout la structure du référent au bénéficiaire avec le status 'done'.
         await add_beneficiary_to_structure(
-            connection, beneficiary_id, referent.structure_id, "done"
+            connection, beneficiary_id, referent.structure_id, "current"
         )
 
     if referent and referent.account_id:

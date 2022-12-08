@@ -10,7 +10,4 @@ mutation AddNotebookMemberWithBeneficiaryStructureUpdate(
       beneficiaryId
     }
   }
-  update_beneficiary_structure(where: $structure, _set: { status: "done" }) {
-    affected_rows
-  }
 }

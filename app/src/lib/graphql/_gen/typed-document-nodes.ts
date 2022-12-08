@@ -12535,34 +12535,12 @@ export type DeleteManagerMutation = {
 
 export type AddNotebookMembersMutationVariables = Exact<{
 	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-	notebookId: Scalars['uuid'];
 }>;
 
 export type AddNotebookMembersMutation = {
 	__typename?: 'mutation_root';
 	insert_notebook_member?: {
 		__typename?: 'notebook_member_mutation_response';
-		affected_rows: number;
-	} | null;
-	update_beneficiary_structure?: {
-		__typename?: 'beneficiary_structure_mutation_response';
-		affected_rows: number;
-	} | null;
-};
-
-export type AddNotebookMemberBatchMutationVariables = Exact<{
-	member: NotebookMemberInsertInput;
-	structure: BeneficiaryStructureBoolExp;
-}>;
-
-export type AddNotebookMemberBatchMutation = {
-	__typename?: 'mutation_root';
-	insert_notebook_member?: {
-		__typename?: 'notebook_member_mutation_response';
-		affected_rows: number;
-	} | null;
-	update_beneficiary_structure?: {
-		__typename?: 'beneficiary_structure_mutation_response';
 		affected_rows: number;
 	} | null;
 };
@@ -12810,10 +12788,6 @@ export type UpdateReferentMutationVariables = Exact<{
 
 export type UpdateReferentMutation = {
 	__typename?: 'mutation_root';
-	update_beneficiary_structure?: {
-		__typename?: 'beneficiary_structure_mutation_response';
-		affected_rows: number;
-	} | null;
 	update_notebook_member?: {
 		__typename?: 'notebook_member_mutation_response';
 		affected_rows: number;
@@ -12983,10 +12957,6 @@ export type AddNotebookMemberWithBeneficiaryStructureUpdateMutation = {
 	insert_notebook_member_one?: {
 		__typename?: 'notebook_member';
 		notebook: { __typename?: 'notebook'; beneficiaryId: string };
-	} | null;
-	update_beneficiary_structure?: {
-		__typename?: 'beneficiary_structure_mutation_response';
-		affected_rows: number;
 	} | null;
 };
 
@@ -15766,14 +15736,6 @@ export const AddNotebookMembersDocument = {
 						},
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -15793,168 +15755,11 @@ export const AddNotebookMembersDocument = {
 							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
 						},
 					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiary' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'notebook' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'id' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'notebookId' },
-																				},
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'StringValue', value: 'done', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
 				],
 			},
 		},
 	],
 } as unknown as DocumentNode<AddNotebookMembersMutation, AddNotebookMembersMutationVariables>;
-export const AddNotebookMemberBatchDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'AddNotebookMemberBatch' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'notebook_member_insert_input' },
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'beneficiary_structure_bool_exp' },
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: {
-									kind: 'ListValue',
-									values: [{ kind: 'Variable', name: { kind: 'Name', value: 'member' } }],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'StringValue', value: 'done', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	AddNotebookMemberBatchMutation,
-	AddNotebookMemberBatchMutationVariables
->;
 export const GetNotebookForBeneficiaryDocument = {
 	kind: 'Document',
 	definitions: [
@@ -17259,56 +17064,6 @@ export const UpdateReferentDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiaryId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_in' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'beneficiaries' },
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'StringValue', value: 'done', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
 						name: { kind: 'Name', value: 'update_notebook_member' },
 						arguments: [
 							{
@@ -18344,35 +18099,6 @@ export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
 									},
 								},
 							],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'status' },
-											value: { kind: 'StringValue', value: 'done', block: false },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
 						},
 					},
 				],
@@ -22205,17 +21931,17 @@ export const GetDeploymentInfosDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_not' },
+											name: { kind: 'Name', value: '_and' },
 											value: {
-												kind: 'ObjectValue',
-												fields: [
+												kind: 'ListValue',
+												values: [
 													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_or' },
-														value: {
-															kind: 'ListValue',
-															values: [
-																{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: '_not' },
+																value: {
 																	kind: 'ObjectValue',
 																	fields: [
 																		{
@@ -22235,7 +21961,7 @@ export const GetDeploymentInfosDocument = {
 																									name: { kind: 'Name', value: '_eq' },
 																									value: {
 																										kind: 'StringValue',
-																										value: 'pending',
+																										value: 'current',
 																										block: false,
 																									},
 																								},
@@ -22247,7 +21973,16 @@ export const GetDeploymentInfosDocument = {
 																		},
 																	],
 																},
-																{
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: '_not' },
+																value: {
 																	kind: 'ObjectValue',
 																	fields: [
 																		{
@@ -22299,8 +22034,8 @@ export const GetDeploymentInfosDocument = {
 																		},
 																	],
 																},
-															],
-														},
+															},
+														],
 													},
 												],
 											},
@@ -25086,20 +24821,6 @@ export const GetPendingBeneficiariesDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'status' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: { kind: 'StringValue', value: 'pending', block: false },
-																},
-															],
-														},
-													},
-													{
-														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'beneficiary' },
 														value: {
 															kind: 'ObjectValue',
@@ -25141,17 +24862,46 @@ export const GetPendingBeneficiariesDocument = {
 																									},
 																									{
 																										kind: 'ObjectField',
-																										name: { kind: 'Name', value: 'memberType' },
+																										name: { kind: 'Name', value: 'account' },
 																										value: {
 																											kind: 'ObjectValue',
 																											fields: [
 																												{
 																													kind: 'ObjectField',
-																													name: { kind: 'Name', value: '_eq' },
+																													name: {
+																														kind: 'Name',
+																														value: 'professional',
+																													},
 																													value: {
-																														kind: 'StringValue',
-																														value: 'referent',
-																														block: false,
+																														kind: 'ObjectValue',
+																														fields: [
+																															{
+																																kind: 'ObjectField',
+																																name: {
+																																	kind: 'Name',
+																																	value: 'structureId',
+																																},
+																																value: {
+																																	kind: 'ObjectValue',
+																																	fields: [
+																																		{
+																																			kind: 'ObjectField',
+																																			name: {
+																																				kind: 'Name',
+																																				value: '_eq',
+																																			},
+																																			value: {
+																																				kind: 'Variable',
+																																				name: {
+																																					kind: 'Name',
+																																					value: 'structureId',
+																																				},
+																																			},
+																																		},
+																																	],
+																																},
+																															},
+																														],
 																													},
 																												},
 																											],
@@ -27317,10 +27067,6 @@ export type DeleteManagerMutationStore = OperationStore<
 export type AddNotebookMembersMutationStore = OperationStore<
 	AddNotebookMembersMutation,
 	AddNotebookMembersMutationVariables
->;
-export type AddNotebookMemberBatchMutationStore = OperationStore<
-	AddNotebookMemberBatchMutation,
-	AddNotebookMemberBatchMutationVariables
 >;
 export type GetNotebookForBeneficiaryQueryStore = OperationStore<
 	GetNotebookForBeneficiaryQuery,

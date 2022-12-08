@@ -2,10 +2,14 @@ query GetPendingBeneficiaries($structureId: uuid!) {
   structure_by_pk(id: $structureId) {
     beneficiaries(
       where: {
-        status: { _eq: "pending" }
         beneficiary: {
           notebook: {
-            _not: { members: { active: { _eq: true }, memberType: { _eq: "referent" } } }
+            _not: {
+              members: {
+                active: { _eq: true }
+                account: { professional: { structureId: { _eq: $structureId } } }
+              }
+            }
           }
         }
       }
