@@ -52,7 +52,6 @@
 
 	function getWhereFilter(): BeneficiaryBoolExp {
 		const graphqlFilter: BeneficiaryBoolExp = {
-			...(structureId && { structures: { structureId: { _eq: structureId } } }),
 			notebook: {
 				_and: [
 					...((beneficiaryFilter === 'autres-beneficiaires' && [
@@ -93,16 +92,39 @@
 		};
 
 		if (filter === 'noMember') {
-			graphqlFilter.notebook = {
-				_or: [{ _not: { members: {} } }, { members: { active: { _eq: false } } }],
-			};
+			if (structureId) {
+				graphqlFilter.structures = {
+					status: { _neq: 'outdated' },
+					structureId: { _eq: structureId },
+				};
+				graphqlFilter.notebook = {
+					_not: {
+						members: {
+							active: { _eq: true },
+							account: { professional: { structureId: { _eq: structureId } } },
+						},
+					},
+				};
+			} else {
+				graphqlFilter.notebook = {
+					_not: { members: { active: { _eq: true }, memberType: { _eq: 'referent' } } },
+				};
+			}
 		}
 		if (filter === 'withMember') {
-			graphqlFilter.notebook.members = {
-				...graphqlFilter.notebook.members,
-				active: { _eq: true },
-				memberType: { _eq: 'referent' },
-			};
+			if (structureId) {
+				graphqlFilter.notebook = {
+					members: {
+						active: { _eq: true },
+						account: { professional: { structureId: { _eq: structureId } } },
+					},
+				};
+			} else {
+				graphqlFilter.notebook.members = {
+					active: { _eq: true },
+					memberType: { _eq: 'referent' },
+				};
+			}
 		}
 		return graphqlFilter;
 	}

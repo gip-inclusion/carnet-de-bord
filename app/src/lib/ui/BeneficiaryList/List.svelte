@@ -88,6 +88,9 @@
 							href="#"
 							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
 							on:click={() => openEditLayer(beneficiary)}
+							disabled={beneficiary.structures.every(
+								(item) => item.structure.id !== structureId && Boolean(structureId)
+							)}
 						>
 							Non rattaché
 						</button>

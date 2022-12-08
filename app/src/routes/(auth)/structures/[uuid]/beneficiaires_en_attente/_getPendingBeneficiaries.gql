@@ -5,16 +5,7 @@ query GetPendingBeneficiaries($structureId: uuid!) {
         status: { _eq: "pending" }
         beneficiary: {
           notebook: {
-            _or: [
-              { _not: { members: {} } }
-              { members: { active: { _eq: false } } }
-              {
-                members: {
-                  active: { _eq: true }
-                  account: { professional: { structureId: { _neq: $structureId } } }
-                }
-              }
-            ]
+            _not: { members: { active: { _eq: true }, memberType: { _eq: "referent" } } }
           }
         }
       }
