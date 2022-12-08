@@ -272,9 +272,10 @@ update_permissions:
   - role: professional
     permission:
       columns:
-        - member_type
+        - active
         - last_modified_at
         - last_visited_at
+        - member_type
       filter:
         account_id:
           _eq: X-Hasura-User-Id

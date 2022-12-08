@@ -1,0 +1,19 @@
+mutation RemoveMemberFromNotebook(
+  $notebookId: uuid!
+  $accountId: uuid!
+) {
+  update_notebook_member(where: {
+    _and: [
+      { notebookId: {_eq: $notebookId} },
+    	{ accountId: {_eq: $accountId} }
+  	]}
+    _set: { active: false }) {
+    affected_rows
+    returning {
+      id
+      accountId
+      active
+      notebookId
+    }
+  }
+}

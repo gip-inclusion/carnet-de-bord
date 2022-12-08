@@ -13274,6 +13274,26 @@ export type GetNotebookAppointmentsQuery = {
 	}>;
 };
 
+export type RemoveMemberFromNotebookMutationVariables = Exact<{
+	notebookId: Scalars['uuid'];
+	accountId: Scalars['uuid'];
+}>;
+
+export type RemoveMemberFromNotebookMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+		returning: Array<{
+			__typename?: 'notebook_member';
+			id: string;
+			accountId: string;
+			active?: boolean | null;
+			notebookId: string;
+		}>;
+	} | null;
+};
+
 export type UpdateNotebookAppointmentMutationVariables = Exact<{
 	date?: InputMaybe<Scalars['timestamp']>;
 	status?: InputMaybe<Scalars['String']>;
@@ -20109,6 +20129,143 @@ export const GetNotebookAppointmentsDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
+export const RemoveMemberFromNotebookDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'RemoveMemberFromNotebook' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebookId' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'accountId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'accountId' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'active' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	RemoveMemberFromNotebookMutation,
+	RemoveMemberFromNotebookMutationVariables
+>;
 export const UpdateNotebookAppointmentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -27233,6 +27390,10 @@ export type DeleteNotebookAppointmentMutationStore = OperationStore<
 export type GetNotebookAppointmentsQueryStore = OperationStore<
 	GetNotebookAppointmentsQuery,
 	GetNotebookAppointmentsQueryVariables
+>;
+export type RemoveMemberFromNotebookMutationStore = OperationStore<
+	RemoveMemberFromNotebookMutation,
+	RemoveMemberFromNotebookMutationVariables
 >;
 export type UpdateNotebookAppointmentMutationStore = OperationStore<
 	UpdateNotebookAppointmentMutation,
