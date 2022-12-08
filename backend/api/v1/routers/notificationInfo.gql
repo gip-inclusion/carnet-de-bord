@@ -23,6 +23,7 @@ query notificationInfos(
       where: { memberType: { _eq: "referent" }, active: { _eq: true } }
     ) {
       account {
+        id
         professional {
           firstname
           lastname
