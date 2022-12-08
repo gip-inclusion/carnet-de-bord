@@ -20,6 +20,10 @@
 	let displayError = false;
 	const formTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
 
+	let potential_referent = notebook.members.filter((member) => member.memberType == 'referent');
+	let referent_id =
+		potential_referent.length > 0 ? potential_referent[0].account.professional.id : null;
+
 	async function handleSubmit(values: OrientationValidationSchema) {
 		try {
 			await postApiJson(
@@ -30,7 +34,8 @@
 					notebook_id: notebook.id,
 					beneficiary_id: notebook.beneficiaryId,
 					structure_id: values.structureId,
-					professional_account_id: values.professionalAccountId,
+					old_referent_account_id: referent_id,
+					new_referent_account_id: values.professionalAccountId,
 				},
 				{ 'jwt-token': $token }
 			);

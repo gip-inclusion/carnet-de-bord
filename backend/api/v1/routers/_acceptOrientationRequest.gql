@@ -4,8 +4,11 @@ mutation AcceptOrientationRequest(
   $notebook_id: uuid!
   $beneficiary_id: uuid!
   $structure_id: uuid!
-  $professional_account_id: uuid
-  $with_professional_account_id: Boolean = false
+  $old_referent_account_id: uuid
+  $with_old_referent: Boolean = false
+  $new_referent_account_id: uuid
+  $with_new_referent: Boolean = false
+  $date: timestamp
 ) {
   insert_notebook_info_one(
     object: {
@@ -20,12 +23,22 @@ mutation AcceptOrientationRequest(
   ) {
     notebookId
   }
-  update_notebook_member(
+  old_ref: update_notebook_member(
     where: {
       notebookId: { _eq: $notebook_id }
       memberType: { _eq: "referent" }
     }
-    _set: { memberType: "former_referent" }
+    _set: { active: false,  membership_ends_at: $date }
+  ) {
+    affected_rows
+  }
+  new_ref: update_notebook_member(
+    where: {
+      notebookId: { _eq: $notebook_id }
+      accountId: { _eq: $new_referent_account_id }
+      active: true
+    }
+    _set: { active: false,  membership_ends_at: $date }
   ) {
     affected_rows
   }
@@ -42,18 +55,28 @@ mutation AcceptOrientationRequest(
     id
   }
 
-  insert_notebook_member_one(
+  new_ref_new_line: insert_notebook_member_one(
     object: {
       notebookId: $notebook_id
       memberType: "referent"
-      accountId: $professional_account_id
+      accountId: $new_referent_account_id
       active: true
     }
     on_conflict: {
       constraint: notebook_member_notebook_id_account_id_key
       update_columns: [memberType, active]
     }
-  ) @include(if: $with_professional_account_id) {
+  ) @include(if: $with_new_referent) {
+    id
+  }
+  old_ref_new_line: insert_notebook_member_one(
+    object: {
+      notebookId: $notebook_id
+      memberType: "no_referent"
+      accountId: $old_referent_account_id
+      active: true
+    }
+  ) @include(if: $with_old_referent) {
     id
   }
   orientation_request: update_orientation_request_by_pk(
