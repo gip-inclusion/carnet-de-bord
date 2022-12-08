@@ -81,6 +81,7 @@ INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_number
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('ecc81586-12c0-46e9-bb65-e19ba419506d', 'lara.pafromage', 'admin_structure', '04e185b0-07b6-4dbf-a248-5f1d9989c133', true, true);
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('d105193c-f4a8-470e-9575-91297edb9e6c', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('7ca0d376-3b3e-472b-ad71-ef615d1313d5', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '8b71184c-6479-4440-aa89-15da704cc792');
+INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('62856d54-1a9c-49e8-96ef-e8a387c52da3', '04e185b0-07b6-4dbf-a248-5f1d9989c133', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf');
 
 -- Deployment managers:
 -- Manager cd93
@@ -180,7 +181,7 @@ INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('35b20f9d-
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
 VALUES ('3c1a9fdf-a231-4659-9a91-630ff12c5774', 'etta.bullock@aute.com', 'Bullock', 'Etta', '2089564M', '7670083', '88619', 'Gila', '778 Tech Place', NULL, '0543607681', '1973-07-21', 'Gratton', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:36.22194+00', '2022-03-30 09:29:36.22194+00', 'de4ee6bf-2586-4831-9f22-484cda7b1b65');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
-VALUES ('3ddbf920-20db-4a7c-8c6e-8ae080c5ce4e', '3c1a9fdf-a231-4659-9a91-630ff12c5774', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:36.22194+00', '2022-03-30 09:29:36.22194+00');
+VALUES ('3ddbf920-20db-4a7c-8c6e-8ae080c5ce4e', '3c1a9fdf-a231-4659-9a91-630ff12c5774', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'pending', '{}', '2022-03-30 09:29:36.22194+00', '2022-03-30 09:29:36.22194+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('24e335cb-4e2b-481b-84b7-617d77f60f56', '3c1a9fdf-a231-4659-9a91-630ff12c5774', '2022-03-30 09:29:36.22194+00', NULL, false, false, true, false, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:36.22194+00');
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, creator_id, invitation_sent_at) VALUES ('f96735c3-dcbd-4115-88e0-b1364ff193e3', '24e335cb-4e2b-481b-84b7-617d77f60f56', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:06:45.076+00', 'orientation_manager', '2021-09-21 11:51:37.295647+00', '9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', NULL);
@@ -239,7 +240,7 @@ INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
 VALUES ('695b2792-93ad-4819-954f-b022006bd92e', 'dee.jennings@nostrud.net', 'Jennings', 'Dee', '7422916K', '9537092', '53910', 'Bedias', '378 Devon Avenue', NULL, '0252451391', '1974-01-08', 'Bradenville', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:39.257085+00', '2022-03-30 09:29:39.257085+00', 'a6941b81-382e-4fe9-9c1b-07aae326b445');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
-VALUES ('9b5ebf66-1f53-4001-9720-ed826fceefa9', '695b2792-93ad-4819-954f-b022006bd92e', '8b71184c-6479-4440-aa89-15da704cc792', 'pending', '{}', '2022-03-30 09:29:39.257085+00', '2022-03-30 09:29:39.257085+00');
+VALUES ('9b5ebf66-1f53-4001-9720-ed826fceefa9', '695b2792-93ad-4819-954f-b022006bd92e', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'pending', '{}', '2022-03-30 09:29:39.257085+00', '2022-03-30 09:29:39.257085+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('798d152c-c812-4708-a2dc-5582f07c71d2', '695b2792-93ad-4819-954f-b022006bd92e', '2022-03-30 09:29:39.257085+00', NULL, true, true, false, true, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:39.257085+00');
 INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('798d152c-c812-4708-a2dc-5582f07c71d2', NULL, false);
@@ -250,7 +251,7 @@ INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
 VALUES ('69719e18-36a0-4e93-8d85-c6e592161041', 'maricela.valenzuela@ut.net', 'Valenzuela', 'Maricela', '4212139G', '5639232', '35524', 'Finzel', '789 Apollo Street', NULL, '0216987660', '1987-10-07', 'Twilight', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:39.757345+00', '2022-03-30 09:29:39.757345+00', '3a1ccf62-490f-4341-a4c7-9ef96b62f7c9');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
-VALUES ('b29147a2-e572-494f-8464-1202ee20549b', '69719e18-36a0-4e93-8d85-c6e592161041', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:39.757345+00', '2022-03-30 09:29:39.757345+00');
+VALUES ('b29147a2-e572-494f-8464-1202ee20549b', '69719e18-36a0-4e93-8d85-c6e592161041', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'pending', '{}', '2022-03-30 09:29:39.757345+00', '2022-03-30 09:29:39.757345+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('d64a615e-6332-4c30-b3ac-341ff57a779b', '69719e18-36a0-4e93-8d85-c6e592161041', '2022-03-30 09:29:39.757345+00', NULL, true, false, false, false, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:39.757345+00');
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('38b6f4d1-9866-491f-a0a1-5d2f4dbaa458', 'd64a615e-6332-4c30-b3ac-341ff57a779b', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', '2021-09-21 13:06:45.076+00', 'referent', true);
@@ -270,7 +271,7 @@ VALUES ('e8d908cd-a9ef-4003-9488-d268908b599d', '2f5fdd18-823c-45c7-80de-a241907
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
 VALUES ('df791447-246b-4370-aa32-4258393cd78e', 'oconnor.carlson@aliqua.fr', 'Carlson', 'Oconnor', '4491138N', '1531473', '50754', 'Dyckesville', '343 Carroll Street', NULL, '0532969525', '1988-03-08', 'Sexton', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:40.76801+00', '2022-03-30 09:29:40.76801+00', 'a94b41af-4d54-4173-b1c2-68ed7a2f25e3');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
-VALUES ('7c21cfba-f8d5-4dfb-a6cc-1eca9176a6b0', 'df791447-246b-4370-aa32-4258393cd78e', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:40.76801+00', '2022-03-30 09:29:40.76801+00');
+VALUES ('7c21cfba-f8d5-4dfb-a6cc-1eca9176a6b0', 'df791447-246b-4370-aa32-4258393cd78e', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'pending', '{}', '2022-03-30 09:29:40.76801+00', '2022-03-30 09:29:40.76801+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('fb0e54ce-5cb8-460c-952c-9256d4c6102e', 'df791447-246b-4370-aa32-4258393cd78e', '2022-03-30 09:29:40.76801+00', NULL, false, true, false, true, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:40.76801+00');
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('902208f9-1b6e-448d-9f44-a1563dd93fb3', 'fb0e54ce-5cb8-460c-952c-9256d4c6102e', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', '2021-09-21 13:06:45.076+00', 'referent', true);
@@ -281,7 +282,7 @@ INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VA
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
 VALUES ('db285eb8-ac5c-49fc-9daa-2d823738a392', 'laura.lindsay@id.com', 'Lindsay', 'Laura', '2777850A', '6059263', '74488', 'Brutus', '487 Bleecker Street', NULL, '0365333729', '1981-07-06', 'Weedville', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:41.274678+00', '2022-03-30 09:29:41.274678+00', 'd233c0d5-3e81-4e73-87d7-ee773346500c');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
-VALUES ('8c23fe63-a39d-458e-944f-1e08fc557c19', 'db285eb8-ac5c-49fc-9daa-2d823738a392', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:41.274678+00', '2022-03-30 09:29:41.274678+00');
+VALUES ('8c23fe63-a39d-458e-944f-1e08fc557c19', 'db285eb8-ac5c-49fc-9daa-2d823738a392', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'pending', '{}', '2022-03-30 09:29:41.274678+00', '2022-03-30 09:29:41.274678+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('b76fca49-ff9a-49b6-9a83-ee656730297a', 'db285eb8-ac5c-49fc-9daa-2d823738a392', '2022-03-30 09:29:41.274678+00', NULL, true, true, true, true, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:41.274678+00');
 INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('dd49a9fb-ae04-4b11-8986-5037034bec08', 'b76fca49-ff9a-49b6-9a83-ee656730297a', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', '2021-09-21 13:06:45.076+00', 'referent', true);
@@ -292,10 +293,14 @@ INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VA
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
 VALUES ('e5e6827e-21fb-4f0c-987c-b68052788846', 'winnie.gallegos@ut.com', 'Gallegos', 'Winnie', '5725997H', '0630728', '24659', 'Waterloo', '827 Ridgecrest Terrace', NULL, '0347347353', '1969-11-08', 'Lacomb', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '2022-03-30 09:29:42.413856+00', '2022-03-30 09:29:42.413856+00', 'fdd942fd-bfb4-42cb-8742-20ff69aaab09');
 INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, status, data, created_at, updated_at)
-VALUES ('21030727-791f-4694-a69a-2e2ab08db0f1', 'e5e6827e-21fb-4f0c-987c-b68052788846', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pending', '{}', '2022-03-30 09:29:42.413856+00', '2022-03-30 09:29:42.413856+00');
+VALUES ('21030727-791f-4694-a69a-2e2ab08db0f1', 'e5e6827e-21fb-4f0c-987c-b68052788846', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'pending', '{}', '2022-03-30 09:29:42.413856+00', '2022-03-30 09:29:42.413856+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('2faa4460-feaf-48dc-8adf-bcb224b1554f', 'e5e6827e-21fb-4f0c-987c-b68052788846', '2022-03-30 09:29:42.413856+00', NULL, false, true, false, true, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:42.413856+00');
 INSERT INTO public.wanted_job (id, notebook_id, rome_code_id) VALUES ('f8d3141a-fb87-4076-8e48-dbb93f4e3ccf', '2faa4460-feaf-48dc-8adf-bcb224b1554f', (SELECT public.rome_code.id FROM public.rome_code WHERE label = 'Aide à domicile (K1304)'));
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active)
+VALUES ('7ad95c7c-a973-4269-abb5-ccdb7ed4ba04', '2faa4460-feaf-48dc-8adf-bcb224b1554f', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', '2021-09-21 13:06:45.076+00', 'referent', false);
+INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, created_at, active)
+VALUES ('b1fb0f50-9a99-453c-bf55-0a2875fafe17', '2faa4460-feaf-48dc-8adf-bcb224b1554f', 'a501db53-1b79-4a60-860b-5972bd184f98', '2021-09-12 13:06:45.076+00', 'no_referent', '2021-09-10 11:51:37.295647+00', true);
 
 -- Dominique Dunlap
 INSERT INTO public.beneficiary (id, email, lastname, firstname, caf_number, pe_number, postal_code, city, address1, address2, mobile_number, date_of_birth, place_of_birth, deployment_id, created_at, updated_at, internal_id)
