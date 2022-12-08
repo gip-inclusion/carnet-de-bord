@@ -3,14 +3,13 @@
 
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		type BeneficiaryBoolExp,
 		GetBeneficiariesDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 
 	import { operationStore, query } from '@urql/svelte';
-	import { getContext, onDestroy } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import Pagination from '../Pagination.svelte';
 	import { LoaderIndicator } from '../utils';
 
@@ -19,12 +18,7 @@
 	import BeneficiaryListWithStructure from '$lib/ui/BeneficiaryList/ListWithStructure.svelte';
 	import BeneficiaryListWithOrientation from '$lib/ui/BeneficiaryList/ListWithOrientation.svelte';
 
-	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
-	import { pluralize } from '$lib/helpers';
-	import Button from '$lib/ui/base/Button.svelte';
-	import { connectedUser, openComponent } from '$lib/stores';
-	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
-	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
+	import { connectedUser } from '$lib/stores';
 	import FilterOrientation from './FilterOrientation.svelte';
 	import type { BeneficiaryFilter, OrientedFilter } from './OrientationFilter';
 
@@ -47,8 +41,6 @@
 	export let listType: BeneficiaryListType = 'manager';
 
 	const pageSize = 10;
-
-	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	function getWhereFilter(): BeneficiaryBoolExp {
 		const graphqlFilter: BeneficiaryBoolExp = {
@@ -157,8 +149,6 @@
 
 	onDestroy(unsub);
 
-	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
-
 	function updateFilters(
 		event: CustomEvent<{ resetMember: boolean; filter: MemberFilter; search: string }>
 	) {
@@ -174,7 +164,6 @@
 		}
 		urlParams.set('page', '1');
 		goto(`?${urlParams.toString()}`);
-		selectionStore.reset();
 	}
 
 	function updateOrientationFilter(
@@ -195,67 +184,9 @@
 		urlParams.set('search', event.detail.search);
 		urlParams.set('page', '1');
 		goto(`?${urlParams.toString()}`);
-		selectionStore.reset();
 	}
 
-	function getEditComponent(type: BeneficiaryListType) {
-		if (['orientation', 'manager'].includes(listType)) {
-			return AddStructureProfessionnalForm;
-		}
-		if (type === 'structure') {
-			return AddProfessionnalForm;
-		}
-	}
-
-	function getEditComponentProps(type: BeneficiaryListType, structuresId: string[]) {
-		if (['orientation', 'manager'].includes(listType)) {
-			return { structuresId: [...new Set(structuresId)] };
-		}
-		if (type === 'structure') {
-			return { structureId: new Set(structuresId).values().next().value };
-		}
-	}
-
-	function openEditLayer() {
-		const selectedBeneficiaries = Object.values($selectionStore);
-		const notebooks = selectedBeneficiaries.map((beneficiary) => ({
-			notebookId: beneficiary.notebook.id,
-			beneficiaryId: beneficiary.id,
-		}));
-
-		const structuresId = selectedBeneficiaries.flatMap((beneficiary) =>
-			beneficiary.structures.map(({ structure }) => structure.id)
-		);
-
-		const members = selectedBeneficiaries.flatMap((beneficiary) =>
-			beneficiary.notebook.members.map((member) => member.account?.id)
-		);
-		const memberSet = new Set(members);
-		let member = null;
-		if (
-			memberSet.size === 1 &&
-			selectedBeneficiaries.filter((beneficiary) => beneficiary.notebook.members.length > 0)
-				.length === selectedBeneficiaries.length
-		) {
-			// all selected beneficiaries have the same pro as referent
-			// so we preselect member in the pro list
-			member = memberSet.values().next().value;
-		}
-		openComponent.open({
-			component: getEditComponent(listType),
-			props: {
-				notebooks,
-				member: member,
-				showResetMembers: memberSet.size > 0,
-				...getEditComponentProps(listType, structuresId),
-				onClose: () => {
-					selectionStore.reset();
-				},
-			},
-		});
-	}
 	$: nbBeneficiaries = $result.data?.search_beneficiaries_aggregate.aggregate.count ?? 0;
-	$: nbSelectedBeneficiaries = Object.keys($selectionStore).length;
 </script>
 
 <div class="flex flex-col gap-8">
@@ -274,7 +205,7 @@
 		{#if listType === 'manager'}
 			<BeneficiaryListWithStructure beneficiaries={$result.data.beneficiaries} />
 		{:else if listType === 'structure'}
-			<BeneficiaryList beneficiaries={$result.data.beneficiaries} {structureId} />
+			<BeneficiaryList beneficiaries={$result.data.beneficiaries} />
 		{:else if listType === 'orientation'}
 			<BeneficiaryListWithOrientation beneficiaries={$result.data.beneficiaries} />
 		{/if}
@@ -282,15 +213,4 @@
 			<Pagination {currentPage} {pageSize} count={nbBeneficiaries} />
 		</div>
 	</LoaderIndicator>
-	{#if nbSelectedBeneficiaries > 0}
-		<div class="flex gap-8 items-center">
-			<span class="fr-text--bold fr-text-label--blue-france "
-				>{nbSelectedBeneficiaries} {pluralize('sélectionné', nbSelectedBeneficiaries)}</span
-			>
-			<div class="flex gap-4">
-				<Button on:click={openEditLayer}>Rattacher</Button>
-				<Button outline on:click={() => selectionStore.reset()}>Annuler</Button>
-			</div>
-		</div>
-	{/if}
 </div>

@@ -1,8 +1,0 @@
-mutation updateOrientation($objects: [notebook_info_insert_input!]!) {
-  insert_notebook_info(
-    objects: $objects
-    on_conflict: { constraint: notebook_info_pkey, update_columns: orientation }
-  ) {
-    affected_rows
-  }
-}

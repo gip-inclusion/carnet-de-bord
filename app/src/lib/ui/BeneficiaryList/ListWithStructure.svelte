@@ -2,39 +2,17 @@
 	import { type GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
-	import { openComponent } from '$lib/stores';
 	import { pluralize } from '$lib/helpers';
-	import { getContext } from 'svelte';
-	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
-	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	export let beneficiaries: Beneficiary[];
-
-	function openEditLayer(beneficiary: Beneficiary) {
-		openComponent.open({
-			component: AddStructureProfessionnalForm,
-			props: {
-				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member: beneficiary.notebook.members[0]?.account.id ?? null,
-				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
-				showResetMembers: beneficiary.notebook.members.length > 0,
-			},
-		});
-	}
-	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
-
-	function updateSelection(beneficiary: Beneficiary) {
-		selectionStore.toggle(beneficiary.notebook.id, beneficiary);
-	}
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
 	<caption class="sr-only">Liste des bénéficiaires</caption>
 	<thead>
 		<tr>
-			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
 			<th class="text-left">Date de naissance</th>
@@ -51,20 +29,6 @@
 				(member) => member.account.type === RoleEnum.Professional
 			)}
 			<tr>
-				<td class="align-middle">
-					<div class={`fr-checkbox-group bottom-3 left-3`}>
-						<input
-							type="checkbox"
-							checked={$selectionStore[beneficiary.notebook.id] ? true : false}
-							on:change={() => updateSelection(beneficiary)}
-							id={beneficiary.id}
-							name="selection"
-						/>
-						<label class="fr-label" for={beneficiary.id}>
-							<span class="sr-only">Sélectionner {displayFullName(beneficiary)}</span>
-						</label>
-					</div>
-				</td>
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>{formatDateLocale(beneficiary.dateOfBirth)}</td>
@@ -83,9 +47,9 @@
 				</td>
 				<td>
 					{#if referents.length > 0}
-						<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
+						<p class="fr-badge fr-badge--sm">
 							{displayFullName(referents[0].account?.professional)}
-						</button>
+						</p>
 						{#if referents.length > 1}
 							<span>
 								et {referents.length - 1}
@@ -93,13 +57,7 @@
 							</span>
 						{/if}
 					{:else}
-						<button
-							href="#"
-							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
-							on:click={() => openEditLayer(beneficiary)}
-						>
-							Non rattaché
-						</button>
+						<p class="fr-badge fr-badge--sm fr-badge--purple-glycine">Non rattaché</p>
 					{/if}
 				</td>
 				<td>{beneficiary.notebook.notebookInfo?.needOrientation ? 'à orienter' : 'orienté'}</td>
@@ -124,7 +82,7 @@
 			</tr>
 		{/each}
 		{#if beneficiaries.length === 0}
-			<tr><td colspan="10">Aucun bénéficiaire.</td></tr>
+			<tr><td colspan="9">Aucun bénéficiaire.</td></tr>
 		{/if}
 	</tbody>
 </table>
