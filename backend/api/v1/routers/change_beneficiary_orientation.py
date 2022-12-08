@@ -34,10 +34,11 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
     orientation_type: OrientationType
     structure_id: UUID
     orientation_request_id: UUID | None
-    old_referent_account_id: UUID | None
     new_referent_account_id: UUID | None
 
-    def gql_variables_for_mutation(self) -> dict[str, str | bool]:
+    def gql_variables_for_mutation(
+        self, old_referent_account_id: UUID | None
+    ) -> dict[str, str | bool]:
         variables = (
             {"orientation_request_id": str(self.orientation_request_id)}
             if self.orientation_request_id
@@ -48,8 +49,8 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
             "notebook_id": str(self.notebook_id),
             "beneficiary_id": str(self.beneficiary_id),
             "structure_id": str(self.structure_id),
-            "old_referent_account_id": str(self.old_referent_account_id),
-            "with_old_referent": self.old_referent_account_id is not None,
+            "old_referent_account_id": str(old_referent_account_id),
+            "with_old_referent": old_referent_account_id is not None,
             "new_referent_account_id": str(self.new_referent_account_id),
             "with_new_referent": self.new_referent_account_id is not None,
             "date": datetime.now().isoformat(),
@@ -60,8 +61,8 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
         return {
             "notebook_id": str(self.notebook_id),
             "structure_id": str(self.structure_id),
-            "professional_account_id": str(self.professional_account_id),
-            "with_professional_account_id": self.professional_account_id is not None,
+            "new_referent_account_id": str(self.new_referent_account_id),
+            "with_new_referent": self.new_referent_account_id is not None,
         }
 
 
@@ -122,7 +123,7 @@ async def change_beneficiary_orientation(
                 ) from exception
 
         response = await session.execute(
-            gql(mutation), variable_values=data.gql_variables_for_mutation()
+            gql(mutation), variable_values=data.gql_variables_for_mutation(None)
         )
         former_referents = [
             Member.parse_from_gql(member["account"]["professional"])
