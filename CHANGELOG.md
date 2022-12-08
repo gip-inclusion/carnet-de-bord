@@ -1,3 +1,10 @@
+# [1.169.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.168.0...v1.169.0) (2022-12-08)
+
+
+### Features
+
+* ajout d'un fichier robots.txt ([#1342](https://github.com/gip-inclusion/carnet-de-bord/issues/1342)) ([030409b](https://github.com/gip-inclusion/carnet-de-bord/commit/030409bd28735a99cc944d6c9992c034ab840ddf))
+
 # [1.168.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.167.0...v1.168.0) (2022-12-07)
 
 
