@@ -3,7 +3,10 @@
 	import { displayFullName } from '$lib/ui/format';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Accordions, MainSection } from '$lib/ui/base';
-	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		GetNotebookByBeneficiaryIdQuery,
+		RoleEnum,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import SocioProView from '../Beneficiary/SocioProView.svelte';
 	import NotebookMembers from '../Beneficiary/NotebookMembers.svelte';
 	import Accordion from '../base/Accordion.svelte';
@@ -12,6 +15,7 @@
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 
 	import Portal from 'svelte-portal';
+	import { accountData } from '$lib/stores';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 
@@ -22,6 +26,7 @@
 	$: lastUpdateFrom = members[0]?.account?.professional || members[0]?.account?.orientation_manager;
 	$: orientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
+	$: isManager = $accountData.type === RoleEnum.Manager;
 </script>
 
 <div class="fr-py-6w flex flex-col gap-8">
@@ -40,6 +45,7 @@
 		{beneficiary}
 		lastUpdateDate={members[0]?.lastModifiedAt}
 		{lastUpdateFrom}
+		displayEditButton={isManager}
 	/>
 	<div>
 		<MainSection title="Situation socioprofessionnelle">

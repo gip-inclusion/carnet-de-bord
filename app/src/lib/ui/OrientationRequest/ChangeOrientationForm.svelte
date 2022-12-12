@@ -12,7 +12,7 @@
 
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
-		| GetNotebookQuery['notebook'];
+		| GetNotebookQuery['notebook'][0]['notebook'];
 	export let onBeneficiaryOrientationChanged: () => void;
 	export let orientationRequestId: string | undefined;
 
@@ -27,7 +27,7 @@
 					orientation_request_id: orientationRequestId,
 					orientation_type: values.orientationType,
 					notebook_id: notebook.id,
-					beneficiary_id: notebook.beneficiary.id,
+					beneficiary_id: notebook.beneficiaryId,
 					structure_id: values.structureId,
 					professional_account_id: values.professionalAccountId,
 				},

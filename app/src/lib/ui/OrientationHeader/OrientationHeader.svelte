@@ -10,7 +10,7 @@
 
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
-		| GetNotebookQuery['notebook'];
+		| GetNotebookQuery['notebook'][0]['notebook'];
 	$: buttonTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
 
 	const dispatch = createEventDispatcher();

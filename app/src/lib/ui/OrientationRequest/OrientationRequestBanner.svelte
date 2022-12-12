@@ -13,7 +13,7 @@
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
-		| GetNotebookQuery['notebook'];
+		| GetNotebookQuery['notebook'][0]['notebook'];
 
 	const dispatch = createEventDispatcher();
 

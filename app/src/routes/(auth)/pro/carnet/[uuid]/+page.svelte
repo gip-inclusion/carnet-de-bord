@@ -28,6 +28,7 @@
 	import Portal from 'svelte-portal';
 
 	import type { PageData } from './$types';
+	import NotebookMembers from '$lib/ui/Beneficiary/NotebookMembers.svelte';
 
 	function toDateFormat(date: Date) {
 		const yyyy = date.getFullYear().toString().padStart(4, '0');
@@ -43,8 +44,8 @@
 			focusThemeKeys.byKey[event.event.category]
 		) {
 			return (
-				constantToString(event.eventType, eventTypes) +
 				' ' +
+				constantToString(event.eventType, eventTypes) +
 				focusThemeKeys.byKey[event.event.category]
 			);
 		} else {
@@ -147,11 +148,12 @@
 		});
 	};
 
-	$: notebook = $getNotebook.data?.notebook;
-	$: events = $getNotebookEvents.data?.notebook_event || $getNotebook.data?.notebook?.events;
-	$: beneficiary = notebook?.beneficiary;
-	$: members = notebook?.members ?? [];
-	$: appointments = notebook?.appointments;
+	$: publicNotebook = $getNotebook.data?.notebook[0];
+	$: notebook = publicNotebook?.notebook;
+	$: events = $getNotebookEvents.data?.notebook_event || notebook?.events;
+	$: beneficiary = publicNotebook?.beneficiary;
+	$: members = publicNotebook?.members ?? [];
+	$: appointments = notebook?.appointments ?? [];
 	$: lastMember = members?.length ? members[0] : null;
 	$: reorientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
@@ -173,6 +175,7 @@
 	$: isReferent = members.some(
 		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
 	);
+	$: isMember = members.some(({ account }) => $accountData.id === account.id);
 </script>
 
 <svelte:head>
@@ -180,7 +183,7 @@
 </svelte:head>
 
 <LoaderIndicator result={getNotebook}>
-	{#if !notebook}
+	{#if !publicNotebook}
 		<Alert type="info" title="erreur"
 			>Carnet introuvable. Essayer de passer par <a
 				href={`${baseUrlForRole('professional')}/annuaire`}
@@ -202,90 +205,103 @@
 			on:print={() => alert('Not implemented!')}
 			lastUpdateDate={lastMember?.lastModifiedAt}
 			lastUpdateFrom={lastMember?.account?.professional || lastMember?.account?.orientation_manager}
+			displayEditButton={isMember}
 		/>
 		<div>
-			<MainSection title="Situation socioprofessionnelle">
-				<ProNotebookSocioProView {notebook} />
-			</MainSection>
+			{#if notebook}
+				<MainSection title="Situation socioprofessionnelle">
+					<ProNotebookSocioProView {notebook} />
+				</MainSection>
+			{/if}
+
 			<MainSection title="Groupe de suivi">
-				<ProNotebookMembersView
-					{members}
-					notebookId={notebook.id}
-					beneficiaryFirstname={beneficiary.firstname}
-					beneficiaryLastname={beneficiary.lastname}
-					{appointments}
-				/>
-			</MainSection>
-			<MainSection title="Plan d'action">
-				<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
-			</MainSection>
-			<MainSection title="Historique de parcours">
-				<div class="flex flex-row justify-between mb-2">
-					<Select
-						on:select={onSelect}
-						options={[
-							{ name: allEvents, label: 'Tous les évènements' },
-							{ name: threeMonths, label: 'Dans les 3 derniers mois' },
-							{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
-							{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
-							{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
-						]}
-						{selected}
-						selectHint="Sélectionner un filtre"
-						selectLabel="Période"
-						classNames="self-center"
-						twWidthClass="w-5/12"
+				{#if notebook}
+					<ProNotebookMembersView
+						{members}
+						notebookId={publicNotebook.id}
+						beneficiaryFirstname={beneficiary.firstname}
+						beneficiaryLastname={beneficiary.lastname}
+						{appointments}
+						displayInviteButton={isMember}
 					/>
-					<SearchBar
-						inputLabel=""
-						inputHint="Axe de travail, action, structure"
-						bind:search
-						handleSubmit={handleSearch}
-						classNames="self-center"
-						twWidthClass="w-5/12"
-					/>
-				</div>
-				<div class={`w-full fr-table fr-table--layout-fixed`}>
-					<table class="w-full">
-						<thead>
-							<tr>
-								<th>Date</th>
-								<th>Catégorie</th>
-								<th>Évènements</th>
-								<th>Structure</th>
-								<th>Statut</th>
-							</tr>
-						</thead>
-						<tbody class="w-full">
-							{#each filteredEvents || [] as event (event.id)}
+				{:else}
+					<NotebookMembers {members} />
+				{/if}
+			</MainSection>
+			{#if notebook?.focuses}
+				<MainSection title="Plan d'action">
+					<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
+				</MainSection>
+			{/if}
+			{#if notebook?.events}
+				<MainSection title="Historique de parcours">
+					<div class="flex flex-row justify-between mb-2">
+						<Select
+							on:select={onSelect}
+							options={[
+								{ name: allEvents, label: 'Tous les évènements' },
+								{ name: threeMonths, label: 'Dans les 3 derniers mois' },
+								{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
+								{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
+								{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
+							]}
+							{selected}
+							selectHint="Sélectionner un filtre"
+							selectLabel="Période"
+							classNames="self-center"
+							twWidthClass="w-5/12"
+						/>
+						<SearchBar
+							inputLabel=""
+							inputHint="Axe de travail, action, structure"
+							bind:search
+							handleSubmit={handleSearch}
+							classNames="self-center"
+							twWidthClass="w-5/12"
+						/>
+					</div>
+					<div class={`w-full fr-table fr-table--layout-fixed`}>
+						<table class="w-full">
+							<thead>
 								<tr>
-									<td>{formatDateLocale(event.eventDate)} </td>
-									<td>{eventCategory(event)}</td>
-									<td>{event.event.event_label}</td>
-									<td
-										>{#if !event.creator && event.event.from == 'pole_emploi'}
-											Pôle Emploi
-										{:else}
-											{event.creator?.professional?.structure.name ?? '-'}
-										{/if}</td
-									>
-									<td>{constantToString(event.event.status, statusValues)}</td>
+									<th>Date</th>
+									<th>Catégorie</th>
+									<th>Évènements</th>
+									<th>Structure</th>
+									<th>Statut</th>
 								</tr>
-							{:else}
-								<tr class="shadow-sm">
-									<td class="!text-center" colspan="5">
-										{#if events.length > 0}
-											Aucun évènement ne correspond à votre recherche.
-										{:else}
-											Aucun évènement pour le moment.
-										{/if}
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
-			</MainSection>
+							</thead>
+							<tbody class="w-full">
+								{#each filteredEvents || [] as event (event.id)}
+									<tr>
+										<td>{formatDateLocale(event.eventDate)} </td>
+										<td>{eventCategory(event)}</td>
+										<td>{event.event.event_label}</td>
+										<td
+											>{#if !event.creator && event.event.from == 'pole_emploi'}
+												Pôle Emploi
+											{:else}
+												{event.creator?.professional?.structure.name ?? '-'}
+											{/if}</td
+										>
+										<td>{constantToString(event.event.status, statusValues)}</td>
+									</tr>
+								{:else}
+									<tr class="shadow-sm">
+										<td class="!text-center" colspan="5">
+											{#if events.length > 0}
+												Aucun évènement ne correspond à votre recherche.
+											{:else}
+												Aucun évènement pour le moment.
+											{/if}
+										</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				</MainSection>
+			{/if}
 		</div>
 	{/if}
 </LoaderIndicator>

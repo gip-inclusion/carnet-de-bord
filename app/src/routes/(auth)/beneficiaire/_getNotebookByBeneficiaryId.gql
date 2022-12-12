@@ -12,6 +12,7 @@ query GetNotebookById($id: uuid!, $withOrientationRequests: Boolean = false) {
 
 fragment notebookFragment on notebook {
   id
+  beneficiaryId
   workSituation
   workSituationDate
   workSituationEndDate
