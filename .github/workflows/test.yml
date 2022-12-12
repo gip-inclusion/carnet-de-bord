@@ -6,11 +6,8 @@ on:
       - "master"
     tags:
       - "!v*"
-    pull_request:
-      types:
-        - synchronize
-        - opened
-        - reopened
+  pull_request:
+
 env:
   POETRY_VERSION: 1.2.0
   PYTHON_VERSION: 3.10.6
@@ -20,6 +17,37 @@ concurrency:
   group: test-${{ github.ref }}
 
 jobs:
+  ##############################################################################
+  ## Full linting/checking running on all branches
+  ##############################################################################
+  pre-commit:
+    name: Run full linting on project using pre-commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup python for pre-commit
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{env.PYTHON_VERSION}}
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: Install dependencies
+        run: |
+          npm ci --prefix app
+          npm run sync --prefix app
+          npm ci --prefix e2e
+          pip install pre-commit
+      - name: Run linting
+        # TODO: precommit does not run svelte-check
+        run: pre-commit run --all-files
+
   ##############################################################################
   ## Python backend tests
   ##############################################################################
