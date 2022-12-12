@@ -9,6 +9,7 @@
 	import OrientationForm, {
 		type OrientationValidationSchema,
 	} from '../OrientationManager/OrientationForm.svelte';
+	import { captureException } from '$lib/utils/sentry';
 
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
@@ -35,6 +36,7 @@
 			);
 		} catch (err) {
 			console.error(err);
+			captureException(err);
 			displayError = true;
 			return;
 		}

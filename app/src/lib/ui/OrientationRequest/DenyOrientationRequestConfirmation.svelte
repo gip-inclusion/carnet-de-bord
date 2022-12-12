@@ -5,7 +5,7 @@
 	import { postApiJson } from '$lib/utils/post';
 	import Alert from '../base/Alert.svelte';
 	import { token } from '$lib/stores';
-	import * as Sentry from '@sentry/svelte';
+	import { captureException } from '$lib/utils/sentry';
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 	export let onBeneficiaryOrientationChanged: () => void;
 
@@ -21,7 +21,7 @@
 				{ 'jwt-token': $token }
 			);
 		} catch (err) {
-			Sentry.captureException(err);
+			captureException(err);
 			displayError = true;
 			return;
 		}
