@@ -120,6 +120,14 @@ select_permissions:
           - structure:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
+  - role: professional
+    permission:
+      columns:
+        - beneficiary_id
+        - id
+        - status
+        - structure_id
+      filter: {}
 update_permissions:
   - role: admin_structure
     permission:
@@ -154,8 +162,10 @@ update_permissions:
   - role: orientation_manager
     permission:
       columns:
+        - beneficiary_id
         - data
         - status
+        - structure_id
       filter:
         _and:
           - beneficiary:
@@ -164,6 +174,12 @@ update_permissions:
           - structure:
               deployment_id:
                 _eq: X-Hasura-Deployment-Id
+      check: null
+  - role: professional
+    permission:
+      columns:
+        - status
+      filter: {}
       check: null
 delete_permissions:
   - role: manager

@@ -13277,6 +13277,8 @@ export type GetNotebookAppointmentsQuery = {
 export type RemoveMemberFromNotebookMutationVariables = Exact<{
 	notebookId: Scalars['uuid'];
 	accountId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+	removeBeneficiaryStructure: Scalars['Boolean'];
 }>;
 
 export type RemoveMemberFromNotebookMutation = {
@@ -13291,6 +13293,11 @@ export type RemoveMemberFromNotebookMutation = {
 			active?: boolean | null;
 			notebookId: string;
 		}>;
+	} | null;
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+		returning: Array<{ __typename?: 'beneficiary_structure'; id: string; status: string }>;
 	} | null;
 };
 
@@ -20153,6 +20160,25 @@ export const RemoveMemberFromNotebookDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'removeBeneficiaryStructure' },
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -20252,6 +20278,139 @@ export const RemoveMemberFromNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'active' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'beneficiary' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'notebook' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'id' },
+																						value: {
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_eq' },
+																									value: {
+																										kind: 'Variable',
+																										name: { kind: 'Name', value: 'notebookId' },
+																									},
+																								},
+																							],
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structureId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'structureId' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'outdated', block: false },
+										},
+									],
+								},
+							},
+						],
+						directives: [
+							{
+								kind: 'Directive',
+								name: { kind: 'Name', value: 'include' },
+								arguments: [
+									{
+										kind: 'Argument',
+										name: { kind: 'Name', value: 'if' },
+										value: {
+											kind: 'Variable',
+											name: { kind: 'Name', value: 'removeBeneficiaryStructure' },
+										},
+									},
+								],
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
 										],
 									},
 								},

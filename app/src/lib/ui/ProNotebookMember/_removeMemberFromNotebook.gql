@@ -1,6 +1,8 @@
 mutation RemoveMemberFromNotebook(
   $notebookId: uuid!
   $accountId: uuid!
+  $structureId: uuid!
+  $removeBeneficiaryStructure: Boolean!
 ) {
   update_notebook_member(where: {
     _and: [
@@ -16,4 +18,16 @@ mutation RemoveMemberFromNotebook(
       notebookId
     }
   }
+  update_beneficiary_structure(where: {
+    _and: [
+      { beneficiary: {notebook: {id: {_eq: $notebookId} }} },
+      { structureId: {_eq: $structureId} },
+    ]}
+    _set: { status: "outdated" }) @include(if: $removeBeneficiaryStructure) {
+      affected_rows
+      returning {
+        id
+        status
+      }
+    }
 }

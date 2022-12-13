@@ -24,5 +24,6 @@ Scénario: Se retirer du groupe de suivi
 	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
 	Quand j'attends que la table "Liste des membres du groupe de suivi" apparaisse
 	Quand je clique sur "Se détacher"
-	Quand je clique sur "Confirmer"
+	Alors je vois "Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?"
+	Quand je clique sur "Oui"
 	Alors je vois "Carnet introuvable"

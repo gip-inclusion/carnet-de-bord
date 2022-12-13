@@ -47,9 +47,22 @@
 		});
 	}
 
+	function currentAccountIsTheOnlyMemberOfStructure(): boolean {
+		const structureIds = members.map((member) => member.account.professional?.structure?.id);
+		const membersInStructure = structureIds.filter(
+			(structureId) => structureId === $accountData.professional.structure.id
+		);
+		return membersInStructure.length === 1;
+	}
+
 	async function removeMember() {
 		trackEvent('pro', 'members', 'remove member');
-		await removeNotebookMember({ notebookId, accountId: $accountData.id });
+		await removeNotebookMember({
+			notebookId,
+			accountId: $accountData.id,
+			structureId: $accountData.professional.structure.id,
+			removeBeneficiaryStructure: currentAccountIsTheOnlyMemberOfStructure(),
+		});
 	}
 
 	function filterAppointmentsByAccountId(memberAccountId: string): string {
@@ -80,12 +93,11 @@
 				outlineButton={false}
 				title="Se détacher"
 				label="Se détacher"
-				confirmLabel="Confirmer"
+				confirmLabel="Oui"
 				on:confirm={() => removeMember()}
 			>
 				<p>
-					Vous souhaitez être retiré du carnet de bord.
-					<br />Veuillez confirmer le retrait.
+					Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?
 				</p>
 			</Dialog>
 		{/if}
