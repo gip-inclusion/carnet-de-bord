@@ -11,7 +11,7 @@
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 	import { accountData } from '$lib/stores';
 
-	export let notebook: GetNotebookQuery['notebook'][0];
+	export let notebook: GetNotebookQuery['notebook_public_view'][0];
 
 	$: beneficiary = notebook.beneficiary;
 	$: orientationRequest =

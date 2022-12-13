@@ -4,7 +4,7 @@ query GetNotebook(
   $eventsEnd: timestamptz = "infinity"
   $withOrientationRequests: Boolean = true
 ) {
-  notebook: notebook_public_view(where:{id: {_eq: $id}}) {
+  notebook_public_view(where:{id: {_eq: $id}}) {
     id
     beneficiary {
       address1

@@ -9,8 +9,8 @@
 	import { type GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '../format';
 
-	type Member = GetNotebookQuery['notebook'][0]['members'][0];
-	type Appointment = GetNotebookQuery['notebook'][0]['notebook']['appointments'][0];
+	type Member = GetNotebookQuery['notebook_public_view'][0]['members'][0];
+	type Appointment = GetNotebookQuery['notebook_public_view'][0]['notebook']['appointments'][0];
 
 	export let notebookId: string;
 	export let beneficiaryFirstname: string;

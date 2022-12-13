@@ -14344,7 +14344,7 @@ export type GetNotebookQueryVariables = Exact<{
 
 export type GetNotebookQuery = {
 	__typename?: 'query_root';
-	notebook: Array<{
+	notebook_public_view: Array<{
 		__typename?: 'notebook_public_view';
 		id?: string | null;
 		beneficiary?: {
@@ -23909,7 +23909,6 @@ export const GetNotebookDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'notebook' },
 						name: { kind: 'Name', value: 'notebook_public_view' },
 						arguments: [
 							{

@@ -148,7 +148,7 @@
 		});
 	};
 
-	$: publicNotebook = $getNotebook.data?.notebook[0];
+	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
 	$: notebook = publicNotebook?.notebook;
 	$: events = $getNotebookEvents.data?.notebook_event || notebook?.events;
 	$: beneficiary = publicNotebook?.beneficiary;

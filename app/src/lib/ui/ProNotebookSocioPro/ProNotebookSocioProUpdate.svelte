@@ -22,7 +22,7 @@
 
 	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
-		GetNotebookQuery['notebook'][0]['notebook'],
+		GetNotebookQuery['notebook_public_view'][0]['notebook'],
 		| 'id'
 		| 'workSituation'
 		| 'workSituationDate'

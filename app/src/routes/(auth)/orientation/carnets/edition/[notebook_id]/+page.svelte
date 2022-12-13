@@ -24,7 +24,7 @@
 	);
 
 	query(getNotebookResult);
-	$: notebookPublic = $getNotebookResult.data?.notebook[0];
+	$: notebookPublic = $getNotebookResult.data?.notebook_public_view[0];
 
 	function refreshNotebook() {
 		getNotebookResult.reexecute({ requestPolicy: 'network-only' });

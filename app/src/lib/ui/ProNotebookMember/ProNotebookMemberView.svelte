@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-	export type Member = GetNotebookQuery['notebook'][0]['members'][0];
+	export type Member = GetNotebookQuery['notebook_public_view'][0]['members'][0];
 </script>
 
 <script lang="ts">
