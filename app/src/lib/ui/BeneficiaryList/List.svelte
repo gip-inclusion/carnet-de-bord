@@ -29,6 +29,11 @@
 	function updateSelection(beneficiary: Beneficiary) {
 		selectionStore.toggle(beneficiary.notebook.id, beneficiary);
 	}
+	function beneficiaryInStructure(beneficiary: Beneficiary): boolean {
+		return beneficiary.structures.some(
+			(item) => Boolean(structureId) && item.structure.id === structureId
+		);
+	}
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
@@ -71,9 +76,7 @@
 						<button
 							class="fr-tag fr-tag-sm"
 							on:click={() => openEditLayer(beneficiary)}
-							disabled={beneficiary.structures.every(
-								(item) => item.structure.id !== structureId && Boolean(structureId)
-							)}
+							disabled={!beneficiaryInStructure(beneficiary)}
 						>
 							{displayFullName(referents[0].account?.professional)}
 						</button>
@@ -88,9 +91,7 @@
 							href="#"
 							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
 							on:click={() => openEditLayer(beneficiary)}
-							disabled={beneficiary.structures.every(
-								(item) => item.structure.id !== structureId && Boolean(structureId)
-							)}
+							disabled={!beneficiaryInStructure(beneficiary)}
 						>
 							Non rattaché
 						</button>
