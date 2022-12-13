@@ -1,3 +1,10 @@
+## [1.169.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.169.1...v1.169.2) (2022-12-13)
+
+
+### Bug Fixes
+
+* Accéder à l'annuaire directement depuis son URL entraine une erreur. ([#1351](https://github.com/gip-inclusion/carnet-de-bord/issues/1351)) ([3b42c84](https://github.com/gip-inclusion/carnet-de-bord/commit/3b42c840a2bcdb06862bb9af4f55eeb70397f552))
+
 ## [1.169.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.169.0...v1.169.1) (2022-12-12)
 
 # [1.169.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.168.0...v1.169.0) (2022-12-08)
