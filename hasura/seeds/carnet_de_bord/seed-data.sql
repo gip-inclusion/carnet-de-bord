@@ -274,7 +274,6 @@ INSERT INTO public.beneficiary_structure (id, beneficiary_id, structure_id, stat
 VALUES ('7c21cfba-f8d5-4dfb-a6cc-1eca9176a6b0', 'df791447-246b-4370-aa32-4258393cd78e', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'current', '{}', '2022-03-30 09:29:40.76801+00', '2022-03-30 09:29:40.76801+00');
 INSERT INTO public.notebook (id, beneficiary_id, created_at, right_rsa, right_rqth, right_are, right_ass, right_bonus, geographical_area, education_level, work_situation_date, contract_type, contract_sign_date, work_situation, updated_at)
 VALUES ('fb0e54ce-5cb8-460c-952c-9256d4c6102e', 'df791447-246b-4370-aa32-4258393cd78e', '2022-03-30 09:29:40.76801+00', NULL, false, true, false, true, NULL, NULL, NULL, NULL, NULL, NULL, '2022-03-30 09:29:40.76801+00');
-INSERT INTO public.notebook_member (id, notebook_id, account_id, last_visited_at, member_type, active) VALUES ('902208f9-1b6e-448d-9f44-a1563dd93fb3', 'fb0e54ce-5cb8-460c-952c-9256d4c6102e', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', '2021-09-21 13:06:45.076+00', 'referent', true);
 INSERT INTO public.orientation_request (id, beneficiary_id, requestor_account_id, requested_orientation_type_id, status, reason, created_at) values ('521c419c-d8a0-450d-941b-30bc3eb9909c', 'df791447-246b-4370-aa32-4258393cd78e', '521a2983-17e2-43a9-abf6-7ed9f93cf7f9', 'pro', 'current', 'Un accompagnement pro sera plus adapté.', '2022-09-01 14:00:00.0000+00');
 INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation) VALUES ('fb0e54ce-5cb8-460c-952c-9256d4c6102e', 'social', false);
 
