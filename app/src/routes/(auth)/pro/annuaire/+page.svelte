@@ -10,6 +10,7 @@
 	import { operationStore, query } from '@urql/svelte';
 	import { browser } from '$app/environment';
 	import { addMonths } from 'date-fns';
+	import { accountData } from '$lib/stores';
 
 	import type { PageData } from './$types';
 	import { dt } from './+page';
@@ -17,7 +18,7 @@
 	export let data: PageData;
 
 	let searching = false;
-	const { accountId } = data;
+	const accountId = $accountData.id;
 	let { search, selected } = data;
 
 	const queryVariables = buildQueryVariables({
@@ -59,9 +60,9 @@
 	function updateResult() {
 		updateUrl(search, selected);
 		$result.variables = buildQueryVariables({
-			accountId: accountId,
-			search: search,
-			selected: selected,
+			accountId,
+			search,
+			selected,
 		});
 		$result.reexecute();
 	}

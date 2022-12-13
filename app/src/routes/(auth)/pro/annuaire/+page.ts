@@ -1,6 +1,4 @@
 import type { PageLoad } from './$types';
-import { connectedUser } from '$lib/stores';
-import { get } from 'svelte/store';
 
 export const dt = {
 	none: 'none',
@@ -17,7 +15,6 @@ export const load: PageLoad = async ({ url }) => {
 	if (url.searchParams.get('dt') && dt[url.searchParams.get('dt')]) {
 		selected = dt[url.searchParams.get('dt')];
 	}
-	const { id: accountId } = get(connectedUser);
 
-	return { accountId, search, selected };
+	return { search, selected };
 };
