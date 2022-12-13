@@ -220,7 +220,7 @@
 						...createMemberItem(benefKeyToNotebook)(csvBeneficiary)(pro),
 					},
 					structure: {
-						status: { _eq: 'pending' },
+						status: { _eq: 'current' },
 						beneficiaryId: { _eq: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary) },
 						structureId: { _eq: pro.structureId },
 					},
@@ -228,7 +228,7 @@
 		);
 		insertResult = [];
 		for (const payload of insertPayload) {
-			const result = await inserter({ member: payload.add, structure: payload.structure });
+			const result = await inserter({ member: payload.add });
 			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";
 			if (/uniqueness/i.test(result.error?.message)) {
 				errorMessage = 'Ce rattachement existe déjà.';

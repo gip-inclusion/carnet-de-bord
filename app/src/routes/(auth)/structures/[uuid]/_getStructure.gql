@@ -21,21 +21,17 @@ query GetStructure($structureId: uuid!) {
     postalCode
     city
     website
-    pendingBeneficiaries: beneficiaries_aggregate(
+    beneficiaries: beneficiaries_aggregate(
       where: {
-        status: { _eq: "pending" }
+        status: { _neq: "outdated" }
         beneficiary: {
           notebook: {
-            _or: [
-              { _not: { members: {} } }
-              { members: { active: { _eq: false } } }
-              {
-                members: {
-                  active: { _eq: true }
-                  account: { professional: { structureId: { _neq: $structureId } } }
-                }
+            _not: {
+              members: {
+                active: { _eq: true }
+                account: { professional: { structureId: { _eq: $structureId } } }
               }
-            ]
+            }
           }
         }
       }

@@ -39,12 +39,12 @@ query GetDeploymentInfos($id: uuid!) {
   }
   structuresWithNoBeneficiary: structure_aggregate(
     where: {
-      _not: {
-        _or: [
-          { beneficiaries: { status: { _eq: "pending" } } }
-          { professionals: { account: { notebooksWhereMember: { active: { _eq: true } } } } }
-        ]
-      }
+      _and: [
+        { _not: { beneficiaries: { status: { _eq: "current" } } } }
+        {
+          _not: { professionals: { account: { notebooksWhereMember: { active: { _eq: true } } } } }
+        }
+      ]
     }
   ) {
     aggregate {

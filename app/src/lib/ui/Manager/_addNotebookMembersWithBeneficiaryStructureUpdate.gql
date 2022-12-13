@@ -1,7 +1,4 @@
-mutation AddNotebookMemberWithBeneficiaryStructureUpdate(
-  $member: notebook_member_insert_input!
-  $structure: beneficiary_structure_bool_exp!
-) {
+mutation AddNotebookMemberWithBeneficiaryStructureUpdate($member: notebook_member_insert_input!) {
   insert_notebook_member_one(
     object: $member
     on_conflict: { constraint: notebook_member_notebook_id_account_id_key, update_columns: active }
@@ -9,8 +6,5 @@ mutation AddNotebookMemberWithBeneficiaryStructureUpdate(
     notebook {
       beneficiaryId
     }
-  }
-  update_beneficiary_structure(where: $structure, _set: { status: "done" }) {
-    affected_rows
   }
 }
