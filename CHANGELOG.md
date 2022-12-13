@@ -1,3 +1,10 @@
+# [1.170.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.169.2...v1.170.0) (2022-12-13)
+
+
+### Features
+
+* accès au carnet en lecture seule ([#1350](https://github.com/gip-inclusion/carnet-de-bord/issues/1350)) ([c259c19](https://github.com/gip-inclusion/carnet-de-bord/commit/c259c19ccbd12f4a18203eeaa81ff534ee8bf05d))
+
 ## [1.169.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.169.1...v1.169.2) (2022-12-13)
 
 
