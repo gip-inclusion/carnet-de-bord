@@ -94,7 +94,7 @@ insert_permissions:
                     _eq: referent
       set:
         requestor_account_id: x-hasura-User-Id
-        status: pending
+        status: current
       columns:
         - beneficiary_id
         - reason

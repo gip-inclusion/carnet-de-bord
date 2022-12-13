@@ -35,7 +35,7 @@ mutation ChangeBeneficiaryOrientation(
     affected_rows
   }
 
-  createPendingBeneficiaryStructure: insert_beneficiary_structure_one(
+  createBeneficiaryStructure: insert_beneficiary_structure_one(
     object: { beneficiaryId: $beneficiary_id, structureId: $structure_id }
   ) {
     id

@@ -66,13 +66,11 @@
 		{
 			label: `${pluralize(
 				'Bénéficiaire',
-				structure?.pendingBeneficiaries?.aggregate?.count ?? 0
-			)} non ${pluralize('rattaché', structure?.pendingBeneficiaries?.aggregate?.count ?? 0)}`,
-			amount: structure?.pendingBeneficiaries?.aggregate?.count ?? 0,
+				structure?.beneficiaries?.aggregate?.count ?? 0
+			)} non ${pluralize('rattaché', structure?.beneficiaries?.aggregate?.count ?? 0)}`,
+			amount: structure?.beneficiaries?.aggregate?.count ?? 0,
 			classNames:
-				structure?.pendingBeneficiaries?.aggregate?.count > 0
-					? 'text-marianne-red'
-					: 'text-success',
+				structure?.beneficiaries?.aggregate?.count > 0 ? 'text-marianne-red' : 'text-success',
 			link: `${data.structureId}/beneficiaires?filter=noMember`,
 		},
 	];

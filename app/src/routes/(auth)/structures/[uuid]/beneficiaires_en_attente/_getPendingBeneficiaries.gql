@@ -2,6 +2,7 @@ query GetPendingBeneficiaries($structureId: uuid!) {
   structure_by_pk(id: $structureId) {
     beneficiaries(
       where: {
+        status: { _neq: "outdated" }
         beneficiary: {
           notebook: {
             _not: {

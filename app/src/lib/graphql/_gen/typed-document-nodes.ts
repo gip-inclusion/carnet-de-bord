@@ -12949,7 +12949,6 @@ export type DeactivateNotebookMemberMutation = {
 
 export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables = Exact<{
 	member: NotebookMemberInsertInput;
-	structure: BeneficiaryStructureBoolExp;
 }>;
 
 export type AddNotebookMemberWithBeneficiaryStructureUpdateMutation = {
@@ -14597,7 +14596,7 @@ export type GetStructureQuery = {
 		postalCode?: string | null;
 		city?: string | null;
 		website?: string | null;
-		pendingBeneficiaries: {
+		beneficiaries: {
 			__typename?: 'beneficiary_structure_aggregate';
 			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
 		};
@@ -18037,17 +18036,6 @@ export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
 						type: {
 							kind: 'NamedType',
 							name: { kind: 'Name', value: 'notebook_member_insert_input' },
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structure' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'beneficiary_structure_bool_exp' },
 						},
 					},
 				},
@@ -24523,7 +24511,7 @@ export const GetStructureDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 								{
 									kind: 'Field',
-									alias: { kind: 'Name', value: 'pendingBeneficiaries' },
+									alias: { kind: 'Name', value: 'beneficiaries' },
 									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
 									arguments: [
 										{
@@ -24819,6 +24807,20 @@ export const GetPendingBeneficiariesDocument = {
 											value: {
 												kind: 'ObjectValue',
 												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_neq' },
+																	value: { kind: 'StringValue', value: 'outdated', block: false },
+																},
+															],
+														},
+													},
 													{
 														kind: 'ObjectField',
 														name: { kind: 'Name', value: 'beneficiary' },

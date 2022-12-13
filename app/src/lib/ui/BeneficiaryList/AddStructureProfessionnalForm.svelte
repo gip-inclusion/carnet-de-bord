@@ -73,7 +73,6 @@
 				beneficiaryStructureObjects: notebooks.map(({ beneficiaryId }) => ({
 					beneficiaryId,
 					structureId: selectedStructure,
-					status: selectedMember ? 'done' : 'pending',
 				})),
 				beneficiaries: notebooks.map(({ beneficiaryId }) => beneficiaryId),
 			},
@@ -121,7 +120,6 @@
 					)}
 					{pluralize('bénéficiaire', notebooks.length)}.
 				</p>
-				<!-- <pre>{JSON.stringify(structure?.professionals, null, 2)}</pre> -->
 				<Select
 					bind:selected={selectedMember}
 					selectLabel={member ? 'Nom du nouveau référent unique' : 'Nom du référent unique'}

@@ -21,7 +21,7 @@ query GetStructure($structureId: uuid!) {
     postalCode
     city
     website
-    pendingBeneficiaries: beneficiaries_aggregate(
+    beneficiaries: beneficiaries_aggregate(
       where: {
         status: { _neq: "outdated" }
         beneficiary: {
