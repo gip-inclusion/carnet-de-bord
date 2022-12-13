@@ -9,14 +9,15 @@
 	import { type GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '../format';
 
-	type Member = GetNotebookQuery['notebook']['members'][0];
-	type Appointment = GetNotebookQuery['notebook']['appointments'][0];
+	type Member = GetNotebookQuery['notebook_public_view'][0]['members'][0];
+	type Appointment = GetNotebookQuery['notebook_public_view'][0]['notebook']['appointments'][0];
 
 	export let notebookId: string;
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
 	export let members: Member[];
 	export let appointments: Appointment[];
+	export let displayInviteButton = false;
 
 	const openMemberInfo = (member: Member) => {
 		trackEvent('pro', 'members', 'view info');
@@ -44,13 +45,15 @@
 	}
 </script>
 
-<div class="pb-6">
-	<Button
-		on:click={() => {
-			openInviteMember();
-		}}>Inviter un accompagnateur</Button
-	>
-</div>
+{#if displayInviteButton}
+	<div class="pb-6">
+		<Button
+			on:click={() => {
+				openInviteMember();
+			}}>Inviter un accompagnateur</Button
+		>
+	</div>
+{/if}
 <div class="fr-table fr-table--layout-fixed !mb-0">
 	<table>
 		<caption class="sr-only">Liste des membres du groupe de suivi</caption>

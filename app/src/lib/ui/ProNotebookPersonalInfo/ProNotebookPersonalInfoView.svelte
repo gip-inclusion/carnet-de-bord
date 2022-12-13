@@ -32,6 +32,7 @@
 	>;
 	export let lastUpdateDate: string;
 	export let lastUpdateFrom: Pro;
+	export let displayEditButton = false;
 
 	function edit() {
 		openComponent.open({ component: ProNotebookPersonalInfoUpdate, props: { beneficiary } });
@@ -100,5 +101,7 @@
 			<Text value={beneficiary.cafNumber} />
 		</div>
 	</div>
-	<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>
+	{#if displayEditButton}
+		<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>
+	{/if}
 </div>

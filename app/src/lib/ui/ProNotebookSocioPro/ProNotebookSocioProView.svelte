@@ -13,7 +13,7 @@
 	import ProCarnetSocioProUpdate from './ProNotebookSocioProUpdate.svelte';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-	export let notebook: GetNotebookQuery['notebook'];
+	export let notebook: GetNotebookQuery['notebook_public_view'][0]['notebook'];
 
 	const editSocioProSituation = () => {
 		openComponent.open({

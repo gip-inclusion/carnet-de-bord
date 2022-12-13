@@ -4,31 +4,8 @@ query GetNotebook(
   $eventsEnd: timestamptz = "infinity"
   $withOrientationRequests: Boolean = true
 ) {
-  notebook: notebook_by_pk(id: $id) {
+  notebook_public_view(where:{id: {_eq: $id}}) {
     id
-    workSituationDate
-    workSituationEndDate
-    workSituation
-    rightRsa
-    rightRqth
-    rightAre
-    rightAss
-    rightBonus
-    geographicalArea
-    educationLevel
-    contractType
-    contractSignDate
-    contractStartDate
-    contractEndDate
-    notebookInfo {
-      needOrientation
-    }
-    wantedJobs {
-      rome_code {
-        id
-        label
-      }
-    }
     beneficiary {
       address1
       address2
@@ -54,21 +31,6 @@ query GetNotebook(
           id
           notebook {
             id
-          }
-        }
-      }
-    }
-    focuses(order_by: { theme: asc_nulls_last }) {
-      id
-      theme
-      situations
-      linkedTo
-      targets {
-        id
-        target
-        actions_aggregate(where: { status: { _eq: "in_progress" } }) {
-          aggregate {
-            count
           }
         }
       }
@@ -108,19 +70,61 @@ query GetNotebook(
         }
       }
     }
-    appointments(
-      where: { notebookId: { _eq: $id }, deleted_at: { _is_null: true } }
-      distinct_on: memberAccountId
-      order_by: [{ memberAccountId: asc }, { date: desc }]
-    ) {
-      date
-      memberAccountId
-    }
-    events(
-      order_by: { eventDate: desc_nulls_first }
-      where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd } }
-    ) {
-      ...eventFields
+    notebook {
+      id
+      beneficiaryId
+      workSituationDate
+      workSituationEndDate
+      workSituation
+      rightRsa
+      rightRqth
+      rightAre
+      rightAss
+      rightBonus
+      geographicalArea
+      educationLevel
+      contractType
+      contractSignDate
+      contractStartDate
+      contractEndDate
+      notebookInfo {
+        needOrientation
+      }
+      wantedJobs {
+        rome_code {
+          id
+          label
+        }
+      }
+      focuses(order_by: { theme: asc_nulls_last }) {
+        id
+        theme
+        situations
+        linkedTo
+        targets {
+          id
+          target
+          actions_aggregate(where: { status: { _eq: "in_progress" } }) {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+      appointments(
+        where: { notebookId: { _eq: $id }, deleted_at: { _is_null: true } }
+        distinct_on: memberAccountId
+        order_by: [{ memberAccountId: asc }, { date: desc }]
+      ) {
+        date
+        memberAccountId
+      }
+      events(
+        order_by: { eventDate: desc_nulls_first }
+        where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd } }
+      ) {
+        ...eventFields
+      }
     }
   }
 }

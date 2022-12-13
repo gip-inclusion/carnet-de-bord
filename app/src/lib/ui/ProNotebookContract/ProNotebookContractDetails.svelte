@@ -16,7 +16,7 @@
 	} from './ProNotebookContract.schema';
 	import { Form, Input, Radio } from '$lib/ui/forms';
 
-	export let notebook: GetNotebookQuery['notebook'];
+	export let notebook: GetNotebookQuery['notebook_public_view'][0]['notebook'];
 
 	const updateNotebookContractStore = operationStore(UpdateNotebookContractDocument);
 	const updateNotebookContract = mutation(updateNotebookContractStore);

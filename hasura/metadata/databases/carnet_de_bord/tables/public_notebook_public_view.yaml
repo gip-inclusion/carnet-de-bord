@@ -1,0 +1,78 @@
+table:
+  name: notebook_public_view
+  schema: public
+object_relationships:
+  - name: beneficiary
+    using:
+      manual_configuration:
+        column_mapping:
+          beneficiary_id: id
+        insertion_order: null
+        remote_table:
+          name: beneficiary
+          schema: public
+  - name: notebook
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: notebook
+          schema: public
+array_relationships:
+  - name: members
+    using:
+      manual_configuration:
+        column_mapping:
+          id: notebook_id
+        insertion_order: null
+        remote_table:
+          name: notebook_member
+          schema: public
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+      filter: {}
+      allow_aggregations: true

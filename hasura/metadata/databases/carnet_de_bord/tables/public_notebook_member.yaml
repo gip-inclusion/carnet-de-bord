@@ -213,19 +213,7 @@ select_permissions:
         - last_visited_at
         - member_type
         - notebook_id
-      filter:
-        _and:
-          - notebook:
-              members:
-                account_id:
-                  _eq: X-Hasura-User-Id
-          - active:
-              _eq: true
-          - notebook:
-              members:
-                account:
-                  deleted_at:
-                    _is_null: true
+      filter: {}
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb

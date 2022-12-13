@@ -24,7 +24,7 @@
 	);
 
 	query(getNotebookResult);
-	$: notebook = $getNotebookResult.data?.notebook;
+	$: notebookPublic = $getNotebookResult.data?.notebook_public_view[0];
 
 	function refreshNotebook() {
 		getNotebookResult.reexecute({ requestPolicy: 'network-only' });
@@ -32,5 +32,5 @@
 </script>
 
 <LoaderIndicator result={getNotebookResult}>
-	<NotebookEdit {notebook} on:beneficiary-orientation-changed={refreshNotebook} />
+	<NotebookEdit notebook={notebookPublic} on:beneficiary-orientation-changed={refreshNotebook} />
 </LoaderIndicator>

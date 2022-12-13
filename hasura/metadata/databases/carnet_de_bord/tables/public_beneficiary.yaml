@@ -274,19 +274,17 @@ select_permissions:
         - city
         - created_at
         - date_of_birth
+        - deployment_id
         - email
         - firstname
         - id
         - lastname
         - mobile_number
         - pe_number
+        - place_of_birth
         - postal_code
         - updated_at
-      filter:
-        notebook:
-          members:
-            account_id:
-              _eq: X-Hasura-User-Id
+      filter: {}
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb
