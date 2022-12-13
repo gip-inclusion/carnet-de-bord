@@ -1,3 +1,10 @@
+## [1.170.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.170.0...v1.170.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* correction des indicateurs de bénéficiaires accompagnés / non rattachés   ([#1341](https://github.com/gip-inclusion/carnet-de-bord/issues/1341)) ([be698dd](https://github.com/gip-inclusion/carnet-de-bord/commit/be698dd89220bd4f59bf182166cddf56933154f0))
+
 # [1.170.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.169.2...v1.170.0) (2022-12-13)
 
 
