@@ -1,3 +1,10 @@
+# [1.171.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.170.1...v1.171.0) (2022-12-14)
+
+
+### Features
+
+* correctif de données référents multiples ([#1353](https://github.com/gip-inclusion/carnet-de-bord/issues/1353)) ([e8119bf](https://github.com/gip-inclusion/carnet-de-bord/commit/e8119bf6e409664e67a1c4ccd8e376766cb1d350))
+
 ## [1.170.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.170.0...v1.170.1) (2022-12-13)
 
 
