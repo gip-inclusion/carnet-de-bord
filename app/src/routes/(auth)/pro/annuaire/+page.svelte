@@ -3,14 +3,13 @@
 	import { ProBeneficiaryCard } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type {
-		NotebookMember,
-		SearchNotebookMemberQueryVariables,
+		NotebookPublicView,
+		SearchPublicNotebooksQueryVariables,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { SearchNotebookMemberDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { SearchPublicNotebooksDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import { browser } from '$app/environment';
 	import { addMonths } from 'date-fns';
-	import { accountData } from '$lib/stores';
 
 	import type { PageData } from './$types';
 	import { dt } from './+page';
@@ -18,18 +17,16 @@
 	export let data: PageData;
 
 	let searching = false;
-	const accountId = $accountData.id;
 	let { search, selected } = data;
 
 	const queryVariables = buildQueryVariables({
-		accountId,
 		search,
 		selected,
 	});
-	const result = operationStore(SearchNotebookMemberDocument, queryVariables);
+	const result = operationStore(SearchPublicNotebooksDocument, queryVariables);
 	query(result);
 
-	function buildQueryVariables({ accountId, search, selected }) {
+	function buildQueryVariables({ search, selected }) {
 		const today = new Date();
 		const visitDate = { _gt: undefined, _lt: undefined };
 
@@ -45,7 +42,7 @@
 			visitDate._lt = addMonths(today, -12);
 		}
 
-		const variables: SearchNotebookMemberQueryVariables = { accountId, visitDate };
+		const variables: SearchPublicNotebooksQueryVariables = {};
 		variables.filter = `${search ?? ''}`;
 		return variables;
 	}
@@ -60,15 +57,15 @@
 	function updateResult() {
 		updateUrl(search, selected);
 		$result.variables = buildQueryVariables({
-			accountId,
 			search,
 			selected,
 		});
 		$result.reexecute();
 	}
 
-	function carnetUrl({ id }: { id: string }) {
-		return `/pro/carnet/${id}`;
+	function carnetUrl(id: string | undefined) {
+		// NotebookPublicView has the id type optional as it's coming from a Postgres view
+		return id ? `/pro/carnet/${id}` : '#';
 	}
 
 	function handleSubmit() {
@@ -76,8 +73,7 @@
 	}
 
 	/* TODO: find a way without cheating on that type */
-	$: members = ($result.data ? $result.data.search_notebook_members : []) as NotebookMember[];
-	$: notebooks = members ? members.map((m) => m.notebook) : [];
+	$: notebooks = ($result.data ? $result.data.search_public_notebooks : []) as NotebookPublicView[];
 
 	function openCrisp() {
 		if (browser && window.$crisp) {
@@ -139,7 +135,7 @@
 		<div class="fr-grid-row fr-grid-row--gutters">
 			{#each notebooks as notebook (notebook.id)}
 				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
-					<ProBeneficiaryCard beneficiary={notebook.beneficiary} href={carnetUrl(notebook)} />
+					<ProBeneficiaryCard beneficiary={notebook.beneficiary} href={carnetUrl(notebook.id)} />
 				</div>
 			{/each}
 		</div>

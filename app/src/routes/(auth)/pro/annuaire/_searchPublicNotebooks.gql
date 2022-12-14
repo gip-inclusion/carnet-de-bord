@@ -1,0 +1,26 @@
+query SearchPublicNotebooks(
+  $filter: String
+) {
+ search_public_notebooks(
+   args: { search: $filter },
+   order_by: { updated_at: desc_nulls_first }
+ ) {
+   id
+   beneficiary {
+     dateOfBirth
+     firstname
+     id
+     lastname
+     mobileNumber
+     orientationRequest(order_by: {createdAt: desc}, limit: 1) {
+       id
+       status
+       createdAt
+       decidedAt
+       requestedOrientationType {
+         label
+       }
+     }
+   }
+ }
+}

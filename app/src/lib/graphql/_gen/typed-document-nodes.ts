@@ -9475,6 +9475,10 @@ export type QueryRoot = {
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
+	/** execute function "search_public_notebooks" which returns "notebook_public_view" */
+	search_public_notebooks: Array<NotebookPublicView>;
+	/** execute function "search_public_notebooks" and query aggregates on result of table type "notebook_public_view" */
+	search_public_notebooks_aggregate: NotebookPublicViewAggregate;
 	/** execute function "search_rome_codes" which returns "rome_code" */
 	search_rome_codes: Array<RomeCode>;
 	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_code" */
@@ -10139,6 +10143,24 @@ export type QueryRootSearchNotebookMembersAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
 	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+export type QueryRootSearchPublicNotebooksArgs = {
+	args: SearchPublicNotebooksArgs;
+	distinct_on?: InputMaybe<Array<NotebookPublicViewSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookPublicViewOrderBy>>;
+	where?: InputMaybe<NotebookPublicViewBoolExp>;
+};
+
+export type QueryRootSearchPublicNotebooksAggregateArgs = {
+	args: SearchPublicNotebooksArgs;
+	distinct_on?: InputMaybe<Array<NotebookPublicViewSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookPublicViewOrderBy>>;
+	where?: InputMaybe<NotebookPublicViewBoolExp>;
 };
 
 export type QueryRootSearchRomeCodesArgs = {
@@ -11001,6 +11023,10 @@ export type SearchNotebookMembersArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
 
+export type SearchPublicNotebooksArgs = {
+	search?: InputMaybe<Scalars['String']>;
+};
+
 export type SearchRomeCodesArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
@@ -11688,6 +11714,10 @@ export type SubscriptionRoot = {
 	search_notebook_members: Array<NotebookMember>;
 	/** execute function "search_notebook_members" and query aggregates on result of table type "notebook_member" */
 	search_notebook_members_aggregate: NotebookMemberAggregate;
+	/** execute function "search_public_notebooks" which returns "notebook_public_view" */
+	search_public_notebooks: Array<NotebookPublicView>;
+	/** execute function "search_public_notebooks" and query aggregates on result of table type "notebook_public_view" */
+	search_public_notebooks_aggregate: NotebookPublicViewAggregate;
 	/** execute function "search_rome_codes" which returns "rome_code" */
 	search_rome_codes: Array<RomeCode>;
 	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_code" */
@@ -12542,6 +12572,24 @@ export type SubscriptionRootSearchNotebookMembersAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookMemberOrderBy>>;
 	where?: InputMaybe<NotebookMemberBoolExp>;
+};
+
+export type SubscriptionRootSearchPublicNotebooksArgs = {
+	args: SearchPublicNotebooksArgs;
+	distinct_on?: InputMaybe<Array<NotebookPublicViewSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookPublicViewOrderBy>>;
+	where?: InputMaybe<NotebookPublicViewBoolExp>;
+};
+
+export type SubscriptionRootSearchPublicNotebooksAggregateArgs = {
+	args: SearchPublicNotebooksArgs;
+	distinct_on?: InputMaybe<Array<NotebookPublicViewSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookPublicViewOrderBy>>;
+	where?: InputMaybe<NotebookPublicViewBoolExp>;
 };
 
 export type SubscriptionRootSearchRomeCodesArgs = {
@@ -14517,6 +14565,34 @@ export type SearchNotebookMemberQuery = {
 				}>;
 			};
 		};
+	}>;
+};
+
+export type SearchPublicNotebooksQueryVariables = Exact<{
+	filter?: InputMaybe<Scalars['String']>;
+}>;
+
+export type SearchPublicNotebooksQuery = {
+	__typename?: 'query_root';
+	search_public_notebooks: Array<{
+		__typename?: 'notebook_public_view';
+		id?: string | null;
+		beneficiary?: {
+			__typename?: 'beneficiary';
+			dateOfBirth: string;
+			firstname: string;
+			id: string;
+			lastname: string;
+			mobileNumber?: string | null;
+			orientationRequest: Array<{
+				__typename?: 'orientation_request';
+				id: string;
+				status?: string | null;
+				createdAt: string;
+				decidedAt?: string | null;
+				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+			}>;
+		} | null;
 	}>;
 };
 
@@ -22747,6 +22823,126 @@ export const SearchNotebookMemberDocument = {
 		},
 	],
 } as unknown as DocumentNode<SearchNotebookMemberQuery, SearchNotebookMemberQueryVariables>;
+export const SearchPublicNotebooksDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'SearchPublicNotebooks' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'search_public_notebooks' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'args' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'search' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'updated_at' },
+											value: { kind: 'EnumValue', value: 'desc_nulls_first' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationRequest' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'limit' },
+														value: { kind: 'IntValue', value: '1' },
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'requestedOrientationType' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<SearchPublicNotebooksQuery, SearchPublicNotebooksQueryVariables>;
 export const GetNotebookDocument = {
 	kind: 'Document',
 	definitions: [
@@ -26671,6 +26867,10 @@ export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 export type SearchNotebookMemberQueryStore = OperationStore<
 	SearchNotebookMemberQuery,
 	SearchNotebookMemberQueryVariables
+>;
+export type SearchPublicNotebooksQueryStore = OperationStore<
+	SearchPublicNotebooksQuery,
+	SearchPublicNotebooksQueryVariables
 >;
 export type GetNotebookQueryStore = OperationStore<GetNotebookQuery, GetNotebookQueryVariables>;
 export type GetNotebookEventsQueryStore = OperationStore<
