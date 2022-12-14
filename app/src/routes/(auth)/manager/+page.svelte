@@ -8,7 +8,6 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	import { operationStore, query } from '@urql/svelte';
-	import UpdateNotebookMembers from '$lib/ui/Manager/UpdateNotebookMembers.svelte';
 	import ImportOrientationManager from '$lib/ui/Manager/ImportOrientationManager.svelte';
 
 	const deploymentId = $connectedUser.deploymentId;
@@ -21,14 +20,6 @@
 	query(result);
 
 	$: deploymentInfo = $result.data;
-	$: structures = deploymentInfo?.structuresWithPros;
-	$: professionals = structures?.flatMap((structure) => {
-		const structureId = structure.id;
-		return structure.professionals.map((pro) => ({
-			...pro,
-			structureId,
-		}));
-	});
 
 	function colorize(quantity: number, flip = false) {
 		const success = flip ? quantity === 0 : quantity !== 0;
@@ -122,20 +113,6 @@
 				on:close={refreshMetrics}
 			>
 				<ImportBeneficiaries />
-			</Dialog>
-		</div>
-		<div class="fr-col-sm-4 flex">
-			<Dialog
-				label="Procéder à des réorientations"
-				title="Procéder à des réorientations"
-				size={'large'}
-				showButtons={false}
-				on:close={refreshMetrics}
-			>
-				<svelte:fragment slot="buttonLabel">
-					<span class="block w-44"> Importer une liste<br />de réorientations</span>
-				</svelte:fragment>
-				<UpdateNotebookMembers {professionals} {structures} />
 			</Dialog>
 		</div>
 		<div class="fr-col-sm-4 flex">
