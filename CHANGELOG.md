@@ -1,3 +1,10 @@
+# [1.172.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.171.1...v1.172.0) (2022-12-14)
+
+
+### Features
+
+* rendre les referents uniques ([#1358](https://github.com/gip-inclusion/carnet-de-bord/issues/1358)) ([7de39db](https://github.com/gip-inclusion/carnet-de-bord/commit/7de39db0c0f0184d3c7c9e2235fd4a203c160e94))
+
 ## [1.171.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.171.0...v1.171.1) (2022-12-14)
 
 
