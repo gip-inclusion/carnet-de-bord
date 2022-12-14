@@ -42,13 +42,14 @@ async function handleResponse<T>(response: Response): Promise<T> {
 		return response.json();
 	}
 
+	let errorMessage;
 	if (response.headers.get('Content-type').includes('application/json')) {
-		const { message } = await response.json();
-		if (message) {
-			throw new HTTPError(message, response.status, response.statusText);
-		}
+		const errorBody = await response.json();
+		errorMessage = errorBody.message ?? errorBody.detail ?? JSON.stringify(errorBody);
+	} else {
+		errorMessage = await response.text();
 	}
-	const errorMessage = await response.text();
+
 	throw new HTTPError(errorMessage, response.status, response.statusText);
 }
 

@@ -5,6 +5,8 @@ type SentryInterface = {
 	init: (options: Options) => void;
 };
 
+let sentry;
+
 export function initSentry(Sentry: SentryInterface) {
 	if (!env.PUBLIC_SENTRY_DSN) {
 		return;
@@ -17,4 +19,11 @@ export function initSentry(Sentry: SentryInterface) {
 		release: `carnet-de-bord-app@${appVersion}`,
 		autoSessionTracking: false,
 	});
+
+	sentry = Sentry;
+}
+
+export function captureException(err: Error) {
+	console.error(err);
+	if (sentry) sentry.captureException(err);
 }

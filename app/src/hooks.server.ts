@@ -1,7 +1,7 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { logger } from '$lib/utils/logger';
 import * as Sentry from '@sentry/node';
-import { initSentry } from '$lib/utils/sentry';
+import { initSentry, captureException } from '$lib/utils/sentry';
 
 initSentry(Sentry);
 
@@ -37,5 +37,5 @@ export const handleError: HandleServerError = ({ error, event }) => {
 		method: event.request.method,
 		url: event.url,
 	});
-	Sentry.captureException(err);
+	captureException(err);
 };
