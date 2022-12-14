@@ -1,3 +1,10 @@
+## [1.172.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.172.1...v1.172.2) (2022-12-14)
+
+
+### Bug Fixes
+
+* **errors:** meilleur traitement des réponses d'erreur JSON ([#1349](https://github.com/gip-inclusion/carnet-de-bord/issues/1349)) ([196e4d0](https://github.com/gip-inclusion/carnet-de-bord/commit/196e4d06c3094fc708300587f6e4f54fe7020d55))
+
 ## [1.172.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.172.0...v1.172.1) (2022-12-14)
 
 
