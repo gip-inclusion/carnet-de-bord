@@ -24,7 +24,7 @@
 	export let beneficiaryLastname: string;
 	export let members: Member[];
 	export let appointments: Appointment[];
-	export let displayInviteButton = false;
+	export let displayMemberManagementButtons = false;
 
 	const removeNotebookMemberStore = operationStore(RemoveMemberFromNotebookDocument);
 	const removeNotebookMember = mutation(removeNotebookMemberStore);
@@ -72,35 +72,27 @@
 
 		return proAppointment ? formatDateTimeLocale(proAppointment.date) : '';
 	}
-
-	function currentAccountIsMember() {
-		return members.map((member) => member.account.id).includes($accountData.id);
-	}
 </script>
 
-{#if displayInviteButton || currentAccountIsMember}
+{#if displayMemberManagementButtons}
 	<div class="pb-6">
-		{#if displayInviteButton}
-			<Button
-				on:click={() => {
-					openInviteMember();
-				}}>Inviter un accompagnateur</Button
-			>
-		{/if}
-		{#if currentAccountIsMember}
-			<Dialog
-				buttonFullWidth={true}
-				outlineButton={false}
-				title="Se détacher"
-				label="Se détacher"
-				confirmLabel="Oui"
-				on:confirm={() => removeMember()}
-			>
-				<p>
-					Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?
-				</p>
-			</Dialog>
-		{/if}
+		<Button
+			on:click={() => {
+				openInviteMember();
+			}}>Inviter un accompagnateur</Button
+		>
+		<Dialog
+			buttonFullWidth={true}
+			outlineButton={false}
+			title="Se détacher"
+			label="Se détacher"
+			confirmLabel="Oui"
+			on:confirm={() => removeMember()}
+		>
+			<p>
+				Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?
+			</p>
+		</Dialog>
 	</div>
 {/if}
 <div class="fr-table fr-table--layout-fixed !mb-0">

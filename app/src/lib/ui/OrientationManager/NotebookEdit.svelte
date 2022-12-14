@@ -53,7 +53,7 @@
 				beneficiaryFirstname={notebook.beneficiary.firstname}
 				beneficiaryLastname={notebook.beneficiary.lastname}
 				appointments={notebook?.notebook?.appointments}
-				displayInviteButton={isMember}
+				displayMemberManagementButtons={isMember}
 			/>
 		</MainSection>
 		<MainSection title="Plan d'action">
