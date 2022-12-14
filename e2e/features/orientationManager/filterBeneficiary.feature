@@ -13,34 +13,34 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je recherche "ca"
 		Quand je clique sur "Rechercher"
-		Alors je vois "Non assigné" sur la ligne "Cash"
-		Alors je vois "Non assigné" sur la ligne "Carlson"
+		Alors je vois "NON ASSIGNÉ" sur la ligne "Cash"
+		Alors je vois "NON ASSIGNÉ" sur la ligne "Carlson"
 
 	Scénario: Afficher la liste des bénéficiaires à orienter de mon portefeuille
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
-		Alors je vois "Samy Rouate" sur la ligne "Mcleod"
-		Alors je vois "Samy Rouate" sur la ligne "Terry"
-		Alors je vois "Samy Rouate" sur la ligne "Tran"
+		Alors je vois "SAMY ROUATE" sur la ligne "Mcleod"
+		Alors je vois "SAMY ROUATE" sur la ligne "Terry"
+		Alors je vois "SAMY ROUATE" sur la ligne "Tran"
 
 	Scénario: Afficher la liste des bénéficiaires déja orientés de mon portefeuille
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Orienté" dans la liste "Statut"
-		Alors je vois "Samy Rouate" sur la ligne "Bennet"
-		Alors je vois "Samy Rouate" sur la ligne "Herrera"
-		Alors je vois "Samy Rouate" sur la ligne "Jacobson"
-		Alors je vois "Samy Rouate" sur la ligne "Raymond"
-		Alors je vois "Samy Rouate" sur la ligne "Rice"
+		Alors je vois "SAMY ROUATE" sur la ligne "Bennet"
+		Alors je vois "SAMY ROUATE" sur la ligne "Herrera"
+		Alors je vois "SAMY ROUATE" sur la ligne "Jacobson"
+		Alors je vois "SAMY ROUATE" sur la ligne "Raymond"
+		Alors je vois "SAMY ROUATE" sur la ligne "Rice"
 
 	Scénario: Afficher la liste des autres bénéficiaires non orientés
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
 		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
-		Alors je vois "Giulia Diaby" sur la ligne "Benjamin"
-		Alors je vois "Non assigné" sur la ligne "Conley"
+		Alors je vois "GIULIA DIABY" sur la ligne "Benjamin"
+		Alors je vois "NON ASSIGNÉ" sur la ligne "Conley"
 
 	Scénario: Afficher la liste des autres bénéficiaires non orientés sans chargé d'orientation
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
@@ -49,7 +49,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je choisis "Bénéficiaires non pris en charge par un chargé d'orientation"
 		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
 		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
-		Alors je vois "Non assigné" sur la ligne "Conley"
+		Alors je vois "NON ASSIGNÉ" sur la ligne "Conley"
 		Alors je ne vois pas "Benjamin"
 
 	Scénario: Afficher la liste des autres bénéficiaires déjà orienter
@@ -58,9 +58,9 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
 		Quand je selectionne l'option "Orienté" dans la liste "Statut"
 		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
-		Alors je vois "Non assigné" sur la ligne "Aguilar"
-		Alors je vois "Non assigné" sur la ligne "Beach"
-		Alors je vois "Giulia Diaby" sur la ligne "Cobb"
+		Alors je vois "NON ASSIGNÉ" sur la ligne "Aguilar"
+		Alors je vois "NON ASSIGNÉ" sur la ligne "Beach"
+		Alors je vois "GIULIA DIABY" sur la ligne "Cobb"
 
 	Scénario: Afficher la liste des autres bénéficiaires déjà orienter sans chargé d'orientation
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
@@ -68,5 +68,5 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
 		Quand je selectionne l'option "Orienté" dans la liste "Statut"
 		Quand je choisis "Bénéficiaires non pris en charge par un chargé d'orientation"
-		Alors je vois "Non assigné" sur la ligne "Beach"
+		Alors je vois "NON ASSIGNÉ" sur la ligne "Beach"
 		Alors je ne vois pas "Cobb"
