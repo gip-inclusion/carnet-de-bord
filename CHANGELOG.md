@@ -1,3 +1,10 @@
+## [1.172.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.172.0...v1.172.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* revert current status on orientation_request ([#1356](https://github.com/gip-inclusion/carnet-de-bord/issues/1356)) ([68d7fd5](https://github.com/gip-inclusion/carnet-de-bord/commit/68d7fd5ed884673fd58da1710b283b5e82d5749e))
+
 # [1.172.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.171.1...v1.172.0) (2022-12-14)
 
 
