@@ -23,25 +23,27 @@ mutation AcceptOrientationRequest(
   ) {
     notebookId
   }
-  old_ref: update_notebook_member(
+
+  deactivated_rows : update_notebook_member(
     where: {
-      notebookId: { _eq: $notebook_id }
-      memberType: { _eq: "referent" }
+      _or: [
+          { # Matches previous referent's existing row
+            notebookId: { _eq: $notebook_id }
+            memberType: { _eq: "referent" }
+            active: { _eq: true }
+          }
+          { # Matches next referent's existing row
+            notebookId: { _eq: $notebook_id }
+            accountId: { _eq: $new_referent_account_id }
+            active: { _eq: true }
+          }
+        ]
     }
     _set: { active: false,  membership_ends_at: $date }
   ) {
     affected_rows
   }
-  new_ref: update_notebook_member(
-    where: {
-      notebookId: { _eq: $notebook_id }
-      accountId: { _eq: $new_referent_account_id }
-      active: { _eq: true }
-    }
-    _set: { active: false,  membership_ends_at: $date }
-  ) {
-    affected_rows
-  }
+
   update_beneficiary_structure(
     where: { beneficiaryId: { _eq: $beneficiary_id } }
     _set: { status: "outdated" }
@@ -55,7 +57,7 @@ mutation AcceptOrientationRequest(
     id
   }
 
-  new_ref_new_line: insert_notebook_member_one(
+  new_referent_new_row: insert_notebook_member_one(
     object: {
       notebookId: $notebook_id
       memberType: "referent"
@@ -65,7 +67,8 @@ mutation AcceptOrientationRequest(
   ) @include(if: $with_new_referent) {
     id
   }
-  old_ref_new_line: insert_notebook_member_one(
+
+  old_referent_new_row: insert_notebook_member_one(
     object: {
       notebookId: $notebook_id
       memberType: "no_referent"
@@ -75,6 +78,7 @@ mutation AcceptOrientationRequest(
   ) @include(if: $with_old_referent) {
     id
   }
+
   orientation_request: update_orientation_request_by_pk(
     pk_columns: { id: $orientation_request_id }
     _set: {
