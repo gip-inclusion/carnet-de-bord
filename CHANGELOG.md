@@ -1,3 +1,10 @@
+## [1.171.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.171.0...v1.171.1) (2022-12-14)
+
+
+### Reverts
+
+* Revert "feat: correctif de données référents multiples" (#1357) ([d134674](https://github.com/gip-inclusion/carnet-de-bord/commit/d134674f99b1f70fc74090d01cb416c285929655)), closes [#1357](https://github.com/gip-inclusion/carnet-de-bord/issues/1357) [#1353](https://github.com/gip-inclusion/carnet-de-bord/issues/1353)
+
 # [1.171.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.170.1...v1.171.0) (2022-12-14)
 
 
