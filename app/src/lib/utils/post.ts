@@ -45,7 +45,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 	let errorMessage;
 	if (response.headers.get('Content-type').includes('application/json')) {
 		const errorBody = await response.json();
-		errorMessage = errorBody.errorMessage ?? errorBody.detail ?? JSON.stringify(errorBody);
+		errorMessage = errorBody.message ?? errorBody.detail ?? JSON.stringify(errorBody);
 	} else {
 		errorMessage = await response.text();
 	}
