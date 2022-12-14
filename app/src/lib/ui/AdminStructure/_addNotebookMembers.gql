@@ -1,5 +1,0 @@
-mutation AddNotebookMembers($objects: [notebook_member_insert_input!]!) {
-  insert_notebook_member(objects: $objects) {
-    affected_rows
-  }
-}
