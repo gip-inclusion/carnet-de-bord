@@ -1,16 +1,19 @@
 import os
-
+from typing import Any
 from pydantic import BaseSettings, validator
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+from gql import Client
+from gql.transport.requests import RequestsHTTPTransport
 
 
 class Settings(BaseSettings):
+
     app_url: str
     database_url: str
     hasura_graphql_jwt_secret: str
+    hasura_graphql_admin_secret: str
     graphql_api_url: str
-
     smtp_host: str
     smtp_port: str
     smtp_user: str | None
@@ -54,7 +57,29 @@ class Settings(BaseSettings):
 env_file_path = os.getenv("ENV_FILE", os.path.join(dir_path, "..", "..", "..", ".env"))
 
 
+class GqlSchema:
+    client: Client
+    schema: Any
+
+    def __init__(self, url, secret):
+        transport = RequestsHTTPTransport(
+            url=url,
+            headers={"x-hasura-admin-secret": secret},
+        )
+        self.client = Client(transport=transport, fetch_schema_from_transport=True)
+        with self.client:
+            self.schema = self.client.schema
+
+    def get_schema(self):
+        #  Fetch graphql schema using a gql client
+        #  so we we can reuse it when using gql.DSL
+        return self.schema
+
+
 if os.path.exists(env_file_path):
     settings = Settings(_env_file=env_file_path, _env_file_encoding="utf-8")
 else:
     settings = Settings()
+
+
+gqlSchema = GqlSchema(settings.graphql_api_url, settings.hasura_graphql_admin_secret)

@@ -1,6 +1,5 @@
 mutation AcceptOrientationRequest(
   $orientation_request_id: uuid
-  $with_orientation_request_id: Boolean = false
   $orientation_type: orientation_type_enum
   $notebook_id: uuid!
   $beneficiary_id: uuid!
@@ -9,6 +8,7 @@ mutation AcceptOrientationRequest(
   $with_old_referent: Boolean = false
   $new_referent_account_id: uuid
   $with_new_referent: Boolean = false
+  $with_deactivation: Boolean = false
   $date: date
 ) {
   insert_notebook_info_one(
@@ -25,36 +25,38 @@ mutation AcceptOrientationRequest(
     notebookId
   }
 
-  deactivated_rows : update_notebook_member(
+  deactivated_rows: update_notebook_member(
     where: {
       _or: [
-          { # Matches previous referent's existing row
-            notebookId: { _eq: $notebook_id }
-            memberType: { _eq: "referent" }
-            active: { _eq: true }
-          }
-          { # Matches next referent's existing row
-            notebookId: { _eq: $notebook_id }
-            accountId: { _eq: $new_referent_account_id }
-            active: { _eq: true }
-          }
-        ]
+        {
+          # Matches previous referent's existing row
+          notebookId: { _eq: $notebook_id }
+          memberType: { _eq: "referent" }
+          active: { _eq: true }
+        }
+        {
+          # Matches next referent's existing row
+          notebookId: { _eq: $notebook_id }
+          accountId: { _eq: $new_referent_account_id }
+          active: { _eq: true }
+        }
+      ]
     }
-    _set: { active: false,  membership_ends_at: $date }
-  ) {
+    _set: { active: false, membership_ends_at: $date }
+  ) @include(if: $with_deactivation) {
     affected_rows
   }
 
   update_beneficiary_structure(
     where: { beneficiaryId: { _eq: $beneficiary_id } }
     _set: { status: "outdated" }
-  ) {
+  ) @include(if: $with_deactivation) {
     affected_rows
   }
 
   createBeneficiaryStructure: insert_beneficiary_structure_one(
     object: { beneficiaryId: $beneficiary_id, structureId: $structure_id }
-  ) {
+  ) @include(if: $with_deactivation) {
     id
   }
 

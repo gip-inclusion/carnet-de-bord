@@ -85,11 +85,20 @@ async def test_change_orientation_while_keeping_same_referent(
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )
     assert response.status_code == 200
-    rows_pierre_chevalier = get_notebook_members_by_notebook_id(
+    members = await get_notebook_members_by_notebook_id(
         db_connection,
         notebook_sophie_tifour.id,
     )
-    assert len(rows_pierre_chevalier) == 1
+    assert (
+        len(
+            [
+                member
+                for member in members
+                if member.account_id == professional_pierre_chevalier.account_id
+            ]
+        )
+        == 1
+    )
 
 
 @mock.patch("api.core.emails.send_mail")

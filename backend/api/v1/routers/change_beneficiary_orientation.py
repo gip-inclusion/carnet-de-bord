@@ -8,6 +8,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Header
 from fastapi.exceptions import HTTPException
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
+from gql.dsl import dsl_gql, DSLSchema, DSLMutation, DSLVariable
 from pydantic import BaseModel
 
 from api.core.emails import (
@@ -16,7 +17,7 @@ from api.core.emails import (
     send_deny_orientation_request_email,
     send_notebook_member_email,
 )
-from api.core.settings import settings
+from api.core.settings import settings, gqlSchema
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -39,18 +40,35 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
     def gql_variables_for_mutation(
         self, old_referent_account_id: UUID | None
     ) -> dict[str, str | bool]:
-        return {
-            "orientation_request_id": str(self.orientation_request_id),
-            "with_orientation_request_id": self.orientation_request_id is not None,
+        variables = (
+            {"orientation_request_id": str(self.orientation_request_id)}
+            if self.orientation_request_id
+            else {}
+        )
+
+        has_new_referent = self.new_referent_account_id is not None
+        has_old_referent = old_referent_account_id is not None
+        are_old_new_referents_different = str(self.new_referent_account_id) != str(
+            old_referent_account_id
+        )
+        if self.new_referent_account_id:
+            variables = variables | {
+                "new_referent_account_id": str(self.new_referent_account_id)
+            }
+        if old_referent_account_id:
+            variables = variables | {
+                "old_referent_account_id": str(old_referent_account_id)
+            }
+        return variables | {
             "orientation_type": str(self.orientation_type),
             "notebook_id": str(self.notebook_id),
             "beneficiary_id": str(self.beneficiary_id),
             "structure_id": str(self.structure_id),
-            "old_referent_account_id": str(old_referent_account_id),
-            "with_old_referent": old_referent_account_id is not None,
-            "new_referent_account_id": str(self.new_referent_account_id),
-            "with_new_referent": self.new_referent_account_id is not None,
+            "with_old_referent": has_old_referent and are_old_new_referents_different,
+            "with_new_referent": has_new_referent and are_old_new_referents_different,
             "date": datetime.now().isoformat(),
+            "with_deactivation": (has_new_referent and are_old_new_referents_different)
+            or (has_old_referent and not has_new_referent),
         }
 
     def gql_variables_for_query(self) -> dict[str, str | bool]:
@@ -79,13 +97,6 @@ async def change_beneficiary_orientation(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        mutation_filename = (
-            "_changeBeneficiaryOrientation.gql"
-            if data.orientation_request_id is None
-            else "_acceptOrientationRequest.gql"
-        )
-
-        mutation = load_gql_file("_acceptOrientationRequest.gql")
 
         notification_response = await session.execute(
             gql(load_gql_file("notificationInfo.gql")),
@@ -125,6 +136,116 @@ async def change_beneficiary_orientation(
                 "former_referents"
             ][0]["account"]["id"]
 
+        has_new_referent = str(data.new_referent_account_id) is not None
+        has_old_referent = str(former_referent_account_id) is not None
+        are_old_new_referents_different = str(data.new_referent_account_id) != str(
+            former_referent_account_id
+        )
+        need_deactivation = (has_new_referent and are_old_new_referents_different) or (
+            has_old_referent and not has_new_referent
+        )
+
+        schema = gqlSchema.get_schema()
+        ds = DSLSchema(schema)
+        mutations = [
+            DSLMutation(
+                ds.mutation_root.insert_notebook_info_one.args(
+                    object={
+                        "notebookId": str(data.notebook_id),
+                        "orientation": data.orientation_type,
+                        "needOrientation": False,
+                    },
+                    on_conflict={
+                        "constraint": "notebook_info_pkey",
+                        "update_columns": ["orientation", "needOrientation"],
+                    },
+                ).select(ds.notebook_info.notebookId)
+            )
+        ]
+        if need_deactivation:
+            print("need deactivation")
+            mutations.append(
+                DSLMutation(
+                    ds.mutation_root.update_notebook_member.args(
+                        where={
+                            "_or": [
+                                {
+                                    "notebookId": {"_eq": str(data.notebook_id)},
+                                    "memberType": {"_eq": "referent"},
+                                    "active": {"_eq": True},
+                                },
+                                {
+                                    "notebookId": {"_eq": str(data.notebook_id)},
+                                    "accountId": {
+                                        "_eq": str(data.new_referent_account_id)
+                                    },
+                                    "active": {"_eq": True},
+                                }
+                                if data.new_referent_account_id
+                                else {},
+                            ]
+                        },
+                        _set={
+                            "active": False,
+                            "membership_ends_at": datetime.now().isoformat(),
+                        },
+                    ).select(ds.notebook_member_mutation_response.affected_rows)
+                )
+            )
+        print(data)
+        all_mutations = dsl_gql(mutations[1])
+        result = await session.execute(all_mutations)
+        print(result)
+        return result
+
+        mutation_filename = (
+            "_changeBeneficiaryOrientation.gql"
+            if data.orientation_request_id is None
+            else "_acceptOrientationRequest.gql"
+        )
+
+        print(mutation_filename)
+        mutation = load_gql_file(mutation_filename)
+
+        notification_response = await session.execute(
+            gql(load_gql_file("notificationInfo.gql")),
+            variable_values=data.gql_variables_for_query(),
+        )
+
+        if notification_response is None:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error while reading notificationInfo.gql mutation file",
+            )
+
+        if data.orientation_request_id:
+            beneficiary = notification_response["notebook_by_pk"]["beneficiary"]
+
+            try:
+                raise_if_orientation_request_not_match_beneficiary(
+                    str(data.orientation_request_id),
+                    str(beneficiary["orientation_request"][0]["id"])
+                    if len(beneficiary["orientation_request"]) > 0
+                    else "",
+                )
+            except Exception as exception:
+                logging.error(
+                    "%s does not match beneficiary_id %s",
+                    data.orientation_request_id,
+                    data.beneficiary_id,
+                )
+                raise HTTPException(
+                    status_code=403,
+                    detail="orientation_request_id and beneficiary don't match",
+                ) from exception
+
+        former_referent_account_id = None
+        if notification_response["notebook_by_pk"]["former_referents"]:
+            former_referent_account_id = notification_response["notebook_by_pk"][
+                "former_referents"
+            ][0]["account"]["id"]
+
+        print(data.gql_variables_for_mutation(former_referent_account_id))
         response = await session.execute(
             gql(mutation),
             variable_values=data.gql_variables_for_mutation(former_referent_account_id),

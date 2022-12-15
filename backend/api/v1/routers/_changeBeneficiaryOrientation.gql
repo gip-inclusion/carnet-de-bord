@@ -3,8 +3,12 @@ mutation ChangeBeneficiaryOrientation(
   $notebook_id: uuid!
   $beneficiary_id: uuid!
   $structure_id: uuid!
-  $professional_account_id: uuid
-  $with_professional_account_id: Boolean = false
+  $old_referent_account_id: uuid
+  $with_old_referent: Boolean = false
+  $new_referent_account_id: uuid
+  $with_new_referent: Boolean = false
+  $with_deactivation: Boolean = false
+  $date: date
 ) {
   insert_notebook_info_one(
     object: {
@@ -19,40 +23,61 @@ mutation ChangeBeneficiaryOrientation(
   ) {
     notebookId
   }
-  update_notebook_member(
+
+  deactivated_rows: update_notebook_member(
     where: {
-      notebookId: { _eq: $notebook_id }
-      memberType: { _eq: "referent" }
+      _or: [
+        {
+          # Matches previous referent's existing row
+          notebookId: { _eq: $notebook_id }
+          memberType: { _eq: "referent" }
+          active: { _eq: true }
+        }
+        {
+          # Matches next referent's existing row
+          notebookId: { _eq: $notebook_id }
+          accountId: { _eq: $new_referent_account_id }
+          active: { _eq: true }
+        }
+      ]
     }
-    _set: { memberType: "former_referent" }
-  ) {
+    _set: { active: false, membership_ends_at: $date }
+  ) @include(if: $with_deactivation) {
     affected_rows
   }
+
   update_beneficiary_structure(
     where: { beneficiaryId: { _eq: $beneficiary_id } }
     _set: { status: "outdated" }
-  ) {
+  ) @include(if: $with_deactivation) {
     affected_rows
   }
 
   createBeneficiaryStructure: insert_beneficiary_structure_one(
     object: { beneficiaryId: $beneficiary_id, structureId: $structure_id }
-  ) {
+  ) @include(if: $with_deactivation) {
     id
   }
 
-  insert_notebook_member_one(
+  new_referent_new_row: insert_notebook_member_one(
     object: {
       notebookId: $notebook_id
       memberType: "referent"
-      accountId: $professional_account_id
+      accountId: $new_referent_account_id
       active: true
     }
-    on_conflict: {
-      constraint: notebook_member_notebook_id_account_id_key
-      update_columns: [memberType, active]
+  ) @include(if: $with_new_referent) {
+    id
+  }
+
+  old_referent_new_row: insert_notebook_member_one(
+    object: {
+      notebookId: $notebook_id
+      memberType: "no_referent"
+      accountId: $old_referent_account_id
+      active: true
     }
-  ) @include(if: $with_professional_account_id) {
+  ) @include(if: $with_old_referent) {
     id
   }
 }
