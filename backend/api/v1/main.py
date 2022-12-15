@@ -1,5 +1,9 @@
 from fastapi import APIRouter
+from gql import Client
+from gql.dsl import DSLQuery, DSLSchema, dsl_gql
+from gql.transport.aiohttp import AIOHTTPTransport
 
+from api.core.settings import gqlSchema, settings
 from api.v1.routers import (
     admin_structures,
     beneficiaries,
@@ -9,12 +13,6 @@ from api.v1.routers import (
     structures,
     uploads,
 )
-from gql import Client
-from gql.dsl import DSLSchema, DSLQuery, dsl_gql
-from gql.transport.aiohttp import AIOHTTPTransport
-
-
-from api.core.settings import settings, gqlSchema
 
 api_router = APIRouter()
 api_router.include_router(uploads.router, prefix="/uploads", tags=["uploads"])
