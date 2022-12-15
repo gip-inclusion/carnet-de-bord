@@ -2,7 +2,11 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
   lastVisited: notebook_member(
     order_by: { lastVisitedAt: desc_nulls_last }
     limit: 3
-    where: { accountId: { _eq: $accountId }, lastVisitedAt: { _is_null: false } }
+    where: {
+      active: { _eq: true }
+      accountId: { _eq: $accountId }
+      lastVisitedAt: { _is_null: false }
+    }
   ) {
     notebook {
       ...notebookRecentFragment
@@ -11,7 +15,11 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
   lastUpdated: notebook_member(
     order_by: { lastModifiedAt: desc_nulls_last }
     limit: 3
-    where: { accountId: { _eq: $accountId }, lastModifiedAt: { _is_null: false } }
+    where: {
+      active: { _eq: true }
+      accountId: { _eq: $accountId }
+      lastModifiedAt: { _is_null: false }
+    }
   ) {
     notebook {
       ...notebookRecentFragment

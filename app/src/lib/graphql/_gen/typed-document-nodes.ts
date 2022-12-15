@@ -23520,6 +23520,20 @@ export const GetLastVisitedOrUpdatedDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'accountId' },
 											value: {
 												kind: 'ObjectValue',
@@ -23599,6 +23613,20 @@ export const GetLastVisitedOrUpdatedDocument = {
 								value: {
 									kind: 'ObjectValue',
 									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
+										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'accountId' },
@@ -23734,6 +23762,20 @@ export const SearchNotebookMemberDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'lastVisitedAt' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'visitDate' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
 										},
 									],
 								},

@@ -13,3 +13,7 @@ Scénario: Login pro
 Scénario: Accueil pro
 	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
 	Alors je vois "Rechercher un bénéficiaire"
+
+Scénario: Affichage des derniers carnet consultés
+	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
+	Alors je vois "Sophie Tifour"

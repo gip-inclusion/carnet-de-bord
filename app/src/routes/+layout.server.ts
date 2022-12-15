@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import { redirect } from '@sveltejs/kit';
 import { baseUrlForRole, homeForRole } from '$lib/routes';
 import type { JwtPayload } from '$lib/utils/getJwt';
+import { logger } from '$lib/utils/logger';
 
 const authPages = ['/pro', '/admin', '/manager', '/structures', '/orientation', '/beneficiaire'];
 
@@ -18,13 +19,16 @@ export const load: LayoutServerLoad = async (event) => {
 
 	if (cookies.jwt) {
 		user = jwtDecode<JwtPayload>(cookies.jwt);
+
 		if (
 			event.url.pathname === '/' ||
 			(needAuth(event.url.pathname) && !event.url.pathname.startsWith(baseUrlForRole(user.role)))
 		) {
+			console.log(event.url, homeForRole);
 			throw redirect(302, homeForRole(user.role));
 		}
 	} else if (needAuth(event.url.pathname)) {
+		logger.warn('need auth');
 		throw redirect(302, '/auth/login');
 	}
 
