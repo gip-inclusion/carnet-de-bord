@@ -2,7 +2,12 @@ import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-node';
 import { resolve } from 'path';
 
-const defaultSrc = ['self', '*.fabrique.social.gouv.fr', '*.crisp.chat'];
+const defaultSrc = [
+	'self',
+	'*.fabrique.social.gouv.fr',
+	'*.crisp.chat',
+	...(process.env.PUBLIC_MATOMO_URL ? [process.env.PUBLIC_MATOMO_URL] : []),
+];
 
 const config = {
 	kit: {
