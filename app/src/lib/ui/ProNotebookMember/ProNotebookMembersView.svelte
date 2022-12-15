@@ -2,12 +2,19 @@
 	import { openComponent } from '$lib/stores';
 	import { Button } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
+	import Dialog from '$lib/ui/Dialog.svelte';
 	import ProNotebookMemberInvitation from './ProNotebookMemberInvitation.svelte';
 	import ProNotebookMemberView from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { formatDateTimeLocale } from '$lib/utils/date';
-	import { type GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		type GetNotebookQuery,
+		RoleEnum,
+		RemoveMemberFromNotebookDocument,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { displayFullName } from '../format';
+	import { accountData } from '$lib/stores';
+	import { mutation, operationStore } from '@urql/svelte';
 
 	type Member = GetNotebookQuery['notebook_public_view'][0]['members'][0];
 	type Appointment = GetNotebookQuery['notebook_public_view'][0]['notebook']['appointments'][0];
@@ -17,13 +24,17 @@
 	export let beneficiaryLastname: string;
 	export let members: Member[];
 	export let appointments: Appointment[];
-	export let displayInviteButton = false;
+	export let displayMemberManagementButtons = false;
 
-	const openMemberInfo = (member: Member) => {
+	const removeNotebookMemberStore = operationStore(RemoveMemberFromNotebookDocument);
+	const removeNotebookMember = mutation(removeNotebookMemberStore);
+
+	function openMemberInfo(member: Member) {
 		trackEvent('pro', 'members', 'view info');
 		openComponent.open({ component: ProNotebookMemberView, props: { member, notebookId } });
-	};
-	const openInviteMember = () => {
+	}
+
+	function openInviteMember() {
 		trackEvent('pro', 'members', 'add new member form');
 		openComponent.open({
 			component: ProNotebookMemberInvitation,
@@ -34,7 +45,25 @@
 				accountIds: members ? members.map((m) => m.account.id) : [],
 			},
 		});
-	};
+	}
+
+	function currentAccountIsTheOnlyMemberOfStructure(): boolean {
+		const structureIds = members.map((member) => member.account.professional?.structure?.id);
+		const membersInStructure = structureIds.filter(
+			(structureId) => structureId === $accountData.professional.structure.id
+		);
+		return membersInStructure.length === 1;
+	}
+
+	async function removeMember() {
+		trackEvent('pro', 'members', 'remove member');
+		await removeNotebookMember({
+			notebookId,
+			accountId: $accountData.id,
+			structureId: $accountData.professional.structure.id,
+			removeBeneficiaryStructure: currentAccountIsTheOnlyMemberOfStructure(),
+		});
+	}
 
 	function filterAppointmentsByAccountId(memberAccountId: string): string {
 		const proAppointment: Appointment = appointments.filter(
@@ -45,13 +74,25 @@
 	}
 </script>
 
-{#if displayInviteButton}
+{#if displayMemberManagementButtons}
 	<div class="pb-6">
 		<Button
 			on:click={() => {
 				openInviteMember();
 			}}>Inviter un accompagnateur</Button
 		>
+		<Dialog
+			buttonFullWidth={true}
+			outlineButton={false}
+			title="Se détacher"
+			label="Se détacher"
+			confirmLabel="Oui"
+			on:confirm={() => removeMember()}
+		>
+			<p>
+				Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?
+			</p>
+		</Dialog>
 	</div>
 {/if}
 <div class="fr-table fr-table--layout-fixed !mb-0">
@@ -97,7 +138,7 @@
 							<Text value={displayFullName(member.account?.orientation_manager)} />
 						</div>
 					</td>
-					<td> Chargé d'orientation </td>
+					<td>Chargé d'orientation</td>
 					<td>
 						<Text value={filterAppointmentsByAccountId(member.account?.id)} />
 					</td>

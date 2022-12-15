@@ -1,0 +1,40 @@
+mutation RemoveMemberFromNotebook(
+  $accountId: uuid!,
+  $notebookId: uuid!,
+  $structureId: uuid!,
+  $removeBeneficiaryStructure: Boolean!
+) {
+  update_notebook_member(
+    where: {
+      _and: [
+        {notebookId: {_eq: $notebookId}},
+        {accountId: {_eq: $accountId}},
+        {active: {_eq: true}}
+      ]
+    },
+    _set: {active: false}
+  ) {
+    affected_rows
+    returning {
+      id
+      accountId
+      active
+      notebookId
+    }
+  }
+  update_beneficiary_structure(
+    where: {
+      _and: [
+        {beneficiary: {notebook_public_view: {id: {_eq: $notebookId}}}},
+        {structureId: {_eq: $structureId}}
+      ]
+    },
+    _set: {status: "outdated"}
+  ) @include(if: $removeBeneficiaryStructure) {
+    affected_rows
+    returning {
+      id
+      status
+    }
+  }
+}

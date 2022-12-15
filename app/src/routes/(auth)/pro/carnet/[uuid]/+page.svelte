@@ -222,7 +222,7 @@
 						beneficiaryFirstname={beneficiary.firstname}
 						beneficiaryLastname={beneficiary.lastname}
 						{appointments}
-						displayInviteButton={isMember}
+						displayMemberManagementButtons={isMember}
 					/>
 				{:else}
 					<NotebookMembers {members} />

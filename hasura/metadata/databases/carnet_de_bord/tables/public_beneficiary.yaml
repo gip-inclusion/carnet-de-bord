@@ -58,6 +58,15 @@ object_relationships:
         table:
           name: notebook
           schema: public
+  - name: notebook_public_view
+    using:
+      manual_configuration:
+        column_mapping:
+          id: beneficiary_id
+        insertion_order: null
+        remote_table:
+          name: notebook_public_view
+          schema: public
 array_relationships:
   - name: orientationRequest
     using:

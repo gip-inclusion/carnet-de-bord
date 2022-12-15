@@ -40,6 +40,19 @@ export type CreateDeploymentOutput = {
 	label: Scalars['String'];
 };
 
+/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+export type IntComparisonExp = {
+	_eq?: InputMaybe<Scalars['Int']>;
+	_gt?: InputMaybe<Scalars['Int']>;
+	_gte?: InputMaybe<Scalars['Int']>;
+	_in?: InputMaybe<Array<Scalars['Int']>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_lt?: InputMaybe<Scalars['Int']>;
+	_lte?: InputMaybe<Scalars['Int']>;
+	_neq?: InputMaybe<Scalars['Int']>;
+	_nin?: InputMaybe<Array<Scalars['Int']>>;
+};
+
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type StringComparisonExp = {
 	_eq?: InputMaybe<Scalars['String']>;
@@ -248,6 +261,33 @@ export type AccountAggregate = {
 	nodes: Array<Account>;
 };
 
+export type AccountAggregateBoolExp = {
+	bool_and?: InputMaybe<AccountAggregateBoolExpBoolAnd>;
+	bool_or?: InputMaybe<AccountAggregateBoolExpBoolOr>;
+	count?: InputMaybe<AccountAggregateBoolExpCount>;
+};
+
+export type AccountAggregateBoolExpBoolAnd = {
+	arguments: AccountSelectColumnAccountAggregateBoolExpBoolAndArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<AccountBoolExp>;
+	predicate: BooleanComparisonExp;
+};
+
+export type AccountAggregateBoolExpBoolOr = {
+	arguments: AccountSelectColumnAccountAggregateBoolExpBoolOrArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<AccountBoolExp>;
+	predicate: BooleanComparisonExp;
+};
+
+export type AccountAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<AccountSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<AccountBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "account" */
 export type AccountAggregateFields = {
 	__typename?: 'account_aggregate_fields';
@@ -297,11 +337,17 @@ export type AccountBoolExp = {
 	manager?: InputMaybe<ManagerBoolExp>;
 	managerId?: InputMaybe<UuidComparisonExp>;
 	notebookActionsCreated?: InputMaybe<NotebookActionBoolExp>;
+	notebookActionsCreated_aggregate?: InputMaybe<NotebookActionAggregateBoolExp>;
 	notebookEventsCreated?: InputMaybe<NotebookEventBoolExp>;
+	notebookEventsCreated_aggregate?: InputMaybe<NotebookEventAggregateBoolExp>;
 	notebookFocusesCreated?: InputMaybe<NotebookFocusBoolExp>;
+	notebookFocusesCreated_aggregate?: InputMaybe<NotebookFocusAggregateBoolExp>;
 	notebookTargetsCreated?: InputMaybe<NotebookTargetBoolExp>;
+	notebookTargetsCreated_aggregate?: InputMaybe<NotebookTargetAggregateBoolExp>;
 	notebooksCreated?: InputMaybe<NotebookMemberBoolExp>;
+	notebooksCreated_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	notebooksWhereMember?: InputMaybe<NotebookMemberBoolExp>;
+	notebooksWhereMember_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	onboardingDone?: InputMaybe<BooleanComparisonExp>;
 	orientationManagerId?: InputMaybe<UuidComparisonExp>;
 	orientation_manager?: InputMaybe<OrientationManagerBoolExp>;
@@ -632,6 +678,22 @@ export enum AccountSelectColumn {
 	UpdatedAt = 'updatedAt',
 	/** column name */
 	Username = 'username',
+}
+
+/** select "account_aggregate_bool_exp_bool_and_arguments_columns" columns of table "account" */
+export enum AccountSelectColumnAccountAggregateBoolExpBoolAndArgumentsColumns {
+	/** column name */
+	Confirmed = 'confirmed',
+	/** column name */
+	OnboardingDone = 'onboardingDone',
+}
+
+/** select "account_aggregate_bool_exp_bool_or_arguments_columns" columns of table "account" */
+export enum AccountSelectColumnAccountAggregateBoolExpBoolOrArgumentsColumns {
+	/** column name */
+	Confirmed = 'confirmed',
+	/** column name */
+	OnboardingDone = 'onboardingDone',
 }
 
 /** input type for updating data in table "account" */
@@ -969,6 +1031,17 @@ export type AdminStructureAggregate = {
 	nodes: Array<AdminStructure>;
 };
 
+export type AdminStructureAggregateBoolExp = {
+	count?: InputMaybe<AdminStructureAggregateBoolExpCount>;
+};
+
+export type AdminStructureAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<AdminStructureSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<AdminStructureBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "admin_structure" */
 export type AdminStructureAggregateFields = {
 	__typename?: 'admin_structure_aggregate_fields';
@@ -1013,6 +1086,7 @@ export type AdminStructureBoolExp = {
 	phoneNumbers?: InputMaybe<StringComparisonExp>;
 	position?: InputMaybe<StringComparisonExp>;
 	structures?: InputMaybe<AdminStructureStructureBoolExp>;
+	structures_aggregate?: InputMaybe<AdminStructureStructureAggregateBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
@@ -1213,6 +1287,17 @@ export type AdminStructureStructureAggregate = {
 	__typename?: 'admin_structure_structure_aggregate';
 	aggregate?: Maybe<AdminStructureStructureAggregateFields>;
 	nodes: Array<AdminStructureStructure>;
+};
+
+export type AdminStructureStructureAggregateBoolExp = {
+	count?: InputMaybe<AdminStructureStructureAggregateBoolExpCount>;
+};
+
+export type AdminStructureStructureAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<AdminStructureStructureSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<AdminStructureStructureBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "admin_structure_structure" */
@@ -1457,6 +1542,8 @@ export type Beneficiary = {
 	nir?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	notebook?: Maybe<Notebook>;
+	/** An object relationship */
+	notebook_public_view?: Maybe<NotebookPublicView>;
 	/** An array relationship */
 	orientationRequest: Array<OrientationRequest>;
 	/** An aggregate relationship */
@@ -1515,6 +1602,17 @@ export type BeneficiaryAggregate = {
 	nodes: Array<Beneficiary>;
 };
 
+export type BeneficiaryAggregateBoolExp = {
+	count?: InputMaybe<BeneficiaryAggregateBoolExpCount>;
+};
+
+export type BeneficiaryAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<BeneficiaryBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "beneficiary" */
 export type BeneficiaryAggregateFields = {
 	__typename?: 'beneficiary_aggregate_fields';
@@ -1565,12 +1663,15 @@ export type BeneficiaryBoolExp = {
 	mobileNumber?: InputMaybe<StringComparisonExp>;
 	nir?: InputMaybe<StringComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
+	notebook_public_view?: InputMaybe<NotebookPublicViewBoolExp>;
 	orientationRequest?: InputMaybe<OrientationRequestBoolExp>;
+	orientationRequest_aggregate?: InputMaybe<OrientationRequestAggregateBoolExp>;
 	peNumber?: InputMaybe<StringComparisonExp>;
 	peUniqueId?: InputMaybe<StringComparisonExp>;
 	placeOfBirth?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
 	structures?: InputMaybe<BeneficiaryStructureBoolExp>;
+	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
@@ -1605,6 +1706,7 @@ export type BeneficiaryInsertInput = {
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	nir?: InputMaybe<Scalars['String']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
+	notebook_public_view?: InputMaybe<NotebookPublicViewObjRelInsertInput>;
 	orientationRequest?: InputMaybe<OrientationRequestArrRelInsertInput>;
 	peNumber?: InputMaybe<Scalars['String']>;
 	peUniqueId?: InputMaybe<Scalars['String']>;
@@ -1750,6 +1852,7 @@ export type BeneficiaryOrderBy = {
 	mobileNumber?: InputMaybe<OrderBy>;
 	nir?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
+	notebook_public_view?: InputMaybe<NotebookPublicViewOrderBy>;
 	orientationRequest_aggregate?: InputMaybe<OrientationRequestAggregateOrderBy>;
 	peNumber?: InputMaybe<OrderBy>;
 	peUniqueId?: InputMaybe<OrderBy>;
@@ -1886,6 +1989,17 @@ export type BeneficiaryStructureAggregate = {
 	__typename?: 'beneficiary_structure_aggregate';
 	aggregate?: Maybe<BeneficiaryStructureAggregateFields>;
 	nodes: Array<BeneficiaryStructure>;
+};
+
+export type BeneficiaryStructureAggregateBoolExp = {
+	count?: InputMaybe<BeneficiaryStructureAggregateBoolExpCount>;
+};
+
+export type BeneficiaryStructureAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<BeneficiaryStructureSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<BeneficiaryStructureBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "beneficiary_structure" */
@@ -2406,14 +2520,19 @@ export type DeploymentBoolExp = {
 	_not?: InputMaybe<DeploymentBoolExp>;
 	_or?: InputMaybe<Array<DeploymentBoolExp>>;
 	admin_structures?: InputMaybe<AdminStructureBoolExp>;
+	admin_structures_aggregate?: InputMaybe<AdminStructureAggregateBoolExp>;
 	beneficiaries?: InputMaybe<BeneficiaryBoolExp>;
+	beneficiaries_aggregate?: InputMaybe<BeneficiaryAggregateBoolExp>;
 	config?: InputMaybe<JsonbComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
 	managers?: InputMaybe<ManagerBoolExp>;
+	managers_aggregate?: InputMaybe<ManagerAggregateBoolExp>;
 	orientation_managers?: InputMaybe<OrientationManagerBoolExp>;
+	orientation_managers_aggregate?: InputMaybe<OrientationManagerAggregateBoolExp>;
 	structures?: InputMaybe<StructureBoolExp>;
+	structures_aggregate?: InputMaybe<StructureAggregateBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
@@ -2610,6 +2729,17 @@ export type ExternalDataAggregate = {
 	__typename?: 'external_data_aggregate';
 	aggregate?: Maybe<ExternalDataAggregateFields>;
 	nodes: Array<ExternalData>;
+};
+
+export type ExternalDataAggregateBoolExp = {
+	count?: InputMaybe<ExternalDataAggregateBoolExpCount>;
+};
+
+export type ExternalDataAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<ExternalDataSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<ExternalDataBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "external_data" */
@@ -3068,6 +3198,7 @@ export type ExternalSourceBoolExp = {
 	_or?: InputMaybe<Array<ExternalSourceBoolExp>>;
 	comment?: InputMaybe<StringComparisonExp>;
 	external_data?: InputMaybe<ExternalDataBoolExp>;
+	external_data_aggregate?: InputMaybe<ExternalDataAggregateBoolExp>;
 	value?: InputMaybe<StringComparisonExp>;
 };
 
@@ -3238,6 +3369,17 @@ export type ManagerAggregate = {
 	__typename?: 'manager_aggregate';
 	aggregate?: Maybe<ManagerAggregateFields>;
 	nodes: Array<Manager>;
+};
+
+export type ManagerAggregateBoolExp = {
+	count?: InputMaybe<ManagerAggregateBoolExpCount>;
+};
+
+export type ManagerAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<ManagerSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<ManagerBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "manager" */
@@ -5370,6 +5512,17 @@ export type NotebookActionAggregate = {
 	nodes: Array<NotebookAction>;
 };
 
+export type NotebookActionAggregateBoolExp = {
+	count?: InputMaybe<NotebookActionAggregateBoolExpCount>;
+};
+
+export type NotebookActionAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookActionSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookActionBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "notebook_action" */
 export type NotebookActionAggregateFields = {
 	__typename?: 'notebook_action_aggregate_fields';
@@ -5650,6 +5803,17 @@ export type NotebookAppointmentAggregate = {
 	nodes: Array<NotebookAppointment>;
 };
 
+export type NotebookAppointmentAggregateBoolExp = {
+	count?: InputMaybe<NotebookAppointmentAggregateBoolExpCount>;
+};
+
+export type NotebookAppointmentAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookAppointmentSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookAppointmentBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "notebook_appointment" */
 export type NotebookAppointmentAggregateFields = {
 	__typename?: 'notebook_appointment_aggregate_fields';
@@ -5900,6 +6064,7 @@ export type NotebookBoolExp = {
 	_not?: InputMaybe<NotebookBoolExp>;
 	_or?: InputMaybe<Array<NotebookBoolExp>>;
 	appointments?: InputMaybe<NotebookAppointmentBoolExp>;
+	appointments_aggregate?: InputMaybe<NotebookAppointmentAggregateBoolExp>;
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
 	beneficiaryId?: InputMaybe<UuidComparisonExp>;
 	contractEndDate?: InputMaybe<DateComparisonExp>;
@@ -5909,10 +6074,13 @@ export type NotebookBoolExp = {
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	educationLevel?: InputMaybe<StringComparisonExp>;
 	events?: InputMaybe<NotebookEventBoolExp>;
+	events_aggregate?: InputMaybe<NotebookEventAggregateBoolExp>;
 	focuses?: InputMaybe<NotebookFocusBoolExp>;
+	focuses_aggregate?: InputMaybe<NotebookFocusAggregateBoolExp>;
 	geographicalArea?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
+	members_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	nbMembers?: InputMaybe<BigintComparisonExp>;
 	notebookInfo?: InputMaybe<NotebookInfoBoolExp>;
 	rightAre?: InputMaybe<BooleanComparisonExp>;
@@ -5922,6 +6090,7 @@ export type NotebookBoolExp = {
 	rightRsa?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 	wantedJobs?: InputMaybe<WantedJobBoolExp>;
+	wantedJobs_aggregate?: InputMaybe<WantedJobAggregateBoolExp>;
 	workSituation?: InputMaybe<StringComparisonExp>;
 	workSituationDate?: InputMaybe<DateComparisonExp>;
 	workSituationEndDate?: InputMaybe<DateComparisonExp>;
@@ -5963,6 +6132,17 @@ export type NotebookEventAggregate = {
 	__typename?: 'notebook_event_aggregate';
 	aggregate?: Maybe<NotebookEventAggregateFields>;
 	nodes: Array<NotebookEvent>;
+};
+
+export type NotebookEventAggregateBoolExp = {
+	count?: InputMaybe<NotebookEventAggregateBoolExpCount>;
+};
+
+export type NotebookEventAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookEventSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookEventBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "notebook_event" */
@@ -6233,6 +6413,7 @@ export type NotebookEventTypeBoolExp = {
 	_or?: InputMaybe<Array<NotebookEventTypeBoolExp>>;
 	comment?: InputMaybe<StringComparisonExp>;
 	notebook_events?: InputMaybe<NotebookEventBoolExp>;
+	notebook_events_aggregate?: InputMaybe<NotebookEventAggregateBoolExp>;
 	value?: InputMaybe<StringComparisonExp>;
 };
 
@@ -6441,6 +6622,17 @@ export type NotebookFocusAggregate = {
 	nodes: Array<NotebookFocus>;
 };
 
+export type NotebookFocusAggregateBoolExp = {
+	count?: InputMaybe<NotebookFocusAggregateBoolExpCount>;
+};
+
+export type NotebookFocusAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookFocusSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookFocusBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "notebook_focus" */
 export type NotebookFocusAggregateFields = {
 	__typename?: 'notebook_focus_aggregate_fields';
@@ -6488,6 +6680,7 @@ export type NotebookFocusBoolExp = {
 	notebookId?: InputMaybe<UuidComparisonExp>;
 	situations?: InputMaybe<JsonbComparisonExp>;
 	targets?: InputMaybe<NotebookTargetBoolExp>;
+	targets_aggregate?: InputMaybe<NotebookTargetAggregateBoolExp>;
 	theme?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
@@ -6731,6 +6924,33 @@ export type NotebookInfoAggregate = {
 	nodes: Array<NotebookInfo>;
 };
 
+export type NotebookInfoAggregateBoolExp = {
+	bool_and?: InputMaybe<NotebookInfoAggregateBoolExpBoolAnd>;
+	bool_or?: InputMaybe<NotebookInfoAggregateBoolExpBoolOr>;
+	count?: InputMaybe<NotebookInfoAggregateBoolExpCount>;
+};
+
+export type NotebookInfoAggregateBoolExpBoolAnd = {
+	arguments: NotebookInfoSelectColumnNotebookInfoAggregateBoolExpBoolAndArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookInfoBoolExp>;
+	predicate: BooleanComparisonExp;
+};
+
+export type NotebookInfoAggregateBoolExpBoolOr = {
+	arguments: NotebookInfoSelectColumnNotebookInfoAggregateBoolExpBoolOrArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookInfoBoolExp>;
+	predicate: BooleanComparisonExp;
+};
+
+export type NotebookInfoAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookInfoSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookInfoBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "notebook_info" */
 export type NotebookInfoAggregateFields = {
 	__typename?: 'notebook_info_aggregate_fields';
@@ -6873,6 +7093,18 @@ export enum NotebookInfoSelectColumn {
 	UpdatedAt = 'updatedAt',
 }
 
+/** select "notebook_info_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notebook_info" */
+export enum NotebookInfoSelectColumnNotebookInfoAggregateBoolExpBoolAndArgumentsColumns {
+	/** column name */
+	NeedOrientation = 'needOrientation',
+}
+
+/** select "notebook_info_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notebook_info" */
+export enum NotebookInfoSelectColumnNotebookInfoAggregateBoolExpBoolOrArgumentsColumns {
+	/** column name */
+	NeedOrientation = 'needOrientation',
+}
+
 /** input type for updating data in table "notebook_info" */
 export type NotebookInfoSetInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -6995,6 +7227,33 @@ export type NotebookMemberAggregate = {
 	nodes: Array<NotebookMember>;
 };
 
+export type NotebookMemberAggregateBoolExp = {
+	bool_and?: InputMaybe<NotebookMemberAggregateBoolExpBoolAnd>;
+	bool_or?: InputMaybe<NotebookMemberAggregateBoolExpBoolOr>;
+	count?: InputMaybe<NotebookMemberAggregateBoolExpCount>;
+};
+
+export type NotebookMemberAggregateBoolExpBoolAnd = {
+	arguments: NotebookMemberSelectColumnNotebookMemberAggregateBoolExpBoolAndArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookMemberBoolExp>;
+	predicate: BooleanComparisonExp;
+};
+
+export type NotebookMemberAggregateBoolExpBoolOr = {
+	arguments: NotebookMemberSelectColumnNotebookMemberAggregateBoolExpBoolOrArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookMemberBoolExp>;
+	predicate: BooleanComparisonExp;
+};
+
+export type NotebookMemberAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookMemberSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookMemberBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "notebook_member" */
 export type NotebookMemberAggregateFields = {
 	__typename?: 'notebook_member_aggregate_fields';
@@ -7049,6 +7308,8 @@ export enum NotebookMemberConstraint {
 	NotebookMemberNotebookIdAccountIdKey = 'notebook_member_notebook_id_account_id_key',
 	/** unique or primary key constraint on columns "id" */
 	NotebookMemberPkey = 'notebook_member_pkey',
+	/** unique or primary key constraint on columns "notebook_id" */
+	NotebookMemberUniqueReferent = 'notebook_member_unique_referent',
 }
 
 /** input type for inserting data into table "notebook_member" */
@@ -7182,6 +7443,18 @@ export enum NotebookMemberSelectColumn {
 	MemberType = 'memberType',
 	/** column name */
 	NotebookId = 'notebookId',
+}
+
+/** select "notebook_member_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notebook_member" */
+export enum NotebookMemberSelectColumnNotebookMemberAggregateBoolExpBoolAndArgumentsColumns {
+	/** column name */
+	Active = 'active',
+}
+
+/** select "notebook_member_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notebook_member" */
+export enum NotebookMemberSelectColumnNotebookMemberAggregateBoolExpBoolOrArgumentsColumns {
+	/** column name */
+	Active = 'active',
 }
 
 /** input type for updating data in table "notebook_member" */
@@ -7393,6 +7666,7 @@ export type NotebookPublicViewBoolExp = {
 	created_at?: InputMaybe<TimestamptzComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
+	members_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	updated_at?: InputMaybe<TimestamptzComparisonExp>;
 };
@@ -7433,6 +7707,11 @@ export type NotebookPublicViewMutationResponse = {
 	affected_rows: Scalars['Int'];
 	/** data from the rows affected by the mutation */
 	returning: Array<NotebookPublicView>;
+};
+
+/** input type for inserting object relation for remote table "notebook_public_view" */
+export type NotebookPublicViewObjRelInsertInput = {
+	data: NotebookPublicViewInsertInput;
 };
 
 /** Ordering options when selecting data from "notebook_public_view". */
@@ -7625,6 +7904,17 @@ export type NotebookTargetAggregate = {
 	nodes: Array<NotebookTarget>;
 };
 
+export type NotebookTargetAggregateBoolExp = {
+	count?: InputMaybe<NotebookTargetAggregateBoolExpCount>;
+};
+
+export type NotebookTargetAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookTargetSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookTargetBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "notebook_target" */
 export type NotebookTargetAggregateFields = {
 	__typename?: 'notebook_target_aggregate_fields';
@@ -7659,6 +7949,7 @@ export type NotebookTargetBoolExp = {
 	_not?: InputMaybe<NotebookTargetBoolExp>;
 	_or?: InputMaybe<Array<NotebookTargetBoolExp>>;
 	actions?: InputMaybe<NotebookActionBoolExp>;
+	actions_aggregate?: InputMaybe<NotebookActionAggregateBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	creator?: InputMaybe<AccountBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
@@ -7961,6 +8252,17 @@ export type OrientationManagerAggregate = {
 	nodes: Array<OrientationManager>;
 };
 
+export type OrientationManagerAggregateBoolExp = {
+	count?: InputMaybe<OrientationManagerAggregateBoolExpCount>;
+};
+
+export type OrientationManagerAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<OrientationManagerSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<OrientationManagerBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "orientation_manager" */
 export type OrientationManagerAggregateFields = {
 	__typename?: 'orientation_manager_aggregate_fields';
@@ -7996,6 +8298,7 @@ export type OrientationManagerBoolExp = {
 	_or?: InputMaybe<Array<OrientationManagerBoolExp>>;
 	account?: InputMaybe<AccountBoolExp>;
 	accounts?: InputMaybe<AccountBoolExp>;
+	accounts_aggregate?: InputMaybe<AccountAggregateBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment?: InputMaybe<DeploymentBoolExp>;
 	deploymentId?: InputMaybe<UuidComparisonExp>;
@@ -8240,6 +8543,17 @@ export type OrientationRequestAggregate = {
 	__typename?: 'orientation_request_aggregate';
 	aggregate?: Maybe<OrientationRequestAggregateFields>;
 	nodes: Array<OrientationRequest>;
+};
+
+export type OrientationRequestAggregateBoolExp = {
+	count?: InputMaybe<OrientationRequestAggregateBoolExpCount>;
+};
+
+export type OrientationRequestAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<OrientationRequestSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<OrientationRequestBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "orientation_request" */
@@ -8558,6 +8872,7 @@ export type OrientationTypeBoolExp = {
 	id?: InputMaybe<StringComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
 	notebook_infos?: InputMaybe<NotebookInfoBoolExp>;
+	notebook_infos_aggregate?: InputMaybe<NotebookInfoAggregateBoolExp>;
 };
 
 /** unique or primary key constraints on table "orientation_type" */
@@ -8705,6 +9020,17 @@ export type ProfessionalAggregate = {
 	__typename?: 'professional_aggregate';
 	aggregate?: Maybe<ProfessionalAggregateFields>;
 	nodes: Array<Professional>;
+};
+
+export type ProfessionalAggregateBoolExp = {
+	count?: InputMaybe<ProfessionalAggregateBoolExpCount>;
+};
+
+export type ProfessionalAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<ProfessionalSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<ProfessionalBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "professional" */
@@ -10360,6 +10686,7 @@ export type RoleBoolExp = {
 	_not?: InputMaybe<RoleBoolExp>;
 	_or?: InputMaybe<Array<RoleBoolExp>>;
 	accounts?: InputMaybe<AccountBoolExp>;
+	accounts_aggregate?: InputMaybe<AccountAggregateBoolExp>;
 	label?: InputMaybe<StringComparisonExp>;
 };
 
@@ -10537,6 +10864,7 @@ export type RomeCodeBoolExp = {
 	id?: InputMaybe<UuidComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
 	wanted_by?: InputMaybe<WantedJobBoolExp>;
+	wanted_by_aggregate?: InputMaybe<WantedJobAggregateBoolExp>;
 };
 
 /** unique or primary key constraints on table "rome_code" */
@@ -10771,6 +11099,17 @@ export type StructureAggregate = {
 	nodes: Array<Structure>;
 };
 
+export type StructureAggregateBoolExp = {
+	count?: InputMaybe<StructureAggregateBoolExpCount>;
+};
+
+export type StructureAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<StructureSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<StructureBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "structure" */
 export type StructureAggregateFields = {
 	__typename?: 'structure_aggregate_fields';
@@ -10807,7 +11146,9 @@ export type StructureBoolExp = {
 	address1?: InputMaybe<StringComparisonExp>;
 	address2?: InputMaybe<StringComparisonExp>;
 	admins?: InputMaybe<AdminStructureStructureBoolExp>;
+	admins_aggregate?: InputMaybe<AdminStructureStructureAggregateBoolExp>;
 	beneficiaries?: InputMaybe<BeneficiaryStructureBoolExp>;
+	beneficiaries_aggregate?: InputMaybe<BeneficiaryStructureAggregateBoolExp>;
 	city?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment?: InputMaybe<DeploymentBoolExp>;
@@ -10818,6 +11159,7 @@ export type StructureBoolExp = {
 	phone?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
 	professionals?: InputMaybe<ProfessionalBoolExp>;
+	professionals_aggregate?: InputMaybe<ProfessionalAggregateBoolExp>;
 	shortDesc?: InputMaybe<StringComparisonExp>;
 	siret?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -11104,9 +11446,9 @@ export type SubscriptionRoot = {
 	account_info: Array<AccountInfo>;
 	/** fetch aggregated fields from the table: "account_info" */
 	account_info_aggregate: AccountInfoAggregate;
-	/** fetch data from the table in a streaming manner : "account_info" */
+	/** fetch data from the table in a streaming manner: "account_info" */
 	account_info_stream: Array<AccountInfo>;
-	/** fetch data from the table in a streaming manner : "account" */
+	/** fetch data from the table in a streaming manner: "account" */
 	account_stream: Array<Account>;
 	/** fetch data from the table: "admin_cdb" */
 	admin_cdb: Array<AdminCdb>;
@@ -11114,7 +11456,7 @@ export type SubscriptionRoot = {
 	admin_cdb_aggregate: AdminCdbAggregate;
 	/** fetch data from the table: "admin_cdb" using primary key columns */
 	admin_cdb_by_pk?: Maybe<AdminCdb>;
-	/** fetch data from the table in a streaming manner : "admin_cdb" */
+	/** fetch data from the table in a streaming manner: "admin_cdb" */
 	admin_cdb_stream: Array<AdminCdb>;
 	/** fetch data from the table: "admin_structure" */
 	admin_structure: Array<AdminStructure>;
@@ -11122,7 +11464,7 @@ export type SubscriptionRoot = {
 	admin_structure_aggregate: AdminStructureAggregate;
 	/** fetch data from the table: "admin_structure" using primary key columns */
 	admin_structure_by_pk?: Maybe<AdminStructure>;
-	/** fetch data from the table in a streaming manner : "admin_structure" */
+	/** fetch data from the table in a streaming manner: "admin_structure" */
 	admin_structure_stream: Array<AdminStructure>;
 	/** fetch data from the table: "admin_structure_structure" */
 	admin_structure_structure: Array<AdminStructureStructure>;
@@ -11130,7 +11472,7 @@ export type SubscriptionRoot = {
 	admin_structure_structure_aggregate: AdminStructureStructureAggregate;
 	/** fetch data from the table: "admin_structure_structure" using primary key columns */
 	admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
-	/** fetch data from the table in a streaming manner : "admin_structure_structure" */
+	/** fetch data from the table in a streaming manner: "admin_structure_structure" */
 	admin_structure_structure_stream: Array<AdminStructureStructure>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
@@ -11138,7 +11480,7 @@ export type SubscriptionRoot = {
 	beneficiary_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "beneficiary" using primary key columns */
 	beneficiary_by_pk?: Maybe<Beneficiary>;
-	/** fetch data from the table in a streaming manner : "beneficiary" */
+	/** fetch data from the table in a streaming manner: "beneficiary" */
 	beneficiary_stream: Array<Beneficiary>;
 	/** fetch data from the table: "beneficiary_structure" */
 	beneficiary_structure: Array<BeneficiaryStructure>;
@@ -11146,7 +11488,7 @@ export type SubscriptionRoot = {
 	beneficiary_structure_aggregate: BeneficiaryStructureAggregate;
 	/** fetch data from the table: "beneficiary_structure" using primary key columns */
 	beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
-	/** fetch data from the table in a streaming manner : "beneficiary_structure" */
+	/** fetch data from the table in a streaming manner: "beneficiary_structure" */
 	beneficiary_structure_stream: Array<BeneficiaryStructure>;
 	/** fetch data from the table: "deployment" */
 	deployment: Array<Deployment>;
@@ -11154,7 +11496,7 @@ export type SubscriptionRoot = {
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
-	/** fetch data from the table in a streaming manner : "deployment" */
+	/** fetch data from the table in a streaming manner: "deployment" */
 	deployment_stream: Array<Deployment>;
 	/** An array relationship */
 	external_data: Array<ExternalData>;
@@ -11168,9 +11510,9 @@ export type SubscriptionRoot = {
 	external_data_info_aggregate: ExternalDataInfoAggregate;
 	/** fetch data from the table: "external_data_info" using primary key columns */
 	external_data_info_by_pk?: Maybe<ExternalDataInfo>;
-	/** fetch data from the table in a streaming manner : "external_data_info" */
+	/** fetch data from the table in a streaming manner: "external_data_info" */
 	external_data_info_stream: Array<ExternalDataInfo>;
-	/** fetch data from the table in a streaming manner : "external_data" */
+	/** fetch data from the table in a streaming manner: "external_data" */
 	external_data_stream: Array<ExternalData>;
 	/** fetch data from the table: "external_source" */
 	external_source: Array<ExternalSource>;
@@ -11178,7 +11520,7 @@ export type SubscriptionRoot = {
 	external_source_aggregate: ExternalSourceAggregate;
 	/** fetch data from the table: "external_source" using primary key columns */
 	external_source_by_pk?: Maybe<ExternalSource>;
-	/** fetch data from the table in a streaming manner : "external_source" */
+	/** fetch data from the table in a streaming manner: "external_source" */
 	external_source_stream: Array<ExternalSource>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
@@ -11186,7 +11528,7 @@ export type SubscriptionRoot = {
 	manager_aggregate: ManagerAggregate;
 	/** fetch data from the table: "manager" using primary key columns */
 	manager_by_pk?: Maybe<Manager>;
-	/** fetch data from the table in a streaming manner : "manager" */
+	/** fetch data from the table in a streaming manner: "manager" */
 	manager_stream: Array<Manager>;
 	/** fetch data from the table: "notebook" */
 	notebook: Array<Notebook>;
@@ -11196,7 +11538,7 @@ export type SubscriptionRoot = {
 	notebook_action_aggregate: NotebookActionAggregate;
 	/** fetch data from the table: "notebook_action" using primary key columns */
 	notebook_action_by_pk?: Maybe<NotebookAction>;
-	/** fetch data from the table in a streaming manner : "notebook_action" */
+	/** fetch data from the table in a streaming manner: "notebook_action" */
 	notebook_action_stream: Array<NotebookAction>;
 	/** fetch aggregated fields from the table: "notebook" */
 	notebook_aggregate: NotebookAggregate;
@@ -11206,7 +11548,7 @@ export type SubscriptionRoot = {
 	notebook_appointment_aggregate: NotebookAppointmentAggregate;
 	/** fetch data from the table: "notebook_appointment" using primary key columns */
 	notebook_appointment_by_pk?: Maybe<NotebookAppointment>;
-	/** fetch data from the table in a streaming manner : "notebook_appointment" */
+	/** fetch data from the table in a streaming manner: "notebook_appointment" */
 	notebook_appointment_stream: Array<NotebookAppointment>;
 	/** fetch data from the table: "notebook" using primary key columns */
 	notebook_by_pk?: Maybe<Notebook>;
@@ -11216,7 +11558,7 @@ export type SubscriptionRoot = {
 	notebook_event_aggregate: NotebookEventAggregate;
 	/** fetch data from the table: "notebook_event" using primary key columns */
 	notebook_event_by_pk?: Maybe<NotebookEvent>;
-	/** fetch data from the table in a streaming manner : "notebook_event" */
+	/** fetch data from the table in a streaming manner: "notebook_event" */
 	notebook_event_stream: Array<NotebookEvent>;
 	/** fetch data from the table: "notebook_event_type" */
 	notebook_event_type: Array<NotebookEventType>;
@@ -11224,7 +11566,7 @@ export type SubscriptionRoot = {
 	notebook_event_type_aggregate: NotebookEventTypeAggregate;
 	/** fetch data from the table: "notebook_event_type" using primary key columns */
 	notebook_event_type_by_pk?: Maybe<NotebookEventType>;
-	/** fetch data from the table in a streaming manner : "notebook_event_type" */
+	/** fetch data from the table in a streaming manner: "notebook_event_type" */
 	notebook_event_type_stream: Array<NotebookEventType>;
 	/** fetch data from the table: "notebook_focus" */
 	notebook_focus: Array<NotebookFocus>;
@@ -11232,7 +11574,7 @@ export type SubscriptionRoot = {
 	notebook_focus_aggregate: NotebookFocusAggregate;
 	/** fetch data from the table: "notebook_focus" using primary key columns */
 	notebook_focus_by_pk?: Maybe<NotebookFocus>;
-	/** fetch data from the table in a streaming manner : "notebook_focus" */
+	/** fetch data from the table in a streaming manner: "notebook_focus" */
 	notebook_focus_stream: Array<NotebookFocus>;
 	/** fetch data from the table: "notebook_info" */
 	notebook_info: Array<NotebookInfo>;
@@ -11240,7 +11582,7 @@ export type SubscriptionRoot = {
 	notebook_info_aggregate: NotebookInfoAggregate;
 	/** fetch data from the table: "notebook_info" using primary key columns */
 	notebook_info_by_pk?: Maybe<NotebookInfo>;
-	/** fetch data from the table in a streaming manner : "notebook_info" */
+	/** fetch data from the table in a streaming manner: "notebook_info" */
 	notebook_info_stream: Array<NotebookInfo>;
 	/** fetch data from the table: "notebook_member" */
 	notebook_member: Array<NotebookMember>;
@@ -11248,15 +11590,15 @@ export type SubscriptionRoot = {
 	notebook_member_aggregate: NotebookMemberAggregate;
 	/** fetch data from the table: "notebook_member" using primary key columns */
 	notebook_member_by_pk?: Maybe<NotebookMember>;
-	/** fetch data from the table in a streaming manner : "notebook_member" */
+	/** fetch data from the table in a streaming manner: "notebook_member" */
 	notebook_member_stream: Array<NotebookMember>;
 	/** fetch data from the table: "notebook_public_view" */
 	notebook_public_view: Array<NotebookPublicView>;
 	/** fetch aggregated fields from the table: "notebook_public_view" */
 	notebook_public_view_aggregate: NotebookPublicViewAggregate;
-	/** fetch data from the table in a streaming manner : "notebook_public_view" */
+	/** fetch data from the table in a streaming manner: "notebook_public_view" */
 	notebook_public_view_stream: Array<NotebookPublicView>;
-	/** fetch data from the table in a streaming manner : "notebook" */
+	/** fetch data from the table in a streaming manner: "notebook" */
 	notebook_stream: Array<Notebook>;
 	/** fetch data from the table: "notebook_target" */
 	notebook_target: Array<NotebookTarget>;
@@ -11264,7 +11606,7 @@ export type SubscriptionRoot = {
 	notebook_target_aggregate: NotebookTargetAggregate;
 	/** fetch data from the table: "notebook_target" using primary key columns */
 	notebook_target_by_pk?: Maybe<NotebookTarget>;
-	/** fetch data from the table in a streaming manner : "notebook_target" */
+	/** fetch data from the table in a streaming manner: "notebook_target" */
 	notebook_target_stream: Array<NotebookTarget>;
 	/** fetch data from the table: "orientation_manager" */
 	orientation_manager: Array<OrientationManager>;
@@ -11272,7 +11614,7 @@ export type SubscriptionRoot = {
 	orientation_manager_aggregate: OrientationManagerAggregate;
 	/** fetch data from the table: "orientation_manager" using primary key columns */
 	orientation_manager_by_pk?: Maybe<OrientationManager>;
-	/** fetch data from the table in a streaming manner : "orientation_manager" */
+	/** fetch data from the table in a streaming manner: "orientation_manager" */
 	orientation_manager_stream: Array<OrientationManager>;
 	/** fetch data from the table: "orientation_request" */
 	orientation_request: Array<OrientationRequest>;
@@ -11280,7 +11622,7 @@ export type SubscriptionRoot = {
 	orientation_request_aggregate: OrientationRequestAggregate;
 	/** fetch data from the table: "orientation_request" using primary key columns */
 	orientation_request_by_pk?: Maybe<OrientationRequest>;
-	/** fetch data from the table in a streaming manner : "orientation_request" */
+	/** fetch data from the table in a streaming manner: "orientation_request" */
 	orientation_request_stream: Array<OrientationRequest>;
 	/** fetch data from the table: "orientation_type" */
 	orientation_type: Array<OrientationType>;
@@ -11288,7 +11630,7 @@ export type SubscriptionRoot = {
 	orientation_type_aggregate: OrientationTypeAggregate;
 	/** fetch data from the table: "orientation_type" using primary key columns */
 	orientation_type_by_pk?: Maybe<OrientationType>;
-	/** fetch data from the table in a streaming manner : "orientation_type" */
+	/** fetch data from the table in a streaming manner: "orientation_type" */
 	orientation_type_stream: Array<OrientationType>;
 	/** fetch data from the table: "professional" */
 	professional: Array<Professional>;
@@ -11296,7 +11638,7 @@ export type SubscriptionRoot = {
 	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
-	/** fetch data from the table in a streaming manner : "professional" */
+	/** fetch data from the table in a streaming manner: "professional" */
 	professional_stream: Array<Professional>;
 	/** fetch data from the table: "ref_action" */
 	ref_action: Array<RefAction>;
@@ -11304,7 +11646,7 @@ export type SubscriptionRoot = {
 	ref_action_aggregate: RefActionAggregate;
 	/** fetch data from the table: "ref_action" using primary key columns */
 	ref_action_by_pk?: Maybe<RefAction>;
-	/** fetch data from the table in a streaming manner : "ref_action" */
+	/** fetch data from the table in a streaming manner: "ref_action" */
 	ref_action_stream: Array<RefAction>;
 	/** fetch data from the table: "ref_situation" */
 	ref_situation: Array<RefSituation>;
@@ -11312,7 +11654,7 @@ export type SubscriptionRoot = {
 	ref_situation_aggregate: RefSituationAggregate;
 	/** fetch data from the table: "ref_situation" using primary key columns */
 	ref_situation_by_pk?: Maybe<RefSituation>;
-	/** fetch data from the table in a streaming manner : "ref_situation" */
+	/** fetch data from the table in a streaming manner: "ref_situation" */
 	ref_situation_stream: Array<RefSituation>;
 	/** fetch data from the table: "ref_target" */
 	ref_target: Array<RefTarget>;
@@ -11320,7 +11662,7 @@ export type SubscriptionRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
-	/** fetch data from the table in a streaming manner : "ref_target" */
+	/** fetch data from the table in a streaming manner: "ref_target" */
 	ref_target_stream: Array<RefTarget>;
 	/** fetch data from the table: "role" */
 	role: Array<Role>;
@@ -11328,7 +11670,7 @@ export type SubscriptionRoot = {
 	role_aggregate: RoleAggregate;
 	/** fetch data from the table: "role" using primary key columns */
 	role_by_pk?: Maybe<Role>;
-	/** fetch data from the table in a streaming manner : "role" */
+	/** fetch data from the table in a streaming manner: "role" */
 	role_stream: Array<Role>;
 	/** fetch data from the table: "rome_code" */
 	rome_code: Array<RomeCode>;
@@ -11336,7 +11678,7 @@ export type SubscriptionRoot = {
 	rome_code_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "rome_code" using primary key columns */
 	rome_code_by_pk?: Maybe<RomeCode>;
-	/** fetch data from the table in a streaming manner : "rome_code" */
+	/** fetch data from the table in a streaming manner: "rome_code" */
 	rome_code_stream: Array<RomeCode>;
 	/** execute function "search_beneficiaries" which returns "beneficiary" */
 	search_beneficiaries: Array<Beneficiary>;
@@ -11356,7 +11698,7 @@ export type SubscriptionRoot = {
 	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
-	/** fetch data from the table in a streaming manner : "structure" */
+	/** fetch data from the table in a streaming manner: "structure" */
 	structure_stream: Array<Structure>;
 	/** fetch data from the table: "wanted_job" */
 	wanted_job: Array<WantedJob>;
@@ -11364,7 +11706,7 @@ export type SubscriptionRoot = {
 	wanted_job_aggregate: WantedJobAggregate;
 	/** fetch data from the table: "wanted_job" using primary key columns */
 	wanted_job_by_pk?: Maybe<WantedJob>;
-	/** fetch data from the table in a streaming manner : "wanted_job" */
+	/** fetch data from the table in a streaming manner: "wanted_job" */
 	wanted_job_stream: Array<WantedJob>;
 };
 
@@ -12332,6 +12674,17 @@ export type WantedJobAggregate = {
 	nodes: Array<WantedJob>;
 };
 
+export type WantedJobAggregateBoolExp = {
+	count?: InputMaybe<WantedJobAggregateBoolExpCount>;
+};
+
+export type WantedJobAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<WantedJobSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<WantedJobBoolExp>;
+	predicate: IntComparisonExp;
+};
+
 /** aggregate fields of "wanted_job" */
 export type WantedJobAggregateFields = {
 	__typename?: 'wanted_job_aggregate_fields';
@@ -13272,6 +13625,33 @@ export type GetNotebookAppointmentsQuery = {
 		id: string;
 		status: string;
 	}>;
+};
+
+export type RemoveMemberFromNotebookMutationVariables = Exact<{
+	accountId: Scalars['uuid'];
+	notebookId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+	removeBeneficiaryStructure: Scalars['Boolean'];
+}>;
+
+export type RemoveMemberFromNotebookMutation = {
+	__typename?: 'mutation_root';
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+		returning: Array<{
+			__typename?: 'notebook_member';
+			id: string;
+			accountId: string;
+			active?: boolean | null;
+			notebookId: string;
+		}>;
+	} | null;
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+		returning: Array<{ __typename?: 'beneficiary_structure'; id: string; status: string }>;
+	} | null;
 };
 
 export type UpdateNotebookAppointmentMutationVariables = Exact<{
@@ -20109,6 +20489,314 @@ export const GetNotebookAppointmentsDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookAppointmentsQuery, GetNotebookAppointmentsQueryVariables>;
+export const RemoveMemberFromNotebookDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'RemoveMemberFromNotebook' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'removeBeneficiaryStructure' },
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebookId' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'accountId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'accountId' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'active' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: { kind: 'BooleanValue', value: true },
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'active' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } },
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'beneficiary' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'notebook_public_view' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: 'id' },
+																						value: {
+																							kind: 'ObjectValue',
+																							fields: [
+																								{
+																									kind: 'ObjectField',
+																									name: { kind: 'Name', value: '_eq' },
+																									value: {
+																										kind: 'Variable',
+																										name: { kind: 'Name', value: 'notebookId' },
+																									},
+																								},
+																							],
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structureId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'structureId' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'outdated', block: false },
+										},
+									],
+								},
+							},
+						],
+						directives: [
+							{
+								kind: 'Directive',
+								name: { kind: 'Name', value: 'include' },
+								arguments: [
+									{
+										kind: 'Argument',
+										name: { kind: 'Name', value: 'if' },
+										value: {
+											kind: 'Variable',
+											name: { kind: 'Name', value: 'removeBeneficiaryStructure' },
+										},
+									},
+								],
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'returning' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	RemoveMemberFromNotebookMutation,
+	RemoveMemberFromNotebookMutationVariables
+>;
 export const UpdateNotebookAppointmentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -27233,6 +27921,10 @@ export type DeleteNotebookAppointmentMutationStore = OperationStore<
 export type GetNotebookAppointmentsQueryStore = OperationStore<
 	GetNotebookAppointmentsQuery,
 	GetNotebookAppointmentsQueryVariables
+>;
+export type RemoveMemberFromNotebookMutationStore = OperationStore<
+	RemoveMemberFromNotebookMutation,
+	RemoveMemberFromNotebookMutationVariables
 >;
 export type UpdateNotebookAppointmentMutationStore = OperationStore<
 	UpdateNotebookAppointmentMutation,
