@@ -154,7 +154,7 @@ async def change_beneficiary_orientation(
         schema = gqlSchema.get_schema()
         ds = DSLSchema(schema)
         mutations = {
-            "titi": ds.mutation_root.insert_notebook_info_one.args(
+            "add_notebook_info": ds.mutation_root.insert_notebook_info_one.args(
                 object={
                     "notebookId": str(data.notebook_id),
                     "orientation": data.orientation_type,
@@ -189,7 +189,7 @@ async def change_beneficiary_orientation(
             }
         if need_deactivation:
             mutations = mutations | {
-                "tutu": ds.mutation_root.update_notebook_member.args(
+                "deactivate_changed_member_rows": ds.mutation_root.update_notebook_member.args(
                     where={
                         "_or": [
                             {
@@ -210,7 +210,9 @@ async def change_beneficiary_orientation(
                         "active": False,
                         "membership_ends_at": datetime.now().isoformat(),
                     },
-                ).select(ds.notebook_member_mutation_response.affected_rows)
+                ).select(
+                    ds.notebook_member_mutation_response.affected_rows
+                )
             }
         all_mutations = dsl_gql(DSLMutation(**mutations))
         result = await session.execute(all_mutations)
