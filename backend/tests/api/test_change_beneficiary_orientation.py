@@ -158,7 +158,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
                 structure
                 for structure in structures
                 if structure.beneficiary_status == "current"
-                and structure.name == "Groupe NS"
+                and structure.structure_name == "Groupe NS"
             ]
         )
         == 1
