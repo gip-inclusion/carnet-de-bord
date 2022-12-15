@@ -122,8 +122,15 @@ async def change_beneficiary_orientation(
                     detail="orientation_request_id and beneficiary don't match",
                 ) from exception
 
+        former_referent_account_id = None
+        if notification_response["notebook_by_pk"]["former_referents"]:
+            former_referent_account_id = notification_response["notebook_by_pk"][
+                "former_referents"
+            ][0]["account"]["id"]
+
         response = await session.execute(
-            gql(mutation), variable_values=data.gql_variables_for_mutation(None)
+            gql(mutation),
+            variable_values=data.gql_variables_for_mutation(former_referent_account_id),
         )
         former_referents = [
             Member.parse_from_gql(member["account"]["professional"])
