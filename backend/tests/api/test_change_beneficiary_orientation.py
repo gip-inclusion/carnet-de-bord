@@ -3,6 +3,7 @@ from unittest import mock
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
+from api.db.crud.beneficiary import get_structures_for_beneficiary
 from api.db.crud.notebook import get_notebook_members_by_notebook_id
 from api.db.crud.orientation_request import get_orientation_request_by_id
 from api.db.models.beneficiary import Beneficiary
@@ -95,6 +96,69 @@ async def test_change_orientation_while_keeping_same_referent(
                 member
                 for member in members
                 if member.account_id == professional_pierre_chevalier.account_id
+            ]
+        )
+        == 1
+    )
+
+
+@mock.patch("api.core.emails.send_mail")
+async def test_change_orientation_assign_to_structure_not_referent(
+    _: mock.Mock,
+    test_client: TestClient,
+    professional_paul_camara: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    guilia_diaby_jwt: str,
+    db_connection: Connection,
+):
+    response = test_client.post(
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(notebook_sophie_tifour.id),
+            "beneficiary_id": str(beneficiary_sophie_tifour.id),
+            "structure_id": str(professional_paul_camara.structure_id),
+            "new_referent_account_id": None,
+        },
+        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+    )
+    assert response.status_code == 200
+    members = await get_notebook_members_by_notebook_id(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
+    assert (
+        len(
+            [
+                member
+                for member in members
+                if member.member_type == "referent" and member.active
+            ]
+        )
+        == 0
+    )
+    structures = await get_structures_for_beneficiary(
+        db_connection,
+        beneficiary_sophie_tifour.id,
+    )
+    assert (
+        len(
+            [
+                structure
+                for structure in structures
+                if structure.beneficiary_status == "outdated"
+            ]
+        )
+        == 1
+    )
+    assert (
+        len(
+            [
+                structure
+                for structure in structures
+                if structure.beneficiary_status == "current"
+                and structure.name == "Groupe NS"
             ]
         )
         == 1

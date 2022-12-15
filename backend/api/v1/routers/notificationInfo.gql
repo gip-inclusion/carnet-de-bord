@@ -18,6 +18,7 @@ query notificationInfos(
       postalCode
       city
       cafNumber
+      structures (where: { status: {_eq: "current"}}) {structureId}
     }
     former_referents: members(
       where: { memberType: { _eq: "referent" }, active: { _eq: true } }

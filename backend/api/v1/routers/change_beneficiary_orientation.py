@@ -7,8 +7,8 @@ from uuid import UUID
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
 from fastapi.exceptions import HTTPException
 from gql import Client, gql
+from gql.dsl import DSLMutation, DSLSchema, DSLVariable, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
-from gql.dsl import dsl_gql, DSLSchema, DSLMutation, DSLVariable
 from pydantic import BaseModel
 
 from api.core.emails import (
@@ -17,7 +17,7 @@ from api.core.emails import (
     send_deny_orientation_request_email,
     send_notebook_member_email,
 )
-from api.core.settings import settings, gqlSchema
+from api.core.settings import gqlSchema, settings
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -135,6 +135,11 @@ async def change_beneficiary_orientation(
             former_referent_account_id = notification_response["notebook_by_pk"][
                 "former_referents"
             ][0]["account"]["id"]
+        former_structure_id = None
+        if notification_response["notebook_by_pk"]["beneficiary"]["structures"]:
+            former_structure_id = notification_response["notebook_by_pk"][
+                "beneficiary"
+            ]["structures"][0]["structureId"]
 
         has_new_referent = str(data.new_referent_account_id) is not None
         has_old_referent = str(former_referent_account_id) is not None
@@ -144,56 +149,70 @@ async def change_beneficiary_orientation(
         need_deactivation = (has_new_referent and are_old_new_referents_different) or (
             has_old_referent and not has_new_referent
         )
+        structure_changed = str(data.structure_id) != str(former_structure_id)
 
         schema = gqlSchema.get_schema()
         ds = DSLSchema(schema)
-        mutations = [
-            DSLMutation(
-                ds.mutation_root.insert_notebook_info_one.args(
+        mutations = {
+            "titi": ds.mutation_root.insert_notebook_info_one.args(
+                object={
+                    "notebookId": str(data.notebook_id),
+                    "orientation": data.orientation_type,
+                    "needOrientation": False,
+                },
+                on_conflict={
+                    "constraint": "notebook_info_pkey",
+                    "update_columns": ["orientation", "needOrientation"],
+                },
+            ).select(ds.notebook_info.notebookId)
+        }
+        if structure_changed:
+            mutations = mutations | {
+                "deactivate_old_structure": ds.mutation_root.update_beneficiary_structure.args(
+                    where={
+                        "beneficiaryId": {"_eq": str(data.beneficiary_id)},
+                        "status": {"_eq": "current"},
+                    },
+                    _set={"status": "outdated"},
+                ).select(
+                    ds.beneficiary_structure_mutation_response.affected_rows
+                ),
+                "add_new_structure": ds.mutation_root.insert_beneficiary_structure_one.args(
                     object={
-                        "notebookId": str(data.notebook_id),
-                        "orientation": data.orientation_type,
-                        "needOrientation": False,
+                        "beneficiaryId": str(data.beneficiary_id),
+                        "structureId": str(data.structure_id),
+                        "status": "current",
                     },
-                    on_conflict={
-                        "constraint": "notebook_info_pkey",
-                        "update_columns": ["orientation", "needOrientation"],
-                    },
-                ).select(ds.notebook_info.notebookId)
-            )
-        ]
+                ).select(
+                    ds.beneficiary_structure.id
+                ),
+            }
         if need_deactivation:
-            print("need deactivation")
-            mutations.append(
-                DSLMutation(
-                    ds.mutation_root.update_notebook_member.args(
-                        where={
-                            "_or": [
-                                {
-                                    "notebookId": {"_eq": str(data.notebook_id)},
-                                    "memberType": {"_eq": "referent"},
-                                    "active": {"_eq": True},
-                                },
-                                {
-                                    "notebookId": {"_eq": str(data.notebook_id)},
-                                    "accountId": {
-                                        "_eq": str(data.new_referent_account_id)
-                                    },
-                                    "active": {"_eq": True},
-                                }
-                                if data.new_referent_account_id
-                                else {},
-                            ]
-                        },
-                        _set={
-                            "active": False,
-                            "membership_ends_at": datetime.now().isoformat(),
-                        },
-                    ).select(ds.notebook_member_mutation_response.affected_rows)
-                )
-            )
-        print(data)
-        all_mutations = dsl_gql(mutations[1])
+            mutations = mutations | {
+                "tutu": ds.mutation_root.update_notebook_member.args(
+                    where={
+                        "_or": [
+                            {
+                                "notebookId": {"_eq": str(data.notebook_id)},
+                                "memberType": {"_eq": "referent"},
+                                "active": {"_eq": True},
+                            },
+                            {
+                                "notebookId": {"_eq": str(data.notebook_id)},
+                                "accountId": {"_eq": str(data.new_referent_account_id)},
+                                "active": {"_eq": True},
+                            }
+                            if data.new_referent_account_id
+                            else {},
+                        ]
+                    },
+                    _set={
+                        "active": False,
+                        "membership_ends_at": datetime.now().isoformat(),
+                    },
+                ).select(ds.notebook_member_mutation_response.affected_rows)
+            }
+        all_mutations = dsl_gql(DSLMutation(**mutations))
         result = await session.execute(all_mutations)
         print(result)
         return result
