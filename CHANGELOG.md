@@ -1,3 +1,10 @@
+# [1.173.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.172.2...v1.173.0) (2022-12-15)
+
+
+### Features
+
+* Se retirer du groupe du suivi d'un bénéficiaire. ([#1344](https://github.com/gip-inclusion/carnet-de-bord/issues/1344)) ([22133d7](https://github.com/gip-inclusion/carnet-de-bord/commit/22133d71d979ce874ab9e9b966402f38d6f84abb))
+
 ## [1.172.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.172.1...v1.172.2) (2022-12-14)
 
 
