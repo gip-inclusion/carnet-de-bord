@@ -1,5 +1,6 @@
 mutation AcceptOrientationRequest(
-  $orientation_request_id: uuid!
+  $orientation_request_id: uuid
+  $with_orientation_request_id: Boolean = false
   $orientation_type: orientation_type_enum
   $notebook_id: uuid!
   $beneficiary_id: uuid!

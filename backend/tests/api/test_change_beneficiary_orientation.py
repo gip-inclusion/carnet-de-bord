@@ -3,6 +3,7 @@ from unittest import mock
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
+from api.db.crud.notebook import get_notebook_members_by_notebook_id
 from api.db.crud.orientation_request import get_orientation_request_by_id
 from api.db.models.beneficiary import Beneficiary
 from api.db.models.notebook import Notebook
@@ -29,7 +30,7 @@ async def test_verify_no_token(
             "notebook_id": str(notebook_sophie_tifour.id),
             "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
-            "professional_account_id": str(professional_pierre_chevalier.account_id),
+            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
     )
     assert response.status_code == 401
@@ -53,7 +54,7 @@ async def test_professional_not_allowed_to_change_orientation(
             "notebook_id": str(notebook_sophie_tifour.id),
             "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
-            "professional_account_id": str(professional_pierre_chevalier.account_id),
+            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
         headers={"jwt-token": f"{get_professional_jwt}"},
     )
@@ -63,13 +64,14 @@ async def test_professional_not_allowed_to_change_orientation(
 
 
 @mock.patch("api.core.emails.send_mail")
-async def test_change_orientation_with_exisiting_pro_in_members(
+async def test_change_orientation_while_keeping_same_referent(
     _: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
     guilia_diaby_jwt: str,
+    db_connection: Connection,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
@@ -78,11 +80,16 @@ async def test_change_orientation_with_exisiting_pro_in_members(
             "notebook_id": str(notebook_sophie_tifour.id),
             "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
-            "professional_account_id": str(professional_pierre_chevalier.account_id),
+            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )
     assert response.status_code == 200
+    rows_pierre_chevalier = get_notebook_members_by_notebook_id(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
+    assert len(rows_pierre_chevalier) == 1
 
 
 @mock.patch("api.core.emails.send_mail")
@@ -126,7 +133,7 @@ async def test_change_orientation_with_orientation_request(
             "notebook_id": str(notebook_jennings_dee.id),
             "beneficiary_id": str(beneficiary_jennings_dee.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
-            "professional_account_id": str(professional_pierre_chevalier.account_id),
+            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )
@@ -162,7 +169,7 @@ async def test_send_email_to_members_with_orientation_request(
             "notebook_id": str(notebook_jennings_dee.id),
             "beneficiary_id": str(beneficiary_jennings_dee.id),
             "structure_id": str(professional_paul_camara.structure_id),
-            "professional_account_id": str(professional_paul_camara.account_id),
+            "new_referent_account_id": str(professional_paul_camara.account_id),
             "orientation_request_id": str(orientation_request_jennings_dee.id),
         },
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
@@ -202,7 +209,7 @@ async def test_send_email_to_members_without_orientation_request(
             "notebook_id": str(notebook_sophie_tifour.id),
             "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_paul_camara.structure_id),
-            "professional_account_id": str(professional_paul_camara.account_id),
+            "new_referent_account_id": str(professional_paul_camara.account_id),
         },
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )
@@ -240,7 +247,7 @@ async def test_send_email_to_members_first_orientation(
             "notebook_id": str(notebook_noel_keller.id),
             "beneficiary_id": str(beneficiary_noel_keller.id),
             "structure_id": str(professional_paul_camara.structure_id),
-            "professional_account_id": str(professional_paul_camara.account_id),
+            "new_referent_account_id": str(professional_paul_camara.account_id),
         },
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )

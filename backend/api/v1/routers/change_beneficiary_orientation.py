@@ -39,12 +39,9 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
     def gql_variables_for_mutation(
         self, old_referent_account_id: UUID | None
     ) -> dict[str, str | bool]:
-        variables = (
-            {"orientation_request_id": str(self.orientation_request_id)}
-            if self.orientation_request_id
-            else {}
-        )
-        return variables | {
+        return {
+            "orientation_request_id": str(self.orientation_request_id),
+            "with_orientation_request_id": self.orientation_request_id is not None,
             "orientation_type": str(self.orientation_type),
             "notebook_id": str(self.notebook_id),
             "beneficiary_id": str(self.beneficiary_id),
@@ -88,7 +85,7 @@ async def change_beneficiary_orientation(
             else "_acceptOrientationRequest.gql"
         )
 
-        mutation = load_gql_file(mutation_filename)
+        mutation = load_gql_file("_acceptOrientationRequest.gql")
 
         notification_response = await session.execute(
             gql(load_gql_file("notificationInfo.gql")),
