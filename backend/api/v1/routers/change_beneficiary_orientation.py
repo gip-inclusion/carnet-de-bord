@@ -109,6 +109,10 @@ async def change_beneficiary_orientation(
                 detail=f"Error while reading notificationInfo.gql mutation file",
             )
 
+        schema = gqlSchema.get_schema()
+        ds = DSLSchema(schema)
+        mutations = {}
+
         if data.orientation_request_id:
             beneficiary = notification_response["notebook_by_pk"]["beneficiary"]
 
@@ -119,6 +123,19 @@ async def change_beneficiary_orientation(
                     if len(beneficiary["orientation_request"]) > 0
                     else "",
                 )
+                mutations = mutations | {
+                    "accept_orientation_request": ds.mutation_root.update_orientation_request_by_pk.args(
+                        pk_columns={"id": str(data.orientation_request_id)},
+                        _set={
+                            "decidedAt": "now",
+                            "status": "accepted",
+                            "decidedOrientationTypeId": data.orientation_type,
+                        },
+                    ).select(
+                        ds.orientation_request.id,
+                        ds.orientation_request.createdAt,
+                    ),
+                }
             except Exception as exception:
                 logging.error(
                     "%s does not match beneficiary_id %s",
@@ -151,9 +168,7 @@ async def change_beneficiary_orientation(
         )
         structure_changed = str(data.structure_id) != str(former_structure_id)
 
-        schema = gqlSchema.get_schema()
-        ds = DSLSchema(schema)
-        mutations = {
+        mutations = mutations | {
             "add_notebook_info": ds.mutation_root.insert_notebook_info_one.args(
                 object={
                     "notebookId": str(data.notebook_id),
@@ -188,24 +203,25 @@ async def change_beneficiary_orientation(
                 ),
             }
         if need_deactivation:
+            deactivation_clause = [
+                {
+                    "notebookId": {"_eq": str(data.notebook_id)},
+                    "memberType": {"_eq": "referent"},
+                    "active": {"_eq": True},
+                }
+            ]
+            if data.new_referent_account_id:
+                deactivation_clause.append(
+                    {
+                        "notebookId": {"_eq": str(data.notebook_id)},
+                        "accountId": {"_eq": str(data.new_referent_account_id)},
+                        "active": {"_eq": True},
+                    }
+                )
+
             mutations = mutations | {
                 "deactivate_changed_member_rows": ds.mutation_root.update_notebook_member.args(
-                    where={
-                        "_or": [
-                            {
-                                "notebookId": {"_eq": str(data.notebook_id)},
-                                "memberType": {"_eq": "referent"},
-                                "active": {"_eq": True},
-                            },
-                            {
-                                "notebookId": {"_eq": str(data.notebook_id)},
-                                "accountId": {"_eq": str(data.new_referent_account_id)},
-                                "active": {"_eq": True},
-                            }
-                            if data.new_referent_account_id
-                            else {},
-                        ]
-                    },
+                    where={"_or": deactivation_clause},
                     _set={
                         "active": False,
                         "membership_ends_at": datetime.now().isoformat(),
@@ -214,63 +230,14 @@ async def change_beneficiary_orientation(
                     ds.notebook_member_mutation_response.affected_rows
                 )
             }
-        all_mutations = dsl_gql(DSLMutation(**mutations))
-        result = await session.execute(all_mutations)
-        print(result)
-        return result
 
-        mutation_filename = (
-            "_changeBeneficiaryOrientation.gql"
-            if data.orientation_request_id is None
-            else "_acceptOrientationRequest.gql"
-        )
-
-        print(mutation_filename)
-        mutation = load_gql_file(mutation_filename)
-
-        notification_response = await session.execute(
-            gql(load_gql_file("notificationInfo.gql")),
-            variable_values=data.gql_variables_for_query(),
-        )
-
-        if notification_response is None:
-            raise HTTPException(
-                status_code=500,
-                detail=f"Error while reading notificationInfo.gql mutation file",
-            )
-
-        if data.orientation_request_id:
-            beneficiary = notification_response["notebook_by_pk"]["beneficiary"]
-
-            try:
-                raise_if_orientation_request_not_match_beneficiary(
-                    str(data.orientation_request_id),
-                    str(beneficiary["orientation_request"][0]["id"])
-                    if len(beneficiary["orientation_request"]) > 0
-                    else "",
-                )
-            except Exception as exception:
-                logging.error(
-                    "%s does not match beneficiary_id %s",
-                    data.orientation_request_id,
-                    data.beneficiary_id,
-                )
-                raise HTTPException(
-                    status_code=403,
-                    detail="orientation_request_id and beneficiary don't match",
-                ) from exception
+        response = await session.execute(dsl_gql(DSLMutation(**mutations)))
 
         former_referent_account_id = None
         if notification_response["notebook_by_pk"]["former_referents"]:
             former_referent_account_id = notification_response["notebook_by_pk"][
                 "former_referents"
             ][0]["account"]["id"]
-
-        print(data.gql_variables_for_mutation(former_referent_account_id))
-        response = await session.execute(
-            gql(mutation),
-            variable_values=data.gql_variables_for_mutation(former_referent_account_id),
-        )
         former_referents = [
             Member.parse_from_gql(member["account"]["professional"])
             for member in notification_response["notebook_by_pk"]["former_referents"]
