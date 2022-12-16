@@ -173,6 +173,92 @@ async def test_change_orientation_assign_to_structure_not_referent(
 
 
 @mock.patch("api.core.emails.send_mail")
+async def test_change_orientation_with_new_referent(
+    _: mock.Mock,
+    test_client: TestClient,
+    professional_paul_camara: Professional,
+    professional_pierre_chevalier: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    guilia_diaby_jwt: str,
+    db_connection: Connection,
+):
+    response = test_client.post(
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(notebook_sophie_tifour.id),
+            "beneficiary_id": str(beneficiary_sophie_tifour.id),
+            "structure_id": str(professional_paul_camara.structure_id),
+            "new_referent_account_id": str(professional_paul_camara.account_id),
+        },
+        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+    )
+    assert response.status_code == 200
+    members = await get_notebook_members_by_notebook_id(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
+
+    # Check that former referent is no longer active
+    assert (
+        len(
+            [
+                member
+                for member in members
+                if member.member_type == "referent"
+                and member.account_id == professional_pierre_chevalier.account_id
+                and not member.active
+            ]
+        )
+        == 1
+    )
+
+    # Check that former referent remains in the notebook as simple member
+    assert (
+        len(
+            [
+                member
+                for member in members
+                if member.member_type == "no_referent"
+                and member.account_id == professional_pierre_chevalier.account_id
+                and member.active
+            ]
+        )
+        == 1
+    )
+
+    structures = await get_structures_for_beneficiary(
+        db_connection,
+        beneficiary_sophie_tifour.id,
+    )
+    # Check that former structure has been set as 'outdated'
+    assert (
+        len(
+            [
+                structure
+                for structure in structures
+                if structure.beneficiary_status == "outdated"
+            ]
+        )
+        == 1
+    )
+
+    # Check that new structure has been added as 'current'
+    assert (
+        len(
+            [
+                structure
+                for structure in structures
+                if structure.beneficiary_status == "current"
+                and structure.structure_name == "Service Social Départemental"
+            ]
+        )
+        == 1
+    )
+
+
+@mock.patch("api.core.emails.send_mail")
 async def test_change_orientation_with_orientation_request(
     _: mock.Mock,
     test_client: TestClient,
