@@ -90,6 +90,8 @@ async def test_change_orientation_while_keeping_same_referent(
         db_connection,
         notebook_sophie_tifour.id,
     )
+
+    # Check that no new member row was added since referent doesn't change
     assert (
         len(
             [
@@ -128,6 +130,8 @@ async def test_change_orientation_assign_to_structure_not_referent(
         db_connection,
         notebook_sophie_tifour.id,
     )
+
+    # Check that former referent is no longer active
     assert (
         len(
             [
@@ -142,6 +146,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
         db_connection,
         beneficiary_sophie_tifour.id,
     )
+    # Check that former structure has been set as 'outdated'
     assert (
         len(
             [
@@ -152,6 +157,8 @@ async def test_change_orientation_assign_to_structure_not_referent(
         )
         == 1
     )
+
+    # Check that new structure has been added as 'current'
     assert (
         len(
             [
