@@ -1,3 +1,10 @@
+## [1.173.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.173.0...v1.173.1) (2022-12-16)
+
+
+### Bug Fixes
+
+* show only notebooks where member is active on pro home ([#1363](https://github.com/gip-inclusion/carnet-de-bord/issues/1363)) ([c2286c2](https://github.com/gip-inclusion/carnet-de-bord/commit/c2286c23ffe5269302a746cfd3f91d08ca608a4b))
+
 # [1.173.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.172.2...v1.173.0) (2022-12-15)
 
 
