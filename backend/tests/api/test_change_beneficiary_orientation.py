@@ -173,28 +173,6 @@ async def test_change_orientation_assign_to_structure_not_referent(
 
 
 @mock.patch("api.core.emails.send_mail")
-async def test_change_orientation_with_structure_only(
-    _: mock.Mock,
-    test_client: TestClient,
-    professional_pierre_chevalier: Professional,
-    beneficiary_sophie_tifour: Beneficiary,
-    notebook_sophie_tifour: Notebook,
-    guilia_diaby_jwt: str,
-):
-    response = test_client.post(
-        UPDATE_ORIENTATION_ENDPOINT_PATH,
-        json={
-            "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
-            "structure_id": str(professional_pierre_chevalier.structure_id),
-        },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
-    )
-    assert response.status_code == 200
-
-
-@mock.patch("api.core.emails.send_mail")
 async def test_change_orientation_with_orientation_request(
     _: mock.Mock,
     test_client: TestClient,
