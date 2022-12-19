@@ -14,3 +14,27 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je ne vois pas "Plan d'action"
 		Alors je ne vois pas "Situation socioprofessionnelle"
 		Alors je ne vois pas "Historique de parcours"
+
+  Scénario: Se rattacher au carnet
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Henderson"
+		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Alors je clique sur "Se rattacher"
+		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+		Alors je clique sur "Non"
+		Alors je vois "Pierre Chevalier" dans le groupe de suivi
+		Alors je ne vois pas "référent"
+		Alors je vois "Plan d'action"
+		Alors je vois "Situation socioprofessionnelle"
+		Alors je vois "Historique de parcours"
+
+  Scénario: Se rattacher au carnet en tant que référent
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Henderson"
+		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Alors je clique sur "Se rattacher"
+		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+		Alors je clique sur "Oui"
+		Alors je vois "Pierre Chevalier" dans le groupe de suivi
+		Alors je vois "référent"
+		Alors je vois "Plan d'action"
+		Alors je vois "Situation socioprofessionnelle"
+		Alors je vois "Historique de parcours"

@@ -225,7 +225,7 @@
 						displayMemberManagementButtons={isMember}
 					/>
 				{:else}
-					<NotebookMembers {members} />
+					<NotebookMembers {members} notebookId={publicNotebook.id} />
 				{/if}
 			</MainSection>
 			{#if notebook?.focuses}
