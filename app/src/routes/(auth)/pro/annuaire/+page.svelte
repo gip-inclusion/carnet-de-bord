@@ -13,6 +13,7 @@
 
 	import type { PageData } from './$types';
 	import { dt } from './+page';
+	import { accountData } from '$lib/stores';
 
 	export let data: PageData;
 
@@ -44,7 +45,7 @@
 			visitDate._lt = addMonths(today, -12);
 		}
 
-		const variables: SearchPublicNotebooksQueryVariables = {};
+		const variables: SearchPublicNotebooksQueryVariables = { accountId: $accountData.id };
 		variables.filter = `${search ?? ''}`;
 		return variables;
 	}
