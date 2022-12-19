@@ -33,3 +33,13 @@ async def extract_deployment_id(
     jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
     token = jwt.decode(jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]])
     request.state.deployment_id = token["deploymentId"]
+
+
+async def extract_authentified_account_id(
+    request: Request, jwt_token: str | None = Header(default=None)
+):
+    if not jwt_token:
+        raise HTTPException(status_code=401, detail="Missing credentials")
+    jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
+    token = jwt.decode(jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]])
+    request.state.account_id = token["id"]

@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from api.v1.routers import (
+    add_notebook_member,
     admin_structures,
     beneficiaries,
     csv2json,
@@ -36,3 +37,4 @@ api_router.include_router(
 api_router.include_router(
     orientations.router, prefix="/orientations", tags=["Orientation", "Réorientation"]
 )
+api_router.include_router(add_notebook_member.router)
