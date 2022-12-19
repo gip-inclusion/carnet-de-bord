@@ -23,7 +23,9 @@
 		search,
 		selected,
 	});
-	const result = operationStore(SearchPublicNotebooksDocument, queryVariables);
+	const result = operationStore(SearchPublicNotebooksDocument, queryVariables, {
+		pause: data.search ? false : true,
+	});
 	query(result);
 
 	function buildQueryVariables({ search, selected }) {
@@ -60,6 +62,7 @@
 			search,
 			selected,
 		});
+		$result.context.pause = false;
 		$result.reexecute();
 	}
 
@@ -86,25 +89,11 @@
 	<title>Annuaire - Carnet de bord</title>
 </svelte:head>
 
-<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>
+<h1 class="fr-h2 float-left">Annuaire des bénéficiaires</h1>
 
-<form class="flex flex-row w-full space-x-16" on:submit|preventDefault={handleSubmit}>
-	<Select
-		on:select={() => updateResult()}
-		options={[
-			{ name: dt.none, label: 'tous' },
-			{ name: dt['3months'], label: 'dans les 3 derniers mois' },
-			{ name: dt['3-6months'], label: 'entre les 3 et 6 derniers mois' },
-
-			{ name: dt['6-12months'], label: 'entre les 6 et 12 derniers mois' },
-			{ name: dt['12months'], label: 'il y a plus de 12 mois' },
-		]}
-		bind:selected
-		selectHint="Sélectionner un filtre"
-		selectLabel="Profils consultés..."
-	/>
-	<div class="mb-6 self-end">
-		<div class="fr-search-bar" role="search">
+<form class="w-full" on:submit|preventDefault={handleSubmit}>
+	<div class="mb-6">
+		<div class="fr-search-bar fr-search-bar--lg" role="search">
 			<label class="fr-label" for="search-beneficiary">Rechercher un bénéficiaire</label>
 			<input
 				class="fr-input"
@@ -118,31 +107,57 @@
 			<button class="fr-btn" disabled={!handleSubmit || searching}>Rechercher</button>
 		</div>
 	</div>
+
+	{#if search}
+		<div class="flex flex-row">
+			<Select
+				on:select={() => updateResult()}
+				options={[
+					{ name: dt.none, label: 'tous' },
+					{ name: dt['3months'], label: 'dans les 3 derniers mois' },
+					{ name: dt['3-6months'], label: 'entre les 3 et 6 derniers mois' },
+
+					{ name: dt['6-12months'], label: 'entre les 6 et 12 derniers mois' },
+					{ name: dt['12months'], label: 'il y a plus de 12 mois' },
+				]}
+				bind:selected
+				selectHint="Sélectionner un filtre"
+				selectLabel="Profils consultés..."
+			/>
+		</div>
+	{/if}
 </form>
 <LoaderIndicator {result}>
-	{#if notebooks.length === 0}
-		<div class="flex flex-col space-y-4 items-center">
-			<div class="text-france-blue font-bold">
-				Désolé, aucun bénéficiaire ne correspond à votre recherche.
+	{#if search}
+		{#if notebooks.length === 0}
+			<div class="flex flex-col space-y-4 items-center">
+				<div class="text-france-blue font-bold">
+					Désolé, aucun bénéficiaire ne correspond à votre recherche.
+				</div>
+				<p>
+					Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+						>contactez-nous par tchat</button
+					>.
+				</p>
+			</div>
+		{:else}
+			<div class="fr-grid-row fr-grid-row--gutters">
+				{#each notebooks as notebook (notebook.id)}
+					<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
+						<ProBeneficiaryCard beneficiary={notebook.beneficiary} href={carnetUrl(notebook.id)} />
+					</div>
+				{/each}
 			</div>
 			<p>
 				Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
 					>contactez-nous par tchat</button
 				>.
 			</p>
-		</div>
+		{/if}
 	{:else}
-		<div class="fr-grid-row fr-grid-row--gutters">
-			{#each notebooks as notebook (notebook.id)}
-				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
-					<ProBeneficiaryCard beneficiary={notebook.beneficiary} href={carnetUrl(notebook.id)} />
-				</div>
-			{/each}
-		</div>
 		<p>
-			Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
-				>contactez-nous par tchat</button
-			>.
+			Vous pouvez recherche un bénéficiaire à partir de son prénom, nom, numéro CAF, numéro Pôle
+			Emploi ou numéro de téléphone.
 		</p>
 	{/if}
 </LoaderIndicator>

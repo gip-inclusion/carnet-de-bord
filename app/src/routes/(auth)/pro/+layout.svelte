@@ -10,7 +10,7 @@
 		{
 			id: 'annuaire',
 			path: `${baseUrlForRole(RoleEnum.Professional)}/annuaire`,
-			label: 'Annuaire de mes bénéficiaires',
+			label: 'Annuaire des bénéficiaires',
 		},
 	];
 </script>
