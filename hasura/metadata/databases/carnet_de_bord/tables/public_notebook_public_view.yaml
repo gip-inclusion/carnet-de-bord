@@ -47,7 +47,10 @@ select_permissions:
         - updated_at
         - beneficiary_id
         - id
-      filter: {}
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
   - role: manager
     permission:
@@ -56,7 +59,10 @@ select_permissions:
         - updated_at
         - beneficiary_id
         - id
-      filter: {}
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
   - role: orientation_manager
     permission:
@@ -65,7 +71,10 @@ select_permissions:
         - updated_at
         - beneficiary_id
         - id
-      filter: {}
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
   - role: professional
     permission:
@@ -74,5 +83,8 @@ select_permissions:
         - updated_at
         - beneficiary_id
         - id
-      filter: {}
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
       allow_aggregations: true

@@ -26,3 +26,10 @@ Scénario: Recherche de carnet inexistant depuis l'annuaire
 	Alors je vois "Connor" dans le champ "Rechercher un bénéficiaire"
 	Quand je clique sur "Rechercher"
 	Alors je vois "aucun bénéficiaire"
+
+Scénario: Recherche d'un bénéficiaire hors déploiement
+	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
+	Quand je clique sur "Annuaire de mes bénéficiaires"
+	Quand je renseigne "Saintpa" dans le champ "Rechercher un bénéficiaire"
+	Quand je clique sur "Rechercher"
+	Alors je vois "aucun bénéficiaire"
