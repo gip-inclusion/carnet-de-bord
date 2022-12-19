@@ -1,4 +1,3 @@
--- Could not auto-generate a down migration.
 -- Please write an appropriate down migration for the SQL below:
 -- CREATE OR REPLACE FUNCTION public.search_public_notebooks(search text)
 -- RETURNS SETOF notebook_public_view
@@ -17,3 +16,4 @@
 --     OR search <% beneficiary.caf_number
 --     OR search <% beneficiary.mobile_number
 -- $function$;
+DROP FUNCTION public.search_public_notebooks;

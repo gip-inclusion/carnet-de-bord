@@ -9,8 +9,7 @@ AS $function$
     notebook_public_view
     JOIN beneficiary ON beneficiary.id = notebook_public_view.beneficiary_id
   WHERE
-    search = ''
-    OR unaccent(search) <% unaccent(CONCAT(beneficiary.firstname, ' ', beneficiary.lastname))
+    unaccent(search) <% unaccent(CONCAT(beneficiary.firstname, ' ', beneficiary.lastname))
     OR search <% beneficiary.pe_number
     OR search <% beneficiary.caf_number
     OR search <% beneficiary.mobile_number
