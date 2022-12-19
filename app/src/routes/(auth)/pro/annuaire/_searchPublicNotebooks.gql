@@ -1,51 +1,33 @@
-query SearchPublicNotebooks(
-  $filter: String,
-  $accountId: uuid!
-) {
- search_public_notebooks(
-   args: { search: $filter },
-   order_by: { updated_at: desc_nulls_first },
-   where: {_not:{notebook:{members:{active:{_eq: true}, accountId:{_eq:$accountId}}}}}
- ) {
-   id
-   beneficiary {
-     dateOfBirth
-     firstname
-     id
-     lastname
-     mobileNumber
-     orientationRequest(order_by: {createdAt: desc}, limit: 1) {
-       id
-       status
-       createdAt
-       decidedAt
-       requestedOrientationType {
-         label
-       }
-     }
-   }
- },
- notebooks_member_of:search_public_notebooks(
-   args: { search: $filter },
-   order_by: { updated_at: desc_nulls_first }
-   where: {notebook:{members:{active:{_eq: true}, accountId:{_eq:$accountId}}}}
- ) {
-   id
-   beneficiary {
-     dateOfBirth
-     firstname
-     id
-     lastname
-     mobileNumber
-     orientationRequest(order_by: {createdAt: desc}, limit: 1) {
-       id
-       status
-       createdAt
-       decidedAt
-       requestedOrientationType {
-         label
-       }
-     }
-   }
- }
+query SearchPublicNotebooks($filter: String) {
+  notebooks: search_public_notebooks(
+    args: { search: $filter }
+    order_by: [
+      { beneficiary: { lastname: asc_nulls_first } }
+      { beneficiary: { firstname: asc_nulls_first } }
+      { updated_at: desc_nulls_first }
+    ]
+  ) {
+    id
+    members {
+      active
+      accountId
+      memberType
+    }
+    beneficiary {
+      dateOfBirth
+      firstname
+      id
+      lastname
+      mobileNumber
+      orientationRequest(order_by: { createdAt: desc }, limit: 1) {
+        id
+        status
+        createdAt
+        decidedAt
+        requestedOrientationType {
+          label
+        }
+      }
+    }
+  }
 }
