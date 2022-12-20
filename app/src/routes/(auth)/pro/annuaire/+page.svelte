@@ -68,7 +68,7 @@
 			<label class="fr-label" for="search-beneficiary">Rechercher un bénéficiaire</label>
 			<input
 				class="fr-input"
-				placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
+				placeholder="Prénom, Nom, téléphone, n° CAF/MSA, n° Pôle emploi"
 				type="search"
 				id="search-beneficiary"
 				name="search"
