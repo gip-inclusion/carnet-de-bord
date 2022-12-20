@@ -85,7 +85,10 @@
 				Nous sommes à votre écoute pour identifier comment le service pourrait être déployé avec eux.
 			</p>
 			<div>
-				<Link classNames="fr-btn" href="https://72ck8b8s1ot.typeform.com/to/rMdy1Veo">
+				<Link
+					classNames="fr-btn"
+					href="https://docs.google.com/forms/d/e/1FAIpQLSc035Uma5dJYWnim8q1g97C03b19O7nusr5QBXVEeQnvTS3og/viewform"
+				>
 					Demander une démo
 				</Link>
 			</div>
