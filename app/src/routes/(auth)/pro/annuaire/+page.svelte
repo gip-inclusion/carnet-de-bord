@@ -47,7 +47,6 @@
 		updateResult();
 	}
 
-	/* TODO: find a way without cheating on that type */
 	$: notebooks = $result.data ? $result.data.notebooks : [];
 
 	function openCrisp() {
