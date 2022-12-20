@@ -158,8 +158,8 @@ async def change_beneficiary_orientation(
                 "beneficiary"
             ]["structures"][0]["structureId"]
 
-        has_new_referent = str(data.new_referent_account_id) is not None
-        has_old_referent = str(former_referent_account_id) is not None
+        has_new_referent = data.new_referent_account_id is not None
+        has_old_referent = former_referent_account_id is not None
         are_old_new_referents_different = str(data.new_referent_account_id) != str(
             former_referent_account_id
         )
