@@ -53,6 +53,8 @@ async def change_beneficiary_orientation(
     jwt_token: str | None = Header(default=None),
 ):
     """
+    Change the beneficiary orientation
+
     Change beneficiary orientation allows an orientation manager
     to update the current orientation, structure attachement and referent
     based on an orientation request (or not)
@@ -60,12 +62,15 @@ async def change_beneficiary_orientation(
     - notebook_info holds the current orientation value,
     - orientation_request holds orientation_request infos
     - beneficiary_structure holds the relation between a structure and a beneficiary
-    - notebook_member holds the relation of an account (pro, orientation_manager) with a notebook
+    - notebook_member holds the relation of an account (pro, orientation_manager)
+      with a notebook
 
-    change_beneficiary_oriention will first close the orientation request (save the decision, date, choosed orientation)
-    then it will deactivate the current beneficiary_structure and add the new beneficiary_structure if the structure has changed
-    then it will deactivate the currents notebook_member records (referent / no_referen)
-    then it will add the new notebook_member records (referent / no-referent)
+    change_beneficiary_oriention will
+    - close the orientation request (save the decision, date, choosed orientation)
+    - deactivate the current beneficiary_structure and
+      add the new beneficiary_structure if the structure has changed
+    - deactivate the currents notebook_member records (referent / no_referen)
+    - add the new notebook_member records (referent / no-referent)
 
     """
     if not jwt_token:
@@ -87,16 +92,16 @@ async def change_beneficiary_orientation(
         if orientation_info_response is None:
             raise HTTPException(
                 status_code=500,
-                detail=f"Error while reading getOrientationInfo.gql mutation file",
+                detail="Error while reading getOrientationInfo.gql mutation file",
             )
 
         schema = gqlSchema.get_schema()
         if not schema:
             raise HTTPException(
                 status_code=500,
-                detail=f"No graphql schema found",
+                detail="No graphql schema found",
             )
-        ds = DSLSchema(schema)
+        dsl_schema = DSLSchema(schema)
         mutations = {}
 
         if data.orientation_request_id:
@@ -116,132 +121,48 @@ async def change_beneficiary_orientation(
                     data.beneficiary_id,
                 )
                 raise HTTPException(
-                    status_code=403,
+                    status_code=400,
                     detail="orientation_request_id and beneficiary don't match",
                 ) from exception
 
-            mutations = mutations | {
-                "accept_orientation_request": ds.mutation_root.update_orientation_request_by_pk.args(
-                    pk_columns={"id": str(data.orientation_request_id)},
-                    _set={
-                        "decidedAt": "now",
-                        "status": "accepted",
-                        "decidedOrientationTypeId": data.orientation_type,
-                    },
-                ).select(
-                    ds.orientation_request.id,
-                    ds.orientation_request.createdAt,
-                ),
-            }
+            mutations = mutations | get_orientation_request_mutation(data, dsl_schema)
 
         former_referent_account_id = None
         if orientation_info_response["notebook_by_pk"]["former_referents"]:
             former_referent_account_id = orientation_info_response["notebook_by_pk"][
                 "former_referents"
             ][0]["account"]["id"]
+
         former_structure_id = None
         if orientation_info_response["notebook_by_pk"]["beneficiary"]["structures"]:
             former_structure_id = orientation_info_response["notebook_by_pk"][
                 "beneficiary"
             ]["structures"][0]["structureId"]
 
-        # human readable boolean
+        mutations = mutations | get_notebook_info_mutation(data, dsl_schema)
+
+        structure_changed = str(data.structure_id) != str(former_structure_id)
+        if structure_changed:
+            mutations = mutations | get_beneficiary_structure_mutation(data, dsl_schema)
+
         has_new_referent = data.new_referent_account_id is not None
         has_old_referent = former_referent_account_id is not None
         are_old_new_referents_different = str(data.new_referent_account_id) != str(
             former_referent_account_id
         )
-        need_deactivation = (has_new_referent and are_old_new_referents_different) or (
-            has_old_referent and not has_new_referent
-        )
-        structure_changed = str(data.structure_id) != str(former_structure_id)
+        need_notebook_member_deactivation = (
+            has_new_referent and are_old_new_referents_different
+        ) or (has_old_referent and not has_new_referent)
+        if need_notebook_member_deactivation:
+            mutations = mutations | get_notebook_members_mutation(data, dsl_schema)
 
-        mutations = mutations | {
-            "add_notebook_info": ds.mutation_root.insert_notebook_info_one.args(
-                object={
-                    "notebookId": str(data.notebook_id),
-                    "orientation": data.orientation_type,
-                    "needOrientation": False,
-                },
-                on_conflict={
-                    "constraint": "notebook_info_pkey",
-                    "update_columns": ["orientation", "needOrientation"],
-                },
-            ).select(ds.notebook_info.notebookId)
-        }
-        if structure_changed:
-            mutations = mutations | {
-                "deactivate_old_structure": ds.mutation_root.update_beneficiary_structure.args(
-                    where={
-                        "beneficiaryId": {"_eq": str(data.beneficiary_id)},
-                        "status": {"_eq": "current"},
-                    },
-                    _set={"status": "outdated"},
-                ).select(
-                    ds.beneficiary_structure_mutation_response.affected_rows
-                ),
-                "add_new_structure": ds.mutation_root.insert_beneficiary_structure_one.args(
-                    object={
-                        "beneficiaryId": str(data.beneficiary_id),
-                        "structureId": str(data.structure_id),
-                        "status": "current",
-                    },
-                ).select(
-                    ds.beneficiary_structure.id
-                ),
-            }
-        if need_deactivation:
-            deactivation_clause = [
-                {
-                    "notebookId": {"_eq": str(data.notebook_id)},
-                    "memberType": {"_eq": "referent"},
-                    "active": {"_eq": True},
-                }
-            ]
-            if data.new_referent_account_id:
-                deactivation_clause.append(
-                    {
-                        "notebookId": {"_eq": str(data.notebook_id)},
-                        "accountId": {"_eq": str(data.new_referent_account_id)},
-                        "active": {"_eq": True},
-                    }
-                )
-
-            mutations = mutations | {
-                "deactivate_changed_member_rows": ds.mutation_root.update_notebook_member.args(
-                    where={"_or": deactivation_clause},
-                    _set={
-                        "active": False,
-                        "membershipEndedAt": datetime.now().isoformat(),
-                    },
-                ).select(
-                    ds.notebook_member_mutation_response.affected_rows
-                )
-            }
             if has_old_referent:
-                mutations = mutations | {
-                    "create_former_referent_row": ds.mutation_root.insert_notebook_member_one.args(
-                        object={
-                            "notebookId": str(data.notebook_id),
-                            "accountId": str(former_referent_account_id),
-                            "memberType": "no_referent",
-                        },
-                    ).select(
-                        ds.notebook_member.id
-                    )
-                }
+                mutations = mutations | get_former_referent_mutation(
+                    data, dsl_schema, former_referent_account_id
+                )
+
             if has_new_referent:
-                mutations = mutations | {
-                    "create_new_referent_row": ds.mutation_root.insert_notebook_member_one.args(
-                        object={
-                            "notebookId": str(data.notebook_id),
-                            "accountId": str(data.new_referent_account_id),
-                            "memberType": "referent",
-                        },
-                    ).select(
-                        ds.notebook_member.id
-                    )
-                }
+                mutations = mutations | get_new_referent_mutation(data, dsl_schema)
 
         response = await session.execute(dsl_gql(DSLMutation(**mutations)))
 
@@ -293,6 +214,131 @@ async def change_beneficiary_orientation(
         return response
 
 
+def get_new_referent_mutation(
+    data: ChangeBeneficiaryOrientationInput, dsl_schema: DSLSchema
+):
+    return {
+        "create_new_referent_row": dsl_schema.mutation_root.insert_notebook_member_one.args(
+            object={
+                "notebookId": str(data.notebook_id),
+                "accountId": str(data.new_referent_account_id),
+                "memberType": "referent",
+            },
+        ).select(
+            dsl_schema.notebook_member.id
+        )
+    }
+
+
+def get_former_referent_mutation(
+    data: ChangeBeneficiaryOrientationInput,
+    dsl_schema: DSLSchema,
+    former_referent_account_id,
+):
+    return {
+        "create_former_referent_row": dsl_schema.mutation_root.insert_notebook_member_one.args(
+            object={
+                "notebookId": str(data.notebook_id),
+                "accountId": str(former_referent_account_id),
+                "memberType": "no_referent",
+            },
+        ).select(
+            dsl_schema.notebook_member.id
+        )
+    }
+
+
+def get_notebook_members_mutation(
+    data: ChangeBeneficiaryOrientationInput, dsl_schema: DSLSchema
+):
+    deactivation_clause = [
+        {
+            "notebookId": {"_eq": str(data.notebook_id)},
+            "memberType": {"_eq": "referent"},
+            "active": {"_eq": True},
+        }
+    ]
+    if data.new_referent_account_id:
+        deactivation_clause.append(
+            {
+                "notebookId": {"_eq": str(data.notebook_id)},
+                "accountId": {"_eq": str(data.new_referent_account_id)},
+                "active": {"_eq": True},
+            }
+        )
+
+    return {
+        "deactivate_changed_member_rows": dsl_schema.mutation_root.update_notebook_member.args(
+            where={"_or": deactivation_clause},
+            _set={
+                "active": False,
+                "membershipEndedAt": datetime.now().isoformat(),
+            },
+        ).select(
+            dsl_schema.notebook_member_mutation_response.affected_rows
+        )
+    }
+
+
+def get_beneficiary_structure_mutation(
+    data: ChangeBeneficiaryOrientationInput, dsl_schema: DSLSchema
+):
+    return {
+        "deactivate_old_structure": dsl_schema.mutation_root.update_beneficiary_structure.args(
+            where={
+                "beneficiaryId": {"_eq": str(data.beneficiary_id)},
+                "status": {"_eq": "current"},
+            },
+            _set={"status": "outdated"},
+        ).select(
+            dsl_schema.beneficiary_structure_mutation_response.affected_rows
+        ),
+        "add_new_structure": dsl_schema.mutation_root.insert_beneficiary_structure_one.args(
+            object={
+                "beneficiaryId": str(data.beneficiary_id),
+                "structureId": str(data.structure_id),
+                "status": "current",
+            },
+        ).select(
+            dsl_schema.beneficiary_structure.id
+        ),
+    }
+
+
+def get_notebook_info_mutation(
+    data: ChangeBeneficiaryOrientationInput, dsl_schema: DSLSchema
+):
+    return {
+        "add_notebook_info": dsl_schema.mutation_root.insert_notebook_info_one.args(
+            object={
+                "notebookId": str(data.notebook_id),
+                "orientation": data.orientation_type,
+                "needOrientation": False,
+            },
+            on_conflict={
+                "constraint": "notebook_info_pkey",
+                "update_columns": ["orientation", "needOrientation"],
+            },
+        ).select(dsl_schema.notebook_info.notebookId)
+    }
+
+
+def get_orientation_request_mutation(data, dsl_schema: DSLSchema):
+    return {
+        "accept_orientation_request": dsl_schema.mutation_root.update_orientation_request_by_pk.args(
+            pk_columns={"id": str(data.orientation_request_id)},
+            _set={
+                "decidedAt": "now",
+                "status": "accepted",
+                "decidedOrientationTypeId": data.orientation_type,
+            },
+        ).select(
+            dsl_schema.orientation_request.id,
+            dsl_schema.orientation_request.createdAt,
+        ),
+    }
+
+
 class DenyBeneficiaryOrientationInput(BaseModel):
     orientation_request_id: UUID
 
@@ -324,7 +370,7 @@ async def deny_orientation_request(
         if deny_response is None:
             raise HTTPException(
                 status_code=500,
-                detail=f"Error while reading _denyOrientationRequestById.gql mutation file",
+                detail="Error while reading _denyOrientationRequestById.gql mutation file",
             )
         beneficiary = Person.parse_from_gql(
             deny_response["orientation_request"]["beneficiary"]

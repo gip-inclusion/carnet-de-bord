@@ -397,7 +397,7 @@ async def test_send_email_to_members_first_orientation(
 
 
 @mock.patch("api.core.emails.send_mail")
-async def test_unallowed_orientation_request(
+async def test_unconsistent_orientation_request(
     _: mock.Mock,
     test_client: TestClient,
     professional_paul_camara: Professional,
@@ -418,7 +418,7 @@ async def test_unallowed_orientation_request(
         headers={"jwt-token": f"{guilia_diaby_jwt}"},
     )
 
-    assert response.status_code == 403
+    assert response.status_code == 400
 
 
 @mock.patch("api.core.emails.send_mail")

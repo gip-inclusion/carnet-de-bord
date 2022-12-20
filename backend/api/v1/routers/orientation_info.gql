@@ -1,4 +1,4 @@
-query notificationInfos(
+query orientationInfos(
   $notebook_id: uuid!
   $structure_id: uuid!
   $with_new_referent: Boolean!
@@ -18,7 +18,9 @@ query notificationInfos(
       postalCode
       city
       cafNumber
-      structures (where: { status: {_eq: "current"}}) {structureId}
+      structures(where: { status: { _eq: "current" } }) {
+        structureId
+      }
     }
     former_referents: members(
       where: { memberType: { _eq: "referent" }, active: { _eq: true } }
