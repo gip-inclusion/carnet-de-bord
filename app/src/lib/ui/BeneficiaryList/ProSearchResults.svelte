@@ -11,9 +11,9 @@
 	function displayMemberType(members: PublicNotebook['members']): string {
 		const member = members.find((member) => member.accountId === accountId && member.active);
 		if (!member) {
-		  return 'Non';
+			return 'Non';
 		}
-		
+
 		return member.memberType === 'referent' ? 'Oui (Référent)' : 'Oui';
 	}
 </script>
