@@ -1,5 +1,5 @@
 ALTER TABLE "public"."notebook_member"
-  ADD membership_ends_at date;
+  ADD membership_ended_at date;
 
 ALTER TABLE ONLY "public"."notebook_member"
   DROP CONSTRAINT "notebook_member_notebook_id_account_id_key";

@@ -1,5 +1,5 @@
 ALTER TABLE "public"."notebook_member"
-  DROP COLUMN membership_ends_at;
+  DROP COLUMN membership_ended_at;
 
 DROP INDEX "notebook_member_notebook_id_account_id_if_active";
 
