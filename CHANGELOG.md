@@ -1,3 +1,10 @@
+# [1.176.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.175.0...v1.176.0) (2022-12-20)
+
+
+### Features
+
+* Mise à jour du lien vers le formulaire de demande de démo. ([#1370](https://github.com/gip-inclusion/carnet-de-bord/issues/1370)) ([459bb98](https://github.com/gip-inclusion/carnet-de-bord/commit/459bb98190ad991674769fac504472787539e42d))
+
 # [1.175.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.174.1...v1.175.0) (2022-12-20)
 
 
