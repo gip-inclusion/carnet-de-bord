@@ -17,6 +17,8 @@ configuration:
       custom_name: lastVisitedAt
     member_type:
       custom_name: memberType
+    membership_ended_at:
+      custom_name: membershipEndedAt
     notebook_id:
       custom_name: notebookId
   custom_column_names:
@@ -27,6 +29,7 @@ configuration:
     last_modified_at: lastModifiedAt
     last_visited_at: lastVisitedAt
     member_type: memberType
+    membership_ended_at: membershipEndedAt
     notebook_id: notebookId
   custom_root_fields: {}
 object_relationships:
@@ -286,7 +289,6 @@ update_permissions:
 delete_permissions:
   - role: manager
     permission:
-      backend_only: false
       filter:
         notebook:
           beneficiary:

@@ -184,7 +184,6 @@ update_permissions:
 delete_permissions:
   - role: manager
     permission:
-      backend_only: false
       filter:
         _and:
           - beneficiary:
@@ -195,7 +194,6 @@ delete_permissions:
                 _eq: X-Hasura-Deployment-Id
   - role: orientation_manager
     permission:
-      backend_only: false
       filter:
         _and:
           - beneficiary:

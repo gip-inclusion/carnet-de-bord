@@ -224,7 +224,7 @@ async def change_beneficiary_orientation(
                     where={"_or": deactivation_clause},
                     _set={
                         "active": False,
-                        "membership_ended_at": datetime.now().isoformat(),
+                        "membershipEndedAt": datetime.now().isoformat(),
                     },
                 ).select(
                     ds.notebook_member_mutation_response.affected_rows
