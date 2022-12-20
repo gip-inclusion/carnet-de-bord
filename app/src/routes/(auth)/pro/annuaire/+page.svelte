@@ -1,83 +1,53 @@
 <script lang="ts">
-	import { Select } from '$lib/ui/base';
-	import { ProBeneficiaryCard } from '$lib/ui';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import type {
-		NotebookMember,
-		SearchNotebookMemberQueryVariables,
-	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { SearchNotebookMemberDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { SearchPublicNotebooksQueryVariables } from '$lib/graphql/_gen/typed-document-nodes';
+	import { SearchPublicNotebooksDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import { browser } from '$app/environment';
-	import { addMonths } from 'date-fns';
-	import { accountData } from '$lib/stores';
 
 	import type { PageData } from './$types';
-	import { dt } from './+page';
+	import { accountData } from '$lib/stores';
+	import ProSearchResults from '$lib/ui/BeneficiaryList/ProSearchResults.svelte';
 
 	export let data: PageData;
 
 	let searching = false;
-	const accountId = $accountData.id;
-	let { search, selected } = data;
+	let { search } = data;
 
 	const queryVariables = buildQueryVariables({
-		accountId,
 		search,
-		selected,
 	});
-	const result = operationStore(SearchNotebookMemberDocument, queryVariables);
+	const result = operationStore(SearchPublicNotebooksDocument, queryVariables, {
+		pause: data.search ? false : true,
+	});
 	query(result);
 
-	function buildQueryVariables({ accountId, search, selected }) {
-		const today = new Date();
-		const visitDate = { _gt: undefined, _lt: undefined };
-
-		if (selected === dt['3months']) {
-			visitDate._gt = addMonths(today, -3);
-		} else if (selected === dt['3-6months']) {
-			visitDate._gt = addMonths(today, -6);
-			visitDate._lt = addMonths(today, -3);
-		} else if (selected === dt['6-12months']) {
-			visitDate._gt = addMonths(today, -12);
-			visitDate._lt = addMonths(today, -6);
-		} else if (selected === dt['12months']) {
-			visitDate._lt = addMonths(today, -12);
-		}
-
-		const variables: SearchNotebookMemberQueryVariables = { accountId, visitDate };
+	function buildQueryVariables({ search }) {
+		const variables: SearchPublicNotebooksQueryVariables = {};
 		variables.filter = `${search ?? ''}`;
 		return variables;
 	}
 
-	function updateUrl(search?: string | null, dt?: string | null) {
+	function updateUrl(search?: string | null) {
 		const url = new URL(window.location.toString());
 		url.searchParams.set('search', search);
-		url.searchParams.set('dt', dt);
 		window.history.pushState({}, '', url);
 	}
 
 	function updateResult() {
-		updateUrl(search, selected);
+		updateUrl(search);
 		$result.variables = buildQueryVariables({
-			accountId,
 			search,
-			selected,
 		});
+		$result.context.pause = false;
 		$result.reexecute();
-	}
-
-	function carnetUrl({ id }: { id: string }) {
-		return `/pro/carnet/${id}`;
 	}
 
 	function handleSubmit() {
 		updateResult();
 	}
 
-	/* TODO: find a way without cheating on that type */
-	$: members = ($result.data ? $result.data.search_notebook_members : []) as NotebookMember[];
-	$: notebooks = members ? members.map((m) => m.notebook) : [];
+	$: notebooks = $result.data ? $result.data.notebooks : [];
 
 	function openCrisp() {
 		if (browser && window.$crisp) {
@@ -90,29 +60,15 @@
 	<title>Annuaire - Carnet de bord</title>
 </svelte:head>
 
-<h1 class="fr-h2 float-left">Annuaire de mes bénéficiaires</h1>
+<h1 class="fr-h2 float-left">Annuaire des bénéficiaires</h1>
 
-<form class="flex flex-row w-full space-x-16" on:submit|preventDefault={handleSubmit}>
-	<Select
-		on:select={() => updateResult()}
-		options={[
-			{ name: dt.none, label: 'tous' },
-			{ name: dt['3months'], label: 'dans les 3 derniers mois' },
-			{ name: dt['3-6months'], label: 'entre les 3 et 6 derniers mois' },
-
-			{ name: dt['6-12months'], label: 'entre les 6 et 12 derniers mois' },
-			{ name: dt['12months'], label: 'il y a plus de 12 mois' },
-		]}
-		bind:selected
-		selectHint="Sélectionner un filtre"
-		selectLabel="Profils consultés..."
-	/>
-	<div class="mb-6 self-end">
-		<div class="fr-search-bar" role="search">
+<form class="w-full" on:submit|preventDefault={handleSubmit}>
+	<div class="mb-6">
+		<div class="fr-search-bar fr-search-bar--lg" role="search">
 			<label class="fr-label" for="search-beneficiary">Rechercher un bénéficiaire</label>
 			<input
 				class="fr-input"
-				placeholder="Nom, téléphone, n° CAF, n° Pôle emploi"
+				placeholder="Prénom, Nom, téléphone, n° CAF/MSA, n° Pôle emploi"
 				type="search"
 				id="search-beneficiary"
 				name="search"
@@ -124,29 +80,30 @@
 	</div>
 </form>
 <LoaderIndicator {result}>
-	{#if notebooks.length === 0}
-		<div class="flex flex-col space-y-4 items-center">
-			<div class="text-france-blue font-bold">
-				Désolé, aucun bénéficiaire ne correspond à votre recherche.
+	{#if search}
+		{#if notebooks.length === 0}
+			<div class="flex flex-col space-y-4 items-center">
+				<p class="text-france-blue font-bold">
+					Désolé, aucun bénéficiaire ne correspond à votre recherche.
+				</p>
+				<p>
+					Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
+						>contactez-nous par tchat</button
+					>.
+				</p>
 			</div>
+		{:else}
+			<ProSearchResults {notebooks} accountId={$accountData.id} />
 			<p>
 				Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
 					>contactez-nous par tchat</button
 				>.
 			</p>
-		</div>
+		{/if}
 	{:else}
-		<div class="fr-grid-row fr-grid-row--gutters">
-			{#each notebooks as notebook (notebook.id)}
-				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
-					<ProBeneficiaryCard beneficiary={notebook.beneficiary} href={carnetUrl(notebook)} />
-				</div>
-			{/each}
-		</div>
 		<p>
-			Si un bénéficiaire est manquant, <button class="underline" on:click={openCrisp}
-				>contactez-nous par tchat</button
-			>.
+			Vous pouvez rechercher un bénéficiaire à partir de son prénom, nom, numéro CAF, numéro Pôle
+			Emploi ou numéro de téléphone.
 		</p>
 	{/if}
 </LoaderIndicator>

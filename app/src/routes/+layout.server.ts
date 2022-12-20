@@ -24,7 +24,6 @@ export const load: LayoutServerLoad = async (event) => {
 			event.url.pathname === '/' ||
 			(needAuth(event.url.pathname) && !event.url.pathname.startsWith(baseUrlForRole(user.role)))
 		) {
-			console.log(event.url, homeForRole);
 			throw redirect(302, homeForRole(user.role));
 		}
 	} else if (needAuth(event.url.pathname)) {

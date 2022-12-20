@@ -15,7 +15,7 @@
 
 <SearchBar
 	inputLabel="Rechercher un bénéficiaire"
-	inputHint="Nom, téléphone, n° CAF/MSA, n° Pôle emploi"
+	inputHint="Prénom, Nom, téléphone, n° CAF/MSA, n° Pôle emploi"
 	btnLabel="Rechercher"
 	bind:search
 	{handleSubmit}
