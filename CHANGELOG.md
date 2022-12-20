@@ -1,3 +1,10 @@
+# [1.175.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.174.1...v1.175.0) (2022-12-20)
+
+
+### Features
+
+* autoriser la recherche de tous les notebooks ([#1360](https://github.com/gip-inclusion/carnet-de-bord/issues/1360)) ([d5f3d74](https://github.com/gip-inclusion/carnet-de-bord/commit/d5f3d74494066c36596f617fdce9795c6e4ccb79))
+
 ## [1.174.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.174.0...v1.174.1) (2022-12-19)
 
 # [1.174.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.173.2...v1.174.0) (2022-12-19)
