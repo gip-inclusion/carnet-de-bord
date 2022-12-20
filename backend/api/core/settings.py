@@ -6,6 +6,7 @@ from pydantic import BaseSettings, validator
 dir_path = os.path.dirname(os.path.realpath(__file__))
 from gql import Client
 from gql.transport.requests import RequestsHTTPTransport
+from graphql.type import GraphQLSchema
 
 
 class Settings(BaseSettings):
@@ -60,7 +61,7 @@ env_file_path = os.getenv("ENV_FILE", os.path.join(dir_path, "..", "..", "..", "
 
 class GqlSchema:
     client: Client
-    schema: Any
+    schema: GraphQLSchema | None
 
     def __init__(self, url, secret):
         transport = RequestsHTTPTransport(
@@ -71,7 +72,7 @@ class GqlSchema:
         with self.client:
             self.schema = self.client.schema
 
-    def get_schema(self):
+    def get_schema(self) -> GraphQLSchema | None:
         #  Fetch graphql schema using a gql client
         #  so we we can reuse it when using gql.DSL
         return self.schema
