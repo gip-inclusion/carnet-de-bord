@@ -230,6 +230,30 @@ async def change_beneficiary_orientation(
                     ds.notebook_member_mutation_response.affected_rows
                 )
             }
+            if has_old_referent:
+                mutations = mutations | {
+                    "create_former_referent_row": ds.mutation_root.insert_notebook_member_one.args(
+                        object={
+                            "notebookId": str(data.notebook_id),
+                            "accountId": str(former_referent_account_id),
+                            "memberType": "no_referent",
+                        },
+                    ).select(
+                        ds.notebook_member.id
+                    )
+                }
+            if has_new_referent:
+                mutations = mutations | {
+                    "create_new_referent_row": ds.mutation_root.insert_notebook_member_one.args(
+                        object={
+                            "notebookId": str(data.notebook_id),
+                            "accountId": str(data.new_referent_account_id),
+                            "memberType": "referent",
+                        },
+                    ).select(
+                        ds.notebook_member.id
+                    )
+                }
 
         response = await session.execute(dsl_gql(DSLMutation(**mutations)))
 

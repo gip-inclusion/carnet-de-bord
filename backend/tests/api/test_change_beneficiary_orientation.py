@@ -228,6 +228,20 @@ async def test_change_orientation_with_new_referent(
         == 1
     )
 
+    # Check that new referent is in the notebook as referent
+    assert (
+        len(
+            [
+                member
+                for member in members
+                if member.member_type == "referent"
+                and member.account_id == professional_paul_camara.account_id
+                and member.active
+            ]
+        )
+        == 1
+    )
+
     structures = await get_structures_for_beneficiary(
         db_connection,
         beneficiary_sophie_tifour.id,
