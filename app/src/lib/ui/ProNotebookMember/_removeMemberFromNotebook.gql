@@ -12,7 +12,7 @@ mutation RemoveMemberFromNotebook(
         {active: {_eq: true}}
       ]
     },
-    _set: {active: false}
+    _set: {active: false, membershipEndedAt: now}
   ) {
     affected_rows
     returning {

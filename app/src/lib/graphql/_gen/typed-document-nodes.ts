@@ -7215,6 +7215,7 @@ export type NotebookMember = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType: Scalars['String'];
+	membershipEndedAt?: Maybe<Scalars['date']>;
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
@@ -7298,6 +7299,7 @@ export type NotebookMemberBoolExp = {
 	lastModifiedAt?: InputMaybe<TimestamptzComparisonExp>;
 	lastVisitedAt?: InputMaybe<TimestamptzComparisonExp>;
 	memberType?: InputMaybe<StringComparisonExp>;
+	membershipEndedAt?: InputMaybe<DateComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
 };
@@ -7305,7 +7307,7 @@ export type NotebookMemberBoolExp = {
 /** unique or primary key constraints on table "notebook_member" */
 export enum NotebookMemberConstraint {
 	/** unique or primary key constraint on columns "account_id", "notebook_id" */
-	NotebookMemberNotebookIdAccountIdKey = 'notebook_member_notebook_id_account_id_key',
+	NotebookMemberNotebookIdAccountIdIfActive = 'notebook_member_notebook_id_account_id_if_active',
 	/** unique or primary key constraint on columns "id" */
 	NotebookMemberPkey = 'notebook_member_pkey',
 	/** unique or primary key constraint on columns "notebook_id" */
@@ -7325,6 +7327,7 @@ export type NotebookMemberInsertInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
+	membershipEndedAt?: InputMaybe<Scalars['date']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
@@ -7340,6 +7343,7 @@ export type NotebookMemberMaxFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
+	membershipEndedAt?: Maybe<Scalars['date']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7353,6 +7357,7 @@ export type NotebookMemberMaxOrderBy = {
 	lastModifiedAt?: InputMaybe<OrderBy>;
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
+	membershipEndedAt?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 };
 
@@ -7367,6 +7372,7 @@ export type NotebookMemberMinFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
+	membershipEndedAt?: Maybe<Scalars['date']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7380,6 +7386,7 @@ export type NotebookMemberMinOrderBy = {
 	lastModifiedAt?: InputMaybe<OrderBy>;
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
+	membershipEndedAt?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 };
 
@@ -7412,6 +7419,7 @@ export type NotebookMemberOrderBy = {
 	lastModifiedAt?: InputMaybe<OrderBy>;
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
+	membershipEndedAt?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 };
@@ -7442,6 +7450,8 @@ export enum NotebookMemberSelectColumn {
 	/** column name */
 	MemberType = 'memberType',
 	/** column name */
+	MembershipEndedAt = 'membershipEndedAt',
+	/** column name */
 	NotebookId = 'notebookId',
 }
 
@@ -7468,6 +7478,7 @@ export type NotebookMemberSetInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
+	membershipEndedAt?: InputMaybe<Scalars['date']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -7490,6 +7501,7 @@ export type NotebookMemberStreamCursorValueInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
+	membershipEndedAt?: InputMaybe<Scalars['date']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -7513,6 +7525,8 @@ export enum NotebookMemberUpdateColumn {
 	LastVisitedAt = 'lastVisitedAt',
 	/** column name */
 	MemberType = 'memberType',
+	/** column name */
+	MembershipEndedAt = 'membershipEndedAt',
 	/** column name */
 	NotebookId = 'notebookId',
 }
@@ -20713,6 +20727,11 @@ export const RemoveMemberFromNotebookDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'active' },
 											value: { kind: 'BooleanValue', value: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
 										},
 									],
 								},

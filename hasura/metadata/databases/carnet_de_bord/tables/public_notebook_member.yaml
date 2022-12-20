@@ -170,6 +170,7 @@ select_permissions:
   - role: manager
     permission:
       columns:
+        - account_id
         - active
         - created_at
         - creator_id
@@ -178,8 +179,8 @@ select_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ended_at
         - notebook_id
-        - account_id
       filter:
         notebook:
           beneficiary:
@@ -217,6 +218,7 @@ select_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ended_at
         - notebook_id
       filter: {}
       allow_aggregations: true
@@ -254,6 +256,7 @@ update_permissions:
         - active
         - last_modified_at
         - member_type
+        - membership_ended_at
       filter:
         notebook:
           beneficiary:
@@ -282,6 +285,7 @@ update_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ended_at
       filter:
         account_id:
           _eq: X-Hasura-User-Id
