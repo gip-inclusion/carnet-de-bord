@@ -138,28 +138,17 @@ async def test_change_orientation_assign_to_structure_not_referent(
         beneficiary_sophie_tifour.id,
     )
     # Check that former structure has been set as 'outdated'
-    assert (
-        len(
-            [
-                structure
-                for structure in structures
-                if structure.beneficiary_status == "outdated"
-            ]
-        )
-        == 1
+    assert_structure(
+        structures,
+        beneficiary_status="outdated",
+        structure_name="Centre Communal d'action social Livry-Gargan",
     )
 
     # Check that new structure has been added as 'current'
-    assert (
-        len(
-            [
-                structure
-                for structure in structures
-                if structure.beneficiary_status == "current"
-                and structure.structure_name == "Service Social Départemental"
-            ]
-        )
-        == 1
+    assert_structure(
+        structures,
+        beneficiary_status="current",
+        structure_name="Service Social Départemental",
     )
 
 
@@ -174,6 +163,25 @@ def assert_member(
                 if (member_type is None or member.member_type == member_type)
                 and member.account_id == person.account_id
                 and (active is None or member.active == active)
+            ]
+        )
+        == 1
+    )
+
+
+def assert_structure(structures, structure_name=None, beneficiary_status=None):
+    assert (
+        len(
+            [
+                structure
+                for structure in structures
+                if (
+                    structure_name is None or structure.structure_name == structure_name
+                )
+                and (
+                    beneficiary_status is None
+                    or structure.beneficiary_status == beneficiary_status
+                )
             ]
         )
         == 1
@@ -228,28 +236,17 @@ async def test_change_orientation_with_new_referent(
         beneficiary_sophie_tifour.id,
     )
     # Check that former structure has been set as 'outdated'
-    assert (
-        len(
-            [
-                structure
-                for structure in structures
-                if structure.beneficiary_status == "outdated"
-            ]
-        )
-        == 1
+    assert_structure(
+        structures,
+        beneficiary_status="outdated",
+        structure_name="Centre Communal d'action social Livry-Gargan",
     )
 
     # Check that new structure has been added as 'current'
-    assert (
-        len(
-            [
-                structure
-                for structure in structures
-                if structure.beneficiary_status == "current"
-                and structure.structure_name == "Service Social Départemental"
-            ]
-        )
-        == 1
+    assert_structure(
+        structures,
+        beneficiary_status="current",
+        structure_name="Service Social Départemental",
     )
 
 
