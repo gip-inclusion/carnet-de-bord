@@ -92,16 +92,7 @@ async def test_change_orientation_while_keeping_same_referent(
     )
 
     # Check that no new member row was added since referent doesn't change
-    assert (
-        len(
-            [
-                member
-                for member in members
-                if member.account_id == professional_pierre_chevalier.account_id
-            ]
-        )
-        == 1
-    )
+    assert_member(members, professional_pierre_chevalier)
 
 
 @mock.patch("api.core.emails.send_mail")
@@ -172,6 +163,23 @@ async def test_change_orientation_assign_to_structure_not_referent(
     )
 
 
+def assert_member(
+    members, person, member_type: str | None = None, active: bool | None = None
+):
+    assert (
+        len(
+            [
+                member
+                for member in members
+                if (member_type is None or member.member_type == member_type)
+                and member.account_id == person.account_id
+                and (active is None or member.active == active)
+            ]
+        )
+        == 1
+    )
+
+
 @mock.patch("api.core.emails.send_mail")
 async def test_change_orientation_with_new_referent(
     _: mock.Mock,
@@ -201,45 +209,18 @@ async def test_change_orientation_with_new_referent(
     )
 
     # Check that former referent is no longer active
-    assert (
-        len(
-            [
-                member
-                for member in members
-                if member.member_type == "referent"
-                and member.account_id == professional_pierre_chevalier.account_id
-                and not member.active
-            ]
-        )
-        == 1
+    assert_member(
+        members, professional_pierre_chevalier, member_type="referent", active=False
     )
 
     # Check that former referent remains in the notebook as simple member
-    assert (
-        len(
-            [
-                member
-                for member in members
-                if member.member_type == "no_referent"
-                and member.account_id == professional_pierre_chevalier.account_id
-                and member.active
-            ]
-        )
-        == 1
+    assert_member(
+        members, professional_pierre_chevalier, member_type="no_referent", active=True
     )
 
     # Check that new referent is in the notebook as referent
-    assert (
-        len(
-            [
-                member
-                for member in members
-                if member.member_type == "referent"
-                and member.account_id == professional_paul_camara.account_id
-                and member.active
-            ]
-        )
-        == 1
+    assert_member(
+        members, professional_paul_camara, member_type="referent", active=True
     )
 
     structures = await get_structures_for_beneficiary(
