@@ -13,13 +13,14 @@ function get_file_modification_timestamp() {
 		echo "$fs_ts"
 	fi
 }
+patterns=('hasura/metadata/**/*.yaml' 'hasura/metadata/**/*.graphql' 'app/**/*.gql')
+for pattern in $patterns; do
+	gql_ts="$(get_file_modification_timestamp $pattern)"
+	generated_file_ts="$(get_file_modification_timestamp 'app/src/lib/graphql/_gen/typed-document-nodes.ts')"
 
-gql_ts="$(get_file_modification_timestamp '*.gql')"
-generated_file_ts="$(get_file_modification_timestamp 'app/src/lib/graphql/_gen/typed-document-nodes.ts')"
-
-if [[ "$gql_ts" -gt "$generated_file_ts" ]]; then
-	echo "Generated file is older than source file: codegen needs to be ran"
-	exit 1
-else
-	echo "Generated file is newer than source file: everything is fine."
-fi
+	if [[ "$gql_ts" -gt "$generated_file_ts" ]]; then
+		echo "Generated file is older than source file: codegen needs to be ran"
+		exit 1
+	fi
+done
+echo "Generated file is newer than source file: everything is fine."
