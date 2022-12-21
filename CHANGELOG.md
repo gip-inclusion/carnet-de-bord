@@ -1,3 +1,10 @@
+# [1.177.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.176.0...v1.177.0) (2022-12-21)
+
+
+### Features
+
+* get rid of 'default' and 'done' definitely ([#1369](https://github.com/gip-inclusion/carnet-de-bord/issues/1369)) ([4484039](https://github.com/gip-inclusion/carnet-de-bord/commit/448403924edba0f795d47d73205e47250401ab64))
+
 # [1.176.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.175.0...v1.176.0) (2022-12-20)
 
 
