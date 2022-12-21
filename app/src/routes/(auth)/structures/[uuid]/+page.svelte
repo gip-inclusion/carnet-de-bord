@@ -4,6 +4,7 @@
 	import Text from '$lib/ui/utils/Text.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import ProfessionalsImport from '$lib/ui/AdminStructure/ImportProfessionals.svelte';
+	import ImportNotebookMembers from '$lib/ui/AdminStructure/ImportNotebookMembers.svelte';
 	import { browser } from '$app/environment';
 	import { pluralize } from '$lib/helpers';
 	import { openComponent } from '$lib/stores';
@@ -17,6 +18,7 @@
 	import Button from '$lib/ui/base/Button.svelte';
 	import Card from '$lib/ui/base/Card.svelte';
 	const professionnelIcon = '/images/professionnel.svg';
+	const rattachementIcon = '/images/rattachement.svg';
 
 	export let data: PageData;
 	export let getStructure = operationStore(
@@ -33,6 +35,7 @@
 	$: beneficiaries = $getStructure.data?.beneficiaries?.aggregate?.count;
 	$: structure = $getStructure.data?.structure_by_pk;
 	$: members = structure?.admins_aggregate?.nodes?.map(({ admin_structure }) => admin_structure);
+	$: professionals = structure?.professionals;
 
 	$: breadcrumbs = [
 		{
@@ -178,6 +181,23 @@
 								>Importer une liste de professionnels</svelte:fragment
 							>
 							<ProfessionalsImport structureId={data.structureId} />
+						</Dialog>
+					</Tile>
+				</div>
+				<div class="fr-col-12 fr-col-sm-6 fr-col-md-6 fr-col-lg-4">
+					<Tile imageUrl={rattachementIcon}>
+						<Dialog
+							outlineButton={false}
+							label="Rattacher des professionnels"
+							title="Rattacher des professionnels"
+							size={'large'}
+							showButtons={false}
+							buttonCssClasses="mw-200px"
+						>
+							<svelte:fragment slot="buttonLabel">
+								Importer une liste de rattachement
+							</svelte:fragment>
+							<ImportNotebookMembers {professionals} />
 						</Dialog>
 					</Tile>
 				</div>

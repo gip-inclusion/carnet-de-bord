@@ -34,4 +34,4 @@ Scénario: Se retirer du groupe de suivi et de la structure
   Quand un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
   Quand je clique sur "Bénéficiaires"
 	Quand je selectionne l'option "Orienté" dans la liste "Statut"
-	Alors je vois "NON RATTACHÉ" sur la ligne "Tifour"
+	Alors je vois "Non rattaché" sur la ligne "Tifour"
