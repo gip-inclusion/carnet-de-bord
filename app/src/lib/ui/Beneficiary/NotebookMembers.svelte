@@ -9,12 +9,14 @@
 	import { accountData, token } from '$lib/stores';
 	import { postApiJson } from '$lib/utils/post';
 	import { captureException } from '$lib/utils/sentry';
+	import { trackEvent } from '$lib/tracking/matomo';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 	export let members: Notebook['members'];
 	export let notebookId: Notebook['id'];
 
 	async function addCurrentAccountToNotebookMembers() {
+		trackEvent('notebook membership', 'join notebook members');
 		try {
 			await postApiJson(
 				`/v1/notebooks/${notebookId}/members`,
