@@ -242,6 +242,7 @@ update_permissions:
       columns:
         - active
         - member_type
+        - membership_ended_at
       filter:
         account:
           professional:

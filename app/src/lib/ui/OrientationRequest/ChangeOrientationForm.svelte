@@ -1,8 +1,4 @@
 <script lang="ts">
-	import type {
-		GetNotebookByBeneficiaryIdQuery,
-		GetNotebookQuery,
-	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { token } from '$lib/stores';
 	import { openComponent } from '$lib/stores';
 	import { postApiJson } from '$lib/utils/post';
@@ -11,38 +7,53 @@
 	} from '../OrientationManager/OrientationForm.svelte';
 	import { captureException } from '$lib/utils/sentry';
 
-	export let notebook:
-		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
-		| GetNotebookQuery['notebook_public_view'][0]['notebook'];
+	type Notebook = {
+		id: string;
+		beneficiaryId: string;
+		notebookInfo: { needOrientation: boolean } | undefined;
+	};
+
+	export let notebooks: Notebook[];
 	export let onBeneficiaryOrientationChanged: () => void;
-	export let orientationRequestId: string | undefined;
+	export let orientationRequestId: string | undefined = undefined;
+	export let structureId: string = null;
 
 	let displayError = false;
-	const formTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
+	const formTitle =
+		notebooks.length == 1 && notebooks[0].notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
 
 	async function handleSubmit(values: OrientationValidationSchema) {
-		try {
-			await postApiJson(
-				'/v1/change-beneficiary-orientation',
-				{
-					orientation_request_id: orientationRequestId,
-					orientation_type: values.orientationType,
-					notebook_id: notebook.id,
-					beneficiary_id: notebook.beneficiaryId,
-					structure_id: values.structureId,
-					new_referent_account_id: values.professionalAccountId,
-				},
-				{ 'jwt-token': $token }
-			);
-		} catch (err) {
-			console.error(err);
-			captureException(err);
-			displayError = true;
-			return;
+		for (const notebook of notebooks) {
+			try {
+				await changeBeneficiaryOrientation(notebook, values);
+			} catch (err) {
+				console.error(err);
+				captureException(err);
+				displayError = true;
+				return;
+			}
 		}
 		onBeneficiaryOrientationChanged();
 		openComponent.close();
 	}
+
+	async function changeBeneficiaryOrientation(
+		notebook: Notebook,
+		values: OrientationValidationSchema
+	) {
+		return postApiJson(
+			'/v1/change-beneficiary-orientation',
+			{
+				orientation_request_id: orientationRequestId,
+				orientation_type: values.orientationType,
+				notebook_id: notebook.id,
+				beneficiary_id: notebook.beneficiaryId,
+				structure_id: values.structureId,
+				new_referent_account_id: values.professionalAccountId,
+			},
+			{ 'jwt-token': $token }
+		);
+	}
 </script>
 
-<OrientationForm {handleSubmit} {displayError} {formTitle} />
+<OrientationForm {handleSubmit} {displayError} {formTitle} {structureId} />

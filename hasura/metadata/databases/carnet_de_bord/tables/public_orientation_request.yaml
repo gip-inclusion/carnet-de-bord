@@ -102,6 +102,29 @@ insert_permissions:
         - requestor_account_id
         - status
 select_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - decided_at
+        - id
+        - status
+      filter:
+        beneficiary:
+          structures:
+            structure:
+              admins:
+                admin_structure_id:
+                  _eq: X-Hasura-AdminStructure-Id
+  - role: manager
+    permission:
+      columns:
+        - decided_at
+        - id
+        - status
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
   - role: orientation_manager
     permission:
       columns:

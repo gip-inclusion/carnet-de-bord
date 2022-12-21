@@ -23,10 +23,9 @@
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
 	import { connectedUser, openComponent } from '$lib/stores';
-	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
-	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 	import FilterOrientation from './FilterOrientation.svelte';
 	import type { BeneficiaryFilter, OrientedFilter } from './OrientationFilter';
+	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
 
 	type BeneficiaryListType = 'orientation' | 'manager' | 'structure';
 
@@ -157,6 +156,10 @@
 
 	onDestroy(unsub);
 
+	function refreshList() {
+		$result.reexecute();
+	}
+
 	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
 
 	function updateFilters(
@@ -198,58 +201,21 @@
 		selectionStore.reset();
 	}
 
-	function getEditComponent(type: BeneficiaryListType) {
-		if (['orientation', 'manager'].includes(listType)) {
-			return AddStructureProfessionnalForm;
-		}
-		if (type === 'structure') {
-			return AddProfessionnalForm;
-		}
-	}
-
-	function getEditComponentProps(type: BeneficiaryListType, structuresId: string[]) {
-		if (['orientation', 'manager'].includes(listType)) {
-			return { structuresId: [...new Set(structuresId)] };
-		}
-		if (type === 'structure') {
-			return { structureId: new Set(structuresId).values().next().value };
-		}
-	}
-
 	function openEditLayer() {
 		const selectedBeneficiaries = Object.values($selectionStore);
 		const notebooks = selectedBeneficiaries.map((beneficiary) => ({
-			notebookId: beneficiary.notebook.id,
+			id: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
 		}));
 
-		const structuresId = selectedBeneficiaries.flatMap((beneficiary) =>
-			beneficiary.structures.map(({ structure }) => structure.id)
-		);
-
-		const members = selectedBeneficiaries.flatMap((beneficiary) =>
-			beneficiary.notebook.members.map((member) => member.account?.id)
-		);
-		const memberSet = new Set(members);
-		let member = null;
-		if (
-			memberSet.size === 1 &&
-			selectedBeneficiaries.filter((beneficiary) => beneficiary.notebook.members.length > 0)
-				.length === selectedBeneficiaries.length
-		) {
-			// all selected beneficiaries have the same pro as referent
-			// so we preselect member in the pro list
-			member = memberSet.values().next().value;
-		}
 		openComponent.open({
-			component: getEditComponent(listType),
+			component: ChangeOrientationForm,
 			props: {
 				notebooks,
-				member: member,
-				showResetMembers: memberSet.size > 0,
-				...getEditComponentProps(listType, structuresId),
-				onClose: () => {
+				structureId,
+				onBeneficiaryOrientationChanged: () => {
 					selectionStore.reset();
+					refreshList();
 				},
 			},
 		});
@@ -272,11 +238,21 @@
 	{/if}
 	<LoaderIndicator {result}>
 		{#if listType === 'manager'}
-			<BeneficiaryListWithStructure beneficiaries={$result.data.beneficiaries} />
+			<BeneficiaryListWithStructure
+				beneficiaries={$result.data.beneficiaries}
+				on:beneficiary-orientation-changed={refreshList}
+			/>
 		{:else if listType === 'structure'}
-			<BeneficiaryList beneficiaries={$result.data.beneficiaries} {structureId} />
+			<BeneficiaryList
+				beneficiaries={$result.data.beneficiaries}
+				{structureId}
+				on:beneficiary-orientation-changed={refreshList}
+			/>
 		{:else if listType === 'orientation'}
-			<BeneficiaryListWithOrientation beneficiaries={$result.data.beneficiaries} />
+			<BeneficiaryListWithOrientation
+				beneficiaries={$result.data.beneficiaries}
+				on:beneficiary-orientation-changed={refreshList}
+			/>
 		{/if}
 		<div class="flex justify-center">
 			<Pagination {currentPage} {pageSize} count={nbBeneficiaries} />

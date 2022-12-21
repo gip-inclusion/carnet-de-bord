@@ -6,20 +6,25 @@
 	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
 	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
-	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
+	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	export let beneficiaries: Beneficiary[];
 
+	const dispatch = createEventDispatcher();
+
+	function onBeneficiaryOrientationChanged() {
+		dispatch('beneficiary-orientation-changed');
+	}
+
 	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
-			component: AddStructureProfessionnalForm,
+			component: ChangeOrientationForm,
 			props: {
-				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member: beneficiary.notebook.members[0]?.account.id ?? null,
-				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
-				showResetMembers: beneficiary.notebook.members.length > 0,
+				notebooks: [{ id: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				onBeneficiaryOrientationChanged,
 			},
 		});
 	}

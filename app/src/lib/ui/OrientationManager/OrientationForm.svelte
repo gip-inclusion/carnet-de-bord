@@ -31,7 +31,8 @@
 	export let formTitle = 'Réorienter';
 	export let handleSubmit: (values: OrientationValidationSchema) => Promise<void>;
 
-	let selectedStructureId: string = null;
+	export let structureId: string = null;
+	let selectedStructureId = structureId;
 
 	let orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
 		GetOrientationTypeDocument
@@ -62,7 +63,7 @@
 			label: displayFullName(pro),
 		})) ?? [];
 
-	const initialValues = {};
+	const initialValues = { structureId };
 
 	function close() {
 		openComponent.close();
@@ -82,7 +83,7 @@
 	>
 		<LoaderIndicator result={structures}>
 			<p>
-				Veuillez sélectionner l'orientation ansi que la nouvelle structure et le nouveau référent.
+				Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent.
 			</p>
 			<Select
 				required
@@ -91,17 +92,19 @@
 				options={orientationOptions}
 				name="orientationType"
 			/>
-			<Select
-				required
-				selectLabel="Nom de la structure"
-				selectHint="Sélectionner une structure"
-				options={structureOptions}
-				name="structureId"
-				on:select={(event) => {
-					form.professionalAccountId = null;
-					selectedStructureId = event.detail.selected;
-				}}
-			/>
+			{#if structureId === null}
+				<Select
+					required
+					selectLabel="Nom de la structure"
+					selectHint="Sélectionner une structure"
+					options={structureOptions}
+					name="structureId"
+					on:select={(event) => {
+						form.professionalAccountId = null;
+						selectedStructureId = event.detail.selected;
+					}}
+				/>
+			{/if}
 			<Select
 				selectLabel="Nom du référent unique"
 				selectHint="Sélectionner un professionnel"

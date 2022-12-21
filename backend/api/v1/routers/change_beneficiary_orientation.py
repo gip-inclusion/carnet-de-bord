@@ -22,8 +22,10 @@ from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
 
-orientation_manager_only = allowed_jwt_roles([RoleEnum.ORIENTATION_MANAGER])
-router = APIRouter(dependencies=[Depends(orientation_manager_only)])
+orientation_manager_and_admin_structure = allowed_jwt_roles(
+    [RoleEnum.ORIENTATION_MANAGER, RoleEnum.ADMIN_STRUCTURE, RoleEnum.MANAGER]
+)
+router = APIRouter(dependencies=[Depends(orientation_manager_and_admin_structure)])
 
 
 logger = logging.getLogger(__name__)
@@ -67,10 +69,10 @@ async def change_beneficiary_orientation(
       with a notebook
 
     change_beneficiary_oriention will
-    - close the orientation request (save the decision, date, choosed orientation)
+    - close the orientation request (save the decision, date, chosen orientation)
     - deactivate the current beneficiary_structure and
       add the new beneficiary_structure if the structure has changed
-    - deactivate the currents notebook_member records (referent / no_referen)
+    - deactivate the current notebook_member records (referent / no_referent)
     - add the new notebook_member records (referent / no-referent)
 
     """

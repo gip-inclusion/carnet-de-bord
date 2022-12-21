@@ -25,6 +25,20 @@ object_relationships:
     using:
       foreign_key_constraint_on: orientation
 insert_permissions:
+  - role: admin_structure
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            structures:
+              structure:
+                admins:
+                  admin_structure_id:
+                    _eq: X-Hasura-AdminStructure-Id
+      columns:
+        - need_orientation
+        - notebook_id
+        - orientation
   - role: manager
     permission:
       check:
@@ -131,6 +145,20 @@ select_permissions:
               _eq: X-Hasura-User-Id
       allow_aggregations: true
 update_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - need_orientation
+        - orientation
+      filter:
+        notebook:
+          beneficiary:
+            structures:
+              structure:
+                admins:
+                  admin_structure_id:
+                    _eq: X-Hasura-AdminStructure-Id
+      check: null
   - role: manager
     permission:
       columns:

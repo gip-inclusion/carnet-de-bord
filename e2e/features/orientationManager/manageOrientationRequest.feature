@@ -33,7 +33,7 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Alors je vois "Orientation recommandée : Social"
 		Quand je clique sur "Réorienter"
 		Alors je vois "Réorienter" dans le volet
-		Alors je vois "Veuillez sélectionner l'orientation ansi que la nouvelle structure et le nouveau référent." dans le volet
+		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
 		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider" dans le volet
@@ -48,7 +48,7 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Alors je vois "Edith"
 		Quand je clique sur "Réorienter"
 		Alors je vois "Réorienter" dans le volet
-		Alors je vois "Veuillez sélectionner l'orientation ansi que la nouvelle structure et le nouveau référent." dans le volet
+		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
 		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan" dans la liste "Nom de la structure"
 		Alors je selectionne l'option "Thierry Dunord" dans la liste "Nom du référent"
