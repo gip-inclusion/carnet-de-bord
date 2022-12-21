@@ -1,3 +1,10 @@
+## [1.177.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.1...v1.177.2) (2022-12-21)
+
+
+### Bug Fixes
+
+* update python structure model and transform empty string to null ([#1374](https://github.com/gip-inclusion/carnet-de-bord/issues/1374)) ([d731de5](https://github.com/gip-inclusion/carnet-de-bord/commit/d731de58b7c54bd193dad26b4a10b379f557b372))
+
 ## [1.177.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.0...v1.177.1) (2022-12-21)
 
 
