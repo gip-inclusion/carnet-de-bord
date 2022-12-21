@@ -1,9 +1,5 @@
 from fastapi import APIRouter
-from gql import Client
-from gql.dsl import DSLQuery, DSLSchema, dsl_gql
-from gql.transport.aiohttp import AIOHTTPTransport
 
-from api.core.settings import gqlSchema, settings
 from api.v1.routers import (
     admin_structures,
     beneficiaries,

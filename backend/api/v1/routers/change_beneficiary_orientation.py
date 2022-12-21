@@ -10,13 +10,14 @@ from gql.dsl import DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
+from api._gen.schema_gql import schema
 from api.core.emails import (
     Member,
     Person,
     send_deny_orientation_request_email,
     send_notebook_member_email,
 )
-from api.core.settings import gqlSchema, settings
+from api.core.settings import settings
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -89,19 +90,7 @@ async def change_beneficiary_orientation(
             variable_values=data.gql_variables_for_query(),
         )
 
-        if orientation_info_response is None:
-            raise HTTPException(
-                status_code=500,
-                detail="Error while reading getOrientationInfo.gql mutation file",
-            )
-
-        schema = gqlSchema.get_schema()
-        if not schema:
-            raise HTTPException(
-                status_code=500,
-                detail="No graphql schema found",
-            )
-        dsl_schema = DSLSchema(schema)
+        dsl_schema = DSLSchema(schema=schema)
         mutations = {}
 
         if data.orientation_request_id:
