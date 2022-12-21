@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { homeForRole } from '$lib/routes';
 	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
+	import {
+		createSelectionStore,
+		selectionContextKey,
+	} from '$lib/ui/BeneficiaryList/MultipageSelectionStore';
 	import Container from '$lib/ui/BeneficiaryList/Container.svelte';
+	import { setContext } from 'svelte';
 	import { operationStore, query } from '@urql/svelte';
 	import { GetStructureDocument, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { PageData } from './$types';
@@ -30,6 +35,7 @@
 			label: `Bénéficiaires`,
 		},
 	];
+	setContext(selectionContextKey, createSelectionStore());
 </script>
 
 <svelte:head>
