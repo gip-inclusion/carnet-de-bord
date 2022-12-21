@@ -51,6 +51,8 @@ async def create_structures(
     for structure_row in data.structures:
         try:
             async with db.transaction():
+                # TODO Filter By Deployement Id
+                # TODO deployement should be not nullable on DB
                 structure: Structure | None = await get_structure_by_name(
                     db, structure_row.name
                 )
@@ -116,6 +118,7 @@ async def create_structures(
                 )
                 if not uuid:
                     raise InsertFailError("add admin structure to structure failed")
+
                 response_row = StructureCsvRowResponse(valid=True, data=structure_row)
         except InsertFailError as error:
             logging.error(error)

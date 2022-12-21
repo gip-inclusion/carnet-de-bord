@@ -1,4 +1,4 @@
-import { cityOrNameValidation, validatePhoneNumber } from '$lib/validation';
+import { cityOrNameValidation, nullifyEmptyString, validatePhoneNumber } from '$lib/validation';
 import * as yup from 'yup';
 
 export const adminStructureAccountSchema = yup.object().shape({
@@ -17,6 +17,7 @@ export const adminStructureAccountSchema = yup.object().shape({
 			}
 			return true;
 		})
+		.transform(nullifyEmptyString)
 		.nullable(),
 });
 

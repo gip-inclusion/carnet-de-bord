@@ -17,6 +17,10 @@
 	export let hiddenFields: Partial<
 		Record<keyof (AccountRequest & { phoneNumbers?: string }), boolean>
 	> = {};
+
+	function submitHandler(values: AdminStructureAccountInput) {
+		onSubmit(adminStructureAccountSchema.cast(values));
+	}
 </script>
 
 <Form
@@ -27,7 +31,7 @@
 		phoneNumbers: initialValues.phoneNumbers,
 	}}
 	validationSchema={adminStructureAccountSchema}
-	{onSubmit}
+	onSubmit={submitHandler}
 	let:isSubmitting
 	let:isSubmitted
 	let:isValid

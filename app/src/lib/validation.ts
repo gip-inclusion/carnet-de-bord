@@ -42,3 +42,5 @@ export const cityOrNameValidation = yupString().matches(
 	/^[A-Za-zÀ-ÖØ-öø-ÿ\- ']+$/,
 	'Seuls les espaces, les lettres, l’apostrophe et le tiret sont acceptés'
 );
+
+export const nullifyEmptyString = (value) => (value ? value : null);

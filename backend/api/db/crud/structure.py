@@ -3,6 +3,7 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from pydantic import EmailStr
 
 from api.db.models.structure import Structure, StructureInsert
 from pe.models.agence import Agence
@@ -23,7 +24,17 @@ async def insert_structure(
         INSERT INTO public.structure (siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id, created_at, updated_at
         """,
-        *structure_insert.dict().values(),
+        structure_insert.siret,
+        structure_insert.name,
+        structure_insert.short_desc,
+        structure_insert.phone,
+        structure_insert.email,
+        structure_insert.postal_code,
+        structure_insert.city,
+        structure_insert.address1,
+        structure_insert.address2,
+        structure_insert.website,
+        structure_insert.deployment_id,
     )
 
     if record:
@@ -100,7 +111,7 @@ async def create_structure_from_agences_list(
             name=agence.libelleEtendu,
             short_desc=agence.libelle,
             phone=agence.contact.telephonePublic,
-            email=agence.contact.email,
+            email=EmailStr(agence.contact.email),
             postal_code=postal_code,
             city=city,
             address1=agence.adressePrincipale.ligne4,

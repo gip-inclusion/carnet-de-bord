@@ -9,22 +9,27 @@ from api.db.models.csv import CsvFieldError
 from api.db.models.validator import phone_validator, postal_code_validator
 
 
-class StructureInsert(BaseModel):
+class BaseStructure(BaseModel):
     siret: str | None
     name: str | None
     short_desc: str | None
     phone: str | None
-    email: EmailStr | None
     postal_code: str | None
     city: str | None
     address1: str | None
     address2: str | None
-    website: str | None
     deployment_id: UUID | None
 
 
-class Structure(StructureInsert):
+class StructureInsert(BaseStructure):
+    email: EmailStr | None
+    website: HttpUrl | None
+
+
+class Structure(BaseStructure):
     id: UUID
+    website: str | None
+    email: str | None
     created_at: datetime
     updated_at: datetime
 

@@ -1,5 +1,6 @@
 import {
 	cityOrNameValidation,
+	nullifyEmptyString,
 	validateCodePostal,
 	validateDateInput,
 	validatePhoneNumber,
@@ -25,8 +26,9 @@ const beneficiaryAccountSchemaObject = {
 			}
 			return true;
 		})
+		.transform(nullifyEmptyString)
 		.nullable(),
-	email: yup.string().trim().email().nullable(),
+	email: yup.string().trim().email().transform(nullifyEmptyString).nullable(),
 	address1: yup.string().trim().nullable(),
 	address2: yup.string().trim().nullable(),
 	postalCode: yup
