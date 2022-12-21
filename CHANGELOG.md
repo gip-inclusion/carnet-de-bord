@@ -1,3 +1,10 @@
+## [1.177.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.0...v1.177.1) (2022-12-21)
+
+
+### Reverts
+
+* Suppression des anciens formulaires de changement d'orientation, de référent et de structure. ([#1375](https://github.com/gip-inclusion/carnet-de-bord/issues/1375)) ([5f8a3c5](https://github.com/gip-inclusion/carnet-de-bord/commit/5f8a3c55f755fee823b541222a848c6183e5960a)), closes [#1352](https://github.com/gip-inclusion/carnet-de-bord/issues/1352)
+
 # [1.177.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.176.0...v1.177.0) (2022-12-21)
 
 
