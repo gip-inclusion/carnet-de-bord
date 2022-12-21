@@ -9,12 +9,15 @@
 	export let initialValues: GetStructuresForDeploymentQuery['structure'][0];
 	export let onSubmit: (values: StructureFormInput) => void;
 	export let onCancel: () => void = null;
+	function submitHandler(values: StructureFormInput) {
+		onSubmit(structureSchema.cast(values));
+	}
 </script>
 
 <Form
 	{initialValues}
 	validationSchema={structureSchema}
-	{onSubmit}
+	onSubmit={submitHandler}
 	let:isSubmitting
 	let:isSubmitted
 	let:isValid

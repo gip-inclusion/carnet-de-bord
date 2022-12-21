@@ -1,5 +1,6 @@
 import {
 	cityOrNameValidation,
+	nullifyEmptyString,
 	validateCodePostal,
 	validateLuhn,
 	validatePhoneNumber,
@@ -16,6 +17,7 @@ export const structureSchema = yup.object().shape({
 			}
 			return true;
 		})
+		.transform(nullifyEmptyString)
 		.nullable(),
 	name: yup.string().trim().required(),
 	shortDesc: yup.string().trim().nullable(),
@@ -31,8 +33,9 @@ export const structureSchema = yup.object().shape({
 			}
 			return true;
 		})
+		.transform(nullifyEmptyString)
 		.nullable(),
-	email: yup.string().trim().email().nullable(),
+	email: yup.string().trim().email().transform(nullifyEmptyString).nullable(true),
 	postalCode: yup
 		.string()
 		.trim()
@@ -46,8 +49,8 @@ export const structureSchema = yup.object().shape({
 		.nullable(),
 	city: cityOrNameValidation.trim().nullable(),
 	address1: yup.string().trim().nullable(),
-	address2: yup.string().trim().nullable(),
-	website: yup.string().trim().nullable(),
+	address2: yup.string().trim().nullable().transform(nullifyEmptyString),
+	website: yup.string().trim().transform(nullifyEmptyString).nullable(),
 });
 
 export type StructureFormInput = yup.InferType<typeof structureSchema>;
