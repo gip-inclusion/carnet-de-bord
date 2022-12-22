@@ -1,3 +1,10 @@
+## [1.177.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.2...v1.177.3) (2022-12-22)
+
+
+### Bug Fixes
+
+* **pro:** correction des url dans la page de resultats de recherche de bénéficiaire ([#1377](https://github.com/gip-inclusion/carnet-de-bord/issues/1377)) ([f0c07a6](https://github.com/gip-inclusion/carnet-de-bord/commit/f0c07a61e67d984df492bb0dec03b666bac49cbf))
+
 ## [1.177.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.1...v1.177.2) (2022-12-21)
 
 
