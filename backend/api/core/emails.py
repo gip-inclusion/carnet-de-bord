@@ -40,10 +40,10 @@ def send_invitation_email(
 def send_notebook_member_email(
     to_email: str,
     beneficiary: Person,
-    orientation: OrientationType,
+    orientation: OrientationType | None,
     former_referents: list[Member],
     new_referent: Member | None,
-    new_structure: str,
+    new_structure: str | None,
 ):
     template = jinja_env.get_template("notebook_member_email.html")
     subject = "Orientation d’un bénéficiaire"

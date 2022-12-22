@@ -3,8 +3,9 @@ query orientationInfos(
   $structure_id: uuid!
   $with_new_referent: Boolean!
   $new_referent_account_id: uuid
+  $with_new_structure: Boolean! = true
 ) {
-  notebook_by_pk(id: $notebook_id) {
+  notebook: notebook_public_view(where: { id: { _eq: $notebook_id } }) {
     beneficiary {
       orientation_request: orientationRequest(
         where: { decidedAt: { _is_null: true } }
@@ -38,7 +39,7 @@ query orientationInfos(
       }
     }
   }
-  newStructure: structure_by_pk(id: $structure_id) {
+  newStructure: structure_by_pk(id: $structure_id) @include(if: $with_new_structure) {
     name
   }
   newReferent: professional(

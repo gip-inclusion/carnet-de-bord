@@ -101,7 +101,7 @@ async def change_beneficiary_orientation(
         mutations: dict[str, DSLField] = {}
 
         if data.orientation_request_id:
-            beneficiary = orientation_info_response["notebook_by_pk"]["beneficiary"]
+            beneficiary = orientation_info_response["notebook"][0]["beneficiary"]
 
             try:
                 raise_if_orientation_request_not_match_beneficiary(
@@ -126,14 +126,14 @@ async def change_beneficiary_orientation(
         mutations = mutations | get_notebook_info_mutation(data, dsl_schema)
 
         former_referent_account_id = None
-        if orientation_info_response["notebook_by_pk"]["former_referents"]:
-            former_referent_account_id = orientation_info_response["notebook_by_pk"][
+        if orientation_info_response["notebook"][0]["former_referents"]:
+            former_referent_account_id = orientation_info_response["notebook"][0][
                 "former_referents"
             ][0]["account"]["id"]
 
         former_structure_id = None
-        if orientation_info_response["notebook_by_pk"]["beneficiary"]["structures"]:
-            former_structure_id = orientation_info_response["notebook_by_pk"][
+        if orientation_info_response["notebook"][0]["beneficiary"]["structures"]:
+            former_structure_id = orientation_info_response["notebook"][0][
                 "beneficiary"
             ]["structures"][0]["structureId"]
 
@@ -165,12 +165,10 @@ async def change_beneficiary_orientation(
 
         former_referents = [
             Member.parse_from_gql(member["account"]["professional"])
-            for member in orientation_info_response["notebook_by_pk"][
-                "former_referents"
-            ]
+            for member in orientation_info_response["notebook"][0]["former_referents"]
         ]
         beneficiary = Person.parse_from_gql(
-            orientation_info_response["notebook_by_pk"]["beneficiary"]
+            orientation_info_response["notebook"][0]["beneficiary"]
         )
         new_structure = orientation_info_response["newStructure"]["name"]
         for referent in former_referents:
