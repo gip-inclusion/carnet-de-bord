@@ -91,6 +91,21 @@
 			},
 		};
 
+		if (filter === 'all') {
+			if (structureId) {
+				graphqlFilter._or = [
+					{ structures: { structureId: { _eq: structureId } } },
+					{
+						notebook: {
+							members: {
+								active: { _eq: true },
+								account: { professional: { structureId: { _eq: structureId } } },
+							},
+						},
+					},
+				];
+			}
+		}
 		if (filter === 'noMember') {
 			if (structureId) {
 				graphqlFilter.structures = {
