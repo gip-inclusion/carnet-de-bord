@@ -8845,7 +8845,7 @@ type notebook_member {
   lastModifiedAt: timestamptz
   lastVisitedAt: timestamptz
   memberType: String!
-  membershipEndedAt: date
+  membershipEndedAt: timestamptz
 
   """An object relationship"""
   notebook: notebook!
@@ -8933,7 +8933,7 @@ input notebook_member_bool_exp {
   lastModifiedAt: timestamptz_comparison_exp
   lastVisitedAt: timestamptz_comparison_exp
   memberType: String_comparison_exp
-  membershipEndedAt: date_comparison_exp
+  membershipEndedAt: timestamptz_comparison_exp
   notebook: notebook_bool_exp
   notebookId: uuid_comparison_exp
 }
@@ -8973,7 +8973,7 @@ input notebook_member_insert_input {
   lastModifiedAt: timestamptz
   lastVisitedAt: timestamptz
   memberType: String
-  membershipEndedAt: date
+  membershipEndedAt: timestamptz
   notebook: notebook_obj_rel_insert_input
   notebookId: uuid
 }
@@ -8988,7 +8988,7 @@ type notebook_member_max_fields {
   lastModifiedAt: timestamptz
   lastVisitedAt: timestamptz
   memberType: String
-  membershipEndedAt: date
+  membershipEndedAt: timestamptz
   notebookId: uuid
 }
 
@@ -9018,7 +9018,7 @@ type notebook_member_min_fields {
   lastModifiedAt: timestamptz
   lastVisitedAt: timestamptz
   memberType: String
-  membershipEndedAt: date
+  membershipEndedAt: timestamptz
   notebookId: uuid
 }
 
@@ -9148,7 +9148,7 @@ input notebook_member_set_input {
   lastModifiedAt: timestamptz
   lastVisitedAt: timestamptz
   memberType: String
-  membershipEndedAt: date
+  membershipEndedAt: timestamptz
   notebookId: uuid
 }
 
@@ -9174,7 +9174,7 @@ input notebook_member_stream_cursor_value_input {
   lastModifiedAt: timestamptz
   lastVisitedAt: timestamptz
   memberType: String
-  membershipEndedAt: date
+  membershipEndedAt: timestamptz
   notebookId: uuid
 }
 
