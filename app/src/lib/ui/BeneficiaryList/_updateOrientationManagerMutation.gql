@@ -3,22 +3,17 @@ mutation UpdateOrientationManager(
   $beneficiaries: [uuid!]!
 ) {
   update_notebook_member(
-    _set: { active: false }
+    _set: { active: false, membershipEndedAt: now }
     where: {
       memberType: { _eq: "orientation_manager" }
       notebook: { beneficiaryId: { _in: $beneficiaries } }
+      active: { _eq: true }
     }
   ) {
     affected_rows
   }
 
-  insert_notebook_member(
-    objects: $objects
-    on_conflict: {
-      constraint: notebook_member_notebook_id_account_id_key
-      update_columns: [memberType, active]
-    }
-  ) {
+  insert_notebook_member(objects: $objects) {
     affected_rows
   }
 }

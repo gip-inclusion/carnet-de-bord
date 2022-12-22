@@ -1,8 +1,8 @@
-query notificationInfos(
+query orientationInfos(
   $notebook_id: uuid!
   $structure_id: uuid!
-  $with_professional_account_id: Boolean!
-  $professional_account_id: uuid
+  $with_new_referent: Boolean!
+  $new_referent_account_id: uuid
 ) {
   notebook_by_pk(id: $notebook_id) {
     beneficiary {
@@ -18,11 +18,15 @@ query notificationInfos(
       postalCode
       city
       cafNumber
+      structures(where: { status: { _eq: "current" } }) {
+        structureId
+      }
     }
     former_referents: members(
       where: { memberType: { _eq: "referent" }, active: { _eq: true } }
     ) {
       account {
+        id
         professional {
           firstname
           lastname
@@ -38,8 +42,8 @@ query notificationInfos(
     name
   }
   newReferent: professional(
-    where: { account: { id: { _eq: $professional_account_id } } }
-  ) @include(if: $with_professional_account_id) {
+    where: { account: { id: { _eq: $new_referent_account_id } } }
+  ) @include(if: $with_new_referent) {
     email
     firstname
     lastname

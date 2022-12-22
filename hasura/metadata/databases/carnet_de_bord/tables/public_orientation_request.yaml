@@ -102,6 +102,23 @@ insert_permissions:
         - requestor_account_id
         - status
 select_permissions:
+  - role: manager
+    permission:
+      columns:
+        - beneficiary_id
+        - created_at
+        - decided_at
+        - decided_orientation_type_id
+        - id
+        - reason
+        - requested_orientation_type_id
+        - requestor_account_id
+        - status
+        - updated_at
+      filter:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-deployment-Id
   - role: orientation_manager
     permission:
       columns:

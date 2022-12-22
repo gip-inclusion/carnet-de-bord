@@ -23,6 +23,7 @@
 	import { displayFullName } from '$lib/ui/format';
 	import Tag from '../Tag.svelte';
 	import { parseEntities } from '$lib/utils/importFileParser';
+	import { captureException } from '$lib/utils/sentry';
 
 	const client = getClient();
 
@@ -231,7 +232,8 @@
 			const result = await inserter({ member: payload.add });
 			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";
 			if (/uniqueness/i.test(result.error?.message)) {
-				errorMessage = 'Ce rattachement existe déjà.';
+				errorMessage = 'Ce bénéficiaire a déjà un référent unique.';
+				captureException(result.error);
 			}
 
 			insertResult = [
@@ -267,6 +269,7 @@
 			let errorMessage = '';
 
 			if (result.error) {
+				captureException(result.error);
 				error = true;
 				errorMessage = "Une erreur s'est produite, le rattachement n'a pas été supprimé.";
 			} else if (result.data.update_notebook_member.affected_rows === 0) {
@@ -307,7 +310,9 @@
 				structureId: payload.structureId,
 			});
 			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été fait.";
-
+			if (result.error) {
+				captureException(result.error);
+			}
 			structuresResult = [
 				...structuresResult,
 				{

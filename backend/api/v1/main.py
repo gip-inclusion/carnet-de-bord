@@ -3,9 +3,10 @@ from fastapi import APIRouter
 from api.v1.routers import (
     admin_structures,
     beneficiaries,
-    change_beneficiary_orientation,
     csv2json,
     managers,
+    orientation_requests,
+    orientations,
     structures,
     uploads,
 )
@@ -25,6 +26,13 @@ api_router.include_router(
     prefix="/beneficiaries",
     tags=["Import or reimport beneficiaries"],
 )
+
 api_router.include_router(
-    change_beneficiary_orientation.router, tags=["Orientation", "Réorientation"]
+    orientation_requests.router,
+    prefix="/orientation_requests",
+    tags=["Orientation request"],
+)
+
+api_router.include_router(
+    orientations.router, prefix="/orientations", tags=["Orientation", "Réorientation"]
 )

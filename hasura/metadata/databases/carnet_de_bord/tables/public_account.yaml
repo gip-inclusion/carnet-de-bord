@@ -429,5 +429,4 @@ update_permissions:
 delete_permissions:
   - role: admin_cdb
     permission:
-      backend_only: false
       filter: {}

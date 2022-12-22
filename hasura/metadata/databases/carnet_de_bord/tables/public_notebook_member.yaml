@@ -17,6 +17,8 @@ configuration:
       custom_name: lastVisitedAt
     member_type:
       custom_name: memberType
+    membership_ended_at:
+      custom_name: membershipEndedAt
     notebook_id:
       custom_name: notebookId
   custom_column_names:
@@ -27,6 +29,7 @@ configuration:
     last_modified_at: lastModifiedAt
     last_visited_at: lastVisitedAt
     member_type: memberType
+    membership_ended_at: membershipEndedAt
     notebook_id: notebookId
   custom_root_fields: {}
 object_relationships:
@@ -98,6 +101,7 @@ insert_permissions:
         - account_id
         - active
         - member_type
+        - membership_ended_at
         - notebook_id
   - role: professional
     permission:
@@ -166,6 +170,7 @@ select_permissions:
   - role: manager
     permission:
       columns:
+        - account_id
         - active
         - created_at
         - creator_id
@@ -174,8 +179,8 @@ select_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ended_at
         - notebook_id
-        - account_id
       filter:
         notebook:
           beneficiary:
@@ -185,16 +190,17 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - id
-        - notebook_id
         - account_id
-        - last_visited_at
-        - member_type
-        - last_modified_at
+        - active
         - created_at
         - creator_id
+        - id
         - invitation_sent_at
-        - active
+        - last_modified_at
+        - last_visited_at
+        - member_type
+        - membership_ended_at
+        - notebook_id
       filter:
         notebook:
           beneficiary:
@@ -212,6 +218,7 @@ select_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ended_at
         - notebook_id
       filter: {}
       allow_aggregations: true
@@ -235,6 +242,7 @@ update_permissions:
       columns:
         - active
         - member_type
+        - membership_ended_at
       filter:
         account:
           professional:
@@ -249,6 +257,7 @@ update_permissions:
         - active
         - last_modified_at
         - member_type
+        - membership_ended_at
       filter:
         notebook:
           beneficiary:
@@ -263,6 +272,7 @@ update_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ended_at
       filter:
         notebook:
           beneficiary:
@@ -276,6 +286,7 @@ update_permissions:
         - last_modified_at
         - last_visited_at
         - member_type
+        - membership_ended_at
       filter:
         account_id:
           _eq: X-Hasura-User-Id
@@ -283,7 +294,6 @@ update_permissions:
 delete_permissions:
   - role: manager
     permission:
-      backend_only: false
       filter:
         notebook:
           beneficiary:

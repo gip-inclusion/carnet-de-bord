@@ -1,32 +1,15 @@
 <script lang="ts">
 	import {
 		BeneficiariesWithOrientationRequestDocument,
-		type BeneficiariesWithOrientationRequestQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { homeForRole } from '$lib/routes';
 	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
 	import { displayFullName } from '$lib/ui/format';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { openComponent } from '$lib/stores';
 	import { operationStore, query } from '@urql/svelte';
 	import { LoaderIndicator, Text } from '$lib/ui/utils';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import AddStructureProfessionnalForm from '$lib/ui/BeneficiaryList/AddStructureProfessionnalForm.svelte';
-
-	type Beneficiary = BeneficiariesWithOrientationRequestQuery['beneficiaries'][0];
-
-	function openEditLayer(beneficiary: Beneficiary) {
-		openComponent.open({
-			component: AddStructureProfessionnalForm,
-			props: {
-				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
-				member: beneficiary.notebook.members[0]?.account.id ?? null,
-				showResetMembers: beneficiary.notebook.members.length > 0,
-			},
-		});
-	}
 
 	let breadcrumbs = [
 		{
@@ -85,23 +68,15 @@
 					<td>{displayFullName(beneficiary)}</td>
 					<td>
 						{#if referents.length > 0 || beneficiary.structures.length > 0}
-							<button class="fr-tag fr-tag-sm" on:click={() => openEditLayer(beneficiary)}>
-								{#if beneficiary.structures.length > 0}
-									{beneficiary.structures[0].structure.name}
-								{/if}
+							{#if beneficiary.structures.length > 0}
+								{beneficiary.structures[0].structure.name}
+							{/if}
 
-								{#if referents.length > 0}
-									- {displayFullName(referents[0].account.professional)}
-								{/if}
-							</button>
+							{#if referents.length > 0}
+								- {displayFullName(referents[0].account.professional)}
+							{/if}
 						{:else}
-							<button
-								href="#"
-								class="fr-tag fr-tag-sm fr-tag--purple-glycine"
-								on:click={() => openEditLayer(beneficiary)}
-							>
-								Non rattaché
-							</button>
+							Non rattaché
 						{/if}
 					</td>
 					<td>

@@ -22,7 +22,7 @@
 	function openChangeOrientationForm() {
 		openComponent.open({
 			component: ChangeOrientationForm,
-			props: { notebook, onBeneficiaryOrientationChanged },
+			props: { notebooks: [notebook], onBeneficiaryOrientationChanged },
 		});
 	}
 </script>

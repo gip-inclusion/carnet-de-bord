@@ -7215,6 +7215,7 @@ export type NotebookMember = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType: Scalars['String'];
+	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
@@ -7298,6 +7299,7 @@ export type NotebookMemberBoolExp = {
 	lastModifiedAt?: InputMaybe<TimestamptzComparisonExp>;
 	lastVisitedAt?: InputMaybe<TimestamptzComparisonExp>;
 	memberType?: InputMaybe<StringComparisonExp>;
+	membershipEndedAt?: InputMaybe<TimestamptzComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
 };
@@ -7305,7 +7307,7 @@ export type NotebookMemberBoolExp = {
 /** unique or primary key constraints on table "notebook_member" */
 export enum NotebookMemberConstraint {
 	/** unique or primary key constraint on columns "account_id", "notebook_id" */
-	NotebookMemberNotebookIdAccountIdKey = 'notebook_member_notebook_id_account_id_key',
+	NotebookMemberNotebookIdAccountIdIfActive = 'notebook_member_notebook_id_account_id_if_active',
 	/** unique or primary key constraint on columns "id" */
 	NotebookMemberPkey = 'notebook_member_pkey',
 	/** unique or primary key constraint on columns "notebook_id" */
@@ -7325,6 +7327,7 @@ export type NotebookMemberInsertInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
+	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
@@ -7340,6 +7343,7 @@ export type NotebookMemberMaxFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
+	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7353,6 +7357,7 @@ export type NotebookMemberMaxOrderBy = {
 	lastModifiedAt?: InputMaybe<OrderBy>;
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
+	membershipEndedAt?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 };
 
@@ -7367,6 +7372,7 @@ export type NotebookMemberMinFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
+	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7380,6 +7386,7 @@ export type NotebookMemberMinOrderBy = {
 	lastModifiedAt?: InputMaybe<OrderBy>;
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
+	membershipEndedAt?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 };
 
@@ -7412,6 +7419,7 @@ export type NotebookMemberOrderBy = {
 	lastModifiedAt?: InputMaybe<OrderBy>;
 	lastVisitedAt?: InputMaybe<OrderBy>;
 	memberType?: InputMaybe<OrderBy>;
+	membershipEndedAt?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 };
@@ -7442,6 +7450,8 @@ export enum NotebookMemberSelectColumn {
 	/** column name */
 	MemberType = 'memberType',
 	/** column name */
+	MembershipEndedAt = 'membershipEndedAt',
+	/** column name */
 	NotebookId = 'notebookId',
 }
 
@@ -7468,6 +7478,7 @@ export type NotebookMemberSetInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
+	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -7490,6 +7501,7 @@ export type NotebookMemberStreamCursorValueInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
+	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -7513,6 +7525,8 @@ export enum NotebookMemberUpdateColumn {
 	LastVisitedAt = 'lastVisitedAt',
 	/** column name */
 	MemberType = 'memberType',
+	/** column name */
+	MembershipEndedAt = 'membershipEndedAt',
 	/** column name */
 	NotebookId = 'notebookId',
 }
@@ -13183,57 +13197,18 @@ export type UpdateOrientationManagerMutation = {
 };
 
 export type UpdateReferentMutationVariables = Exact<{
-	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-	beneficiaries: Array<Scalars['uuid']> | Scalars['uuid'];
+	newReferent: Scalars['uuid'];
+	newNotebookMemberRows: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	notebooks: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
 export type UpdateReferentMutation = {
 	__typename?: 'mutation_root';
-	update_notebook_member?: {
+	deactivateMembers?: {
 		__typename?: 'notebook_member_mutation_response';
 		affected_rows: number;
 	} | null;
-	insert_notebook_member?: {
-		__typename?: 'notebook_member_mutation_response';
-		affected_rows: number;
-	} | null;
-};
-
-export type UpdateReferentWithStructureMutationVariables = Exact<{
-	objects: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
-	beneficiaryStructureObjects:
-		| Array<BeneficiaryStructureInsertInput>
-		| BeneficiaryStructureInsertInput;
-	beneficiaries: Array<Scalars['uuid']> | Scalars['uuid'];
-}>;
-
-export type UpdateReferentWithStructureMutation = {
-	__typename?: 'mutation_root';
-	delete_beneficiary_structure?: {
-		__typename?: 'beneficiary_structure_mutation_response';
-		affected_rows: number;
-	} | null;
-	insert_beneficiary_structure?: {
-		__typename?: 'beneficiary_structure_mutation_response';
-		affected_rows: number;
-	} | null;
-	update_notebook_member?: {
-		__typename?: 'notebook_member_mutation_response';
-		affected_rows: number;
-	} | null;
-	insert_notebook_member?: {
-		__typename?: 'notebook_member_mutation_response';
-		affected_rows: number;
-	} | null;
-};
-
-export type RemoveReferentMutationVariables = Exact<{
-	notebooks: Array<Scalars['uuid']> | Scalars['uuid'];
-}>;
-
-export type RemoveReferentMutation = {
-	__typename?: 'mutation_root';
-	update_notebook_member?: {
+	createNotebookMembers?: {
 		__typename?: 'notebook_member_mutation_response';
 		affected_rows: number;
 	} | null;
@@ -17367,6 +17342,11 @@ export const UpdateOrientationManagerDocument = {
 											name: { kind: 'Name', value: 'active' },
 											value: { kind: 'BooleanValue', value: false },
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
 									],
 								},
 							},
@@ -17420,6 +17400,20 @@ export const UpdateOrientationManagerDocument = {
 												],
 											},
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
+										},
 									],
 								},
 							},
@@ -17437,34 +17431,6 @@ export const UpdateOrientationManagerDocument = {
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'objects' },
 								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'on_conflict' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: {
-												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_account_id_key',
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{ kind: 'EnumValue', value: 'memberType' },
-													{ kind: 'EnumValue', value: 'active' },
-												],
-											},
-										},
-									],
-								},
 							},
 						],
 						selectionSet: {
@@ -17490,7 +17456,15 @@ export const UpdateReferentDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'newReferent' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'newNotebookMemberRows' } },
 					type: {
 						kind: 'NonNullType',
 						type: {
@@ -17505,380 +17479,6 @@ export const UpdateReferentDocument = {
 						},
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaries' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-							},
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberType' },
-											value: { kind: 'StringValue', value: 'no_referent', block: false },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'beneficiaryId' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_in' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'beneficiaries' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'on_conflict' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: {
-												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_account_id_key',
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{ kind: 'EnumValue', value: 'memberType' },
-													{ kind: 'EnumValue', value: 'active' },
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<UpdateReferentMutation, UpdateReferentMutationVariables>;
-export const UpdateReferentWithStructureDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'UpdateReferentWithStructure' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_member_insert_input' },
-								},
-							},
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: {
-						kind: 'Variable',
-						name: { kind: 'Name', value: 'beneficiaryStructureObjects' },
-					},
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'beneficiary_structure_insert_input' },
-								},
-							},
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaries' } },
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-							},
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'delete_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'beneficiaryId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_in' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'beneficiaries' },
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_beneficiary_structure' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: {
-									kind: 'Variable',
-									name: { kind: 'Name', value: 'beneficiaryStructureObjects' },
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberType' },
-											value: { kind: 'StringValue', value: 'no_referent', block: false },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberType' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'StringValue', value: 'referent', block: false },
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'beneficiaryId' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_in' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'beneficiaries' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'objects' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'on_conflict' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: {
-												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_account_id_key',
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{ kind: 'EnumValue', value: 'memberType' },
-													{ kind: 'EnumValue', value: 'active' },
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	UpdateReferentWithStructureMutation,
-	UpdateReferentWithStructureMutationVariables
->;
-export const RemoveReferentDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'RemoveReferent' },
-			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebooks' } },
@@ -17899,6 +17499,7 @@ export const RemoveReferentDocument = {
 				selections: [
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'deactivateMembers' },
 						name: { kind: 'Name', value: 'update_notebook_member' },
 						arguments: [
 							{
@@ -17909,13 +17510,13 @@ export const RemoveReferentDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberType' },
-											value: { kind: 'StringValue', value: 'no_referent', block: false },
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'active' },
-											value: { kind: 'BooleanValue', value: false },
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
 										},
 									],
 								},
@@ -17928,28 +17529,116 @@ export const RemoveReferentDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
+											name: { kind: 'Name', value: '_or' },
 											value: {
-												kind: 'ObjectValue',
-												fields: [
+												kind: 'ListValue',
+												values: [
 													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_in' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'notebooks' } },
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'active' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: { kind: 'BooleanValue', value: true },
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_in' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebooks' },
+																			},
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'memberType' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'StringValue',
+																				value: 'referent',
+																				block: false,
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'memberType' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
 													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'StringValue', value: 'referent', block: false },
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'active' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: { kind: 'BooleanValue', value: true },
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_in' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebooks' },
+																			},
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'accountId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'newReferent' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 												],
 											},
@@ -17963,11 +17652,27 @@ export const RemoveReferentDocument = {
 							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
 						},
 					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'createNotebookMembers' },
+						name: { kind: 'Name', value: 'insert_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'newNotebookMemberRows' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
 				],
 			},
 		},
 	],
-} as unknown as DocumentNode<RemoveReferentMutation, RemoveReferentMutationVariables>;
+} as unknown as DocumentNode<UpdateReferentMutation, UpdateReferentMutationVariables>;
 export const CreateDeploymentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -18513,28 +18218,6 @@ export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'object' },
 								value: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'on_conflict' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: {
-												kind: 'EnumValue',
-												value: 'notebook_member_notebook_id_account_id_key',
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: { kind: 'EnumValue', value: 'active' },
-										},
-									],
-								},
 							},
 						],
 						selectionSet: {
@@ -20713,6 +20396,11 @@ export const RemoveMemberFromNotebookDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'active' },
 											value: { kind: 'BooleanValue', value: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
 										},
 									],
 								},
@@ -28113,14 +27801,6 @@ export type UpdateOrientationManagerMutationStore = OperationStore<
 export type UpdateReferentMutationStore = OperationStore<
 	UpdateReferentMutation,
 	UpdateReferentMutationVariables
->;
-export type UpdateReferentWithStructureMutationStore = OperationStore<
-	UpdateReferentWithStructureMutation,
-	UpdateReferentWithStructureMutationVariables
->;
-export type RemoveReferentMutationStore = OperationStore<
-	RemoveReferentMutation,
-	RemoveReferentMutationVariables
 >;
 export type CreateDeploymentMutationStore = OperationStore<
 	CreateDeploymentMutation,

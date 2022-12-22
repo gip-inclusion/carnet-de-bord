@@ -14,7 +14,7 @@
 	async function confirmOrientationRequestDenial() {
 		try {
 			await postApiJson(
-				'/v1/deny-orientation-request',
+				'/v1/orientation_requests/deny',
 				{
 					orientation_request_id: orientationRequest.id,
 				},

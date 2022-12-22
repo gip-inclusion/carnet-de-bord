@@ -3,24 +3,35 @@
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
-	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
 	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
+	import { createEventDispatcher } from 'svelte';
+	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	export let beneficiaries: Beneficiary[];
 	export let structureId: string;
 
+	const dispatch = createEventDispatcher();
+
+	function onBeneficiaryOrientationChanged() {
+		dispatch('beneficiary-orientation-changed');
+	}
+
 	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
 			component: AddProfessionnalForm,
 			props: {
-				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				notebooks: [
+					{
+						id: beneficiary.notebook.id,
+						members: beneficiary.notebook.members,
+					},
+				],
 				structureId,
-				member: beneficiary.notebook.members[0]?.account.id ?? null,
-				showResetMembers: beneficiary.notebook.members.length > 0,
+				onBeneficiaryOrientationChanged,
 			},
 		});
 	}

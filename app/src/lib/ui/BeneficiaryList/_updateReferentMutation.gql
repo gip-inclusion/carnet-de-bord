@@ -1,57 +1,22 @@
-mutation UpdateReferent($objects: [notebook_member_insert_input!]!, $beneficiaries: [uuid!]!) {
-  update_notebook_member(
-    _set: { memberType: "no_referent" }
-    where: { notebook: { beneficiaryId: { _in: $beneficiaries } } }
-  ) {
-    affected_rows
-  }
-
-  insert_notebook_member(
-    objects: $objects
-    on_conflict: {
-      constraint: notebook_member_notebook_id_account_id_key
-      update_columns: [memberType, active]
-    }
-  ) {
-    affected_rows
-  }
-}
-
-mutation UpdateReferentWithStructure(
-  $objects: [notebook_member_insert_input!]!
-  $beneficiaryStructureObjects: [beneficiary_structure_insert_input!]!
-  $beneficiaries: [uuid!]!
+mutation UpdateReferent(
+  $newReferent: uuid!
+  $newNotebookMemberRows: [notebook_member_insert_input!]!
+  $notebooks: [uuid!]!
 ) {
-  delete_beneficiary_structure(where: { beneficiaryId: { _in: $beneficiaries } }) {
-    affected_rows
-  }
-  insert_beneficiary_structure(objects: $beneficiaryStructureObjects) {
-    affected_rows
-  }
-
-  update_notebook_member(
-    _set: { memberType: "no_referent" }
-    where: { memberType: { _eq: "referent" }, notebook: { beneficiaryId: { _in: $beneficiaries } } }
-  ) {
-    affected_rows
-  }
-
-  insert_notebook_member(
-    objects: $objects
-    on_conflict: {
-      constraint: notebook_member_notebook_id_account_id_key
-      update_columns: [memberType, active]
+  # Supprimer les anciens référent et celles où le nouveau référent etait membre
+  deactivateMembers: update_notebook_member(
+    _set: { active: false, membershipEndedAt: now }
+    where: {
+      _or: [
+        { active: { _eq: true }, notebookId: { _in: $notebooks }, memberType: { _eq: "referent" } }
+        { active: { _eq: true }, notebookId: { _in: $notebooks }, accountId: { _eq: $newReferent } }
+      ]
     }
   ) {
     affected_rows
   }
-}
-
-mutation RemoveReferent($notebooks: [uuid!]!) {
-  update_notebook_member(
-    _set: { memberType: "no_referent", active: false }
-    where: { notebookId: { _in: $notebooks }, memberType: { _eq: "referent" } }
-  ) {
+  # Nouveau notebook member : référents (et anciens referents devenus membre)
+  createNotebookMembers: insert_notebook_member(objects: $newNotebookMemberRows) {
     affected_rows
   }
 }

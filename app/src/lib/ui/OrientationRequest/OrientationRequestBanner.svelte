@@ -25,7 +25,7 @@
 		openComponent.open({
 			component: ChangeOrientationForm,
 			props: {
-				notebook,
+				notebooks: [notebook],
 				orientationRequestId: orientationRequest.id,
 				onBeneficiaryOrientationChanged,
 			},

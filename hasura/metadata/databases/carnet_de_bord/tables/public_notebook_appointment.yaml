@@ -135,7 +135,6 @@ update_permissions:
 delete_permissions:
   - role: orientation_manager
     permission:
-      backend_only: false
       filter:
         notebook:
           members:
@@ -146,7 +145,6 @@ delete_permissions:
                   _eq: true
   - role: professional
     permission:
-      backend_only: false
       filter:
         notebook:
           members:

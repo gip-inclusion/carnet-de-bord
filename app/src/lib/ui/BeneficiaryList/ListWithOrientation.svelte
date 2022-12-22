@@ -5,26 +5,27 @@
 	import { accountData, openComponent } from '$lib/stores';
 	import { getContext } from 'svelte';
 	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
-	import AddStructureProfessionnalForm from './AddStructureProfessionnalForm.svelte';
 	import AddOrientationManagerForm from './AddOrientationManagerForm.svelte';
-	import AddOrientationForm from './AddOrientationForm.svelte';
 	import { baseUrlForRole } from '$lib/routes';
+	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
 	export let beneficiaries: Beneficiary[];
 
+	const dispatch = createEventDispatcher();
+
+	function onBeneficiaryOrientationChanged() {
+		dispatch('beneficiary-orientation-changed');
+	}
+
 	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
-			component: AddStructureProfessionnalForm,
+			component: ChangeOrientationForm,
 			props: {
-				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member:
-					beneficiary.notebook.members.filter(
-						({ account }) => account.type === RoleEnum.Professional
-					)[0]?.account.id ?? null,
-				structuresId: [...new Set(beneficiary.structures.map(({ structure }) => structure.id))],
-				showResetMembers: beneficiary.notebook.members.length > 0,
+				notebooks: [{ id: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				onBeneficiaryOrientationChanged,
 			},
 		});
 	}
@@ -42,15 +43,6 @@
 		});
 	}
 
-	function openOrientationLayer(beneficiary: Beneficiary) {
-		openComponent.open({
-			component: AddOrientationForm,
-			props: {
-				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				orientation_type: beneficiary.notebook.notebookInfo?.orientationType.id ?? null,
-			},
-		});
-	}
 	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
 
 	function updateSelection(beneficiary: Beneficiary) {
@@ -107,14 +99,14 @@
 				<td>
 					{#if beneficiary.notebook?.notebookInfo?.orientationType}
 						<button
-							class="fr-tag fr-tag-sm  fr-tag--yellow-tournesol"
-							on:click={() => openOrientationLayer(beneficiary)}
+							class="fr-tag fr-tag-sm fr-tag--yellow-tournesol"
+							on:click={() => openEditLayer(beneficiary)}
 							>{beneficiary.notebook?.notebookInfo.orientationType.label}
 						</button>
 					{:else}
 						<button
-							class="fr-tag fr-tag-sm  fr-tag--purple-glycine"
-							on:click={() => openOrientationLayer(beneficiary)}
+							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
+							on:click={() => openEditLayer(beneficiary)}
 							>À définir
 						</button>
 					{/if}
