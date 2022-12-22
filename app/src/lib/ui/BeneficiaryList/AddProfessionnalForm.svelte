@@ -15,6 +15,7 @@
 	import Alert from '../base/Alert.svelte';
 	import { pluralize } from '$lib/helpers';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import { trackEvent } from '$lib/tracking/matomo';
 
 	export let structureId: string;
 	export let notebooks: {
@@ -45,6 +46,7 @@
 	let error = false;
 
 	async function handleSubmit() {
+		trackEvent('notebook_members', 'assign new referents');
 		const updateResponse = await updateReferent(
 			{
 				newNotebookMemberRows: notebooks.flatMap((notebook) => {
