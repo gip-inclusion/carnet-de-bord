@@ -1,3 +1,10 @@
+# [1.178.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.3...v1.178.0) (2022-12-22)
+
+
+### Features
+
+* conservation de l'historique du groupe de suivi ([#1338](https://github.com/gip-inclusion/carnet-de-bord/issues/1338)) ([b71b35b](https://github.com/gip-inclusion/carnet-de-bord/commit/b71b35b8e8233750573853215d6e069f2c97b74b))
+
 ## [1.177.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.2...v1.177.3) (2022-12-22)
 
 
