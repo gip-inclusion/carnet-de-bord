@@ -40,7 +40,7 @@
 				</td>
 				<td class="!text-center">
 					<a
-						href={`carnets/${notebook.id}`}
+						href={`carnet/${notebook.id}`}
 						rel="noreferrer"
 						class="fr-link"
 						title={`Voir le carnet de ${displayFullName(notebook.beneficiary)}`}
