@@ -91,13 +91,6 @@ repos:
         entry: |
           ./scripts/check-app-codegen.sh
 
-      - id: check-backend-codegen
-        name: check if api codegen needs to be ran
-        language: system
-        pass_filenames: false
-        files: "^hasura/(metadata|migrations)"
-        entry: |
-          ./scripts/check-backend-codegen.sh
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: "v8.0.0"
     hooks:

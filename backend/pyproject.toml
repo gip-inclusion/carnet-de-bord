@@ -34,7 +34,7 @@ httpx = "^0.23.0"
 respx = "^0.20.0"
 luhn-validator = "^1.1.4"
 phonenumbers = "^8.12.56"
-gql = {extras = ["aiohttp", "requests"], version = "^3.4.0"}
+gql = {extras = ["aiohttp"], version = "^3.4.0"}
 structlog = "^22.3.0"
 structlog-sentry = "^2.0.0"
 syrupy = "^3.0.5"

@@ -12,13 +12,12 @@ from api.db.models.notebook_info import OrientationType
 from api.db.models.orientation_request import OrientationRequest
 from api.db.models.professional import Professional
 
-UPDATE_ORIENTATION_ENDPOINT_PATH = "/v1/change-beneficiary-orientation"
-DENY_ORIENTATION_ENDPOINT_PATH = "/v1/deny-orientation-request"
+UPDATE_ORIENTATION_ENDPOINT_PATH = "/v1/orientations/change"
 
 
 @mock.patch("api.core.emails.send_mail")
 async def test_verify_no_token(
-    mock_send_email: mock.Mock,
+    _: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
@@ -71,7 +70,7 @@ async def test_change_orientation_while_keeping_same_referent(
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
     db_connection: Connection,
 ):
     response = test_client.post(
@@ -83,7 +82,7 @@ async def test_change_orientation_while_keeping_same_referent(
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -102,7 +101,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
     professional_paul_camara: Professional,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
     db_connection: Connection,
 ):
     response = test_client.post(
@@ -114,7 +113,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": None,
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -196,7 +195,7 @@ async def test_change_orientation_with_new_referent(
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
     db_connection: Connection,
 ):
     response = test_client.post(
@@ -208,7 +207,7 @@ async def test_change_orientation_with_new_referent(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -258,7 +257,7 @@ async def test_change_orientation_with_orientation_request(
     beneficiary_jennings_dee: Beneficiary,
     notebook_jennings_dee: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
     db_connection: Connection,
 ):
     response = test_client.post(
@@ -271,7 +270,7 @@ async def test_change_orientation_with_orientation_request(
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
 
     orientation_request = await get_orientation_request_by_id(
@@ -296,7 +295,7 @@ async def test_send_email_to_members_with_orientation_request(
     beneficiary_jennings_dee: Beneficiary,
     notebook_jennings_dee: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
@@ -308,7 +307,7 @@ async def test_send_email_to_members_with_orientation_request(
             "new_referent_account_id": str(professional_paul_camara.account_id),
             "orientation_request_id": str(orientation_request_jennings_dee.id),
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 2
@@ -336,7 +335,7 @@ async def test_send_email_to_members_without_orientation_request(
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
@@ -347,7 +346,7 @@ async def test_send_email_to_members_without_orientation_request(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 2
@@ -374,7 +373,7 @@ async def test_send_email_to_members_first_orientation(
     professional_paul_camara: Professional,
     beneficiary_noel_keller: Beneficiary,
     notebook_noel_keller: Beneficiary,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
@@ -385,7 +384,7 @@ async def test_send_email_to_members_first_orientation(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 1
@@ -404,7 +403,7 @@ async def test_unconsistent_orientation_request(
     notebook_sophie_tifour: Notebook,
     beneficiary_sophie_tifour: Beneficiary,
     orientation_request_jennings_dee: OrientationRequest,
-    guilia_diaby_jwt: str,
+    giulia_diaby_jwt: str,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
@@ -415,33 +414,7 @@ async def test_unconsistent_orientation_request(
             "structure_id": str(professional_paul_camara.structure_id),
             "orientation_request_id": str(orientation_request_jennings_dee.id),
         },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
+        headers={"jwt-token": f"{giulia_diaby_jwt}"},
     )
 
     assert response.status_code == 400
-
-
-@mock.patch("api.core.emails.send_mail")
-async def test_deny_orientation_request_email(
-    mock_send_email: mock.Mock,
-    test_client: TestClient,
-    snapshot,
-    professional_edith_orial: Professional,
-    orientation_request_jennings_dee: OrientationRequest,
-    guilia_diaby_jwt: str,
-):
-    response = test_client.post(
-        DENY_ORIENTATION_ENDPOINT_PATH,
-        json={
-            "orientation_request_id": str(orientation_request_jennings_dee.id),
-        },
-        headers={"jwt-token": f"{guilia_diaby_jwt}"},
-    )
-    print(response.json())
-    assert response.status_code == 200
-    assert mock_send_email.call_count == 1
-
-    email_new_referent = mock_send_email.call_args_list[0]
-    assert email_new_referent.kwargs["to"] == professional_edith_orial.email
-    assert email_new_referent.kwargs["subject"] == "Maintien de l’accompagnement"
-    assert snapshot == {"email_new_referent": email_new_referent.kwargs["message"]}

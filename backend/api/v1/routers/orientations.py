@@ -6,32 +6,37 @@ from uuid import UUID
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
 from fastapi.exceptions import HTTPException
 from gql import Client, gql
-from gql.dsl import DSLMutation, DSLSchema, dsl_gql
+from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
 from api._gen.schema_gql import schema
-from api.core.emails import (
-    Member,
-    Person,
-    send_deny_orientation_request_email,
-    send_notebook_member_email,
-)
+from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
 
-orientation_manager_and_admin_structure = allowed_jwt_roles(
-    [RoleEnum.ORIENTATION_MANAGER, RoleEnum.ADMIN_STRUCTURE, RoleEnum.MANAGER]
+router = APIRouter(
+    dependencies=[
+        Depends(
+            allowed_jwt_roles(
+                [
+                    RoleEnum.ORIENTATION_MANAGER,
+                    RoleEnum.ADMIN_STRUCTURE,
+                    RoleEnum.MANAGER,
+                ]
+            )
+        )
+    ]
 )
-router = APIRouter(dependencies=[Depends(orientation_manager_and_admin_structure)])
 
 
 logger = logging.getLogger(__name__)
 
 
 class ChangeBeneficiaryOrientationInput(BaseModel):
+    # TODO Cette variable n'est pas utile
     beneficiary_id: UUID
     notebook_id: UUID
     orientation_type: OrientationType
@@ -49,7 +54,7 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
         }
 
 
-@router.post("/change-beneficiary-orientation")
+@router.post("/change")
 async def change_beneficiary_orientation(
     data: ChangeBeneficiaryOrientationInput,
     background_tasks: BackgroundTasks,
@@ -93,7 +98,7 @@ async def change_beneficiary_orientation(
         )
 
         dsl_schema = DSLSchema(schema=schema)
-        mutations = {}
+        mutations: dict[str, DSLField] = {}
 
         if data.orientation_request_id:
             beneficiary = orientation_info_response["notebook_by_pk"]["beneficiary"]
@@ -118,6 +123,8 @@ async def change_beneficiary_orientation(
 
             mutations = mutations | get_orientation_request_mutation(data, dsl_schema)
 
+        mutations = mutations | get_notebook_info_mutation(data, dsl_schema)
+
         former_referent_account_id = None
         if orientation_info_response["notebook_by_pk"]["former_referents"]:
             former_referent_account_id = orientation_info_response["notebook_by_pk"][
@@ -130,9 +137,8 @@ async def change_beneficiary_orientation(
                 "beneficiary"
             ]["structures"][0]["structureId"]
 
-        mutations = mutations | get_notebook_info_mutation(data, dsl_schema)
-
         structure_changed = str(data.structure_id) != str(former_structure_id)
+
         if structure_changed:
             mutations = mutations | get_beneficiary_structure_mutation(data, dsl_schema)
 
@@ -157,11 +163,6 @@ async def change_beneficiary_orientation(
 
         response = await session.execute(dsl_gql(DSLMutation(**mutations)))
 
-        former_referent_account_id = None
-        if orientation_info_response["notebook_by_pk"]["former_referents"]:
-            former_referent_account_id = orientation_info_response["notebook_by_pk"][
-                "former_referents"
-            ][0]["account"]["id"]
         former_referents = [
             Member.parse_from_gql(member["account"]["professional"])
             for member in orientation_info_response["notebook_by_pk"][
@@ -225,7 +226,7 @@ def get_former_referent_mutation(
     data: ChangeBeneficiaryOrientationInput,
     dsl_schema: DSLSchema,
     former_referent_account_id,
-):
+) -> dict[str, DSLField]:
     return {
         "create_former_referent_row": dsl_schema.mutation_root.insert_notebook_member_one.args(
             object={
@@ -241,7 +242,7 @@ def get_former_referent_mutation(
 
 def get_notebook_members_mutation(
     data: ChangeBeneficiaryOrientationInput, dsl_schema: DSLSchema
-):
+) -> dict[str, DSLField]:
     deactivation_clause = [
         {
             "notebookId": {"_eq": str(data.notebook_id)},
@@ -273,7 +274,7 @@ def get_notebook_members_mutation(
 
 def get_beneficiary_structure_mutation(
     data: ChangeBeneficiaryOrientationInput, dsl_schema: DSLSchema
-):
+) -> dict[str, DSLField]:
     return {
         "deactivate_old_structure": dsl_schema.mutation_root.update_beneficiary_structure.args(
             where={
@@ -298,7 +299,7 @@ def get_beneficiary_structure_mutation(
 
 def get_notebook_info_mutation(
     data: ChangeBeneficiaryOrientationInput, dsl_schema: DSLSchema
-):
+) -> dict[str, DSLField]:
     return {
         "add_notebook_info": dsl_schema.mutation_root.insert_notebook_info_one.args(
             object={
@@ -314,7 +315,9 @@ def get_notebook_info_mutation(
     }
 
 
-def get_orientation_request_mutation(data, dsl_schema: DSLSchema):
+def get_orientation_request_mutation(
+    data, dsl_schema: DSLSchema
+) -> dict[str, DSLField]:
     return {
         "accept_orientation_request": dsl_schema.mutation_root.update_orientation_request_by_pk.args(
             pk_columns={"id": str(data.orientation_request_id)},
@@ -330,56 +333,6 @@ def get_orientation_request_mutation(data, dsl_schema: DSLSchema):
     }
 
 
-class DenyBeneficiaryOrientationInput(BaseModel):
-    orientation_request_id: UUID
-
-    def gql_variables(self):
-        return {"id": str(self.orientation_request_id)}
-
-
-@router.post("/deny-orientation-request")
-async def deny_orientation_request(
-    data: DenyBeneficiaryOrientationInput,
-    background_tasks: BackgroundTasks,
-    jwt_token: str | None = Header(default=None),
-):
-    if not jwt_token:
-        raise HTTPException(status_code=401, detail="unauthorized")
-
-    transport = AIOHTTPTransport(
-        url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
-    )
-
-    async with Client(
-        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
-    ) as session:
-
-        deny_response = await session.execute(
-            gql(load_gql_file("_denyOrientationRequestById.gql")),
-            variable_values=data.gql_variables(),
-        )
-        if deny_response is None:
-            raise HTTPException(
-                status_code=500,
-                detail="Error while reading _denyOrientationRequestById.gql mutation file",
-            )
-        beneficiary = Person.parse_from_gql(
-            deny_response["orientation_request"]["beneficiary"]
-        )
-        background_tasks.add_task(
-            send_deny_orientation_request_email,
-            to_email=deny_response["orientation_request"]["requestor"]["professional"][
-                "email"
-            ],
-            beneficiary=beneficiary,
-        )
-
-
-def load_gql_file(filename: str, path: str = os.path.dirname(__file__)):
-    with open(os.path.join(path, filename), encoding="utf-8") as f:
-        return f.read()
-
-
 def raise_if_orientation_request_not_match_beneficiary(
     orientation_request_id: str, beneficiary_request_id: str
 ) -> None:
@@ -388,3 +341,8 @@ def raise_if_orientation_request_not_match_beneficiary(
         raise Exception(
             f"orientation_request_id {orientation_request_id} does not match beneficiary_request_id {beneficiary_request_id}"
         )
+
+
+def load_gql_file(filename: str, path: str = os.path.dirname(__file__)):
+    with open(os.path.join(path, filename), encoding="utf-8") as f:
+        return f.read()

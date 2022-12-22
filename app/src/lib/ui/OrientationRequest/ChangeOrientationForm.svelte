@@ -42,7 +42,7 @@
 		values: OrientationValidationSchema
 	) {
 		return postApiJson(
-			'/v1/change-beneficiary-orientation',
+			'/v1/orientations/change',
 			{
 				orientation_request_id: orientationRequestId,
 				orientation_type: values.orientationType,
