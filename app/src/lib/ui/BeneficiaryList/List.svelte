@@ -3,11 +3,11 @@
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { openComponent } from '$lib/stores';
-	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
 	import { pluralize } from '$lib/helpers';
 	import { getContext } from 'svelte';
 	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
 	import { createEventDispatcher } from 'svelte';
+	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
@@ -22,9 +22,15 @@
 
 	function openEditLayer(beneficiary: Beneficiary) {
 		openComponent.open({
-			component: ChangeOrientationForm,
+			component: AddProfessionnalForm,
 			props: {
-				notebooks: [{ id: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				notebooks: [
+					{
+						id: beneficiary.notebook.id,
+						beneficiaryId: beneficiary.id,
+						members: beneficiary.notebook.members,
+					},
+				],
 				structureId,
 				onBeneficiaryOrientationChanged,
 			},

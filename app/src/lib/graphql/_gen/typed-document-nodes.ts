@@ -13196,6 +13196,24 @@ export type UpdateOrientationManagerMutation = {
 	} | null;
 };
 
+export type UpdateReferentMutationVariables = Exact<{
+	newReferent: Scalars['uuid'];
+	newNotebookMemberRows: Array<NotebookMemberInsertInput> | NotebookMemberInsertInput;
+	notebooks: Array<Scalars['uuid']> | Scalars['uuid'];
+}>;
+
+export type UpdateReferentMutation = {
+	__typename?: 'mutation_root';
+	deactivateMembers?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
+	createNotebookMembers?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
+};
+
 export type CreateDeploymentMutationVariables = Exact<{
 	email: Scalars['citext'];
 	deployment: Scalars['String'];
@@ -17428,6 +17446,233 @@ export const UpdateOrientationManagerDocument = {
 	UpdateOrientationManagerMutation,
 	UpdateOrientationManagerMutationVariables
 >;
+export const UpdateReferentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateReferent' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'newReferent' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'newNotebookMemberRows' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_member_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebooks' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+							},
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'deactivateMembers' },
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'active' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: { kind: 'BooleanValue', value: true },
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_in' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebooks' },
+																			},
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'memberType' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'StringValue',
+																				value: 'referent',
+																				block: false,
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'active' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: { kind: 'BooleanValue', value: true },
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_in' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebooks' },
+																			},
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'accountId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'newReferent' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'createNotebookMembers' },
+						name: { kind: 'Name', value: 'insert_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'newNotebookMemberRows' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<UpdateReferentMutation, UpdateReferentMutationVariables>;
 export const CreateDeploymentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -27552,6 +27797,10 @@ export type UpdateOrientationMutationStore = OperationStore<
 export type UpdateOrientationManagerMutationStore = OperationStore<
 	UpdateOrientationManagerMutation,
 	UpdateOrientationManagerMutationVariables
+>;
+export type UpdateReferentMutationStore = OperationStore<
+	UpdateReferentMutation,
+	UpdateReferentMutationVariables
 >;
 export type CreateDeploymentMutationStore = OperationStore<
 	CreateDeploymentMutation,

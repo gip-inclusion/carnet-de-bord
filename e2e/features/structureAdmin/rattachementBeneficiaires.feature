@@ -31,11 +31,10 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je choisis "Sélectionner Whitley Benjamin"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
-		Alors je vois "Réorienter"
-		Alors j'attends que le texte "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent" apparaisse
-		Alors je selectionne l'option "Social" dans la liste "Type d'orientation"
+		Alors je vois "Rattacher"
+		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique des bénéficiaires." apparaisse
 		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
-		Quand je clique sur "Valider" dans le volet
+		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"
 		Alors je vois "Simon Anka" sur la ligne "Benjamin"
 
@@ -51,9 +50,8 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Quand je clique sur "Rechercher"
 		Alors je vois "Non rattaché" sur la ligne "Beach"
 		Quand je clique sur "Non rattaché"
-		Alors je vois "Réorienter"
-		Alors j'attends que le texte "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent" apparaisse
-		Alors je selectionne l'option "Social" dans la liste "Type d'orientation"
+		Alors je vois "Rattacher"
+		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique du bénéficiaire." apparaisse
 		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
-		Quand je clique sur "Valider" dans le volet
+		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"

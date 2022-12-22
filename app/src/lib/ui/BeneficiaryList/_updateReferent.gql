@@ -1,0 +1,22 @@
+mutation UpdateReferent(
+  $newReferent: uuid!
+  $newNotebookMemberRows: [notebook_member_insert_input!]!
+  $notebooks: [uuid!]!
+) {
+  # Supprimer les anciens référent et celles où le nouveau référent etait membre
+  deactivateMembers: update_notebook_member(
+    _set: { active: false, membershipEndedAt: now }
+    where: {
+      _or: [
+        { active: { _eq: true }, notebookId: { _in: $notebooks }, memberType: { _eq: "referent" } }
+        { active: { _eq: true }, notebookId: { _in: $notebooks }, accountId: { _eq: $newReferent } }
+      ]
+    }
+  ) {
+    affected_rows
+  }
+  # Nouveau notebook member : référents (et anciens referents devenus membre)
+  createNotebookMembers: insert_notebook_member(objects: $newNotebookMemberRows) {
+    affected_rows
+  }
+}

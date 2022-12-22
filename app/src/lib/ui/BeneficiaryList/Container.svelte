@@ -26,6 +26,7 @@
 	import FilterOrientation from './FilterOrientation.svelte';
 	import type { BeneficiaryFilter, OrientedFilter } from './OrientationFilter';
 	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
+	import AddProfessionnalForm from './AddProfessionnalForm.svelte';
 
 	type BeneficiaryListType = 'orientation' | 'manager' | 'structure';
 
@@ -206,20 +207,23 @@
 		const notebooks = selectedBeneficiaries.map((beneficiary) => ({
 			id: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
+			members: beneficiary.notebook.members,
 		}));
 
-		openComponent.open({
-			component: ChangeOrientationForm,
-			props: {
-				notebooks,
-				structureId,
-				onBeneficiaryOrientationChanged: () => {
-					selectionStore.reset();
-					refreshList();
-				},
+		const props = {
+			notebooks,
+			structureId,
+			onBeneficiaryOrientationChanged: () => {
+				selectionStore.reset();
+				refreshList();
 			},
+		};
+		openComponent.open({
+			component: listType === 'structure' ? AddProfessionnalForm : ChangeOrientationForm,
+			props,
 		});
 	}
+
 	$: nbBeneficiaries = $result.data?.search_beneficiaries_aggregate.aggregate.count ?? 0;
 	$: nbSelectedBeneficiaries = Object.keys($selectionStore).length;
 </script>
