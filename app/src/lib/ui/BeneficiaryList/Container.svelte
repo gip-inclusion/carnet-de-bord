@@ -91,8 +91,7 @@
 			},
 		};
 
-		if (filter === 'all') {
-			if (structureId) {
+		if (filter === 'all' && structureId) {
 				graphqlFilter._or = [
 					{ structures: { structureId: { _eq: structureId } } },
 					{

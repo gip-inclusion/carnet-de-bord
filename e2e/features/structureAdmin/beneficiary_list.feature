@@ -1,7 +1,7 @@
 #language: fr
 
 Fonctionnalité: Liste des bénéficiaires
-	Pour permettre aux administrateur de structure de gérer les bénéficiaires attachés à leur structure
+	Pour permettre aux administrateur de structure de gérer les bénéficiaires accompagnés par leur structure
 	En tant qu'administrateur de structure
 	Je veux pouvoir filter les bénéficiaires de ma structure
 
