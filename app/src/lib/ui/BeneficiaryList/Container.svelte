@@ -104,7 +104,6 @@
 					},
 				];
 			}
-		}
 		if (filter === 'noMember') {
 			if (structureId) {
 				graphqlFilter.structures = {
