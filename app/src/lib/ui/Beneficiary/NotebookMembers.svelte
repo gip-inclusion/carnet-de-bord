@@ -3,33 +3,46 @@
 		type GetNotebookByBeneficiaryIdQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-
 	import { Text } from '$lib/ui/utils';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { accountData, token } from '$lib/stores';
 	import { postApiJson } from '$lib/utils/post';
 	import { captureException } from '$lib/utils/sentry';
 	import { trackEvent } from '$lib/tracking/matomo';
+	import { Radio } from '$lib/ui/base';
+	import { createEventDispatcher } from 'svelte';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 	export let members: Notebook['members'];
 	export let notebookId: Notebook['id'];
+
+	const dispatch = createEventDispatcher();
+
+	const options = [
+		{ name: 'referent', label: 'Oui' },
+		{ name: 'no_referent', label: 'Non' },
+	];
+
+	let memberType: 'referent' | 'no_referent' = 'no_referent';
 
 	async function addCurrentAccountToNotebookMembers() {
 		trackEvent('notebook membership', 'join notebook members');
 		try {
 			await postApiJson(
 				`/v1/notebooks/${notebookId}/members`,
-				{
-					member_type: 'no_referent', // todo: ou referent, en fonction de la réponse de l'utilisateur
-				},
+				{ member_type: memberType },
 				{ 'jwt-token': $token }
 			);
+			dispatch('notebook-member-added');
 		} catch (err) {
 			console.error(err);
 			captureException(err);
 			return;
 		}
+	}
+
+	function setSelectedMemberType(selected: any) {
+		memberType = selected.detail.value;
 	}
 </script>
 
@@ -43,8 +56,15 @@
 				label="Se rattacher"
 				on:confirm={addCurrentAccountToNotebookMembers}
 			>
-				<p>Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?</p>
-				<!-- TODO: Ajouter les boutons Oui / Non et ajouter en referent ou no_referent en fonction -->
+				<div class="fr-form-group">
+					<Radio
+						caption="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+						name="memberType"
+						{options}
+						selected={memberType}
+						on:input={setSelectedMemberType}
+					/>
+				</div>
 			</Dialog>
 		</div>
 	{/if}

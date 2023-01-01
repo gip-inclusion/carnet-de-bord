@@ -121,6 +121,10 @@ Quand('je clique sur {string} dans le volet', (text) => {
 	I.click(text, '[role=dialog]');
 });
 
+Quand('je clique sur {string} dans la modale', (text) => {
+	I.click(text, '.fr-modal__body');
+});
+
 Quand('je clique sur le bouton {string}', (text) => {
 	I.click(`button[title="${text}"]`);
 });
