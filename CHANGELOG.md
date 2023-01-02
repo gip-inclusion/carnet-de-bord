@@ -1,3 +1,10 @@
+## [1.178.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.0...v1.178.1) (2023-01-02)
+
+
+### Bug Fixes
+
+* Dans la liste des réorientations, la raison de réorientation affichée est celle de la dernière réorientation. ([#1382](https://github.com/gip-inclusion/carnet-de-bord/issues/1382)) ([b8310c4](https://github.com/gip-inclusion/carnet-de-bord/commit/b8310c40ba5c85e5ede8981b16e2d530d2050675))
+
 # [1.178.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.177.3...v1.178.0) (2022-12-22)
 
 
