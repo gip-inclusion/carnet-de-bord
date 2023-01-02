@@ -7215,7 +7215,7 @@ export type NotebookMember = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType: Scalars['String'];
-	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
+	membershipEndedAt?: Maybe<Scalars['date']>;
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
@@ -7299,7 +7299,7 @@ export type NotebookMemberBoolExp = {
 	lastModifiedAt?: InputMaybe<TimestamptzComparisonExp>;
 	lastVisitedAt?: InputMaybe<TimestamptzComparisonExp>;
 	memberType?: InputMaybe<StringComparisonExp>;
-	membershipEndedAt?: InputMaybe<TimestamptzComparisonExp>;
+	membershipEndedAt?: InputMaybe<DateComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
 };
@@ -7327,7 +7327,7 @@ export type NotebookMemberInsertInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
-	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
+	membershipEndedAt?: InputMaybe<Scalars['date']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
@@ -7343,7 +7343,7 @@ export type NotebookMemberMaxFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
-	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
+	membershipEndedAt?: Maybe<Scalars['date']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7372,7 +7372,7 @@ export type NotebookMemberMinFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
-	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
+	membershipEndedAt?: Maybe<Scalars['date']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7478,7 +7478,7 @@ export type NotebookMemberSetInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
-	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
+	membershipEndedAt?: InputMaybe<Scalars['date']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -7501,7 +7501,7 @@ export type NotebookMemberStreamCursorValueInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
-	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
+	membershipEndedAt?: InputMaybe<Scalars['date']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -23050,6 +23050,27 @@ export const BeneficiariesWithOrientationRequestDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'orientationRequest' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'createdAt' },
+														value: { kind: 'EnumValue', value: 'desc' },
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'limit' },
+											value: { kind: 'IntValue', value: '1' },
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [

@@ -11,7 +11,7 @@ query BeneficiariesWithOrientationRequest {
         name
       }
     }
-    orientationRequest {
+    orientationRequest(order_by: {createdAt: desc}, limit: 1) {
       id
       requestedOrientationType {
         label
