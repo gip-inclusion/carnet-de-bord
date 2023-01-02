@@ -15,11 +15,11 @@ from api._gen.schema_gql import schema
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
 from api.db.models.role import RoleEnum
-from api.v1.dependencies import allowed_jwt_roles, extract_authentified_account_id
+from api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
 
 professional_only = allowed_jwt_roles([RoleEnum.PROFESSIONAL])
 router = APIRouter(
-    dependencies=[Depends(professional_only), Depends(extract_authentified_account_id)]
+    dependencies=[Depends(professional_only), Depends(extract_authentified_account)]
 )
 
 
@@ -58,9 +58,8 @@ async def add_notebook_members(
             gql(load_gql_file("orientation_info.gql")),
             variable_values={
                 "notebook_id": str(notebook_id),
-                "structure_id": str(notebook_id),  # TODO get proper structure_id
-                "with_new_structure": False,
-                "new_referent_account_id": str(request.state.account_id),
+                "structure_id": str(request.state.account.structure_id),
+                "new_referent_account_id": str(request.state.account.id),
                 "with_new_referent": True,
             },
         )
@@ -71,7 +70,7 @@ async def add_notebook_members(
 
         if data.member_type is MemberTypeEnum.referent:
             mutations = mutations | get_notebook_members_deactivation_mutation(
-                request.state.account_id, notebook_id, dsl_schema
+                request.state.account.id, notebook_id, dsl_schema
             )
 
             former_referent_account_id = None
@@ -79,7 +78,6 @@ async def add_notebook_members(
                 former_referent_account_id = orientation_info_response["notebook"][0][
                     "former_referents"
                 ][0]["account"]["id"]
-                print(former_referent_account_id)
 
             has_old_referent = former_referent_account_id is not None
             if has_old_referent:
@@ -96,6 +94,7 @@ async def add_notebook_members(
                         "former_referents"
                     ]
                 ]
+                new_structure = orientation_info_response["newStructure"]["name"]
 
                 for referent in former_referents:
                     background_tasks.add_task(
@@ -104,7 +103,7 @@ async def add_notebook_members(
                         beneficiary=beneficiary,
                         orientation=None,
                         former_referents=former_referents,
-                        new_structure=None,
+                        new_structure=new_structure,
                         new_referent=Member.parse_from_gql(
                             orientation_info_response["newReferent"][0]
                         )
@@ -115,7 +114,7 @@ async def add_notebook_members(
 
         mutations = mutations | get_new_notebook_member_mutation(
             data.member_type,
-            request.state.account_id,
+            request.state.account.id,
             notebook_id,
             dsl_schema,
         )

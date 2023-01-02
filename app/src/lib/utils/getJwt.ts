@@ -14,7 +14,7 @@ export type JwtAccount = Pick<
 	| 'adminStructureId'
 	| 'professionalId'
 	| 'orientationManagerId'
-> & { deploymentId: string };
+> & { deploymentId: string; structureId: string };
 
 export type JwtPayload = {
 	id: string;
@@ -25,6 +25,7 @@ export type JwtPayload = {
 	managerId?: string;
 	adminStructureId?: string;
 	orientationManagerId?: string;
+	structureId?: string;
 };
 
 export type HasuraClaims = {
@@ -37,6 +38,7 @@ export type HasuraClaims = {
 	'x-hasura-adminStructure-id'?: string;
 	'x-hasura-orientationManager-id'?: string;
 	'x-hasura-deployment-id'?: string;
+	'x-hasura-structure-id'?: string;
 };
 
 export function createJwt(account: JwtAccount): string {
@@ -49,6 +51,7 @@ export function createJwt(account: JwtAccount): string {
 		deploymentId,
 		adminStructureId,
 		orientationManagerId,
+		structureId,
 	} = account;
 
 	const signOptions: SignOptions = {
@@ -67,6 +70,7 @@ export function createJwt(account: JwtAccount): string {
 		...(managerId && { managerId }),
 		...(adminStructureId && { adminStructureId }),
 		...(orientationManagerId && { orientationManagerId }),
+		...(structureId && { structureId }),
 	};
 
 	const { key } = getJwtKey();
@@ -85,6 +89,7 @@ function getHasuraClaims(account: JwtAccount): HasuraClaims {
 		deploymentId,
 		adminStructureId,
 		orientationManagerId,
+		structureId,
 	} = account;
 
 	return {
@@ -97,5 +102,6 @@ function getHasuraClaims(account: JwtAccount): HasuraClaims {
 		...(adminStructureId && { 'x-hasura-adminStructure-id': `${adminStructureId}` }),
 		...(orientationManagerId && { 'x-hasura-orientationManager-id': `${orientationManagerId}` }),
 		...(deploymentId && { 'x-hasura-deployment-id': `${deploymentId}` }),
+		...(structureId && { 'x-hasura-structure-id': `${structureId}` }),
 	};
 }

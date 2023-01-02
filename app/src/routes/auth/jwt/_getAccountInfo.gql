@@ -10,6 +10,7 @@ query GetAccountInfo($accessKey: String!) {
     orientationManagerId
     professional {
       structure {
+        id
         deploymentId
       }
     }

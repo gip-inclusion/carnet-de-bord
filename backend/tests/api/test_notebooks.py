@@ -68,6 +68,7 @@ async def test_add_notebook_member_as_no_referent(
 @mock.patch("api.core.emails.send_mail")
 async def test_add_notebook_member_as_referent(
     mock_send_email: mock.Mock,
+    snapshot,
     test_client: TestClient,
     notebook_sophie_tifour: Notebook,
     get_professional_paul_camara_jwt: str,
@@ -91,4 +92,6 @@ async def test_add_notebook_member_as_referent(
     # Check that former referent has been deactivated
     assert_member(members, professional_pierre_chevalier, "referent", False)
     # Check that an email is sent to former referent
-    mock_send_email.assert_called_once()
+    email_former_referent = mock_send_email.call_args_list[0]
+    assert snapshot == email_former_referent
+    # TODO: assert that beneficiary_structure has been updated
