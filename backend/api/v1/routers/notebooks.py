@@ -1,5 +1,4 @@
 import logging
-import os
 from datetime import datetime
 from uuid import UUID
 
@@ -16,6 +15,7 @@ from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
+from api.v1.repositories.orientation_info import OrientationInfoRepository
 
 professional_only = allowed_jwt_roles([RoleEnum.PROFESSIONAL])
 router = APIRouter(
@@ -53,15 +53,12 @@ async def add_notebook_members(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
+        orientation_info_repository = OrientationInfoRepository(session, gql)
 
-        orientation_info_response = await session.execute(
-            gql(load_gql_file("orientation_info.gql")),
-            variable_values={
-                "notebook_id": str(notebook_id),
-                "structure_id": str(request.state.account.structure_id),
-                "new_referent_account_id": str(request.state.account.id),
-                "with_new_referent": True,
-            },
+        orientation_info = await orientation_info_repository.get(
+            notebook_id,
+            request.state.account.structure_id,
+            request.state.account.id,
         )
 
         dsl_schema = DSLSchema(schema=schema)
@@ -73,29 +70,18 @@ async def add_notebook_members(
                 request.state.account.id, notebook_id, dsl_schema
             )
 
-            former_referent_account_id = None
-            if orientation_info_response["notebook"][0]["former_referents"]:
-                former_referent_account_id = orientation_info_response["notebook"][0][
-                    "former_referents"
-                ][0]["account"]["id"]
-
-            has_old_referent = former_referent_account_id is not None
+            has_old_referent = orientation_info.former_referent_account_id is not None
             if has_old_referent:
                 mutations = mutations | get_former_referent_mutation(
-                    notebook_id, dsl_schema, former_referent_account_id
+                    notebook_id, dsl_schema, orientation_info.former_referent_account_id
                 )
-                beneficiary = Person.parse_from_gql(
-                    orientation_info_response["notebook"][0]["beneficiary"]
-                )
+                beneficiary = Person.parse_from_gql(orientation_info.beneficiary)
 
                 former_referents = [
                     Member.parse_from_gql(member["account"]["professional"])
-                    for member in orientation_info_response["notebook"][0][
-                        "former_referents"
-                    ]
+                    for member in orientation_info.former_referents
                 ]
-                new_structure = orientation_info_response["newStructure"]["name"]
-
+                new_structure = orientation_info.new_structure["name"]
                 for referent in former_referents:
                     background_tasks.add_task(
                         send_notebook_member_email,
@@ -105,10 +91,9 @@ async def add_notebook_members(
                         former_referents=former_referents,
                         new_structure=new_structure,
                         new_referent=Member.parse_from_gql(
-                            orientation_info_response["newReferent"][0]
+                            orientation_info.new_referent
                         )
-                        if "newReferent" in orientation_info_response
-                        and len(orientation_info_response["newReferent"]) > 0
+                        if orientation_info.new_referent is not None
                         else None,
                     )
 
@@ -190,8 +175,3 @@ def get_notebook_members_deactivation_mutation(
             dsl_schema.notebook_member_mutation_response.affected_rows
         )
     }
-
-
-def load_gql_file(filename: str, path: str = os.path.dirname(__file__)):
-    with open(os.path.join(path, filename), encoding="utf-8") as f:
-        return f.read()

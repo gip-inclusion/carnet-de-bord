@@ -1,5 +1,4 @@
 import logging
-import os
 from datetime import datetime
 from uuid import UUID
 
@@ -16,6 +15,7 @@ from api.core.settings import settings
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
+from api.v1.repositories.orientation_info import OrientationInfoRepository
 
 router = APIRouter(
     dependencies=[
@@ -43,15 +43,6 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
     structure_id: UUID
     orientation_request_id: UUID | None
     new_referent_account_id: UUID | None
-
-    def gql_variables_for_query(self) -> dict[str, str | bool]:
-
-        return {
-            "notebook_id": str(self.notebook_id),
-            "structure_id": str(self.structure_id),
-            "new_referent_account_id": str(self.new_referent_account_id),
-            "with_new_referent": self.new_referent_account_id is not None,
-        }
 
 
 @router.post("/change")
@@ -91,23 +82,22 @@ async def change_beneficiary_orientation(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
+        orientation_info_repository = OrientationInfoRepository(session, gql)
 
-        orientation_info_response = await session.execute(
-            gql(load_gql_file("orientation_info.gql")),
-            variable_values=data.gql_variables_for_query(),
+        orientation_info = await orientation_info_repository.get(
+            data.notebook_id, data.structure_id, data.new_referent_account_id
         )
 
         dsl_schema = DSLSchema(schema=schema)
         mutations: dict[str, DSLField] = {}
 
         if data.orientation_request_id:
-            beneficiary = orientation_info_response["notebook"][0]["beneficiary"]
 
             try:
                 raise_if_orientation_request_not_match_beneficiary(
                     str(data.orientation_request_id),
-                    str(beneficiary["orientation_request"][0]["id"])
-                    if len(beneficiary["orientation_request"]) > 0
+                    str(orientation_info.beneficiary["orientation_request"][0]["id"])
+                    if len(orientation_info.beneficiary["orientation_request"]) > 0
                     else "",
                 )
             except Exception as exception:
@@ -125,17 +115,11 @@ async def change_beneficiary_orientation(
 
         mutations = mutations | get_notebook_info_mutation(data, dsl_schema)
 
-        former_referent_account_id = None
-        if orientation_info_response["notebook"][0]["former_referents"]:
-            former_referent_account_id = orientation_info_response["notebook"][0][
-                "former_referents"
-            ][0]["account"]["id"]
-
         former_structure_id = None
-        if orientation_info_response["notebook"][0]["beneficiary"]["structures"]:
-            former_structure_id = orientation_info_response["notebook"][0][
-                "beneficiary"
-            ]["structures"][0]["structureId"]
+        if orientation_info.beneficiary["structures"]:
+            former_structure_id = orientation_info.beneficiary["structures"][0][
+                "structureId"
+            ]
 
         structure_changed = str(data.structure_id) != str(former_structure_id)
 
@@ -143,9 +127,9 @@ async def change_beneficiary_orientation(
             mutations = mutations | get_beneficiary_structure_mutation(data, dsl_schema)
 
         has_new_referent = data.new_referent_account_id is not None
-        has_old_referent = former_referent_account_id is not None
+        has_old_referent = orientation_info.former_referent_account_id is not None
         are_old_new_referents_different = str(data.new_referent_account_id) != str(
-            former_referent_account_id
+            orientation_info.former_referent_account_id
         )
         need_notebook_member_deactivation = (
             has_new_referent and are_old_new_referents_different
@@ -155,7 +139,7 @@ async def change_beneficiary_orientation(
 
             if has_old_referent:
                 mutations = mutations | get_former_referent_mutation(
-                    data, dsl_schema, former_referent_account_id
+                    data, dsl_schema, orientation_info.former_referent_account_id
                 )
 
             if has_new_referent:
@@ -165,12 +149,11 @@ async def change_beneficiary_orientation(
 
         former_referents = [
             Member.parse_from_gql(member["account"]["professional"])
-            for member in orientation_info_response["notebook"][0]["former_referents"]
+            for member in orientation_info.former_referents
         ]
-        beneficiary = Person.parse_from_gql(
-            orientation_info_response["notebook"][0]["beneficiary"]
-        )
-        new_structure = orientation_info_response["newStructure"]["name"]
+        beneficiary = Person.parse_from_gql(orientation_info.beneficiary)
+        new_structure = orientation_info.new_structure["name"]
+
         for referent in former_referents:
             background_tasks.add_task(
                 send_notebook_member_email,
@@ -179,27 +162,23 @@ async def change_beneficiary_orientation(
                 orientation=data.orientation_type,
                 former_referents=former_referents,
                 new_structure=new_structure,
-                new_referent=Member.parse_from_gql(
-                    orientation_info_response["newReferent"][0]
-                )
-                if "newReferent" in orientation_info_response
-                and len(orientation_info_response["newReferent"]) > 0
+                new_referent=Member.parse_from_gql(orientation_info.new_referent)
+                if orientation_info.new_referent is not None
                 else None,
             )
 
-        if "newReferent" in orientation_info_response:
-            for new_referent in orientation_info_response["newReferent"]:
-                new_referent = Member.parse_from_gql(new_referent)
+        if orientation_info.new_referent is not None:
+            new_referent = Member.parse_from_gql(orientation_info.new_referent)
 
-                background_tasks.add_task(
-                    send_notebook_member_email,
-                    to_email=new_referent.email,
-                    new_referent=new_referent,
-                    beneficiary=beneficiary,
-                    former_referents=former_referents,
-                    orientation=data.orientation_type,
-                    new_structure=new_structure,
-                )
+            background_tasks.add_task(
+                send_notebook_member_email,
+                to_email=new_referent.email,
+                new_referent=new_referent,
+                beneficiary=beneficiary,
+                former_referents=former_referents,
+                orientation=data.orientation_type,
+                new_structure=new_structure,
+            )
 
         return response
 
@@ -339,8 +318,3 @@ def raise_if_orientation_request_not_match_beneficiary(
         raise Exception(
             f"orientation_request_id {orientation_request_id} does not match beneficiary_request_id {beneficiary_request_id}"
         )
-
-
-def load_gql_file(filename: str, path: str = os.path.dirname(__file__)):
-    with open(os.path.join(path, filename), encoding="utf-8") as f:
-        return f.read()
