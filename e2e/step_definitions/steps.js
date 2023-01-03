@@ -164,7 +164,7 @@ Quand("j'attends que le texte {string} apparaisse", (text) => {
 	I.waitForText(text, 5);
 });
 
-Quand("j'attends que la table {string} apparaisse", (text) => {
+Quand("j'attends que le tableau {string} apparaisse", (text) => {
 	I.waitForElement(`//caption[contains(., "${text}")]`, 3);
 });
 
@@ -229,10 +229,10 @@ Alors('je vois {int} résultats sous le texte {string}', (num, title) => {
 	);
 });
 
-Alors('je vois {string} lignes dans la table {string}', (num, tableName) => {
+Alors('je vois {int} lignes dans le tableau {string}', (num, tableName) => {
 	const locator = locate('tbody tr').inside(locate('//table/caption').withText(tableName));
 
-	I.seeNumberOfVisibleElements(locator, parseInt(num, 10));
+	I.seeNumberOfVisibleElements(locator, num);
 });
 
 Alors('je vois {string} dans la tuile {string}', (text, tileText) => {

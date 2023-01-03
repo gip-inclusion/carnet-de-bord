@@ -13,4 +13,4 @@ Fonctionnalité: Liste des bénéficiaires
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
-		Alors je vois "6" lignes dans la table "Liste des bénéficiaires"
+		Alors je vois 6 lignes dans le tableau "Liste des bénéficiaires"

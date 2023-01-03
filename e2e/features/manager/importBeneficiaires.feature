@@ -59,7 +59,7 @@ Fonctionnalité: Import de bénéficiaires
 		Quand je clique sur "Confirmer"
 		Quand je clique sur "Fermer"
 		Quand je clique sur "Bénéficiaires"
-		Quand j'attends que la table "Liste des bénéficiaires" apparaisse
+		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je recherche "fon"
 		Quand je clique sur "Rechercher"
 		Alors je vois "à orienter" sur la ligne "Fondue"

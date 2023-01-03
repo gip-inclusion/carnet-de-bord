@@ -8,7 +8,7 @@ Fonctionnalité: Consultation de la liste des professionnels par un administrate
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Quand je clique sur "Professionnels"
-		Quand j'attends que la table "Liste des professionnels" apparaisse
+		Quand j'attends que le tableau "Liste des professionnels" apparaisse
 		Alors je vois la colonne "Prénom nom"
 		Alors je vois la colonne "Téléphone"
 		Alors je vois la colonne "Email"
