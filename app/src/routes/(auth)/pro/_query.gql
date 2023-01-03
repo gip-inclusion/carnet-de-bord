@@ -4,8 +4,11 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
     ) {
     id
     members(where: {accountId: {_eq: $accountId}}) {
+      accountId
       lastVisitedAt
       lastModifiedAt
+      active
+      memberType
     }
     beneficiary {
       id

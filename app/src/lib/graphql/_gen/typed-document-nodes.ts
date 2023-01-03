@@ -14581,8 +14581,11 @@ export type GetLastVisitedOrUpdatedQuery = {
 		id: string;
 		members: Array<{
 			__typename?: 'notebook_member';
+			accountId: string;
 			lastVisitedAt?: string | null;
 			lastModifiedAt?: string | null;
+			active?: boolean | null;
+			memberType: string;
 		}>;
 		beneficiary: {
 			__typename?: 'beneficiary';
@@ -23256,8 +23259,11 @@ export const GetLastVisitedOrUpdatedDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastVisitedAt' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'active' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
 										],
 									},
 								},

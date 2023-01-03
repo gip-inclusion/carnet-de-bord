@@ -1,9 +1,11 @@
 <script lang="ts">
-	import type { SearchPublicNotebooksQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { SearchPublicNotebooksQuery, GetLastVisitedOrUpdatedQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 
-	type PublicNotebook = SearchPublicNotebooksQuery['notebooks'][0];
+  type PublicNotebook = SearchPublicNotebooksQuery['notebooks'][0] | GetLastVisitedOrUpdatedQuery['notebook'][0];
+
+
 
 	export let notebooks: PublicNotebook[];
 	export let accountId: string;
