@@ -1,14 +1,29 @@
 <script lang="ts">
-	import { GetLastVisitedOrUpdatedDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetLastVisitedOrUpdatedDocument, type GetLastVisitedOrUpdatedQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { operationStore, query } from '@urql/svelte';
 	import { goto } from '$app/navigation';
 	import { ProBeneficiaryCard, ProBeneficiarySearchBar } from '$lib/ui';
 	import { accountData } from '$lib/stores';
+	import ProSearchResults from '$lib/ui/BeneficiaryList/ProSearchResults.svelte';
 
 	const result = operationStore(GetLastVisitedOrUpdatedDocument, { accountId: $accountData.id });
 
 	query(result);
+
+  type Notebook = GetLastVisitedOrUpdatedQuery['notebook'][0]
+
+	$: notebooks = $result.data ? $result.data.notebook : [];
+  $: lastVisitedNotebooks = notebooks.slice().sort(sortByLastVisited).slice(0, 3)
+  $: lastModifiedNotebooks = notebooks.slice().sort(sortByLastModified).slice(0, 3)
+
+  function sortByLastVisited(n1: Notebook, n2: Notebook): number {
+    return new Date(n2.members[0].lastVisitedAt).getTime() - new Date(n1.members[0].lastVisitedAt).getTime()
+  }
+
+  function sortByLastModified(n1: Notebook, n2: Notebook): number {
+    return new Date(n2.members[0].lastModifiedAt).getTime() - new Date(n1.members[0].lastModifiedAt).getTime()
+  }
 
 	function onSearch({ detail }) {
 		const { search } = detail;
@@ -32,11 +47,11 @@
 	<div>
 		<h2 class="fr-h5 text-france-blue">Derniers profils consultés</h2>
 		<div class="fr-grid-row fr-grid-row--gutters">
-			{#each $result.data.lastVisited as lastVisited, i (i)}
+			{#each lastVisitedNotebooks as lastVisitedNotebook, i (i)}
 				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
 					<ProBeneficiaryCard
-						href={carnetUrl(lastVisited.notebook)}
-						beneficiary={lastVisited.notebook.beneficiary}
+						href={carnetUrl(lastVisitedNotebook)}
+						beneficiary={lastVisitedNotebook.beneficiary}
 					/>
 				</div>
 			{:else}
@@ -47,11 +62,11 @@
 	<div>
 		<h2 class="fr-h5 text-france-blue">Derniers profils modifiés</h2>
 		<div class="fr-grid-row fr-grid-row--gutters">
-			{#each $result.data.lastUpdated as lastUpdated, i (i)}
+			{#each lastModifiedNotebooks as lastModifiedNotebook, i (i)}
 				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
 					<ProBeneficiaryCard
-						href={carnetUrl(lastUpdated.notebook)}
-						beneficiary={lastUpdated.notebook.beneficiary}
+						href={carnetUrl(lastModifiedNotebook)}
+						beneficiary={lastModifiedNotebook.beneficiary}
 					/>
 				</div>
 			{:else}
@@ -59,4 +74,12 @@
 			{/each}
 		</div>
 	</div>
+
+	<div>
+		<h2 class="fr-h5 text-france-blue">Mes bénéficiaires</h2>
+    <ProSearchResults {notebooks} accountId={$accountData.id} />
+	</div>
 </LoaderIndicator>
+
+ 
+ 
