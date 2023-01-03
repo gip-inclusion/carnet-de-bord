@@ -1,3 +1,10 @@
+## [1.178.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.2...v1.178.3) (2023-01-03)
+
+
+### Bug Fixes
+
+* afficher seulement les bénéficiaires de la structure avec l'option tous ([#1381](https://github.com/gip-inclusion/carnet-de-bord/issues/1381)) ([6b79e38](https://github.com/gip-inclusion/carnet-de-bord/commit/6b79e38aa45588d6472c1a3c447dd084ffce1f12)), closes [#1380](https://github.com/gip-inclusion/carnet-de-bord/issues/1380)
+
 ## [1.178.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.1...v1.178.2) (2023-01-03)
 
 ## [1.178.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.0...v1.178.1) (2023-01-02)
