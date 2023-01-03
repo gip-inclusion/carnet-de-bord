@@ -16,11 +16,11 @@ Fonctionnalité: Voir les infos de ma structure
 		Alors je vois "Orial Edith" sur la ligne "Lindsay"
 		Alors je vois "Orial Edith" sur la ligne "Valenzuela"
 
-	Scénario: Bénéficiaires non rattachés
+	Scénario: Bénéficiaires non accompagnés
 		Soit un "administrateur de structures" authentifié avec l'email "lara.pafromage@cd93.fr"
 		Quand je clique sur "Interlogement 93"
 		Alors je vois "Portefeuille de la structure"
-		Alors je vois "2" dans la tuile "Bénéficiaires non rattachés"
-		Quand je clique sur "Bénéficiaires non rattachés"
+		Alors je vois "2" dans la tuile "Bénéficiaires non accompagnés"
+		Quand je clique sur "Bénéficiaires non accompagnés"
 		Alors je vois "Non rattaché" sur la ligne "Gallegos"
 		Alors je vois "Non rattaché" sur la ligne "Carlson"

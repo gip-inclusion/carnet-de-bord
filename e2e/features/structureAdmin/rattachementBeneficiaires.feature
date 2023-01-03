@@ -23,8 +23,8 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
-		Alors je vois "18" dans la tuile "Bénéficiaires non rattachés"
-		Alors je clique sur "Bénéficiaires non rattachés"
+		Alors je vois "18" dans la tuile "Bénéficiaires non accompagnés"
+		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
 		Alors je choisis "Sélectionner Katrina Beach"
@@ -42,8 +42,8 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
-		Alors je vois "18" dans la tuile "Bénéficiaires non rattachés"
-		Alors je clique sur "Bénéficiaires non rattachés"
+		Alors je vois "18" dans la tuile "Bénéficiaires non accompagnés"
+		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
 		Quand je recherche "Beach"

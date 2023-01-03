@@ -7,7 +7,7 @@ Fonctionnalité: Consultation d'un carnet par un gestionnaire de structure
 	Scénario: voir un carnet par un gestionnaire de structure
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
-		Alors je clique sur "Bénéficiaires non rattachés"
+		Alors je clique sur "Bénéficiaires non accompagnés"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je clique sur "Voir le carnet de Lindsay Aguilar"
 		Quand je vais sur l'onglet suivant

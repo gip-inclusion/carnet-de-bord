@@ -229,6 +229,12 @@ Alors('je vois {int} résultats sous le texte {string}', (num, title) => {
 	);
 });
 
+Alors('je vois {string} lignes dans la table {string}', (num, tableName) => {
+	const locator = locate('tbody tr').inside(locate('//table/caption').withText(tableName));
+
+	I.seeNumberOfVisibleElements(locator, parseInt(num, 10));
+});
+
 Alors('je vois {string} dans la tuile {string}', (text, tileText) => {
 	const locator = locate('.fr-card').withDescendant(locate('*').withText(tileText));
 	I.see(text, locator);

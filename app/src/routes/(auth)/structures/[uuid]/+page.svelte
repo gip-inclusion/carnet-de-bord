@@ -67,7 +67,7 @@
 			label: `${pluralize(
 				'Bénéficiaire',
 				structure?.beneficiaries?.aggregate?.count ?? 0
-			)} non ${pluralize('rattaché', structure?.beneficiaries?.aggregate?.count ?? 0)}`,
+			)} non ${pluralize('accompagné', structure?.beneficiaries?.aggregate?.count ?? 0)}`,
 			amount: structure?.beneficiaries?.aggregate?.count ?? 0,
 			classNames:
 				structure?.beneficiaries?.aggregate?.count > 0 ? 'text-marianne-red' : 'text-success',
