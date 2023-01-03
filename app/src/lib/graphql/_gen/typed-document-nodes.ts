@@ -11066,6 +11066,8 @@ export type Structure = {
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	name: Scalars['citext'];
+	/** a computed field, executes function nb_beneficiary_for_structure  */
+	nbBeneficiary?: Maybe<Scalars['bigint']>;
 	phone?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	/** An array relationship */
@@ -11196,6 +11198,7 @@ export type StructureBoolExp = {
 	email?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	name?: InputMaybe<CitextComparisonExp>;
+	nbBeneficiary?: InputMaybe<BigintComparisonExp>;
 	phone?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
 	professionals?: InputMaybe<ProfessionalBoolExp>;
@@ -11346,6 +11349,7 @@ export type StructureOrderBy = {
 	email?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	name?: InputMaybe<OrderBy>;
+	nbBeneficiary?: InputMaybe<OrderBy>;
 	phone?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	professionals_aggregate?: InputMaybe<ProfessionalAggregateOrderBy>;
@@ -15098,10 +15102,7 @@ export type GetManagedStructuresQuery = {
 		id: string;
 		city?: string | null;
 		name: string;
-		beneficiaries_aggregate: {
-			__typename?: 'beneficiary_structure_aggregate';
-			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
-		};
+		nbBeneficiary?: any | null;
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
 			aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
@@ -25748,23 +25749,7 @@ export const GetManagedStructuresDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
-												},
-											},
-										],
-									},
-								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'nbBeneficiary' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals_aggregate' },

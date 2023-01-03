@@ -93,7 +93,7 @@
 
 		if (filter === 'all' && structureId) {
 			graphqlFilter._or = [
-				{ structures: { structureId: { _eq: structureId } } },
+				{ structures: { status: { _neq: 'outdated' }, structureId: { _eq: structureId } } },
 				{
 					notebook: {
 						members: {
