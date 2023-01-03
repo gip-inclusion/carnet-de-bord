@@ -115,29 +115,24 @@ async def change_beneficiary_orientation(
 
         mutations = mutations | get_notebook_info_mutation(data, dsl_schema)
 
-        former_structure_id = None
-        if orientation_info.beneficiary["structures"]:
-            former_structure_id = orientation_info.beneficiary["structures"][0][
-                "structureId"
-            ]
-
-        structure_changed = str(data.structure_id) != str(former_structure_id)
+        structure_changed = str(data.structure_id) != str(
+            orientation_info.former_structure_id
+        )
 
         if structure_changed:
             mutations = mutations | get_beneficiary_structure_mutation(data, dsl_schema)
 
         has_new_referent = data.new_referent_account_id is not None
-        has_old_referent = orientation_info.former_referent_account_id is not None
         are_old_new_referents_different = str(data.new_referent_account_id) != str(
             orientation_info.former_referent_account_id
         )
         need_notebook_member_deactivation = (
             has_new_referent and are_old_new_referents_different
-        ) or (has_old_referent and not has_new_referent)
+        ) or (orientation_info.has_old_referent and not has_new_referent)
         if need_notebook_member_deactivation:
             mutations = mutations | get_notebook_members_mutation(data, dsl_schema)
 
-            if has_old_referent:
+            if orientation_info.has_old_referent:
                 mutations = mutations | get_former_referent_mutation(
                     data, dsl_schema, orientation_info.former_referent_account_id
                 )
@@ -152,7 +147,6 @@ async def change_beneficiary_orientation(
             for member in orientation_info.former_referents
         ]
         beneficiary = Person.parse_from_gql(orientation_info.beneficiary)
-        new_structure = orientation_info.new_structure["name"]
 
         for referent in former_referents:
             background_tasks.add_task(
@@ -161,7 +155,7 @@ async def change_beneficiary_orientation(
                 beneficiary=beneficiary,
                 orientation=data.orientation_type,
                 former_referents=former_referents,
-                new_structure=new_structure,
+                new_structure=orientation_info.new_structure["name"],
                 new_referent=Member.parse_from_gql(orientation_info.new_referent)
                 if orientation_info.new_referent is not None
                 else None,
@@ -177,7 +171,7 @@ async def change_beneficiary_orientation(
                 beneficiary=beneficiary,
                 former_referents=former_referents,
                 orientation=data.orientation_type,
-                new_structure=new_structure,
+                new_structure=orientation_info.new_structure["name"],
             )
 
         return response

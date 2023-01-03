@@ -70,8 +70,7 @@ async def add_notebook_members(
                 request.state.account.id, notebook_id, dsl_schema
             )
 
-            has_old_referent = orientation_info.former_referent_account_id is not None
-            if has_old_referent:
+            if orientation_info.has_old_referent:
                 mutations = mutations | get_former_referent_mutation(
                     notebook_id, dsl_schema, orientation_info.former_referent_account_id
                 )
@@ -81,7 +80,6 @@ async def add_notebook_members(
                     Member.parse_from_gql(member["account"]["professional"])
                     for member in orientation_info.former_referents
                 ]
-                new_structure = orientation_info.new_structure["name"]
                 for referent in former_referents:
                     background_tasks.add_task(
                         send_notebook_member_email,
@@ -89,7 +87,7 @@ async def add_notebook_members(
                         beneficiary=beneficiary,
                         orientation=None,
                         former_referents=former_referents,
-                        new_structure=new_structure,
+                        new_structure=orientation_info.new_structure["name"],
                         new_referent=Member.parse_from_gql(
                             orientation_info.new_referent
                         )
@@ -101,6 +99,12 @@ async def add_notebook_members(
             data.member_type,
             request.state.account.id,
             notebook_id,
+            dsl_schema,
+        )
+
+        mutations = mutations | get_beneficiary_structure_mutation(
+            orientation_info.beneficiary["id"],
+            request.state.account.structure_id,
             dsl_schema,
         )
 
@@ -174,4 +178,29 @@ def get_notebook_members_deactivation_mutation(
         ).select(
             dsl_schema.notebook_member_mutation_response.affected_rows
         )
+    }
+
+
+def get_beneficiary_structure_mutation(
+    beneficiary_id: UUID, structure_id: UUID, dsl_schema: DSLSchema
+) -> dict[str, DSLField]:
+    return {
+        "deactivate_old_structure": dsl_schema.mutation_root.update_beneficiary_structure.args(
+            where={
+                "beneficiaryId": {"_eq": str(beneficiary_id)},
+                "status": {"_eq": "current"},
+            },
+            _set={"status": "outdated"},
+        ).select(
+            dsl_schema.beneficiary_structure_mutation_response.affected_rows
+        ),
+        "add_new_structure": dsl_schema.mutation_root.insert_beneficiary_structure_one.args(
+            object={
+                "beneficiaryId": str(beneficiary_id),
+                "structureId": str(structure_id),
+                "status": "current",
+            },
+        ).select(
+            dsl_schema.beneficiary_structure.id
+        ),
     }

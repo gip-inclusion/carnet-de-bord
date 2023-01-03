@@ -8,9 +8,24 @@ class OrientationInfoDTO:
         self.former_referents = former_referents
         self.new_structure = new_structure
         self.new_referent = new_referent
-        self.former_referent_account_id = (
-            former_referents[0]["account"]["id"] if len(former_referents) > 0 else None
+
+    @property
+    def former_referent_account_id(self):
+        return (
+            self.former_referents[0]["account"]["id"]
+            if len(self.former_referents) > 0
+            else None
         )
+
+    @property
+    def former_structure_id(self):
+        return (
+            self.beneficiary["structures"][0] if self.beneficiary is not None else None
+        )
+
+    @property
+    def has_old_referent(self):
+        return self.former_referent_account_id is not None
 
     @classmethod
     def parse_from_gql(cls, orientation_info_response, with_new_referent):

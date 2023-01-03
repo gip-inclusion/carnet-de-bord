@@ -6,6 +6,7 @@ query orientationInfos(
 ) {
   notebook: notebook_public_view(where: { id: { _eq: $notebook_id } }) {
     beneficiary {
+      id
       orientation_request: orientationRequest(
         where: { decidedAt: { _is_null: true } }
       ) {

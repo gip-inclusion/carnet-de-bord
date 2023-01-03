@@ -3,10 +3,11 @@ from unittest import mock
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
+from api.db.crud.beneficiary import get_structures_for_beneficiary
 from api.db.crud.notebook import get_notebook_members_by_notebook_id
 from api.db.models.notebook import Notebook
 from api.db.models.professional import Professional
-from tests.utils.assert_helpers import assert_member
+from tests.utils.assert_helpers import assert_member, assert_structure
 
 
 @mock.patch("api.core.emails.send_mail")
@@ -94,4 +95,22 @@ async def test_add_notebook_member_as_referent(
     # Check that an email is sent to former referent
     email_former_referent = mock_send_email.call_args_list[0]
     assert snapshot == email_former_referent
-    # TODO: assert that beneficiary_structure has been updated
+
+    structures = await get_structures_for_beneficiary(
+        db_connection,
+        notebook_sophie_tifour.beneficiary_id,
+    )
+
+    # Check that former structure has been set as 'outdated'
+    assert_structure(
+        structures,
+        beneficiary_status="outdated",
+        structure_name="Centre Communal d'action social Livry-Gargan",
+    )
+
+    # Check that new structure has been added as 'current'
+    assert_structure(
+        structures,
+        beneficiary_status="current",
+        structure_name="Service Social Départemental",
+    )
