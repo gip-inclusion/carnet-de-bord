@@ -63,7 +63,7 @@ query GetDeploymentStatForDay($day: timestamptz!, $last30Days: timestamptz!, $de
     }
   }
   nbNotbookWith2MembersOrMore: notebook_aggregate(
-    where: { nbMembers: { _gte: 2 }, beneficiary: { deploymentId: { _eq: $deploymentId } } }
+    where: { notebookMemberCount: { _gte: 2 }, beneficiary: { deploymentId: { _eq: $deploymentId } } }
   ) {
     aggregate {
       count

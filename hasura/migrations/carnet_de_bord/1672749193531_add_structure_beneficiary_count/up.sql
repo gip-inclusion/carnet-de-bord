@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION public.nb_beneficiary_for_structure(structure_row str
  LANGUAGE sql
  STABLE
 AS $function$
-    SELECT  count(*)
+    SELECT  count(DISTINCT N.id)
     FROM notebook N
     LEFT JOIN notebook_member NM on NM.notebook_id = N.id
     LEFT JOIN account A on A.id = NM.account_id

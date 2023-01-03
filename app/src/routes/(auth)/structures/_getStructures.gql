@@ -3,7 +3,7 @@ query GetManagedStructures($adminId: uuid!) {
     id
     city
     name
-    nbBeneficiary
+    beneficiaryCount
     professionals_aggregate {
       aggregate {
         count
