@@ -9,9 +9,13 @@
 	import { Breadcrumbs } from '$lib/ui/base';
 	import { LoaderIndicator } from '$lib/ui/utils';
 
-	export let structureResult = operationStore(GetManagedStructuresDocument, {
-		adminId: $accountData.admin_structure.id,
-	});
+	export let structureResult = operationStore(
+		GetManagedStructuresDocument,
+		{
+			adminId: $accountData.admin_structure.id,
+		},
+		{ requestPolicy: 'network-only' }
+	);
 
 	query(structureResult);
 
@@ -20,7 +24,7 @@
 		name: data.name,
 		city: data.city,
 		nbAdmin: data.admins_aggregate.aggregate.count,
-		nbBeneficiary: data.beneficiaries_aggregate.aggregate.count,
+		beneficiaryCount: data.beneficiaryCount,
 		nbProfessional: data.professionals_aggregate.aggregate.count,
 	}));
 

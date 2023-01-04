@@ -34,7 +34,7 @@ services:
       - .env.test
     environment:
       HASURA_GRAPHQL_DEV_MODE: 'true'
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log
       HASURA_GRAPHQL_ENABLE_TELEMETRY: 'false'
 
 volumes:

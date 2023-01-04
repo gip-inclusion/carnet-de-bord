@@ -6762,11 +6762,11 @@ type notebook {
     where: notebook_member_bool_exp
   ): notebook_member_aggregate!
 
-  """return the number of professionnal for a notebook"""
-  nbMembers: bigint
-
   """An object relationship"""
   notebookInfo: notebook_info
+
+  """return the number of professionnal for a notebook"""
+  notebookMemberCount: bigint
   rightAre: Boolean!
   rightAss: Boolean
   rightBonus: Boolean!
@@ -7495,8 +7495,8 @@ input notebook_bool_exp {
   id: uuid_comparison_exp
   members: notebook_member_bool_exp
   members_aggregate: notebook_member_aggregate_bool_exp
-  nbMembers: bigint_comparison_exp
   notebookInfo: notebook_info_bool_exp
+  notebookMemberCount: bigint_comparison_exp
   rightAre: Boolean_comparison_exp
   rightAss: Boolean_comparison_exp
   rightBonus: Boolean_comparison_exp
@@ -9286,8 +9286,8 @@ input notebook_order_by {
   geographicalArea: order_by
   id: order_by
   members_aggregate: notebook_member_aggregate_order_by
-  nbMembers: order_by
   notebookInfo: notebook_info_order_by
+  notebookMemberCount: order_by
   rightAre: order_by
   rightAss: order_by
   rightBonus: order_by
@@ -13970,6 +13970,9 @@ type structure {
     """filter the rows returned"""
     where: beneficiary_structure_bool_exp
   ): beneficiary_structure_aggregate!
+
+  """a computed field, executes function nb_beneficiary_for_structure """
+  beneficiaryCount: bigint
   city: String
   createdAt: timestamptz
 
@@ -14083,6 +14086,7 @@ input structure_bool_exp {
   admins_aggregate: admin_structure_structure_aggregate_bool_exp
   beneficiaries: beneficiary_structure_bool_exp
   beneficiaries_aggregate: beneficiary_structure_aggregate_bool_exp
+  beneficiaryCount: bigint_comparison_exp
   city: String_comparison_exp
   createdAt: timestamptz_comparison_exp
   deployment: deployment_bool_exp
@@ -14251,6 +14255,7 @@ input structure_order_by {
   address2: order_by
   admins_aggregate: admin_structure_structure_aggregate_order_by
   beneficiaries_aggregate: beneficiary_structure_aggregate_order_by
+  beneficiaryCount: order_by
   city: order_by
   createdAt: order_by
   deployment: deployment_order_by

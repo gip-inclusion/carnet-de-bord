@@ -5379,10 +5379,10 @@ export type Notebook = {
 	members: Array<NotebookMember>;
 	/** An aggregate relationship */
 	members_aggregate: NotebookMemberAggregate;
-	/** return the number of professionnal for a notebook */
-	nbMembers?: Maybe<Scalars['bigint']>;
 	/** An object relationship */
 	notebookInfo?: Maybe<NotebookInfo>;
+	/** return the number of professionnal for a notebook */
+	notebookMemberCount?: Maybe<Scalars['bigint']>;
 	rightAre: Scalars['Boolean'];
 	rightAss?: Maybe<Scalars['Boolean']>;
 	rightBonus: Scalars['Boolean'];
@@ -6081,8 +6081,8 @@ export type NotebookBoolExp = {
 	id?: InputMaybe<UuidComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
-	nbMembers?: InputMaybe<BigintComparisonExp>;
 	notebookInfo?: InputMaybe<NotebookInfoBoolExp>;
+	notebookMemberCount?: InputMaybe<BigintComparisonExp>;
 	rightAre?: InputMaybe<BooleanComparisonExp>;
 	rightAss?: InputMaybe<BooleanComparisonExp>;
 	rightBonus?: InputMaybe<BooleanComparisonExp>;
@@ -7215,7 +7215,7 @@ export type NotebookMember = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType: Scalars['String'];
-	membershipEndedAt?: Maybe<Scalars['date']>;
+	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
@@ -7299,7 +7299,7 @@ export type NotebookMemberBoolExp = {
 	lastModifiedAt?: InputMaybe<TimestamptzComparisonExp>;
 	lastVisitedAt?: InputMaybe<TimestamptzComparisonExp>;
 	memberType?: InputMaybe<StringComparisonExp>;
-	membershipEndedAt?: InputMaybe<DateComparisonExp>;
+	membershipEndedAt?: InputMaybe<TimestamptzComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
 };
@@ -7327,7 +7327,7 @@ export type NotebookMemberInsertInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
-	membershipEndedAt?: InputMaybe<Scalars['date']>;
+	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
@@ -7343,7 +7343,7 @@ export type NotebookMemberMaxFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
-	membershipEndedAt?: Maybe<Scalars['date']>;
+	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7372,7 +7372,7 @@ export type NotebookMemberMinFields = {
 	lastModifiedAt?: Maybe<Scalars['timestamptz']>;
 	lastVisitedAt?: Maybe<Scalars['timestamptz']>;
 	memberType?: Maybe<Scalars['String']>;
-	membershipEndedAt?: Maybe<Scalars['date']>;
+	membershipEndedAt?: Maybe<Scalars['timestamptz']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 };
 
@@ -7478,7 +7478,7 @@ export type NotebookMemberSetInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
-	membershipEndedAt?: InputMaybe<Scalars['date']>;
+	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -7501,7 +7501,7 @@ export type NotebookMemberStreamCursorValueInput = {
 	lastModifiedAt?: InputMaybe<Scalars['timestamptz']>;
 	lastVisitedAt?: InputMaybe<Scalars['timestamptz']>;
 	memberType?: InputMaybe<Scalars['String']>;
-	membershipEndedAt?: InputMaybe<Scalars['date']>;
+	membershipEndedAt?: InputMaybe<Scalars['timestamptz']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -7595,8 +7595,8 @@ export type NotebookOrderBy = {
 	geographicalArea?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
-	nbMembers?: InputMaybe<OrderBy>;
 	notebookInfo?: InputMaybe<NotebookInfoOrderBy>;
+	notebookMemberCount?: InputMaybe<OrderBy>;
 	rightAre?: InputMaybe<OrderBy>;
 	rightAss?: InputMaybe<OrderBy>;
 	rightBonus?: InputMaybe<OrderBy>;
@@ -11058,6 +11058,8 @@ export type Structure = {
 	beneficiaries: Array<BeneficiaryStructure>;
 	/** An aggregate relationship */
 	beneficiaries_aggregate: BeneficiaryStructureAggregate;
+	/** a computed field, executes function nb_beneficiary_for_structure  */
+	beneficiaryCount?: Maybe<Scalars['bigint']>;
 	city?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
@@ -11189,6 +11191,7 @@ export type StructureBoolExp = {
 	admins_aggregate?: InputMaybe<AdminStructureStructureAggregateBoolExp>;
 	beneficiaries?: InputMaybe<BeneficiaryStructureBoolExp>;
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryStructureAggregateBoolExp>;
+	beneficiaryCount?: InputMaybe<BigintComparisonExp>;
 	city?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment?: InputMaybe<DeploymentBoolExp>;
@@ -11339,6 +11342,7 @@ export type StructureOrderBy = {
 	address2?: InputMaybe<OrderBy>;
 	admins_aggregate?: InputMaybe<AdminStructureStructureAggregateOrderBy>;
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
+	beneficiaryCount?: InputMaybe<OrderBy>;
 	city?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	deployment?: InputMaybe<DeploymentOrderBy>;
@@ -15098,10 +15102,7 @@ export type GetManagedStructuresQuery = {
 		id: string;
 		city?: string | null;
 		name: string;
-		beneficiaries_aggregate: {
-			__typename?: 'beneficiary_structure_aggregate';
-			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
-		};
+		beneficiaryCount?: any | null;
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
 			aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
@@ -25748,23 +25749,7 @@ export const GetManagedStructuresDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'aggregate' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
-												},
-											},
-										],
-									},
-								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryCount' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals_aggregate' },
@@ -26834,7 +26819,7 @@ export const GetDeploymentStatForDayDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'nbMembers' },
+											name: { kind: 'Name', value: 'notebookMemberCount' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [

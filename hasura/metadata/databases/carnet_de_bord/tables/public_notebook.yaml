@@ -104,7 +104,7 @@ array_relationships:
           name: wanted_job
           schema: public
 computed_fields:
-  - name: nbMembers
+  - name: notebookMemberCount
     definition:
       function:
         name: nb_member
@@ -199,7 +199,7 @@ select_permissions:
         - work_situation_date
         - work_situation_end_date
       computed_fields:
-        - nbMembers
+        - notebookMemberCount
       filter: {}
       allow_aggregations: true
   - role: admin_structure
@@ -224,7 +224,7 @@ select_permissions:
         - work_situation_date
         - work_situation_end_date
       computed_fields:
-        - nbMembers
+        - notebookMemberCount
       filter:
         _or:
           - members:
@@ -266,7 +266,7 @@ select_permissions:
         - work_situation_date
         - work_situation_end_date
       computed_fields:
-        - nbMembers
+        - notebookMemberCount
       filter:
         beneficiary_id:
           _eq: X-Hasura-Beneficiary-Id
@@ -292,7 +292,7 @@ select_permissions:
         - work_situation_date
         - work_situation_end_date
       computed_fields:
-        - nbMembers
+        - notebookMemberCount
       filter:
         beneficiary:
           deployment_id:
@@ -320,7 +320,7 @@ select_permissions:
         - contract_start_date
         - contract_end_date
       computed_fields:
-        - nbMembers
+        - notebookMemberCount
       filter:
         beneficiary:
           deployment_id:

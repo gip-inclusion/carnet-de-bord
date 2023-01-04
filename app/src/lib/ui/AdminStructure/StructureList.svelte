@@ -9,7 +9,7 @@
 		city: string;
 		nbAdmin: number;
 		nbProfessional: number;
-		nbBeneficiary: number;
+		beneficiaryCount: number;
 	};
 	export let structures: StructureCard[];
 </script>
@@ -30,7 +30,10 @@
 							{structure.nbProfessional}
 							{pluralize('accompagnateur', structure.nbProfessional)}
 						</li>
-						<li>{structure.nbBeneficiary} {pluralize('bénéficiaire', structure.nbBeneficiary)}</li>
+						<li>
+							{structure.beneficiaryCount}
+							{pluralize('bénéficiaire', structure.beneficiaryCount)}
+						</li>
 					</ul>
 					<p class="fr-card__detail">{structure.city}</p>
 				</div>
