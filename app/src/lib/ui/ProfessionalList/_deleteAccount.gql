@@ -4,7 +4,7 @@ mutation DeleteAccount($accountId: uuid!) {
   }
   update_notebook_member(
     where: { accountId: { _eq: $accountId }, active: { _eq: true } }
-    _set: { active: false }
+    _set: { active: false, membershipEndedAt: now }
   ) {
     affected_rows
   }

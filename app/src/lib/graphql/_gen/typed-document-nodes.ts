@@ -21140,6 +21140,11 @@ export const DeleteAccountDocument = {
 											name: { kind: 'Name', value: 'active' },
 											value: { kind: 'BooleanValue', value: false },
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
 									],
 								},
 							},
