@@ -98,6 +98,7 @@ export const focusThemeKeys = buildKeys({
 	sante: 'Santé',
 	contraintes_familiales: 'Contraintes familiales',
 	maitrise_langue: 'Maîtrise de la langue française',
+	numerique: 'Numérique',
 });
 
 // Appointments
