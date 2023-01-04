@@ -135,7 +135,7 @@ def get_new_notebook_member_mutation(
 def get_former_referent_mutation(
     notebook_id: UUID,
     dsl_schema: DSLSchema,
-    former_referent_account_id,
+    former_referent_account_id: UUID,
 ) -> dict[str, DSLField]:
     return {
         "create_former_referent_row": dsl_schema.mutation_root.insert_notebook_member_one.args(

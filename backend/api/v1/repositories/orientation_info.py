@@ -10,7 +10,7 @@ class OrientationInfoDTO:
         self.new_referent = new_referent
 
     @property
-    def former_referent_account_id(self):
+    def former_referent_account_id(self) -> UUID | None:
         return (
             self.former_referents[0]["account"]["id"]
             if len(self.former_referents) > 0
@@ -18,13 +18,13 @@ class OrientationInfoDTO:
         )
 
     @property
-    def former_structure_id(self):
+    def former_structure_id(self) -> dict | None:
         return (
             self.beneficiary["structures"][0] if self.beneficiary is not None else None
         )
 
     @property
-    def has_old_referent(self):
+    def has_old_referent(self) -> bool:
         return self.former_referent_account_id is not None
 
     @classmethod
