@@ -8,11 +8,11 @@ from gql import Client, gql
 from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
-from strenum import StrEnum
 
 from api._gen.schema_gql import schema
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
+from api.db.models.member_type import MemberTypeEnum
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
 from api.v1.repositories.orientation_info import OrientationInfoRepository
@@ -24,11 +24,6 @@ router = APIRouter(
 
 
 logger = logging.getLogger(__name__)
-
-
-class MemberTypeEnum(StrEnum):
-    referent = "referent"
-    no_referent = "no_referent"
 
 
 class AddNotebookMemberInput(BaseModel):
