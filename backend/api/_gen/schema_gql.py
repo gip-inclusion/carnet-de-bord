@@ -16824,5 +16824,5 @@ input wanted_job_updates {
   _set: wanted_job_set_input
   where: wanted_job_bool_exp!
 }
-'''
+    '''
 )

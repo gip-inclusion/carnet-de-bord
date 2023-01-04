@@ -13,8 +13,8 @@ cat > $pyfile <<EOF
 from graphql import build_schema
 
 schema = build_schema(
-'''
+    '''
 $(poetry run gql-cli http://localhost:5000/v1/graphql --print-schema -H 'x-hasura-admin-secret:admin')
-'''
+    '''
 )
 EOF
