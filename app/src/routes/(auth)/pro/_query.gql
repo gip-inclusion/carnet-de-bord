@@ -1,47 +1,29 @@
 query GetLastVisitedOrUpdated($accountId: uuid!) {
-  lastVisited: notebook_member(
-    order_by: { lastVisitedAt: desc_nulls_last }
-    limit: 3
-    where: {
-      active: { _eq: true }
-      accountId: { _eq: $accountId }
-      lastVisitedAt: { _is_null: false }
-    }
-  ) {
-    notebook {
-      ...notebookRecentFragment
-    }
-  }
-  lastUpdated: notebook_member(
-    order_by: { lastModifiedAt: desc_nulls_last }
-    limit: 3
-    where: {
-      active: { _eq: true }
-      accountId: { _eq: $accountId }
-      lastModifiedAt: { _is_null: false }
-    }
-  ) {
-    notebook {
-      ...notebookRecentFragment
-    }
-  }
-}
-
-fragment notebookRecentFragment on notebook {
-  id
-  beneficiary {
+  notebook(
+    order_by: [{beneficiary:{lastname: asc_nulls_first}}, {beneficiary:{firstname: asc_nulls_first}}]
+    ) {
     id
-    firstname
-    lastname
-    mobileNumber
-    dateOfBirth
-    orientationRequest(order_by: { createdAt: desc }, limit: 1) {
+    members(where: {accountId: {_eq: $accountId}}) {
+      accountId
+      lastVisitedAt
+      lastModifiedAt
+      active
+      memberType
+    }
+    beneficiary {
       id
-      status
-      createdAt
-      decidedAt
-      requestedOrientationType {
-        label
+      firstname
+      lastname
+      mobileNumber
+      dateOfBirth
+      orientationRequest(order_by: { createdAt: desc }, limit: 1) {
+        id
+        status
+        createdAt
+        decidedAt
+        requestedOrientationType {
+          label
+        }
       }
     }
   }

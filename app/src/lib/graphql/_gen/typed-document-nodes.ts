@@ -14576,73 +14576,34 @@ export type GetLastVisitedOrUpdatedQueryVariables = Exact<{
 
 export type GetLastVisitedOrUpdatedQuery = {
 	__typename?: 'query_root';
-	lastVisited: Array<{
-		__typename?: 'notebook_member';
-		notebook: {
-			__typename?: 'notebook';
-			id: string;
-			beneficiary: {
-				__typename?: 'beneficiary';
-				id: string;
-				firstname: string;
-				lastname: string;
-				mobileNumber?: string | null;
-				dateOfBirth: string;
-				orientationRequest: Array<{
-					__typename?: 'orientation_request';
-					id: string;
-					status?: string | null;
-					createdAt: string;
-					decidedAt?: string | null;
-					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
-				}>;
-			};
-		};
-	}>;
-	lastUpdated: Array<{
-		__typename?: 'notebook_member';
-		notebook: {
-			__typename?: 'notebook';
-			id: string;
-			beneficiary: {
-				__typename?: 'beneficiary';
-				id: string;
-				firstname: string;
-				lastname: string;
-				mobileNumber?: string | null;
-				dateOfBirth: string;
-				orientationRequest: Array<{
-					__typename?: 'orientation_request';
-					id: string;
-					status?: string | null;
-					createdAt: string;
-					decidedAt?: string | null;
-					requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
-				}>;
-			};
-		};
-	}>;
-};
-
-export type NotebookRecentFragmentFragment = {
-	__typename?: 'notebook';
-	id: string;
-	beneficiary: {
-		__typename?: 'beneficiary';
+	notebook: Array<{
+		__typename?: 'notebook';
 		id: string;
-		firstname: string;
-		lastname: string;
-		mobileNumber?: string | null;
-		dateOfBirth: string;
-		orientationRequest: Array<{
-			__typename?: 'orientation_request';
-			id: string;
-			status?: string | null;
-			createdAt: string;
-			decidedAt?: string | null;
-			requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+		members: Array<{
+			__typename?: 'notebook_member';
+			accountId: string;
+			lastVisitedAt?: string | null;
+			lastModifiedAt?: string | null;
+			active?: boolean | null;
+			memberType: string;
 		}>;
-	};
+		beneficiary: {
+			__typename?: 'beneficiary';
+			id: string;
+			firstname: string;
+			lastname: string;
+			mobileNumber?: string | null;
+			dateOfBirth: string;
+			orientationRequest: Array<{
+				__typename?: 'orientation_request';
+				id: string;
+				status?: string | null;
+				createdAt: string;
+				decidedAt?: string | null;
+				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+			}>;
+		};
+	}>;
 };
 
 export type SearchNotebookMemberQueryVariables = Exact<{
@@ -15956,78 +15917,6 @@ export const NotebookFragmentFragmentDoc = {
 		},
 	],
 } as unknown as DocumentNode<NotebookFragmentFragment, unknown>;
-export const NotebookRecentFragmentFragmentDoc = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'notebookRecentFragment' },
-			typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook' } },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'beneficiary' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'orientationRequest' },
-									arguments: [
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'order_by' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'createdAt' },
-														value: { kind: 'EnumValue', value: 'desc' },
-													},
-												],
-											},
-										},
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'limit' },
-											value: { kind: 'IntValue', value: '1' },
-										},
-									],
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'requestedOrientationType' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'label' } }],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<NotebookRecentFragmentFragment, unknown>;
 export const EventFieldsFragmentDoc = {
 	kind: 'Document',
 	definitions: [
@@ -23282,75 +23171,51 @@ export const GetLastVisitedOrUpdatedDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'lastVisited' },
-						name: { kind: 'Name', value: 'notebook_member' },
+						name: { kind: 'Name', value: 'notebook' },
 						arguments: [
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },
 								value: {
-									kind: 'ObjectValue',
-									fields: [
+									kind: 'ListValue',
+									values: [
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastVisitedAt' },
-											value: { kind: 'EnumValue', value: 'desc_nulls_last' },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'limit' },
-								value: { kind: 'IntValue', value: '3' },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'active' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'BooleanValue', value: true },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'beneficiary' },
+													value: {
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'lastname' },
+																value: { kind: 'EnumValue', value: 'asc_nulls_first' },
+															},
+														],
 													},
-												],
-											},
+												},
+											],
 										},
 										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accountId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+											kind: 'ObjectValue',
+											fields: [
+												{
+													kind: 'ObjectField',
+													name: { kind: 'Name', value: 'beneficiary' },
+													value: {
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'firstname' },
+																value: { kind: 'EnumValue', value: 'asc_nulls_first' },
+															},
+														],
 													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastVisitedAt' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_is_null' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
+												},
+											],
 										},
 									],
 								},
@@ -23359,110 +23224,103 @@ export const GetLastVisitedOrUpdatedDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'notebook' },
+									name: { kind: 'Name', value: 'members' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'accountId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'accountId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
-											{
-												kind: 'FragmentSpread',
-												name: { kind: 'Name', value: 'notebookRecentFragment' },
-											},
+											{ kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastVisitedAt' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'active' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'memberType' } },
 										],
 									},
 								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'lastUpdated' },
-						name: { kind: 'Name', value: 'notebook_member' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastModifiedAt' },
-											value: { kind: 'EnumValue', value: 'desc_nulls_last' },
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'limit' },
-								value: { kind: 'IntValue', value: '3' },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'active' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'BooleanValue', value: true },
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'accountId' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-													},
-												],
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastModifiedAt' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_is_null' },
-														value: { kind: 'BooleanValue', value: false },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
 								{
 									kind: 'Field',
-									name: { kind: 'Name', value: 'notebook' },
+									name: { kind: 'Name', value: 'beneficiary' },
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
 											{
-												kind: 'FragmentSpread',
-												name: { kind: 'Name', value: 'notebookRecentFragment' },
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationRequest' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'limit' },
+														value: { kind: 'IntValue', value: '1' },
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'decidedAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'requestedOrientationType' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
+													],
+												},
 											},
 										],
 									},
@@ -23473,7 +23331,6 @@ export const GetLastVisitedOrUpdatedDocument = {
 				],
 			},
 		},
-		...NotebookRecentFragmentFragmentDoc.definitions,
 	],
 } as unknown as DocumentNode<GetLastVisitedOrUpdatedQuery, GetLastVisitedOrUpdatedQueryVariables>;
 export const SearchNotebookMemberDocument = {

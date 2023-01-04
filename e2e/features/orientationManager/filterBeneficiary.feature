@@ -38,7 +38,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
-		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
+		Alors j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je vois "Giulia Diaby" sur la ligne "Benjamin"
 		Alors je vois "Non assigné" sur la ligne "Conley"
 
@@ -47,8 +47,8 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
 		Quand je choisis "Bénéficiaires non pris en charge par un chargé d'orientation"
-		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
-		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
+		Alors j'attends que le tableau "Liste des bénéficiaires" apparaisse
+		Alors j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je vois "Non assigné" sur la ligne "Conley"
 		Alors je ne vois pas "Benjamin"
 
@@ -57,7 +57,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
 		Quand je selectionne l'option "Orienté" dans la liste "Statut"
-		Alors j'attends que la table "Liste des bénéficiaires" apparaisse
+		Alors j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je vois "Non assigné" sur la ligne "Aguilar"
 		Alors je vois "Non assigné" sur la ligne "Beach"
 		Alors je vois "Giulia Diaby" sur la ligne "Cobb"

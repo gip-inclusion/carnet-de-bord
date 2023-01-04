@@ -9,11 +9,3 @@ Scénario: Login pro
 	Quand je renseigne "pierre.chevalier@livry-gargan.fr" dans le champ "Courriel"
 	Quand je clique sur "Se connecter"
 	Alors je vois "Un lien vous a été envoyé pour vous connecter au Carnet de bord."
-
-Scénario: Accueil pro
-	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
-	Alors je vois "Rechercher un bénéficiaire"
-
-Scénario: Affichage des derniers carnet consultés
-	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
-	Alors je vois "Sophie Tifour"
