@@ -18,3 +18,8 @@ Scénario: Affichage de la liste de mes bénéficiaires
   Alors je vois "Tifour" dans le tableau "Liste des bénéficiaires"
   Alors je vois "Herring" dans le tableau "Liste des bénéficiaires"
   Alors je vois "Gallegos" dans le tableau "Liste des bénéficiaires"
+
+Scénario: Affichage du détail d'un carnet depuis la page d'accueil
+	Soit le pro "sanka@groupe-ns.fr" qui a cliqué sur le lien de connexion
+	Alors je clique sur "Voir le carnet de Winnie Gallegos"
+  Alors je vois "winnie.gallegos@ut.com"
