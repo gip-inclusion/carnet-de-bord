@@ -1,3 +1,10 @@
+## [1.178.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.3...v1.178.4) (2023-01-04)
+
+
+### Bug Fixes
+
+* ajustement du décompte des bénéficiaires sur les tuiles structures  ([#1387](https://github.com/gip-inclusion/carnet-de-bord/issues/1387)) ([f3ed5df](https://github.com/gip-inclusion/carnet-de-bord/commit/f3ed5df180eb2c43b6d61dce0ab658da134f7de8))
+
 ## [1.178.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.2...v1.178.3) (2023-01-03)
 
 
