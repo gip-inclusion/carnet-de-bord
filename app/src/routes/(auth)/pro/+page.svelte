@@ -17,8 +17,8 @@
 	type Notebook = GetLastVisitedOrUpdatedQuery['notebook'][0];
 
 	$: notebooks = $result.data ? $result.data.notebook : [];
-	$: lastVisitedNotebooks = notebooks.slice().sort(sortByLastVisited).slice(0, 3);
-	$: lastModifiedNotebooks = notebooks.slice().sort(sortByLastModified).slice(0, 3);
+	$: lastVisitedNotebooks = [...notebooks].sort(sortByLastVisited).slice(0, 3);
+	$: lastModifiedNotebooks = [...notebooks].sort(sortByLastModified).slice(0, 3);
 
 	function sortByLastVisited(n1: Notebook, n2: Notebook): number {
 		return (
