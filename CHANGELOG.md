@@ -1,3 +1,10 @@
+# [1.179.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.7...v1.179.0) (2023-01-04)
+
+
+### Features
+
+* ajout de la liste de ses bénéficaires sur la page d'accueil d'un pro ([#1401](https://github.com/gip-inclusion/carnet-de-bord/issues/1401)) ([5e343d1](https://github.com/gip-inclusion/carnet-de-bord/commit/5e343d1d0b677315cc9d1dba897f064b703d0834))
+
 ## [1.178.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.6...v1.178.7) (2023-01-04)
 
 ## [1.178.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.5...v1.178.6) (2023-01-04)
