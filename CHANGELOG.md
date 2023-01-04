@@ -1,3 +1,10 @@
+# [1.180.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.179.0...v1.180.0) (2023-01-04)
+
+
+### Features
+
+* Ajout d'un thème d'axe d'amélioration: numerique ([#1400](https://github.com/gip-inclusion/carnet-de-bord/issues/1400)) ([85008ae](https://github.com/gip-inclusion/carnet-de-bord/commit/85008aec707fc5f1adb2d318c04a4da577b02136))
+
 # [1.179.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.178.7...v1.179.0) (2023-01-04)
 
 
