@@ -3,16 +3,21 @@ from uuid import UUID
 
 from gql.dsl import DSLField, DSLSchema
 
+from api.db.models.member_type import MemberTypeEnum
 
-def insert_new_referent_notebook_member(
-    dsl_schema: DSLSchema, notebook_id: UUID, new_referent_account_id: UUID
+
+def insert_notebook_member(
+    dsl_schema: DSLSchema,
+    notebook_id: UUID,
+    new_referent_account_id: UUID,
+    member_type: MemberTypeEnum,
 ):
     return {
-        "create_new_referent_row": dsl_schema.mutation_root.insert_notebook_member_one.args(
+        "create_notebook_member_row": dsl_schema.mutation_root.insert_notebook_member_one.args(
             object={
                 "notebookId": str(notebook_id),
                 "accountId": str(new_referent_account_id),
-                "memberType": "referent",
+                "memberType": member_type.value,
             },
         ).select(
             dsl_schema.notebook_member.id

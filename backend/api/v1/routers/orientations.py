@@ -19,10 +19,11 @@ from api.db.crud.notebook_info import insert_notebook_info
 from api.db.crud.notebook_member import (
     deactivate_notebook_members,
     insert_former_referent_notebook_member,
-    insert_new_referent_notebook_member,
+    insert_notebook_member,
 )
 from api.db.crud.orientation_info import get_orientation_info
 from api.db.crud.orientation_request import accept_orientation_request
+from api.db.models.member_type import MemberTypeEnum
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -159,10 +160,11 @@ async def change_beneficiary_orientation(
                 )
 
             if has_new_referent:
-                mutations = mutations | insert_new_referent_notebook_member(
+                mutations = mutations | insert_notebook_member(
                     dsl_schema,
                     data.notebook_id,
                     data.new_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
+                    MemberTypeEnum.referent,
                 )
 
         response = await session.execute(dsl_gql(DSLMutation(**mutations)))
