@@ -13165,7 +13165,14 @@ export type GetStructuresWithProQuery = {
 			position?: string | null;
 			email: string;
 			structureId: string;
-			account?: { __typename?: 'account'; id: string } | null;
+			account?: {
+				__typename?: 'account';
+				id: string;
+				referentCount: {
+					__typename?: 'notebook_member_aggregate';
+					aggregate?: { __typename?: 'notebook_member_aggregate_fields'; count: number } | null;
+				};
+			} | null;
 			structure: { __typename?: 'structure'; id: string; name: string };
 		}>;
 	}>;
@@ -17075,7 +17082,72 @@ export const GetStructuresWithProDocument = {
 												name: { kind: 'Name', value: 'account' },
 												selectionSet: {
 													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+													selections: [
+														{
+															kind: 'Field',
+															alias: { kind: 'Name', value: 'referentCount' },
+															name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
+															arguments: [
+																{
+																	kind: 'Argument',
+																	name: { kind: 'Name', value: 'where' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'memberType' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: {
+																								kind: 'StringValue',
+																								value: 'referent',
+																								block: false,
+																							},
+																						},
+																					],
+																				},
+																			},
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'active' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: { kind: 'BooleanValue', value: true },
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'aggregate' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'count' } },
+																			],
+																		},
+																	},
+																],
+															},
+														},
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+													],
 												},
 											},
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },

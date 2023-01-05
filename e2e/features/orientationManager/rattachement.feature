@@ -16,7 +16,7 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 		Alors j'attends que le texte "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent" apparaisse
 		Alors je selectionne l'option "Social" dans la liste "Type d'orientation"
 		Alors je selectionne l'option "Groupe NS" dans la liste "Nom de la structure"
-		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent unique"
+		Alors je selectionne l'option "Simon Anka (0)" dans la liste "Nom du référent unique"
 		Quand je clique sur "Valider"
 		Alors je vois "Social" sur la ligne "Tifour"
 		Alors je vois "Simon Anka" sur la ligne "Tifour"

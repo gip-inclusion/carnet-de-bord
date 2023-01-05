@@ -4,6 +4,13 @@ query GetStructuresWithPro {
     name
     professionals {
       account {
+        referentCount: notebooksWhereMember_aggregate(
+          where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+        ) {
+          aggregate {
+            count
+          }
+        }
         id
       }
       id

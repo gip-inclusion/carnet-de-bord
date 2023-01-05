@@ -34,7 +34,7 @@ Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la 
 | --- | --- | --- |
 | giulia.diaby | giulia.diaby@cd93.fr | non |
 | laure.loge | laure.loge@cd51.fr | non |
-| samy.rouate | sami.rouate@cd93.fr | oui |
+| samy.rouate | samy.rouate@cd93.fr | oui |
 
 ## Compte d'accompagnant (role: professional)
 | username | email |  structure | onboarding |
