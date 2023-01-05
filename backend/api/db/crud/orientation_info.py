@@ -2,7 +2,7 @@ import os
 from uuid import UUID
 
 
-class OrientationInfoDTO:
+class OrientationInfo:
     def __init__(self, beneficiary, former_referents, new_structure, new_referent):
         self.beneficiary = beneficiary
         self.former_referents = former_referents
@@ -31,7 +31,7 @@ class OrientationInfoDTO:
     def parse_from_gql(cls, orientation_info_response, with_new_referent):
         notebook = orientation_info_response["notebook"][0]
 
-        return OrientationInfoDTO(
+        return OrientationInfo(
             beneficiary=notebook["beneficiary"],
             former_referents=notebook["former_referents"]
             if notebook["former_referents"]
@@ -53,7 +53,7 @@ class OrientationInfoRepository:
         notebook_id: UUID,
         structure_id: UUID,
         new_referent_account_id: UUID | None,
-    ) -> OrientationInfoDTO:
+    ) -> OrientationInfo:
         with_new_referent = new_referent_account_id is not None
         orientation_info_response = await self.gql_session.execute(
             self.gql(self.load_gql_file()),
@@ -64,7 +64,7 @@ class OrientationInfoRepository:
                 "with_new_referent": with_new_referent,
             },
         )
-        return OrientationInfoDTO.parse_from_gql(
+        return OrientationInfo.parse_from_gql(
             orientation_info_response, with_new_referent
         )
 
