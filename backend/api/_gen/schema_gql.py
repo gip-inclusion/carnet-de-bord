@@ -8834,7 +8834,7 @@ type notebook_member {
   """An object relationship"""
   account: account!
   accountId: uuid!
-  active: Boolean
+  active: Boolean!
   createdAt: timestamptz!
 
   """An object relationship"""

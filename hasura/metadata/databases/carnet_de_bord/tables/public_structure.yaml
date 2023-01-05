@@ -52,7 +52,7 @@ computed_fields:
       function:
         name: nb_beneficiary_for_structure
         schema: public
-    comment: "a computed field, executes function nb_beneficiary_for_structure "
+    comment: 'a computed field, executes function nb_beneficiary_for_structure '
 insert_permissions:
   - role: admin_cdb
     permission:

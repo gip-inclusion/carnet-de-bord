@@ -7205,7 +7205,7 @@ export type NotebookMember = {
 	/** An object relationship */
 	account: Account;
 	accountId: Scalars['uuid'];
-	active?: Maybe<Scalars['Boolean']>;
+	active: Scalars['Boolean'];
 	createdAt: Scalars['timestamptz'];
 	/** An object relationship */
 	creator?: Maybe<Account>;
@@ -13670,7 +13670,7 @@ export type RemoveMemberFromNotebookMutation = {
 			__typename?: 'notebook_member';
 			id: string;
 			accountId: string;
-			active?: boolean | null;
+			active: boolean;
 			notebookId: string;
 		}>;
 	} | null;
@@ -14584,7 +14584,7 @@ export type GetLastVisitedOrUpdatedQuery = {
 			accountId: string;
 			lastVisitedAt?: string | null;
 			lastModifiedAt?: string | null;
-			active?: boolean | null;
+			active: boolean;
 			memberType: string;
 		}>;
 		beneficiary: {
@@ -14651,7 +14651,7 @@ export type SearchPublicNotebooksQuery = {
 		id?: string | null;
 		members: Array<{
 			__typename?: 'notebook_member';
-			active?: boolean | null;
+			active: boolean;
 			accountId: string;
 			memberType: string;
 		}>;
