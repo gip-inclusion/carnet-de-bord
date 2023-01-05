@@ -2,11 +2,11 @@
 name: ':bug: Bogue'
 about: Modèle de rapport de bogue
 labels: 'bug'
---- 
+---
 
 ### :footprints: Étapes pour reproduire
 
-<!-- 
+<!--
 1. Je clique sur ...
 2. Je rentre la valeur ... dans ...
 
@@ -14,7 +14,7 @@ labels: 'bug'
 Ajouter des captures d'écran ou une vidéo si possible (Impr. écran et Ctrl-V directement ici)
 Préciser les valeurs utilisées dans les formulaires et fichiers
 
-Attention à ne pas exposer des données personnelles 
+Attention à ne pas exposer des données personnelles
 
 -->
 
@@ -28,7 +28,7 @@ Attention à ne pas exposer des données personnelles
 <!--   Décrire l'état souhaité (ex: une popup s'ouvre)  -->
 
 <!--
-### :recycle: Environnement 
+### :recycle: Environnement
 
 Environnement (dev, prod...) :
 Navigateur :
