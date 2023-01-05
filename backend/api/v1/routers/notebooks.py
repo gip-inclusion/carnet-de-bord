@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header, Request, Response
@@ -22,6 +21,7 @@ from api.db.crud.notebook_member import (
 )
 from api.db.crud.orientation_info import get_orientation_info
 from api.db.models.member_type import MemberTypeEnum
+from api.db.models.orientation_info import OrientationInfo
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
 
@@ -89,33 +89,12 @@ async def add_notebook_members(
                 dsl_schema, notebook_id, request.state.account.id
             )
 
-            if (
-                orientation_info.has_old_referent
-                and orientation_info.former_referent_account_id is not None
-            ):
+            if orientation_info.has_old_referent:
                 mutations = mutations | insert_former_referent_notebook_member(
-                    dsl_schema, notebook_id, orientation_info.former_referent_account_id
+                    dsl_schema,
+                    notebook_id,
+                    orientation_info.former_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
                 )
-                beneficiary = Person.parse_from_gql(orientation_info.beneficiary)
-
-                former_referents = [
-                    Member.parse_from_gql(member["account"]["professional"])
-                    for member in orientation_info.former_referents
-                ]
-                for referent in former_referents:
-                    background_tasks.add_task(
-                        send_notebook_member_email,
-                        to_email=referent.email,
-                        beneficiary=beneficiary,
-                        orientation=None,
-                        former_referents=former_referents,
-                        new_structure=orientation_info.new_structure["name"],
-                        new_referent=Member.parse_from_gql(
-                            orientation_info.new_referent
-                        )
-                        if orientation_info.new_referent is not None
-                        else None,
-                    )
 
         mutations = mutations | insert_notebook_member(
             dsl_schema,
@@ -136,4 +115,33 @@ async def add_notebook_members(
 
         await session.execute(dsl_gql(DSLMutation(**mutations)))
 
+        if (
+            data.member_type is MemberTypeEnum.referent
+            and orientation_info.has_old_referent
+        ):
+            notify_former_referents(background_tasks, orientation_info)
+
         return Response(status_code=204)
+
+
+def notify_former_referents(
+    background_tasks: BackgroundTasks, orientation_info: OrientationInfo
+) -> None:
+    beneficiary = Person.parse_from_gql(orientation_info.beneficiary)
+
+    former_referents = [
+        Member.parse_from_gql(member["account"]["professional"])
+        for member in orientation_info.former_referents
+    ]
+    for referent in former_referents:
+        background_tasks.add_task(
+            send_notebook_member_email,
+            to_email=referent.email,
+            beneficiary=beneficiary,
+            orientation=None,
+            former_referents=former_referents,
+            new_structure=orientation_info.new_structure["name"],
+            new_referent=Member.parse_from_gql(orientation_info.new_referent)
+            if orientation_info.new_referent is not None
+            else None,
+        )
