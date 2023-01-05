@@ -21,7 +21,6 @@ async def test_verify_no_token(
     _: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
-    beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
 ):
     response = test_client.post(
@@ -29,7 +28,6 @@ async def test_verify_no_token(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
@@ -44,7 +42,6 @@ async def test_professional_not_allowed_to_change_orientation(
     _: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
-    beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
     get_professional_jwt: str,
 ):
@@ -53,7 +50,6 @@ async def test_professional_not_allowed_to_change_orientation(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
@@ -69,7 +65,6 @@ async def test_change_orientation_while_keeping_same_referent(
     _: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
-    beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
     db_connection: Connection,
@@ -79,7 +74,6 @@ async def test_change_orientation_while_keeping_same_referent(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
@@ -110,7 +104,6 @@ async def test_change_orientation_assign_to_structure_not_referent(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": None,
         },
@@ -168,7 +161,6 @@ async def test_change_orientation_with_new_referent(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
@@ -219,7 +211,6 @@ async def test_change_orientation_with_orientation_request(
     _: mock.Mock,
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
-    beneficiary_jennings_dee: Beneficiary,
     notebook_jennings_dee: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
@@ -231,7 +222,6 @@ async def test_change_orientation_with_orientation_request(
             "orientation_request_id": str(orientation_request_jennings_dee.id),
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_jennings_dee.id),
-            "beneficiary_id": str(beneficiary_jennings_dee.id),
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
@@ -257,7 +247,6 @@ async def test_send_email_to_members_with_orientation_request(
     test_client: TestClient,
     professional_paul_camara: Professional,
     professional_edith_orial: Professional,
-    beneficiary_jennings_dee: Beneficiary,
     notebook_jennings_dee: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
@@ -267,7 +256,6 @@ async def test_send_email_to_members_with_orientation_request(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_jennings_dee.id),
-            "beneficiary_id": str(beneficiary_jennings_dee.id),
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
             "orientation_request_id": str(orientation_request_jennings_dee.id),
@@ -298,7 +286,6 @@ async def test_send_email_to_members_without_orientation_request(
     test_client: TestClient,
     professional_paul_camara: Professional,
     professional_pierre_chevalier: Professional,
-    beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
 ):
@@ -307,7 +294,6 @@ async def test_send_email_to_members_without_orientation_request(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
@@ -336,7 +322,6 @@ async def test_send_email_to_members_first_orientation(
     test_client: TestClient,
     snapshot,
     professional_paul_camara: Professional,
-    beneficiary_noel_keller: Beneficiary,
     notebook_noel_keller: Beneficiary,
     giulia_diaby_jwt: str,
 ):
@@ -345,7 +330,6 @@ async def test_send_email_to_members_first_orientation(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_noel_keller.id),
-            "beneficiary_id": str(beneficiary_noel_keller.id),
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
@@ -366,7 +350,6 @@ async def test_unconsistent_orientation_request(
     test_client: TestClient,
     professional_paul_camara: Professional,
     notebook_sophie_tifour: Notebook,
-    beneficiary_sophie_tifour: Beneficiary,
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
 ):
@@ -375,7 +358,6 @@ async def test_unconsistent_orientation_request(
         json={
             "orientation_type": OrientationType.social,
             "notebook_id": str(notebook_sophie_tifour.id),
-            "beneficiary_id": str(beneficiary_sophie_tifour.id),
             "structure_id": str(professional_paul_camara.structure_id),
             "orientation_request_id": str(orientation_request_jennings_dee.id),
         },

@@ -47,7 +47,6 @@
 				orientation_request_id: orientationRequestId,
 				orientation_type: values.orientationType,
 				notebook_id: notebook.id,
-				beneficiary_id: notebook.beneficiaryId,
 				structure_id: values.structureId,
 				new_referent_account_id: values.professionalAccountId,
 			},

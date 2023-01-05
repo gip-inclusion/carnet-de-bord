@@ -47,8 +47,6 @@ logger = logging.getLogger(__name__)
 
 
 class ChangeBeneficiaryOrientationInput(BaseModel):
-    # TODO Cette variable n'est pas utile
-    beneficiary_id: UUID
     notebook_id: UUID
     orientation_type: OrientationType
     structure_id: UUID
@@ -103,7 +101,7 @@ async def change_beneficiary_orientation(
         if data.orientation_request_id:
 
             try:
-                raise_if_orientation_request_not_match_beneficiary(
+                raise_if_orientation_request_not_match_notebook(
                     str(data.orientation_request_id),
                     str(orientation_info.beneficiary["orientation_request"][0]["id"])
                     if len(orientation_info.beneficiary["orientation_request"]) > 0
@@ -111,9 +109,9 @@ async def change_beneficiary_orientation(
                 )
             except Exception as exception:
                 logging.error(
-                    "%s does not match beneficiary_id %s",
+                    "%s does not match notebook_id %s",
                     data.orientation_request_id,
-                    data.beneficiary_id,
+                    data.notebook_id,
                 )
                 raise HTTPException(
                     status_code=400,
@@ -134,10 +132,10 @@ async def change_beneficiary_orientation(
 
         if structure_changed:
             mutations = mutations | deactivate_beneficiary_structure(
-                dsl_schema, data.beneficiary_id
+                dsl_schema, orientation_info.beneficiary["id"]
             )
             mutations = mutations | insert_beneficiary_structure(
-                dsl_schema, data.beneficiary_id, data.structure_id
+                dsl_schema, orientation_info.beneficiary["id"], data.structure_id
             )
 
         has_new_referent = data.new_referent_account_id is not None
@@ -204,7 +202,7 @@ async def change_beneficiary_orientation(
         return response
 
 
-def raise_if_orientation_request_not_match_beneficiary(
+def raise_if_orientation_request_not_match_notebook(
     orientation_request_id: str, beneficiary_request_id: str
 ) -> None:
 
