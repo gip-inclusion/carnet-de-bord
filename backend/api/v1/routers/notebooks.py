@@ -4,7 +4,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header, Request, Response
 from fastapi.exceptions import HTTPException
-from gql import Client, gql
+from gql import Client
 from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from api._gen.schema_gql import schema
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
-from api.db.crud.orientation_info import OrientationInfoRepository
+from api.db.crud.orientation_info import get_orientation_info
 from api.db.models.member_type import MemberTypeEnum
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
@@ -48,9 +48,8 @@ async def add_notebook_members(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        orientation_info_repository = OrientationInfoRepository(session, gql)
-
-        orientation_info = await orientation_info_repository.get(
+        orientation_info = await get_orientation_info(
+            session,
             notebook_id,
             request.state.account.structure_id,
             request.state.account.id,
@@ -65,7 +64,10 @@ async def add_notebook_members(
                 request.state.account.id, notebook_id, dsl_schema
             )
 
-            if orientation_info.has_old_referent:
+            if (
+                orientation_info.has_old_referent
+                and orientation_info.former_referent_account_id is not None
+            ):
                 mutations = mutations | get_former_referent_mutation(
                     notebook_id, dsl_schema, orientation_info.former_referent_account_id
                 )

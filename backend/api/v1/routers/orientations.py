@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from api._gen.schema_gql import schema
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
-from api.db.crud.orientation_info import OrientationInfoRepository
+from api.db.crud.orientation_info import get_orientation_info
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -82,10 +82,8 @@ async def change_beneficiary_orientation(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        orientation_info_repository = OrientationInfoRepository(session, gql)
-
-        orientation_info = await orientation_info_repository.get(
-            data.notebook_id, data.structure_id, data.new_referent_account_id
+        orientation_info = await get_orientation_info(
+            session, data.notebook_id, data.structure_id, data.new_referent_account_id
         )
 
         dsl_schema = DSLSchema(schema=schema)
