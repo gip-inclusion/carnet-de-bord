@@ -1,3 +1,10 @@
+## [1.180.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.3...v1.180.4) (2023-01-05)
+
+
+### Bug Fixes
+
+* comptage des bénéficiaires assigné sur dans la tuile structure ([#1406](https://github.com/gip-inclusion/carnet-de-bord/issues/1406)) ([d14c7c1](https://github.com/gip-inclusion/carnet-de-bord/commit/d14c7c1c7f044950ecc9b7066494daf69d3a576b))
+
 ## [1.180.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.2...v1.180.3) (2023-01-05)
 
 ## [1.180.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.1...v1.180.2) (2023-01-05)
