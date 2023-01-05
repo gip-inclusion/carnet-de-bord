@@ -11,7 +11,7 @@ AS $function$
     LEFT JOIN beneficiary B on B.id = N.beneficiary_id
     LEFT JOIN beneficiary_structure BS on BS.beneficiary_id = B.id
     WHERE
-        ( BS.structure_id = structure_row.id AND BS.status <> 'outdated')
+        ( BS.structure_id = structure_row.id AND BS.status = 'current')
     OR
         ( NM.active = true AND P.structure_id = structure_row.id )
 $function$;
