@@ -1,35 +1,37 @@
 ---
-name: :bug: Bogue
+name: ':bug: Bogue'
 about: Modèle de rapport de bogue
 labels: 'bug'
----
+--- 
 
-###  Problème
+### :footprints: Étapes pour reproduire
 
-_Une description du problème en quelques mots_
-
-### Etapes pour reproduire
-
-1. _Je clique sur ..._
-2. _Je rentre la valeur ... dans ..._
-
-_Ajouter des captures d'écran si nécessaire (Impr. écran et Ctrl-V directement ici)_
-_Préciser les valeurs utilisées dans les formulaires_
-
-### Comportement attendu
-
-1. _Je clique sur ... -> ouverture de la fenêtre_
-2. ...
-
-### Comportement actuel
-
-1. _Je clique sur ... -> ouverture de la fenêtre_
-2. ...
+<!-- 
+1. Je clique sur ...
+2. Je rentre la valeur ... dans ...
 
 
-### Environnement
+Ajouter des captures d'écran ou une vidéo si possible (Impr. écran et Ctrl-V directement ici)
+Préciser les valeurs utilisées dans les formulaires et fichiers
+
+Attention à ne pas exposer des données personnelles 
+
+-->
+
+
+### :crying_cat_face:  Comportement observé
+
+<!-- Décrire l'état problématique (ex: il ne se passe rien) -->
+
+### :dart: Comportement attendu
+
+<!--   Décrire l'état souhaité (ex: une popup s'ouvre)  -->
+
+<!--
+### :recycle: Environnement 
 
 Environnement (dev, prod...) :
 Navigateur :
 Utilisateur :
 URL :
+-->
