@@ -1,8 +1,8 @@
-import os
 from uuid import UUID
 
 from gql import gql
 from gql.client import AsyncClientSession
+from graphql import DocumentNode
 
 from api.db.models.orientation_info import OrientationInfo
 
@@ -30,7 +30,7 @@ async def get_orientation_info(
 ) -> OrientationInfo:
     with_new_referent = new_referent_account_id is not None
     orientation_info_response = await gql_session.execute(
-        gql(load_gql_file()),
+        get_orientation_info_gql(),
         variable_values={
             "notebook_id": str(notebook_id),
             "structure_id": str(structure_id),
@@ -41,6 +41,63 @@ async def get_orientation_info(
     return parse_orientation_info_from_gql(orientation_info_response, with_new_referent)
 
 
-def load_gql_file(path: str = os.path.dirname(__file__)):
-    with open(os.path.join(path, "orientation_info.gql"), encoding="utf-8") as f:
-        return f.read()
+def get_orientation_info_gql() -> DocumentNode:
+    return gql(
+        """
+query orientationInfos(
+  $notebook_id: uuid!
+  $structure_id: uuid!
+  $with_new_referent: Boolean!
+  $new_referent_account_id: uuid
+) {
+  notebook: notebook_public_view(where: { id: { _eq: $notebook_id } }) {
+    beneficiary {
+      id
+      orientation_request: orientationRequest(
+        where: { decidedAt: { _is_null: true } }
+      ) {
+        id
+      }
+      firstname
+      lastname
+      address1
+      address2
+      postalCode
+      city
+      cafNumber
+      structures(where: { status: { _eq: "current" } }) {
+        structureId
+      }
+    }
+    former_referents: members(
+      where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+    ) {
+      account {
+        id
+        professional {
+          firstname
+          lastname
+          email
+          structure {
+            name
+          }
+        }
+      }
+    }
+  }
+  newStructure: structure_by_pk(id: $structure_id) {
+    name
+  }
+  newReferent: professional(
+    where: { account: { id: { _eq: $new_referent_account_id } } }
+  ) @include(if: $with_new_referent) {
+    email
+    firstname
+    lastname
+    structure {
+      name
+    }
+  }
+}
+"""
+    )
