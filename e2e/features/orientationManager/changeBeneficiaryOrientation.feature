@@ -11,7 +11,7 @@ Fonctionnalité: Changer l'orientation d'un bénéficiaire
 		Alors je vois "Orienter" dans le volet
 		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
-		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan" dans la liste "Nom de la structure"
+		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
 		Alors je selectionne l'option "Thierry Dunord (0)" dans la liste "Nom du référent"
 		Quand je clique sur "Valider" dans le volet
 		Alors je ne vois pas "Orienter"
@@ -25,7 +25,7 @@ Fonctionnalité: Changer l'orientation d'un bénéficiaire
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
-		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan" dans la liste "Nom de la structure"
+		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
 		Alors je selectionne l'option "Thierry Dunord (0)" dans la liste "Nom du référent"
 		Quand je clique sur "Valider" dans le volet
 		Alors je ne vois pas "Orienter"

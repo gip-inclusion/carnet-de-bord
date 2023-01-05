@@ -52,10 +52,18 @@
 	);
 	query(structures);
 	$: structureOptions =
-		$structures.data?.structure.map(({ id, name }) => ({
-			name: id,
-			label: name,
-		})) ?? [];
+		$structures.data?.structure.map(({ id, name, professionals }) => {
+			const beneficiaryCount = professionals.reduce(
+				(total: number, value: GetStructuresWithProQuery['structure'][0]['professionals'][0]) => {
+					return total + value.account.referentCount.aggregate.count;
+				},
+				0
+			);
+			return {
+				name: id,
+				label: `${name} (${beneficiaryCount})`,
+			};
+		}) ?? [];
 
 	$: structure = $structures.data?.structure.find(({ id }) => id === selectedStructureId) ?? null;
 
@@ -99,6 +107,7 @@
 					required
 					selectLabel="Nom de la structure"
 					selectHint="Sélectionner une structure"
+					additionalLabel="Le nombre de bénéficiaires affiché correspond au nombre de bénéficiaires actuellement pris en charge par la structure"
 					options={structureOptions}
 					name="structureId"
 					on:select={(event) => {
