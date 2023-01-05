@@ -38,11 +38,28 @@ async def add_notebook_members(
     background_tasks: BackgroundTasks,
     jwt_token: str | None = Header(default=None),
 ):
-    if not jwt_token:
-        raise HTTPException(status_code=401, detail="unauthorized")
+    """
+    Add currently authentified user as notebook_member of given notebook
+    The relationship between a user and a notebook is represented by:
+    - beneficiary_structure holds the relation between a structure and a beneficiary
+    - notebook_member holds the relation of an account (pro, orientation_manager)
+      with a notebook
+
+    This endpoint will, in every case:
+    - add the new notebook_member records (referent / no-referent)
+
+    Furthermore, if the user is added to notebook as referent, it will:
+    - deactivate the current beneficiary_structure and
+      add the new beneficiary_structure
+    - deactivate the current referent in notebook_member records
+    """
 
     transport = AIOHTTPTransport(
-        url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
+        url=settings.graphql_api_url,
+        headers={
+            "Authorization": "Bearer "
+            + jwt_token  # pyright: ignore [reportGeneralTypeIssues]
+        },
     )
 
     async with Client(
