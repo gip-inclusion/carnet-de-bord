@@ -26,7 +26,7 @@
 	let memberType: 'referent' | 'no_referent' = 'no_referent';
 
 	async function addCurrentAccountToNotebookMembers() {
-		trackEvent('notebook membership', 'join notebook members');
+		trackEvent('pro', 'members', 'join_notebook_members');
 		try {
 			await postApiJson(
 				`/v1/notebooks/${notebookId}/members`,

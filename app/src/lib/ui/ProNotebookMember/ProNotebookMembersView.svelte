@@ -56,7 +56,7 @@
 	}
 
 	async function removeMember() {
-		trackEvent('notebook membership', 'leave notebook members');
+		trackEvent('pro', 'member', 'leave_notebook_members');
 		await removeNotebookMember({
 			notebookId,
 			accountId: $accountData.id,
