@@ -4,46 +4,22 @@ from uuid import UUID
 from gql import gql
 from gql.client import AsyncClientSession
 
+from api.db.models.orientation_info import OrientationInfo
 
-class OrientationInfo:
-    def __init__(self, beneficiary, former_referents, new_structure, new_referent):
-        self.beneficiary = beneficiary
-        self.former_referents = former_referents
-        self.new_structure = new_structure
-        self.new_referent = new_referent
 
-    @property
-    def former_referent_account_id(self) -> UUID | None:
-        return (
-            self.former_referents[0]["account"]["id"]
-            if len(self.former_referents) > 0
-            else None
-        )
+def parse_orientation_info_from_gql(orientation_info_response, with_new_referent):
+    notebook = orientation_info_response["notebook"][0]
 
-    @property
-    def former_structure_id(self) -> dict | None:
-        return (
-            self.beneficiary["structures"][0] if self.beneficiary is not None else None
-        )
-
-    @property
-    def has_old_referent(self) -> bool:
-        return self.former_referent_account_id is not None
-
-    @classmethod
-    def parse_from_gql(cls, orientation_info_response, with_new_referent):
-        notebook = orientation_info_response["notebook"][0]
-
-        return OrientationInfo(
-            beneficiary=notebook["beneficiary"],
-            former_referents=notebook["former_referents"]
-            if notebook["former_referents"]
-            else [],
-            new_structure=orientation_info_response["newStructure"],
-            new_referent=orientation_info_response["newReferent"][0]
-            if with_new_referent and len(orientation_info_response["newReferent"]) > 0
-            else None,
-        )
+    return OrientationInfo(
+        beneficiary=notebook["beneficiary"],
+        former_referents=notebook["former_referents"]
+        if notebook["former_referents"]
+        else [],
+        new_structure=orientation_info_response["newStructure"],
+        new_referent=orientation_info_response["newReferent"][0]
+        if with_new_referent and len(orientation_info_response["newReferent"]) > 0
+        else None,
+    )
 
 
 async def get_orientation_info(
@@ -62,7 +38,7 @@ async def get_orientation_info(
             "with_new_referent": with_new_referent,
         },
     )
-    return OrientationInfo.parse_from_gql(orientation_info_response, with_new_referent)
+    return parse_orientation_info_from_gql(orientation_info_response, with_new_referent)
 
 
 def load_gql_file(path: str = os.path.dirname(__file__)):
