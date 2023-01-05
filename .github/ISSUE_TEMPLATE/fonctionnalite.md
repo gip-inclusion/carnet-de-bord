@@ -19,4 +19,3 @@ ex: Dans la liste déroulante des référents, afficher le nombre de bénéficia
 ### :unicorn:  Solutions écartées
 ex: Dans la liste déroulante des référents, afficher le nombre de place disponible est couteux car il nécessite que toute les structures  / pro indique leur capacité d'accueil.
 -->
-
