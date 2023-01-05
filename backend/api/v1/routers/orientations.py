@@ -4,7 +4,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
 from fastapi.exceptions import HTTPException
-from gql import Client, gql
+from gql import Client
 from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
@@ -13,6 +13,7 @@ from api._gen.schema_gql import schema
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
 from api.db.crud.orientation_info import get_orientation_info
+from api.db.crud.orientation_request import get_accept_orientation_request_mutation
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -109,7 +110,9 @@ async def change_beneficiary_orientation(
                     detail="orientation_request_id and beneficiary don't match",
                 ) from exception
 
-            mutations = mutations | get_orientation_request_mutation(data, dsl_schema)
+            mutations = mutations | get_accept_orientation_request_mutation(
+                dsl_schema, data.orientation_request_id, data.orientation_type
+            )
 
         mutations = mutations | get_notebook_info_mutation(data, dsl_schema)
 
@@ -281,24 +284,6 @@ def get_notebook_info_mutation(
                 "update_columns": ["orientation", "needOrientation"],
             },
         ).select(dsl_schema.notebook_info.notebookId)
-    }
-
-
-def get_orientation_request_mutation(
-    data, dsl_schema: DSLSchema
-) -> dict[str, DSLField]:
-    return {
-        "accept_orientation_request": dsl_schema.mutation_root.update_orientation_request_by_pk.args(
-            pk_columns={"id": str(data.orientation_request_id)},
-            _set={
-                "decidedAt": "now",
-                "status": "accepted",
-                "decidedOrientationTypeId": data.orientation_type,
-            },
-        ).select(
-            dsl_schema.orientation_request.id,
-            dsl_schema.orientation_request.createdAt,
-        ),
     }
 
 
