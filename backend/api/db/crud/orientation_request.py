@@ -3,7 +3,7 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
-from gql.dsl import DSLField, DSLMutation, DSLSchema
+from gql.dsl import DSLField, DSLSchema
 
 from api.db.models.orientation_request import OrientationRequest
 
@@ -21,7 +21,7 @@ async def get_orientation_request_by_id(
         return OrientationRequest.parse_obj(orientation_request)
 
 
-def get_accept_orientation_request_mutation(
+def accept_orientation_request(
     dsl_schema: DSLSchema,
     orientation_request_id: UUID,
     orientation_type: str,
