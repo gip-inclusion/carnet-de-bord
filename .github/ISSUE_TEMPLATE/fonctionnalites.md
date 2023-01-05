@@ -1,17 +1,22 @@
 ---
 name: Nouvelle fonctionnalité
 labels: 'user story'
-about: Proposer une nouvelle fonctionnalité pour carnet de bord
+about: Proposer une nouvelle fonctionnalité pour Carnet de bord
 ---
-# ETQ `role` ...
 
-## Contexte et Problème observé
+## :thinking: Contexte et problème observé
+<!--
+> Décrire le problème observé, le contexte et en quoi une solution serait utile.
+> ex: En tant que chargé d'orientation, j'ai besoin de connaître le capacité d'accueil d'un pro pour choisir le professionnel vers qui orienté un bénéficiaire.
+-->
 
-> Décrire le problème observé et le contexte afin de s'assurer que la solution envisagée réponde bien au problème décrit
+## :horse: Proposition de solution
+<!--
+ex: Dans la liste déroulante des référents, afficher le nombre de bénéficiaire suivi par le pro
+-->
 
-## Solution envisagée
+<!--
+## :unicorn:  Solutions écartées
+ex: Dans la liste déroulante des référents, afficher le nombre de place disponible est couteux car il nécessite que toute les structures  / pro indique leur capacité d'accueil.
+-->
 
-> Proposition de solution (design / technique / fonctionnelle)
-
-
-captures d'écran, zoning,
