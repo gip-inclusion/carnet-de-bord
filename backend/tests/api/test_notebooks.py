@@ -47,6 +47,7 @@ async def test_add_notebook_member_as_no_referent(
     notebook_sophie_tifour: Notebook,
     get_professional_paul_camara_jwt: str,
     professional_paul_camara: Professional,
+    professional_pierre_chevalier: Professional,
     db_connection: Connection,
 ):
     response = test_client.post(
@@ -64,6 +65,8 @@ async def test_add_notebook_member_as_no_referent(
     assert_member(members, professional_paul_camara, "no_referent", True)
     # Check that no email is sent since referent doesn't change
     mock_send_email.assert_not_called()
+    # Check that former referent is still the referent
+    assert_member(members, professional_pierre_chevalier, "referent", True)
 
 
 @mock.patch("api.core.emails.send_mail")
@@ -92,6 +95,8 @@ async def test_add_notebook_member_as_referent(
     assert_member(members, professional_paul_camara, "referent", True)
     # Check that former referent has been deactivated
     assert_member(members, professional_pierre_chevalier, "referent", False)
+    # Check that former referent is still an active member
+    assert_member(members, professional_pierre_chevalier, "no_referent", True)
     # Check that an email is sent to former referent
     email_former_referent = mock_send_email.call_args_list[0]
     assert snapshot == email_former_referent
