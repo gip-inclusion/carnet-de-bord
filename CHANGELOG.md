@@ -1,3 +1,10 @@
+## [1.180.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.4...v1.180.5) (2023-01-05)
+
+
+### Bug Fixes
+
+* suppression de la propriété nullable du champ active ([#1412](https://github.com/gip-inclusion/carnet-de-bord/issues/1412)) ([c41e16b](https://github.com/gip-inclusion/carnet-de-bord/commit/c41e16bf2b018ec1a697dfd7e3fce326d2a325ca))
+
 ## [1.180.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.3...v1.180.4) (2023-01-05)
 
 
