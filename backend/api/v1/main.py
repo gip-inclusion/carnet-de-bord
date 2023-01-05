@@ -35,7 +35,7 @@ api_router.include_router(
 )
 
 api_router.include_router(
-    orientations.router, prefix="/orientations", tags=["Orientation", "Réorientation"]
+    orientations.router, prefix="/orientations", tags=["Orientation"]
 )
 
 api_router.include_router(notebooks.router, prefix="/notebooks", tags=["notebooks"])
