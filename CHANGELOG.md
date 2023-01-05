@@ -1,3 +1,10 @@
+## [1.180.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.1...v1.180.2) (2023-01-05)
+
+
+### Bug Fixes
+
+* Enregistrer la date de fin de suivi lors de la suppression d'un compte. ([#1410](https://github.com/gip-inclusion/carnet-de-bord/issues/1410)) ([c1b8c9c](https://github.com/gip-inclusion/carnet-de-bord/commit/c1b8c9c9562acc31355d9481ca6fc2985ff6f311))
+
 ## [1.180.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.0...v1.180.1) (2023-01-05)
 
 # [1.180.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.179.0...v1.180.0) (2023-01-04)
