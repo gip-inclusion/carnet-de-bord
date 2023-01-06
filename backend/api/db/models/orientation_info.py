@@ -23,7 +23,3 @@ class OrientationInfo(BaseModel):
         return (
             self.beneficiary["structures"][0] if self.beneficiary is not None else None
         )
-
-    @property
-    def has_old_referent(self) -> bool:
-        return self.former_referent_account_id is not None

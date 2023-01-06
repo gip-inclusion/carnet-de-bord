@@ -136,26 +136,31 @@ async def change_beneficiary_orientation(
                 dsl_schema, orientation_info.beneficiary["id"], data.structure_id
             )
 
-        has_new_referent = data.new_referent_account_id is not None
         are_old_new_referents_different = str(data.new_referent_account_id) != str(
             orientation_info.former_referent_account_id
         )
         need_notebook_member_deactivation = (
-            has_new_referent and are_old_new_referents_different
-        ) or (orientation_info.has_old_referent and not has_new_referent)
+            data.new_referent_account_id and are_old_new_referents_different
+        ) or (
+            orientation_info.former_referent_account_id
+            and data.new_referent_account_id is None
+        )
         if need_notebook_member_deactivation:
             mutations = mutations | get_deactivate_notebook_members_mutation(
                 dsl_schema, data.notebook_id, data.new_referent_account_id
             )
 
-            if orientation_info.has_old_referent:
-                mutations = mutations | get_insert_former_referent_notebook_member_mutation(
-                    dsl_schema,
-                    data.notebook_id,
-                    orientation_info.former_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
+            if orientation_info.former_referent_account_id:
+                mutations = (
+                    mutations
+                    | get_insert_former_referent_notebook_member_mutation(
+                        dsl_schema,
+                        data.notebook_id,
+                        orientation_info.former_referent_account_id,
+                    )
                 )
 
-            if has_new_referent:
+            if data.new_referent_account_id:
                 mutations = mutations | get_insert_notebook_member_mutation(
                     dsl_schema,
                     data.notebook_id,

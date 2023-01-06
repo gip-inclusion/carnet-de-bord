@@ -85,11 +85,14 @@ async def add_notebook_members(
                 dsl_schema, notebook_id, request.state.account.id
             )
 
-            if orientation_info.has_old_referent:
-                mutations = mutations | get_insert_former_referent_notebook_member_mutation(
-                    dsl_schema,
-                    notebook_id,
-                    orientation_info.former_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
+            if orientation_info.former_referent_account_id:
+                mutations = (
+                    mutations
+                    | get_insert_former_referent_notebook_member_mutation(
+                        dsl_schema,
+                        notebook_id,
+                        orientation_info.former_referent_account_id,
+                    )
                 )
 
         mutations = mutations | get_insert_notebook_member_mutation(
@@ -112,7 +115,7 @@ async def add_notebook_members(
 
         if (
             data.member_type is MemberTypeEnum.referent
-            and orientation_info.has_old_referent
+            and orientation_info.former_referent_account_id
         ):
             notify_former_referents(background_tasks, orientation_info)
 
