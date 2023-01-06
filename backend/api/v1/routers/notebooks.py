@@ -44,7 +44,7 @@ async def add_notebook_members(
     request: Request,
     notebook_id: UUID,
     background_tasks: BackgroundTasks,
-    jwt_token: str | None = Header(default=None),
+    jwt_token: str = Header(default=None),
 ):
     """
     Add currently authentified user as notebook_member of given notebook
@@ -63,11 +63,7 @@ async def add_notebook_members(
     """
 
     transport = AIOHTTPTransport(
-        url=settings.graphql_api_url,
-        headers={
-            "Authorization": "Bearer "
-            + jwt_token  # pyright: ignore [reportGeneralTypeIssues]
-        },
+        url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
     )
 
     async with Client(

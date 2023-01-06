@@ -58,7 +58,7 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
 async def change_beneficiary_orientation(
     data: ChangeBeneficiaryOrientationInput,
     background_tasks: BackgroundTasks,
-    jwt_token: str | None = Header(default=None),
+    jwt_token: str = Header(default=None),
 ):
     """
     Change the beneficiary orientation
@@ -81,9 +81,6 @@ async def change_beneficiary_orientation(
     - add the new notebook_member records (referent / no-referent)
 
     """
-    if not jwt_token:
-        raise HTTPException(status_code=401, detail="unauthorized")
-
     transport = AIOHTTPTransport(
         url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
     )
