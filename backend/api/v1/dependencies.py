@@ -1,5 +1,7 @@
 import json
+from dataclasses import dataclass
 from typing import List
+from uuid import UUID
 
 import jwt
 from fastapi import Header, HTTPException, Request
@@ -47,8 +49,8 @@ async def extract_authentified_account(
     )
 
 
+@dataclass
 class Account:
-    def __init__(self, id, structure_id, deployment_id):
-        self.id = id
-        self.structure_id = structure_id
-        self.deployment_id = deployment_id
+    id: UUID
+    structure_id: UUID | None
+    deployment_id: UUID | None
