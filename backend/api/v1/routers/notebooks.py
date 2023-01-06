@@ -11,13 +11,13 @@ from api._gen.schema_gql import schema
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
 from api.db.crud.beneficiary_structure import (
-    deactivate_beneficiary_structure,
-    insert_beneficiary_structure,
+    get_deactivate_beneficiary_structure_mutation,
+    get_insert_beneficiary_structure_mutation,
 )
 from api.db.crud.notebook_member import (
-    deactivate_notebook_members,
-    insert_former_referent_notebook_member,
-    insert_notebook_member,
+    get_deactivate_notebook_members_mutation,
+    get_insert_former_referent_notebook_member_mutation,
+    get_insert_notebook_member_mutation,
 )
 from api.db.crud.orientation_info import get_orientation_info
 from api.db.models.member_type import MemberTypeEnum
@@ -81,29 +81,28 @@ async def add_notebook_members(
         mutations: dict[str, DSLField] = {}
 
         if data.member_type is MemberTypeEnum.referent:
-            mutations = mutations | deactivate_notebook_members(
+            mutations = mutations | get_deactivate_notebook_members_mutation(
                 dsl_schema, notebook_id, request.state.account.id
             )
 
             if orientation_info.has_old_referent:
-                mutations = mutations | insert_former_referent_notebook_member(
+                mutations = mutations | get_insert_former_referent_notebook_member_mutation(
                     dsl_schema,
                     notebook_id,
                     orientation_info.former_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
                 )
 
-        mutations = mutations | insert_notebook_member(
+        mutations = mutations | get_insert_notebook_member_mutation(
             dsl_schema,
             notebook_id,
             request.state.account.id,
             data.member_type,
         )
-
-        mutations = mutations | deactivate_beneficiary_structure(
+        mutations = mutations | get_deactivate_beneficiary_structure_mutation(
             dsl_schema,
             orientation_info.beneficiary["id"],
         )
-        mutations = mutations | insert_beneficiary_structure(
+        mutations = mutations | get_insert_beneficiary_structure_mutation(
             dsl_schema,
             orientation_info.beneficiary["id"],
             request.state.account.structure_id,

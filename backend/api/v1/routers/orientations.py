@@ -12,17 +12,17 @@ from api._gen.schema_gql import schema
 from api.core.emails import Member, Person, send_notebook_member_email
 from api.core.settings import settings
 from api.db.crud.beneficiary_structure import (
-    deactivate_beneficiary_structure,
-    insert_beneficiary_structure,
+    get_deactivate_beneficiary_structure_mutation,
+    get_insert_beneficiary_structure_mutation,
 )
-from api.db.crud.notebook_info import insert_notebook_info
+from api.db.crud.notebook_info import get_insert_notebook_info_mutation
 from api.db.crud.notebook_member import (
-    deactivate_notebook_members,
-    insert_former_referent_notebook_member,
-    insert_notebook_member,
+    get_deactivate_notebook_members_mutation,
+    get_insert_former_referent_notebook_member_mutation,
+    get_insert_notebook_member_mutation,
 )
 from api.db.crud.orientation_info import get_orientation_info
-from api.db.crud.orientation_request import accept_orientation_request
+from api.db.crud.orientation_request import get_accept_orientation_request_mutation
 from api.db.models.member_type import MemberTypeEnum
 from api.db.models.orientation_info import OrientationInfo
 from api.db.models.orientation_type import OrientationType
@@ -116,11 +116,11 @@ async def change_beneficiary_orientation(
                     detail="orientation_request_id and beneficiary don't match",
                 ) from exception
 
-            mutations = mutations | accept_orientation_request(
+            mutations = mutations | get_accept_orientation_request_mutation(
                 dsl_schema, data.orientation_request_id, data.orientation_type
             )
 
-        mutations = mutations | insert_notebook_info(
+        mutations = mutations | get_insert_notebook_info_mutation(
             dsl_schema, data.notebook_id, data.orientation_type
         )
 
@@ -129,10 +129,10 @@ async def change_beneficiary_orientation(
         )
 
         if structure_changed:
-            mutations = mutations | deactivate_beneficiary_structure(
+            mutations = mutations | get_deactivate_beneficiary_structure_mutation(
                 dsl_schema, orientation_info.beneficiary["id"]
             )
-            mutations = mutations | insert_beneficiary_structure(
+            mutations = mutations | get_insert_beneficiary_structure_mutation(
                 dsl_schema, orientation_info.beneficiary["id"], data.structure_id
             )
 
@@ -144,19 +144,19 @@ async def change_beneficiary_orientation(
             has_new_referent and are_old_new_referents_different
         ) or (orientation_info.has_old_referent and not has_new_referent)
         if need_notebook_member_deactivation:
-            mutations = mutations | deactivate_notebook_members(
+            mutations = mutations | get_deactivate_notebook_members_mutation(
                 dsl_schema, data.notebook_id, data.new_referent_account_id
             )
 
             if orientation_info.has_old_referent:
-                mutations = mutations | insert_former_referent_notebook_member(
+                mutations = mutations | get_insert_former_referent_notebook_member_mutation(
                     dsl_schema,
                     data.notebook_id,
                     orientation_info.former_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
                 )
 
             if has_new_referent:
-                mutations = mutations | insert_notebook_member(
+                mutations = mutations | get_insert_notebook_member_mutation(
                     dsl_schema,
                     data.notebook_id,
                     data.new_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]

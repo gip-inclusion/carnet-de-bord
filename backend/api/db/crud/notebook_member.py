@@ -6,7 +6,7 @@ from gql.dsl import DSLField, DSLSchema
 from api.db.models.member_type import MemberTypeEnum
 
 
-def insert_notebook_member(
+def get_insert_notebook_member_mutation(
     dsl_schema: DSLSchema,
     notebook_id: UUID,
     new_referent_account_id: UUID,
@@ -25,7 +25,7 @@ def insert_notebook_member(
     }
 
 
-def insert_former_referent_notebook_member(
+def get_insert_former_referent_notebook_member_mutation(
     dsl_schema: DSLSchema,
     notebook_id: UUID,
     former_referent_account_id: UUID,
@@ -43,7 +43,7 @@ def insert_former_referent_notebook_member(
     }
 
 
-def deactivate_notebook_members(
+def get_deactivate_notebook_members_mutation(
     dsl_schema: DSLSchema, notebook_id: UUID, new_referent_account_id: UUID | None
 ) -> dict[str, DSLField]:
     deactivation_clause = [

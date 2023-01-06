@@ -48,7 +48,7 @@ async def get_notebook_info(
         return NotebookInfo.parse_obj(record)
 
 
-def insert_notebook_info(
+def get_insert_notebook_info_mutation(
     dsl_schema: DSLSchema,
     notebook_id: UUID,
     orientation_type: str,

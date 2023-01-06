@@ -21,7 +21,7 @@ async def get_orientation_request_by_id(
         return OrientationRequest.parse_obj(orientation_request)
 
 
-def accept_orientation_request(
+def get_accept_orientation_request_mutation(
     dsl_schema: DSLSchema,
     orientation_request_id: UUID,
     orientation_type: str,

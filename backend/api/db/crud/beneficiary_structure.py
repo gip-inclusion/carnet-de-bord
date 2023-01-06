@@ -3,7 +3,7 @@ from uuid import UUID
 from gql.dsl import DSLField, DSLSchema
 
 
-def deactivate_beneficiary_structure(
+def get_deactivate_beneficiary_structure_mutation(
     dsl_schema: DSLSchema,
     beneficiary_id: UUID,
 ) -> dict[str, DSLField]:
@@ -20,7 +20,7 @@ def deactivate_beneficiary_structure(
     }
 
 
-def insert_beneficiary_structure(
+def get_insert_beneficiary_structure_mutation(
     dsl_schema: DSLSchema,
     beneficiary_id: UUID,
     structure_id: UUID,
