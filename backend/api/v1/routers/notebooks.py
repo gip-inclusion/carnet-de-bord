@@ -69,7 +69,7 @@ async def add_notebook_members(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        orientation_info = await get_orientation_info(
+        orientation_info: OrientationInfo = await get_orientation_info(
             session,
             notebook_id,
             request.state.account.structure_id,

@@ -24,6 +24,7 @@ from api.db.crud.notebook_member import (
 from api.db.crud.orientation_info import get_orientation_info
 from api.db.crud.orientation_request import accept_orientation_request
 from api.db.models.member_type import MemberTypeEnum
+from api.db.models.orientation_info import OrientationInfo
 from api.db.models.orientation_type import OrientationType
 from api.db.models.role import RoleEnum
 from api.v1.dependencies import allowed_jwt_roles
@@ -88,7 +89,7 @@ async def change_beneficiary_orientation(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        orientation_info = await get_orientation_info(
+        orientation_info: OrientationInfo = await get_orientation_info(
             session, data.notebook_id, data.structure_id, data.new_referent_account_id
         )
 
