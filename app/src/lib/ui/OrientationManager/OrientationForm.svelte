@@ -46,21 +46,31 @@
 		})) ?? [];
 
 	let structures: OperationStore<GetStructuresWithProQuery> = operationStore(
-		GetStructuresWithProDocument
+		GetStructuresWithProDocument,
+		null,
+		{ requestPolicy: 'network-only' }
 	);
 	query(structures);
 	$: structureOptions =
-		$structures.data?.structure.map(({ id, name }) => ({
-			name: id,
-			label: name,
-		})) ?? [];
+		$structures.data?.structure.map(({ id, name, professionals }) => {
+			const beneficiaryCount = professionals.reduce(
+				(total: number, value: GetStructuresWithProQuery['structure'][0]['professionals'][0]) => {
+					return total + value.account.referentCount.aggregate.count;
+				},
+				0
+			);
+			return {
+				name: id,
+				label: `${name} (${beneficiaryCount})`,
+			};
+		}) ?? [];
 
 	$: structure = $structures.data?.structure.find(({ id }) => id === selectedStructureId) ?? null;
 
 	$: professionalOptions =
 		structure?.professionals.map((pro) => ({
 			name: pro.account.id,
-			label: displayFullName(pro),
+			label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
 		})) ?? [];
 
 	const initialValues = { structureId };
@@ -97,6 +107,7 @@
 					required
 					selectLabel="Nom de la structure"
 					selectHint="Sélectionner une structure"
+					additionalLabel="Le nombre affiché correspond au nombre de bénéficiaires actuellement pris en charge par la structure"
 					options={structureOptions}
 					name="structureId"
 					on:select={(event) => {
@@ -108,7 +119,7 @@
 			<Select
 				selectLabel="Nom du référent unique"
 				selectHint="Sélectionner un professionnel"
-				additionalLabel="La sélection du professionnel n’est pas obligatoire."
+				additionalLabel="La sélection du professionnel n’est pas obligatoire. Le nombre affiché correspond au nombre de bénéficiaires pour lequel le professionnel est désigné référent"
 				options={professionalOptions}
 				name="professionalAccountId"
 				disabled={!form.structureId}

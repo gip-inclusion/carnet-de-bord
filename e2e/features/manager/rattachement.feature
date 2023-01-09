@@ -16,8 +16,8 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
-		Alors je selectionne l'option "Groupe NS" dans la liste "Nom de la structure"
-		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
+		Alors je selectionne l'option "Groupe NS (0)" dans la liste "Nom de la structure"
+		Alors je selectionne l'option "Simon Anka (0)" dans la liste "Nom du référent"
 		Quand je clique sur "Valider" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Tifour"
 		Alors je vois "Groupe NS" sur la ligne "Tifour"
@@ -33,7 +33,7 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
-		Alors je selectionne l'option "Service Social Départemental" dans la liste "Nom de la structure"
+		Alors je selectionne l'option "Service Social Départemental (2)" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider" dans le volet
 		Alors je vois "Non rattaché" sur la ligne "Cash"
 		Alors je vois "Service Social Départemental" sur la ligne "Cash"

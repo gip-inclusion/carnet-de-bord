@@ -52,7 +52,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois "Non assigné" sur la ligne "Conley"
 		Alors je ne vois pas "Benjamin"
 
-	Scénario: Afficher la liste des autres bénéficiaires déjà orienter
+	Scénario: Afficher la liste des autres bénéficiaires déjà orienté
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
@@ -62,7 +62,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois "Non assigné" sur la ligne "Beach"
 		Alors je vois "Giulia Diaby" sur la ligne "Cobb"
 
-	Scénario: Afficher la liste des autres bénéficiaires déjà orienter sans chargé d'orientation
+	Scénario: Afficher la liste des autres bénéficiaires déjà orienté sans chargé d'orientation
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand je selectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
