@@ -28,6 +28,7 @@ TRUNCATE public.beneficiary CASCADE;
 TRUNCATE public.notebook CASCADE;
 TRUNCATE public.wanted_job CASCADE;
 TRUNCATE public.deployment CASCADE;
+TRUNCATE public.orientation_system CASCADE;
 
 TRUNCATE public.account CASCADE;
 
