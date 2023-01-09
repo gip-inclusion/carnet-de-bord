@@ -1,4 +1,4 @@
-CREATE TABLE "public"."orientation_system" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), "deployment_id" uuid NOT NULL, "orientation_type" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("orientation_type") REFERENCES "public"."orientation_type"("id") ON UPDATE cascade ON DELETE restrict);
+CREATE TABLE "public"."orientation_system" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" text NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), "deployment_id" uuid NOT NULL, "orientation_type" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("orientation_type") REFERENCES "public"."orientation_type"("id") ON UPDATE cascade ON DELETE restrict);
 CREATE OR REPLACE FUNCTION "public"."set_current_timestamp_updated_at"()
 RETURNS TRIGGER AS $$
 DECLARE
