@@ -1,3 +1,10 @@
+# [1.181.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.5...v1.181.0) (2023-01-09)
+
+
+### Features
+
+* Rejoindre le groupe de suivi depuis un carnet (en tant que professionnel) ([#1365](https://github.com/gip-inclusion/carnet-de-bord/issues/1365)) ([36d3cdf](https://github.com/gip-inclusion/carnet-de-bord/commit/36d3cdf2ac0dc07243129b5b71ff5e99802f6941))
+
 ## [1.180.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.4...v1.180.5) (2023-01-05)
 
 
