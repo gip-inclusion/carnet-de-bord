@@ -3700,6 +3700,10 @@ export type MutationRoot = {
 	delete_orientation_request?: Maybe<OrientationRequestMutationResponse>;
 	/** delete single row from the table: "orientation_request" */
 	delete_orientation_request_by_pk?: Maybe<OrientationRequest>;
+	/** delete data from the table: "orientation_system" */
+	delete_orientation_system?: Maybe<OrientationSystemMutationResponse>;
+	/** delete single row from the table: "orientation_system" */
+	delete_orientation_system_by_pk?: Maybe<OrientationSystem>;
 	/** delete data from the table: "orientation_type" */
 	delete_orientation_type?: Maybe<OrientationTypeMutationResponse>;
 	/** delete single row from the table: "orientation_type" */
@@ -3828,6 +3832,10 @@ export type MutationRoot = {
 	insert_orientation_request?: Maybe<OrientationRequestMutationResponse>;
 	/** insert a single row into the table: "orientation_request" */
 	insert_orientation_request_one?: Maybe<OrientationRequest>;
+	/** insert data into the table: "orientation_system" */
+	insert_orientation_system?: Maybe<OrientationSystemMutationResponse>;
+	/** insert a single row into the table: "orientation_system" */
+	insert_orientation_system_one?: Maybe<OrientationSystem>;
 	/** insert data into the table: "orientation_type" */
 	insert_orientation_type?: Maybe<OrientationTypeMutationResponse>;
 	/** insert a single row into the table: "orientation_type" */
@@ -4002,6 +4010,12 @@ export type MutationRoot = {
 	update_orientation_request_by_pk?: Maybe<OrientationRequest>;
 	/** update multiples rows of table: "orientation_request" */
 	update_orientation_request_many?: Maybe<Array<Maybe<OrientationRequestMutationResponse>>>;
+	/** update data of the table: "orientation_system" */
+	update_orientation_system?: Maybe<OrientationSystemMutationResponse>;
+	/** update single row of the table: "orientation_system" */
+	update_orientation_system_by_pk?: Maybe<OrientationSystem>;
+	/** update multiples rows of table: "orientation_system" */
+	update_orientation_system_many?: Maybe<Array<Maybe<OrientationSystemMutationResponse>>>;
 	/** update data of the table: "orientation_type" */
 	update_orientation_type?: Maybe<OrientationTypeMutationResponse>;
 	/** update single row of the table: "orientation_type" */
@@ -4286,6 +4300,16 @@ export type MutationRootDeleteOrientationRequestArgs = {
 
 /** mutation root */
 export type MutationRootDeleteOrientationRequestByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteOrientationSystemArgs = {
+	where: OrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteOrientationSystemByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -4651,6 +4675,18 @@ export type MutationRootInsertOrientationRequestArgs = {
 export type MutationRootInsertOrientationRequestOneArgs = {
 	object: OrientationRequestInsertInput;
 	on_conflict?: InputMaybe<OrientationRequestOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertOrientationSystemArgs = {
+	objects: Array<OrientationSystemInsertInput>;
+	on_conflict?: InputMaybe<OrientationSystemOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertOrientationSystemOneArgs = {
+	object: OrientationSystemInsertInput;
+	on_conflict?: InputMaybe<OrientationSystemOnConflict>;
 };
 
 /** mutation root */
@@ -5194,6 +5230,23 @@ export type MutationRootUpdateOrientationRequestByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateOrientationRequestManyArgs = {
 	updates: Array<OrientationRequestUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateOrientationSystemArgs = {
+	_set?: InputMaybe<OrientationSystemSetInput>;
+	where: OrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateOrientationSystemByPkArgs = {
+	_set?: InputMaybe<OrientationSystemSetInput>;
+	pk_columns: OrientationSystemPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateOrientationSystemManyArgs = {
+	updates: Array<OrientationSystemUpdates>;
 };
 
 /** mutation root */
@@ -8828,6 +8881,184 @@ export type OrientationRequestUpdates = {
 	where: OrientationRequestBoolExp;
 };
 
+/** columns and relationships of "orientation_system" */
+export type OrientationSystem = {
+	__typename?: 'orientation_system';
+	created_at: Scalars['timestamptz'];
+	deployment_id: Scalars['uuid'];
+	id: Scalars['uuid'];
+	name: Scalars['String'];
+	orientation_type: OrientationTypeEnum;
+	updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "orientation_system" */
+export type OrientationSystemAggregate = {
+	__typename?: 'orientation_system_aggregate';
+	aggregate?: Maybe<OrientationSystemAggregateFields>;
+	nodes: Array<OrientationSystem>;
+};
+
+/** aggregate fields of "orientation_system" */
+export type OrientationSystemAggregateFields = {
+	__typename?: 'orientation_system_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<OrientationSystemMaxFields>;
+	min?: Maybe<OrientationSystemMinFields>;
+};
+
+/** aggregate fields of "orientation_system" */
+export type OrientationSystemAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<OrientationSystemSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "orientation_system". All fields are combined with a logical 'AND'. */
+export type OrientationSystemBoolExp = {
+	_and?: InputMaybe<Array<OrientationSystemBoolExp>>;
+	_not?: InputMaybe<OrientationSystemBoolExp>;
+	_or?: InputMaybe<Array<OrientationSystemBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	deployment_id?: InputMaybe<UuidComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	name?: InputMaybe<StringComparisonExp>;
+	orientation_type?: InputMaybe<OrientationTypeEnumComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "orientation_system" */
+export enum OrientationSystemConstraint {
+	/** unique or primary key constraint on columns "id" */
+	OrientationSystemPkey = 'orientation_system_pkey',
+}
+
+/** input type for inserting data into table "orientation_system" */
+export type OrientationSystemInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	name?: InputMaybe<Scalars['String']>;
+	orientation_type?: InputMaybe<OrientationTypeEnum>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type OrientationSystemMaxFields = {
+	__typename?: 'orientation_system_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	deployment_id?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	name?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type OrientationSystemMinFields = {
+	__typename?: 'orientation_system_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	deployment_id?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	name?: Maybe<Scalars['String']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "orientation_system" */
+export type OrientationSystemMutationResponse = {
+	__typename?: 'orientation_system_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<OrientationSystem>;
+};
+
+/** on_conflict condition type for table "orientation_system" */
+export type OrientationSystemOnConflict = {
+	constraint: OrientationSystemConstraint;
+	update_columns?: Array<OrientationSystemUpdateColumn>;
+	where?: InputMaybe<OrientationSystemBoolExp>;
+};
+
+/** Ordering options when selecting data from "orientation_system". */
+export type OrientationSystemOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	deployment_id?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	name?: InputMaybe<OrderBy>;
+	orientation_type?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: orientation_system */
+export type OrientationSystemPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "orientation_system" */
+export enum OrientationSystemSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	DeploymentId = 'deployment_id',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Name = 'name',
+	/** column name */
+	OrientationType = 'orientation_type',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "orientation_system" */
+export type OrientationSystemSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	name?: InputMaybe<Scalars['String']>;
+	orientation_type?: InputMaybe<OrientationTypeEnum>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "orientation_system" */
+export type OrientationSystemStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: OrientationSystemStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type OrientationSystemStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	name?: InputMaybe<Scalars['String']>;
+	orientation_type?: InputMaybe<OrientationTypeEnum>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "orientation_system" */
+export enum OrientationSystemUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	DeploymentId = 'deployment_id',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Name = 'name',
+	/** column name */
+	OrientationType = 'orientation_type',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+export type OrientationSystemUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<OrientationSystemSetInput>;
+	where: OrientationSystemBoolExp;
+};
+
 /** table contenant les différents types d’orientation */
 export type OrientationType = {
 	__typename?: 'orientation_type';
@@ -9439,6 +9670,12 @@ export type QueryRoot = {
 	orientation_request_aggregate: OrientationRequestAggregate;
 	/** fetch data from the table: "orientation_request" using primary key columns */
 	orientation_request_by_pk?: Maybe<OrientationRequest>;
+	/** fetch data from the table: "orientation_system" */
+	orientation_system: Array<OrientationSystem>;
+	/** fetch aggregated fields from the table: "orientation_system" */
+	orientation_system_aggregate: OrientationSystemAggregate;
+	/** fetch data from the table: "orientation_system" using primary key columns */
+	orientation_system_by_pk?: Maybe<OrientationSystem>;
 	/** fetch data from the table: "orientation_type" */
 	orientation_type: Array<OrientationType>;
 	/** fetch aggregated fields from the table: "orientation_type" */
@@ -9980,6 +10217,26 @@ export type QueryRootOrientationRequestAggregateArgs = {
 };
 
 export type QueryRootOrientationRequestByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<OrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationSystemOrderBy>>;
+	where?: InputMaybe<OrientationSystemBoolExp>;
+};
+
+export type QueryRootOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<OrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationSystemOrderBy>>;
+	where?: InputMaybe<OrientationSystemBoolExp>;
+};
+
+export type QueryRootOrientationSystemByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -11668,6 +11925,14 @@ export type SubscriptionRoot = {
 	orientation_request_by_pk?: Maybe<OrientationRequest>;
 	/** fetch data from the table in a streaming manner: "orientation_request" */
 	orientation_request_stream: Array<OrientationRequest>;
+	/** fetch data from the table: "orientation_system" */
+	orientation_system: Array<OrientationSystem>;
+	/** fetch aggregated fields from the table: "orientation_system" */
+	orientation_system_aggregate: OrientationSystemAggregate;
+	/** fetch data from the table: "orientation_system" using primary key columns */
+	orientation_system_by_pk?: Maybe<OrientationSystem>;
+	/** fetch data from the table in a streaming manner: "orientation_system" */
+	orientation_system_stream: Array<OrientationSystem>;
 	/** fetch data from the table: "orientation_type" */
 	orientation_type: Array<OrientationType>;
 	/** fetch aggregated fields from the table: "orientation_type" */
@@ -12372,6 +12637,32 @@ export type SubscriptionRootOrientationRequestStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<OrientationRequestStreamCursorInput>>;
 	where?: InputMaybe<OrientationRequestBoolExp>;
+};
+
+export type SubscriptionRootOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<OrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationSystemOrderBy>>;
+	where?: InputMaybe<OrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<OrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<OrientationSystemOrderBy>>;
+	where?: InputMaybe<OrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootOrientationSystemByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootOrientationSystemStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<OrientationSystemStreamCursorInput>>;
+	where?: InputMaybe<OrientationSystemBoolExp>;
 };
 
 export type SubscriptionRootOrientationTypeArgs = {
