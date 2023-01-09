@@ -21,6 +21,11 @@
 		reorientationRequest.status == 'denied' || reorientationRequest.status == 'accepted'
 			? formatDateLocale(reorientationRequest.decidedAt)
 			: formatDateLocale(reorientationRequest.createdAt);
+
+	$: [orientationLabel, displayedOrientation] =
+		decision == 'acceptée'
+			? ["Décision d'orientation", reorientationRequest.decidedOrientationType?.label]
+			: ['Orientation recommandée', reorientationRequest.requestedOrientationType.label];
 </script>
 
 <div class="bg-gray-100">
@@ -32,7 +37,7 @@
 					Demande de réorientation {decision} le {date}
 				</p>
 				<p class="mb-0">
-					Orientation recommandée : {reorientationRequest.requestedOrientationType.label}
+					{orientationLabel} : {displayedOrientation}
 				</p>
 			</div>
 		</div>

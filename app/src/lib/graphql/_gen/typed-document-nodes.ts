@@ -14707,6 +14707,7 @@ export type GetNotebookQuery = {
 				createdAt: string;
 				decidedAt?: string | null;
 				requestedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
+				decidedOrientationType?: { __typename?: 'orientation_type'; label: string } | null;
 				beneficiary?: {
 					__typename?: 'beneficiary';
 					id: string;
@@ -23843,6 +23844,16 @@ export const GetNotebookDocument = {
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'requestedOrientationType' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'decidedOrientationType' },
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [

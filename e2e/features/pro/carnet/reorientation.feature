@@ -23,9 +23,9 @@ Fonctionnalité: Demande de réorientation
         Scénario: Affichage d'un bénéficiaire pour lequel la demande de réorientation a été acceptée
                 Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Herring"
 		Alors je vois "Demande de réorientation acceptée"
-		Alors je vois "Orientation recommandée : Social"
+		Alors je vois "Décision d'orientation : Social"
 
         Scénario: Affichage d'un bénéficiaire pour le précédent référent
                 Soit le pro "sanka@groupe-ns.fr" sur le carnet de "Herring"
 		Alors je vois "Demande de réorientation acceptée"
-		Alors je vois "Orientation recommandée : Social"
+		Alors je vois "Décision d'orientation : Social"
