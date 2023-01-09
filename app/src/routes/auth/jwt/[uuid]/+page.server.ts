@@ -57,8 +57,10 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 		beneficiary,
 	} = getAccountResult.data.account[0];
 	let deploymentId = null;
+	let structureId = null;
 	if (professional) {
 		deploymentId = professional.structure.deploymentId;
+		structureId = professional.structure.id;
 	} else if (manager) {
 		deploymentId = manager.deploymentId;
 	} else if (adminStructure) {
@@ -79,6 +81,7 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 		deploymentId,
 		adminStructureId,
 		orientationManagerId,
+		structureId,
 	});
 
 	await client

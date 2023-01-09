@@ -148,6 +148,11 @@
 		});
 	};
 
+	function refreshNotebook() {
+		$getNotebook.reexecute({ requestPolicy: 'network-only' });
+		$getNotebookEvents.reexecute({ requestPolicy: 'network-only' });
+	}
+
 	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
 	$: notebook = publicNotebook?.notebook;
 	$: events = $getNotebookEvents.data?.notebook_event || notebook?.events;
@@ -225,7 +230,11 @@
 						displayMemberManagementButtons={isMember}
 					/>
 				{:else}
-					<NotebookMembers {members} />
+					<NotebookMembers
+						{members}
+						notebookId={publicNotebook.id}
+						on:notebook-member-added={refreshNotebook}
+					/>
 				{/if}
 			</MainSection>
 			{#if notebook?.focuses}

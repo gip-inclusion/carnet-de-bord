@@ -39,10 +39,13 @@ export function postApiJson<T>(
 
 async function handleResponse<T>(response: Response): Promise<T> {
 	if (response.ok) {
+		if (response.status === 204) {
+			return;
+		}
 		return response.json();
 	}
 
-	let errorMessage;
+	let errorMessage: string;
 	if (response.headers.get('Content-type').includes('application/json')) {
 		const errorBody = await response.json();
 		errorMessage = errorBody.message ?? errorBody.detail ?? JSON.stringify(errorBody);
@@ -54,9 +57,9 @@ async function handleResponse<T>(response: Response): Promise<T> {
 }
 
 class HTTPError extends Error {
-	status: string;
+	status: number;
 	statusText: string;
-	constructor(message, status, statusText) {
+	constructor(message: string, status: number, statusText: string) {
 		super(message);
 		this.status = status;
 		this.statusText = statusText;

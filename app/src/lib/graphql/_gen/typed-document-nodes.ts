@@ -15237,7 +15237,7 @@ export type GetAccountInfoQuery = {
 		orientationManagerId?: string | null;
 		professional?: {
 			__typename?: 'professional';
-			structure: { __typename?: 'structure'; deploymentId?: string | null };
+			structure: { __typename?: 'structure'; id: string; deploymentId?: string | null };
 		} | null;
 		manager?: { __typename?: 'manager'; deploymentId: string } | null;
 		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null;
@@ -26993,6 +26993,7 @@ export const GetAccountInfoDocument = {
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'deploymentId' } },
 													],
 												},

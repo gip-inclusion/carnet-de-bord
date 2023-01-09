@@ -17,12 +17,12 @@
 		</h1>
 		<p>Bénéficiaire&nbsp;: <strong>{{beneficiary.get_name()}}</strong></p>
 
-		<p>
+		{% if orientation %}<p>
 			{% if former_referents %}Réorientation&nbsp;:
 			{% else %}Orientation&nbsp;:
 			{% endif %}
 			<strong>{{orientation.get_label()}}</strong>
-		</p>
+		</p>{% endif %}
 		{% if former_referents %}
 		<div style="display: flex">
 			<p>Suivi précédent&nbsp;:</p>

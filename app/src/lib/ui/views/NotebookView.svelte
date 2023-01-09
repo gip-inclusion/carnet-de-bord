@@ -52,7 +52,7 @@
 			<SocioProView {notebook} />
 		</MainSection>
 		<MainSection title="Groupe de suivi">
-			<NotebookMembers members={notebook.members} />
+			<NotebookMembers members={notebook.members} notebookId={notebook.id} />
 		</MainSection>
 		<MainSection title="Plan d'action">
 			{#if notebook.focuses.length === 0}

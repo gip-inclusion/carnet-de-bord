@@ -55,6 +55,13 @@ insert_permissions:
         - data
         - status
         - structure_id
+  - role: professional
+    permission:
+      check: {}
+      columns:
+        - beneficiary_id
+        - status
+        - structure_id
 select_permissions:
   - role: admin_cdb
     permission:

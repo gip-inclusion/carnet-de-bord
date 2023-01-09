@@ -31,5 +31,6 @@
 	<NotebookView
 		notebook={$getNotebookResult.data.notebook}
 		on:beneficiary-orientation-changed={refreshNotebook}
+		on:notebook-member-added={refreshNotebook}
 	/>
 </LoaderIndicator>

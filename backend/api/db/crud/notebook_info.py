@@ -2,6 +2,7 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from gql.dsl import DSLField, DSLSchema
 
 from api.db.models.notebook_info import NotebookInfo, OrientationType
 
@@ -45,3 +46,23 @@ async def get_notebook_info(
 
     if record:
         return NotebookInfo.parse_obj(record)
+
+
+def get_insert_notebook_info_mutation(
+    dsl_schema: DSLSchema,
+    notebook_id: UUID,
+    orientation_type: str,
+) -> dict[str, DSLField]:
+    return {
+        "add_notebook_info": dsl_schema.mutation_root.insert_notebook_info_one.args(
+            object={
+                "notebookId": str(notebook_id),
+                "orientation": orientation_type,
+                "needOrientation": False,
+            },
+            on_conflict={
+                "constraint": "notebook_info_pkey",
+                "update_columns": ["orientation", "needOrientation"],
+            },
+        ).select(dsl_schema.notebook_info.notebookId)
+    }

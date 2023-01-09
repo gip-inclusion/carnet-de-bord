@@ -30,7 +30,7 @@ query userInfo($user:String!, $mail: citext!) {
 		managerId
 		username,
 		type
-		professional { structure { deploymentId} }
+		professional { structure { id deploymentId } }
 		beneficiary { deploymentId }
 		admin_structure {deploymentId}
 		manager { deploymentId}
@@ -57,8 +57,10 @@ query userInfo($user:String!, $mail: citext!) {
 	}
 	const { id, username, type, professionalId, beneficiaryId, managerId, adminStructureId } = data;
 	let deploymentId: string | null = null;
+	let structureId: string | null = null;
 	if (data.professional) {
 		deploymentId = data.professional.structure.deploymentId ?? null;
+		structureId = data.professional.structure.id ?? null;
 	} else if (data.manager) {
 		deploymentId = data.manager.deploymentId;
 	} else if (data.adminStructure) {
@@ -73,6 +75,7 @@ query userInfo($user:String!, $mail: citext!) {
 		managerId,
 		adminStructureId,
 		deploymentId,
+		structureId,
 	};
 
 	return { account, token: createJwt(account) };
