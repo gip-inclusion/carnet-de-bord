@@ -3,14 +3,14 @@ from unittest import mock
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
-from api.db.crud.beneficiary import get_structures_for_beneficiary
-from api.db.crud.notebook import get_notebook_members_by_notebook_id
-from api.db.models.notebook import Notebook
-from api.db.models.professional import Professional
+from backend.api.db.crud.beneficiary import get_structures_for_beneficiary
+from backend.api.db.crud.notebook import get_notebook_members_by_notebook_id
+from backend.api.db.models.notebook import Notebook
+from backend.api.db.models.professional import Professional
 from tests.utils.assert_helpers import assert_member, assert_structure
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_verify_no_token(
     _: mock.Mock,
     test_client: TestClient,
@@ -24,7 +24,7 @@ async def test_verify_no_token(
     assert json["detail"] == "Missing credentials"
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_orientation_manager_not_allowed_to_add_notebook_member(
     _: mock.Mock,
     test_client: TestClient,
@@ -40,7 +40,7 @@ async def test_orientation_manager_not_allowed_to_add_notebook_member(
     assert json["detail"] == "Operation forbidden to the given role"
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_add_notebook_member_as_no_referent(
     mock_send_email: mock.Mock,
     test_client: TestClient,
@@ -69,7 +69,7 @@ async def test_add_notebook_member_as_no_referent(
     assert_member(members, professional_pierre_chevalier, "referent", True)
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_add_notebook_member_as_referent(
     mock_send_email: mock.Mock,
     snapshot,

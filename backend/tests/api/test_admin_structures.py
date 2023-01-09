@@ -7,7 +7,7 @@ ENDPOINT_PATH = "/v1/admin_structures/create"
 sender_email = "test@toto.fr"
 
 
-@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.admin_structures.send_invitation_email")
 async def test_jwt_token_verification(
     _: mock.Mock,
     test_client,
@@ -38,7 +38,7 @@ async def test_jwt_token_verification(
     assert json["detail"] == "Operation forbidden to the given role"
 
 
-@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_admin_structure_with_structure_in_db(
     mock_send_invitation_mail: mock.Mock,
     test_client,
@@ -94,7 +94,7 @@ async def test_insert_admin_structure_with_structure_in_db(
     )
 
 
-@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_existing_admin_structure_in_structure_in_db(
     _: mock.Mock,
     test_client,
@@ -141,7 +141,7 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
     assert records[1]["email"] == "vincent.timaitre@groupe-ns.fr"
 
 
-@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_existing_admin_structure_in_existing_structure(
     _: mock.Mock,
     test_client,
@@ -169,7 +169,7 @@ async def test_insert_existing_admin_structure_in_existing_structure(
     assert response.status_code == 200
 
 
-@mock.patch("api.v1.routers.admin_structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_deleted_admin_structure_in_structure_in_db(
     _: mock.Mock,
     test_client,

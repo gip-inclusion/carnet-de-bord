@@ -1,7 +1,7 @@
 from pydantic import EmailStr, HttpUrl, parse_obj_as
 
-from api.db.crud.structure import get_structure_by_name, insert_structure
-from api.db.models.structure import Structure, StructureInsert
+from backend.api.db.crud.structure import get_structure_by_name, insert_structure
+from backend.api.db.models.structure import Structure, StructureInsert
 
 
 async def test_insert_structure(db_connection):

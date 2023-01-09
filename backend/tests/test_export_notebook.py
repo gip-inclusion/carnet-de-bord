@@ -2,7 +2,7 @@ import json
 import os
 from uuid import UUID
 
-from scripts.export_notebook import export_notebooks_from_structure
+from backend.scripts.export_notebook import export_notebooks_from_structure
 
 
 async def test_export_notebook(db_connection, test_directory):

@@ -3,20 +3,20 @@ from unittest import mock
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
-from api.db.crud.beneficiary import get_structures_for_beneficiary
-from api.db.crud.notebook import get_notebook_members_by_notebook_id
-from api.db.crud.orientation_request import get_orientation_request_by_id
-from api.db.models.beneficiary import Beneficiary
-from api.db.models.notebook import Notebook
-from api.db.models.notebook_info import OrientationType
-from api.db.models.orientation_request import OrientationRequest
-from api.db.models.professional import Professional
+from backend.api.db.crud.beneficiary import get_structures_for_beneficiary
+from backend.api.db.crud.notebook import get_notebook_members_by_notebook_id
+from backend.api.db.crud.orientation_request import get_orientation_request_by_id
+from backend.api.db.models.beneficiary import Beneficiary
+from backend.api.db.models.notebook import Notebook
+from backend.api.db.models.notebook_info import OrientationType
+from backend.api.db.models.orientation_request import OrientationRequest
+from backend.api.db.models.professional import Professional
 from tests.utils.assert_helpers import assert_member, assert_structure
 
 UPDATE_ORIENTATION_ENDPOINT_PATH = "/v1/orientations/change"
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_verify_no_token(
     _: mock.Mock,
     test_client: TestClient,
@@ -37,7 +37,7 @@ async def test_verify_no_token(
     assert json["detail"] == "Missing credentials"
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_professional_not_allowed_to_change_orientation(
     _: mock.Mock,
     test_client: TestClient,
@@ -60,7 +60,7 @@ async def test_professional_not_allowed_to_change_orientation(
     assert json["detail"] == "Operation forbidden to the given role"
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("cdb.api.core.emails.send_mail")
 async def test_admin_structure_not_allowed_to_change_orientation(
     _: mock.Mock,
     test_client: TestClient,
@@ -83,7 +83,7 @@ async def test_admin_structure_not_allowed_to_change_orientation(
     assert json["detail"] == "Operation forbidden to the given role"
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_change_orientation_while_keeping_same_referent(
     _: mock.Mock,
     test_client: TestClient,
@@ -112,7 +112,7 @@ async def test_change_orientation_while_keeping_same_referent(
     assert_member(members, professional_pierre_chevalier)
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_change_orientation_assign_to_structure_not_referent(
     _: mock.Mock,
     test_client: TestClient,
@@ -168,7 +168,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
     )
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_change_orientation_with_new_referent(
     _: mock.Mock,
     test_client: TestClient,
@@ -229,7 +229,7 @@ async def test_change_orientation_with_new_referent(
     )
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_change_orientation_with_new_referent_when_beneficiary_has_no_structure(
     _: mock.Mock,
     test_client: TestClient,
@@ -273,7 +273,7 @@ async def test_change_orientation_with_new_referent_when_beneficiary_has_no_stru
     )
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_change_orientation_with_orientation_request(
     _: mock.Mock,
     test_client: TestClient,
@@ -307,7 +307,7 @@ async def test_change_orientation_with_orientation_request(
     assert response.status_code == 200
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_send_email_to_members_with_orientation_request(
     mock_send_email: mock.Mock,
     snapshot,
@@ -346,7 +346,7 @@ async def test_send_email_to_members_with_orientation_request(
     }
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_send_email_to_members_without_orientation_request(
     mock_send_email: mock.Mock,
     snapshot,
@@ -383,7 +383,7 @@ async def test_send_email_to_members_without_orientation_request(
     }
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_send_email_to_members_first_orientation(
     mock_send_email: mock.Mock,
     test_client: TestClient,
@@ -411,7 +411,7 @@ async def test_send_email_to_members_first_orientation(
     assert snapshot == {"email_new_referent": email_new_referent.kwargs["message"]}
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_unconsistent_orientation_request(
     _: mock.Mock,
     test_client: TestClient,

@@ -1,11 +1,15 @@
 from datetime import date
 from uuid import UUID
 
-from api.db.crud.notebook import find_focus, find_target_from_focus, get_notebook_by_id
-from api.db.models.beneficiary import Beneficiary
-from api.db.models.focus import Focus
-from api.db.models.notebook import Notebook
-from api.db.models.target import Target
+from backend.api.db.crud.notebook import (
+    find_focus,
+    find_target_from_focus,
+    get_notebook_by_id,
+)
+from backend.api.db.models.beneficiary import Beneficiary
+from backend.api.db.models.focus import Focus
+from backend.api.db.models.notebook import Notebook
+from backend.api.db.models.target import Target
 
 
 async def test_get_notebook_by_id(db_connection):

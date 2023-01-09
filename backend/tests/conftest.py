@@ -7,17 +7,17 @@ import pytest
 from dask.dataframe.core import DataFrame
 from fastapi.testclient import TestClient
 
-from api.core.db import get_connection_pool
-from api.core.init import create_app
-from api.core.settings import settings
-from api.db.crud.beneficiary import get_beneficiary_by_id
-from api.db.crud.notebook import get_notebook_by_id
-from api.db.crud.orientation_request import get_orientation_request_by_id
-from api.db.crud.professional import get_professional_by_email
-from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
-from api.db.models.notebook import Notebook
-from api.db.models.orientation_request import OrientationRequest
-from api.db.models.professional import Professional
+from backend.api.core.db import get_connection_pool
+from backend.api.core.init import create_app
+from backend.api.core.settings import settings
+from backend.api.db.crud.beneficiary import get_beneficiary_by_id
+from backend.api.db.crud.notebook import get_notebook_by_id
+from backend.api.db.crud.orientation_request import get_orientation_request_by_id
+from backend.api.db.crud.professional import get_professional_by_email
+from backend.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+from backend.api.db.models.notebook import Notebook
+from backend.api.db.models.orientation_request import OrientationRequest
+from backend.api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
 

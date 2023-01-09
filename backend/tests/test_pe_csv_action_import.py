@@ -3,10 +3,10 @@ from datetime import datetime
 from asyncpg import Record
 from dateutil.relativedelta import relativedelta
 
-from api.db.crud.notebook_event import get_notebook_event_pe
-from api.db.models.notebook import Notebook
-from api.db.models.notebook_event import EventFrom, NotebookEvent
-from cdb_csv.pe import compute_action_date, import_actions
+from backend.api.db.crud.notebook_event import get_notebook_event_pe
+from backend.api.db.models.notebook import Notebook
+from backend.api.db.models.notebook_event import EventFrom, NotebookEvent
+from backend.cdb_csv.pe import compute_action_date, import_actions
 
 
 async def test_parse_action_csv_correctly_imported(

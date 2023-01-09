@@ -1,7 +1,7 @@
-from api.db.crud.professional import get_professional_by_email
-from api.db.models.professional import Professional
-from cdb_csv import pe
-from cdb_csv.models.csv_row import PrincipalCsvRow
+from backend.api.db.crud.professional import get_professional_by_email
+from backend.api.db.models.professional import Professional
+from backend.cdb_csv import pe
+from backend.cdb_csv.models.csv_row import PrincipalCsvRow
 
 
 async def test_get_professional_from_csv(pe_principal_csv_series, db_connection):

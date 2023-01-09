@@ -2,14 +2,14 @@ from unittest import mock
 
 from asyncpg.connection import Connection
 
-from api.db.crud.account import get_accounts_from_email
-from api.db.crud.admin_structure import get_admin_structure_by_email
-from api.db.crud.structure import get_structure_by_name
+from backend.api.db.crud.account import get_accounts_from_email
+from backend.api.db.crud.admin_structure import get_admin_structure_by_email
+from backend.api.db.crud.structure import get_structure_by_name
 
 ENDPOINT_PATH = "/v1/structures/import"
 
 
-@mock.patch("api.v1.routers.structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.structures.send_invitation_email")
 async def test_structure_import_json(
     mock_send_invitation_mail: mock.Mock,
     test_client,
@@ -47,7 +47,7 @@ async def test_structure_import_json(
     )
 
 
-@mock.patch("api.v1.routers.structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.structures.send_invitation_email")
 async def test_structure_with_buggy_import_json(
     mock_send_invitation_mail: mock.Mock,
     test_client,
@@ -66,7 +66,7 @@ async def test_structure_with_buggy_import_json(
     assert response.status_code == 422
 
 
-@mock.patch("api.v1.routers.structures.insert_structure", return_value=None)
+@mock.patch("backend.api.v1.routers.structures.insert_structure", return_value=None)
 async def test_structure_with_fail_structure_insert(
     mock_insert_structure: mock.Mock,
     test_client,
@@ -94,7 +94,8 @@ async def test_structure_with_fail_structure_insert(
 
 
 @mock.patch(
-    "api.v1.routers.structures.create_admin_structure_with_account", return_value=None
+    "backend.api.v1.routers.structures.create_admin_structure_with_account",
+    return_value=None,
 )
 async def test_structure_with_fail_admin_insert(
     mock_create_admin_structure_with_account: mock.Mock,
@@ -123,9 +124,10 @@ async def test_structure_with_fail_admin_insert(
 
 
 @mock.patch(
-    "api.v1.routers.structures.insert_admin_structure_structure", return_value=None
+    "backend.api.v1.routers.structures.insert_admin_structure_structure",
+    return_value=None,
 )
-@mock.patch("api.v1.routers.structures.send_invitation_email")
+@mock.patch("backend.api.v1.routers.structures.send_invitation_email")
 async def test_structure_with_fail_admin_structure_structure_insert(
     mock_create_admin_structure_with_account: mock.Mock,
     mock_send_invitation_email: mock.Mock,

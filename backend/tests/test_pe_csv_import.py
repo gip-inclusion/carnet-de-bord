@@ -7,31 +7,31 @@ import respx
 from asyncpg.connection import Connection
 from dask.dataframe.core import DataFrame
 
-from api.core.settings import settings
-from api.db.crud.beneficiary import get_beneficiary_by_id
-from api.db.crud.external_data import (
+from backend.api.core.settings import settings
+from backend.api.db.crud.beneficiary import get_beneficiary_by_id
+from backend.api.db.crud.external_data import (
     get_last_external_data_by_beneficiary_id_and_source,
 )
-from api.db.crud.notebook import (
+from backend.api.db.crud.notebook import (
     get_notebook_member_by_notebook_id_and_account_id,
     get_notebook_members_by_notebook_id,
 )
-from api.db.crud.professional import get_professional_by_email
-from api.db.crud.structure import get_structures
-from api.db.models.beneficiary import Beneficiary
-from api.db.models.external_data import ExternalSource
-from api.db.models.notebook import NotebookMember
-from api.db.models.professional import Professional
-from api.db.models.structure import Structure
-from cdb_csv.models.csv_row import PrincipalCsvRow
-from cdb_csv.pe import (
+from backend.api.db.crud.professional import get_professional_by_email
+from backend.api.db.crud.structure import get_structures
+from backend.api.db.models.beneficiary import Beneficiary
+from backend.api.db.models.external_data import ExternalSource
+from backend.api.db.models.notebook import NotebookMember
+from backend.api.db.models.professional import Professional
+from backend.api.db.models.structure import Structure
+from backend.cdb_csv.models.csv_row import PrincipalCsvRow
+from backend.cdb_csv.pe import (
     import_beneficiaries,
     import_pe_referent,
     insert_wanted_jobs_for_csv_row_and_notebook,
     map_principal_row,
     net_email_to_fr_email,
 )
-from pe.pole_emploi_client import PoleEmploiApiClient
+from backend.pe.pole_emploi_client import PoleEmploiApiClient
 from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
 
 
@@ -205,7 +205,9 @@ async def test_insert_wanted_jobs_for_csv_row_and_notebook(
         assert len(sophie_tifour.notebook.wanted_jobs) == 3
 
 
-@mock.patch("cdb_csv.pe.map_principal_row", side_effect=Exception("Parsing exception"))
+@mock.patch(
+    "backend.cdb_csv.pe.map_principal_row", side_effect=Exception("Parsing exception")
+)
 async def test_parse_principal_csv_exception(
     mock_principal_row,
     pe_principal_csv_filepath: str,

@@ -1,10 +1,10 @@
 from datetime import date
 
-from api.db.crud.beneficiary import get_beneficiary_from_personal_information
-from api.db.crud.wanted_job import find_wanted_job_for_beneficiary
-from api.db.models.beneficiary import Beneficiary, BeneficiaryImport
-from cdb_csv import pe
-from cdb_csv.models.csv_row import PrincipalCsvRow
+from backend.api.db.crud.beneficiary import get_beneficiary_from_personal_information
+from backend.api.db.crud.wanted_job import find_wanted_job_for_beneficiary
+from backend.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+from backend.cdb_csv import pe
+from backend.cdb_csv.models.csv_row import PrincipalCsvRow
 
 
 async def test_get_beneficiary_with_wanted_jobs(pe_principal_csv_series, db_connection):

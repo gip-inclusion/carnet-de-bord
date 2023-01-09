@@ -2,13 +2,13 @@ from unittest import mock
 
 from fastapi.testclient import TestClient
 
-from api.db.models.orientation_request import OrientationRequest
-from api.db.models.professional import Professional
+from backend.api.db.models.orientation_request import OrientationRequest
+from backend.api.db.models.professional import Professional
 
 DENY_ORIENTATION_ENDPOINT_PATH = "/v1/orientation_requests/deny"
 
 
-@mock.patch("api.core.emails.send_mail")
+@mock.patch("backend.api.core.emails.send_mail")
 async def test_deny_orientation_request_email(
     mock_send_email: mock.Mock,
     test_client: TestClient,
