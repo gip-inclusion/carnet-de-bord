@@ -1,3 +1,10 @@
+# [1.182.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.181.1...v1.182.0) (2023-01-09)
+
+
+### Features
+
+* afficher le nombre de carnets suivis par pro et par structures ([#1413](https://github.com/gip-inclusion/carnet-de-bord/issues/1413)) ([3457b89](https://github.com/gip-inclusion/carnet-de-bord/commit/3457b89dc8efc9d014d69ee849cb01465ae369cb)), closes [#1397](https://github.com/gip-inclusion/carnet-de-bord/issues/1397)
+
 ## [1.181.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.181.0...v1.181.1) (2023-01-09)
 
 # [1.181.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.180.5...v1.181.0) (2023-01-09)
