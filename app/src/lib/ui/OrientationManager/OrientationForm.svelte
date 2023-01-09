@@ -107,7 +107,7 @@
 					required
 					selectLabel="Nom de la structure"
 					selectHint="Sélectionner une structure"
-					additionalLabel="Le nombre de bénéficiaires affiché correspond au nombre de bénéficiaires actuellement pris en charge par la structure"
+					additionalLabel="Le nombre affiché correspond au nombre de bénéficiaires actuellement pris en charge par la structure"
 					options={structureOptions}
 					name="structureId"
 					on:select={(event) => {
@@ -119,7 +119,7 @@
 			<Select
 				selectLabel="Nom du référent unique"
 				selectHint="Sélectionner un professionnel"
-				additionalLabel="La sélection du professionnel n’est pas obligatoire. Le nombre de bénéficiaires affiché correspond au nombre de bénéficiaires pour lequel le professionnel est désigné référent"
+				additionalLabel="La sélection du professionnel n’est pas obligatoire. Le nombre affiché correspond au nombre de bénéficiaires pour lequel le professionnel est désigné référent"
 				options={professionalOptions}
 				name="professionalAccountId"
 				disabled={!form.structureId}
