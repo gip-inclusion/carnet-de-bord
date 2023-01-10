@@ -34,7 +34,7 @@
 	/>
 	<Input placeholder="" inputLabel="Siret" name="siret" class="max-w-max" />
 	<Input placeholder="" inputLabel="Adresse" name="address1" />
-	<Input placeholder="1o rue des mésanges" inputLabel="Complément d'adresse" name="address2" />
+	<Input placeholder="10 rue des mésanges" inputLabel="Complément d'adresse" name="address2" />
 	<div class="fr-grid-row fr-grid-row--gutters fr-grid-row--top">
 		<Input
 			class="fr-col-3 max-w-max"
