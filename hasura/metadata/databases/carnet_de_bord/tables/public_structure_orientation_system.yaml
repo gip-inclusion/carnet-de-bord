@@ -1,0 +1,10 @@
+table:
+  name: structure_orientation_system
+  schema: public
+object_relationships:
+  - name: orientation_system
+    using:
+      foreign_key_constraint_on: orientation_system_id
+  - name: structure
+    using:
+      foreign_key_constraint_on: structure_id

@@ -1,0 +1,10 @@
+table:
+  name: professional_orientation_system
+  schema: public
+object_relationships:
+  - name: orientation_system
+    using:
+      foreign_key_constraint_on: orientation_system_id
+  - name: professional
+    using:
+      foreign_key_constraint_on: professional_id

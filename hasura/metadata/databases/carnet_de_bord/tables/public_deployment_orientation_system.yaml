@@ -1,0 +1,10 @@
+table:
+  name: deployment_orientation_system
+  schema: public
+object_relationships:
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
+  - name: orientation_system
+    using:
+      foreign_key_constraint_on: orientation_system_id
