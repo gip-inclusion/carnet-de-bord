@@ -15948,6 +15948,7 @@ export type GetStructureByIdQuery = {
 		address1?: string | null;
 		address2?: string | null;
 		website?: string | null;
+		deployment?: { __typename?: 'deployment'; id: string; label: string } | null;
 	} | null;
 };
 
@@ -24299,6 +24300,17 @@ export const GetStructureByIdDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'deployment' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+										],
+									},
+								},
 							],
 						},
 					},

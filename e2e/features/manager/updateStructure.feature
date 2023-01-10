@@ -10,6 +10,7 @@ Fonctionnalité: Modification d'une structure
 		Quand je clique sur "Structures"
 		Alors je vois "Interlogement 51" dans le tableau "Liste des structures"
 		Quand je clique sur "Éditer la structure Interlogement 51"
+		Alors je suis sur la page "manager/structures/c0b8aee3-c061-4023-b57e-92880627d589"
 		Alors je renseigne "51000" dans le champ "Code postal"
 		Alors je renseigne "Châlons-en-Champagne" dans le champ "Ville"
 		Quand je clique sur "Mettre à jour"

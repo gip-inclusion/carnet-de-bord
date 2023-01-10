@@ -11,5 +11,9 @@ query GetStructureById($structureId: uuid!) {
     address1
     address2
     website
+    deployment {
+      id
+      label
+    }
   }
 }

@@ -2,50 +2,55 @@
 	import {
 		type GetStructuresForDeploymentQuery,
 		UpdateStructureDocument,
-		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Alert } from '$lib/ui/base';
 	import type { StructureFormInput } from './structure.schema';
 	import StructureCreationForm from './StructureCreationForm.svelte';
-	import { homeForRole } from '$lib/routes';
-	import { goto } from '$app/navigation';
 
 	export let structure: GetStructuresForDeploymentQuery['structure'][0];
 	const updateResult = operationStore(UpdateStructureDocument);
 	const updateStructure = mutation(updateResult);
 
-	let error: string;
+	let alertMessage: string;
+	let showAlert = false;
+	let alertType: 'success' | 'error' = 'success';
+
 	async function handleSubmit(values: StructureFormInput) {
-		delete values.__typename;
+		showAlert = false;
 
 		await updateStructure({
 			id: structure.id,
-			...values,
+			name: values.name,
+			shortDesc: values.shortDesc,
+			email: values.email,
+			phone: values.phone,
+			siret: values.siret,
+			address1: values.address1,
+			address2: values.address2,
+			postalCode: values.postalCode,
+			city: values.city,
+			website: values.website,
 		});
 
+		showAlert = true;
+
 		if (updateResult.error) {
-			error = "L'enregistrement a échoué.";
+			alertMessage = "L'enregistrement a échoué.";
+			alertType = 'error';
 		} else {
-			goToStructuresList();
+			alertMessage = 'Les informations de la structure ont été mises à jour.';
+			alertType = 'success';
 		}
-	}
-
-	function onCancel() {
-		goToStructuresList();
-	}
-
-	function goToStructuresList() {
-		goto(`${homeForRole(RoleEnum.Manager)}/structures`);
 	}
 </script>
 
 <div class="flex flex-col gap-4">
 	<h1>Mettre à jour les informations de structure</h1>
-	<StructureCreationForm onSubmit={handleSubmit} {onCancel} initialValues={structure} />
-	{#if error}
+	<StructureCreationForm onSubmit={handleSubmit} initialValues={structure} />
+	{#if showAlert}
 		<div class="mb-8">
-			<Alert type="error" description={error} />
+			<Alert type={alertType} description={alertMessage} />
 		</div>
 	{/if}
 </div>
