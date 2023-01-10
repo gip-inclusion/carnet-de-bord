@@ -2,12 +2,14 @@
 	import {
 		type GetStructuresForDeploymentQuery,
 		UpdateStructureDocument,
+		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore } from '@urql/svelte';
-	import { openComponent } from '$lib/stores';
 	import { Alert } from '$lib/ui/base';
 	import type { StructureFormInput } from './structure.schema';
 	import StructureCreationForm from './StructureCreationForm.svelte';
+	import { homeForRole } from '$lib/routes';
+	import { goto } from '$app/navigation';
 
 	export let structure: GetStructuresForDeploymentQuery['structure'][0];
 	const updateResult = operationStore(UpdateStructureDocument);
@@ -15,6 +17,8 @@
 
 	let error: string;
 	async function handleSubmit(values: StructureFormInput) {
+		delete values.__typename;
+
 		await updateStructure({
 			id: structure.id,
 			...values,
@@ -23,12 +27,16 @@
 		if (updateResult.error) {
 			error = "L'enregistrement a échoué.";
 		} else {
-			openComponent.close();
+			goToStructuresList();
 		}
 	}
 
 	function onCancel() {
-		openComponent.close();
+		goToStructuresList();
+	}
+
+	function goToStructuresList() {
+		goto(`${homeForRole(RoleEnum.Manager)}/structures`);
 	}
 </script>
 

@@ -1,0 +1,15 @@
+query GetStructureById($structureId: uuid!) {
+  structure_by_pk(id: $structureId) {
+    id
+    siret
+    name
+    shortDesc
+    phone
+    email
+    postalCode
+    city
+    address1
+    address2
+    website
+  }
+}

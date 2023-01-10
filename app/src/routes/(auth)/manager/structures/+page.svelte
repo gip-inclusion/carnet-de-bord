@@ -3,15 +3,10 @@
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import AdminDeploymentStructuresImport from '$lib/ui/Manager/ImportStructures.svelte';
 	import StructureList from '$lib/ui/StructureList/StructureList.svelte';
-	import { openComponent } from '$lib/stores';
-	import StructureEditLayer from '$lib/ui/StructureEdit/StructureEditLayer.svelte';
-	import {
-		GetStructuresForDeploymentDocument,
-		type GetStructuresForDeploymentQuery,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetStructuresForDeploymentDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	type Structure = GetStructuresForDeploymentQuery['structure'][0];
+	import { goto } from '$app/navigation';
 
 	const result = operationStore(
 		GetStructuresForDeploymentDocument,
@@ -44,15 +39,6 @@
 	};
 
 	$: filteredStructures = structures;
-
-	function openEditLayer(structure: Structure) {
-		openComponent.open({
-			component: StructureEditLayer,
-			props: {
-				structure: structure,
-			},
-		});
-	}
 </script>
 
 <svelte:head>
@@ -86,7 +72,7 @@
 		</div>
 		<StructureList
 			structures={filteredStructures}
-			on:edit={(event) => openEditLayer(event.detail.structure)}
+			on:edit={(event) => goto(`structures/${event.detail.structure.id}`)}
 		/>
 	</div>
 </LoaderIndicator>
