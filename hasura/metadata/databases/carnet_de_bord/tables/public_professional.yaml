@@ -28,6 +28,14 @@ object_relationships:
   - name: structure
     using:
       foreign_key_constraint_on: structure_id
+array_relationships:
+  - name: orientation_systems
+    using:
+      foreign_key_constraint_on:
+        column: professional_id
+        table:
+          name: professional_orientation_system
+          schema: public
 insert_permissions:
   - role: admin_cdb
     permission:
