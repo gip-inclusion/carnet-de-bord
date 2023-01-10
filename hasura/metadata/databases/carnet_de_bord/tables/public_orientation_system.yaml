@@ -1,3 +1,44 @@
 table:
   name: orientation_system
   schema: public
+object_relationships:
+  - name: orientationTypeByOrientationType
+    using:
+      foreign_key_constraint_on: orientation_type
+array_relationships:
+  - name: deployment_orientation_systems
+    using:
+      foreign_key_constraint_on:
+        column: orientation_system_id
+        table:
+          name: deployment_orientation_system
+          schema: public
+  - name: professional_orientation_systems
+    using:
+      foreign_key_constraint_on:
+        column: orientation_system_id
+        table:
+          name: professional_orientation_system
+          schema: public
+  - name: structure_orientation_systems
+    using:
+      foreign_key_constraint_on:
+        column: orientation_system_id
+        table:
+          name: structure_orientation_system
+          schema: public
+select_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - name
+        - orientation_type
+        - created_at
+        - updated_at
+        - id
+      filter:
+        professional_orientation_systems:
+          professional:
+            structure:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id

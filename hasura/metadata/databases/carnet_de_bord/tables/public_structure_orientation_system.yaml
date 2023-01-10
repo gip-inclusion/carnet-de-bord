@@ -8,3 +8,15 @@ object_relationships:
   - name: structure
     using:
       foreign_key_constraint_on: structure_id
+select_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - created_at
+        - structure_id
+        - orientation_system_id
+      filter:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
