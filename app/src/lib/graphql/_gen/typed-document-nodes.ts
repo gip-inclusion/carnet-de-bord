@@ -15130,6 +15130,18 @@ export type GetProfessionalsForStructureQuery = {
 				orientation_type: OrientationTypeEnum;
 			};
 		}>;
+		structure: {
+			__typename?: 'structure';
+			orientation_systems: Array<{
+				__typename?: 'structure_orientation_system';
+				orientation_system: {
+					__typename?: 'orientation_system';
+					id: string;
+					name: string;
+					orientation_type: OrientationTypeEnum;
+				};
+			}>;
+		};
 	}>;
 };
 
@@ -22738,6 +22750,39 @@ export const GetProfessionalsForStructureDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'orientation_type' } },
+													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_systems' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientation_system' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_type' },
+																	},
+																],
+															},
+														},
 													],
 												},
 											},

@@ -25,5 +25,14 @@ query GetProfessionalsForStructure($structureId: uuid!) {
         orientation_type
       }
     }
+    structure {
+      orientation_systems {
+        orientation_system {
+          id
+          name
+          orientation_type
+        }
+      }
+    }
   }
 }
