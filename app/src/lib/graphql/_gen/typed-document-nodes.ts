@@ -2626,6 +2626,172 @@ export type DeploymentOrderBy = {
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
+/** columns and relationships of "deployment_orientation_system" */
+export type DeploymentOrientationSystem = {
+	__typename?: 'deployment_orientation_system';
+	created_at: Scalars['timestamptz'];
+	/** An object relationship */
+	deployment: Deployment;
+	deployment_id: Scalars['uuid'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	orientation_system: OrientationSystem;
+	orientation_system_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "deployment_orientation_system" */
+export type DeploymentOrientationSystemAggregate = {
+	__typename?: 'deployment_orientation_system_aggregate';
+	aggregate?: Maybe<DeploymentOrientationSystemAggregateFields>;
+	nodes: Array<DeploymentOrientationSystem>;
+};
+
+/** aggregate fields of "deployment_orientation_system" */
+export type DeploymentOrientationSystemAggregateFields = {
+	__typename?: 'deployment_orientation_system_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<DeploymentOrientationSystemMaxFields>;
+	min?: Maybe<DeploymentOrientationSystemMinFields>;
+};
+
+/** aggregate fields of "deployment_orientation_system" */
+export type DeploymentOrientationSystemAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<DeploymentOrientationSystemSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "deployment_orientation_system". All fields are combined with a logical 'AND'. */
+export type DeploymentOrientationSystemBoolExp = {
+	_and?: InputMaybe<Array<DeploymentOrientationSystemBoolExp>>;
+	_not?: InputMaybe<DeploymentOrientationSystemBoolExp>;
+	_or?: InputMaybe<Array<DeploymentOrientationSystemBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	deployment?: InputMaybe<DeploymentBoolExp>;
+	deployment_id?: InputMaybe<UuidComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	orientation_system?: InputMaybe<OrientationSystemBoolExp>;
+	orientation_system_id?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "deployment_orientation_system" */
+export enum DeploymentOrientationSystemConstraint {
+	/** unique or primary key constraint on columns "id" */
+	DeploymentOrientationSystemPkey = 'deployment_orientation_system_pkey',
+}
+
+/** input type for inserting data into table "deployment_orientation_system" */
+export type DeploymentOrientationSystemInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system?: InputMaybe<OrientationSystemObjRelInsertInput>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type DeploymentOrientationSystemMaxFields = {
+	__typename?: 'deployment_orientation_system_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	deployment_id?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	orientation_system_id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type DeploymentOrientationSystemMinFields = {
+	__typename?: 'deployment_orientation_system_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	deployment_id?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	orientation_system_id?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "deployment_orientation_system" */
+export type DeploymentOrientationSystemMutationResponse = {
+	__typename?: 'deployment_orientation_system_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<DeploymentOrientationSystem>;
+};
+
+/** on_conflict condition type for table "deployment_orientation_system" */
+export type DeploymentOrientationSystemOnConflict = {
+	constraint: DeploymentOrientationSystemConstraint;
+	update_columns?: Array<DeploymentOrientationSystemUpdateColumn>;
+	where?: InputMaybe<DeploymentOrientationSystemBoolExp>;
+};
+
+/** Ordering options when selecting data from "deployment_orientation_system". */
+export type DeploymentOrientationSystemOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	deployment?: InputMaybe<DeploymentOrderBy>;
+	deployment_id?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	orientation_system?: InputMaybe<OrientationSystemOrderBy>;
+	orientation_system_id?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: deployment_orientation_system */
+export type DeploymentOrientationSystemPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "deployment_orientation_system" */
+export enum DeploymentOrientationSystemSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	DeploymentId = 'deployment_id',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	OrientationSystemId = 'orientation_system_id',
+}
+
+/** input type for updating data in table "deployment_orientation_system" */
+export type DeploymentOrientationSystemSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "deployment_orientation_system" */
+export type DeploymentOrientationSystemStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: DeploymentOrientationSystemStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type DeploymentOrientationSystemStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	deployment_id?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "deployment_orientation_system" */
+export enum DeploymentOrientationSystemUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	DeploymentId = 'deployment_id',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	OrientationSystemId = 'orientation_system_id',
+}
+
+export type DeploymentOrientationSystemUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<DeploymentOrientationSystemSetInput>;
+	where: DeploymentOrientationSystemBoolExp;
+};
+
 /** primary key columns input for table: deployment */
 export type DeploymentPkColumnsInput = {
 	id: Scalars['uuid'];
@@ -3638,6 +3804,10 @@ export type MutationRoot = {
 	delete_deployment?: Maybe<DeploymentMutationResponse>;
 	/** delete single row from the table: "deployment" */
 	delete_deployment_by_pk?: Maybe<Deployment>;
+	/** delete data from the table: "deployment_orientation_system" */
+	delete_deployment_orientation_system?: Maybe<DeploymentOrientationSystemMutationResponse>;
+	/** delete single row from the table: "deployment_orientation_system" */
+	delete_deployment_orientation_system_by_pk?: Maybe<DeploymentOrientationSystem>;
 	/** delete data from the table: "external_data" */
 	delete_external_data?: Maybe<ExternalDataMutationResponse>;
 	/** delete single row from the table: "external_data" */
@@ -3712,6 +3882,10 @@ export type MutationRoot = {
 	delete_professional?: Maybe<ProfessionalMutationResponse>;
 	/** delete single row from the table: "professional" */
 	delete_professional_by_pk?: Maybe<Professional>;
+	/** delete data from the table: "professional_orientation_system" */
+	delete_professional_orientation_system?: Maybe<ProfessionalOrientationSystemMutationResponse>;
+	/** delete single row from the table: "professional_orientation_system" */
+	delete_professional_orientation_system_by_pk?: Maybe<ProfessionalOrientationSystem>;
 	/** delete data from the table: "ref_action" */
 	delete_ref_action?: Maybe<RefActionMutationResponse>;
 	/** delete single row from the table: "ref_action" */
@@ -3736,6 +3910,10 @@ export type MutationRoot = {
 	delete_structure?: Maybe<StructureMutationResponse>;
 	/** delete single row from the table: "structure" */
 	delete_structure_by_pk?: Maybe<Structure>;
+	/** delete data from the table: "structure_orientation_system" */
+	delete_structure_orientation_system?: Maybe<StructureOrientationSystemMutationResponse>;
+	/** delete single row from the table: "structure_orientation_system" */
+	delete_structure_orientation_system_by_pk?: Maybe<StructureOrientationSystem>;
 	/** delete data from the table: "wanted_job" */
 	delete_wanted_job?: Maybe<WantedJobMutationResponse>;
 	/** delete single row from the table: "wanted_job" */
@@ -3768,6 +3946,10 @@ export type MutationRoot = {
 	insert_deployment?: Maybe<DeploymentMutationResponse>;
 	/** insert a single row into the table: "deployment" */
 	insert_deployment_one?: Maybe<Deployment>;
+	/** insert data into the table: "deployment_orientation_system" */
+	insert_deployment_orientation_system?: Maybe<DeploymentOrientationSystemMutationResponse>;
+	/** insert a single row into the table: "deployment_orientation_system" */
+	insert_deployment_orientation_system_one?: Maybe<DeploymentOrientationSystem>;
 	/** insert data into the table: "external_data" */
 	insert_external_data?: Maybe<ExternalDataMutationResponse>;
 	/** insert data into the table: "external_data_info" */
@@ -3844,6 +4026,10 @@ export type MutationRoot = {
 	insert_professional?: Maybe<ProfessionalMutationResponse>;
 	/** insert a single row into the table: "professional" */
 	insert_professional_one?: Maybe<Professional>;
+	/** insert data into the table: "professional_orientation_system" */
+	insert_professional_orientation_system?: Maybe<ProfessionalOrientationSystemMutationResponse>;
+	/** insert a single row into the table: "professional_orientation_system" */
+	insert_professional_orientation_system_one?: Maybe<ProfessionalOrientationSystem>;
 	/** insert data into the table: "ref_action" */
 	insert_ref_action?: Maybe<RefActionMutationResponse>;
 	/** insert a single row into the table: "ref_action" */
@@ -3868,6 +4054,10 @@ export type MutationRoot = {
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
 	insert_structure_one?: Maybe<Structure>;
+	/** insert data into the table: "structure_orientation_system" */
+	insert_structure_orientation_system?: Maybe<StructureOrientationSystemMutationResponse>;
+	/** insert a single row into the table: "structure_orientation_system" */
+	insert_structure_orientation_system_one?: Maybe<StructureOrientationSystem>;
 	/** insert data into the table: "wanted_job" */
 	insert_wanted_job?: Maybe<WantedJobMutationResponse>;
 	/** insert a single row into the table: "wanted_job" */
@@ -3916,6 +4106,14 @@ export type MutationRoot = {
 	update_deployment_by_pk?: Maybe<Deployment>;
 	/** update multiples rows of table: "deployment" */
 	update_deployment_many?: Maybe<Array<Maybe<DeploymentMutationResponse>>>;
+	/** update data of the table: "deployment_orientation_system" */
+	update_deployment_orientation_system?: Maybe<DeploymentOrientationSystemMutationResponse>;
+	/** update single row of the table: "deployment_orientation_system" */
+	update_deployment_orientation_system_by_pk?: Maybe<DeploymentOrientationSystem>;
+	/** update multiples rows of table: "deployment_orientation_system" */
+	update_deployment_orientation_system_many?: Maybe<
+		Array<Maybe<DeploymentOrientationSystemMutationResponse>>
+	>;
 	/** update data of the table: "external_data" */
 	update_external_data?: Maybe<ExternalDataMutationResponse>;
 	/** update single row of the table: "external_data" */
@@ -4028,6 +4226,14 @@ export type MutationRoot = {
 	update_professional_by_pk?: Maybe<Professional>;
 	/** update multiples rows of table: "professional" */
 	update_professional_many?: Maybe<Array<Maybe<ProfessionalMutationResponse>>>;
+	/** update data of the table: "professional_orientation_system" */
+	update_professional_orientation_system?: Maybe<ProfessionalOrientationSystemMutationResponse>;
+	/** update single row of the table: "professional_orientation_system" */
+	update_professional_orientation_system_by_pk?: Maybe<ProfessionalOrientationSystem>;
+	/** update multiples rows of table: "professional_orientation_system" */
+	update_professional_orientation_system_many?: Maybe<
+		Array<Maybe<ProfessionalOrientationSystemMutationResponse>>
+	>;
 	/** update data of the table: "ref_action" */
 	update_ref_action?: Maybe<RefActionMutationResponse>;
 	/** update single row of the table: "ref_action" */
@@ -4064,6 +4270,14 @@ export type MutationRoot = {
 	update_structure_by_pk?: Maybe<Structure>;
 	/** update multiples rows of table: "structure" */
 	update_structure_many?: Maybe<Array<Maybe<StructureMutationResponse>>>;
+	/** update data of the table: "structure_orientation_system" */
+	update_structure_orientation_system?: Maybe<StructureOrientationSystemMutationResponse>;
+	/** update single row of the table: "structure_orientation_system" */
+	update_structure_orientation_system_by_pk?: Maybe<StructureOrientationSystem>;
+	/** update multiples rows of table: "structure_orientation_system" */
+	update_structure_orientation_system_many?: Maybe<
+		Array<Maybe<StructureOrientationSystemMutationResponse>>
+	>;
 	/** update data of the table: "wanted_job" */
 	update_wanted_job?: Maybe<WantedJobMutationResponse>;
 	/** update single row of the table: "wanted_job" */
@@ -4145,6 +4359,16 @@ export type MutationRootDeleteDeploymentArgs = {
 
 /** mutation root */
 export type MutationRootDeleteDeploymentByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteDeploymentOrientationSystemArgs = {
+	where: DeploymentOrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteDeploymentOrientationSystemByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -4334,6 +4558,16 @@ export type MutationRootDeleteProfessionalByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteProfessionalOrientationSystemArgs = {
+	where: ProfessionalOrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteProfessionalOrientationSystemByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type MutationRootDeleteRefActionArgs = {
 	where: RefActionBoolExp;
 };
@@ -4390,6 +4624,16 @@ export type MutationRootDeleteStructureArgs = {
 
 /** mutation root */
 export type MutationRootDeleteStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteStructureOrientationSystemArgs = {
+	where: StructureOrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteStructureOrientationSystemByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -4485,6 +4729,18 @@ export type MutationRootInsertDeploymentArgs = {
 export type MutationRootInsertDeploymentOneArgs = {
 	object: DeploymentInsertInput;
 	on_conflict?: InputMaybe<DeploymentOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertDeploymentOrientationSystemArgs = {
+	objects: Array<DeploymentOrientationSystemInsertInput>;
+	on_conflict?: InputMaybe<DeploymentOrientationSystemOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertDeploymentOrientationSystemOneArgs = {
+	object: DeploymentOrientationSystemInsertInput;
+	on_conflict?: InputMaybe<DeploymentOrientationSystemOnConflict>;
 };
 
 /** mutation root */
@@ -4714,6 +4970,18 @@ export type MutationRootInsertProfessionalOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertProfessionalOrientationSystemArgs = {
+	objects: Array<ProfessionalOrientationSystemInsertInput>;
+	on_conflict?: InputMaybe<ProfessionalOrientationSystemOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertProfessionalOrientationSystemOneArgs = {
+	object: ProfessionalOrientationSystemInsertInput;
+	on_conflict?: InputMaybe<ProfessionalOrientationSystemOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertRefActionArgs = {
 	objects: Array<RefActionInsertInput>;
 	on_conflict?: InputMaybe<RefActionOnConflict>;
@@ -4783,6 +5051,18 @@ export type MutationRootInsertStructureArgs = {
 export type MutationRootInsertStructureOneArgs = {
 	object: StructureInsertInput;
 	on_conflict?: InputMaybe<StructureOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertStructureOrientationSystemArgs = {
+	objects: Array<StructureOrientationSystemInsertInput>;
+	on_conflict?: InputMaybe<StructureOrientationSystemOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertStructureOrientationSystemOneArgs = {
+	object: StructureOrientationSystemInsertInput;
+	on_conflict?: InputMaybe<StructureOrientationSystemOnConflict>;
 };
 
 /** mutation root */
@@ -4934,6 +5214,23 @@ export type MutationRootUpdateDeploymentByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateDeploymentManyArgs = {
 	updates: Array<DeploymentUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateDeploymentOrientationSystemArgs = {
+	_set?: InputMaybe<DeploymentOrientationSystemSetInput>;
+	where: DeploymentOrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateDeploymentOrientationSystemByPkArgs = {
+	_set?: InputMaybe<DeploymentOrientationSystemSetInput>;
+	pk_columns: DeploymentOrientationSystemPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateDeploymentOrientationSystemManyArgs = {
+	updates: Array<DeploymentOrientationSystemUpdates>;
 };
 
 /** mutation root */
@@ -5284,6 +5581,23 @@ export type MutationRootUpdateProfessionalManyArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateProfessionalOrientationSystemArgs = {
+	_set?: InputMaybe<ProfessionalOrientationSystemSetInput>;
+	where: ProfessionalOrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfessionalOrientationSystemByPkArgs = {
+	_set?: InputMaybe<ProfessionalOrientationSystemSetInput>;
+	pk_columns: ProfessionalOrientationSystemPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfessionalOrientationSystemManyArgs = {
+	updates: Array<ProfessionalOrientationSystemUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateRefActionArgs = {
 	_set?: InputMaybe<RefActionSetInput>;
 	where: RefActionBoolExp;
@@ -5383,6 +5697,23 @@ export type MutationRootUpdateStructureByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateStructureManyArgs = {
 	updates: Array<StructureUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateStructureOrientationSystemArgs = {
+	_set?: InputMaybe<StructureOrientationSystemSetInput>;
+	where: StructureOrientationSystemBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateStructureOrientationSystemByPkArgs = {
+	_set?: InputMaybe<StructureOrientationSystemSetInput>;
+	pk_columns: StructureOrientationSystemPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateStructureOrientationSystemManyArgs = {
+	updates: Array<StructureOrientationSystemUpdates>;
 };
 
 /** mutation root */
@@ -8885,7 +9216,6 @@ export type OrientationRequestUpdates = {
 export type OrientationSystem = {
 	__typename?: 'orientation_system';
 	created_at: Scalars['timestamptz'];
-	deployment_id: Scalars['uuid'];
 	id: Scalars['uuid'];
 	name: Scalars['String'];
 	orientation_type: OrientationTypeEnum;
@@ -8919,7 +9249,6 @@ export type OrientationSystemBoolExp = {
 	_not?: InputMaybe<OrientationSystemBoolExp>;
 	_or?: InputMaybe<Array<OrientationSystemBoolExp>>;
 	created_at?: InputMaybe<TimestamptzComparisonExp>;
-	deployment_id?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	name?: InputMaybe<StringComparisonExp>;
 	orientation_type?: InputMaybe<OrientationTypeEnumComparisonExp>;
@@ -8935,7 +9264,6 @@ export enum OrientationSystemConstraint {
 /** input type for inserting data into table "orientation_system" */
 export type OrientationSystemInsertInput = {
 	created_at?: InputMaybe<Scalars['timestamptz']>;
-	deployment_id?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	name?: InputMaybe<Scalars['String']>;
 	orientation_type?: InputMaybe<OrientationTypeEnum>;
@@ -8946,7 +9274,6 @@ export type OrientationSystemInsertInput = {
 export type OrientationSystemMaxFields = {
 	__typename?: 'orientation_system_max_fields';
 	created_at?: Maybe<Scalars['timestamptz']>;
-	deployment_id?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	name?: Maybe<Scalars['String']>;
 	updated_at?: Maybe<Scalars['timestamptz']>;
@@ -8956,7 +9283,6 @@ export type OrientationSystemMaxFields = {
 export type OrientationSystemMinFields = {
 	__typename?: 'orientation_system_min_fields';
 	created_at?: Maybe<Scalars['timestamptz']>;
-	deployment_id?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	name?: Maybe<Scalars['String']>;
 	updated_at?: Maybe<Scalars['timestamptz']>;
@@ -8971,6 +9297,13 @@ export type OrientationSystemMutationResponse = {
 	returning: Array<OrientationSystem>;
 };
 
+/** input type for inserting object relation for remote table "orientation_system" */
+export type OrientationSystemObjRelInsertInput = {
+	data: OrientationSystemInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<OrientationSystemOnConflict>;
+};
+
 /** on_conflict condition type for table "orientation_system" */
 export type OrientationSystemOnConflict = {
 	constraint: OrientationSystemConstraint;
@@ -8981,7 +9314,6 @@ export type OrientationSystemOnConflict = {
 /** Ordering options when selecting data from "orientation_system". */
 export type OrientationSystemOrderBy = {
 	created_at?: InputMaybe<OrderBy>;
-	deployment_id?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	name?: InputMaybe<OrderBy>;
 	orientation_type?: InputMaybe<OrderBy>;
@@ -8998,8 +9330,6 @@ export enum OrientationSystemSelectColumn {
 	/** column name */
 	CreatedAt = 'created_at',
 	/** column name */
-	DeploymentId = 'deployment_id',
-	/** column name */
 	Id = 'id',
 	/** column name */
 	Name = 'name',
@@ -9012,7 +9342,6 @@ export enum OrientationSystemSelectColumn {
 /** input type for updating data in table "orientation_system" */
 export type OrientationSystemSetInput = {
 	created_at?: InputMaybe<Scalars['timestamptz']>;
-	deployment_id?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	name?: InputMaybe<Scalars['String']>;
 	orientation_type?: InputMaybe<OrientationTypeEnum>;
@@ -9030,7 +9359,6 @@ export type OrientationSystemStreamCursorInput = {
 /** Initial value of the column from where the streaming should start */
 export type OrientationSystemStreamCursorValueInput = {
 	created_at?: InputMaybe<Scalars['timestamptz']>;
-	deployment_id?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	name?: InputMaybe<Scalars['String']>;
 	orientation_type?: InputMaybe<OrientationTypeEnum>;
@@ -9041,8 +9369,6 @@ export type OrientationSystemStreamCursorValueInput = {
 export enum OrientationSystemUpdateColumn {
 	/** column name */
 	CreatedAt = 'created_at',
-	/** column name */
-	DeploymentId = 'deployment_id',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -9439,6 +9765,172 @@ export type ProfessionalOrderBy = {
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
+/** columns and relationships of "professional_orientation_system" */
+export type ProfessionalOrientationSystem = {
+	__typename?: 'professional_orientation_system';
+	created_at: Scalars['timestamptz'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	orientation_system: OrientationSystem;
+	orientation_system_id: Scalars['uuid'];
+	/** An object relationship */
+	professional: Professional;
+	professional_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "professional_orientation_system" */
+export type ProfessionalOrientationSystemAggregate = {
+	__typename?: 'professional_orientation_system_aggregate';
+	aggregate?: Maybe<ProfessionalOrientationSystemAggregateFields>;
+	nodes: Array<ProfessionalOrientationSystem>;
+};
+
+/** aggregate fields of "professional_orientation_system" */
+export type ProfessionalOrientationSystemAggregateFields = {
+	__typename?: 'professional_orientation_system_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ProfessionalOrientationSystemMaxFields>;
+	min?: Maybe<ProfessionalOrientationSystemMinFields>;
+};
+
+/** aggregate fields of "professional_orientation_system" */
+export type ProfessionalOrientationSystemAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<ProfessionalOrientationSystemSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "professional_orientation_system". All fields are combined with a logical 'AND'. */
+export type ProfessionalOrientationSystemBoolExp = {
+	_and?: InputMaybe<Array<ProfessionalOrientationSystemBoolExp>>;
+	_not?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
+	_or?: InputMaybe<Array<ProfessionalOrientationSystemBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	orientation_system?: InputMaybe<OrientationSystemBoolExp>;
+	orientation_system_id?: InputMaybe<UuidComparisonExp>;
+	professional?: InputMaybe<ProfessionalBoolExp>;
+	professional_id?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "professional_orientation_system" */
+export enum ProfessionalOrientationSystemConstraint {
+	/** unique or primary key constraint on columns "id" */
+	ProfessionalOrientationSystemPkey = 'professional_orientation_system_pkey',
+}
+
+/** input type for inserting data into table "professional_orientation_system" */
+export type ProfessionalOrientationSystemInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system?: InputMaybe<OrientationSystemObjRelInsertInput>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+	professional?: InputMaybe<ProfessionalObjRelInsertInput>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type ProfessionalOrientationSystemMaxFields = {
+	__typename?: 'professional_orientation_system_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	orientation_system_id?: Maybe<Scalars['uuid']>;
+	professional_id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type ProfessionalOrientationSystemMinFields = {
+	__typename?: 'professional_orientation_system_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	orientation_system_id?: Maybe<Scalars['uuid']>;
+	professional_id?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "professional_orientation_system" */
+export type ProfessionalOrientationSystemMutationResponse = {
+	__typename?: 'professional_orientation_system_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<ProfessionalOrientationSystem>;
+};
+
+/** on_conflict condition type for table "professional_orientation_system" */
+export type ProfessionalOrientationSystemOnConflict = {
+	constraint: ProfessionalOrientationSystemConstraint;
+	update_columns?: Array<ProfessionalOrientationSystemUpdateColumn>;
+	where?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
+};
+
+/** Ordering options when selecting data from "professional_orientation_system". */
+export type ProfessionalOrientationSystemOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	orientation_system?: InputMaybe<OrientationSystemOrderBy>;
+	orientation_system_id?: InputMaybe<OrderBy>;
+	professional?: InputMaybe<ProfessionalOrderBy>;
+	professional_id?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: professional_orientation_system */
+export type ProfessionalOrientationSystemPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "professional_orientation_system" */
+export enum ProfessionalOrientationSystemSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	OrientationSystemId = 'orientation_system_id',
+	/** column name */
+	ProfessionalId = 'professional_id',
+}
+
+/** input type for updating data in table "professional_orientation_system" */
+export type ProfessionalOrientationSystemSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "professional_orientation_system" */
+export type ProfessionalOrientationSystemStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ProfessionalOrientationSystemStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ProfessionalOrientationSystemStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+	professional_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "professional_orientation_system" */
+export enum ProfessionalOrientationSystemUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	OrientationSystemId = 'orientation_system_id',
+	/** column name */
+	ProfessionalId = 'professional_id',
+}
+
+export type ProfessionalOrientationSystemUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ProfessionalOrientationSystemSetInput>;
+	where: ProfessionalOrientationSystemBoolExp;
+};
+
 /** primary key columns input for table: professional */
 export type ProfessionalPkColumnsInput = {
 	id: Scalars['uuid'];
@@ -9576,6 +10068,12 @@ export type QueryRoot = {
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table: "deployment_orientation_system" */
+	deployment_orientation_system: Array<DeploymentOrientationSystem>;
+	/** fetch aggregated fields from the table: "deployment_orientation_system" */
+	deployment_orientation_system_aggregate: DeploymentOrientationSystemAggregate;
+	/** fetch data from the table: "deployment_orientation_system" using primary key columns */
+	deployment_orientation_system_by_pk?: Maybe<DeploymentOrientationSystem>;
 	/** An array relationship */
 	external_data: Array<ExternalData>;
 	/** An aggregate relationship */
@@ -9688,6 +10186,12 @@ export type QueryRoot = {
 	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
+	/** fetch data from the table: "professional_orientation_system" */
+	professional_orientation_system: Array<ProfessionalOrientationSystem>;
+	/** fetch aggregated fields from the table: "professional_orientation_system" */
+	professional_orientation_system_aggregate: ProfessionalOrientationSystemAggregate;
+	/** fetch data from the table: "professional_orientation_system" using primary key columns */
+	professional_orientation_system_by_pk?: Maybe<ProfessionalOrientationSystem>;
 	/** fetch data from the table: "ref_action" */
 	ref_action: Array<RefAction>;
 	/** fetch aggregated fields from the table: "ref_action" */
@@ -9740,6 +10244,12 @@ export type QueryRoot = {
 	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
+	/** fetch data from the table: "structure_orientation_system" */
+	structure_orientation_system: Array<StructureOrientationSystem>;
+	/** fetch aggregated fields from the table: "structure_orientation_system" */
+	structure_orientation_system_aggregate: StructureOrientationSystemAggregate;
+	/** fetch data from the table: "structure_orientation_system" using primary key columns */
+	structure_orientation_system_by_pk?: Maybe<StructureOrientationSystem>;
 	/** fetch data from the table: "wanted_job" */
 	wanted_job: Array<WantedJob>;
 	/** fetch aggregated fields from the table: "wanted_job" */
@@ -9901,6 +10411,26 @@ export type QueryRootDeploymentAggregateArgs = {
 };
 
 export type QueryRootDeploymentByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootDeploymentOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<DeploymentOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<DeploymentOrientationSystemOrderBy>>;
+	where?: InputMaybe<DeploymentOrientationSystemBoolExp>;
+};
+
+export type QueryRootDeploymentOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<DeploymentOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<DeploymentOrientationSystemOrderBy>>;
+	where?: InputMaybe<DeploymentOrientationSystemBoolExp>;
+};
+
+export type QueryRootDeploymentOrientationSystemByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -10280,6 +10810,26 @@ export type QueryRootProfessionalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootProfessionalOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalOrientationSystemOrderBy>>;
+	where?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
+};
+
+export type QueryRootProfessionalOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalOrientationSystemOrderBy>>;
+	where?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
+};
+
+export type QueryRootProfessionalOrientationSystemByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootRefActionArgs = {
 	distinct_on?: InputMaybe<Array<RefActionSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -10469,6 +11019,26 @@ export type QueryRootStructureAggregateArgs = {
 };
 
 export type QueryRootStructureByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootStructureOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<StructureOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<StructureOrientationSystemOrderBy>>;
+	where?: InputMaybe<StructureOrientationSystemBoolExp>;
+};
+
+export type QueryRootStructureOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<StructureOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<StructureOrientationSystemOrderBy>>;
+	where?: InputMaybe<StructureOrientationSystemBoolExp>;
+};
+
+export type QueryRootStructureOrientationSystemByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -11616,6 +12186,172 @@ export type StructureOrderBy = {
 	website?: InputMaybe<OrderBy>;
 };
 
+/** columns and relationships of "structure_orientation_system" */
+export type StructureOrientationSystem = {
+	__typename?: 'structure_orientation_system';
+	created_at: Scalars['timestamptz'];
+	id: Scalars['uuid'];
+	/** An object relationship */
+	orientation_system: OrientationSystem;
+	orientation_system_id: Scalars['uuid'];
+	/** An object relationship */
+	structure: Structure;
+	structure_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "structure_orientation_system" */
+export type StructureOrientationSystemAggregate = {
+	__typename?: 'structure_orientation_system_aggregate';
+	aggregate?: Maybe<StructureOrientationSystemAggregateFields>;
+	nodes: Array<StructureOrientationSystem>;
+};
+
+/** aggregate fields of "structure_orientation_system" */
+export type StructureOrientationSystemAggregateFields = {
+	__typename?: 'structure_orientation_system_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<StructureOrientationSystemMaxFields>;
+	min?: Maybe<StructureOrientationSystemMinFields>;
+};
+
+/** aggregate fields of "structure_orientation_system" */
+export type StructureOrientationSystemAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<StructureOrientationSystemSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "structure_orientation_system". All fields are combined with a logical 'AND'. */
+export type StructureOrientationSystemBoolExp = {
+	_and?: InputMaybe<Array<StructureOrientationSystemBoolExp>>;
+	_not?: InputMaybe<StructureOrientationSystemBoolExp>;
+	_or?: InputMaybe<Array<StructureOrientationSystemBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	orientation_system?: InputMaybe<OrientationSystemBoolExp>;
+	orientation_system_id?: InputMaybe<UuidComparisonExp>;
+	structure?: InputMaybe<StructureBoolExp>;
+	structure_id?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "structure_orientation_system" */
+export enum StructureOrientationSystemConstraint {
+	/** unique or primary key constraint on columns "id" */
+	StructureOrientationSystemPkey = 'structure_orientation_system_pkey',
+}
+
+/** input type for inserting data into table "structure_orientation_system" */
+export type StructureOrientationSystemInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system?: InputMaybe<OrientationSystemObjRelInsertInput>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+	structure?: InputMaybe<StructureObjRelInsertInput>;
+	structure_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type StructureOrientationSystemMaxFields = {
+	__typename?: 'structure_orientation_system_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	orientation_system_id?: Maybe<Scalars['uuid']>;
+	structure_id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type StructureOrientationSystemMinFields = {
+	__typename?: 'structure_orientation_system_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	orientation_system_id?: Maybe<Scalars['uuid']>;
+	structure_id?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "structure_orientation_system" */
+export type StructureOrientationSystemMutationResponse = {
+	__typename?: 'structure_orientation_system_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<StructureOrientationSystem>;
+};
+
+/** on_conflict condition type for table "structure_orientation_system" */
+export type StructureOrientationSystemOnConflict = {
+	constraint: StructureOrientationSystemConstraint;
+	update_columns?: Array<StructureOrientationSystemUpdateColumn>;
+	where?: InputMaybe<StructureOrientationSystemBoolExp>;
+};
+
+/** Ordering options when selecting data from "structure_orientation_system". */
+export type StructureOrientationSystemOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	orientation_system?: InputMaybe<OrientationSystemOrderBy>;
+	orientation_system_id?: InputMaybe<OrderBy>;
+	structure?: InputMaybe<StructureOrderBy>;
+	structure_id?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: structure_orientation_system */
+export type StructureOrientationSystemPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "structure_orientation_system" */
+export enum StructureOrientationSystemSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	OrientationSystemId = 'orientation_system_id',
+	/** column name */
+	StructureId = 'structure_id',
+}
+
+/** input type for updating data in table "structure_orientation_system" */
+export type StructureOrientationSystemSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+	structure_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "structure_orientation_system" */
+export type StructureOrientationSystemStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: StructureOrientationSystemStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type StructureOrientationSystemStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	orientation_system_id?: InputMaybe<Scalars['uuid']>;
+	structure_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "structure_orientation_system" */
+export enum StructureOrientationSystemUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	OrientationSystemId = 'orientation_system_id',
+	/** column name */
+	StructureId = 'structure_id',
+}
+
+export type StructureOrientationSystemUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<StructureOrientationSystemSetInput>;
+	where: StructureOrientationSystemBoolExp;
+};
+
 /** primary key columns input for table: structure */
 export type StructurePkColumnsInput = {
 	id: Scalars['uuid'];
@@ -11797,6 +12533,14 @@ export type SubscriptionRoot = {
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table: "deployment_orientation_system" */
+	deployment_orientation_system: Array<DeploymentOrientationSystem>;
+	/** fetch aggregated fields from the table: "deployment_orientation_system" */
+	deployment_orientation_system_aggregate: DeploymentOrientationSystemAggregate;
+	/** fetch data from the table: "deployment_orientation_system" using primary key columns */
+	deployment_orientation_system_by_pk?: Maybe<DeploymentOrientationSystem>;
+	/** fetch data from the table in a streaming manner: "deployment_orientation_system" */
+	deployment_orientation_system_stream: Array<DeploymentOrientationSystem>;
 	/** fetch data from the table in a streaming manner: "deployment" */
 	deployment_stream: Array<Deployment>;
 	/** An array relationship */
@@ -11947,6 +12691,14 @@ export type SubscriptionRoot = {
 	professional_aggregate: ProfessionalAggregate;
 	/** fetch data from the table: "professional" using primary key columns */
 	professional_by_pk?: Maybe<Professional>;
+	/** fetch data from the table: "professional_orientation_system" */
+	professional_orientation_system: Array<ProfessionalOrientationSystem>;
+	/** fetch aggregated fields from the table: "professional_orientation_system" */
+	professional_orientation_system_aggregate: ProfessionalOrientationSystemAggregate;
+	/** fetch data from the table: "professional_orientation_system" using primary key columns */
+	professional_orientation_system_by_pk?: Maybe<ProfessionalOrientationSystem>;
+	/** fetch data from the table in a streaming manner: "professional_orientation_system" */
+	professional_orientation_system_stream: Array<ProfessionalOrientationSystem>;
 	/** fetch data from the table in a streaming manner: "professional" */
 	professional_stream: Array<Professional>;
 	/** fetch data from the table: "ref_action" */
@@ -12011,6 +12763,14 @@ export type SubscriptionRoot = {
 	structure_aggregate: StructureAggregate;
 	/** fetch data from the table: "structure" using primary key columns */
 	structure_by_pk?: Maybe<Structure>;
+	/** fetch data from the table: "structure_orientation_system" */
+	structure_orientation_system: Array<StructureOrientationSystem>;
+	/** fetch aggregated fields from the table: "structure_orientation_system" */
+	structure_orientation_system_aggregate: StructureOrientationSystemAggregate;
+	/** fetch data from the table: "structure_orientation_system" using primary key columns */
+	structure_orientation_system_by_pk?: Maybe<StructureOrientationSystem>;
+	/** fetch data from the table in a streaming manner: "structure_orientation_system" */
+	structure_orientation_system_stream: Array<StructureOrientationSystem>;
 	/** fetch data from the table in a streaming manner: "structure" */
 	structure_stream: Array<Structure>;
 	/** fetch data from the table: "wanted_job" */
@@ -12219,6 +12979,32 @@ export type SubscriptionRootDeploymentAggregateArgs = {
 
 export type SubscriptionRootDeploymentByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootDeploymentOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<DeploymentOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<DeploymentOrientationSystemOrderBy>>;
+	where?: InputMaybe<DeploymentOrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootDeploymentOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<DeploymentOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<DeploymentOrientationSystemOrderBy>>;
+	where?: InputMaybe<DeploymentOrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootDeploymentOrientationSystemByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootDeploymentOrientationSystemStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<DeploymentOrientationSystemStreamCursorInput>>;
+	where?: InputMaybe<DeploymentOrientationSystemBoolExp>;
 };
 
 export type SubscriptionRootDeploymentStreamArgs = {
@@ -12711,6 +13497,32 @@ export type SubscriptionRootProfessionalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type SubscriptionRootProfessionalOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalOrientationSystemOrderBy>>;
+	where?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootProfessionalOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalOrientationSystemOrderBy>>;
+	where?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootProfessionalOrientationSystemByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootProfessionalOrientationSystemStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ProfessionalOrientationSystemStreamCursorInput>>;
+	where?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
+};
+
 export type SubscriptionRootProfessionalStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<ProfessionalStreamCursorInput>>;
@@ -12937,6 +13749,32 @@ export type SubscriptionRootStructureAggregateArgs = {
 
 export type SubscriptionRootStructureByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootStructureOrientationSystemArgs = {
+	distinct_on?: InputMaybe<Array<StructureOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<StructureOrientationSystemOrderBy>>;
+	where?: InputMaybe<StructureOrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootStructureOrientationSystemAggregateArgs = {
+	distinct_on?: InputMaybe<Array<StructureOrientationSystemSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<StructureOrientationSystemOrderBy>>;
+	where?: InputMaybe<StructureOrientationSystemBoolExp>;
+};
+
+export type SubscriptionRootStructureOrientationSystemByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootStructureOrientationSystemStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<StructureOrientationSystemStreamCursorInput>>;
+	where?: InputMaybe<StructureOrientationSystemBoolExp>;
 };
 
 export type SubscriptionRootStructureStreamArgs = {
