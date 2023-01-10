@@ -1,6 +1,6 @@
 #language: fr
 
-Fonctionnalité: Modification d'un structure
+Fonctionnalité: Modification d'une structure
 	Pour pouvoir garder des informations d'une structure à jour
 	En tant qu'admin de CdB
 	Je veux pouvoir modifier à les informations d'une structure
