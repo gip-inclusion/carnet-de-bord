@@ -1,4 +1,4 @@
-CREATE TABLE "public"."orientation_system" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" text NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), "deployment_id" uuid NOT NULL, "orientation_type" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("orientation_type") REFERENCES "public"."orientation_type"("id") ON UPDATE cascade ON DELETE restrict);
+CREATE TABLE "public"."orientation_system" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" text NOT NULL, "orientation_type" text NOT NULL, PRIMARY KEY ("id") , "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), FOREIGN KEY ("orientation_type") REFERENCES "public"."orientation_type"("id") ON UPDATE cascade ON DELETE restrict);
 CREATE OR REPLACE FUNCTION "public"."set_current_timestamp_updated_at"()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -15,4 +15,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
 COMMENT ON TRIGGER "set_public_orientation_system_updated_at" ON "public"."orientation_system"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+INSERT INTO public.orientation_system (name, orientation_type) VALUES ('Pro', 'pro');
+INSERT INTO public.orientation_system (name, orientation_type) VALUES ('Socio-pro', 'sociopro');
+INSERT INTO public.orientation_system (name, orientation_type) VALUES ('Social', 'social');
