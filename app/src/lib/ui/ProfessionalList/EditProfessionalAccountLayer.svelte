@@ -12,10 +12,7 @@
 	import { proAccountSchema } from '$lib/ui/ProCreationForm/pro.schema';
 	import type { LabelName } from '$lib/types';
 
-	export let professional: Pick<
-		Professional,
-		'id' | 'firstname' | 'lastname' | 'mobileNumber' | 'email' | 'position' | 'structure'
-	>;
+	export let professional: Professional;
 
 	let errorMessage = '';
 
@@ -29,17 +26,29 @@
 	function buildOrientationSystemOptions(
 		structureOrientationSystems: StructureOrientationSystem[] = []
 	): LabelName[] {
-		console.log(structureOrientationSystems);
-		return structureOrientationSystems.map(({ orientation_system }) => ({
-			label: orientation_system.name,
-			name: orientation_system.id,
-		}));
+		return structureOrientationSystems.map(({ orientation_system }) => {
+			let name: string;
+			if (['Pro', 'Socio-pro', 'Social'].includes(orientation_system.name)) {
+				name = orientation_system.name;
+			} else {
+				name = orientation_system.name + ' (' + orientation_system.orientation_type + ')';
+			}
+			return {
+				label: name,
+				name: orientation_system.id,
+			};
+		});
 	}
 
 	let orientationSystemOptions = buildOrientationSystemOptions(
 		professional.structure.orientation_systems
 	);
-	let orientationSystems = [];
+
+	let orientationSystems: string[] = professional.orientation_systems.map(
+		({ orientation_system }) => {
+			return orientation_system.id;
+		}
+	);
 
 	async function editProfessionalAccountSubmitHandler(payload: ProfessionalSetInput) {
 		try {
@@ -91,6 +100,7 @@
 					caption={''}
 					bind:selectedOptions={orientationSystems}
 					options={orientationSystemOptions}
+					name="orientationSystems"
 				/>
 			{/if}
 
