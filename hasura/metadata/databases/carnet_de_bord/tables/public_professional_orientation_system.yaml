@@ -21,3 +21,21 @@ select_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+update_permissions:
+  - role: admin_structure
+    permission:
+      columns: []
+      filter:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      check: null
+delete_permissions:
+  - role: admin_structure
+    permission:
+      filter:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
