@@ -1,5 +1,15 @@
-mutation UpdateProfessionalAccount($id: uuid!, $payload: professional_set_input!) {
-  update_professional_by_pk(_set: $payload, pk_columns: { id: $id }) {
+mutation UpdateProfessionalAccount(
+  $id: uuid!
+  $payload: professional_set_input!
+  $orientationSystems: [professional_orientation_system_insert_input!]!
+) {
+  update_professional_by_pk(pk_columns: { id: $id }, _set: $payload) {
     id
+  }
+  delete_professional_orientation_system(where: { professionalId: { _eq: $id } }) {
+    affected_rows
+  }
+  insert_professional_orientation_system(objects: $orientationSystems) {
+    affected_rows
   }
 }

@@ -1,8 +1,21 @@
 table:
   name: structure_orientation_system
   schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    orientation_system_id:
+      custom_name: orientationSystemId
+    structure_id:
+      custom_name: structureId
+  custom_column_names:
+    created_at: createdAt
+    orientation_system_id: orientationSystemId
+    structure_id: structureId
+  custom_root_fields: {}
 object_relationships:
-  - name: orientation_system
+  - name: orientationSystem
     using:
       foreign_key_constraint_on: orientation_system_id
   - name: structure

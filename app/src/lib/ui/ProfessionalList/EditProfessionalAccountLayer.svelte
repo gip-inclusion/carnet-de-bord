@@ -26,33 +26,40 @@
 	function buildOrientationSystemOptions(
 		structureOrientationSystems: StructureOrientationSystem[] = []
 	): LabelName[] {
-		return structureOrientationSystems.map(({ orientation_system }) => {
+		return structureOrientationSystems.map(({ orientationSystem }) => {
 			let name: string;
-			if (['Pro', 'Socio-pro', 'Social'].includes(orientation_system.name)) {
-				name = orientation_system.name;
+			if (['Pro', 'Socio-pro', 'Social'].includes(orientationSystem.name)) {
+				name = orientationSystem.name;
 			} else {
-				name = orientation_system.name + ' (' + orientation_system.orientation_type + ')';
+				name = orientationSystem.name + ' (' + orientationSystem.orientationType + ')';
 			}
 			return {
 				label: name,
-				name: orientation_system.id,
+				name: orientationSystem.id,
 			};
 		});
 	}
 
 	let orientationSystemOptions = buildOrientationSystemOptions(
-		professional.structure.orientation_systems
+		professional.structure.orientationSystems
 	);
 
-	let orientationSystems: string[] = professional.orientation_systems.map(
-		({ orientation_system }) => {
-			return orientation_system.id;
+	let orientationSystems: string[] = professional.orientationSystems.map(
+		({ orientationSystem }) => {
+			return orientationSystem.id;
 		}
 	);
 
 	async function editProfessionalAccountSubmitHandler(payload: ProfessionalSetInput) {
 		try {
-			await updateProfessionalAccount({ id: professional.id, payload });
+			const orientationSystemsValues = orientationSystems.map((orientationSystemId) => {
+				return { orientationSystemId, professionalId: professional.id };
+			});
+			await updateProfessionalAccount({
+				id: professional.id,
+				payload,
+				orientationSystems: orientationSystemsValues,
+			});
 			closeLayer();
 		} catch (error) {
 			console.error(error);

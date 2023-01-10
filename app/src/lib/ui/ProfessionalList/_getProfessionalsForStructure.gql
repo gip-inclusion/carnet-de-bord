@@ -18,19 +18,19 @@ query GetProfessionalsForStructure($structureId: uuid!) {
         }
       }
     }
-    orientation_systems {
-      orientation_system {
+    orientationSystems {
+      orientationSystem {
         id
         name
-        orientation_type
+        orientationType
       }
     }
     structure {
-      orientation_systems {
-        orientation_system {
+      orientationSystems {
+        orientationSystem {
           id
           name
-          orientation_type
+          orientationType
         }
       }
     }

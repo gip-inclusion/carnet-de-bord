@@ -39,7 +39,7 @@ array_relationships:
         table:
           name: beneficiary_structure
           schema: public
-  - name: orientation_systems
+  - name: orientationSystems
     using:
       foreign_key_constraint_on:
         column: structure_id

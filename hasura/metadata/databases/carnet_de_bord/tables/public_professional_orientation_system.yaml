@@ -1,13 +1,37 @@
 table:
   name: professional_orientation_system
   schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    orientation_system_id:
+      custom_name: orientationSystemId
+    professional_id:
+      custom_name: professionalId
+  custom_column_names:
+    created_at: createdAt
+    orientation_system_id: orientationSystemId
+    professional_id: professionalId
+  custom_root_fields: {}
 object_relationships:
-  - name: orientation_system
+  - name: orientationSystem
     using:
       foreign_key_constraint_on: orientation_system_id
   - name: professional
     using:
       foreign_key_constraint_on: professional_id
+insert_permissions:
+  - role: admin_structure
+    permission:
+      check:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      columns:
+        - orientation_system_id
+        - professional_id
 select_permissions:
   - role: admin_structure
     permission:

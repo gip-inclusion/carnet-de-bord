@@ -1,6 +1,19 @@
 table:
   name: deployment_orientation_system
   schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    deployment_id:
+      custom_name: deploymentId
+    orientation_system_id:
+      custom_name: orientationSystemId
+  custom_column_names:
+    created_at: createdAt
+    deployment_id: deploymentId
+    orientation_system_id: orientationSystemId
+  custom_root_fields: {}
 object_relationships:
   - name: deployment
     using:

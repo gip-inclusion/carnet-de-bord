@@ -29,7 +29,7 @@ object_relationships:
     using:
       foreign_key_constraint_on: structure_id
 array_relationships:
-  - name: orientation_systems
+  - name: orientationSystems
     using:
       foreign_key_constraint_on:
         column: professional_id
