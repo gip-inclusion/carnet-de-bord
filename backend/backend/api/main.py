@@ -1,6 +1,6 @@
+import importlib.metadata
 import time
 
-import pkg_resources
 import sentry_sdk
 import structlog
 from fastapi import Request, Response
@@ -14,7 +14,7 @@ sentry_sdk.init(
     attach_stacktrace=True,
     dsn=settings.SENTRY_DSN,
     environment=settings.SENTRY_ENVIRONMENT,
-    release=pkg_resources.get_distribution("backend").version,
+    release=importlib.metadata.version("backend"),
 )
 
 setup_logging(json_logs=settings.LOG_AS_JSON, log_level=settings.LOG_LEVEL)

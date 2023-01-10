@@ -1,8 +1,13 @@
+import importlib.metadata
+import logging
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.core.db import get_connection_pool
 from backend.api.core.settings import settings
+
+logger = logging.getLogger(__name__)
 
 
 class Database:
@@ -26,6 +31,7 @@ def create_app() -> FastAPI:
     @app.on_event("startup")
     async def startup():
         await app.state.db.create_pool()
+        logger.info("Backend application startup (release " + get_version() + ")")
 
     @app.on_event("shutdown")
     async def shutdown():
@@ -39,11 +45,17 @@ def create_app() -> FastAPI:
 
     @app.get("/")
     async def read_root():
-        return {"status": "running"}
+        return get_status()
 
     @app.get("/healthz")
     async def read_root():
-        return {"status": "running"}
+        return get_status()
+
+    def get_version() -> str:
+        return importlib.metadata.version("backend")
+
+    def get_status() -> dict[str, str]:
+        return {"status": "running", "version": get_version()}
 
     return app
 
