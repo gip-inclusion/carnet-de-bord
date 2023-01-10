@@ -37,8 +37,7 @@ select_permissions:
         - updated_at
         - id
       filter:
-        professional_orientation_systems:
-          professional:
-            structure:
-              deployment_id:
-                _eq: X-Hasura-Deployment-Id
+        structure_orientation_systems:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
