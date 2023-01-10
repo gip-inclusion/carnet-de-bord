@@ -60,7 +60,12 @@
 				payload,
 				orientationSystems: orientationSystemsValues,
 			});
-			closeLayer();
+			if (updateProfessionalAccountStore.error) {
+				console.error(updateProfessionalAccountStore.error);
+				errorMessage = 'Impossible de modifier ce professionnel';
+			} else {
+				closeLayer();
+			}
 		} catch (error) {
 			console.error(error);
 			errorMessage = 'Impossible de modifier ce professionnel';
