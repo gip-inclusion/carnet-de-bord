@@ -27,12 +27,9 @@
 		structureOrientationSystems: StructureOrientationSystem[] = []
 	): LabelName[] {
 		return structureOrientationSystems.map(({ orientationSystem }) => {
-			let name: string;
-			if (['Pro', 'Socio-pro', 'Social'].includes(orientationSystem.name)) {
-				name = orientationSystem.name;
-			} else {
-				name = orientationSystem.name + ' (' + orientationSystem.orientationType + ')';
-			}
+			const name = (['Pro', 'Socio-pro', 'Social'].includes(orientationSystem.name 
+         ? orientationSystem.name
+         : `${orientationSystem.name} (${orientationSystem.orientationType})`;
 			return {
 				label: name,
 				name: orientationSystem.id,
