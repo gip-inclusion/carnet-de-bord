@@ -5,6 +5,7 @@
 	import StructureEditLayer from '$lib/ui/StructureEdit/StructureEditLayer.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 
@@ -12,6 +13,8 @@
 	query(getStructure);
 
 	$: structure = $getStructure.data?.structure_by_pk;
+
+	$: structuresListPath = `/admin/deployment/${structure?.deployment.id}/structures`;
 
 	$: breadcrumbs = [
 		{
@@ -26,16 +29,20 @@
 		},
 		{
 			name: 'structures',
-			path: `/admin/deployment/${structure?.deployment.id}/structures`,
+			path: structuresListPath,
 			label: 'Structures',
 		},
 		{
 			label: `${structure?.name ?? ''}`,
 		},
 	];
+
+	function goToStructuresList() {
+		goto(structuresListPath);
+	}
 </script>
 
 <Breadcrumbs segments={breadcrumbs} />
 <LoaderIndicator result={$getStructure}>
-	<StructureEditLayer {structure} />
+	<StructureEditLayer {structure} onClose={goToStructuresList} />
 </LoaderIndicator>

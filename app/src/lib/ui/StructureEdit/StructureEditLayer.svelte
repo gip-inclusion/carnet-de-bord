@@ -9,16 +9,13 @@
 	import StructureCreationForm from './StructureCreationForm.svelte';
 
 	export let structure: GetStructuresForDeploymentQuery['structure'][0];
+	export let onClose: () => void;
 	const updateResult = operationStore(UpdateStructureDocument);
 	const updateStructure = mutation(updateResult);
 
-	let alertMessage: string;
-	let showAlert = false;
-	let alertType: 'success' | 'error' = 'success';
+	let errorMessage: string;
 
 	async function handleSubmit(values: StructureFormInput) {
-		showAlert = false;
-
 		await updateStructure({
 			id: structure.id,
 			name: values.name,
@@ -33,24 +30,20 @@
 			website: values.website,
 		});
 
-		showAlert = true;
-
 		if (updateResult.error) {
-			alertMessage = "L'enregistrement a échoué.";
-			alertType = 'error';
+			errorMessage = "L'enregistrement a échoué.";
 		} else {
-			alertMessage = 'Les informations de la structure ont été mises à jour.';
-			alertType = 'success';
+			onClose();
 		}
 	}
 </script>
 
 <div class="flex flex-col gap-4">
 	<h1>Mettre à jour les informations de structure</h1>
-	<StructureCreationForm onSubmit={handleSubmit} initialValues={structure} />
-	{#if showAlert}
+	<StructureCreationForm onSubmit={handleSubmit} onCancel={onClose} initialValues={structure} />
+	{#if errorMessage}
 		<div class="mb-8">
-			<Alert type={alertType} description={alertMessage} />
+			<Alert type="error" description={errorMessage} />
 		</div>
 	{/if}
 </div>

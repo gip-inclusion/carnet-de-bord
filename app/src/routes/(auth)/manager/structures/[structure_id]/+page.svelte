@@ -6,6 +6,7 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import type { PageData } from './$types';
 	import { homeForRole } from '$lib/routes';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 
@@ -14,19 +15,25 @@
 
 	$: structure = $getStructure.data?.structure_by_pk;
 
+	const structuresListPath = `${homeForRole(RoleEnum.Manager)}/structures`;
+
 	$: breadcrumbs = [
 		{
 			name: 'Liste des structures',
-			path: `${homeForRole(RoleEnum.Manager)}/structures`,
+			path: structuresListPath,
 			label: 'Liste des Structures',
 		},
 		{
 			label: `${structure?.name ?? ''}`,
 		},
 	];
+
+	function goToStructuresList() {
+		goto(structuresListPath);
+	}
 </script>
 
 <Breadcrumbs segments={breadcrumbs} />
 <LoaderIndicator result={$getStructure}>
-	<StructureEditLayer {structure} />
+	<StructureEditLayer {structure} onClose={goToStructuresList} />
 </LoaderIndicator>
