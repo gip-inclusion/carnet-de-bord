@@ -41,7 +41,7 @@
 		professional.structure.orientationSystems
 	);
 
-	let orientationSystems: string[] = professional.orientationSystems.map(
+	const orientationSystems: string[] = professional.orientationSystems.map(
 		({ orientationSystem }) => {
 			return orientationSystem.id;
 		}
