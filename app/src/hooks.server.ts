@@ -37,5 +37,8 @@ export const handleError: HandleServerError = ({ error, event }) => {
 		method: event.request.method,
 		url: event.url,
 	});
+	if (err?.message.match(/^Not found:/)) {
+		return;
+	}
 	captureException(err);
 };
