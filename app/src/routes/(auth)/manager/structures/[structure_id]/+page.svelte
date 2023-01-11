@@ -21,8 +21,6 @@
 			label: 'Liste des Structures',
 		},
 		{
-			name: 'Mettre à jour les informations de structure',
-			path: `${homeForRole(RoleEnum.Manager)}/${data.structureId}`,
 			label: `${structure?.name ?? ''}`,
 		},
 	];

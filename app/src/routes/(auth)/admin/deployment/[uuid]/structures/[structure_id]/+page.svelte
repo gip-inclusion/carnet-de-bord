@@ -30,8 +30,6 @@
 			label: 'Structures',
 		},
 		{
-			name: 'Mettre à jour les informations de structure',
-			path: `/admin/deployment/${structure?.deployment.id}/structures/${data.structureId}`,
 			label: `${structure?.name ?? ''}`,
 		},
 	];

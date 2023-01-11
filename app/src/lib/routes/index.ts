@@ -1,6 +1,6 @@
 export type Segment = {
-	name: string;
-	path: string;
+	name?: string;
+	path?: string;
 	label: string;
 };
 
