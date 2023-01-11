@@ -27,15 +27,9 @@
 		structureOrientationSystems: StructureOrientationSystem[] = []
 	): LabelName[] {
 		return structureOrientationSystems.map(({ orientationSystem }) => {
-			const name = (['Pro', 'Socio-pro', 'Social'].includes(orientationSystem.name 
+			const name = (['Pro', 'Socio-pro', 'Social'].includes(orientationSystem.name
          ? orientationSystem.name
-         : `${orientationSystem.name} (${orientationSystem.orientationType})`;
-			return {
-				label: name,
-				name: orientationSystem.id,
-			};
-		});
-	}
+         : `${orientationSystem.name} (${orientationSystem.orientationType})
 
 	const orientationSystemOptions = buildOrientationSystemOptions(
 		professional.structure.orientationSystems
@@ -105,7 +99,7 @@
 			{:else}
 				<Checkboxes
 					globalClassNames={'flex flex-row flex-wrap gap-4'}
-					checkboxesCommonClassesNames={`!mt-0 w-5/12`}
+					checkboxesCommonClassesNames={'!mt-0 w-5/12'}
 					caption={''}
 					bind:selectedOptions={orientationSystems}
 					options={orientationSystemOptions}
