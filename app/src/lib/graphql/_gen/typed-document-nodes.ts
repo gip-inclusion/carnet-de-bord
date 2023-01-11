@@ -15348,14 +15348,10 @@ export type GetStructuresForDeploymentQuery = {
 		id: string;
 		siret?: string | null;
 		name: string;
-		shortDesc?: string | null;
 		phone?: string | null;
 		email?: string | null;
 		postalCode?: string | null;
 		city?: string | null;
-		address1?: string | null;
-		address2?: string | null;
-		website?: string | null;
 	}>;
 };
 
@@ -23406,14 +23402,10 @@ export const GetStructuresForDeploymentDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 							],
 						},
 					},
