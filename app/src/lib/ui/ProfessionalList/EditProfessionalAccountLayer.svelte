@@ -11,6 +11,7 @@
 	import { Alert, Button, Checkboxes } from '../base/';
 	import { proAccountSchema } from '$lib/ui/ProCreationForm/pro.schema';
 	import type { LabelName } from '$lib/types';
+	import { captureException } from '$lib/utils/sentry';
 
 	export let professional: Professional;
 
@@ -59,12 +60,14 @@
 			});
 			if (updateProfessionalAccountStore.error) {
 				console.error(updateProfessionalAccountStore.error);
+				captureException(updateProfessionalAccountStore.error);
 				errorMessage = 'Impossible de modifier ce professionnel';
 			} else {
 				closeLayer();
 			}
 		} catch (error) {
 			console.error(error);
+			captureException(error);
 			errorMessage = 'Impossible de modifier ce professionnel';
 		}
 	}
