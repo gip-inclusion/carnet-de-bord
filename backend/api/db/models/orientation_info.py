@@ -21,5 +21,7 @@ class OrientationInfo(BaseModel):
     @property
     def former_structure_id(self) -> dict | None:
         return (
-            self.beneficiary["structures"][0] if self.beneficiary is not None else None
+            self.beneficiary["structures"][0]
+            if self.beneficiary is not None and len(self.beneficiary["structures"]) > 0
+            else None
         )
