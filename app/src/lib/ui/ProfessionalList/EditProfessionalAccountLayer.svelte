@@ -27,15 +27,21 @@
 		structureOrientationSystems: StructureOrientationSystem[] = []
 	): LabelName[] {
 		return structureOrientationSystems.map(({ orientationSystem }) => {
-			const name = (['Pro', 'Socio-pro', 'Social'].includes(orientationSystem.name
-         ? orientationSystem.name
-         : `${orientationSystem.name} (${orientationSystem.orientationType})
+			const name = ['Pro', 'Socio-pro', 'Social'].includes(orientationSystem.name)
+				? orientationSystem.name
+				: `${orientationSystem.name} (${orientationSystem.orientationType})`;
+			return {
+				label: name,
+				name: orientationSystem.id,
+			};
+		});
+	}
 
 	const orientationSystemOptions = buildOrientationSystemOptions(
 		professional.structure.orientationSystems
 	);
 
-	const orientationSystems: string[] = professional.orientationSystems.map(
+	let orientationSystems: string[] = professional.orientationSystems.map(
 		({ orientationSystem }) => {
 			return orientationSystem.id;
 		}
