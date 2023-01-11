@@ -6,7 +6,7 @@ Fonctionnalité: Modification d'une structure
 	Je veux pouvoir modifier à les informations d'une structure
 
 	Scénario: Mise à jour d'une structure
-		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd51@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd51@fabrique.social.gouv.fr"
 		Quand je clique sur "Structures"
 		Alors je vois "Interlogement 51" dans le tableau "Liste des structures"
 		Quand je clique sur "Éditer la structure Interlogement 51"

@@ -6,7 +6,7 @@ Fonctionnalité: Rattachement à une structure
 	Je veux pouvoir assigner une nouvelle structure à un bénéficiaire
 
 	Scénario: Modifier la structure de rattachement d'un bénéficiaire
-		Soit un "administrateur pdi" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Alors je vois "5"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse

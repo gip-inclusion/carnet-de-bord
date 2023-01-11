@@ -6,7 +6,7 @@ Fonctionnalité: Onboarding manager
 	Je veux pouvoir saisir et valider mes informations personnelles
 
 	Scénario: Première connexion - Mise à jour profil
-		Soit un "administrateur pdi" authentifié pour la première fois avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié pour la première fois avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je vois "Création de mon compte Admin de territoire"
 
 		Alors je vois "Agathe" dans le champ "Prénom"

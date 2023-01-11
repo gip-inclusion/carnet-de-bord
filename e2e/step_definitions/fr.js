@@ -9,7 +9,7 @@ exports.USER_TYPES = [
 	},
 	{
 		code: 'manager',
-		value: 'administrateur pdi',
+		value: 'administrateur de territoire',
 	},
 	{
 		code: 'admin_structure',
