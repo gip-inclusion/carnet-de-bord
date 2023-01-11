@@ -37,7 +37,7 @@
 		});
 	}
 
-	let orientationSystemOptions = buildOrientationSystemOptions(
+	const orientationSystemOptions = buildOrientationSystemOptions(
 		professional.structure.orientationSystems
 	);
 
