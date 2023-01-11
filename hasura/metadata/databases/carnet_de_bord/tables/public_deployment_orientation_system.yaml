@@ -18,6 +18,6 @@ object_relationships:
   - name: deployment
     using:
       foreign_key_constraint_on: deployment_id
-  - name: orientation_system
+  - name: orientationSystem
     using:
       foreign_key_constraint_on: orientation_system_id
