@@ -35,7 +35,6 @@ router = APIRouter(
             allowed_jwt_roles(
                 [
                     RoleEnum.ORIENTATION_MANAGER,
-                    RoleEnum.ADMIN_STRUCTURE,
                     RoleEnum.MANAGER,
                 ]
             )
@@ -124,8 +123,8 @@ async def change_beneficiary_orientation(
             dsl_schema, data.notebook_id, data.orientation_type
         )
 
-        structure_changed = str(data.structure_id) != str(
-            orientation_info.former_structure_id
+        structure_changed = (
+            data.structure_id not in orientation_info.former_structure_ids
         )
 
         if structure_changed:
@@ -164,7 +163,7 @@ async def change_beneficiary_orientation(
                 mutations = mutations | get_insert_notebook_member_mutation(
                     dsl_schema,
                     data.notebook_id,
-                    data.new_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
+                    data.new_referent_account_id,
                     MemberTypeEnum.referent,
                 )
 
