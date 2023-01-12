@@ -1,3 +1,10 @@
+## [1.184.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.0...v1.184.1) (2023-01-12)
+
+
+### Bug Fixes
+
+* Impossible de changer l'orientation d'un bénéficiaire non rattaché à une structure. ([#1423](https://github.com/gip-inclusion/carnet-de-bord/issues/1423)) ([139c412](https://github.com/gip-inclusion/carnet-de-bord/commit/139c41252107d20450db180692d36bbec4842dc6))
+
 # [1.184.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.183.0...v1.184.0) (2023-01-12)
 
 

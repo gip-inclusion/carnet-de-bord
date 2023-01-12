@@ -61,6 +61,29 @@ async def test_professional_not_allowed_to_change_orientation(
 
 
 @mock.patch("api.core.emails.send_mail")
+async def test_admin_structure_not_allowed_to_change_orientation(
+    _: mock.Mock,
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    notebook_sophie_tifour: Notebook,
+    get_admin_structure_jwt: str,
+):
+    response = test_client.post(
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(notebook_sophie_tifour.id),
+            "structure_id": str(professional_pierre_chevalier.structure_id),
+            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
+        },
+        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+    )
+    assert response.status_code == 403
+    json = response.json()
+    assert json["detail"] == "Operation forbidden to the given role"
+
+
+@mock.patch("api.core.emails.send_mail")
 async def test_change_orientation_while_keeping_same_referent(
     _: mock.Mock,
     test_client: TestClient,
@@ -203,6 +226,50 @@ async def test_change_orientation_with_new_referent(
         structures,
         beneficiary_status="current",
         structure_name="Service Social Départemental",
+    )
+
+
+@mock.patch("api.core.emails.send_mail")
+async def test_change_orientation_with_new_referent_when_beneficiary_has_no_structure(
+    _: mock.Mock,
+    test_client: TestClient,
+    professional_paul_camara: Professional,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_craig_reilly: Notebook,
+    samy_rouate_jwt: str,
+    db_connection: Connection,
+):
+    response = test_client.post(
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(notebook_craig_reilly.id),
+            "structure_id": str(professional_paul_camara.structure_id),
+            "new_referent_account_id": str(professional_paul_camara.account_id),
+        },
+        headers={"jwt-token": f"{samy_rouate_jwt}"},
+    )
+    assert response.status_code == 200
+    members = await get_notebook_members_by_notebook_id(
+        db_connection,
+        notebook_craig_reilly.id,
+    )
+
+    # Check that new referent is in the notebook as referent
+    assert_member(
+        members, professional_paul_camara, member_type="referent", active=True
+    )
+
+    structures = await get_structures_for_beneficiary(
+        db_connection,
+        beneficiary_sophie_tifour.id,
+    )
+
+    # Check that new structure has been added as 'current'
+    assert_structure(
+        structures,
+        beneficiary_status="current",
+        structure_name="Centre Communal d'action social Livry-Gargan",
     )
 
 
