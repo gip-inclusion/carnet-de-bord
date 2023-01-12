@@ -1,3 +1,10 @@
+## [1.184.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.1...v1.184.2) (2023-01-12)
+
+
+### Bug Fixes
+
+* **matomo:** autoriser une URL Matomo hors de la Fabrique ([#1361](https://github.com/gip-inclusion/carnet-de-bord/issues/1361)) ([29c90a6](https://github.com/gip-inclusion/carnet-de-bord/commit/29c90a6dd7727f80f05926ab4655e425d06b2e1e))
+
 ## [1.184.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.0...v1.184.1) (2023-01-12)
 
 
