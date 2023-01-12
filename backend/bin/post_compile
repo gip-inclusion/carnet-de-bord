@@ -1,1 +1,1 @@
-pip install --disable-pip-version-check --progress-bar off --editable .
+pip install --quiet --disable-pip-version-check --progress-bar off .

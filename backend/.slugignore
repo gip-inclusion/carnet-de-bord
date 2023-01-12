@@ -1,2 +1,5 @@
 .cache
 .local/share/virtualenv
+backend
+bin
+tests
