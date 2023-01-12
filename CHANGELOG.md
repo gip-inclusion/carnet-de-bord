@@ -1,3 +1,10 @@
+# [1.184.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.183.0...v1.184.0) (2023-01-12)
+
+
+### Features
+
+* Remplacement du volet du formulaire "Editer une structure" par une page. ([#1418](https://github.com/gip-inclusion/carnet-de-bord/issues/1418)) ([b22fb6d](https://github.com/gip-inclusion/carnet-de-bord/commit/b22fb6d65b93c3156c2acba2371462faecb6e4e4))
+
 # [1.183.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.182.1...v1.183.0) (2023-01-12)
 
 
