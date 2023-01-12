@@ -8,16 +8,16 @@ from cdb.api.db.models.orientation_info import OrientationInfo
 
 
 def parse_orientation_info_from_gql(orientation_info_response, with_new_referent):
-    notebook = orientation_info_response["notebook"][0]
+    notebook = orientation_info_response.get("notebook", [{}])[0]
 
     return OrientationInfo(
-        beneficiary=notebook["beneficiary"],
-        former_referents=notebook["former_referents"]
-        if notebook["former_referents"]
+        beneficiary=notebook.get("beneficiary"),
+        former_referents=notebook.get("former_referents")
+        if notebook.get("former_referents")
         else [],
-        new_structure=orientation_info_response["newStructure"],
-        new_referent=orientation_info_response["newReferent"][0]
-        if with_new_referent and len(orientation_info_response["newReferent"]) > 0
+        new_structure=orientation_info_response.get("newStructure"),
+        new_referent=orientation_info_response.get("newReferent")[0]
+        if with_new_referent and len(orientation_info_response.get("newReferent")) > 0
         else None,
     )
 
