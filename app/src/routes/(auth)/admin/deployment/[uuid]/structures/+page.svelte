@@ -2,21 +2,17 @@
 	import {
 		GetDeploymentByIdDocument,
 		GetStructuresForDeploymentDocument,
-		type GetStructuresForDeploymentQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
 	import { SearchBar } from '$lib/ui/base';
 	import StructureList from '$lib/ui/StructureList/StructureList.svelte';
-	import { openComponent } from '$lib/stores';
-	import StructureEditLayer from '$lib/ui/StructureEdit/StructureEditLayer.svelte';
 	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
 	import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
-
-	type Structure = GetStructuresForDeploymentQuery['structure'][0];
 
 	const getDeploymentStore = operationStore(GetDeploymentByIdDocument, { id: data.deploymentId });
 	query(getDeploymentStore);
@@ -52,15 +48,6 @@
 	};
 
 	$: filteredStructures = structures;
-
-	function openEditLayer(structure: Structure) {
-		openComponent.open({
-			component: StructureEditLayer,
-			props: {
-				structure: structure,
-			},
-		});
-	}
 
 	$: breadcrumbs = [
 		{
@@ -104,7 +91,7 @@
 			</div>
 			<StructureList
 				structures={filteredStructures}
-				on:edit={(event) => openEditLayer(event.detail.structure)}
+				on:edit={(event) => goto(`structures/${event.detail.structure.id}`)}
 			/>
 		</div>
 	</LoaderIndicator>

@@ -15348,14 +15348,10 @@ export type GetStructuresForDeploymentQuery = {
 		id: string;
 		siret?: string | null;
 		name: string;
-		shortDesc?: string | null;
 		phone?: string | null;
 		email?: string | null;
 		postalCode?: string | null;
 		city?: string | null;
-		address1?: string | null;
-		address2?: string | null;
-		website?: string | null;
 	}>;
 };
 
@@ -15927,6 +15923,29 @@ export type GetAccountsSummaryQuery = {
 			structure: { __typename?: 'structure'; id: string; name: string };
 		} | null;
 	}>;
+};
+
+export type GetStructureByIdQueryVariables = Exact<{
+	structureId: Scalars['uuid'];
+}>;
+
+export type GetStructureByIdQuery = {
+	__typename?: 'query_root';
+	structure_by_pk?: {
+		__typename?: 'structure';
+		id: string;
+		siret?: string | null;
+		name: string;
+		shortDesc?: string | null;
+		phone?: string | null;
+		email?: string | null;
+		postalCode?: string | null;
+		city?: string | null;
+		address1?: string | null;
+		address2?: string | null;
+		website?: string | null;
+		deployment?: { __typename?: 'deployment'; id: string; label: string } | null;
+	} | null;
 };
 
 export type BeneficiariesWithOrientationRequestCountQueryVariables = Exact<{
@@ -23383,14 +23402,10 @@ export const GetStructuresForDeploymentDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 							],
 						},
 					},
@@ -24233,6 +24248,69 @@ export const GetAccountsSummaryDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetAccountsSummaryQuery, GetAccountsSummaryQueryVariables>;
+export const GetStructureByIdDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetStructureById' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'structure_by_pk' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'siret' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'shortDesc' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'deployment' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetStructureByIdQuery, GetStructureByIdQueryVariables>;
 export const BeneficiariesWithOrientationRequestCountDocument = {
 	kind: 'Document',
 	definitions: [
@@ -29489,6 +29567,10 @@ export type GetDeploymentInfosQueryStore = OperationStore<
 export type GetAccountsSummaryQueryStore = OperationStore<
 	GetAccountsSummaryQuery,
 	GetAccountsSummaryQueryVariables
+>;
+export type GetStructureByIdQueryStore = OperationStore<
+	GetStructureByIdQuery,
+	GetStructureByIdQueryVariables
 >;
 export type BeneficiariesWithOrientationRequestCountQueryStore = OperationStore<
 	BeneficiariesWithOrientationRequestCountQuery,

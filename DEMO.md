@@ -2,7 +2,7 @@
 
 Il existe plusieurs roles dans l'application Carnet de bord. Chacun correspondant à un profil d'usager.
 - admin_cdb
-- admin_pdi (manager dans les permissions hasura)
+- administrateur de territoire (manager dans les permissions hasura)
 - admin_structure
 - orientation_manager
 - professional
@@ -13,10 +13,10 @@ Il existe plusieurs roles dans l'application Carnet de bord. Chacun correspondan
 | --- | --- |
 | admin | support.carnet-de-bord+admin@fabrique.social.gouv.fr |
 
-Ce compte permet de créer un déploiement et d'y assigner un admin pdi.
+Ce compte permet de créer un déploiement et d'y assigner un administrateur de structure.
 Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la base de données.
 
-## Compte admin PDI (role: manager)
+## Compte admin de territoire (role: manager)
 | username | email |
 | --- | --- |
 | manager.cd93 | support.carnet-de-bord+cd93@fabrique.social.gouv.fr |

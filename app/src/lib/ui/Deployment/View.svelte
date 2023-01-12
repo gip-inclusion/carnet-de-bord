@@ -26,7 +26,7 @@
 	export let professional_aggregate: ProfessionalAggregateSub;
 	export let refreshStore: () => void;
 
-	function onAddAdminPdiClick() {
+	function onAddManagerClick() {
 		openComponent.open({
 			component: AdminCreate,
 			props: {
@@ -43,7 +43,9 @@
 	Déploiement <span class="text-france-blue-500">{deployment?.label ?? ''}</span>
 </h1>
 <div class="flex justify-between items-center">
-	<Button classNames="self-end" on:click={onAddAdminPdiClick}>Ajouter un admin pdi</Button>
+	<Button classNames="self-end" on:click={onAddManagerClick}
+		>Ajouter un administrateur de territoire</Button
+	>
 </div>
 <div class="fr-container--fluid">
 	<div class="fr-grid-row fr-grid-row--gutters">

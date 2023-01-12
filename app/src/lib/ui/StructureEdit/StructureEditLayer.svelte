@@ -4,40 +4,46 @@
 		UpdateStructureDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { mutation, operationStore } from '@urql/svelte';
-	import { openComponent } from '$lib/stores';
 	import { Alert } from '$lib/ui/base';
 	import type { StructureFormInput } from './structure.schema';
 	import StructureCreationForm from './StructureCreationForm.svelte';
 
 	export let structure: GetStructuresForDeploymentQuery['structure'][0];
+	export let onClose: () => void;
 	const updateResult = operationStore(UpdateStructureDocument);
 	const updateStructure = mutation(updateResult);
 
-	let error: string;
+	let errorMessage: string;
+
 	async function handleSubmit(values: StructureFormInput) {
 		await updateStructure({
 			id: structure.id,
-			...values,
+			name: values.name,
+			shortDesc: values.shortDesc,
+			email: values.email,
+			phone: values.phone,
+			siret: values.siret,
+			address1: values.address1,
+			address2: values.address2,
+			postalCode: values.postalCode,
+			city: values.city,
+			website: values.website,
 		});
 
 		if (updateResult.error) {
-			error = "L'enregistrement a échoué.";
+			errorMessage = "L'enregistrement a échoué.";
 		} else {
-			openComponent.close();
+			onClose();
 		}
-	}
-
-	function onCancel() {
-		openComponent.close();
 	}
 </script>
 
 <div class="flex flex-col gap-4">
 	<h1>Mettre à jour les informations de structure</h1>
-	<StructureCreationForm onSubmit={handleSubmit} {onCancel} initialValues={structure} />
-	{#if error}
+	<StructureCreationForm onSubmit={handleSubmit} onCancel={onClose} initialValues={structure} />
+	{#if errorMessage}
 		<div class="mb-8">
-			<Alert type="error" description={error} />
+			<Alert type="error" description={errorMessage} />
 		</div>
 	{/if}
 </div>
