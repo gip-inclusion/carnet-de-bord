@@ -293,7 +293,10 @@ select_permissions:
         - place_of_birth
         - postal_code
         - updated_at
-      filter: {}
+      filter:
+        deployment:
+          id:
+            _eq: X-Hasura-Deployment-Id
       allow_aggregations: true
 update_permissions:
   - role: admin_cdb
