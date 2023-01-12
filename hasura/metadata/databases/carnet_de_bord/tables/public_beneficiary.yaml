@@ -129,24 +129,6 @@ insert_permissions:
         - place_of_birth
         - postal_code
         - updated_at
-  - role: professional
-    permission:
-      check: {}
-      set:
-        deployment_id: X-Hasura-Deployment-id
-      columns:
-        - address1
-        - address2
-        - caf_number
-        - city
-        - date_of_birth
-        - email
-        - firstname
-        - id
-        - lastname
-        - mobile_number
-        - pe_number
-        - postal_code
 select_permissions:
   - role: admin_cdb
     permission:
