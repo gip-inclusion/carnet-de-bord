@@ -2,13 +2,13 @@ from unittest import mock
 
 from asyncpg.connection import Connection
 
-from backend.api.db.crud.account import get_accounts_from_email
-from backend.api.db.crud.orientation_manager import get_orientation_managers
+from cdb.api.db.crud.account import get_accounts_from_email
+from cdb.api.db.crud.orientation_manager import get_orientation_managers
 
 ENDPOINT_PATH = "/v1/uploads/orientation_manager"
 
 
-@mock.patch("backend.api.v1.routers.uploads.send_invitation_email")
+@mock.patch("cdb.api.v1.routers.uploads.send_invitation_email")
 async def test_jwt_token_verification(
     mock_send_invitation_email: mock.Mock,
     test_client,
@@ -29,7 +29,7 @@ async def test_jwt_token_verification(
         assert json["detail"] == "Operation forbidden to the given role"
 
 
-@mock.patch("backend.api.v1.routers.uploads.send_invitation_email")
+@mock.patch("cdb.api.v1.routers.uploads.send_invitation_email")
 async def test_insert_in_db(
     mock_send_invitation_email: mock.Mock,
     test_client,
@@ -64,7 +64,7 @@ async def test_insert_in_db(
         )
 
 
-@mock.patch("backend.api.v1.routers.uploads.send_invitation_email")
+@mock.patch("cdb.api.v1.routers.uploads.send_invitation_email")
 async def test_validation_error(
     mock_send_invitation_email: mock.Mock,
     test_client,
@@ -88,7 +88,7 @@ async def test_validation_error(
         assert json[3]["error"] == "value is not a valid email address"
 
 
-@mock.patch("backend.api.v1.routers.uploads.send_invitation_email")
+@mock.patch("cdb.api.v1.routers.uploads.send_invitation_email")
 async def test_handle_xls(
     mock_send_invitation_email: mock.Mock,
     test_client,
@@ -108,7 +108,7 @@ async def test_handle_xls(
         assert json[1]["valid"]
 
 
-@mock.patch("backend.api.v1.routers.uploads.send_invitation_email")
+@mock.patch("cdb.api.v1.routers.uploads.send_invitation_email")
 async def test_handle_xlsx(
     mock_send_invitation_email: mock.Mock,
     test_client,

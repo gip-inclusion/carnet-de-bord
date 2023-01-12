@@ -1,4 +1,4 @@
-from backend.api.db.models.nir import nir_format
+from cdb.api.db.models.nir import nir_format
 
 
 async def test_nir_length():

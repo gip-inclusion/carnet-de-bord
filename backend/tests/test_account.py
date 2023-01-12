@@ -1,4 +1,4 @@
-from backend.api.db.crud.account import create_username
+from cdb.api.db.crud.account import create_username
 
 
 async def test_create_username():

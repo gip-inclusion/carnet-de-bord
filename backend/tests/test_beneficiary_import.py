@@ -1,6 +1,6 @@
 from datetime import date
 
-from backend.api.db.models.beneficiary import BeneficiaryImport
+from cdb.api.db.models.beneficiary import BeneficiaryImport
 
 
 async def test_strip_beneficiary_data_on_import():

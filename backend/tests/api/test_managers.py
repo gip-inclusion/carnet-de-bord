@@ -3,14 +3,14 @@ from uuid import UUID
 
 from asyncpg.connection import Connection
 
-from backend.api.db.crud.account import get_accounts_from_email
-from backend.api.db.crud.manager import get_managers_from_deployment
+from cdb.api.db.crud.account import get_accounts_from_email
+from cdb.api.db.crud.manager import get_managers_from_deployment
 
 ENDPOINT_PATH = "/v1/managers/create"
 sender_email = "test@toto.fr"
 
 
-@mock.patch("backend.api.v1.routers.managers.send_invitation_email")
+@mock.patch("cdb.api.v1.routers.managers.send_invitation_email")
 async def test_jwt_token_verification(
     mock_send_invitation_mail: mock.Mock,
     test_client,
@@ -29,7 +29,7 @@ async def test_jwt_token_verification(
     assert json["detail"] == "Operation forbidden to the given role"
 
 
-@mock.patch("backend.api.v1.routers.managers.send_invitation_email")
+@mock.patch("cdb.api.v1.routers.managers.send_invitation_email")
 async def test_insert_admin_in_db(
     mock_send_invitation_mail: mock.Mock,
     test_client,

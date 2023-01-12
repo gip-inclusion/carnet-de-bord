@@ -5,13 +5,13 @@ from typing import List
 
 from pydantic import BaseModel
 
-from backend.api.db.crud.beneficiary import (
+from cdb.api.db.crud.beneficiary import (
     get_beneficiary_from_personal_information,
     get_structures_for_beneficiary,
 )
-from backend.api.db.crud.professional import get_professional_by_email
-from backend.api.db.crud.rome_code import get_rome_code_by_id
-from backend.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+from cdb.api.db.crud.professional import get_professional_by_email
+from cdb.api.db.crud.rome_code import get_rome_code_by_id
+from cdb.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 
 
 async def import_beneficiaries(

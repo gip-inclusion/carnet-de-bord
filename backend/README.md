@@ -12,7 +12,7 @@ poetry install
 ## Api
 
 ```sh
-poetry run uvicorn --reload backend.api.main:app
+poetry run uvicorn --reload cdb.api.main:app
 ```
 
 ### Documentation
