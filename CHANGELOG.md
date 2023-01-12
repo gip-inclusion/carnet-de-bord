@@ -1,3 +1,10 @@
+# [1.183.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.182.1...v1.183.0) (2023-01-12)
+
+
+### Features
+
+* rendre possible l'affectation des types d'orientation à un professionnel ([#1415](https://github.com/gip-inclusion/carnet-de-bord/issues/1415)) ([b2e09cc](https://github.com/gip-inclusion/carnet-de-bord/commit/b2e09cc64b8100b48b35f84475af2207e56bff63))
+
 ## [1.182.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.182.0...v1.182.1) (2023-01-11)
 
 # [1.182.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.181.1...v1.182.0) (2023-01-09)
