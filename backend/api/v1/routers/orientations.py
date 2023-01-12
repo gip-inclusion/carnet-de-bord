@@ -123,8 +123,8 @@ async def change_beneficiary_orientation(
             dsl_schema, data.notebook_id, data.orientation_type
         )
 
-        structure_changed = str(data.structure_id) != str(
-            orientation_info.former_structure_id
+        structure_changed = (
+            data.structure_id not in orientation_info.former_structure_ids
         )
 
         if structure_changed:

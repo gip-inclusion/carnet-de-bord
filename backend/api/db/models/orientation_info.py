@@ -19,9 +19,13 @@ class OrientationInfo(BaseModel):
         )
 
     @property
-    def former_structure_id(self) -> dict | None:
-        return (
-            self.beneficiary["structures"][0]
-            if self.beneficiary is not None and len(self.beneficiary["structures"]) > 0
-            else None
+    def former_structure_ids(self) -> List[UUID]:
+        former_structures = (
+            self.beneficiary["structures"] if self.beneficiary is not None else None
         )
+        if former_structures is None:
+            return []
+
+        return [
+            former_structure["structureId"] for former_structure in former_structures
+        ]
