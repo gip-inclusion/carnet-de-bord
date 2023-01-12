@@ -61,6 +61,29 @@ async def test_professional_not_allowed_to_change_orientation(
 
 
 @mock.patch("api.core.emails.send_mail")
+async def test_admin_structure_not_allowed_to_change_orientation(
+    _: mock.Mock,
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    notebook_sophie_tifour: Notebook,
+    get_admin_structure_jwt: str,
+):
+    response = test_client.post(
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
+        json={
+            "orientation_type": OrientationType.social,
+            "notebook_id": str(notebook_sophie_tifour.id),
+            "structure_id": str(professional_pierre_chevalier.structure_id),
+            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
+        },
+        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+    )
+    assert response.status_code == 403
+    json = response.json()
+    assert json["detail"] == "Operation forbidden to the given role"
+
+
+@mock.patch("api.core.emails.send_mail")
 async def test_change_orientation_while_keeping_same_referent(
     _: mock.Mock,
     test_client: TestClient,

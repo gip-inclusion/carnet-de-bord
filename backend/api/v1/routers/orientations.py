@@ -35,7 +35,6 @@ router = APIRouter(
             allowed_jwt_roles(
                 [
                     RoleEnum.ORIENTATION_MANAGER,
-                    RoleEnum.ADMIN_STRUCTURE,
                     RoleEnum.MANAGER,
                 ]
             )
