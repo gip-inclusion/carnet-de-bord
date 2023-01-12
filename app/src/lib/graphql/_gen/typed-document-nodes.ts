@@ -14814,6 +14814,15 @@ export type UpdateManagerProfileMutation = {
 	} | null;
 };
 
+export type GetOrientationSystemsForDeploymentQueryVariables = Exact<{
+	deploymentId: Scalars['uuid'];
+}>;
+
+export type GetOrientationSystemsForDeploymentQuery = {
+	__typename?: 'query_root';
+	orientation_system: Array<{ __typename?: 'orientation_system'; name: string }>;
+};
+
 export type InsertOrientationRequestMutationVariables = Exact<{
 	beneficiaryId: Scalars['uuid'];
 	reason?: InputMaybe<Scalars['String']>;
@@ -20544,6 +20553,79 @@ export const UpdateManagerProfileDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateManagerProfileMutation, UpdateManagerProfileMutationVariables>;
+export const GetOrientationSystemsForDeploymentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetOrientationSystemsForDeployment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'orientation_system' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deploymentOrientationSystems' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deploymentId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'deploymentId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetOrientationSystemsForDeploymentQuery,
+	GetOrientationSystemsForDeploymentQueryVariables
+>;
 export const InsertOrientationRequestDocument = {
 	kind: 'Document',
 	definitions: [
@@ -30334,6 +30416,10 @@ export type GetNotebookForBeneficiaryQueryStore = OperationStore<
 export type UpdateManagerProfileMutationStore = OperationStore<
 	UpdateManagerProfileMutation,
 	UpdateManagerProfileMutationVariables
+>;
+export type GetOrientationSystemsForDeploymentQueryStore = OperationStore<
+	GetOrientationSystemsForDeploymentQuery,
+	GetOrientationSystemsForDeploymentQueryVariables
 >;
 export type InsertOrientationRequestMutationStore = OperationStore<
 	InsertOrientationRequestMutation,
