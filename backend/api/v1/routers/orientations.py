@@ -163,7 +163,7 @@ async def change_beneficiary_orientation(
                 mutations = mutations | get_insert_notebook_member_mutation(
                     dsl_schema,
                     data.notebook_id,
-                    data.new_referent_account_id,  # pyright: ignore [reportGeneralTypeIssues]
+                    data.new_referent_account_id,
                     MemberTypeEnum.referent,
                 )
 
