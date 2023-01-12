@@ -18,5 +18,21 @@ query GetProfessionalsForStructure($structureId: uuid!) {
         }
       }
     }
+    orientationSystems {
+      orientationSystem {
+        id
+        name
+        orientationType
+      }
+    }
+    structure {
+      orientationSystems {
+        orientationSystem {
+          id
+          name
+          orientationType
+        }
+      }
+    }
   }
 }

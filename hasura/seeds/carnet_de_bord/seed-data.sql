@@ -28,6 +28,7 @@ TRUNCATE public.beneficiary CASCADE;
 TRUNCATE public.notebook CASCADE;
 TRUNCATE public.wanted_job CASCADE;
 TRUNCATE public.deployment CASCADE;
+TRUNCATE public.orientation_system CASCADE;
 
 TRUNCATE public.account CASCADE;
 
@@ -41,6 +42,28 @@ INSERT INTO public.account (id, username, type, access_key, access_key_date, las
 INSERT INTO public.deployment (id, label) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93');
 INSERT INTO public.deployment (id, label, config) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51', '{"url": "http://localhost:3000/api/test", "headers": {"token":"azerty"}, "callback": "/api/marne" }');
 
+-- Orientation system
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('fc48d848-33bf-437a-9533-881e16ffa666', 'PE', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('9b44df64-1ad9-4001-97c7-1776fc878a17', 'RIA', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('f26ea5ba-e8a1-48ad-a031-f42d7f861008', 'Pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('7ea8a071-1ef8-4747-9cd8-9e68086df0e9', 'Socio-pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'sociopro');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('cc92714c-db2c-4d49-a877-571ecc6138c2', 'Social', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'social');
+
+
+-- Orientation systems for deployments:
+INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('aec48640-239a-4fc4-8907-bb20b3e832c1', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'fc48d848-33bf-437a-9533-881e16ffa666');
+
+INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('a7fc7f81-29a4-4fe8-af85-01f03d3d314c', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '9b44df64-1ad9-4001-97c7-1776fc878a17');
+
+INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('b6c2dfd2-67bc-4744-84da-e6895680e7fa', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
+
+INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('c286cd4d-050b-4354-8d00-b1560a3100a5', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '7ea8a071-1ef8-4747-9cd8-9e68086df0e9');
+
+INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('3c7cdb96-6232-4f1d-9d0c-cf2d6803887c', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
+
+
+
+
 --Structures:
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b2', NULL, 'Pole Emploi Agence Livry-Gargnan', 'Pole Emploi Agence Livry-Gargnan', '09 72 72 39 49', 'contact@pole-emploi.fr', '93190', 'Livry Gargan', '33 Bd Robert Schuman', NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('1c52e5ad-e0b9-48b9-a490-105a4effaaea', NULL, 'Centre Communal d''action social Livry-Gargan', '', '01 41 70 88 00', NULL, NULL, 'Saint Denis', '3 Pl. François Mitterrand', NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
@@ -53,6 +76,17 @@ INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('dfaaa6e3-4c5a-4079-a191-e8611d573acf', NULL, 'Interlogement 93', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('c0b8aee3-c061-4023-b57e-92880627d589', NULL, 'Interlogement 51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('0143a94b-5df5-425e-a023-f2b2517ad038', '13000548120281', 'CHARLEVILLE-MEZIERES VAL DE VENCE', 'Agence Pôle emploi CHARLEVILLE-MEZIERES VAL DE VENCE', '3949', 'contact@pole-emploi.fr', '08000', 'CHARLEVILLE MEZIERES', '6 RUE JEAN BAPTISTE LEFORT', NULL, NULL, NULL);
+
+-- Orientation systems for structures:
+INSERT INTO public.structure_orientation_system (id, created_at, structure_id, orientation_system_id) VALUES ('aec48640-239a-4fc4-8907-bb20b3e832c1', '2021-09-21 13:06:45.076+00', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'fc48d848-33bf-437a-9533-881e16ffa666');
+
+INSERT INTO public.structure_orientation_system (id, created_at, structure_id, orientation_system_id) VALUES ('a7fc7f81-29a4-4fe8-af85-01f03d3d314c', '2021-09-21 13:06:45.076+00', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', '9b44df64-1ad9-4001-97c7-1776fc878a17');
+
+INSERT INTO public.structure_orientation_system (id, created_at, structure_id, orientation_system_id) VALUES ('b6c2dfd2-67bc-4744-84da-e6895680e7fa', '2021-09-21 13:06:45.076+00', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
+
+INSERT INTO public.structure_orientation_system (id, created_at, structure_id, orientation_system_id) VALUES ('c286cd4d-050b-4354-8d00-b1560a3100a5', '2021-09-21 13:06:45.076+00', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', '7ea8a071-1ef8-4747-9cd8-9e68086df0e9');
+
+INSERT INTO public.structure_orientation_system (id, created_at, structure_id, orientation_system_id) VALUES ('3c7cdb96-6232-4f1d-9d0c-cf2d6803887c', '2021-09-21 13:06:45.076+00', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
 
 
 -- Insertion workers Accounts
@@ -84,6 +118,12 @@ INSERT INTO public.account (id, username, type, manager_id, confirmed, onboardin
 -- Pierre Chevalier
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('1a5b817b-6b81-4a4d-9953-26707a54e0e9', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pierre.chevalier@livry-gargan.fr', 'Chevalier', 'Pierre', 'Conseiller en insertion', '01 41 70 88 00');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8172-40160958a33d', 'pierre.chevalier', 'professional', NULL, NULL, '2021-09-27 14:08:02.222+00', NULL, '1a5b817b-6b81-4a4d-9953-26707a54e0e9', NULL, true, true);
+
+
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('a5aa7ade-6df2-43fa-896f-d71a6532093c', '2021-09-21 13:06:45.076+00', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', 'fc48d848-33bf-437a-9533-881e16ffa666');
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('b9f0d8d3-b72d-4339-9b76-116cec6bc519', '2021-09-21 13:06:45.076+00', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', '7ea8a071-1ef8-4747-9cd8-9e68086df0e9');
+
+
 -- Paul Camara
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', 'e578237f-6167-4012-b457-7c4f36fb079d', 'pcamara@seinesaintdenis.fr', 'Camara', 'Paul', 'Assistant de service social', '01 71 29 43 80');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('d0b8f314-5e83-4535-9360-60f29dcfb5c8', 'pcamara', 'professional', NULL, NULL, NULL, NULL, 'e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', NULL, true, true);
@@ -96,9 +136,15 @@ INSERT INTO public.account (id, username, type, access_key, access_key_date, las
 -- Jean Poiret
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
+
 -- Sandie Manchet
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('d211a3b8-346c-4f77-a570-bc1c9240e744', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'sandie.manchet@livry-gargan.fr', 'Manchet', 'Sandie', 'Conseillere sociale', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('6338f969-c881-41d7-9af8-9f5c92f7ac67', 'sandie.manchet', 'professional', 'd211a3b8-346c-4f77-a570-bc1c9240e744', true, false);
+
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('71e79d5b-4518-43f2-8024-78792fb6c3fa', '2021-09-21 13:06:45.076+00', 'd211a3b8-346c-4f77-a570-bc1c9240e744', 'fc48d848-33bf-437a-9533-881e16ffa666');
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('f4be40f1-b9ea-474d-9ae3-d7ce6403b89b', '2021-09-21 13:06:45.076+00', 'd211a3b8-346c-4f77-a570-bc1c9240e744', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
+
+
 -- Blaise Alaise
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('3de46574-311a-462c-88d4-e2e89d2bd136', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pro@pe.fr', 'Alaise', 'Blaise', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('1b45defb-d1d1-4c07-af47-b1062cb9b5f5', 'alaise.blaise', 'professional', '3de46574-311a-462c-88d4-e2e89d2bd136', true, false);

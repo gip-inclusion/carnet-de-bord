@@ -334,3 +334,19 @@ Alors('je clique sur {string} dans la ligne de {string}', (text, line) => {
 	const locator = locate('table tr').withText(line);
 	I.click(locator.find(`//*[text()[contains(.,'${text}')]]`));
 });
+
+Alors("l'option {string} est sélectionnée", (text) => {
+	I.seeCheckboxIsChecked(text);
+});
+
+Alors("l'option {string} n'est pas sélectionnée", (text) => {
+	I.dontSeeCheckboxIsChecked(text);
+});
+
+Alors('je coche {string}', (text) => {
+	I.checkOption(text);
+});
+
+Alors('je décoche {string}', (text) => {
+	I.uncheckOption(text);
+});
