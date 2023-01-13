@@ -20719,7 +20719,7 @@ export const GetProfessionalsForOrientationSystemAndDeploymentDocument = {
 																	fields: [
 																		{
 																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'id' },
+																			name: { kind: 'Name', value: 'orientationSystemId' },
 																			value: {
 																				kind: 'ObjectValue',
 																				fields: [

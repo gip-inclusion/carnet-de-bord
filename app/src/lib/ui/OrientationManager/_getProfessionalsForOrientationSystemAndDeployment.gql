@@ -5,7 +5,7 @@ query getProfessionalsForOrientationSystemAndDeployment(
   professional(
     where: {
       _and: [
-        { orientationSystems: { id: { _eq: $orientationSystemId } } }
+        { orientationSystems: { orientationSystemId: { _eq: $orientationSystemId } } }
         { structure: { deploymentId: { _eq: $deploymentId } } }
       ]
     }
