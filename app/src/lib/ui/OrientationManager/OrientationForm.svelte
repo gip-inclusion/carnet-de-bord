@@ -63,7 +63,7 @@
 			.map(({ id, name, orientationType }) => {
 				const formattedName = ['Pro', 'Social', 'Socio-pro'].includes(name)
 					? name
-					: name + ' (' + orientationType + ')';
+					: `${name} (${orientationType})`;
 				return {
 					name: id,
 					label: formattedName,
@@ -114,6 +114,7 @@
 
 	function orientationSystemSelected(event: CustomEvent<{ selected: string }>) {
 		selectedOrientationSystemId = event.detail.selected;
+		selectedStructureId = null;
 
 		$getProfessionals.context.pause = false;
 
@@ -153,6 +154,8 @@
 				name="orientationType"
 				on:select={(event) => {
 					orientationSystemSelected(event);
+					form.professionalAccountId = null;
+					form.structureId = null;
 				}}
 			/>
 			{#if structureId === null}
