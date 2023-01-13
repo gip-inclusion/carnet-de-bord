@@ -84,18 +84,23 @@
 
 	query(structures);
 	$: structureOptions =
-		$structures.data?.structure.map(({ id, name, professionals }) => {
-			const beneficiaryCount = professionals.reduce(
-				(total: number, value: GetStructuresWithProQuery['structure'][0]['professionals'][0]) => {
-					return total + value.account.referentCount.aggregate.count;
-				},
-				0
-			);
-			return {
-				name: id,
-				label: `${name} (${beneficiaryCount})`,
-			};
-		}) ?? [];
+		$getProfessionals.data?.professional
+			.map(({ structure }) => {
+				const beneficiaryCount = structure.professionals.reduce(
+					(
+						total: number,
+						value: GetProfessionalsForOrientationSystemAndDeploymentQuery['professional'][0]['structure']['professionals'][0]
+					) => {
+						return total + value.account.referentCount.aggregate.count;
+					},
+					0
+				);
+				return {
+					name: structure.id,
+					label: `${structure.name} (${beneficiaryCount})`,
+				};
+			})
+			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
 
 	$: structure = $structures.data?.structure.find(({ id }) => id === selectedStructureId) ?? null;
 
