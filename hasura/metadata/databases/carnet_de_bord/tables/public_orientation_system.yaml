@@ -54,3 +54,16 @@ select_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+  - role: orientation_manager
+    permission:
+      columns:
+        - name
+        - orientation_type
+        - created_at
+        - updated_at
+        - id
+      filter:
+        structureOrientationSystems:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id

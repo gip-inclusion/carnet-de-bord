@@ -21,3 +21,24 @@ object_relationships:
   - name: orientationSystem
     using:
       foreign_key_constraint_on: orientation_system_id
+select_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - created_at
+        - deployment_id
+        - orientation_system_id
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+  - role: orientation_manager
+    permission:
+      columns:
+        - created_at
+        - deployment_id
+        - id
+        - orientation_system_id
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
