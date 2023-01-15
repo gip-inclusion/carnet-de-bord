@@ -13,7 +13,7 @@
 
 	export let data: PageData;
 
-	let breadcrumbs = [
+	const breadcrumbs = [
 		{
 			name: 'accueil',
 			path: homeForRole(RoleEnum.Manager),

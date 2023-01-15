@@ -7,9 +7,9 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
 
-	let { id, email, firstname, lastname, position, mobileNumber } = $accountData.professional;
+	const { id, email, firstname, lastname, position, mobileNumber } = $accountData.professional;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,

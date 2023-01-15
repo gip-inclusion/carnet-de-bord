@@ -11,7 +11,7 @@
 
 	export let data: PageData;
 
-	let searching = false;
+	const searching = false;
 	let { search } = data;
 
 	const queryVariables = buildQueryVariables({

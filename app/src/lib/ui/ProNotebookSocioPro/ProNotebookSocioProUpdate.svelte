@@ -72,7 +72,7 @@
 			workSituation,
 		} = values;
 
-		let payload = {
+		const payload = {
 			id: notebook.id,
 			educationLevel,
 			geographicalArea,

@@ -17,6 +17,7 @@ module.exports = {
 	// Temporary hack, current codebase should be checked for this
 	rules: {
 		'no-unused-vars': 'off',
+		'prefer-const': 'error',
 	},
 	globals: {
 		__version__: 'readonly',

@@ -23,7 +23,7 @@
 	}
 
 	let idPE = '';
-	let errors: { idPE?: string } = {};
+	const errors: { idPE?: string } = {};
 
 	export let users: RD.RemoteData<ExternalUser[], string> = RD.notAsked;
 </script>

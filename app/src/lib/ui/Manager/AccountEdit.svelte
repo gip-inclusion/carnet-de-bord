@@ -8,9 +8,9 @@
 	import type { ManagerAccountInput } from './manager.schema';
 	import { accountData } from '$lib/stores/account';
 
-	let { id, email, firstname, lastname } = $accountData.manager;
+	const { id, email, firstname, lastname } = $accountData.manager;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,

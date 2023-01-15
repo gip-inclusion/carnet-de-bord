@@ -26,7 +26,7 @@
 
 	let postalCode = '';
 	let idCAF = '';
-	let errors: { postalCode?: string; idCAF?: string } = {};
+	const errors: { postalCode?: string; idCAF?: string } = {};
 
 	export let users: RD.RemoteData<ExternalUser[], string> = RD.notAsked;
 </script>

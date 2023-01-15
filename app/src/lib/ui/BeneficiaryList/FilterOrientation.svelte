@@ -10,12 +10,12 @@
 
 	const dispatch = createEventDispatcher();
 
-	let orientationStatusfilterOptions: { label: string; name: OrientedFilter }[] = [
+	const orientationStatusfilterOptions: { label: string; name: OrientedFilter }[] = [
 		{ label: 'À orienter', name: 'non-oriente' },
 		{ label: 'Orienté', name: 'oriente' },
 	];
 
-	let beneficiaryFromfilterOptions: { label: string; name: BeneficiaryFilter }[] = [
+	const beneficiaryFromfilterOptions: { label: string; name: BeneficiaryFilter }[] = [
 		{ label: 'Bénéficiaires de mon portefeuille', name: 'mes-beneficiaires' },
 		{ label: 'Autres bénéficiaires du territoire', name: 'autres-beneficiaires' },
 	];

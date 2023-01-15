@@ -24,7 +24,7 @@
 	}[];
 	export let onBeneficiaryOrientationChanged: () => void;
 
-	let professionalStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
+	const professionalStore: OperationStore<GetProfessionalsFromStructuresQuery> = operationStore(
 		GetProfessionalsFromStructuresDocument,
 		{ id: structureId }
 	);

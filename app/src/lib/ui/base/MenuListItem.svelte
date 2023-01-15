@@ -6,7 +6,7 @@
 	export let disabled = false;
 	export let href: string = null;
 
-	let internalItemKey = {};
+	const internalItemKey = {};
 
 	let item: HTMLButtonElement | HTMLAnchorElement;
 	export function focus(): void {

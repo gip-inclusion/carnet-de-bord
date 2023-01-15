@@ -17,9 +17,9 @@
 
 	let error: string;
 
-	let { id, email, firstname, lastname, phoneNumbers } = $accountData.orientation_manager;
+	const { id, email, firstname, lastname, phoneNumbers } = $accountData.orientation_manager;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,

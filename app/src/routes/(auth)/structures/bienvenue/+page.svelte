@@ -17,9 +17,9 @@
 
 	let error: string;
 
-	let { id, email, firstname, lastname, phoneNumbers } = $accountData.admin_structure;
+	const { id, email, firstname, lastname, phoneNumbers } = $accountData.admin_structure;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,

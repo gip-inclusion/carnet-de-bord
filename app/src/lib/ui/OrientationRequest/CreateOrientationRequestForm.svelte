@@ -17,7 +17,7 @@
 
 	const initialValues = {};
 
-	let orientationTypeStore: OperationStore<GetOrientationTypeQuery> = operationStore(
+	const orientationTypeStore: OperationStore<GetOrientationTypeQuery> = operationStore(
 		GetOrientationTypeDocument
 	);
 	query(orientationTypeStore);

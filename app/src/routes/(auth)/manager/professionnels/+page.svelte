@@ -31,7 +31,7 @@
 		$proStore.reexecute({ requestPolicy: 'network-only' });
 	}
 
-	let emails: Record<string, undefined | 'ToConfirm' | 'Sending' | 'Failed' | 'Sent'> = {};
+	const emails: Record<string, undefined | 'ToConfirm' | 'Sending' | 'Failed' | 'Sent'> = {};
 
 	type AccountSummary = Pick<Professional, 'id' | 'email' | 'firstname' | 'lastname'> & {
 		type: RoleEnum;

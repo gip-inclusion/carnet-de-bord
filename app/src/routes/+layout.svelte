@@ -26,8 +26,8 @@
 
 	export let data: PageData;
 
-	$backendAPI = data.backendAPI;
-	$graphqlAPI = data.graphqlAPI;
+	backendAPI.set(data.backendAPI);
+	graphqlAPI.set(data.graphqlAPI);
 
 	let client;
 
@@ -62,7 +62,7 @@
 
 		Matomo.load(getMatomoUrl(), getMatomoSiteId());
 	});
-	let unsubscribe = page.subscribe(({ url }) => {
+	const unsubscribe = page.subscribe(({ url }) => {
 		if (!browser || !url.pathname || !getMatomoUrl() || !getMatomoSiteId()) {
 			return;
 		}

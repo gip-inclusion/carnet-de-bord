@@ -27,10 +27,10 @@
 			return;
 		}
 
-		let themeActions = store.data.actions
+		const themeActions = store.data.actions
 			.filter((a) => a.theme === theme)
 			.sort((a1, a2) => a1.description.localeCompare(a2.description));
-		let otherActions = store.data.actions
+		const otherActions = store.data.actions
 			.filter((a) => a.theme !== theme)
 			.sort((a1, a2) => a1.description.localeCompare(a2.description));
 

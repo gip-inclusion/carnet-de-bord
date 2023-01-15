@@ -7,9 +7,9 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import type { OrientationManagerAccountInput } from './orientationManager.schema';
 
-	let { id, email, firstname, lastname, phoneNumbers } = $accountData.orientation_manager;
+	const { id, email, firstname, lastname, phoneNumbers } = $accountData.orientation_manager;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,

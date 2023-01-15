@@ -18,9 +18,9 @@
 
 	let error: string;
 
-	let { id, email, firstname, lastname } = $accountData.manager;
+	const { id, email, firstname, lastname } = $accountData.manager;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,
