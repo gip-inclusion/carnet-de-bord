@@ -27,7 +27,7 @@
 		"fix": "npm run fix:prettier && npm run fix:eslint",
 		"fix:prettier": "npm run lint:prettier -- --write",
 		"fix:prettier:all": "npm run lint:prettier:all -- --write",
-		"fix:eslint": "npm run lint:eslint --fix",
+		"fix:eslint": "npm run lint:eslint -- --fix",
 		"fix:eslint:all": "npm run lint:eslint:all -- --fix",
 		"format": "npm run fix:prettier",
 		"codegen": "graphql-codegen --config codegen.cjs",
