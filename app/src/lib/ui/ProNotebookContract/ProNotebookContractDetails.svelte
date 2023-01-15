@@ -15,6 +15,7 @@
 		proNotebookContractSchema,
 	} from './ProNotebookContract.schema';
 	import { Form, Input, Radio } from '$lib/ui/forms';
+	import { captureException } from '$lib/utils/sentry';
 
 	export let notebook: GetNotebookQuery['notebook_public_view'][0]['notebook'];
 
@@ -55,6 +56,7 @@
 
 	function handleContractChange(
 		event: Event,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		updateValidateField: (filed: string, value: any) => void,
 		handleReset: () => void
 	) {
@@ -62,7 +64,22 @@
 		updateValidateField('contractType', target.value);
 		handleReset();
 	}
-	function setContractEndDate(initialDate, monthInterval: number) {
+
+	function setContractEndDate(initialDate: unknown, monthInterval: number) {
+		if (
+			typeof initialDate !== 'string' &&
+			typeof initialDate !== 'number' &&
+			!(initialDate instanceof Date)
+		) {
+			captureException(
+				new Error(
+					`[setContractEndDate] Une date était attendue mais la sélection reçue est ${JSON.stringify(
+						initialDate
+					)}.`
+				)
+			);
+			return initialDate;
+		}
 		if (monthInterval) {
 			return formatDateISO(add(new Date(initialDate), { months: monthInterval }));
 		}

@@ -11,6 +11,7 @@
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { Radio } from '$lib/ui/base';
 	import { createEventDispatcher } from 'svelte';
+	import type { Option } from '$lib/types';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 	export let members: Notebook['members'];
@@ -18,7 +19,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	const options = [
+	const options: Option[] = [
 		{ name: 'referent', label: 'Oui' },
 		{ name: 'no_referent', label: 'Non' },
 	];
@@ -41,7 +42,7 @@
 		}
 	}
 
-	function setSelectedMemberType(selected: any) {
+	function setSelectedMemberType(selected: CustomEvent) {
 		memberType = selected.detail.value;
 	}
 </script>
