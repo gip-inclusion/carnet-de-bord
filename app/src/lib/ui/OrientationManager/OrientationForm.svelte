@@ -2,10 +2,7 @@
 	import * as yup from 'yup';
 
 	const validationSchema = yup.object().shape({
-		orientationType: yup
-			.mixed<OrientationTypeEnum>()
-			.oneOf(Object.values(OrientationTypeEnum))
-			.required(),
+		orientationType: yup.string().required(),
 		structureId: yup.string().required().min(1),
 		professionalAccountId: yup.string().nullable(),
 	});
@@ -14,7 +11,6 @@
 
 <script lang="ts">
 	import {
-		OrientationTypeEnum,
 		type GetProfessionalsForDeploymentQuery,
 		GetProfessionalsForDeploymentDocument,
 		GetStructuresWithProDocument,
