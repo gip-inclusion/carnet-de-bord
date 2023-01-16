@@ -1,13 +1,15 @@
 // setupTest.ts
 /* eslint-disable @typescript-eslint/no-empty-function */
 import 'isomorphic-fetch';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
 import matchers from '@testing-library/jest-dom/matchers';
 import { expect, vi } from 'vitest';
 import type { Navigation, Page } from '@sveltejs/kit';
 import { readable } from 'svelte/store';
-import * as environment from '$app/environment';
-import * as navigation from '$app/navigation';
-import * as stores from '$app/stores';
+import type * as environment from '$app/environment';
+import type * as navigation from '$app/navigation';
+import type * as stores from '$app/stores';
 
 // Add custom jest matchers
 expect.extend(matchers);
@@ -15,9 +17,9 @@ expect.extend(matchers);
 // Mock SvelteKit runtime module $app/environment
 vi.mock('$app/environment', (): typeof environment => ({
 	browser: false,
-	silent: false,
 	dev: true,
-	prerendering: false,
+	building: false,
+	version: '1.1.1',
 }));
 
 // Mock SvelteKit runtime module $app/navigation
@@ -28,8 +30,8 @@ vi.mock('$app/navigation', (): typeof navigation => ({
 	goto: () => Promise.resolve(),
 	invalidate: () => Promise.resolve(),
 	invalidateAll: () => Promise.resolve(),
-	prefetch: () => Promise.resolve(),
-	prefetchRoutes: () => Promise.resolve(),
+	preloadData: () => Promise.resolve(),
+	preloadCode: () => Promise.resolve(),
 }));
 
 // Mock SvelteKit runtime module $app/stores
@@ -39,13 +41,13 @@ vi.mock('$app/stores', (): typeof stores => {
 		const page = readable<Page>({
 			url: new URL('http://localhost'),
 			params: {},
-			routeId: null,
+			route: null,
 			status: 200,
 			error: null,
 			data: {},
 			form: {},
 		});
-		const updated = { subscribe: readable(false).subscribe, check: () => false };
+		const updated = { subscribe: readable(false).subscribe, check: () => Promise.resolve(false) };
 
 		return { navigating, page, updated };
 	};
@@ -64,7 +66,7 @@ vi.mock('$app/stores', (): typeof stores => {
 		subscribe(fn) {
 			return getStores().updated.subscribe(fn);
 		},
-		check: () => false,
+		check: () => Promise.resolve(false),
 	};
 
 	return {

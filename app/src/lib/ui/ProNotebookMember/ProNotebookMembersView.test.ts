@@ -106,8 +106,8 @@ test('do not show remove button for referent', () => {
 			members: notebookMembers,
 		},
 	});
-	expect(screen.getByText('Inviter un accompagnateur')).toBeDefined();
-	expect(screen.queryByText('Se détacher')).toBe(null);
+	expect(screen.getByText('Inviter un accompagnateur')).toBeInTheDocument();
+	expect(screen.queryByText('Se détacher')).not.toBeInTheDocument();
 });
 
 test('show remove button for no referent', () => {
@@ -123,6 +123,6 @@ test('show remove button for no referent', () => {
 			members: notebookMembers,
 		},
 	});
-	expect(screen.getByText('Inviter un accompagnateur')).toBeDefined();
-	expect(screen.getByText('Se détacher')).toBeDefined();
+	expect(screen.getByText('Inviter un accompagnateur')).toBeInTheDocument();
+	expect(screen.getByText('Se détacher')).toBeInTheDocument();
 });

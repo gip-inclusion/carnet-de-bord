@@ -25,7 +25,8 @@ function _mockRequest(data: unknown, headers: Record<string, string> = {}): Requ
 		url: new URL('https://io.io'),
 		locals: {},
 		params: {},
-		routeId: 'route',
+		route: null,
+		isDataRequest: false,
 		getClientAddress: () => '',
 		platform: 'test',
 		request: {
