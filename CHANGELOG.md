@@ -1,3 +1,10 @@
+## [1.184.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.3...v1.184.4) (2023-01-16)
+
+
+### Bug Fixes
+
+* mise à jour de la liste des axes de travail ([#1431](https://github.com/gip-inclusion/carnet-de-bord/issues/1431)) ([1ebef32](https://github.com/gip-inclusion/carnet-de-bord/commit/1ebef32384b3fe2044579df5f900ec59ee465561))
+
 ## [1.184.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.2...v1.184.3) (2023-01-16)
 
 ## [1.184.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.1...v1.184.2) (2023-01-12)
