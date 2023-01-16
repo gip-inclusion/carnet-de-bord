@@ -12,6 +12,7 @@
 	import { Radio } from '$lib/ui/base';
 	import { createEventDispatcher } from 'svelte';
 	import type { Option } from '$lib/types';
+	import { goto } from '$app/navigation';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
 	export let members: Notebook['members'];
@@ -36,14 +37,25 @@
 			);
 			dispatch('notebook-member-added');
 		} catch (err) {
-			console.error(err);
-			captureException(err);
+			if (
+				err.status === 403 &&
+				err.message === 'Unsufficient permission (structureId is missing)'
+			) {
+				forceLogout();
+			} else {
+				console.error(err);
+				captureException(err);
+			}
 			return;
 		}
 	}
 
 	function setSelectedMemberType(selected: CustomEvent) {
 		memberType = selected.detail.value;
+	}
+
+	function forceLogout() {
+		goto('/auth/logout');
 	}
 </script>
 
