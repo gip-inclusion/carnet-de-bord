@@ -4,7 +4,12 @@
 function get_file_modification_timestamp() {
 	local pattern=$1
 	local fs_ts=$(for f in $(git status --porcelain "$pattern"|cut -c4-); do
-		if [[ -f "$f" ]]; then date -r "$f" '+%s'; else date '+%s'; fi # for deleted files, we use the current date
+		if [[ -f "$f" ]]; then date -r "$f" '+%s'; else
+      # for deleted files, we use yesterday (3600*24*86400) at
+      # the same time
+      current_ts="$(date '+%s') - 86400";
+      echo $current_ts
+    fi
 	done | sort -rg | head -1)
 	local commit_ts=$(git log -1 --format=%ct "$pattern")
   if [[ "$commit_ts" -gt "$fs_ts" ]]; then
