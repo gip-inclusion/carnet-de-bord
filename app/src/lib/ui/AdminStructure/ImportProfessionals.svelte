@@ -38,24 +38,24 @@
 	}
 
 	let insertInProgress = false;
-	let insertResult: { pro_: ProAccountInput; error: string | null }[];
+	let insertResults: { pro: ProAccountInput; error: string | null }[];
 
 	async function handleSubmit() {
 		insertInProgress = true;
-		insertResult = [];
-		for (const pro of prosToImport) {
-			const { uid, valid, ...pro_ } = pro;
+		insertResults = [];
+		for (const proToImport of prosToImport) {
+			const { uid, valid, ...pro } = proToImport;
 			let error: string;
 			try {
 				await post('/inscription/request', {
-					accountRequest: pro_,
+					accountRequest: pro,
 					structureId,
 					autoConfirm: true,
 				});
 			} catch (e) {
 				error = e.message;
 			}
-			insertResult = [...insertResult, { pro_, error }];
+			insertResults = [...insertResults, { pro, error }];
 		}
 		insertInProgress = false;
 	}
@@ -73,11 +73,11 @@
 		parseErrors = [];
 	}
 
-	$: successfulImports = (insertResult || []).filter(({ error }) => !error).length;
+	$: successfulImports = (insertResults || []).filter(({ error }) => !error).length;
 </script>
 
 <div class="flex flex-col gap-6">
-	{#if insertResult === undefined}
+	{#if insertResults === undefined}
 		{#if pros.length > 0}
 			<p>
 				Vous allez importer les professionnels suivants. Veuillez vérifier que les données sont
@@ -185,7 +185,7 @@
 					${pluralize('demandé', uidToImport.length)}`}
 				/>
 			{/if}
-			{#key insertResult}
+			{#key insertResults}
 				<div class="border-b border-gray-200 shadow">
 					<table class="w-full divide-y divide-gray-300">
 						<thead class="px-2 py-2">
@@ -194,22 +194,22 @@
 							<th>Nom</th>
 						</thead>
 						<tbody class="bg-white divide-y divide-gray-300">
-							{#each insertResult as pro}
+							{#each insertResults as insertResult}
 								<tr>
 									<td class="px-2 py-2 ">
-										<Text value={pro.pro_.email} />
+										<Text value={insertResult.pro.email} />
 									</td>
 									<td class="px-2 py-2 ">
-										<Text value={pro.pro_.firstname} />
+										<Text value={insertResult.pro.firstname} />
 									</td>
 									<td class="px-2 py-2 ">
-										<Text value={pro.pro_.lastname} />
+										<Text value={insertResult.pro.lastname} />
 									</td>
 									<td class="px-2 py-2 ">
-										{#if pro.error}
+										{#if insertResult.error}
 											<Text
 												classNames="text-error"
-												value={`Une erreur s'est produite, le professionnel n'a pas été importé. (${pro.error})`}
+												value={`Une erreur s'est produite, le professionnel n'a pas été importé. (${insertResult.error})`}
 											/>
 										{:else}
 											<span
