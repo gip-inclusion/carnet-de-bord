@@ -14,9 +14,9 @@ module.exports = {
 	settings: {
 		'svelte3/typescript': () => require('typescript'), // pass the TypeScript package to the Svelte plugin
 	},
-	// Temporary hack, current codebase should be checked for this
 	rules: {
 		'no-unused-vars': 'off',
+		'@typescript-eslint/no-unused-vars': 'error',
 		'prefer-const': 'error',
 	},
 	globals: {

@@ -1,4 +1,5 @@
 export namespace MainApp.Main {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	function init(options: { node?: HTMLElement | null; flags: Flags }): ElmApp;
 }
 export interface ElmApp {
