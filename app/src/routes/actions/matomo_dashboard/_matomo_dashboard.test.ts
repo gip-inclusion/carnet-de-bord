@@ -48,9 +48,18 @@ Matomo.track = vi.fn();
 
 describe('matomo_dashboard', () => {
 	test('should return 401 if action does not have secret token', async () => {
-		const response = await request(POST);
-		expect(String(response.body)).toEqual('matomo_dashboard: unauthorized action');
-		expect(response.status).toEqual(401);
+		try {
+			await request(POST);
+		} catch (error) {
+			expect(error).toMatchInlineSnapshot(`
+				HttpError {
+				  "body": {
+				    "message": "matomo_dashboard: unauthorized action",
+				  },
+				  "status": 401,
+				}
+			`);
+		}
 	});
 	test('should return 200', async () => {
 		const response = await request(POST, {
