@@ -12,7 +12,7 @@ poetry install
 ## Api
 
 ```sh
-ENV_FILE=../.env poetry run uvicorn --reload api.main:app
+poetry run uvicorn --reload cdb.api.main:app
 ```
 
 ### Documentation
@@ -50,5 +50,5 @@ Copiez le fichier `.env.test.sample` vers `.env.test`. Ensuite, lancez dans le r
 
 Pour lancer les tests en mode watch :
 ```
-ENV_FILE=../.env.test poetry run ptw --runner "pytest --testmon" .
+ENV_FILE=../.env.test poetry run ptw --runner "pytest --testmon"
 ```

@@ -1,6 +1,6 @@
-from api.db.crud.notebook_info import insert_or_update_need_orientation
-from api.db.models.beneficiary import Beneficiary
-from api.db.models.notebook_info import NotebookInfo, OrientationType
+from cdb.api.db.crud.notebook_info import insert_or_update_need_orientation
+from cdb.api.db.models.beneficiary import Beneficiary
+from cdb.api.db.models.notebook_info import NotebookInfo, OrientationType
 
 
 async def test_insert_notebook_info(

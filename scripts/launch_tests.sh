@@ -121,7 +121,7 @@ function start_backend() {
   >&2 echo "-> Starting Python backend"
 
   cd backend
-  poetry run uvicorn api.main:app --port 8001 &
+  poetry run uvicorn cdb.api.main:app --port 8001 &
   cd ..
 
   until curl -s http://localhost:8001/ > /dev/null ; do

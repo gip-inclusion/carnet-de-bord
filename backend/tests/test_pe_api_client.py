@@ -6,8 +6,8 @@ from zoneinfo import ZoneInfo
 import httpx
 import respx
 
-from pe.models.agence import Agence
-from pe.pole_emploi_client import PoleEmploiApiClient, PoleEmploiAPIException
+from cdb.pe.models.agence import Agence
+from cdb.pe.pole_emploi_client import PoleEmploiApiClient, PoleEmploiAPIException
 from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
 
 
