@@ -1,7 +1,15 @@
 import logging
 from uuid import UUID
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Header, Request, Response
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    Header,
+    HTTPException,
+    Request,
+    Response,
+)
 from gql import Client
 from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
@@ -65,6 +73,11 @@ async def add_notebook_members(
     transport = AIOHTTPTransport(
         url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
     )
+
+    if request.state.account.structure_id is None:
+        raise HTTPException(
+            status_code=403, detail="Unsufficient permission (structureId is missing)"
+        )
 
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
