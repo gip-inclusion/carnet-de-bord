@@ -19,6 +19,7 @@ import { updateAccessKey } from '$lib/services/account';
 import { createClient } from '@urql/core';
 import * as yup from 'yup';
 import { logger } from '$lib/utils/logger';
+import { captureException } from '$lib/utils/sentry';
 
 const client = createClient({
 	fetch,
@@ -72,10 +73,10 @@ export const POST: RequestHandler = async ({ request }) => {
 		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
 			criteria: {
 				_or: [
-					{ beneficiary: { email: { _eq: username } } },
-					{ professional: { email: { _eq: username } } },
-					{ manager: { email: { _eq: username } } },
-					{ admin: { email: { _eq: username } } },
+					{ beneficiary: { email: { _eq: email } } },
+					{ professional: { email: { _eq: email } } },
+					{ manager: { email: { _eq: email } } },
+					{ admin: { email: { _eq: email } } },
 				],
 			},
 		})
@@ -87,8 +88,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	if (emailResult.data.account.length > 0) {
-		logger.error(`l'email ${email} est déjà utilisé`);
-		throw error(400, 'inscription: email already used');
+		logger.error(`un compte associé à l'email ${email} existe déjà`);
+		throw error(400, "un compte associé à l'email existe déjà");
 	}
 
 	const { error: err, data } = await client
@@ -99,6 +100,9 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	if (err || !data) {
 		logger.error(err);
+		captureException(
+			err ?? new Error(`Erreur lors de la récupération d'un compte via 'GetAccountByUsernameQuery'`)
+		);
 		throw error(500, 'inscription: get account failed');
 	}
 
@@ -128,7 +132,11 @@ export const POST: RequestHandler = async ({ request }) => {
 		.toPromise();
 
 	if (insertResult.error || !insertResult.data) {
-		logger.error(error);
+		logger.error(insertResult);
+		captureException(
+			insertResult.error ??
+				new Error(`Erreur lors de la création d'un compte via 'InsertProfessionalAccountDocument'`)
+		);
 		throw error(500, 'inscription: insert failed');
 	}
 
@@ -138,6 +146,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		const result = await updateAccessKey(client, account.id);
 		if (result.error) {
 			logger.error(result.error, 'login');
+			captureException(result.error ?? new Error(`Erreur lors de la mise à jour de l'accessKey`));
 			throw error(500, 'server error');
 		}
 		const accessKey = result.data.account.accessKey;
@@ -173,6 +182,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		if (err) {
 			// instead of erroring for the end-user (in spite of the accounts having been created in actuality),
 			// we should return a success and send an admin-level error to handle notifying the managers
+			captureException(new Error(`Erreur de l'inscription d'un utilisateur.`));
 			throw error(500, 'server error');
 		}
 

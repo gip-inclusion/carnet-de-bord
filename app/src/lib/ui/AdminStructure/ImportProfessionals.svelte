@@ -53,7 +53,7 @@
 					autoConfirm: true,
 				});
 			} catch (e) {
-				error = e;
+				error = e.message;
 			}
 			insertResult = [...insertResult, { pro_, error }];
 		}
@@ -209,7 +209,7 @@
 										{#if pro.error}
 											<Text
 												classNames="text-error"
-												value={"Une erreur s'est produite, le professionnel n'a pas été importé."}
+												value={`Une erreur s'est produite, le professionnel n'a pas été importé. (${pro.error})`}
 											/>
 										{:else}
 											<span
