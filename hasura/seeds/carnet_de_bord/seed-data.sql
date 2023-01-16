@@ -137,6 +137,13 @@ INSERT INTO public.account (id, username, type, access_key, access_key_date, las
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
 
+
+
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('4f36e13c-dd75-45da-a75f-b5ad07d321f5', '2021-09-21 13:06:45.076+00', 'e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', 'fc48d848-33bf-437a-9533-881e16ffa666');
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('401622b9-562f-4eb3-b05d-3f7790551e9a', '2021-09-21 13:06:45.076+00', 'e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', '7ea8a071-1ef8-4747-9cd8-9e68086df0e9');
+
+
+
 -- Sandie Manchet
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('d211a3b8-346c-4f77-a570-bc1c9240e744', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'sandie.manchet@livry-gargan.fr', 'Manchet', 'Sandie', 'Conseillere sociale', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('6338f969-c881-41d7-9af8-9f5c92f7ac67', 'sandie.manchet', 'professional', 'd211a3b8-346c-4f77-a570-bc1c9240e744', true, false);
