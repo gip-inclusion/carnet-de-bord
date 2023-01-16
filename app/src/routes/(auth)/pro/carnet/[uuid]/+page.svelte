@@ -119,7 +119,14 @@
 	const getNotebook = operationStore(
 		GetNotebookDocument,
 		buildQueryVariables(variables, selected),
-		{ additionalTypenames: ['notebook_action', 'notebook_appointment', 'orientation_request'] }
+		{
+			additionalTypenames: [
+				'notebook_focus',
+				'notebook_action',
+				'notebook_appointment',
+				'orientation_request',
+			],
+		}
 	);
 
 	query(getNotebook);
