@@ -22,7 +22,7 @@ async def test_deny_orientation_request_email(
         json={
             "orientation_request_id": str(orientation_request_jennings_dee.id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     print(response.json())
     assert response.status_code == 200

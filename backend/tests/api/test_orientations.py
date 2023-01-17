@@ -53,7 +53,7 @@ async def test_professional_not_allowed_to_change_orientation(
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
-        headers={"jwt-token": f"{get_professional_jwt}"},
+        headers={"jwt-token": get_professional_jwt},
     )
     assert response.status_code == 403
     json = response.json()
@@ -76,7 +76,7 @@ async def test_admin_structure_not_allowed_to_change_orientation(
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
     assert response.status_code == 403
     json = response.json()
@@ -100,7 +100,7 @@ async def test_change_orientation_while_keeping_same_referent(
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -130,7 +130,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": None,
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -187,7 +187,7 @@ async def test_change_orientation_with_new_referent(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -247,7 +247,7 @@ async def test_change_orientation_with_new_referent_when_beneficiary_has_no_stru
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
-        headers={"jwt-token": f"{samy_rouate_jwt}"},
+        headers={"jwt-token": samy_rouate_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -292,7 +292,7 @@ async def test_change_orientation_with_orientation_request(
             "structure_id": str(professional_pierre_chevalier.structure_id),
             "new_referent_account_id": str(professional_pierre_chevalier.account_id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
 
     orientation_request = await get_orientation_request_by_id(
@@ -327,7 +327,7 @@ async def test_send_email_to_members_with_orientation_request(
             "new_referent_account_id": str(professional_paul_camara.account_id),
             "orientation_request_id": str(orientation_request_jennings_dee.id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 2
@@ -364,7 +364,7 @@ async def test_send_email_to_members_without_orientation_request(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 2
@@ -400,7 +400,7 @@ async def test_send_email_to_members_first_orientation(
             "structure_id": str(professional_paul_camara.structure_id),
             "new_referent_account_id": str(professional_paul_camara.account_id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 1
@@ -428,7 +428,7 @@ async def test_unconsistent_orientation_request(
             "structure_id": str(professional_paul_camara.structure_id),
             "orientation_request_id": str(orientation_request_jennings_dee.id),
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
 
     assert response.status_code == 400

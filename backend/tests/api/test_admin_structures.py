@@ -29,7 +29,7 @@ async def test_jwt_token_verification(
             },
             "structure_id": str(structure_id_pe_livry),
         },
-        headers={"jwt-token": f"{get_professional_jwt}"},
+        headers={"jwt-token": get_professional_jwt},
     )
 
     json = response.json()
@@ -61,7 +61,7 @@ async def test_insert_admin_structure_with_structure_in_db(
             },
             "structure_id": str(structure_id_pe_livry),
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -116,7 +116,7 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
             },
             "structure_id": str(structure_id_pe_livry),
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -163,7 +163,7 @@ async def test_insert_existing_admin_structure_in_existing_structure(
             },
             "structure_id": str(structure_id_pe_livry),
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -204,7 +204,7 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
             },
             "structure_id": str(structure_id_pe_livry),
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200

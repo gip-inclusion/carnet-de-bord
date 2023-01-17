@@ -21,7 +21,7 @@ async def test_structure_import_json(
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json, "sendAccountEmail": True},
-        headers={"jwt-token": f"{get_manager_jwt}"},
+        headers={"jwt-token": get_manager_jwt},
     )
 
     data = response.json()
@@ -59,7 +59,7 @@ async def test_structure_with_buggy_import_json(
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json_with_errors},
-        headers={"jwt-token": f"{get_manager_jwt}"},
+        headers={"jwt-token": get_manager_jwt},
     )
 
     data = response.json()
@@ -77,7 +77,7 @@ async def test_structure_with_fail_structure_insert(
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": f"{get_manager_jwt}"},
+        headers={"jwt-token": get_manager_jwt},
     )
 
     data = response.json()
@@ -107,7 +107,7 @@ async def test_structure_with_fail_admin_insert(
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": f"{get_manager_jwt}"},
+        headers={"jwt-token": get_manager_jwt},
     )
 
     data = response.json()
@@ -139,7 +139,7 @@ async def test_structure_with_fail_admin_structure_structure_insert(
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": f"{get_manager_jwt}"},
+        headers={"jwt-token": get_manager_jwt},
     )
 
     data = response.json()

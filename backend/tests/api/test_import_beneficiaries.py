@@ -19,7 +19,7 @@ async def import_beneficiaries(
 ):
     return client.post(
         "/v1/beneficiaries/bulk",
-        headers={"jwt-token": f"{token}"},
+        headers={"jwt-token": token},
         data=json.dumps(
             {
                 "need_orientation": True,
@@ -36,7 +36,7 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
 ):
     response = test_client.post(
         "/v1/beneficiaries/bulk",
-        headers={"jwt-token": f"{get_professional_jwt}"},
+        headers={"jwt-token": get_professional_jwt},
         data=json.dumps(
             {
                 "beneficiaries": [],
