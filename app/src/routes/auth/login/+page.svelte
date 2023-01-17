@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { Button, Input } from '$lib/ui/base';
 	import { post } from '$lib/utils/post';
 	import type { RequestStep } from '$lib/types';
@@ -8,10 +7,6 @@
 	let username = '';
 	let errorMessage = '';
 	let magicLink = '';
-
-	async function registration() {
-		goto('/inscription');
-	}
 
 	async function handleSubmit() {
 		request = 'loading';
@@ -64,12 +59,6 @@
 							Se connecter
 						{/if}
 					</Button>
-				</div>
-			</div>
-			<div class="flex flex-col gap-4">
-				<div class="text-sm font-bold">Vous n’êtes pas encore inscrit ?</div>
-				<div>
-					<Button outline={true} on:click={registration}>Je m'inscris</Button>
 				</div>
 			</div>
 		</div>
