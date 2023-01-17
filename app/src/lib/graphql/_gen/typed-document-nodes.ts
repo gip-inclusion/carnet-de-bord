@@ -14820,7 +14820,41 @@ export type GetOrientationSystemsForDeploymentQueryVariables = Exact<{
 
 export type GetOrientationSystemsForDeploymentQuery = {
 	__typename?: 'query_root';
-	orientation_system: Array<{ __typename?: 'orientation_system'; name: string }>;
+	orientation_system: Array<{
+		__typename?: 'orientation_system';
+		id: string;
+		name: string;
+		orientationType: OrientationTypeEnum;
+	}>;
+};
+
+export type GetProfessionalsForOrientationSystemAndDeploymentQueryVariables = Exact<{
+	deploymentId: Scalars['uuid'];
+	orientationSystemId: Scalars['uuid'];
+}>;
+
+export type GetProfessionalsForOrientationSystemAndDeploymentQuery = {
+	__typename?: 'query_root';
+	professional: Array<{
+		__typename?: 'professional';
+		firstname: string;
+		lastname: string;
+		structure: {
+			__typename?: 'structure';
+			id: string;
+			name: string;
+			professionals: Array<{
+				__typename?: 'professional';
+				account?: {
+					__typename?: 'account';
+					referentCount: {
+						__typename?: 'notebook_member_aggregate';
+						aggregate?: { __typename?: 'notebook_member_aggregate_fields'; count: number } | null;
+					};
+				} | null;
+			}>;
+		};
+	}>;
 };
 
 export type InsertOrientationRequestMutationVariables = Exact<{
@@ -20615,7 +20649,11 @@ export const GetOrientationSystemsForDeploymentDocument = {
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
+							],
 						},
 					},
 				],
@@ -20625,6 +20663,230 @@ export const GetOrientationSystemsForDeploymentDocument = {
 } as unknown as DocumentNode<
 	GetOrientationSystemsForDeploymentQuery,
 	GetOrientationSystemsForDeploymentQueryVariables
+>;
+export const GetProfessionalsForOrientationSystemAndDeploymentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'getProfessionalsForOrientationSystemAndDeployment' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'orientationSystemId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'professional' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'orientationSystems' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'id' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_eq' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'orientationSystemId' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structure' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'deploymentId' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_eq' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'deploymentId' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'structure' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professionals' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'account' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		alias: { kind: 'Name', value: 'referentCount' },
+																		name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
+																		arguments: [
+																			{
+																				kind: 'Argument',
+																				name: { kind: 'Name', value: 'where' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'memberType' },
+																							value: {
+																								kind: 'ObjectValue',
+																								fields: [
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: '_eq' },
+																										value: {
+																											kind: 'StringValue',
+																											value: 'referent',
+																											block: false,
+																										},
+																									},
+																								],
+																							},
+																						},
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'active' },
+																							value: {
+																								kind: 'ObjectValue',
+																								fields: [
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: '_eq' },
+																										value: { kind: 'BooleanValue', value: true },
+																									},
+																								],
+																							},
+																						},
+																					],
+																				},
+																			},
+																		],
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'aggregate' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'count' },
+																							},
+																						],
+																					},
+																				},
+																			],
+																		},
+																	},
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetProfessionalsForOrientationSystemAndDeploymentQuery,
+	GetProfessionalsForOrientationSystemAndDeploymentQueryVariables
 >;
 export const InsertOrientationRequestDocument = {
 	kind: 'Document',
@@ -30420,6 +30682,10 @@ export type UpdateManagerProfileMutationStore = OperationStore<
 export type GetOrientationSystemsForDeploymentQueryStore = OperationStore<
 	GetOrientationSystemsForDeploymentQuery,
 	GetOrientationSystemsForDeploymentQueryVariables
+>;
+export type GetProfessionalsForOrientationSystemAndDeploymentQueryStore = OperationStore<
+	GetProfessionalsForOrientationSystemAndDeploymentQuery,
+	GetProfessionalsForOrientationSystemAndDeploymentQueryVariables
 >;
 export type InsertOrientationRequestMutationStore = OperationStore<
 	InsertOrientationRequestMutation,

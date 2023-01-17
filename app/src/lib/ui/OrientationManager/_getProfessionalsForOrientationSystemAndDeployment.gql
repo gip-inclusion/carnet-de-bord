@@ -1,0 +1,31 @@
+query getProfessionalsForOrientationSystemAndDeployment(
+  $deploymentId: uuid!
+  $orientationSystemId: uuid!
+) {
+  professional(
+    where: {
+      _and: [
+        { orientationSystems: { id: { _eq: $orientationSystemId } } }
+        { structure: { deploymentId: { _eq: $deploymentId } } }
+      ]
+    }
+  ) {
+    firstname
+    lastname
+    structure {
+      id
+      name
+      professionals {
+        account {
+          referentCount: notebooksWhereMember_aggregate(
+            where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+          ) {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -16,15 +16,19 @@
 	import {
 		type GetOrientationTypeQuery,
 		GetOrientationTypeDocument,
+		type GetOrientationSystemsForDeploymentQuery,
+		GetOrientationSystemsForDeploymentDocument,
 		GetStructuresWithProDocument,
 		type GetStructuresWithProQuery,
 		OrientationTypeEnum,
+		type GetProfessionalsForOrientationSystemAndDeploymentQuery,
+		GetProfessionalsForOrientationSystemAndDeploymentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { query, operationStore, type OperationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Select } from '$lib/ui/forms';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { openComponent } from '$lib/stores';
+	import { connectedUser, openComponent } from '$lib/stores';
 	import { displayFullName } from '../format';
 
 	export let displayError = false;
@@ -33,23 +37,51 @@
 
 	export let structureId: string = null;
 	let selectedStructureId = structureId;
+	let selectedOrientationSystemId: string = null;
+
+	const deploymentId = $connectedUser.deploymentId;
+
+	const getProfessionals: OperationStore<GetProfessionalsForOrientationSystemAndDeploymentQuery> =
+		operationStore(
+			GetProfessionalsForOrientationSystemAndDeploymentDocument,
+			{
+				deploymentId: deploymentId,
+				orientationSystemId: selectedOrientationSystemId,
+			},
+
+			{ pause: true }
+		);
+
+	query(getProfessionals);
+
+	const orientationSystems: OperationStore<GetOrientationSystemsForDeploymentQuery> =
+		operationStore(GetOrientationSystemsForDeploymentDocument, { deploymentId: deploymentId });
+	query(orientationSystems);
+
+	$: orientationSystemsOptions =
+		$orientationSystems.data?.orientation_system
+			.map(({ id, name, orientationType }) => {
+				const formattedName = ['Pro', 'Social', 'Socio-pro'].includes(name)
+					? name
+					: name + ' (' + orientationType + ')';
+				return {
+					name: id,
+					label: formattedName,
+				};
+			})
+			.sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
 	const orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
 		GetOrientationTypeDocument
 	);
 	query(orientationTypes);
 
-	$: orientationOptions =
-		$orientationTypes.data?.orientation_type.map(({ id, label }) => ({
-			name: id,
-			label,
-		})) ?? [];
-
 	const structures: OperationStore<GetStructuresWithProQuery> = operationStore(
 		GetStructuresWithProDocument,
 		null,
 		{ requestPolicy: 'network-only' }
 	);
+
 	query(structures);
 	$: structureOptions =
 		$structures.data?.structure.map(({ id, name, professionals }) => {
@@ -75,6 +107,19 @@
 
 	const initialValues = { structureId };
 
+	function orientationSystemSelected(event: CustomEvent<{ selected: string }>) {
+		selectedOrientationSystemId = event.detail.selected;
+
+		$getProfessionals.context.pause = false;
+
+		const queryVariables = {
+			deploymentId: deploymentId,
+			orientationSystemId: selectedOrientationSystemId,
+		};
+		$getProfessionals.variables = queryVariables;
+		$getProfessionals.reexecute();
+	}
+
 	function close() {
 		openComponent.close();
 	}
@@ -99,8 +144,11 @@
 				required
 				selectLabel="Type d'orientation"
 				selectHint="Sélectionner un type d'orientation"
-				options={orientationOptions}
+				options={orientationSystemsOptions}
 				name="orientationType"
+				on:select={(event) => {
+					orientationSystemSelected(event);
+				}}
 			/>
 			{#if structureId === null}
 				<Select
