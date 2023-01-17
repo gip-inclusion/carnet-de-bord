@@ -41,6 +41,23 @@ async def test_orientation_manager_not_allowed_to_add_notebook_member(
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
+async def test_add_notebook_member_as_no_referent_with_no_structure_id_in_token(
+    _: mock.Mock,
+    test_client: TestClient,
+    notebook_sophie_tifour: Notebook,
+    get_professional_jwt_without_structure_id: str,
+):
+    response = test_client.post(
+        f"/v1/notebooks/{str(notebook_sophie_tifour.id)}/members",
+        json={"member_type": "no_referent"},
+        headers={"jwt-token": f"{get_professional_jwt_without_structure_id}"},
+    )
+    assert response.status_code == 403
+    json = response.json()
+    assert json["detail"] == "Unsufficient permission (structureId is missing)"
+
+
+@mock.patch("cdb.api.core.emails.send_mail")
 async def test_add_notebook_member_as_no_referent(
     mock_send_email: mock.Mock,
     test_client: TestClient,

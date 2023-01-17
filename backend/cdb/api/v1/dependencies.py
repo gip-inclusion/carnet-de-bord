@@ -45,7 +45,7 @@ async def extract_authentified_account(
     jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
     token = jwt.decode(jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]])
     request.state.account = Account(
-        token["id"], token["structureId"], token["deploymentId"]
+        token["id"], token.get("structureId"), token["deploymentId"]
     )
 
 
