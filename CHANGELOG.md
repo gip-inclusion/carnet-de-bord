@@ -1,3 +1,10 @@
+# [1.185.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.5...v1.185.0) (2023-01-17)
+
+
+### Features
+
+* un référent ne peut pas se détacher du groupe de suivi ([#1428](https://github.com/gip-inclusion/carnet-de-bord/issues/1428)) ([1566233](https://github.com/gip-inclusion/carnet-de-bord/commit/15662339189fed7f7b5ef8ec754147514e830e26))
+
 ## [1.184.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.4...v1.184.5) (2023-01-17)
 
 ## [1.184.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.3...v1.184.4) (2023-01-16)
