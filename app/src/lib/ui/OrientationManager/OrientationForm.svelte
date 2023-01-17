@@ -34,7 +34,7 @@
 	export let structureId: string = null;
 	let selectedStructureId = structureId;
 
-	let orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
+	const orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
 		GetOrientationTypeDocument
 	);
 	query(orientationTypes);
@@ -45,7 +45,7 @@
 			label,
 		})) ?? [];
 
-	let structures: OperationStore<GetStructuresWithProQuery> = operationStore(
+	const structures: OperationStore<GetStructuresWithProQuery> = operationStore(
 		GetStructuresWithProDocument,
 		null,
 		{ requestPolicy: 'network-only' }

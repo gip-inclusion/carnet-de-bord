@@ -18,7 +18,7 @@
 	export let onCancel: () => void = null;
 	export let hiddenFields: Partial<Record<keyof AccountRequest, boolean>> = {};
 
-	let result: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument, {});
+	const result: OperationStore<GetStructuresQuery> = operationStore(GetStructuresDocument, {});
 	query(result);
 
 	$: options = $result?.data?.structure;

@@ -57,7 +57,9 @@
 		status: string,
 		statusValues: { label: string; name: string }[]
 	): string {
-		let status_string: { label: string; name: string } = statusValues.find((v) => v.name == status);
+		const status_string: { label: string; name: string } = statusValues.find(
+			(v) => v.name == status
+		);
 
 		return status_string ? status_string.label : 'Inconnu';
 	}
@@ -110,7 +112,7 @@
 	export let data: PageData;
 
 	const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
-	let getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
+	const getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
 		{ notebookId: data.notebookId },
 		{ pause: true }

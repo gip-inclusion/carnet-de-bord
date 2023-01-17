@@ -70,7 +70,7 @@
 				appointments.map((appointment) => {
 					appointment.status = appointment.status.toLowerCase();
 					appointment.fullDate = appointment.date;
-					let d = parseISO(appointment.date);
+					const d = parseISO(appointment.date);
 					appointment.date = appointment.date.split('T')[0];
 					appointment.hours = d.getHours().toString();
 					appointment.minutes = d.getMinutes().toString();

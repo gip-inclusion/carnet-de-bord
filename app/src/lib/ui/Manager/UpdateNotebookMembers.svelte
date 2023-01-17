@@ -82,7 +82,7 @@
 		return proDictEmailToProLight[email];
 	}
 
-	let insertSummary: Record<
+	const insertSummary: Record<
 		string,
 		{
 			beneficiary: BeneficiaryLight;
@@ -309,7 +309,7 @@
 				beneficiaryId: payload.beneficiaryId,
 				structureId: payload.structureId,
 			});
-			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été fait.";
+			const errorMessage = "Une erreur s'est produite, le rattachement n'a pas été fait.";
 			if (result.error) {
 				captureException(result.error);
 			}

@@ -10,12 +10,12 @@
 	export let ref = null;
 	export let icon: string;
 	export let label: string;
-	let menuId = `menu-${counter++}`;
-	let buttonId = `button-${menuId}`;
+	const menuId = `menu-${counter++}`;
+	const buttonId = `button-${menuId}`;
 	let isOpened = false;
 
-	let selectedItem: Writable<Record<never, never>> = writable(null);
-	let focusedItem: Writable<Record<never, never>> = writable(null);
+	const selectedItem: Writable<Record<never, never>> = writable(null);
+	const focusedItem: Writable<Record<never, never>> = writable(null);
 
 	let menuItems: Record<never, never>[] = [];
 

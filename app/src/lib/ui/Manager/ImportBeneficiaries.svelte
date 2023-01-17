@@ -23,13 +23,13 @@
 	import { translateError } from './errorMessage';
 	import { Spinner } from '$lib/ui/base';
 
-	let queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
+	const queryProfessionals: OperationStore<GetProfessionalsForManagerQuery> = operationStore(
 		GetProfessionalsForManagerDocument,
 		{}
 	);
 	query(queryProfessionals);
 
-	let queryStructures: OperationStore<GetStructuresForManagerQuery> = operationStore(
+	const queryStructures: OperationStore<GetStructuresForManagerQuery> = operationStore(
 		GetStructuresForManagerDocument,
 		{}
 	);

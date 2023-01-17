@@ -12,7 +12,7 @@
 		goto(href);
 	}
 
-	let ariaCurrent = 'page' as const;
+	const ariaCurrent = 'page' as const;
 	$: additionalProps = isCurrent ? { 'aria-current': ariaCurrent } : {};
 </script>
 

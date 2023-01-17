@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	counter++;
-	let uniqueId = `search-bar-input-${counter}`;
+	const uniqueId = `search-bar-input-${counter}`;
 	export let id: string | null = `search-bar-${counter}`;
 	export let size: string | null = 'lg';
 	export let btnLabel: string | null = '';

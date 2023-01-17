@@ -7,9 +7,9 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
 
-	let { id, email, firstname, lastname, phoneNumbers } = $accountData.admin_structure;
+	const { id, email, firstname, lastname, phoneNumbers } = $accountData.admin_structure;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,

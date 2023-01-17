@@ -23,7 +23,7 @@
 	export let icon: string | null = '';
 	export let title: string | null = '';
 	export let iconSide: 'left' | 'right' = 'left';
-	let iconSideClass = icon ? `fr-btn--icon-${iconSide}` : '';
+	const iconSideClass = icon ? `fr-btn--icon-${iconSide}` : '';
 </script>
 
 <button

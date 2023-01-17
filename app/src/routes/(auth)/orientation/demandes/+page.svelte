@@ -11,7 +11,7 @@
 	import { LoaderIndicator, Text } from '$lib/ui/utils';
 	import Dialog from '$lib/ui/Dialog.svelte';
 
-	let breadcrumbs = [
+	const breadcrumbs = [
 		{
 			name: 'accueil',
 			path: homeForRole(RoleEnum.OrientationManager),

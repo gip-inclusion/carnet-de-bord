@@ -6,7 +6,7 @@
 
 	type Structure = GetStructuresForDeploymentQuery['structure'][0];
 
-	let dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher();
 
 	export let structures: Structure[];
 

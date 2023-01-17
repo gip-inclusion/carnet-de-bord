@@ -17,9 +17,9 @@
 
 	let error: string;
 
-	let { id, email, firstname, lastname, mobileNumber, position } = $accountData.professional;
+	const { id, email, firstname, lastname, mobileNumber, position } = $accountData.professional;
 
-	let initialValues = {
+	const initialValues = {
 		email,
 		firstname,
 		lastname,

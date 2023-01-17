@@ -19,7 +19,7 @@
 
 	export let onClose: () => void;
 
-	let orientationManagerStore: OperationStore<GetOrientationManagerQuery> = operationStore(
+	const orientationManagerStore: OperationStore<GetOrientationManagerQuery> = operationStore(
 		GetOrientationManagerDocument
 	);
 	query(orientationManagerStore);

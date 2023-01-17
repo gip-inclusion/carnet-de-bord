@@ -2,9 +2,9 @@
 
 // support for Crisp
 interface Window {
-	$crisp: any;
+	$crisp: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 	CRISP_WEBSITE_ID: string;
-	dsfr: any;
+	dsfr: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // support for svelecte

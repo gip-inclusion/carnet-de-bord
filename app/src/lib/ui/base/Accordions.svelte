@@ -4,8 +4,8 @@
 	import type { Writable } from 'svelte/store';
 	import { ACCORDION, type AccordionContext } from './accordion';
 
-	let accordionItems: Writable<Record<never, never>[]> = writable([]);
-	let selectedItem: Writable<Record<never, never>> = writable(null);
+	const accordionItems: Writable<Record<never, never>[]> = writable([]);
+	const selectedItem: Writable<Record<never, never>> = writable(null);
 
 	setContext<AccordionContext>(ACCORDION, {
 		registerAccordionItem: (accordion: Record<never, never>): void => {

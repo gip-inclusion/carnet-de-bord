@@ -4,7 +4,7 @@
 
 	export let title: string;
 	let ref = null;
-	let internalItemKey = {}; // used for identify accordion
+	const internalItemKey = {}; // used for identify accordion
 	const accordionId = `accordion-${$accordionCounter++}`;
 	const { registerAccordionItem, selectedItem } = getContext<AccordionContext>(ACCORDION);
 	registerAccordionItem(internalItemKey);

@@ -16,7 +16,7 @@
 	import * as yup from 'yup';
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	import createClient from '$lib/graphql/createClient';
-	import { setClient } from '@urql/svelte';
+	import { Client, setClient } from '@urql/svelte';
 	import LayerCdb from '$lib/ui/LayerCDB.svelte';
 	import { getMatomoUrl, getMatomoSiteId } from '$lib/config/variables/public';
 
@@ -26,10 +26,10 @@
 
 	export let data: PageData;
 
-	$backendAPI = data.backendAPI;
-	$graphqlAPI = data.graphqlAPI;
+	backendAPI.set(data.backendAPI);
+	graphqlAPI.set(data.graphqlAPI);
 
-	let client;
+	let client: Client;
 
 	$: {
 		client = createClient(fetch, data.graphqlAPI, data.token);
@@ -62,7 +62,7 @@
 
 		Matomo.load(getMatomoUrl(), getMatomoSiteId());
 	});
-	let unsubscribe = page.subscribe(({ url }) => {
+	const unsubscribe = page.subscribe(({ url }) => {
 		if (!browser || !url.pathname || !getMatomoUrl() || !getMatomoSiteId()) {
 			return;
 		}

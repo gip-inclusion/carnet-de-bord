@@ -35,7 +35,7 @@
 
 	const formData = initFormData();
 
-	let disabled = !formData.theme && !formData.linkedTo && formData.situations?.length > 0;
+	const disabled = !formData.theme && !formData.linkedTo && formData.situations?.length > 0;
 
 	async function createFocus() {
 		trackEvent('pro', 'notebook', `add focus ${formData.theme}`);

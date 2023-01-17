@@ -10,7 +10,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	counter++;
-	let uniqueId = `select-input-${counter}`;
+	const uniqueId = `select-input-${counter}`;
 	export let name = uniqueId;
 	export let id: string | null = uniqueId;
 	export let selectHint: string | null = '';

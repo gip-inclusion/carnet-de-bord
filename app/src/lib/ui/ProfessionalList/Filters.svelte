@@ -21,7 +21,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	let filterOptions: { label: string; name: BeneficiaryCountFilter }[] = [
+	const filterOptions: { label: string; name: BeneficiaryCountFilter }[] = [
 		{ label: 'Tous', name: 'all' },
 		{ label: 'Avec', name: 'withBeneficiaries' },
 		{ label: 'Sans', name: 'noBeneficiaries' },

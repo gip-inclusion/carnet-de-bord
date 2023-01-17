@@ -28,7 +28,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	let filterOptions: { label: string; name: MemberFilter }[] = [
+	const filterOptions: { label: string; name: MemberFilter }[] = [
 		{ label: 'Tous', name: 'all' },
 		{ label: 'Suivi', name: 'withMember' },
 		{ label: 'Non suivi', name: 'noMember' },

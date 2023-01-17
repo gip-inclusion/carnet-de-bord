@@ -11,7 +11,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	counter++;
-	let uniqueId = `select-input-${counter}`;
+	const uniqueId = `select-input-${counter}`;
 	export let id = uniqueId;
 
 	export let label = 'Selectionner un élément';
@@ -42,10 +42,10 @@
 
 	let timeout = null;
 
-	let dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher();
 
 	$: internalOptions = options.map((o, i): Suggestion => {
-		let selected = !multiple
+		const selected = !multiple
 			? o.value === selectedItem?.value
 			: selectedItems?.findIndex((item) => item.value === o.value) !== -1;
 
@@ -112,7 +112,7 @@
 	function toggleSelection(suggestionIndex: number, close = true) {
 		if (multiple) {
 			selectedItems = internalOptions.flatMap((o) => {
-				let { value, label } = o;
+				const { value, label } = o;
 				if (o.index === suggestionIndex) {
 					if (o.selected) {
 						return [];
@@ -122,7 +122,7 @@
 				return o.selected ? { label, value } : [];
 			});
 		} else {
-			let { label, value } = internalOptions.find((o) => o.index === suggestionIndex);
+			const { label, value } = internalOptions.find((o) => o.index === suggestionIndex);
 			selectedItem = { label, value };
 		}
 		if (close && open) {

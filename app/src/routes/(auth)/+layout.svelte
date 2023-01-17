@@ -7,7 +7,7 @@
 	import { accountData } from '$lib/stores';
 
 	export let data: LayoutData;
-	$accountData = data.account;
+	accountData.set(data.account);
 
 	onMount(() => {
 		Matomo.setCustomDimension(Matomo.CustomDimensions.Role, data.user.role);

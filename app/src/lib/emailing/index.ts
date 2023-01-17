@@ -5,7 +5,7 @@ import type Mail from 'nodemailer/lib/mailer';
 import type { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 import type { SvelteComponent } from 'svelte/types/runtime';
 
-type Constructor<T> = new (...args: any[]) => T;
+type Constructor<T> = new (...args: any[]) => T; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export default async function send({
 	options,
@@ -32,7 +32,7 @@ export async function createMail({
 }): Promise<string> {
 	const { Component, formattedParams } = await prepareEmail({ template, params });
 
-	return (Component as any).render(formattedParams).html;
+	return (Component as any).render(formattedParams).html; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export async function prepareEmail({
