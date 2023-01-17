@@ -3,9 +3,10 @@ import type { Options } from '@sentry/types';
 
 type SentryInterface = {
 	init: (options: Options) => void;
+	captureException: (error: Error) => void;
 };
 
-let sentry;
+let sentry: SentryInterface;
 
 export function initSentry(Sentry: SentryInterface) {
 	if (!env.PUBLIC_SENTRY_DSN) {
