@@ -1,9 +1,0 @@
-query GetOrientationSystemsForDeployment($deploymentId: uuid!) {
-  orientation_system(
-    where: { deploymentOrientationSystems: { deploymentId: { _eq: $deploymentId } } }
-  ) {
-    id
-    name
-    orientationType
-  }
-}

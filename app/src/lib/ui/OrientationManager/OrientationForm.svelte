@@ -14,8 +14,6 @@
 
 <script lang="ts">
 	import {
-		type GetOrientationSystemsForDeploymentQuery,
-		GetOrientationSystemsForDeploymentDocument,
 		OrientationTypeEnum,
 		type GetProfessionalsForDeploymentQuery,
 		GetProfessionalsForDeploymentDocument,
@@ -48,10 +46,6 @@
 
 	query(getProfessionals);
 
-	const orientationSystems: OperationStore<GetOrientationSystemsForDeploymentQuery> =
-		operationStore(GetOrientationSystemsForDeploymentDocument, { deploymentId: deploymentId });
-	query(orientationSystems);
-
 	$: orientationSystemsOptions =
 		$getProfessionals.data?.professional
 			.flatMap(({ orientationSystems }) => {
@@ -65,7 +59,9 @@
 					};
 				});
 			})
+			// Sort by alphabetical order
 			.sort((a, b) => a.label.localeCompare(b.label))
+			// Get unique values
 			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
 
 	const structures: OperationStore<GetStructuresWithProQuery> = operationStore(
@@ -78,6 +74,13 @@
 
 	$: structureOptions =
 		$getProfessionals.data?.professional
+			// Get professionnals that have the selected orientation system attached
+			.filter(({ orientationSystems }) =>
+				orientationSystems
+					.map(({ orientationSystemId }) => orientationSystemId)
+					.includes(selectedOrientationSystemId)
+			)
+			// Get the structures of this professional
 			.map(({ structure }) => {
 				const beneficiaryCount = structure.professionals.reduce(
 					(
@@ -93,13 +96,26 @@
 					label: `${structure.name} (${beneficiaryCount})`,
 				};
 			})
+			// Sort by alphabetical order
+			.sort((a, b) => a.label.localeCompare(b.label))
 			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
 
 	$: professionalOptions =
-		$getProfessionals.data?.professional.map((pro) => ({
-			name: pro.account.id,
-			label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
-		})) ?? [];
+		$getProfessionals.data?.professional
+			// Get professionals corresponding to the selected structures
+			.filter(({ structure }) => structure.id == selectedStructureId)
+			//Get professionnals that have the selected orientation system attached
+			.filter(({ orientationSystems }) =>
+				orientationSystems
+					.map(({ orientationSystemId }) => orientationSystemId)
+					.includes(selectedOrientationSystemId)
+			)
+			.map((pro) => ({
+				name: pro.account.id,
+				label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
+			}))
+			// Sort by alphabetical order
+			.sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
 	const initialValues = { structureId };
 
@@ -127,10 +143,6 @@
 		<LoaderIndicator result={getProfessionals}>
 			<p>
 				Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent.
-				{orientationSystemsOptions}
-				{#each orientationSystemsOptions as orientationSystemsOption}
-					{orientationSystemsOption.name} - {orientationSystemsOption.label}
-				{/each}
 			</p>
 			<Select
 				required

@@ -14814,57 +14814,6 @@ export type UpdateManagerProfileMutation = {
 	} | null;
 };
 
-export type GetOrientationSystemsForDeploymentQueryVariables = Exact<{
-	deploymentId: Scalars['uuid'];
-}>;
-
-export type GetOrientationSystemsForDeploymentQuery = {
-	__typename?: 'query_root';
-	orientation_system: Array<{
-		__typename?: 'orientation_system';
-		id: string;
-		name: string;
-		orientationType: OrientationTypeEnum;
-	}>;
-};
-
-export type GetProfessionalsForOrientationSystemAndDeploymentQueryVariables = Exact<{
-	deploymentId: Scalars['uuid'];
-	orientationSystemId: Scalars['uuid'];
-}>;
-
-export type GetProfessionalsForOrientationSystemAndDeploymentQuery = {
-	__typename?: 'query_root';
-	professional: Array<{
-		__typename?: 'professional';
-		firstname: string;
-		lastname: string;
-		account?: {
-			__typename?: 'account';
-			id: string;
-			referentCount: {
-				__typename?: 'notebook_member_aggregate';
-				aggregate?: { __typename?: 'notebook_member_aggregate_fields'; count: number } | null;
-			};
-		} | null;
-		structure: {
-			__typename?: 'structure';
-			id: string;
-			name: string;
-			professionals: Array<{
-				__typename?: 'professional';
-				account?: {
-					__typename?: 'account';
-					referentCount: {
-						__typename?: 'notebook_member_aggregate';
-						aggregate?: { __typename?: 'notebook_member_aggregate_fields'; count: number } | null;
-					};
-				} | null;
-			}>;
-		};
-	}>;
-};
-
 export type GetProfessionalsForDeploymentQueryVariables = Exact<{
 	deploymentId: Scalars['uuid'];
 }>;
@@ -14885,6 +14834,7 @@ export type GetProfessionalsForDeploymentQuery = {
 		} | null;
 		orientationSystems: Array<{
 			__typename?: 'professional_orientation_system';
+			orientationSystemId: string;
 			orientationSystem: {
 				__typename?: 'orientation_system';
 				id: string;
@@ -14896,6 +14846,10 @@ export type GetProfessionalsForDeploymentQuery = {
 			__typename?: 'structure';
 			id: string;
 			name: string;
+			orientationSystems: Array<{
+				__typename?: 'structure_orientation_system';
+				orientationSystemId: string;
+			}>;
 			professionals: Array<{
 				__typename?: 'professional';
 				account?: {
@@ -20640,380 +20594,6 @@ export const UpdateManagerProfileDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateManagerProfileMutation, UpdateManagerProfileMutationVariables>;
-export const GetOrientationSystemsForDeploymentDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetOrientationSystemsForDeployment' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'orientation_system' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deploymentOrientationSystems' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'deploymentId' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'deploymentId' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetOrientationSystemsForDeploymentQuery,
-	GetOrientationSystemsForDeploymentQueryVariables
->;
-export const GetProfessionalsForOrientationSystemAndDeploymentDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'getProfessionalsForOrientationSystemAndDeployment' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'orientationSystemId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'professional' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_and' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'orientationSystems' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'orientationSystemId' },
-																			value: {
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: '_eq' },
-																						value: {
-																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'orientationSystemId' },
-																						},
-																					},
-																				],
-																			},
-																		},
-																	],
-																},
-															},
-														],
-													},
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'structure' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'deploymentId' },
-																			value: {
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: '_eq' },
-																						value: {
-																							kind: 'Variable',
-																							name: { kind: 'Name', value: 'deploymentId' },
-																						},
-																					},
-																				],
-																			},
-																		},
-																	],
-																},
-															},
-														],
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'account' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{
-												kind: 'Field',
-												alias: { kind: 'Name', value: 'referentCount' },
-												name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'where' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'memberType' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'StringValue',
-																					value: 'referent',
-																					block: false,
-																				},
-																			},
-																		],
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'active' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: { kind: 'BooleanValue', value: true },
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-												],
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'aggregate' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'count' } },
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'structure' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'professionals' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'account' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{
-																		kind: 'Field',
-																		alias: { kind: 'Name', value: 'referentCount' },
-																		name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
-																		arguments: [
-																			{
-																				kind: 'Argument',
-																				name: { kind: 'Name', value: 'where' },
-																				value: {
-																					kind: 'ObjectValue',
-																					fields: [
-																						{
-																							kind: 'ObjectField',
-																							name: { kind: 'Name', value: 'memberType' },
-																							value: {
-																								kind: 'ObjectValue',
-																								fields: [
-																									{
-																										kind: 'ObjectField',
-																										name: { kind: 'Name', value: '_eq' },
-																										value: {
-																											kind: 'StringValue',
-																											value: 'referent',
-																											block: false,
-																										},
-																									},
-																								],
-																							},
-																						},
-																						{
-																							kind: 'ObjectField',
-																							name: { kind: 'Name', value: 'active' },
-																							value: {
-																								kind: 'ObjectValue',
-																								fields: [
-																									{
-																										kind: 'ObjectField',
-																										name: { kind: 'Name', value: '_eq' },
-																										value: { kind: 'BooleanValue', value: true },
-																									},
-																								],
-																							},
-																						},
-																					],
-																				},
-																			},
-																		],
-																		selectionSet: {
-																			kind: 'SelectionSet',
-																			selections: [
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'aggregate' },
-																					selectionSet: {
-																						kind: 'SelectionSet',
-																						selections: [
-																							{
-																								kind: 'Field',
-																								name: { kind: 'Name', value: 'count' },
-																							},
-																						],
-																					},
-																				},
-																			],
-																		},
-																	},
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetProfessionalsForOrientationSystemAndDeploymentQuery,
-	GetProfessionalsForOrientationSystemAndDeploymentQueryVariables
->;
 export const GetProfessionalsForDeploymentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -21158,6 +20738,7 @@ export const GetProfessionalsForDeploymentDocument = {
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'orientationSystemId' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'orientationSystem' },
@@ -21181,6 +20762,16 @@ export const GetProfessionalsForDeploymentDocument = {
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationSystems' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'orientationSystemId' } },
+													],
+												},
+											},
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professionals' },
@@ -31069,14 +30660,6 @@ export type GetNotebookForBeneficiaryQueryStore = OperationStore<
 export type UpdateManagerProfileMutationStore = OperationStore<
 	UpdateManagerProfileMutation,
 	UpdateManagerProfileMutationVariables
->;
-export type GetOrientationSystemsForDeploymentQueryStore = OperationStore<
-	GetOrientationSystemsForDeploymentQuery,
-	GetOrientationSystemsForDeploymentQueryVariables
->;
-export type GetProfessionalsForOrientationSystemAndDeploymentQueryStore = OperationStore<
-	GetProfessionalsForOrientationSystemAndDeploymentQuery,
-	GetProfessionalsForOrientationSystemAndDeploymentQueryVariables
 >;
 export type GetProfessionalsForDeploymentQueryStore = OperationStore<
 	GetProfessionalsForDeploymentQuery,

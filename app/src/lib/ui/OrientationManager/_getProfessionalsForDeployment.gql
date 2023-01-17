@@ -1,0 +1,42 @@
+query getProfessionalsForDeployment($deploymentId: uuid!) {
+  professional(where: { structure: { deploymentId: { _eq: $deploymentId } } }) {
+    firstname
+    lastname
+    account {
+      id
+      referentCount: notebooksWhereMember_aggregate(
+        where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+      ) {
+        aggregate {
+          count
+        }
+      }
+    }
+    orientationSystems {
+      orientationSystemId
+      orientationSystem {
+        id
+        name
+        orientationType
+      }
+    }
+    structure {
+      id
+      name
+      orientationSystems {
+        orientationSystemId
+      }
+      professionals {
+        account {
+          referentCount: notebooksWhereMember_aggregate(
+            where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+          ) {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    }
+  }
+}
