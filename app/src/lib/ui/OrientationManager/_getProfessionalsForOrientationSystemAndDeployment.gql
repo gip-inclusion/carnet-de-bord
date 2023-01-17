@@ -39,3 +39,42 @@ query getProfessionalsForOrientationSystemAndDeployment(
     }
   }
 }
+
+query getProfessionalsForDeployment($deploymentId: uuid!) {
+  professional(where: { structure: { deploymentId: { _eq: $deploymentId } } }) {
+    firstname
+    lastname
+    account {
+      id
+      referentCount: notebooksWhereMember_aggregate(
+        where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+      ) {
+        aggregate {
+          count
+        }
+      }
+    }
+    orientationSystems {
+      orientationSystem {
+        id
+        name
+        orientationType
+      }
+    }
+    structure {
+      id
+      name
+      professionals {
+        account {
+          referentCount: notebooksWhereMember_aggregate(
+            where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+          ) {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    }
+  }
+}

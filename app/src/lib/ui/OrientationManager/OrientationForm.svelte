@@ -14,15 +14,13 @@
 
 <script lang="ts">
 	import {
-		type GetOrientationTypeQuery,
-		GetOrientationTypeDocument,
 		type GetOrientationSystemsForDeploymentQuery,
 		GetOrientationSystemsForDeploymentDocument,
 		OrientationTypeEnum,
-		type GetProfessionalsForOrientationSystemAndDeploymentQuery,
-		GetProfessionalsForOrientationSystemAndDeploymentDocument,
-		type GetStructuresWithProQuery,
+		type GetProfessionalsForDeploymentQuery,
+		GetProfessionalsForDeploymentDocument,
 		GetStructuresWithProDocument,
+		type GetStructuresWithProQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { query, operationStore, type OperationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
@@ -41,16 +39,12 @@
 
 	const deploymentId = $connectedUser.deploymentId;
 
-	const getProfessionals: OperationStore<GetProfessionalsForOrientationSystemAndDeploymentQuery> =
-		operationStore(
-			GetProfessionalsForOrientationSystemAndDeploymentDocument,
-			{
-				deploymentId: deploymentId,
-				orientationSystemId: selectedOrientationSystemId,
-			},
-
-			{ pause: true }
-		);
+	const getProfessionals: OperationStore<GetProfessionalsForDeploymentQuery> = operationStore(
+		GetProfessionalsForDeploymentDocument,
+		{
+			deploymentId: deploymentId,
+		}
+	);
 
 	query(getProfessionals);
 
@@ -59,22 +53,20 @@
 	query(orientationSystems);
 
 	$: orientationSystemsOptions =
-		$orientationSystems.data?.orientation_system
-			.map(({ id, name, orientationType }) => {
-				const formattedName = ['Pro', 'Social', 'Socio-pro'].includes(name)
-					? name
-					: `${name} (${orientationType})`;
-				return {
-					name: id,
-					label: formattedName,
-				};
+		$getProfessionals.data?.professional
+			.flatMap(({ orientationSystems }) => {
+				return orientationSystems.map(({ orientationSystem }) => {
+					const formattedName = ['Pro', 'Social', 'Socio-pro'].includes(orientationSystem.name)
+						? orientationSystem.name
+						: `${orientationSystem.name} (${orientationSystem.orientationType})`;
+					return {
+						name: orientationSystem.id,
+						label: formattedName,
+					};
+				});
 			})
-			.sort((a, b) => a.label.localeCompare(b.label)) ?? [];
-
-	const orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
-		GetOrientationTypeDocument
-	);
-	query(orientationTypes);
+			.sort((a, b) => a.label.localeCompare(b.label))
+			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
 
 	const structures: OperationStore<GetStructuresWithProQuery> = operationStore(
 		GetStructuresWithProDocument,
@@ -90,7 +82,7 @@
 				const beneficiaryCount = structure.professionals.reduce(
 					(
 						total: number,
-						value: GetProfessionalsForOrientationSystemAndDeploymentQuery['professional'][0]['structure']['professionals'][0]
+						value: GetProfessionalsForDeploymentQuery['professional'][0]['structure']['professionals'][0]
 					) => {
 						return total + value.account.referentCount.aggregate.count;
 					},
@@ -114,15 +106,6 @@
 	function orientationSystemSelected(event: CustomEvent<{ selected: string }>) {
 		selectedOrientationSystemId = event.detail.selected;
 		selectedStructureId = null;
-
-		$getProfessionals.context.pause = false;
-
-		const queryVariables = {
-			deploymentId: deploymentId,
-			orientationSystemId: selectedOrientationSystemId,
-		};
-		$getProfessionals.variables = queryVariables;
-		$getProfessionals.reexecute();
 	}
 
 	function close() {
@@ -144,6 +127,10 @@
 		<LoaderIndicator result={getProfessionals}>
 			<p>
 				Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent.
+				{orientationSystemsOptions}
+				{#each orientationSystemsOptions as orientationSystemsOption}
+					{orientationSystemsOption.name} - {orientationSystemsOption.label}
+				{/each}
 			</p>
 			<Select
 				required
