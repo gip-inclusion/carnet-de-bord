@@ -22,7 +22,21 @@ const client = createClient({
 	requestPolicy: 'network-only',
 });
 
-export const load: PageServerLoad = async ({ url, params, cookies, setHeaders }) => {
+export const actions = {
+	default: async ({ request, cookies, setHeaders }) => {
+		const data = await request.formData();
+		const accountId = data.get('accountId');
+		const token = data.get('token');
+
+		await client.mutation(ResetAccountAccessKeyDocument, { id: accountId }).toPromise();
+
+		cookies.set('jwt', token, { path: '/', httpOnly: true, sameSite: 'strict' });
+
+		setHeaders({ 'Cache-Control': 'private' });
+	},
+};
+
+export const load: PageServerLoad = async ({ url, params }) => {
 	const redirectAfterLogin = url.searchParams.get('url');
 	const accessKey = params.uuid;
 
@@ -84,13 +98,5 @@ export const load: PageServerLoad = async ({ url, params, cookies, setHeaders })
 		structureId,
 	});
 
-	await client
-		.mutation(ResetAccountAccessKeyDocument, { id, now: new Date().toISOString() })
-		.toPromise();
-
-	cookies.set('jwt', token, { path: '/', httpOnly: true, /* secure: true, */ sameSite: 'strict' });
-
-	setHeaders({ 'Cache-Control': 'private' });
-
-	return { redirectAfterLogin };
+	return { redirectAfterLogin, accessKey, token, accountId: id };
 };

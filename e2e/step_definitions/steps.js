@@ -30,7 +30,8 @@ function plainGoto(url) {
 Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
 	await onBoardingSetup(userType, email, true);
 	const uuid = await loginStub(userType, email);
-	plainGoto(`/auth/jwt/${uuid}`);
+	await plainGoto(`/auth/jwt/${uuid}`);
+	I.click('Continuer sur Carnet de bord');
 });
 
 Soit(
@@ -38,7 +39,8 @@ Soit(
 	async (userType, email) => {
 		await onBoardingSetup(userType, email, false);
 		const uuid = await loginStub(userType, email);
-		plainGoto(`/auth/jwt/${uuid}`);
+		await plainGoto(`/auth/jwt/${uuid}`);
+		I.click('Continuer sur Carnet de bord');
 	}
 );
 
@@ -52,13 +54,15 @@ Quand('je vais sur la page {string}', (page) => {
 
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
 	const uuid = await loginStub('pro', email);
-	plainGoto(`/auth/jwt/${uuid}`);
+	await plainGoto(`/auth/jwt/${uuid}`);
+	I.click('Continuer sur Carnet de bord');
 });
 
 Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 	const uuid = await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastName(lastname);
-	plainGoto(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
+	await plainGoto(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
+	I.click('Continuer sur Carnet de bord');
 });
 
 Soit(
@@ -68,7 +72,8 @@ Soit(
 		const uuid = await loginStub("chargé d'orientation", email);
 		const notebookId = await goToNotebookForLastName(lastname);
 		await addMember(email, notebookId);
-		plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/edition/${notebookId}`);
+		await plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/edition/${notebookId}`);
+		I.click('Continuer sur Carnet de bord');
 	}
 );
 
@@ -76,7 +81,8 @@ Soit("le chargé d'orientation {string} sur le carnet de {string}", async (email
 	await onBoardingSetup("chargé d'orientation", email, true);
 	const uuid = await loginStub("chargé d'orientation", email);
 	const notebookId = await goToNotebookForLastName(lastname);
-	plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/${notebookId}`);
+	await plainGoto(`/auth/jwt/${uuid}?url=/orientation/carnets/${notebookId}`);
+	I.click('Continuer sur Carnet de bord');
 });
 
 //
