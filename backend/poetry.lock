@@ -311,7 +311,7 @@ files = [
 name = "colored"
 version = "1.4.4"
 description = "Simple library for color and formatting to terminal"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -475,7 +475,7 @@ files = [
 name = "exceptiongroup"
 version = "1.1.0"
 description = "Backport of PEP 654 (exception groups)"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -762,7 +762,7 @@ files = [
 name = "iniconfig"
 version = "2.0.0"
 description = "brain-dead simple config-ini parsing"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1109,7 +1109,7 @@ files = [
 name = "pluggy"
 version = "1.0.0"
 description = "plugin and hook calling mechanisms for python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -1197,7 +1197,7 @@ tests = ["coverage[toml] (==5.0.4)", "pytest (>=6.0.0,<7.0.0)"]
 name = "pytest"
 version = "7.2.1"
 description = "pytest: simple powerful testing with Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1240,7 +1240,7 @@ testing = ["coverage (>=6.2)", "flaky (>=3.5.0)", "hypothesis (>=5.7.1)", "mypy 
 name = "pytest-mock"
 version = "3.10.0"
 description = "Thin-wrapper around the mock package for easier use with pytest"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1624,7 +1624,7 @@ structlog = "*"
 name = "syrupy"
 version = "3.0.6"
 description = "Pytest Snapshot Test Utility"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7,<4"
 files = [
@@ -1640,7 +1640,7 @@ pytest = ">=5.1.0,<8.0.0"
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1878,4 +1878,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "335f4c3b579d756a260fcd5e6612c3aac5ea1a6dd5665b894a4e3fa9ed0edac7"
+content-hash = "04e1127c9ce1e4f744e569c395182f6985895f5937b88e488a61e4baca3b4d46"
