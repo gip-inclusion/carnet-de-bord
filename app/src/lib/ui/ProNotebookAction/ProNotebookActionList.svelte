@@ -66,7 +66,9 @@
 					<tr>
 						<td>{action.action}</td>
 						<td>
-							{displayFullName(action.creator.professional || action.creator.orientation_manager)}
+							{#if action.creator}
+								{displayFullName(action.creator.professional || action.creator.orientation_manager)}
+							{/if}
 						</td>
 						<td
 							><Select
