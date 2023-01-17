@@ -73,7 +73,6 @@ describe('notebook_event trigger', () => {
 			delete_notebook_event_by_pk(id: "${id}") { id }
 			delete_notebook_action_by_pk(id: "${addActionPayload.data.insert_notebook_action_one.id}") { id }
 	}`;
-		console.log({ mutation });
 		await graphqlAdmin(mutation);
 	});
 });

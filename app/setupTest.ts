@@ -1,13 +1,15 @@
 // setupTest.ts
 /* eslint-disable @typescript-eslint/no-empty-function */
 import 'isomorphic-fetch';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
 import matchers from '@testing-library/jest-dom/matchers';
 import { expect, vi } from 'vitest';
 import type { Navigation, Page } from '@sveltejs/kit';
 import { readable } from 'svelte/store';
-import * as environment from '$app/environment';
-import * as navigation from '$app/navigation';
-import * as stores from '$app/stores';
+import type * as environment from '$app/environment';
+import type * as navigation from '$app/navigation';
+import type * as stores from '$app/stores';
 
 // Add custom jest matchers
 expect.extend(matchers);
@@ -15,7 +17,6 @@ expect.extend(matchers);
 // Mock SvelteKit runtime module $app/environment
 vi.mock('$app/environment', (): typeof environment => ({
 	browser: false,
-	silent: false,
 	dev: true,
 	prerendering: false,
 }));

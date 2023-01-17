@@ -10,7 +10,9 @@
 		"sourceMap": true,
 		"target": "ES2019",
 		"preserveValueImports": false,
-		"types": ["vitest/globals"]
+		"types": [
+			"vitest/globals"
+		]
 	},
 	"include": [
 		".svelte-kit/ambient.d.ts",
@@ -25,6 +27,7 @@
 		"__tests__/**/*.js",
 		"__tests__/**/*.ts",
 		"__tests__/**/*.svelte",
-		"elm/**/*.d.ts"
+		"elm/**/*.d.ts",
+		"./setupTest.ts"
 	]
 }

@@ -72,6 +72,10 @@
 
 		return proAppointment ? formatDateTimeLocale(proAppointment.date) : '';
 	}
+
+	$: showRemoveButton =
+		members?.find((member: Member) => member.memberType === 'referent')?.account.id !==
+		$accountData.id;
 </script>
 
 {#if displayMemberManagementButtons}
@@ -81,18 +85,20 @@
 				openInviteMember();
 			}}>Inviter un accompagnateur</Button
 		>
-		<Dialog
-			buttonFullWidth={true}
-			outlineButton={false}
-			title="Se détacher"
-			label="Se détacher"
-			confirmLabel="Oui"
-			on:confirm={() => removeMember()}
-		>
-			<p>
-				Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?
-			</p>
-		</Dialog>
+		{#if showRemoveButton}
+			<Dialog
+				buttonFullWidth={true}
+				outlineButton={false}
+				title="Se détacher"
+				label="Se détacher"
+				confirmLabel="Oui"
+				on:confirm={() => removeMember()}
+			>
+				<p>
+					Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?
+				</p>
+			</Dialog>
+		{/if}
 	</div>
 {/if}
 <div class="fr-table fr-table--layout-fixed !mb-0">
