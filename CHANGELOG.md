@@ -1,3 +1,10 @@
+## [1.185.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.185.0...v1.185.1) (2023-01-17)
+
+
+### Bug Fixes
+
+* Afficher correctement l'erreur lors de la création d'un compte. ([#1434](https://github.com/gip-inclusion/carnet-de-bord/issues/1434)) ([4f2d8cd](https://github.com/gip-inclusion/carnet-de-bord/commit/4f2d8cdcfe573f771c5c2ec3f3e1c4bcfdf89efd))
+
 # [1.185.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.184.5...v1.185.0) (2023-01-17)
 
 
