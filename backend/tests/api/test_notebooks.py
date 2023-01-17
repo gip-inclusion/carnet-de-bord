@@ -17,7 +17,7 @@ async def test_verify_no_token(
     notebook_sophie_tifour: Notebook,
 ):
     response = test_client.post(
-        f"/v1/notebooks/{str(notebook_sophie_tifour.id)}/members",
+        f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
     )
     assert response.status_code == 401
     json = response.json()
@@ -32,7 +32,7 @@ async def test_orientation_manager_not_allowed_to_add_notebook_member(
     notebook_sophie_tifour: Notebook,
 ):
     response = test_client.post(
-        f"/v1/notebooks/{str(notebook_sophie_tifour.id)}/members",
+        f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         headers={"jwt-token": giulia_diaby_jwt},
     )
     assert response.status_code == 403
@@ -68,7 +68,7 @@ async def test_add_notebook_member_as_no_referent(
     db_connection: Connection,
 ):
     response = test_client.post(
-        f"/v1/notebooks/{str(notebook_sophie_tifour.id)}/members",
+        f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "no_referent"},
         headers={"jwt-token": get_professional_paul_camara_jwt},
     )
@@ -98,7 +98,7 @@ async def test_add_notebook_member_as_referent(
     db_connection: Connection,
 ):
     response = test_client.post(
-        f"/v1/notebooks/{str(notebook_sophie_tifour.id)}/members",
+        f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "referent"},
         headers={"jwt-token": get_professional_paul_camara_jwt},
     )

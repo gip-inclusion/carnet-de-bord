@@ -44,7 +44,7 @@ async def test_insert_admin_in_db(
             "email": sender_email,
             "firstname": "lionel",
             "lastname": "Bé",
-            "deployment_id": str(deployment_id_cd93),
+            "deployment_id": deployment_id_cd93,
         },
         headers={"jwt-token": get_admin_cdb_jwt},
     )

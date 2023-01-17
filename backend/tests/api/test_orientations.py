@@ -27,9 +27,9 @@ async def test_verify_no_token(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_pierre_chevalier.structure_id),
-            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_pierre_chevalier.structure_id,
+            "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
     )
     assert response.status_code == 401
@@ -49,9 +49,9 @@ async def test_professional_not_allowed_to_change_orientation(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_pierre_chevalier.structure_id),
-            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_pierre_chevalier.structure_id,
+            "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
         headers={"jwt-token": get_professional_jwt},
     )
@@ -72,9 +72,9 @@ async def test_admin_structure_not_allowed_to_change_orientation(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_pierre_chevalier.structure_id),
-            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_pierre_chevalier.structure_id,
+            "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
         headers={"jwt-token": get_admin_structure_jwt},
     )
@@ -96,9 +96,9 @@ async def test_change_orientation_while_keeping_same_referent(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_pierre_chevalier.structure_id),
-            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_pierre_chevalier.structure_id,
+            "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -126,8 +126,8 @@ async def test_change_orientation_assign_to_structure_not_referent(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_paul_camara.structure_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": None,
         },
         headers={"jwt-token": giulia_diaby_jwt},
@@ -183,9 +183,9 @@ async def test_change_orientation_with_new_referent(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_paul_camara.structure_id),
-            "new_referent_account_id": str(professional_paul_camara.account_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_paul_camara.structure_id,
+            "new_referent_account_id": professional_paul_camara.account_id,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -243,9 +243,9 @@ async def test_change_orientation_with_new_referent_when_beneficiary_has_no_stru
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_craig_reilly.id),
-            "structure_id": str(professional_paul_camara.structure_id),
-            "new_referent_account_id": str(professional_paul_camara.account_id),
+            "notebook_id": notebook_craig_reilly.id,
+            "structure_id": professional_paul_camara.structure_id,
+            "new_referent_account_id": professional_paul_camara.account_id,
         },
         headers={"jwt-token": samy_rouate_jwt},
     )
@@ -286,11 +286,11 @@ async def test_change_orientation_with_orientation_request(
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_request_id": str(orientation_request_jennings_dee.id),
+            "orientation_request_id": orientation_request_jennings_dee.id,
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_jennings_dee.id),
-            "structure_id": str(professional_pierre_chevalier.structure_id),
-            "new_referent_account_id": str(professional_pierre_chevalier.account_id),
+            "notebook_id": notebook_jennings_dee.id,
+            "structure_id": professional_pierre_chevalier.structure_id,
+            "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -322,10 +322,10 @@ async def test_send_email_to_members_with_orientation_request(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_jennings_dee.id),
-            "structure_id": str(professional_paul_camara.structure_id),
-            "new_referent_account_id": str(professional_paul_camara.account_id),
-            "orientation_request_id": str(orientation_request_jennings_dee.id),
+            "notebook_id": notebook_jennings_dee.id,
+            "structure_id": professional_paul_camara.structure_id,
+            "new_referent_account_id": professional_paul_camara.account_id,
+            "orientation_request_id": orientation_request_jennings_dee.id,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -360,9 +360,9 @@ async def test_send_email_to_members_without_orientation_request(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_paul_camara.structure_id),
-            "new_referent_account_id": str(professional_paul_camara.account_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_paul_camara.structure_id,
+            "new_referent_account_id": professional_paul_camara.account_id,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -396,9 +396,9 @@ async def test_send_email_to_members_first_orientation(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_noel_keller.id),
-            "structure_id": str(professional_paul_camara.structure_id),
-            "new_referent_account_id": str(professional_paul_camara.account_id),
+            "notebook_id": notebook_noel_keller.id,
+            "structure_id": professional_paul_camara.structure_id,
+            "new_referent_account_id": professional_paul_camara.account_id,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -424,9 +424,9 @@ async def test_unconsistent_orientation_request(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_type": OrientationType.social,
-            "notebook_id": str(notebook_sophie_tifour.id),
-            "structure_id": str(professional_paul_camara.structure_id),
-            "orientation_request_id": str(orientation_request_jennings_dee.id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_paul_camara.structure_id,
+            "orientation_request_id": orientation_request_jennings_dee.id,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )

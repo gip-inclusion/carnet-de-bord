@@ -13,7 +13,7 @@ class OrientationInfo(BaseModel):
     @property
     def former_referent_account_id(self) -> UUID | None:
         return (
-            self.former_referents[0]["account"]["id"]
+            UUID(self.former_referents[0]["account"]["id"])
             if len(self.former_referents) > 0
             else None
         )
