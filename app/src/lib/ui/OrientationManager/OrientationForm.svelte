@@ -18,11 +18,11 @@
 		GetOrientationTypeDocument,
 		type GetOrientationSystemsForDeploymentQuery,
 		GetOrientationSystemsForDeploymentDocument,
-		GetStructuresWithProDocument,
-		type GetStructuresWithProQuery,
 		OrientationTypeEnum,
 		type GetProfessionalsForOrientationSystemAndDeploymentQuery,
 		GetProfessionalsForOrientationSystemAndDeploymentDocument,
+		type GetStructuresWithProQuery,
+		GetStructuresWithProDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { query, operationStore, type OperationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
@@ -83,6 +83,7 @@
 	);
 
 	query(structures);
+
 	$: structureOptions =
 		$getProfessionals.data?.professional
 			.map(({ structure }) => {
@@ -102,10 +103,8 @@
 			})
 			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
 
-	$: structure = $structures.data?.structure.find(({ id }) => id === selectedStructureId) ?? null;
-
 	$: professionalOptions =
-		structure?.professionals.map((pro) => ({
+		$getProfessionals.data?.professional.map((pro) => ({
 			name: pro.account.id,
 			label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
 		})) ?? [];
@@ -142,7 +141,7 @@
 		let:isValid
 		let:form
 	>
-		<LoaderIndicator result={structures}>
+		<LoaderIndicator result={getProfessionals}>
 			<p>
 				Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent.
 			</p>

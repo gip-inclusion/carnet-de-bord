@@ -12,6 +12,16 @@ query getProfessionalsForOrientationSystemAndDeployment(
   ) {
     firstname
     lastname
+    account {
+      id
+      referentCount: notebooksWhereMember_aggregate(
+        where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+      ) {
+        aggregate {
+          count
+        }
+      }
+    }
     structure {
       id
       name
