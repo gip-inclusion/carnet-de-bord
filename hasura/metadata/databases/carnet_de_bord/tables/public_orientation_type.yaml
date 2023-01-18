@@ -2,14 +2,6 @@ table:
   name: orientation_type
   schema: public
 is_enum: true
-array_relationships:
-  - name: notebook_infos
-    using:
-      foreign_key_constraint_on:
-        column: orientation
-        table:
-          name: notebook_info
-          schema: public
 select_permissions:
   - role: admin_cdb
     permission:

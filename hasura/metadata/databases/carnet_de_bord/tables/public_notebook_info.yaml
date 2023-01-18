@@ -9,21 +9,21 @@ configuration:
       custom_name: needOrientation
     notebook_id:
       custom_name: notebookId
+    orientation_system_id:
+      custom_name: orientationSystemId
     updated_at:
       custom_name: updatedAt
   custom_column_names:
     created_at: createdAt
     need_orientation: needOrientation
     notebook_id: notebookId
+    orientation_system_id: orientationSystemId
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
   - name: notebook
     using:
       foreign_key_constraint_on: notebook_id
-  - name: orientationType
-    using:
-      foreign_key_constraint_on: orientation
 insert_permissions:
   - role: manager
     permission:
@@ -35,7 +35,7 @@ insert_permissions:
       columns:
         - need_orientation
         - notebook_id
-        - orientation
+        - orientation_system_id
   - role: orientation_manager
     permission:
       check:
@@ -46,24 +46,24 @@ insert_permissions:
       columns:
         - need_orientation
         - notebook_id
-        - orientation
+        - orientation_system_id
 select_permissions:
   - role: admin_cdb
     permission:
       columns:
-        - need_orientation
-        - orientation
         - created_at
-        - updated_at
+        - need_orientation
         - notebook_id
+        - orientation_system_id
+        - updated_at
       filter: {}
   - role: admin_structure
     permission:
       columns:
-        - notebook_id
-        - orientation
-        - need_orientation
         - created_at
+        - need_orientation
+        - notebook_id
+        - orientation_system_id
         - updated_at
       filter:
         notebook:
@@ -77,11 +77,11 @@ select_permissions:
   - role: beneficiary
     permission:
       columns:
-        - need_orientation
-        - orientation
         - created_at
-        - updated_at
+        - need_orientation
         - notebook_id
+        - orientation_system_id
+        - updated_at
       filter:
         notebook:
           beneficiary:
@@ -91,11 +91,11 @@ select_permissions:
   - role: manager
     permission:
       columns:
-        - need_orientation
-        - orientation
         - created_at
-        - updated_at
+        - need_orientation
         - notebook_id
+        - orientation_system_id
+        - updated_at
       filter:
         notebook:
           beneficiary:
@@ -105,11 +105,11 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - need_orientation
-        - orientation
         - created_at
-        - updated_at
+        - need_orientation
         - notebook_id
+        - orientation_system_id
+        - updated_at
       filter:
         notebook:
           beneficiary:
@@ -119,11 +119,11 @@ select_permissions:
   - role: professional
     permission:
       columns:
-        - need_orientation
-        - orientation
         - created_at
-        - updated_at
+        - need_orientation
         - notebook_id
+        - orientation_system_id
+        - updated_at
       filter:
         notebook:
           members:
@@ -135,7 +135,7 @@ update_permissions:
     permission:
       columns:
         - need_orientation
-        - orientation
+        - orientation_system_id
       filter:
         notebook:
           beneficiary:
@@ -146,7 +146,7 @@ update_permissions:
     permission:
       columns:
         - need_orientation
-        - orientation
+        - orientation_system_id
       filter:
         notebook:
           beneficiary:
