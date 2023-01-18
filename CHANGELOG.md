@@ -1,3 +1,10 @@
+# [1.186.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.185.3...v1.186.0) (2023-01-18)
+
+
+### Features
+
+* Supprimer la possibilité pour un professionnel de s'inscrire. ([#1445](https://github.com/gip-inclusion/carnet-de-bord/issues/1445)) ([93a288c](https://github.com/gip-inclusion/carnet-de-bord/commit/93a288cfceae8137bb27fe8f94fbe9038cf50f3b))
+
 ## [1.185.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.185.2...v1.185.3) (2023-01-18)
 
 ## [1.185.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.185.1...v1.185.2) (2023-01-17)
