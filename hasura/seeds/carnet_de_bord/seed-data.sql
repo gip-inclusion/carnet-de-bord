@@ -154,6 +154,10 @@ INSERT INTO public.account (id, username, type, professional_id, confirmed, onbo
 -- Orial Edith
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('db09d6b1-8891-4638-b483-5eb917e8098d', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'edith.orial@interlogement93.fr', 'Edith', 'Orial', '', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('521a2983-17e2-43a9-abf6-7ed9f93cf7f9', 'edith.orial', 'professional', 'db09d6b1-8891-4638-b483-5eb917e8098d', false, false);
+--  Sarah Vigote (compte supprimé)
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname ) VALUES ('44785e77-752d-4cc7-8454-37aeb2186678', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'sarahvigote@interlogement93.fr',  'Vigote', 'Sarah' );
+INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done, deleted_at) VALUES ('2c53c66b-09a3-4e44-a142-f2cf084680ce', 'sarah.vigote', 'professional', '44785e77-752d-4cc7-8454-37aeb2186678', true, true, '2022-03-24 17:22:38.219997+00');
+
 
 -- Orientation managers:
 -- Giulia Diaby
@@ -183,6 +187,7 @@ INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_i
 INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('7bfa2130-fe72-418e-8486-000c171cb853', 'a55d1dd2-2b09-4456-bcc5-1412695f684f', 'Changer de logement', '2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', '2021-09-21 13:17:53.594417+00');
 INSERT INTO public.notebook_action (id, action, target_id, status, creator_id, created_at) VALUES ('54c982ce-36f8-4124-a6eb-689f8f25a2e7', 'Demande SIAO', '7bfa2130-fe72-418e-8486-000c171cb853', 'in_progress', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '2020-01-05 13:55:43.100609+00');
 INSERT INTO public.notebook_action (id, action, target_id, status, creator_id, created_at) VALUES ('59c7f3b7-ca19-4408-bcb8-9b4fa8a07282', 'Demande de logement social', '7bfa2130-fe72-418e-8486-000c171cb853', 'in_progress', '17434464-5f69-40cc-8172-40160958a33d', '2020-07-01 15:13:59.820331+00');
+INSERT INTO public.notebook_action (id, action, target_id, status, creator_id, created_at) VALUES ('8d81255b-dd84-4c7b-a23f-87d73f8da3f3', 'Intervention face à une procédure expulsion', '7bfa2130-fe72-418e-8486-000c171cb853', 'in_progress', '2c53c66b-09a3-4e44-a142-f2cf084680ce', '2020-07-01 15:13:59.820331+00');
 
 INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('19911b5c-e614-450d-bbeb-eba0d8ae1e18', 'difficulte_administrative', '["Besoin d''être guidé dans le cadre d''un accès aux droits"]', '17434464-5f69-40cc-8172-40160958a33d', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:26:42.939011+00', 'cer');
 INSERT INTO public.notebook_target (id, focus_id, target, creator_id, created_at) VALUES ('2ce91415-b3bb-404f-adec-bbc6ea5af464', '19911b5c-e614-450d-bbeb-eba0d8ae1e18', 'Travailler l’accès aux droits', '17434464-5f69-40cc-8172-40160958a33d', '2021-09-21 14:55:12.797276+00');

@@ -343,8 +343,6 @@ select_permissions:
               - orientation_manager:
                   deployment_id:
                     _eq: X-Hasura-Deployment-Id
-          - deleted_at:
-              _is_null: true
 update_permissions:
   - role: admin_cdb
     permission:
