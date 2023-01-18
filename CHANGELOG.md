@@ -1,3 +1,10 @@
+## [1.186.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.3...v1.186.4) (2023-01-18)
+
+
+### Bug Fixes
+
+* mise à jour des codegen gql ([#1446](https://github.com/gip-inclusion/carnet-de-bord/issues/1446)) ([e06af6c](https://github.com/gip-inclusion/carnet-de-bord/commit/e06af6ce0f521f70929416638a863f278ce587a3))
+
 ## [1.186.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.2...v1.186.3) (2023-01-18)
 
 
