@@ -7,11 +7,10 @@
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { Button } from '$lib/ui/base';
-	import { accountData, openComponent } from '$lib/stores';
+	import { openComponent } from '$lib/stores';
 	import { post } from '$lib/utils/post';
 	import type { SvelteEventHandler } from '$lib/types';
 	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
-	import ProNotebookMemberForm from '$lib/ui/ProNotebookMember/ProNotebookMemberForm.svelte';
 	import { trackEvent, trackSiteSearch } from '$lib/tracking/matomo';
 
 	export let beneficiaryFirstname: string;
@@ -66,18 +65,6 @@
 		openComponent.replace({ component: ProAddedConfirmation, props: { confirmed: true } });
 	}
 
-	function showAddNoteBookMember() {
-		const { lastname, firstname } = $accountData.professional || $accountData.professional;
-		openComponent.open({
-			component: ProNotebookMemberForm,
-			props: {
-				firstname,
-				lastname,
-				notebookId,
-			},
-		});
-	}
-
 	$: professionals = $searchProfessionalResult.data?.professionals || [];
 	$: count = $searchProfessionalResult.data?.count.aggregate.count;
 </script>
@@ -108,9 +95,6 @@
 			{#if count === 0}
 				<div class="flex flex-col gap-6">
 					<div>Aucun résultat ne correspond à votre recherche</div>
-					<div>
-						<Button on:click={showAddNoteBookMember}>Inviter un nouvel accompagnateur</Button>
-					</div>
 				</div>
 			{:else if count > 0}
 				<div>{count} résultats correspondent à votre recherche</div>

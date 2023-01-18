@@ -1,6 +1,0 @@
-query GetStructures {
-  structure {
-    id
-    name
-  }
-}
