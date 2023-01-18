@@ -10,7 +10,7 @@
 	import { Alert } from '$lib/ui/base';
 	import ManagerCreationForm from '$lib/ui/Manager/CreationForm.svelte';
 
-	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
+	import type { ProAccountInput } from '$lib/ui/ProCreationForm/pro.schema';
 
 	const updateProfileResult = operationStore(UpdateManagerProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
@@ -26,7 +26,7 @@
 		lastname,
 	};
 
-	async function handleSubmit(values: ProAccountWithStructureInput) {
+	async function handleSubmit(values: ProAccountInput) {
 		updateResult = await updateProfile({
 			id,
 			accountId: $accountData.id,

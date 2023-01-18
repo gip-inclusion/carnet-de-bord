@@ -9,7 +9,7 @@
 	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
 	import { Alert } from '$lib/ui/base';
-	import type { ProAccountWithStructureInput } from '$lib/ui/ProCreationForm/pro.schema';
+	import type { ProAccountInput } from '$lib/ui/ProCreationForm/pro.schema';
 
 	const updateProfileResult = operationStore(UpdateProfessionalProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
@@ -25,10 +25,9 @@
 		lastname,
 		mobileNumber,
 		position,
-		structureId: $accountData.professional.structure.id,
 	};
 
-	async function handleSubmit(values: ProAccountWithStructureInput) {
+	async function handleSubmit(values: ProAccountInput) {
 		updateResult = await updateProfile({
 			id,
 			accountId: $accountData.id,

@@ -9,9 +9,4 @@ export const proAccountSchema = yup.object().shape({
 	position: yup.string().trim().nullable(),
 });
 
-export const proAccountSchemaWithStructure = proAccountSchema.shape({
-	structureId: yup.string().trim().uuid().required(),
-});
-
 export type ProAccountInput = yup.InferType<typeof proAccountSchema>;
-export type ProAccountWithStructureInput = yup.InferType<typeof proAccountSchemaWithStructure>;
