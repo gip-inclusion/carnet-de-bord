@@ -1,3 +1,10 @@
+## [1.186.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.0...v1.186.1) (2023-01-18)
+
+
+### Bug Fixes
+
+* Certains utilisateurs reçoivent un lien de connexion invalide. ([#1444](https://github.com/gip-inclusion/carnet-de-bord/issues/1444)) ([bb95f6e](https://github.com/gip-inclusion/carnet-de-bord/commit/bb95f6eec43b3f0d924af4284b696c135c7e7424))
+
 # [1.186.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.185.3...v1.186.0) (2023-01-18)
 
 
