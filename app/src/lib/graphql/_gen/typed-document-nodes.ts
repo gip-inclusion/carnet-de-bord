@@ -2660,9 +2660,9 @@ export type DeploymentOrientationSystem = {
 	deployment: Deployment;
 	deploymentId: Scalars['uuid'];
 	id: Scalars['uuid'];
-	orientationSystemId: Scalars['uuid'];
 	/** An object relationship */
-	orientation_system: OrientationSystem;
+	orientationSystem: OrientationSystem;
+	orientationSystemId: Scalars['uuid'];
 };
 
 /** aggregated selection of "deployment_orientation_system" */
@@ -2720,8 +2720,8 @@ export type DeploymentOrientationSystemBoolExp = {
 	deployment?: InputMaybe<DeploymentBoolExp>;
 	deploymentId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	orientationSystem?: InputMaybe<OrientationSystemBoolExp>;
 	orientationSystemId?: InputMaybe<UuidComparisonExp>;
-	orientation_system?: InputMaybe<OrientationSystemBoolExp>;
 };
 
 /** unique or primary key constraints on table "deployment_orientation_system" */
@@ -2736,8 +2736,8 @@ export type DeploymentOrientationSystemInsertInput = {
 	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
 	deploymentId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	orientationSystem?: InputMaybe<OrientationSystemObjRelInsertInput>;
 	orientationSystemId?: InputMaybe<Scalars['uuid']>;
-	orientation_system?: InputMaybe<OrientationSystemObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -2796,8 +2796,8 @@ export type DeploymentOrientationSystemOrderBy = {
 	deployment?: InputMaybe<DeploymentOrderBy>;
 	deploymentId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	orientationSystem?: InputMaybe<OrientationSystemOrderBy>;
 	orientationSystemId?: InputMaybe<OrderBy>;
-	orientation_system?: InputMaybe<OrientationSystemOrderBy>;
 };
 
 /** primary key columns input for table: deployment_orientation_system */
@@ -16720,7 +16720,6 @@ export type GetAccountInfoQuery = {
 
 export type ResetAccountAccessKeyMutationVariables = Exact<{
 	id: Scalars['uuid'];
-	now: Scalars['timestamptz'];
 }>;
 
 export type ResetAccountAccessKeyMutation = {
@@ -28784,14 +28783,6 @@ export const ResetAccountAccessKeyDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
-					},
-				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -28833,7 +28824,7 @@ export const ResetAccountAccessKeyDocument = {
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'lastLogin' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+											value: { kind: 'EnumValue', value: 'now' },
 										},
 									],
 								},
