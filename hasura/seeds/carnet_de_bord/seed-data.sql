@@ -154,7 +154,7 @@ INSERT INTO public.account (id, username, type, professional_id, confirmed, onbo
 -- Orial Edith
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('db09d6b1-8891-4638-b483-5eb917e8098d', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'edith.orial@interlogement93.fr', 'Edith', 'Orial', '', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('521a2983-17e2-43a9-abf6-7ed9f93cf7f9', 'edith.orial', 'professional', 'db09d6b1-8891-4638-b483-5eb917e8098d', false, false);
---  Sarah Vigote
+--  Sarah Vigote (compte supprimé)
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname ) VALUES ('44785e77-752d-4cc7-8454-37aeb2186678', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'sarahvigote@interlogement93.fr',  'Vigote', 'Sarah' );
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done, deleted_at) VALUES ('2c53c66b-09a3-4e44-a142-f2cf084680ce', 'sarah.vigote', 'professional', '44785e77-752d-4cc7-8454-37aeb2186678', true, true, '2022-03-24 17:22:38.219997+00');
 
