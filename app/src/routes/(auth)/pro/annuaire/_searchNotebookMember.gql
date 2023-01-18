@@ -22,8 +22,9 @@ query SearchNotebookMember(
           status
           createdAt
           decidedAt
-          requestedOrientationType {
-            label
+          requestedOrientationSystem {
+            name
+            orientationType
           }
         }
       }

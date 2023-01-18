@@ -4,7 +4,7 @@ query GetNotebook(
   $eventsEnd: timestamptz = "infinity"
   $withOrientationRequests: Boolean = true
 ) {
-  notebook_public_view(where:{id: {_eq: $id}}) {
+  notebook_public_view(where: { id: { _eq: $id } }) {
     id
     beneficiary {
       address1
@@ -19,16 +19,19 @@ query GetNotebook(
       mobileNumber
       peNumber
       postalCode
-      orientationRequest(order_by: {createdAt: desc}, limit: 1) @include(if: $withOrientationRequests) {
+      orientationRequest(order_by: { createdAt: desc }, limit: 1)
+        @include(if: $withOrientationRequests) {
         id
         status
         createdAt
         decidedAt
-        requestedOrientationType {
-          label
+        requestedOrientationSystem {
+          name
+          orientationType
         }
-        decidedOrientationType {
-          label
+        decidedOrientationSystem {
+          name
+          orientationType
         }
         beneficiary {
           id

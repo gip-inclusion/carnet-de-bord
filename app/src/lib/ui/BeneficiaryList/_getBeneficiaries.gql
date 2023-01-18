@@ -22,9 +22,9 @@ query GetBeneficiaries(
     dateOfBirth
     notebook {
       notebookInfo {
-        orientationType {
-          id
-          label
+        orientationSystem {
+          name
+          orientationType
         }
         needOrientation
       }

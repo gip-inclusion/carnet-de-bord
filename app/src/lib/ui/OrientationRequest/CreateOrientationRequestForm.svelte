@@ -40,7 +40,7 @@
 		const { error } = await insertOrientationRequest({
 			beneficiaryId: beneficiaryId,
 			reason: values.reason,
-			requestedOrientation: values.orientation,
+			requestedOrientationSystemId: values.orientation,
 		});
 		if (error) {
 			errorMessage = error.message;

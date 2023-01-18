@@ -2,6 +2,14 @@ table:
   name: orientation_type
   schema: public
 is_enum: true
+array_relationships:
+  - name: orientationType
+    using:
+      foreign_key_constraint_on:
+        column: orientation_type
+        table:
+          name: orientation_system
+          schema: public
 select_permissions:
   - role: admin_cdb
     permission:

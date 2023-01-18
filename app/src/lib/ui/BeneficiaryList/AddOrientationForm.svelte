@@ -40,7 +40,7 @@
 			{
 				objects: notebooks.map(({ beneficiaryId }) => ({
 					beneficiaryId,
-					orientation: selectedOrientation,
+					orientationSystemId: selectedOrientation,
 				})),
 			},
 			{ additionalTypenames: ['notebook_info'] }

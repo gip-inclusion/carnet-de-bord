@@ -1,4 +1,6 @@
 
+-- notebook_info table
+
 alter table "public"."notebook_info" drop constraint "notebook_info_orientation_fkey";
 
 alter table "public"."notebook_info" add column "orientation_system_id" uuid
@@ -33,6 +35,8 @@ FROM subquery
 WHERE notebook_info.orientation=subquery.orientation_type;
 
 alter table "public"."notebook_info" drop column "orientation" cascade;
+
+-- orientation_request table
 
 alter table "public"."orientation_request" add column "requested_orientation_system_id" uuid
  null;
