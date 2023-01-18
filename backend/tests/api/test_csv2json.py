@@ -7,7 +7,7 @@ async def test_parse_csv(
         response = test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
 
         assert response.status_code == 200
@@ -25,7 +25,7 @@ async def test_parse_csv_with_all_date_formats(
         response = test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
 
         assert response.json()[0]["data"]["Identifiant dans le SI*"] == "1234"
@@ -42,7 +42,7 @@ async def test_parse_csv_errors(
         response = test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
 
         assert response.json()[0]["errors"][0]["key"] == "Date de naissance*"
@@ -66,7 +66,7 @@ async def test_structure_parse_csv(
         response = test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
 
         assert response.status_code == 200
@@ -81,7 +81,7 @@ async def test_structure_parse_csv_with_error(
         response = test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
         data = response.json()
 
@@ -143,7 +143,7 @@ async def test_structure_parse_csv_with_missing_column_should_not_fail(
         response = test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
         data = response.json()
 

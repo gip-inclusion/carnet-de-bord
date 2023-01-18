@@ -25,11 +25,11 @@ async def test_jwt_token_verification(
                 "lastname": "Bé",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": str(deployment_id_cd93),
+                "deployment_id": deployment_id_cd93,
             },
-            "structure_id": str(structure_id_pe_livry),
+            "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": f"{get_professional_jwt}"},
+        headers={"jwt-token": get_professional_jwt},
     )
 
     json = response.json()
@@ -57,11 +57,11 @@ async def test_insert_admin_structure_with_structure_in_db(
                 "lastname": "Bé",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": str(deployment_id_cd93),
+                "deployment_id": deployment_id_cd93,
             },
-            "structure_id": str(structure_id_pe_livry),
+            "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -112,11 +112,11 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
                 "lastname": "timaitre",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": str(deployment_id_cd93),
+                "deployment_id": deployment_id_cd93,
             },
-            "structure_id": str(structure_id_pe_livry),
+            "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -159,11 +159,11 @@ async def test_insert_existing_admin_structure_in_existing_structure(
                 "lastname": "timaitre",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": str(deployment_id_cd93),
+                "deployment_id": deployment_id_cd93,
             },
-            "structure_id": str(structure_id_pe_livry),
+            "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -200,11 +200,11 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
                 "lastname": "timaitre",
                 "phone_numbers": "0601020304",
                 "position": "responsable",
-                "deployment_id": str(deployment_id_cd93),
+                "deployment_id": deployment_id_cd93,
             },
-            "structure_id": str(structure_id_pe_livry),
+            "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     assert response.status_code == 200

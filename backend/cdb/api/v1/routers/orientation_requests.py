@@ -59,7 +59,7 @@ orientation_request: update_orientation_request_by_pk(
 async def deny_orientation_request(
     data: DenyBeneficiaryOrientationInput,
     background_tasks: BackgroundTasks,
-    jwt_token: str | None = Header(default=None),
+    jwt_token: str = Header(default=None),
 ):
     """
     Deny an orientation request

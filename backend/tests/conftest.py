@@ -320,14 +320,6 @@ async def db_pool():
     )
 
 
-@pytest.fixture
-def event_loop():
-    # See https://github.com/pytest-dev/pytest-asyncio/pull/214/files
-    # https://github.com/MagicStack/asyncpg/issues/293
-    return asyncio.get_event_loop_policy().get_event_loop()
-    # return asyncio.get_event_loop()
-
-
 """
 These jso token are generated using a 10y lifetime
 I udpate /src/lib/utils/getJwt.ts and change the expiresIn to '10y'

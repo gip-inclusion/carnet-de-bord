@@ -32,9 +32,9 @@ async def get_orientation_info(
     orientation_info_response = await gql_session.execute(
         get_orientation_info_gql(),
         variable_values={
-            "notebook_id": str(notebook_id),
-            "structure_id": str(structure_id),
-            "new_referent_account_id": str(new_referent_account_id),
+            "notebook_id": notebook_id,
+            "structure_id": structure_id,
+            "new_referent_account_id": new_referent_account_id,
             "with_new_referent": with_new_referent,
         },
     )

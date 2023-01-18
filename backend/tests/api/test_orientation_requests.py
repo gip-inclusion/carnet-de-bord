@@ -20,9 +20,9 @@ async def test_deny_orientation_request_email(
     response = test_client.post(
         DENY_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_request_id": str(orientation_request_jennings_dee.id),
+            "orientation_request_id": orientation_request_jennings_dee.id,
         },
-        headers={"jwt-token": f"{giulia_diaby_jwt}"},
+        headers={"jwt-token": giulia_diaby_jwt},
     )
     print(response.json())
     assert response.status_code == 200

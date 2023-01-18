@@ -99,14 +99,17 @@ async def change_beneficiary_orientation(
 
             try:
                 raise_if_orientation_request_not_match_notebook(
-                    str(data.orientation_request_id),
-                    str(
+                    data.orientation_request_id,
+                    UUID(
                         orientation_info.beneficiary.get("orientation_request", [{}])[
                             0
                         ].get("id")
                     )
-                    if len(orientation_info.beneficiary.get("orientation_request")) > 0
-                    else "",
+                    if len(
+                        orientation_info.beneficiary.get("orientation_request", [{}])
+                    )
+                    > 0
+                    else None,
                 )
             except Exception as exception:
                 logging.error(
@@ -209,7 +212,7 @@ async def change_beneficiary_orientation(
 
 
 def raise_if_orientation_request_not_match_notebook(
-    orientation_request_id: str, beneficiary_request_id: str
+    orientation_request_id: UUID, beneficiary_request_id: UUID | None
 ) -> None:
 
     if orientation_request_id != beneficiary_request_id:

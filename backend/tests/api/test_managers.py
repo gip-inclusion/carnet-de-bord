@@ -20,7 +20,7 @@ async def test_jwt_token_verification(
     response = test_client.post(
         ENDPOINT_PATH,
         json={"email": sender_email, "firstname": "lionel", "lastname": "Bé"},
-        headers={"jwt-token": f"{get_admin_structure_jwt}"},
+        headers={"jwt-token": get_admin_structure_jwt},
     )
 
     json = response.json()
@@ -44,9 +44,9 @@ async def test_insert_admin_in_db(
             "email": sender_email,
             "firstname": "lionel",
             "lastname": "Bé",
-            "deployment_id": str(deployment_id_cd93),
+            "deployment_id": deployment_id_cd93,
         },
-        headers={"jwt-token": f"{get_admin_cdb_jwt}"},
+        headers={"jwt-token": get_admin_cdb_jwt},
     )
     admins = await get_managers_from_deployment(db_connection, deployment_id_cd93)
 

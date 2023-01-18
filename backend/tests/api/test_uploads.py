@@ -20,7 +20,7 @@ async def test_jwt_token_verification(
         response = test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
-            headers={"jwt-token": f"{get_admin_structure_jwt}"},
+            headers={"jwt-token": get_admin_structure_jwt},
         )
 
         json = response.json()
@@ -42,7 +42,7 @@ async def test_insert_in_db(
         test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
         orientation_managers = await get_orientation_managers(db_connection)
         assert len(orientation_managers) == 5
@@ -76,7 +76,7 @@ async def test_validation_error(
         response = test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
         json = response.json()
 
@@ -99,7 +99,7 @@ async def test_handle_xls(
         response = test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "application/vnd.ms-excel")},
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
         assert response.status_code == 200
         json = response.json()
@@ -125,7 +125,7 @@ async def test_handle_xlsx(
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 )
             },
-            headers={"jwt-token": f"{get_manager_jwt}"},
+            headers={"jwt-token": get_manager_jwt},
         )
         assert response.status_code == 200
         json = response.json()
