@@ -1,3 +1,10 @@
+## [1.186.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.2...v1.186.3) (2023-01-18)
+
+
+### Bug Fixes
+
+* suppression de l'erreur lors de la consultation d'un axe ([#1442](https://github.com/gip-inclusion/carnet-de-bord/issues/1442)) ([6bd6854](https://github.com/gip-inclusion/carnet-de-bord/commit/6bd685474e63520bebf1680ce4f1f22c76c2394c))
+
 ## [1.186.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.1...v1.186.2) (2023-01-18)
 
 ## [1.186.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.0...v1.186.1) (2023-01-18)
