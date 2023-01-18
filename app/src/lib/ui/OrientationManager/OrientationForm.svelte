@@ -13,8 +13,6 @@
 	import {
 		type GetProfessionalsForDeploymentQuery,
 		GetProfessionalsForDeploymentDocument,
-		GetStructuresWithProDocument,
-		type GetStructuresWithProQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { query, operationStore, type OperationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
@@ -59,14 +57,6 @@
 			.sort((a, b) => a.label.localeCompare(b.label))
 			// Get unique values
 			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
-
-	const structures: OperationStore<GetStructuresWithProQuery> = operationStore(
-		GetStructuresWithProDocument,
-		null,
-		{ requestPolicy: 'network-only' }
-	);
-
-	query(structures);
 
 	$: structureOptions =
 		$getProfessionals.data?.professional
