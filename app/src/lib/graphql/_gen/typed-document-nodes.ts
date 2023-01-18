@@ -14377,25 +14377,6 @@ export type AddNotebookMembersMutation = {
 	} | null;
 };
 
-export type GetNotebookForBeneficiaryQueryVariables = Exact<{
-	array?: InputMaybe<Array<NotebookBoolExp> | NotebookBoolExp>;
-}>;
-
-export type GetNotebookForBeneficiaryQuery = {
-	__typename?: 'query_root';
-	notebook: Array<{
-		__typename?: 'notebook';
-		id: string;
-		beneficiaryId: string;
-		beneficiary: {
-			__typename?: 'beneficiary';
-			firstname: string;
-			lastname: string;
-			dateOfBirth: string;
-		};
-	}>;
-};
-
 export type RemoveAdminStructureStructureMutationMutationVariables = Exact<{
 	adminStructureId: Scalars['uuid'];
 	structureId: Scalars['uuid'];
@@ -14748,15 +14729,28 @@ export type DeactivateNotebookMemberMutation = {
 };
 
 export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationVariables = Exact<{
-	member: NotebookMemberInsertInput;
+	notebookId: Scalars['uuid'];
+	accountId: Scalars['uuid'];
+	structureId: Scalars['uuid'];
+	beneficiaryId: Scalars['uuid'];
+	withUpdatedStructure: Scalars['Boolean'];
 }>;
 
 export type AddNotebookMemberWithBeneficiaryStructureUpdateMutation = {
 	__typename?: 'mutation_root';
+	deactivateMembers?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 	insert_notebook_member_one?: {
 		__typename?: 'notebook_member';
 		notebook: { __typename?: 'notebook'; beneficiaryId: string };
 	} | null;
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
+	insert_beneficiary_structure_one?: { __typename?: 'beneficiary_structure'; id: string } | null;
 };
 
 export type AttachBeneficiaryToStructureMutationVariables = Exact<{
@@ -14766,7 +14760,35 @@ export type AttachBeneficiaryToStructureMutationVariables = Exact<{
 
 export type AttachBeneficiaryToStructureMutation = {
 	__typename?: 'mutation_root';
+	update_beneficiary_structure?: {
+		__typename?: 'beneficiary_structure_mutation_response';
+		affected_rows: number;
+	} | null;
+	update_notebook_member?: {
+		__typename?: 'notebook_member_mutation_response';
+		affected_rows: number;
+	} | null;
 	insert_beneficiary_structure_one?: { __typename?: 'beneficiary_structure'; id: string } | null;
+};
+
+export type GetNotebookForBeneficiaryQueryVariables = Exact<{
+	array?: InputMaybe<Array<NotebookBoolExp> | NotebookBoolExp>;
+}>;
+
+export type GetNotebookForBeneficiaryQuery = {
+	__typename?: 'query_root';
+	notebook: Array<{
+		__typename?: 'notebook';
+		id: string;
+		beneficiaryId: string;
+		beneficiary: {
+			__typename?: 'beneficiary';
+			firstname: string;
+			lastname: string;
+			dateOfBirth: string;
+			structures: Array<{ __typename?: 'beneficiary_structure'; structureId: string }>;
+		};
+	}>;
 };
 
 export type UpdateManagerProfileMutationVariables = Exact<{
@@ -17549,76 +17571,6 @@ export const AddNotebookMembersDocument = {
 		},
 	],
 } as unknown as DocumentNode<AddNotebookMembersMutation, AddNotebookMembersMutationVariables>;
-export const GetNotebookForBeneficiaryDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetNotebookForBeneficiary' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'array' } },
-					type: {
-						kind: 'ListType',
-						type: {
-							kind: 'NonNullType',
-							type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_bool_exp' } },
-						},
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'notebook' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_or' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'array' } },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'beneficiary' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetNotebookForBeneficiaryQuery,
-	GetNotebookForBeneficiaryQueryVariables
->;
 export const RemoveAdminStructureStructureMutationDocument = {
 	kind: 'Document',
 	definitions: [
@@ -19588,6 +19540,11 @@ export const DeactivateNotebookMemberDocument = {
 											name: { kind: 'Name', value: 'active' },
 											value: { kind: 'BooleanValue', value: false },
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
 									],
 								},
 							},
@@ -19615,13 +19572,42 @@ export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
 					type: {
 						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'notebook_member_insert_input' },
-						},
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withUpdatedStructure' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 					},
 				},
 			],
@@ -19630,12 +19616,191 @@ export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
 				selections: [
 					{
 						kind: 'Field',
+						alias: { kind: 'Name', value: 'deactivateMembers' },
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'active' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: { kind: 'BooleanValue', value: true },
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebookId' },
+																			},
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'memberType' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'StringValue',
+																				value: 'referent',
+																				block: false,
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'active' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: { kind: 'BooleanValue', value: true },
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'notebookId' },
+																			},
+																		},
+																	],
+																},
+															},
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'accountId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'accountId' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
 						name: { kind: 'Name', value: 'insert_notebook_member_one' },
 						arguments: [
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'object' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'member' } },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebookId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'accountId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: { kind: 'StringValue', value: 'referent', block: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: true },
+										},
+									],
+								},
 							},
 						],
 						selectionSet: {
@@ -19650,6 +19815,136 @@ export const AddNotebookMemberWithBeneficiaryStructureUpdateDocument = {
 									},
 								},
 							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'beneficiaryId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'current', block: false },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'outdated', block: false },
+										},
+									],
+								},
+							},
+						],
+						directives: [
+							{
+								kind: 'Directive',
+								name: { kind: 'Name', value: 'include' },
+								arguments: [
+									{
+										kind: 'Argument',
+										name: { kind: 'Name', value: 'if' },
+										value: {
+											kind: 'Variable',
+											name: { kind: 'Name', value: 'withUpdatedStructure' },
+										},
+									},
+								],
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_beneficiary_structure_one' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'object' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'beneficiaryId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'current', block: false },
+										},
+									],
+								},
+							},
+						],
+						directives: [
+							{
+								kind: 'Directive',
+								name: { kind: 'Name', value: 'include' },
+								arguments: [
+									{
+										kind: 'Argument',
+										name: { kind: 'Name', value: 'if' },
+										value: {
+											kind: 'Variable',
+											name: { kind: 'Name', value: 'withUpdatedStructure' },
+										},
+									},
+								],
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 						},
 					},
 				],
@@ -19690,6 +19985,162 @@ export const AttachBeneficiaryToStructureDocument = {
 				selections: [
 					{
 						kind: 'Field',
+						name: { kind: 'Name', value: 'update_beneficiary_structure' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'beneficiaryId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'beneficiaryId' },
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'current', block: false },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'outdated', block: false },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_member' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiaryId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'beneficiaryId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'memberType' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'StringValue', value: 'referent', block: false },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'active' },
+											value: { kind: 'BooleanValue', value: false },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'membershipEndedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
 						name: { kind: 'Name', value: 'insert_beneficiary_structure_one' },
 						arguments: [
 							{
@@ -19708,6 +20159,11 @@ export const AttachBeneficiaryToStructureDocument = {
 											name: { kind: 'Name', value: 'structureId' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'status' },
+											value: { kind: 'StringValue', value: 'current', block: false },
+										},
 									],
 								},
 							},
@@ -19724,6 +20180,115 @@ export const AttachBeneficiaryToStructureDocument = {
 } as unknown as DocumentNode<
 	AttachBeneficiaryToStructureMutation,
 	AttachBeneficiaryToStructureMutationVariables
+>;
+export const GetNotebookForBeneficiaryDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'GetNotebookForBeneficiary' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'array' } },
+					type: {
+						kind: 'ListType',
+						type: {
+							kind: 'NonNullType',
+							type: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_bool_exp' } },
+						},
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'notebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_or' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'array' } },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryId' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiary' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'structures' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'status' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'StringValue',
+																					value: 'current',
+																					block: false,
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetNotebookForBeneficiaryQuery,
+	GetNotebookForBeneficiaryQueryVariables
 >;
 export const UpdateManagerProfileDocument = {
 	kind: 'Document',
@@ -29287,10 +29852,6 @@ export type AddNotebookMembersMutationStore = OperationStore<
 	AddNotebookMembersMutation,
 	AddNotebookMembersMutationVariables
 >;
-export type GetNotebookForBeneficiaryQueryStore = OperationStore<
-	GetNotebookForBeneficiaryQuery,
-	GetNotebookForBeneficiaryQueryVariables
->;
 export type RemoveAdminStructureStructureMutationMutationStore = OperationStore<
 	RemoveAdminStructureStructureMutationMutation,
 	RemoveAdminStructureStructureMutationMutationVariables
@@ -29370,6 +29931,10 @@ export type AddNotebookMemberWithBeneficiaryStructureUpdateMutationStore = Opera
 export type AttachBeneficiaryToStructureMutationStore = OperationStore<
 	AttachBeneficiaryToStructureMutation,
 	AttachBeneficiaryToStructureMutationVariables
+>;
+export type GetNotebookForBeneficiaryQueryStore = OperationStore<
+	GetNotebookForBeneficiaryQuery,
+	GetNotebookForBeneficiaryQueryVariables
 >;
 export type UpdateManagerProfileMutationStore = OperationStore<
 	UpdateManagerProfileMutation,

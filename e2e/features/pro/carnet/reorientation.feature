@@ -1,8 +1,8 @@
 #language: fr
 
 Fonctionnalité: Demande de réorientation
-	Pour pouvoir accompagner l'évolution du parcours d'un bénéficiaire
 	En tant que référent
+	Pour pouvoir accompagner l'évolution du parcours d'un bénéficiaire
 	Je veux pouvoir demander la réorientation d'un bénéficiaire
 
 	Scénario: demande de réorientation

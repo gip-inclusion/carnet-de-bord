@@ -133,7 +133,7 @@
 				on:close={refreshMetrics}
 			>
 				<svelte:fragment slot="buttonLabel">
-					<span class="block w-44"> Importer une liste<br />de réorientations</span>
+					<span class="block w-44">Importer une liste de réorientations</span>
 				</svelte:fragment>
 				<UpdateNotebookMembers {professionals} {structures} />
 			</Dialog>

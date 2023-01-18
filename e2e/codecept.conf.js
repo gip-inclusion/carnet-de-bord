@@ -1,7 +1,7 @@
 exports.config = {
 	bootstrap: null,
 	gherkin: {
-		features: './features/**/*.feature',
+		features: ['./features/**/*.feature', './integration/**/*.js'],
 		steps: ['./step_definitions/steps.js'],
 	},
 	helpers: {

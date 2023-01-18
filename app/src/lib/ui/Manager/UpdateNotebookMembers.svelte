@@ -162,16 +162,6 @@
 			active: { _eq: true },
 		});
 
-	const createMemberItem =
-		(benefKeyToNotebook: Record<string, NotebookLight>) =>
-		(beneficiary: BeneficiaryLight) =>
-		(pro: ProLight) => ({
-			accountId: pro.account.id,
-			notebookId: benefToNotebookId(benefKeyToNotebook)(beneficiary),
-			memberType: 'referent',
-			active: true,
-		});
-
 	async function handleSubmit() {
 		insertInProgress = true;
 
@@ -191,7 +181,7 @@
 		const notebooks = notebookResult.data.notebook;
 		const benefKeyToNotebook = notebooks.reduce((acc, notebook) => {
 			return { ...acc, [benefToKey(notebook.beneficiary)]: notebook };
-		}, {} as Record<string, NotebookLight>);
+		}, {} as Record<string, GetNotebookForBeneficiaryQuery['notebook'][0]>);
 		const beneficiariesWithNotebook = beneficiariesToImport.reduce((acc, csvBeneficiary) => {
 			if (benefKeyToNotebook[benefToKey(csvBeneficiary)]) {
 				return [...acc, csvBeneficiary];
@@ -207,29 +197,32 @@
 			}
 		}, <NotebookMemberImport[]>[]);
 
-		const insertPayload = beneficiariesWithNotebook.flatMap((csvBeneficiary) =>
-			(csvBeneficiary.addEmails || '')
+		const insertPayload = beneficiariesWithNotebook.flatMap((csvBeneficiary) => {
+			return (csvBeneficiary.addEmails || '')
 				.split(',')
 				.map((s) => s.trim())
 				.map(proEmailToPro)
 				.filter(Boolean)
 				.map((pro) => ({
 					pro,
+					withUpdatedStructure:
+						pro.structureId !==
+						benefKeyToNotebook[benefToKey(csvBeneficiary)].beneficiary.structures[0]?.structureId,
 					beneficiary: csvBeneficiary,
 					beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary),
-					add: {
-						...createMemberItem(benefKeyToNotebook)(csvBeneficiary)(pro),
-					},
-					structure: {
-						status: { _eq: 'current' },
-						beneficiaryId: { _eq: benefKeyToBenefId(benefKeyToNotebook)(csvBeneficiary) },
-						structureId: { _eq: pro.structureId },
-					},
-				}))
-		);
+					structureId: pro.structureId,
+					notebookId: benefToNotebookId(benefKeyToNotebook)(csvBeneficiary),
+				}));
+		});
 		insertResult = [];
 		for (const payload of insertPayload) {
-			const result = await inserter({ member: payload.add });
+			const result = await inserter({
+				withUpdatedStructure: payload.withUpdatedStructure,
+				notebookId: payload.notebookId,
+				accountId: payload.pro.account.id,
+				beneficiaryId: payload.beneficiaryId,
+				structureId: payload.pro.structureId,
+			});
 			let errorMessage = "Une erreur s'est produite, le rattachement n'a pas été importé.";
 			if (/uniqueness/i.test(result.error?.message)) {
 				errorMessage = 'Ce bénéficiaire a déjà un référent unique.';
@@ -290,8 +283,14 @@
 			];
 		}
 
-		const structuresPayload = beneficiariesWithNotebook.flatMap((beneficiary) =>
-			(beneficiary.addStructures || '')
+		const structuresPayload = beneficiariesWithNotebook.flatMap((beneficiary) => {
+			// we drop line with addEmails since the beneficiary structure link will be
+			// created when we add the referent. It also avoid potential mistakes
+			// like a user would set a StructureB and a referent in structure A
+			if (beneficiary.addEmails) {
+				return [];
+			}
+			return (beneficiary.addStructures || '')
 				.split(',')
 				.map((s) => s.trim())
 				.map(structureNameToStructure)
@@ -301,8 +300,8 @@
 					beneficiary,
 					beneficiaryId: benefKeyToBenefId(benefKeyToNotebook)(beneficiary),
 					structureId: structure.id,
-				}))
-		);
+				}));
+		});
 		structuresResult = [];
 		for (const payload of structuresPayload) {
 			const result = await attacher({
@@ -376,7 +375,6 @@
 		beneficiaries = [];
 		parseErrors = [];
 	}
-
 	$: requestedUpdates = (insertResult || []).concat(removeResult || []);
 	$: successfulUpdates = requestedUpdates.filter(({ error }) => !error);
 </script>

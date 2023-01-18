@@ -6,6 +6,9 @@ query GetNotebookForBeneficiary($array: [notebook_bool_exp!]) {
       firstname
       lastname
       dateOfBirth
+      structures(where: { status: { _eq: "current" } }) {
+        structureId
+      }
     }
   }
 }
