@@ -16424,7 +16424,6 @@ export type UpdateProfessionalProfileMutationVariables = Exact<{
 	email: Scalars['citext'];
 	position: Scalars['String'];
 	id: Scalars['uuid'];
-	structureId?: InputMaybe<Scalars['uuid']>;
 	accountId: Scalars['uuid'];
 }>;
 
@@ -16592,13 +16591,6 @@ export type GetDeploymentManagersForStructureQuery = {
 			managers: Array<{ __typename?: 'manager'; email: string }>;
 		} | null;
 	} | null;
-};
-
-export type GetStructuresQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetStructuresQuery = {
-	__typename?: 'query_root';
-	structure: Array<{ __typename?: 'structure'; id: string; name: string }>;
 };
 
 export type InsertProfessionalAccountMutationVariables = Exact<{
@@ -26518,11 +26510,6 @@ export const UpdateProfessionalProfileDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 					type: {
 						kind: 'NonNullType',
@@ -26568,11 +26555,6 @@ export const UpdateProfessionalProfileDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'mobileNumber' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'mobileNumber' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'structureId' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'structureId' } },
 										},
 									],
 								},
@@ -27617,32 +27599,6 @@ export const GetDeploymentManagersForStructureDocument = {
 	GetDeploymentManagersForStructureQuery,
 	GetDeploymentManagersForStructureQueryVariables
 >;
-export const GetStructuresDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetStructures' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'structure' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetStructuresQuery, GetStructuresQueryVariables>;
 export const InsertProfessionalAccountDocument = {
 	kind: 'Document',
 	definitions: [
@@ -29621,10 +29577,6 @@ export type UpdateAdminStructureProfileMutationStore = OperationStore<
 export type GetDeploymentManagersForStructureQueryStore = OperationStore<
 	GetDeploymentManagersForStructureQuery,
 	GetDeploymentManagersForStructureQueryVariables
->;
-export type GetStructuresQueryStore = OperationStore<
-	GetStructuresQuery,
-	GetStructuresQueryVariables
 >;
 export type InsertProfessionalAccountMutationStore = OperationStore<
 	InsertProfessionalAccountMutation,

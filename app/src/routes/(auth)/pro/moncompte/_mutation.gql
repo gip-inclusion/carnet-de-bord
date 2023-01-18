@@ -5,7 +5,6 @@ mutation UpdateProfessionalProfile(
   $email: citext!
   $position: String!
   $id: uuid!
-  $structureId: uuid
   $accountId: uuid!
 ) {
   updateProfessional: update_professional_by_pk(
@@ -15,7 +14,6 @@ mutation UpdateProfessionalProfile(
       position: $position
       email: $email
       mobileNumber: $mobileNumber
-      structureId: $structureId
     }
     pk_columns: { id: $id }
   ) {

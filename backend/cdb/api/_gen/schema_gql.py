@@ -2994,6 +2994,42 @@ type deployment {
   ): manager_aggregate!
 
   """An array relationship"""
+  orientationSystems(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): [deployment_orientation_system!]!
+
+  """An aggregate relationship"""
+  orientationSystems_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): deployment_orientation_system_aggregate!
+
+  """An array relationship"""
   orientation_managers(
     """distinct select on columns"""
     distinct_on: [orientation_manager_select_column!]
@@ -3106,6 +3142,8 @@ input deployment_bool_exp {
   label: String_comparison_exp
   managers: manager_bool_exp
   managers_aggregate: manager_aggregate_bool_exp
+  orientationSystems: deployment_orientation_system_bool_exp
+  orientationSystems_aggregate: deployment_orientation_system_aggregate_bool_exp
   orientation_managers: orientation_manager_bool_exp
   orientation_managers_aggregate: orientation_manager_aggregate_bool_exp
   structures: structure_bool_exp
@@ -3155,6 +3193,7 @@ input deployment_insert_input {
   id: uuid
   label: String
   managers: manager_arr_rel_insert_input
+  orientationSystems: deployment_orientation_system_arr_rel_insert_input
   orientation_managers: orientation_manager_arr_rel_insert_input
   structures: structure_arr_rel_insert_input
   updatedAt: timestamptz
@@ -3215,9 +3254,252 @@ input deployment_order_by {
   id: order_by
   label: order_by
   managers_aggregate: manager_aggregate_order_by
+  orientationSystems_aggregate: deployment_orientation_system_aggregate_order_by
   orientation_managers_aggregate: orientation_manager_aggregate_order_by
   structures_aggregate: structure_aggregate_order_by
   updatedAt: order_by
+}
+
+"""
+columns and relationships of "deployment_orientation_system"
+"""
+type deployment_orientation_system {
+  createdAt: timestamptz!
+
+  """An object relationship"""
+  deployment: deployment!
+  deploymentId: uuid!
+  id: uuid!
+
+  """An object relationship"""
+  orientationSystem: orientation_system!
+  orientationSystemId: uuid!
+}
+
+"""
+aggregated selection of "deployment_orientation_system"
+"""
+type deployment_orientation_system_aggregate {
+  aggregate: deployment_orientation_system_aggregate_fields
+  nodes: [deployment_orientation_system!]!
+}
+
+input deployment_orientation_system_aggregate_bool_exp {
+  count: deployment_orientation_system_aggregate_bool_exp_count
+}
+
+input deployment_orientation_system_aggregate_bool_exp_count {
+  arguments: [deployment_orientation_system_select_column!]
+  distinct: Boolean
+  filter: deployment_orientation_system_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "deployment_orientation_system"
+"""
+type deployment_orientation_system_aggregate_fields {
+  count(columns: [deployment_orientation_system_select_column!], distinct: Boolean): Int!
+  max: deployment_orientation_system_max_fields
+  min: deployment_orientation_system_min_fields
+}
+
+"""
+order by aggregate values of table "deployment_orientation_system"
+"""
+input deployment_orientation_system_aggregate_order_by {
+  count: order_by
+  max: deployment_orientation_system_max_order_by
+  min: deployment_orientation_system_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "deployment_orientation_system"
+"""
+input deployment_orientation_system_arr_rel_insert_input {
+  data: [deployment_orientation_system_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: deployment_orientation_system_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "deployment_orientation_system". All fields are combined with a logical 'AND'.
+"""
+input deployment_orientation_system_bool_exp {
+  _and: [deployment_orientation_system_bool_exp!]
+  _not: deployment_orientation_system_bool_exp
+  _or: [deployment_orientation_system_bool_exp!]
+  createdAt: timestamptz_comparison_exp
+  deployment: deployment_bool_exp
+  deploymentId: uuid_comparison_exp
+  id: uuid_comparison_exp
+  orientationSystem: orientation_system_bool_exp
+  orientationSystemId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "deployment_orientation_system"
+"""
+enum deployment_orientation_system_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  deployment_orientation_system_pkey
+}
+
+"""
+input type for inserting data into table "deployment_orientation_system"
+"""
+input deployment_orientation_system_insert_input {
+  createdAt: timestamptz
+  deployment: deployment_obj_rel_insert_input
+  deploymentId: uuid
+  id: uuid
+  orientationSystem: orientation_system_obj_rel_insert_input
+  orientationSystemId: uuid
+}
+
+"""aggregate max on columns"""
+type deployment_orientation_system_max_fields {
+  createdAt: timestamptz
+  deploymentId: uuid
+  id: uuid
+  orientationSystemId: uuid
+}
+
+"""
+order by max() on columns of table "deployment_orientation_system"
+"""
+input deployment_orientation_system_max_order_by {
+  createdAt: order_by
+  deploymentId: order_by
+  id: order_by
+  orientationSystemId: order_by
+}
+
+"""aggregate min on columns"""
+type deployment_orientation_system_min_fields {
+  createdAt: timestamptz
+  deploymentId: uuid
+  id: uuid
+  orientationSystemId: uuid
+}
+
+"""
+order by min() on columns of table "deployment_orientation_system"
+"""
+input deployment_orientation_system_min_order_by {
+  createdAt: order_by
+  deploymentId: order_by
+  id: order_by
+  orientationSystemId: order_by
+}
+
+"""
+response of any mutation on the table "deployment_orientation_system"
+"""
+type deployment_orientation_system_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [deployment_orientation_system!]!
+}
+
+"""
+on_conflict condition type for table "deployment_orientation_system"
+"""
+input deployment_orientation_system_on_conflict {
+  constraint: deployment_orientation_system_constraint!
+  update_columns: [deployment_orientation_system_update_column!]! = []
+  where: deployment_orientation_system_bool_exp
+}
+
+"""
+Ordering options when selecting data from "deployment_orientation_system".
+"""
+input deployment_orientation_system_order_by {
+  createdAt: order_by
+  deployment: deployment_order_by
+  deploymentId: order_by
+  id: order_by
+  orientationSystem: orientation_system_order_by
+  orientationSystemId: order_by
+}
+
+"""primary key columns input for table: deployment_orientation_system"""
+input deployment_orientation_system_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "deployment_orientation_system"
+"""
+enum deployment_orientation_system_select_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  deploymentId
+
+  """column name"""
+  id
+
+  """column name"""
+  orientationSystemId
+}
+
+"""
+input type for updating data in table "deployment_orientation_system"
+"""
+input deployment_orientation_system_set_input {
+  createdAt: timestamptz
+  deploymentId: uuid
+  id: uuid
+  orientationSystemId: uuid
+}
+
+"""
+Streaming cursor of the table "deployment_orientation_system"
+"""
+input deployment_orientation_system_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: deployment_orientation_system_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input deployment_orientation_system_stream_cursor_value_input {
+  createdAt: timestamptz
+  deploymentId: uuid
+  id: uuid
+  orientationSystemId: uuid
+}
+
+"""
+update columns of table "deployment_orientation_system"
+"""
+enum deployment_orientation_system_update_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  deploymentId
+
+  """column name"""
+  id
+
+  """column name"""
+  orientationSystemId
+}
+
+input deployment_orientation_system_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: deployment_orientation_system_set_input
+  where: deployment_orientation_system_bool_exp!
 }
 
 """primary key columns input for table: deployment"""
@@ -4487,6 +4769,19 @@ type mutation_root {
   delete_deployment_by_pk(id: uuid!): deployment
 
   """
+  delete data from the table: "deployment_orientation_system"
+  """
+  delete_deployment_orientation_system(
+    """filter the rows which have to be deleted"""
+    where: deployment_orientation_system_bool_exp!
+  ): deployment_orientation_system_mutation_response
+
+  """
+  delete single row from the table: "deployment_orientation_system"
+  """
+  delete_deployment_orientation_system_by_pk(id: uuid!): deployment_orientation_system
+
+  """
   delete data from the table: "external_data"
   """
   delete_external_data(
@@ -4690,6 +4985,19 @@ type mutation_root {
   delete_orientation_request_by_pk(id: uuid!): orientation_request
 
   """
+  delete data from the table: "orientation_system"
+  """
+  delete_orientation_system(
+    """filter the rows which have to be deleted"""
+    where: orientation_system_bool_exp!
+  ): orientation_system_mutation_response
+
+  """
+  delete single row from the table: "orientation_system"
+  """
+  delete_orientation_system_by_pk(id: uuid!): orientation_system
+
+  """
   delete data from the table: "orientation_type"
   """
   delete_orientation_type(
@@ -4714,6 +5022,19 @@ type mutation_root {
   delete single row from the table: "professional"
   """
   delete_professional_by_pk(id: uuid!): professional
+
+  """
+  delete data from the table: "professional_orientation_system"
+  """
+  delete_professional_orientation_system(
+    """filter the rows which have to be deleted"""
+    where: professional_orientation_system_bool_exp!
+  ): professional_orientation_system_mutation_response
+
+  """
+  delete single row from the table: "professional_orientation_system"
+  """
+  delete_professional_orientation_system_by_pk(id: uuid!): professional_orientation_system
 
   """
   delete data from the table: "ref_action"
@@ -4792,6 +5113,19 @@ type mutation_root {
   delete single row from the table: "structure"
   """
   delete_structure_by_pk(id: uuid!): structure
+
+  """
+  delete data from the table: "structure_orientation_system"
+  """
+  delete_structure_orientation_system(
+    """filter the rows which have to be deleted"""
+    where: structure_orientation_system_bool_exp!
+  ): structure_orientation_system_mutation_response
+
+  """
+  delete single row from the table: "structure_orientation_system"
+  """
+  delete_structure_orientation_system_by_pk(id: uuid!): structure_orientation_system
 
   """
   delete data from the table: "wanted_job"
@@ -4959,6 +5293,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: deployment_on_conflict
   ): deployment
+
+  """
+  insert data into the table: "deployment_orientation_system"
+  """
+  insert_deployment_orientation_system(
+    """the rows to be inserted"""
+    objects: [deployment_orientation_system_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: deployment_orientation_system_on_conflict
+  ): deployment_orientation_system_mutation_response
+
+  """
+  insert a single row into the table: "deployment_orientation_system"
+  """
+  insert_deployment_orientation_system_one(
+    """the row to be inserted"""
+    object: deployment_orientation_system_insert_input!
+
+    """upsert condition"""
+    on_conflict: deployment_orientation_system_on_conflict
+  ): deployment_orientation_system
 
   """
   insert data into the table: "external_data"
@@ -5307,6 +5663,28 @@ type mutation_root {
   ): orientation_request
 
   """
+  insert data into the table: "orientation_system"
+  """
+  insert_orientation_system(
+    """the rows to be inserted"""
+    objects: [orientation_system_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: orientation_system_on_conflict
+  ): orientation_system_mutation_response
+
+  """
+  insert a single row into the table: "orientation_system"
+  """
+  insert_orientation_system_one(
+    """the row to be inserted"""
+    object: orientation_system_insert_input!
+
+    """upsert condition"""
+    on_conflict: orientation_system_on_conflict
+  ): orientation_system
+
+  """
   insert data into the table: "orientation_type"
   """
   insert_orientation_type(
@@ -5349,6 +5727,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: professional_on_conflict
   ): professional
+
+  """
+  insert data into the table: "professional_orientation_system"
+  """
+  insert_professional_orientation_system(
+    """the rows to be inserted"""
+    objects: [professional_orientation_system_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: professional_orientation_system_on_conflict
+  ): professional_orientation_system_mutation_response
+
+  """
+  insert a single row into the table: "professional_orientation_system"
+  """
+  insert_professional_orientation_system_one(
+    """the row to be inserted"""
+    object: professional_orientation_system_insert_input!
+
+    """upsert condition"""
+    on_conflict: professional_orientation_system_on_conflict
+  ): professional_orientation_system
 
   """
   insert data into the table: "ref_action"
@@ -5481,6 +5881,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: structure_on_conflict
   ): structure
+
+  """
+  insert data into the table: "structure_orientation_system"
+  """
+  insert_structure_orientation_system(
+    """the rows to be inserted"""
+    objects: [structure_orientation_system_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: structure_orientation_system_on_conflict
+  ): structure_orientation_system_mutation_response
+
+  """
+  insert a single row into the table: "structure_orientation_system"
+  """
+  insert_structure_orientation_system_one(
+    """the row to be inserted"""
+    object: structure_orientation_system_insert_input!
+
+    """upsert condition"""
+    on_conflict: structure_orientation_system_on_conflict
+  ): structure_orientation_system
 
   """
   insert data into the table: "wanted_job"
@@ -5783,6 +6205,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [deployment_updates!]!
   ): [deployment_mutation_response]
+
+  """
+  update data of the table: "deployment_orientation_system"
+  """
+  update_deployment_orientation_system(
+    """sets the columns of the filtered rows to the given values"""
+    _set: deployment_orientation_system_set_input
+
+    """filter the rows which have to be updated"""
+    where: deployment_orientation_system_bool_exp!
+  ): deployment_orientation_system_mutation_response
+
+  """
+  update single row of the table: "deployment_orientation_system"
+  """
+  update_deployment_orientation_system_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: deployment_orientation_system_set_input
+    pk_columns: deployment_orientation_system_pk_columns_input!
+  ): deployment_orientation_system
+
+  """
+  update multiples rows of table: "deployment_orientation_system"
+  """
+  update_deployment_orientation_system_many(
+    """updates to execute, in order"""
+    updates: [deployment_orientation_system_updates!]!
+  ): [deployment_orientation_system_mutation_response]
 
   """
   update data of the table: "external_data"
@@ -6350,6 +6800,34 @@ type mutation_root {
   ): [orientation_request_mutation_response]
 
   """
+  update data of the table: "orientation_system"
+  """
+  update_orientation_system(
+    """sets the columns of the filtered rows to the given values"""
+    _set: orientation_system_set_input
+
+    """filter the rows which have to be updated"""
+    where: orientation_system_bool_exp!
+  ): orientation_system_mutation_response
+
+  """
+  update single row of the table: "orientation_system"
+  """
+  update_orientation_system_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: orientation_system_set_input
+    pk_columns: orientation_system_pk_columns_input!
+  ): orientation_system
+
+  """
+  update multiples rows of table: "orientation_system"
+  """
+  update_orientation_system_many(
+    """updates to execute, in order"""
+    updates: [orientation_system_updates!]!
+  ): [orientation_system_mutation_response]
+
+  """
   update data of the table: "orientation_type"
   """
   update_orientation_type(
@@ -6404,6 +6882,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [professional_updates!]!
   ): [professional_mutation_response]
+
+  """
+  update data of the table: "professional_orientation_system"
+  """
+  update_professional_orientation_system(
+    """sets the columns of the filtered rows to the given values"""
+    _set: professional_orientation_system_set_input
+
+    """filter the rows which have to be updated"""
+    where: professional_orientation_system_bool_exp!
+  ): professional_orientation_system_mutation_response
+
+  """
+  update single row of the table: "professional_orientation_system"
+  """
+  update_professional_orientation_system_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: professional_orientation_system_set_input
+    pk_columns: professional_orientation_system_pk_columns_input!
+  ): professional_orientation_system
+
+  """
+  update multiples rows of table: "professional_orientation_system"
+  """
+  update_professional_orientation_system_many(
+    """updates to execute, in order"""
+    updates: [professional_orientation_system_updates!]!
+  ): [professional_orientation_system_mutation_response]
 
   """
   update data of the table: "ref_action"
@@ -6572,6 +7078,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [structure_updates!]!
   ): [structure_mutation_response]
+
+  """
+  update data of the table: "structure_orientation_system"
+  """
+  update_structure_orientation_system(
+    """sets the columns of the filtered rows to the given values"""
+    _set: structure_orientation_system_set_input
+
+    """filter the rows which have to be updated"""
+    where: structure_orientation_system_bool_exp!
+  ): structure_orientation_system_mutation_response
+
+  """
+  update single row of the table: "structure_orientation_system"
+  """
+  update_structure_orientation_system_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: structure_orientation_system_set_input
+    pk_columns: structure_orientation_system_pk_columns_input!
+  ): structure_orientation_system
+
+  """
+  update multiples rows of table: "structure_orientation_system"
+  """
+  update_structure_orientation_system_many(
+    """updates to execute, in order"""
+    updates: [structure_orientation_system_updates!]!
+  ): [structure_orientation_system_mutation_response]
 
   """
   update data of the table: "wanted_job"
@@ -10767,6 +11301,332 @@ input orientation_request_updates {
   where: orientation_request_bool_exp!
 }
 
+"""
+columns and relationships of "orientation_system"
+"""
+type orientation_system {
+  createdAt: timestamptz!
+
+  """An array relationship"""
+  deploymentOrientationSystems(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): [deployment_orientation_system!]!
+
+  """An aggregate relationship"""
+  deploymentOrientationSystems_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): deployment_orientation_system_aggregate!
+  id: uuid!
+  name: String!
+  orientationType: orientation_type_enum!
+
+  """An object relationship"""
+  orientationTypeByOrientationType: orientation_type!
+
+  """An array relationship"""
+  professionalOrientationSystems(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): [professional_orientation_system!]!
+
+  """An aggregate relationship"""
+  professionalOrientationSystems_aggregate(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): professional_orientation_system_aggregate!
+
+  """An array relationship"""
+  structureOrientationSystems(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): [structure_orientation_system!]!
+
+  """An aggregate relationship"""
+  structureOrientationSystems_aggregate(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): structure_orientation_system_aggregate!
+  updatedAt: timestamptz!
+}
+
+"""
+aggregated selection of "orientation_system"
+"""
+type orientation_system_aggregate {
+  aggregate: orientation_system_aggregate_fields
+  nodes: [orientation_system!]!
+}
+
+"""
+aggregate fields of "orientation_system"
+"""
+type orientation_system_aggregate_fields {
+  count(columns: [orientation_system_select_column!], distinct: Boolean): Int!
+  max: orientation_system_max_fields
+  min: orientation_system_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "orientation_system". All fields are combined with a logical 'AND'.
+"""
+input orientation_system_bool_exp {
+  _and: [orientation_system_bool_exp!]
+  _not: orientation_system_bool_exp
+  _or: [orientation_system_bool_exp!]
+  createdAt: timestamptz_comparison_exp
+  deploymentOrientationSystems: deployment_orientation_system_bool_exp
+  deploymentOrientationSystems_aggregate: deployment_orientation_system_aggregate_bool_exp
+  id: uuid_comparison_exp
+  name: String_comparison_exp
+  orientationType: orientation_type_enum_comparison_exp
+  orientationTypeByOrientationType: orientation_type_bool_exp
+  professionalOrientationSystems: professional_orientation_system_bool_exp
+  professionalOrientationSystems_aggregate: professional_orientation_system_aggregate_bool_exp
+  structureOrientationSystems: structure_orientation_system_bool_exp
+  structureOrientationSystems_aggregate: structure_orientation_system_aggregate_bool_exp
+  updatedAt: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "orientation_system"
+"""
+enum orientation_system_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  orientation_system_pkey
+}
+
+"""
+input type for inserting data into table "orientation_system"
+"""
+input orientation_system_insert_input {
+  createdAt: timestamptz
+  deploymentOrientationSystems: deployment_orientation_system_arr_rel_insert_input
+  id: uuid
+  name: String
+  orientationType: orientation_type_enum
+  orientationTypeByOrientationType: orientation_type_obj_rel_insert_input
+  professionalOrientationSystems: professional_orientation_system_arr_rel_insert_input
+  structureOrientationSystems: structure_orientation_system_arr_rel_insert_input
+  updatedAt: timestamptz
+}
+
+"""aggregate max on columns"""
+type orientation_system_max_fields {
+  createdAt: timestamptz
+  id: uuid
+  name: String
+  updatedAt: timestamptz
+}
+
+"""aggregate min on columns"""
+type orientation_system_min_fields {
+  createdAt: timestamptz
+  id: uuid
+  name: String
+  updatedAt: timestamptz
+}
+
+"""
+response of any mutation on the table "orientation_system"
+"""
+type orientation_system_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [orientation_system!]!
+}
+
+"""
+input type for inserting object relation for remote table "orientation_system"
+"""
+input orientation_system_obj_rel_insert_input {
+  data: orientation_system_insert_input!
+
+  """upsert condition"""
+  on_conflict: orientation_system_on_conflict
+}
+
+"""
+on_conflict condition type for table "orientation_system"
+"""
+input orientation_system_on_conflict {
+  constraint: orientation_system_constraint!
+  update_columns: [orientation_system_update_column!]! = []
+  where: orientation_system_bool_exp
+}
+
+"""Ordering options when selecting data from "orientation_system"."""
+input orientation_system_order_by {
+  createdAt: order_by
+  deploymentOrientationSystems_aggregate: deployment_orientation_system_aggregate_order_by
+  id: order_by
+  name: order_by
+  orientationType: order_by
+  orientationTypeByOrientationType: orientation_type_order_by
+  professionalOrientationSystems_aggregate: professional_orientation_system_aggregate_order_by
+  structureOrientationSystems_aggregate: structure_orientation_system_aggregate_order_by
+  updatedAt: order_by
+}
+
+"""primary key columns input for table: orientation_system"""
+input orientation_system_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "orientation_system"
+"""
+enum orientation_system_select_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  orientationType
+
+  """column name"""
+  updatedAt
+}
+
+"""
+input type for updating data in table "orientation_system"
+"""
+input orientation_system_set_input {
+  createdAt: timestamptz
+  id: uuid
+  name: String
+  orientationType: orientation_type_enum
+  updatedAt: timestamptz
+}
+
+"""
+Streaming cursor of the table "orientation_system"
+"""
+input orientation_system_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: orientation_system_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input orientation_system_stream_cursor_value_input {
+  createdAt: timestamptz
+  id: uuid
+  name: String
+  orientationType: orientation_type_enum
+  updatedAt: timestamptz
+}
+
+"""
+update columns of table "orientation_system"
+"""
+enum orientation_system_update_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  orientationType
+
+  """column name"""
+  updatedAt
+}
+
+input orientation_system_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: orientation_system_set_input
+  where: orientation_system_bool_exp!
+}
+
 """table contenant les différents types d’orientation"""
 type orientation_type {
   id: String!
@@ -10999,6 +11859,42 @@ type professional {
   id: uuid!
   lastname: String!
   mobileNumber: String
+
+  """An array relationship"""
+  orientationSystems(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): [professional_orientation_system!]!
+
+  """An aggregate relationship"""
+  orientationSystems_aggregate(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): professional_orientation_system_aggregate!
   position: String
 
   """An object relationship"""
@@ -11068,6 +11964,8 @@ input professional_bool_exp {
   id: uuid_comparison_exp
   lastname: String_comparison_exp
   mobileNumber: String_comparison_exp
+  orientationSystems: professional_orientation_system_bool_exp
+  orientationSystems_aggregate: professional_orientation_system_aggregate_bool_exp
   position: String_comparison_exp
   structure: structure_bool_exp
   structureId: uuid_comparison_exp
@@ -11100,6 +11998,7 @@ input professional_insert_input {
   id: uuid
   lastname: String
   mobileNumber: String
+  orientationSystems: professional_orientation_system_arr_rel_insert_input
   position: String
   structure: structure_obj_rel_insert_input
   structureId: uuid
@@ -11201,10 +12100,253 @@ input professional_order_by {
   id: order_by
   lastname: order_by
   mobileNumber: order_by
+  orientationSystems_aggregate: professional_orientation_system_aggregate_order_by
   position: order_by
   structure: structure_order_by
   structureId: order_by
   updatedAt: order_by
+}
+
+"""
+columns and relationships of "professional_orientation_system"
+"""
+type professional_orientation_system {
+  createdAt: timestamptz!
+  id: uuid!
+
+  """An object relationship"""
+  orientationSystem: orientation_system!
+  orientationSystemId: uuid!
+
+  """An object relationship"""
+  professional: professional!
+  professionalId: uuid!
+}
+
+"""
+aggregated selection of "professional_orientation_system"
+"""
+type professional_orientation_system_aggregate {
+  aggregate: professional_orientation_system_aggregate_fields
+  nodes: [professional_orientation_system!]!
+}
+
+input professional_orientation_system_aggregate_bool_exp {
+  count: professional_orientation_system_aggregate_bool_exp_count
+}
+
+input professional_orientation_system_aggregate_bool_exp_count {
+  arguments: [professional_orientation_system_select_column!]
+  distinct: Boolean
+  filter: professional_orientation_system_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "professional_orientation_system"
+"""
+type professional_orientation_system_aggregate_fields {
+  count(columns: [professional_orientation_system_select_column!], distinct: Boolean): Int!
+  max: professional_orientation_system_max_fields
+  min: professional_orientation_system_min_fields
+}
+
+"""
+order by aggregate values of table "professional_orientation_system"
+"""
+input professional_orientation_system_aggregate_order_by {
+  count: order_by
+  max: professional_orientation_system_max_order_by
+  min: professional_orientation_system_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "professional_orientation_system"
+"""
+input professional_orientation_system_arr_rel_insert_input {
+  data: [professional_orientation_system_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: professional_orientation_system_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "professional_orientation_system". All fields are combined with a logical 'AND'.
+"""
+input professional_orientation_system_bool_exp {
+  _and: [professional_orientation_system_bool_exp!]
+  _not: professional_orientation_system_bool_exp
+  _or: [professional_orientation_system_bool_exp!]
+  createdAt: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  orientationSystem: orientation_system_bool_exp
+  orientationSystemId: uuid_comparison_exp
+  professional: professional_bool_exp
+  professionalId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "professional_orientation_system"
+"""
+enum professional_orientation_system_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  professional_orientation_system_pkey
+}
+
+"""
+input type for inserting data into table "professional_orientation_system"
+"""
+input professional_orientation_system_insert_input {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystem: orientation_system_obj_rel_insert_input
+  orientationSystemId: uuid
+  professional: professional_obj_rel_insert_input
+  professionalId: uuid
+}
+
+"""aggregate max on columns"""
+type professional_orientation_system_max_fields {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  professionalId: uuid
+}
+
+"""
+order by max() on columns of table "professional_orientation_system"
+"""
+input professional_orientation_system_max_order_by {
+  createdAt: order_by
+  id: order_by
+  orientationSystemId: order_by
+  professionalId: order_by
+}
+
+"""aggregate min on columns"""
+type professional_orientation_system_min_fields {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  professionalId: uuid
+}
+
+"""
+order by min() on columns of table "professional_orientation_system"
+"""
+input professional_orientation_system_min_order_by {
+  createdAt: order_by
+  id: order_by
+  orientationSystemId: order_by
+  professionalId: order_by
+}
+
+"""
+response of any mutation on the table "professional_orientation_system"
+"""
+type professional_orientation_system_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [professional_orientation_system!]!
+}
+
+"""
+on_conflict condition type for table "professional_orientation_system"
+"""
+input professional_orientation_system_on_conflict {
+  constraint: professional_orientation_system_constraint!
+  update_columns: [professional_orientation_system_update_column!]! = []
+  where: professional_orientation_system_bool_exp
+}
+
+"""
+Ordering options when selecting data from "professional_orientation_system".
+"""
+input professional_orientation_system_order_by {
+  createdAt: order_by
+  id: order_by
+  orientationSystem: orientation_system_order_by
+  orientationSystemId: order_by
+  professional: professional_order_by
+  professionalId: order_by
+}
+
+"""primary key columns input for table: professional_orientation_system"""
+input professional_orientation_system_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "professional_orientation_system"
+"""
+enum professional_orientation_system_select_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  orientationSystemId
+
+  """column name"""
+  professionalId
+}
+
+"""
+input type for updating data in table "professional_orientation_system"
+"""
+input professional_orientation_system_set_input {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  professionalId: uuid
+}
+
+"""
+Streaming cursor of the table "professional_orientation_system"
+"""
+input professional_orientation_system_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: professional_orientation_system_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input professional_orientation_system_stream_cursor_value_input {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  professionalId: uuid
+}
+
+"""
+update columns of table "professional_orientation_system"
+"""
+enum professional_orientation_system_update_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  orientationSystemId
+
+  """column name"""
+  professionalId
+}
+
+input professional_orientation_system_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: professional_orientation_system_set_input
+  where: professional_orientation_system_bool_exp!
 }
 
 """primary key columns input for table: professional"""
@@ -11666,6 +12808,51 @@ type query_root {
 
   """fetch data from the table: "deployment" using primary key columns"""
   deployment_by_pk(id: uuid!): deployment
+
+  """
+  fetch data from the table: "deployment_orientation_system"
+  """
+  deployment_orientation_system(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): [deployment_orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "deployment_orientation_system"
+  """
+  deployment_orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): deployment_orientation_system_aggregate!
+
+  """
+  fetch data from the table: "deployment_orientation_system" using primary key columns
+  """
+  deployment_orientation_system_by_pk(id: uuid!): deployment_orientation_system
 
   """An array relationship"""
   external_data(
@@ -12359,6 +13546,51 @@ type query_root {
   orientation_request_by_pk(id: uuid!): orientation_request
 
   """
+  fetch data from the table: "orientation_system"
+  """
+  orientation_system(
+    """distinct select on columns"""
+    distinct_on: [orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: orientation_system_bool_exp
+  ): [orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "orientation_system"
+  """
+  orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: orientation_system_bool_exp
+  ): orientation_system_aggregate!
+
+  """
+  fetch data from the table: "orientation_system" using primary key columns
+  """
+  orientation_system_by_pk(id: uuid!): orientation_system
+
+  """
   fetch data from the table: "orientation_type"
   """
   orientation_type(
@@ -12445,6 +13677,51 @@ type query_root {
 
   """fetch data from the table: "professional" using primary key columns"""
   professional_by_pk(id: uuid!): professional
+
+  """
+  fetch data from the table: "professional_orientation_system"
+  """
+  professional_orientation_system(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): [professional_orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "professional_orientation_system"
+  """
+  professional_orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): professional_orientation_system_aggregate!
+
+  """
+  fetch data from the table: "professional_orientation_system" using primary key columns
+  """
+  professional_orientation_system_by_pk(id: uuid!): professional_orientation_system
 
   """
   fetch data from the table: "ref_action"
@@ -12903,6 +14180,51 @@ type query_root {
 
   """fetch data from the table: "structure" using primary key columns"""
   structure_by_pk(id: uuid!): structure
+
+  """
+  fetch data from the table: "structure_orientation_system"
+  """
+  structure_orientation_system(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): [structure_orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "structure_orientation_system"
+  """
+  structure_orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): structure_orientation_system_aggregate!
+
+  """
+  fetch data from the table: "structure_orientation_system" using primary key columns
+  """
+  structure_orientation_system_by_pk(id: uuid!): structure_orientation_system
 
   """
   fetch data from the table: "wanted_job"
@@ -13982,6 +15304,42 @@ type structure {
   email: String
   id: uuid!
   name: citext!
+
+  """An array relationship"""
+  orientationSystems(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): [structure_orientation_system!]!
+
+  """An aggregate relationship"""
+  orientationSystems_aggregate(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): structure_orientation_system_aggregate!
   phone: String
   postalCode: String
 
@@ -14094,6 +15452,8 @@ input structure_bool_exp {
   email: String_comparison_exp
   id: uuid_comparison_exp
   name: citext_comparison_exp
+  orientationSystems: structure_orientation_system_bool_exp
+  orientationSystems_aggregate: structure_orientation_system_aggregate_bool_exp
   phone: String_comparison_exp
   postalCode: String_comparison_exp
   professionals: professional_bool_exp
@@ -14134,6 +15494,7 @@ input structure_insert_input {
   email: String
   id: uuid
   name: citext
+  orientationSystems: structure_orientation_system_arr_rel_insert_input
   phone: String
   postalCode: String
   professionals: professional_arr_rel_insert_input
@@ -14263,6 +15624,7 @@ input structure_order_by {
   email: order_by
   id: order_by
   name: order_by
+  orientationSystems_aggregate: structure_orientation_system_aggregate_order_by
   phone: order_by
   postalCode: order_by
   professionals_aggregate: professional_aggregate_order_by
@@ -14270,6 +15632,248 @@ input structure_order_by {
   siret: order_by
   updatedAt: order_by
   website: order_by
+}
+
+"""
+columns and relationships of "structure_orientation_system"
+"""
+type structure_orientation_system {
+  createdAt: timestamptz!
+  id: uuid!
+
+  """An object relationship"""
+  orientationSystem: orientation_system!
+  orientationSystemId: uuid!
+
+  """An object relationship"""
+  structure: structure!
+  structureId: uuid!
+}
+
+"""
+aggregated selection of "structure_orientation_system"
+"""
+type structure_orientation_system_aggregate {
+  aggregate: structure_orientation_system_aggregate_fields
+  nodes: [structure_orientation_system!]!
+}
+
+input structure_orientation_system_aggregate_bool_exp {
+  count: structure_orientation_system_aggregate_bool_exp_count
+}
+
+input structure_orientation_system_aggregate_bool_exp_count {
+  arguments: [structure_orientation_system_select_column!]
+  distinct: Boolean
+  filter: structure_orientation_system_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "structure_orientation_system"
+"""
+type structure_orientation_system_aggregate_fields {
+  count(columns: [structure_orientation_system_select_column!], distinct: Boolean): Int!
+  max: structure_orientation_system_max_fields
+  min: structure_orientation_system_min_fields
+}
+
+"""
+order by aggregate values of table "structure_orientation_system"
+"""
+input structure_orientation_system_aggregate_order_by {
+  count: order_by
+  max: structure_orientation_system_max_order_by
+  min: structure_orientation_system_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "structure_orientation_system"
+"""
+input structure_orientation_system_arr_rel_insert_input {
+  data: [structure_orientation_system_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: structure_orientation_system_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "structure_orientation_system". All fields are combined with a logical 'AND'.
+"""
+input structure_orientation_system_bool_exp {
+  _and: [structure_orientation_system_bool_exp!]
+  _not: structure_orientation_system_bool_exp
+  _or: [structure_orientation_system_bool_exp!]
+  createdAt: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  orientationSystem: orientation_system_bool_exp
+  orientationSystemId: uuid_comparison_exp
+  structure: structure_bool_exp
+  structureId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "structure_orientation_system"
+"""
+enum structure_orientation_system_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  structure_orientation_system_pkey
+}
+
+"""
+input type for inserting data into table "structure_orientation_system"
+"""
+input structure_orientation_system_insert_input {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystem: orientation_system_obj_rel_insert_input
+  orientationSystemId: uuid
+  structure: structure_obj_rel_insert_input
+  structureId: uuid
+}
+
+"""aggregate max on columns"""
+type structure_orientation_system_max_fields {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  structureId: uuid
+}
+
+"""
+order by max() on columns of table "structure_orientation_system"
+"""
+input structure_orientation_system_max_order_by {
+  createdAt: order_by
+  id: order_by
+  orientationSystemId: order_by
+  structureId: order_by
+}
+
+"""aggregate min on columns"""
+type structure_orientation_system_min_fields {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  structureId: uuid
+}
+
+"""
+order by min() on columns of table "structure_orientation_system"
+"""
+input structure_orientation_system_min_order_by {
+  createdAt: order_by
+  id: order_by
+  orientationSystemId: order_by
+  structureId: order_by
+}
+
+"""
+response of any mutation on the table "structure_orientation_system"
+"""
+type structure_orientation_system_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [structure_orientation_system!]!
+}
+
+"""
+on_conflict condition type for table "structure_orientation_system"
+"""
+input structure_orientation_system_on_conflict {
+  constraint: structure_orientation_system_constraint!
+  update_columns: [structure_orientation_system_update_column!]! = []
+  where: structure_orientation_system_bool_exp
+}
+
+"""
+Ordering options when selecting data from "structure_orientation_system".
+"""
+input structure_orientation_system_order_by {
+  createdAt: order_by
+  id: order_by
+  orientationSystem: orientation_system_order_by
+  orientationSystemId: order_by
+  structure: structure_order_by
+  structureId: order_by
+}
+
+"""primary key columns input for table: structure_orientation_system"""
+input structure_orientation_system_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "structure_orientation_system"
+"""
+enum structure_orientation_system_select_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  orientationSystemId
+
+  """column name"""
+  structureId
+}
+
+"""
+input type for updating data in table "structure_orientation_system"
+"""
+input structure_orientation_system_set_input {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  structureId: uuid
+}
+
+"""
+Streaming cursor of the table "structure_orientation_system"
+"""
+input structure_orientation_system_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: structure_orientation_system_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input structure_orientation_system_stream_cursor_value_input {
+  createdAt: timestamptz
+  id: uuid
+  orientationSystemId: uuid
+  structureId: uuid
+}
+
+"""
+update columns of table "structure_orientation_system"
+"""
+enum structure_orientation_system_update_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  orientationSystemId
+
+  """column name"""
+  structureId
+}
+
+input structure_orientation_system_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: structure_orientation_system_set_input
+  where: structure_orientation_system_bool_exp!
 }
 
 """primary key columns input for table: structure"""
@@ -14869,6 +16473,65 @@ type subscription_root {
 
   """fetch data from the table: "deployment" using primary key columns"""
   deployment_by_pk(id: uuid!): deployment
+
+  """
+  fetch data from the table: "deployment_orientation_system"
+  """
+  deployment_orientation_system(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): [deployment_orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "deployment_orientation_system"
+  """
+  deployment_orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployment_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): deployment_orientation_system_aggregate!
+
+  """
+  fetch data from the table: "deployment_orientation_system" using primary key columns
+  """
+  deployment_orientation_system_by_pk(id: uuid!): deployment_orientation_system
+
+  """
+  fetch data from the table in a streaming manner: "deployment_orientation_system"
+  """
+  deployment_orientation_system_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [deployment_orientation_system_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: deployment_orientation_system_bool_exp
+  ): [deployment_orientation_system!]!
 
   """
   fetch data from the table in a streaming manner: "deployment"
@@ -15800,6 +17463,65 @@ type subscription_root {
   ): [orientation_request!]!
 
   """
+  fetch data from the table: "orientation_system"
+  """
+  orientation_system(
+    """distinct select on columns"""
+    distinct_on: [orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: orientation_system_bool_exp
+  ): [orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "orientation_system"
+  """
+  orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: orientation_system_bool_exp
+  ): orientation_system_aggregate!
+
+  """
+  fetch data from the table: "orientation_system" using primary key columns
+  """
+  orientation_system_by_pk(id: uuid!): orientation_system
+
+  """
+  fetch data from the table in a streaming manner: "orientation_system"
+  """
+  orientation_system_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [orientation_system_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: orientation_system_bool_exp
+  ): [orientation_system!]!
+
+  """
   fetch data from the table: "orientation_type"
   """
   orientation_type(
@@ -15900,6 +17622,65 @@ type subscription_root {
 
   """fetch data from the table: "professional" using primary key columns"""
   professional_by_pk(id: uuid!): professional
+
+  """
+  fetch data from the table: "professional_orientation_system"
+  """
+  professional_orientation_system(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): [professional_orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "professional_orientation_system"
+  """
+  professional_orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [professional_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): professional_orientation_system_aggregate!
+
+  """
+  fetch data from the table: "professional_orientation_system" using primary key columns
+  """
+  professional_orientation_system_by_pk(id: uuid!): professional_orientation_system
+
+  """
+  fetch data from the table in a streaming manner: "professional_orientation_system"
+  """
+  professional_orientation_system_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [professional_orientation_system_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: professional_orientation_system_bool_exp
+  ): [professional_orientation_system!]!
 
   """
   fetch data from the table in a streaming manner: "professional"
@@ -16442,6 +18223,65 @@ type subscription_root {
 
   """fetch data from the table: "structure" using primary key columns"""
   structure_by_pk(id: uuid!): structure
+
+  """
+  fetch data from the table: "structure_orientation_system"
+  """
+  structure_orientation_system(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): [structure_orientation_system!]!
+
+  """
+  fetch aggregated fields from the table: "structure_orientation_system"
+  """
+  structure_orientation_system_aggregate(
+    """distinct select on columns"""
+    distinct_on: [structure_orientation_system_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [structure_orientation_system_order_by!]
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): structure_orientation_system_aggregate!
+
+  """
+  fetch data from the table: "structure_orientation_system" using primary key columns
+  """
+  structure_orientation_system_by_pk(id: uuid!): structure_orientation_system
+
+  """
+  fetch data from the table in a streaming manner: "structure_orientation_system"
+  """
+  structure_orientation_system_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [structure_orientation_system_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: structure_orientation_system_bool_exp
+  ): [structure_orientation_system!]!
 
   """
   fetch data from the table in a streaming manner: "structure"
