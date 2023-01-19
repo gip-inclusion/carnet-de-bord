@@ -1,16 +1,4 @@
 query GetStructure($structureId: uuid!) {
-  beneficiaries: notebook_aggregate(
-    where: {
-      members: {
-        active: { _eq: true }
-        account: { professional: { structureId: { _eq: $structureId } } }
-      }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
   structure_by_pk(id: $structureId) {
     id
     name
@@ -21,7 +9,25 @@ query GetStructure($structureId: uuid!) {
     postalCode
     city
     website
-    beneficiaries: beneficiaries_aggregate(
+    supportedBeneficiaries: beneficiaries_aggregate(
+      where: {
+        status: { _neq: "outdated" }
+        beneficiary: {
+          notebook: {
+            members: {
+              active: { _eq: true }
+              memberType: { _eq: "referent" }
+              account: { professional: { structureId: { _eq: $structureId } } }
+            }
+          }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    unsupportedBeneficiaries: beneficiaries_aggregate(
       where: {
         status: { _neq: "outdated" }
         beneficiary: {
@@ -29,6 +35,7 @@ query GetStructure($structureId: uuid!) {
             _not: {
               members: {
                 active: { _eq: true }
+                memberType: { _eq: "referent" }
                 account: { professional: { structureId: { _eq: $structureId } } }
               }
             }

@@ -24,7 +24,7 @@
 		name: data.name,
 		city: data.city,
 		nbAdmin: data.admins_aggregate.aggregate.count,
-		beneficiaryCount: data.beneficiaryCount,
+		beneficiaryCount: data.beneficiaries_aggregate.aggregate.count,
 		nbProfessional: data.professionals_aggregate.aggregate.count,
 	}));
 

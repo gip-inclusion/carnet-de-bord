@@ -53,13 +53,6 @@ array_relationships:
         table:
           name: professional
           schema: public
-computed_fields:
-  - name: beneficiaryCount
-    definition:
-      function:
-        name: nb_beneficiary_for_structure
-        schema: public
-    comment: 'a computed field, executes function nb_beneficiary_for_structure '
 insert_permissions:
   - role: admin_cdb
     permission:
@@ -154,8 +147,6 @@ select_permissions:
         - updated_at
         - website
         - deployment_id
-      computed_fields:
-        - beneficiaryCount
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id

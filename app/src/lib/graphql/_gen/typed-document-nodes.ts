@@ -12102,8 +12102,6 @@ export type Structure = {
 	beneficiaries: Array<BeneficiaryStructure>;
 	/** An aggregate relationship */
 	beneficiaries_aggregate: BeneficiaryStructureAggregate;
-	/** a computed field, executes function nb_beneficiary_for_structure  */
-	beneficiaryCount?: Maybe<Scalars['bigint']>;
 	city?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
@@ -12257,7 +12255,6 @@ export type StructureBoolExp = {
 	admins_aggregate?: InputMaybe<AdminStructureStructureAggregateBoolExp>;
 	beneficiaries?: InputMaybe<BeneficiaryStructureBoolExp>;
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryStructureAggregateBoolExp>;
-	beneficiaryCount?: InputMaybe<BigintComparisonExp>;
 	city?: InputMaybe<StringComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment?: InputMaybe<DeploymentBoolExp>;
@@ -12411,7 +12408,6 @@ export type StructureOrderBy = {
 	address2?: InputMaybe<OrderBy>;
 	admins_aggregate?: InputMaybe<AdminStructureStructureAggregateOrderBy>;
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
-	beneficiaryCount?: InputMaybe<OrderBy>;
 	city?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	deployment?: InputMaybe<DeploymentOrderBy>;
@@ -16476,10 +16472,6 @@ export type GetStructureQueryVariables = Exact<{
 
 export type GetStructureQuery = {
 	__typename?: 'query_root';
-	beneficiaries: {
-		__typename?: 'notebook_aggregate';
-		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
-	};
 	structure_by_pk?: {
 		__typename?: 'structure';
 		id: string;
@@ -16491,7 +16483,11 @@ export type GetStructureQuery = {
 		postalCode?: string | null;
 		city?: string | null;
 		website?: string | null;
-		beneficiaries: {
+		supportedBeneficiaries: {
+			__typename?: 'beneficiary_structure_aggregate';
+			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
+		};
+		unsupportedBeneficiaries: {
 			__typename?: 'beneficiary_structure_aggregate';
 			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
 		};
@@ -16556,7 +16552,10 @@ export type GetManagedStructuresQuery = {
 		id: string;
 		city?: string | null;
 		name: string;
-		beneficiaryCount?: any | null;
+		beneficiaries_aggregate: {
+			__typename?: 'beneficiary_structure_aggregate';
+			aggregate?: { __typename?: 'beneficiary_structure_aggregate_fields'; count: number } | null;
+		};
 		professionals_aggregate: {
 			__typename?: 'professional_aggregate';
 			aggregate?: { __typename?: 'professional_aggregate_fields'; count: number } | null;
@@ -27233,93 +27232,6 @@ export const GetStructureDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'beneficiaries' },
-						name: { kind: 'Name', value: 'notebook_aggregate' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'members' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'active' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: { kind: 'BooleanValue', value: true },
-																},
-															],
-														},
-													},
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'account' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'professional' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: 'structureId' },
-																				value: {
-																					kind: 'ObjectValue',
-																					fields: [
-																						{
-																							kind: 'ObjectField',
-																							name: { kind: 'Name', value: '_eq' },
-																							value: {
-																								kind: 'Variable',
-																								name: { kind: 'Name', value: 'structureId' },
-																							},
-																						},
-																					],
-																				},
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'aggregate' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
-									},
-								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
 						name: { kind: 'Name', value: 'structure_by_pk' },
 						arguments: [
 							{
@@ -27342,7 +27254,153 @@ export const GetStructureDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
 								{
 									kind: 'Field',
-									alias: { kind: 'Name', value: 'beneficiaries' },
+									alias: { kind: 'Name', value: 'supportedBeneficiaries' },
+									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_neq' },
+																	value: { kind: 'StringValue', value: 'outdated', block: false },
+																},
+															],
+														},
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'beneficiary' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'notebook' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'members' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'active' },
+																							value: {
+																								kind: 'ObjectValue',
+																								fields: [
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: '_eq' },
+																										value: { kind: 'BooleanValue', value: true },
+																									},
+																								],
+																							},
+																						},
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'memberType' },
+																							value: {
+																								kind: 'ObjectValue',
+																								fields: [
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: '_eq' },
+																										value: {
+																											kind: 'StringValue',
+																											value: 'referent',
+																											block: false,
+																										},
+																									},
+																								],
+																							},
+																						},
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: 'account' },
+																							value: {
+																								kind: 'ObjectValue',
+																								fields: [
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: 'professional' },
+																										value: {
+																											kind: 'ObjectValue',
+																											fields: [
+																												{
+																													kind: 'ObjectField',
+																													name: {
+																														kind: 'Name',
+																														value: 'structureId',
+																													},
+																													value: {
+																														kind: 'ObjectValue',
+																														fields: [
+																															{
+																																kind: 'ObjectField',
+																																name: {
+																																	kind: 'Name',
+																																	value: '_eq',
+																																},
+																																value: {
+																																	kind: 'Variable',
+																																	name: {
+																																		kind: 'Name',
+																																		value: 'structureId',
+																																	},
+																																},
+																															},
+																														],
+																													},
+																												},
+																											],
+																										},
+																									},
+																								],
+																							},
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									alias: { kind: 'Name', value: 'unsupportedBeneficiaries' },
 									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
 									arguments: [
 										{
@@ -27401,6 +27459,24 @@ export const GetStructureDocument = {
 																													value: {
 																														kind: 'BooleanValue',
 																														value: true,
+																													},
+																												},
+																											],
+																										},
+																									},
+																									{
+																										kind: 'ObjectField',
+																										name: { kind: 'Name', value: 'memberType' },
+																										value: {
+																											kind: 'ObjectValue',
+																											fields: [
+																												{
+																													kind: 'ObjectField',
+																													name: { kind: 'Name', value: '_eq' },
+																													value: {
+																														kind: 'StringValue',
+																														value: 'referent',
+																														block: false,
 																													},
 																												},
 																											],
@@ -27882,7 +27958,48 @@ export const GetManagedStructuresDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'beneficiaryCount' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'beneficiaries_aggregate' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'status' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'StringValue', value: 'current', block: false },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'aggregate' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+												},
+											},
+										],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals_aggregate' },
