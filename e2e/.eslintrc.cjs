@@ -2,7 +2,7 @@ module.exports = {
 	extends: ['@socialgouv/eslint-config-recommended'],
 	overrides: [
 		{
-			files: ['step_definitions/**/*.js'],
+			files: ['step_definitions/**/*.js', 'integration/**/*.js'],
 			globals: {
 				After: 'readonly',
 				AfterSuite: 'readonly',

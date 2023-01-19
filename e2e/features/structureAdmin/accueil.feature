@@ -6,4 +6,4 @@ Fonctionnalité: Espace Administrateur de structure
 
 	Scénario: Voir le nombre de bénéficiaires accompagnés
 		Soit un "administrateur de structures" authentifié avec l'email "lara.pafromage@cd93.fr"
-		Alors je vois "30" dans la tuile "Centre Communal d'action social Livry-Gargan"
+		Alors je vois "29" dans la tuile "Centre Communal d'action social Livry-Gargan"

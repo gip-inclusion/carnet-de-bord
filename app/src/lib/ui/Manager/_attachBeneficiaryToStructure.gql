@@ -1,6 +1,22 @@
 mutation AttachBeneficiaryToStructure($beneficiaryId: uuid!, $structureId: uuid!) {
+  update_beneficiary_structure(
+    where: { beneficiaryId: { _eq: $beneficiaryId }, status: { _eq: "current" } }
+    _set: { status: "outdated" }
+  ) {
+    affected_rows
+  }
+  update_notebook_member(
+    where: {
+      notebook: { beneficiaryId: { _eq: $beneficiaryId } }
+      active: { _eq: true }
+      memberType: { _eq: "referent" }
+    }
+    _set: { active: false, membershipEndedAt: now }
+  ) {
+    affected_rows
+  }
   insert_beneficiary_structure_one(
-    object: { beneficiaryId: $beneficiaryId, structureId: $structureId }
+    object: { beneficiaryId: $beneficiaryId, structureId: $structureId, status: "current" }
   ) {
     id
   }
