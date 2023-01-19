@@ -11,6 +11,7 @@ query SearchProfessional($search: String, $searchStructure: citext, $accountIds:
         { structure: { postalCode: { _ilike: $search } } }
       ]
       _not: { account: { id: { _in: $accountIds } } }
+      account: { deletedAt: { _is_null: true } }
     }
     limit: 5
   ) {
@@ -36,6 +37,7 @@ query SearchProfessional($search: String, $searchStructure: citext, $accountIds:
         { structure: { postalCode: { _ilike: $search } } }
       ]
       _not: { account: { id: { _in: $accountIds } } }
+      account: { deletedAt: { _is_null: true } }
     }
   ) {
     aggregate {

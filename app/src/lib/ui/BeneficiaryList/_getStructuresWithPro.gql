@@ -2,7 +2,7 @@ query GetStructuresWithPro {
   structure {
     id
     name
-    professionals {
+    professionals(where: { account: { deletedAt: { _is_null: true } } }) {
       account {
         referentCount: notebooksWhereMember_aggregate(
           where: { memberType: { _eq: "referent" }, active: { _eq: true } }
