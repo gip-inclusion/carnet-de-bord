@@ -22,6 +22,7 @@ from cdb.api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryImport,
     BeneficiaryStructure,
+    BeneficiaryWithAdminStructureEmail,
 )
 from cdb.api.db.models.notebook_member import NotebookMemberInsert
 from cdb.api.db.models.professional import Professional
@@ -346,3 +347,39 @@ async def add_referent_and_structure_to_beneficiary(
             "trying to create referent: no account with email: %s",
             beneficiary.advisor_email,
         )
+
+
+async def get_beneficiaries_without_referent(
+    connection: Connection,
+) -> list[BeneficiaryWithAdminStructureEmail]:
+    rows: list[Record] = await connection.fetch(
+        """
+SELECT b.firstname, b.lastname, b.date_of_birth, ni.orientation,
+    ads.email AS admin_structure_email, s.name AS structure_name
+FROM beneficiary AS b
+LEFT JOIN notebook AS n ON n.beneficiary_id = b.id
+LEFT JOIN notebook_info AS ni ON ni.notebook_id = n.id
+LEFT JOIN (
+    SELECT * FROM notebook_member AS nm
+    WHERE nm.active AND nm.member_type = 'referent'
+    ) referent ON referent.notebook_id = n.id
+LEFT JOIN account_info  AS ai ON referent.account_id = ai.account_id
+LEFT JOIN beneficiary_structure bs ON bs.beneficiary_id = b.id
+LEFT JOIN admin_structure_structure ass ON ass.structure_id = bs.structure_id
+LEFT JOIN admin_structure ads ON ads.id = ass.admin_structure_id
+LEFT JOIN structure s ON s.id = ass.structure_id
+WHERE referent IS NULL and ads.email IS NOT NULL
+ORDER BY ads.email, s.name ASC;
+        """
+    )
+    return [
+        BeneficiaryWithAdminStructureEmail(
+            admin_structure_email=row["admin_structure_email"],
+            structure_name=row["structure_name"],
+            firstname=row["firstname"],
+            lastname=row["lastname"],
+            date_of_birth=row["date_of_birth"],
+            orientation=row["orientation"],
+        )
+        for row in rows
+    ]

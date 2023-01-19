@@ -7,6 +7,7 @@ from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 from cdb.api.db.models.csv import CsvFieldError
 from cdb.api.db.models.nir import nir_format
 from cdb.api.db.models.notebook import Notebook
+from cdb.api.db.models.orientation_type import OrientationType
 from cdb.api.db.models.validator import (
     date_validator,
     parse_bool_validator,
@@ -45,6 +46,15 @@ class Beneficiary(BaseModel):
     account_id: UUID | None
     nir: str | None
     pe_unique_import_id: str | None
+
+
+class BeneficiaryWithAdminStructureEmail(BaseModel):
+    lastname: str
+    firstname: str
+    date_of_birth: date
+    admin_structure_email: str
+    structure_name: str
+    orientation: OrientationType | None
 
 
 def snake_to_camel(field):

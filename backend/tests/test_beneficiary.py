@@ -1,8 +1,17 @@
 from datetime import date
 
-from cdb.api.db.crud.beneficiary import get_beneficiary_from_personal_information
+from asyncpg.connection import Connection
+
+from cdb.api.db.crud.beneficiary import (
+    get_beneficiaries_without_referent,
+    get_beneficiary_from_personal_information,
+)
 from cdb.api.db.crud.wanted_job import find_wanted_job_for_beneficiary
-from cdb.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+from cdb.api.db.models.beneficiary import (
+    Beneficiary,
+    BeneficiaryImport,
+    BeneficiaryWithAdminStructureEmail,
+)
 from cdb.cdb_csv import pe
 from cdb.cdb_csv.models.csv_row import PrincipalCsvRow
 
@@ -191,3 +200,14 @@ def test_beneficairy_get_values_for_keys(
         "rsa_droit_ouvert_versable",
         "iae",
     ]
+
+
+async def test_get_beneficiaries_without_referent(
+    db_connection: Connection, snapshot
+) -> None:
+    beneficiaries_without_referent: list[
+        BeneficiaryWithAdminStructureEmail
+    ] = await get_beneficiaries_without_referent(db_connection)
+
+    assert len(beneficiaries_without_referent) == 94
+    assert snapshot == beneficiaries_without_referent
