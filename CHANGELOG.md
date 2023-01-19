@@ -1,3 +1,10 @@
+## [1.186.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.4...v1.186.5) (2023-01-19)
+
+
+### Bug Fixes
+
+* Corriger les problèmes de relation beneficiaires structures manquants ([#1420](https://github.com/gip-inclusion/carnet-de-bord/issues/1420)) ([2282c39](https://github.com/gip-inclusion/carnet-de-bord/commit/2282c392e84993455f31d1527b8a7a3a052bf6c9))
+
 ## [1.186.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.3...v1.186.4) (2023-01-18)
 
 
