@@ -40,7 +40,7 @@ query GetStructure($structureId: uuid!) {
         count
       }
     }
-    professionals {
+    professionals(where: { account: { deletedAt: { _is_null: true } } }) {
       id
       account {
         id

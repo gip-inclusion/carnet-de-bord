@@ -27,7 +27,7 @@ query GetDeploymentInfos($id: uuid!) {
   structuresWithPros: structure {
     id
     name
-    professionals {
+    professionals(where: { account: { deletedAt: { _is_null: true } } }) {
       id
       email
       firstname

@@ -15,7 +15,10 @@
 	const result = operationStore(
 		GetDeploymentInfosDocument,
 		{ id: deploymentId },
-		{ additionalTypenames: ['structure', 'professional', 'beneficiary', 'notebook_member'] }
+		{
+			requestPolicy: 'network-only',
+			additionalTypenames: ['structure', 'professional', 'beneficiary', 'notebook_member'],
+		}
 	);
 
 	query(result);
