@@ -1,5 +1,5 @@
 query GetProfessionalsForManager {
-  professional {
+  professional(where: { account: { deletedAt: { _is_null: true } } }) {
     id
     firstname
     lastname

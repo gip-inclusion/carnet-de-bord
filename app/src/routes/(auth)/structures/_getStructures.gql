@@ -4,7 +4,7 @@ query GetManagedStructures($adminId: uuid!) {
     city
     name
     beneficiaryCount
-    professionals_aggregate {
+    professionals_aggregate(where: { account: { deletedAt: { _is_null: true } } }) {
       aggregate {
         count
       }

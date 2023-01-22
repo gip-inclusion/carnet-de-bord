@@ -184,13 +184,16 @@ select_permissions:
         - access_key
         - access_key_date
         - admin_id
+        - admin_structure_id
         - beneficiary_id
         - confirmed
         - created_at
+        - deleted_at
         - id
         - last_login
         - manager_id
         - onboarding_done
+        - orientation_manager_id
         - professional_id
         - type
         - updated_at
@@ -262,6 +265,7 @@ select_permissions:
         - beneficiary_id
         - confirmed
         - created_at
+        - deleted_at
         - id
         - last_login
         - manager_id
@@ -294,12 +298,15 @@ select_permissions:
       columns:
         - access_key
         - access_key_date
+        - admin_id
+        - admin_structure_id
         - beneficiary_id
         - confirmed
         - created_at
         - deleted_at
         - id
         - last_login
+        - manager_id
         - onboarding_done
         - orientation_manager_id
         - professional_id
@@ -326,6 +333,7 @@ select_permissions:
         - beneficiary_id
         - confirmed
         - created_at
+        - deleted_at
         - id
         - onboarding_done
         - orientation_manager_id

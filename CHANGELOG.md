@@ -1,3 +1,10 @@
+## [1.186.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.5...v1.186.6) (2023-01-22)
+
+
+### Bug Fixes
+
+* cacher les pro supprimés des listes / compte ([#1447](https://github.com/gip-inclusion/carnet-de-bord/issues/1447)) ([7198ca9](https://github.com/gip-inclusion/carnet-de-bord/commit/7198ca974fe7e6e16c78652213f543d9fbbc7dae))
+
 ## [1.186.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.4...v1.186.5) (2023-01-19)
 
 
