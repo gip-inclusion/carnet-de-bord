@@ -1,0 +1,8 @@
+{
+  "jobs": [
+    {
+      "command": "0 7 * * 1-5 python cdb/scripts/notify_admin_structures/main.py",
+      "size": "S"
+    }
+  ]
+}
