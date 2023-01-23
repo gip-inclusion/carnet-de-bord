@@ -1,7 +1,8 @@
+export type AllOriented = 'tous';
 export type OrientedStatus = 'oriente';
 export type UnorientedStatus = 'non-oriente';
 
-export type OrientedFilter = OrientedStatus | UnorientedStatus;
+export type OrientedFilter = AllOriented | OrientedStatus | UnorientedStatus;
 
 export function getOrientedFilter(filter: string): OrientedFilter {
 	switch (filter) {
@@ -13,13 +14,15 @@ export function getOrientedFilter(filter: string): OrientedFilter {
 	}
 }
 
+export type AllBeneficiary = 'tous';
 export type MyBeneficiary = 'mes-beneficiaires';
 export type OtherBeneficiairy = 'autres-beneficiaires';
 
-export type BeneficiaryFilter = MyBeneficiary | OtherBeneficiairy;
+export type BeneficiaryFilter = AllBeneficiary | MyBeneficiary | OtherBeneficiairy;
 
 export function getBeneficiaryFilter(filter: string): BeneficiaryFilter {
 	switch (filter) {
+		case 'tous':
 		case 'mes-beneficiaires':
 		case 'autres-beneficiaires':
 			return filter;
