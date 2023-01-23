@@ -2,7 +2,7 @@
 	import * as yup from 'yup';
 
 	const validationSchema = yup.object().shape({
-		orientationType: yup.string().required(),
+		orientationSystemId: yup.string().required(),
 		structureId: yup.string().required().min(1),
 		professionalAccountId: yup.string().nullable(),
 	});
@@ -135,7 +135,7 @@
 				selectLabel="Type d'orientation"
 				selectHint="Sélectionner un type d'orientation"
 				options={orientationSystemsOptions}
-				name="orientationType"
+				name="orientationSystemId"
 				on:select={(event) => {
 					orientationSystemSelected(event);
 					form.professionalAccountId = null;

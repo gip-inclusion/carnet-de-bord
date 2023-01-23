@@ -24,7 +24,7 @@ async def get_orientation_request_by_id(
 def get_accept_orientation_request_mutation(
     dsl_schema: DSLSchema,
     orientation_request_id: UUID,
-    orientation_type: str,
+    orientation_system_id: UUID,
 ) -> dict[str, DSLField]:
     return {
         "accept_orientation_request": dsl_schema.mutation_root.update_orientation_request_by_pk.args(
@@ -32,7 +32,7 @@ def get_accept_orientation_request_mutation(
             _set={
                 "decidedAt": "now",
                 "status": "accepted",
-                "decidedOrientationTypeId": orientation_type,
+                "decidedOrientationSystemId": str(orientation_system_id),
             },
         ).select(
             dsl_schema.orientation_request.id,

@@ -4,7 +4,7 @@ from asyncpg import Record
 from asyncpg.connection import Connection
 from gql.dsl import DSLField, DSLSchema
 
-from cdb.api.db.models.notebook_info import NotebookInfo, OrientationType
+from cdb.api.db.models.notebook_info import NotebookInfo
 
 
 def parse_notebook_info(record: Record) -> NotebookInfo:
@@ -14,19 +14,19 @@ def parse_notebook_info(record: Record) -> NotebookInfo:
 async def insert_or_update_need_orientation(
     connection: Connection,
     notebook_id: UUID,
-    orientation: OrientationType | None,
+    orientation_system_id: UUID | None,
     need_orientation: bool,
 ) -> NotebookInfo | None:
     record = await connection.fetchrow(
         """
-        INSERT INTO public.notebook_info (notebook_id, orientation, need_orientation)
+        INSERT INTO public.notebook_info (notebook_id, orientation_system_id, need_orientation)
         VALUES ($1, $2, $3)
         ON CONFLICT ON CONSTRAINT notebook_info_pkey
         DO UPDATE SET need_orientation = $3
-        RETURNING notebook_id, orientation, need_orientation, created_at, updated_at
+        RETURNING notebook_id, orientation_system_id, need_orientation, created_at, updated_at
         """,
         notebook_id,
-        orientation,
+        orientation_system_id,
         need_orientation,
     )
 
@@ -51,18 +51,18 @@ async def get_notebook_info(
 def get_insert_notebook_info_mutation(
     dsl_schema: DSLSchema,
     notebook_id: UUID,
-    orientation_type: str,
+    orientation_system_id: UUID,
 ) -> dict[str, DSLField]:
     return {
         "add_notebook_info": dsl_schema.mutation_root.insert_notebook_info_one.args(
             object={
                 "notebookId": str(notebook_id),
-                "orientation": orientation_type,
+                "orientationSystemId": str(orientation_system_id),
                 "needOrientation": False,
             },
             on_conflict={
                 "constraint": "notebook_info_pkey",
-                "update_columns": ["orientation", "needOrientation"],
+                "update_columns": ["orientationSystemId", "needOrientation"],
             },
         ).select(dsl_schema.notebook_info.notebookId)
     }

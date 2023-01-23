@@ -149,7 +149,7 @@ def notify_former_referents(
             send_notebook_member_email,
             to_email=referent.email,
             beneficiary=beneficiary,
-            orientation=None,
+            orientation_system=None,
             former_referents=former_referents,
             new_structure=orientation_info.new_structure["name"],
             new_referent=Member.parse_from_gql(orientation_info.new_referent)

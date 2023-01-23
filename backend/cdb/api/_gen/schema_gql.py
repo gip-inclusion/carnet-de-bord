@@ -9032,10 +9032,10 @@ type notebook_info {
   """An object relationship"""
   notebook: notebook!
   notebookId: uuid!
-  orientation: orientation_type_enum
 
   """An object relationship"""
-  orientationType: orientation_type
+  orientationSystem: orientation_system
+  orientationSystemId: uuid
   updatedAt: timestamptz!
 }
 
@@ -9047,33 +9047,6 @@ type notebook_info_aggregate {
   nodes: [notebook_info!]!
 }
 
-input notebook_info_aggregate_bool_exp {
-  bool_and: notebook_info_aggregate_bool_exp_bool_and
-  bool_or: notebook_info_aggregate_bool_exp_bool_or
-  count: notebook_info_aggregate_bool_exp_count
-}
-
-input notebook_info_aggregate_bool_exp_bool_and {
-  arguments: notebook_info_select_column_notebook_info_aggregate_bool_exp_bool_and_arguments_columns!
-  distinct: Boolean
-  filter: notebook_info_bool_exp
-  predicate: Boolean_comparison_exp!
-}
-
-input notebook_info_aggregate_bool_exp_bool_or {
-  arguments: notebook_info_select_column_notebook_info_aggregate_bool_exp_bool_or_arguments_columns!
-  distinct: Boolean
-  filter: notebook_info_bool_exp
-  predicate: Boolean_comparison_exp!
-}
-
-input notebook_info_aggregate_bool_exp_count {
-  arguments: [notebook_info_select_column!]
-  distinct: Boolean
-  filter: notebook_info_bool_exp
-  predicate: Int_comparison_exp!
-}
-
 """
 aggregate fields of "notebook_info"
 """
@@ -9081,25 +9054,6 @@ type notebook_info_aggregate_fields {
   count(columns: [notebook_info_select_column!], distinct: Boolean): Int!
   max: notebook_info_max_fields
   min: notebook_info_min_fields
-}
-
-"""
-order by aggregate values of table "notebook_info"
-"""
-input notebook_info_aggregate_order_by {
-  count: order_by
-  max: notebook_info_max_order_by
-  min: notebook_info_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "notebook_info"
-"""
-input notebook_info_arr_rel_insert_input {
-  data: [notebook_info_insert_input!]!
-
-  """upsert condition"""
-  on_conflict: notebook_info_on_conflict
 }
 
 """
@@ -9113,8 +9067,8 @@ input notebook_info_bool_exp {
   needOrientation: Boolean_comparison_exp
   notebook: notebook_bool_exp
   notebookId: uuid_comparison_exp
-  orientation: orientation_type_enum_comparison_exp
-  orientationType: orientation_type_bool_exp
+  orientationSystem: orientation_system_bool_exp
+  orientationSystemId: uuid_comparison_exp
   updatedAt: timestamptz_comparison_exp
 }
 
@@ -9136,8 +9090,8 @@ input notebook_info_insert_input {
   needOrientation: Boolean
   notebook: notebook_obj_rel_insert_input
   notebookId: uuid
-  orientation: orientation_type_enum
-  orientationType: orientation_type_obj_rel_insert_input
+  orientationSystem: orientation_system_obj_rel_insert_input
+  orientationSystemId: uuid
   updatedAt: timestamptz
 }
 
@@ -9145,32 +9099,16 @@ input notebook_info_insert_input {
 type notebook_info_max_fields {
   createdAt: timestamptz
   notebookId: uuid
+  orientationSystemId: uuid
   updatedAt: timestamptz
-}
-
-"""
-order by max() on columns of table "notebook_info"
-"""
-input notebook_info_max_order_by {
-  createdAt: order_by
-  notebookId: order_by
-  updatedAt: order_by
 }
 
 """aggregate min on columns"""
 type notebook_info_min_fields {
   createdAt: timestamptz
   notebookId: uuid
+  orientationSystemId: uuid
   updatedAt: timestamptz
-}
-
-"""
-order by min() on columns of table "notebook_info"
-"""
-input notebook_info_min_order_by {
-  createdAt: order_by
-  notebookId: order_by
-  updatedAt: order_by
 }
 
 """
@@ -9209,8 +9147,8 @@ input notebook_info_order_by {
   needOrientation: order_by
   notebook: notebook_order_by
   notebookId: order_by
-  orientation: order_by
-  orientationType: orientation_type_order_by
+  orientationSystem: orientation_system_order_by
+  orientationSystemId: order_by
   updatedAt: order_by
 }
 
@@ -9233,26 +9171,10 @@ enum notebook_info_select_column {
   notebookId
 
   """column name"""
-  orientation
+  orientationSystemId
 
   """column name"""
   updatedAt
-}
-
-"""
-select "notebook_info_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notebook_info"
-"""
-enum notebook_info_select_column_notebook_info_aggregate_bool_exp_bool_and_arguments_columns {
-  """column name"""
-  needOrientation
-}
-
-"""
-select "notebook_info_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notebook_info"
-"""
-enum notebook_info_select_column_notebook_info_aggregate_bool_exp_bool_or_arguments_columns {
-  """column name"""
-  needOrientation
 }
 
 """
@@ -9262,7 +9184,7 @@ input notebook_info_set_input {
   createdAt: timestamptz
   needOrientation: Boolean
   notebookId: uuid
-  orientation: orientation_type_enum
+  orientationSystemId: uuid
   updatedAt: timestamptz
 }
 
@@ -9282,7 +9204,7 @@ input notebook_info_stream_cursor_value_input {
   createdAt: timestamptz
   needOrientation: Boolean
   notebookId: uuid
-  orientation: orientation_type_enum
+  orientationSystemId: uuid
   updatedAt: timestamptz
 }
 
@@ -9300,7 +9222,7 @@ enum notebook_info_update_column {
   notebookId
 
   """column name"""
-  orientation
+  orientationSystemId
 
   """column name"""
   updatedAt
@@ -10961,20 +10883,14 @@ type orientation_request {
   decidedAt: timestamptz
 
   """An object relationship"""
-  decidedOrientationType: orientation_type
-  decidedOrientationTypeId: orientation_type_enum
-
-  """An object relationship"""
-  decided_orientation_type: orientation_type
+  decidedOrientationSystem: orientation_system
+  decidedOrientationSystemId: uuid
   id: uuid!
   reason: String
 
   """An object relationship"""
-  requestedOrientationType: orientation_type
-  requestedOrientationTypeId: orientation_type_enum!
-
-  """An object relationship"""
-  requested_orientation_type: orientation_type
+  requestedOrientationSystem: orientation_system
+  requestedOrientationSystemId: uuid
 
   """An object relationship"""
   requestor: account
@@ -11041,14 +10957,12 @@ input orientation_request_bool_exp {
   beneficiaryId: uuid_comparison_exp
   createdAt: timestamptz_comparison_exp
   decidedAt: timestamptz_comparison_exp
-  decidedOrientationType: orientation_type_bool_exp
-  decidedOrientationTypeId: orientation_type_enum_comparison_exp
-  decided_orientation_type: orientation_type_bool_exp
+  decidedOrientationSystem: orientation_system_bool_exp
+  decidedOrientationSystemId: uuid_comparison_exp
   id: uuid_comparison_exp
   reason: String_comparison_exp
-  requestedOrientationType: orientation_type_bool_exp
-  requestedOrientationTypeId: orientation_type_enum_comparison_exp
-  requested_orientation_type: orientation_type_bool_exp
+  requestedOrientationSystem: orientation_system_bool_exp
+  requestedOrientationSystemId: uuid_comparison_exp
   requestor: account_bool_exp
   requestor_account_id: uuid_comparison_exp
   status: String_comparison_exp
@@ -11073,14 +10987,12 @@ input orientation_request_insert_input {
   beneficiaryId: uuid
   createdAt: timestamptz
   decidedAt: timestamptz
-  decidedOrientationType: orientation_type_obj_rel_insert_input
-  decidedOrientationTypeId: orientation_type_enum
-  decided_orientation_type: orientation_type_obj_rel_insert_input
+  decidedOrientationSystem: orientation_system_obj_rel_insert_input
+  decidedOrientationSystemId: uuid
   id: uuid
   reason: String
-  requestedOrientationType: orientation_type_obj_rel_insert_input
-  requestedOrientationTypeId: orientation_type_enum
-  requested_orientation_type: orientation_type_obj_rel_insert_input
+  requestedOrientationSystem: orientation_system_obj_rel_insert_input
+  requestedOrientationSystemId: uuid
   requestor: account_obj_rel_insert_input
   requestor_account_id: uuid
   status: String
@@ -11092,8 +11004,10 @@ type orientation_request_max_fields {
   beneficiaryId: uuid
   createdAt: timestamptz
   decidedAt: timestamptz
+  decidedOrientationSystemId: uuid
   id: uuid
   reason: String
+  requestedOrientationSystemId: uuid
   requestor_account_id: uuid
   status: String
   updatedAt: timestamptz
@@ -11106,8 +11020,10 @@ input orientation_request_max_order_by {
   beneficiaryId: order_by
   createdAt: order_by
   decidedAt: order_by
+  decidedOrientationSystemId: order_by
   id: order_by
   reason: order_by
+  requestedOrientationSystemId: order_by
   requestor_account_id: order_by
   status: order_by
   updatedAt: order_by
@@ -11118,8 +11034,10 @@ type orientation_request_min_fields {
   beneficiaryId: uuid
   createdAt: timestamptz
   decidedAt: timestamptz
+  decidedOrientationSystemId: uuid
   id: uuid
   reason: String
+  requestedOrientationSystemId: uuid
   requestor_account_id: uuid
   status: String
   updatedAt: timestamptz
@@ -11132,8 +11050,10 @@ input orientation_request_min_order_by {
   beneficiaryId: order_by
   createdAt: order_by
   decidedAt: order_by
+  decidedOrientationSystemId: order_by
   id: order_by
   reason: order_by
+  requestedOrientationSystemId: order_by
   requestor_account_id: order_by
   status: order_by
   updatedAt: order_by
@@ -11165,14 +11085,12 @@ input orientation_request_order_by {
   beneficiaryId: order_by
   createdAt: order_by
   decidedAt: order_by
-  decidedOrientationType: orientation_type_order_by
-  decidedOrientationTypeId: order_by
-  decided_orientation_type: orientation_type_order_by
+  decidedOrientationSystem: orientation_system_order_by
+  decidedOrientationSystemId: order_by
   id: order_by
   reason: order_by
-  requestedOrientationType: orientation_type_order_by
-  requestedOrientationTypeId: order_by
-  requested_orientation_type: orientation_type_order_by
+  requestedOrientationSystem: orientation_system_order_by
+  requestedOrientationSystemId: order_by
   requestor: account_order_by
   requestor_account_id: order_by
   status: order_by
@@ -11198,7 +11116,7 @@ enum orientation_request_select_column {
   decidedAt
 
   """column name"""
-  decidedOrientationTypeId
+  decidedOrientationSystemId
 
   """column name"""
   id
@@ -11207,7 +11125,7 @@ enum orientation_request_select_column {
   reason
 
   """column name"""
-  requestedOrientationTypeId
+  requestedOrientationSystemId
 
   """column name"""
   requestor_account_id
@@ -11226,10 +11144,10 @@ input orientation_request_set_input {
   beneficiaryId: uuid
   createdAt: timestamptz
   decidedAt: timestamptz
-  decidedOrientationTypeId: orientation_type_enum
+  decidedOrientationSystemId: uuid
   id: uuid
   reason: String
-  requestedOrientationTypeId: orientation_type_enum
+  requestedOrientationSystemId: uuid
   requestor_account_id: uuid
   status: String
   updatedAt: timestamptz
@@ -11251,10 +11169,10 @@ input orientation_request_stream_cursor_value_input {
   beneficiaryId: uuid
   createdAt: timestamptz
   decidedAt: timestamptz
-  decidedOrientationTypeId: orientation_type_enum
+  decidedOrientationSystemId: uuid
   id: uuid
   reason: String
-  requestedOrientationTypeId: orientation_type_enum
+  requestedOrientationSystemId: uuid
   requestor_account_id: uuid
   status: String
   updatedAt: timestamptz
@@ -11274,7 +11192,7 @@ enum orientation_request_update_column {
   decidedAt
 
   """column name"""
-  decidedOrientationTypeId
+  decidedOrientationSystemId
 
   """column name"""
   id
@@ -11283,7 +11201,7 @@ enum orientation_request_update_column {
   reason
 
   """column name"""
-  requestedOrientationTypeId
+  requestedOrientationSystemId
 
   """column name"""
   requestor_account_id
@@ -11431,6 +11349,17 @@ type orientation_system_aggregate {
   nodes: [orientation_system!]!
 }
 
+input orientation_system_aggregate_bool_exp {
+  count: orientation_system_aggregate_bool_exp_count
+}
+
+input orientation_system_aggregate_bool_exp_count {
+  arguments: [orientation_system_select_column!]
+  distinct: Boolean
+  filter: orientation_system_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "orientation_system"
 """
@@ -11438,6 +11367,25 @@ type orientation_system_aggregate_fields {
   count(columns: [orientation_system_select_column!], distinct: Boolean): Int!
   max: orientation_system_max_fields
   min: orientation_system_min_fields
+}
+
+"""
+order by aggregate values of table "orientation_system"
+"""
+input orientation_system_aggregate_order_by {
+  count: order_by
+  max: orientation_system_max_order_by
+  min: orientation_system_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "orientation_system"
+"""
+input orientation_system_arr_rel_insert_input {
+  data: [orientation_system_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: orientation_system_on_conflict
 }
 
 """
@@ -11494,12 +11442,32 @@ type orientation_system_max_fields {
   updatedAt: timestamptz
 }
 
+"""
+order by max() on columns of table "orientation_system"
+"""
+input orientation_system_max_order_by {
+  createdAt: order_by
+  id: order_by
+  name: order_by
+  updatedAt: order_by
+}
+
 """aggregate min on columns"""
 type orientation_system_min_fields {
   createdAt: timestamptz
   id: uuid
   name: String
   updatedAt: timestamptz
+}
+
+"""
+order by min() on columns of table "orientation_system"
+"""
+input orientation_system_min_order_by {
+  createdAt: order_by
+  id: order_by
+  name: order_by
+  updatedAt: order_by
 }
 
 """
@@ -11633,9 +11601,9 @@ type orientation_type {
   label: String!
 
   """An array relationship"""
-  notebook_infos(
+  orientationType(
     """distinct select on columns"""
-    distinct_on: [notebook_info_select_column!]
+    distinct_on: [orientation_system_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -11644,16 +11612,16 @@ type orientation_type {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [notebook_info_order_by!]
+    order_by: [orientation_system_order_by!]
 
     """filter the rows returned"""
-    where: notebook_info_bool_exp
-  ): [notebook_info!]!
+    where: orientation_system_bool_exp
+  ): [orientation_system!]!
 
   """An aggregate relationship"""
-  notebook_infos_aggregate(
+  orientationType_aggregate(
     """distinct select on columns"""
-    distinct_on: [notebook_info_select_column!]
+    distinct_on: [orientation_system_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -11662,11 +11630,11 @@ type orientation_type {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [notebook_info_order_by!]
+    order_by: [orientation_system_order_by!]
 
     """filter the rows returned"""
-    where: notebook_info_bool_exp
-  ): notebook_info_aggregate!
+    where: orientation_system_bool_exp
+  ): orientation_system_aggregate!
 }
 
 """
@@ -11695,8 +11663,8 @@ input orientation_type_bool_exp {
   _or: [orientation_type_bool_exp!]
   id: String_comparison_exp
   label: String_comparison_exp
-  notebook_infos: notebook_info_bool_exp
-  notebook_infos_aggregate: notebook_info_aggregate_bool_exp
+  orientationType: orientation_system_bool_exp
+  orientationType_aggregate: orientation_system_aggregate_bool_exp
 }
 
 """
@@ -11737,7 +11705,7 @@ input type for inserting data into table "orientation_type"
 input orientation_type_insert_input {
   id: String
   label: String
-  notebook_infos: notebook_info_arr_rel_insert_input
+  orientationType: orientation_system_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -11786,7 +11754,7 @@ input orientation_type_on_conflict {
 input orientation_type_order_by {
   id: order_by
   label: order_by
-  notebook_infos_aggregate: notebook_info_aggregate_order_by
+  orientationType_aggregate: orientation_system_aggregate_order_by
 }
 
 """primary key columns input for table: orientation_type"""

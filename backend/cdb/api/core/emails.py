@@ -5,7 +5,7 @@ from cdb.api.core.jinja import jinja_env
 from cdb.api.core.sendmail import send_mail
 from cdb.api.core.settings import settings
 from cdb.api.db.models.email import Member, Person, StructureWithBeneficiaries
-from cdb.api.db.models.orientation_type import OrientationType
+from cdb.api.db.models.orientation_system import OrientationSystem
 
 
 def create_magic_link(access_key: UUID, redirect_path: str | None = None) -> str:
@@ -40,7 +40,7 @@ def send_invitation_email(
 def send_notebook_member_email(
     to_email: str,
     beneficiary: Person,
-    orientation: OrientationType | None,
+    orientation_system: OrientationSystem | None,
     former_referents: list[Member],
     new_referent: Member | None,
     new_structure: str | None,
@@ -52,7 +52,7 @@ def send_notebook_member_email(
 
     message = template.render(
         beneficiary=beneficiary,
-        orientation=orientation,
+        orientation=orientation_system,
         former_referents=former_referents,
         new_referent=new_referent,
         new_structure=new_structure,
