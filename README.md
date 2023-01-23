@@ -24,7 +24,7 @@ La plateforme est hébergée et opérée en production par les équipes et au se
 ![Architecture applicative du projet](./docs/cdb-architecture.png)
 
 La plateforme Carnet de bord est constituée des briques applicatives suivantes :
-- une application cliente SSR en TypeScript / **SvelteKit** et en ELM (front-end)
+- une application cliente SSR en TypeScript / **SvelteKit** et en **Elm** (front-end)
 - une instance **Hasura** permettant au client de requêter la base en lecture + écriture (avec gestion des droits et scopes) via GraphQL (back-for-front)
 - une base de données **PostgreSQL**
 - une API métier en Python / **FastAPI** (back-end)
