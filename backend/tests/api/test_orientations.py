@@ -133,7 +133,6 @@ async def test_change_orientation_assign_to_structure_not_referent(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
-            "orientation_type": OrientationType.social,
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": None,
