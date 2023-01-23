@@ -15918,6 +15918,7 @@ export type GetAccountsSummaryQuery = {
 		lastLogin?: string | null;
 		confirmed: boolean;
 		onboardingDone?: boolean | null;
+		deletedAt?: string | null;
 		orientation_manager?: {
 			__typename?: 'orientation_manager';
 			id: string;
@@ -18243,6 +18244,40 @@ export const GetProfessionalsForManagerDocument = {
 					{
 						kind: 'Field',
 						name: { kind: 'Name', value: 'professional' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'account' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deletedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
@@ -18480,6 +18515,40 @@ export const GetStructuresWithProDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'account' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deletedAt' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_is_null' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -19221,6 +19290,29 @@ export const GetDeploymentByIdDocument = {
 								value: {
 									kind: 'ObjectValue',
 									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'account' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deletedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'structure' },
@@ -21648,6 +21740,29 @@ export const SearchProfessionalDocument = {
 												],
 											},
 										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'account' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deletedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
 									],
 								},
 							},
@@ -21841,6 +21956,29 @@ export const SearchProfessionalDocument = {
 																			},
 																		],
 																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'account' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deletedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
 																},
 															],
 														},
@@ -24445,6 +24583,40 @@ export const GetDeploymentInfosDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'account' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deletedAt' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_is_null' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -24712,6 +24884,7 @@ export const GetAccountsSummaryDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'lastLogin' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'confirmed' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'onboardingDone' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'deletedAt' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'orientation_manager' },
@@ -24747,6 +24920,20 @@ export const GetAccountsSummaryDocument = {
 																	kind: 'ObjectField',
 																	name: { kind: 'Name', value: '_eq' },
 																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'memberType' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: { kind: 'StringValue', value: 'referent', block: false },
 																},
 															],
 														},
@@ -27562,6 +27749,40 @@ export const GetStructureDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'account' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deletedAt' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_is_null' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -28003,6 +28224,40 @@ export const GetManagedStructuresDocument = {
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'professionals_aggregate' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'account' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deletedAt' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_is_null' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
 									selectionSet: {
 										kind: 'SelectionSet',
 										selections: [
@@ -28614,6 +28869,29 @@ export const GetDeploymentStatForDayDocument = {
 																		kind: 'Variable',
 																		name: { kind: 'Name', value: 'deploymentId' },
 																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'account' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'deletedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
 																},
 															],
 														},

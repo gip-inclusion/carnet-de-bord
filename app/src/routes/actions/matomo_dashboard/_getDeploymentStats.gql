@@ -12,7 +12,10 @@ query GetDeploymentStatForDay($day: timestamptz!, $last30Days: timestamptz!, $de
     }
   }
   nbProfessionals: professional_aggregate(
-    where: { structure: { deploymentId: { _eq: $deploymentId } } }
+    where: {
+      structure: { deploymentId: { _eq: $deploymentId } }
+      account: { deletedAt: { _is_null: true } }
+    }
   ) {
     aggregate {
       count
@@ -63,7 +66,10 @@ query GetDeploymentStatForDay($day: timestamptz!, $last30Days: timestamptz!, $de
     }
   }
   nbNotbookWith2MembersOrMore: notebook_aggregate(
-    where: { notebookMemberCount: { _gte: 2 }, beneficiary: { deploymentId: { _eq: $deploymentId } } }
+    where: {
+      notebookMemberCount: { _gte: 2 }
+      beneficiary: { deploymentId: { _eq: $deploymentId } }
+    }
   ) {
     aggregate {
       count

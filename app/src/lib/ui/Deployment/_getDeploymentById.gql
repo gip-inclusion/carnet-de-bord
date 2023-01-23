@@ -23,7 +23,9 @@ query GetDeploymentById($id: uuid!) {
       }
     }
   }
-  professional_aggregate(where: { structure: { deploymentId: { _eq: $id } } }) {
+  professional_aggregate(
+    where: { account: { deletedAt: { _is_null: true } }, structure: { deploymentId: { _eq: $id } } }
+  ) {
     aggregate {
       count
     }

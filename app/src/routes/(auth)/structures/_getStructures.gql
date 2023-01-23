@@ -8,7 +8,7 @@ query GetManagedStructures($adminId: uuid!) {
         count
       }
     }
-    professionals_aggregate {
+    professionals_aggregate(where: { account: { deletedAt: { _is_null: true } } }) {
       aggregate {
         count
       }

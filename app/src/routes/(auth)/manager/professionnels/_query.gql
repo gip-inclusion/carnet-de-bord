@@ -14,6 +14,7 @@ query GetAccountsSummary {
     lastLogin
     confirmed
     onboardingDone
+    deletedAt
     orientation_manager {
       id
       firstname
@@ -21,7 +22,9 @@ query GetAccountsSummary {
       email
       phoneNumbers
     }
-    notebookCount: notebooksWhereMember_aggregate(where: { active: { _eq: true } }) {
+    notebookCount: notebooksWhereMember_aggregate(
+      where: { active: { _eq: true }, memberType: { _eq: "referent" } }
+    ) {
       aggregate {
         count
       }
