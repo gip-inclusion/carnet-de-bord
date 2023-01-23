@@ -32,8 +32,9 @@
 	function refreshStore() {
 		getStructure.reexecute({ requestPolicy: 'cache-and-network' });
 	}
-	$: beneficiaries = $getStructure.data?.beneficiaries?.aggregate?.count;
 	$: structure = $getStructure.data?.structure_by_pk;
+	$: supportedBeneficiairies = structure?.supportedBeneficiaries.aggregate.count;
+	$: unsupportedBeneficiairies = structure?.unsupportedBeneficiaries.aggregate.count;
 	$: members = structure?.admins_aggregate?.nodes?.map(({ admin_structure }) => admin_structure);
 	$: professionals = structure?.professionals;
 
@@ -56,21 +57,20 @@
 			link: `${data.structureId}/professionnels`,
 		},
 		{
-			label: `${pluralize('Bénéficiaire', beneficiaries)} ${pluralize(
+			label: `${pluralize('Bénéficiaire', supportedBeneficiairies)} ${pluralize(
 				'accompagné',
-				beneficiaries
+				supportedBeneficiairies
 			)}`,
-			amount: beneficiaries,
+			amount: supportedBeneficiairies,
 			link: `${data.structureId}/beneficiaires?filter=withMember`,
 		},
 		{
-			label: `${pluralize(
-				'Bénéficiaire',
-				structure?.beneficiaries?.aggregate?.count ?? 0
-			)} non ${pluralize('accompagné', structure?.beneficiaries?.aggregate?.count ?? 0)}`,
-			amount: structure?.beneficiaries?.aggregate?.count ?? 0,
-			classNames:
-				structure?.beneficiaries?.aggregate?.count > 0 ? 'text-marianne-red' : 'text-success',
+			label: `${pluralize('Bénéficiaire', unsupportedBeneficiairies)} non ${pluralize(
+				'accompagné',
+				unsupportedBeneficiairies
+			)}`,
+			amount: unsupportedBeneficiairies,
+			classNames: unsupportedBeneficiairies ? 'text-marianne-red' : 'text-success',
 			link: `${data.structureId}/beneficiaires?filter=noMember`,
 		},
 	];

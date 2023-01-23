@@ -91,53 +91,24 @@
 			},
 		};
 
-		if (filter === 'all' && structureId) {
-			graphqlFilter._or = [
-				{ structures: { status: { _neq: 'outdated' }, structureId: { _eq: structureId } } },
-				{
-					notebook: {
-						members: {
-							active: { _eq: true },
-							account: { professional: { structureId: { _eq: structureId } } },
-						},
-					},
-				},
-			];
+		if (structureId) {
+			graphqlFilter.structures = {
+				status: { _neq: 'outdated' },
+				structureId: { _eq: structureId },
+			};
 		}
 		if (filter === 'noMember') {
-			if (structureId) {
-				graphqlFilter.structures = {
-					status: { _neq: 'outdated' },
-					structureId: { _eq: structureId },
-				};
-				graphqlFilter.notebook = {
-					_not: {
-						members: {
-							active: { _eq: true },
-							account: { professional: { structureId: { _eq: structureId } } },
-						},
-					},
-				};
-			} else {
-				graphqlFilter.notebook = {
-					_not: { members: { active: { _eq: true }, memberType: { _eq: 'referent' } } },
-				};
-			}
+			graphqlFilter.notebook._and.push({
+				_not: { members: { active: { _eq: true }, memberType: { _eq: 'referent' } } },
+			});
 		}
 		if (filter === 'withMember') {
-			if (structureId) {
-				graphqlFilter.notebook = {
-					members: {
-						active: { _eq: true },
-						account: { professional: { structureId: { _eq: structureId } } },
-					},
-				};
-			} else {
-				graphqlFilter.notebook.members = {
+			graphqlFilter.notebook._and.push({
+				members: {
 					active: { _eq: true },
 					memberType: { _eq: 'referent' },
-				};
-			}
+				},
+			});
 		}
 		return graphqlFilter;
 	}
