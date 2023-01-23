@@ -1,3 +1,10 @@
+## [1.186.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.7...v1.186.8) (2023-01-23)
+
+
+### Bug Fixes
+
+* voir seulement les bénéficiaires de la structure ([#1449](https://github.com/gip-inclusion/carnet-de-bord/issues/1449)) ([4f93fc2](https://github.com/gip-inclusion/carnet-de-bord/commit/4f93fc202515618835fa6211f80e6103ec2917e9))
+
 ## [1.186.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.6...v1.186.7) (2023-01-23)
 
 ## [1.186.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.5...v1.186.6) (2023-01-22)
