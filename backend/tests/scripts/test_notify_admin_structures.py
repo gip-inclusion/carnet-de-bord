@@ -1,8 +1,6 @@
 from datetime import date
 from unittest import mock
 
-from asyncpg.connection import Connection
-
 from cdb.api.db.models.beneficiary import BeneficiaryWithAdminStructureEmail
 from cdb.api.db.models.orientation_type import OrientationType
 from cdb.scripts.notify_admin_structures.notify_admin_structures import (
@@ -19,8 +17,8 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        db_connection: Connection,
     ):
+        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = []
 
         await notify_admin_structures(db_connection)
@@ -31,10 +29,9 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        db_connection: Connection,
         snapshot,
     ):
-
+        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
                 firstname="Jay",
@@ -60,9 +57,9 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        db_connection: Connection,
         snapshot,
     ):
+        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
                 firstname="Jay",
@@ -107,9 +104,9 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        db_connection: Connection,
         snapshot,
     ):
+        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
                 firstname="Jay",
