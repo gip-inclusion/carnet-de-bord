@@ -32,7 +32,7 @@ Fonctionnalité: Rattachement d'un pro par un chargé d'orientation
 		Quand je clique sur "Rattacher"
 		Alors je vois "Réorienter"
 		Alors j'attends que le texte "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent" apparaisse
-		Alors je selectionne l'option "Social" dans la liste "Type d'orientation"
+		Alors je selectionne l'option "Socio-pro" dans la liste "Type d'orientation"
 		Alors je selectionne l'option "Service Social Départemental (2)" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider" dans le volet
 		Alors je ne vois pas "Henderson"

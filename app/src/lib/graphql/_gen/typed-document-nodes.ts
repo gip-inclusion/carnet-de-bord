@@ -14464,13 +14464,6 @@ export type GetOrientationManagerQuery = {
 	}>;
 };
 
-export type GetOrientationTypeQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetOrientationTypeQuery = {
-	__typename?: 'query_root';
-	orientation_type: Array<{ __typename?: 'orientation_type'; id: string; label: string }>;
-};
-
 export type GetProfessionalsForManagerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfessionalsForManagerQuery = {
@@ -14855,6 +14848,18 @@ export type InsertOrientationRequestMutationVariables = Exact<{
 export type InsertOrientationRequestMutation = {
 	__typename?: 'mutation_root';
 	insert_orientation_request_one?: { __typename?: 'orientation_request'; id: string } | null;
+};
+
+export type GetOrientationSystemQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetOrientationSystemQuery = {
+	__typename?: 'query_root';
+	orientation_system: Array<{
+		__typename?: 'orientation_system';
+		id: string;
+		name: string;
+		orientationType: OrientationTypeEnum;
+	}>;
 };
 
 export type AddNotebookActionMutationVariables = Exact<{
@@ -18287,32 +18292,6 @@ export const GetOrientationManagerDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetOrientationManagerQuery, GetOrientationManagerQueryVariables>;
-export const GetOrientationTypeDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'getOrientationType' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'orientation_type' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetOrientationTypeQuery, GetOrientationTypeQueryVariables>;
 export const GetProfessionalsForManagerDocument = {
 	kind: 'Document',
 	definitions: [
@@ -20987,6 +20966,33 @@ export const InsertOrientationRequestDocument = {
 	InsertOrientationRequestMutation,
 	InsertOrientationRequestMutationVariables
 >;
+export const GetOrientationSystemDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'getOrientationSystem' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'orientation_system' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<GetOrientationSystemQuery, GetOrientationSystemQueryVariables>;
 export const AddNotebookActionDocument = {
 	kind: 'Document',
 	definitions: [
@@ -30662,10 +30668,6 @@ export type GetOrientationManagerQueryStore = OperationStore<
 	GetOrientationManagerQuery,
 	GetOrientationManagerQueryVariables
 >;
-export type GetOrientationTypeQueryStore = OperationStore<
-	GetOrientationTypeQuery,
-	GetOrientationTypeQueryVariables
->;
 export type GetProfessionalsForManagerQueryStore = OperationStore<
 	GetProfessionalsForManagerQuery,
 	GetProfessionalsForManagerQueryVariables
@@ -30737,6 +30739,10 @@ export type GetProfessionalsForDeploymentQueryStore = OperationStore<
 export type InsertOrientationRequestMutationStore = OperationStore<
 	InsertOrientationRequestMutation,
 	InsertOrientationRequestMutationVariables
+>;
+export type GetOrientationSystemQueryStore = OperationStore<
+	GetOrientationSystemQuery,
+	GetOrientationSystemQueryVariables
 >;
 export type AddNotebookActionMutationStore = OperationStore<
 	AddNotebookActionMutation,

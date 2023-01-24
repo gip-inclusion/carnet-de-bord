@@ -130,9 +130,17 @@ INSERT INTO public.account (id, username, type, access_key, access_key_date, las
 -- Simon Anka
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('74323049-eae6-4ccd-b596-e95514a32781', '8b71184c-6479-4440-aa89-15da704cc792', 'sanka@groupe-ns.fr', 'Anka', 'Simon', 'Conseiller en Insertion Professionnel', NULL);
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('a501db53-1b79-4a60-860b-5972bd184f98', 'sanka', 'professional', NULL, NULL, NULL, NULL, '74323049-eae6-4ccd-b596-e95514a32781', NULL, true, true);
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('8b50c44d-d6b5-4598-854e-a585cd7b916e', '2021-09-21 13:06:45.076+00', '74323049-eae6-4ccd-b596-e95514a32781', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('fecb0f38-efd8-45f1-a89d-8e58ec8195fd', '2021-09-21 13:06:45.076+00', '74323049-eae6-4ccd-b596-e95514a32781', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
+
+
+
 -- Thierry Dunord
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b3', 'a81bc81b-dead-4e5d-abff-90865d1e13b2', 'dunord@pole-emploi.fr', 'Dunord', 'Thierry', 'Conseiller pôle emploi', '');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8173-40160958a33d', 'thierry.dunord', 'professional', NULL, NULL, '2021-08-23 07:59:48.689+00', NULL, 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, true, true);
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('1447db6c-5221-4b3e-a082-dbefa1b6c093', '2021-09-21 13:06:45.076+00', 'a81bc81b-dead-4e5d-abff-90865d1e13b3', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
+
+
 -- Jean Poiret
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);

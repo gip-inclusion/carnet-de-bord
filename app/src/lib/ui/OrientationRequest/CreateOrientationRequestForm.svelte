@@ -7,8 +7,8 @@
 	import { operationStore, query, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import {
-		GetOrientationTypeDocument,
-		type GetOrientationTypeQuery,
+		GetOrientationSystemDocument,
+		type GetOrientationSystemQuery,
 		InsertOrientationRequestDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
@@ -17,16 +17,22 @@
 
 	const initialValues = {};
 
-	const orientationTypeStore: OperationStore<GetOrientationTypeQuery> = operationStore(
-		GetOrientationTypeDocument
+	const orientationSystemStore: OperationStore<GetOrientationSystemQuery> = operationStore(
+		GetOrientationSystemDocument
 	);
-	query(orientationTypeStore);
+	query(orientationSystemStore);
 
-	$: orientationOptions =
-		$orientationTypeStore.data?.orientation_type.map(({ id, label }) => ({
-			name: id,
-			label: label,
-		})) ?? [];
+	$: orientationOptions = $orientationSystemStore?.data?.orientation_system.map(
+		(orientationSystem) => {
+			const formattedName = ['Pro', 'Social', 'Socio-pro'].includes(orientationSystem.name)
+				? orientationSystem.name
+				: `${orientationSystem.name} (${orientationSystem.orientationType})`;
+			return {
+				name: orientationSystem.id,
+				label: formattedName,
+			};
+		}
+	);
 
 	function close() {
 		openComponent.close();
@@ -63,7 +69,7 @@
 			recommandez.
 		</p>
 	</div>
-	<LoaderIndicator result={orientationTypeStore}>
+	<LoaderIndicator result={orientationSystemStore}>
 		<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:form>
 			<Textarea
 				name="reason"
