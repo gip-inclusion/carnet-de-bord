@@ -1,3 +1,10 @@
+# [1.187.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.8...v1.187.0) (2023-01-24)
+
+
+### Features
+
+* Notifier les administrateurs de structure des bénéficiaires qui n'ont pas de référent. ([#1454](https://github.com/gip-inclusion/carnet-de-bord/issues/1454)) ([93c9e34](https://github.com/gip-inclusion/carnet-de-bord/commit/93c9e342da2aa40c7b2f2b6681a5b580bb8ca68f))
+
 ## [1.186.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.7...v1.186.8) (2023-01-23)
 
 
