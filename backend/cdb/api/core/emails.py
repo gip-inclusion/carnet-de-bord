@@ -4,7 +4,7 @@ from uuid import UUID
 from cdb.api.core.jinja import jinja_env
 from cdb.api.core.sendmail import send_mail
 from cdb.api.core.settings import settings
-from cdb.api.db.models.email import Member, Person
+from cdb.api.db.models.email import Member, Person, StructureWithBeneficiaries
 from cdb.api.db.models.orientation_type import OrientationType
 
 
@@ -70,6 +70,22 @@ def send_deny_orientation_request_email(
 
     message = template.render(
         beneficiary=beneficiary,
+        url=settings.app_url,
+    )
+    send_mail(to=to_email, subject=subject, message=message)
+
+
+def send_beneficiaries_without_referent_to_admin_structure_email(
+    to_email: str,
+    structures: list[StructureWithBeneficiaries],
+) -> None:
+    template = jinja_env.get_template(
+        "beneficiaries_without_referent_to_admin_structure_email.html"
+    )
+    subject = "Nouveaux bénéficiaires sans référent"
+
+    message = template.render(
+        structures=structures,
         url=settings.app_url,
     )
     send_mail(to=to_email, subject=subject, message=message)
