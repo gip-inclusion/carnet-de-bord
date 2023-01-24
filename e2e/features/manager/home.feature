@@ -14,7 +14,7 @@ Fonctionnalité: Rattachement à une structure
 		Quand je clique sur "Non rattaché"
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
-		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
+		Alors je selectionne l'option "Pro" dans la liste "Type d'orientation"
 		Alors je selectionne l'option "AFPA (0)" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider"
 		Alors je vois "AFPA" sur la ligne "Aguilar"

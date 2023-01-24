@@ -166,6 +166,15 @@ INSERT INTO public.professional (id, structure_id, email, lastname, firstname ) 
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done, deleted_at) VALUES ('2c53c66b-09a3-4e44-a142-f2cf084680ce', 'sarah.vigote', 'professional', '44785e77-752d-4cc7-8454-37aeb2186678', true, true, '2022-03-24 17:22:38.219997+00');
 
 
+
+-- Hélène Arbol
+INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position") VALUES ('1540e75d-75da-4048-b442-0d1d4e65f104', '3b299bcb-445c-48db-bc61-e30cd52d65b6', 'helene.arbol@afpa.fr', 'Arbol', 'Hélène', 'Conseillere pro');
+INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('fd325e20-35a7-40e7-a03e-97c1792f89eb', 'helene.arbol', 'professional', '1540e75d-75da-4048-b442-0d1d4e65f104', true, true);
+
+
+INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('96d80594-ecff-4a43-82d4-a2bf6a04c66e', '2021-09-21 13:06:45.076+00', '1540e75d-75da-4048-b442-0d1d4e65f104', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
+
+
 -- Orientation managers:
 -- Giulia Diaby
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('607cb6f8-9e33-4ce8-98b1-38e60c9dda99', 'giulia.diaby@cd93.fr', 'Diaby', 'Giulia', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
