@@ -12,6 +12,7 @@
 		InsertOrientationRequestDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
+	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let beneficiaryId: string;
 
@@ -24,12 +25,9 @@
 
 	$: orientationOptions = $orientationSystemStore?.data?.orientation_system.map(
 		(orientationSystem) => {
-			const formattedName = ['Pro', 'Social', 'Socio-pro'].includes(orientationSystem.name)
-				? orientationSystem.name
-				: `${orientationSystem.name} (${orientationSystem.orientationType})`;
 			return {
 				name: orientationSystem.id,
-				label: formattedName,
+				label: getOrientationSystemLabel(orientationSystem),
 			};
 		}
 	);

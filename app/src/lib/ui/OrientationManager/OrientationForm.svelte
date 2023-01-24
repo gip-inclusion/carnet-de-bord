@@ -20,6 +20,7 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { connectedUser, openComponent } from '$lib/stores';
 	import { displayFullName } from '../format';
+	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let displayError = false;
 	export let formTitle = 'Réorienter';
@@ -44,12 +45,9 @@
 		$getProfessionals.data?.professional
 			.flatMap(({ orientationSystems }) => {
 				return orientationSystems.map(({ orientationSystem }) => {
-					const formattedName = ['Pro', 'Social', 'Socio-pro'].includes(orientationSystem.name)
-						? orientationSystem.name
-						: `${orientationSystem.name} (${orientationSystem.orientationType})`;
 					return {
 						name: orientationSystem.id,
-						label: formattedName,
+						label: getOrientationSystemLabel(orientationSystem),
 					};
 				});
 			})
