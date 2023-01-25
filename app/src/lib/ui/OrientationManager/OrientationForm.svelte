@@ -3,7 +3,7 @@
 
 	const validationSchema = yup.object().shape({
 		orientationSystemId: yup.string().required(),
-		structureId: yup.string().required().min(1),
+		structureId: yup.string().uuid().required().min(1),
 		professionalAccountId: yup.string().nullable(),
 	});
 	export type OrientationValidationSchema = yup.InferType<typeof validationSchema>;
