@@ -88,7 +88,7 @@
 		$getProfessionals.data?.professional
 			// Get professionals corresponding to the selected structures
 			.filter(({ structure }) => structure.id == selectedStructureId)
-			//Get professionnals that have the selected orientation system attached
+			// Get professionnals that have the selected orientation system attached
 			.filter(({ orientationSystems }) =>
 				orientationSystems
 					.map(({ orientationSystemId }) => orientationSystemId)
