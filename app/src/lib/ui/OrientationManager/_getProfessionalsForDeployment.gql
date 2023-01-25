@@ -1,5 +1,10 @@
 query getProfessionalsForDeployment($deploymentId: uuid!) {
-  professional(where: { structure: { deploymentId: { _eq: $deploymentId } } }) {
+  professional(
+    where: {
+      structure: { deploymentId: { _eq: $deploymentId } }
+      account: { deletedAt: { _is_null: true } }
+    }
+  ) {
     firstname
     lastname
     account {
