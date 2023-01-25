@@ -1,6 +1,8 @@
 -- merge deployment_orientation_system with orientation_system
 
-alter table "public"."orientation_system" add column "deployment_id" uuid null;
+TRUNCATE orientation_system CASCADE;
+
+alter table "public"."orientation_system" add column "deployment_id" uuid not null;
 
 alter table "public"."orientation_system"
   add constraint "orientation_system_deployment_id_fkey"
@@ -8,12 +10,16 @@ alter table "public"."orientation_system"
   references "public"."deployment"
   ("id") on update restrict on delete restrict;
 
-UPDATE orientation_system
-SET deployment_id = deployment_orientation_system.deployment_id
-FROM deployment_orientation_system
-WHERE deployment_orientation_system.orientation_system_id = orientation_system.id;
 
-alter table "public"."orientation_system" alter column "deployment_id" set not null;
+INSERT INTO orientation_system(name, orientation_type, deployment_id)
+SELECT 'Pro', 'pro', id from deployment;
+
+INSERT INTO orientation_system(name, orientation_type, deployment_id)
+SELECT 'Socio-pro', 'sociopro', id from deployment;
+
+INSERT INTO orientation_system(name, orientation_type, deployment_id)
+SELECT 'Social', 'social', id from deployment;
+
 
 drop table deployment_orientation_system;
 
@@ -33,8 +39,11 @@ alter table "public"."notebook_info"
 
 UPDATE notebook_info
 SET orientation_system_id=orientation_system.id
-FROM orientation_system
+FROM orientation_system, notebook, beneficiary
 WHERE notebook_info.orientation=orientation_system.orientation_type
+	AND notebook_info.notebook_id = notebook.id
+	AND notebook.beneficiary_id = beneficiary.id
+	AND orientation_system.deployment_id = beneficiary.deployment_id
 	AND orientation_system.name IN ('Pro','Social','Socio-pro');
 
 alter table "public"."notebook_info" drop column "orientation" cascade;
@@ -60,14 +69,18 @@ alter table "public"."orientation_request"
 
 UPDATE orientation_request
 SET requested_orientation_system_id=orientation_system.id
-FROM orientation_system
+FROM orientation_system, beneficiary
 WHERE orientation_request.requested_orientation_type_id=orientation_system.orientation_type
+	AND orientation_request.beneficiary_id = beneficiary.id
+	AND orientation_system.deployment_id = beneficiary.deployment_id
 	AND name IN ('Pro','Social','Socio-pro');
 
 UPDATE orientation_request
 SET decided_orientation_system_id=orientation_system.id
-FROM orientation_system
+FROM orientation_system, beneficiary
 WHERE orientation_request.decided_orientation_type_id=orientation_system.orientation_type
+	AND orientation_request.beneficiary_id = beneficiary.id
+	AND orientation_system.deployment_id = beneficiary.deployment_id
 	AND name IN ('Pro','Social','Socio-pro');
 
 alter table "public"."orientation_request" alter column "requested_orientation_system_id" set not null;

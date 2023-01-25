@@ -1,4 +1,3 @@
-CREATE TABLE "public"."deployment_orientation_system" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "created_at" timestamptz NOT NULL DEFAULT now(), "deployment_id" uuid NOT NULL, "orientation_system_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("deployment_id") REFERENCES "public"."deployment"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("orientation_system_id") REFERENCES "public"."orientation_system"("id") ON UPDATE cascade ON DELETE cascade);
 
 ALTER TABLE "notebook_info" ADD "orientation" text;
 
@@ -41,3 +40,7 @@ UPDATE "orientation_request"
 	WHERE "orientation_request"."decided_orientation_system_id"="orientation_system"."id";
 
 ALTER TABLE "orientation_request" DROP COLUMN "decided_orientation_system_id" CASCADE;
+
+CREATE TABLE "public"."deployment_orientation_system" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "created_at" timestamptz NOT NULL DEFAULT now(), "deployment_id" uuid NOT NULL, "orientation_system_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("deployment_id") REFERENCES "public"."deployment"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("orientation_system_id") REFERENCES "public"."orientation_system"("id") ON UPDATE cascade ON DELETE cascade);
+
+ALTER TABLE "orientation_system" DROP COLUMN "deployment_id" CASCADE;
