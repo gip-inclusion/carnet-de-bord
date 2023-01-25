@@ -12,13 +12,24 @@ alter table "public"."orientation_system"
 
 
 INSERT INTO orientation_system(name, orientation_type, deployment_id)
-SELECT 'Pro', 'pro', id from deployment;
+SELECT 'Pro', 'pro', id from deployment ON CONFLICT DO NOTHING;
 
 INSERT INTO orientation_system(name, orientation_type, deployment_id)
-SELECT 'Socio-pro', 'sociopro', id from deployment;
+SELECT 'Socio-pro', 'sociopro', id from deployment ON CONFLICT DO NOTHING;
 
 INSERT INTO orientation_system(name, orientation_type, deployment_id)
-SELECT 'Social', 'social', id from deployment;
+SELECT 'Social', 'social', id from deployment ON CONFLICT DO NOTHING;
+
+INSERT INTO structure_orientation_system(structure_id, orientation_system_id)
+	SELECT structure.id, orientation_system.id
+	FROM orientation_system, structure
+	WHERE orientation_system.deployment_id = structure.deployment_id;
+
+INSERT INTO professional_orientation_system(professional_id, orientation_system_id)
+	SELECT professional.id, orientation_system.id
+	FROM orientation_system, professional, structure
+	WHERE orientation_system.deployment_id = structure.deployment_id
+	AND professional.structure_id = structure.id;
 
 
 drop table deployment_orientation_system;
