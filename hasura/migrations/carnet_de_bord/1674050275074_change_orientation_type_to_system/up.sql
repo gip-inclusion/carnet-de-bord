@@ -10,19 +10,8 @@ alter table "public"."notebook_info"
   add constraint "notebook_info_orientation_system_id_fkey"
   foreign key ("orientation_system_id")
   references "public"."orientation_system"
-  ("id") on update cascade on delete cascade;
+  ("id") on update restrict on delete restrict;
 
-alter table "public"."notebook_info" drop constraint "notebook_info_orientation_system_id_fkey",
-  add constraint "notebook_info_orientation_system_id_fkey"
-  foreign key ("orientation_system_id")
-  references "public"."orientation_system"
-  ("id") on update set null on delete set null;
-
-alter table "public"."notebook_info" drop constraint "notebook_info_orientation_system_id_fkey",
-  add constraint "notebook_info_orientation_system_id_fkey"
-  foreign key ("orientation_system_id")
-  references "public"."orientation_system"
-  ("id") on update cascade on delete cascade;
 
 WITH subquery AS (
     SELECT id, orientation_type
@@ -48,13 +37,13 @@ alter table "public"."orientation_request"
   add constraint "orientation_request_requested_orientation_system_id_fkey"
   foreign key ("requested_orientation_system_id")
   references "public"."orientation_system"
-  ("id") on update cascade on delete cascade;
+  ("id") on update restrict on delete restrict;
 
 alter table "public"."orientation_request"
   add constraint "orientation_request_decided_orientation_system_id_fkey"
   foreign key ("decided_orientation_system_id")
   references "public"."orientation_system"
-  ("id") on update cascade on delete cascade;
+  ("id") on update restrict on delete restrict;
 
 WITH subquery AS (
     SELECT id, orientation_type
