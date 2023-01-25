@@ -10,6 +10,7 @@ alter table "public"."orientation_system"
   references "public"."deployment"
   ("id") on update restrict on delete restrict;
 
+CREATE UNIQUE INDEX "name_deployment_id_unique_idx" on "public"."orientation_system" (LOWER(trim(name)), deployment_id);
 
 INSERT INTO orientation_system(name, orientation_type, deployment_id)
 SELECT 'Pro', 'pro', id from deployment ON CONFLICT DO NOTHING;
@@ -20,16 +21,20 @@ SELECT 'Socio-pro', 'sociopro', id from deployment ON CONFLICT DO NOTHING;
 INSERT INTO orientation_system(name, orientation_type, deployment_id)
 SELECT 'Social', 'social', id from deployment ON CONFLICT DO NOTHING;
 
+alter table  structure_orientation_system add constraint "structure_orientation_system_structure_id_orientation_system_id_key" unique ("structure_id", "orientation_system_id");
 INSERT INTO structure_orientation_system(structure_id, orientation_system_id)
 	SELECT structure.id, orientation_system.id
 	FROM orientation_system, structure
-	WHERE orientation_system.deployment_id = structure.deployment_id;
+	WHERE orientation_system.deployment_id = structure.deployment_id
+	ON CONFLICT DO NOTHING;
 
+alter table  professional_orientation_system add constraint "professional_orientation_system_professional_id_orientation_system_id_key" unique ("professional_id", "orientation_system_id");
 INSERT INTO professional_orientation_system(professional_id, orientation_system_id)
 	SELECT professional.id, orientation_system.id
 	FROM orientation_system, professional, structure
 	WHERE orientation_system.deployment_id = structure.deployment_id
-	AND professional.structure_id = structure.id;
+	AND professional.structure_id = structure.id
+	ON CONFLICT DO NOTHING;
 
 
 drop table deployment_orientation_system;

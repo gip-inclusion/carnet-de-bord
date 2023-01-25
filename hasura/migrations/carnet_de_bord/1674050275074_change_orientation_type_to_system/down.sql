@@ -44,3 +44,7 @@ ALTER TABLE "orientation_request" DROP COLUMN "decided_orientation_system_id" CA
 CREATE TABLE "public"."deployment_orientation_system" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "created_at" timestamptz NOT NULL DEFAULT now(), "deployment_id" uuid NOT NULL, "orientation_system_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("deployment_id") REFERENCES "public"."deployment"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("orientation_system_id") REFERENCES "public"."orientation_system"("id") ON UPDATE cascade ON DELETE cascade);
 
 ALTER TABLE "orientation_system" DROP COLUMN "deployment_id" CASCADE;
+
+alter table  professional_orientation_system drop constraint "structure_orientation_system_structure_id_orientation_system_id_key";
+alter table  structure_orientation_system drop constraint "structure_orientation_system_structure_id_orientation_system_id_key";
+DROP INDEX IF EXISTS "name_deployment_id_unique_idx";
