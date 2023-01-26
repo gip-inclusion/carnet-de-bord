@@ -45,8 +45,8 @@ INSERT INTO public.deployment (id, label, config) VALUES ('c5c3a933-6f4a-4b2b-aa
 -- Orientation system
 INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('fc48d848-33bf-437a-9533-881e16ffa666', 'PE', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('9b44df64-1ad9-4001-97c7-1776fc878a17', 'RIA', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
-INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('f26ea5ba-e8a1-48ad-a031-f42d7f861008', 'Pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
-INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('7ea8a071-1ef8-4747-9cd8-9e68086df0e9', 'Socio-pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'sociopro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('f26ea5ba-e8a1-48ad-a031-f42d7f861008', 'Professionnel', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('7ea8a071-1ef8-4747-9cd8-9e68086df0e9', 'Socio-professionnel', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'sociopro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('cc92714c-db2c-4d49-a877-571ecc6138c2', 'Social', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'social', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 
 

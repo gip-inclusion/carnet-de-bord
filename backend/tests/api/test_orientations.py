@@ -454,5 +454,5 @@ async def test_unconsistent_orientation_request(
 async def test_orientation_system_label(
     orientation_system_pe: OrientationSystem, orientation_system_pro: OrientationSystem
 ):
-    assert orientation_system_pe.get_label() == "PE (Pro)"
-    assert orientation_system_pro.get_label() == "Pro"
+    assert orientation_system_pe.get_label() == "PE (Professionnel)"
+    assert orientation_system_pro.get_label() == "Professionnel"
