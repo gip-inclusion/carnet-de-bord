@@ -10,6 +10,7 @@ from pydantic import BaseModel
 
 from cdb.api._gen.schema_gql import schema
 from cdb.api.core.emails import Member, Person, send_notebook_member_email
+from cdb.api.core.init import connection
 from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary_structure import (
     get_deactivate_beneficiary_structure_mutation,
@@ -23,9 +24,10 @@ from cdb.api.db.crud.notebook_member import (
 )
 from cdb.api.db.crud.orientation_info import get_orientation_info
 from cdb.api.db.crud.orientation_request import get_accept_orientation_request_mutation
+from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
 from cdb.api.db.models.member_type import MemberTypeEnum
 from cdb.api.db.models.orientation_info import OrientationInfo
-from cdb.api.db.models.orientation_type import OrientationType
+from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.role import RoleEnum
 from cdb.api.v1.dependencies import allowed_jwt_roles
 
@@ -48,7 +50,7 @@ logger = logging.getLogger(__name__)
 
 class ChangeBeneficiaryOrientationInput(BaseModel):
     notebook_id: UUID
-    orientation_type: OrientationType
+    orientation_system_id: UUID
     structure_id: UUID
     orientation_request_id: UUID | None
     new_referent_account_id: UUID | None
@@ -59,6 +61,7 @@ async def change_beneficiary_orientation(
     data: ChangeBeneficiaryOrientationInput,
     background_tasks: BackgroundTasks,
     jwt_token: str = Header(default=None),
+    db=Depends(connection),
 ):
     """
     Change the beneficiary orientation
@@ -92,6 +95,19 @@ async def change_beneficiary_orientation(
             session, data.notebook_id, data.structure_id, data.new_referent_account_id
         )
 
+        orientation_system: OrientationSystem | None = None
+
+        async with db.transaction():
+            orientation_system = await get_orientation_system_by_id(
+                db, data.orientation_system_id
+            )
+
+            if orientation_system is None:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Orientation system with id '{data.orientationt_system_id}' not found.",
+                )
+
         dsl_schema = DSLSchema(schema=schema)
         mutations: dict[str, DSLField] = {}
 
@@ -123,11 +139,11 @@ async def change_beneficiary_orientation(
                 ) from exception
 
             mutations = mutations | get_accept_orientation_request_mutation(
-                dsl_schema, data.orientation_request_id, data.orientation_type
+                dsl_schema, data.orientation_request_id, data.orientation_system_id
             )
 
         mutations = mutations | get_insert_notebook_info_mutation(
-            dsl_schema, data.notebook_id, data.orientation_type
+            dsl_schema, data.notebook_id, data.orientation_system_id
         )
 
         structure_changed = (
@@ -187,7 +203,7 @@ async def change_beneficiary_orientation(
                 send_notebook_member_email,
                 to_email=referent.email,
                 beneficiary=beneficiary,
-                orientation=data.orientation_type,
+                orientation_system=orientation_system,
                 former_referents=former_referents,
                 new_structure=orientation_info.new_structure.get("name"),
                 new_referent=Member.parse_from_gql(orientation_info.new_referent)
@@ -204,8 +220,8 @@ async def change_beneficiary_orientation(
                 new_referent=new_referent,
                 beneficiary=beneficiary,
                 former_referents=former_referents,
-                orientation=data.orientation_type,
-                new_structure=orientation_info.new_structure.get("name"),
+                orientation_system=orientation_system,
+                new_structure=orientation_info.new_structure["name"],
             )
 
         return response

@@ -49,7 +49,7 @@
 					Demande de réorientation envoyée le {formatDateLocale(orientationRequest.createdAt)}
 				</p>
 				<p class="mb-0">
-					Orientation recommandée : {orientationRequest.requestedOrientationType.label}
+					Orientation recommandée : {orientationRequest.requestedOrientationSystem.name}
 				</p>
 			</div>
 			<div class="flex flex-row ml-auto items-center gap-6 ">

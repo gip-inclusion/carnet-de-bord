@@ -1,9 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Field
-
-from cdb.api.db.models.orientation_type import OrientationType
+from pydantic import BaseModel
 
 
 class OrientationRequest(BaseModel):
@@ -13,7 +11,7 @@ class OrientationRequest(BaseModel):
     decided_at: datetime | None
     beneficiary_id: UUID
     requestor_account_id: UUID
-    requested_orientation_type_id: OrientationType | None
-    decided_orientation_type_id: OrientationType | None
+    requested_orientation_system_id: UUID | None
+    decided_orientation_system_id: UUID | None
     status: str
     reason: str | None

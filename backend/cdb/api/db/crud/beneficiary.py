@@ -25,6 +25,7 @@ from cdb.api.db.models.beneficiary import (
     BeneficiaryWithAdminStructureEmail,
 )
 from cdb.api.db.models.notebook_member import NotebookMemberInsert
+from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
 
 logger = logging.getLogger(__name__)
@@ -354,7 +355,11 @@ async def get_beneficiaries_without_referent(
 ) -> list[BeneficiaryWithAdminStructureEmail]:
     rows: list[Record] = await connection.fetch(
         """
-SELECT b.firstname, b.lastname, b.date_of_birth, ni.orientation,
+SELECT b.firstname, b.lastname, b.date_of_birth,
+    os.id as orientation_id, os.name as orientation_name,
+    os.orientation_type as orientation_type,
+    os.created_at as orientation_created_at,
+    os.updated_at as orientation_updated_at,
     ads.email AS admin_structure_email, s.name AS structure_name
 FROM beneficiary AS b
 LEFT JOIN notebook AS n ON n.beneficiary_id = b.id
@@ -363,6 +368,7 @@ LEFT JOIN (
     SELECT * FROM notebook_member AS nm
     WHERE nm.active AND nm.member_type = 'referent'
     ) referent ON referent.notebook_id = n.id
+LEFT JOIN orientation_system AS os ON os.id = ni.orientation_system_id
 LEFT JOIN account_info  AS ai ON referent.account_id = ai.account_id
 LEFT JOIN beneficiary_structure bs ON bs.beneficiary_id = b.id
 LEFT JOIN admin_structure_structure ass ON ass.structure_id = bs.structure_id
@@ -379,7 +385,15 @@ ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth A
             firstname=row["firstname"],
             lastname=row["lastname"],
             date_of_birth=row["date_of_birth"],
-            orientation=row["orientation"],
+            orientation=OrientationSystem(
+                id=row["orientation_id"],
+                name=row["orientation_name"],
+                orientation_type=row["orientation_type"],
+                created_at=row["orientation_created_at"],
+                updated_at=row["orientation_updated_at"],
+            )
+            if row["orientation_id"] is not None
+            else None,
         )
         for row in rows
     ]

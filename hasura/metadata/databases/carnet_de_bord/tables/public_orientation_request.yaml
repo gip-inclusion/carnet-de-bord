@@ -9,18 +9,18 @@ configuration:
       custom_name: createdAt
     decided_at:
       custom_name: decidedAt
-    decided_orientation_type_id:
-      custom_name: decidedOrientationTypeId
-    requested_orientation_type_id:
-      custom_name: requestedOrientationTypeId
+    decided_orientation_system_id:
+      custom_name: decidedOrientationSystemId
+    requested_orientation_system_id:
+      custom_name: requestedOrientationSystemId
     updated_at:
       custom_name: updatedAt
   custom_column_names:
     beneficiary_id: beneficiaryId
     created_at: createdAt
     decided_at: decidedAt
-    decided_orientation_type_id: decidedOrientationTypeId
-    requested_orientation_type_id: requestedOrientationTypeId
+    decided_orientation_system_id: decidedOrientationSystemId
+    requested_orientation_system_id: requestedOrientationSystemId
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
@@ -33,42 +33,12 @@ object_relationships:
         remote_table:
           name: beneficiary
           schema: public
-  - name: decidedOrientationType
+  - name: decidedOrientationSystem
     using:
-      manual_configuration:
-        column_mapping:
-          decided_orientation_type_id: id
-        insertion_order: null
-        remote_table:
-          name: orientation_type
-          schema: public
-  - name: decided_orientation_type
+      foreign_key_constraint_on: decided_orientation_system_id
+  - name: requestedOrientationSystem
     using:
-      manual_configuration:
-        column_mapping:
-          decided_orientation_type_id: id
-        insertion_order: null
-        remote_table:
-          name: orientation_type
-          schema: public
-  - name: requestedOrientationType
-    using:
-      manual_configuration:
-        column_mapping:
-          requested_orientation_type_id: id
-        insertion_order: null
-        remote_table:
-          name: orientation_type
-          schema: public
-  - name: requested_orientation_type
-    using:
-      manual_configuration:
-        column_mapping:
-          requested_orientation_type_id: id
-        insertion_order: null
-        remote_table:
-          name: orientation_type
-          schema: public
+      foreign_key_constraint_on: requested_orientation_system_id
   - name: requestor
     using:
       manual_configuration:
@@ -98,7 +68,7 @@ insert_permissions:
       columns:
         - beneficiary_id
         - reason
-        - requested_orientation_type_id
+        - requested_orientation_system_id
         - requestor_account_id
         - status
 select_permissions:
@@ -108,10 +78,10 @@ select_permissions:
         - beneficiary_id
         - created_at
         - decided_at
-        - decided_orientation_type_id
+        - decided_orientation_system_id
         - id
         - reason
-        - requested_orientation_type_id
+        - requested_orientation_system_id
         - requestor_account_id
         - status
         - updated_at
@@ -125,10 +95,10 @@ select_permissions:
         - beneficiary_id
         - created_at
         - decided_at
-        - decided_orientation_type_id
+        - decided_orientation_system_id
         - id
         - reason
-        - requested_orientation_type_id
+        - requested_orientation_system_id
         - requestor_account_id
         - status
         - updated_at
@@ -136,16 +106,16 @@ select_permissions:
   - role: professional
     permission:
       columns:
-        - decided_orientation_type_id
-        - reason
-        - requested_orientation_type_id
-        - status
+        - beneficiary_id
         - created_at
         - decided_at
-        - updated_at
-        - beneficiary_id
+        - decided_orientation_system_id
         - id
+        - reason
+        - requested_orientation_system_id
         - requestor_account_id
+        - status
+        - updated_at
       filter:
         beneficiary:
           notebook:
@@ -160,7 +130,7 @@ update_permissions:
     permission:
       columns:
         - decided_at
-        - decided_orientation_type_id
+        - decided_orientation_system_id
         - status
       filter: {}
       check: null

@@ -49,12 +49,14 @@ fragment notebookFragment on notebook {
     mobileNumber
     peNumber
     postalCode
-    orientationRequest(order_by: {createdAt: desc}, limit: 1) @include(if: $withOrientationRequests) {
+    orientationRequest(order_by: { createdAt: desc }, limit: 1)
+      @include(if: $withOrientationRequests) {
       id
       createdAt
       decidedAt
-      requestedOrientationType {
-        label
+      requestedOrientationSystem {
+        name
+        orientationType
       }
       beneficiary {
         id

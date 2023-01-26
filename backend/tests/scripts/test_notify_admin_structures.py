@@ -2,7 +2,7 @@ from datetime import date
 from unittest import mock
 
 from cdb.api.db.models.beneficiary import BeneficiaryWithAdminStructureEmail
-from cdb.api.db.models.orientation_type import OrientationType
+from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.scripts.notify_admin_structures.notify_admin_structures import (
     notify_admin_structures,
 )
@@ -58,6 +58,7 @@ class TestNotifyAdminStructure:
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
         snapshot,
+        orientation_system_pro: OrientationSystem,
     ):
         db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
@@ -75,7 +76,7 @@ class TestNotifyAdminStructure:
                 date_of_birth=date(1981, 12, 20),
                 admin_structure_email="second_admin@structure.cdb",
                 structure_name="structure 123",
-                orientation=OrientationType.pro,
+                orientation=orientation_system_pro,
             ),
         ]
 
@@ -105,6 +106,8 @@ class TestNotifyAdminStructure:
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
         snapshot,
+        orientation_system_pe: OrientationSystem,
+        orientation_system_ria: OrientationSystem,
     ):
         db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
@@ -114,7 +117,7 @@ class TestNotifyAdminStructure:
                 date_of_birth=date(1981, 12, 20),
                 admin_structure_email="admin@structure.cdb",
                 structure_name="structure 123",
-                orientation=OrientationType.social,
+                orientation=orientation_system_pe,
             ),
             BeneficiaryWithAdminStructureEmail(
                 firstname="Jean",
@@ -122,7 +125,7 @@ class TestNotifyAdminStructure:
                 date_of_birth=date(1980, 5, 7),
                 admin_structure_email="admin@structure.cdb",
                 structure_name="structure ABC",
-                orientation=OrientationType.sociopro,
+                orientation=orientation_system_ria,
             ),
         ]
 

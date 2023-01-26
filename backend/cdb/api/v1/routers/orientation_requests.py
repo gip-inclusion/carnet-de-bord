@@ -1,7 +1,6 @@
 from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
-from fastapi.exceptions import HTTPException
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel

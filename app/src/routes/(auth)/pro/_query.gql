@@ -1,9 +1,12 @@
 query GetLastVisitedOrUpdated($accountId: uuid!) {
   notebook(
-    order_by: [{beneficiary:{lastname: asc_nulls_first}}, {beneficiary:{firstname: asc_nulls_first}}]
-    ) {
+    order_by: [
+      { beneficiary: { lastname: asc_nulls_first } }
+      { beneficiary: { firstname: asc_nulls_first } }
+    ]
+  ) {
     id
-    members(where: {accountId: {_eq: $accountId}}) {
+    members(where: { accountId: { _eq: $accountId } }) {
       accountId
       lastVisitedAt
       lastModifiedAt
@@ -21,8 +24,9 @@ query GetLastVisitedOrUpdated($accountId: uuid!) {
         status
         createdAt
         decidedAt
-        requestedOrientationType {
-          label
+        requestedOrientationSystem {
+          name
+          orientationType
         }
       }
     }

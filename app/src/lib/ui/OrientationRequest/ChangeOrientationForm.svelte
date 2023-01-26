@@ -45,7 +45,7 @@
 			'/v1/orientations/change',
 			{
 				orientation_request_id: orientationRequestId,
-				orientation_type: values.orientationType,
+				orientation_system_id: values.orientationSystemId,
 				notebook_id: notebook.id,
 				structure_id: values.structureId,
 				new_referent_account_id: values.professionalAccountId,

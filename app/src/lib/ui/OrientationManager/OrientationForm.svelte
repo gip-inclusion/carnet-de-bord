@@ -2,11 +2,8 @@
 	import * as yup from 'yup';
 
 	const validationSchema = yup.object().shape({
-		orientationType: yup
-			.mixed<OrientationTypeEnum>()
-			.oneOf(Object.values(OrientationTypeEnum))
-			.required(),
-		structureId: yup.string().required().min(1),
+		orientationSystemId: yup.string().required(),
+		structureId: yup.string().uuid().required().min(1),
 		professionalAccountId: yup.string().nullable(),
 	});
 	export type OrientationValidationSchema = yup.InferType<typeof validationSchema>;
@@ -14,18 +11,16 @@
 
 <script lang="ts">
 	import {
-		type GetOrientationTypeQuery,
-		GetOrientationTypeDocument,
-		GetStructuresWithProDocument,
-		type GetStructuresWithProQuery,
-		OrientationTypeEnum,
+		type GetProfessionalsForDeploymentQuery,
+		GetProfessionalsForDeploymentDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { query, operationStore, type OperationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Select } from '$lib/ui/forms';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import { openComponent } from '$lib/stores';
+	import { connectedUser, openComponent } from '$lib/stores';
 	import { displayFullName } from '../format';
+	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let displayError = false;
 	export let formTitle = 'Réorienter';
@@ -33,47 +28,85 @@
 
 	export let structureId: string = null;
 	let selectedStructureId = structureId;
+	let selectedOrientationSystemId: string = null;
 
-	const orientationTypes: OperationStore<GetOrientationTypeQuery> = operationStore(
-		GetOrientationTypeDocument
+	const deploymentId = $connectedUser.deploymentId;
+
+	const getProfessionals: OperationStore<GetProfessionalsForDeploymentQuery> = operationStore(
+		GetProfessionalsForDeploymentDocument,
+		{
+			deploymentId: deploymentId,
+		}
 	);
-	query(orientationTypes);
 
-	$: orientationOptions =
-		$orientationTypes.data?.orientation_type.map(({ id, label }) => ({
-			name: id,
-			label,
-		})) ?? [];
+	query(getProfessionals);
 
-	const structures: OperationStore<GetStructuresWithProQuery> = operationStore(
-		GetStructuresWithProDocument,
-		null,
-		{ requestPolicy: 'network-only' }
-	);
-	query(structures);
+	$: orientationSystemsOptions =
+		$getProfessionals.data?.professional
+			.flatMap(({ orientationSystems }) => {
+				return orientationSystems.map(({ orientationSystem }) => {
+					return {
+						name: orientationSystem.id,
+						label: getOrientationSystemLabel(orientationSystem),
+					};
+				});
+			})
+			// Sort by alphabetical order
+			.sort((a, b) => a.label.localeCompare(b.label))
+			// Get unique values
+			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
+
 	$: structureOptions =
-		$structures.data?.structure.map(({ id, name, professionals }) => {
-			const beneficiaryCount = professionals.reduce(
-				(total: number, value: GetStructuresWithProQuery['structure'][0]['professionals'][0]) => {
-					return total + value.account.referentCount.aggregate.count;
-				},
-				0
-			);
-			return {
-				name: id,
-				label: `${name} (${beneficiaryCount})`,
-			};
-		}) ?? [];
-
-	$: structure = $structures.data?.structure.find(({ id }) => id === selectedStructureId) ?? null;
+		$getProfessionals.data?.professional
+			// Get professionnals that have the selected orientation system attached
+			.filter(({ orientationSystems }) =>
+				orientationSystems
+					.map(({ orientationSystemId }) => orientationSystemId)
+					.includes(selectedOrientationSystemId)
+			)
+			// Get the structures of this professional
+			.map(({ structure }) => {
+				const beneficiaryCount = structure.professionals.reduce(
+					(
+						total: number,
+						value: GetProfessionalsForDeploymentQuery['professional'][number]['structure']['professionals'][number]
+					) => {
+						return total + value.account.referentCount.aggregate.count;
+					},
+					0
+				);
+				return {
+					name: structure.id,
+					label: `${structure.name} (${beneficiaryCount})`,
+				};
+			})
+			// Sort by alphabetical order
+			.sort((a, b) => a.label.localeCompare(b.label))
+			.filter((value, index, self) => index === self.findIndex((t) => t.name === value.name)) ?? [];
 
 	$: professionalOptions =
-		structure?.professionals.map((pro) => ({
-			name: pro.account.id,
-			label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
-		})) ?? [];
+		$getProfessionals.data?.professional
+			// Get professionals corresponding to the selected structures
+			.filter(({ structure }) => structure.id == selectedStructureId)
+			// Get professionnals that have the selected orientation system attached
+			.filter(({ orientationSystems }) =>
+				orientationSystems
+					.map(({ orientationSystemId }) => orientationSystemId)
+					.includes(selectedOrientationSystemId)
+			)
+			.map((pro) => ({
+				name: pro.account.id,
+				label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
+			}))
+			// Sort by alphabetical order
+			.sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
 	const initialValues = { structureId };
+
+	function orientationSystemSelected(event: CustomEvent<{ selected: string }>) {
+		selectedOrientationSystemId = event.detail.selected;
+		selectedStructureId = null;
+	}
 
 	function close() {
 		openComponent.close();
@@ -91,7 +124,7 @@
 		let:isValid
 		let:form
 	>
-		<LoaderIndicator result={structures}>
+		<LoaderIndicator result={getProfessionals}>
 			<p>
 				Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent.
 			</p>
@@ -99,8 +132,13 @@
 				required
 				selectLabel="Type d'orientation"
 				selectHint="Sélectionner un type d'orientation"
-				options={orientationOptions}
-				name="orientationType"
+				options={orientationSystemsOptions}
+				name="orientationSystemId"
+				on:select={(event) => {
+					orientationSystemSelected(event);
+					form.professionalAccountId = null;
+					form.structureId = null;
+				}}
 			/>
 			{#if structureId === null}
 				<Select

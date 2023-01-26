@@ -1,0 +1,7 @@
+query getOrientationSystem {
+  orientation_system {
+    id
+    name
+    orientationType
+  }
+}

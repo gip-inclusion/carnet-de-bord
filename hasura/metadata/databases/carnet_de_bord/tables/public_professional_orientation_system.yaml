@@ -45,6 +45,31 @@ select_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+  - role: manager
+    permission:
+      columns:
+        - created_at
+        - id
+        - orientation_system_id
+        - professional_id
+      filter:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - created_at
+        - id
+        - orientation_system_id
+        - professional_id
+      filter:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
 update_permissions:
   - role: admin_structure
     permission:

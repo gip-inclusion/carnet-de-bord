@@ -24,8 +24,9 @@ query SearchPublicNotebooks($filter: String) {
         status
         createdAt
         decidedAt
-        requestedOrientationType {
-          label
+        requestedOrientationSystem {
+          name
+          orientationType
         }
       }
     }

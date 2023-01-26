@@ -19,13 +19,6 @@ object_relationships:
     using:
       foreign_key_constraint_on: orientation_type
 array_relationships:
-  - name: deploymentOrientationSystems
-    using:
-      foreign_key_constraint_on:
-        column: orientation_system_id
-        table:
-          name: deployment_orientation_system
-          schema: public
   - name: professionalOrientationSystems
     using:
       foreign_key_constraint_on:
@@ -54,3 +47,40 @@ select_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+  - role: manager
+    permission:
+      columns:
+        - name
+        - orientation_type
+        - created_at
+        - updated_at
+        - id
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - name
+        - orientation_type
+        - created_at
+        - updated_at
+        - id
+      filter:
+        structureOrientationSystems:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+  - role: professional
+    permission:
+      columns:
+        - name
+        - orientation_type
+        - created_at
+        - updated_at
+        - id
+      filter:
+        deployment_id:
+          _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true

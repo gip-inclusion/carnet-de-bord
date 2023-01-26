@@ -97,11 +97,11 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>
-					{#if beneficiary.notebook?.notebookInfo?.orientationType}
+					{#if beneficiary.notebook?.notebookInfo?.orientationSystem}
 						<button
 							class="fr-tag fr-tag-sm fr-tag--yellow-tournesol"
 							on:click={() => openEditLayer(beneficiary)}
-							>{beneficiary.notebook?.notebookInfo.orientationType.label}
+							>{beneficiary.notebook?.notebookInfo.orientationSystem.name}
 						</button>
 					{:else}
 						<button

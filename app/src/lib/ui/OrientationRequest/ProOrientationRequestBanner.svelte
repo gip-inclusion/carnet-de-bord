@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { formatDateLocale } from '$lib/utils/date';
+	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let reorientationRequest;
 
@@ -24,8 +25,14 @@
 
 	$: [orientationLabel, displayedOrientation] =
 		decision == 'acceptée'
-			? ["Décision d'orientation", reorientationRequest.decidedOrientationType?.label]
-			: ['Orientation recommandée', reorientationRequest.requestedOrientationType.label];
+			? [
+					"Décision d'orientation",
+					getOrientationSystemLabel(reorientationRequest.decidedOrientationSystem),
+			  ]
+			: [
+					'Orientation recommandée',
+					getOrientationSystemLabel(reorientationRequest.requestedOrientationSystem),
+			  ];
 </script>
 
 <div class="bg-gray-100">

@@ -1,4 +1,5 @@
 from unittest import mock
+from uuid import UUID
 
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
@@ -6,10 +7,11 @@ from fastapi.testclient import TestClient
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
+from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.notebook import Notebook
-from cdb.api.db.models.notebook_info import OrientationType
 from cdb.api.db.models.orientation_request import OrientationRequest
+from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
 from tests.utils.assert_helpers import assert_member, assert_structure
 
@@ -22,11 +24,12 @@ async def test_verify_no_token(
     test_client: TestClient,
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
@@ -44,11 +47,12 @@ async def test_professional_not_allowed_to_change_orientation(
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     get_professional_jwt: str,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
@@ -67,11 +71,12 @@ async def test_admin_structure_not_allowed_to_change_orientation(
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     get_admin_structure_jwt: str,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
@@ -91,11 +96,12 @@ async def test_change_orientation_while_keeping_same_referent(
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
     db_connection: Connection,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
@@ -121,11 +127,12 @@ async def test_change_orientation_assign_to_structure_not_referent(
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
     db_connection: Connection,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": None,
@@ -178,11 +185,12 @@ async def test_change_orientation_with_new_referent(
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
     db_connection: Connection,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
@@ -238,11 +246,12 @@ async def test_change_orientation_with_new_referent_when_beneficiary_has_no_stru
     notebook_craig_reilly: Notebook,
     samy_rouate_jwt: str,
     db_connection: Connection,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_craig_reilly.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
@@ -282,12 +291,13 @@ async def test_change_orientation_with_orientation_request(
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
     db_connection: Connection,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_request_id": orientation_request_jennings_dee.id,
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_jennings_dee.id,
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
@@ -301,7 +311,10 @@ async def test_change_orientation_with_orientation_request(
 
     assert orientation_request is not None
     assert orientation_request.decided_at is not None
-    assert orientation_request.decided_orientation_type_id == OrientationType.social
+    assert (
+        orientation_request.decided_orientation_system_id
+        == orientation_system_social_id
+    )
     assert orientation_request.status == "accepted"
 
     assert response.status_code == 200
@@ -317,11 +330,12 @@ async def test_send_email_to_members_with_orientation_request(
     notebook_jennings_dee: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_jennings_dee.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
@@ -355,11 +369,12 @@ async def test_send_email_to_members_without_orientation_request(
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
@@ -391,11 +406,12 @@ async def test_send_email_to_members_first_orientation(
     professional_paul_camara: Professional,
     notebook_noel_keller: Beneficiary,
     giulia_diaby_jwt: str,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_noel_keller.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
@@ -419,11 +435,12 @@ async def test_unconsistent_orientation_request(
     notebook_sophie_tifour: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
+    orientation_system_social_id: UUID,
 ):
     response = test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
-            "orientation_type": OrientationType.social,
+            "orientation_system_id": str(orientation_system_social_id),
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_paul_camara.structure_id,
             "orientation_request_id": orientation_request_jennings_dee.id,
@@ -432,3 +449,10 @@ async def test_unconsistent_orientation_request(
     )
 
     assert response.status_code == 400
+
+
+async def test_orientation_system_label(
+    orientation_system_pe: OrientationSystem, orientation_system_pro: OrientationSystem
+):
+    assert orientation_system_pe.get_label() == "PE (Professionnel)"
+    assert orientation_system_pro.get_label() == "Professionnel"

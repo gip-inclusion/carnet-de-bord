@@ -38,7 +38,7 @@ array_relationships:
       foreign_key_constraint_on:
         column: deployment_id
         table:
-          name: deployment_orientation_system
+          name: orientation_system
           schema: public
   - name: orientation_managers
     using:

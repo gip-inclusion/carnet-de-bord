@@ -83,13 +83,16 @@
 						<div class="flex">
 							<Text
 								class="flex-auto"
-								value={beneficiary.notebook.notebookInfo?.orientationType?.label}
+								value={beneficiary.notebook.notebookInfo?.orientationSystem?.name}
 							/>
 							<span class="flex-none fr-icon-arrow-right-line text-france-blue" aria-hidden />
 						</div>
 					</td>
 					<td>
-						<Text class="fr-text--bold" value={orientationRequest.requestedOrientationType.label} />
+						<Text
+							class="fr-text--bold"
+							value={orientationRequest.requestedOrientationSystem.name}
+						/>
 					</td>
 					<td class="!text-center">
 						{#if beneficiary.orientationRequest[0].reason}

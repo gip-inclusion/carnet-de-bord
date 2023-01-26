@@ -13,10 +13,12 @@ from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import get_beneficiary_by_id
 from cdb.api.db.crud.notebook import get_notebook_by_id
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
+from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
 from cdb.api.db.crud.professional import get_professional_by_email
 from cdb.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
+from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
@@ -288,6 +290,60 @@ async def professional_edith_orial(db_connection) -> Professional | None:
 def beneficiary_without_account(beneficiary: Beneficiary) -> Beneficiary:
     beneficiary.account_id = None
     return beneficiary
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_pro_id() -> UUID:
+    return UUID("f26ea5ba-e8a1-48ad-a031-f42d7f861008")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_social_id() -> UUID:
+    return UUID("cc92714c-db2c-4d49-a877-571ecc6138c2")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_sociopro_id() -> UUID:
+    return UUID("7ea8a071-1ef8-4747-9cd8-9e68086df0e9")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_pe_id() -> UUID:
+    return UUID("fc48d848-33bf-437a-9533-881e16ffa666")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_ria_id() -> UUID:
+    return UUID("9b44df64-1ad9-4001-97c7-1776fc878a17")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_ria(
+    db_connection, orientation_system_ria_id
+) -> OrientationSystem | None:
+    return await get_orientation_system_by_id(db_connection, orientation_system_ria_id)
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_pe(
+    db_connection, orientation_system_pe_id
+) -> OrientationSystem | None:
+    return await get_orientation_system_by_id(db_connection, orientation_system_pe_id)
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def orientation_system_pro(
+    db_connection, orientation_system_pro_id
+) -> OrientationSystem | None:
+    return await get_orientation_system_by_id(db_connection, orientation_system_pro_id)
 
 
 @pytest.fixture

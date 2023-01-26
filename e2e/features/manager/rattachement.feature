@@ -32,7 +32,7 @@ Fonctionnalité: Rattachement pro
 		Quand je clique sur "Rattacher"
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
-		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
+		Alors je selectionne l'option "Socio-professionnel" dans la liste "Type d'orientation"
 		Alors je selectionne l'option "Service Social Départemental (2)" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider" dans le volet
 		Alors je vois "Non rattaché" sur la ligne "Cash"

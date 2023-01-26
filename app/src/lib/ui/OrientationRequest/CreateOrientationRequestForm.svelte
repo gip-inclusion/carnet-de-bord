@@ -7,26 +7,30 @@
 	import { operationStore, query, mutation } from '@urql/svelte';
 	import type { OperationStore } from '@urql/svelte';
 	import {
-		GetOrientationTypeDocument,
-		type GetOrientationTypeQuery,
+		GetOrientationSystemDocument,
+		type GetOrientationSystemQuery,
 		InsertOrientationRequestDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
+	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let beneficiaryId: string;
 
 	const initialValues = {};
 
-	const orientationTypeStore: OperationStore<GetOrientationTypeQuery> = operationStore(
-		GetOrientationTypeDocument
+	const orientationSystemStore: OperationStore<GetOrientationSystemQuery> = operationStore(
+		GetOrientationSystemDocument
 	);
-	query(orientationTypeStore);
+	query(orientationSystemStore);
 
-	$: orientationOptions =
-		$orientationTypeStore.data?.orientation_type.map(({ id, label }) => ({
-			name: id,
-			label: label,
-		})) ?? [];
+	$: orientationOptions = $orientationSystemStore?.data?.orientation_system.map(
+		(orientationSystem) => {
+			return {
+				name: orientationSystem.id,
+				label: getOrientationSystemLabel(orientationSystem),
+			};
+		}
+	);
 
 	function close() {
 		openComponent.close();
@@ -40,7 +44,7 @@
 		const { error } = await insertOrientationRequest({
 			beneficiaryId: beneficiaryId,
 			reason: values.reason,
-			requestedOrientation: values.orientation,
+			requestedOrientationSystemId: values.orientation,
 		});
 		if (error) {
 			errorMessage = error.message;
@@ -63,7 +67,7 @@
 			recommandez.
 		</p>
 	</div>
-	<LoaderIndicator result={orientationTypeStore}>
+	<LoaderIndicator result={orientationSystemStore}>
 		<Form {initialValues} onSubmit={handleSubmit} {validationSchema} let:form>
 			<Textarea
 				name="reason"
