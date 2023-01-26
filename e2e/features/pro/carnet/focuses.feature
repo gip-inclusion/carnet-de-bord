@@ -16,8 +16,8 @@ Scénario: Ajout d'un axe de travail par un pro
 	Alors j'attends que le texte "Axe de travail" apparaisse
 	Quand je choisis "Aucun"
 	Quand je selectionne l'option "Numérique" dans la liste "Thème"
-	Quand je choisis "Absence d'équipement ou de connexion"
-	Quand je choisis "Absence d'adresse de messagerie"
+	Quand je choisis "Absence de connexion"
+	Quand je choisis "Absence d’adresse ou d’utilisation de la messagerie"
 	Quand je clique sur "Valider"
 	Quand je clique sur "J'ai compris"
 	Alors je vois "Aucune action" dans la tuile "Numérique"
