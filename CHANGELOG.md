@@ -1,3 +1,10 @@
+# [1.188.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.187.1...v1.188.0) (2023-01-26)
+
+
+### Features
+
+* permettre d'orienter avec des dispositifs du déploiement ([#1425](https://github.com/gip-inclusion/carnet-de-bord/issues/1425)) ([013bd5a](https://github.com/gip-inclusion/carnet-de-bord/commit/013bd5a0df325d76a7724593d5685a8358c8e850))
+
 ## [1.187.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.187.0...v1.187.1) (2023-01-26)
 
 
