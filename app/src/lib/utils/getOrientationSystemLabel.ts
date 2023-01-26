@@ -7,9 +7,18 @@ type OrientationSystem = Pick<
 
 function getOrientationSystemLabel(orientationSystem: OrientationSystem | null): string {
 	if (orientationSystem) {
+		let orientationTypeLabel: string;
+		if (orientationSystem.orientationType == 'pro') {
+			orientationTypeLabel = 'Professionnel';
+		} else if (orientationSystem.orientationType == 'social') {
+			orientationTypeLabel = 'Social';
+		} else if (orientationSystem.orientationType == 'sociopro') {
+			orientationTypeLabel = 'Socio-professionel';
+		}
+
 		return ['Professionnel', 'Social', 'Socio-professionnel'].includes(orientationSystem.name)
 			? orientationSystem.name
-			: `${orientationSystem.name} (${orientationSystem.orientationType})`;
+			: `${orientationSystem.name} (${orientationTypeLabel})`;
 	}
 
 	return '';
