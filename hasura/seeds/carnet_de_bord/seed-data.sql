@@ -43,25 +43,11 @@ INSERT INTO public.deployment (id, label) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88
 INSERT INTO public.deployment (id, label, config) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51', '{"url": "http://localhost:3000/api/test", "headers": {"token":"azerty"}, "callback": "/api/marne" }');
 
 -- Orientation system
-INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('fc48d848-33bf-437a-9533-881e16ffa666', 'PE', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro');
-INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('9b44df64-1ad9-4001-97c7-1776fc878a17', 'RIA', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro');
-INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('f26ea5ba-e8a1-48ad-a031-f42d7f861008', 'Pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro');
-INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('7ea8a071-1ef8-4747-9cd8-9e68086df0e9', 'Socio-pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'sociopro');
-INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type) VALUES ('cc92714c-db2c-4d49-a877-571ecc6138c2', 'Social', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'social');
-
-
--- Orientation systems for deployments:
-INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('aec48640-239a-4fc4-8907-bb20b3e832c1', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'fc48d848-33bf-437a-9533-881e16ffa666');
-
-INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('a7fc7f81-29a4-4fe8-af85-01f03d3d314c', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '9b44df64-1ad9-4001-97c7-1776fc878a17');
-
-INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('b6c2dfd2-67bc-4744-84da-e6895680e7fa', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
-
-INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('c286cd4d-050b-4354-8d00-b1560a3100a5', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', '7ea8a071-1ef8-4747-9cd8-9e68086df0e9');
-
-INSERT INTO public.deployment_orientation_system (id, created_at, deployment_id, orientation_system_id) VALUES ('3c7cdb96-6232-4f1d-9d0c-cf2d6803887c', '2021-09-21 13:06:45.076+00', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
-
-
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('fc48d848-33bf-437a-9533-881e16ffa666', 'PE', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('9b44df64-1ad9-4001-97c7-1776fc878a17', 'RIA', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('f26ea5ba-e8a1-48ad-a031-f42d7f861008', 'Pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('7ea8a071-1ef8-4747-9cd8-9e68086df0e9', 'Socio-pro', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'sociopro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('cc92714c-db2c-4d49-a877-571ecc6138c2', 'Social', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'social', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 
 
 --Structures:
