@@ -69,7 +69,7 @@
 				const beneficiaryCount = structure.professionals.reduce(
 					(
 						total: number,
-						value: GetProfessionalsForDeploymentQuery['professional'][0]['structure']['professionals'][0]
+						value: GetProfessionalsForDeploymentQuery['professional'][number]['structure']['professionals'][number]
 					) => {
 						return total + value.account.referentCount.aggregate.count;
 					},

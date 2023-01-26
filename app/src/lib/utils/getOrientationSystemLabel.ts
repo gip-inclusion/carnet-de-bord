@@ -1,8 +1,9 @@
-type OrientationSystem = {
-	name: string;
-	id: string;
-	orientationType: string;
-};
+import type { GetOrientationSystemQuery } from '$lib/graphql/_gen/typed-document-nodes';
+
+type OrientationSystem = Pick<
+	GetOrientationSystemQuery['orientation_system'][number],
+	'name' | 'id' | 'orientationType'
+>;
 
 function getOrientationSystemLabel(orientationSystem: OrientationSystem | null): string {
 	if (orientationSystem) {
