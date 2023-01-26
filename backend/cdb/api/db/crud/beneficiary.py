@@ -364,7 +364,7 @@ LEFT JOIN (
     WHERE nm.active AND nm.member_type = 'referent'
     ) referent ON referent.notebook_id = n.id
 LEFT JOIN account_info AS ai ON referent.account_id = ai.account_id
-LEFT JOIN beneficiary_structure bs ON bs.beneficiary_id = b.id
+LEFT JOIN beneficiary_structure bs ON bs.beneficiary_id = b.id AND bs.status = 'current'
 LEFT JOIN admin_structure_structure ass ON ass.structure_id = bs.structure_id
 LEFT JOIN admin_structure ads ON ads.id = ass.admin_structure_id
 LEFT JOIN structure s ON s.id = ass.structure_id
