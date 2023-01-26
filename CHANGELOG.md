@@ -1,3 +1,10 @@
+## [1.187.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.187.0...v1.187.1) (2023-01-26)
+
+
+### Bug Fixes
+
+* envoyer un mail de recap seulement aux admin de structure courante ([#1474](https://github.com/gip-inclusion/carnet-de-bord/issues/1474)) ([61b8b10](https://github.com/gip-inclusion/carnet-de-bord/commit/61b8b1077497a85a6fe9810bb86a6f5bc9bdd75d))
+
 # [1.187.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.186.8...v1.187.0) (2023-01-24)
 
 
