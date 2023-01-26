@@ -74,6 +74,11 @@ INSERT INTO public.structure_orientation_system (id, created_at, structure_id, o
 
 INSERT INTO public.structure_orientation_system (id, created_at, structure_id, orientation_system_id) VALUES ('3c7cdb96-6232-4f1d-9d0c-cf2d6803887c', '2021-09-21 13:06:45.076+00', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
 
+INSERT INTO structure_orientation_system(structure_id, orientation_system_id)
+	SELECT structure.id, orientation_system.id
+	FROM orientation_system, structure
+	WHERE orientation_system.deployment_id = structure.deployment_id
+	ON CONFLICT DO NOTHING;
 
 -- Insertion workers Accounts
 -- Structure admins:
@@ -168,6 +173,13 @@ INSERT INTO public.account (id, username, type, professional_id, confirmed, onbo
 
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('96d80594-ecff-4a43-82d4-a2bf6a04c66e', '2021-09-21 13:06:45.076+00', '1540e75d-75da-4048-b442-0d1d4e65f104', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
 
+-- Orientation systems for every professionals
+INSERT INTO professional_orientation_system(professional_id, orientation_system_id)
+	SELECT professional.id, orientation_system.id
+	FROM orientation_system, professional, structure
+	WHERE orientation_system.deployment_id = structure.deployment_id
+	AND professional.structure_id = structure.id
+	ON CONFLICT DO NOTHING;
 
 -- Orientation managers:
 -- Giulia Diaby
