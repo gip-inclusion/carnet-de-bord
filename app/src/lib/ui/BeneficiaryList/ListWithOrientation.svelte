@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { type GetBeneficiariesQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		RoleEnum,
+		GetBeneficiariesWithOrientationRequestQuery,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
 	import { accountData, openComponent } from '$lib/stores';
@@ -9,8 +12,11 @@
 	import { baseUrlForRole } from '$lib/routes';
 	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import Dialog from '../Dialog.svelte';
+	import Text from '../utils/Text.svelte';
+	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
-	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
+	type Beneficiary = GetBeneficiariesWithOrientationRequestQuery['beneficiaries'][0];
 
 	export let beneficiaries: Beneficiary[];
 
@@ -35,10 +41,7 @@
 			component: AddOrientationManagerForm,
 			props: {
 				notebooks: [{ notebookId: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
-				member:
-					beneficiary.notebook.members.filter(
-						({ account }) => account.type === RoleEnum.OrientationManager
-					)[0]?.account.id ?? null,
+				member: beneficiary.notebook.orientationManager[0]?.account.id ?? null,
 			},
 		});
 	}
@@ -49,7 +52,9 @@
 		selectionStore.toggle(beneficiary.notebook.id, beneficiary);
 	}
 	function getNotebookUrl(beneficiary: Beneficiary) {
-		return beneficiary.notebook.members.some((member) => member.account.id === $accountData.id)
+		return beneficiary.notebook.orientationManager.some(
+			(member) => member.account.id === $accountData.id
+		)
 			? `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/edition/${beneficiary.notebook.id}`
 			: `${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/${beneficiary.notebook.id}`;
 	}
@@ -60,25 +65,19 @@
 	<thead>
 		<tr>
 			<th />
-			<th class="text-left">Nom</th>
-			<th class="text-left">Prénom</th>
-			<th class="text-left">Type d'orientation</th>
+			<th class="text-left">Nom Prénom</th>
+			<th class="text-left">Ville</th>
 			<th class="text-left">Chargé d'orientation</th>
 			<th class="text-left">Référent unique</th>
-			<th class="text-left">Orientation</th>
-			<th class="text-left">Depuis le</th>
+			<th class="text-center">Demande de réorientation</th>
 			<th class="!text-center">Voir le carnet</th>
 		</tr>
 	</thead>
 	<tbody>
 		{#each beneficiaries as beneficiary}
-			{@const referents =
-				beneficiary?.notebook.members.filter(
-					(member) => member.account.type === RoleEnum.Professional
-				) ?? []}
-			{@const orientationManager = beneficiary?.notebook.members.filter(
-				(member) => member.account.type === RoleEnum.OrientationManager
-			)[0]}
+			{@const referents = beneficiary?.notebook.referent}
+			{@const orientationManager = beneficiary?.notebook.orientationManager[0]}
+			{@const orientationRequest = beneficiary?.orientationRequest[0]}
 			<tr>
 				<td class="align-middle">
 					<div class={`fr-checkbox-group bottom-3 left-3`}>
@@ -94,23 +93,8 @@
 						</label>
 					</div>
 				</td>
-				<td>{beneficiary.lastname}</td>
-				<td>{beneficiary.firstname}</td>
-				<td>
-					{#if beneficiary.notebook?.notebookInfo?.orientationSystem}
-						<button
-							class="fr-tag fr-tag-sm fr-tag--yellow-tournesol"
-							on:click={() => openEditLayer(beneficiary)}
-							>{beneficiary.notebook?.notebookInfo.orientationSystem.name}
-						</button>
-					{:else}
-						<button
-							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
-							on:click={() => openEditLayer(beneficiary)}
-							>À définir
-						</button>
-					{/if}
-				</td>
+				<td>{beneficiary.lastname} {beneficiary.firstname}</td>
+				<td>{beneficiary.city}</td>
 				<td>
 					{#if orientationManager}
 						<button
@@ -121,7 +105,6 @@
 						</button>
 					{:else}
 						<button
-							href="#"
 							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
 							on:click={() => openOrientationManagerLayer(beneficiary)}
 						>
@@ -142,7 +125,6 @@
 						</button>
 					{:else}
 						<button
-							href="#"
 							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
 							on:click={() => openEditLayer(beneficiary)}
 						>
@@ -150,12 +132,49 @@
 						</button>
 					{/if}
 				</td>
-				<td>{beneficiary.notebook.notebookInfo?.needOrientation ? 'à orienter' : 'orienté'}</td>
-				<td>
-					{#if beneficiary.notebook.members.length > 0}
-						{formatDateLocale(beneficiary.notebook.members[0].createdAt)}
+
+				<td class="text-center">
+					{#if orientationRequest}
+						<Dialog
+							label={`Voir la demande de réorientation de ${displayFullName(beneficiary)}`}
+							buttonLabel={null}
+							title={`Demande de réorientation de ${displayFullName(beneficiary)}`}
+							size={'large'}
+							showButtons={false}
+							buttonCssClasses="fr-btn--tertiary-no-outline fr-icon-message-2-line"
+						>
+							<p>
+								Date de la demande&nbsp;: <b>
+									{formatDateLocale(orientationRequest.createdAt)}
+								</b>
+							</p>
+							<p>
+								Nouvelle orientation :
+								<span class="fr-badge fr-badge-sm fr-badge--blue-cumulus"
+									>{getOrientationSystemLabel(orientationRequest.requestedOrientationSystem)}
+								</span>
+								{#if beneficiary.notebook?.notebookInfo?.orientationSystem}
+									(orientation actuelle <span class="fr-badge fr-badge-sm fr-badge--grey"
+										>{getOrientationSystemLabel(
+											beneficiary.notebook?.notebookInfo.orientationSystem
+										)}
+									</span>
+									)
+								{/if}
+							</p>
+							<h2 class="fr-h4">Motif de la demande</h2>
+							<div class="bg-gray-100 py-4">
+								<p>
+									<Text
+										value={orientationRequest && orientationRequest.reason}
+										defaultValue="Motif non saisi."
+										defaultValueClassNames=" italic text-gray"
+									/>
+								</p>
+							</div>
+						</Dialog>
 					{:else}
-						-
+						--
 					{/if}
 				</td>
 				<td class="!text-center">

@@ -126,63 +126,89 @@ getOrientationHomeInfos token serverUrl accountId toMsg =
         gqlQuery =
             { query = """
 query GetBeneficiaryDashboard($id: uuid!) {
-  unorientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      members: {accountId: {_eq: $id}},
-      notebookInfo: {needOrientation: {_eq: true}}
-    }}) {
+  orientedBeneficiaryCount: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _and: [
+          { members: { accountId: { _eq: $id } } }
+          { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
+        ]
+      }
+    }
+  ) {
     aggregate {
       count
     }
   }
-  orientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      members: {accountId: {_eq: $id}},
-      _not: {notebookInfo: {needOrientation: {_eq: true}}}
-    }}) {
+  unorientedBeneficiaryCount: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _and: [
+          {  members: { accountId: { _eq: $id } } }
+          { _not: { members:  { memberType: { _eq: "referent" }, active: { _eq: true } } } }
+        ]
+      }
+    }
+  ) {
     aggregate {
       count
     }
   }
-  orientationRequestCount: beneficiary_aggregate( where: {
-    notebook: { members: {accountId: {_eq: $id}} },
-    orientationRequest: { decidedAt: { _is_null: true } }
-    }) {
+  orientationRequestCount: beneficiary_aggregate(
+    where: {
+      notebook: { members: { accountId: { _eq: $id } } }
+      orientationRequest: { decidedAt: { _is_null: true } }
+    }
+  ) {
     aggregate {
       count
     }
   }
-  otherUnorientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      _and: [
-        {notebookInfo: {needOrientation: {_eq: true}}},
-        {_not: {members: {accountId: {_eq: $id}}}}
-      ]
-    }}) {
+  otherOrientedBeneficiaryCount: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _not: { members: { accountId: { _eq: $id } } }
+        members: { memberType: { _eq: "referent" }, active: { _eq: true } }
+      }
+    }
+  ) {
     aggregate {
       count
     }
   }
-  otherOrientedBeneficiaryCount: beneficiary_aggregate(where: {
-    notebook: {
-      _and: [
-        {_not: {notebookInfo: {needOrientation: {_eq: true}}}},
-        {_not: {members: {accountId: {_eq: $id}}}}
-      ]
-    }}) {
+  otherUnorientedBeneficiaryCount: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _and: [
+          { _not: { members: { accountId: { _eq: $id } } } }
+          {
+            _not: {
+              members: {
+                memberType: { _eq: "referent" }
+                active: { _eq: true }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ) {
     aggregate {
       count
     }
   }
-  otherOrientationRequestCount: beneficiary_aggregate( where: {
+  otherOrientationRequestCount: beneficiary_aggregate(
+    where: {
       notebook: { _not: { members: { accountId: { _eq: $id } } } }
       orientationRequest: { decidedAt: { _is_null: true } }
-    }) {
+    }
+  ) {
     aggregate {
       count
     }
   }
 }
+
       """
             , variables = { id = accountId }
             }
@@ -266,20 +292,16 @@ view model =
             [ class "fr-grid-row fr-grid-row--gutters" ]
             [ card "Bénéficiaires orientés"
                 "Liste des bénéficiaires orientés"
-                "/orientation/beneficiaires?oriente=oui&brsa=suivi"
+                "/orientation/beneficiaires?statut=referent&brsa=suivi"
                 (extractString .nbOriented)
             , card "Bénéficiaires à orienter"
                 "Liste des bénéficiaires à orienter"
-                "/orientation/beneficiaires?oriente=non&brsa=suivi"
+                "/orientation/beneficiaires?statut=sans-referent&brsa=suivi"
                 (extractString .nbUnoriented)
-            , if extractInt .nbOrientationRequest > 0 then
-                card "Demandes de réorientation"
-                    "Liste des demandes de réorientation"
-                    "/orientation/demandes?brsa=suivi"
-                    (extractString .nbOrientationRequest)
-
-              else
-                text ""
+            , card "Demandes de réorientation"
+                "Liste des demandes de réorientation"
+                "/orientation/beneficiaires?statut=demande-reo&brsa=suivi"
+                (extractString .nbOrientationRequest)
             ]
         , h2 [ class "fr-h4 text-france-blue" ]
             [ text "Autres bénéficiaires de mon territoire" ]
@@ -287,20 +309,16 @@ view model =
             [ class "fr-grid-row fr-grid-row--gutters" ]
             [ card "Bénéficiaires orientés"
                 "Liste des autres bénéficiaires orientés"
-                "/orientation/beneficiaires?oriente=oui&brsa=non-suivi"
+                "/orientation/beneficiaires?statut=referent&brsa=non-suivi"
                 (extractString .nbOtherOriented)
             , card "Bénéficiaires à orienter"
                 "Liste des autres bénéficiaires à orienter"
-                "/orientation/beneficiaires?oriente=non&brsa=non-suivi"
+                "/orientation/beneficiaires?statut=sans-referent&brsa=non-suivi"
                 (extractString .nbOtherUnoriented)
-            , if extractInt .nbOtherOrientationRequest > 0 then
-                card "Demandes de réorientation"
-                    "Liste des autres demandes de réorientation"
-                    "/orientation/demandes?brsa=non-suivi"
-                    (extractString .nbOtherOrientationRequest)
-
-              else
-                text ""
+            , card "Demandes de réorientation"
+                "Liste des autres demandes de réorientation"
+                "/orientation/beneficiaires?statut=demande-reo&brsa=non-suivi"
+                (extractString .nbOtherOrientationRequest)
             ]
         ]
 

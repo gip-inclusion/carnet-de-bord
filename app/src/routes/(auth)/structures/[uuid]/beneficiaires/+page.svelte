@@ -174,7 +174,7 @@
 </svelte:head>
 <Breadcrumbs segments={breadcrumbs} />
 <h1>Bénéficiaires</h1>
-<Container resultStore={result} currentPage={data.currentPage}>
+<Container searchBeneficiariesResult={result} currentPage={data.currentPage}>
 	<BeneficiaryFilterView
 		slot="filter"
 		filter={data.filter}

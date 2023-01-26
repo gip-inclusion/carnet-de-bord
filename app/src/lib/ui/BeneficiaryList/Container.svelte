@@ -1,5 +1,8 @@
 <script lang="ts">
-	import type { GetBeneficiariesQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		GetBeneficiariesQuery,
+		GetBeneficiariesWithOrientationRequestQuery,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 
 	import { getContext } from 'svelte';
 	import Pagination from '../Pagination.svelte';
@@ -9,9 +12,13 @@
 
 	import type { OperationStore } from '@urql/svelte';
 
-	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
+	type Beneficiary =
+		| GetBeneficiariesQuery['beneficiaries'][number]
+		| GetBeneficiariesWithOrientationRequestQuery['beneficiaries'][number];
 
-	export let resultStore: OperationStore<GetBeneficiariesQuery>;
+	export let searchBeneficiariesResult: OperationStore<
+		GetBeneficiariesQuery | GetBeneficiariesWithOrientationRequestQuery
+	>;
 	// global filter
 	export let currentPage: number;
 
@@ -19,13 +26,14 @@
 
 	const selectionStore = getContext<SelectionStore<Beneficiary>>(selectionContextKey);
 
-	$: nbBeneficiaries = $resultStore.data?.search_beneficiaries_aggregate.aggregate.count ?? 0;
+	$: nbBeneficiaries =
+		$searchBeneficiariesResult.data?.search_beneficiaries_aggregate.aggregate.count ?? 0;
 	$: nbSelectedBeneficiaries = Object.keys($selectionStore).length;
 </script>
 
 <div class="flex flex-col gap-8">
 	<slot name="filter" />
-	<LoaderIndicator result={resultStore}>
+	<LoaderIndicator result={searchBeneficiariesResult}>
 		<slot name="list" />
 		<div class="flex justify-center">
 			<Pagination {currentPage} {pageSize} count={nbBeneficiaries} />

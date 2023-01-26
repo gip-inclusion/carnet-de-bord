@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { homeForRole } from '$lib/routes';
-	import Breadcrumbs from '$lib/ui/base/Breadcrumbs.svelte';
 	import Container from '$lib/ui/BeneficiaryList/Container.svelte';
 	import {
 		createSelectionStore,
@@ -10,10 +8,9 @@
 	import type { PageData } from './$types';
 	import {
 		BeneficiaryBoolExp,
-		GetBeneficiariesDocument,
-		GetBeneficiariesQuery,
+		GetBeneficiariesWithOrientationRequestDocument,
+		GetBeneficiariesWithOrientationRequestQuery,
 		NotebookBoolExp,
-		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import BeneficiaryListWithOrientation from '$lib/ui/BeneficiaryList/ListWithOrientation.svelte';
 	import FilterOrientation from '$lib/ui/BeneficiaryList/FilterOrientation.svelte';
@@ -32,25 +29,12 @@
 
 	export let data: PageData;
 
-	const breadcrumbs = [
-		{
-			name: 'accueil',
-			path: homeForRole(RoleEnum.Manager),
-			label: 'Accueil',
-		},
-		{
-			name: 'structure',
-			path: '',
-			label: `bénéficiaires`,
-		},
-	];
-
 	const graphqlBeneficiaryFilter = { members: { accountId: { _eq: $connectedUser.id } } };
 	function getBeneficiaryFilter(filter: BeneficiaryFilter): NotebookBoolExp {
 		switch (filter) {
-			case 'mes-beneficiaires':
+			case 'suivi':
 				return graphqlBeneficiaryFilter;
-			case 'autres-beneficiaires':
+			case 'non-suivi':
 				if (data.withoutOrientationManager) {
 					return {
 						_and: [
@@ -61,16 +45,23 @@
 				}
 				return { _not: { members: { accountId: { _eq: $connectedUser.id } } } };
 			default:
+				if (data.withoutOrientationManager) {
+					return { _not: { members: { account: { orientation_manager: {} } } } };
+				}
 				return {};
 		}
 	}
-	const graphqlOrientedFilter = { notebookInfo: { needOrientation: { _eq: true } } };
+	const graphqlOrientedFilter = {
+		members: { memberType: { _eq: 'referent' }, active: { _eq: true } },
+	};
 	function getOrientationStatusFilter(filter: OrientedFilter): NotebookBoolExp {
 		switch (filter) {
-			case 'non-oriente':
-				return graphqlOrientedFilter;
-			case 'oriente':
+			case 'sans-referent':
 				return { _not: graphqlOrientedFilter };
+			case 'referent':
+				return graphqlOrientedFilter;
+			case 'demande-reo':
+				return { beneficiary: { orientationRequest: { decidedAt: { _is_null: true } } } };
 			default:
 				return {};
 		}
@@ -86,12 +77,12 @@
 			},
 		};
 	}
-	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
+	type Beneficiary = GetBeneficiariesWithOrientationRequestQuery['beneficiaries'][number];
 	const selectionStore = setContext(selectionContextKey, createSelectionStore<Beneficiary>());
 
 	const pageSize = 10;
 	const result = operationStore(
-		GetBeneficiariesDocument,
+		GetBeneficiariesWithOrientationRequestDocument,
 		{
 			search: data.search,
 			offset: (data.currentPage - 1) * pageSize,
@@ -113,12 +104,18 @@
 		}>
 	) {
 		const urlParams = new URLSearchParams([...$page.url.searchParams.entries()]);
-		urlParams.set(
-			'brsa',
-			event.detail.beneficiaryFilter === 'mes-beneficiaires' ? 'suivi' : 'non-suivi'
-		);
-		urlParams.set('oriente', event.detail.orientationStatusFilter === 'oriente' ? 'oui' : 'non');
-		urlParams.set('co', event.detail.withoutOrientationManager ? 'avec' : 'sans');
+
+		// reset filter when a user do a search
+		if (data.search != event.detail.search) {
+			urlParams.set('brsa', 'tous');
+			urlParams.set('statut', 'tous');
+			urlParams.set('co', 'sans');
+		} else {
+			urlParams.set('brsa', event.detail.beneficiaryFilter);
+			urlParams.set('statut', event.detail.orientationStatusFilter);
+			urlParams.set('co', event.detail.withoutOrientationManager ? 'avec' : 'sans');
+		}
+
 		urlParams.set('search', event.detail.search);
 		urlParams.set('page', '1');
 		goto(`?${urlParams.toString()}`);
@@ -142,7 +139,7 @@
 		const notebooks = selectedBeneficiaries.map((beneficiary) => ({
 			id: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
-			members: beneficiary.notebook.members,
+			members: beneficiary.notebook.referent,
 		}));
 
 		const props = {
@@ -164,10 +161,10 @@
 <svelte:head>
 	<title>Liste des bénéficiaires - Carnet de bord</title>
 </svelte:head>
-<Breadcrumbs segments={breadcrumbs} />
-<h1>Bénéficiaires</h1>
 
-<Container resultStore={result} currentPage={data.currentPage}>
+<h1 class="fr-h2 fr-mt-6w">Bénéficiaires</h1>
+
+<Container searchBeneficiariesResult={result} currentPage={data.currentPage}>
 	<FilterOrientation
 		search={data.search}
 		on:filter-update={updateOrientationFilter}
