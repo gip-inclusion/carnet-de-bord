@@ -209,5 +209,17 @@ async def test_get_beneficiaries_without_referent(
         BeneficiaryWithAdminStructureEmail
     ] = await get_beneficiaries_without_referent(db_connection)
 
-    assert len(beneficiaries_without_referent) == 94
+    # Bennet n'a pas de référent et est affecté a une structure 'outdated'( interlogement 93)
+    # et à la structure Groupe NS.
+    # On valide donc qu'on ne notifie bien que les 2 admin de la structure Groupe NS
+    assert (
+        len(
+            [
+                beneficiary
+                for beneficiary in beneficiaries_without_referent
+                if beneficiary.lastname == "Bennett"
+            ]
+        )
+        == 2
+    )
     assert snapshot == beneficiaries_without_referent

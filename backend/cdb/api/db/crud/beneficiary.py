@@ -368,8 +368,8 @@ LEFT JOIN beneficiary_structure bs ON bs.beneficiary_id = b.id
 LEFT JOIN admin_structure_structure ass ON ass.structure_id = bs.structure_id
 LEFT JOIN admin_structure ads ON ads.id = ass.admin_structure_id
 LEFT JOIN structure s ON s.id = ass.structure_id
-WHERE referent IS NULL and ads.email IS NOT NULL
-ORDER BY ads.email, s.name ASC;
+WHERE referent IS NULL AND ads.email IS NOT NULL AND status = 'current'
+ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth ASC;
         """
     )
     return [
