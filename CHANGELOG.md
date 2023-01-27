@@ -1,3 +1,10 @@
+## [1.188.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.188.0...v1.188.1) (2023-01-27)
+
+
+### Bug Fixes
+
+* Mise à jour des dispostifs d'orientation (Pro -> Professionnel et Socio-pro -> Socio-professionnel). ([#1479](https://github.com/gip-inclusion/carnet-de-bord/issues/1479)) ([268bc8e](https://github.com/gip-inclusion/carnet-de-bord/commit/268bc8e4224cb8c90caf65d2799ca47fd4b1f7cd))
+
 # [1.188.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.187.1...v1.188.0) (2023-01-26)
 
 
