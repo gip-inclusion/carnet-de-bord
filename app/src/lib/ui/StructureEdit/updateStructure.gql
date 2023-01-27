@@ -10,6 +10,7 @@ mutation updateStructure(
   $phone: String
   $name: citext
   $email: String
+  $orientationSystems: [structure_orientation_system_insert_input!]!
 ) {
   update_structure_by_pk(
     pk_columns: { id: $id }
@@ -27,5 +28,11 @@ mutation updateStructure(
     }
   ) {
     id
+  }
+  delete_structure_orientation_system(where: { structureId: { _eq: $id } }) {
+    affected_rows
+  }
+  insert_structure_orientation_system(objects: $orientationSystems) {
+    affected_rows
   }
 }

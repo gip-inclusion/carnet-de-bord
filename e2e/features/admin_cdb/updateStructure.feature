@@ -15,5 +15,5 @@ Fonctionnalité: Modification d'une structure
 		Alors je suis sur la page "admin/deployment/c5c3a933-6f4a-4b2b-aa49-7a816eaef16b/structures/c0b8aee3-c061-4023-b57e-92880627d589"
 		Alors je renseigne "51000" dans le champ "Code postal"
 		Alors je renseigne "Châlons-en-Champagne" dans le champ "Ville"
-		Quand je clique sur "Mettre à jour"
+		Quand je clique sur "Enregistrer les modifications"
 		Alors je vois "Châlons-en-Champagne" sur la ligne "Interlogement 51"

@@ -1,11 +1,11 @@
 import type { GetOrientationSystemQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-type OrientationSystem = Pick<
+export type OrientationSystem = Pick<
 	GetOrientationSystemQuery['orientation_system'][number],
 	'name' | 'orientationType'
 >;
 
-function getOrientationSystemLabel(orientationSystem: OrientationSystem | null): string {
+export function getOrientationSystemLabel(orientationSystem: OrientationSystem | null): string {
 	if (orientationSystem) {
 		let orientationTypeLabel: string;
 		if (orientationSystem.orientationType == 'pro') {
@@ -23,5 +23,3 @@ function getOrientationSystemLabel(orientationSystem: OrientationSystem | null):
 
 	return '';
 }
-
-export { getOrientationSystemLabel };

@@ -21,7 +21,29 @@ object_relationships:
   - name: structure
     using:
       foreign_key_constraint_on: structure_id
+insert_permissions:
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - orientation_system_id
+        - structure_id
+  - role: manager
+    permission:
+      check:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      columns:
+        - orientation_system_id
+        - structure_id
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - orientation_system_id
+        - structure_id
+      filter: {}
   - role: admin_structure
     permission:
       columns:
@@ -66,7 +88,16 @@ update_permissions:
             _eq: X-Hasura-Deployment-Id
       check: null
 delete_permissions:
+  - role: admin_cdb
+    permission:
+      filter: {}
   - role: admin_structure
+    permission:
+      filter:
+        structure:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+  - role: manager
     permission:
       filter:
         structure:

@@ -1,17 +1,25 @@
 <script lang="ts">
-	import { Button } from '$lib/ui/base';
+	import { Button, Checkboxes } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
-	import type { GetStructuresForDeploymentQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { GetStructureByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import type { LabelName } from '$lib/types';
 
 	import { type StructureFormInput, structureSchema } from './structure.schema';
 
-	export let submitLabel = 'Mettre à jour';
-	export let initialValues: GetStructuresForDeploymentQuery['structure'][0];
-	export let onSubmit: (values: StructureFormInput) => void;
+	export let submitLabel = 'Enregistrer les modifications';
+	export let initialValues: GetStructureByIdQuery['structure_by_pk'];
+	export let orientationSystemOptions: LabelName[];
+	export let onSubmit: (values: StructureFormInput, orientationSystems: string[]) => void;
 	export let onCancel: () => void = null;
 	function submitHandler(values: StructureFormInput) {
-		onSubmit(structureSchema.cast(values));
+		onSubmit(structureSchema.cast(values), orientationSystems);
 	}
+
+	let orientationSystems: string[] = initialValues.orientationSystems.map(
+		({ orientationSystem }) => {
+			return orientationSystem.id;
+		}
+	);
 </script>
 
 <Form
@@ -23,6 +31,8 @@
 	let:isValid
 >
 	<div class="max-w-lg">
+		<h2 class="text-france-blue fr-h4">Informations générales</h2>
+
 		<Input placeholder="Pole insertion" inputLabel="Nom" name="name" />
 		<Input placeholder="service d'insertion" inputLabel="Description" name="shortDesc" />
 		<Input placeholder="agence@cd08.fr" inputLabel="Courriel" name="email" />
@@ -45,6 +55,20 @@
 			<Input class="fr-col-9" inputLabel="Ville" placeholder="Paris" name="city" />
 		</div>
 		<Input placeholder="https://monsite.url" inputLabel="Site web" name="website" />
+
+		<h2 class="text-france-blue fr-h4">Dispositifs d'orientation</h2>
+		{#if orientationSystemOptions.length === 0}
+			<p>Aucun dispositif d'orientation affecté à cette structure.</p>
+		{:else}
+			<Checkboxes
+				globalClassNames={'flex flex-row flex-wrap gap-4'}
+				checkboxesCommonClassesNames={'!mt-0 w-5/12'}
+				caption={"Dispositifs d'orientation"}
+				bind:selectedOptions={orientationSystems}
+				options={orientationSystemOptions}
+				name="orientationSystems"
+			/>
+		{/if}
 
 		<div class="flex flex-row gap-6 mt-12">
 			<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}

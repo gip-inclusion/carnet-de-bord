@@ -15,5 +15,15 @@ query GetStructureById($structureId: uuid!) {
       id
       label
     }
+    orientationSystems {
+      orientationSystem {
+        id
+      }
+    }
+  }
+  orientation_system(order_by: { name: asc }) {
+    id
+    name
+    orientationType
   }
 }

@@ -14,6 +14,7 @@
 	query(getStructure);
 
 	$: structure = $getStructure.data?.structure_by_pk;
+	$: deploymentOrientationSystems = $getStructure.data?.orientation_system;
 
 	const structuresListPath = `${homeForRole(RoleEnum.Manager)}/structures`;
 
@@ -35,5 +36,5 @@
 
 <Breadcrumbs segments={breadcrumbs} />
 <LoaderIndicator result={$getStructure}>
-	<StructureEditLayer {structure} onClose={goToStructuresList} />
+	<StructureEditLayer {structure} onClose={goToStructuresList} {deploymentOrientationSystems} />
 </LoaderIndicator>

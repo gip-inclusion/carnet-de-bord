@@ -8953,6 +8953,8 @@ export type OrientationRequestUpdates = {
 /** columns and relationships of "orientation_system" */
 export type OrientationSystem = {
 	__typename?: 'orientation_system';
+	/** An object relationship */
+	beneficiaries?: Maybe<NotebookInfo>;
 	createdAt: Scalars['timestamptz'];
 	deployment_id: Scalars['uuid'];
 	id: Scalars['uuid'];
@@ -9058,6 +9060,7 @@ export type OrientationSystemBoolExp = {
 	_and?: InputMaybe<Array<OrientationSystemBoolExp>>;
 	_not?: InputMaybe<OrientationSystemBoolExp>;
 	_or?: InputMaybe<Array<OrientationSystemBoolExp>>;
+	beneficiaries?: InputMaybe<NotebookInfoBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	deployment_id?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
@@ -9081,6 +9084,7 @@ export enum OrientationSystemConstraint {
 
 /** input type for inserting data into table "orientation_system" */
 export type OrientationSystemInsertInput = {
+	beneficiaries?: InputMaybe<NotebookInfoObjRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	deployment_id?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
@@ -9155,6 +9159,7 @@ export type OrientationSystemOnConflict = {
 
 /** Ordering options when selecting data from "orientation_system". */
 export type OrientationSystemOrderBy = {
+	beneficiaries?: InputMaybe<NotebookInfoOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	deployment_id?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -14988,11 +14993,22 @@ export type UpdateStructureMutationVariables = Exact<{
 	phone?: InputMaybe<Scalars['String']>;
 	name?: InputMaybe<Scalars['citext']>;
 	email?: InputMaybe<Scalars['String']>;
+	orientationSystems:
+		| Array<StructureOrientationSystemInsertInput>
+		| StructureOrientationSystemInsertInput;
 }>;
 
 export type UpdateStructureMutation = {
 	__typename?: 'mutation_root';
 	update_structure_by_pk?: { __typename?: 'structure'; id: string } | null;
+	delete_structure_orientation_system?: {
+		__typename?: 'structure_orientation_system_mutation_response';
+		affected_rows: number;
+	} | null;
+	insert_structure_orientation_system?: {
+		__typename?: 'structure_orientation_system_mutation_response';
+		affected_rows: number;
+	} | null;
 };
 
 export type GetAccountByPkQueryVariables = Exact<{
@@ -15079,6 +15095,15 @@ export type GetStructuresForDeploymentQuery = {
 		email?: string | null;
 		postalCode?: string | null;
 		city?: string | null;
+		orientationSystems: Array<{
+			__typename?: 'structure_orientation_system';
+			orientationSystem: {
+				__typename?: 'orientation_system';
+				id: string;
+				name: string;
+				orientationType: OrientationTypeEnum;
+			};
+		}>;
 	}>;
 };
 
@@ -15685,7 +15710,17 @@ export type GetStructureByIdQuery = {
 		address2?: string | null;
 		website?: string | null;
 		deployment?: { __typename?: 'deployment'; id: string; label: string } | null;
+		orientationSystems: Array<{
+			__typename?: 'structure_orientation_system';
+			orientationSystem: { __typename?: 'orientation_system'; id: string };
+		}>;
 	} | null;
+	orientation_system: Array<{
+		__typename?: 'orientation_system';
+		id: string;
+		name: string;
+		orientationType: OrientationTypeEnum;
+	}>;
 };
 
 export type BeneficiariesWithOrientationRequestCountQueryVariables = Exact<{
@@ -23951,6 +23986,23 @@ export const UpdateStructureDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'orientationSystems' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'structure_orientation_system_insert_input' },
+								},
+							},
+						},
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -24036,6 +24088,54 @@ export const UpdateStructureDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'delete_structure_orientation_system' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'structureId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_eq' },
+														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_structure_orientation_system' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'orientationSystems' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
 						},
 					},
 				],
@@ -24248,6 +24348,27 @@ export const GetStructuresForDeploymentDocument = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'email' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientationSystems' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationSystem' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
+													],
+												},
+											},
+										],
+									},
+								},
 							],
 						},
 					},
@@ -25194,6 +25315,51 @@ export const GetStructureByIdDocument = {
 										],
 									},
 								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'orientationSystems' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationSystem' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'orientation_system' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'name' },
+											value: { kind: 'EnumValue', value: 'asc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
 							],
 						},
 					},
