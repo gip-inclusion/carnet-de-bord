@@ -16,8 +16,9 @@
 	import { accountData } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
 
-	type Member = GetNotebookQuery['notebook_public_view'][0]['members'][0];
-	type Appointment = GetNotebookQuery['notebook_public_view'][0]['notebook']['appointments'][0];
+	type Member = GetNotebookQuery['notebook_public_view'][number]['members'][number];
+	type Appointment =
+		GetNotebookQuery['notebook_public_view'][number]['notebook']['appointments'][number];
 
 	export let notebookId: string;
 	export let beneficiaryFirstname: string;
@@ -26,10 +27,35 @@
 	export let appointments: Appointment[];
 	export let displayMemberManagementButtons = false;
 
+	type NotebookMember = {
+		fullname: string;
+		memberType: Member['memberType'];
+		structureName: string | undefined;
+		position: string;
+		accountId: Member['id'];
+		member: Member;
+	};
+	function toNotebookMember(member: Member): NotebookMember {
+		return {
+			fullname: member.account?.professional
+				? displayFullName(member.account?.professional)
+				: displayFullName(member.account?.orientation_manager),
+			memberType: member.memberType,
+			structureName: member.account?.professional?.structure.name,
+			position:
+				member.account.type === RoleEnum.OrientationManager
+					? "Chargé d'orientation"
+					: member.account?.professional?.position,
+			accountId: member.account?.id,
+			member,
+		};
+	}
+	$: notebookMembers = members.map(toNotebookMember);
+
 	const removeNotebookMemberStore = operationStore(RemoveMemberFromNotebookDocument);
 	const removeNotebookMember = mutation(removeNotebookMemberStore);
 
-	function openMemberInfo(member: Member) {
+	function openMemberInfo({ member }: NotebookMember) {
 		trackEvent('pro', 'members', 'view info');
 		openComponent.open({ component: ProNotebookMemberView, props: { member, notebookId } });
 	}
@@ -113,40 +139,22 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each members.filter(({ account }) => account.type === RoleEnum.Professional) as member}
+			{#each notebookMembers as member}
 				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
 					<td>
 						<span class="inline-flex gap-2" class:font-bold={member.memberType === 'referent'}>
-							<Text value={displayFullName(member.account?.professional)} />
+							<Text value={member.fullname} />
 							{#if member.memberType === 'referent'}
 								(référent)
 							{/if}
 						</span>
-						<Text value={member.account?.professional.structure.name} />
+						{#if member.structureName}<Text value={member.structureName} />{/if}
 					</td>
 					<td>
-						<Text value={member.account?.professional.position} />
+						<Text value={member.position} />
 					</td>
 					<td>
-						<Text value={filterAppointmentsByAccountId(member.account?.id)} />
-					</td>
-					<td class="text-center">
-						<button>
-							<i class="text-2xl text-france-blue ri-arrow-right-line" />
-						</button>
-					</td>
-				</tr>
-			{/each}
-			{#each members.filter(({ account }) => account.type === RoleEnum.OrientationManager) as member}
-				<tr class="cursor-pointer" on:click={() => openMemberInfo(member)}>
-					<td>
-						<div class="flex flex-row gap-2">
-							<Text value={displayFullName(member.account?.orientation_manager)} />
-						</div>
-					</td>
-					<td>Chargé d'orientation</td>
-					<td>
-						<Text value={filterAppointmentsByAccountId(member.account?.id)} />
+						<Text value={filterAppointmentsByAccountId(member.accountId)} />
 					</td>
 					<td class="text-center">
 						<button>

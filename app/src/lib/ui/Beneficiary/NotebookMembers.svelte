@@ -13,9 +13,11 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { Option } from '$lib/types';
 	import { goto } from '$app/navigation';
+	import { displayFullName } from '../format';
 
-	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
-	export let members: Notebook['members'];
+	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][number];
+	type Member = Notebook['members'][number];
+	export let members: Member[];
 	export let notebookId: Notebook['id'];
 
 	const dispatch = createEventDispatcher();
@@ -57,6 +59,27 @@
 	function forceLogout() {
 		goto('/auth/logout');
 	}
+
+	type NotebookMember = {
+		fullname: string;
+		memberType: Member['memberType'];
+		structureName: string | undefined;
+		position: string;
+	};
+	function toNotebookMember(member: Member): NotebookMember {
+		return {
+			fullname: member.account?.professional
+				? displayFullName(member.account?.professional)
+				: displayFullName(member.account?.orientation_manager),
+			memberType: member.memberType,
+			structureName: member.account?.professional?.structure.name,
+			position:
+				member.account.type === RoleEnum.OrientationManager
+					? "Chargé d'orientation"
+					: member.account?.professional?.position,
+		};
+	}
+	const notebookMembers = members.map(toNotebookMember);
 </script>
 
 <div class="fr-table fr-table--layout-fixed !mb-0">
@@ -91,35 +114,22 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each members.filter(({ account }) => account.type === RoleEnum.Professional) as member}
+			{#each notebookMembers as member}
 				<tr class:font-bold={member.memberType === 'referent'}>
 					<td>
-						<Text value={member.account?.professional.structure.name} />
+						{#if member.structureName}<Text value={member.structureName} />{/if}
 					</td>
 					<td>
 						<div class="flex flex-row gap-2">
-							<Text value={member.account?.professional.firstname} />
-							<Text value={member.account?.professional.lastname} />
+							<Text value={member.fullname} />
 							{#if member.memberType === 'referent'}
 								(référent)
 							{/if}
 						</div>
 					</td>
 					<td>
-						<Text value={member.account?.professional.position} />
+						<Text value={member.position} />
 					</td>
-				</tr>
-			{/each}
-			{#each members.filter(({ account }) => account.type === RoleEnum.OrientationManager) as member}
-				<tr class:font-bold={member.memberType === 'referent'}>
-					<td />
-					<td>
-						<div class="flex flex-row gap-2">
-							<Text value={member.account?.orientation_manager.firstname} />
-							<Text value={member.account?.orientation_manager.lastname} />
-						</div>
-					</td>
-					<td>Chargé d'orientation</td>
 				</tr>
 			{/each}
 		</tbody>
