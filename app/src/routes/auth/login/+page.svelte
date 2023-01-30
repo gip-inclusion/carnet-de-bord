@@ -76,7 +76,8 @@
 				Si vous n'avez pas reçu le lien, vous pouvez cliquer sur le bouton ci-dessous.
 			</div>
 			<div>
-				<Button on:click={handleSubmit} outline={true}>Renvoyer le lien</Button>
+				<!-- le bouton devrait être supprimé mais il permet à l'utilisateur de faire une action pour patienter pendant que le courriel est délivré -->
+				<Button outline={true}>Renvoyer le lien</Button>
 			</div>
 		</div>
 	</div>
