@@ -1,3 +1,10 @@
+## [1.188.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.188.2...v1.188.3) (2023-01-30)
+
+
+### Bug Fixes
+
+* suppression de l'action de renvoi de mail de connexion ([#1483](https://github.com/gip-inclusion/carnet-de-bord/issues/1483)) ([ce73628](https://github.com/gip-inclusion/carnet-de-bord/commit/ce73628d301144b60ae8b258388eea474b256f00))
+
 ## [1.188.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.188.1...v1.188.2) (2023-01-30)
 
 ## [1.188.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.188.0...v1.188.1) (2023-01-27)
