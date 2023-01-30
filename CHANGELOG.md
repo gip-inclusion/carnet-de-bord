@@ -1,3 +1,10 @@
+# [1.189.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.188.3...v1.189.0) (2023-01-30)
+
+
+### Features
+
+* permettre la configuration des rappels par une variable ([#1485](https://github.com/gip-inclusion/carnet-de-bord/issues/1485)) ([dd19344](https://github.com/gip-inclusion/carnet-de-bord/commit/dd19344f38c0bde8137dcbb302c2a2b1567bf1d0))
+
 ## [1.188.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.188.2...v1.188.3) (2023-01-30)
 
 
