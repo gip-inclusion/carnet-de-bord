@@ -101,7 +101,7 @@
 
 	$: showRemoveButton =
 		members?.find((member: Member) => member.memberType === 'referent')?.account.id !==
-		$accountData.id;
+			$accountData.id && $accountData.type == RoleEnum.Professional;
 </script>
 
 {#if displayMemberManagementButtons}
