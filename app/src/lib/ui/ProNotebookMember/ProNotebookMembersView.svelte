@@ -73,9 +73,15 @@
 		return proAppointment ? formatDateTimeLocale(proAppointment.date) : '';
 	}
 
-	$: showRemoveButton =
-		members?.find((member: Member) => member.memberType === 'referent')?.account.id !==
-		$accountData.id;
+	function showRemoveButton(): boolean {
+		const account = members?.find((member: Member) => member.memberType === 'referent')?.account;
+
+		if (account && account.id === $accountData.id) {
+			return true;
+		}
+
+		return false;
+	}
 </script>
 
 {#if displayMemberManagementButtons}
@@ -85,7 +91,7 @@
 				openInviteMember();
 			}}>Inviter un accompagnateur</Button
 		>
-		{#if showRemoveButton}
+		{#if showRemoveButton()}
 			<Dialog
 				buttonFullWidth={true}
 				outlineButton={false}
