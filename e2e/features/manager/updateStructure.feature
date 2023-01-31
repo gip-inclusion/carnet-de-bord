@@ -16,7 +16,7 @@ Fonctionnalité: Modification d'une structure
 		Quand je clique sur "Enregistrer les modifications"
 		Alors je vois "Châlons-en-Champagne" sur la ligne "Interlogement 51"
 
-	Scénario: Mise à jour des dispositifs d'orientation d'une structure
+	Scénario: Mise à jour des dispositifs d'accompagnement d'une structure
 		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd51@fabrique.social.gouv.fr"
 		Quand je clique sur "Structures"
 		Alors je vois "Interlogement 51" dans le tableau "Liste des structures"

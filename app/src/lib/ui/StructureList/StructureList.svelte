@@ -34,7 +34,7 @@
 				<th class="w-2/5">Nom</th>
 				<th class="text-right">Code postal</th>
 				<th>Ville</th>
-				<th class="">Dispositifs d'orientation</th>
+				<th class="">Dispositifs d'accompagnement</th>
 				<th class="text-center w-20">Éditer</th>
 			</tr>
 		</thead>

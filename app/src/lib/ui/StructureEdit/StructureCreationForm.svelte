@@ -56,14 +56,14 @@
 		</div>
 		<Input placeholder="https://monsite.url" inputLabel="Site web" name="website" />
 
-		<h2 class="text-france-blue fr-h4">Dispositifs d'orientation</h2>
+		<h2 class="text-france-blue fr-h4">Dispositifs d'accompagnement</h2>
 		{#if orientationSystemOptions.length === 0}
-			<p>Aucun dispositif d'orientation affecté à cette structure.</p>
+			<p>Aucun dispositif d'accompagnement affecté à cette structure.</p>
 		{:else}
 			<Checkboxes
 				globalClassNames={'flex flex-row flex-wrap gap-4'}
 				checkboxesCommonClassesNames={'!mt-0 w-5/12'}
-				caption={"Dispositifs d'orientation"}
+				caption={"Dispositifs d'accompagnement"}
 				bind:selectedOptions={orientationSystems}
 				options={orientationSystemOptions}
 				name="orientationSystems"
