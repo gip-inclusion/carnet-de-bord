@@ -8956,6 +8956,8 @@ export type OrientationSystem = {
 	/** An object relationship */
 	beneficiaries?: Maybe<NotebookInfo>;
 	createdAt: Scalars['timestamptz'];
+	/** An object relationship */
+	deployment: Deployment;
 	deployment_id: Scalars['uuid'];
 	id: Scalars['uuid'];
 	name: Scalars['String'];
@@ -9062,6 +9064,7 @@ export type OrientationSystemBoolExp = {
 	_or?: InputMaybe<Array<OrientationSystemBoolExp>>;
 	beneficiaries?: InputMaybe<NotebookInfoBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	deployment?: InputMaybe<DeploymentBoolExp>;
 	deployment_id?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	name?: InputMaybe<StringComparisonExp>;
@@ -9086,6 +9089,7 @@ export enum OrientationSystemConstraint {
 export type OrientationSystemInsertInput = {
 	beneficiaries?: InputMaybe<NotebookInfoObjRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
 	deployment_id?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	name?: InputMaybe<Scalars['String']>;
@@ -9161,6 +9165,7 @@ export type OrientationSystemOnConflict = {
 export type OrientationSystemOrderBy = {
 	beneficiaries?: InputMaybe<NotebookInfoOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deployment?: InputMaybe<DeploymentOrderBy>;
 	deployment_id?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	name?: InputMaybe<OrderBy>;
@@ -25436,6 +25441,50 @@ export const GetStructureByIdDocument = {
 						kind: 'Field',
 						name: { kind: 'Name', value: 'orientation_system' },
 						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deployment' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'structures' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'id' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'Variable',
+																					name: { kind: 'Name', value: 'structureId' },
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },

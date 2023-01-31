@@ -24,6 +24,9 @@ object_relationships:
         remote_table:
           name: notebook_info
           schema: public
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
   - name: orientationTypeByOrientationType
     using:
       foreign_key_constraint_on: orientation_type

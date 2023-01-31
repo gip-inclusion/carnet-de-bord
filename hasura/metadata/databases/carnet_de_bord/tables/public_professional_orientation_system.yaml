@@ -33,6 +33,14 @@ insert_permissions:
         - orientation_system_id
         - professional_id
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - created_at
+        - id
+        - orientation_system_id
+        - professional_id
+      filter: {}
   - role: admin_structure
     permission:
       columns:

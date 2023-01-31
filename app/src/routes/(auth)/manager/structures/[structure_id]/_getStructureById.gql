@@ -21,7 +21,10 @@ query GetStructureById($structureId: uuid!) {
       }
     }
   }
-  orientation_system(order_by: { name: asc }) {
+  orientation_system(
+    where: { deployment: { structures: { id: { _eq: $structureId } } } }
+    order_by: { name: asc }
+  ) {
     id
     name
     orientationType
