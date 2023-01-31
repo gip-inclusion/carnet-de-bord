@@ -1,3 +1,10 @@
+## [1.189.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.189.1...v1.189.2) (2023-01-31)
+
+
+### Reverts
+
+* Revert "fix: bad value comparaison of member type" ([2fbfaf3](https://github.com/gip-inclusion/carnet-de-bord/commit/2fbfaf3d0ca59f035c23a0512636aa8b302771ac))
+
 ## [1.189.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.189.0...v1.189.1) (2023-01-31)
 
 
