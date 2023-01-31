@@ -25,11 +25,13 @@ type Msg
 
 
 type alias OrientationHomeInfos =
-    { nbOriented : Int
-    , nbUnoriented : Int
+    { nbWithReferent : Int
+    , nbWithoutReferent : Int
+    , nbWithoutStructure : Int
     , nbOrientationRequest : Int
-    , nbOtherOriented : Int
-    , nbOtherUnoriented : Int
+    , nbOtherWithReferent : Int
+    , nbOtherWithoutReferent : Int
+    , nbOtherWithoutStructure : Int
     , nbOtherOrientationRequest : Int
     }
 
@@ -48,17 +50,23 @@ type alias GqlQuery =
 orientationHomeInfoDecoder : Json.Decode.Decoder OrientationHomeInfos
 orientationHomeInfoDecoder =
     let
-        unOrientedBeneficiaryParser =
+        beneficiaryWithReferentParser =
             Json.Decode.field "data"
-                (Json.Decode.field "unorientedBeneficiaryCount"
+                (Json.Decode.field "beneficiaryWitReferentCount"
                     (Json.Decode.field "aggregate"
                         (Json.Decode.field "count" Json.Decode.int)
                     )
                 )
-
-        orientedBeneficiaryParser =
+        beneficiaryWithoutReferentParser =
             Json.Decode.field "data"
-                (Json.Decode.field "orientedBeneficiaryCount"
+                (Json.Decode.field "beneficiaryWithoutReferentCount"
+                    (Json.Decode.field "aggregate"
+                        (Json.Decode.field "count" Json.Decode.int)
+                    )
+                )
+        beneficiaryWithoutStructureParser =
+            Json.Decode.field "data"
+                (Json.Decode.field "beneficiaryWithoutStructureCount"
                     (Json.Decode.field "aggregate"
                         (Json.Decode.field "count" Json.Decode.int)
                     )
@@ -72,17 +80,24 @@ orientationHomeInfoDecoder =
                     )
                 )
 
-        otherUnorientedBeneficiaryParser =
+
+        otherBeneficiaryWithReferentParser =
             Json.Decode.field "data"
-                (Json.Decode.field "otherUnorientedBeneficiaryCount"
+                (Json.Decode.field "otherBeneficiaryWithReferentCount"
                     (Json.Decode.field "aggregate"
                         (Json.Decode.field "count" Json.Decode.int)
                     )
                 )
-
-        otherOrientedBeneficiaryParser =
+        otherBeneficiaryWithoutReferentParser =
             Json.Decode.field "data"
-                (Json.Decode.field "otherOrientedBeneficiaryCount"
+                (Json.Decode.field "otherBeneficiaryWithoutReferentCount"
+                    (Json.Decode.field "aggregate"
+                        (Json.Decode.field "count" Json.Decode.int)
+                    )
+                )
+        otherBeneficiaryWithoutStructureParser =
+            Json.Decode.field "data"
+                (Json.Decode.field "otherBeneficiaryWithoutStructureCount"
                     (Json.Decode.field "aggregate"
                         (Json.Decode.field "count" Json.Decode.int)
                     )
@@ -96,12 +111,14 @@ orientationHomeInfoDecoder =
                     )
                 )
     in
-    Json.Decode.map6 OrientationHomeInfos
-        orientedBeneficiaryParser
-        unOrientedBeneficiaryParser
+    Json.Decode.map8 OrientationHomeInfos
+        beneficiaryWithReferentParser
+        beneficiaryWithoutReferentParser
+        beneficiaryWithoutStructureParser
         orientationRequestParser
-        otherOrientedBeneficiaryParser
-        otherUnorientedBeneficiaryParser
+        otherBeneficiaryWithReferentParser
+        otherBeneficiaryWithoutReferentParser
+        otherBeneficiaryWithoutStructureParser
         otherOrientationRequestParser
 
 
@@ -126,7 +143,7 @@ getOrientationHomeInfos token serverUrl accountId toMsg =
         gqlQuery =
             { query = """
 query GetBeneficiaryDashboard($id: uuid!) {
-  orientedBeneficiaryCount: beneficiary_aggregate(
+  beneficiaryWitReferentCount: beneficiary_aggregate(
     where: {
       notebook: {
         _and: [
@@ -140,14 +157,28 @@ query GetBeneficiaryDashboard($id: uuid!) {
       count
     }
   }
-  unorientedBeneficiaryCount: beneficiary_aggregate(
+  beneficiaryWithoutReferentCount: beneficiary_aggregate(
     where: {
       notebook: {
-        _and: [
-          {  members: { accountId: { _eq: $id } } }
-          { _not: { members:  { memberType: { _eq: "referent" }, active: { _eq: true } } } }
-        ]
+        members: { accountId: { _eq: $id } }
+        _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
+
       }
+      structures: { status: { _eq: "current" } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  beneficiaryWithoutStructureCount: beneficiary_aggregate(
+    where: {
+      notebook: {
+        members: { accountId: { _eq: $id } }
+        _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
+
+      }
+      _not : { structures: { status: { _eq: "current" } } }
     }
   ) {
     aggregate {
@@ -164,7 +195,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
       count
     }
   }
-  otherOrientedBeneficiaryCount: beneficiary_aggregate(
+  otherBeneficiaryWithReferentCount: beneficiary_aggregate(
     where: {
       notebook: {
         _not: { members: { accountId: { _eq: $id } } }
@@ -176,21 +207,30 @@ query GetBeneficiaryDashboard($id: uuid!) {
       count
     }
   }
-  otherUnorientedBeneficiaryCount: beneficiary_aggregate(
+  otherBeneficiaryWithoutReferentCount: beneficiary_aggregate(
     where: {
       notebook: {
         _and: [
           { _not: { members: { accountId: { _eq: $id } } } }
-          {
-            _not: {
-              members: {
-                memberType: { _eq: "referent" }
-                active: { _eq: true }
-              }
-            }
-          }
+          { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
         ]
       }
+      structures: { status: { _eq: "current" } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  otherBeneficiaryWithoutStructureCount: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _and: [
+          { _not: { members: { accountId: { _eq: $id } } } }
+          { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
+        ]
+      }
+      _not: { structures: { status: { _eq: "current" } } }
     }
   ) {
     aggregate {
@@ -290,14 +330,18 @@ view model =
             [ text "Mon portefeuille  d'orientation" ]
         , div
             [ class "fr-grid-row fr-grid-row--gutters" ]
-            [ card "Bénéficiaires orientés"
-                "Liste des bénéficiaires orientés"
+            [ card "Bénéficiaires accompagnés"
+                "Liste des bénéficiaires accompagnés"
                 "/orientation/beneficiaires?statut=referent&brsa=suivi"
-                (extractString .nbOriented)
-            , card "Bénéficiaires à orienter"
-                "Liste des bénéficiaires à orienter"
+                (extractString .nbWithReferent)
+            , card "Bénéficiaires en attente de référent"
+                "Liste des bénéficiaires en attente de référent"
                 "/orientation/beneficiaires?statut=sans-referent&brsa=suivi"
-                (extractString .nbUnoriented)
+                (extractString .nbWithoutReferent)
+            , card "Bénéficiaires non accompagnés"
+                "Liste des bénéficiaires non accompagnés"
+                "/orientation/beneficiaires?statut=sans-structure&brsa=suivi"
+                (extractString .nbWithoutStructure)
             , card "Demandes de réorientation"
                 "Liste des demandes de réorientation"
                 "/orientation/beneficiaires?statut=demande-reo&brsa=suivi"
@@ -307,14 +351,18 @@ view model =
             [ text "Autres bénéficiaires de mon territoire" ]
         , div
             [ class "fr-grid-row fr-grid-row--gutters" ]
-            [ card "Bénéficiaires orientés"
-                "Liste des autres bénéficiaires orientés"
+            [ card "Bénéficiaires accompagnés"
+                "Liste des autres bénéficiaires accompagnés"
                 "/orientation/beneficiaires?statut=referent&brsa=non-suivi"
-                (extractString .nbOtherOriented)
-            , card "Bénéficiaires à orienter"
-                "Liste des autres bénéficiaires à orienter"
+                (extractString .nbOtherWithReferent)
+            , card "Bénéficiaires en attente de référent"
+                "Liste des autres bénéficiaires en attente de référent"
                 "/orientation/beneficiaires?statut=sans-referent&brsa=non-suivi"
-                (extractString .nbOtherUnoriented)
+                (extractString .nbOtherWithoutReferent)
+            , card "Bénéficiaires non accompagnés"
+                "Liste des autres bénéficiaires non accompagnés"
+                "/orientation/beneficiaires?statut=sans-structure&brsa=non-suivi"
+                (extractString .nbOtherWithoutStructure)
             , card "Demandes de réorientation"
                 "Liste des autres demandes de réorientation"
                 "/orientation/beneficiaires?statut=demande-reo&brsa=non-suivi"
@@ -325,7 +373,7 @@ view model =
 
 card : String -> String -> String -> String -> Html msg
 card label cardTitle url value =
-    div [ class "fr-col-sm-6 fr-col-md-4 fr-col-lg-4" ]
+    div [ class "fr-col-sm-6 fr-col-md-3 fr-col-lg-3" ]
         [ div
             [ class "fr-card fr-enlarge-link"
             ]

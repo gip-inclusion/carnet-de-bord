@@ -12,8 +12,9 @@
 
 	const orientationStatusfilterOptions: { label: string; name: OrientedFilter }[] = [
 		{ label: 'Tous', name: 'tous' },
-		{ label: 'Sans référent', name: 'sans-referent' },
-		{ label: 'Avec un référent', name: 'referent' },
+		{ label: 'Accompagné', name: 'referent' },
+		{ label: "En attente d'un référent", name: 'sans-referent' },
+		{ label: 'Non accompagné', name: 'sans-structure' },
 		{ label: 'Avec une demande de réorientation', name: 'demande-reo' },
 	];
 

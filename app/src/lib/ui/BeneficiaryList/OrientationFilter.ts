@@ -1,15 +1,22 @@
 export type AllOriented = 'tous';
 export type OrientedStatus = 'referent';
-export type UnorientedStatus = 'sans-referent';
+export type WithoutReferentStatus = 'sans-referent';
+export type UnorientedStatus = 'sans-structure';
 export type OrientationRequest = 'demande-reo';
 
-export type OrientedFilter = AllOriented | OrientedStatus | UnorientedStatus | OrientationRequest;
+export type OrientedFilter =
+	| AllOriented
+	| OrientedStatus
+	| WithoutReferentStatus
+	| UnorientedStatus
+	| OrientationRequest;
 
 export function getOrientedFilter(filter: string): OrientedFilter {
 	switch (filter) {
 		case 'tous':
 		case 'referent':
 		case 'sans-referent':
+		case 'sans-structure':
 		case 'demande-reo':
 			return filter;
 		default:

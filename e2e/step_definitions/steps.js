@@ -179,7 +179,7 @@ Quand("j'attends que le tableau {string} apparaisse", (text) => {
 });
 
 Quand('je scroll à {string}', (text) => {
-	I.scrollTo(`//*[text()[starts-with(., "${text}")]]`, 0, -140);
+	I.scrollTo(locate('*').withText(text), 0, -140);
 });
 
 Quand('je télécharge en cliquant sur {string}', (downloadText) => {

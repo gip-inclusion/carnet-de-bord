@@ -57,7 +57,12 @@
 	function getOrientationStatusFilter(filter: OrientedFilter): NotebookBoolExp {
 		switch (filter) {
 			case 'sans-referent':
-				return { _not: graphqlOrientedFilter };
+				return {
+					_not: graphqlOrientedFilter,
+					beneficiary: { structures: { status: { _eq: 'current' } } },
+				};
+			case 'sans-structure':
+				return { _not: { beneficiary: { structures: { status: { _eq: 'current' } } } } };
 			case 'referent':
 				return graphqlOrientedFilter;
 			case 'demande-reo':

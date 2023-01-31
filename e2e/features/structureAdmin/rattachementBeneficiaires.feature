@@ -2,7 +2,7 @@
 
 Fonctionnalité: Rattachement liste de bénéficiaires
 	Pour permettre aux professionnels de gérer leurs bénéficiaires
-	En tant qu'administrateur de structures
+	En tant qu'administrateur de structure
 	Je veux pouvoir rattacher les bénéficiaires de ma structure aux pro correspondants
 
 	Scénario: Import liste de rattachement
@@ -23,7 +23,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
-		Alors je vois "18" dans la tuile "Bénéficiaires non accompagnés"
+		Alors je vois "17" dans la tuile "Bénéficiaires non accompagnés"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
@@ -42,7 +42,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je vois "Groupe NS"
 		Alors je clique sur "Groupe NS"
-		Alors je vois "18" dans la tuile "Bénéficiaires non accompagnés"
+		Alors je vois "17" dans la tuile "Bénéficiaires non accompagnés"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je selectionne l'option "Tous" dans la liste "Rattachement"

@@ -5,7 +5,7 @@ Fonctionnalité: Assignation d'un chargé d'orientation
 	En tant que chargé d'orientation
 	Je veux pouvoir assigner un chargé d'orientation à un bénéficiaire
 
-	Scénario: Modifier le rattachement d'un bénéficiaire
+	Scénario: Modifier le chargé d'orientation d'un bénéficiaire
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
