@@ -1,3 +1,10 @@
+# [1.190.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.189.2...v1.190.0) (2023-01-31)
+
+
+### Features
+
+* Mise à jour du référentiel de situations, d'objectifs et d'actions. ([#1470](https://github.com/gip-inclusion/carnet-de-bord/issues/1470)) ([2d8be4d](https://github.com/gip-inclusion/carnet-de-bord/commit/2d8be4d51fd84e217e3f258aafb5689090c9c253))
+
 ## [1.189.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.189.1...v1.189.2) (2023-01-31)
 
 
