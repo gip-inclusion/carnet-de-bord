@@ -2,7 +2,7 @@ import type { GetOrientationSystemQuery } from '$lib/graphql/_gen/typed-document
 
 type OrientationSystem = Pick<
 	GetOrientationSystemQuery['orientation_system'][number],
-	'name' | 'id' | 'orientationType'
+	'name' | 'orientationType'
 >;
 
 function getOrientationSystemLabel(orientationSystem: OrientationSystem | null): string {

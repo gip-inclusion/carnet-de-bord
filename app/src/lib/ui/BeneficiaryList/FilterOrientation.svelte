@@ -11,13 +11,17 @@
 	const dispatch = createEventDispatcher();
 
 	const orientationStatusfilterOptions: { label: string; name: OrientedFilter }[] = [
-		{ label: 'À orienter', name: 'non-oriente' },
-		{ label: 'Orienté', name: 'oriente' },
+		{ label: 'Tous', name: 'tous' },
+		{ label: 'Accompagné', name: 'referent' },
+		{ label: "En attente d'un référent", name: 'sans-referent' },
+		{ label: 'Non accompagné', name: 'sans-structure' },
+		{ label: 'Avec une demande de réorientation', name: 'demande-reo' },
 	];
 
 	const beneficiaryFromfilterOptions: { label: string; name: BeneficiaryFilter }[] = [
-		{ label: 'Bénéficiaires de mon portefeuille', name: 'mes-beneficiaires' },
-		{ label: 'Autres bénéficiaires du territoire', name: 'autres-beneficiaires' },
+		{ label: 'Tous', name: 'tous' },
+		{ label: 'Bénéficiaires de mon portefeuille', name: 'suivi' },
+		{ label: 'Autres bénéficiaires du territoire', name: 'non-suivi' },
 	];
 
 	function onSubmit() {

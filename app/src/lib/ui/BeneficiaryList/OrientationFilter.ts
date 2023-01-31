@@ -1,29 +1,42 @@
-export type OrientedStatus = 'oriente';
-export type UnorientedStatus = 'non-oriente';
+export type AllOriented = 'tous';
+export type OrientedStatus = 'referent';
+export type WithoutReferentStatus = 'sans-referent';
+export type UnorientedStatus = 'sans-structure';
+export type OrientationRequest = 'demande-reo';
 
-export type OrientedFilter = OrientedStatus | UnorientedStatus;
+export type OrientedFilter =
+	| AllOriented
+	| OrientedStatus
+	| WithoutReferentStatus
+	| UnorientedStatus
+	| OrientationRequest;
 
 export function getOrientedFilter(filter: string): OrientedFilter {
 	switch (filter) {
-		case 'oriente':
-		case 'non-oriente':
+		case 'tous':
+		case 'referent':
+		case 'sans-referent':
+		case 'sans-structure':
+		case 'demande-reo':
 			return filter;
 		default:
-			return 'non-oriente';
+			return 'tous';
 	}
 }
 
-export type MyBeneficiary = 'mes-beneficiaires';
-export type OtherBeneficiairy = 'autres-beneficiaires';
+export type AllBeneficiary = 'tous';
+export type MyBeneficiary = 'suivi';
+export type OtherBeneficiairy = 'non-suivi';
 
-export type BeneficiaryFilter = MyBeneficiary | OtherBeneficiairy;
+export type BeneficiaryFilter = AllBeneficiary | MyBeneficiary | OtherBeneficiairy;
 
 export function getBeneficiaryFilter(filter: string): BeneficiaryFilter {
 	switch (filter) {
-		case 'mes-beneficiaires':
-		case 'autres-beneficiaires':
+		case 'tous':
+		case 'suivi':
+		case 'non-suivi':
 			return filter;
 		default:
-			return 'mes-beneficiaires';
+			return 'tous';
 	}
 }

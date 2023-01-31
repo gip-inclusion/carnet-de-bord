@@ -1,8 +1,26 @@
-query BeneficiariesWithOrientationRequest {
-  beneficiaries: beneficiary(where: { orientationRequest: { decidedAt: { _is_null: true } } }) {
+query GetBeneficiariesWithOrientationRequest(
+  $offset: Int! = 0
+  $limit: Int! = 20
+  $where: beneficiary_bool_exp! = {}
+  $search: String! = ""
+) {
+  search_beneficiaries_aggregate(args: { search: $search }, where: $where) {
+    aggregate {
+      count
+    }
+  }
+  beneficiaries: search_beneficiaries(
+    args: { search: $search }
+    limit: $limit
+    offset: $offset
+    order_by: [{ lastname: asc }, { firstname: asc }]
+    where: $where
+  ) {
     id
     firstname
     lastname
+    dateOfBirth
+    city
     structures(where: { status: { _neq: "outdated" } }) {
       structure {
         id
@@ -30,18 +48,27 @@ query BeneficiariesWithOrientationRequest {
           orientationType
         }
       }
-      members(
-        where: { active: { _eq: true }, memberType: { _in: ["orientation_manager", "referent"] } }
+      referent: members(
+        where: { active: { _eq: true }, memberType: { _eq: "referent" } }
         order_by: { createdAt: desc }
       ) {
+        id
         account {
           id
-          type
           professional {
             id
             firstname
             lastname
           }
+        }
+      }
+      orientationManager: members(
+        where: { active: { _eq: true }, account: { type: { _eq: orientation_manager } } }
+        order_by: { createdAt: desc }
+      ) {
+        id
+        account {
+          id
           orientation_manager {
             id
             firstname
