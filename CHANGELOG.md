@@ -1,3 +1,10 @@
+# [1.191.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.190.2...v1.191.0) (2023-01-31)
+
+
+### Features
+
+* Fusion des listes de bénéficiaires et de demandes de réorientation ([#1455](https://github.com/gip-inclusion/carnet-de-bord/issues/1455)) ([16f29c3](https://github.com/gip-inclusion/carnet-de-bord/commit/16f29c310a4b61923cc971c8e6d7674bcd306024)), closes [#1466](https://github.com/gip-inclusion/carnet-de-bord/issues/1466) [#1441](https://github.com/gip-inclusion/carnet-de-bord/issues/1441)
+
 ## [1.190.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.190.1...v1.190.2) (2023-01-31)
 
 
