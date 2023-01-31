@@ -1,3 +1,10 @@
+## [1.190.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.190.1...v1.190.2) (2023-01-31)
+
+
+### Bug Fixes
+
+* Ne pas créer de token d'accès sans invalider l'access key. ([#1478](https://github.com/gip-inclusion/carnet-de-bord/issues/1478)) ([ef8c3e4](https://github.com/gip-inclusion/carnet-de-bord/commit/ef8c3e4381a9116a6d015ade5a298f2402f65708))
+
 ## [1.190.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.190.0...v1.190.1) (2023-01-31)
 
 # [1.190.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.189.2...v1.190.0) (2023-01-31)
