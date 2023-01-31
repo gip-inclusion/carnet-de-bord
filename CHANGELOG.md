@@ -1,3 +1,10 @@
+## [1.189.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.189.0...v1.189.1) (2023-01-31)
+
+
+### Bug Fixes
+
+* bad value comparaison of member type ([9812b19](https://github.com/gip-inclusion/carnet-de-bord/commit/9812b198d6e21a108e23eeb9230a69f12fac791b))
+
 # [1.189.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.188.3...v1.189.0) (2023-01-30)
 
 
