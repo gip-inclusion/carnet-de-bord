@@ -14993,9 +14993,10 @@ export type UpdateStructureMutationVariables = Exact<{
 	phone?: InputMaybe<Scalars['String']>;
 	name?: InputMaybe<Scalars['citext']>;
 	email?: InputMaybe<Scalars['String']>;
-	orientationSystems:
+	orientationSystemsToAdd:
 		| Array<StructureOrientationSystemInsertInput>
 		| StructureOrientationSystemInsertInput;
+	orientationSystemsToDelete?: InputMaybe<Array<Scalars['uuid']> | Scalars['uuid']>;
 }>;
 
 export type UpdateStructureMutation = {
@@ -15007,6 +15008,10 @@ export type UpdateStructureMutation = {
 	} | null;
 	insert_structure_orientation_system?: {
 		__typename?: 'structure_orientation_system_mutation_response';
+		affected_rows: number;
+	} | null;
+	delete_professional_orientation_system?: {
+		__typename?: 'professional_orientation_system_mutation_response';
 		affected_rows: number;
 	} | null;
 };
@@ -23988,7 +23993,7 @@ export const UpdateStructureDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'orientationSystems' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'orientationSystemsToAdd' } },
 					type: {
 						kind: 'NonNullType',
 						type: {
@@ -24000,6 +24005,20 @@ export const UpdateStructureDocument = {
 									name: { kind: 'Name', value: 'structure_orientation_system_insert_input' },
 								},
 							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'orientationSystemsToDelete' },
+					},
+					type: {
+						kind: 'ListType',
+						type: {
+							kind: 'NonNullType',
+							type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 						},
 					},
 				},
@@ -24102,14 +24121,53 @@ export const UpdateStructureDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'structureId' },
+											name: { kind: 'Name', value: '_and' },
 											value: {
-												kind: 'ObjectValue',
-												fields: [
+												kind: 'ListValue',
+												values: [
 													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'structureId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'id' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'orientationSystemId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_in' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'orientationSystemsToDelete' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 												],
 											},
@@ -24130,7 +24188,46 @@ export const UpdateStructureDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'orientationSystems' } },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'orientationSystemsToAdd' },
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'delete_professional_orientation_system' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'orientationSystemId' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_in' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'orientationSystemsToDelete' },
+														},
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 						],
 						selectionSet: {

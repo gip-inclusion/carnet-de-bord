@@ -81,7 +81,17 @@ update_permissions:
               _eq: X-Hasura-Deployment-Id
       check: null
 delete_permissions:
+  - role: admin_cdb
+    permission:
+      filter: {}
   - role: admin_structure
+    permission:
+      filter:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+  - role: manager
     permission:
       filter:
         professional:

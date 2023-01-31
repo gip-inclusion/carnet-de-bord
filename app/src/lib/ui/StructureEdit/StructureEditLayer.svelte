@@ -19,9 +19,18 @@
 	let errorMessage: string;
 
 	async function handleSubmit(values: StructureFormInput, orientationSystems: string[]) {
-		const orientationSystemsValues = orientationSystems.map((orientationSystemId) => {
-			return { orientationSystemId, structureId: structure.id };
-		});
+		const currentOrientationSystemIds = structure.orientationSystems.map(
+			({ orientationSystem }) => orientationSystem.id
+		);
+		const orientationSystemsToAdd = orientationSystems
+			.filter((orientationSystem) => !currentOrientationSystemIds.includes(orientationSystem))
+			.map((orientationSystemId) => {
+				return { orientationSystemId, structureId: structure.id };
+			});
+		const orientationSystemsToDelete = currentOrientationSystemIds.filter(
+			(orientationSystemId) => !orientationSystems.includes(orientationSystemId)
+		);
+
 		await updateStructure({
 			id: structure.id,
 			name: values.name,
@@ -34,11 +43,11 @@
 			postalCode: values.postalCode,
 			city: values.city,
 			website: values.website,
-			orientationSystems: orientationSystemsValues,
+			orientationSystemsToAdd,
+			orientationSystemsToDelete,
 		});
 
 		if (updateResult.error) {
-			// TODO Mettre un message explicite si l'échec est lié au bénéficiaires d'un dispositif supprimé
 			errorMessage = "L'enregistrement a échoué.";
 		} else {
 			onClose();
