@@ -13,7 +13,6 @@
 	query(getStructure);
 
 	$: structure = $getStructure.data?.structure_by_pk;
-	$: deploymentOrientationSystems = $getStructure.data?.orientation_system;
 
 	$: structuresListPath = `/admin/deployment/${structure?.deployment.id}/structures`;
 
@@ -45,5 +44,5 @@
 
 <Breadcrumbs segments={breadcrumbs} />
 <LoaderIndicator result={$getStructure}>
-	<StructureEditLayer {structure} onClose={goToStructuresList} {deploymentOrientationSystems} />
+	<StructureEditLayer {structure} onClose={goToStructuresList} />
 </LoaderIndicator>

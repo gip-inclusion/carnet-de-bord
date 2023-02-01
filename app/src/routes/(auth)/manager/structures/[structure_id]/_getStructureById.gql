@@ -14,19 +14,16 @@ query GetStructureById($structureId: uuid!) {
     deployment {
       id
       label
+      orientationSystems {
+        id
+        name
+        orientationType
+      }
     }
     orientationSystems {
       orientationSystem {
         id
       }
     }
-  }
-  orientation_system(
-    where: { deployment: { structures: { id: { _eq: $structureId } } } }
-    order_by: { name: asc }
-  ) {
-    id
-    name
-    orientationType
   }
 }

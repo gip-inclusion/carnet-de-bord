@@ -8953,11 +8953,7 @@ export type OrientationRequestUpdates = {
 /** columns and relationships of "orientation_system" */
 export type OrientationSystem = {
 	__typename?: 'orientation_system';
-	/** An object relationship */
-	beneficiaries?: Maybe<NotebookInfo>;
 	createdAt: Scalars['timestamptz'];
-	/** An object relationship */
-	deployment: Deployment;
 	deployment_id: Scalars['uuid'];
 	id: Scalars['uuid'];
 	name: Scalars['String'];
@@ -9062,9 +9058,7 @@ export type OrientationSystemBoolExp = {
 	_and?: InputMaybe<Array<OrientationSystemBoolExp>>;
 	_not?: InputMaybe<OrientationSystemBoolExp>;
 	_or?: InputMaybe<Array<OrientationSystemBoolExp>>;
-	beneficiaries?: InputMaybe<NotebookInfoBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
-	deployment?: InputMaybe<DeploymentBoolExp>;
 	deployment_id?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	name?: InputMaybe<StringComparisonExp>;
@@ -9087,9 +9081,7 @@ export enum OrientationSystemConstraint {
 
 /** input type for inserting data into table "orientation_system" */
 export type OrientationSystemInsertInput = {
-	beneficiaries?: InputMaybe<NotebookInfoObjRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
 	deployment_id?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	name?: InputMaybe<Scalars['String']>;
@@ -9163,9 +9155,7 @@ export type OrientationSystemOnConflict = {
 
 /** Ordering options when selecting data from "orientation_system". */
 export type OrientationSystemOrderBy = {
-	beneficiaries?: InputMaybe<NotebookInfoOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
-	deployment?: InputMaybe<DeploymentOrderBy>;
 	deployment_id?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	name?: InputMaybe<OrderBy>;
@@ -15719,18 +15709,22 @@ export type GetStructureByIdQuery = {
 		address1?: string | null;
 		address2?: string | null;
 		website?: string | null;
-		deployment?: { __typename?: 'deployment'; id: string; label: string } | null;
+		deployment?: {
+			__typename?: 'deployment';
+			id: string;
+			label: string;
+			orientationSystems: Array<{
+				__typename?: 'orientation_system';
+				id: string;
+				name: string;
+				orientationType: OrientationTypeEnum;
+			}>;
+		} | null;
 		orientationSystems: Array<{
 			__typename?: 'structure_orientation_system';
 			orientationSystem: { __typename?: 'orientation_system'; id: string };
 		}>;
 	} | null;
-	orientation_system: Array<{
-		__typename?: 'orientation_system';
-		id: string;
-		name: string;
-		orientationType: OrientationTypeEnum;
-	}>;
 };
 
 export type BeneficiariesWithOrientationRequestCountQueryVariables = Exact<{
@@ -25414,6 +25408,18 @@ export const GetStructureByIdDocument = {
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientationSystems' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
+													],
+												},
+											},
 										],
 									},
 								},
@@ -25434,78 +25440,6 @@ export const GetStructureByIdDocument = {
 										],
 									},
 								},
-							],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'orientation_system' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deployment' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'structures' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'id' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'structureId' },
-																				},
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'name' },
-											value: { kind: 'EnumValue', value: 'asc' },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
 							],
 						},
 					},

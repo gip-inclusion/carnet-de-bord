@@ -11,7 +11,6 @@
 	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let structure: GetStructureByIdQuery['structure_by_pk'];
-	export let deploymentOrientationSystems: GetStructureByIdQuery['orientation_system'];
 	export let onClose: () => void;
 	const updateResult = operationStore(UpdateStructureDocument);
 	const updateStructure = mutation(updateResult);
@@ -55,7 +54,7 @@
 	}
 
 	function buildOrientationSystemOptions(): LabelName[] {
-		return deploymentOrientationSystems.map((orientationSystem) => {
+		return structure.deployment.orientationSystems.map((orientationSystem) => {
 			return {
 				label: getOrientationSystemLabel(orientationSystem),
 				name: orientationSystem.id,
