@@ -38,61 +38,40 @@ const sankaAccount = {
 	},
 };
 
+const giuiliaDiabyAccount = {
+	id: 'acc3',
+	type: RoleEnum.OrientationManager,
+	confirmed: true,
+	username: 'giuilia.diabby',
+	orientation_manager: {
+		id: 'om1',
+		firstname: 'giuilia',
+		lastname: 'diaby',
+		email: 'orientation.manager@email.net',
+	},
+};
+
 const notebookMembers = [
 	{
 		id: '1',
 		memberType: 'referent',
 		createdAt: '2020-01-01',
-		account: {
-			id: 'acc1',
-			type: RoleEnum.Professional,
-			professional: {
-				id: 'p1',
-				firstname: 'pierre',
-				lastname: 'chevalier',
-				email: 'pierre.chevalier@livry-gargan.fr',
-				structure: {
-					id: 's1',
-					name: 's1',
-				},
-			},
-		},
+		account: pierreChevalierAccount,
 	},
 	{
 		id: '2',
 		memberType: 'no-referent',
 		createdAt: '2020-01-01',
-		account: {
-			id: 'acc2',
-			type: RoleEnum.Professional,
-			professional: {
-				id: 'p2',
-				firstname: 'simon',
-				lastname: 'anka',
-				email: 'sanka@groupe-ns.fr',
-				structure: {
-					id: 's2',
-					name: 's2',
-				},
-			},
-		},
+		account: sankaAccount,
 	},
 	{
 		id: '3',
 		memberType: 'orientation_manager',
 		createdAt: '2020-01-01',
-		account: {
-			id: 'acc3',
-			type: RoleEnum.OrientationManager,
-			orientation_manager: {
-				id: 'om1',
-				firstname: 'giulia',
-				lastname: 'diaby',
-				email: 'giulia.diaby@cd93.fr',
-			},
-		},
+		account: giuiliaDiabyAccount,
 	},
 ];
+
 test('do not show remove button for referent', () => {
 	accountData.set(pierreChevalierAccount);
 
@@ -125,4 +104,21 @@ test('show remove button for no referent', () => {
 	});
 	expect(screen.getByText('Inviter un accompagnateur')).toBeInTheDocument();
 	expect(screen.getByText('Se détacher')).toBeInTheDocument();
+});
+
+test('do not show remove button for orientation managers', () => {
+	accountData.set(giuiliaDiabyAccount);
+
+	render(ProNotebookMembersView, {
+		props: {
+			notebookId: 'id',
+			beneficiaryFirstname: 'leon',
+			beneficiaryLastname: 'leon',
+			appointments: [],
+			displayMemberManagementButtons: true,
+			members: notebookMembers,
+		},
+	});
+	expect(screen.getByText('Inviter un accompagnateur')).toBeInTheDocument();
+	expect(screen.queryByText('Se détacher')).not.toBeInTheDocument();
 });
