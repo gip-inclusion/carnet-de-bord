@@ -30,7 +30,13 @@ query getProfessionalsForDeployment($deploymentId: uuid!) {
       name
       orientationSystems {
         orientationSystemId
+        orientationSystem {
+          id
+          name
+          orientationType
+        }
       }
+
       professionals {
         account {
           referentCount: notebooksWhereMember_aggregate(

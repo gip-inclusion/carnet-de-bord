@@ -43,8 +43,8 @@
 
 	$: orientationSystemsOptions =
 		$getProfessionals.data?.professional
-			.flatMap(({ orientationSystems }) => {
-				return orientationSystems.map(({ orientationSystem }) => {
+			.flatMap(({ structure }) => {
+				return structure.orientationSystems.map(({ orientationSystem }) => {
 					return {
 						name: orientationSystem.id,
 						label: getOrientationSystemLabel(orientationSystem),
@@ -58,12 +58,6 @@
 
 	$: structureOptions =
 		$getProfessionals.data?.professional
-			// Get professionnals that have the selected orientation system attached
-			.filter(({ orientationSystems }) =>
-				orientationSystems
-					.map(({ orientationSystemId }) => orientationSystemId)
-					.includes(selectedOrientationSystemId)
-			)
 			// Get the structures of this professional
 			.map(({ structure }) => {
 				const beneficiaryCount = structure.professionals.reduce(

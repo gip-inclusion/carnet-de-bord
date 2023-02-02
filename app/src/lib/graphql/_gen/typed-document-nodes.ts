@@ -8953,7 +8953,11 @@ export type OrientationRequestUpdates = {
 /** columns and relationships of "orientation_system" */
 export type OrientationSystem = {
 	__typename?: 'orientation_system';
+	/** An object relationship */
+	beneficiaries?: Maybe<NotebookInfo>;
 	createdAt: Scalars['timestamptz'];
+	/** An object relationship */
+	deployment: Deployment;
 	deployment_id: Scalars['uuid'];
 	id: Scalars['uuid'];
 	name: Scalars['String'];
@@ -9058,7 +9062,9 @@ export type OrientationSystemBoolExp = {
 	_and?: InputMaybe<Array<OrientationSystemBoolExp>>;
 	_not?: InputMaybe<OrientationSystemBoolExp>;
 	_or?: InputMaybe<Array<OrientationSystemBoolExp>>;
+	beneficiaries?: InputMaybe<NotebookInfoBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	deployment?: InputMaybe<DeploymentBoolExp>;
 	deployment_id?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	name?: InputMaybe<StringComparisonExp>;
@@ -9081,7 +9087,9 @@ export enum OrientationSystemConstraint {
 
 /** input type for inserting data into table "orientation_system" */
 export type OrientationSystemInsertInput = {
+	beneficiaries?: InputMaybe<NotebookInfoObjRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
 	deployment_id?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	name?: InputMaybe<Scalars['String']>;
@@ -9155,7 +9163,9 @@ export type OrientationSystemOnConflict = {
 
 /** Ordering options when selecting data from "orientation_system". */
 export type OrientationSystemOrderBy = {
+	beneficiaries?: InputMaybe<NotebookInfoOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	deployment?: InputMaybe<DeploymentOrderBy>;
 	deployment_id?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	name?: InputMaybe<OrderBy>;
@@ -14496,6 +14506,12 @@ export type GetProfessionalsForDeploymentQuery = {
 			orientationSystems: Array<{
 				__typename?: 'structure_orientation_system';
 				orientationSystemId: string;
+				orientationSystem: {
+					__typename?: 'orientation_system';
+					id: string;
+					name: string;
+					orientationType: OrientationTypeEnum;
+				};
 			}>;
 			professionals: Array<{
 				__typename?: 'professional';
@@ -15839,70 +15855,6 @@ export type GetBeneficiariesWithOrientationRequestQuery = {
 				account: {
 					__typename?: 'account';
 					id: string;
-					orientation_manager?: {
-						__typename?: 'orientation_manager';
-						id: string;
-						firstname?: string | null;
-						lastname?: string | null;
-					} | null;
-				};
-			}>;
-		} | null;
-	}>;
-};
-
-export type BeneficiariesWithOrientationRequestQueryVariables = Exact<{ [key: string]: never }>;
-
-export type BeneficiariesWithOrientationRequestQuery = {
-	__typename?: 'query_root';
-	beneficiaries: Array<{
-		__typename?: 'beneficiary';
-		id: string;
-		firstname: string;
-		lastname: string;
-		structures: Array<{
-			__typename?: 'beneficiary_structure';
-			structure: { __typename?: 'structure'; id: string; name: string };
-		}>;
-		orientationRequest: Array<{
-			__typename?: 'orientation_request';
-			id: string;
-			reason?: string | null;
-			createdAt: string;
-			requestedOrientationSystem: {
-				__typename?: 'orientation_system';
-				name: string;
-				orientationType: OrientationTypeEnum;
-			};
-			decidedOrientationSystem?: {
-				__typename?: 'orientation_system';
-				name: string;
-				orientationType: OrientationTypeEnum;
-			} | null;
-		}>;
-		notebook?: {
-			__typename?: 'notebook';
-			id: string;
-			notebookInfo?: {
-				__typename?: 'notebook_info';
-				orientationSystem?: {
-					__typename?: 'orientation_system';
-					name: string;
-					orientationType: OrientationTypeEnum;
-				} | null;
-			} | null;
-			members: Array<{
-				__typename?: 'notebook_member';
-				account: {
-					__typename?: 'account';
-					id: string;
-					type: RoleEnum;
-					professional?: {
-						__typename?: 'professional';
-						id: string;
-						firstname: string;
-						lastname: string;
-					} | null;
 					orientation_manager?: {
 						__typename?: 'orientation_manager';
 						id: string;
@@ -20601,6 +20553,21 @@ export const GetProfessionalsForDeploymentDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'orientationSystemId' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'orientationSystem' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientationType' },
+																	},
+																],
+															},
+														},
 													],
 												},
 											},
@@ -26197,327 +26164,6 @@ export const GetBeneficiariesWithOrientationRequestDocument = {
 	GetBeneficiariesWithOrientationRequestQuery,
 	GetBeneficiariesWithOrientationRequestQueryVariables
 >;
-export const BeneficiariesWithOrientationRequestDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'BeneficiariesWithOrientationRequest' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'beneficiaries' },
-						name: { kind: 'Name', value: 'beneficiary' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'orientationRequest' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'decidedAt' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_is_null' },
-																	value: { kind: 'BooleanValue', value: true },
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'structures' },
-									arguments: [
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'where' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'status' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_neq' },
-																	value: { kind: 'StringValue', value: 'outdated', block: false },
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-													],
-												},
-											},
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'orientationRequest' },
-									arguments: [
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'order_by' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'createdAt' },
-														value: { kind: 'EnumValue', value: 'desc' },
-													},
-												],
-											},
-										},
-										{
-											kind: 'Argument',
-											name: { kind: 'Name', value: 'limit' },
-											value: { kind: 'IntValue', value: '1' },
-										},
-									],
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'requestedOrientationSystem' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
-													],
-												},
-											},
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'decidedOrientationSystem' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'orientationType' } },
-													],
-												},
-											},
-											{ kind: 'Field', name: { kind: 'Name', value: 'reason' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-										],
-									},
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'notebook' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'notebookInfo' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'orientationSystem' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'orientationType' },
-																	},
-																],
-															},
-														},
-													],
-												},
-											},
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'members' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'where' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'active' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_eq' },
-																				value: { kind: 'BooleanValue', value: true },
-																			},
-																		],
-																	},
-																},
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'memberType' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_in' },
-																				value: {
-																					kind: 'ListValue',
-																					values: [
-																						{
-																							kind: 'StringValue',
-																							value: 'orientation_manager',
-																							block: false,
-																						},
-																						{
-																							kind: 'StringValue',
-																							value: 'referent',
-																							block: false,
-																						},
-																					],
-																				},
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'order_by' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'createdAt' },
-																	value: { kind: 'EnumValue', value: 'desc' },
-																},
-															],
-														},
-													},
-												],
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'Field',
-															name: { kind: 'Name', value: 'account' },
-															selectionSet: {
-																kind: 'SelectionSet',
-																selections: [
-																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																	{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'professional' },
-																		selectionSet: {
-																			kind: 'SelectionSet',
-																			selections: [
-																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'firstname' },
-																				},
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'lastname' },
-																				},
-																			],
-																		},
-																	},
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'orientation_manager' },
-																		selectionSet: {
-																			kind: 'SelectionSet',
-																			selections: [
-																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'firstname' },
-																				},
-																				{
-																					kind: 'Field',
-																					name: { kind: 'Name', value: 'lastname' },
-																				},
-																			],
-																		},
-																	},
-																],
-															},
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	BeneficiariesWithOrientationRequestQuery,
-	BeneficiariesWithOrientationRequestQueryVariables
->;
 export const GetLastVisitedOrUpdatedDocument = {
 	kind: 'Document',
 	definitions: [
@@ -31421,10 +31067,6 @@ export type UpdateOrientationManagerProfileMutationStore = OperationStore<
 export type GetBeneficiariesWithOrientationRequestQueryStore = OperationStore<
 	GetBeneficiariesWithOrientationRequestQuery,
 	GetBeneficiariesWithOrientationRequestQueryVariables
->;
-export type BeneficiariesWithOrientationRequestQueryStore = OperationStore<
-	BeneficiariesWithOrientationRequestQuery,
-	BeneficiariesWithOrientationRequestQueryVariables
 >;
 export type GetLastVisitedOrUpdatedQueryStore = OperationStore<
 	GetLastVisitedOrUpdatedQuery,
