@@ -14,6 +14,7 @@ Fonctionnalité: Demande de réorientation
 		Quand je clique sur le bouton "Envoyer ma demande"
 		Alors je vois "Demande de réorientation envoyée"
 		Alors je vois "Orientation recommandée : Social"
+		Alors je ne vois pas "Demander une réorientation"
 
 	Scénario: Affichage d'un bénéficiaire pour lequel la demande de réorientation a été refusée
 		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Rose"
