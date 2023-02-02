@@ -1,15 +1,10 @@
-export namespace OrientationHome.Main {
+type Flags = {
+	token: string;
+	serverUrl: string;
+	accountId: string;
+};
+
+export namespace Elm.OrientationHome.Main {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	function init(options: { node?: HTMLElement | null; flags: Flags }): ElmApp;
+	function init(options: { node?: HTMLElement | null; flags: Flags }): void;
 }
-export interface ElmApp {
-	ports: {
-		[key: string]: any;
-	};
-}
-
-export type Flags = { [key: string]: any };
-
-export as namespace Elm;
-
-export { Elm };

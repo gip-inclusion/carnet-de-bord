@@ -1,3 +1,37 @@
+ # Commencer avec Elm
+
+## Initialiser un composant
+
+- créer un dossier avec le nom du composant
+- créer un fichier Main.elm et son fichier de typings (qui servira pour l'import coté svelte) sur la base des fichiers ci dessous.
+
+Bien faire attention que le nom du dossier corresponde au nom du namespace car celui-ci sera utilisé dans la partie svelte.
+
+Pour utiliser le composant Elm dans svelte
+
+```svelte
+	import { Elm } from '../../../../elm/MainApp/Main.elm';
+	import { onMount } from 'svelte';
+
+	let elmNode: HTMLElement;
+	onMount(() => {
+		if (!elmNode) return;
+		Elm.MainApp.Main.init({
+			node: elmNode,
+			flags: {
+				...some_data
+			},
+		});
+	});
+
+<div>
+	<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+	<div bind:this={elmNode} />
+</div>
+```
+
+Exemple d'application Elm
+```elm
 port module MainApp.Main exposing (..)
 
 import Browser
@@ -87,3 +121,4 @@ port sendMessage : String -> Cmd msg
 
 
 port messageReceiver : (String -> msg) -> Sub msg
+```
