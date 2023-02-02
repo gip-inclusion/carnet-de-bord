@@ -1,3 +1,10 @@
+## [1.191.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.191.0...v1.191.1) (2023-02-02)
+
+
+### Bug Fixes
+
+* affichage du bouton se détacher uniquement pour les pros ([#1486](https://github.com/gip-inclusion/carnet-de-bord/issues/1486)) ([9649412](https://github.com/gip-inclusion/carnet-de-bord/commit/964941258cdf5f837da86fc8020b36feefe81a17))
+
 # [1.191.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.190.2...v1.191.0) (2023-01-31)
 
 
