@@ -35,40 +35,46 @@
 
 	query(getOrientationSystems);
 
-	$: orientationSystemsOptions = $getOrientationSystems.data?.orientation_system.map(
-		(orientationSystem) => {
+	$: orientationSystemsOptions =
+		$getOrientationSystems.data?.orientation_system.map((orientationSystem) => {
 			return {
 				name: orientationSystem.id,
 				label: getOrientationSystemLabel(orientationSystem),
 			};
-		}
-	);
+		}) ?? [];
 
-	$: structureOptions = $getOrientationSystems.data?.orientation_system
-		.find((orientation_system) => orientation_system.id == selectedOrientationSystemId)
-		?.structureOrientationSystems.map(({ structure }) => {
-			const beneficiaryCount = structure.professionals.reduce(
-				(
-					total: number,
-					value: GetOrientationSystemsForDeploymentQuery['orientation_system'][number]['structureOrientationSystems'][number]['structure']['professionals'][number]
-				) => {
-					return total + value.account.referentCount.aggregate.count;
-				},
-				0
-			);
-			return {
-				name: structure.id,
-				label: `${structure.name} (${beneficiaryCount})`,
-			};
-		});
+	$: structureOptions =
+		$getOrientationSystems.data?.orientation_system
+			.find((orientation_system) => orientation_system.id == selectedOrientationSystemId)
+			?.structureOrientationSystems.map(({ structure }) => {
+				const beneficiaryCount = structure.professionals.reduce(
+					(
+						total: number,
+						value: GetOrientationSystemsForDeploymentQuery['orientation_system'][number]['structureOrientationSystems'][number]['structure']['professionals'][number]
+					) => {
+						return total + value.account.referentCount.aggregate.count;
+					},
+					0
+				);
+				return {
+					name: structure.id,
+					label: `${structure.name} (${beneficiaryCount})`,
+				};
+			}) ?? [];
 
-	$: professionalOptions = $getOrientationSystems.data?.orientation_system
-		.find((orientation_system) => orientation_system.id == selectedOrientationSystemId)
-		?.structureOrientationSystems.find(({ structure }) => structure.id == selectedStructureId)
-		?.structure.professionals.map((pro) => ({
-			name: pro.account.id,
-			label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
-		}));
+	$: professionalOptions =
+		$getOrientationSystems.data?.orientation_system
+			.find((orientation_system) => orientation_system.id == selectedOrientationSystemId)
+			?.structureOrientationSystems.find(({ structure }) => structure.id == selectedStructureId)
+			?.structure.professionals.filter((pro) => {
+				return pro.orientationSystems.some(
+					({ orientationSystem }) => orientationSystem.id === selectedOrientationSystemId
+				);
+			})
+			.map((pro) => ({
+				name: pro.account.id,
+				label: `${displayFullName(pro)} (${pro.account.referentCount.aggregate.count})`,
+			})) ?? [];
 
 	const initialValues = { structureId };
 
@@ -101,10 +107,10 @@
 			<Select
 				required
 				selectLabel="Dispositif d'accompagnement"
-				selectHint={orientationSystemsOptions?.length === 0
+				selectHint={orientationSystemsOptions.length === 0
 					? "Pas de dispositif d'accompagnement disponible"
 					: "Sélectionner un dispositif d'accompagnement"}
-				disabled={orientationSystemsOptions?.length === 0}
+				disabled={orientationSystemsOptions.length === 0}
 				options={orientationSystemsOptions}
 				name="orientationSystemId"
 				on:select={(event) => {
@@ -117,10 +123,10 @@
 				<Select
 					required
 					selectLabel="Nom de la structure"
-					selectHint={structureOptions?.length === 0
+					selectHint={structureOptions.length === 0
 						? 'Pas de structure disponible'
 						: 'Sélectionner une structure'}
-					disabled={structureOptions?.length === 0}
+					disabled={structureOptions.length === 0}
 					additionalLabel="Le nombre affiché correspond au nombre de bénéficiaires actuellement pris en charge par la structure"
 					options={structureOptions}
 					name="structureId"
@@ -132,13 +138,13 @@
 			{/if}
 			<Select
 				selectLabel="Nom du référent unique"
-				selectHint={professionalOptions?.length === 0
+				selectHint={professionalOptions.length === 0
 					? 'Pas de professionnel disponible'
 					: 'Sélectionner un professionnel'}
 				additionalLabel="La sélection du professionnel n’est pas obligatoire. Le nombre affiché correspond au nombre de bénéficiaires pour lequel le professionnel est désigné référent"
 				options={professionalOptions}
 				name="professionalAccountId"
-				disabled={!form.structureId || professionalOptions?.length === 0}
+				disabled={!form.structureId || professionalOptions.length === 0}
 			/>
 			{#if displayError}
 				<Alert type="error" size="sm">Impossible de modifier l'orientation</Alert>

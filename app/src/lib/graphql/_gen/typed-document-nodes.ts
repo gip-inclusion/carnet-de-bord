@@ -14491,6 +14491,10 @@ export type GetOrientationSystemsForDeploymentQuery = {
 					id: string;
 					firstname: string;
 					lastname: string;
+					orientationSystems: Array<{
+						__typename?: 'professional_orientation_system';
+						orientationSystem: { __typename?: 'orientation_system'; id: string };
+					}>;
 					account?: {
 						__typename?: 'account';
 						id: string;
@@ -20447,6 +20451,28 @@ export const GetOrientationSystemsForDeploymentDocument = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientationSystems' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'orientationSystem' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'id' },
+																							},
+																						],
+																					},
+																				},
+																			],
+																		},
+																	},
 																	{
 																		kind: 'Field',
 																		name: { kind: 'Name', value: 'account' },

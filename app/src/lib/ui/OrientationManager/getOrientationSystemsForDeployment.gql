@@ -11,6 +11,11 @@ query getOrientationSystemsForDeployment {
           id
           firstname
           lastname
+          orientationSystems {
+            orientationSystem {
+              id
+            }
+          }
           account {
             id
             referentCount: notebooksWhereMember_aggregate(
