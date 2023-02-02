@@ -7,5 +7,12 @@ query GetStructuresForDeployment($deployment: deployment_bool_exp = {}) {
     email
     postalCode
     city
+    orientationSystems {
+      orientationSystem {
+        id
+        name
+        orientationType
+      }
+    }
   }
 }

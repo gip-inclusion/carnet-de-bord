@@ -15,6 +15,18 @@ configuration:
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
+  - name: beneficiaries
+    using:
+      manual_configuration:
+        column_mapping:
+          id: orientation_system_id
+        insertion_order: null
+        remote_table:
+          name: notebook_info
+          schema: public
+  - name: deployment
+    using:
+      foreign_key_constraint_on: deployment_id
   - name: orientationTypeByOrientationType
     using:
       foreign_key_constraint_on: orientation_type
@@ -34,6 +46,16 @@ array_relationships:
           name: structure_orientation_system
           schema: public
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - name
+        - orientation_type
+        - created_at
+        - updated_at
+        - deployment_id
+        - id
+      filter: {}
   - role: admin_structure
     permission:
       columns:

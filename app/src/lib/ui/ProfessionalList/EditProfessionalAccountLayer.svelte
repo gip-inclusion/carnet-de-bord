@@ -99,10 +99,10 @@
 			<Input placeholder="0789542136" inputLabel="Numéro de téléphone" name="mobileNumber" />
 			<Input placeholder="Conseiller en insertion" inputLabel="Position" name="position" />
 
-			<h2 class="text-france-blue fr-h4">Dispositifs d'orientation</h2>
+			<h2 class="text-france-blue fr-h4">Dispositifs d'accompagnement</h2>
 
 			{#if orientationSystemOptions.length === 0}
-				<p>Aucun dispositif d'orientation affecté à cette structure.</p>
+				<p>Aucun dispositif d'accompagnement affecté à cette structure.</p>
 			{:else}
 				<Checkboxes
 					globalClassNames={'flex flex-row flex-wrap gap-4'}

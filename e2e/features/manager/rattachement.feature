@@ -14,8 +14,8 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "Pierre Chevalier" sur la ligne "Tifour"
 		Quand je clique sur "Pierre Chevalier"
 		Alors je vois "Réorienter" dans le volet
-		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
-		Alors je selectionne l'option "Professionnel" dans la liste "Type d'orientation"
+		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet
+		Alors je selectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je selectionne l'option "Groupe NS (0)" dans la liste "Nom de la structure"
 		Alors je selectionne l'option "Simon Anka (0)" dans la liste "Nom du référent"
 		Quand je clique sur "Valider" dans le volet
@@ -31,8 +31,8 @@ Fonctionnalité: Rattachement pro
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Réorienter" dans le volet
-		Alors je vois "Veuillez sélectionner l'orientation ainsi que la nouvelle structure et le nouveau référent." dans le volet
-		Alors je selectionne l'option "Socio-professionnel" dans la liste "Type d'orientation"
+		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet
+		Alors je selectionne l'option "Socio-professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je selectionne l'option "Service Social Départemental (2)" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider" dans le volet
 		Alors je vois "Non rattaché" sur la ligne "Cash"

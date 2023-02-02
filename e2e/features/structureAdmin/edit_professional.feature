@@ -14,7 +14,7 @@ Fonctionnalité: Modification d'un professionnel
 		Quand je clique sur "Enregistrer les modifications"
 		Alors je vois "0612345678"
 
-	Scénario: Modification des dispositifs d'orientation d'un professionnel
+	Scénario: Modification des dispositifs d'accompagnement d'un professionnel
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Quand je clique sur "Professionnels"
@@ -24,7 +24,7 @@ Fonctionnalité: Modification d'un professionnel
 		Quand je clique sur "Mettre à jour" dans la ligne de "Blaise Alaise"
 		Alors l'option "RIA (Professionnel)" est sélectionnée
 
-	Scénario: Modification des dispositifs d'orientation existants d'un professionnel
+	Scénario: Modification des dispositifs d'accompagnement existants d'un professionnel
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Quand je clique sur "Professionnels"

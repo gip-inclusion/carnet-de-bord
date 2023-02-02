@@ -1,0 +1,33 @@
+query getOrientationSystemsForDeployment {
+  orientation_system(order_by: { name: asc }) {
+    id
+    name
+    orientationType
+    structureOrientationSystems(order_by: { structure: { name: asc } }) {
+      structure {
+        id
+        name
+        professionals(order_by: [{ firstname: asc }, { lastname: asc }]) {
+          id
+          firstname
+          lastname
+          orientationSystems {
+            orientationSystem {
+              id
+            }
+          }
+          account {
+            id
+            referentCount: notebooksWhereMember_aggregate(
+              where: { memberType: { _eq: "referent" }, active: { _eq: true } }
+            ) {
+              aggregate {
+                count
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

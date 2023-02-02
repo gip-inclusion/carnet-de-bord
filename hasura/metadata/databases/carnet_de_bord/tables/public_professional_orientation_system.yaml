@@ -33,6 +33,14 @@ insert_permissions:
         - orientation_system_id
         - professional_id
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - created_at
+        - id
+        - orientation_system_id
+        - professional_id
+      filter: {}
   - role: admin_structure
     permission:
       columns:
@@ -81,7 +89,17 @@ update_permissions:
               _eq: X-Hasura-Deployment-Id
       check: null
 delete_permissions:
+  - role: admin_cdb
+    permission:
+      filter: {}
   - role: admin_structure
+    permission:
+      filter:
+        professional:
+          structure:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+  - role: manager
     permission:
       filter:
         professional:

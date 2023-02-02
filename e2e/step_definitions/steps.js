@@ -263,6 +263,11 @@ Alors('je vois {string} sur la ligne {string}', (text, ligneText) => {
 	I.see(text, locator);
 });
 
+Alors('je ne vois pas {string} sur la ligne {string}', (text, ligneText) => {
+	const locator = locate('tr').withChild(locate('td').withText(ligneText));
+	I.dontSee(text, locator);
+});
+
 Alors('je vois {string} tuiles sous le texte {string}', (num, title) => {
 	const target = `following-sibling::*//div//a`;
 	const textMatcher = `text()[starts-with(., "${title}")]`;
