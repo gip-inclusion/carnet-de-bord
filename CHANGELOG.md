@@ -1,3 +1,10 @@
+# [1.192.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.191.2...v1.192.0) (2023-02-02)
+
+
+### Features
+
+* Permettre l'administration des dispositifs d'accompagnement par structure (gestionnaire de territoire). ([#1480](https://github.com/gip-inclusion/carnet-de-bord/issues/1480)) ([01b8a95](https://github.com/gip-inclusion/carnet-de-bord/commit/01b8a950caec24e5e5ace5cece6fe729c819d3cb))
+
 ## [1.191.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.191.1...v1.191.2) (2023-02-02)
 
 
