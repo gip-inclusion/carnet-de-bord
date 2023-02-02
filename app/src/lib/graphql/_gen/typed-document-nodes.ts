@@ -23583,6 +23583,49 @@ export const GetProfessionalsForStructureDocument = {
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'notebooksWhereMember_aggregate' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'active' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'memberType' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'StringValue',
+																					value: 'referent',
+																					block: false,
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [

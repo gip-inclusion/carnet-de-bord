@@ -12,7 +12,9 @@ query GetProfessionalsForStructure($structureId: uuid!) {
     account {
       id
       onboardingDone
-      notebooksWhereMember_aggregate {
+      notebooksWhereMember_aggregate(
+        where: { active: { _eq: true }, memberType: { _eq: "referent" } }
+      ) {
         aggregate {
           count
         }
