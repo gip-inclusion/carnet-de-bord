@@ -1,3 +1,10 @@
+## [1.191.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.191.1...v1.191.2) (2023-02-02)
+
+
+### Bug Fixes
+
+* Ne pas afficher le bouton "Demander une réorientation" si une demande et déjà en cours. ([#1487](https://github.com/gip-inclusion/carnet-de-bord/issues/1487)) ([74fe3e5](https://github.com/gip-inclusion/carnet-de-bord/commit/74fe3e5ef00fadd1a2e9df27f250cb2a9e3bffc5))
+
 ## [1.191.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.191.0...v1.191.1) (2023-02-02)
 
 
