@@ -1,3 +1,21 @@
+<script lang="ts" context="module">
+	import type { Notebook } from '$lib/graphql/_gen/typed-document-nodes';
+
+	export type SocioProInfo = Pick<
+		Notebook,
+		| 'workSituation'
+		| 'workSituationDate'
+		| 'workSituationEndDate'
+		| 'rightRqth'
+		| 'rightBonus'
+		| 'rightAre'
+		| 'rightAss'
+		| 'rightRsa'
+		| 'geographicalArea'
+		| 'educationLevel'
+	> & { wantedJobs: { rome_code: { id: string; label: string } }[] };
+</script>
+
 <script lang="ts">
 	import {
 		educationLevelKeys,
@@ -5,12 +23,12 @@
 		rsaRightKeys,
 		workSituationKeys,
 	} from '$lib/constants/keys';
-	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
+
 	import { pluralize } from '$lib/helpers';
 	import { dateInterval, formatDateLocale } from '$lib/utils/date';
 	import { Text } from '../utils';
 
-	export let notebook: GetNotebookByBeneficiaryIdQuery['notebook'][0];
+	export let notebook: SocioProInfo;
 
 	function contractDatesTemplating(start: string, end: string) {
 		if (end) {
