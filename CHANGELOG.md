@@ -1,3 +1,10 @@
+## [1.192.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.3...v1.192.4) (2023-02-06)
+
+
+### Bug Fixes
+
+* Ne pas afficher le bouton "Orienter"/"Réorienter" pour les administrateurs de structure. ([#1495](https://github.com/gip-inclusion/carnet-de-bord/issues/1495)) ([5253506](https://github.com/gip-inclusion/carnet-de-bord/commit/5253506f3edc2af3f0a1f192ae088106b561166d))
+
 ## [1.192.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.2...v1.192.3) (2023-02-06)
 
 
