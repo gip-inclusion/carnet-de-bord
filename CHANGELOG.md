@@ -1,3 +1,10 @@
+## [1.192.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.2...v1.192.3) (2023-02-06)
+
+
+### Bug Fixes
+
+* La pastille du nombre de bénéficiaires suivis est fausse ([#1496](https://github.com/gip-inclusion/carnet-de-bord/issues/1496)) ([a709d7d](https://github.com/gip-inclusion/carnet-de-bord/commit/a709d7d612d0199dea644692c8b6403ec11d816b))
+
 ## [1.192.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.1...v1.192.2) (2023-02-03)
 
 ## [1.192.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.0...v1.192.1) (2023-02-03)
