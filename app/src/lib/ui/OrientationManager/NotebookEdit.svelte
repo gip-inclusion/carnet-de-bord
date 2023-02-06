@@ -43,9 +43,6 @@
 		displayEditButton={isMember}
 	/>
 	<div>
-		<MainSection title="Situation socioprofessionnelle">
-			<ProNotebookSocioProView notebook={notebook?.notebook} />
-		</MainSection>
 		<MainSection title="Groupe de suivi">
 			<ProNotebookMembersView
 				members={notebook.members}
@@ -55,6 +52,9 @@
 				appointments={notebook?.notebook?.appointments}
 				displayMemberManagementButtons={isMember}
 			/>
+		</MainSection>
+		<MainSection title="Diagnostic socioprofessionnel">
+			<ProNotebookSocioProView notebook={notebook?.notebook} />
 		</MainSection>
 		<MainSection title="Plan d'action">
 			<ProNotebookFocusView notebook={notebook?.notebook} focuses={notebook?.notebook?.focuses} />

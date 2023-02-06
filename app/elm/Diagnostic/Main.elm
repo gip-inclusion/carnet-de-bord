@@ -93,11 +93,8 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
     div []
-        [ h2 [ class "text-france-blue text-2xl font-bold" ] [ text "Diagnostic socioprofessionnel" ]
-        , div []
-            [ professionalSituation model
-            , professionalProject model
-            ]
+        [ professionalSituation model
+        , professionalProject model
         ]
 
 

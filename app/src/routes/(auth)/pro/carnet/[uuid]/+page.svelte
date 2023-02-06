@@ -241,7 +241,7 @@
 				{/if}
 			</MainSection>
 			{#if notebook}
-				<MainSection title="Situation socioprofessionnelle">
+				<MainSection title="Diagnostic socioprofessionnel">
 					<ProNotebookSocioProView {notebook} />
 				</MainSection>
 			{/if}
