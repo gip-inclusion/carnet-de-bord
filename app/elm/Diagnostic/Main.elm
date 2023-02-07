@@ -160,9 +160,10 @@ professionalSituation model =
                     (beneficiaryRights situationPro.rightAre situationPro.rightAss situationPro.rightBonus)
                 )
             ]
-        , h3 [ class "text-xl" ] [ text "Situation professionnelle" ]
-        , div [ class "p-4" ]
-            [ div [ class "fr-grid-row fr-grid-row--gutters shadow-dsfr rounded-lg" ]
+        , h3 [ class "text-xl" ]
+            [ text "Situation professionnelle" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg" ]
+            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Situation actuelle"
                         (Maybe.map (workSituationKeyToString >> text) situationPro.workSituation)
@@ -214,8 +215,8 @@ professionalProject : Model -> Html Msg
 professionalProject model =
     div [ class "mt-10" ]
         [ h3 [ class "text-xl" ] [ text "Projet professionnel" ]
-        , div [ class "p-4" ]
-            [ div [ class "fr-grid-row fr-grid-row--gutters shadow-dsfr rounded-lg" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg" ]
+            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                 [ div [ class "fr-col-8" ]
                     [ situationElement "Emplois recherchés"
                         (wantedJobsToHtml model.situationPro.wantedJobs)
