@@ -20,7 +20,8 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Quand je clique sur "Voir le carnet de Katharine Chandler"
 		Quand je vais sur l'onglet suivant
 		Alors j'attends que le texte "Katharine Chandler" apparaisse
-		Alors je vois "Usager disposant de la RQTH"
+		Alors je vois "Dispose d'un RQTH"
+		Alors je vois "Oui"
 
 	Scénario: Mettre à jour les informations personnelles
 		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
