@@ -147,15 +147,12 @@ professionalSituation model =
     let
         situationPro =
             model.situationPro
-
-        defaultText =
-            "Non renseigné"
     in
     div []
         [ div []
             [ situationElement "Droits"
                 (Maybe.map (rsaRightKeyToString >> text) situationPro.rightRsa)
-                (defaultText ++ "s")
+                "Non renseignés"
                 (Just
                     (beneficiaryRights situationPro.rightAre situationPro.rightAss situationPro.rightBonus)
                 )
@@ -167,7 +164,7 @@ professionalSituation model =
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Situation actuelle"
                         (Maybe.map (workSituationKeyToString >> text) situationPro.workSituation)
-                        (defaultText ++ "e")
+                        "Non renseignée"
                         (workSituationDateFormat situationPro.workSituationDate situationPro.workSituationEndDate)
                     ]
                 , div [ class "fr-col-6" ]
@@ -181,14 +178,14 @@ professionalSituation model =
                                     text "Non"
                                 )
                             )
-                            defaultText
+                            "Non renseigné"
                             Nothing
                         ]
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Diplôme"
                         (Maybe.map (educationLevelKeyToString >> text) situationPro.educationLevel)
-                        defaultText
+                        "Non renseigné"
                         Nothing
                     ]
                 ]
