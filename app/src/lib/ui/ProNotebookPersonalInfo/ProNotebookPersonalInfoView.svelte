@@ -6,7 +6,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { Button, IconButton } from '$lib/ui/base';
+	import { Button } from '$lib/ui/base';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
@@ -55,14 +55,6 @@
 			<h1 class="fr-h1 flex-1 text-france-blue">
 				{displayFullName(beneficiary)}
 			</h1>
-			<div>
-				<IconButton
-					on:click={() => window.print()}
-					icon="fr-icon-printer-line"
-					class="fr-btn--tertiary"
-					title="Imprimer"
-				/>
-			</div>
 		</div>
 		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>
 	</div>
