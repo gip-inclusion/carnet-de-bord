@@ -29,7 +29,7 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -60,30 +60,11 @@ type Msg
     = Recv String
 
 
-
--- Use the `sendMessage` port when someone presses ENTER or clicks
--- the "Send" button. Check out index.html to see the corresponding
--- JS where this is piped into a WebSocket.
---
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Recv _ ->
             ( model, Cmd.none )
-
-
-
--- Subscribe to the `messageReceiver` port to hear about messages coming in
--- from JS. Check out the index.html file to see how this is hooked up to a
--- WebSocket.
---
-
-
-subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Sub.none
 
 
 
