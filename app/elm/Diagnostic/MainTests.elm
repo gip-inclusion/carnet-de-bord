@@ -3,9 +3,11 @@ module Diagnostic.MainTests exposing (..)
 import Date
 import Diagnostic.Main exposing (workSituationDateFormat)
 import Expect exposing (..)
-import Html exposing (..)
+import Html
 import Html.Attributes exposing (..)
 import Test exposing (..)
+import Test.Html.Query as Query
+import Test.Html.Selector exposing (classes, tag, text)
 import Time exposing (Month(..))
 
 
@@ -22,18 +24,25 @@ workSituationDateFormatTests =
             [ test "returns description with start date only" <|
                 \_ ->
                     workSituationDateFormat (Just (Date.fromCalendarDate 2023 Aug 22)) Nothing
-                        |> Expect.equal (Just (span [ class "text-sm" ] [ text "Depuis le 22/09/2023" ]))
+                        |> Maybe.withDefault (Html.text "")
+                        |> Query.fromHtml
+                        |> Query.has [ text "Depuis le 22/08/2023" ]
             ]
         , describe "when start date is Nothing and end date is valued" <|
             [ test "returns description with end date only" <|
                 \_ ->
                     workSituationDateFormat Nothing (Just (Date.fromCalendarDate 2023 Aug 22))
-                        |> Expect.equal (Just (span [ class "text-sm" ] [ text "Jusqu'au 22/09/2023" ]))
+                        |> Maybe.withDefault (Html.text "")
+                        |> Query.fromHtml
+                        |> Query.has [ text "Jusqu'au 22/08/2023" ]
             ]
         , describe "when start date and end date are valued" <|
             [ test "returns description with start and end date, including duration" <|
                 \_ ->
                     workSituationDateFormat (Just (Date.fromCalendarDate 2021 Aug 22)) (Just (Date.fromCalendarDate 2023 Aug 22))
-                        |> Expect.equal (Just (span [ class "text-sm" ] [ text "Jusqu'au 22/09/2023" ]))
+                        |> Maybe.withDefault (Html.text "")
+                        |> Query.fromHtml
+                        -- Tag and classes have been added for educational purpose only, they are not really required
+                        |> Query.has [ text "Du 22/08/2021 au 22/08/2023", tag "span", classes [ "italic", "font-bold" ], text "(24 mois)" ]
             ]
         ]
