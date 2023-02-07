@@ -92,7 +92,7 @@ subscriptions _ =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ class "mb-10" ]
         [ professionalSituation model
         , professionalProject model
         ]
@@ -151,45 +151,45 @@ professionalSituation model =
         defaultText =
             "Non renseigné"
     in
-    div [ class "fr-col-8" ]
-        [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-            [ div [ class "fr-col-6" ]
-                [ situationElement "Droits"
-                    (Maybe.map (rsaRightKeyToString >> text) situationPro.rightRsa)
-                    (defaultText ++ "s")
-                    (Just
-                        (beneficiaryRights situationPro.rightAre situationPro.rightAss situationPro.rightBonus)
-                    )
-                ]
+    div []
+        [ div []
+            [ situationElement "Droits"
+                (Maybe.map (rsaRightKeyToString >> text) situationPro.rightRsa)
+                (defaultText ++ "s")
+                (Just
+                    (beneficiaryRights situationPro.rightAre situationPro.rightAss situationPro.rightBonus)
+                )
             ]
         , h3 [ class "text-xl" ] [ text "Situation professionnelle" ]
-        , div [ class "fr-grid-row fr-grid-row--gutters" ]
-            [ div [ class "fr-col-6" ]
-                [ situationElement "Situation actuelle"
-                    (Maybe.map (workSituationKeyToString >> text) situationPro.workSituation)
-                    (defaultText ++ "e")
-                    (workSituationDateFormat situationPro.workSituationDate situationPro.workSituationEndDate)
-                ]
-            , div [ class "fr-col-6" ]
+        , div [ class "p-4" ]
+            [ div [ class "fr-grid-row fr-grid-row--gutters shadow-dsfr rounded-lg" ]
                 [ div [ class "fr-col-6" ]
-                    [ situationElement "Dispose d'un RQTH"
-                        (Just
-                            (if situationPro.rightRqth then
-                                text "Oui"
+                    [ situationElement "Situation actuelle"
+                        (Maybe.map (workSituationKeyToString >> text) situationPro.workSituation)
+                        (defaultText ++ "e")
+                        (workSituationDateFormat situationPro.workSituationDate situationPro.workSituationEndDate)
+                    ]
+                , div [ class "fr-col-6" ]
+                    [ div [ class "fr-col-6" ]
+                        [ situationElement "Dispose d'un RQTH"
+                            (Just
+                                (if situationPro.rightRqth then
+                                    text "Oui"
 
-                             else
-                                text "Non"
+                                 else
+                                    text "Non"
+                                )
                             )
-                        )
+                            defaultText
+                            Nothing
+                        ]
+                    ]
+                , div [ class "fr-col-6" ]
+                    [ situationElement "Diplôme"
+                        (Maybe.map (educationLevelKeyToString >> text) situationPro.educationLevel)
                         defaultText
                         Nothing
                     ]
-                ]
-            , div [ class "fr-col-6" ]
-                [ situationElement "Diplôme"
-                    (Maybe.map (educationLevelKeyToString >> text) situationPro.educationLevel)
-                    defaultText
-                    Nothing
                 ]
             ]
         ]
@@ -212,20 +212,22 @@ wantedJobsToHtml wantedJobs =
 
 professionalProject : Model -> Html Msg
 professionalProject model =
-    div [ class "fr-col-12" ]
+    div [ class "mt-10" ]
         [ h3 [ class "text-xl" ] [ text "Projet professionnel" ]
-        , div [ class "fr-grid-row fr-grid-row--gutters" ]
-            [ div [ class "fr-col-8" ]
-                [ situationElement "Emplois recherchés"
-                    (wantedJobsToHtml model.situationPro.wantedJobs)
-                    "Non renseignés"
-                    Nothing
-                ]
-            , div [ class "fr-col-4" ]
-                [ situationElement "Zone de mobilité"
-                    (Maybe.map (geographicalAreaKeyToString >> text) model.situationPro.geographicalArea)
-                    "Non renseignée"
-                    Nothing
+        , div [ class "p-4" ]
+            [ div [ class "fr-grid-row fr-grid-row--gutters shadow-dsfr rounded-lg" ]
+                [ div [ class "fr-col-8" ]
+                    [ situationElement "Emplois recherchés"
+                        (wantedJobsToHtml model.situationPro.wantedJobs)
+                        "Non renseignés"
+                        Nothing
+                    ]
+                , div [ class "fr-col-4" ]
+                    [ situationElement "Zone de mobilité"
+                        (Maybe.map (geographicalAreaKeyToString >> text) model.situationPro.geographicalArea)
+                        "Non renseignée"
+                        Nothing
+                    ]
                 ]
             ]
         ]
