@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		educationLevelKeys,
-		geographicalAreaKeys,
-		rsaRightKeys,
-		workSituationKeys,
-	} from '$lib/constants/keys';
+	import { educationLevelKeys, geographicalAreaKeys, workSituationKeys } from '$lib/constants/keys';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
@@ -19,6 +14,7 @@
 		proNotebookSocioproSchema,
 	} from './ProNotebookSocioPro.schema';
 	import { Checkbox, Form, Input, Radio, Select } from '$lib/ui/forms';
+	import { captureException } from '$lib/utils/sentry';
 
 	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
@@ -27,10 +23,6 @@
 		| 'workSituation'
 		| 'workSituationDate'
 		| 'workSituationEndDate'
-		| 'rightRsa'
-		| 'rightAre'
-		| 'rightAss'
-		| 'rightBonus'
 		| 'rightRqth'
 		| 'educationLevel'
 		| 'geographicalArea'
@@ -45,11 +37,7 @@
 		workSituation: notebook.workSituation,
 		workSituationDate: notebook.workSituationDate ?? '',
 		workSituationEndDate: notebook.workSituationEndDate ?? '',
-		rightRsa: notebook.rightRsa,
-		rightAre: notebook.rightAre,
-		rightAss: notebook.rightAss,
 		rightRqth: notebook.rightRqth,
-		rightBonus: notebook.rightBonus,
 		geographicalArea: notebook.geographicalArea,
 		educationLevel: notebook.educationLevel,
 		lastJobEndedAt: notebook.lastJobEndedAt ?? '',
@@ -63,26 +51,13 @@
 
 	async function handleSubmit(values: ProNotebookSocioproInput) {
 		trackEvent('pro', 'notebook', 'update socio pro info');
-		const {
-			educationLevel,
-			geographicalArea,
-			rightAre,
-			rightAss,
-			rightBonus,
-			rightRqth,
-			rightRsa,
-			workSituation,
-		} = values;
+		const { educationLevel, geographicalArea, rightRqth, workSituation } = values;
 
 		const payload = {
 			id: notebook.id,
 			educationLevel,
 			geographicalArea,
-			rightAre,
-			rightAss,
-			rightBonus,
 			rightRqth,
-			rightRsa,
 			workSituation,
 			workSituationDate: values.workSituationDate.toString() || null,
 			workSituationEndDate: values.workSituationEndDate.toString() || null,
@@ -97,7 +72,21 @@
 		close();
 	}
 
-	function setWorkSituationEndDate(initialDate, monthInterval: number) {
+	function setWorkSituationEndDate(initialDate: unknown, monthInterval: number) {
+		if (
+			typeof initialDate !== 'string' &&
+			typeof initialDate !== 'number' &&
+			!(initialDate instanceof Date)
+		) {
+			captureException(
+				new Error(
+					`[setWorkSituationEndDate] Une date était attendue mais la sélection reçue est ${JSON.stringify(
+						initialDate
+					)}.`
+				)
+			);
+			return initialDate;
+		}
 		if (monthInterval) {
 			return formatDateISO(add(new Date(initialDate), { months: monthInterval }));
 		}
@@ -214,20 +203,6 @@
 		<div class="pb-4">
 			<Checkbox name="rightRqth" label="RQTH" />
 		</div>
-
-		<Radio
-			legend="Revenu de solidarité active (RSA)"
-			name="rightRsa"
-			options={rsaRightKeys.options}
-		/>
-
-		<div class="fr-form-group">
-			<div class="pb-2 font-bold">Autres aides</div>
-			<Checkbox name="rightAre" label="ARE" />
-			<Checkbox name="rightAss" label="ASS" />
-			<Checkbox name="rightBonus" label="Prime d'activité" />
-		</div>
-
 		<div class="fr-form-group">
 			<div class="!pb-2 font-bold">
 				<label for={romeSelectorId}>Emploi recherché</label>

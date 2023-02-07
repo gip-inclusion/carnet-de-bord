@@ -13,10 +13,6 @@ type alias Flags =
     , workSituationDate : Maybe String
     , workSituationEndDate : Maybe String
     , rightRqth : Bool
-    , rightRsa : Maybe String
-    , rightAre : Bool
-    , rightAss : Bool
-    , rightBonus : Bool
     , geographicalArea : Maybe String
     , educationLevel : Maybe String
     , wantedJobs : List String
@@ -108,22 +104,6 @@ workSituationDateFormat startDate endDate =
             Nothing
 
 
-beneficiaryRights : Bool -> Bool -> Bool -> Html msg
-beneficiaryRights are ass bonus =
-    let
-        rightValues =
-            [ ( are, "ARE" )
-            , ( ass, "ASS" )
-            , ( bonus, "Prime d'activité" )
-            ]
-    in
-    rightValues
-        |> List.filter (\( has_right, _ ) -> has_right)
-        |> List.map (\( _, right_label ) -> right_label)
-        |> String.join ", "
-        |> text
-
-
 professionalSituation : Model -> Html Msg
 professionalSituation model =
     let
@@ -131,15 +111,7 @@ professionalSituation model =
             model.situationPro
     in
     div []
-        [ div []
-            [ situationElement "Droits"
-                (Maybe.map (rsaRightKeyToString >> text) situationPro.rightRsa)
-                "Non renseignés"
-                (Just
-                    (beneficiaryRights situationPro.rightAre situationPro.rightAss situationPro.rightBonus)
-                )
-            ]
-        , h3 [ class "text-xl" ]
+        [ h3 [ class "text-xl" ]
             [ text "Situation professionnelle" ]
         , div [ class "fr-container shadow-dsfr rounded-lg" ]
             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
@@ -229,10 +201,6 @@ extractSituationFromFlags flags =
         flags.workSituationEndDate
             |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     , rightRqth = flags.rightRqth
-    , rightRsa = flags.rightRsa
-    , rightAre = flags.rightAre
-    , rightAss = flags.rightAss
-    , rightBonus = flags.rightBonus
     , geographicalArea = flags.geographicalArea
     , educationLevel = flags.educationLevel
     , wantedJobs = flags.wantedJobs

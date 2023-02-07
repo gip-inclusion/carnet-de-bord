@@ -29,6 +29,10 @@
 		| 'postalCode'
 		| 'cafNumber'
 		| 'peNumber'
+		| 'rightAre'
+		| 'rightAss'
+		| 'rightBonus'
+		| 'rightRsa'
 	>;
 	export let lastUpdateDate: string;
 	export let lastUpdateFrom: Pro;

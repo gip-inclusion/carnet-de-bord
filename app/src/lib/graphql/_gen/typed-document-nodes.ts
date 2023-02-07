@@ -1552,6 +1552,10 @@ export type Beneficiary = {
 	peUniqueId?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
+	rightAre: Scalars['Boolean'];
+	rightAss: Scalars['Boolean'];
+	rightBonus: Scalars['Boolean'];
+	rightRsa?: Maybe<Scalars['String']>;
 	/** An array relationship */
 	structures: Array<BeneficiaryStructure>;
 	/** An aggregate relationship */
@@ -1603,7 +1607,23 @@ export type BeneficiaryAggregate = {
 };
 
 export type BeneficiaryAggregateBoolExp = {
+	bool_and?: InputMaybe<BeneficiaryAggregateBoolExpBoolAnd>;
+	bool_or?: InputMaybe<BeneficiaryAggregateBoolExpBoolOr>;
 	count?: InputMaybe<BeneficiaryAggregateBoolExpCount>;
+};
+
+export type BeneficiaryAggregateBoolExpBoolAnd = {
+	arguments: BeneficiarySelectColumnBeneficiaryAggregateBoolExpBoolAndArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<BeneficiaryBoolExp>;
+	predicate: BooleanComparisonExp;
+};
+
+export type BeneficiaryAggregateBoolExpBoolOr = {
+	arguments: BeneficiarySelectColumnBeneficiaryAggregateBoolExpBoolOrArgumentsColumns;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<BeneficiaryBoolExp>;
+	predicate: BooleanComparisonExp;
 };
 
 export type BeneficiaryAggregateBoolExpCount = {
@@ -1670,6 +1690,10 @@ export type BeneficiaryBoolExp = {
 	peUniqueId?: InputMaybe<StringComparisonExp>;
 	placeOfBirth?: InputMaybe<StringComparisonExp>;
 	postalCode?: InputMaybe<StringComparisonExp>;
+	rightAre?: InputMaybe<BooleanComparisonExp>;
+	rightAss?: InputMaybe<BooleanComparisonExp>;
+	rightBonus?: InputMaybe<BooleanComparisonExp>;
+	rightRsa?: InputMaybe<StringComparisonExp>;
 	structures?: InputMaybe<BeneficiaryStructureBoolExp>;
 	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -1712,6 +1736,10 @@ export type BeneficiaryInsertInput = {
 	peUniqueId?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
+	rightAre?: InputMaybe<Scalars['Boolean']>;
+	rightAss?: InputMaybe<Scalars['Boolean']>;
+	rightBonus?: InputMaybe<Scalars['Boolean']>;
+	rightRsa?: InputMaybe<Scalars['String']>;
 	structures?: InputMaybe<BeneficiaryStructureArrRelInsertInput>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -1737,6 +1765,7 @@ export type BeneficiaryMaxFields = {
 	peUniqueId?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
+	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1760,6 +1789,7 @@ export type BeneficiaryMaxOrderBy = {
 	peUniqueId?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
+	rightRsa?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
@@ -1784,6 +1814,7 @@ export type BeneficiaryMinFields = {
 	peUniqueId?: Maybe<Scalars['String']>;
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
+	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1807,6 +1838,7 @@ export type BeneficiaryMinOrderBy = {
 	peUniqueId?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
+	rightRsa?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
@@ -1858,6 +1890,10 @@ export type BeneficiaryOrderBy = {
 	peUniqueId?: InputMaybe<OrderBy>;
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
+	rightAre?: InputMaybe<OrderBy>;
+	rightAss?: InputMaybe<OrderBy>;
+	rightBonus?: InputMaybe<OrderBy>;
+	rightRsa?: InputMaybe<OrderBy>;
 	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -1906,7 +1942,35 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	PostalCode = 'postalCode',
 	/** column name */
+	RightAre = 'rightAre',
+	/** column name */
+	RightAss = 'rightAss',
+	/** column name */
+	RightBonus = 'rightBonus',
+	/** column name */
+	RightRsa = 'rightRsa',
+	/** column name */
 	UpdatedAt = 'updatedAt',
+}
+
+/** select "beneficiary_aggregate_bool_exp_bool_and_arguments_columns" columns of table "beneficiary" */
+export enum BeneficiarySelectColumnBeneficiaryAggregateBoolExpBoolAndArgumentsColumns {
+	/** column name */
+	RightAre = 'rightAre',
+	/** column name */
+	RightAss = 'rightAss',
+	/** column name */
+	RightBonus = 'rightBonus',
+}
+
+/** select "beneficiary_aggregate_bool_exp_bool_or_arguments_columns" columns of table "beneficiary" */
+export enum BeneficiarySelectColumnBeneficiaryAggregateBoolExpBoolOrArgumentsColumns {
+	/** column name */
+	RightAre = 'rightAre',
+	/** column name */
+	RightAss = 'rightAss',
+	/** column name */
+	RightBonus = 'rightBonus',
 }
 
 /** input type for updating data in table "beneficiary" */
@@ -1929,6 +1993,10 @@ export type BeneficiarySetInput = {
 	peUniqueId?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
+	rightAre?: InputMaybe<Scalars['Boolean']>;
+	rightAss?: InputMaybe<Scalars['Boolean']>;
+	rightBonus?: InputMaybe<Scalars['Boolean']>;
+	rightRsa?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -1960,6 +2028,10 @@ export type BeneficiaryStreamCursorValueInput = {
 	peUniqueId?: InputMaybe<Scalars['String']>;
 	placeOfBirth?: InputMaybe<Scalars['String']>;
 	postalCode?: InputMaybe<Scalars['String']>;
+	rightAre?: InputMaybe<Scalars['Boolean']>;
+	rightAss?: InputMaybe<Scalars['Boolean']>;
+	rightBonus?: InputMaybe<Scalars['Boolean']>;
+	rightRsa?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -2286,6 +2358,14 @@ export enum BeneficiaryUpdateColumn {
 	PlaceOfBirth = 'placeOfBirth',
 	/** column name */
 	PostalCode = 'postalCode',
+	/** column name */
+	RightAre = 'rightAre',
+	/** column name */
+	RightAss = 'rightAss',
+	/** column name */
+	RightBonus = 'rightBonus',
+	/** column name */
+	RightRsa = 'rightRsa',
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
@@ -5573,11 +5653,7 @@ export type Notebook = {
 	notebookInfo?: Maybe<NotebookInfo>;
 	/** return the number of professionnal for a notebook */
 	notebookMemberCount?: Maybe<Scalars['bigint']>;
-	rightAre: Scalars['Boolean'];
-	rightAss?: Maybe<Scalars['Boolean']>;
-	rightBonus: Scalars['Boolean'];
 	rightRqth: Scalars['Boolean'];
-	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt: Scalars['timestamptz'];
 	/** An array relationship */
 	wantedJobs: Array<WantedJob>;
@@ -6274,11 +6350,7 @@ export type NotebookBoolExp = {
 	members_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	notebookInfo?: InputMaybe<NotebookInfoBoolExp>;
 	notebookMemberCount?: InputMaybe<BigintComparisonExp>;
-	rightAre?: InputMaybe<BooleanComparisonExp>;
-	rightAss?: InputMaybe<BooleanComparisonExp>;
-	rightBonus?: InputMaybe<BooleanComparisonExp>;
 	rightRqth?: InputMaybe<BooleanComparisonExp>;
-	rightRsa?: InputMaybe<StringComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 	wantedJobs?: InputMaybe<WantedJobBoolExp>;
 	wantedJobs_aggregate?: InputMaybe<WantedJobAggregateBoolExp>;
@@ -7295,11 +7367,7 @@ export type NotebookInsertInput = {
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	notebookInfo?: InputMaybe<NotebookInfoObjRelInsertInput>;
-	rightAre?: InputMaybe<Scalars['Boolean']>;
-	rightAss?: InputMaybe<Scalars['Boolean']>;
-	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
-	rightRsa?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	wantedJobs?: InputMaybe<WantedJobArrRelInsertInput>;
 	workSituation?: InputMaybe<Scalars['String']>;
@@ -7320,7 +7388,6 @@ export type NotebookMaxFields = {
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastJobEndedAt?: Maybe<Scalars['date']>;
-	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
@@ -7678,7 +7745,6 @@ export type NotebookMinFields = {
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastJobEndedAt?: Maybe<Scalars['date']>;
-	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
@@ -7727,11 +7793,7 @@ export type NotebookOrderBy = {
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	notebookInfo?: InputMaybe<NotebookInfoOrderBy>;
 	notebookMemberCount?: InputMaybe<OrderBy>;
-	rightAre?: InputMaybe<OrderBy>;
-	rightAss?: InputMaybe<OrderBy>;
-	rightBonus?: InputMaybe<OrderBy>;
 	rightRqth?: InputMaybe<OrderBy>;
-	rightRsa?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 	wantedJobs_aggregate?: InputMaybe<WantedJobAggregateOrderBy>;
 	workSituation?: InputMaybe<OrderBy>;
@@ -7934,15 +7996,7 @@ export enum NotebookSelectColumn {
 	/** column name */
 	LastJobEndedAt = 'lastJobEndedAt',
 	/** column name */
-	RightAre = 'rightAre',
-	/** column name */
-	RightAss = 'rightAss',
-	/** column name */
-	RightBonus = 'rightBonus',
-	/** column name */
 	RightRqth = 'rightRqth',
-	/** column name */
-	RightRsa = 'rightRsa',
 	/** column name */
 	UpdatedAt = 'updatedAt',
 	/** column name */
@@ -7965,11 +8019,7 @@ export type NotebookSetInput = {
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
-	rightAre?: InputMaybe<Scalars['Boolean']>;
-	rightAss?: InputMaybe<Scalars['Boolean']>;
-	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
-	rightRsa?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
@@ -7996,11 +8046,7 @@ export type NotebookStreamCursorValueInput = {
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
-	rightAre?: InputMaybe<Scalars['Boolean']>;
-	rightAss?: InputMaybe<Scalars['Boolean']>;
-	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
-	rightRsa?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
@@ -8314,15 +8360,7 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	LastJobEndedAt = 'lastJobEndedAt',
 	/** column name */
-	RightAre = 'rightAre',
-	/** column name */
-	RightAss = 'rightAss',
-	/** column name */
-	RightBonus = 'rightBonus',
-	/** column name */
 	RightRqth = 'rightRqth',
-	/** column name */
-	RightRsa = 'rightRsa',
 	/** column name */
 	UpdatedAt = 'updatedAt',
 	/** column name */
@@ -14869,11 +14907,7 @@ export type UpdateSocioProMutationVariables = Exact<{
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
 	workSituationEndDate?: InputMaybe<Scalars['date']>;
-	rightRsa?: InputMaybe<Scalars['String']>;
-	rightAre?: InputMaybe<Scalars['Boolean']>;
-	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
-	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
@@ -15132,11 +15166,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		workSituation?: string | null;
 		workSituationDate?: string | null;
 		workSituationEndDate?: string | null;
-		rightAre: boolean;
-		rightAss?: boolean | null;
-		rightRsa?: string | null;
 		rightRqth: boolean;
-		rightBonus: boolean;
 		contractType?: string | null;
 		contractSignDate?: string | null;
 		contractStartDate?: string | null;
@@ -15163,6 +15193,10 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
+			rightAre: boolean;
+			rightAss: boolean;
+			rightBonus: boolean;
+			rightRsa?: string | null;
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
@@ -15292,11 +15326,7 @@ export type GetNotebookByIdQuery = {
 		workSituation?: string | null;
 		workSituationDate?: string | null;
 		workSituationEndDate?: string | null;
-		rightAre: boolean;
-		rightAss?: boolean | null;
-		rightRsa?: string | null;
 		rightRqth: boolean;
-		rightBonus: boolean;
 		contractType?: string | null;
 		contractSignDate?: string | null;
 		contractStartDate?: string | null;
@@ -15323,6 +15353,10 @@ export type GetNotebookByIdQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
+			rightAre: boolean;
+			rightAss: boolean;
+			rightBonus: boolean;
+			rightRsa?: string | null;
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
@@ -15445,11 +15479,7 @@ export type NotebookFragmentFragment = {
 	workSituation?: string | null;
 	workSituationDate?: string | null;
 	workSituationEndDate?: string | null;
-	rightAre: boolean;
-	rightAss?: boolean | null;
-	rightRsa?: string | null;
 	rightRqth: boolean;
-	rightBonus: boolean;
 	contractType?: string | null;
 	contractSignDate?: string | null;
 	contractStartDate?: string | null;
@@ -15476,6 +15506,10 @@ export type NotebookFragmentFragment = {
 		mobileNumber?: string | null;
 		peNumber?: string | null;
 		postalCode?: string | null;
+		rightAre: boolean;
+		rightAss: boolean;
+		rightBonus: boolean;
+		rightRsa?: string | null;
 		orientationRequest?: Array<{
 			__typename?: 'orientation_request';
 			id: string;
@@ -16007,6 +16041,10 @@ export type GetNotebookQuery = {
 			mobileNumber?: string | null;
 			peNumber?: string | null;
 			postalCode?: string | null;
+			rightAre: boolean;
+			rightAss: boolean;
+			rightBonus: boolean;
+			rightRsa?: string | null;
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
@@ -16077,11 +16115,7 @@ export type GetNotebookQuery = {
 			workSituationDate?: string | null;
 			workSituationEndDate?: string | null;
 			workSituation?: string | null;
-			rightRsa?: string | null;
 			rightRqth: boolean;
-			rightAre: boolean;
-			rightAss?: boolean | null;
-			rightBonus: boolean;
 			geographicalArea?: string | null;
 			educationLevel?: string | null;
 			contractType?: string | null;
@@ -16706,11 +16740,7 @@ export const NotebookFragmentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'workSituationDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'workSituationEndDate' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'rightAre' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'rightRqth' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractStartDate' } },
@@ -16764,6 +16794,10 @@ export const NotebookFragmentFragmentDoc = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightAre' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'orientationRequest' },
@@ -23004,27 +23038,7 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 				},
 				{
@@ -23111,28 +23125,8 @@ export const UpdateSocioProDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightRsa' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRsa' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightAre' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAre' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightAss' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightAss' } },
-										},
-										{
-											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'rightRqth' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightBonus' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightBonus' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -26792,6 +26786,10 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'mobileNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'peNumber' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'rightAre' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'orientationRequest' },
@@ -27022,11 +27020,7 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'workSituationDate' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'workSituationEndDate' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightRqth' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'rightAre' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },

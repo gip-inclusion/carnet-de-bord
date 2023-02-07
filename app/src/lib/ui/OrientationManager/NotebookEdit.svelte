@@ -11,7 +11,7 @@
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 	import { accountData } from '$lib/stores';
 
-	export let notebook: GetNotebookQuery['notebook_public_view'][0];
+	export let notebook: GetNotebookQuery['notebook_public_view'][number];
 
 	$: beneficiary = notebook.beneficiary;
 	$: orientationRequest =
@@ -35,8 +35,6 @@
 	{/if}
 	<ProNotebookPersonalInfoView
 		beneficiary={notebook.beneficiary}
-		on:edit={() => alert('Not implemented!')}
-		on:print={() => alert('Not implemented!')}
 		lastUpdateDate={notebook.members[0]?.lastModifiedAt}
 		lastUpdateFrom={notebook.members[0]?.account?.professional ||
 			notebook.members[0]?.account?.orientation_manager}

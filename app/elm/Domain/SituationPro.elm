@@ -8,10 +8,6 @@ type alias SituationPro =
     , workSituationDate : Maybe Date
     , workSituationEndDate : Maybe Date
     , rightRqth : Bool
-    , rightRsa : Maybe String
-    , rightAre : Bool
-    , rightAss : Bool
-    , rightBonus : Bool
     , geographicalArea : Maybe String
     , educationLevel : Maybe String
     , wantedJobs : List String
@@ -21,20 +17,25 @@ type alias SituationPro =
 
 rsaRightKeyToString : String -> String
 rsaRightKeyToString key =
-    "RSA - "
-        ++ (case key of
-                "rsa_droit_ouvert_et_suspendu" ->
-                    "Droit ouvert et suspendu"
+    key
 
-                "rsa_droit_ouvert_versable" ->
-                    "Droit ouvert et versable"
 
-                "rsa_droit_ouvert_versement_suspendu" ->
-                    "Droit ouvert mais versement suspendu"
 
-                _ ->
-                    "Droit non renseigné"
-           )
+{- "RSA - "
+   ++ (case key of
+           "rsa_droit_ouvert_et_suspendu" ->
+               "Droit ouvert et suspendu"
+
+           "rsa_droit_ouvert_versable" ->
+               "Droit ouvert et versable"
+
+           "rsa_droit_ouvert_versement_suspendu" ->
+               "Droit ouvert mais versement suspendu"
+
+           _ ->
+               "Droit non renseigné"
+      )
+-}
 
 
 geographicalAreaKeyToString : String -> String

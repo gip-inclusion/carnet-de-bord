@@ -3,11 +3,7 @@ mutation UpdateSocioPro(
   $workSituation: String
   $workSituationDate: date
   $workSituationEndDate: date
-  $rightRsa: String
-  $rightAre: Boolean
-  $rightAss: Boolean
   $rightRqth: Boolean
-  $rightBonus: Boolean
   $geographicalArea: String
   $educationLevel: String
   $lastJobEndedAt: date
@@ -19,11 +15,7 @@ mutation UpdateSocioPro(
       workSituation: $workSituation
       workSituationDate: $workSituationDate
       workSituationEndDate: $workSituationEndDate
-      rightRsa: $rightRsa
-      rightAre: $rightAre
-      rightAss: $rightAss
       rightRqth: $rightRqth
-      rightBonus: $rightBonus
       geographicalArea: $geographicalArea
       educationLevel: $educationLevel
       lastJobEndedAt: $lastJobEndedAt

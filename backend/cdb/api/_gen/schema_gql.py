@@ -1915,6 +1915,10 @@ type beneficiary {
   peUniqueId: String
   placeOfBirth: String
   postalCode: String
+  rightAre: Boolean!
+  rightAss: Boolean!
+  rightBonus: Boolean!
+  rightRsa: String
 
   """An array relationship"""
   structures(
@@ -1963,7 +1967,23 @@ type beneficiary_aggregate {
 }
 
 input beneficiary_aggregate_bool_exp {
+  bool_and: beneficiary_aggregate_bool_exp_bool_and
+  bool_or: beneficiary_aggregate_bool_exp_bool_or
   count: beneficiary_aggregate_bool_exp_count
+}
+
+input beneficiary_aggregate_bool_exp_bool_and {
+  arguments: beneficiary_select_column_beneficiary_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: beneficiary_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input beneficiary_aggregate_bool_exp_bool_or {
+  arguments: beneficiary_select_column_beneficiary_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: beneficiary_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input beneficiary_aggregate_bool_exp_count {
@@ -2032,6 +2052,10 @@ input beneficiary_bool_exp {
   peUniqueId: String_comparison_exp
   placeOfBirth: String_comparison_exp
   postalCode: String_comparison_exp
+  rightAre: Boolean_comparison_exp
+  rightAss: Boolean_comparison_exp
+  rightBonus: Boolean_comparison_exp
+  rightRsa: String_comparison_exp
   structures: beneficiary_structure_bool_exp
   structures_aggregate: beneficiary_structure_aggregate_bool_exp
   updatedAt: timestamptz_comparison_exp
@@ -2089,6 +2113,10 @@ input beneficiary_insert_input {
   peUniqueId: String
   placeOfBirth: String
   postalCode: String
+  rightAre: Boolean
+  rightAss: Boolean
+  rightBonus: Boolean
+  rightRsa: String
   structures: beneficiary_structure_arr_rel_insert_input
   updatedAt: timestamptz
 }
@@ -2113,6 +2141,7 @@ type beneficiary_max_fields {
   peUniqueId: String
   placeOfBirth: String
   postalCode: String
+  rightRsa: String
   updatedAt: timestamptz
 }
 
@@ -2138,6 +2167,7 @@ input beneficiary_max_order_by {
   peUniqueId: order_by
   placeOfBirth: order_by
   postalCode: order_by
+  rightRsa: order_by
   updatedAt: order_by
 }
 
@@ -2161,6 +2191,7 @@ type beneficiary_min_fields {
   peUniqueId: String
   placeOfBirth: String
   postalCode: String
+  rightRsa: String
   updatedAt: timestamptz
 }
 
@@ -2186,6 +2217,7 @@ input beneficiary_min_order_by {
   peUniqueId: order_by
   placeOfBirth: order_by
   postalCode: order_by
+  rightRsa: order_by
   updatedAt: order_by
 }
 
@@ -2244,6 +2276,10 @@ input beneficiary_order_by {
   peUniqueId: order_by
   placeOfBirth: order_by
   postalCode: order_by
+  rightAre: order_by
+  rightAss: order_by
+  rightBonus: order_by
+  rightRsa: order_by
   structures_aggregate: beneficiary_structure_aggregate_order_by
   updatedAt: order_by
 }
@@ -2312,7 +2348,47 @@ enum beneficiary_select_column {
   postalCode
 
   """column name"""
+  rightAre
+
+  """column name"""
+  rightAss
+
+  """column name"""
+  rightBonus
+
+  """column name"""
+  rightRsa
+
+  """column name"""
   updatedAt
+}
+
+"""
+select "beneficiary_aggregate_bool_exp_bool_and_arguments_columns" columns of table "beneficiary"
+"""
+enum beneficiary_select_column_beneficiary_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  rightAre
+
+  """column name"""
+  rightAss
+
+  """column name"""
+  rightBonus
+}
+
+"""
+select "beneficiary_aggregate_bool_exp_bool_or_arguments_columns" columns of table "beneficiary"
+"""
+enum beneficiary_select_column_beneficiary_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  rightAre
+
+  """column name"""
+  rightAss
+
+  """column name"""
+  rightBonus
 }
 
 """
@@ -2337,6 +2413,10 @@ input beneficiary_set_input {
   peUniqueId: String
   placeOfBirth: String
   postalCode: String
+  rightAre: Boolean
+  rightAss: Boolean
+  rightBonus: Boolean
+  rightRsa: String
   updatedAt: timestamptz
 }
 
@@ -2371,6 +2451,10 @@ input beneficiary_stream_cursor_value_input {
   peUniqueId: String
   placeOfBirth: String
   postalCode: String
+  rightAre: Boolean
+  rightAss: Boolean
+  rightBonus: Boolean
+  rightRsa: String
   updatedAt: timestamptz
 }
 
@@ -2767,6 +2851,18 @@ enum beneficiary_update_column {
 
   """column name"""
   postalCode
+
+  """column name"""
+  rightAre
+
+  """column name"""
+  rightAss
+
+  """column name"""
+  rightBonus
+
+  """column name"""
+  rightRsa
 
   """column name"""
   updatedAt
@@ -6997,11 +7093,7 @@ type notebook {
 
   """return the number of professionnal for a notebook"""
   notebookMemberCount: bigint
-  rightAre: Boolean!
-  rightAss: Boolean
-  rightBonus: Boolean!
   rightRqth: Boolean!
-  rightRsa: String
   updatedAt: timestamptz!
 
   """An array relationship"""
@@ -7728,11 +7820,7 @@ input notebook_bool_exp {
   members_aggregate: notebook_member_aggregate_bool_exp
   notebookInfo: notebook_info_bool_exp
   notebookMemberCount: bigint_comparison_exp
-  rightAre: Boolean_comparison_exp
-  rightAss: Boolean_comparison_exp
-  rightBonus: Boolean_comparison_exp
   rightRqth: Boolean_comparison_exp
-  rightRsa: String_comparison_exp
   updatedAt: timestamptz_comparison_exp
   wantedJobs: wanted_job_bool_exp
   wantedJobs_aggregate: wanted_job_aggregate_bool_exp
@@ -8951,11 +9039,7 @@ input notebook_insert_input {
   lastJobEndedAt: date
   members: notebook_member_arr_rel_insert_input
   notebookInfo: notebook_info_obj_rel_insert_input
-  rightAre: Boolean
-  rightAss: Boolean
-  rightBonus: Boolean
   rightRqth: Boolean
-  rightRsa: String
   updatedAt: timestamptz
   wantedJobs: wanted_job_arr_rel_insert_input
   workSituation: String
@@ -8975,7 +9059,6 @@ type notebook_max_fields {
   geographicalArea: String
   id: uuid
   lastJobEndedAt: date
-  rightRsa: String
   updatedAt: timestamptz
   workSituation: String
   workSituationDate: date
@@ -9389,7 +9472,6 @@ type notebook_min_fields {
   geographicalArea: String
   id: uuid
   lastJobEndedAt: date
-  rightRsa: String
   updatedAt: timestamptz
   workSituation: String
   workSituationDate: date
@@ -9445,11 +9527,7 @@ input notebook_order_by {
   members_aggregate: notebook_member_aggregate_order_by
   notebookInfo: notebook_info_order_by
   notebookMemberCount: order_by
-  rightAre: order_by
-  rightAss: order_by
-  rightBonus: order_by
   rightRqth: order_by
-  rightRsa: order_by
   updatedAt: order_by
   wantedJobs_aggregate: wanted_job_aggregate_order_by
   workSituation: order_by
@@ -9692,19 +9770,7 @@ enum notebook_select_column {
   lastJobEndedAt
 
   """column name"""
-  rightAre
-
-  """column name"""
-  rightAss
-
-  """column name"""
-  rightBonus
-
-  """column name"""
   rightRqth
-
-  """column name"""
-  rightRsa
 
   """column name"""
   updatedAt
@@ -9733,11 +9799,7 @@ input notebook_set_input {
   geographicalArea: String
   id: uuid
   lastJobEndedAt: date
-  rightAre: Boolean
-  rightAss: Boolean
-  rightBonus: Boolean
   rightRqth: Boolean
-  rightRsa: String
   updatedAt: timestamptz
   workSituation: String
   workSituationDate: date
@@ -9767,11 +9829,7 @@ input notebook_stream_cursor_value_input {
   geographicalArea: String
   id: uuid
   lastJobEndedAt: date
-  rightAre: Boolean
-  rightAss: Boolean
-  rightBonus: Boolean
   rightRqth: Boolean
-  rightRsa: String
   updatedAt: timestamptz
   workSituation: String
   workSituationDate: date
@@ -10155,19 +10213,7 @@ enum notebook_update_column {
   lastJobEndedAt
 
   """column name"""
-  rightAre
-
-  """column name"""
-  rightAss
-
-  """column name"""
-  rightBonus
-
-  """column name"""
   rightRqth
-
-  """column name"""
-  rightRsa
 
   """column name"""
   updatedAt

@@ -16,11 +16,7 @@ fragment notebookFragment on notebook {
   workSituation
   workSituationDate
   workSituationEndDate
-  rightAre
-  rightAss
-  rightRsa
   rightRqth
-  rightBonus
   contractType
   contractSignDate
   contractStartDate
@@ -50,6 +46,10 @@ fragment notebookFragment on notebook {
     mobileNumber
     peNumber
     postalCode
+    rightAre
+    rightAss
+    rightBonus
+    rightRsa
     orientationRequest(order_by: { createdAt: desc }, limit: 1)
       @include(if: $withOrientationRequests) {
       id

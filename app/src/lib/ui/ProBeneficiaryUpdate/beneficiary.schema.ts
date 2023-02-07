@@ -45,6 +45,11 @@ const beneficiaryAccountSchemaObject = {
 
 	peNumber: yup.string().trim().nullable(),
 	cafNumber: yup.string().trim().nullable(),
+
+	rightRsa: yup.string().nullable(),
+	rightAre: yup.boolean(),
+	rightAss: yup.boolean(),
+	rightBonus: yup.boolean(),
 };
 
 export const beneficiaryAccountSchema = yup.object().shape({ ...beneficiaryAccountSchemaObject });
