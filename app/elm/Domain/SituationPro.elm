@@ -1,4 +1,4 @@
-module Domain.SituationPro exposing (SituationPro, educationLevelKeyToString, geographicalAreaKeyToString, rsaRightKeyToString, workSituationKeyToString)
+module Domain.SituationPro exposing (SituationPro, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
 
 import Date exposing (Date)
 
@@ -13,29 +13,6 @@ type alias SituationPro =
     , wantedJobs : List String
     , lastJobEndedAt : Maybe Date
     }
-
-
-rsaRightKeyToString : String -> String
-rsaRightKeyToString key =
-    key
-
-
-
-{- "RSA - "
-   ++ (case key of
-           "rsa_droit_ouvert_et_suspendu" ->
-               "Droit ouvert et suspendu"
-
-           "rsa_droit_ouvert_versable" ->
-               "Droit ouvert et versable"
-
-           "rsa_droit_ouvert_versement_suspendu" ->
-               "Droit ouvert mais versement suspendu"
-
-           _ ->
-               "Droit non renseigné"
-      )
--}
 
 
 geographicalAreaKeyToString : String -> String

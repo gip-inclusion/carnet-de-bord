@@ -3,7 +3,7 @@ module Diagnostic.Main exposing (..)
 import Browser
 import Date exposing (Date, fromIsoString)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
-import Domain.SituationPro exposing (SituationPro, educationLevelKeyToString, geographicalAreaKeyToString, rsaRightKeyToString, workSituationKeyToString)
+import Domain.SituationPro exposing (SituationPro, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 
