@@ -147,12 +147,16 @@ professionalSituation model =
     let
         situationPro =
             model.situationPro
+
+        defaultText =
+            "Non renseigné"
     in
     div [ class "fr-col-8" ]
         [ div [ class "fr-grid-row fr-grid-row--gutters" ]
             [ div [ class "fr-col-6" ]
                 [ situationElement "Droits"
                     (Maybe.map (rsaRightKeyToString >> text) situationPro.rightRsa)
+                    (defaultText ++ "s")
                     (Just
                         (beneficiaryRights situationPro.rightAre situationPro.rightAss situationPro.rightBonus)
                     )
@@ -163,14 +167,8 @@ professionalSituation model =
             [ div [ class "fr-col-6" ]
                 [ situationElement "Situation actuelle"
                     (Maybe.map (workSituationKeyToString >> text) situationPro.workSituation)
+                    (defaultText ++ "e")
                     (workSituationDateFormat situationPro.workSituationDate situationPro.workSituationEndDate)
-                ]
-            , div [ class "fr-col-6" ]
-                [ div [ class "fr-col-6" ]
-                    [ situationElement "Date du dernier emploi"
-                        Nothing
-                        Nothing
-                    ]
                 ]
             , div [ class "fr-col-6" ]
                 [ div [ class "fr-col-6" ]
@@ -183,12 +181,14 @@ professionalSituation model =
                                 text "Non"
                             )
                         )
+                        defaultText
                         Nothing
                     ]
                 ]
             , div [ class "fr-col-6" ]
                 [ situationElement "Diplôme"
                     (Maybe.map (educationLevelKeyToString >> text) situationPro.educationLevel)
+                    defaultText
                     Nothing
                 ]
             ]
@@ -218,11 +218,13 @@ professionalProject model =
             [ div [ class "fr-col-8" ]
                 [ situationElement "Emplois recherchés"
                     (wantedJobsToHtml model.situationPro.wantedJobs)
+                    "Non renseignés"
                     Nothing
                 ]
             , div [ class "fr-col-4" ]
                 [ situationElement "Zone de mobilité"
                     (Maybe.map (geographicalAreaKeyToString >> text) model.situationPro.geographicalArea)
+                    "Non renseignée"
                     Nothing
                 ]
             ]
@@ -249,14 +251,14 @@ extractSituationFromFlags flags =
     }
 
 
-situationElement : String -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
-situationElement label someValue someHint =
+situationElement : String -> Maybe (Html msg) -> String -> Maybe (Html msg) -> Html msg
+situationElement label someValue defaultText someHint =
     p []
         [ span [ class "block" ] [ text label ]
         , span [ class "block font-bold" ]
             [ case someValue of
                 Nothing ->
-                    text "Non renseigné"
+                    text defaultText
 
                 Just valueHtml ->
                     valueHtml
