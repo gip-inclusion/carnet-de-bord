@@ -12,6 +12,7 @@ Scénario: Recherche correcte même avec des trous
 	Alors je vois "Agent / Agente de production laitière (A1302)"
 	Alors je vois "Agent / Agente de production de matériels électroniques"
 	Quand je clique sur le texte "laitière (A1302)"
+	Quand je clique sur le texte "Veuillez cliquer sur un champ pour le modifier."
 	Alors je ne vois pas "Agent / Agente de production de matériels électroniques"
 	Alors je vois "Agent / Agente de production laitière (A1302)"
 
@@ -24,6 +25,7 @@ Scénario: Ajout de plusieurs métiers
 	Alors je vois "Agent / Agente de production de matériels électroniques"
 	Quand je clique sur le texte "laitière (A1302)"
 	Quand je clique sur le texte "matériels électroniques"
+	Quand je clique sur le texte "Veuillez cliquer sur un champ pour le modifier."
 	Alors je vois "Agent / Agente de production de matériels électroniques"
 	Alors je vois "Agent / Agente de production laitière (A1302)"
 	Quand je clique sur "Enregistrer"
