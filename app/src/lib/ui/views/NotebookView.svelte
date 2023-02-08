@@ -48,11 +48,11 @@
 		displayEditButton={isManager}
 	/>
 	<div>
-		<MainSection title="Situation socioprofessionnelle">
-			<SocioProView {notebook} />
-		</MainSection>
 		<MainSection title="Groupe de suivi">
 			<NotebookMembers members={notebook.members} notebookId={notebook.id} />
+		</MainSection>
+		<MainSection title="Diagnostic socioprofessionnel">
+			<SocioProView {notebook} />
 		</MainSection>
 		<MainSection title="Plan d'action">
 			{#if notebook.focuses.length === 0}

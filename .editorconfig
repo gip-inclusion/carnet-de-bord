@@ -26,3 +26,7 @@ trim_trailing_whitespace = false
 
 [*.elm]
 	indent_style = space
+
+[elm.json]
+	indent_style = unset
+	indent_size = unset

@@ -12,7 +12,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je clique sur "Voir le carnet de Myrna Henderson"
 		Alors j'attends que le texte "Myrna Henderson" apparaisse
 		Alors je ne vois pas "Plan d'action"
-		Alors je ne vois pas "Situation socioprofessionnelle"
+		Alors je ne vois pas "Diagnostic socioprofessionnel"
 		Alors je ne vois pas "Historique de parcours"
 
   Scénario: Se rattacher au carnet
@@ -25,7 +25,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
 		Alors je ne vois pas "référent"
 		Alors je vois "Plan d'action"
-		Alors je vois "Situation socioprofessionnelle"
+		Alors je vois "Diagnostic socioprofessionnel"
 		Alors je vois "Historique de parcours"
 
   Scénario: Se rattacher au carnet en tant que référent
@@ -38,5 +38,5 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
 		Alors je vois "référent"
 		Alors je vois "Plan d'action"
-		Alors je vois "Situation socioprofessionnelle"
+		Alors je vois "Diagnostic socioprofessionnel"
 		Alors je vois "Historique de parcours"

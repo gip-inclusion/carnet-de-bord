@@ -1,7 +1,9 @@
 const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
-		extend: {},
+		extend: {
+			boxShadow: { dsfr: '0px 2px 6px rgba(0, 0, 18, 0.16)' },
+		},
 		// colors taken from https://github.com/betagouv/dora-front/blob/db82eb88f6aff6dcd59b157843e43054a0b7c6d6/tailwind.config.cjs
 		colors: {
 			transparent: 'transparent',

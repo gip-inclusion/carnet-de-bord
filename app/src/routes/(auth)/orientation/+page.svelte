@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { connectedUser, graphqlAPI, token } from '$lib/stores';
-	import { Elm } from '../../../../elm/OrientationHome/Main.elm';
+	import { Elm as OrientationHomeElm } from '../../../../elm/OrientationHome/Main.elm';
 	import { onMount } from 'svelte';
 
 	let elmNode: HTMLElement;
 	onMount(() => {
 		if (!elmNode) return;
-		Elm.OrientationHome.Main.init({
+		OrientationHomeElm.OrientationHome.Main.init({
 			node: elmNode,
 			flags: {
 				token: $token,

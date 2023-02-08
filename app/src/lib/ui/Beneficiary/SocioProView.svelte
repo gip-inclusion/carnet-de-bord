@@ -1,81 +1,59 @@
-<script lang="ts">
-	import {
-		educationLevelKeys,
-		geographicalAreaKeys,
-		rsaRightKeys,
-		workSituationKeys,
-	} from '$lib/constants/keys';
-	import type { GetNotebookByBeneficiaryIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
-	import { pluralize } from '$lib/helpers';
-	import { dateInterval, formatDateLocale } from '$lib/utils/date';
-	import { Text } from '../utils';
+<script lang="ts" context="module">
+	import type { Notebook } from '$lib/graphql/_gen/typed-document-nodes';
 
-	export let notebook: GetNotebookByBeneficiaryIdQuery['notebook'][0];
-
-	function contractDatesTemplating(start: string, end: string) {
-		if (end) {
-			return `depuis le ${formatDateLocale(start)} jusqu'au ${formatDateLocale(end)}`;
-		}
-		return `depuis le ${formatDateLocale(start)}`;
-	}
+	export type SocioProInfo = Pick<
+		Notebook,
+		| 'workSituation'
+		| 'workSituationDate'
+		| 'workSituationEndDate'
+		| 'rightRqth'
+		| 'rightBonus'
+		| 'rightAre'
+		| 'rightAss'
+		| 'rightRsa'
+		| 'geographicalArea'
+		| 'educationLevel'
+	> & { wantedJobs: { rome_code: { id: string; label: string } }[] };
 </script>
 
-<div class="flex flex-col space-y-6">
-	<div class="flex flex-row flex-wrap">
-		{#if notebook.workSituation}
-			<div class="w-1/2">
-				<strong>{workSituationKeys.byKey[notebook.workSituation]}</strong>
-				{#if notebook.workSituationDate}
-					{contractDatesTemplating(notebook.workSituationDate, notebook.workSituationEndDate)}
-					{#if notebook.workSituationEndDate}
-						-
-						<span class="italic font-bold">
-							({dateInterval(notebook.workSituationDate, notebook.workSituationEndDate)})
-						</span>
-					{/if}
-				{/if}
-			</div>
-		{/if}
+<script lang="ts">
+	export let notebook: SocioProInfo;
 
-		{#if notebook.rightRqth}
-			<Text class="w-1/2" value="Usager disposant de la RQTH" />
-		{/if}
+	import { Elm as DiagnosticElm } from '../../../../elm/Diagnostic/Main.elm';
+	import { afterUpdate } from 'svelte';
+
+	let elmNode: HTMLElement;
+	afterUpdate(() => {
+		if (!elmNode) return;
+		DiagnosticElm.Diagnostic.Main.init({
+			node: elmNode,
+			flags: {
+				rightRsa: notebook.rightRsa,
+				workSituation: notebook.workSituation,
+				workSituationDate: notebook.workSituationDate,
+				workSituationEndDate: notebook.workSituationEndDate,
+				rightRqth: notebook.rightRqth,
+				rightAre: notebook.rightAre,
+				rightAss: notebook.rightAss,
+				rightBonus: notebook.rightBonus,
+				geographicalArea: notebook.geographicalArea,
+				educationLevel: notebook.educationLevel,
+				wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.label),
+			},
+		});
+	});
+</script>
+
+{#key notebook}
+	<!--
+  @hack to prevent Svelte from removing CSS classes that we need in Elm and are not used in Svelte
+  See https://github.com/sveltejs/svelte/issues/5804 for more details
+
+  shadow-dsfr rounded-lg p-4
+
+  -->
+	<div>
+		<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+		<div bind:this={elmNode} />
 	</div>
-
-	<div class="flex flex-row flex-wrap">
-		<div class="w-1/2">
-			<strong class="text-base text-france-blue">Droits</strong>
-			<Text class="mb-2" value={`RSA - ${rsaRightKeys.byKey[notebook.rightRsa]}`} />
-			{#if [notebook.rightAre, notebook.rightBonus, notebook.rightAss].filter( (field) => Boolean(field) ).length > 0}
-				<p>
-					{[
-						notebook.rightAre && 'ARE',
-						notebook.rightAss && 'ASS',
-						notebook.rightBonus && "Prime d'activité",
-					]
-						.filter((field) => Boolean(field))
-						.join(', ')}
-				</p>
-			{/if}
-		</div>
-
-		<div class="w-1/2">
-			<strong class="text-base text-france-blue">
-				{pluralize('Emploi', notebook.wantedJobs.length)}
-				{pluralize('recherché', notebook.wantedJobs.length)}
-			</strong>
-			<Text
-				class="mb-2"
-				value={notebook.wantedJobs.map(({ rome_code }) => rome_code.label).join(', ')}
-			/>
-		</div>
-		<div class="w-1/2">
-			<strong class="text-base text-france-blue">Zone de mobilité</strong>
-			<Text class="mb-2" value={geographicalAreaKeys.byKey[notebook.geographicalArea]} />
-		</div>
-		<div class="w-1/2">
-			<strong class="text-base text-france-blue">Niveau de formation</strong>
-			<Text class="mb-2" value={educationLevelKeys.byKey[notebook.educationLevel]} />
-		</div>
-	</div>
-</div>
+{/key}

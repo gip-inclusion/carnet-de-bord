@@ -32,7 +32,7 @@ then
       if [ "$ACTION" != "all" ] && [ "$ACTION" != "python" ] && [ "$ACTION" != "js" ] && [ "$ACTION" != "e2e" ]; then
         echo "Bad parameter value: '$ACTION'"
         echo ""
-        echo "Usage : $0 [all|python|js]"
+        echo "Usage : $0 [all|e2e|python|js]"
         exit
       fi
 
