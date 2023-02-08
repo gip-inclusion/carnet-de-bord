@@ -23,6 +23,14 @@ configuration:
       custom_name: placeOfBirth
     postal_code:
       custom_name: postalCode
+    right_are:
+      custom_name: rightAre
+    right_ass:
+      custom_name: rightAss
+    right_bonus:
+      custom_name: rightBonus
+    right_rsa:
+      custom_name: rightRsa
     updated_at:
       custom_name: updatedAt
   custom_column_names:
@@ -36,6 +44,10 @@ configuration:
     pe_unique_import_id: peUniqueId
     place_of_birth: placeOfBirth
     postal_code: postalCode
+    right_are: rightAre
+    right_ass: rightAss
+    right_bonus: rightBonus
+    right_rsa: rightRsa
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
@@ -104,6 +116,10 @@ insert_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
   - role: manager
     permission:
       check:
@@ -128,6 +144,10 @@ insert_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
         - updated_at
 select_permissions:
   - role: admin_cdb
@@ -149,6 +169,10 @@ select_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
         - updated_at
       filter: {}
       allow_aggregations: true
@@ -169,6 +193,10 @@ select_permissions:
         - date_of_birth
         - deployment_id
         - created_at
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
         - updated_at
         - internal_id
       filter:
@@ -205,6 +233,10 @@ select_permissions:
         - address2
         - mobile_number
         - date_of_birth
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
       filter:
         id:
           _eq: X-Hasura-Beneficiary-Id
@@ -227,6 +259,10 @@ select_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
         - updated_at
       filter:
         deployment_id:
@@ -251,6 +287,10 @@ select_permissions:
         - created_at
         - updated_at
         - internal_id
+        - right_rsa
+        - right_are
+        - right_ass
+        - right_bonus
         - place_of_birth
       filter:
         deployment_id:
@@ -274,6 +314,10 @@ select_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
         - updated_at
       filter:
         deployment:
@@ -298,6 +342,10 @@ update_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
       filter: {}
       check: {}
   - role: beneficiary
@@ -331,6 +379,10 @@ update_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
         - updated_at
       filter:
         deployment_id:
@@ -348,6 +400,10 @@ update_permissions:
         - pe_number
         - place_of_birth
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
       filter:
         notebook:
           members:
@@ -366,6 +422,10 @@ update_permissions:
         - mobile_number
         - pe_number
         - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
       filter:
         notebook:
           members:

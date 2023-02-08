@@ -21,16 +21,8 @@ configuration:
       custom_name: geographicalArea
     last_job_ended_at:
       custom_name: lastJobEndedAt
-    right_are:
-      custom_name: rightAre
-    right_ass:
-      custom_name: rightAss
-    right_bonus:
-      custom_name: rightBonus
     right_rqth:
       custom_name: rightRqth
-    right_rsa:
-      custom_name: rightRsa
     updated_at:
       custom_name: updatedAt
     work_situation:
@@ -49,11 +41,7 @@ configuration:
     education_level: educationLevel
     geographical_area: geographicalArea
     last_job_ended_at: lastJobEndedAt
-    right_are: rightAre
-    right_ass: rightAss
-    right_bonus: rightBonus
     right_rqth: rightRqth
-    right_rsa: rightRsa
     updated_at: updatedAt
     work_situation: workSituation
     work_situation_date: workSituationDate
@@ -127,11 +115,7 @@ insert_permissions:
         - education_level
         - geographical_area
         - id
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - work_situation
         - work_situation_date
         - work_situation_end_date
@@ -152,11 +136,23 @@ insert_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
+        - work_situation
+        - work_situation_date
+        - work_situation_end_date
+  - role: professional
+    permission:
+      check: {}
+      columns:
+        - beneficiary_id
+        - contract_sign_date
+        - contract_start_date
+        - contract_end_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - right_rqth
         - work_situation
         - work_situation_date
         - work_situation_end_date
@@ -174,11 +170,7 @@ select_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - updated_at
         - work_situation
         - work_situation_date
@@ -200,11 +192,7 @@ select_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - updated_at
         - work_situation
         - work_situation_date
@@ -243,11 +231,7 @@ select_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - updated_at
         - work_situation
         - work_situation_date
@@ -270,11 +254,7 @@ select_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - updated_at
         - work_situation
         - work_situation_date
@@ -299,11 +279,7 @@ select_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - updated_at
         - work_situation
         - work_situation_date
@@ -328,11 +304,7 @@ select_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - updated_at
         - work_situation
         - work_situation_date
@@ -359,11 +331,10 @@ update_permissions:
         - geographical_area
         - id
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
+        - contract_type
+        - education_level
+        - geographical_area
         - work_situation
         - work_situation_date
         - work_situation_end_date
@@ -379,11 +350,7 @@ update_permissions:
         - education_level
         - geographical_area
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - work_situation
         - work_situation_date
         - work_situation_end_date
@@ -406,11 +373,7 @@ update_permissions:
         - education_level
         - geographical_area
         - last_job_ended_at
-        - right_are
-        - right_ass
-        - right_bonus
         - right_rqth
-        - right_rsa
         - work_situation
         - work_situation_date
         - work_situation_end_date
