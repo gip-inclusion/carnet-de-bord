@@ -1,3 +1,10 @@
+# [1.193.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.4...v1.193.0) (2023-02-08)
+
+
+### Features
+
+* ajout du diagnostic professionnel ([#1494](https://github.com/gip-inclusion/carnet-de-bord/issues/1494)) ([c2c9b62](https://github.com/gip-inclusion/carnet-de-bord/commit/c2c9b62a2e8aae421812a8e3ff51bd3253539554))
+
 ## [1.192.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.3...v1.192.4) (2023-02-06)
 
 
