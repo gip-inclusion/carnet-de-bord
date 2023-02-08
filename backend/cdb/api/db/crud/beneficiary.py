@@ -147,9 +147,13 @@ INSERT INTO BENEFICIARY (
     caf_number,
     pe_number,
     email,
-    nir
+    nir,
+    right_are,
+    right_ass,
+    right_bonus,
+    right_rsa
     )
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
 returning id
         """,
         beneficiary.firstname,
@@ -167,6 +171,10 @@ returning id
         beneficiary.pe_number,
         beneficiary.email,
         beneficiary.nir,
+        beneficiary.right_are,
+        beneficiary.right_ass,
+        beneficiary.right_bonus,
+        beneficiary.right_rsa,
     )
 
     if created_beneficiary:

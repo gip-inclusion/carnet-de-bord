@@ -46,6 +46,10 @@ class Beneficiary(BaseModel):
     account_id: UUID | None
     nir: str | None
     pe_unique_import_id: str | None
+    right_rsa: str | None = Field(None, title="Droits RSA")
+    right_are: bool = Field(False, title="Droits ARE")
+    right_ass: bool = Field(False, title="Droits ASS")
+    right_bonus: bool = Field(False, title="Droits Bonus")
 
 
 class BeneficiaryWithAdminStructureEmail(BaseModel):
@@ -85,9 +89,9 @@ class BeneficiaryImport(BaseModel):
     caf_number: str | None = Field(None, alias="Numéro allocataire CAF/MSA")
     pe_number: str | None = Field(None, alias="Identifiant Pôle emploi")
     right_rsa: str | None = Field(None, alias="Droits RSA")
-    right_are: bool | None = Field(None, alias="Droits ARE")
-    right_ass: bool | None = Field(None, alias="Droits ASS")
-    right_bonus: bool | None = Field(None, alias="Prime d'activité")
+    right_are: bool | None = Field(False, alias="Droits ARE")
+    right_ass: bool | None = Field(False, alias="Droits ASS")
+    right_bonus: bool | None = Field(False, alias="Prime d'activité")
     right_rqth: bool | None = Field(None, alias="RQTH")
     geographical_area: str | None = Field(None, alias="Zone de mobilité")
     rome_code_description: str | None = Field(
@@ -202,17 +206,17 @@ class BeneficiaryImport(BaseModel):
             "pe_number",
             "email",
             "nir",
+            "right_are",
+            "right_ass",
+            "right_bonus",
+            "right_rsa",
         ]
         return self._filter_updatable_field_keys(BENEFICIARY_EDITABLE_FIELDS)
 
     # TODO Should be possible to use decorator to mark field for notebook
     def get_notebook_editable_keys(self) -> list[str]:
         NOTEBOOK_EDITABLE_FIELDS = [
-            "right_rsa",
             "right_rqth",
-            "right_are",
-            "right_ass",
-            "right_bonus",
             "work_situation",
             "education_level",
             "geographical_area",

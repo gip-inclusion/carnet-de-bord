@@ -38,6 +38,10 @@ async def notebook_to_out(
             place_of_birth=beneficiary.place_of_birth,
             created_at=beneficiary.created_at,
             updated_at=beneficiary.updated_at,
+            right_rsa=beneficiary.right_rsa,
+            right_are=beneficiary.right_are,
+            right_ass=beneficiary.right_ass,
+            right_bonus=beneficiary.right_bonus,
         )
 
         if notebook.focuses:
@@ -118,11 +122,7 @@ async def notebook_to_out(
             beneficiary=beneficiary_out,
             created_at=notebook.created_at,
             updated_at=notebook.updated_at,
-            right_rsa=notebook.right_rsa,
             right_rqth=notebook.right_rqth,
-            right_are=notebook.right_are,
-            right_ass=notebook.right_ass,
-            right_bonus=notebook.right_bonus,
             geographical_area=notebook.geographical_area,
             education_level=notebook.education_level,
             work_situation_date=notebook.work_situation_date,

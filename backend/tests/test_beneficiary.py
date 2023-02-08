@@ -35,6 +35,10 @@ async def test_get_beneficiary_with_wanted_jobs(pe_principal_csv_series, db_conn
         assert beneficiary.lastname == "Tifour"
         assert beneficiary.firstname == "Sophie"
         assert beneficiary.date_of_birth == date(1982, 2, 1)
+        assert beneficiary.right_ass == False
+        assert beneficiary.right_are == False
+        assert beneficiary.right_bonus == False
+        assert beneficiary.right_rsa == "rsa_droit_ouvert_et_suspendu"
         assert beneficiary.notebook is not None
         assert len(beneficiary.notebook.wanted_jobs) == 2
 
@@ -70,6 +74,10 @@ async def test_get_beneficiary_without_wanted_jobs(
                 assert beneficiary.lastname == "Dorsey"
                 assert beneficiary.firstname == "Hendrix"
                 assert beneficiary.date_of_birth == date(1976, 12, 18)
+                assert beneficiary.right_ass == False
+                assert beneficiary.right_are == False
+                assert beneficiary.right_bonus == False
+                assert beneficiary.right_rsa is None
                 assert beneficiary.notebook is not None
                 assert len(beneficiary.notebook.wanted_jobs) == 0
 
@@ -128,6 +136,10 @@ async def test_get_beneficiary_with_unknown_rome_code(
                 assert beneficiary.lastname == "Skinner"
                 assert beneficiary.firstname == "Edwina"
                 assert beneficiary.date_of_birth == date(1973, 5, 14)
+                assert beneficiary.right_ass == True
+                assert beneficiary.right_are == True
+                assert beneficiary.right_bonus == False
+                assert beneficiary.right_rsa is None
                 assert beneficiary.notebook is not None
                 assert len(beneficiary.notebook.wanted_jobs) == 0
 
@@ -160,6 +172,10 @@ def test_beneficiary_model_beneficiary_filled_keys(
         "mobile_number",
         "place_of_birth",
         "postal_code",
+        "right_are",
+        "right_ass",
+        "right_bonus",
+        "right_rsa",
     ]
 
 
@@ -170,8 +186,6 @@ def test_beneficiary_model_notebook_filled_keys(
     editable_keys.sort()
     assert editable_keys == [
         "geographical_area",
-        "right_ass",
-        "right_rsa",
         "work_situation",
     ]
 

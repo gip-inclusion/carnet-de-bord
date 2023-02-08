@@ -1,9 +1,6 @@
 from datetime import date, datetime
-from uuid import UUID
 
 from pydantic import BaseModel, Field
-
-from cdb.api.db.models.role import RoleEnum
 
 
 class DeploymentOut(BaseModel):
@@ -25,6 +22,10 @@ class BeneficiaryOut(BaseModel):
     place_of_birth: str | None
     created_at: datetime
     updated_at: datetime
+    right_are: bool
+    right_ass: bool
+    right_bonus: bool
+    right_rsa: str | None
 
 
 class RomeCodeOut(BaseModel):
