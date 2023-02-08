@@ -1,7 +1,7 @@
 module Diagnostic.MainTests exposing (..)
 
 import Date
-import Diagnostic.Main exposing (workSituationDateFormat)
+import Diagnostic.Main exposing (peInformations, workSituationDateFormat)
 import Expect exposing (..)
 import Html
 import Html.Attributes exposing (..)

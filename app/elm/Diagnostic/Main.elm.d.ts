@@ -7,6 +7,7 @@ export type Flags = {
 	educationLevel: string | undefined;
 	wantedJobs: string[];
 	lastJobEndedAt: string | undefined;
+	pePrincipalData: { [name: string]: string };
 };
 
 export type Ports = {};

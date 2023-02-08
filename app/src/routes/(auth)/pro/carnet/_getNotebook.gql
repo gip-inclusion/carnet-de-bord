@@ -23,6 +23,13 @@ query GetNotebook(
       rightAss
       rightBonus
       rightRsa
+      externalDataInfos {
+        external_data_id
+        externalData {
+          data
+          source
+        }
+      }
       orientationRequest(order_by: { createdAt: desc }, limit: 1)
         @include(if: $withOrientationRequests) {
         id

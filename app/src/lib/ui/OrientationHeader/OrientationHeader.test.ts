@@ -100,6 +100,7 @@ const beneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['benefici
 	rightAre: false,
 	rightBonus: false,
 	rightAss: false,
+	externalDataInfos: [],
 };
 
 const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {

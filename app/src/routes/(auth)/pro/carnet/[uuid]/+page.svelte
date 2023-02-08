@@ -190,6 +190,11 @@
 		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
 	);
 	$: isMember = members.some(({ account }) => $accountData.id === account.id);
+
+	$: externalData =
+		beneficiary?.externalDataInfos.length > 0
+			? beneficiary.externalDataInfos[0].externalData
+			: null;
 </script>
 
 <svelte:head>
@@ -240,7 +245,7 @@
 			</MainSection>
 			{#if notebook}
 				<MainSection title="Diagnostic socioprofessionnel">
-					<ProNotebookSocioProView {notebook} />
+					<ProNotebookSocioProView {notebook} externalDataDetail={externalData} />
 				</MainSection>
 			{/if}
 

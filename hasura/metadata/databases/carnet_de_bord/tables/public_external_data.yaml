@@ -2,6 +2,109 @@ table:
   name: external_data
   schema: public
 object_relationships:
+  - name: externalDataInfo
+    using:
+      foreign_key_constraint_on:
+        column: external_data_id
+        table:
+          name: external_data_info
+          schema: public
   - name: external_source
     using:
       foreign_key_constraint_on: source
+select_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - data
+        - hash
+        - source
+        - created_at
+        - updated_at
+        - id
+      filter:
+        externalDataInfo:
+          _or:
+            - beneficiary:
+                notebook:
+                  members:
+                    _and:
+                      - active:
+                          _eq: true
+                      - account:
+                          professional:
+                            structure:
+                              admins:
+                                admin_structure_id:
+                                  _eq: X-Hasura-AdminStructure-Id
+            - beneficiary:
+                structures:
+                  structure:
+                    admins:
+                      admin_structure_id:
+                        _eq: X-Hasura-AdminStructure-Id
+      allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - data
+        - hash
+        - source
+        - created_at
+        - updated_at
+        - id
+      filter:
+        externalDataInfo:
+          beneficiary_id:
+            _eq: X-Hasura-Beneficiary-Id
+      allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - data
+        - hash
+        - source
+        - created_at
+        - updated_at
+        - id
+      filter:
+        externalDataInfo:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - source
+        - data
+        - hash
+        - created_at
+        - updated_at
+      filter:
+        externalDataInfo:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+  - role: professional
+    permission:
+      columns:
+        - id
+        - source
+        - data
+        - hash
+        - created_at
+        - updated_at
+      filter:
+        externalDataInfo:
+          beneficiary:
+            notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
+      allow_aggregations: true
