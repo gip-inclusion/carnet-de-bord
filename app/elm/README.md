@@ -1,4 +1,4 @@
- # Commencer avec Elm
+# Commencer avec Elm
 
 ## Initialiser un composant
 
@@ -11,10 +11,10 @@ Pour utiliser le composant Elm dans svelte
 
 ```svelte
 	import { Elm } from '../../../../elm/MainApp/Main.elm';
-	import { onMount } from 'svelte';
+	import { afterUpdate } from 'svelte';
 
 	let elmNode: HTMLElement;
-	onMount(() => {
+	afterUpdate(() => {
 		if (!elmNode) return;
 		Elm.MainApp.Main.init({
 			node: elmNode,
@@ -31,6 +31,7 @@ Pour utiliser le composant Elm dans svelte
 ```
 
 Exemple d'application Elm
+
 ```elm
 port module MainApp.Main exposing (..)
 
