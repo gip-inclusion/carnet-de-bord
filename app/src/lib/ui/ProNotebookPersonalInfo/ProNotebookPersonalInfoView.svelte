@@ -10,6 +10,8 @@
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
+	import { Elm as PersonalInfoElm } from '../../../../elm/PersonalInfo/Main.elm';
+	import { afterUpdate } from 'svelte';
 
 	type Pro =
 		| Pick<Professional, 'firstname' | 'lastname'>
@@ -38,6 +40,20 @@
 	export let lastUpdateFrom: Pro;
 	export let displayEditButton = false;
 
+	let elmNode: HTMLElement;
+	afterUpdate(() => {
+		if (!elmNode) return;
+		PersonalInfoElm.PersonalInfo.Main.init({
+			node: elmNode,
+			flags: {
+				rightAre: beneficiary.rightAre,
+				rightAss: beneficiary.rightAss,
+				rightBonus: beneficiary.rightBonus,
+				rightRsa: beneficiary.rightRsa,
+			},
+		});
+	});
+
 	function edit() {
 		openComponent.open({ component: ProNotebookPersonalInfoUpdate, props: { beneficiary } });
 	}
@@ -64,7 +80,6 @@
 	</div>
 
 	<h2 class="fr-h4 text-france-blue">Informations personnelles</h2>
-	<!-- extract Infos -->
 	<div class="flex flex-row space-x-4">
 		<div class="w-full">
 			<div class="text-lg font-bold">
@@ -96,6 +111,12 @@
 			<strong class="text-france-blue">Identifiant CAF/MSA</strong>
 			<Text value={beneficiary.cafNumber} />
 		</div>
+		{#key beneficiary}
+			<div class="w-full">
+				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+				<div bind:this={elmNode} />
+			</div>
+		{/key}
 	</div>
 	{#if displayEditButton}
 		<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>
