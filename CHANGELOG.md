@@ -1,3 +1,10 @@
+# [1.195.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.194.1...v1.195.0) (2023-02-09)
+
+
+### Features
+
+* Déplacement des droits vers la partie "Informations professionnelles". ([#1507](https://github.com/gip-inclusion/carnet-de-bord/issues/1507)) ([f1f20b4](https://github.com/gip-inclusion/carnet-de-bord/commit/f1f20b456fa76f095d61dc944f86f3a871abcc01))
+
 ## [1.194.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.194.0...v1.194.1) (2023-02-09)
 
 # [1.194.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.193.0...v1.194.0) (2023-02-09)
