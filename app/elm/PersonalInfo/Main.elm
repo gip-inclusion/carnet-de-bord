@@ -1,8 +1,8 @@
-module PersonalInfo.Main exposing (Flags, Model, Msg(..), beneficiaryRights, extractRightsFromFlags, init, main, personalInfoElement, update, view)
+module PersonalInfo.Main exposing (Flags, Model, Msg(..), beneficiaryRights, extractRightsFromFlags, init, main, personalInfoElement, view)
 
 import Browser
+import Domain.BeneficiaryRights exposing (BeneficiaryRights, rsaRightKeyToString)
 import Domain.PersonalIdentifiers exposing (PersonalIdentifiers)
-import Domain.Rights exposing (Rights, rsaRightKeyToString)
 import Html exposing (Html, div, strong, text)
 import Html.Attributes exposing (class)
 
@@ -22,7 +22,7 @@ main =
     Browser.element
         { init = init
         , view = view
-        , update = update
+        , update = \_ model -> ( model, Cmd.none )
         , subscriptions = \_ -> Sub.none
         }
 
@@ -32,7 +32,7 @@ main =
 
 
 type alias Model =
-    { rights : Rights
+    { rights : BeneficiaryRights
     , identifiers : PersonalIdentifiers
     }
 
@@ -54,26 +54,12 @@ type Msg
     = Recv String
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        Recv _ ->
-            ( model, Cmd.none )
-
-
 
 -- VIEW
 
 
 view : Model -> Html Msg
-view model =
-    let
-        rights =
-            model.rights
-
-        identifiers =
-            model.identifiers
-    in
+view { rights, identifiers } =
     div [ class "flex flex-row space-x-4" ]
         [ div [ class "w-full" ]
             [ personalInfoElement "Identifiant CAF/MSA"
@@ -112,7 +98,7 @@ beneficiaryRights are ass bonus =
         |> text
 
 
-extractRightsFromFlags : Flags -> Rights
+extractRightsFromFlags : Flags -> BeneficiaryRights
 extractRightsFromFlags flags =
     { rightRsa = flags.rightRsa
     , rightAre = flags.rightAre
@@ -133,11 +119,5 @@ personalInfoElement label someValue defaultText =
     div []
         [ strong [ class "texte-base text-france-blue" ] [ text label ]
         , div [ class "mb-2" ]
-            [ case someValue of
-                Nothing ->
-                    text defaultText
-
-                Just valueHtml ->
-                    valueHtml
-            ]
+            [ Maybe.withDefault (text defaultText) someValue ]
         ]

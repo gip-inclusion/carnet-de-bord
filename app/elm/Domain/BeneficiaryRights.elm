@@ -1,7 +1,7 @@
-module Domain.Rights exposing (Rights, rsaRightKeyToString)
+module Domain.BeneficiaryRights exposing (BeneficiaryRights, rsaRightKeyToString)
 
 
-type alias Rights =
+type alias BeneficiaryRights =
     { rightAre : Bool
     , rightAss : Bool
     , rightBonus : Bool

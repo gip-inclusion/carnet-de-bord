@@ -213,17 +213,6 @@ situationElement label someValue defaultText someHint =
     p []
         [ span [ class "block" ] [ text label ]
         , span [ class "block font-bold" ]
-            [ case someValue of
-                Nothing ->
-                    text defaultText
-
-                Just valueHtml ->
-                    valueHtml
-            ]
-        , case someHint of
-            Nothing ->
-                text ""
-
-            Just hintHtml ->
-                hintHtml
+            [ Maybe.withDefault (text defaultText) someValue ]
+        , Maybe.withDefault (text "") someHint
         ]
