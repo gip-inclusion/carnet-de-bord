@@ -91,9 +91,9 @@ class BeneficiaryImport(BaseModel):
     right_rsa: str | None = Field(None, alias="Droits RSA")
 
     right_rqth: bool | None = Field(None, alias="RQTH")
-    right_are: bool = Field(False, alias="Droits ARE")
-    right_ass: bool = Field(False, alias="Droits ASS")
-    right_bonus: bool = Field(False, alias="Prime d'activité")
+    right_are: bool | None = Field(None, alias="Droits ARE")
+    right_ass: bool | None = Field(None, alias="Droits ASS")
+    right_bonus: bool | None = Field(None, alias="Prime d'activité")
     geographical_area: str | None = Field(None, alias="Zone de mobilité")
     rome_code_description: str | None = Field(
         None, alias="Emploi recherché (code ROME)"
@@ -110,7 +110,7 @@ class BeneficiaryImport(BaseModel):
     _phone_validator = phone_validator("mobile_number")
     _postal_code_validator = postal_code_validator("postal_code")
     _parse_bool_validator = parse_bool_validator(
-        "right_are", "right_ass", "right_bonus", pre=True
+        "right_are", "right_ass", "right_bonus", "right_rqth", pre=True
     )
     _date_validator = date_validator("date_of_birth", pre=True)
 

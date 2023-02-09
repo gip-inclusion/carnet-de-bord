@@ -82,9 +82,13 @@ def parse_bool(value):
     if type(value) == str:
         if value.lower() in ["oui", "o"]:
             return True
+        elif value.lower() in ["non", "n"]:
+            return False
+        else:
+            return None
     elif type(value) == bool:
         return value
-    return False
+    return None
 
 
 def parse_bool_validator(*args, **kwargs):
