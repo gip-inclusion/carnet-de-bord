@@ -77,7 +77,7 @@ if [ ! "$(docker ps -q -f name=db_test)" ] && [ ! "$(docker ps -q -f name=hasura
 else
     echo "Docker test env already started. Use: "
     echo ""
-    echo "    docker compose --project-name cdb-test down"
+    echo "    docker compose -f docker-compose-test.yaml down -v"
     echo ""
 fi
 
