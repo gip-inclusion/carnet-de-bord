@@ -77,7 +77,7 @@ view model =
     div [ class "flex flex-row space-x-4" ]
         [ div [ class "w-full" ]
             [ personalInfoElement "Identifiant CAF/MSA"
-                (Maybe.Just (text (Maybe.withDefault "Non renseigné" identifiers.cafNumber)))
+                (Maybe.map text identifiers.cafNumber)
                 "Non renseigné"
             , personalInfoElement "Revenu de Solidarité Active"
                 (Maybe.map (rsaRightKeyToString >> text) rights.rightRsa)
@@ -85,7 +85,7 @@ view model =
             ]
         , div [ class "w-full" ]
             [ personalInfoElement "Identifiant Pôle Emploi"
-                (Maybe.Just (text (Maybe.withDefault "Non renseigné" identifiers.peNumber)))
+                (Maybe.map text identifiers.peNumber)
                 "Non renseigné"
             , personalInfoElement "Autre(s) droit(s)"
                 (Just
