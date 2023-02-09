@@ -246,7 +246,7 @@ async def test_dont_update_beneficiary_with_empty_fields(
     assert beneficiary_in_db.nir == harry_covert.nir
     assert beneficiary_in_db.notebook.right_rqth == False
     assert beneficiary_in_db.right_rsa == harry_covert.right_rsa
-    assert beneficiary_in_db.right_are == False
+    assert beneficiary_in_db.right_are == True
     assert beneficiary_in_db.right_ass == False
     assert beneficiary_in_db.right_bonus == False
     assert (

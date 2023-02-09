@@ -3,7 +3,6 @@ from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
-from pydantic import BaseModel
 
 from cdb.api.db.models.appointment import Appointment
 from cdb.api.db.models.focus import Focus
