@@ -3,6 +3,8 @@ export type Flags = {
 	rightAss: boolean;
 	rightBonus: boolean;
 	rightRsa: string | undefined;
+	peNumber: string | undefined;
+	cafNumber: string | undefined;
 };
 
 export type Ports = {};

@@ -1,6 +1,7 @@
 module PersonalInfo.Main exposing (Flags, Model, Msg(..), beneficiaryRights, extractRightsFromFlags, init, main, personalInfoElement, update, view)
 
 import Browser
+import Domain.PersonalIdentifiers exposing (PersonalIdentifiers)
 import Domain.Rights exposing (Rights, rsaRightKeyToString)
 import Html exposing (Html, div, strong, text)
 import Html.Attributes exposing (class)
@@ -11,6 +12,8 @@ type alias Flags =
     , rightAre : Bool
     , rightAss : Bool
     , rightBonus : Bool
+    , peNumber : Maybe String
+    , cafNumber : Maybe String
     }
 
 
@@ -30,12 +33,15 @@ main =
 
 type alias Model =
     { rights : Rights
+    , identifiers : PersonalIdentifiers
     }
 
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { rights = extractRightsFromFlags flags }
+    ( { rights = extractRightsFromFlags flags
+      , identifiers = extractIdentifiersFromFlags flags
+      }
     , Cmd.none
     )
 
@@ -61,8 +67,32 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ class "w-full" ]
-        [ rightsInfoView model
+    let
+        rights =
+            model.rights
+
+        identifiers =
+            model.identifiers
+    in
+    div [ class "flex flex-row space-x-4" ]
+        [ div [ class "w-full" ]
+            [ personalInfoElement "Identifiant CAF/MSA"
+                (Maybe.Just (text (Maybe.withDefault "Non renseigné" identifiers.cafNumber)))
+                "Non renseigné"
+            , personalInfoElement "Revenu de Solidarité Active"
+                (Maybe.map (rsaRightKeyToString >> text) rights.rightRsa)
+                "Non renseigné"
+            ]
+        , div [ class "w-full" ]
+            [ personalInfoElement "Identifiant Pôle Emploi"
+                (Maybe.Just (text (Maybe.withDefault "Non renseigné" identifiers.peNumber)))
+                "Non renseigné"
+            , personalInfoElement "Autre(s) droit(s)"
+                (Just
+                    (beneficiaryRights rights.rightAre rights.rightAss rights.rightBonus)
+                )
+                "Non renseignés"
+            ]
         ]
 
 
@@ -82,31 +112,19 @@ beneficiaryRights are ass bonus =
         |> text
 
 
-rightsInfoView : Model -> Html Msg
-rightsInfoView model =
-    let
-        rights =
-            model.rights
-    in
-    div []
-        [ personalInfoElement
-            "Revenu de Solidarité Active"
-            (Maybe.map (rsaRightKeyToString >> text) rights.rightRsa)
-            "Non renseigné"
-        , personalInfoElement "Autres droits"
-            (Just
-                (beneficiaryRights rights.rightAre rights.rightAss rights.rightBonus)
-            )
-            "Non renseignés"
-        ]
-
-
 extractRightsFromFlags : Flags -> Rights
 extractRightsFromFlags flags =
     { rightRsa = flags.rightRsa
     , rightAre = flags.rightAre
     , rightAss = flags.rightAss
     , rightBonus = flags.rightBonus
+    }
+
+
+extractIdentifiersFromFlags : Flags -> PersonalIdentifiers
+extractIdentifiersFromFlags flags =
+    { peNumber = flags.peNumber
+    , cafNumber = flags.cafNumber
     }
 
 
