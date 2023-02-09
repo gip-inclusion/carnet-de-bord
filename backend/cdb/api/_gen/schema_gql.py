@@ -2996,7 +2996,7 @@ type deployment {
   """An array relationship"""
   orientationSystems(
     """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
+    distinct_on: [orientation_system_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -3005,16 +3005,16 @@ type deployment {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
+    order_by: [orientation_system_order_by!]
 
     """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): [deployment_orientation_system!]!
+    where: orientation_system_bool_exp
+  ): [orientation_system!]!
 
   """An aggregate relationship"""
   orientationSystems_aggregate(
     """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
+    distinct_on: [orientation_system_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -3023,11 +3023,11 @@ type deployment {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
+    order_by: [orientation_system_order_by!]
 
     """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): deployment_orientation_system_aggregate!
+    where: orientation_system_bool_exp
+  ): orientation_system_aggregate!
 
   """An array relationship"""
   orientation_managers(
@@ -3142,8 +3142,8 @@ input deployment_bool_exp {
   label: String_comparison_exp
   managers: manager_bool_exp
   managers_aggregate: manager_aggregate_bool_exp
-  orientationSystems: deployment_orientation_system_bool_exp
-  orientationSystems_aggregate: deployment_orientation_system_aggregate_bool_exp
+  orientationSystems: orientation_system_bool_exp
+  orientationSystems_aggregate: orientation_system_aggregate_bool_exp
   orientation_managers: orientation_manager_bool_exp
   orientation_managers_aggregate: orientation_manager_aggregate_bool_exp
   structures: structure_bool_exp
@@ -3193,7 +3193,7 @@ input deployment_insert_input {
   id: uuid
   label: String
   managers: manager_arr_rel_insert_input
-  orientationSystems: deployment_orientation_system_arr_rel_insert_input
+  orientationSystems: orientation_system_arr_rel_insert_input
   orientation_managers: orientation_manager_arr_rel_insert_input
   structures: structure_arr_rel_insert_input
   updatedAt: timestamptz
@@ -3254,252 +3254,10 @@ input deployment_order_by {
   id: order_by
   label: order_by
   managers_aggregate: manager_aggregate_order_by
-  orientationSystems_aggregate: deployment_orientation_system_aggregate_order_by
+  orientationSystems_aggregate: orientation_system_aggregate_order_by
   orientation_managers_aggregate: orientation_manager_aggregate_order_by
   structures_aggregate: structure_aggregate_order_by
   updatedAt: order_by
-}
-
-"""
-columns and relationships of "deployment_orientation_system"
-"""
-type deployment_orientation_system {
-  createdAt: timestamptz!
-
-  """An object relationship"""
-  deployment: deployment!
-  deploymentId: uuid!
-  id: uuid!
-
-  """An object relationship"""
-  orientationSystem: orientation_system!
-  orientationSystemId: uuid!
-}
-
-"""
-aggregated selection of "deployment_orientation_system"
-"""
-type deployment_orientation_system_aggregate {
-  aggregate: deployment_orientation_system_aggregate_fields
-  nodes: [deployment_orientation_system!]!
-}
-
-input deployment_orientation_system_aggregate_bool_exp {
-  count: deployment_orientation_system_aggregate_bool_exp_count
-}
-
-input deployment_orientation_system_aggregate_bool_exp_count {
-  arguments: [deployment_orientation_system_select_column!]
-  distinct: Boolean
-  filter: deployment_orientation_system_bool_exp
-  predicate: Int_comparison_exp!
-}
-
-"""
-aggregate fields of "deployment_orientation_system"
-"""
-type deployment_orientation_system_aggregate_fields {
-  count(columns: [deployment_orientation_system_select_column!], distinct: Boolean): Int!
-  max: deployment_orientation_system_max_fields
-  min: deployment_orientation_system_min_fields
-}
-
-"""
-order by aggregate values of table "deployment_orientation_system"
-"""
-input deployment_orientation_system_aggregate_order_by {
-  count: order_by
-  max: deployment_orientation_system_max_order_by
-  min: deployment_orientation_system_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "deployment_orientation_system"
-"""
-input deployment_orientation_system_arr_rel_insert_input {
-  data: [deployment_orientation_system_insert_input!]!
-
-  """upsert condition"""
-  on_conflict: deployment_orientation_system_on_conflict
-}
-
-"""
-Boolean expression to filter rows from the table "deployment_orientation_system". All fields are combined with a logical 'AND'.
-"""
-input deployment_orientation_system_bool_exp {
-  _and: [deployment_orientation_system_bool_exp!]
-  _not: deployment_orientation_system_bool_exp
-  _or: [deployment_orientation_system_bool_exp!]
-  createdAt: timestamptz_comparison_exp
-  deployment: deployment_bool_exp
-  deploymentId: uuid_comparison_exp
-  id: uuid_comparison_exp
-  orientationSystem: orientation_system_bool_exp
-  orientationSystemId: uuid_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "deployment_orientation_system"
-"""
-enum deployment_orientation_system_constraint {
-  """
-  unique or primary key constraint on columns "id"
-  """
-  deployment_orientation_system_pkey
-}
-
-"""
-input type for inserting data into table "deployment_orientation_system"
-"""
-input deployment_orientation_system_insert_input {
-  createdAt: timestamptz
-  deployment: deployment_obj_rel_insert_input
-  deploymentId: uuid
-  id: uuid
-  orientationSystem: orientation_system_obj_rel_insert_input
-  orientationSystemId: uuid
-}
-
-"""aggregate max on columns"""
-type deployment_orientation_system_max_fields {
-  createdAt: timestamptz
-  deploymentId: uuid
-  id: uuid
-  orientationSystemId: uuid
-}
-
-"""
-order by max() on columns of table "deployment_orientation_system"
-"""
-input deployment_orientation_system_max_order_by {
-  createdAt: order_by
-  deploymentId: order_by
-  id: order_by
-  orientationSystemId: order_by
-}
-
-"""aggregate min on columns"""
-type deployment_orientation_system_min_fields {
-  createdAt: timestamptz
-  deploymentId: uuid
-  id: uuid
-  orientationSystemId: uuid
-}
-
-"""
-order by min() on columns of table "deployment_orientation_system"
-"""
-input deployment_orientation_system_min_order_by {
-  createdAt: order_by
-  deploymentId: order_by
-  id: order_by
-  orientationSystemId: order_by
-}
-
-"""
-response of any mutation on the table "deployment_orientation_system"
-"""
-type deployment_orientation_system_mutation_response {
-  """number of rows affected by the mutation"""
-  affected_rows: Int!
-
-  """data from the rows affected by the mutation"""
-  returning: [deployment_orientation_system!]!
-}
-
-"""
-on_conflict condition type for table "deployment_orientation_system"
-"""
-input deployment_orientation_system_on_conflict {
-  constraint: deployment_orientation_system_constraint!
-  update_columns: [deployment_orientation_system_update_column!]! = []
-  where: deployment_orientation_system_bool_exp
-}
-
-"""
-Ordering options when selecting data from "deployment_orientation_system".
-"""
-input deployment_orientation_system_order_by {
-  createdAt: order_by
-  deployment: deployment_order_by
-  deploymentId: order_by
-  id: order_by
-  orientationSystem: orientation_system_order_by
-  orientationSystemId: order_by
-}
-
-"""primary key columns input for table: deployment_orientation_system"""
-input deployment_orientation_system_pk_columns_input {
-  id: uuid!
-}
-
-"""
-select columns of table "deployment_orientation_system"
-"""
-enum deployment_orientation_system_select_column {
-  """column name"""
-  createdAt
-
-  """column name"""
-  deploymentId
-
-  """column name"""
-  id
-
-  """column name"""
-  orientationSystemId
-}
-
-"""
-input type for updating data in table "deployment_orientation_system"
-"""
-input deployment_orientation_system_set_input {
-  createdAt: timestamptz
-  deploymentId: uuid
-  id: uuid
-  orientationSystemId: uuid
-}
-
-"""
-Streaming cursor of the table "deployment_orientation_system"
-"""
-input deployment_orientation_system_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: deployment_orientation_system_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input deployment_orientation_system_stream_cursor_value_input {
-  createdAt: timestamptz
-  deploymentId: uuid
-  id: uuid
-  orientationSystemId: uuid
-}
-
-"""
-update columns of table "deployment_orientation_system"
-"""
-enum deployment_orientation_system_update_column {
-  """column name"""
-  createdAt
-
-  """column name"""
-  deploymentId
-
-  """column name"""
-  id
-
-  """column name"""
-  orientationSystemId
-}
-
-input deployment_orientation_system_updates {
-  """sets the columns of the filtered rows to the given values"""
-  _set: deployment_orientation_system_set_input
-  where: deployment_orientation_system_bool_exp!
 }
 
 """primary key columns input for table: deployment"""
@@ -4769,19 +4527,6 @@ type mutation_root {
   delete_deployment_by_pk(id: uuid!): deployment
 
   """
-  delete data from the table: "deployment_orientation_system"
-  """
-  delete_deployment_orientation_system(
-    """filter the rows which have to be deleted"""
-    where: deployment_orientation_system_bool_exp!
-  ): deployment_orientation_system_mutation_response
-
-  """
-  delete single row from the table: "deployment_orientation_system"
-  """
-  delete_deployment_orientation_system_by_pk(id: uuid!): deployment_orientation_system
-
-  """
   delete data from the table: "external_data"
   """
   delete_external_data(
@@ -5293,28 +5038,6 @@ type mutation_root {
     """upsert condition"""
     on_conflict: deployment_on_conflict
   ): deployment
-
-  """
-  insert data into the table: "deployment_orientation_system"
-  """
-  insert_deployment_orientation_system(
-    """the rows to be inserted"""
-    objects: [deployment_orientation_system_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: deployment_orientation_system_on_conflict
-  ): deployment_orientation_system_mutation_response
-
-  """
-  insert a single row into the table: "deployment_orientation_system"
-  """
-  insert_deployment_orientation_system_one(
-    """the row to be inserted"""
-    object: deployment_orientation_system_insert_input!
-
-    """upsert condition"""
-    on_conflict: deployment_orientation_system_on_conflict
-  ): deployment_orientation_system
 
   """
   insert data into the table: "external_data"
@@ -6205,34 +5928,6 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [deployment_updates!]!
   ): [deployment_mutation_response]
-
-  """
-  update data of the table: "deployment_orientation_system"
-  """
-  update_deployment_orientation_system(
-    """sets the columns of the filtered rows to the given values"""
-    _set: deployment_orientation_system_set_input
-
-    """filter the rows which have to be updated"""
-    where: deployment_orientation_system_bool_exp!
-  ): deployment_orientation_system_mutation_response
-
-  """
-  update single row of the table: "deployment_orientation_system"
-  """
-  update_deployment_orientation_system_by_pk(
-    """sets the columns of the filtered rows to the given values"""
-    _set: deployment_orientation_system_set_input
-    pk_columns: deployment_orientation_system_pk_columns_input!
-  ): deployment_orientation_system
-
-  """
-  update multiples rows of table: "deployment_orientation_system"
-  """
-  update_deployment_orientation_system_many(
-    """updates to execute, in order"""
-    updates: [deployment_orientation_system_updates!]!
-  ): [deployment_orientation_system_mutation_response]
 
   """
   update data of the table: "external_data"
@@ -7259,6 +6954,7 @@ type notebook {
   ): notebook_focus_aggregate!
   geographicalArea: String
   id: uuid!
+  lastJobEndedAt: date
 
   """An array relationship"""
   members(
@@ -8027,6 +7723,7 @@ input notebook_bool_exp {
   focuses_aggregate: notebook_focus_aggregate_bool_exp
   geographicalArea: String_comparison_exp
   id: uuid_comparison_exp
+  lastJobEndedAt: date_comparison_exp
   members: notebook_member_bool_exp
   members_aggregate: notebook_member_aggregate_bool_exp
   notebookInfo: notebook_info_bool_exp
@@ -9251,6 +8948,7 @@ input notebook_insert_input {
   focuses: notebook_focus_arr_rel_insert_input
   geographicalArea: String
   id: uuid
+  lastJobEndedAt: date
   members: notebook_member_arr_rel_insert_input
   notebookInfo: notebook_info_obj_rel_insert_input
   rightAre: Boolean
@@ -9276,6 +8974,7 @@ type notebook_max_fields {
   educationLevel: String
   geographicalArea: String
   id: uuid
+  lastJobEndedAt: date
   rightRsa: String
   updatedAt: timestamptz
   workSituation: String
@@ -9689,6 +9388,7 @@ type notebook_min_fields {
   educationLevel: String
   geographicalArea: String
   id: uuid
+  lastJobEndedAt: date
   rightRsa: String
   updatedAt: timestamptz
   workSituation: String
@@ -9741,6 +9441,7 @@ input notebook_order_by {
   focuses_aggregate: notebook_focus_aggregate_order_by
   geographicalArea: order_by
   id: order_by
+  lastJobEndedAt: order_by
   members_aggregate: notebook_member_aggregate_order_by
   notebookInfo: notebook_info_order_by
   notebookMemberCount: order_by
@@ -9988,6 +9689,9 @@ enum notebook_select_column {
   id
 
   """column name"""
+  lastJobEndedAt
+
+  """column name"""
   rightAre
 
   """column name"""
@@ -10028,6 +9732,7 @@ input notebook_set_input {
   educationLevel: String
   geographicalArea: String
   id: uuid
+  lastJobEndedAt: date
   rightAre: Boolean
   rightAss: Boolean
   rightBonus: Boolean
@@ -10061,6 +9766,7 @@ input notebook_stream_cursor_value_input {
   educationLevel: String
   geographicalArea: String
   id: uuid
+  lastJobEndedAt: date
   rightAre: Boolean
   rightAss: Boolean
   rightBonus: Boolean
@@ -10444,6 +10150,9 @@ enum notebook_update_column {
 
   """column name"""
   id
+
+  """column name"""
+  lastJobEndedAt
 
   """column name"""
   rightAre
@@ -10889,8 +10598,8 @@ type orientation_request {
   reason: String
 
   """An object relationship"""
-  requestedOrientationSystem: orientation_system
-  requestedOrientationSystemId: uuid
+  requestedOrientationSystem: orientation_system!
+  requestedOrientationSystemId: uuid!
 
   """An object relationship"""
   requestor: account
@@ -11223,43 +10932,13 @@ input orientation_request_updates {
 columns and relationships of "orientation_system"
 """
 type orientation_system {
+  """An object relationship"""
+  beneficiaries: notebook_info
   createdAt: timestamptz!
 
-  """An array relationship"""
-  deploymentOrientationSystems(
-    """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
-
-    """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): [deployment_orientation_system!]!
-
-  """An aggregate relationship"""
-  deploymentOrientationSystems_aggregate(
-    """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
-
-    """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): deployment_orientation_system_aggregate!
+  """An object relationship"""
+  deployment: deployment!
+  deployment_id: uuid!
   id: uuid!
   name: String!
   orientationType: orientation_type_enum!
@@ -11395,9 +11074,10 @@ input orientation_system_bool_exp {
   _and: [orientation_system_bool_exp!]
   _not: orientation_system_bool_exp
   _or: [orientation_system_bool_exp!]
+  beneficiaries: notebook_info_bool_exp
   createdAt: timestamptz_comparison_exp
-  deploymentOrientationSystems: deployment_orientation_system_bool_exp
-  deploymentOrientationSystems_aggregate: deployment_orientation_system_aggregate_bool_exp
+  deployment: deployment_bool_exp
+  deployment_id: uuid_comparison_exp
   id: uuid_comparison_exp
   name: String_comparison_exp
   orientationType: orientation_type_enum_comparison_exp
@@ -11414,6 +11094,11 @@ unique or primary key constraints on table "orientation_system"
 """
 enum orientation_system_constraint {
   """
+  unique or primary key constraint on columns "deployment_id"
+  """
+  name_deployment_id_unique_idx
+
+  """
   unique or primary key constraint on columns "id"
   """
   orientation_system_pkey
@@ -11423,8 +11108,10 @@ enum orientation_system_constraint {
 input type for inserting data into table "orientation_system"
 """
 input orientation_system_insert_input {
+  beneficiaries: notebook_info_obj_rel_insert_input
   createdAt: timestamptz
-  deploymentOrientationSystems: deployment_orientation_system_arr_rel_insert_input
+  deployment: deployment_obj_rel_insert_input
+  deployment_id: uuid
   id: uuid
   name: String
   orientationType: orientation_type_enum
@@ -11437,6 +11124,7 @@ input orientation_system_insert_input {
 """aggregate max on columns"""
 type orientation_system_max_fields {
   createdAt: timestamptz
+  deployment_id: uuid
   id: uuid
   name: String
   updatedAt: timestamptz
@@ -11447,6 +11135,7 @@ order by max() on columns of table "orientation_system"
 """
 input orientation_system_max_order_by {
   createdAt: order_by
+  deployment_id: order_by
   id: order_by
   name: order_by
   updatedAt: order_by
@@ -11455,6 +11144,7 @@ input orientation_system_max_order_by {
 """aggregate min on columns"""
 type orientation_system_min_fields {
   createdAt: timestamptz
+  deployment_id: uuid
   id: uuid
   name: String
   updatedAt: timestamptz
@@ -11465,6 +11155,7 @@ order by min() on columns of table "orientation_system"
 """
 input orientation_system_min_order_by {
   createdAt: order_by
+  deployment_id: order_by
   id: order_by
   name: order_by
   updatedAt: order_by
@@ -11502,8 +11193,10 @@ input orientation_system_on_conflict {
 
 """Ordering options when selecting data from "orientation_system"."""
 input orientation_system_order_by {
+  beneficiaries: notebook_info_order_by
   createdAt: order_by
-  deploymentOrientationSystems_aggregate: deployment_orientation_system_aggregate_order_by
+  deployment: deployment_order_by
+  deployment_id: order_by
   id: order_by
   name: order_by
   orientationType: order_by
@@ -11526,6 +11219,9 @@ enum orientation_system_select_column {
   createdAt
 
   """column name"""
+  deployment_id
+
+  """column name"""
   id
 
   """column name"""
@@ -11543,6 +11239,7 @@ input type for updating data in table "orientation_system"
 """
 input orientation_system_set_input {
   createdAt: timestamptz
+  deployment_id: uuid
   id: uuid
   name: String
   orientationType: orientation_type_enum
@@ -11563,6 +11260,7 @@ input orientation_system_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input orientation_system_stream_cursor_value_input {
   createdAt: timestamptz
+  deployment_id: uuid
   id: uuid
   name: String
   orientationType: orientation_type_enum
@@ -11575,6 +11273,9 @@ update columns of table "orientation_system"
 enum orientation_system_update_column {
   """column name"""
   createdAt
+
+  """column name"""
+  deployment_id
 
   """column name"""
   id
@@ -12161,6 +11862,11 @@ enum professional_orientation_system_constraint {
   unique or primary key constraint on columns "id"
   """
   professional_orientation_system_pkey
+
+  """
+  unique or primary key constraint on columns "orientation_system_id", "professional_id"
+  """
+  professional_orientation_system_professional_id_orientation_sys
 }
 
 """
@@ -12776,51 +12482,6 @@ type query_root {
 
   """fetch data from the table: "deployment" using primary key columns"""
   deployment_by_pk(id: uuid!): deployment
-
-  """
-  fetch data from the table: "deployment_orientation_system"
-  """
-  deployment_orientation_system(
-    """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
-
-    """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): [deployment_orientation_system!]!
-
-  """
-  fetch aggregated fields from the table: "deployment_orientation_system"
-  """
-  deployment_orientation_system_aggregate(
-    """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
-
-    """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): deployment_orientation_system_aggregate!
-
-  """
-  fetch data from the table: "deployment_orientation_system" using primary key columns
-  """
-  deployment_orientation_system_by_pk(id: uuid!): deployment_orientation_system
 
   """An array relationship"""
   external_data(
@@ -15260,9 +14921,6 @@ type structure {
     """filter the rows returned"""
     where: beneficiary_structure_bool_exp
   ): beneficiary_structure_aggregate!
-
-  """a computed field, executes function nb_beneficiary_for_structure """
-  beneficiaryCount: bigint
   city: String
   createdAt: timestamptz
 
@@ -15412,7 +15070,6 @@ input structure_bool_exp {
   admins_aggregate: admin_structure_structure_aggregate_bool_exp
   beneficiaries: beneficiary_structure_bool_exp
   beneficiaries_aggregate: beneficiary_structure_aggregate_bool_exp
-  beneficiaryCount: bigint_comparison_exp
   city: String_comparison_exp
   createdAt: timestamptz_comparison_exp
   deployment: deployment_bool_exp
@@ -15584,7 +15241,6 @@ input structure_order_by {
   address2: order_by
   admins_aggregate: admin_structure_structure_aggregate_order_by
   beneficiaries_aggregate: beneficiary_structure_aggregate_order_by
-  beneficiaryCount: order_by
   city: order_by
   createdAt: order_by
   deployment: deployment_order_by
@@ -15688,6 +15344,11 @@ enum structure_orientation_system_constraint {
   unique or primary key constraint on columns "id"
   """
   structure_orientation_system_pkey
+
+  """
+  unique or primary key constraint on columns "structure_id", "orientation_system_id"
+  """
+  structure_orientation_system_structure_id_orientation_system_id
 }
 
 """
@@ -16441,65 +16102,6 @@ type subscription_root {
 
   """fetch data from the table: "deployment" using primary key columns"""
   deployment_by_pk(id: uuid!): deployment
-
-  """
-  fetch data from the table: "deployment_orientation_system"
-  """
-  deployment_orientation_system(
-    """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
-
-    """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): [deployment_orientation_system!]!
-
-  """
-  fetch aggregated fields from the table: "deployment_orientation_system"
-  """
-  deployment_orientation_system_aggregate(
-    """distinct select on columns"""
-    distinct_on: [deployment_orientation_system_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [deployment_orientation_system_order_by!]
-
-    """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): deployment_orientation_system_aggregate!
-
-  """
-  fetch data from the table: "deployment_orientation_system" using primary key columns
-  """
-  deployment_orientation_system_by_pk(id: uuid!): deployment_orientation_system
-
-  """
-  fetch data from the table in a streaming manner: "deployment_orientation_system"
-  """
-  deployment_orientation_system_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [deployment_orientation_system_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: deployment_orientation_system_bool_exp
-  ): [deployment_orientation_system!]!
 
   """
   fetch data from the table in a streaming manner: "deployment"

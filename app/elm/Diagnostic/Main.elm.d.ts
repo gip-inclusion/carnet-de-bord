@@ -10,6 +10,7 @@ export type Flags = {
 	geographicalArea: string | undefined;
 	educationLevel: string | undefined;
 	wantedJobs: string[];
+	lastJobEndedAt: string | undefined;
 };
 
 export type Ports = {};

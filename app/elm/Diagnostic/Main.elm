@@ -20,6 +20,7 @@ type alias Flags =
     , geographicalArea : Maybe String
     , educationLevel : Maybe String
     , wantedJobs : List String
+    , lastJobEndedAt : Maybe String
     }
 
 
@@ -149,6 +150,12 @@ professionalSituation model =
                         (workSituationDateFormat situationPro.workSituationDate situationPro.workSituationEndDate)
                     ]
                 , div [ class "fr-col-6" ]
+                    [ situationElement "Date du dernier emploi"
+                        (Maybe.map (Date.format "dd/MM/yyyy" >> text) situationPro.lastJobEndedAt)
+                        "Non renseigné"
+                        Nothing
+                    ]
+                , div [ class "fr-col-6" ]
                     [ div [ class "fr-col-6" ]
                         [ situationElement "Dispose d'un RQTH"
                             (Just
@@ -229,6 +236,7 @@ extractSituationFromFlags flags =
     , geographicalArea = flags.geographicalArea
     , educationLevel = flags.educationLevel
     , wantedJobs = flags.wantedJobs
+    , lastJobEndedAt = flags.lastJobEndedAt |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     }
 
 

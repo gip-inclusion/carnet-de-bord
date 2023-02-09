@@ -11,6 +11,7 @@ export const proNotebookSocioproSchema = yup.object().shape({
 	rightBonus: yup.boolean(),
 	geographicalArea: yup.string().nullable(),
 	educationLevel: yup.string().nullable(),
+	lastJobEndedAt: yup.date().transform(transformDate).nullable(),
 	workSituationDate: yup.date().transform(transformDate).nullable(),
 	workSituationEndDate: yup
 		.mixed()

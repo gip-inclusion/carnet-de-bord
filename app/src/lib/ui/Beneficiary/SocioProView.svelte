@@ -13,6 +13,7 @@
 		| 'rightRsa'
 		| 'geographicalArea'
 		| 'educationLevel'
+		| 'lastJobEndedAt'
 	> & { wantedJobs: { rome_code: { id: string; label: string } }[] };
 </script>
 
@@ -39,6 +40,7 @@
 				geographicalArea: notebook.geographicalArea,
 				educationLevel: notebook.educationLevel,
 				wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.label),
+				lastJobEndedAt: notebook.lastJobEndedAt,
 			},
 		});
 	});

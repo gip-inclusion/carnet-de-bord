@@ -15,6 +15,7 @@ type alias SituationPro =
     , geographicalArea : Maybe String
     , educationLevel : Maybe String
     , wantedJobs : List String
+    , lastJobEndedAt : Maybe Date
     }
 
 

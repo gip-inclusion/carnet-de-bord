@@ -10,8 +10,10 @@ Fonctionnalité: Informations sur la situation socioprofessionnelle
 		Alors je vois "Situation actuelle"
 		Quand je renseigne la date "20/06/2020" dans le champ "Depuis le"
 		Quand je clique sur le texte "12 mois"
+		Quand je renseigne la date "10/01/2020" dans le champ "Date de fin du dernier emploi"
 		Quand je clique sur "Enregistrer"
 		Alors je vois "Du 20/06/2020 au 20/06/2021 (12 mois)"
+		Alors je vois "10/01/2020"
 
 
 	Scénario: Saisie des informations socioprofessionnelles 2 ans

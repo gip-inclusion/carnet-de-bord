@@ -10,6 +10,7 @@ mutation UpdateSocioPro(
   $rightBonus: Boolean
   $geographicalArea: String
   $educationLevel: String
+  $lastJobEndedAt: date
   $wantedJobs: [wanted_job_insert_input!]!
 ) {
   update: update_notebook_by_pk(
@@ -25,6 +26,7 @@ mutation UpdateSocioPro(
       rightBonus: $rightBonus
       geographicalArea: $geographicalArea
       educationLevel: $educationLevel
+      lastJobEndedAt: $lastJobEndedAt
     }
   ) {
     id

@@ -93,6 +93,7 @@ query GetNotebook(
       contractSignDate
       contractStartDate
       contractEndDate
+      lastJobEndedAt
       notebookInfo {
         needOrientation
       }

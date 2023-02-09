@@ -19,6 +19,8 @@ configuration:
       custom_name: educationLevel
     geographical_area:
       custom_name: geographicalArea
+    last_job_ended_at:
+      custom_name: lastJobEndedAt
     right_are:
       custom_name: rightAre
     right_ass:
@@ -46,6 +48,7 @@ configuration:
     created_at: createdAt
     education_level: educationLevel
     geographical_area: geographicalArea
+    last_job_ended_at: lastJobEndedAt
     right_are: rightAre
     right_ass: rightAss
     right_bonus: rightBonus
@@ -140,34 +143,15 @@ insert_permissions:
             _eq: X-Hasura-Deployment-Id
       columns:
         - beneficiary_id
+        - contract_end_date
         - contract_sign_date
         - contract_start_date
-        - contract_end_date
         - contract_type
         - created_at
         - education_level
         - geographical_area
         - id
-        - right_are
-        - right_ass
-        - right_bonus
-        - right_rqth
-        - right_rsa
-        - work_situation
-        - work_situation_date
-        - work_situation_end_date
-  - role: professional
-    permission:
-      check: {}
-      columns:
-        - beneficiary_id
-        - contract_sign_date
-        - contract_start_date
-        - contract_end_date
-        - contract_type
-        - created_at
-        - education_level
-        - geographical_area
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
@@ -181,14 +165,15 @@ select_permissions:
     permission:
       columns:
         - beneficiary_id
+        - contract_end_date
         - contract_sign_date
         - contract_start_date
-        - contract_end_date
         - contract_type
         - created_at
         - education_level
         - geographical_area
         - id
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
@@ -206,14 +191,15 @@ select_permissions:
     permission:
       columns:
         - beneficiary_id
+        - contract_end_date
         - contract_sign_date
         - contract_start_date
-        - contract_end_date
         - contract_type
         - created_at
         - education_level
         - geographical_area
         - id
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
@@ -248,14 +234,15 @@ select_permissions:
     permission:
       columns:
         - beneficiary_id
+        - contract_end_date
         - contract_sign_date
         - contract_start_date
-        - contract_end_date
         - contract_type
         - created_at
         - education_level
         - geographical_area
         - id
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
@@ -274,14 +261,15 @@ select_permissions:
     permission:
       columns:
         - beneficiary_id
+        - contract_end_date
         - contract_sign_date
         - contract_start_date
-        - contract_end_date
         - contract_type
         - created_at
         - education_level
         - geographical_area
         - id
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
@@ -301,24 +289,25 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - id
         - beneficiary_id
+        - contract_end_date
+        - contract_sign_date
+        - contract_start_date
+        - contract_type
         - created_at
-        - right_rsa
-        - right_rqth
+        - education_level
+        - geographical_area
+        - id
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
-        - geographical_area
-        - education_level
-        - work_situation_date
-        - contract_type
-        - contract_sign_date
-        - work_situation
+        - right_rqth
+        - right_rsa
         - updated_at
+        - work_situation
+        - work_situation_date
         - work_situation_end_date
-        - contract_start_date
-        - contract_end_date
       computed_fields:
         - notebookMemberCount
       filter:
@@ -330,14 +319,15 @@ select_permissions:
     permission:
       columns:
         - beneficiary_id
+        - contract_end_date
         - contract_sign_date
         - contract_start_date
-        - contract_end_date
         - contract_type
         - created_at
         - education_level
         - geographical_area
         - id
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
@@ -359,23 +349,24 @@ update_permissions:
   - role: admin_cdb
     permission:
       columns:
+        - beneficiary_id
+        - contract_end_date
+        - contract_sign_date
+        - contract_start_date
+        - contract_type
+        - created_at
+        - education_level
+        - geographical_area
+        - id
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
         - right_rqth
-        - contract_type
-        - education_level
-        - geographical_area
         - right_rsa
         - work_situation
-        - contract_sign_date
-        - contract_start_date
-        - contract_end_date
         - work_situation_date
         - work_situation_end_date
-        - created_at
-        - beneficiary_id
-        - id
       filter: {}
       check: {}
   - role: orientation_manager
@@ -387,6 +378,7 @@ update_permissions:
         - contract_type
         - education_level
         - geographical_area
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
@@ -406,13 +398,14 @@ update_permissions:
   - role: professional
     permission:
       columns:
+        - contract_end_date
         - contract_sign_date
         - contract_start_date
-        - contract_end_date
         - contract_type
         - created_at
         - education_level
         - geographical_area
+        - last_job_ended_at
         - right_are
         - right_ass
         - right_bonus
