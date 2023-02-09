@@ -105,18 +105,18 @@
 					.join('<br>')}
 			</address>
 		</div>
-		<div class="w-full">
-			<strong class="text-base text-france-blue">Identifiant Pôle emploi</strong>
-			<Text class="mb-2" value={beneficiary.peNumber} />
-			<strong class="text-france-blue">Identifiant CAF/MSA</strong>
-			<Text value={beneficiary.cafNumber} />
-		</div>
 		{#key beneficiary}
 			<div class="w-full">
 				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
 				<div bind:this={elmNode} />
 			</div>
 		{/key}
+		<div class="w-full">
+			<strong class="text-base text-france-blue">Identifiant Pôle emploi</strong>
+			<Text class="mb-2" value={beneficiary.peNumber} />
+			<strong class="text-france-blue">Identifiant CAF/MSA</strong>
+			<Text value={beneficiary.cafNumber} />
+		</div>
 	</div>
 	{#if displayEditButton}
 		<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>

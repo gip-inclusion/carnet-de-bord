@@ -1,8 +1,8 @@
-module PersonalInfo.Main exposing (Flags, Model, Msg(..), beneficiaryRights, extractRightsFromFlags, init, main, situationElement, update, view)
+module PersonalInfo.Main exposing (Flags, Model, Msg(..), beneficiaryRights, extractRightsFromFlags, init, main, personalInfoElement, update, view)
 
 import Browser
 import Domain.Rights exposing (Rights, rsaRightKeyToString)
-import Html exposing (Html, div, p, span, text)
+import Html exposing (Html, div, strong, text)
 import Html.Attributes exposing (class)
 
 
@@ -61,7 +61,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ class "mb-10" ]
+    div [ class "w-full" ]
         [ rightsInfoView model
         ]
 
@@ -89,14 +89,15 @@ rightsInfoView model =
             model.rights
     in
     div []
-        [ div []
-            [ situationElement "Droits"
-                (Maybe.map (rsaRightKeyToString >> text) rights.rightRsa)
-                "Non renseignés"
-                (Just
-                    (beneficiaryRights rights.rightAre rights.rightAss rights.rightBonus)
-                )
-            ]
+        [ personalInfoElement
+            "Revenu de Solidarité Active"
+            (Maybe.map (rsaRightKeyToString >> text) rights.rightRsa)
+            "Non renseigné"
+        , personalInfoElement "Autres droits"
+            (Just
+                (beneficiaryRights rights.rightAre rights.rightAss rights.rightBonus)
+            )
+            "Non renseignés"
         ]
 
 
@@ -109,11 +110,11 @@ extractRightsFromFlags flags =
     }
 
 
-situationElement : String -> Maybe (Html msg) -> String -> Maybe (Html msg) -> Html msg
-situationElement label someValue defaultText someHint =
-    p []
-        [ span [ class "block" ] [ text label ]
-        , span [ class "block font-bold" ]
+personalInfoElement : String -> Maybe (Html msg) -> String -> Html msg
+personalInfoElement label someValue defaultText =
+    div []
+        [ strong [ class "texte-base text-france-blue" ] [ text label ]
+        , div [ class "mb-2" ]
             [ case someValue of
                 Nothing ->
                     text defaultText
@@ -121,10 +122,4 @@ situationElement label someValue defaultText someHint =
                 Just valueHtml ->
                     valueHtml
             ]
-        , case someHint of
-            Nothing ->
-                text ""
-
-            Just hintHtml ->
-                hintHtml
         ]

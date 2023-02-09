@@ -2,7 +2,6 @@ export type Flags = {
 	rightAre: boolean;
 	rightAss: boolean;
 	rightBonus: boolean;
-	rightRqth: boolean;
 	rightRsa: string | undefined;
 };
 
