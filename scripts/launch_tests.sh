@@ -41,7 +41,7 @@ then
 fi
 
 # Load the env variables from .env file
-if [ -f ".env.test" ]
+if [ -f "$ROOT_DIR/.env.test" ]
 then
   # See https://github.com/ko1nksm/shdotenv
   eval "$($SCRIPT_DIR/shdotenv --env .env.test)"
@@ -69,17 +69,15 @@ if [ ! "$(docker ps -q -f name=db_test)" ] && [ ! "$(docker ps -q -f name=hasura
 
     # Clean existing volume
     if [ "$(docker volume ls | grep cdb-pgdata-test)" ]; then
-        echo "-> Clean existing volume carnet-de-bord_cdb-pgdata-test"
-        docker volume rm carnet-de-bord_cdb-pgdata-test
+        echo "-> Clean existing volume cdb-test_cdb-pgdata-test"
+        docker volume rm cdb-test_cdb-pgdata-test
     fi
     echo "-> Starting docker"
     docker compose -f docker-compose-test.yaml up --build -d
 else
     echo "Docker test env already started. Use: "
     echo ""
-    echo "    docker compose -f docker-compose-test.yaml stop"
-    echo ""
-    echo "in $ROOT_DIR if you want to stop it."
+    echo "    docker compose --project-name cdb-test down"
     echo ""
 fi
 

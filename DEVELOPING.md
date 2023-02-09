@@ -1,4 +1,14 @@
 # Guide de développement
+## Docker
+
+Les fichiers `docker-compose*.yaml` sont nommés pour faciliter le démarrage et l'arrêt des environnement de développement ou de test en local.
+
+```sh
+# démarrer l'environnement de test en local
+docker compose -f docker-compose-test.yaml up
+# arrêter l'environnement de test en local
+docker compose -f docker-compose-test.yaml down
+```
 
 ## Données, GraphQL et Hasura
 
