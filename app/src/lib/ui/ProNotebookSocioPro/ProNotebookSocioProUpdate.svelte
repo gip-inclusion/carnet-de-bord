@@ -34,6 +34,7 @@
 		| 'rightRqth'
 		| 'educationLevel'
 		| 'geographicalArea'
+		| 'lastJobEndedAt'
 	> & { wantedJobs: string[] };
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
@@ -51,6 +52,7 @@
 		rightBonus: notebook.rightBonus,
 		geographicalArea: notebook.geographicalArea,
 		educationLevel: notebook.educationLevel,
+		lastJobEndedAt: notebook.lastJobEndedAt ?? '',
 	};
 
 	let wantedJobs = notebook.wantedJobs;
@@ -84,6 +86,7 @@
 			workSituation,
 			workSituationDate: values.workSituationDate.toString() || null,
 			workSituationEndDate: values.workSituationEndDate.toString() || null,
+			lastJobEndedAt: values.lastJobEndedAt.toString() || null,
 			wantedJobs: wantedJobs.map((rome_code_id) => ({
 				notebook_id: notebook.id,
 				rome_code_id,
@@ -205,7 +208,9 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="fr-form-group">
+			<Input name="lastJobEndedAt" inputLabel="Date de fin du dernier emploi" type="date" />
+		</div>
 		<div class="pb-4">
 			<Checkbox name="rightRqth" label="RQTH" />
 		</div>

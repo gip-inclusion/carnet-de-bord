@@ -26,6 +26,7 @@ fragment notebookFragment on notebook {
   contractStartDate
   contractEndDate
   educationLevel
+  lastJobEndedAt
   wantedJobs {
     rome_code {
       id

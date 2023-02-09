@@ -5564,6 +5564,7 @@ export type Notebook = {
 	focuses_aggregate: NotebookFocusAggregate;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
+	lastJobEndedAt?: Maybe<Scalars['date']>;
 	/** An array relationship */
 	members: Array<NotebookMember>;
 	/** An aggregate relationship */
@@ -6268,6 +6269,7 @@ export type NotebookBoolExp = {
 	focuses_aggregate?: InputMaybe<NotebookFocusAggregateBoolExp>;
 	geographicalArea?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	lastJobEndedAt?: InputMaybe<DateComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	notebookInfo?: InputMaybe<NotebookInfoBoolExp>;
@@ -7290,6 +7292,7 @@ export type NotebookInsertInput = {
 	focuses?: InputMaybe<NotebookFocusArrRelInsertInput>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	notebookInfo?: InputMaybe<NotebookInfoObjRelInsertInput>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
@@ -7316,6 +7319,7 @@ export type NotebookMaxFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	lastJobEndedAt?: Maybe<Scalars['date']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
@@ -7673,6 +7677,7 @@ export type NotebookMinFields = {
 	educationLevel?: Maybe<Scalars['String']>;
 	geographicalArea?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
+	lastJobEndedAt?: Maybe<Scalars['date']>;
 	rightRsa?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 	workSituation?: Maybe<Scalars['String']>;
@@ -7718,6 +7723,7 @@ export type NotebookOrderBy = {
 	focuses_aggregate?: InputMaybe<NotebookFocusAggregateOrderBy>;
 	geographicalArea?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	lastJobEndedAt?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	notebookInfo?: InputMaybe<NotebookInfoOrderBy>;
 	notebookMemberCount?: InputMaybe<OrderBy>;
@@ -7926,6 +7932,8 @@ export enum NotebookSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	LastJobEndedAt = 'lastJobEndedAt',
+	/** column name */
 	RightAre = 'rightAre',
 	/** column name */
 	RightAss = 'rightAss',
@@ -7956,6 +7964,7 @@ export type NotebookSetInput = {
 	educationLevel?: InputMaybe<Scalars['String']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
@@ -7986,6 +7995,7 @@ export type NotebookStreamCursorValueInput = {
 	educationLevel?: InputMaybe<Scalars['String']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	rightAre?: InputMaybe<Scalars['Boolean']>;
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
@@ -8301,6 +8311,8 @@ export enum NotebookUpdateColumn {
 	GeographicalArea = 'geographicalArea',
 	/** column name */
 	Id = 'id',
+	/** column name */
+	LastJobEndedAt = 'lastJobEndedAt',
 	/** column name */
 	RightAre = 'rightAre',
 	/** column name */
@@ -14864,6 +14876,7 @@ export type UpdateSocioProMutationVariables = Exact<{
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	geographicalArea?: InputMaybe<Scalars['String']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
+	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	wantedJobs: Array<WantedJobInsertInput> | WantedJobInsertInput;
 }>;
 
@@ -15129,6 +15142,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		contractStartDate?: string | null;
 		contractEndDate?: string | null;
 		educationLevel?: string | null;
+		lastJobEndedAt?: string | null;
 		geographicalArea?: string | null;
 		wantedJobs: Array<{
 			__typename?: 'wanted_job';
@@ -15288,6 +15302,7 @@ export type GetNotebookByIdQuery = {
 		contractStartDate?: string | null;
 		contractEndDate?: string | null;
 		educationLevel?: string | null;
+		lastJobEndedAt?: string | null;
 		geographicalArea?: string | null;
 		wantedJobs: Array<{
 			__typename?: 'wanted_job';
@@ -15440,6 +15455,7 @@ export type NotebookFragmentFragment = {
 	contractStartDate?: string | null;
 	contractEndDate?: string | null;
 	educationLevel?: string | null;
+	lastJobEndedAt?: string | null;
 	geographicalArea?: string | null;
 	wantedJobs: Array<{
 		__typename?: 'wanted_job';
@@ -16072,6 +16088,7 @@ export type GetNotebookQuery = {
 			contractSignDate?: string | null;
 			contractStartDate?: string | null;
 			contractEndDate?: string | null;
+			lastJobEndedAt?: string | null;
 			notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 			wantedJobs: Array<{
 				__typename?: 'wanted_job';
@@ -16699,6 +16716,7 @@ export const NotebookFragmentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractStartDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contractEndDate' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'lastJobEndedAt' } },
 					{
 						kind: 'Field',
 						name: { kind: 'Name', value: 'wantedJobs' },
@@ -23021,6 +23039,11 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastJobEndedAt' } },
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'date' } },
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'wantedJobs' } },
 					type: {
 						kind: 'NonNullType',
@@ -23123,6 +23146,11 @@ export const UpdateSocioProDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'educationLevel' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'lastJobEndedAt' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastJobEndedAt' } },
 										},
 									],
 								},
@@ -27005,6 +27033,7 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'contractStartDate' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'contractEndDate' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'lastJobEndedAt' } },
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'notebookInfo' },
