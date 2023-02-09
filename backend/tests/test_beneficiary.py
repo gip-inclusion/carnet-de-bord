@@ -172,9 +172,7 @@ def test_beneficiary_model_beneficiary_filled_keys(
         "mobile_number",
         "place_of_birth",
         "postal_code",
-        "right_are",
         "right_ass",
-        "right_bonus",
         "right_rsa",
     ]
 
