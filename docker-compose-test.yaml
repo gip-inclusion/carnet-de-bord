@@ -1,8 +1,9 @@
 version: '3.8'
+name: cdb-test
 
 services:
   db_test:
-    image: postgres:11
+    image: postgres:13
     environment:
       - POSTGRES_DB=carnet_de_bord
       - POSTGRES_USER=cdb
@@ -13,7 +14,6 @@ services:
       - '5433:5432'
     volumes:
       - cdb-pgdata-test:/var/lib/postgresql/data
-    restart: always
 
   hasura_test:
     image: cdb_hasura
@@ -29,7 +29,7 @@ services:
       - '5001:8080'
     depends_on:
       - 'db_test'
-    restart: always
+    stop_signal: SIGKILL
     env_file:
       - .env.test
     environment:
