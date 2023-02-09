@@ -1,3 +1,10 @@
+# [1.194.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.193.0...v1.194.0) (2023-02-09)
+
+
+### Features
+
+* ajout de la date du dernier emploi ([#1513](https://github.com/gip-inclusion/carnet-de-bord/issues/1513)) ([7b279ab](https://github.com/gip-inclusion/carnet-de-bord/commit/7b279abebd085afc19f6dca13c7cdb02d5ee2601))
+
 # [1.193.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.192.4...v1.193.0) (2023-02-08)
 
 
