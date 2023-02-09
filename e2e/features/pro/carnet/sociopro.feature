@@ -1,10 +1,25 @@
 #language: fr
 
-Fonctionnalité: Informations sur la situation socioprofessionnelle
-	En tant que pro
-	Je veux voir et mettre à jour les informations de sociopro du bénéficiaire
+Fonctionnalité: Informations sur le bénéficaire
+	Je veux voir et mettre à jour les informations du bénéficiaire
 
-	Scénario: Saisie des informations socioprofessionnelles
+	Scénario: Saisie des informations personnelles par un pro
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+		Quand je clique sur "Mettre à jour" sous le titre "Informations personnelles"
+		Alors je vois "Informations personnelles"
+		Quand je renseigne "0601234567" dans le champ "Téléphone"
+		Quand je choisis "Droit ouvert et suspendu"
+		Quand je choisis "ARE"
+		Quand je décoche "ASS"
+		Quand je choisis "Prime d'activité"
+		Quand je clique sur "Enregistrer"
+		Alors je vois "06 01 23 45 67"
+		Alors je vois "RSA - Droit ouvert et suspendu"
+		Alors je vois "ARE, Prime d'activité"
+
+
+
+	Scénario: Saisie des informations socioprofessionnelles par un pro
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
 		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
 		Alors je vois "Situation actuelle"

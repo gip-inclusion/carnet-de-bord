@@ -144,6 +144,9 @@ Quand('je clique sur le texte {string}', async (text) => {
 Quand('je choisis {string}', (text) => {
 	I.checkOption(text);
 });
+Quand('je décoche {string}', (text) => {
+	I.uncheckOption(text);
+});
 
 Quand('je ferme la modale', () => {
 	I.click('button[title="fermer la modale"]');
