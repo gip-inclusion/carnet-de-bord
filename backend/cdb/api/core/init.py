@@ -15,7 +15,7 @@ class Database:
         self.pool = await get_connection_pool(settings.database_url)
 
 
-def create_app() -> FastAPI:
+def create_app(*, db=None) -> FastAPI:
     app = FastAPI()
 
     app.add_middleware(
@@ -26,7 +26,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.state.db = Database()
+    app.state.db = db or Database()
 
     @app.on_event("startup")
     async def startup():

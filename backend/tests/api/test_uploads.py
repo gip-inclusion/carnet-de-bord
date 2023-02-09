@@ -17,7 +17,7 @@ async def test_jwt_token_verification(
 ):
     with open(orientation_manager_csv_filepath, "rb") as f:
 
-        response = test_client.post(
+        response = await test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": get_admin_structure_jwt},
@@ -39,7 +39,7 @@ async def test_insert_in_db(
 ):
 
     with open(orientation_manager_csv_filepath, "rb") as f:
-        test_client.post(
+        await test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -73,7 +73,7 @@ async def test_validation_error(
 ):
 
     with open(orientation_manager_csv_filepath, "rb") as f:
-        response = test_client.post(
+        response = await test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -96,7 +96,7 @@ async def test_handle_xls(
     get_manager_jwt_93: str,
 ):
     with open(orientation_manager_xls_filepath, "rb") as f:
-        response = test_client.post(
+        response = await test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "application/vnd.ms-excel")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -116,7 +116,7 @@ async def test_handle_xlsx(
     get_manager_jwt_93: str,
 ):
     with open(orientation_manager_xlsx_filepath, "rb") as f:
-        response = test_client.post(
+        response = await test_client.post(
             ENDPOINT_PATH,
             files={
                 "upload_file": (

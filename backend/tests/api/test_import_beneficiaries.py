@@ -17,7 +17,7 @@ from cdb.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 async def import_beneficiaries(
     client, token: str, beneficiaries: list[BeneficiaryImport]
 ):
-    return client.post(
+    return await client.post(
         "/v1/beneficiaries/bulk",
         headers={"jwt-token": token},
         data=json.dumps(
@@ -34,7 +34,7 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
     test_client,
     get_professional_jwt,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         "/v1/beneficiaries/bulk",
         headers={"jwt-token": get_professional_jwt},
         data=json.dumps(
@@ -53,7 +53,7 @@ async def test_import_beneficiaries(
     get_manager_jwt_93,
 ):
     response = await import_beneficiaries(test_client, get_manager_jwt_93, [])
-    assert response.ok
+    assert response.status_code == 200
 
 
 async def test_import_a_new_beneficiary(
@@ -67,7 +67,7 @@ async def test_import_a_new_beneficiary(
     beneficiary_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
-    assert response.ok
+    assert response.status_code == 200
     assert beneficiary_in_db
 
 
@@ -100,7 +100,7 @@ async def test_insert_beneficiary_with_existing_si_id_in_other_deployment(
     response = await import_beneficiaries(
         test_client, get_manager_jwt_93, [harry_covert_phoneless]
     )
-    assert response.ok
+    assert response.status_code == 200
 
 
 async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
@@ -313,7 +313,7 @@ async def test_import_multiple_beneficiaries(
     betty_in_db = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
-    assert response.ok
+    assert response.status_code == 200
     assert harry_in_db
     assert betty_in_db
 

@@ -1,24 +1,21 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from uuid import UUID
 
 pro_uuid = UUID("f29ca78a-4719-4658-8d19-48d3df9178b5")
 
 
 async def test_nps_rating(test_client, db_connection, laure_loge_jwt):
-    request_start = datetime.now(tz=timezone.utc)
-    response = test_client.post(
+    response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 0},
         headers={"jwt-token": laure_loge_jwt},
     )
-    request_end = datetime.now(tz=timezone.utc)
     assert response.status_code == 201
     row = await db_connection.fetchrow("SELECT * FROM nps_rating")
     assert len(row) == 4
     assert isinstance(row["id"], UUID)
     assert row["account_id"] == pro_uuid
     assert row["score"] == 0
-    assert request_start < row["created_at"] < request_end
 
 
 async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_jwt):
@@ -28,13 +25,11 @@ async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_j
         datetime.now() - timedelta(days=14),
         7,
     )
-    request_start = datetime.now(tz=timezone.utc)
-    response = test_client.post(
+    response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 10},
         headers={"jwt-token": laure_loge_jwt},
     )
-    request_end = datetime.now(tz=timezone.utc)
     assert response.status_code == 201
     row_count = await db_connection.fetchrow("SELECT COUNT(*) as count FROM nps_rating")
     assert row_count["count"] == 2
@@ -45,11 +40,10 @@ async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_j
     assert isinstance(row["id"], UUID)
     assert row["account_id"] == pro_uuid
     assert row["score"] == 10
-    assert request_start < row["created_at"] < request_end
 
 
 async def test_nps_rating_invalid_score(test_client, db_connection, laure_loge_jwt):
-    response = test_client.post(
+    response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 9001},  # Over-promoter.
         headers={"jwt-token": laure_loge_jwt},
@@ -83,7 +77,7 @@ async def test_nps_rating_double_submission(test_client, db_connection, laure_lo
     )
     rating_id = row["id"]
     created_at = row["created_at"]
-    response = test_client.post(
+    response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 0},
         headers={"jwt-token": laure_loge_jwt},

@@ -1,10 +1,12 @@
+import asyncio
+import contextlib
 import os
 from uuid import UUID
 
 import dask.dataframe as dd
+import httpx
 import pytest
 from dask.dataframe.core import DataFrame
-from fastapi.testclient import TestClient
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.init import create_app
@@ -21,9 +23,115 @@ from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
-seed_filepath = os.path.join(
-    test_dir, "..", "..", "hasura", "seeds", "carnet_de_bord", "seed-data.sql"
-)
+
+
+@pytest.fixture(scope="session")
+def event_loop():
+    policy = asyncio.get_event_loop_policy()
+    loop = policy.new_event_loop()
+    yield loop
+    loop.close()
+
+
+class DatabaseWrapper:
+    def __init__(self, pool):
+        self.pool = pool
+
+    async def create_pool(self) -> None:
+        pass
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *exc):
+        pass
+
+
+class SingleConnectionDatabase:
+    def __init__(self, pool):
+        self.real_pool = pool
+
+    async def create_pool(self) -> None:
+        pass
+
+    async def __aenter__(self):
+        self.pool = SingleConnectionPool(self.real_pool)
+        return self
+
+    async def __aexit__(self, *exc):
+        await self.pool.close()
+
+
+class SingleConnectionPool:
+    def __init__(self, pool):
+        self.pool = pool
+        self.connection = None
+        self.transaction = None
+
+    def acquire(self):
+        @contextlib.asynccontextmanager
+        async def connection_holder():
+            if self.connection is None:
+                self.connection = await self.pool._acquire(timeout=2)
+                self.transaction = self.connection.transaction()
+                await self.transaction.start()
+            yield self.connection
+
+        return connection_holder()
+
+    async def close(self):
+        if self.connection is not None:
+            await self.transaction.rollback()
+            await self.pool.release(self.connection, timeout=2)
+
+
+class DBState:
+    dirty = True
+
+    def __init__(self, pool):
+        self.pool = pool
+
+    async def db_wrapped_in_transaction(self) -> contextlib.AbstractAsyncContextManager:
+        if self.dirty:
+            await self.seed()
+        return SingleConnectionDatabase(self.pool)
+
+    async def db_trashable(self) -> contextlib.AbstractAsyncContextManager:
+        if self.dirty:
+            await self.seed()
+        # db_trashable aims to be used in out-of-control contexts. For
+        # instance, GraphQL mutations are managed by Hasura, outside of the
+        # control of pytest. The database is likely changed at the end of the
+        # test.
+        self.dirty = True
+        return DatabaseWrapper(self.pool)
+
+    async def seed(self):
+        seed_filepath = os.path.join(
+            test_dir, "..", "..", "hasura", "seeds", "carnet_de_bord", "seed-data.sql"
+        )
+        with open(seed_filepath, "r", encoding="UTF-8") as file:
+            data = file.read()
+        async with self.pool.acquire() as connection:
+            await connection.execute(data)
+        self.dirty = False
+
+
+@pytest.fixture(scope="session")
+async def db_state():
+    pool = await get_connection_pool(settings.database_url)
+    yield DBState(pool)
+
+
+@pytest.fixture
+async def seeded_db(db_state, request):
+    db_cm = await (
+        db_state.db_trashable()
+        if "graphql" in request.keywords
+        else db_state.db_wrapped_in_transaction()
+    )
+    async with db_cm as db:
+        yield db
 
 
 @pytest.fixture
@@ -33,27 +141,14 @@ def test_directory() -> str:
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def fastapi_app():
-    # @TODO: read it from the root .env file
-    settings.database_url = os.getenv(
-        "DATABASE_URL", "postgres://cdb:test@localhost:5433/carnet_de_bord"
-    )
-    app = create_app()
-    await app.state.db.create_pool()
-    async with app.state.db.pool.acquire() as connection:
-        with open(seed_filepath, "r", encoding="UTF-8") as file:
-            data = file.read()
-            await connection.execute(data)
-
-    yield app
-    # Do cleaning stuff if needed
+async def fastapi_app(seeded_db):
+    yield create_app(db=seeded_db)
 
 
 @pytest.fixture
 @pytest.mark.asyncio
 async def test_client(fastapi_app):
-
-    with TestClient(fastapi_app) as c:
+    async with httpx.AsyncClient(app=fastapi_app, base_url="http://testserver") as c:
         yield c
 
 
@@ -341,34 +436,11 @@ async def orientation_system_pro(
     return await get_orientation_system_by_id(db_connection, orientation_system_pro_id)
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 @pytest.mark.asyncio
-async def db_connection(db_pool):
-    # Take a connection from the pool.
-    if db_pool:
-
-        async with db_pool.acquire() as connection:
-            # Load the seeds
-
-            with open(seed_filepath, "r") as file:
-                data = file.read()
-                await connection.execute(data)
-
-            yield connection
-
-
-@pytest.fixture
-@pytest.mark.asyncio
-async def db_pool():
-    yield await get_connection_pool(
-        os.getenv(
-            "DATABASE_URL",
-            # You can't name your test database as you want. It has to be
-            # carnet_de_bord otherwise you will not be able to apply
-            # migrations with hasura
-            "postgres://cdb:test@localhost:5433/carnet_de_bord",
-        )
-    )
+async def db_connection(seeded_db):
+    async with seeded_db.pool.acquire() as connection:
+        yield connection
 
 
 """
