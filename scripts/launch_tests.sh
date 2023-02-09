@@ -70,7 +70,7 @@ if [ ! "$(docker ps -q -f name=db_test)" ] && [ ! "$(docker ps -q -f name=hasura
     # Clean existing volume
     if [ "$(docker volume ls | grep cdb-pgdata-test)" ]; then
         echo "-> Clean existing volume cdb-test_cdb-pgdata-test"
-        docker volume rm cdb-test_cdb-pgdata-test
+        docker compose -f docker-compose-test.yaml down -v
     fi
     echo "-> Starting docker"
     docker compose -f docker-compose-test.yaml up --build -d
