@@ -3,7 +3,10 @@
 </script>
 
 <script lang="ts">
+	import { rsaRightKeys } from '$lib/constants/keys';
+
 	import Input from '$lib/ui/forms/Input.svelte';
+	import { Checkbox, Radio } from '../forms';
 
 	export let forbiddenFields: Field[];
 
@@ -60,4 +63,13 @@
 		name="postalCode"
 	/>
 	<Input class="fr-col-9" inputLabel="Ville" placeholder="Paris" name="city" />
+</div>
+
+<Radio legend="Revenu de solidarité active (RSA)" name="rightRsa" options={rsaRightKeys.options} />
+
+<div class="fr-form-group">
+	<div class="pb-2 font-bold">Autres aides</div>
+	<Checkbox name="rightAre" label="ARE" />
+	<Checkbox name="rightAss" label="ASS" />
+	<Checkbox name="rightBonus" label="Prime d'activité" />
 </div>

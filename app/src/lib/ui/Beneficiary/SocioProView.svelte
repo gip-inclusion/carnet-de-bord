@@ -7,10 +7,6 @@
 		| 'workSituationDate'
 		| 'workSituationEndDate'
 		| 'rightRqth'
-		| 'rightBonus'
-		| 'rightAre'
-		| 'rightAss'
-		| 'rightRsa'
 		| 'geographicalArea'
 		| 'educationLevel'
 		| 'lastJobEndedAt'
@@ -29,14 +25,10 @@
 		DiagnosticElm.Diagnostic.Main.init({
 			node: elmNode,
 			flags: {
-				rightRsa: notebook.rightRsa,
 				workSituation: notebook.workSituation,
 				workSituationDate: notebook.workSituationDate,
 				workSituationEndDate: notebook.workSituationEndDate,
 				rightRqth: notebook.rightRqth,
-				rightAre: notebook.rightAre,
-				rightAss: notebook.rightAss,
-				rightBonus: notebook.rightBonus,
 				geographicalArea: notebook.geographicalArea,
 				educationLevel: notebook.educationLevel,
 				wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.label),

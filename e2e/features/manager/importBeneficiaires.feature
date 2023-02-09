@@ -9,7 +9,7 @@ Fonctionnalité: Import de bénéficiaires
 		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
 		Quand je clique sur "Importer des nouveaux bénéficiaires"
-		Alors le lien "consulter la notice de remplissage" pointe sur "https://pad.incubateur.net/s/nLmDl89Oi#"
+		Alors le lien "consulter la notice de remplissage" pointe sur "https://pad.incubateur.net/s/VSXZgm8fy#"
 		Quand je télécharge en cliquant sur "télécharger un modèle"
 		Alors j'ai téléchargé le fichier "import_beneficiaires.csv"
 		Quand je téléverse le fichier "/resources/import_beneficiaires.csv"

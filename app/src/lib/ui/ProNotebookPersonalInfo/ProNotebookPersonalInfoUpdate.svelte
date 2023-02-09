@@ -31,6 +31,10 @@
 		| 'city'
 		| 'peNumber'
 		| 'cafNumber'
+		| 'rightRsa'
+		| 'rightAre'
+		| 'rightAss'
+		| 'rightBonus'
 	>;
 
 	const updateStore = operationStore(UpdateBeneficiaryPersonalInfoDocument);
@@ -48,6 +52,10 @@
 		city: beneficiary.city,
 		peNumber: beneficiary.peNumber,
 		cafNumber: beneficiary.cafNumber,
+		rightRsa: beneficiary.rightRsa,
+		rightAre: beneficiary.rightAre,
+		rightAss: beneficiary.rightAss,
+		rightBonus: beneficiary.rightBonus,
 	};
 
 	const isPartialUpdate = $accountData.type !== 'manager';

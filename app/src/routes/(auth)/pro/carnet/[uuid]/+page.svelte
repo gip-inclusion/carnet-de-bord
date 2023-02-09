@@ -215,8 +215,6 @@
 		{/if}
 		<ProNotebookPersonalInfoView
 			{beneficiary}
-			on:edit={() => alert('Not implemented!')}
-			on:print={() => alert('Not implemented!')}
 			lastUpdateDate={lastMember?.lastModifiedAt}
 			lastUpdateFrom={lastMember?.account?.professional || lastMember?.account?.orientation_manager}
 			displayEditButton={isMember}

@@ -19,6 +19,10 @@ query GetNotebook(
       mobileNumber
       peNumber
       postalCode
+      rightAre
+      rightAss
+      rightBonus
+      rightRsa
       orientationRequest(order_by: { createdAt: desc }, limit: 1)
         @include(if: $withOrientationRequests) {
         id
@@ -82,11 +86,7 @@ query GetNotebook(
       workSituationDate
       workSituationEndDate
       workSituation
-      rightRsa
       rightRqth
-      rightAre
-      rightAss
-      rightBonus
       geographicalArea
       educationLevel
       contractType

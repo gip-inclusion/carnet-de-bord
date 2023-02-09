@@ -6,10 +6,12 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { Button, IconButton } from '$lib/ui/base';
+	import { Button } from '$lib/ui/base';
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
+	import { Elm as PersonalInfoElm } from '../../../../elm/PersonalInfo/Main.elm';
+	import { afterUpdate } from 'svelte';
 
 	type Pro =
 		| Pick<Professional, 'firstname' | 'lastname'>
@@ -29,10 +31,30 @@
 		| 'postalCode'
 		| 'cafNumber'
 		| 'peNumber'
+		| 'rightAre'
+		| 'rightAss'
+		| 'rightBonus'
+		| 'rightRsa'
 	>;
 	export let lastUpdateDate: string;
 	export let lastUpdateFrom: Pro;
 	export let displayEditButton = false;
+
+	let elmNode: HTMLElement;
+	afterUpdate(() => {
+		if (!elmNode) return;
+		PersonalInfoElm.PersonalInfo.Main.init({
+			node: elmNode,
+			flags: {
+				rightAre: beneficiary.rightAre,
+				rightAss: beneficiary.rightAss,
+				rightBonus: beneficiary.rightBonus,
+				rightRsa: beneficiary.rightRsa,
+				peNumber: beneficiary.peNumber,
+				cafNumber: beneficiary.cafNumber,
+			},
+		});
+	});
 
 	function edit() {
 		openComponent.open({ component: ProNotebookPersonalInfoUpdate, props: { beneficiary } });
@@ -55,20 +77,11 @@
 			<h1 class="fr-h1 flex-1 text-france-blue">
 				{displayFullName(beneficiary)}
 			</h1>
-			<div>
-				<IconButton
-					on:click={() => window.print()}
-					icon="fr-icon-printer-line"
-					class="fr-btn--tertiary"
-					title="Imprimer"
-				/>
-			</div>
 		</div>
 		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>
 	</div>
 
 	<h2 class="fr-h4 text-france-blue">Informations personnelles</h2>
-	<!-- extract Infos -->
 	<div class="flex flex-row space-x-4">
 		<div class="w-full">
 			<div class="text-lg font-bold">
@@ -94,12 +107,12 @@
 					.join('<br>')}
 			</address>
 		</div>
-		<div class="w-full">
-			<strong class="text-base text-france-blue">Identifiant Pôle emploi</strong>
-			<Text class="mb-2" value={beneficiary.peNumber} />
-			<strong class="text-france-blue">Identifiant CAF/MSA</strong>
-			<Text value={beneficiary.cafNumber} />
-		</div>
+		{#key beneficiary}
+			<div class="w-full">
+				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+				<div bind:this={elmNode} />
+			</div>
+		{/key}
 	</div>
 	{#if displayEditButton}
 		<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>

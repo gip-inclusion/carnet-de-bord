@@ -17,7 +17,7 @@
 	import Portal from 'svelte-portal';
 	import { accountData } from '$lib/stores';
 
-	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][0];
+	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][number];
 
 	export let notebook: Notebook;
 

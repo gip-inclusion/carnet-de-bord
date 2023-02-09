@@ -92,11 +92,14 @@ const members = [
 	},
 ];
 
-const beneficiary = {
+const beneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['beneficiary'] = {
 	id: 'beneficiary-id',
 	firstname: 'Béné',
 	lastname: 'Ficiaire',
 	dateOfBirth: '1998-07-12',
+	rightAre: false,
+	rightBonus: false,
+	rightAss: false,
 };
 
 const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
@@ -106,10 +109,8 @@ const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
 	members,
 	wantedJobs: [],
 	focuses: [],
-	rightAre: false,
-	rightBonus: false,
-	rightRqth: false,
 	notebookInfo: { needOrientation: false },
+	rightRqth: false,
 };
 
 test('do not show "Réorienter" button for admin_structure', () => {

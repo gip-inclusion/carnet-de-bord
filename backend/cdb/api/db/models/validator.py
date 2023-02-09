@@ -88,8 +88,7 @@ def parse_bool(value):
             return None
     elif type(value) == bool:
         return value
-    else:
-        return None
+    return None
 
 
 def parse_bool_validator(*args, **kwargs):

@@ -130,44 +130,17 @@ async def insert_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ) -> UUID | None:
-    created_beneficiary: Record = await connection.fetchrow(
-        """
-INSERT INTO BENEFICIARY (
-    firstname,
-    lastname,
-    internal_id,
-    date_of_birth,
-    deployment_id,
-    place_of_birth,
-    mobile_number,
-    address1,
-    address2,
-    postal_code,
-    city,
-    caf_number,
-    pe_number,
-    email,
-    nir
-    )
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
-returning id
-        """,
-        beneficiary.firstname,
-        beneficiary.lastname,
-        beneficiary.internal_id,
-        beneficiary.date_of_birth,
-        deployment_id,
-        beneficiary.place_of_birth,
-        beneficiary.mobile_number,
-        beneficiary.address1,
-        beneficiary.address2,
-        beneficiary.postal_code,
-        beneficiary.city,
-        beneficiary.caf_number,
-        beneficiary.pe_number,
-        beneficiary.email,
-        beneficiary.nir,
-    )
+    mandatory_keys = ["firstname", "lastname", "internal_id", "date_of_birth"]
+    keys_to_insert = mandatory_keys + beneficiary.get_beneficiary_editable_keys()
+    sql_values = beneficiary.get_values_for_keys(keys_to_insert)
+    keys_to_insert.append("deployment_id")
+    sql_values.append(deployment_id)
+    sql = f"""
+        INSERT INTO public.beneficiary ({", ".join(keys_to_insert)})
+        VALUES ({", ".join([f"${x+1}" for x in range(len(keys_to_insert))])})
+            returning id
+"""
+    created_beneficiary: Record = await connection.fetchrow(sql, *sql_values)
 
     if created_beneficiary:
         return created_beneficiary["id"]

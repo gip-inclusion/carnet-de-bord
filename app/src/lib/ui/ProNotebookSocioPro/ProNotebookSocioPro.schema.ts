@@ -4,11 +4,7 @@ import { transformDate } from '../ProNotebookContract/ProNotebookContract.schema
 
 export const proNotebookSocioproSchema = yup.object().shape({
 	workSituation: yup.string().nullable(),
-	rightRsa: yup.string().nullable(),
-	rightAre: yup.boolean(),
-	rightAss: yup.boolean(),
 	rightRqth: yup.boolean(),
-	rightBonus: yup.boolean(),
 	geographicalArea: yup.string().nullable(),
 	educationLevel: yup.string().nullable(),
 	lastJobEndedAt: yup.date().transform(transformDate).nullable(),
@@ -16,7 +12,7 @@ export const proNotebookSocioproSchema = yup.object().shape({
 	workSituationEndDate: yup
 		.mixed()
 		.when('workSituationDate', {
-			is: (date) => Boolean(date),
+			is: (date: unknown) => Boolean(date),
 			then: yup
 				.date()
 				.transform(transformDate)
