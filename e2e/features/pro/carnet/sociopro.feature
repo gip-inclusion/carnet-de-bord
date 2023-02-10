@@ -39,3 +39,18 @@ Fonctionnalité: Informations sur le bénéficaire
 		Quand je clique sur le texte "24 mois"
 		Quand je clique sur "Enregistrer"
 		Alors je vois "Du 20/06/2020 au 20/06/2022 (24 mois)"
+
+
+	Scénario: Informations Pôle emploi
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Dorsey"
+		Alors j'attends que le texte "Hendrix Dorsey" apparaisse
+		Alors je clique sur "Se rattacher"
+		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+		Alors je clique sur "Oui"
+		Alors je clique sur "Se rattacher" dans la modale
+		Alors je vois "Informations Pôle emploi"
+		Alors je vois "30/04/2018"
+		Alors je vois "RETOUR DIRECT EMPLOI"
+		Alors je vois "ADAPT MARCHE TRAVAIL"
+    Alors je vois "AUTRE MOTIF INSCRIPTION"
+    Alors je vois "30/11/2020"
