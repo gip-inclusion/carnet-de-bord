@@ -27,8 +27,6 @@
 	afterUpdate(() => {
 		if (!elmNode) return;
 
-		console.log(externalDataDetail);
-
 		DiagnosticElm.Diagnostic.Main.init({
 			node: elmNode,
 			flags: {
