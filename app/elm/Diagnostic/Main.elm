@@ -174,6 +174,12 @@ professionalSituation { situationPro, pePrincipalData } =
                                 (workSituationDateFormat situationPro.workSituationDate situationPro.workSituationEndDate)
                             ]
                         , div [ class "fr-col-6" ]
+                            [ situationElement "Date du dernier emploi"
+                                (Maybe.map (Date.format "dd/MM/yyyy" >> text) situationPro.lastJobEndedAt)
+                                "Non renseigné"
+                                Nothing
+                            ]
+                        , div [ class "fr-col-6" ]
                             [ situationElement "Dispose d'un RQTH"
                                 (Just
                                     (if situationPro.rightRqth then
