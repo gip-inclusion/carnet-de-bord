@@ -40,7 +40,12 @@ select_permissions:
       allow_aggregations: true
   - role: beneficiary
     permission:
-      columns: []
+      columns:
+        - external_data_id
+        - beneficiary_id
+        - created_at
+        - updated_at
+        - professional_id
       filter:
         beneficiary_id:
           _eq: X-Hasura-Beneficiary-Id
