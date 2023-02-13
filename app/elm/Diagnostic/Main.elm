@@ -255,12 +255,6 @@ peInformationsView peGeneralData =
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
-                    [ situationElement "Axe de travail"
-                        (Maybe.map text (peWorkstream peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
-                        (unfilled Masculine)
-                        Nothing
-                    ]
-                , div [ class "fr-col-6" ]
                     [ situationElement "Motif d'inscription"
                         (Maybe.map text peGeneralData.motifInscription)
                         (unfilled Masculine)
@@ -270,6 +264,12 @@ peInformationsView peGeneralData =
                     [ situationElement "Dernière mise à jour du PPAE"
                         (Maybe.map (Date.format dateFormat >> text) peGeneralData.dateDerEntretienPpae)
                         (unfilled Feminine)
+                        Nothing
+                    ]
+                , div [ class "fr-col-6" ]
+                    [ situationElement "Axe de travail"
+                        (Maybe.map text (peWorkstream peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
+                        (unfilled Masculine)
                         Nothing
                     ]
                 ]
