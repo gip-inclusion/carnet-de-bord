@@ -2,7 +2,7 @@ module Diagnostic.Main exposing (..)
 
 import Browser
 import Date exposing (Date, fromIsoString)
-import Domain.PoleEmploi.PrincipalData exposing (PrincipalData)
+import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.SituationPro exposing (SituationPro, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
 import Html exposing (..)
@@ -48,7 +48,7 @@ main =
 type alias Model =
     { situationPro : SituationPro
     , professionalProjects : List ProfessionalProject
-    , pePrincipalData : PrincipalData
+    , pePrincipalData : GeneralData
     }
 
 
@@ -79,7 +79,7 @@ extractSituationFromFlags flags =
     }
 
 
-extractPePrincipalDataFromFlags : Flags -> PrincipalData
+extractPePrincipalDataFromFlags : Flags -> GeneralData
 extractPePrincipalDataFromFlags { pePrincipalData } =
     case pePrincipalData of
         Just data ->
@@ -207,7 +207,7 @@ professionalSituation { situationPro, pePrincipalData } =
     ]
 
 
-peInformations : PrincipalData -> Html msg
+peInformations : GeneralData -> Html msg
 peInformations pePrincipalData =
     div [ class "fr-col-6" ]
         [ h3 [ class "text-xl" ]

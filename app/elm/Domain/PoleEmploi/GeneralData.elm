@@ -1,9 +1,9 @@
-module Domain.PoleEmploi.PrincipalData exposing (..)
+module Domain.PoleEmploi.GeneralData exposing (..)
 
 import Date exposing (Date)
 
 
-type alias PrincipalData =
+type alias GeneralData =
     { mrechAxetravailprincipal : Maybe String
     , mrechAxetravailsecondaire : Maybe String
     , dateInscription : Maybe Date
