@@ -212,6 +212,22 @@ professionalSituationView { professionalSituation, peGeneralData } =
     ]
 
 
+peWorkstream : Maybe String -> Maybe String -> Maybe String
+peWorkstream principal secondary =
+    case ( principal, secondary ) of
+        ( Just p, Nothing ) ->
+            Just p
+
+        ( Nothing, Just s ) ->
+            Just s
+
+        ( Just p, Just s ) ->
+            Just <| p ++ " / " ++ s
+
+        _ ->
+            Nothing
+
+
 peInformations : GeneralData -> Html msg
 peInformations peGeneralData =
     div [ class "fr-col-6" ]
@@ -226,20 +242,14 @@ peInformations peGeneralData =
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
-                    [ situationElement "Axe de travail principal"
-                        (Maybe.map text peGeneralData.mrechAxetravailprincipal)
+                    [ situationElement "Axe de travail"
+                        (Maybe.map text (peWorkstream peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
                         (unfilled False False)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Motif d'inscription"
                         (Maybe.map text peGeneralData.motifInscription)
-                        (unfilled False False)
-                        Nothing
-                    ]
-                , div [ class "fr-col-6" ]
-                    [ situationElement "Axe de travail secondaire"
-                        (Maybe.map text peGeneralData.mrechAxetravailsecondaire)
                         (unfilled False False)
                         Nothing
                     ]
