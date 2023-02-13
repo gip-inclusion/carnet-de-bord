@@ -1,3 +1,10 @@
+# [1.196.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.195.0...v1.196.0) (2023-02-13)
+
+
+### Features
+
+* affichage des informations Pôle emploi sur le carnet ([#1511](https://github.com/gip-inclusion/carnet-de-bord/issues/1511)) ([4cb4cec](https://github.com/gip-inclusion/carnet-de-bord/commit/4cb4cecfa3b1c0bddfa2eb2445d7955eb4b68045))
+
 # [1.195.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.194.1...v1.195.0) (2023-02-09)
 
 
