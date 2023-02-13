@@ -52,5 +52,5 @@ Fonctionnalité: Informations sur le bénéficaire
 		Alors je vois "30/04/2018"
 		Alors je vois "RETOUR DIRECT EMPLOI"
 		Alors je vois "ADAPT MARCHE TRAVAIL"
-    Alors je vois "AUTRE MOTIF INSCRIPTION"
-    Alors je vois "30/11/2020"
+		Alors je vois "AUTRE MOTIF INSCRIPTION"
+		Alors je vois "30/11/2020"
