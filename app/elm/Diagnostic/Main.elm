@@ -4,7 +4,7 @@ import Browser
 import Date exposing (Date, fromIsoString)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
-import Domain.SituationPro exposing (SituationPro, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
+import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 
@@ -51,7 +51,7 @@ main =
 
 
 type alias Model =
-    { professionalSituation : SituationPro
+    { professionalSituation : ProfessionalSituation
     , professionalProjects : List ProfessionalProject
     , peGeneralData : GeneralData
     }
@@ -67,7 +67,7 @@ init flags =
     )
 
 
-extractSituationFromFlags : Flags -> SituationPro
+extractSituationFromFlags : Flags -> ProfessionalSituation
 extractSituationFromFlags { professionalSituation } =
     { workSituation = professionalSituation.workSituation
     , workSituationDate =
@@ -132,7 +132,7 @@ unfilled feminine plural =
 
 view : Model -> Html msg
 view model =
-    div [ class "mb-10" ] (professionalSituationView model ++ [ professionalProjectView model ])
+    div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model ])
 
 
 workSituationDateFormat : Maybe Date -> Maybe Date -> Maybe (Html msg)
@@ -163,53 +163,58 @@ workSituationDateFormat startDate endDate =
             Nothing
 
 
-professionalSituationView : Model -> List (Html msg)
-professionalSituationView { professionalSituation, peGeneralData } =
+socioProDiagFirstRowView : Model -> List (Html msg)
+socioProDiagFirstRowView { professionalSituation, peGeneralData } =
     [ div [ class "fr-container--fluid" ]
-        [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-            [ div [ class "fr-col-6" ]
-                [ h3 [ class "text-xl" ]
-                    [ text "Situation professionnelle" ]
-                , div [ class "fr-container shadow-dsfr rounded-lg" ]
-                    [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                        [ div [ class "fr-col-6" ]
-                            [ situationElement "Situation actuelle"
-                                (Maybe.map (workSituationKeyToString >> text) professionalSituation.workSituation)
-                                (unfilled True False)
-                                (workSituationDateFormat professionalSituation.workSituationDate professionalSituation.workSituationEndDate)
-                            ]
-                        , div [ class "fr-col-6" ]
-                            [ situationElement "Date du dernier emploi"
-                                (Maybe.map (Date.format "dd/MM/yyyy" >> text) professionalSituation.lastJobEndedAt)
-                                "Non renseigné"
-                                Nothing
-                            ]
-                        , div [ class "fr-col-6" ]
-                            [ situationElement "Dispose d'un RQTH"
-                                (Just
-                                    (if professionalSituation.rightRqth then
-                                        text "Oui"
-
-                                     else
-                                        text "Non"
-                                    )
-                                )
-                                (unfilled False False)
-                                Nothing
-                            ]
-                        , div [ class "fr-col-6" ]
-                            [ situationElement "Diplôme"
-                                (Maybe.map (educationLevelKeyToString >> text) professionalSituation.educationLevel)
-                                (unfilled False False)
-                                Nothing
-                            ]
-                        ]
-                    ]
-                ]
-            , peInformations peGeneralData
+        [ div [ class "fr-grid-row fr-grid-row--gutters flex" ]
+            [ socioProView professionalSituation
+            , peInformationsView peGeneralData
             ]
         ]
     ]
+
+
+socioProView : ProfessionalSituation -> Html msg
+socioProView professionalSituation =
+    div [ class "fr-col-6 flex flex-col" ]
+        [ h3 [ class "text-xl" ]
+            [ text "Situation professionnelle" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg flex-1 pt-4" ]
+            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
+                [ div [ class "fr-col-6" ]
+                    [ situationElement "Situation actuelle"
+                        (Maybe.map (workSituationKeyToString >> text) professionalSituation.workSituation)
+                        (unfilled True False)
+                        (workSituationDateFormat professionalSituation.workSituationDate professionalSituation.workSituationEndDate)
+                    ]
+                , div [ class "fr-col-6" ]
+                    [ situationElement "Date du dernier emploi"
+                        (Maybe.map (Date.format "dd/MM/yyyy" >> text) professionalSituation.lastJobEndedAt)
+                        "Non renseigné"
+                        Nothing
+                    ]
+                , div [ class "fr-col-6" ]
+                    [ situationElement "Dispose d'un RQTH"
+                        (Just
+                            (if professionalSituation.rightRqth then
+                                text "Oui"
+
+                             else
+                                text "Non"
+                            )
+                        )
+                        (unfilled False False)
+                        Nothing
+                    ]
+                , div [ class "fr-col-6" ]
+                    [ situationElement "Diplôme"
+                        (Maybe.map (educationLevelKeyToString >> text) professionalSituation.educationLevel)
+                        (unfilled False False)
+                        Nothing
+                    ]
+                ]
+            ]
+        ]
 
 
 peWorkstream : Maybe String -> Maybe String -> Maybe String
@@ -228,12 +233,12 @@ peWorkstream principal secondary =
             Nothing
 
 
-peInformations : GeneralData -> Html msg
-peInformations peGeneralData =
-    div [ class "fr-col-6" ]
+peInformationsView : GeneralData -> Html msg
+peInformationsView peGeneralData =
+    div [ class "fr-col-6 flex flex-col" ]
         [ h3 [ class "text-xl" ]
             [ text "Informations Pôle emploi" ]
-        , div [ class "fr-container shadow-dsfr rounded-lg" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg flex-1 pt-4" ]
             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Date d'inscription à Pôle emploi"
@@ -281,17 +286,17 @@ wantedJobsToHtml wantedJobs =
 
 professionalProjectView : Model -> Html msg
 professionalProjectView model =
-    div [ class "pt-10" ]
+    div [ class "pt-10 flex flex-col" ]
         [ h3 [ class "text-xl" ] [ text "Projet professionnel" ]
-        , div [ class "fr-container shadow-dsfr rounded-lg" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg pt-4" ]
             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                [ div [ class "fr-col-8" ]
+                [ div [ class "fr-col-6" ]
                     [ situationElement "Emplois recherchés"
                         (wantedJobsToHtml model.professionalSituation.wantedJobs)
                         (unfilled False True)
                         Nothing
                     ]
-                , div [ class "fr-col-4" ]
+                , div [ class "fr-col-6" ]
                     [ situationElement "Zone de mobilité"
                         (Maybe.map (geographicalAreaKeyToString >> text) model.professionalSituation.geographicalArea)
                         (unfilled True False)

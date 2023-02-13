@@ -51,7 +51,7 @@
   @hack to prevent Svelte from removing CSS classes that we need in Elm and are not used in Svelte
   See https://github.com/sveltejs/svelte/issues/5804 for more details
 
-  shadow-dsfr rounded-lg p-4 pt-10
+  shadow-dsfr rounded-lg p-4 pt-10 pt-4
 
   -->
 	<div class="elm-node">

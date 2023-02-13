@@ -1,9 +1,9 @@
-module Domain.SituationPro exposing (SituationPro, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
+module Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
 
 import Date exposing (Date)
 
 
-type alias SituationPro =
+type alias ProfessionalSituation =
     { workSituation : Maybe String
     , workSituationDate : Maybe Date
     , workSituationEndDate : Maybe Date
