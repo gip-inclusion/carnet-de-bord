@@ -16247,6 +16247,23 @@ export type GetNotebookQuery = {
 				theme: string;
 				situations?: any | null;
 				linkedTo?: string | null;
+				createdAt: string;
+				creator: {
+					__typename?: 'account';
+					id: string;
+					professional?: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name: string };
+					} | null;
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						id: string;
+						lastname?: string | null;
+						firstname?: string | null;
+					} | null;
+				};
 				targets: Array<{
 					__typename?: 'notebook_target';
 					id: string;
@@ -27239,6 +27256,65 @@ export const GetNotebookDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'linkedTo' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'creator' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'structure' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'name' },
+																							},
+																						],
+																					},
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																			],
+																		},
+																	},
+																],
+															},
+														},
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'targets' },

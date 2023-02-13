@@ -115,6 +115,22 @@ query GetNotebook(
         theme
         situations
         linkedTo
+        createdAt
+        creator {
+          id
+          professional {
+            firstname
+            lastname
+            structure {
+              name
+            }
+          }
+          orientation_manager {
+            id
+            lastname
+            firstname
+          }
+        }
         targets {
           id
           target
