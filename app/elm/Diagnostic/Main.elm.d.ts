@@ -1,13 +1,15 @@
 export type Flags = {
-	workSituation: string | undefined;
-	workSituationDate: string | undefined;
-	workSituationEndDate: string | undefined;
-	rightRqth: boolean;
-	geographicalArea: string | undefined;
-	educationLevel: string | undefined;
-	wantedJobs: string[];
-	lastJobEndedAt: string | undefined;
-	pePrincipalData: { [name: string]: string };
+	professionalSituation: {
+		workSituation: string | undefined;
+		workSituationDate: string | undefined;
+		workSituationEndDate: string | undefined;
+		rightRqth: boolean;
+		geographicalArea: string | undefined;
+		educationLevel: string | undefined;
+		wantedJobs: string[];
+		lastJobEndedAt: string | undefined;
+	};
+	peGeneralData: { [name: string]: string };
 };
 
 export type Ports = {};

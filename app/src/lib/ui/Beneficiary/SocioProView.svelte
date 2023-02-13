@@ -30,15 +30,17 @@
 		DiagnosticElm.Diagnostic.Main.init({
 			node: elmNode,
 			flags: {
-				workSituation: notebook.workSituation,
-				workSituationDate: notebook.workSituationDate,
-				workSituationEndDate: notebook.workSituationEndDate,
-				rightRqth: notebook.rightRqth,
-				geographicalArea: notebook.geographicalArea,
-				educationLevel: notebook.educationLevel,
-				wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.label),
-				lastJobEndedAt: notebook.lastJobEndedAt,
-				pePrincipalData: externalDataDetail?.data?.source || null,
+				professionalSituation: {
+					workSituation: notebook.workSituation,
+					workSituationDate: notebook.workSituationDate,
+					workSituationEndDate: notebook.workSituationEndDate,
+					rightRqth: notebook.rightRqth,
+					geographicalArea: notebook.geographicalArea,
+					educationLevel: notebook.educationLevel,
+					wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.label),
+					lastJobEndedAt: notebook.lastJobEndedAt,
+				},
+				peGeneralData: externalDataDetail?.data?.source || null,
 			},
 		});
 	});

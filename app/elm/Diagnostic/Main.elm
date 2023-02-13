@@ -18,7 +18,7 @@ type alias PeFlags =
     }
 
 
-type alias Flags =
+type alias ProfessionalSituationFlags =
     { workSituation : Maybe String
     , workSituationDate : Maybe String
     , workSituationEndDate : Maybe String
@@ -27,7 +27,12 @@ type alias Flags =
     , educationLevel : Maybe String
     , wantedJobs : List String
     , lastJobEndedAt : Maybe String
-    , pePrincipalData : Maybe PeFlags
+    }
+
+
+type alias Flags =
+    { professionalSituation : ProfessionalSituationFlags
+    , peGeneralData : Maybe PeFlags
     }
 
 
@@ -46,42 +51,42 @@ main =
 
 
 type alias Model =
-    { situationPro : SituationPro
+    { professionalSituation : SituationPro
     , professionalProjects : List ProfessionalProject
-    , pePrincipalData : GeneralData
+    , peGeneralData : GeneralData
     }
 
 
 init : Flags -> ( Model, Cmd msg )
 init flags =
-    ( { situationPro = extractSituationFromFlags flags
+    ( { professionalSituation = extractSituationFromFlags flags
       , professionalProjects = []
-      , pePrincipalData = extractPePrincipalDataFromFlags flags
+      , peGeneralData = extractPeGeneralDataFromFlags flags
       }
     , Cmd.none
     )
 
 
 extractSituationFromFlags : Flags -> SituationPro
-extractSituationFromFlags flags =
-    { workSituation = flags.workSituation
+extractSituationFromFlags { professionalSituation } =
+    { workSituation = professionalSituation.workSituation
     , workSituationDate =
-        flags.workSituationDate
+        professionalSituation.workSituationDate
             |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     , workSituationEndDate =
-        flags.workSituationEndDate
+        professionalSituation.workSituationEndDate
             |> Maybe.andThen (fromIsoString >> Result.toMaybe)
-    , rightRqth = flags.rightRqth
-    , geographicalArea = flags.geographicalArea
-    , educationLevel = flags.educationLevel
-    , wantedJobs = flags.wantedJobs
-    , lastJobEndedAt = flags.lastJobEndedAt |> Maybe.andThen (fromIsoString >> Result.toMaybe)
+    , rightRqth = professionalSituation.rightRqth
+    , geographicalArea = professionalSituation.geographicalArea
+    , educationLevel = professionalSituation.educationLevel
+    , wantedJobs = professionalSituation.wantedJobs
+    , lastJobEndedAt = professionalSituation.lastJobEndedAt |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     }
 
 
-extractPePrincipalDataFromFlags : Flags -> GeneralData
-extractPePrincipalDataFromFlags { pePrincipalData } =
-    case pePrincipalData of
+extractPeGeneralDataFromFlags : Flags -> GeneralData
+extractPeGeneralDataFromFlags { peGeneralData } =
+    case peGeneralData of
         Just data ->
             { mrechAxetravailprincipal = data.mrech_axetravailprincipal
             , mrechAxetravailsecondaire = data.mrech_axetravailsecondaire
@@ -127,7 +132,7 @@ unfilled feminine plural =
 
 view : Model -> Html msg
 view model =
-    div [ class "mb-10" ] (professionalSituation model ++ [ professionalProject model ])
+    div [ class "mb-10" ] (professionalSituationView model ++ [ professionalProjectView model ])
 
 
 workSituationDateFormat : Maybe Date -> Maybe Date -> Maybe (Html msg)
@@ -158,8 +163,8 @@ workSituationDateFormat startDate endDate =
             Nothing
 
 
-professionalSituation : Model -> List (Html msg)
-professionalSituation { situationPro, pePrincipalData } =
+professionalSituationView : Model -> List (Html msg)
+professionalSituationView { professionalSituation, peGeneralData } =
     [ div [ class "fr-container--fluid" ]
         [ div [ class "fr-grid-row fr-grid-row--gutters" ]
             [ div [ class "fr-col-6" ]
@@ -169,20 +174,20 @@ professionalSituation { situationPro, pePrincipalData } =
                     [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                         [ div [ class "fr-col-6" ]
                             [ situationElement "Situation actuelle"
-                                (Maybe.map (workSituationKeyToString >> text) situationPro.workSituation)
+                                (Maybe.map (workSituationKeyToString >> text) professionalSituation.workSituation)
                                 (unfilled True False)
-                                (workSituationDateFormat situationPro.workSituationDate situationPro.workSituationEndDate)
+                                (workSituationDateFormat professionalSituation.workSituationDate professionalSituation.workSituationEndDate)
                             ]
                         , div [ class "fr-col-6" ]
                             [ situationElement "Date du dernier emploi"
-                                (Maybe.map (Date.format "dd/MM/yyyy" >> text) situationPro.lastJobEndedAt)
+                                (Maybe.map (Date.format "dd/MM/yyyy" >> text) professionalSituation.lastJobEndedAt)
                                 "Non renseigné"
                                 Nothing
                             ]
                         , div [ class "fr-col-6" ]
                             [ situationElement "Dispose d'un RQTH"
                                 (Just
-                                    (if situationPro.rightRqth then
+                                    (if professionalSituation.rightRqth then
                                         text "Oui"
 
                                      else
@@ -194,21 +199,21 @@ professionalSituation { situationPro, pePrincipalData } =
                             ]
                         , div [ class "fr-col-6" ]
                             [ situationElement "Diplôme"
-                                (Maybe.map (educationLevelKeyToString >> text) situationPro.educationLevel)
+                                (Maybe.map (educationLevelKeyToString >> text) professionalSituation.educationLevel)
                                 (unfilled False False)
                                 Nothing
                             ]
                         ]
                     ]
                 ]
-            , peInformations pePrincipalData
+            , peInformations peGeneralData
             ]
         ]
     ]
 
 
 peInformations : GeneralData -> Html msg
-peInformations pePrincipalData =
+peInformations peGeneralData =
     div [ class "fr-col-6" ]
         [ h3 [ class "text-xl" ]
             [ text "Informations Pôle emploi" ]
@@ -216,31 +221,31 @@ peInformations pePrincipalData =
             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Date d'inscription à Pôle emploi"
-                        (Maybe.map (Date.format dateFormat >> text) pePrincipalData.dateInscription)
+                        (Maybe.map (Date.format dateFormat >> text) peGeneralData.dateInscription)
                         (unfilled True False)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Axe de travail principal"
-                        (Maybe.map text pePrincipalData.mrechAxetravailprincipal)
+                        (Maybe.map text peGeneralData.mrechAxetravailprincipal)
                         (unfilled False False)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Motif d'inscription"
-                        (Maybe.map text pePrincipalData.motifInscription)
+                        (Maybe.map text peGeneralData.motifInscription)
                         (unfilled False False)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Axe de travail secondaire"
-                        (Maybe.map text pePrincipalData.mrechAxetravailsecondaire)
+                        (Maybe.map text peGeneralData.mrechAxetravailsecondaire)
                         (unfilled False False)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Dernière mise à jour du PPAE"
-                        (Maybe.map (Date.format dateFormat >> text) pePrincipalData.dateDerEntretienPpae)
+                        (Maybe.map (Date.format dateFormat >> text) peGeneralData.dateDerEntretienPpae)
                         (unfilled True False)
                         Nothing
                     ]
@@ -264,21 +269,21 @@ wantedJobsToHtml wantedJobs =
                 )
 
 
-professionalProject : Model -> Html msg
-professionalProject model =
+professionalProjectView : Model -> Html msg
+professionalProjectView model =
     div [ class "pt-10" ]
         [ h3 [ class "text-xl" ] [ text "Projet professionnel" ]
         , div [ class "fr-container shadow-dsfr rounded-lg" ]
             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                 [ div [ class "fr-col-8" ]
                     [ situationElement "Emplois recherchés"
-                        (wantedJobsToHtml model.situationPro.wantedJobs)
+                        (wantedJobsToHtml model.professionalSituation.wantedJobs)
                         (unfilled False True)
                         Nothing
                     ]
                 , div [ class "fr-col-4" ]
                     [ situationElement "Zone de mobilité"
-                        (Maybe.map (geographicalAreaKeyToString >> text) model.situationPro.geographicalArea)
+                        (Maybe.map (geographicalAreaKeyToString >> text) model.professionalSituation.geographicalArea)
                         (unfilled True False)
                         Nothing
                     ]
