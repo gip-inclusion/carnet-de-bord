@@ -36,6 +36,13 @@ type alias Flags =
     }
 
 
+type GenderType
+    = Feminine
+    | Plural
+    | FemininePlural
+    | Masculine
+
+
 main : Program Flags Model msg
 main =
     Browser.element
@@ -113,20 +120,21 @@ dateFormat =
     "dd/MM/yyyy"
 
 
-unfilled : Bool -> Bool -> String
-unfilled feminine plural =
+unfilled : GenderType -> String
+unfilled genderType =
     "Non renseigné"
-        ++ (if feminine then
-                "e"
+        ++ (case genderType of
+                Feminine ->
+                    "e"
 
-            else
-                ""
-           )
-        ++ (if plural then
-                "s"
+                Plural ->
+                    "s"
 
-            else
-                ""
+                FemininePlural ->
+                    "es"
+
+                Masculine ->
+                    ""
            )
 
 
@@ -184,7 +192,7 @@ socioProView professionalSituation =
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Situation actuelle"
                         (Maybe.map (workSituationKeyToString >> text) professionalSituation.workSituation)
-                        (unfilled True False)
+                        (unfilled Feminine)
                         (workSituationDateFormat professionalSituation.workSituationDate professionalSituation.workSituationEndDate)
                     ]
                 , div [ class "fr-col-6" ]
@@ -203,13 +211,13 @@ socioProView professionalSituation =
                                 text "Non"
                             )
                         )
-                        (unfilled False False)
+                        (unfilled Masculine)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Diplôme"
                         (Maybe.map (educationLevelKeyToString >> text) professionalSituation.educationLevel)
-                        (unfilled False False)
+                        (unfilled Masculine)
                         Nothing
                     ]
                 ]
@@ -243,25 +251,25 @@ peInformationsView peGeneralData =
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Date d'inscription à Pôle emploi"
                         (Maybe.map (Date.format dateFormat >> text) peGeneralData.dateInscription)
-                        (unfilled True False)
+                        (unfilled Feminine)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Axe de travail"
                         (Maybe.map text (peWorkstream peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
-                        (unfilled False False)
+                        (unfilled Masculine)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Motif d'inscription"
                         (Maybe.map text peGeneralData.motifInscription)
-                        (unfilled False False)
+                        (unfilled Masculine)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Dernière mise à jour du PPAE"
                         (Maybe.map (Date.format dateFormat >> text) peGeneralData.dateDerEntretienPpae)
-                        (unfilled True False)
+                        (unfilled Feminine)
                         Nothing
                     ]
                 ]
@@ -293,13 +301,13 @@ professionalProjectView model =
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Emplois recherchés"
                         (wantedJobsToHtml model.professionalSituation.wantedJobs)
-                        (unfilled False True)
+                        (unfilled Plural)
                         Nothing
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Zone de mobilité"
                         (Maybe.map (geographicalAreaKeyToString >> text) model.professionalSituation.geographicalArea)
-                        (unfilled True False)
+                        (unfilled Feminine)
                         Nothing
                     ]
                 ]
