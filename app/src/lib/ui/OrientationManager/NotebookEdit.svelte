@@ -57,7 +57,11 @@
 			/>
 		</MainSection>
 		<MainSection title="Diagnostic socioprofessionnel">
-			<ProNotebookSocioProView notebook={notebook?.notebook} externalDataDetail={externalData} />
+			<ProNotebookSocioProView
+				notebook={notebook?.notebook}
+				externalDataDetail={externalData}
+				focuses={notebook?.notebook?.focuses}
+			/>
 		</MainSection>
 		<MainSection title="Plan d'action">
 			<ProNotebookFocusView notebook={notebook?.notebook} focuses={notebook?.notebook?.focuses} />

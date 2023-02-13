@@ -1,6 +1,9 @@
 <script lang="ts" context="module">
-	import type { Notebook } from '$lib/graphql/_gen/typed-document-nodes';
-	import type { ExternalData } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		Notebook,
+		ExternalData,
+		NotebookFocus,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 
 	export type SocioProInfo = Pick<
 		Notebook,
@@ -14,11 +17,27 @@
 	> & { wantedJobs: { rome_code: { id: string; label: string } }[] };
 
 	export type ExternalDataDetail = Pick<ExternalData, 'data' | 'source'>;
+
+	export type Focus = Pick<NotebookFocus, 'situations' | 'theme'> & {
+		createdAt?: string;
+		creator: {
+			professional?: {
+				firstname?: string;
+				lastname?: string;
+				structure: { name: string };
+			};
+			orientation_manager?: {
+				firstname?: string;
+				lastname?: string;
+			};
+		};
+	};
 </script>
 
 <script lang="ts">
 	export let notebook: SocioProInfo;
 	export let externalDataDetail: ExternalDataDetail | null;
+	export let focuses: Focus[] | null;
 
 	import { Elm as DiagnosticElm } from '../../../../elm/Diagnostic/Main.elm';
 	import { afterUpdate } from 'svelte';
@@ -41,6 +60,7 @@
 					lastJobEndedAt: notebook.lastJobEndedAt,
 				},
 				peGeneralData: externalDataDetail?.data?.source || null,
+				personalSituations: focuses || null,
 			},
 		});
 	});

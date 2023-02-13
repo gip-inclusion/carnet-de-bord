@@ -10,6 +10,15 @@ export type Flags = {
 		lastJobEndedAt: string | undefined;
 	};
 	peGeneralData: { [name: string]: string };
+	personalSituations: {
+		situations?: any;
+		theme: string;
+		createdAt?: string;
+		creator: {
+			professional?: { firstname?: string; lastname?: string; structure: { name: string } };
+			orientation_manager?: { firstname?: string; lastname?: string };
+		};
+	}[];
 };
 
 export type Ports = {};

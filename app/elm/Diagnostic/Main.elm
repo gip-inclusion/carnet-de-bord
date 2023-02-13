@@ -30,9 +30,42 @@ type alias ProfessionalSituationFlags =
     }
 
 
+type alias PersonalSituationElement =
+    { theme : String
+    , situation : String
+    , createdAt : String
+    , creator : String
+    }
+
+
+
+-- TODO: add structure name somewhere
+
+
+type alias Person =
+    { firstname : String
+    , lastname : String
+    }
+
+
+type alias Account =
+    { professional : Maybe Person
+    , orientation_manager : Maybe Person
+    }
+
+
+type alias PersonalSituationFlags =
+    { theme : String
+    , situation : String
+    , createdAt : String
+    , creator : Account
+    }
+
+
 type alias Flags =
     { professionalSituation : ProfessionalSituationFlags
     , peGeneralData : Maybe PeFlags
+    , personalSituations : Maybe (List PersonalSituationFlags)
     }
 
 
@@ -61,6 +94,7 @@ type alias Model =
     { professionalSituation : ProfessionalSituation
     , professionalProjects : List ProfessionalProject
     , peGeneralData : GeneralData
+    , personalSituations : List PersonalSituationElement
     }
 
 
@@ -69,9 +103,24 @@ init flags =
     ( { professionalSituation = extractSituationFromFlags flags
       , professionalProjects = []
       , peGeneralData = extractPeGeneralDataFromFlags flags
+      , personalSituations = extractPersonalSituationsFromFlags flags
       }
     , Cmd.none
     )
+
+
+extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationElement
+extractPersonalSituationFromFlags flags =
+    { theme = flags.theme
+    , situation = flags.situation
+    , createdAt = flags.createdAt
+    , creator = "" -- TODO: build the creator + structureName from received account
+    }
+
+
+extractPersonalSituationsFromFlags : Flags -> List PersonalSituationElement
+extractPersonalSituationsFromFlags { personalSituations } =
+    List.map extractPersonalSituationFromFlags (Maybe.withDefault [] personalSituations)
 
 
 extractSituationFromFlags : Flags -> ProfessionalSituation
@@ -140,7 +189,7 @@ unfilled genderType =
 
 view : Model -> Html msg
 view model =
-    div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model ])
+    div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model, personalSituationView model ])
 
 
 workSituationDateFormat : Maybe Date -> Maybe Date -> Maybe (Html msg)
@@ -311,6 +360,19 @@ professionalProjectView model =
                         Nothing
                     ]
                 ]
+            ]
+        ]
+
+
+personalSituationView : Model -> Html msg
+personalSituationView { personalSituations } =
+    div [ class "pt-10 flex flex-col" ]
+        [ h3 [ class "text-xl" ] [ text "Situation personnelle" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg pt-4" ]
+            [ ul []
+                (personalSituations
+                    |> List.map (\personalSituation -> li [] [ text personalSituation.theme ])
+                )
             ]
         ]
 

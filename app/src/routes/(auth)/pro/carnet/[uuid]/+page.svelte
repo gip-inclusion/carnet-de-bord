@@ -245,7 +245,11 @@
 			</MainSection>
 			{#if notebook}
 				<MainSection title="Diagnostic socioprofessionnel">
-					<ProNotebookSocioProView {notebook} externalDataDetail={externalData} />
+					<ProNotebookSocioProView
+						{notebook}
+						externalDataDetail={externalData}
+						focuses={notebook?.focuses}
+					/>
 				</MainSection>
 			{/if}
 
