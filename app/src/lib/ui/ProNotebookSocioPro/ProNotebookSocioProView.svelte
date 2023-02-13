@@ -2,9 +2,13 @@
 	import { openComponent } from '$lib/stores';
 	import { Button } from '../base';
 	import ProCarnetSocioProUpdate from './ProNotebookSocioProUpdate.svelte';
-	import SocioProView, { type SocioProInfo } from '../Beneficiary/SocioProView.svelte';
+	import SocioProView, {
+		type SocioProInfo,
+		type ExternalDataDetail,
+	} from '../Beneficiary/SocioProView.svelte';
 
 	export let notebook: SocioProInfo;
+	export let externalDataDetail: ExternalDataDetail | null;
 
 	const editSocioProSituation = () => {
 		openComponent.open({
@@ -21,7 +25,7 @@
 </script>
 
 <div class="flex flex-col space-y-6">
-	<SocioProView {notebook} />
+	<SocioProView {notebook} {externalDataDetail} />
 	<Button classNames="self-start" on:click={() => editSocioProSituation()} outline
 		>Mettre à jour</Button
 	>

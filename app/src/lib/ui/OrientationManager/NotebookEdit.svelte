@@ -17,6 +17,11 @@
 	$: orientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 	$: isMember = notebook.members.some((member) => member.account.id === $accountData.id);
+
+	$: externalData =
+		beneficiary?.externalDataInfos.length > 0
+			? beneficiary.externalDataInfos[0].externalData
+			: null;
 </script>
 
 <svelte:head>
@@ -52,7 +57,7 @@
 			/>
 		</MainSection>
 		<MainSection title="Diagnostic socioprofessionnel">
-			<ProNotebookSocioProView notebook={notebook?.notebook} />
+			<ProNotebookSocioProView notebook={notebook?.notebook} externalDataDetail={externalData} />
 		</MainSection>
 		<MainSection title="Plan d'action">
 			<ProNotebookFocusView notebook={notebook?.notebook} focuses={notebook?.notebook?.focuses} />

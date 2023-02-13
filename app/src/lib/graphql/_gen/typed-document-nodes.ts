@@ -1534,6 +1534,10 @@ export type Beneficiary = {
 	deployment: Deployment;
 	deploymentId: Scalars['uuid'];
 	email?: Maybe<Scalars['citext']>;
+	/** An array relationship */
+	externalDataInfos: Array<ExternalDataInfo>;
+	/** An aggregate relationship */
+	externalDataInfos_aggregate: ExternalDataInfoAggregate;
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	internalId?: Maybe<Scalars['String']>;
@@ -1561,6 +1565,24 @@ export type Beneficiary = {
 	/** An aggregate relationship */
 	structures_aggregate: BeneficiaryStructureAggregate;
 	updatedAt: Scalars['timestamptz'];
+};
+
+/** columns and relationships of "beneficiary" */
+export type BeneficiaryExternalDataInfosArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataInfoOrderBy>>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
+};
+
+/** columns and relationships of "beneficiary" */
+export type BeneficiaryExternalDataInfosAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ExternalDataInfoOrderBy>>;
+	where?: InputMaybe<ExternalDataInfoBoolExp>;
 };
 
 /** columns and relationships of "beneficiary" */
@@ -1676,6 +1698,8 @@ export type BeneficiaryBoolExp = {
 	deployment?: InputMaybe<DeploymentBoolExp>;
 	deploymentId?: InputMaybe<UuidComparisonExp>;
 	email?: InputMaybe<CitextComparisonExp>;
+	externalDataInfos?: InputMaybe<ExternalDataInfoBoolExp>;
+	externalDataInfos_aggregate?: InputMaybe<ExternalDataInfoAggregateBoolExp>;
 	firstname?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	internalId?: InputMaybe<StringComparisonExp>;
@@ -1723,6 +1747,7 @@ export type BeneficiaryInsertInput = {
 	deployment?: InputMaybe<DeploymentObjRelInsertInput>;
 	deploymentId?: InputMaybe<Scalars['uuid']>;
 	email?: InputMaybe<Scalars['citext']>;
+	externalDataInfos?: InputMaybe<ExternalDataInfoArrRelInsertInput>;
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	internalId?: InputMaybe<Scalars['String']>;
@@ -1877,6 +1902,7 @@ export type BeneficiaryOrderBy = {
 	deployment?: InputMaybe<DeploymentOrderBy>;
 	deploymentId?: InputMaybe<OrderBy>;
 	email?: InputMaybe<OrderBy>;
+	externalDataInfos_aggregate?: InputMaybe<ExternalDataInfoAggregateOrderBy>;
 	firstname?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	internalId?: InputMaybe<OrderBy>;
@@ -2818,6 +2844,8 @@ export type ExternalData = {
 	created_at?: Maybe<Scalars['timestamptz']>;
 	data: Scalars['jsonb'];
 	/** An object relationship */
+	externalDataInfo?: Maybe<ExternalDataInfo>;
+	/** An object relationship */
 	external_source: ExternalSource;
 	hash: Scalars['String'];
 	id: Scalars['uuid'];
@@ -2888,6 +2916,7 @@ export type ExternalDataBoolExp = {
 	_or?: InputMaybe<Array<ExternalDataBoolExp>>;
 	created_at?: InputMaybe<TimestamptzComparisonExp>;
 	data?: InputMaybe<JsonbComparisonExp>;
+	externalDataInfo?: InputMaybe<ExternalDataInfoBoolExp>;
 	external_source?: InputMaybe<ExternalSourceBoolExp>;
 	hash?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
@@ -2923,6 +2952,8 @@ export type ExternalDataInfo = {
 	beneficiary?: Maybe<Beneficiary>;
 	beneficiary_id?: Maybe<Scalars['uuid']>;
 	created_at: Scalars['timestamptz'];
+	/** An object relationship */
+	externalData: ExternalData;
 	external_data_id: Scalars['uuid'];
 	professional_id?: Maybe<Scalars['uuid']>;
 	updated_at: Scalars['timestamptz'];
@@ -2933,6 +2964,17 @@ export type ExternalDataInfoAggregate = {
 	__typename?: 'external_data_info_aggregate';
 	aggregate?: Maybe<ExternalDataInfoAggregateFields>;
 	nodes: Array<ExternalDataInfo>;
+};
+
+export type ExternalDataInfoAggregateBoolExp = {
+	count?: InputMaybe<ExternalDataInfoAggregateBoolExpCount>;
+};
+
+export type ExternalDataInfoAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<ExternalDataInfoSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<ExternalDataInfoBoolExp>;
+	predicate: IntComparisonExp;
 };
 
 /** aggregate fields of "external_data_info" */
@@ -2949,6 +2991,20 @@ export type ExternalDataInfoAggregateFieldsCountArgs = {
 	distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "external_data_info" */
+export type ExternalDataInfoAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<ExternalDataInfoMaxOrderBy>;
+	min?: InputMaybe<ExternalDataInfoMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "external_data_info" */
+export type ExternalDataInfoArrRelInsertInput = {
+	data: Array<ExternalDataInfoInsertInput>;
+	/** upsert condition */
+	on_conflict?: InputMaybe<ExternalDataInfoOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "external_data_info". All fields are combined with a logical 'AND'. */
 export type ExternalDataInfoBoolExp = {
 	_and?: InputMaybe<Array<ExternalDataInfoBoolExp>>;
@@ -2957,6 +3013,7 @@ export type ExternalDataInfoBoolExp = {
 	beneficiary?: InputMaybe<BeneficiaryBoolExp>;
 	beneficiary_id?: InputMaybe<UuidComparisonExp>;
 	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	externalData?: InputMaybe<ExternalDataBoolExp>;
 	external_data_id?: InputMaybe<UuidComparisonExp>;
 	professional_id?: InputMaybe<UuidComparisonExp>;
 	updated_at?: InputMaybe<TimestamptzComparisonExp>;
@@ -2973,6 +3030,7 @@ export type ExternalDataInfoInsertInput = {
 	beneficiary?: InputMaybe<BeneficiaryObjRelInsertInput>;
 	beneficiary_id?: InputMaybe<Scalars['uuid']>;
 	created_at?: InputMaybe<Scalars['timestamptz']>;
+	externalData?: InputMaybe<ExternalDataObjRelInsertInput>;
 	external_data_id?: InputMaybe<Scalars['uuid']>;
 	professional_id?: InputMaybe<Scalars['uuid']>;
 	updated_at?: InputMaybe<Scalars['timestamptz']>;
@@ -2988,6 +3046,15 @@ export type ExternalDataInfoMaxFields = {
 	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
+/** order by max() on columns of table "external_data_info" */
+export type ExternalDataInfoMaxOrderBy = {
+	beneficiary_id?: InputMaybe<OrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	external_data_id?: InputMaybe<OrderBy>;
+	professional_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type ExternalDataInfoMinFields = {
 	__typename?: 'external_data_info_min_fields';
@@ -2998,6 +3065,15 @@ export type ExternalDataInfoMinFields = {
 	updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
+/** order by min() on columns of table "external_data_info" */
+export type ExternalDataInfoMinOrderBy = {
+	beneficiary_id?: InputMaybe<OrderBy>;
+	created_at?: InputMaybe<OrderBy>;
+	external_data_id?: InputMaybe<OrderBy>;
+	professional_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
 /** response of any mutation on the table "external_data_info" */
 export type ExternalDataInfoMutationResponse = {
 	__typename?: 'external_data_info_mutation_response';
@@ -3005,6 +3081,13 @@ export type ExternalDataInfoMutationResponse = {
 	affected_rows: Scalars['Int'];
 	/** data from the rows affected by the mutation */
 	returning: Array<ExternalDataInfo>;
+};
+
+/** input type for inserting object relation for remote table "external_data_info" */
+export type ExternalDataInfoObjRelInsertInput = {
+	data: ExternalDataInfoInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<ExternalDataInfoOnConflict>;
 };
 
 /** on_conflict condition type for table "external_data_info" */
@@ -3019,6 +3102,7 @@ export type ExternalDataInfoOrderBy = {
 	beneficiary?: InputMaybe<BeneficiaryOrderBy>;
 	beneficiary_id?: InputMaybe<OrderBy>;
 	created_at?: InputMaybe<OrderBy>;
+	externalData?: InputMaybe<ExternalDataOrderBy>;
 	external_data_id?: InputMaybe<OrderBy>;
 	professional_id?: InputMaybe<OrderBy>;
 	updated_at?: InputMaybe<OrderBy>;
@@ -3093,6 +3177,7 @@ export type ExternalDataInfoUpdates = {
 export type ExternalDataInsertInput = {
 	created_at?: InputMaybe<Scalars['timestamptz']>;
 	data?: InputMaybe<Scalars['jsonb']>;
+	externalDataInfo?: InputMaybe<ExternalDataInfoObjRelInsertInput>;
 	external_source?: InputMaybe<ExternalSourceObjRelInsertInput>;
 	hash?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
@@ -3143,6 +3228,13 @@ export type ExternalDataMutationResponse = {
 	returning: Array<ExternalData>;
 };
 
+/** input type for inserting object relation for remote table "external_data" */
+export type ExternalDataObjRelInsertInput = {
+	data: ExternalDataInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<ExternalDataOnConflict>;
+};
+
 /** on_conflict condition type for table "external_data" */
 export type ExternalDataOnConflict = {
 	constraint: ExternalDataConstraint;
@@ -3154,6 +3246,7 @@ export type ExternalDataOnConflict = {
 export type ExternalDataOrderBy = {
 	created_at?: InputMaybe<OrderBy>;
 	data?: InputMaybe<OrderBy>;
+	externalDataInfo?: InputMaybe<ExternalDataInfoOrderBy>;
 	external_source?: InputMaybe<ExternalSourceOrderBy>;
 	hash?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -15197,6 +15290,11 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			rightAss: boolean;
 			rightBonus: boolean;
 			rightRsa?: string | null;
+			externalDataInfos: Array<{
+				__typename?: 'external_data_info';
+				external_data_id: string;
+				externalData: { __typename?: 'external_data'; data: any; source: ExternalSourceEnum };
+			}>;
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
@@ -15357,6 +15455,11 @@ export type GetNotebookByIdQuery = {
 			rightAss: boolean;
 			rightBonus: boolean;
 			rightRsa?: string | null;
+			externalDataInfos: Array<{
+				__typename?: 'external_data_info';
+				external_data_id: string;
+				externalData: { __typename?: 'external_data'; data: any; source: ExternalSourceEnum };
+			}>;
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
@@ -15510,6 +15613,11 @@ export type NotebookFragmentFragment = {
 		rightAss: boolean;
 		rightBonus: boolean;
 		rightRsa?: string | null;
+		externalDataInfos: Array<{
+			__typename?: 'external_data_info';
+			external_data_id: string;
+			externalData: { __typename?: 'external_data'; data: any; source: ExternalSourceEnum };
+		}>;
 		orientationRequest?: Array<{
 			__typename?: 'orientation_request';
 			id: string;
@@ -16045,6 +16153,11 @@ export type GetNotebookQuery = {
 			rightAss: boolean;
 			rightBonus: boolean;
 			rightRsa?: string | null;
+			externalDataInfos: Array<{
+				__typename?: 'external_data_info';
+				external_data_id: string;
+				externalData: { __typename?: 'external_data'; data: any; source: ExternalSourceEnum };
+			}>;
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
 				id: string;
@@ -16798,6 +16911,27 @@ export const NotebookFragmentFragmentDoc = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'externalDataInfos' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'external_data_id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'externalData' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'data' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'source' } },
+													],
+												},
+											},
+										],
+									},
+								},
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'orientationRequest' },
@@ -26790,6 +26924,27 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'externalDataInfos' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'external_data_id' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'externalData' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'data' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'source' } },
+																],
+															},
+														},
+													],
+												},
+											},
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'orientationRequest' },

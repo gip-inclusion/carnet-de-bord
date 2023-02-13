@@ -80,6 +80,13 @@ object_relationships:
           name: notebook_public_view
           schema: public
 array_relationships:
+  - name: externalDataInfos
+    using:
+      foreign_key_constraint_on:
+        column: beneficiary_id
+        table:
+          name: external_data_info
+          schema: public
   - name: orientationRequest
     using:
       manual_configuration:

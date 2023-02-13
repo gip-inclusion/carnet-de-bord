@@ -27,6 +27,11 @@
 	$: orientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 	$: isManager = $accountData.type === RoleEnum.Manager;
+
+	$: externalData =
+		beneficiary?.externalDataInfos.length > 0
+			? beneficiary.externalDataInfos[0].externalData
+			: null;
 </script>
 
 <div class="fr-py-6w flex flex-col gap-8">
@@ -52,7 +57,7 @@
 			<NotebookMembers members={notebook.members} notebookId={notebook.id} />
 		</MainSection>
 		<MainSection title="Diagnostic socioprofessionnel">
-			<SocioProView {notebook} />
+			<SocioProView {notebook} externalDataDetail={externalData} />
 		</MainSection>
 		<MainSection title="Plan d'action">
 			{#if notebook.focuses.length === 0}
