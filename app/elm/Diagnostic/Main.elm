@@ -34,13 +34,9 @@ type alias ProfessionalSituationFlags =
 type alias PersonalSituationElement =
     { theme : String
     , situations : List String
-    , createdAt : Maybe Date
+    , createdAt : Maybe String
     , creator : String
     }
-
-
-
--- TODO: add structure name somewhere
 
 
 type alias Structure =
@@ -133,9 +129,7 @@ extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationE
 extractPersonalSituationFromFlags flags =
     { theme = flags.theme
     , situations = flags.situations
-    , createdAt =
-        flags.createdAt
-            |> Maybe.andThen (fromIsoString >> Result.toMaybe)
+    , createdAt = flags.createdAt
     , creator =
         case ( flags.creator.professional, flags.creator.orientation_manager ) of
             ( Just p, _ ) ->
@@ -399,28 +393,28 @@ personalSituationView : Model -> Html msg
 personalSituationView { personalSituations } =
     div [ class "pt-10 flex flex-col" ]
         [ h3 [ class "text-xl" ] [ text "Situation personnelle" ]
-        , div [ class "fr-table fr-table--layout-fixed shadow-dsfr rounded-lg" ]
-            [ table []
-                [ thead []
-                    [ th [] [ text "Thématique" ]
-                    , th [] [ text "Situation" ]
-                    , th [] [ text "Ajouté le" ]
-                    , th [] [ text "Ajouté par" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
+            [ table [ class "w-full" ]
+                [ thead [ class "text-left pb-4" ]
+                    [ th [ class "font-normal text-sm leading-10 pl-2" ] [ text "Thématique" ]
+                    , th [ class "font-normal text-sm" ] [ text "Situation" ]
+                    , th [ class "font-normal text-sm" ] [ text "Ajouté le" ]
+                    , th [ class "font-normal text-sm" ] [ text "Ajouté par" ]
                     ]
                 , tbody []
                     (personalSituations
                         |> List.map
                             (\personalSituation ->
-                                tr []
-                                    [ td [] [ personalSituation.theme |> themeKeyToString |> text ]
-                                    , td []
-                                        [ ul [] (List.map (\situation -> li [] [ text situation ]) personalSituation.situations)
+                                tr [ class "odd:bg-gray-100 align-text-top" ]
+                                    [ td [ class "font-bold pr-8 pl-2 py-3" ] [ personalSituation.theme |> themeKeyToString |> text ]
+                                    , td [ class "font-bold pr-8 py-3" ]
+                                        [ ul [ class "list-none pl-0" ] (List.map (\situation -> li [] [ text situation ]) personalSituation.situations)
                                         ]
-                                    , td []
-                                        [ Maybe.withDefault "-" (Maybe.map (Date.format dateFormat) personalSituation.createdAt)
+                                    , td [ class "pr-8 py-3" ]
+                                        [ Maybe.withDefault "-" personalSituation.createdAt
                                             |> text
                                         ]
-                                    , td [] [ text personalSituation.creator ]
+                                    , td [ class "py-3" ] [ text personalSituation.creator ]
                                     ]
                             )
                     )

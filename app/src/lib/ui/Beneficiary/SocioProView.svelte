@@ -5,6 +5,8 @@
 		NotebookFocus,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 
+	import { formatDateLocale } from '$lib/utils/date';
+
 	export type SocioProInfo = Pick<
 		Notebook,
 		| 'workSituation'
@@ -47,9 +49,7 @@
 		if (!elmNode) return;
 
 		const focusesWithDates = focuses.map((focus) => {
-			// @TODO I'm pretty sure there is a better way to convert a date time to a date
-			// in JS, if you've got one, let's do it
-			return { ...focus, createdAt: focus.createdAt?.split('T')[0] || null };
+			return { ...focus, createdAt: formatDateLocale(focus.createdAt) };
 		});
 
 		DiagnosticElm.Diagnostic.Main.init({
@@ -77,7 +77,7 @@
   @hack to prevent Svelte from removing CSS classes that we need in Elm and are not used in Svelte
   See https://github.com/sveltejs/svelte/issues/5804 for more details
 
-  shadow-dsfr rounded-lg p-4 pt-10 pt-4
+  shadow-dsfr rounded-lg p-4 pt-10 pt-4 font-normal odd:bg-gray-100 py-8 leading-10 pr-8 pr-4 align-text-top pl-2 py-3
 
   -->
 	<div class="elm-node">
