@@ -414,7 +414,9 @@ personalSituationView { personalSituations } =
                             (\personalSituation ->
                                 tr []
                                     [ td [] [ personalSituation.theme |> themeKeyToString |> text ]
-                                    , td [] [ text <| String.join "," personalSituation.situations ]
+                                    , td []
+                                        [ ul [] (List.map (\situation -> li [] [ text situation ]) personalSituation.situations)
+                                        ]
                                     , td []
                                         [ Maybe.withDefault "-" (Maybe.map (Date.format dateFormat) personalSituation.createdAt)
                                             |> text
