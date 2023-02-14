@@ -49,7 +49,7 @@
 		const focusesWithDates = focuses.map((focus) => {
 			// @TODO I'm pretty sure there is a better way to convert a date time to a date
 			// in JS, if you've got one, let's do it
-			return { ...focus, createdAt: focus.createdAt.split('T')[0] };
+			return { ...focus, createdAt: focus.createdAt?.split('T')[0] || null };
 		});
 
 		DiagnosticElm.Diagnostic.Main.init({

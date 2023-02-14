@@ -77,7 +77,7 @@ type alias Creator =
 type alias PersonalSituationFlags =
     { theme : String
     , situations : List String
-    , createdAt : String
+    , createdAt : Maybe String
     , creator : Account
     }
 
@@ -135,8 +135,7 @@ extractPersonalSituationFromFlags flags =
     , situations = flags.situations
     , createdAt =
         flags.createdAt
-            |> fromIsoString
-            |> Result.toMaybe
+            |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     , creator =
         case ( flags.creator.professional, flags.creator.orientation_manager ) of
             ( Just p, _ ) ->
