@@ -5,6 +5,7 @@ import Date exposing (Date, fromIsoString)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
+import Domain.Theme exposing (themeKeyToString)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 
@@ -33,7 +34,7 @@ type alias ProfessionalSituationFlags =
 type alias PersonalSituationElement =
     { theme : String
     , situations : List String
-    , createdAt : String
+    , createdAt : Maybe Date
     , creator : String
     }
 
@@ -113,7 +114,10 @@ extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationE
 extractPersonalSituationFromFlags flags =
     { theme = flags.theme
     , situations = flags.situations
-    , createdAt = flags.createdAt
+    , createdAt =
+        flags.createdAt
+            |> fromIsoString
+            |> Result.toMaybe
     , creator = "" -- TODO: build the creator + structureName from received account
     }
 
@@ -368,11 +372,30 @@ personalSituationView : Model -> Html msg
 personalSituationView { personalSituations } =
     div [ class "pt-10 flex flex-col" ]
         [ h3 [ class "text-xl" ] [ text "Situation personnelle" ]
-        , div [ class "fr-container shadow-dsfr rounded-lg pt-4" ]
-            [ ul []
-                (personalSituations
-                    |> List.map (\personalSituation -> li [] [ text personalSituation.theme ])
-                )
+        , div [ class "fr-table fr-table--layout-fixed shadow-dsfr rounded-lg" ]
+            [ table []
+                [ thead []
+                    [ th [] [ text "Thématique" ]
+                    , th [] [ text "Situation" ]
+                    , th [] [ text "Ajouté le" ]
+                    , th [] [ text "Ajouté par" ]
+                    ]
+                , tbody []
+                    (personalSituations
+                        |> List.map
+                            (\personalSituation ->
+                                tr []
+                                    [ td [] [ personalSituation.theme |> themeKeyToString |> text ]
+                                    , td [] [ text <| String.join "," personalSituation.situations ]
+                                    , td []
+                                        [ Maybe.withDefault "-" (Maybe.map (Date.format dateFormat) personalSituation.createdAt)
+                                            |> text
+                                        ]
+                                    , td [] [ text personalSituation.creator ]
+                                    ]
+                            )
+                    )
+                ]
             ]
         ]
 
