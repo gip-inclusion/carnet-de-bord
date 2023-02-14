@@ -73,13 +73,6 @@
 </script>
 
 {#key notebook}
-	<!--
-  @hack to prevent Svelte from removing CSS classes that we need in Elm and are not used in Svelte
-  See https://github.com/sveltejs/svelte/issues/5804 for more details
-
-  shadow-dsfr rounded-lg p-4 pt-10 pt-4 font-normal odd:bg-gray-100 py-8 leading-10 pr-8 pr-4 align-text-top pl-2 py-3
-
-  -->
 	<div class="elm-node">
 		<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
 		<div bind:this={elmNode} />
