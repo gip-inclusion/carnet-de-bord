@@ -43,15 +43,34 @@ type alias PersonalSituationElement =
 -- TODO: add structure name somewhere
 
 
-type alias Person =
+type alias Structure =
+    { name : String
+    }
+
+
+type alias Professional =
+    { firstname : String
+    , lastname : String
+    , structure : Maybe Structure
+    }
+
+
+type alias OrientationManager =
     { firstname : String
     , lastname : String
     }
 
 
 type alias Account =
-    { professional : Maybe Person
-    , orientation_manager : Maybe Person
+    { professional : Maybe Professional
+    , orientation_manager : Maybe OrientationManager
+    }
+
+
+type alias Creator =
+    { firstname : String
+    , lastname : String
+    , structure : Maybe String
     }
 
 
@@ -118,7 +137,16 @@ extractPersonalSituationFromFlags flags =
         flags.createdAt
             |> fromIsoString
             |> Result.toMaybe
-    , creator = "" -- TODO: build the creator + structureName from received account
+    , creator =
+        case ( flags.creator.professional, flags.creator.orientation_manager ) of
+            ( Just p, _ ) ->
+                p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
+
+            ( _, Just o ) ->
+                o.firstname ++ " " ++ o.lastname
+
+            _ ->
+                ""
     }
 
 
