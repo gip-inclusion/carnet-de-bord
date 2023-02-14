@@ -32,7 +32,7 @@ type alias ProfessionalSituationFlags =
 
 type alias PersonalSituationElement =
     { theme : String
-    , situation : String
+    , situations : List String
     , createdAt : String
     , creator : String
     }
@@ -56,7 +56,7 @@ type alias Account =
 
 type alias PersonalSituationFlags =
     { theme : String
-    , situation : String
+    , situations : List String
     , createdAt : String
     , creator : Account
     }
@@ -112,7 +112,7 @@ init flags =
 extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationElement
 extractPersonalSituationFromFlags flags =
     { theme = flags.theme
-    , situation = flags.situation
+    , situations = flags.situations
     , createdAt = flags.createdAt
     , creator = "" -- TODO: build the creator + structureName from received account
     }
