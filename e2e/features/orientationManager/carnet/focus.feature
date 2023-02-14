@@ -18,7 +18,7 @@ Scénario: Ajout d'un axe de travail
 
 Scénario: Ajout d'un objectif
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
-	Alors je clique sur le texte "Formation"
+	Alors je clique sur "Formation" dans la tuile "Formation"
 	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
 	Quand je clique sur "Ajouter un objectif"
 	Alors j'attends que le texte "Objectif" apparaisse
@@ -28,7 +28,7 @@ Scénario: Ajout d'un objectif
 
 Scénario: Ajout d'une action
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
-	Alors je clique sur le texte "Formation"
+	Alors je clique sur "Formation" dans la tuile "Formation"
 	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
 	Quand je clique sur "Se former"
 	Alors j'attends que le texte "Action" apparaisse
