@@ -1,3 +1,10 @@
+# [1.197.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.196.1...v1.197.0) (2023-02-15)
+
+
+### Features
+
+* ajout de la situation personnelle ([#1517](https://github.com/gip-inclusion/carnet-de-bord/issues/1517)) ([5e6f09d](https://github.com/gip-inclusion/carnet-de-bord/commit/5e6f09df245df5e1f14b820687040c047ad03755))
+
 ## [1.196.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.196.0...v1.196.1) (2023-02-13)
 
 # [1.196.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.195.0...v1.196.0) (2023-02-13)
