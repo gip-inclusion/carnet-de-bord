@@ -6,10 +6,12 @@
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { displayFullName } from '../format';
-	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import OrientationRequestBanner from '../OrientationRequest/OrientationRequestBanner.svelte';
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 	import { accountData } from '$lib/stores';
+	import { goto } from '$app/navigation';
+	import { homeForRole } from '$lib/routes';
 
 	export let notebook: GetNotebookQuery['notebook_public_view'][number];
 
@@ -61,6 +63,12 @@
 				notebook={notebook?.notebook}
 				externalDataDetail={externalData}
 				focuses={notebook?.notebook?.focuses}
+				on:click={() =>
+					goto(
+						`${homeForRole(RoleEnum.OrientationManager)}/carnets/edition/${
+							notebook?.id
+						}/diagnostique`
+					)}
 			/>
 		</MainSection>
 		<MainSection title="Plan d'action">

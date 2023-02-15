@@ -2,8 +2,8 @@
 	import Alert from '$lib/ui/base/Alert.svelte';
 	import { Button } from '$lib/ui/base';
 	import { accountData, openComponent } from '$lib/stores';
-	import { baseUrlForRole } from '$lib/routes';
-	import type { GetNotebookEventsQueryStore } from '$lib/graphql/_gen/typed-document-nodes';
+	import { baseUrlForRole, homeForRole } from '$lib/routes';
+	import { GetNotebookEventsQueryStore, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		GetNotebookDocument,
 		GetNotebookEventsDocument,
@@ -29,6 +29,7 @@
 
 	import type { PageData } from './$types';
 	import NotebookMembers from '$lib/ui/Beneficiary/NotebookMembers.svelte';
+	import { goto } from '$app/navigation';
 
 	function toDateFormat(date: Date) {
 		const yyyy = date.getFullYear().toString().padStart(4, '0');
@@ -249,6 +250,8 @@
 						{notebook}
 						externalDataDetail={externalData}
 						focuses={notebook?.focuses}
+						on:click={() =>
+							goto(`${homeForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostique`)}
 					/>
 				</MainSection>
 			{/if}

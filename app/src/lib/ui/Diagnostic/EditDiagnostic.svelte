@@ -3,15 +3,19 @@
 	import { GetNotebookDocument, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import ProNotebookSocioProUpdate from '$lib/ui/ProNotebookSocioPro/ProNotebookSocioProUpdate.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
-	import type { PageData } from './$types';
 	import { operationStore, query } from '@urql/svelte';
 	import { goto } from '$app/navigation';
 	import { homeForRole } from '$lib/routes';
 	import { displayFullName } from '$lib/ui/format';
-	export let data: PageData;
-	const notebookPath = `${homeForRole(RoleEnum.Professional)}/carnet/${data.notebookId}`;
+	import { connectedUser } from '$lib/stores';
 
-	const getNotebook = operationStore(GetNotebookDocument, { id: data.notebookId });
+	export let notebookId: string;
+	$: notebookPath =
+		$connectedUser.role === RoleEnum.Professional
+			? `${homeForRole($connectedUser.role)}/carnet/${notebookId}`
+			: `${homeForRole($connectedUser.role)}/carnets/edition/${notebookId}`;
+
+	const getNotebook = operationStore(GetNotebookDocument, { id: notebookId });
 
 	$: breadcrumbs = [
 		{
