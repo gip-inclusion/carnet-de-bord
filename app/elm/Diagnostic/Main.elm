@@ -2,6 +2,7 @@ module Diagnostic.Main exposing (..)
 
 import Browser
 import Date exposing (Date, fromIsoString)
+import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
@@ -36,30 +37,6 @@ type alias PersonalSituationElement =
     , situations : List String
     , createdAt : Maybe String
     , creator : String
-    }
-
-
-type alias Structure =
-    { name : String
-    }
-
-
-type alias Professional =
-    { firstname : String
-    , lastname : String
-    , structure : Maybe Structure
-    }
-
-
-type alias OrientationManager =
-    { firstname : String
-    , lastname : String
-    }
-
-
-type alias Account =
-    { professional : Maybe Professional
-    , orientation_manager : Maybe OrientationManager
     }
 
 
