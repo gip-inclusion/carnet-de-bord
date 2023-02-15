@@ -44,7 +44,12 @@ mutation updateStructure(
     affected_rows
   }
   delete_professional_orientation_system(
-    where: { orientationSystemId: { _in: $orientationSystemsToDelete } }
+    where: {
+      _and: [
+        { professional: { structureId: { _eq: $id } } }
+        { orientationSystemId: { _in: $orientationSystemsToDelete } }
+      ]
+    }
   ) {
     affected_rows
   }

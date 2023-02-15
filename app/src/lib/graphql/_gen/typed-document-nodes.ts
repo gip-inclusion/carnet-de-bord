@@ -24303,17 +24303,62 @@ export const UpdateStructureDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'orientationSystemId' },
+											name: { kind: 'Name', value: '_and' },
 											value: {
-												kind: 'ObjectValue',
-												fields: [
+												kind: 'ListValue',
+												values: [
 													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_in' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'orientationSystemsToDelete' },
-														},
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'professional' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'structureId' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_eq' },
+																						value: {
+																							kind: 'Variable',
+																							name: { kind: 'Name', value: 'id' },
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'orientationSystemId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_in' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'orientationSystemsToDelete' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
 													},
 												],
 											},
