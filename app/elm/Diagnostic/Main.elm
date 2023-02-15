@@ -403,6 +403,7 @@ personalSituationView { personalSituations } =
                     ]
                 , tbody []
                     (personalSituations
+                        |> List.filter (\personalSituation -> List.length personalSituation.situations > 0)
                         |> List.map
                             (\personalSituation ->
                                 tr [ class "odd:bg-gray-100 align-text-top" ]
