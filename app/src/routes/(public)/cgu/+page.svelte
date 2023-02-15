@@ -65,7 +65,7 @@
 	<ol>
 		<li>
 			Les profils administrateurs sont créés par l’équipe Carnet de Bord. Il ne peut s’agir que de
-			de profils des départements ou de Pôle Emploi.
+			de profils des départements ou de Pôle emploi.
 		</li>
 		<li>
 			Les profils manager ou gestionnaire : sont des comptes de « structure » de professionnels
