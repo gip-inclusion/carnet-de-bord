@@ -11,18 +11,8 @@
 	export let data: PageData;
 	const notebookPath = `${homeForRole(RoleEnum.Professional)}/carnet/${data.notebookId}`;
 
-	const getNotebook = operationStore(
-		GetNotebookDocument,
-		{ id: data.notebookId },
-		{
-			additionalTypenames: [
-				'notebook_focus',
-				'notebook_action',
-				'notebook_appointment',
-				'orientation_request',
-			],
-		}
-	);
+	const getNotebook = operationStore(GetNotebookDocument, { id: data.notebookId });
+
 	$: breadcrumbs = [
 		{
 			name: 'Carnet de ${displayFullName(beneficiary)}',
