@@ -16,6 +16,7 @@
 		| 'geographicalArea'
 		| 'educationLevel'
 		| 'lastJobEndedAt'
+		| 'id'
 	> & { wantedJobs: { rome_code: { id: string; label: string } }[] };
 
 	export type ExternalDataDetail = Pick<ExternalData, 'data' | 'source'>;
