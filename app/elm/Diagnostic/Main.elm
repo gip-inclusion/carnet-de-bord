@@ -2,9 +2,11 @@ module Diagnostic.Main exposing (..)
 
 import Browser
 import Date exposing (Date, fromIsoString)
+import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
+import Domain.Theme exposing (themeKeyToString)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 
@@ -30,9 +32,33 @@ type alias ProfessionalSituationFlags =
     }
 
 
+type alias PersonalSituationElement =
+    { theme : String
+    , situations : List String
+    , createdAt : Maybe String
+    , creator : String
+    }
+
+
+type alias Creator =
+    { firstname : String
+    , lastname : String
+    , structure : Maybe String
+    }
+
+
+type alias PersonalSituationFlags =
+    { theme : String
+    , situations : List String
+    , createdAt : Maybe String
+    , creator : Account
+    }
+
+
 type alias Flags =
     { professionalSituation : ProfessionalSituationFlags
     , peGeneralData : Maybe PeFlags
+    , personalSituations : Maybe (List PersonalSituationFlags)
     }
 
 
@@ -61,6 +87,7 @@ type alias Model =
     { professionalSituation : ProfessionalSituation
     , professionalProjects : List ProfessionalProject
     , peGeneralData : GeneralData
+    , personalSituations : List PersonalSituationElement
     }
 
 
@@ -69,9 +96,33 @@ init flags =
     ( { professionalSituation = extractSituationFromFlags flags
       , professionalProjects = []
       , peGeneralData = extractPeGeneralDataFromFlags flags
+      , personalSituations = extractPersonalSituationsFromFlags flags
       }
     , Cmd.none
     )
+
+
+extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationElement
+extractPersonalSituationFromFlags flags =
+    { theme = flags.theme
+    , situations = flags.situations
+    , createdAt = flags.createdAt
+    , creator =
+        case ( flags.creator.professional, flags.creator.orientation_manager ) of
+            ( Just p, _ ) ->
+                p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
+
+            ( _, Just o ) ->
+                o.firstname ++ " " ++ o.lastname
+
+            _ ->
+                ""
+    }
+
+
+extractPersonalSituationsFromFlags : Flags -> List PersonalSituationElement
+extractPersonalSituationsFromFlags { personalSituations } =
+    List.map extractPersonalSituationFromFlags (Maybe.withDefault [] personalSituations)
 
 
 extractSituationFromFlags : Flags -> ProfessionalSituation
@@ -140,7 +191,7 @@ unfilled genderType =
 
 view : Model -> Html msg
 view model =
-    div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model ])
+    div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model, personalSituationView model ])
 
 
 workSituationDateFormat : Maybe Date -> Maybe Date -> Maybe (Html msg)
@@ -310,6 +361,41 @@ professionalProjectView model =
                         (unfilled Feminine)
                         Nothing
                     ]
+                ]
+            ]
+        ]
+
+
+personalSituationView : Model -> Html msg
+personalSituationView { personalSituations } =
+    div [ class "pt-10 flex flex-col" ]
+        [ h3 [ class "text-xl" ] [ text "Situation personnelle" ]
+        , div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
+            [ table [ class "w-full" ]
+                [ thead [ class "text-left pb-4" ]
+                    [ th [ class "font-normal text-sm leading-10 pl-2" ] [ text "Thématique" ]
+                    , th [ class "font-normal text-sm" ] [ text "Situation" ]
+                    , th [ class "font-normal text-sm" ] [ text "Ajouté le" ]
+                    , th [ class "font-normal text-sm" ] [ text "Ajouté par" ]
+                    ]
+                , tbody []
+                    (personalSituations
+                        |> List.filter (\personalSituation -> List.length personalSituation.situations > 0)
+                        |> List.map
+                            (\personalSituation ->
+                                tr [ class "odd:bg-gray-100 align-text-top" ]
+                                    [ td [ class "font-bold pr-8 pl-2 py-3" ] [ personalSituation.theme |> themeKeyToString |> text ]
+                                    , td [ class "font-bold pr-8 py-3" ]
+                                        [ ul [ class "list-none pl-0" ] (List.map (\situation -> li [] [ text situation ]) personalSituation.situations)
+                                        ]
+                                    , td [ class "pr-8 py-3" ]
+                                        [ Maybe.withDefault "-" personalSituation.createdAt
+                                            |> text
+                                        ]
+                                    , td [ class "py-3" ] [ text personalSituation.creator ]
+                                    ]
+                            )
+                    )
                 ]
             ]
         ]
