@@ -1,8 +1,58 @@
 module Domain.Theme exposing (..)
 
 
-themeKeyToString : String -> String
-themeKeyToString key =
+type Theme
+    = Logement
+    | Emploi
+    | Formation
+    | DifficulteAdministrative
+    | DifficulteFinanciere
+    | Mobilite
+    | Sante
+    | ContraintesFamiliales
+    | MaitriseLangue
+    | Numerique
+
+
+themeKeyStringToType : String -> Maybe Theme
+themeKeyStringToType key =
+    case key of
+        "logement" ->
+            Just Logement
+
+        "emploi" ->
+            Just Emploi
+
+        "formation" ->
+            Just Formation
+
+        "difficulte_administrative" ->
+            Just DifficulteAdministrative
+
+        "difficulte_financiere" ->
+            Just DifficulteFinanciere
+
+        "mobilite" ->
+            Just Mobilite
+
+        "sante" ->
+            Just Sante
+
+        "contraintes_familiales" ->
+            Just ContraintesFamiliales
+
+        "maitrise_langue" ->
+            Just MaitriseLangue
+
+        "numerique" ->
+            Just Numerique
+
+        _ ->
+            Nothing
+
+
+themeKeyStringToString : String -> String
+themeKeyStringToString key =
     case key of
         "logement" ->
             "Logement"
@@ -36,3 +86,37 @@ themeKeyToString key =
 
         _ ->
             ""
+
+
+themeKeyTypeToKeyString : Theme -> String
+themeKeyTypeToKeyString key =
+    case key of
+        Logement ->
+            "Logement"
+
+        Emploi ->
+            "Emploi"
+
+        Formation ->
+            "Formation"
+
+        DifficulteAdministrative ->
+            "Difficultés administratives"
+
+        DifficulteFinanciere ->
+            "Difficultés financières"
+
+        Mobilite ->
+            "Mobilité"
+
+        Sante ->
+            "Santé"
+
+        ContraintesFamiliales ->
+            "Contraintes familiales"
+
+        MaitriseLangue ->
+            "Maîtrise de la langue française"
+
+        Numerique ->
+            "Numérique"

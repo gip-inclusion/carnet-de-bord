@@ -6,7 +6,7 @@ import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
-import Domain.Theme exposing (themeKeyToString)
+import Domain.Theme exposing (themeKeyStringToString)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 
@@ -384,7 +384,7 @@ personalSituationView { personalSituations } =
                         |> List.map
                             (\personalSituation ->
                                 tr [ class "odd:bg-gray-100 align-text-top" ]
-                                    [ td [ class "font-bold pr-8 pl-2 py-3" ] [ personalSituation.theme |> themeKeyToString |> text ]
+                                    [ td [ class "font-bold pr-8 pl-2 py-3" ] [ personalSituation.theme |> themeKeyStringToString |> text ]
                                     , td [ class "font-bold pr-8 py-3" ]
                                         [ ul [ class "list-none pl-0" ] (List.map (\situation -> li [] [ text situation ]) personalSituation.situations)
                                         ]
