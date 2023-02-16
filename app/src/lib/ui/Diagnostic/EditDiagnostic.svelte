@@ -62,13 +62,11 @@
 <LoaderIndicator result={$getNotebook}>
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col space-y-6">
-		<ProNotebookSocioProUpdate notebook={notebookWithJobs} {options} onClose={goToNotebook} />
-
-		{#key notebookWithJobs}
+		<ProNotebookSocioProUpdate notebook={notebookWithJobs} {options} onClose={goToNotebook}>
 			<div class="elm-node">
 				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
 				<div bind:this={elmNode} />
 			</div>
-		{/key}
+		</ProNotebookSocioProUpdate>
 	</div>
 </LoaderIndicator>

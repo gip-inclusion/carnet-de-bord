@@ -121,6 +121,8 @@
 <style>
 	:global(.align-text-top
 			.font-normal
+			.grid
+			.grid-cols-3
 			.leading-10
 			.odd:bg-gray-100
 			.p-4

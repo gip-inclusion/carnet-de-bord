@@ -96,7 +96,7 @@
 
 <section class="flex flex-col w-full">
 	<div class="pb-8">
-		<h1>Diagnostic socioprofessionnel</h1>
+		<h1 class="text-france-blue">Diagnostic socioprofessionnel</h1>
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<Form
@@ -109,6 +109,7 @@
 		let:isSubmitting
 		let:isValid
 	>
+		<h2 class="text-france-blue">Situation professionnelle</h2>
 		<div class="fr-form-group">
 			<Select
 				name="workSituation"
@@ -225,6 +226,8 @@
 				options={educationLevelKeys.options}
 			/>
 		</div>
+
+		<slot />
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}>Enregistrer</Button

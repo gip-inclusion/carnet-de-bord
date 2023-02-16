@@ -99,7 +99,7 @@ init _ =
 
 
 
--- UDATE
+-- UPDATE
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -153,25 +153,30 @@ getThemes situations =
 
 view : Model -> Html Msg
 view model =
-    div []
-        (getThemes
-            model.possibleSituations
-            |> List.map
-                (\theme ->
-                    div [ class "fr-form-group" ]
-                        [ fieldset [ class "fr-fieldset" ]
-                            [ div [ class "fr-fieldset__content flex flex-row flex-wrap gap-4" ]
-                                [ h3 [ class "fr-container" ] [ text <| themeKeyTypeToKeyString theme ]
-                                , div [ class "fr-container" ]
-                                    (model.possibleSituations
-                                        |> List.filter (\situation -> situation.theme == theme)
-                                        |> List.map (situationCheckboxView model.selectedSituations)
-                                    )
+    div [ class "pt-12" ]
+        [ h2
+            [ class "text-france-blue" ]
+            [ text "Situation Personnelle" ]
+        , div []
+            (getThemes
+                model.possibleSituations
+                |> List.map
+                    (\theme ->
+                        div [ class "fr-form-group pl-0 pb-8 border-b" ]
+                            [ fieldset [ class "fr-fieldset" ]
+                                [ div [ class "fr-fieldset__content" ]
+                                    [ h3 [] [ text <| themeKeyTypeToKeyString theme ]
+                                    , div [ class "grid grid-cols-3" ]
+                                        (model.possibleSituations
+                                            |> List.filter (\situation -> situation.theme == theme)
+                                            |> List.map (situationCheckboxView model.selectedSituations)
+                                        )
+                                    ]
                                 ]
                             ]
-                        ]
-                )
-        )
+                    )
+            )
+        ]
 
 
 situationCheckboxView : List SelectedSituation -> Situation -> Html Msg
@@ -180,7 +185,7 @@ situationCheckboxView selectedSituations situation =
         checkboxId =
             "checkbox-radio-group" ++ situation.description
     in
-    div [ class "fr-checkbox-group  !mt-0 w-5/12" ]
+    div [ class "fr-checkbox-group" ]
         [ input
             [ type_ "checkbox"
             , id checkboxId
