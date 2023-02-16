@@ -1,3 +1,10 @@
+## [1.197.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.197.0...v1.197.1) (2023-02-16)
+
+
+### Bug Fixes
+
+* Ne pas supprimer les dispositifs d'accompagnement de tous les professionnels du déploiement lors de la suppression d'un dispositif d'accompagnement d'une structure. ([#1527](https://github.com/gip-inclusion/carnet-de-bord/issues/1527)) ([68deaa3](https://github.com/gip-inclusion/carnet-de-bord/commit/68deaa386392379e13544af8617bf37727859242))
+
 # [1.197.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.196.1...v1.197.0) (2023-02-15)
 
 
