@@ -28,12 +28,14 @@
 	function buildOrientationSystemOptions(
 		structureOrientationSystems: StructureOrientationSystem[] = []
 	): LabelName[] {
-		return structureOrientationSystems.map(({ orientationSystem }) => {
+		const options = structureOrientationSystems.map(({ orientationSystem }) => {
 			return {
 				label: getOrientationSystemLabel(orientationSystem),
 				name: orientationSystem.id,
 			};
 		});
+		options.sort((leftOption, rightOption) => leftOption.label.localeCompare(rightOption.label));
+		return options;
 	}
 
 	const orientationSystemOptions = buildOrientationSystemOptions(
