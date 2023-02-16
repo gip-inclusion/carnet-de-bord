@@ -39,7 +39,7 @@
 		wantedJobs: notebook?.wantedJobs.map(({ rome_code }) => rome_code.id) || [],
 	};
 
-	const options = notebook?.wantedJobs.map(({ rome_code }) => rome_code);
+	$: options = notebook?.wantedJobs.map(({ rome_code }) => rome_code);
 
 	function goToNotebook() {
 		goto(notebookPath);
