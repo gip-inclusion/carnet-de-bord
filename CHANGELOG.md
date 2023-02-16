@@ -1,3 +1,10 @@
+# [1.198.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.197.1...v1.198.0) (2023-02-16)
+
+
+### Features
+
+* déplacement du volet d'édition du diagnostic dans une nouvelle page ([#1525](https://github.com/gip-inclusion/carnet-de-bord/issues/1525)) ([33d066a](https://github.com/gip-inclusion/carnet-de-bord/commit/33d066af793840a1844fb1bf19f24ddd6fa32902))
+
 ## [1.197.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.197.0...v1.197.1) (2023-02-16)
 
 
