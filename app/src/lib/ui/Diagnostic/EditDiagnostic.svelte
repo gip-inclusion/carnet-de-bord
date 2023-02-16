@@ -41,6 +41,19 @@
 
 	$: options = notebook?.wantedJobs.map(({ rome_code }) => rome_code);
 
+	import { Elm as DiagnosticEditElm } from '../../../../elm/DiagnosticEdit/Main.elm';
+	import { afterUpdate } from 'svelte';
+
+	let elmNode: HTMLElement;
+	afterUpdate(() => {
+		if (!elmNode) return;
+
+		DiagnosticEditElm.DiagnosticEdit.Main.init({
+			node: elmNode,
+			flags: {},
+		});
+	});
+
 	function goToNotebook() {
 		goto(notebookPath);
 	}
@@ -50,5 +63,12 @@
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col space-y-6">
 		<ProNotebookSocioProUpdate notebook={notebookWithJobs} {options} onClose={goToNotebook} />
+
+		{#key notebookWithJobs}
+			<div class="elm-node">
+				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+				<div bind:this={elmNode} />
+			</div>
+		{/key}
 	</div>
 </LoaderIndicator>
