@@ -2,7 +2,7 @@
 	import Alert from '$lib/ui/base/Alert.svelte';
 	import { Button } from '$lib/ui/base';
 	import { accountData, openComponent } from '$lib/stores';
-	import { baseUrlForRole, homeForRole } from '$lib/routes';
+	import { baseUrlForRole } from '$lib/routes';
 	import { GetNotebookEventsQueryStore, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		GetNotebookDocument,
@@ -251,7 +251,7 @@
 						externalDataDetail={externalData}
 						focuses={notebook?.focuses}
 						on:click={() =>
-							goto(`${homeForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostique`)}
+							goto(`${baseUrlForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostic`)}
 					/>
 				</MainSection>
 			{/if}

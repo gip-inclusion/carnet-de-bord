@@ -11,7 +11,7 @@
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 	import { accountData } from '$lib/stores';
 	import { goto } from '$app/navigation';
-	import { homeForRole } from '$lib/routes';
+	import { baseUrlForRole } from '$lib/routes';
 
 	export let notebook: GetNotebookQuery['notebook_public_view'][number];
 
@@ -65,9 +65,9 @@
 				focuses={notebook?.notebook?.focuses}
 				on:click={() =>
 					goto(
-						`${homeForRole(RoleEnum.OrientationManager)}/carnets/edition/${
+						`${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/edition/${
 							notebook?.id
-						}/diagnostique`
+						}/diagnostic`
 					)}
 			/>
 		</MainSection>
