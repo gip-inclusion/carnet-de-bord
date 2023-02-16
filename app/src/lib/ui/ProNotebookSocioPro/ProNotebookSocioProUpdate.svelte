@@ -2,7 +2,6 @@
 	import { educationLevelKeys, geographicalAreaKeys, workSituationKeys } from '$lib/constants/keys';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button } from '../base';
@@ -16,6 +15,7 @@
 	import { Checkbox, Form, Input, Radio, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
 
+	export let onClose: () => void;
 	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
 		GetNotebookQuery['notebook_public_view'][0]['notebook'],
@@ -46,7 +46,7 @@
 	let wantedJobs = notebook.wantedJobs;
 
 	function close() {
-		openComponent.close();
+		onClose();
 	}
 
 	async function handleSubmit(values: ProNotebookSocioproInput) {

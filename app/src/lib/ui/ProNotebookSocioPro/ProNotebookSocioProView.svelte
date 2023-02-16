@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { openComponent } from '$lib/stores';
 	import { Button } from '../base';
-	import ProCarnetSocioProUpdate from './ProNotebookSocioProUpdate.svelte';
 	import SocioProView, {
 		type SocioProInfo,
 		type ExternalDataDetail,
@@ -11,24 +9,10 @@
 	export let notebook: SocioProInfo;
 	export let externalDataDetail: ExternalDataDetail | null;
 	export let focuses: Focus[] | null;
-
-	const editSocioProSituation = () => {
-		openComponent.open({
-			component: ProCarnetSocioProUpdate,
-			props: {
-				notebook: {
-					...notebook,
-					wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.id),
-				},
-				options: notebook.wantedJobs.map(({ rome_code }) => rome_code),
-			},
-		});
-	};
 </script>
 
 <div class="flex flex-col space-y-6">
 	<SocioProView {notebook} {externalDataDetail} {focuses} />
-	<Button classNames="self-start" on:click={() => editSocioProSituation()} outline
-		>Mettre à jour</Button
-	>
+
+	<Button classNames="self-start" on:click outline>Mettre à jour</Button>
 </div>

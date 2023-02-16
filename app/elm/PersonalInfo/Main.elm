@@ -70,7 +70,7 @@ view { rights, identifiers } =
                 "Non renseigné"
             ]
         , div [ class "w-full" ]
-            [ personalInfoElement "Identifiant Pôle Emploi"
+            [ personalInfoElement "Identifiant Pôle emploi"
                 (Maybe.map text identifiers.peNumber)
                 "Non renseigné"
             , personalInfoElement "Autre(s) droit(s)"
