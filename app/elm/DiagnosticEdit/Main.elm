@@ -2,7 +2,7 @@ module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Domain.Situation exposing (Situation)
-import Domain.Theme exposing (Theme(..))
+import Domain.Theme exposing (Theme(..), themeKeyTypeToKeyString)
 import Html exposing (..)
 import Html.Attributes exposing (checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick)
@@ -125,35 +125,70 @@ update msg model =
                 )
 
 
+unique : List a -> List a
+unique l =
+    let
+        incUnique : a -> List a -> List a
+        incUnique elem lst =
+            if List.member elem lst then
+                lst
+
+            else
+                elem :: lst
+    in
+    List.foldr incUnique [] l
+
+
+getThemes : List Situation -> List Theme
+getThemes situations =
+    situations
+        |> List.map (\situation -> situation.theme)
+        |> unique
+        |> List.sortBy (\theme -> themeKeyTypeToKeyString theme)
+
+
 
 -- VIEW
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "fr-form-group" ]
-        [ fieldset [ class "fr-fieldset" ]
-            [ div [ class "fr-fieldset__content flex flex-row flex-wrap gap-4" ]
-                (List.map
-                    (\situation ->
-                        let
-                            checkboxId =
-                                "checkbox-radio-group" ++ situation.description
-                        in
-                        div [ class "fr-checkbox-group  !mt-0 w-5/12" ]
-                            [ input
-                                [ type_ "checkbox"
-                                , id checkboxId
-                                , name "checkbox-radio-group"
-                                , value situation.description
-                                , checked <| List.any (\possibleSituation -> situation.description == possibleSituation.description) model.selectedSituations
-                                , onClick <| ToggleSelectedSituation { description = situation.description, theme = situation.theme }
+    div []
+        (getThemes
+            model.possibleSituations
+            |> List.map
+                (\theme ->
+                    div [ class "fr-form-group" ]
+                        [ fieldset [ class "fr-fieldset" ]
+                            [ div [ class "fr-fieldset__content flex flex-row flex-wrap gap-4" ]
+                                [ h3 [ class "fr-container" ] [ text <| themeKeyTypeToKeyString theme ]
+                                , div [ class "fr-container" ]
+                                    (model.possibleSituations
+                                        |> List.filter (\situation -> situation.theme == theme)
+                                        |> List.map (situationCheckboxView model.selectedSituations)
+                                    )
                                 ]
-                                []
-                            , label [ class "fr-label", for checkboxId ] [ text situation.description ]
                             ]
-                    )
-                    model.possibleSituations
+                        ]
                 )
+        )
+
+
+situationCheckboxView : List SelectedSituation -> Situation -> Html Msg
+situationCheckboxView selectedSituations situation =
+    let
+        checkboxId =
+            "checkbox-radio-group" ++ situation.description
+    in
+    div [ class "fr-checkbox-group  !mt-0 w-5/12" ]
+        [ input
+            [ type_ "checkbox"
+            , id checkboxId
+            , name "checkbox-radio-group"
+            , value situation.description
+            , checked <| List.any (\possibleSituation -> situation.description == possibleSituation.description) selectedSituations
+            , onClick <| ToggleSelectedSituation { description = situation.description, theme = situation.theme }
             ]
+            []
+        , label [ class "fr-label", for checkboxId ] [ text situation.description ]
         ]
