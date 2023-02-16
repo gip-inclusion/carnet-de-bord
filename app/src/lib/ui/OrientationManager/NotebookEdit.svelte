@@ -65,9 +65,7 @@
 				focuses={notebook?.notebook?.focuses}
 				on:click={() =>
 					goto(
-						`${homeForRole(RoleEnum.OrientationManager)}/carnets/edition/${
-							notebook?.id
-						}/diagnostique`
+						`${homeForRole(RoleEnum.OrientationManager)}/carnets/edition/${notebook?.id}/diagnostic`
 					)}
 			/>
 		</MainSection>

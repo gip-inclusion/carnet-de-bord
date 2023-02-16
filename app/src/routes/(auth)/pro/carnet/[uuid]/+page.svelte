@@ -251,7 +251,7 @@
 						externalDataDetail={externalData}
 						focuses={notebook?.focuses}
 						on:click={() =>
-							goto(`${homeForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostique`)}
+							goto(`${homeForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostic`)}
 					/>
 				</MainSection>
 			{/if}
