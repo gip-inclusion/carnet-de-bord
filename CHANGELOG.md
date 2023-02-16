@@ -1,3 +1,10 @@
+## [1.198.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.198.0...v1.198.1) (2023-02-16)
+
+
+### Bug Fixes
+
+* Correction de l'url `diagnostic`. ([#1529](https://github.com/gip-inclusion/carnet-de-bord/issues/1529)) ([ef85649](https://github.com/gip-inclusion/carnet-de-bord/commit/ef85649cb553685fd887ad160e7bfb3f1045c598))
+
 # [1.198.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.197.1...v1.198.0) (2023-02-16)
 
 
