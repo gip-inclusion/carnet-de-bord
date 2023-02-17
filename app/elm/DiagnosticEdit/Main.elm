@@ -15,8 +15,15 @@ type alias SituationFlag =
     }
 
 
+type alias FocusesFlag =
+    { theme : String
+    , situations : List String
+    }
+
+
 type alias Flags =
     { situations : List SituationFlag
+    , focuses : List FocusesFlag
     }
 
 
@@ -79,23 +86,23 @@ extractSituationOptionFromFlag flag =
 
 init : Flags -> ( Model, Cmd msg )
 init flags =
-    let
-        -- TODO: Get it from the DB
-        situation1 =
-            { id = "id1", description = "Contrainte horaires", theme = ContraintesFamiliales }
-
-        situation2 =
-            { id = "id2", description = "Attend un enfant ou plus", theme = ContraintesFamiliales }
-
-        situation9 =
-            { id = "id9", description = "En situation de surendettement", theme = DifficulteFinanciere }
-    in
     ( { possibleSituations = extractSituationOptionsFromFlags flags.situations
       , selectedSituations =
-            [ { description = situation1.description, theme = situation1.theme }
-            , { description = situation2.description, theme = situation2.theme }
-            , { description = situation9.description, theme = situation9.theme }
-            ]
+            -- List flattening, convert [[a,b], [c,d]] to [a,b,c,d]
+            -- See https://gist.github.com/maticzav/f0b9177bf59d3efa44815167fd55cdf0
+            List.foldr (++)
+                []
+                (flags.focuses
+                    |> List.map
+                        (\focus ->
+                            focus.situations
+                                -- TODO:
+                                -- I'm not ok with the way we are handling the "Inconnu" type_
+                                -- Meaning that we receive from Svelte a theme that we can't recognize
+                                -- We should discuss what to do about it
+                                |> List.map (\situation -> { description = situation, theme = Maybe.withDefault Inconnu (themeKeyStringToType focus.theme) })
+                        )
+                )
       }
     , Cmd.none
     )

@@ -34,6 +34,9 @@
 	$: notebook = publicNotebook?.notebook;
 	$: beneficiary = publicNotebook?.beneficiary;
 	$: situations = $getNotebook.data?.situations;
+	$: focuses = notebook?.focuses?.map((focus) => {
+		return { theme: focus.theme, situations: focus.situations };
+	});
 
 	$: notebookWithJobs = {
 		...notebook,
@@ -51,7 +54,7 @@
 
 		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
 			node: elmNode,
-			flags: { situations },
+			flags: { situations, focuses },
 		});
 
 		app.ports.sendSelectedSituations.subscribe(function (message) {

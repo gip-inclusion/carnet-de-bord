@@ -12,6 +12,7 @@ type Theme
     | ContraintesFamiliales
     | MaitriseLangue
     | Numerique
+    | Inconnu
 
 
 themeKeyStringToType : String -> Maybe Theme
@@ -120,3 +121,6 @@ themeKeyTypeToKeyString key =
 
         Numerique ->
             "Numérique"
+
+        Inconnu ->
+            "Inconnu"
