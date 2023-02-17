@@ -33,6 +33,7 @@
 	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
 	$: notebook = publicNotebook?.notebook;
 	$: beneficiary = publicNotebook?.beneficiary;
+	$: situations = $getNotebook.data?.situations;
 
 	$: notebookWithJobs = {
 		...notebook,
@@ -50,7 +51,7 @@
 
 		DiagnosticEditElm.DiagnosticEdit.Main.init({
 			node: elmNode,
-			flags: {},
+			flags: { situations },
 		});
 	});
 

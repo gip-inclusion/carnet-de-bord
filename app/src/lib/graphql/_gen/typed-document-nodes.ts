@@ -16135,6 +16135,12 @@ export type GetNotebookQueryVariables = Exact<{
 
 export type GetNotebookQuery = {
 	__typename?: 'query_root';
+	situations: Array<{
+		__typename?: 'ref_situation';
+		id: string;
+		description: string;
+		theme: string;
+	}>;
 	notebook_public_view: Array<{
 		__typename?: 'notebook_public_view';
 		id?: string | null;
@@ -26936,6 +26942,19 @@ export const GetNotebookDocument = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'situations' },
+						name: { kind: 'Name', value: 'ref_situation' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
+							],
+						},
+					},
 					{
 						kind: 'Field',
 						name: { kind: 'Name', value: 'notebook_public_view' },

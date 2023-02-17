@@ -1,4 +1,6 @@
-export type Flags = {};
+export type Flags = {
+	situations: Array<{ id: string; theme: string; description: string }>;
+};
 
 export type Ports = {};
 
