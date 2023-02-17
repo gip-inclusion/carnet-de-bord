@@ -49,9 +49,13 @@
 	afterUpdate(() => {
 		if (!elmNode) return;
 
-		DiagnosticEditElm.DiagnosticEdit.Main.init({
+		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
 			node: elmNode,
 			flags: { situations },
+		});
+
+		app.ports.sendSelectedSituations.subscribe(function (message) {
+			console.log(message);
 		});
 	});
 

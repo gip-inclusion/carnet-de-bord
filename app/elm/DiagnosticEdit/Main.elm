@@ -1,4 +1,4 @@
-module DiagnosticEdit.Main exposing (..)
+port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Domain.Situation exposing (Situation)
@@ -33,6 +33,12 @@ main =
 type alias SelectedSituation =
     { description : String
     , theme : Theme
+    }
+
+
+type alias SelectedSituationPort =
+    { description : String
+    , theme : String
     }
 
 
@@ -103,23 +109,28 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ToggleSelectedSituation selectedSituation ->
-            if
-                List.any
-                    (\s -> selectedSituation.description == s.description && selectedSituation.theme == s.theme)
-                    model.selectedSituations
-            then
-                ( { model
-                    | selectedSituations =
-                        model.selectedSituations
-                            |> List.filter (\s -> not (selectedSituation.description == s.description && selectedSituation.theme == s.theme))
-                  }
-                , Cmd.none
-                )
+            let
+                newModel =
+                    if
+                        List.any
+                            (\s -> selectedSituation.description == s.description && selectedSituation.theme == s.theme)
+                            model.selectedSituations
+                    then
+                        { model
+                            | selectedSituations =
+                                model.selectedSituations
+                                    |> List.filter (\s -> not (selectedSituation.description == s.description && selectedSituation.theme == s.theme))
+                        }
 
-            else
-                ( { model | selectedSituations = selectedSituation :: model.selectedSituations }
-                , Cmd.none
+                    else
+                        { model | selectedSituations = selectedSituation :: model.selectedSituations }
+            in
+            ( newModel
+            , sendSelectedSituations
+                (newModel.selectedSituations
+                    |> List.map (\situation -> { description = situation.description, theme = themeKeyTypeToKeyString situation.theme })
                 )
+            )
 
 
 unique : List a -> List a
@@ -194,3 +205,10 @@ situationCheckboxView selectedSituations situation =
             []
         , label [ class "fr-label", for checkboxId ] [ text situation.description ]
         ]
+
+
+
+-- PORTS
+
+
+port sendSelectedSituations : List SelectedSituationPort -> Cmd msg
