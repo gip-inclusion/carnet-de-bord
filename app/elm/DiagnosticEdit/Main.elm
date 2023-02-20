@@ -227,9 +227,9 @@ view model =
                     (\{ theme, situations } ->
                         div [ class "fr-form-group pl-0 pb-8 border-b" ]
                             [ fieldset [ class "fr-fieldset" ]
-                                [ div [ class "fr-fieldset__content" ]
-                                    [ h3 [] [ text <| themeKeyTypeToLabel theme ]
-                                    , div [ class "grid grid-cols-3" ]
+                                [ legend [ class "fr-fieldset__legend fr-text-bold" ] [ text <| themeKeyTypeToLabel theme ]
+                                , div [ class "fr-fieldset__content" ]
+                                    [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                                         (List.map
                                             (situationCheckboxView model.selectedSituationSet)
                                             situations
@@ -248,7 +248,7 @@ situationCheckboxView selectedSituationSet situation =
         checkboxId =
             "checkbox-radio-group" ++ situation.description
     in
-    div [ class "fr-checkbox-group" ]
+    div [ class "fr-col-sm-12 fr-col-md-6 fr-col-lg-4 fr-col-xl-4 fr-checkbox-group !mt-0" ]
         [ input
             [ type_ "checkbox"
             , id checkboxId
