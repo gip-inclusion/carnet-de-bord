@@ -15005,6 +15005,8 @@ export type UpdateSocioProMutationVariables = Exact<{
 	educationLevel?: InputMaybe<Scalars['String']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	wantedJobs: Array<WantedJobInsertInput> | WantedJobInsertInput;
+	addedNotebookFocus: Array<NotebookFocusInsertInput> | NotebookFocusInsertInput;
+	updatedNotebookFocus: Array<NotebookFocusUpdates> | NotebookFocusUpdates;
 }>;
 
 export type UpdateSocioProMutation = {
@@ -15012,6 +15014,14 @@ export type UpdateSocioProMutation = {
 	update?: { __typename?: 'notebook'; id: string } | null;
 	delete_wanted_job?: { __typename?: 'wanted_job_mutation_response'; affected_rows: number } | null;
 	insert_wanted_job?: { __typename?: 'wanted_job_mutation_response'; affected_rows: number } | null;
+	insert_notebook_focus?: {
+		__typename?: 'notebook_focus_mutation_response';
+		affected_rows: number;
+	} | null;
+	update_notebook_focus_many?: Array<{
+		__typename?: 'notebook_focus_mutation_response';
+		affected_rows: number;
+	} | null> | null;
 };
 
 export type AddNotebookTargetMutationVariables = Exact<{
@@ -23234,6 +23244,40 @@ export const UpdateSocioProDocument = {
 						},
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'addedNotebookFocus' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_focus_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'updatedNotebookFocus' } },
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'notebook_focus_updates' },
+								},
+							},
+						},
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -23357,6 +23401,36 @@ export const UpdateSocioProDocument = {
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'objects' },
 								value: { kind: 'Variable', name: { kind: 'Name', value: 'wantedJobs' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'insert_notebook_focus' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'addedNotebookFocus' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_notebook_focus_many' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'updates' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'updatedNotebookFocus' } },
 							},
 						],
 						selectionSet: {

@@ -8,6 +8,8 @@
 	import { homeForRole } from '$lib/routes';
 	import { displayFullName } from '$lib/ui/format';
 	import { connectedUser } from '$lib/stores';
+	import { afterUpdate } from 'svelte';
+	import { Elm as DiagnosticEditElm, Focus } from '../../../../elm/DiagnosticEdit/Main.elm';
 
 	export let notebookId: string;
 	$: notebookPath =
@@ -44,22 +46,19 @@
 	};
 
 	$: options = notebook?.wantedJobs.map(({ rome_code }) => rome_code);
-	$: selectedSituations = [];
-
-	import { Elm as DiagnosticEditElm, Situation } from '../../../../elm/DiagnosticEdit/Main.elm';
-	import { afterUpdate } from 'svelte';
+	let selectedSituations: Focus[] = [];
 
 	let elmNode: HTMLElement;
 	afterUpdate(() => {
-		if (!elmNode) return;
+		if (!elmNode || !elmNode.parentNode) return;
 
 		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
 			node: elmNode,
 			flags: { situations, focuses },
 		});
 
-		app.ports.sendSelectedSituations.subscribe((updatedSelection: Situation[]) => {
-			console.log(updatedSelection);
+		app.ports.sendSelectedSituations.subscribe((updatedSelection: Focus[]) => {
+			selectedSituations = updatedSelection;
 		});
 	});
 
@@ -77,10 +76,12 @@
 			{selectedSituations}
 			onClose={goToNotebook}
 		>
-			<div class="elm-node">
-				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
-				<div bind:this={elmNode} />
-			</div>
+			{#key situations}
+				<div class="elm-node">
+					<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+					<div bind:this={elmNode} />
+				</div>
+			{/key}
 		</ProNotebookSocioProUpdate>
 	</div>
 </LoaderIndicator>

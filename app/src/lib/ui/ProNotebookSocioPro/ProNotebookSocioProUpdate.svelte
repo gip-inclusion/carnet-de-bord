@@ -14,7 +14,7 @@
 	} from './ProNotebookSocioPro.schema';
 	import { Checkbox, Form, Input, Radio, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
-	import type { Situation } from 'elm/DiagnosticEdit/Main.elm';
+	import type { Focus } from 'elm/DiagnosticEdit/Main.elm';
 
 	export let onClose: () => void;
 	export let options: { id: string; label: string }[];
@@ -30,7 +30,7 @@
 		| 'lastJobEndedAt'
 		| 'focuses'
 	> & { wantedJobs: string[] };
-	export let selectedSituations: Situation[];
+	export let selectedSituations: Focus[];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -55,7 +55,25 @@
 	async function handleSubmit(values: ProNotebookSocioproInput) {
 		trackEvent('pro', 'notebook', 'update socio pro info');
 		const { educationLevel, geographicalArea, rightRqth, workSituation } = values;
-		console.log(selectedSituations);
+
+		const updatedNotebookFocus = selectedSituations
+			.filter(({ id }) => id)
+			.map(({ id, theme, situations }) => {
+				return {
+					where: { id: { _eq: id } },
+					_set: { situations: situations, theme: theme },
+				};
+			});
+
+		const addedNotebookFocus = selectedSituations
+			.filter(({ id, situations }) => !id && situations.length > 0)
+			.map(({ theme, situations }) => {
+				return {
+					notebookId: notebook.id,
+					theme,
+					situations,
+				};
+			});
 
 		const payload = {
 			id: notebook.id,
@@ -70,6 +88,8 @@
 				notebook_id: notebook.id,
 				rome_code_id,
 			})),
+			updatedNotebookFocus,
+			addedNotebookFocus,
 		};
 
 		await updateSocioPro(payload);

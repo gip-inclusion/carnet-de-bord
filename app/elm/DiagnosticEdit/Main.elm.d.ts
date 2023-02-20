@@ -1,8 +1,9 @@
 export type Situation = { id: string; theme: string; description: string };
+export type Focus = { id: string; theme: string; situations: string[] };
 
 export type Flags = {
 	situations: Array<Situation>;
-	focuses: Array<{ id: string; theme: string; situations: string[] }>;
+	focuses: Array<Focus>;
 };
 
 export interface ElmApp {
