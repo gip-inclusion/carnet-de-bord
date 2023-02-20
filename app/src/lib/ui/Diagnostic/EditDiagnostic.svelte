@@ -35,7 +35,7 @@
 	$: beneficiary = publicNotebook?.beneficiary;
 	$: situations = $getNotebook.data?.situations;
 	$: focuses = notebook?.focuses?.map((focus) => {
-		return { theme: focus.theme, situations: focus.situations };
+		return { id: focus.id, theme: focus.theme, situations: focus.situations };
 	});
 
 	$: notebookWithJobs = {
@@ -44,8 +44,9 @@
 	};
 
 	$: options = notebook?.wantedJobs.map(({ rome_code }) => rome_code);
+	$: selectedSituations = [];
 
-	import { Elm as DiagnosticEditElm } from '../../../../elm/DiagnosticEdit/Main.elm';
+	import { Elm as DiagnosticEditElm, Situation } from '../../../../elm/DiagnosticEdit/Main.elm';
 	import { afterUpdate } from 'svelte';
 
 	let elmNode: HTMLElement;
@@ -57,8 +58,8 @@
 			flags: { situations, focuses },
 		});
 
-		app.ports.sendSelectedSituations.subscribe(function (message) {
-			console.log(message);
+		app.ports.sendSelectedSituations.subscribe((updatedSelection: Situation[]) => {
+			console.log(updatedSelection);
 		});
 	});
 
@@ -70,7 +71,12 @@
 <LoaderIndicator result={$getNotebook}>
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col space-y-6">
-		<ProNotebookSocioProUpdate notebook={notebookWithJobs} {options} onClose={goToNotebook}>
+		<ProNotebookSocioProUpdate
+			notebook={notebookWithJobs}
+			{options}
+			{selectedSituations}
+			onClose={goToNotebook}
+		>
 			<div class="elm-node">
 				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
 				<div bind:this={elmNode} />

@@ -2,7 +2,7 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Domain.Situation exposing (Situation)
-import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToKeyString)
+import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel, themeTypeToKeyString)
 import Html exposing (..)
 import Html.Attributes exposing (checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick)
@@ -16,7 +16,8 @@ type alias SituationFlag =
 
 
 type alias FocusesFlag =
-    { theme : String
+    { id : String
+    , theme : String
     , situations : List String
     }
 
@@ -38,14 +39,9 @@ main =
 
 
 type alias SelectedSituation =
-    { description : String
+    { id : String
+    , description : String
     , theme : Theme
-    }
-
-
-type alias SelectedSituationPort =
-    { description : String
-    , theme : String
     }
 
 
@@ -100,7 +96,7 @@ init flags =
                                 -- I'm not ok with the way we are handling the "Inconnu" type_
                                 -- Meaning that we receive from Svelte a theme that we can't recognize
                                 -- We should discuss what to do about it
-                                |> List.map (\situation -> { description = situation, theme = Maybe.withDefault Inconnu (themeKeyStringToType focus.theme) })
+                                |> List.map (\situation -> { id = focus.id, description = situation, theme = Maybe.withDefault Inconnu (themeKeyStringToType focus.theme) })
                         )
                 )
       }
@@ -135,9 +131,14 @@ update msg model =
             ( newModel
             , sendSelectedSituations
                 (newModel.selectedSituations
-                    |> List.map (\situation -> { description = situation.description, theme = themeKeyTypeToKeyString situation.theme })
+                    |> groupSituationsByFocus
                 )
             )
+
+
+groupSituationsByFocus : List Situation -> List FocusesFlag
+groupSituationsByFocus situations =
+    []
 
 
 unique : List a -> List a
@@ -159,7 +160,7 @@ getThemes situations =
     situations
         |> List.map (\situation -> situation.theme)
         |> unique
-        |> List.sortBy (\theme -> themeKeyTypeToKeyString theme)
+        |> List.sortBy (\theme -> themeKeyTypeToLabel theme)
 
 
 
@@ -180,7 +181,7 @@ view model =
                         div [ class "fr-form-group pl-0 pb-8 border-b" ]
                             [ fieldset [ class "fr-fieldset" ]
                                 [ div [ class "fr-fieldset__content" ]
-                                    [ h3 [] [ text <| themeKeyTypeToKeyString theme ]
+                                    [ h3 [] [ text <| themeKeyTypeToLabel theme ]
                                     , div [ class "grid grid-cols-3" ]
                                         (model.possibleSituations
                                             |> List.filter (\situation -> situation.theme == theme)
@@ -207,7 +208,7 @@ situationCheckboxView selectedSituations situation =
             , name "checkbox-radio-group"
             , value situation.description
             , checked <| List.any (\possibleSituation -> situation.description == possibleSituation.description) selectedSituations
-            , onClick <| ToggleSelectedSituation { description = situation.description, theme = situation.theme }
+            , onClick <| ToggleSelectedSituation { id = situation.id, description = situation.description, theme = situation.theme }
             ]
             []
         , label [ class "fr-label", for checkboxId ] [ text situation.description ]
@@ -218,4 +219,4 @@ situationCheckboxView selectedSituations situation =
 -- PORTS
 
 
-port sendSelectedSituations : List SelectedSituationPort -> Cmd msg
+port sendSelectedSituations : List FocusesFlag -> Cmd msg

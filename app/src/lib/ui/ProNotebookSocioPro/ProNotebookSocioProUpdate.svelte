@@ -14,6 +14,7 @@
 	} from './ProNotebookSocioPro.schema';
 	import { Checkbox, Form, Input, Radio, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
+	import type { Situation } from 'elm/DiagnosticEdit/Main.elm';
 
 	export let onClose: () => void;
 	export let options: { id: string; label: string }[];
@@ -27,7 +28,9 @@
 		| 'educationLevel'
 		| 'geographicalArea'
 		| 'lastJobEndedAt'
+		| 'focuses'
 	> & { wantedJobs: string[] };
+	export let selectedSituations: Situation[];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -52,6 +55,7 @@
 	async function handleSubmit(values: ProNotebookSocioproInput) {
 		trackEvent('pro', 'notebook', 'update socio pro info');
 		const { educationLevel, geographicalArea, rightRqth, workSituation } = values;
+		console.log(selectedSituations);
 
 		const payload = {
 			id: notebook.id,

@@ -89,8 +89,8 @@ themeKeyStringToString key =
             ""
 
 
-themeKeyTypeToKeyString : Theme -> String
-themeKeyTypeToKeyString key =
+themeKeyTypeToLabel : Theme -> String
+themeKeyTypeToLabel key =
     case key of
         Logement ->
             "Logement"
@@ -124,3 +124,40 @@ themeKeyTypeToKeyString key =
 
         Inconnu ->
             "Inconnu"
+
+
+themeTypeToKeyString : Theme -> String
+themeTypeToKeyString key =
+    case key of
+        Logement ->
+            "logement"
+
+        Emploi ->
+            "emploi"
+
+        Formation ->
+            "formation"
+
+        DifficulteAdministrative ->
+            "difficulte_administrative"
+
+        DifficulteFinanciere ->
+            "difficulte_financiere"
+
+        Mobilite ->
+            "mobilite"
+
+        Sante ->
+            "sante"
+
+        ContraintesFamiliales ->
+            "contraintes_familiales"
+
+        MaitriseLangue ->
+            "maitrise_langue"
+
+        Numerique ->
+            "numerique"
+
+        Inconnu ->
+            "inconnu"
