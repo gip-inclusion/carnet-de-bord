@@ -6,6 +6,8 @@ import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLab
 import Html exposing (..)
 import Html.Attributes exposing (checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick)
+import List.Extra
+import Set exposing (Set)
 
 
 type alias SituationFlag =
@@ -15,7 +17,7 @@ type alias SituationFlag =
     }
 
 
-type alias FocusesFlag =
+type alias FocusFlag =
     { id : String
     , theme : String
     , situations : List String
@@ -24,7 +26,18 @@ type alias FocusesFlag =
 
 type alias Flags =
     { situations : List SituationFlag
-    , focuses : List FocusesFlag
+    , focuses : List FocusFlag
+    }
+
+
+type alias Focus =
+    { theme : Theme, situations : List Situation, id : Maybe String }
+
+
+type alias FocusOutput =
+    { theme : String
+    , situations : List String
+    , id : Maybe String
     }
 
 
@@ -54,8 +67,8 @@ type Msg
 
 
 type alias Model =
-    { possibleSituations : List Situation
-    , selectedSituations : List SelectedSituation
+    { possibleSituationsByTheme : List Focus
+    , selectedSituationSet : Set String
     }
 
 
@@ -82,26 +95,47 @@ extractSituationOptionFromFlag flag =
 
 init : Flags -> ( Model, Cmd msg )
 init flags =
-    ( { possibleSituations = extractSituationOptionsFromFlags flags.situations
-      , selectedSituations =
-            -- List flattening, convert [[a,b], [c,d]] to [a,b,c,d]
-            -- See https://gist.github.com/maticzav/f0b9177bf59d3efa44815167fd55cdf0
-            List.foldr (++)
-                []
-                (flags.focuses
-                    |> List.map
-                        (\focus ->
-                            focus.situations
-                                -- TODO:
-                                -- I'm not ok with the way we are handling the "Inconnu" type_
-                                -- Meaning that we receive from Svelte a theme that we can't recognize
-                                -- We should discuss what to do about it
-                                |> List.map (\situation -> { id = focus.id, description = situation, theme = Maybe.withDefault Inconnu (themeKeyStringToType focus.theme) })
-                        )
-                )
+    ( { possibleSituationsByTheme =
+            extractSituationOptionsFromFlags flags.situations
+                |> situationsByTheme
+                |> addFocusIds flags.focuses
+      , selectedSituationSet =
+            flags.focuses
+                |> List.concatMap
+                    (\focus ->
+                        focus.situations
+                            |> List.filterMap
+                                (\description ->
+                                    flags.situations
+                                        |> List.Extra.find (\situation -> situation.description == description)
+                                )
+                            |> List.map .id
+                    )
+                |> Set.fromList
       }
     , Cmd.none
     )
+
+
+addFocusIds : List FocusFlag -> List Focus -> List Focus
+addFocusIds focusFlags focuses =
+    focuses
+        |> List.map
+            (\focus ->
+                let
+                    focusId =
+                        focusFlags
+                            |> List.Extra.findMap
+                                (\focusFlag ->
+                                    if focusFlag.theme == themeTypeToKeyString focus.theme then
+                                        Just focusFlag.id
+
+                                    else
+                                        Nothing
+                                )
+                in
+                { focus | id = focusId }
+            )
 
 
 
@@ -114,31 +148,45 @@ update msg model =
         ToggleSelectedSituation selectedSituation ->
             let
                 newModel =
-                    if
-                        List.any
-                            (\s -> selectedSituation.description == s.description && selectedSituation.theme == s.theme)
-                            model.selectedSituations
-                    then
+                    if Set.member selectedSituation.id model.selectedSituationSet then
                         { model
-                            | selectedSituations =
-                                model.selectedSituations
-                                    |> List.filter (\s -> not (selectedSituation.description == s.description && selectedSituation.theme == s.theme))
+                            | selectedSituationSet =
+                                model.selectedSituationSet
+                                    |> Set.remove selectedSituation.id
                         }
 
                     else
-                        { model | selectedSituations = selectedSituation :: model.selectedSituations }
+                        { model
+                            | selectedSituationSet =
+                                model.selectedSituationSet
+                                    |> Set.insert selectedSituation.id
+                        }
             in
             ( newModel
             , sendSelectedSituations
-                (newModel.selectedSituations
-                    |> groupSituationsByFocus
-                )
+                (formatSituationsByFocus model.possibleSituationsByTheme newModel.selectedSituationSet)
             )
 
 
-groupSituationsByFocus : List Situation -> List FocusesFlag
-groupSituationsByFocus situations =
-    []
+formatSituationsByFocus : List Focus -> Set String -> List FocusOutput
+formatSituationsByFocus possibleSituationsByTheme situationSet =
+    possibleSituationsByTheme
+        |> List.map
+            (\{ theme, id, situations } ->
+                { theme = themeTypeToKeyString theme
+                , id = id
+                , situations =
+                    situations
+                        |> List.filterMap
+                            (\situation ->
+                                if Set.member situation.id situationSet then
+                                    Just situation.description
+
+                                else
+                                    Nothing
+                            )
+                }
+            )
 
 
 unique : List a -> List a
@@ -155,12 +203,12 @@ unique l =
     List.foldr incUnique [] l
 
 
-getThemes : List Situation -> List Theme
-getThemes situations =
+situationsByTheme : List Situation -> List Focus
+situationsByTheme situations =
     situations
-        |> List.map (\situation -> situation.theme)
-        |> unique
-        |> List.sortBy (\theme -> themeKeyTypeToLabel theme)
+        |> List.Extra.gatherEqualsBy .theme
+        |> List.map (\( s, otherSituations ) -> { theme = s.theme, situations = s :: otherSituations, id = Nothing })
+        |> List.sortBy (\{ theme } -> themeKeyTypeToLabel theme)
 
 
 
@@ -174,18 +222,17 @@ view model =
             [ class "text-france-blue" ]
             [ text "Situation Personnelle" ]
         , div []
-            (getThemes
-                model.possibleSituations
+            (model.possibleSituationsByTheme
                 |> List.map
-                    (\theme ->
+                    (\{ theme, situations } ->
                         div [ class "fr-form-group pl-0 pb-8 border-b" ]
                             [ fieldset [ class "fr-fieldset" ]
                                 [ div [ class "fr-fieldset__content" ]
                                     [ h3 [] [ text <| themeKeyTypeToLabel theme ]
                                     , div [ class "grid grid-cols-3" ]
-                                        (model.possibleSituations
-                                            |> List.filter (\situation -> situation.theme == theme)
-                                            |> List.map (situationCheckboxView model.selectedSituations)
+                                        (List.map
+                                            (situationCheckboxView model.selectedSituationSet)
+                                            situations
                                         )
                                     ]
                                 ]
@@ -195,8 +242,8 @@ view model =
         ]
 
 
-situationCheckboxView : List SelectedSituation -> Situation -> Html Msg
-situationCheckboxView selectedSituations situation =
+situationCheckboxView : Set String -> Situation -> Html Msg
+situationCheckboxView selectedSituationSet situation =
     let
         checkboxId =
             "checkbox-radio-group" ++ situation.description
@@ -207,7 +254,7 @@ situationCheckboxView selectedSituations situation =
             , id checkboxId
             , name "checkbox-radio-group"
             , value situation.description
-            , checked <| List.any (\possibleSituation -> situation.description == possibleSituation.description) selectedSituations
+            , checked <| Set.member situation.id selectedSituationSet
             , onClick <| ToggleSelectedSituation { id = situation.id, description = situation.description, theme = situation.theme }
             ]
             []
@@ -219,4 +266,4 @@ situationCheckboxView selectedSituations situation =
 -- PORTS
 
 
-port sendSelectedSituations : List FocusesFlag -> Cmd msg
+port sendSelectedSituations : List FocusOutput -> Cmd msg
