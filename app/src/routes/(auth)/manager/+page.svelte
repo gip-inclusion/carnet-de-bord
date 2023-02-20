@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { connectedUser } from '$lib/stores';
-	import { GetDeploymentInfosDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetDeploymentInfosDocument, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { pluralize } from '$lib/helpers';
 	import ImportBeneficiaries from '$lib/ui/Manager/ImportBeneficiaries.svelte';
 	import ImportStructures from '$lib/ui/Manager/ImportStructures.svelte';
@@ -10,6 +10,8 @@
 	import { operationStore, query } from '@urql/svelte';
 	import UpdateNotebookMembers from '$lib/ui/Manager/UpdateNotebookMembers.svelte';
 	import ImportOrientationManager from '$lib/ui/Manager/ImportOrientationManager.svelte';
+	import Card from '$lib/ui/base/Card.svelte';
+	import { baseUrlForRole } from '$lib/routes';
 
 	const deploymentId = $connectedUser.deploymentId;
 	const result = operationStore(
@@ -23,8 +25,14 @@
 
 	query(result);
 
-	$: deploymentInfo = $result.data;
-	$: structures = deploymentInfo?.structuresWithPros;
+	$: beneficiaryCount = $result.data?.beneficiaries.aggregate.count ?? 0;
+	$: beneficiaryWithoutStructureCount =
+		$result.data?.beneficiariesWithNoStructure.aggregate.count ?? 0;
+	$: structureCount = $result.data?.structures.aggregate.count ?? 0;
+	$: structuresWithNoBeneficiaryCount =
+		$result.data?.structuresWithNoBeneficiary.aggregate.count ?? 0;
+
+	$: structures = $result.data?.structuresWithPros;
 	$: professionals = structures?.flatMap((structure) => {
 		const structureId = structure.id;
 		return structure.professionals.map((pro) => ({
@@ -33,75 +41,57 @@
 		}));
 	});
 
-	function colorize(quantity: number, flip = false) {
-		const success = flip ? quantity === 0 : quantity !== 0;
-		return success ? '!text-success' : '!text-marianne-red';
-	}
-
 	function refreshMetrics() {
 		return result.reexecute({ requestPolicy: 'network-only' });
 	}
+	$: metrics = [
+		{
+			label: `${pluralize('Bénéficiaire', beneficiaryCount)} sur le territoire`,
+			amount: beneficiaryCount,
+			link: `${baseUrlForRole(RoleEnum.Manager)}/beneficiaires?filter=tous`,
+		},
+		{
+			label: `${pluralize('Bénéficiaire', beneficiaryWithoutStructureCount)} non accompagné`,
+			amount: beneficiaryWithoutStructureCount,
+			classNames: beneficiaryWithoutStructureCount > 0 ? 'text-marianne-red' : 'text-success',
+			link: `${baseUrlForRole(RoleEnum.Manager)}/beneficiaires?filter=sans-structure`,
+		},
+		{
+			label: `${pluralize('Structure', structureCount)} sur le territoire`,
+			amount: structureCount,
+			link: `${baseUrlForRole(RoleEnum.Manager)}/structures`,
+		},
+		{
+			label: `${pluralize('Structure', structuresWithNoBeneficiaryCount)} sans bénéficiaire`,
+			amount: structuresWithNoBeneficiaryCount,
+			classNames: structuresWithNoBeneficiaryCount > 0 ? 'text-marianne-red' : 'text-success',
+		},
+	];
 </script>
 
 <LoaderIndicator {result}>
-	<h1 class="fr-h2 fr-mt-6w">{deploymentInfo.deployment.label}</h1>
+	<h1 class="fr-h2 fr-mt-6w">{$result.data.deployment.label}</h1>
 	<h2 class="fr-h4">État du territoire</h2>
 	<div class="fr-grid-row fr-grid-row--gutters">
-		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
-			<strong class="block text-center fr-h3">
-				{deploymentInfo.beneficiaries.aggregate.count}
-			</strong>
-			<p class="text-center">
-				{pluralize('bénéficiaire', deploymentInfo.beneficiaries.aggregate.count)} sur le territoire
-			</p>
-		</div>
-		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3 ">
-			<strong
-				class="block text-center fr-h3 {colorize(
-					deploymentInfo.beneficiariesWithNoStructure.aggregate.count,
-					true
-				)}"
-			>
-				{deploymentInfo.beneficiariesWithNoStructure.aggregate.count}
-			</strong>
-			<p
-				class="text-center {colorize(
-					deploymentInfo.beneficiariesWithNoStructure.aggregate.count,
-					true
-				)}"
-			>
-				{pluralize('bénéficiaire', deploymentInfo.beneficiariesWithNoStructure.aggregate.count)} sans
-				structure
-			</p>
-		</div>
-		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
-			<strong class="block text-center fr-h3">
-				{deploymentInfo.structures.aggregate.count}
-			</strong>
-			<p class="text-center">
-				{pluralize('structure', deploymentInfo.structures.aggregate.count)} sur le territoire
-			</p>
-		</div>
-		<div class="fr-col-sm-6 fr-col-md-6 fr-col-lg-3">
-			<strong
-				class="block text-center fr-h3 {colorize(
-					deploymentInfo.structuresWithNoBeneficiary.aggregate.count,
-					true
-				)}"
-			>
-				{deploymentInfo.structuresWithNoBeneficiary.aggregate.count}
-			</strong>
-			<p
-				class="text-center {colorize(
-					deploymentInfo.structuresWithNoBeneficiary.aggregate.count,
-					true
-				)}"
-			>
-				{pluralize('structure', deploymentInfo.structuresWithNoBeneficiary.aggregate.count)} sans bénéficiaires
-			</p>
-		</div>
+		{#each metrics as item (item.label)}
+			<div class="fr-col-sm-6 fr-col-md-3 fr-col-lg-3">
+				<Card horizontal={true} hideArrow={!item.link} href={item.link}>
+					<div slot="title">
+						<div
+							class={`pb-1 flex flex-row font-bold text-3xl tracking-wider ${
+								item.classNames || ''
+							}`}
+						>
+							{item.amount}
+						</div>
+						<span class={`font-normal leading-6 text-sm ${item.classNames}`}>{item.label}</span>
+					</div>
+				</Card>
+			</div>
+		{/each}
 	</div>
-	<h2 class="fr-h4">Importer des fichiers</h2>
+
+	<h2 class="fr-h4 fr-mt-6w">Importer des fichiers</h2>
 	<div class="fr-grid-row fr-grid-row--gutters">
 		<div class="fr-col-sm-4 flex">
 			<Dialog

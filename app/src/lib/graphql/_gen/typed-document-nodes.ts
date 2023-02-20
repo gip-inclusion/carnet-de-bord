@@ -24933,6 +24933,22 @@ export const GetDeploymentInfosDocument = {
 						kind: 'Field',
 						alias: { kind: 'Name', value: 'beneficiaries' },
 						name: { kind: 'Name', value: 'beneficiary_aggregate' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'notebook' },
+											value: { kind: 'ObjectValue', fields: [] },
+										},
+									],
+								},
+							},
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
@@ -24960,77 +24976,41 @@ export const GetDeploymentInfosDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_or' },
+											name: { kind: 'Name', value: 'notebook' },
+											value: { kind: 'ObjectValue', fields: [] },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_not' },
 											value: {
-												kind: 'ListValue',
-												values: [
+												kind: 'ObjectValue',
+												fields: [
 													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: '_not' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'structures' },
-																			value: { kind: 'ObjectValue', fields: [] },
-																		},
-																	],
-																},
-															},
-														],
-													},
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'notebook' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: 'members' },
-																			value: {
-																				kind: 'ObjectValue',
-																				fields: [
-																					{
-																						kind: 'ObjectField',
-																						name: { kind: 'Name', value: '_not' },
-																						value: {
-																							kind: 'ObjectValue',
-																							fields: [
-																								{
-																									kind: 'ObjectField',
-																									name: { kind: 'Name', value: 'active' },
-																									value: {
-																										kind: 'ObjectValue',
-																										fields: [
-																											{
-																												kind: 'ObjectField',
-																												name: { kind: 'Name', value: '_eq' },
-																												value: {
-																													kind: 'BooleanValue',
-																													value: true,
-																												},
-																											},
-																										],
-																									},
-																								},
-																							],
-																						},
-																					},
-																				],
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'structures' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'status' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_eq' },
+																				value: {
+																					kind: 'StringValue',
+																					value: 'current',
+																					block: false,
+																				},
 																			},
-																		},
-																	],
+																		],
+																	},
 																},
-															},
-														],
+															],
+														},
 													},
 												],
 											},
