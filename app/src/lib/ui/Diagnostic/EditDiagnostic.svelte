@@ -37,7 +37,7 @@
 	$: beneficiary = publicNotebook?.beneficiary;
 	$: situations = $getNotebook.data?.situations;
 	$: focuses = notebook?.focuses?.map((focus) => {
-		return { id: focus.id, theme: focus.theme, situations: focus.situations };
+		return { id: focus.id, theme: focus.theme, situations: focus.situations ?? [] };
 	});
 
 	$: notebookWithJobs = {
