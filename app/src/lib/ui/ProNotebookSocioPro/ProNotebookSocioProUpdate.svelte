@@ -14,6 +14,7 @@
 	} from './ProNotebookSocioPro.schema';
 	import { Checkbox, Form, Input, Radio, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
+	import type { Focus } from 'elm/DiagnosticEdit/Main.elm';
 
 	export let onClose: () => void;
 	export let options: { id: string; label: string }[];
@@ -27,7 +28,9 @@
 		| 'educationLevel'
 		| 'geographicalArea'
 		| 'lastJobEndedAt'
+		| 'focuses'
 	> & { wantedJobs: string[] };
+	export let selectedSituations: Focus[];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -53,6 +56,25 @@
 		trackEvent('pro', 'notebook', 'update socio pro info');
 		const { educationLevel, geographicalArea, rightRqth, workSituation } = values;
 
+		const updatedNotebookFocus = selectedSituations
+			.filter(({ id }) => id)
+			.map(({ id, theme, situations }) => {
+				return {
+					where: { id: { _eq: id } },
+					_set: { situations: situations, theme: theme },
+				};
+			});
+
+		const addedNotebookFocus = selectedSituations
+			.filter(({ id, situations }) => !id && situations.length > 0)
+			.map(({ theme, situations }) => {
+				return {
+					notebookId: notebook.id,
+					theme,
+					situations,
+				};
+			});
+
 		const payload = {
 			id: notebook.id,
 			educationLevel,
@@ -66,6 +88,8 @@
 				notebook_id: notebook.id,
 				rome_code_id,
 			})),
+			updatedNotebookFocus,
+			addedNotebookFocus,
 		};
 
 		await updateSocioPro(payload);
@@ -96,7 +120,7 @@
 
 <section class="flex flex-col w-full">
 	<div class="pb-8">
-		<h1>Diagnostic socioprofessionnel</h1>
+		<h1 class="text-france-blue">Diagnostic socioprofessionnel</h1>
 		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
 	</div>
 	<Form
@@ -109,6 +133,7 @@
 		let:isSubmitting
 		let:isValid
 	>
+		<h2 class="text-france-blue">Situation professionnelle</h2>
 		<div class="fr-form-group">
 			<Select
 				name="workSituation"
@@ -225,6 +250,8 @@
 				options={educationLevelKeys.options}
 			/>
 		</div>
+
+		<slot />
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}>Enregistrer</Button

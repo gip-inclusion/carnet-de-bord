@@ -109,6 +109,8 @@ describe('lastModified trigger', () => {
 			wantedJobs: wantedJobsPayload.data.wanted_job,
 			workSituation: 'iae',
 			workSituationDate: '2021-10-22',
+			addedNotebookFocus: [],
+			updatedNotebookFocus: [],
 		});
 
 		const payload = await graphqlPro(lastModifiedQuery);

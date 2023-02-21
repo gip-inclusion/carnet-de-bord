@@ -8,6 +8,8 @@
 	import { homeForRole } from '$lib/routes';
 	import { displayFullName } from '$lib/ui/format';
 	import { connectedUser } from '$lib/stores';
+	import { afterUpdate } from 'svelte';
+	import { Elm as DiagnosticEditElm, Focus } from '../../../../elm/DiagnosticEdit/Main.elm';
 
 	export let notebookId: string;
 	$: notebookPath =
@@ -33,6 +35,10 @@
 	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
 	$: notebook = publicNotebook?.notebook;
 	$: beneficiary = publicNotebook?.beneficiary;
+	$: situations = $getNotebook.data?.situations;
+	$: focuses = notebook?.focuses?.map((focus) => {
+		return { id: focus.id, theme: focus.theme, situations: focus.situations ?? [] };
+	});
 
 	$: notebookWithJobs = {
 		...notebook,
@@ -40,6 +46,21 @@
 	};
 
 	$: options = notebook?.wantedJobs.map(({ rome_code }) => rome_code);
+	let selectedSituations: Focus[] = [];
+
+	let elmNode: HTMLElement;
+	afterUpdate(() => {
+		if (!elmNode || !elmNode.parentNode) return;
+
+		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
+			node: elmNode,
+			flags: { situations, focuses },
+		});
+
+		app.ports.sendSelectedSituations.subscribe((updatedSelection: Focus[]) => {
+			selectedSituations = updatedSelection;
+		});
+	});
 
 	function goToNotebook() {
 		goto(notebookPath);
@@ -49,6 +70,18 @@
 <LoaderIndicator result={$getNotebook}>
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col space-y-6">
-		<ProNotebookSocioProUpdate notebook={notebookWithJobs} {options} onClose={goToNotebook} />
+		<ProNotebookSocioProUpdate
+			notebook={notebookWithJobs}
+			{options}
+			{selectedSituations}
+			onClose={goToNotebook}
+		>
+			{#key situations}
+				<div class="elm-node">
+					<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+					<div bind:this={elmNode} />
+				</div>
+			{/key}
+		</ProNotebookSocioProUpdate>
 	</div>
 </LoaderIndicator>

@@ -8,6 +8,8 @@ mutation UpdateSocioPro(
   $educationLevel: String
   $lastJobEndedAt: date
   $wantedJobs: [wanted_job_insert_input!]!
+  $addedNotebookFocus: [notebook_focus_insert_input!]!
+  $updatedNotebookFocus: [notebook_focus_updates!]!
 ) {
   update: update_notebook_by_pk(
     pk_columns: { id: $id }
@@ -27,6 +29,12 @@ mutation UpdateSocioPro(
     affected_rows
   }
   insert_wanted_job(objects: $wantedJobs) {
+    affected_rows
+  }
+  insert_notebook_focus(objects: $addedNotebookFocus) {
+    affected_rows
+  }
+  update_notebook_focus_many(updates: $updatedNotebookFocus) {
     affected_rows
   }
 }

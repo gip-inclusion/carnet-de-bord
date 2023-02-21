@@ -18,7 +18,6 @@ Fonctionnalité: Informations sur le bénéficaire
 		Alors je vois "ARE, Prime d'activité"
 
 
-
 	Scénario: Saisie des informations socioprofessionnelles par un pro
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
 		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
@@ -29,6 +28,23 @@ Fonctionnalité: Informations sur le bénéficaire
 		Quand je clique sur "Enregistrer"
 		Alors je vois "Du 20/06/2020 au 20/06/2021 (12 mois)"
 		Alors je vois "10/01/2020"
+
+
+	Scénario: Saisie des informations socioprofessionnelles (Situation)
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
+		Alors je vois "Situation Personnelle"
+		Quand je coche "Contrainte horaires"
+		Quand je coche "Attend un enfant ou plus"
+		Quand je décoche "Hébergé chez un tiers"
+		Quand je coche "Difficulté à payer le loyer"
+		Quand je clique sur "Enregistrer"
+		Alors je vois "Contraintes familiales"
+		Alors je vois "Contrainte horaires"
+		Alors je vois "Attend un enfant ou plus"
+		Alors je vois "Logement"
+		Alors je ne vois pas "Hébergé chez un tiers"
+		Alors je vois "Difficulté à payer le loyer"
 
 
 	Scénario: Saisie des informations socioprofessionnelles 2 ans
