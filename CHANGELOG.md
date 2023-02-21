@@ -1,3 +1,10 @@
+# [1.199.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.198.1...v1.199.0) (2023-02-21)
+
+
+### Features
+
+* Ajout du formulaire de mise à jour de la situation personnelle. ([#1528](https://github.com/gip-inclusion/carnet-de-bord/issues/1528)) ([6456652](https://github.com/gip-inclusion/carnet-de-bord/commit/64566527a6fc3fdfd78278fff53f52e2f0d27e56))
+
 ## [1.198.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.198.0...v1.198.1) (2023-02-16)
 
 
