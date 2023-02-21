@@ -4,7 +4,7 @@ mutation UpdateSocioPro(
   $workSituationDate: date
   $workSituationEndDate: date
   $rightRqth: Boolean
-  $geographicalArea: String
+  $geographicalArea: Int
   $educationLevel: String
   $lastJobEndedAt: date
   $wantedJobs: [wanted_job_insert_input!]!

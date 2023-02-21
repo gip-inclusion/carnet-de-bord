@@ -103,7 +103,7 @@ describe('lastModified trigger', () => {
 
 		await graphqlPro(updateSocioProMutation, {
 			educationLevel: 'NV4',
-			geographicalArea: 'between_10_20',
+			geographicalArea: 20,
 			id: sofieTifourNotebookId,
 			rightRqth: false,
 			wantedJobs: wantedJobsPayload.data.wanted_job,

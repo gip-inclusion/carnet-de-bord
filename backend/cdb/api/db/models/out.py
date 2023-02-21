@@ -101,7 +101,7 @@ class NotebookOut(BaseModel):
     focuses: list[FocusOut]
     members: list[NotebookMemberOut]
     appointments: list[AppointmentOut]
-    geographical_area: str | None
+    geographical_area: int | None
     education_level: str | None
     work_situation_date: date | None
     contract_type: str | None

@@ -1,4 +1,4 @@
-module Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
+module Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 
 import Date exposing (Date)
 
@@ -8,33 +8,11 @@ type alias ProfessionalSituation =
     , workSituationDate : Maybe Date
     , workSituationEndDate : Maybe Date
     , rightRqth : Bool
-    , geographicalArea : Maybe String
+    , geographicalArea : Maybe Int
     , educationLevel : Maybe String
     , wantedJobs : List String
     , lastJobEndedAt : Maybe Date
     }
-
-
-geographicalAreaKeyToString : String -> String
-geographicalAreaKeyToString key =
-    case key of
-        "none" ->
-            "Aucune"
-
-        "less_10" ->
-            "Moins de 10 km"
-
-        "between_10_20" ->
-            "Entre 10 et 20 km"
-
-        "between_20_30" ->
-            "Entre 20 et 30 km"
-
-        "plus_30" ->
-            "Plus de 30 km"
-
-        _ ->
-            ""
 
 
 educationLevelKeyToString : String -> String

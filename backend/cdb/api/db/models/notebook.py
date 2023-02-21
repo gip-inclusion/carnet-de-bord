@@ -20,7 +20,7 @@ class Notebook(BaseModel):
     focuses: List[Focus] | None = None
     members: List[NotebookMember] | None = None
     appointments: List[Appointment] | None = None
-    geographical_area: str | None
+    geographical_area: int | None
     education_level: str | None
     work_situation_date: date | None
     contract_type: str | None

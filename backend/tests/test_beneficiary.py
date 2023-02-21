@@ -188,7 +188,7 @@ def test_beneficiary_model_notebook_filled_keys(
     ]
 
 
-def test_beneficairy_get_values_for_keys(
+def test_beneficiary_get_values_for_keys(
     beneficiary_import_alain_die: BeneficiaryImport,
 ):
     beneficiary_import_alain_die.right_are = True
@@ -205,7 +205,7 @@ def test_beneficairy_get_values_for_keys(
         ]
     )
     assert values == [
-        "between_20_30",
+        30,
         True,
         True,
         True,

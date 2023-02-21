@@ -40,14 +40,6 @@ export const rsaRightKeys = buildKeys({
 	null: 'Droit non renseigné',
 });
 
-export const geographicalAreaKeys = buildKeys({
-	none: 'Aucune',
-	less_10: 'Moins de 10 km',
-	between_10_20: 'Entre 10 et 20 km',
-	between_20_30: 'Entre 20 et 30 km',
-	plus_30: 'Plus de 30 km',
-});
-
 export const contractTypeKeys = buildKeys({
 	cej: 'CEJ',
 	cer: 'CER',

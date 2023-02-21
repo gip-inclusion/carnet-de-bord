@@ -94,7 +94,7 @@ class BeneficiaryImport(BaseModel):
     right_are: bool | None = Field(None, alias="Droits ARE")
     right_ass: bool | None = Field(None, alias="Droits ASS")
     right_bonus: bool | None = Field(None, alias="Prime d'activité")
-    geographical_area: str | None = Field(None, alias="Zone de mobilité")
+    geographical_area: int | None = Field(None, alias="Zone de mobilité")
     rome_code_description: str | None = Field(
         None, alias="Emploi recherché (code ROME)"
     )
@@ -123,18 +123,6 @@ class BeneficiaryImport(BaseModel):
         ]:
             raise ValueError("value unknown")
         return right_rsa
-
-    @validator("geographical_area")
-    def parse_geographical_area(cls, geographical_area):
-        if geographical_area and geographical_area not in [
-            "none",
-            "less_10",
-            "between_10_20",
-            "between_20_30",
-            "plus_30",
-        ]:
-            raise ValueError("value unknown")
-        return geographical_area
 
     @validator("work_situation")
     def parse_work_situation(cls, work_situation):

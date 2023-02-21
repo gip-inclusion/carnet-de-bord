@@ -5,7 +5,7 @@ import Date exposing (Date, fromIsoString)
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
-import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, geographicalAreaKeyToString, workSituationKeyToString)
+import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html exposing (..)
 import Html.Attributes exposing (class)
@@ -25,7 +25,7 @@ type alias ProfessionalSituationFlags =
     , workSituationDate : Maybe String
     , workSituationEndDate : Maybe String
     , rightRqth : Bool
-    , geographicalArea : Maybe String
+    , geographicalArea : Maybe Int
     , educationLevel : Maybe String
     , wantedJobs : List String
     , lastJobEndedAt : Maybe String
@@ -357,13 +357,22 @@ professionalProjectView model =
                     ]
                 , div [ class "fr-col-6" ]
                     [ situationElement "Zone de mobilité"
-                        (Maybe.map (geographicalAreaKeyToString >> text) model.professionalSituation.geographicalArea)
+                        (model.professionalSituation.geographicalArea
+                            |> Maybe.map String.fromInt
+                            |> Maybe.map addDistanceUnit
+                            |> Maybe.map text
+                        )
                         (unfilled Feminine)
                         Nothing
                     ]
                 ]
             ]
         ]
+
+
+addDistanceUnit : String -> String
+addDistanceUnit distance =
+    distance ++ " km"
 
 
 personalSituationView : Model -> Html msg
