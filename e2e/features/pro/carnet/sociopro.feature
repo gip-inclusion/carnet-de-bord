@@ -17,6 +17,17 @@ Fonctionnalité: Informations sur le bénéficaire
 		Alors je vois "RSA - Droit ouvert et suspendu"
 		Alors je vois "ARE, Prime d'activité"
 
+	Scénario: Saisie du rayon de mobilité par un pro
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+		Alors je vois "20 km" sous "Zone de mobilité"
+		Alors je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
+		Alors je renseigne "50" dans le champ "Zone de mobilité géographique (km)"
+		Quand je clique sur "Enregistrer"
+		Alors je vois "50 km" sous "Zone de mobilité"
+		Alors je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
+		Alors je renseigne "" dans le champ "Zone de mobilité géographique (km)"
+		Quand je clique sur "Enregistrer"
+		Alors je vois "Non renseignée" sous "Zone de mobilité"
 
 	Scénario: Saisie des informations socioprofessionnelles par un pro
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"

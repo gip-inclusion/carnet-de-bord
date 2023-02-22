@@ -131,7 +131,7 @@
 				"updated_at": "2022-08-30 05:54:09.024741+00:00"
 			}
 		],
-		"geographical_area": "between_10_20",
+		"geographical_area": 20,
 		"members": [
 			{
 				"active": true,

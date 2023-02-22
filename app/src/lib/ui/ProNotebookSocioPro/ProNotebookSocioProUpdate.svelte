@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { educationLevelKeys, geographicalAreaKeys, workSituationKeys } from '$lib/constants/keys';
+	import { educationLevelKeys, workSituationKeys } from '$lib/constants/keys';
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { trackEvent } from '$lib/tracking/matomo';
@@ -12,7 +12,7 @@
 		type ProNotebookSocioproInput,
 		proNotebookSocioproSchema,
 	} from './ProNotebookSocioPro.schema';
-	import { Checkbox, Form, Input, Radio, Select } from '$lib/ui/forms';
+	import { Checkbox, Form, Input, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
 	import type { Focus } from 'elm/DiagnosticEdit/Main.elm';
 
@@ -54,7 +54,8 @@
 
 	async function handleSubmit(values: ProNotebookSocioproInput) {
 		trackEvent('pro', 'notebook', 'update socio pro info');
-		const { educationLevel, geographicalArea, rightRqth, workSituation } = values;
+		const { educationLevel, geographicalArea, rightRqth, workSituation } =
+			await proNotebookSocioproSchema.validate(values);
 
 		const updatedNotebookFocus = selectedSituations
 			.filter(({ id }) => id)
@@ -235,12 +236,7 @@
 			<ProNotebookSocioProRome bind:value={wantedJobs} {options} {romeSelectorId} />
 		</div>
 
-		<Radio
-			legend="Zone de mobilité"
-			legendClass="!font-bold"
-			name="geographicalArea"
-			options={geographicalAreaKeys.options}
-		/>
+		<Input name="geographicalArea" inputLabel="Zone de mobilité géographique (km)" type="number" />
 
 		<div class="fr-form-group">
 			<div class="pb-2 font-bold">Niveau de formation</div>

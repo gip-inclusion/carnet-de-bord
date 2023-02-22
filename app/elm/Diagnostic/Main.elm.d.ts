@@ -4,7 +4,7 @@ export type Flags = {
 		workSituationDate: string | undefined;
 		workSituationEndDate: string | undefined;
 		rightRqth: boolean;
-		geographicalArea: string | undefined;
+		geographicalArea: number | undefined;
 		educationLevel: string | undefined;
 		wantedJobs: string[];
 		lastJobEndedAt: string | undefined;

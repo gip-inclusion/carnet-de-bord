@@ -481,5 +481,5 @@ async def beneficiary_import_alain_die() -> BeneficiaryImport:
         work_situation="iae",
         right_rsa="rsa_droit_ouvert_versable",
         right_ass=True,
-        geographical_area="between_20_30",
+        geographical_area=30,
     )

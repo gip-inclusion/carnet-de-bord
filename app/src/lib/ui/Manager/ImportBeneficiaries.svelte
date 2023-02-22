@@ -231,7 +231,7 @@
 				<br />Vous pouvez
 				<a href="/fichiers/import_beneficiaires.csv" download>télécharger un modèle</a>
 				et
-				<a href="https://pad.incubateur.net/s/VSXZgm8fy#" target="_blank" rel="noopener noreferrer"
+				<a href="https://pad.incubateur.net/s/vJr-H7wEf#" target="_blank" rel="noopener noreferrer"
 					>consulter la notice de remplissage</a
 				>.
 			</div>

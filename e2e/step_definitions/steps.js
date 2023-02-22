@@ -301,6 +301,12 @@ Alors('je vois {string} sous le titre {string}', async (text, title) => {
 	I.see(text, item);
 });
 
+Alors('je vois {string} sous {string}', async (text, title) => {
+	const item = locate('*').after(locate('span').withText(title));
+
+	I.see(text, item);
+});
+
 Alors('je suis sur la page {string}', (url) => {
 	I.seeInCurrentUrl(url);
 });
