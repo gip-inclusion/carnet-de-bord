@@ -1,3 +1,10 @@
+# [1.200.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.199.0...v1.200.0) (2023-02-22)
+
+
+### Features
+
+* Utilisation d'un champ libre pour renseigner la zone de mobilité géographique. ([#1543](https://github.com/gip-inclusion/carnet-de-bord/issues/1543)) ([4cb7d99](https://github.com/gip-inclusion/carnet-de-bord/commit/4cb7d998ddcb91b9a008e82e7552d3ed6be567f8))
+
 # [1.199.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.198.1...v1.199.0) (2023-02-21)
 
 
