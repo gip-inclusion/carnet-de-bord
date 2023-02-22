@@ -7,7 +7,7 @@ export const proNotebookSocioproSchema = yup.object().shape({
 	rightRqth: yup.boolean(),
 	geographicalArea: yup
 		.number()
-		.positive()
+		.min(0)
 		.integer()
 		.nullable()
 		.transform((_, val) => (val === '' ? null : Number(val))),
