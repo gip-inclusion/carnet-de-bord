@@ -1,7 +1,0 @@
-query GetRefSituations {
-  refSituations: ref_situation {
-    id
-    description
-    theme
-  }
-}
