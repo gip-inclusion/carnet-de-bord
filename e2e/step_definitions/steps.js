@@ -258,7 +258,6 @@ Alors('je vois {string} dans la tuile {string} sous le titre {string}', (nb, til
 		.withDescendant(locate('*').withText(tileText))
 		.inside(locate('*').after(locate('h2').withText(title)));
 	I.see(nb, locator);
-	// locate('.fr-card').withDescendant(locate('*').withText(tileText)).inside(locate('*').after(locate('h2').withText(title)));
 });
 
 Alors('je vois {string} sur la ligne {string}', (text, ligneText) => {
