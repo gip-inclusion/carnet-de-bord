@@ -236,7 +236,7 @@
 			<ProNotebookSocioProRome bind:value={wantedJobs} {options} {romeSelectorId} />
 		</div>
 
-		<Input name="geographicalArea" inputLabel="Zone de mobilité géographique (km)" type="text" />
+		<Input name="geographicalArea" inputLabel="Zone de mobilité géographique (km)" type="number" />
 
 		<div class="fr-form-group">
 			<div class="pb-2 font-bold">Niveau de formation</div>
