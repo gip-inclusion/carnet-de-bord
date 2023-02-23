@@ -70,10 +70,10 @@ if [ ! "$(docker ps -q -f name=db_test)" ] && [ ! "$(docker ps -q -f name=hasura
     # Clean existing volume
     if [ "$(docker volume ls | grep cdb-pgdata-test)" ]; then
         echo "-> Clean existing volume cdb-test_cdb-pgdata-test"
-        docker compose -f docker-compose-test.yaml down -v
+        docker compose -f "$ROOT_DIR/docker-compose-test.yaml" down -v
     fi
     echo "-> Starting docker"
-    docker compose -f docker-compose-test.yaml up --build -d
+    docker compose -f "$ROOT_DIR/docker-compose-test.yaml" up --build -d
 else
     echo "Docker test env already started. Use: "
     echo ""
@@ -91,7 +91,7 @@ done
 >&2 echo ""
 >&2 echo "-> Hasura is up and running on port 5001!"
 
-HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura --project hasura seed apply --database-name carnet_de_bord
+HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura --project $ROOT_DIR/hasura seed apply --database-name carnet_de_bord
 
 function start_svelte() {
   >&2 echo "-> Starting Svelte kit"
