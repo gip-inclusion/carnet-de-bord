@@ -1,0 +1,114 @@
+table:
+  name: notebook_situation
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    created_by:
+      custom_name: createdBy
+    notebook_id:
+      custom_name: notebookId
+    situation_id:
+      custom_name: situationId
+  custom_column_names:
+    created_at: createdAt
+    created_by: createdBy
+    notebook_id: notebookId
+    situation_id: situationId
+  custom_root_fields: {}
+object_relationships:
+  - name: creator
+    using:
+      manual_configuration:
+        column_mapping:
+          created_by: id
+        insertion_order: null
+        remote_table:
+          name: account
+          schema: public
+  - name: notebook
+    using:
+      manual_configuration:
+        column_mapping:
+          notebook_id: id
+        insertion_order: null
+        remote_table:
+          name: notebook
+          schema: public
+  - name: refSituation
+    using:
+      manual_configuration:
+        column_mapping:
+          situation_id: id
+        insertion_order: null
+        remote_table:
+          name: ref_situation
+          schema: public
+insert_permissions:
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      set:
+        created_by: x-hasura-User-Id
+      columns:
+        - notebook_id
+        - situation_id
+  - role: professional
+    permission:
+      check:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+      set:
+        created_by: x-hasura-User-Id
+      columns:
+        - notebook_id
+        - situation_id
+select_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - created_at
+        - created_by
+        - id
+        - notebook_id
+        - situation_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+  - role: professional
+    permission:
+      columns:
+        - created_at
+        - created_by
+        - id
+        - notebook_id
+        - situation_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+delete_permissions:
+  - role: orientation_manager
+    permission:
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
+  - role: professional
+    permission:
+      filter:
+        notebook:
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id

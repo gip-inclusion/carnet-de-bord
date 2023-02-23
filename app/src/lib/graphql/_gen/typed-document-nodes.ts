@@ -3887,6 +3887,10 @@ export type MutationRoot = {
 	delete_notebook_member_by_pk?: Maybe<NotebookMember>;
 	/** delete data from the table: "notebook_public_view" */
 	delete_notebook_public_view?: Maybe<NotebookPublicViewMutationResponse>;
+	/** delete data from the table: "notebook_situation" */
+	delete_notebook_situation?: Maybe<NotebookSituationMutationResponse>;
+	/** delete single row from the table: "notebook_situation" */
+	delete_notebook_situation_by_pk?: Maybe<NotebookSituation>;
 	/** delete data from the table: "notebook_target" */
 	delete_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** delete single row from the table: "notebook_target" */
@@ -4027,6 +4031,10 @@ export type MutationRoot = {
 	insert_notebook_public_view?: Maybe<NotebookPublicViewMutationResponse>;
 	/** insert a single row into the table: "notebook_public_view" */
 	insert_notebook_public_view_one?: Maybe<NotebookPublicView>;
+	/** insert data into the table: "notebook_situation" */
+	insert_notebook_situation?: Maybe<NotebookSituationMutationResponse>;
+	/** insert a single row into the table: "notebook_situation" */
+	insert_notebook_situation_one?: Maybe<NotebookSituation>;
 	/** insert data into the table: "notebook_target" */
 	insert_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** insert a single row into the table: "notebook_target" */
@@ -4207,6 +4215,12 @@ export type MutationRoot = {
 	update_notebook_public_view?: Maybe<NotebookPublicViewMutationResponse>;
 	/** update multiples rows of table: "notebook_public_view" */
 	update_notebook_public_view_many?: Maybe<Array<Maybe<NotebookPublicViewMutationResponse>>>;
+	/** update data of the table: "notebook_situation" */
+	update_notebook_situation?: Maybe<NotebookSituationMutationResponse>;
+	/** update single row of the table: "notebook_situation" */
+	update_notebook_situation_by_pk?: Maybe<NotebookSituation>;
+	/** update multiples rows of table: "notebook_situation" */
+	update_notebook_situation_many?: Maybe<Array<Maybe<NotebookSituationMutationResponse>>>;
 	/** update data of the table: "notebook_target" */
 	update_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** update single row of the table: "notebook_target" */
@@ -4502,6 +4516,16 @@ export type MutationRootDeleteNotebookMemberByPkArgs = {
 /** mutation root */
 export type MutationRootDeleteNotebookPublicViewArgs = {
 	where: NotebookPublicViewBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookSituationArgs = {
+	where: NotebookSituationBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNotebookSituationByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -4890,6 +4914,18 @@ export type MutationRootInsertNotebookPublicViewArgs = {
 /** mutation root */
 export type MutationRootInsertNotebookPublicViewOneArgs = {
 	object: NotebookPublicViewInsertInput;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookSituationArgs = {
+	objects: Array<NotebookSituationInsertInput>;
+	on_conflict?: InputMaybe<NotebookSituationOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNotebookSituationOneArgs = {
+	object: NotebookSituationInsertInput;
+	on_conflict?: InputMaybe<NotebookSituationOnConflict>;
 };
 
 /** mutation root */
@@ -5459,6 +5495,23 @@ export type MutationRootUpdateNotebookPublicViewManyArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateNotebookSituationArgs = {
+	_set?: InputMaybe<NotebookSituationSetInput>;
+	where: NotebookSituationBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookSituationByPkArgs = {
+	_set?: InputMaybe<NotebookSituationSetInput>;
+	pk_columns: NotebookSituationPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNotebookSituationManyArgs = {
+	updates: Array<NotebookSituationUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateNotebookTargetArgs = {
 	_set?: InputMaybe<NotebookTargetSetInput>;
 	where: NotebookTargetBoolExp;
@@ -5753,6 +5806,10 @@ export type Notebook = {
 	/** An aggregate relationship */
 	professionalProjects_aggregate: ProfessionalProjectAggregate;
 	rightRqth: Scalars['Boolean'];
+	/** An array relationship */
+	situations: Array<NotebookSituation>;
+	/** An aggregate relationship */
+	situations_aggregate: NotebookSituationAggregate;
 	updatedAt: Scalars['timestamptz'];
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
@@ -5847,6 +5904,24 @@ export type NotebookProfessionalProjectsAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
 	where?: InputMaybe<ProfessionalProjectBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookSituationsArgs = {
+	distinct_on?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookSituationOrderBy>>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
+};
+
+/** columns and relationships of "notebook" */
+export type NotebookSituationsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookSituationOrderBy>>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
 };
 
 /** columns and relationships of "notebook_action" */
@@ -6462,6 +6537,8 @@ export type NotebookBoolExp = {
 	professionalProjects?: InputMaybe<ProfessionalProjectBoolExp>;
 	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateBoolExp>;
 	rightRqth?: InputMaybe<BooleanComparisonExp>;
+	situations?: InputMaybe<NotebookSituationBoolExp>;
+	situations_aggregate?: InputMaybe<NotebookSituationAggregateBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 	workSituation?: InputMaybe<StringComparisonExp>;
 	workSituationDate?: InputMaybe<DateComparisonExp>;
@@ -7483,6 +7560,7 @@ export type NotebookInsertInput = {
 	notebookInfo?: InputMaybe<NotebookInfoObjRelInsertInput>;
 	professionalProjects?: InputMaybe<ProfessionalProjectArrRelInsertInput>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
+	situations?: InputMaybe<NotebookSituationArrRelInsertInput>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
@@ -7909,6 +7987,7 @@ export type NotebookOrderBy = {
 	notebookMemberCount?: InputMaybe<OrderBy>;
 	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateOrderBy>;
 	rightRqth?: InputMaybe<OrderBy>;
+	situations_aggregate?: InputMaybe<NotebookSituationAggregateOrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 	workSituation?: InputMaybe<OrderBy>;
 	workSituationDate?: InputMaybe<OrderBy>;
@@ -8138,6 +8217,232 @@ export type NotebookSetInput = {
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
 	workSituationEndDate?: InputMaybe<Scalars['date']>;
+};
+
+/** columns and relationships of "notebook_situation" */
+export type NotebookSituation = {
+	__typename?: 'notebook_situation';
+	createdAt: Scalars['timestamptz'];
+	createdBy: Scalars['uuid'];
+	/** An object relationship */
+	creator?: Maybe<Account>;
+	id: Scalars['uuid'];
+	/** An object relationship */
+	notebook?: Maybe<Notebook>;
+	notebookId: Scalars['uuid'];
+	/** An object relationship */
+	refSituation?: Maybe<RefSituation>;
+	situationId: Scalars['uuid'];
+};
+
+/** aggregated selection of "notebook_situation" */
+export type NotebookSituationAggregate = {
+	__typename?: 'notebook_situation_aggregate';
+	aggregate?: Maybe<NotebookSituationAggregateFields>;
+	nodes: Array<NotebookSituation>;
+};
+
+export type NotebookSituationAggregateBoolExp = {
+	count?: InputMaybe<NotebookSituationAggregateBoolExpCount>;
+};
+
+export type NotebookSituationAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<NotebookSituationBoolExp>;
+	predicate: IntComparisonExp;
+};
+
+/** aggregate fields of "notebook_situation" */
+export type NotebookSituationAggregateFields = {
+	__typename?: 'notebook_situation_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NotebookSituationMaxFields>;
+	min?: Maybe<NotebookSituationMinFields>;
+};
+
+/** aggregate fields of "notebook_situation" */
+export type NotebookSituationAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notebook_situation" */
+export type NotebookSituationAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<NotebookSituationMaxOrderBy>;
+	min?: InputMaybe<NotebookSituationMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "notebook_situation" */
+export type NotebookSituationArrRelInsertInput = {
+	data: Array<NotebookSituationInsertInput>;
+	/** upsert condition */
+	on_conflict?: InputMaybe<NotebookSituationOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "notebook_situation". All fields are combined with a logical 'AND'. */
+export type NotebookSituationBoolExp = {
+	_and?: InputMaybe<Array<NotebookSituationBoolExp>>;
+	_not?: InputMaybe<NotebookSituationBoolExp>;
+	_or?: InputMaybe<Array<NotebookSituationBoolExp>>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	createdBy?: InputMaybe<UuidComparisonExp>;
+	creator?: InputMaybe<AccountBoolExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	notebook?: InputMaybe<NotebookBoolExp>;
+	notebookId?: InputMaybe<UuidComparisonExp>;
+	refSituation?: InputMaybe<RefSituationBoolExp>;
+	situationId?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "notebook_situation" */
+export enum NotebookSituationConstraint {
+	/** unique or primary key constraint on columns "id" */
+	NotebookSituationPkey = 'notebook_situation_pkey',
+}
+
+/** input type for inserting data into table "notebook_situation" */
+export type NotebookSituationInsertInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	creator?: InputMaybe<AccountObjRelInsertInput>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook?: InputMaybe<NotebookObjRelInsertInput>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	refSituation?: InputMaybe<RefSituationObjRelInsertInput>;
+	situationId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type NotebookSituationMaxFields = {
+	__typename?: 'notebook_situation_max_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	createdBy?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	situationId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "notebook_situation" */
+export type NotebookSituationMaxOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	createdBy?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	situationId?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type NotebookSituationMinFields = {
+	__typename?: 'notebook_situation_min_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	createdBy?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	situationId?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "notebook_situation" */
+export type NotebookSituationMinOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	createdBy?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	situationId?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "notebook_situation" */
+export type NotebookSituationMutationResponse = {
+	__typename?: 'notebook_situation_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NotebookSituation>;
+};
+
+/** on_conflict condition type for table "notebook_situation" */
+export type NotebookSituationOnConflict = {
+	constraint: NotebookSituationConstraint;
+	update_columns?: Array<NotebookSituationUpdateColumn>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
+};
+
+/** Ordering options when selecting data from "notebook_situation". */
+export type NotebookSituationOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	createdBy?: InputMaybe<OrderBy>;
+	creator?: InputMaybe<AccountOrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebook?: InputMaybe<NotebookOrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	refSituation?: InputMaybe<RefSituationOrderBy>;
+	situationId?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: notebook_situation */
+export type NotebookSituationPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "notebook_situation" */
+export enum NotebookSituationSelectColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	CreatedBy = 'createdBy',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	SituationId = 'situationId',
+}
+
+/** input type for updating data in table "notebook_situation" */
+export type NotebookSituationSetInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	situationId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "notebook_situation" */
+export type NotebookSituationStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NotebookSituationStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NotebookSituationStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	situationId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "notebook_situation" */
+export enum NotebookSituationUpdateColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	CreatedBy = 'createdBy',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebookId',
+	/** column name */
+	SituationId = 'situationId',
+}
+
+export type NotebookSituationUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NotebookSituationSetInput>;
+	where: NotebookSituationBoolExp;
 };
 
 /** aggregate stddev on columns */
@@ -10506,6 +10811,12 @@ export type QueryRoot = {
 	notebook_public_view: Array<NotebookPublicView>;
 	/** fetch aggregated fields from the table: "notebook_public_view" */
 	notebook_public_view_aggregate: NotebookPublicViewAggregate;
+	/** fetch data from the table: "notebook_situation" */
+	notebook_situation: Array<NotebookSituation>;
+	/** fetch aggregated fields from the table: "notebook_situation" */
+	notebook_situation_aggregate: NotebookSituationAggregate;
+	/** fetch data from the table: "notebook_situation" using primary key columns */
+	notebook_situation_by_pk?: Maybe<NotebookSituation>;
 	/** fetch data from the table: "notebook_target" */
 	notebook_target: Array<NotebookTarget>;
 	/** fetch aggregated fields from the table: "notebook_target" */
@@ -11024,6 +11335,26 @@ export type QueryRootNotebookPublicViewAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookPublicViewOrderBy>>;
 	where?: InputMaybe<NotebookPublicViewBoolExp>;
+};
+
+export type QueryRootNotebookSituationArgs = {
+	distinct_on?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookSituationOrderBy>>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
+};
+
+export type QueryRootNotebookSituationAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookSituationOrderBy>>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
+};
+
+export type QueryRootNotebookSituationByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type QueryRootNotebookTargetArgs = {
@@ -11617,6 +11948,13 @@ export type RefSituationMutationResponse = {
 	affected_rows: Scalars['Int'];
 	/** data from the rows affected by the mutation */
 	returning: Array<RefSituation>;
+};
+
+/** input type for inserting object relation for remote table "ref_situation" */
+export type RefSituationObjRelInsertInput = {
+	data: RefSituationInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<RefSituationOnConflict>;
 };
 
 /** on_conflict condition type for table "ref_situation" */
@@ -13036,6 +13374,14 @@ export type SubscriptionRoot = {
 	notebook_public_view_aggregate: NotebookPublicViewAggregate;
 	/** fetch data from the table in a streaming manner: "notebook_public_view" */
 	notebook_public_view_stream: Array<NotebookPublicView>;
+	/** fetch data from the table: "notebook_situation" */
+	notebook_situation: Array<NotebookSituation>;
+	/** fetch aggregated fields from the table: "notebook_situation" */
+	notebook_situation_aggregate: NotebookSituationAggregate;
+	/** fetch data from the table: "notebook_situation" using primary key columns */
+	notebook_situation_by_pk?: Maybe<NotebookSituation>;
+	/** fetch data from the table in a streaming manner: "notebook_situation" */
+	notebook_situation_stream: Array<NotebookSituation>;
 	/** fetch data from the table in a streaming manner: "notebook" */
 	notebook_stream: Array<Notebook>;
 	/** fetch data from the table: "notebook_target" */
@@ -13706,6 +14052,32 @@ export type SubscriptionRootNotebookPublicViewStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<NotebookPublicViewStreamCursorInput>>;
 	where?: InputMaybe<NotebookPublicViewBoolExp>;
+};
+
+export type SubscriptionRootNotebookSituationArgs = {
+	distinct_on?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookSituationOrderBy>>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
+};
+
+export type SubscriptionRootNotebookSituationAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookSituationSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookSituationOrderBy>>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
+};
+
+export type SubscriptionRootNotebookSituationByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootNotebookSituationStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NotebookSituationStreamCursorInput>>;
+	where?: InputMaybe<NotebookSituationBoolExp>;
 };
 
 export type SubscriptionRootNotebookStreamArgs = {

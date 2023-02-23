@@ -112,6 +112,7 @@ const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
 	focuses: [],
 	notebookInfo: { needOrientation: false },
 	rightRqth: false,
+	situations: [],
 };
 
 test('do not show "Réorienter" button for admin_structure', () => {
