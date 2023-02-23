@@ -20,28 +20,6 @@ migration_filename = os.path.join(
 )
 
 
-async def test_fusion(connection: Connection):
-    record = await connection.fetchrow(
-        """
-            SELECT * FROM public.notebook_focus WHERE notebook_focus.id ='f8b75201-97ec-4248-9dad-6f2bfb049b49'
-        """
-    )
-    situations = json.loads(record["situations"])
-    assert len(situations) is 2
-    assert "Prêt pour une formation avec un accompagnement" in situations
-
-
-async def test_modifier(connection: Connection):
-    record = await connection.fetchrow(
-        """
-            SELECT * FROM public.notebook_focus WHERE notebook_focus.id ='f8b75201-97ec-4248-9dad-6f2bfb049b49'
-        """
-    )
-    situations = json.loads(record["situations"])
-    assert len(situations) is 2
-    assert "Prêt à suivre une formation" in situations
-
-
 async def test_add_action_ref(db_connection: Connection):
     record = await db_connection.fetch(
         """
@@ -85,7 +63,7 @@ async def connection(db_pool: Pool, seed_filepath: str):
             await connection.execute(data)
         await connection.fetch(
             """
-            INSERT INTO public.notebook_focus (id, theme, situations, creator_id, notebook_id, created_at, linked_to) VALUES ('f8b75201-97ec-4248-9dad-6f2bfb049b49', 'formation', '["Prêt pour une formation", "Prêt à en parler", "Prêt pour un accompagnement"]', '17434464-5f69-40cc-8172-40160958a33d', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:33:16.96523+00', 'cer');
+            INSERT INTO public.notebook_focus (id, theme, creator_id, notebook_id, created_at, linked_to) VALUES ('f8b75201-97ec-4248-9dad-6f2bfb049b49', 'formation', '17434464-5f69-40cc-8172-40160958a33d', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '2021-09-21 13:33:16.96523+00', 'cer');
             """
         )
         # Load the migration

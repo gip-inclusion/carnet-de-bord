@@ -64,7 +64,6 @@ class TargetOut(BaseModel):
 
 class FocusOut(BaseModel):
     theme: str
-    situations: list[str]
     created_at: datetime
     updated_at: datetime
     linked_to: str | None
