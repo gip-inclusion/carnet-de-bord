@@ -23,7 +23,7 @@ fragment notebookFragment on notebook {
   contractEndDate
   educationLevel
   lastJobEndedAt
-  wantedJobs {
+  professionalProjects {
     rome_code {
       id
       label

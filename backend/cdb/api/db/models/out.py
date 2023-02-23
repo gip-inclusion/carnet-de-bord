@@ -36,7 +36,7 @@ class RomeCodeOut(BaseModel):
     label: str
 
 
-class WantedJobOut(BaseModel):
+class ProfessionalProjectOut(BaseModel):
     rome_code: RomeCodeOut
 
 
@@ -97,7 +97,7 @@ class NotebookOut(BaseModel):
     right_are: bool = Field(False, title="Droits RSA")
     right_ass: bool | None = Field(False, title="Droits ASS")
     right_bonus: bool = Field(False, title="Droits Bonus")
-    wanted_jobs: list[WantedJobOut]
+    professional_projects: list[ProfessionalProjectOut]
     focuses: list[FocusOut]
     members: list[NotebookMemberOut]
     appointments: list[AppointmentOut]

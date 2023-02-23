@@ -6,7 +6,9 @@ from cdb.api.db.crud.beneficiary import (
     get_beneficiaries_without_referent,
     get_beneficiary_from_personal_information,
 )
-from cdb.api.db.crud.wanted_job import find_wanted_job_for_beneficiary
+from cdb.api.db.crud.professional_project import (
+    find_professional_project_for_beneficiary,
+)
 from cdb.api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryImport,
@@ -16,7 +18,9 @@ from cdb.cdb_csv import pe
 from cdb.cdb_csv.models.csv_row import PrincipalCsvRow
 
 
-async def test_get_beneficiary_with_wanted_jobs(pe_principal_csv_series, db_connection):
+async def test_get_beneficiary_with_professional_projects(
+    pe_principal_csv_series, db_connection
+):
 
     # Get the first row
     _, series = next(pe_principal_csv_series.iterrows())
@@ -40,16 +44,16 @@ async def test_get_beneficiary_with_wanted_jobs(pe_principal_csv_series, db_conn
         assert beneficiary.right_bonus == False
         assert beneficiary.right_rsa == "rsa_droit_ouvert_et_suspendu"
         assert beneficiary.notebook is not None
-        assert len(beneficiary.notebook.wanted_jobs) == 2
+        assert len(beneficiary.notebook.professional_projects) == 2
 
         assert (
-            await find_wanted_job_for_beneficiary(
+            await find_professional_project_for_beneficiary(
                 beneficiary, csv_row.rome_1, csv_row.appelation_rome_1
             )
         ) is not None
 
 
-async def test_get_beneficiary_without_wanted_jobs(
+async def test_get_beneficiary_without_professional_projects(
     pe_principal_csv_series, db_connection
 ):
 
@@ -79,10 +83,10 @@ async def test_get_beneficiary_without_wanted_jobs(
                 assert beneficiary.right_bonus == False
                 assert beneficiary.right_rsa is None
                 assert beneficiary.notebook is not None
-                assert len(beneficiary.notebook.wanted_jobs) == 0
+                assert len(beneficiary.notebook.professional_projects) == 0
 
                 assert (
-                    await find_wanted_job_for_beneficiary(
+                    await find_professional_project_for_beneficiary(
                         beneficiary, csv_row.rome_1, csv_row.appelation_rome_1
                     )
                 ) is None
@@ -141,15 +145,15 @@ async def test_get_beneficiary_with_unknown_rome_code(
                 assert beneficiary.right_bonus == False
                 assert beneficiary.right_rsa is None
                 assert beneficiary.notebook is not None
-                assert len(beneficiary.notebook.wanted_jobs) == 0
+                assert len(beneficiary.notebook.professional_projects) == 0
 
                 assert (
-                    await find_wanted_job_for_beneficiary(
+                    await find_professional_project_for_beneficiary(
                         beneficiary, csv_row.rome_1, csv_row.appelation_rome_1
                     )
                 ) is None
 
-                await pe.check_and_insert_wanted_job(
+                await pe.check_and_insert_professional_project(
                     db_connection,
                     beneficiary.notebook,
                     csv_row.rome_1,

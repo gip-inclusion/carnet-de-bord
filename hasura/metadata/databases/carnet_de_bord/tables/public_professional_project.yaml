@@ -1,5 +1,5 @@
 table:
-  name: wanted_job
+  name: professional_project
   schema: public
 object_relationships:
   - name: notebook

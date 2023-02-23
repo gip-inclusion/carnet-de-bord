@@ -17,7 +17,7 @@
 		| 'educationLevel'
 		| 'lastJobEndedAt'
 		| 'id'
-	> & { wantedJobs: { rome_code: { id: string; label: string } }[] };
+	> & { professionalProjects: { rome_code: { id: string; label: string } }[] };
 
 	export type ExternalDataDetail = Pick<ExternalData, 'data' | 'source'>;
 
@@ -63,7 +63,9 @@
 					rightRqth: notebook.rightRqth,
 					geographicalArea: notebook.geographicalArea,
 					educationLevel: notebook.educationLevel,
-					wantedJobs: notebook.wantedJobs.map(({ rome_code }) => rome_code.label),
+					professionalProjects: notebook.professionalProjects.map(
+						({ rome_code }) => rome_code.label
+					),
 					lastJobEndedAt: notebook.lastJobEndedAt,
 				},
 				peGeneralData: externalDataDetail?.data?.source || null,

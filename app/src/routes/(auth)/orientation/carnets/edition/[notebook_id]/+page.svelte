@@ -14,7 +14,7 @@
 			additionalTypenames: [
 				'beneficiary',
 				'notebook_member',
-				'wanted_job',
+				'professional_project',
 				'notebook_appointment',
 				'notebook_focus',
 				'notebook_action',

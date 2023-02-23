@@ -87,12 +87,12 @@ array_relationships:
         table:
           name: notebook_member
           schema: public
-  - name: wantedJobs
+  - name: professionalProjects
     using:
       foreign_key_constraint_on:
         column: notebook_id
         table:
-          name: wanted_job
+          name: professional_project
           schema: public
 computed_fields:
   - name: notebookMemberCount

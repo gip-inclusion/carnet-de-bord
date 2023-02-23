@@ -36,13 +36,13 @@ from cdb.api.db.crud.notebook_event import (
     insert_notebook_event,
 )
 from cdb.api.db.crud.professional import get_professional_by_email, insert_professional
+from cdb.api.db.crud.professional_project import (
+    find_professional_project_for_notebook,
+    insert_professional_project_for_notebook,
+)
 from cdb.api.db.crud.structure import (
     create_structure_from_agences_list,
     get_structure_by_name,
-)
-from cdb.api.db.crud.wanted_job import (
-    find_wanted_job_for_notebook,
-    insert_wanted_job_for_notebook,
 )
 from cdb.api.db.models.account import AccountDB
 from cdb.api.db.models.beneficiary import Beneficiary
@@ -65,8 +65,8 @@ from cdb.api.db.models.notebook_member import (
     NotebookMemberTypeEnum,
 )
 from cdb.api.db.models.professional import Professional, ProfessionalInsert
+from cdb.api.db.models.professional_project import ProfessionalProject
 from cdb.api.db.models.structure import Structure
-from cdb.api.db.models.wanted_job import WantedJob
 from cdb.cdb_csv.crud.actions import load_action_mapping_file
 from cdb.cdb_csv.models.csv_row import ActionCsvRow, PrincipalCsvRow, get_sha256
 from cdb.pe.models.agence import Agence
@@ -568,11 +568,13 @@ async def import_beneficiary(
         )
 
         # Insert the missing wanted jobs into the DB
-        beneficiary.notebook = await insert_wanted_jobs_for_csv_row_and_notebook(
-            connection,
-            csv_row,
-            beneficiary.notebook,
-            pe_unique_id,
+        beneficiary.notebook = (
+            await insert_professional_projects_for_csv_row_and_notebook(
+                connection,
+                csv_row,
+                beneficiary.notebook,
+                pe_unique_id,
+            )
         )
 
         return beneficiary
@@ -652,7 +654,7 @@ async def parse_pe_csv(
         logging.error("Unable to acquire connection from DB pool")
 
 
-async def insert_wanted_jobs_for_csv_row_and_notebook(
+async def insert_professional_projects_for_csv_row_and_notebook(
     connection: Connection,
     csv_row: PrincipalCsvRow,
     notebook: Notebook,
@@ -663,42 +665,46 @@ async def insert_wanted_jobs_for_csv_row_and_notebook(
         (csv_row.rome_1, csv_row.appelation_rome_1),
         (csv_row.rome_2, csv_row.appelation_rome_2),
     ]:
-        wanted_job: WantedJob | None = await check_and_insert_wanted_job(
-            connection,
-            notebook,
-            rome_code,
-            rome_label,
-        )
-        if wanted_job:
-            logging.info(
-                "{} - Wanted job {} inserted".format(unique_identifier, wanted_job)
+        professional_project: ProfessionalProject | None = (
+            await check_and_insert_professional_project(
+                connection,
+                notebook,
+                rome_code,
+                rome_label,
             )
-            notebook.wanted_jobs.append(wanted_job)
+        )
+        if professional_project:
+            logging.info(
+                "{} - Wanted job {} inserted".format(
+                    unique_identifier, professional_project
+                )
+            )
+            notebook.professional_projects.append(professional_project)
         else:
             logging.info("{} - NO Wanted job inserted".format(unique_identifier))
 
     return notebook
 
 
-async def check_and_insert_wanted_job(
+async def check_and_insert_professional_project(
     connection: Connection, notebook: Notebook, rome_code: str, rome_label: str
-) -> WantedJob | None:
+) -> ProfessionalProject | None:
     """
     Returns the inserted WantedJob or None if the job was not inserted
     """
 
-    wanted_job: WantedJob | None = await find_wanted_job_for_notebook(
-        notebook, rome_code, rome_label
+    professional_project: ProfessionalProject | None = (
+        await find_professional_project_for_notebook(notebook, rome_code, rome_label)
     )
 
-    if not wanted_job:
+    if not professional_project:
         logging.info(
             "Wanted job {} - {} not found for notebook {}".format(
                 rome_code, rome_label, notebook.id
             )
         )
-        return await insert_wanted_job_for_notebook(
+        return await insert_professional_project_for_notebook(
             connection, notebook, rome_code, rome_label
         )
     else:
-        logging.info("Wanted job {} found for notebook".format(wanted_job))
+        logging.info("Wanted job {} found for notebook".format(professional_project))

@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 from cdb.api.db.models.appointment import Appointment
 from cdb.api.db.models.focus import Focus
 from cdb.api.db.models.notebook_member import NotebookMember
-from cdb.api.db.models.wanted_job import WantedJob
+from cdb.api.db.models.professional_project import ProfessionalProject
 
 
 class Notebook(BaseModel):
@@ -16,7 +16,7 @@ class Notebook(BaseModel):
     updated_at: datetime
     right_rqth: bool = Field(False, title="Droits RQTH")
     beneficiary_id: UUID
-    wanted_jobs: List[WantedJob]
+    professional_projects: List[ProfessionalProject]
     focuses: List[Focus] | None = None
     members: List[NotebookMember] | None = None
     appointments: List[Appointment] | None = None

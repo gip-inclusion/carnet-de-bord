@@ -30,7 +30,7 @@ type alias Theme =
 
 
 type alias ProfessionalProject =
-    { wantedJob : String
+    { professionalProjects : String
     , minimumHourlyWage : Float
     , geopgraphicalArea : Int
     , workingTime : Maybe WorkingTime

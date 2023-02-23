@@ -169,12 +169,12 @@ async def test_insert_beneficiary_check_all_fields(
     )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
-    wanted_jobs = [
+    professional_projects = [
         await get_rome_code_by_id(db_connection, wj.rome_code_id)
-        for wj in beneficiary_in_db.notebook.wanted_jobs
+        for wj in beneficiary_in_db.notebook.professional_projects
     ]
     assert harry_covert.rome_code_description in [
-        rome_code.label for rome_code in wanted_jobs
+        rome_code.label for rome_code in professional_projects
     ]
     referent = await get_professional_by_email(
         db_connection, harry_covert.advisor_email
@@ -212,12 +212,12 @@ async def test_update_beneficiary_check_all_fields(
         beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
     )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
-    wanted_jobs = [
+    professional_projects = [
         await get_rome_code_by_id(db_connection, wj.rome_code_id)
-        for wj in beneficiary_in_db.notebook.wanted_jobs
+        for wj in beneficiary_in_db.notebook.professional_projects
     ]
     assert harry_covert.rome_code_description in [
-        rome_code.label for rome_code in wanted_jobs
+        rome_code.label for rome_code in professional_projects
     ]
 
 
@@ -308,7 +308,7 @@ async def test_import_multiple_beneficiaries(
     assert betty_in_db
 
 
-async def test_import_multiple_wanted_jobs(
+async def test_import_multiple_professional_projects(
     test_client,
     get_manager_jwt,
     db_connection,
@@ -324,13 +324,20 @@ async def test_import_multiple_wanted_jobs(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
 
-    wanted_jobs = [
+    professional_projects = [
         await get_rome_code_by_id(db_connection, wj.rome_code_id)
-        for wj in beneficiary_in_db.notebook.wanted_jobs
+        for wj in beneficiary_in_db.notebook.professional_projects
     ]
-    wanted_job_labels = [rome_code.label for rome_code in wanted_jobs]
-    assert "Chauffeur / Chauffeuse de machines agricoles (A1101)" in wanted_job_labels
-    assert "Pontier élingueur / Pontière élingueuse (N1104)" in wanted_job_labels
+    professional_project_labels = [
+        rome_code.label for rome_code in professional_projects
+    ]
+    assert (
+        "Chauffeur / Chauffeuse de machines agricoles (A1101)"
+        in professional_project_labels
+    )
+    assert (
+        "Pontier élingueur / Pontière élingueuse (N1104)" in professional_project_labels
+    )
 
 
 async def test_matched_existing_referent_and_structure(

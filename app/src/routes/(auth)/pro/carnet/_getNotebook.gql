@@ -109,7 +109,7 @@ query GetNotebook(
       notebookInfo {
         needOrientation
       }
-      wantedJobs {
+      professionalProjects {
         rome_code {
           id
           label

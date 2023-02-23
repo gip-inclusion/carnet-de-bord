@@ -10,7 +10,7 @@ type alias ProfessionalSituation =
     , rightRqth : Bool
     , geographicalArea : Maybe Int
     , educationLevel : Maybe String
-    , wantedJobs : List String
+    , professionalProjects : List String
     , lastJobEndedAt : Maybe Date
     }
 

@@ -10,9 +10,9 @@ from cdb.api.db.models.out import (
     FocusOut,
     NotebookMemberOut,
     NotebookOut,
+    ProfessionalProjectOut,
     RomeCodeOut,
     TargetOut,
-    WantedJobOut,
 )
 
 
@@ -132,15 +132,15 @@ async def notebook_to_out(
             work_situation_end_date=notebook.work_situation_end_date,
             contract_start_date=notebook.contract_start_date,
             contract_end_date=notebook.contract_end_date,
-            wanted_jobs=[
-                WantedJobOut(
+            professional_projects=[
+                ProfessionalProjectOut(
                     rome_code=RomeCodeOut(
                         code=j.rome_code.code,
                         description=j.rome_code.description,
                         label=j.rome_code.label,
                     )
                 )
-                for j in notebook.wanted_jobs
+                for j in notebook.professional_projects
             ],
             focuses=focuses_out,
             members=members_out,

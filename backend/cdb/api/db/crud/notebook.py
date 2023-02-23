@@ -13,9 +13,9 @@ from cdb.api.db.models.beneficiary import BeneficiaryImport
 from cdb.api.db.models.focus import Focus
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.notebook_member import NotebookMember, NotebookMemberInsert
+from cdb.api.db.models.professional_project import ProfessionalProject
 from cdb.api.db.models.rome_code import RomeCode
 from cdb.api.db.models.target import Target
-from cdb.api.db.models.wanted_job import WantedJob
 
 logger = logging.getLogger(__name__)
 
@@ -35,8 +35,8 @@ n.contract_start_date as n_contract_start_date,
 n.contract_end_date as n_contract_end_date,
 n.created_at as n_created_at,
 n.updated_at as n_updated_at,
-wj.rome_code_id as wj_rome_code_id,
-wj.id as wj_id,
+ppro.rome_code_id as ppro_rome_code_id,
+ppro.id as ppro_id,
 rc.code as rc_code,
 rc.description as rc_description,
 rc.label as rc_label,
@@ -89,10 +89,10 @@ nap_account_info.email as nap_email
 """
 
 NOTEBOOK_BASE_JOINS = """
-LEFT JOIN wanted_job wj
-ON wj.notebook_id = n.id
+LEFT JOIN professional_project ppro
+ON ppro.notebook_id = n.id
 LEFT JOIN public.rome_code rc
-ON rc.id = wj.rome_code_id
+ON rc.id = ppro.rome_code_id
 LEFT JOIN notebook_focus nf
 ON nf.notebook_id = n.id
 LEFT JOIN notebook_target nt
@@ -114,40 +114,40 @@ NOTEBOOK_BASE_QUERY = (
 )
 
 
-async def add_wanted_jobs_to_notebook(
+async def add_professional_projects_to_notebook(
     record: Record,
     notebook: Notebook,
     notebook_record_prefix: str = "n_",
-    wj_record_prefix: str = "wj_",
+    ppro_record_prefix: str = "ppro_",
     rc_record_prefix: str = "rc_",
     notebook_id: str = "notebook_id",
 ) -> None:
-    if record[wj_record_prefix + "rome_code_id"] is not None:
+    if record[ppro_record_prefix + "rome_code_id"] is not None:
         rome_code = RomeCode(
-            id=record[wj_record_prefix + "rome_code_id"],
+            id=record[ppro_record_prefix + "rome_code_id"],
             code=record[rc_record_prefix + "code"],
             label=record[rc_record_prefix + "label"],
             description=record[rc_record_prefix + "description"],
         )
 
-        wanted_job = WantedJob(
-            id=record[wj_record_prefix + "id"],
+        professional_project = ProfessionalProject(
+            id=record[ppro_record_prefix + "id"],
             notebook_id=record[notebook_record_prefix + notebook_id],
-            rome_code_id=record[wj_record_prefix + "rome_code_id"],
+            rome_code_id=record[ppro_record_prefix + "rome_code_id"],
             rome_code=rome_code,
         )
 
-        existing_wanted_job: WantedJob | None = next(
+        existing_professional_project: ProfessionalProject | None = next(
             (
-                wj
-                for wj in notebook.wanted_jobs
-                if wj.id == record[wj_record_prefix + "id"]
+                ppro
+                for ppro in notebook.professional_projects
+                if ppro.id == record[ppro_record_prefix + "id"]
             ),
             None,
         )
 
-        if not existing_wanted_job:
-            notebook.wanted_jobs.append(wanted_job)
+        if not existing_professional_project:
+            notebook.professional_projects.append(professional_project)
 
 
 async def find_focus(
@@ -406,7 +406,7 @@ async def parse_notebook_from_record(
     id_field: str = "id",
     record_prefix: str = "n_",
     beneficiary_id_field: str = "beneficiary_id",
-    add_wanted_jobs: bool = True,
+    add_professional_projects: bool = True,
     add_focuses: bool = True,
     add_targets: bool = True,
     add_actions: bool = True,
@@ -422,7 +422,7 @@ async def parse_notebook_from_record(
             updated_at=record[record_prefix + "updated_at"],
             right_rqth=record[record_prefix + "right_rqth"],
             beneficiary_id=record[record_prefix + beneficiary_id_field],
-            wanted_jobs=[],
+            professional_projects=[],
             geographical_area=record[record_prefix + "geographical_area"],
             education_level=record[record_prefix + "education_level"],
             work_situation_date=record[record_prefix + "work_situation_date"],
@@ -434,8 +434,10 @@ async def parse_notebook_from_record(
             contract_end_date=record[record_prefix + "contract_end_date"],
         )
 
-    if add_wanted_jobs:
-        await add_wanted_jobs_to_notebook(record, notebook, notebook_id=id_field)
+    if add_professional_projects:
+        await add_professional_projects_to_notebook(
+            record, notebook, notebook_id=id_field
+        )
 
     if add_focuses:
         await add_focus_to_notebook(record, notebook)
