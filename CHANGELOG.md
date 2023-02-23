@@ -1,3 +1,10 @@
+# [1.201.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.200.2...v1.201.0) (2023-02-23)
+
+
+### Features
+
+* Suppression des situations dans les axes de travail. ([#1547](https://github.com/gip-inclusion/carnet-de-bord/issues/1547)) ([c21b0ee](https://github.com/gip-inclusion/carnet-de-bord/commit/c21b0ee55a55ad65d92071e1aacff2059c3a1a3e))
+
 ## [1.200.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.200.1...v1.200.2) (2023-02-23)
 
 ## [1.200.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.200.0...v1.200.1) (2023-02-23)
