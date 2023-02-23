@@ -249,7 +249,6 @@
 					<ProNotebookSocioProView
 						{notebook}
 						externalDataDetail={externalData}
-						focuses={notebook?.focuses}
 						on:click={() =>
 							goto(`${baseUrlForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostic`)}
 					/>

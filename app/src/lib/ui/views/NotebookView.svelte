@@ -57,7 +57,7 @@
 			<NotebookMembers members={notebook.members} notebookId={notebook.id} />
 		</MainSection>
 		<MainSection title="Diagnostic socioprofessionnel">
-			<SocioProView {notebook} externalDataDetail={externalData} focuses={notebook?.focuses} />
+			<SocioProView {notebook} externalDataDetail={externalData} />
 		</MainSection>
 		<MainSection title="Plan d'action">
 			{#if notebook.focuses.length === 0}

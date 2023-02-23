@@ -115,6 +115,28 @@ query GetNotebook(
           label
         }
       }
+      situations(order_by: { createdAt: desc }) {
+        id
+        refSituation {
+          id
+          theme
+          description
+        }
+        createdAt
+        creator {
+          orientation_manager {
+            firstname
+            lastname
+          }
+          professional {
+            firstname
+            lastname
+            structure {
+              name
+            }
+          }
+        }
+      }
       focuses(order_by: { theme: asc_nulls_last }) {
         id
         theme

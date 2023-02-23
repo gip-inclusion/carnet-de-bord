@@ -34,7 +34,7 @@ type alias ProfessionalSituationFlags =
 
 type alias PersonalSituationElement =
     { theme : String
-    , situations : List String
+    , description : String
     , createdAt : Maybe String
     , creator : String
     }
@@ -48,8 +48,10 @@ type alias Creator =
 
 
 type alias PersonalSituationFlags =
-    { theme : String
-    , situations : Maybe (List String)
+    { refSituation :
+        { theme : String
+        , description : String
+        }
     , createdAt : Maybe String
     , creator : Account
     }
@@ -104,8 +106,8 @@ init flags =
 
 extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationElement
 extractPersonalSituationFromFlags flags =
-    { theme = flags.theme
-    , situations = Maybe.withDefault [] flags.situations
+    { theme = flags.refSituation.theme
+    , description = flags.refSituation.description
     , createdAt = flags.createdAt
     , creator =
         case ( flags.creator.professional, flags.creator.orientation_manager ) of
@@ -389,19 +391,17 @@ personalSituationView { personalSituations } =
                     ]
                 , tbody []
                     (personalSituations
-                        |> List.filter (\personalSituation -> List.length personalSituation.situations > 0)
                         |> List.map
                             (\personalSituation ->
                                 tr [ class "odd:bg-gray-100 align-text-top" ]
-                                    [ td [ class "font-bold pr-8 pl-2 py-3" ] [ personalSituation.theme |> themeKeyStringToString |> text ]
+                                    [ td [ class "font-bold pr-8 pl-2 py-3" ]
+                                        [ personalSituation.theme |> themeKeyStringToString |> text ]
                                     , td [ class "font-bold pr-8 py-3" ]
-                                        [ ul [ class "list-none pl-0" ] (List.map (\situation -> li [] [ text situation ]) personalSituation.situations)
-                                        ]
+                                        [ text personalSituation.description ]
                                     , td [ class "pr-8 py-3" ]
-                                        [ Maybe.withDefault "-" personalSituation.createdAt
-                                            |> text
-                                        ]
-                                    , td [ class "py-3" ] [ text personalSituation.creator ]
+                                        [ Maybe.withDefault "-" personalSituation.createdAt |> text ]
+                                    , td [ class "py-3" ]
+                                        [ text personalSituation.creator ]
                                     ]
                             )
                     )

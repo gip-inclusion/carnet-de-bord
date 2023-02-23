@@ -2,8 +2,9 @@
 	import type {
 		Notebook,
 		ExternalData,
-		NotebookFocus,
+		NotebookSituation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+	import type { Creator } from '../../../../elm/Diagnostic/Main.elm';
 
 	import { formatDateLocale } from '$lib/utils/date';
 
@@ -17,30 +18,19 @@
 		| 'educationLevel'
 		| 'lastJobEndedAt'
 		| 'id'
-	> & { professionalProjects: { rome_code: { id: string; label: string } }[] };
+	> & {
+		professionalProjects: Array<{ rome_code: { id: string; label: string } }>;
+		situations: Array<
+			Pick<NotebookSituation, 'id' | 'createdAt' | 'refSituation'> & { creator?: Creator }
+		>;
+	};
 
 	export type ExternalDataDetail = Pick<ExternalData, 'data' | 'source'>;
-
-	export type Focus = Pick<NotebookFocus, 'situations' | 'theme'> & {
-		createdAt?: string;
-		creator: {
-			professional?: {
-				firstname?: string;
-				lastname?: string;
-				structure: { name: string };
-			};
-			orientation_manager?: {
-				firstname?: string;
-				lastname?: string;
-			};
-		};
-	};
 </script>
 
 <script lang="ts">
 	export let notebook: SocioProInfo;
 	export let externalDataDetail: ExternalDataDetail | null;
-	export let focuses: Focus[] | null;
 
 	import { Elm as DiagnosticElm } from '../../../../elm/Diagnostic/Main.elm';
 	import { afterUpdate } from 'svelte';
@@ -49,8 +39,8 @@
 	afterUpdate(() => {
 		if (!elmNode) return;
 
-		const focusesWithDates = focuses.map((focus) => {
-			return { ...focus, createdAt: formatDateLocale(focus.createdAt) };
+		const situationsWithFormattedDates = notebook.situations?.map((situation) => {
+			return { ...situation, createdAt: formatDateLocale(situation.createdAt) };
 		});
 
 		DiagnosticElm.Diagnostic.Main.init({
@@ -69,7 +59,7 @@
 					lastJobEndedAt: notebook.lastJobEndedAt,
 				},
 				peGeneralData: externalDataDetail?.data?.source || null,
-				personalSituations: focusesWithDates || null,
+				personalSituations: situationsWithFormattedDates || null,
 			},
 		});
 	});
