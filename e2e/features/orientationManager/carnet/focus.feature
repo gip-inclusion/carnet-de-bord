@@ -10,8 +10,6 @@ Scénario: Ajout d'un axe de travail
 	Alors j'attends que le texte "Axe de travail" apparaisse
 	Quand je choisis "Aucun"
 	Quand je selectionne l'option "Emploi" dans la liste "Thème"
-	Quand je choisis "Prêt à suivre une formation"
-	Quand je choisis "Inscrit à Pôle emploi"
 	Quand je clique sur "Valider"
 	Quand je clique sur "J'ai compris"
 	Alors je vois "Aucune action" dans la tuile "Emploi"

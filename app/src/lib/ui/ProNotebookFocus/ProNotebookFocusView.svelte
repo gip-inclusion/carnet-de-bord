@@ -12,7 +12,7 @@
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
 	export let notebook: GetNotebookQuery['notebook_public_view'][0]['notebook'];
-	export let focuses: (Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'> & {
+	export let focuses: (Pick<NotebookFocus, 'id' | 'theme' | 'linkedTo'> & {
 		targets: { actions_aggregate: { aggregate?: { count: number } } }[];
 	})[] = [];
 

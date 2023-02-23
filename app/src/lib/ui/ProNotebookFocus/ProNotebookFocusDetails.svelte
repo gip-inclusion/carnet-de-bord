@@ -36,8 +36,6 @@
 	const deleteFocusMutation = mutation(deleteFocusStore);
 
 	$: focus = $focusStore.data?.focus;
-	// TODO(augustin): check that situations indeed parse as a string[] from jsonb
-	$: situations = (focus?.situations as string[]) || [];
 	$: targets = focus?.targets || [];
 
 	function createTarget() {
@@ -101,16 +99,6 @@
 					>Mettre à jour</Button
 				>
 			</div>
-		</div>
-		<div class="flex flex-col gap-4">
-			<h2 class="fr-h4 text-france-blue">Situation actuelle</h2>
-			<ul class="dsfr-list px-9 py-6 bg-gray-100 flex flex-row flex-wrap flex-grow">
-				{#each situations as situation, i (i)}
-					<li class="w-1/2 font-bold dsfr-bullet">
-						{situation}
-					</li>
-				{/each}
-			</ul>
 		</div>
 		<div class="flex flex-col gap-4">
 			<h2 class="fr-h4 text-france-blue">Objectifs</h2>
@@ -180,13 +168,3 @@
 		</div>
 	</div>
 </LoaderIndicator>
-
-<style lang="postcss">
-	.dsfr-bullet {
-		list-style-type: '\2022 ';
-		padding-left: 0.4rem;
-	}
-	.dsfr-bullet::marker {
-		color: var(--bf500);
-	}
-</style>

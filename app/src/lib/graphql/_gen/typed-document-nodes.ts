@@ -14787,7 +14787,6 @@ export type UpdateNotebookContractMutation = {
 
 export type AddNotebookFocusMutationVariables = Exact<{
 	notebookId: Scalars['uuid'];
-	situations?: InputMaybe<Scalars['jsonb']>;
 	theme: Scalars['String'];
 	linkedTo: Scalars['String'];
 }>;
@@ -14815,7 +14814,6 @@ export type GetNotebookFocusByIdQuery = {
 	focus?: {
 		__typename?: 'notebook_focus';
 		id: string;
-		situations?: any | null;
 		linkedTo?: string | null;
 		theme: string;
 		createdAt: string;
@@ -14882,35 +14880,8 @@ export type GetNotebookFocusByIdQuery = {
 	} | null;
 };
 
-export type GetRefSituationsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetRefSituationsQuery = {
-	__typename?: 'query_root';
-	refSituations: Array<{
-		__typename?: 'ref_situation';
-		id: string;
-		description: string;
-		theme: string;
-	}>;
-};
-
-export type GetRefSituationsByThemeQueryVariables = Exact<{
-	theme: Scalars['String'];
-}>;
-
-export type GetRefSituationsByThemeQuery = {
-	__typename?: 'query_root';
-	refSituations: Array<{
-		__typename?: 'ref_situation';
-		id: string;
-		description: string;
-		theme: string;
-	}>;
-};
-
 export type UpdateNotebookFocusMutationVariables = Exact<{
 	id: Scalars['uuid'];
-	situations?: InputMaybe<Scalars['jsonb']>;
 	linkedTo: Scalars['String'];
 }>;
 
@@ -21327,11 +21298,6 @@ export const AddNotebookFocusDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
 					type: {
 						kind: 'NonNullType',
@@ -21364,11 +21330,6 @@ export const AddNotebookFocusDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'notebookId' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'notebookId' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'situations' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
 										},
 										{
 											kind: 'ObjectField',
@@ -21472,7 +21433,6 @@ export const GetNotebookFocusByIdDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'linkedTo' } },
 								{
 									kind: 'Field',
@@ -21642,111 +21602,6 @@ export const GetNotebookFocusByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookFocusByIdQuery, GetNotebookFocusByIdQueryVariables>;
-export const GetRefSituationsDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetRefSituations' },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'refSituations' },
-						name: { kind: 'Name', value: 'ref_situation' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetRefSituationsQuery, GetRefSituationsQueryVariables>;
-export const GetRefSituationsByThemeDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'GetRefSituationsByTheme' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'refSituations' },
-						name: { kind: 'Name', value: 'ref_situation' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'theme' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'order_by' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'description' },
-											value: { kind: 'EnumValue', value: 'asc' },
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<GetRefSituationsByThemeQuery, GetRefSituationsByThemeQueryVariables>;
 export const UpdateNotebookFocusDocument = {
 	kind: 'Document',
 	definitions: [
@@ -21762,11 +21617,6 @@ export const UpdateNotebookFocusDocument = {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'jsonb' } },
 				},
 				{
 					kind: 'VariableDefinition',
@@ -21804,11 +21654,6 @@ export const UpdateNotebookFocusDocument = {
 								value: {
 									kind: 'ObjectValue',
 									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'situations' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'situations' } },
-										},
 										{
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'linkedTo' },
@@ -31359,14 +31204,6 @@ export type DeleteNotebookFocusByIdMutationStore = OperationStore<
 export type GetNotebookFocusByIdQueryStore = OperationStore<
 	GetNotebookFocusByIdQuery,
 	GetNotebookFocusByIdQueryVariables
->;
-export type GetRefSituationsQueryStore = OperationStore<
-	GetRefSituationsQuery,
-	GetRefSituationsQueryVariables
->;
-export type GetRefSituationsByThemeQueryStore = OperationStore<
-	GetRefSituationsByThemeQuery,
-	GetRefSituationsByThemeQueryVariables
 >;
 export type UpdateNotebookFocusMutationStore = OperationStore<
 	UpdateNotebookFocusMutation,

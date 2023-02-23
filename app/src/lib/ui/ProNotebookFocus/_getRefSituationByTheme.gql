@@ -1,7 +1,0 @@
-query GetRefSituationsByTheme($theme: String!) {
-  refSituations: ref_situation(where: { theme: { _eq: $theme } }, order_by: { description: asc }) {
-    id
-    description
-    theme
-  }
-}
