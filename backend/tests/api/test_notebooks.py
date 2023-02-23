@@ -77,10 +77,19 @@ async def test_add_notebook_member_as_no_referent(
         db_connection,
         notebook_sophie_tifour.id,
     )
-
+    structures = await get_structures_for_beneficiary(
+        db_connection,
+        notebook_sophie_tifour.beneficiary_id,
+    )
     # Check that a new member was added
     assert_member(members, professional_paul_camara, "no_referent", True)
-    # Check that no email is sent since referent doesn't change
+
+    # Check that beneficiary_structure has not changed
+    assert_structure(
+        structures,
+        beneficiary_status="current",
+        structure_name="Centre Communal d'action social Livry-Gargan",
+    )
     mock_send_email.assert_not_called()
     # Check that former referent is still the referent
     assert_member(members, professional_pierre_chevalier, "referent", True)

@@ -97,7 +97,15 @@ async def add_notebook_members(
             mutations = mutations | get_deactivate_notebook_members_mutation(
                 dsl_schema, notebook_id, request.state.account.id
             )
-
+            mutations = mutations | get_deactivate_beneficiary_structure_mutation(
+                dsl_schema,
+                orientation_info.beneficiary["id"],
+            )
+            mutations = mutations | get_insert_beneficiary_structure_mutation(
+                dsl_schema,
+                orientation_info.beneficiary["id"],
+                request.state.account.structure_id,
+            )
             if orientation_info.former_referent_account_id:
                 mutations = (
                     mutations
@@ -113,15 +121,6 @@ async def add_notebook_members(
             notebook_id,
             request.state.account.id,
             data.member_type,
-        )
-        mutations = mutations | get_deactivate_beneficiary_structure_mutation(
-            dsl_schema,
-            orientation_info.beneficiary["id"],
-        )
-        mutations = mutations | get_insert_beneficiary_structure_mutation(
-            dsl_schema,
-            orientation_info.beneficiary["id"],
-            request.state.account.structure_id,
         )
 
         await session.execute(dsl_gql(DSLMutation(**mutations)))
