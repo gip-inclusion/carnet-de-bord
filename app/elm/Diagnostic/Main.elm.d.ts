@@ -6,7 +6,7 @@ export type Flags = {
 		rightRqth: boolean;
 		geographicalArea: number | undefined;
 		educationLevel: string | undefined;
-		wantedJobs: string[];
+		professionalProjects: string[];
 		lastJobEndedAt: string | undefined;
 	};
 	peGeneralData: { [name: string]: string };

@@ -14,7 +14,7 @@ from cdb.api.db.crud.beneficiary import (
 )
 from cdb.api.db.crud.notebook import update_notebook
 from cdb.api.db.crud.notebook_info import insert_or_update_need_orientation
-from cdb.api.db.crud.wanted_job import insert_wanted_jobs
+from cdb.api.db.crud.professional_project import insert_professional_projects
 from cdb.api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryCsvRowResponse,
@@ -103,7 +103,7 @@ async def import_beneficiary(
                     await insert_or_update_need_orientation(
                         db, notebook_id, None, need_orientation
                     )
-                    await insert_wanted_jobs(db, notebook_id, beneficiary)
+                    await insert_professional_projects(db, notebook_id, beneficiary)
                 logger.info("updated existing beneficiary %s", beneficiary_id)
 
                 return BeneficiaryCsvRowResponse(

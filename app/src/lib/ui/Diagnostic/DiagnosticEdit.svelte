@@ -42,10 +42,10 @@
 
 	$: notebookWithJobs = {
 		...notebook,
-		wantedJobs: notebook?.wantedJobs.map(({ rome_code }) => rome_code.id) || [],
+		professionalProjects: notebook?.professionalProjects.map(({ rome_code }) => rome_code.id) || [],
 	};
 
-	$: options = notebook?.wantedJobs.map(({ rome_code }) => rome_code);
+	$: options = notebook?.professionalProjects.map(({ rome_code }) => rome_code);
 	let selectedSituations: Focus[] = [];
 
 	let elmNode: HTMLElement;

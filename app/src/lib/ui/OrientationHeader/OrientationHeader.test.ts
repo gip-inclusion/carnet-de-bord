@@ -108,7 +108,7 @@ const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
 	beneficiary,
 	beneficiaryId: beneficiary.id,
 	members,
-	wantedJobs: [],
+	professionalProjects: [],
 	focuses: [],
 	notebookInfo: { needOrientation: false },
 	rightRqth: false,

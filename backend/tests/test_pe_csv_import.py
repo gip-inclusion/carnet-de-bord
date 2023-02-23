@@ -27,7 +27,7 @@ from cdb.cdb_csv.models.csv_row import PrincipalCsvRow
 from cdb.cdb_csv.pe import (
     import_beneficiaries,
     import_pe_referent,
-    insert_wanted_jobs_for_csv_row_and_notebook,
+    insert_professional_projects_for_csv_row_and_notebook,
     map_principal_row,
     net_email_to_fr_email,
 )
@@ -69,7 +69,7 @@ async def test_parse_principal_csv(
     )
 
     assert beneficiary_sophie_tifour.notebook is not None
-    assert len(beneficiary_sophie_tifour.notebook.wanted_jobs) == 2
+    assert len(beneficiary_sophie_tifour.notebook.professional_projects) == 2
 
     # Account of sanka@groupe-ns.fr
     notebook_member = await get_notebook_member_by_notebook_id_and_account_id(
@@ -123,7 +123,7 @@ async def test_parse_principal_csv(
     )
 
     assert sophie_tifour is not None and sophie_tifour.notebook is not None
-    assert len(sophie_tifour.notebook.wanted_jobs) == 3
+    assert len(sophie_tifour.notebook.professional_projects) == 3
     assert sophie_tifour.pe_unique_import_id == "71288a46-3c4d-4372-9298-c32936d7e76d"
 
     professional = await get_professional_by_email(
@@ -174,35 +174,35 @@ async def test_parse_principal_csv(
         )
 
 
-async def test_insert_wanted_jobs_for_csv_row_and_notebook(
+async def test_insert_professional_projects_for_csv_row_and_notebook(
     db_connection: Connection,
     pe_principal_csv_series,
     beneficiary_sophie_tifour: Beneficiary,
 ):
 
     assert beneficiary_sophie_tifour.notebook is not None
-    assert len(beneficiary_sophie_tifour.notebook.wanted_jobs) == 2
+    assert len(beneficiary_sophie_tifour.notebook.professional_projects) == 2
 
     # Get the first row
     _, row = next(pe_principal_csv_series.iterrows())
     csv_row: PrincipalCsvRow = await map_principal_row(row)
 
     if beneficiary_sophie_tifour.notebook:
-        updated_notebook = await insert_wanted_jobs_for_csv_row_and_notebook(
+        updated_notebook = await insert_professional_projects_for_csv_row_and_notebook(
             db_connection,
             csv_row,
             beneficiary_sophie_tifour.notebook,
             row["identifiant_unique_de"],
         )
 
-        assert len(updated_notebook.wanted_jobs) == 3
+        assert len(updated_notebook.professional_projects) == 3
 
         sophie_tifour = await get_beneficiary_by_id(
             db_connection, UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
         )
 
         assert sophie_tifour is not None and sophie_tifour.notebook is not None
-        assert len(sophie_tifour.notebook.wanted_jobs) == 3
+        assert len(sophie_tifour.notebook.professional_projects) == 3
 
 
 @mock.patch(

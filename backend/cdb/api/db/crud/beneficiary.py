@@ -16,8 +16,8 @@ from cdb.api.db.crud.notebook import (
 )
 from cdb.api.db.crud.notebook_info import insert_or_update_need_orientation
 from cdb.api.db.crud.professional import get_professional_by_email
+from cdb.api.db.crud.professional_project import insert_professional_projects
 from cdb.api.db.crud.structure import get_structure_by_name
-from cdb.api.db.crud.wanted_job import insert_wanted_jobs
 from cdb.api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryImport,
@@ -267,7 +267,7 @@ async def create_beneficiary_with_notebook_and_referent(
         connection, new_notebook_id, None, need_orientation
     )
 
-    await insert_wanted_jobs(connection, new_notebook_id, beneficiary)
+    await insert_professional_projects(connection, new_notebook_id, beneficiary)
     await add_referent_and_structure_to_beneficiary(
         connection, beneficiary_id, new_notebook_id, beneficiary
     )

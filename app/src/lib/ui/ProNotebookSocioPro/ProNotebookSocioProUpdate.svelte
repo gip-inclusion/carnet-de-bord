@@ -29,7 +29,7 @@
 		| 'geographicalArea'
 		| 'lastJobEndedAt'
 		| 'focuses'
-	> & { wantedJobs: string[] };
+	> & { professionalProjects: string[] };
 	export let selectedSituations: Focus[];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
@@ -46,7 +46,7 @@
 		lastJobEndedAt: notebook.lastJobEndedAt ?? '',
 	};
 
-	let wantedJobs = notebook.wantedJobs;
+	let professionalProjects = notebook.professionalProjects;
 
 	function close() {
 		onClose();
@@ -85,7 +85,7 @@
 			workSituationDate: values.workSituationDate.toString() || null,
 			workSituationEndDate: values.workSituationEndDate.toString() || null,
 			lastJobEndedAt: values.lastJobEndedAt.toString() || null,
-			wantedJobs: wantedJobs.map((rome_code_id) => ({
+			professionalProjects: professionalProjects.map((rome_code_id) => ({
 				notebook_id: notebook.id,
 				rome_code_id,
 			})),
@@ -233,7 +233,7 @@
 			<div class="!pb-2 font-bold">
 				<label for={romeSelectorId}>Emploi recherché</label>
 			</div>
-			<ProNotebookSocioProRome bind:value={wantedJobs} {options} {romeSelectorId} />
+			<ProNotebookSocioProRome bind:value={professionalProjects} {options} {romeSelectorId} />
 		</div>
 
 		<Input name="geographicalArea" inputLabel="Zone de mobilité géographique (km)" type="number" />

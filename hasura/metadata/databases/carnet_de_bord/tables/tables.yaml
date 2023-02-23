@@ -26,6 +26,7 @@
 - "!include public_orientation_type.yaml"
 - "!include public_professional.yaml"
 - "!include public_professional_orientation_system.yaml"
+- "!include public_professional_project.yaml"
 - "!include public_ref_action.yaml"
 - "!include public_ref_situation.yaml"
 - "!include public_ref_target.yaml"
@@ -33,4 +34,3 @@
 - "!include public_rome_code.yaml"
 - "!include public_structure.yaml"
 - "!include public_structure_orientation_system.yaml"
-- "!include public_wanted_job.yaml"

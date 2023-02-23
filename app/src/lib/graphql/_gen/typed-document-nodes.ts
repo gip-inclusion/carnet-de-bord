@@ -3915,6 +3915,10 @@ export type MutationRoot = {
 	delete_professional_orientation_system?: Maybe<ProfessionalOrientationSystemMutationResponse>;
 	/** delete single row from the table: "professional_orientation_system" */
 	delete_professional_orientation_system_by_pk?: Maybe<ProfessionalOrientationSystem>;
+	/** delete data from the table: "professional_project" */
+	delete_professional_project?: Maybe<ProfessionalProjectMutationResponse>;
+	/** delete single row from the table: "professional_project" */
+	delete_professional_project_by_pk?: Maybe<ProfessionalProject>;
 	/** delete data from the table: "ref_action" */
 	delete_ref_action?: Maybe<RefActionMutationResponse>;
 	/** delete single row from the table: "ref_action" */
@@ -3943,10 +3947,6 @@ export type MutationRoot = {
 	delete_structure_orientation_system?: Maybe<StructureOrientationSystemMutationResponse>;
 	/** delete single row from the table: "structure_orientation_system" */
 	delete_structure_orientation_system_by_pk?: Maybe<StructureOrientationSystem>;
-	/** delete data from the table: "wanted_job" */
-	delete_wanted_job?: Maybe<WantedJobMutationResponse>;
-	/** delete single row from the table: "wanted_job" */
-	delete_wanted_job_by_pk?: Maybe<WantedJob>;
 	/** insert data into the table: "account" */
 	insert_account?: Maybe<AccountMutationResponse>;
 	/** insert a single row into the table: "account" */
@@ -4055,6 +4055,10 @@ export type MutationRoot = {
 	insert_professional_orientation_system?: Maybe<ProfessionalOrientationSystemMutationResponse>;
 	/** insert a single row into the table: "professional_orientation_system" */
 	insert_professional_orientation_system_one?: Maybe<ProfessionalOrientationSystem>;
+	/** insert data into the table: "professional_project" */
+	insert_professional_project?: Maybe<ProfessionalProjectMutationResponse>;
+	/** insert a single row into the table: "professional_project" */
+	insert_professional_project_one?: Maybe<ProfessionalProject>;
 	/** insert data into the table: "ref_action" */
 	insert_ref_action?: Maybe<RefActionMutationResponse>;
 	/** insert a single row into the table: "ref_action" */
@@ -4083,10 +4087,6 @@ export type MutationRoot = {
 	insert_structure_orientation_system?: Maybe<StructureOrientationSystemMutationResponse>;
 	/** insert a single row into the table: "structure_orientation_system" */
 	insert_structure_orientation_system_one?: Maybe<StructureOrientationSystem>;
-	/** insert data into the table: "wanted_job" */
-	insert_wanted_job?: Maybe<WantedJobMutationResponse>;
-	/** insert a single row into the table: "wanted_job" */
-	insert_wanted_job_one?: Maybe<WantedJob>;
 	/** update data of the table: "account" */
 	update_account?: Maybe<AccountMutationResponse>;
 	/** update single row of the table: "account" */
@@ -4251,6 +4251,12 @@ export type MutationRoot = {
 	update_professional_orientation_system_many?: Maybe<
 		Array<Maybe<ProfessionalOrientationSystemMutationResponse>>
 	>;
+	/** update data of the table: "professional_project" */
+	update_professional_project?: Maybe<ProfessionalProjectMutationResponse>;
+	/** update single row of the table: "professional_project" */
+	update_professional_project_by_pk?: Maybe<ProfessionalProject>;
+	/** update multiples rows of table: "professional_project" */
+	update_professional_project_many?: Maybe<Array<Maybe<ProfessionalProjectMutationResponse>>>;
 	/** update data of the table: "ref_action" */
 	update_ref_action?: Maybe<RefActionMutationResponse>;
 	/** update single row of the table: "ref_action" */
@@ -4295,12 +4301,6 @@ export type MutationRoot = {
 	update_structure_orientation_system_many?: Maybe<
 		Array<Maybe<StructureOrientationSystemMutationResponse>>
 	>;
-	/** update data of the table: "wanted_job" */
-	update_wanted_job?: Maybe<WantedJobMutationResponse>;
-	/** update single row of the table: "wanted_job" */
-	update_wanted_job_by_pk?: Maybe<WantedJob>;
-	/** update multiples rows of table: "wanted_job" */
-	update_wanted_job_many?: Maybe<Array<Maybe<WantedJobMutationResponse>>>;
 };
 
 /** mutation root */
@@ -4575,6 +4575,16 @@ export type MutationRootDeleteProfessionalOrientationSystemByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteProfessionalProjectArgs = {
+	where: ProfessionalProjectBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteProfessionalProjectByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type MutationRootDeleteRefActionArgs = {
 	where: RefActionBoolExp;
 };
@@ -4641,16 +4651,6 @@ export type MutationRootDeleteStructureOrientationSystemArgs = {
 
 /** mutation root */
 export type MutationRootDeleteStructureOrientationSystemByPkArgs = {
-	id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type MutationRootDeleteWantedJobArgs = {
-	where: WantedJobBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteWantedJobByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -4977,6 +4977,18 @@ export type MutationRootInsertProfessionalOrientationSystemOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertProfessionalProjectArgs = {
+	objects: Array<ProfessionalProjectInsertInput>;
+	on_conflict?: InputMaybe<ProfessionalProjectOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertProfessionalProjectOneArgs = {
+	object: ProfessionalProjectInsertInput;
+	on_conflict?: InputMaybe<ProfessionalProjectOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertRefActionArgs = {
 	objects: Array<RefActionInsertInput>;
 	on_conflict?: InputMaybe<RefActionOnConflict>;
@@ -5058,18 +5070,6 @@ export type MutationRootInsertStructureOrientationSystemArgs = {
 export type MutationRootInsertStructureOrientationSystemOneArgs = {
 	object: StructureOrientationSystemInsertInput;
 	on_conflict?: InputMaybe<StructureOrientationSystemOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertWantedJobArgs = {
-	objects: Array<WantedJobInsertInput>;
-	on_conflict?: InputMaybe<WantedJobOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertWantedJobOneArgs = {
-	object: WantedJobInsertInput;
-	on_conflict?: InputMaybe<WantedJobOnConflict>;
 };
 
 /** mutation root */
@@ -5578,6 +5578,23 @@ export type MutationRootUpdateProfessionalOrientationSystemManyArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateProfessionalProjectArgs = {
+	_set?: InputMaybe<ProfessionalProjectSetInput>;
+	where: ProfessionalProjectBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfessionalProjectByPkArgs = {
+	_set?: InputMaybe<ProfessionalProjectSetInput>;
+	pk_columns: ProfessionalProjectPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateProfessionalProjectManyArgs = {
+	updates: Array<ProfessionalProjectUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateRefActionArgs = {
 	_set?: InputMaybe<RefActionSetInput>;
 	where: RefActionBoolExp;
@@ -5696,23 +5713,6 @@ export type MutationRootUpdateStructureOrientationSystemManyArgs = {
 	updates: Array<StructureOrientationSystemUpdates>;
 };
 
-/** mutation root */
-export type MutationRootUpdateWantedJobArgs = {
-	_set?: InputMaybe<WantedJobSetInput>;
-	where: WantedJobBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateWantedJobByPkArgs = {
-	_set?: InputMaybe<WantedJobSetInput>;
-	pk_columns: WantedJobPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateWantedJobManyArgs = {
-	updates: Array<WantedJobUpdates>;
-};
-
 /** columns and relationships of "notebook" */
 export type Notebook = {
 	__typename?: 'notebook';
@@ -5748,12 +5748,12 @@ export type Notebook = {
 	notebookInfo?: Maybe<NotebookInfo>;
 	/** return the number of professionnal for a notebook */
 	notebookMemberCount?: Maybe<Scalars['bigint']>;
+	/** An array relationship */
+	professionalProjects: Array<ProfessionalProject>;
+	/** An aggregate relationship */
+	professionalProjects_aggregate: ProfessionalProjectAggregate;
 	rightRqth: Scalars['Boolean'];
 	updatedAt: Scalars['timestamptz'];
-	/** An array relationship */
-	wantedJobs: Array<WantedJob>;
-	/** An aggregate relationship */
-	wantedJobs_aggregate: WantedJobAggregate;
 	workSituation?: Maybe<Scalars['String']>;
 	workSituationDate?: Maybe<Scalars['date']>;
 	workSituationEndDate?: Maybe<Scalars['date']>;
@@ -5832,21 +5832,21 @@ export type NotebookMembersAggregateArgs = {
 };
 
 /** columns and relationships of "notebook" */
-export type NotebookWantedJobsArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+export type NotebookProfessionalProjectsArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
 };
 
 /** columns and relationships of "notebook" */
-export type NotebookWantedJobsAggregateArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+export type NotebookProfessionalProjectsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
 };
 
 /** columns and relationships of "notebook_action" */
@@ -6459,10 +6459,10 @@ export type NotebookBoolExp = {
 	members_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	notebookInfo?: InputMaybe<NotebookInfoBoolExp>;
 	notebookMemberCount?: InputMaybe<BigintComparisonExp>;
+	professionalProjects?: InputMaybe<ProfessionalProjectBoolExp>;
+	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateBoolExp>;
 	rightRqth?: InputMaybe<BooleanComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
-	wantedJobs?: InputMaybe<WantedJobBoolExp>;
-	wantedJobs_aggregate?: InputMaybe<WantedJobAggregateBoolExp>;
 	workSituation?: InputMaybe<StringComparisonExp>;
 	workSituationDate?: InputMaybe<DateComparisonExp>;
 	workSituationEndDate?: InputMaybe<DateComparisonExp>;
@@ -7481,9 +7481,9 @@ export type NotebookInsertInput = {
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
 	notebookInfo?: InputMaybe<NotebookInfoObjRelInsertInput>;
+	professionalProjects?: InputMaybe<ProfessionalProjectArrRelInsertInput>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
-	wantedJobs?: InputMaybe<WantedJobArrRelInsertInput>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
 	workSituationEndDate?: InputMaybe<Scalars['date']>;
@@ -7907,9 +7907,9 @@ export type NotebookOrderBy = {
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	notebookInfo?: InputMaybe<NotebookInfoOrderBy>;
 	notebookMemberCount?: InputMaybe<OrderBy>;
+	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateOrderBy>;
 	rightRqth?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
-	wantedJobs_aggregate?: InputMaybe<WantedJobAggregateOrderBy>;
 	workSituation?: InputMaybe<OrderBy>;
 	workSituationDate?: InputMaybe<OrderBy>;
 	workSituationEndDate?: InputMaybe<OrderBy>;
@@ -10075,6 +10075,229 @@ export type ProfessionalPkColumnsInput = {
 	id: Scalars['uuid'];
 };
 
+/** Stores the jobs wanted for a notebook beneficiary */
+export type ProfessionalProject = {
+	__typename?: 'professional_project';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id: Scalars['uuid'];
+	/** An object relationship */
+	notebook: Notebook;
+	notebook_id: Scalars['uuid'];
+	/** An object relationship */
+	rome_code: RomeCode;
+	rome_code_id: Scalars['uuid'];
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregated selection of "professional_project" */
+export type ProfessionalProjectAggregate = {
+	__typename?: 'professional_project_aggregate';
+	aggregate?: Maybe<ProfessionalProjectAggregateFields>;
+	nodes: Array<ProfessionalProject>;
+};
+
+export type ProfessionalProjectAggregateBoolExp = {
+	count?: InputMaybe<ProfessionalProjectAggregateBoolExpCount>;
+};
+
+export type ProfessionalProjectAggregateBoolExpCount = {
+	arguments?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+	filter?: InputMaybe<ProfessionalProjectBoolExp>;
+	predicate: IntComparisonExp;
+};
+
+/** aggregate fields of "professional_project" */
+export type ProfessionalProjectAggregateFields = {
+	__typename?: 'professional_project_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ProfessionalProjectMaxFields>;
+	min?: Maybe<ProfessionalProjectMinFields>;
+};
+
+/** aggregate fields of "professional_project" */
+export type ProfessionalProjectAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "professional_project" */
+export type ProfessionalProjectAggregateOrderBy = {
+	count?: InputMaybe<OrderBy>;
+	max?: InputMaybe<ProfessionalProjectMaxOrderBy>;
+	min?: InputMaybe<ProfessionalProjectMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "professional_project" */
+export type ProfessionalProjectArrRelInsertInput = {
+	data: Array<ProfessionalProjectInsertInput>;
+	/** upsert condition */
+	on_conflict?: InputMaybe<ProfessionalProjectOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "professional_project". All fields are combined with a logical 'AND'. */
+export type ProfessionalProjectBoolExp = {
+	_and?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
+	_not?: InputMaybe<ProfessionalProjectBoolExp>;
+	_or?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	notebook?: InputMaybe<NotebookBoolExp>;
+	notebook_id?: InputMaybe<UuidComparisonExp>;
+	rome_code?: InputMaybe<RomeCodeBoolExp>;
+	rome_code_id?: InputMaybe<UuidComparisonExp>;
+	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "professional_project" */
+export enum ProfessionalProjectConstraint {
+	/** unique or primary key constraint on columns "rome_code_id", "notebook_id" */
+	ProfessionalProjectNotebookIdRomeCodeIdKey = 'professional_project_notebook_id_rome_code_id_key',
+	/** unique or primary key constraint on columns "id" */
+	ProfessionalProjectPkey = 'professional_project_pkey',
+}
+
+/** input type for inserting data into table "professional_project" */
+export type ProfessionalProjectInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook?: InputMaybe<NotebookObjRelInsertInput>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	rome_code?: InputMaybe<RomeCodeObjRelInsertInput>;
+	rome_code_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type ProfessionalProjectMaxFields = {
+	__typename?: 'professional_project_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebook_id?: Maybe<Scalars['uuid']>;
+	rome_code_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "professional_project" */
+export type ProfessionalProjectMaxOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebook_id?: InputMaybe<OrderBy>;
+	rome_code_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** aggregate min on columns */
+export type ProfessionalProjectMinFields = {
+	__typename?: 'professional_project_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	notebook_id?: Maybe<Scalars['uuid']>;
+	rome_code_id?: Maybe<Scalars['uuid']>;
+	updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "professional_project" */
+export type ProfessionalProjectMinOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebook_id?: InputMaybe<OrderBy>;
+	rome_code_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** response of any mutation on the table "professional_project" */
+export type ProfessionalProjectMutationResponse = {
+	__typename?: 'professional_project_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<ProfessionalProject>;
+};
+
+/** on_conflict condition type for table "professional_project" */
+export type ProfessionalProjectOnConflict = {
+	constraint: ProfessionalProjectConstraint;
+	update_columns?: Array<ProfessionalProjectUpdateColumn>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
+};
+
+/** Ordering options when selecting data from "professional_project". */
+export type ProfessionalProjectOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	notebook?: InputMaybe<NotebookOrderBy>;
+	notebook_id?: InputMaybe<OrderBy>;
+	rome_code?: InputMaybe<RomeCodeOrderBy>;
+	rome_code_id?: InputMaybe<OrderBy>;
+	updated_at?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: professional_project */
+export type ProfessionalProjectPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "professional_project" */
+export enum ProfessionalProjectSelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebook_id',
+	/** column name */
+	RomeCodeId = 'rome_code_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "professional_project" */
+export type ProfessionalProjectSetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	rome_code_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "professional_project" */
+export type ProfessionalProjectStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ProfessionalProjectStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ProfessionalProjectStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	notebook_id?: InputMaybe<Scalars['uuid']>;
+	rome_code_id?: InputMaybe<Scalars['uuid']>;
+	updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "professional_project" */
+export enum ProfessionalProjectUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NotebookId = 'notebook_id',
+	/** column name */
+	RomeCodeId = 'rome_code_id',
+	/** column name */
+	UpdatedAt = 'updated_at',
+}
+
+export type ProfessionalProjectUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ProfessionalProjectSetInput>;
+	where: ProfessionalProjectBoolExp;
+};
+
 /** select columns of table "professional" */
 export enum ProfessionalSelectColumn {
 	/** column name */
@@ -10325,6 +10548,12 @@ export type QueryRoot = {
 	professional_orientation_system_aggregate: ProfessionalOrientationSystemAggregate;
 	/** fetch data from the table: "professional_orientation_system" using primary key columns */
 	professional_orientation_system_by_pk?: Maybe<ProfessionalOrientationSystem>;
+	/** fetch data from the table: "professional_project" */
+	professional_project: Array<ProfessionalProject>;
+	/** fetch aggregated fields from the table: "professional_project" */
+	professional_project_aggregate: ProfessionalProjectAggregate;
+	/** fetch data from the table: "professional_project" using primary key columns */
+	professional_project_by_pk?: Maybe<ProfessionalProject>;
 	/** fetch data from the table: "ref_action" */
 	ref_action: Array<RefAction>;
 	/** fetch aggregated fields from the table: "ref_action" */
@@ -10383,12 +10612,6 @@ export type QueryRoot = {
 	structure_orientation_system_aggregate: StructureOrientationSystemAggregate;
 	/** fetch data from the table: "structure_orientation_system" using primary key columns */
 	structure_orientation_system_by_pk?: Maybe<StructureOrientationSystem>;
-	/** fetch data from the table: "wanted_job" */
-	wanted_job: Array<WantedJob>;
-	/** fetch aggregated fields from the table: "wanted_job" */
-	wanted_job_aggregate: WantedJobAggregate;
-	/** fetch data from the table: "wanted_job" using primary key columns */
-	wanted_job_by_pk?: Maybe<WantedJob>;
 };
 
 export type QueryRootAccountArgs = {
@@ -10943,6 +11166,26 @@ export type QueryRootProfessionalOrientationSystemByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootProfessionalProjectArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
+};
+
+export type QueryRootProfessionalProjectAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
+};
+
+export type QueryRootProfessionalProjectByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootRefActionArgs = {
 	distinct_on?: InputMaybe<Array<RefActionSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -11152,26 +11395,6 @@ export type QueryRootStructureOrientationSystemAggregateArgs = {
 };
 
 export type QueryRootStructureOrientationSystemByPkArgs = {
-	id: Scalars['uuid'];
-};
-
-export type QueryRootWantedJobArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
-};
-
-export type QueryRootWantedJobAggregateArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
-};
-
-export type QueryRootWantedJobByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -11786,27 +12009,27 @@ export type RomeCode = {
 	id: Scalars['uuid'];
 	label: Scalars['String'];
 	/** An array relationship */
-	wanted_by: Array<WantedJob>;
+	professionalProjects: Array<ProfessionalProject>;
 	/** An aggregate relationship */
-	wanted_by_aggregate: WantedJobAggregate;
+	professionalProjects_aggregate: ProfessionalProjectAggregate;
 };
 
 /** columns and relationships of "rome_code" */
-export type RomeCodeWantedByArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+export type RomeCodeProfessionalProjectsArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
 };
 
 /** columns and relationships of "rome_code" */
-export type RomeCodeWantedByAggregateArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
+export type RomeCodeProfessionalProjectsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
 	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
 };
 
 /** aggregated selection of "rome_code" */
@@ -11839,8 +12062,8 @@ export type RomeCodeBoolExp = {
 	description?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
-	wanted_by?: InputMaybe<WantedJobBoolExp>;
-	wanted_by_aggregate?: InputMaybe<WantedJobAggregateBoolExp>;
+	professionalProjects?: InputMaybe<ProfessionalProjectBoolExp>;
+	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateBoolExp>;
 };
 
 /** unique or primary key constraints on table "rome_code" */
@@ -11857,7 +12080,7 @@ export type RomeCodeInsertInput = {
 	description?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	label?: InputMaybe<Scalars['String']>;
-	wanted_by?: InputMaybe<WantedJobArrRelInsertInput>;
+	professionalProjects?: InputMaybe<ProfessionalProjectArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -11907,7 +12130,7 @@ export type RomeCodeOrderBy = {
 	description?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	label?: InputMaybe<OrderBy>;
-	wanted_by_aggregate?: InputMaybe<WantedJobAggregateOrderBy>;
+	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateOrderBy>;
 };
 
 /** primary key columns input for table: rome_code */
@@ -12869,6 +13092,14 @@ export type SubscriptionRoot = {
 	professional_orientation_system_by_pk?: Maybe<ProfessionalOrientationSystem>;
 	/** fetch data from the table in a streaming manner: "professional_orientation_system" */
 	professional_orientation_system_stream: Array<ProfessionalOrientationSystem>;
+	/** fetch data from the table: "professional_project" */
+	professional_project: Array<ProfessionalProject>;
+	/** fetch aggregated fields from the table: "professional_project" */
+	professional_project_aggregate: ProfessionalProjectAggregate;
+	/** fetch data from the table: "professional_project" using primary key columns */
+	professional_project_by_pk?: Maybe<ProfessionalProject>;
+	/** fetch data from the table in a streaming manner: "professional_project" */
+	professional_project_stream: Array<ProfessionalProject>;
 	/** fetch data from the table in a streaming manner: "professional" */
 	professional_stream: Array<Professional>;
 	/** fetch data from the table: "ref_action" */
@@ -12943,14 +13174,6 @@ export type SubscriptionRoot = {
 	structure_orientation_system_stream: Array<StructureOrientationSystem>;
 	/** fetch data from the table in a streaming manner: "structure" */
 	structure_stream: Array<Structure>;
-	/** fetch data from the table: "wanted_job" */
-	wanted_job: Array<WantedJob>;
-	/** fetch aggregated fields from the table: "wanted_job" */
-	wanted_job_aggregate: WantedJobAggregate;
-	/** fetch data from the table: "wanted_job" using primary key columns */
-	wanted_job_by_pk?: Maybe<WantedJob>;
-	/** fetch data from the table in a streaming manner: "wanted_job" */
-	wanted_job_stream: Array<WantedJob>;
 };
 
 export type SubscriptionRootAccountArgs = {
@@ -13667,6 +13890,32 @@ export type SubscriptionRootProfessionalOrientationSystemStreamArgs = {
 	where?: InputMaybe<ProfessionalOrientationSystemBoolExp>;
 };
 
+export type SubscriptionRootProfessionalProjectArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
+};
+
+export type SubscriptionRootProfessionalProjectAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ProfessionalProjectSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ProfessionalProjectOrderBy>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
+};
+
+export type SubscriptionRootProfessionalProjectByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootProfessionalProjectStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ProfessionalProjectStreamCursorInput>>;
+	where?: InputMaybe<ProfessionalProjectBoolExp>;
+};
+
 export type SubscriptionRootProfessionalStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<ProfessionalStreamCursorInput>>;
@@ -13927,32 +14176,6 @@ export type SubscriptionRootStructureStreamArgs = {
 	where?: InputMaybe<StructureBoolExp>;
 };
 
-export type SubscriptionRootWantedJobArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
-};
-
-export type SubscriptionRootWantedJobAggregateArgs = {
-	distinct_on?: InputMaybe<Array<WantedJobSelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<WantedJobOrderBy>>;
-	where?: InputMaybe<WantedJobBoolExp>;
-};
-
-export type SubscriptionRootWantedJobByPkArgs = {
-	id: Scalars['uuid'];
-};
-
-export type SubscriptionRootWantedJobStreamArgs = {
-	batch_size: Scalars['Int'];
-	cursor: Array<InputMaybe<WantedJobStreamCursorInput>>;
-	where?: InputMaybe<WantedJobBoolExp>;
-};
-
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type TimestampComparisonExp = {
 	_eq?: InputMaybe<Scalars['timestamp']>;
@@ -13990,229 +14213,6 @@ export type UuidComparisonExp = {
 	_lte?: InputMaybe<Scalars['uuid']>;
 	_neq?: InputMaybe<Scalars['uuid']>;
 	_nin?: InputMaybe<Array<Scalars['uuid']>>;
-};
-
-/** Stores the jobs wanted for a notebook beneficiary */
-export type WantedJob = {
-	__typename?: 'wanted_job';
-	created_at?: Maybe<Scalars['timestamptz']>;
-	id: Scalars['uuid'];
-	/** An object relationship */
-	notebook: Notebook;
-	notebook_id: Scalars['uuid'];
-	/** An object relationship */
-	rome_code: RomeCode;
-	rome_code_id: Scalars['uuid'];
-	updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** aggregated selection of "wanted_job" */
-export type WantedJobAggregate = {
-	__typename?: 'wanted_job_aggregate';
-	aggregate?: Maybe<WantedJobAggregateFields>;
-	nodes: Array<WantedJob>;
-};
-
-export type WantedJobAggregateBoolExp = {
-	count?: InputMaybe<WantedJobAggregateBoolExpCount>;
-};
-
-export type WantedJobAggregateBoolExpCount = {
-	arguments?: InputMaybe<Array<WantedJobSelectColumn>>;
-	distinct?: InputMaybe<Scalars['Boolean']>;
-	filter?: InputMaybe<WantedJobBoolExp>;
-	predicate: IntComparisonExp;
-};
-
-/** aggregate fields of "wanted_job" */
-export type WantedJobAggregateFields = {
-	__typename?: 'wanted_job_aggregate_fields';
-	count: Scalars['Int'];
-	max?: Maybe<WantedJobMaxFields>;
-	min?: Maybe<WantedJobMinFields>;
-};
-
-/** aggregate fields of "wanted_job" */
-export type WantedJobAggregateFieldsCountArgs = {
-	columns?: InputMaybe<Array<WantedJobSelectColumn>>;
-	distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "wanted_job" */
-export type WantedJobAggregateOrderBy = {
-	count?: InputMaybe<OrderBy>;
-	max?: InputMaybe<WantedJobMaxOrderBy>;
-	min?: InputMaybe<WantedJobMinOrderBy>;
-};
-
-/** input type for inserting array relation for remote table "wanted_job" */
-export type WantedJobArrRelInsertInput = {
-	data: Array<WantedJobInsertInput>;
-	/** upsert condition */
-	on_conflict?: InputMaybe<WantedJobOnConflict>;
-};
-
-/** Boolean expression to filter rows from the table "wanted_job". All fields are combined with a logical 'AND'. */
-export type WantedJobBoolExp = {
-	_and?: InputMaybe<Array<WantedJobBoolExp>>;
-	_not?: InputMaybe<WantedJobBoolExp>;
-	_or?: InputMaybe<Array<WantedJobBoolExp>>;
-	created_at?: InputMaybe<TimestamptzComparisonExp>;
-	id?: InputMaybe<UuidComparisonExp>;
-	notebook?: InputMaybe<NotebookBoolExp>;
-	notebook_id?: InputMaybe<UuidComparisonExp>;
-	rome_code?: InputMaybe<RomeCodeBoolExp>;
-	rome_code_id?: InputMaybe<UuidComparisonExp>;
-	updated_at?: InputMaybe<TimestamptzComparisonExp>;
-};
-
-/** unique or primary key constraints on table "wanted_job" */
-export enum WantedJobConstraint {
-	/** unique or primary key constraint on columns "rome_code_id", "notebook_id" */
-	WantedJobNotebookIdRomeCodeIdKey = 'wanted_job_notebook_id_rome_code_id_key',
-	/** unique or primary key constraint on columns "id" */
-	WantedJobPkey = 'wanted_job_pkey',
-}
-
-/** input type for inserting data into table "wanted_job" */
-export type WantedJobInsertInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	id?: InputMaybe<Scalars['uuid']>;
-	notebook?: InputMaybe<NotebookObjRelInsertInput>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
-	rome_code?: InputMaybe<RomeCodeObjRelInsertInput>;
-	rome_code_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** aggregate max on columns */
-export type WantedJobMaxFields = {
-	__typename?: 'wanted_job_max_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
-	id?: Maybe<Scalars['uuid']>;
-	notebook_id?: Maybe<Scalars['uuid']>;
-	rome_code_id?: Maybe<Scalars['uuid']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** order by max() on columns of table "wanted_job" */
-export type WantedJobMaxOrderBy = {
-	created_at?: InputMaybe<OrderBy>;
-	id?: InputMaybe<OrderBy>;
-	notebook_id?: InputMaybe<OrderBy>;
-	rome_code_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
-};
-
-/** aggregate min on columns */
-export type WantedJobMinFields = {
-	__typename?: 'wanted_job_min_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
-	id?: Maybe<Scalars['uuid']>;
-	notebook_id?: Maybe<Scalars['uuid']>;
-	rome_code_id?: Maybe<Scalars['uuid']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** order by min() on columns of table "wanted_job" */
-export type WantedJobMinOrderBy = {
-	created_at?: InputMaybe<OrderBy>;
-	id?: InputMaybe<OrderBy>;
-	notebook_id?: InputMaybe<OrderBy>;
-	rome_code_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
-};
-
-/** response of any mutation on the table "wanted_job" */
-export type WantedJobMutationResponse = {
-	__typename?: 'wanted_job_mutation_response';
-	/** number of rows affected by the mutation */
-	affected_rows: Scalars['Int'];
-	/** data from the rows affected by the mutation */
-	returning: Array<WantedJob>;
-};
-
-/** on_conflict condition type for table "wanted_job" */
-export type WantedJobOnConflict = {
-	constraint: WantedJobConstraint;
-	update_columns?: Array<WantedJobUpdateColumn>;
-	where?: InputMaybe<WantedJobBoolExp>;
-};
-
-/** Ordering options when selecting data from "wanted_job". */
-export type WantedJobOrderBy = {
-	created_at?: InputMaybe<OrderBy>;
-	id?: InputMaybe<OrderBy>;
-	notebook?: InputMaybe<NotebookOrderBy>;
-	notebook_id?: InputMaybe<OrderBy>;
-	rome_code?: InputMaybe<RomeCodeOrderBy>;
-	rome_code_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: wanted_job */
-export type WantedJobPkColumnsInput = {
-	id: Scalars['uuid'];
-};
-
-/** select columns of table "wanted_job" */
-export enum WantedJobSelectColumn {
-	/** column name */
-	CreatedAt = 'created_at',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	NotebookId = 'notebook_id',
-	/** column name */
-	RomeCodeId = 'rome_code_id',
-	/** column name */
-	UpdatedAt = 'updated_at',
-}
-
-/** input type for updating data in table "wanted_job" */
-export type WantedJobSetInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	id?: InputMaybe<Scalars['uuid']>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
-	rome_code_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** Streaming cursor of the table "wanted_job" */
-export type WantedJobStreamCursorInput = {
-	/** Stream column input with initial value */
-	initial_value: WantedJobStreamCursorValueInput;
-	/** cursor ordering */
-	ordering?: InputMaybe<CursorOrdering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type WantedJobStreamCursorValueInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	id?: InputMaybe<Scalars['uuid']>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
-	rome_code_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** update columns of table "wanted_job" */
-export enum WantedJobUpdateColumn {
-	/** column name */
-	CreatedAt = 'created_at',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	NotebookId = 'notebook_id',
-	/** column name */
-	RomeCodeId = 'rome_code_id',
-	/** column name */
-	UpdatedAt = 'updated_at',
-}
-
-export type WantedJobUpdates = {
-	/** sets the columns of the filtered rows to the given values */
-	_set?: InputMaybe<WantedJobSetInput>;
-	where: WantedJobBoolExp;
 };
 
 export type DeleteManagerMutationVariables = Exact<{
@@ -15069,7 +15069,7 @@ export type UpdateSocioProMutationVariables = Exact<{
 	geographicalArea?: InputMaybe<Scalars['Int']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
-	wantedJobs: Array<WantedJobInsertInput> | WantedJobInsertInput;
+	professionalProjects: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
 	addedNotebookFocus: Array<NotebookFocusInsertInput> | NotebookFocusInsertInput;
 	updatedNotebookFocus: Array<NotebookFocusUpdates> | NotebookFocusUpdates;
 }>;
@@ -15077,8 +15077,14 @@ export type UpdateSocioProMutationVariables = Exact<{
 export type UpdateSocioProMutation = {
 	__typename?: 'mutation_root';
 	update?: { __typename?: 'notebook'; id: string } | null;
-	delete_wanted_job?: { __typename?: 'wanted_job_mutation_response'; affected_rows: number } | null;
-	insert_wanted_job?: { __typename?: 'wanted_job_mutation_response'; affected_rows: number } | null;
+	delete_professional_project?: {
+		__typename?: 'professional_project_mutation_response';
+		affected_rows: number;
+	} | null;
+	insert_professional_project?: {
+		__typename?: 'professional_project_mutation_response';
+		affected_rows: number;
+	} | null;
 	insert_notebook_focus?: {
 		__typename?: 'notebook_focus_mutation_response';
 		affected_rows: number;
@@ -15342,8 +15348,8 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		educationLevel?: string | null;
 		lastJobEndedAt?: string | null;
 		geographicalArea?: number | null;
-		wantedJobs: Array<{
-			__typename?: 'wanted_job';
+		professionalProjects: Array<{
+			__typename?: 'professional_project';
 			rome_code: { __typename?: 'rome_code'; id: string; label: string };
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -15508,8 +15514,8 @@ export type GetNotebookByIdQuery = {
 		educationLevel?: string | null;
 		lastJobEndedAt?: string | null;
 		geographicalArea?: number | null;
-		wantedJobs: Array<{
-			__typename?: 'wanted_job';
+		professionalProjects: Array<{
+			__typename?: 'professional_project';
 			rome_code: { __typename?: 'rome_code'; id: string; label: string };
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -15667,8 +15673,8 @@ export type NotebookFragmentFragment = {
 	educationLevel?: string | null;
 	lastJobEndedAt?: string | null;
 	geographicalArea?: number | null;
-	wantedJobs: Array<{
-		__typename?: 'wanted_job';
+	professionalProjects: Array<{
+		__typename?: 'professional_project';
 		rome_code: { __typename?: 'rome_code'; id: string; label: string };
 	}>;
 	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -16321,8 +16327,8 @@ export type GetNotebookQuery = {
 			contractEndDate?: string | null;
 			lastJobEndedAt?: string | null;
 			notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
-			wantedJobs: Array<{
-				__typename?: 'wanted_job';
+			professionalProjects: Array<{
+				__typename?: 'professional_project';
 				rome_code: { __typename?: 'rome_code'; id: string; label: string };
 			}>;
 			focuses: Array<{
@@ -16963,7 +16969,7 @@ export const NotebookFragmentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'lastJobEndedAt' } },
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'wantedJobs' },
+						name: { kind: 'Name', value: 'professionalProjects' },
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
@@ -23294,7 +23300,7 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'wantedJobs' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalProjects' } },
 					type: {
 						kind: 'NonNullType',
 						type: {
@@ -23303,7 +23309,7 @@ export const UpdateSocioProDocument = {
 								kind: 'NonNullType',
 								type: {
 									kind: 'NamedType',
-									name: { kind: 'Name', value: 'wanted_job_insert_input' },
+									name: { kind: 'Name', value: 'professional_project_insert_input' },
 								},
 							},
 						},
@@ -23427,7 +23433,7 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'delete_wanted_job' },
+						name: { kind: 'Name', value: 'delete_professional_project' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -23460,12 +23466,12 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_wanted_job' },
+						name: { kind: 'Name', value: 'insert_professional_project' },
 						arguments: [
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'wantedJobs' } },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalProjects' } },
 							},
 						],
 						selectionSet: {
@@ -27419,7 +27425,7 @@ export const GetNotebookDocument = {
 											},
 											{
 												kind: 'Field',
-												name: { kind: 'Name', value: 'wantedJobs' },
+												name: { kind: 'Name', value: 'professionalProjects' },
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [

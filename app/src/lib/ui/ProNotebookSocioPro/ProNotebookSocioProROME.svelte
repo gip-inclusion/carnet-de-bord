@@ -62,5 +62,5 @@
 	clearable={true}
 	multiple={true}
 	max={3}
-	name="wantedJob[]"
+	name="professionalProject[]"
 />

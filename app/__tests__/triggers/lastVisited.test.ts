@@ -98,15 +98,15 @@ describe('lastModified trigger', () => {
 			path.join(__dirname, '../../src/lib/ui/ProNotebookSocioPro/', '_UpdateSocioPro.gql'),
 			'utf8'
 		);
-		const wantedjobQuery = `query {wanted_job(where: {notebook_id: {_eq: "${sofieTifourNotebookId}"}}){notebook_id, rome_code_id}}`;
-		const wantedJobsPayload = await graphqlPro(wantedjobQuery);
+		const professionalProjectsQuery = `query {professional_project(where: {notebook_id: {_eq: "${sofieTifourNotebookId}"}}){notebook_id, rome_code_id}}`;
+		const professionalProjectsPayload = await graphqlPro(professionalProjectsQuery);
 
 		await graphqlPro(updateSocioProMutation, {
 			educationLevel: 'NV4',
 			geographicalArea: 20,
 			id: sofieTifourNotebookId,
 			rightRqth: false,
-			wantedJobs: wantedJobsPayload.data.wanted_job,
+			professionalProjects: professionalProjectsPayload.data.professional_project,
 			workSituation: 'iae',
 			workSituationDate: '2021-10-22',
 			addedNotebookFocus: [],

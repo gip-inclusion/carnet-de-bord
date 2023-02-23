@@ -27,7 +27,7 @@ type alias ProfessionalSituationFlags =
     , rightRqth : Bool
     , geographicalArea : Maybe Int
     , educationLevel : Maybe String
-    , wantedJobs : List String
+    , professionalProjects : List String
     , lastJobEndedAt : Maybe String
     }
 
@@ -137,7 +137,7 @@ extractSituationFromFlags { professionalSituation } =
     , rightRqth = professionalSituation.rightRqth
     , geographicalArea = professionalSituation.geographicalArea
     , educationLevel = professionalSituation.educationLevel
-    , wantedJobs = professionalSituation.wantedJobs
+    , professionalProjects = professionalSituation.professionalProjects
     , lastJobEndedAt = professionalSituation.lastJobEndedAt |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     }
 
@@ -328,9 +328,9 @@ peInformationsView peGeneralData =
         ]
 
 
-wantedJobsToHtml : List String -> Maybe (Html msg)
-wantedJobsToHtml wantedJobs =
-    case wantedJobs of
+professionalProjectsToHtml : List String -> Maybe (Html msg)
+professionalProjectsToHtml professionalProjects =
+    case professionalProjects of
         [] ->
             Nothing
 
@@ -351,7 +351,7 @@ professionalProjectView model =
             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                 [ div [ class "fr-col-6" ]
                     [ situationElement "Emplois recherchés"
-                        (wantedJobsToHtml model.professionalSituation.wantedJobs)
+                        (professionalProjectsToHtml model.professionalSituation.professionalProjects)
                         (unfilled Plural)
                         Nothing
                     ]
