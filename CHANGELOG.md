@@ -1,3 +1,10 @@
+## [1.200.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.200.0...v1.200.1) (2023-02-23)
+
+
+### Bug Fixes
+
+* ne pas modifier la structure de suivi en cas de rattachement en tant que no-referent ([#1552](https://github.com/gip-inclusion/carnet-de-bord/issues/1552)) ([65ed8b7](https://github.com/gip-inclusion/carnet-de-bord/commit/65ed8b7652aa8056195969a1d707bccb6e8e4089))
+
 # [1.200.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.199.0...v1.200.0) (2023-02-22)
 
 
