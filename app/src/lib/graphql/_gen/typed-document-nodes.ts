@@ -15413,8 +15413,8 @@ export type UpdateSocioProMutationVariables = Exact<{
 	educationLevel?: InputMaybe<Scalars['String']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	professionalProjects: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
-	addedNotebookFocus: Array<NotebookFocusInsertInput> | NotebookFocusInsertInput;
-	updatedNotebookFocus: Array<NotebookFocusUpdates> | NotebookFocusUpdates;
+	situationsToAdd: Array<NotebookSituationInsertInput> | NotebookSituationInsertInput;
+	situationIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
 export type UpdateSocioProMutation = {
@@ -15428,14 +15428,14 @@ export type UpdateSocioProMutation = {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
-	insert_notebook_focus?: {
-		__typename?: 'notebook_focus_mutation_response';
+	delete_notebook_situation?: {
+		__typename?: 'notebook_situation_mutation_response';
 		affected_rows: number;
 	} | null;
-	update_notebook_focus_many?: Array<{
-		__typename?: 'notebook_focus_mutation_response';
+	insert_notebook_situation?: {
+		__typename?: 'notebook_situation_mutation_response';
 		affected_rows: number;
-	} | null> | null;
+	} | null;
 };
 
 export type AddNotebookTargetMutationVariables = Exact<{
@@ -15773,6 +15773,31 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				} | null;
 			};
 		}>;
+		situations: Array<{
+			__typename?: 'notebook_situation';
+			id: string;
+			createdAt: string;
+			refSituation?: {
+				__typename?: 'ref_situation';
+				id: string;
+				theme: string;
+				description: string;
+			} | null;
+			creator?: {
+				__typename?: 'account';
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			} | null;
+		}>;
 		focuses: Array<{
 			__typename?: 'notebook_focus';
 			theme: string;
@@ -15939,6 +15964,31 @@ export type GetNotebookByIdQuery = {
 				} | null;
 			};
 		}>;
+		situations: Array<{
+			__typename?: 'notebook_situation';
+			id: string;
+			createdAt: string;
+			refSituation?: {
+				__typename?: 'ref_situation';
+				id: string;
+				theme: string;
+				description: string;
+			} | null;
+			creator?: {
+				__typename?: 'account';
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			} | null;
+		}>;
 		focuses: Array<{
 			__typename?: 'notebook_focus';
 			theme: string;
@@ -16097,6 +16147,31 @@ export type NotebookFragmentFragment = {
 				};
 			} | null;
 		};
+	}>;
+	situations: Array<{
+		__typename?: 'notebook_situation';
+		id: string;
+		createdAt: string;
+		refSituation?: {
+			__typename?: 'ref_situation';
+			id: string;
+			theme: string;
+			description: string;
+		} | null;
+		creator?: {
+			__typename?: 'account';
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				firstname?: string | null;
+				lastname?: string | null;
+			} | null;
+			professional?: {
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				structure: { __typename?: 'structure'; name: string };
+			} | null;
+		} | null;
 	}>;
 	focuses: Array<{
 		__typename?: 'notebook_focus';
@@ -16559,7 +16634,7 @@ export type GetNotebookQueryVariables = Exact<{
 
 export type GetNotebookQuery = {
 	__typename?: 'query_root';
-	situations: Array<{
+	refSituations: Array<{
 		__typename?: 'ref_situation';
 		id: string;
 		description: string;
@@ -16674,11 +16749,35 @@ export type GetNotebookQuery = {
 				__typename?: 'professional_project';
 				rome_code: { __typename?: 'rome_code'; id: string; label: string };
 			}>;
+			situations: Array<{
+				__typename?: 'notebook_situation';
+				id: string;
+				createdAt: string;
+				refSituation?: {
+					__typename?: 'ref_situation';
+					id: string;
+					theme: string;
+					description: string;
+				} | null;
+				creator?: {
+					__typename?: 'account';
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						firstname?: string | null;
+						lastname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name: string };
+					} | null;
+				} | null;
+			}>;
 			focuses: Array<{
 				__typename?: 'notebook_focus';
 				id: string;
 				theme: string;
-				situations?: any | null;
 				linkedTo?: string | null;
 				createdAt: string;
 				creator: {
@@ -17559,6 +17658,86 @@ export const NotebookFragmentFragmentDoc = {
 																	{ kind: 'Field', name: { kind: 'Name', value: 'address2' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'city' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
+							],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'situations' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'order_by' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'createdAt' },
+											value: { kind: 'EnumValue', value: 'desc' },
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'refSituation' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+										],
+									},
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'creator' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
 																],
 															},
 														},
@@ -23534,7 +23713,7 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'addedNotebookFocus' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situationsToAdd' } },
 					type: {
 						kind: 'NonNullType',
 						type: {
@@ -23543,7 +23722,7 @@ export const UpdateSocioProDocument = {
 								kind: 'NonNullType',
 								type: {
 									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_focus_insert_input' },
+									name: { kind: 'Name', value: 'notebook_situation_insert_input' },
 								},
 							},
 						},
@@ -23551,17 +23730,14 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'updatedNotebookFocus' } },
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situationIdsToDelete' } },
 					type: {
 						kind: 'NonNullType',
 						type: {
 							kind: 'ListType',
 							type: {
 								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_focus_updates' },
-								},
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
 							},
 						},
 					},
@@ -23698,12 +23874,69 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_focus' },
+						name: { kind: 'Name', value: 'delete_notebook_situation' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'addedNotebookFocus' } },
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: '_and' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'notebookId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_eq' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'id' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'situationId' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_in' },
+																			value: {
+																				kind: 'Variable',
+																				name: { kind: 'Name', value: 'situationIdsToDelete' },
+																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+												],
+											},
+										},
+									],
+								},
 							},
 						],
 						selectionSet: {
@@ -23713,12 +23946,12 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_focus_many' },
+						name: { kind: 'Name', value: 'insert_notebook_situation' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'updates' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'updatedNotebookFocus' } },
+								name: { kind: 'Name', value: 'objects' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'situationsToAdd' } },
 							},
 						],
 						selectionSet: {
@@ -27286,7 +27519,7 @@ export const GetNotebookDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'situations' },
+						alias: { kind: 'Name', value: 'refSituations' },
 						name: { kind: 'Name', value: 'ref_situation' },
 						selectionSet: {
 							kind: 'SelectionSet',
@@ -27642,6 +27875,101 @@ export const GetNotebookDocument = {
 											},
 											{
 												kind: 'Field',
+												name: { kind: 'Name', value: 'situations' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'order_by' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'createdAt' },
+																	value: { kind: 'EnumValue', value: 'desc' },
+																},
+															],
+														},
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'refSituation' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+																],
+															},
+														},
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'creator' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'structure' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'name' },
+																							},
+																						],
+																					},
+																				},
+																			],
+																		},
+																	},
+																],
+															},
+														},
+													],
+												},
+											},
+											{
+												kind: 'Field',
 												name: { kind: 'Name', value: 'focuses' },
 												arguments: [
 													{
@@ -27664,7 +27992,6 @@ export const GetNotebookDocument = {
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'linkedTo' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 														{

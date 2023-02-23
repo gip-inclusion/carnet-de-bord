@@ -8,8 +8,8 @@ mutation UpdateSocioPro(
   $educationLevel: String
   $lastJobEndedAt: date
   $professionalProjects: [professional_project_insert_input!]!
-  $addedNotebookFocus: [notebook_focus_insert_input!]!
-  $updatedNotebookFocus: [notebook_focus_updates!]!
+  $situationsToAdd: [notebook_situation_insert_input!]!
+  $situationIdsToDelete: [uuid!]!
 ) {
   update: update_notebook_by_pk(
     pk_columns: { id: $id }
@@ -31,10 +31,12 @@ mutation UpdateSocioPro(
   insert_professional_project(objects: $professionalProjects) {
     affected_rows
   }
-  insert_notebook_focus(objects: $addedNotebookFocus) {
+  delete_notebook_situation(
+    where: { _and: [{ notebookId: { _eq: $id } }, { situationId: { _in: $situationIdsToDelete } }] }
+  ) {
     affected_rows
   }
-  update_notebook_focus_many(updates: $updatedNotebookFocus) {
+  insert_notebook_situation(objects: $situationsToAdd) {
     affected_rows
   }
 }

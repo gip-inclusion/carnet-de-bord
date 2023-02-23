@@ -10,34 +10,22 @@ import List.Extra
 import Set exposing (Set)
 
 
-type alias SituationFlag =
+type alias RefSituationFlag =
     { id : String
     , description : String
     , theme : String
     }
 
 
-type alias FocusFlag =
-    { id : String
-    , theme : String
-    , situations : List String
+type alias NotebookSituationFlag =
+    { refSituation : RefSituationFlag
+    , id : String
     }
 
 
 type alias Flags =
-    { situations : List SituationFlag
-    , focuses : List FocusFlag
-    }
-
-
-type alias Focus =
-    { theme : Theme, situations : List Situation, id : Maybe String }
-
-
-type alias FocusOutput =
-    { theme : String
-    , situations : List String
-    , id : Maybe String
+    { refSituations : List RefSituationFlag
+    , situations : List NotebookSituationFlag
     }
 
 
@@ -58,8 +46,16 @@ type alias SelectedSituation =
     }
 
 
+type alias Focus =
+    { theme : Theme, situations : List Situation, id : Maybe String }
+
+
 type Msg
     = ToggleSelectedSituation SelectedSituation
+
+
+type alias Selection =
+    { added : List String, deleted : List String }
 
 
 
@@ -72,12 +68,12 @@ type alias Model =
     }
 
 
-extractSituationOptionsFromFlags : List SituationFlag -> List Situation
+extractSituationOptionsFromFlags : List RefSituationFlag -> List Situation
 extractSituationOptionsFromFlags flags =
     List.filterMap extractSituationOptionFromFlag flags
 
 
-extractSituationOptionFromFlag : SituationFlag -> Maybe Situation
+extractSituationOptionFromFlag : RefSituationFlag -> Maybe Situation
 extractSituationOptionFromFlag flag =
     Maybe.map
         (\theme ->
@@ -96,46 +92,16 @@ extractSituationOptionFromFlag flag =
 init : Flags -> ( Model, Cmd msg )
 init flags =
     ( { possibleSituationsByTheme =
-            extractSituationOptionsFromFlags flags.situations
+            extractSituationOptionsFromFlags flags.refSituations
                 |> situationsByTheme
-                |> addFocusIds flags.focuses
       , selectedSituationSet =
-            flags.focuses
-                |> List.concatMap
-                    (\focus ->
-                        focus.situations
-                            |> List.filterMap
-                                (\description ->
-                                    flags.situations
-                                        |> List.Extra.find (\situation -> situation.description == description)
-                                )
-                            |> List.map .id
-                    )
+            flags.situations
+                |> List.map .refSituation
+                |> List.map .id
                 |> Set.fromList
       }
     , Cmd.none
     )
-
-
-addFocusIds : List FocusFlag -> List Focus -> List Focus
-addFocusIds focusFlags focuses =
-    focuses
-        |> List.map
-            (\focus ->
-                let
-                    focusId =
-                        focusFlags
-                            |> List.Extra.findMap
-                                (\focusFlag ->
-                                    if focusFlag.theme == themeTypeToKeyString focus.theme then
-                                        Just focusFlag.id
-
-                                    else
-                                        Nothing
-                                )
-                in
-                { focus | id = focusId }
-            )
 
 
 
@@ -163,29 +129,7 @@ update msg model =
                         }
             in
             ( newModel
-            , sendSelectedSituations
-                (formatSituationsByFocus model.possibleSituationsByTheme newModel.selectedSituationSet)
-            )
-
-
-formatSituationsByFocus : List Focus -> Set String -> List FocusOutput
-formatSituationsByFocus possibleSituationsByTheme situationSet =
-    possibleSituationsByTheme
-        |> List.map
-            (\{ theme, id, situations } ->
-                { theme = themeTypeToKeyString theme
-                , id = id
-                , situations =
-                    situations
-                        |> List.filterMap
-                            (\situation ->
-                                if Set.member situation.id situationSet then
-                                    Just situation.description
-
-                                else
-                                    Nothing
-                            )
-                }
+            , sendSelectedSituations (newModel.selectedSituationSet |> Set.toList)
             )
 
 
@@ -252,4 +196,4 @@ situationCheckboxView selectedSituationSet situation =
 -- PORTS
 
 
-port sendSelectedSituations : List FocusOutput -> Cmd msg
+port sendSelectedSituations : List String -> Cmd msg

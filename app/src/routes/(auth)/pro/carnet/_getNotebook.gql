@@ -4,7 +4,7 @@ query GetNotebook(
   $eventsEnd: timestamptz = "infinity"
   $withOrientationRequests: Boolean = true
 ) {
-  situations: ref_situation {
+  refSituations: ref_situation {
     id
     description
     theme
@@ -140,7 +140,6 @@ query GetNotebook(
       focuses(order_by: { theme: asc_nulls_last }) {
         id
         theme
-        situations
         linkedTo
         createdAt
         creator {
