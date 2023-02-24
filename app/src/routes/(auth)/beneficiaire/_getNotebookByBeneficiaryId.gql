@@ -130,7 +130,6 @@ fragment notebookFragment on notebook {
   }
   focuses(order_by: { createdAt: desc_nulls_first }) {
     theme
-    situations
     createdAt
     creator {
       orientation_manager {

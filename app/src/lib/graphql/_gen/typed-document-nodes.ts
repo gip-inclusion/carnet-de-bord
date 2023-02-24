@@ -15801,7 +15801,6 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		focuses: Array<{
 			__typename?: 'notebook_focus';
 			theme: string;
-			situations?: any | null;
 			createdAt: string;
 			creator: {
 				__typename?: 'account';
@@ -15992,7 +15991,6 @@ export type GetNotebookByIdQuery = {
 		focuses: Array<{
 			__typename?: 'notebook_focus';
 			theme: string;
-			situations?: any | null;
 			createdAt: string;
 			creator: {
 				__typename?: 'account';
@@ -16176,7 +16174,6 @@ export type NotebookFragmentFragment = {
 	focuses: Array<{
 		__typename?: 'notebook_focus';
 		theme: string;
-		situations?: any | null;
 		createdAt: string;
 		creator: {
 			__typename?: 'account';
@@ -17773,7 +17770,6 @@ export const NotebookFragmentFragmentDoc = {
 							kind: 'SelectionSet',
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'theme' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'situations' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 								{
 									kind: 'Field',
