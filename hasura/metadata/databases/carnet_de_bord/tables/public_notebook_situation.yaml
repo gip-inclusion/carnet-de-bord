@@ -46,6 +46,12 @@ object_relationships:
           name: ref_situation
           schema: public
 insert_permissions:
+  - role: admin_cdb
+    permission:
+      check: {}
+      columns:
+        - notebook_id
+        - situation_id
   - role: orientation_manager
     permission:
       check:
@@ -71,6 +77,64 @@ insert_permissions:
         - notebook_id
         - situation_id
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - created_at
+        - created_by
+        - id
+        - notebook_id
+        - situation_id
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - created_at
+        - created_by
+        - id
+        - notebook_id
+        - situation_id
+      filter:
+        notebook:
+          _or:
+            - members:
+                account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
+            - beneficiary:
+                structures:
+                  structure:
+                    admins:
+                      admin_structure_id:
+                        _eq: X-Hasura-AdminStructure-Id
+  - role: beneficiary
+    permission:
+      columns:
+        - created_at
+        - created_by
+        - id
+        - notebook_id
+        - situation_id
+      filter:
+        notebook:
+          beneficiary_id:
+            _eq: X-Hasura-Beneficiary-Id
+  - role: manager
+    permission:
+      columns:
+        - created_at
+        - created_by
+        - id
+        - notebook_id
+        - situation_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: orientation_manager
     permission:
       columns:
