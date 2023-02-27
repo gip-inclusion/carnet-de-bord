@@ -75,7 +75,7 @@ Dans un quatrième et dernier terminal
 ```sh
 cd backend
 poetry install # installer les dépendances python
-poetry run uvicorn --reload api.main:app # démarrer l'instance de serveur FastAPI
+poetry run uvicorn --reload cdb.api.main:app # démarrer l'instance de serveur FastAPI
 ```
 
 **8/** Accéder aux applications & outils (cf. captures ci-dessous)
