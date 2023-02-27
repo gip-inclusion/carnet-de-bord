@@ -19,6 +19,7 @@ Scénario: Ajout d'un axe de travail par un pro
 	Quand je clique sur "Valider"
 	Quand je clique sur "J'ai compris"
 	Alors je vois "Aucune action" dans la tuile "Numérique"
+	Alors je ne vois pas "J'ai compris"
 
 Scénario: Je peux consulter un axe de travail existant
 	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
