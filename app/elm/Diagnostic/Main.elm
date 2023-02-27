@@ -49,7 +49,7 @@ type alias Creator =
 
 type alias PersonalSituationFlags =
     { theme : String
-    , situations : List String
+    , situations : Maybe (List String)
     , createdAt : Maybe String
     , creator : Account
     }
@@ -105,7 +105,7 @@ init flags =
 extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationElement
 extractPersonalSituationFromFlags flags =
     { theme = flags.theme
-    , situations = flags.situations
+    , situations = Maybe.withDefault [] flags.situations
     , createdAt = flags.createdAt
     , creator =
         case ( flags.creator.professional, flags.creator.orientation_manager ) of
