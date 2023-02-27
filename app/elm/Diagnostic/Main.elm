@@ -8,7 +8,8 @@ import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html exposing (..)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, rowspan)
+import List.Extra
 
 
 type alias PeFlags =
@@ -32,11 +33,17 @@ type alias ProfessionalSituationFlags =
     }
 
 
-type alias PersonalSituationElement =
+type alias PersonalSituation =
     { theme : String
     , description : String
-    , createdAt : Maybe String
+    , createdAt : String
     , creator : String
+    }
+
+
+type alias PersonalSituationsByTheme =
+    { theme : String
+    , situations : List PersonalSituation
     }
 
 
@@ -52,8 +59,8 @@ type alias PersonalSituationFlags =
         { theme : String
         , description : String
         }
-    , createdAt : Maybe String
-    , creator : Account
+    , createdAt : String
+    , creator : Maybe Account
     }
 
 
@@ -89,7 +96,7 @@ type alias Model =
     { professionalSituation : ProfessionalSituation
     , professionalProjects : List ProfessionalProject
     , peGeneralData : GeneralData
-    , personalSituations : List PersonalSituationElement
+    , personalSituations : List PersonalSituationsByTheme
     }
 
 
@@ -104,27 +111,42 @@ init flags =
     )
 
 
-extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituationElement
+extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituation
 extractPersonalSituationFromFlags flags =
     { theme = flags.refSituation.theme
     , description = flags.refSituation.description
     , createdAt = flags.createdAt
     , creator =
-        case ( flags.creator.professional, flags.creator.orientation_manager ) of
-            ( Just p, _ ) ->
-                p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
+        flags.creator
+            |> Maybe.map
+                (\creator ->
+                    case ( creator.professional, creator.orientation_manager ) of
+                        ( Just p, _ ) ->
+                            p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
 
-            ( _, Just o ) ->
-                o.firstname ++ " " ++ o.lastname
+                        ( _, Just o ) ->
+                            o.firstname ++ " " ++ o.lastname
 
-            _ ->
-                ""
+                        _ ->
+                            ""
+                )
+            |> Maybe.withDefault ""
     }
 
 
-extractPersonalSituationsFromFlags : Flags -> List PersonalSituationElement
+extractPersonalSituationsToPersonalSituationsByTheme : ( PersonalSituation, List PersonalSituation ) -> PersonalSituationsByTheme
+extractPersonalSituationsToPersonalSituationsByTheme ( first, tail ) =
+    { theme = first.theme
+    , situations = first :: tail
+    }
+
+
+extractPersonalSituationsFromFlags : Flags -> List PersonalSituationsByTheme
 extractPersonalSituationsFromFlags { personalSituations } =
-    List.map extractPersonalSituationFromFlags (Maybe.withDefault [] personalSituations)
+    Maybe.withDefault [] personalSituations
+        |> List.map extractPersonalSituationFromFlags
+        |> List.Extra.gatherEqualsBy .theme
+        |> List.map extractPersonalSituationsToPersonalSituationsByTheme
 
 
 extractSituationFromFlags : Flags -> ProfessionalSituation
@@ -391,19 +413,34 @@ personalSituationView { personalSituations } =
                     ]
                 , tbody []
                     (personalSituations
-                        |> List.map
-                            (\personalSituation ->
-                                tr [ class "odd:bg-gray-100 align-text-top" ]
-                                    [ td [ class "font-bold pr-8 pl-2 py-3" ]
-                                        [ personalSituation.theme |> themeKeyStringToString |> text ]
-                                    , td [ class "font-bold pr-8 py-3" ]
-                                        [ text personalSituation.description ]
-                                    , td [ class "pr-8 py-3" ]
-                                        [ Maybe.withDefault "-" personalSituation.createdAt |> text ]
-                                    , td [ class "py-3" ]
-                                        [ text personalSituation.creator ]
-                                    ]
+                        |> List.indexedMap
+                            (\personalIndex personalSituation ->
+                                personalSituation.situations
+                                    |> List.indexedMap
+                                        (\index situation ->
+                                            tr
+                                                [ if modBy 2 personalIndex == 0 then
+                                                    class "bg-gray-100 align-text-top text-left"
+
+                                                  else
+                                                    class "align-text-top text-left"
+                                                ]
+                                                [ if index == 0 then
+                                                    th [ class "font-bold pr-8 pl-2 py-3", rowspan (List.length personalSituation.situations) ]
+                                                        [ personalSituation.theme |> themeKeyStringToString |> text ]
+
+                                                  else
+                                                    text ""
+                                                , td [ class "font-bold pr-8 py-3" ]
+                                                    [ text situation.description ]
+                                                , td [ class "pr-8 py-3" ]
+                                                    [ text situation.createdAt ]
+                                                , td [ class "py-3" ]
+                                                    [ text situation.creator ]
+                                                ]
+                                        )
                             )
+                        |> List.concat
                     )
                 ]
             ]

@@ -46,7 +46,7 @@ type alias SelectedSituation =
     }
 
 
-type alias Focus =
+type alias RefSituation =
     { theme : Theme, situations : List Situation, id : Maybe String }
 
 
@@ -54,16 +54,12 @@ type Msg
     = ToggleSelectedSituation SelectedSituation
 
 
-type alias Selection =
-    { added : List String, deleted : List String }
-
-
 
 -- MODEL
 
 
 type alias Model =
-    { possibleSituationsByTheme : List Focus
+    { possibleSituationsByTheme : List RefSituation
     , selectedSituationSet : Set String
     }
 
@@ -133,7 +129,7 @@ update msg model =
             )
 
 
-situationsByTheme : List Situation -> List Focus
+situationsByTheme : List Situation -> List RefSituation
 situationsByTheme situations =
     situations
         |> List.Extra.gatherEqualsBy .theme
