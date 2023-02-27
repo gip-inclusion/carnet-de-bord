@@ -9,7 +9,7 @@
 	import { displayFullName } from '$lib/ui/format';
 	import { connectedUser } from '$lib/stores';
 	import { afterUpdate } from 'svelte';
-	import { Elm as DiagnosticEditElm, Focus } from '../../../../elm/DiagnosticEdit/Main.elm';
+	import { Elm as DiagnosticEditElm } from '../../../../elm/DiagnosticEdit/Main.elm';
 
 	export let notebookId: string;
 	$: notebookPath =
@@ -35,10 +35,7 @@
 	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
 	$: notebook = publicNotebook?.notebook;
 	$: beneficiary = publicNotebook?.beneficiary;
-	$: situations = $getNotebook.data?.situations;
-	$: focuses = notebook?.focuses?.map((focus) => {
-		return { id: focus.id, theme: focus.theme, situations: focus.situations ?? [] };
-	});
+	$: refSituations = $getNotebook.data?.refSituations;
 
 	$: notebookWithJobs = {
 		...notebook,
@@ -46,7 +43,7 @@
 	};
 
 	$: options = notebook?.professionalProjects.map(({ rome_code }) => rome_code);
-	let selectedSituations: Focus[] = [];
+	let selectedSituations: string[] = [];
 
 	let elmNode: HTMLElement;
 	afterUpdate(() => {
@@ -54,10 +51,13 @@
 
 		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
 			node: elmNode,
-			flags: { situations, focuses },
+			flags: {
+				refSituations,
+				situations: notebook.situations,
+			},
 		});
 
-		app.ports.sendSelectedSituations.subscribe((updatedSelection: Focus[]) => {
+		app.ports.sendSelectedSituations.subscribe((updatedSelection: string[]) => {
 			selectedSituations = updatedSelection;
 		});
 	});
@@ -76,7 +76,7 @@
 			{selectedSituations}
 			onClose={goToNotebook}
 		>
-			{#key situations}
+			{#key refSituations}
 				<div class="elm-node">
 					<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
 					<div bind:this={elmNode} />

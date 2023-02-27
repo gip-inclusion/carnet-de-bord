@@ -9,6 +9,20 @@ select_permissions:
         - description
         - theme
       filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - description
+        - theme
+        - id
+      filter: {}
+  - role: beneficiary
+    permission:
+      columns:
+        - description
+        - theme
+        - id
+      filter: {}
   - role: manager
     permission:
       columns:

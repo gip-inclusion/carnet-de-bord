@@ -57,7 +57,7 @@
 			<NotebookMembers members={notebook.members} notebookId={notebook.id} />
 		</MainSection>
 		<MainSection title="Diagnostic socioprofessionnel">
-			<SocioProView {notebook} externalDataDetail={externalData} focuses={notebook?.focuses} />
+			<SocioProView {notebook} externalDataDetail={externalData} />
 		</MainSection>
 		<MainSection title="Plan d'action">
 			{#if notebook.focuses.length === 0}
@@ -70,13 +70,6 @@
 							<span><span class="fr-icon-arrow-right-s-line" aria-hidden="true" /></span
 							>{focusThemeKeys.byKey[focus.theme]}
 						</h3>
-						{#if focus.situations.length > 0}
-							<ul class="list-none pl-0">
-								{#each focus.situations as situation}
-									<li>{situation}</li>
-								{/each}
-							</ul>
-						{/if}
 						<div class="py-4">
 							<Accordions>
 								{#each focus.targets as target}

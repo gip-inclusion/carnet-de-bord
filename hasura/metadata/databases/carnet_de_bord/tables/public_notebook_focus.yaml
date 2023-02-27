@@ -42,7 +42,6 @@ insert_permissions:
       columns:
         - id
         - theme
-        - situations
         - creator_id
         - notebook_id
         - created_at
@@ -64,7 +63,6 @@ insert_permissions:
         - id
         - linked_to
         - notebook_id
-        - situations
         - theme
   - role: professional
     permission:
@@ -83,7 +81,6 @@ insert_permissions:
         - id
         - linked_to
         - notebook_id
-        - situations
         - theme
 select_permissions:
   - role: admin_cdb
@@ -94,7 +91,6 @@ select_permissions:
         - id
         - linked_to
         - notebook_id
-        - situations
         - theme
         - updated_at
       filter: {}
@@ -102,13 +98,12 @@ select_permissions:
   - role: admin_structure
     permission:
       columns:
-        - id
-        - theme
-        - situations
-        - creator_id
-        - notebook_id
         - created_at
+        - creator_id
+        - id
         - linked_to
+        - notebook_id
+        - theme
         - updated_at
       filter:
         notebook:
@@ -135,7 +130,6 @@ select_permissions:
         - id
         - linked_to
         - notebook_id
-        - situations
         - theme
         - updated_at
       filter:
@@ -147,7 +141,6 @@ select_permissions:
       columns:
         - id
         - theme
-        - situations
         - creator_id
         - notebook_id
         - created_at
@@ -164,7 +157,6 @@ select_permissions:
       columns:
         - id
         - theme
-        - situations
         - creator_id
         - notebook_id
         - created_at
@@ -183,7 +175,6 @@ select_permissions:
         - id
         - linked_to
         - notebook_id
-        - situations
         - theme
         - updated_at
       filter:
@@ -201,7 +192,6 @@ update_permissions:
       columns:
         - linked_to
         - theme
-        - situations
         - created_at
         - creator_id
         - id
@@ -212,7 +202,6 @@ update_permissions:
     permission:
       columns:
         - linked_to
-        - situations
         - theme
       filter:
         notebook:
@@ -227,7 +216,6 @@ update_permissions:
     permission:
       columns:
         - linked_to
-        - situations
         - theme
       filter:
         notebook:

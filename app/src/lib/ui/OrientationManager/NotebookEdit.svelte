@@ -62,7 +62,6 @@
 			<ProNotebookSocioProView
 				notebook={notebook?.notebook}
 				externalDataDetail={externalData}
-				focuses={notebook?.notebook?.focuses}
 				on:click={() =>
 					goto(
 						`${baseUrlForRole(RoleEnum.OrientationManager)}/carnets/edition/${

@@ -14,7 +14,6 @@
 	} from './ProNotebookSocioPro.schema';
 	import { Checkbox, Form, Input, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
-	import type { Focus } from 'elm/DiagnosticEdit/Main.elm';
 
 	export let onClose: () => void;
 	export let options: { id: string; label: string }[];
@@ -29,8 +28,9 @@
 		| 'geographicalArea'
 		| 'lastJobEndedAt'
 		| 'focuses'
+		| 'situations'
 	> & { professionalProjects: string[] };
-	export let selectedSituations: Focus[];
+	export let selectedSituations: string[];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -55,26 +55,22 @@
 	async function handleSubmit(values: ProNotebookSocioproInput) {
 		trackEvent('pro', 'notebook', 'update socio pro info');
 		const { educationLevel, geographicalArea, rightRqth, workSituation } =
-			await proNotebookSocioproSchema.validate(values);
+			proNotebookSocioproSchema.validateSync(values);
 
-		const updatedNotebookFocus = selectedSituations
-			.filter(({ id }) => id)
-			.map(({ id, theme, situations }) => {
-				return {
-					where: { id: { _eq: id } },
-					_set: { situations: situations, theme: theme },
-				};
-			});
+		const currentSituationIds = notebook.situations.map(({ refSituation }) => refSituation.id);
 
-		const addedNotebookFocus = selectedSituations
-			.filter(({ id, situations }) => !id && situations.length > 0)
-			.map(({ theme, situations }) => {
+		const situationsToAdd = selectedSituations
+			.filter((id) => !currentSituationIds.includes(id))
+			.map((situationId) => {
 				return {
 					notebookId: notebook.id,
-					theme,
-					situations,
+					situationId,
 				};
 			});
+
+		const situationIdsToDelete = currentSituationIds.filter(
+			(id) => !selectedSituations.includes(id)
+		);
 
 		const payload = {
 			id: notebook.id,
@@ -89,8 +85,8 @@
 				notebook_id: notebook.id,
 				rome_code_id,
 			})),
-			updatedNotebookFocus,
-			addedNotebookFocus,
+			situationsToAdd,
+			situationIdsToDelete,
 		};
 
 		await updateSocioPro(payload);

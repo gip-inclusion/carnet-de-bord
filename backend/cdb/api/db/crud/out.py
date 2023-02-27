@@ -48,7 +48,6 @@ async def notebook_to_out(
             focuses_out = [
                 FocusOut(
                     theme=f.theme,
-                    situations=f.situations,
                     created_at=f.created_at,
                     updated_at=f.updated_at,
                     linked_to=f.linked_to,

@@ -94,6 +94,15 @@ array_relationships:
         table:
           name: professional_project
           schema: public
+  - name: situations
+    using:
+      manual_configuration:
+        column_mapping:
+          id: notebook_id
+        insertion_order: null
+        remote_table:
+          name: notebook_situation
+          schema: public
 computed_fields:
   - name: notebookMemberCount
     definition:

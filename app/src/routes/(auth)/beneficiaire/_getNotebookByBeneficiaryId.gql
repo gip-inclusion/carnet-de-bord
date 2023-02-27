@@ -106,9 +106,30 @@ fragment notebookFragment on notebook {
       }
     }
   }
+  situations(order_by: { createdAt: desc }) {
+    id
+    refSituation {
+      id
+      theme
+      description
+    }
+    createdAt
+    creator {
+      orientation_manager {
+        firstname
+        lastname
+      }
+      professional {
+        firstname
+        lastname
+        structure {
+          name
+        }
+      }
+    }
+  }
   focuses(order_by: { createdAt: desc_nulls_first }) {
     theme
-    situations
     createdAt
     creator {
       orientation_manager {

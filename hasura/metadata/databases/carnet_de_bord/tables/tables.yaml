@@ -19,6 +19,7 @@
 - "!include public_notebook_info.yaml"
 - "!include public_notebook_member.yaml"
 - "!include public_notebook_public_view.yaml"
+- "!include public_notebook_situation.yaml"
 - "!include public_notebook_target.yaml"
 - "!include public_orientation_manager.yaml"
 - "!include public_orientation_request.yaml"
