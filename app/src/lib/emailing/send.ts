@@ -14,7 +14,6 @@ const smtpConfig: SMTPTransport.Options = {
 	secure: SMTP_PORT === 465,
 	tls: {
 		minVersion: 'TLSv1.2',
-		...(/maildev/.test(SMTP_HOST) && { rejectUnauthorized: false }),
 	},
 	...(SMTP_PASS &&
 		SMTP_USER && {

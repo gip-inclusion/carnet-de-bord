@@ -97,9 +97,7 @@ L'équipe privilégie les "squash and merge" avec un message de commit qui suit 
 
 ## Gestion des mails sur les environnements de développement (review / preprod)
 
-Pour les environnements de review les mails envoyés par l'application sont visible sur une instance de [maildev](https://maildev.github.io/maildev/) que l'on déploie lorsqu'on déploie nos environnements de review-branch.
-
-Pour la preprod, nous utilisons [mailtrap](https://mailtrap.io) (demander l'accès)
+Pour les environnements de review et la preprod, les mails envoyés par l'application sont visibles sur une instance de [mailtrap](https://mailtrap.io) (Les accès se trouvent dans bitwarden).
 
 ## Howto
 
