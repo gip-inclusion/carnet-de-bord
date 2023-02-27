@@ -145,9 +145,9 @@ select_permissions:
         - situation_id
       filter:
         notebook:
-          beneficiary:
-            deployment_id:
-              _eq: X-Hasura-Deployment-Id
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
   - role: professional
     permission:
       columns:
@@ -158,9 +158,9 @@ select_permissions:
         - situation_id
       filter:
         notebook:
-          beneficiary:
-            deployment_id:
-              _eq: X-Hasura-Deployment-Id
+          members:
+            account_id:
+              _eq: X-Hasura-User-Id
 delete_permissions:
   - role: orientation_manager
     permission:
