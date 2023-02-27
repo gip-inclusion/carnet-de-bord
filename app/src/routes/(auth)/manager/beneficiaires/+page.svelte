@@ -12,10 +12,11 @@
 		BeneficiaryBoolExp,
 		GetBeneficiariesDocument,
 		GetBeneficiariesQuery,
+		NotebookBoolExp,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
-	import BeneficiaryFilterView, { MemberFilter } from '$lib/ui/BeneficiaryList/Filters.svelte';
+	import BeneficiaryFilterView from '$lib/ui/BeneficiaryList/SupportFilters.svelte';
 	import BeneficiaryListWithStructure from '$lib/ui/BeneficiaryList/ListWithStructure.svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
@@ -23,6 +24,7 @@
 	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
+	import type { OrientedFilter } from '$lib/ui/BeneficiaryList/OrientationFilter';
 
 	export let data: PageData;
 
@@ -39,12 +41,24 @@
 		},
 	];
 
-	const notebookFilter = {
-		members: {
-			active: { _eq: true },
-			memberType: { _eq: 'referent' },
-		},
+	const graphqlOrientedFilter = {
+		members: { memberType: { _eq: 'referent' }, active: { _eq: true } },
 	};
+	function getSupportFilter(filter: OrientedFilter): NotebookBoolExp {
+		switch (filter) {
+			case 'sans-referent':
+				return {
+					_not: graphqlOrientedFilter,
+					beneficiary: { structures: { status: { _eq: 'current' } } },
+				};
+			case 'sans-structure':
+				return { _not: { beneficiary: { structures: { status: { _eq: 'current' } } } } };
+			case 'referent':
+				return graphqlOrientedFilter;
+			default:
+				return {};
+		}
+	}
 
 	function getWhereFilter(): BeneficiaryBoolExp {
 		if (data.member) {
@@ -62,18 +76,7 @@
 				},
 			};
 		}
-
-		if (data.filter === 'noMember') {
-			return {
-				notebook: {
-					_not: notebookFilter,
-				},
-			};
-		}
-		if (data.filter === 'withMember') {
-			return { notebook: notebookFilter };
-		}
-		return { notebook: {} };
+		return { notebook: getSupportFilter(data.filter) };
 	}
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
@@ -94,7 +97,7 @@
 	);
 
 	function updateFilters(
-		event: CustomEvent<{ resetMember: boolean; filter: MemberFilter; search: string }>
+		event: CustomEvent<{ resetMember: boolean; filter: OrientedFilter; search: string }>
 	) {
 		// We should not mutate the $page.url.searchParams AND use goto
 		// since it make unreliable behaviour

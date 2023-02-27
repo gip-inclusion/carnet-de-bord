@@ -2,18 +2,13 @@ query GetDeploymentInfos($id: uuid!) {
   deployment: deployment_by_pk(id: $id) {
     label
   }
-  beneficiaries: beneficiary_aggregate {
+  beneficiaries: beneficiary_aggregate(where: { notebook: {} }) {
     aggregate {
       count
     }
   }
   beneficiariesWithNoStructure: beneficiary_aggregate(
-    where: {
-      _or: [
-        { _not: { structures: {} } }
-        { notebook: { members: { _not: { active: { _eq: true } } } } }
-      ]
-    }
+    where: { notebook: {}, _not: { structures: { status: { _eq: "current" } } } }
   ) {
     aggregate {
       count
