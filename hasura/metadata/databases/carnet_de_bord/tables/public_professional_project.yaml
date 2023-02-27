@@ -5,6 +5,8 @@ configuration:
   column_config:
     created_at:
       custom_name: createdAt
+    hourly_rate:
+      custom_name: hourlyRate
     mobility_radius:
       custom_name: mobilityRadius
     notebook_id:
@@ -15,12 +17,31 @@ configuration:
       custom_name: updatedAt
   custom_column_names:
     created_at: createdAt
+    hourly_rate: hourlyRate
     mobility_radius: mobilityRadius
     notebook_id: notebookId
     rome_code_id: romeCodeId
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
+  - name: contract_type
+    using:
+      manual_configuration:
+        column_mapping:
+          contract_type_id: id
+        insertion_order: null
+        remote_table:
+          name: contract_type
+          schema: public
+  - name: employment_type
+    using:
+      manual_configuration:
+        column_mapping:
+          employment_type_id: id
+        insertion_order: null
+        remote_table:
+          name: employment_type
+          schema: public
   - name: notebook
     using:
       foreign_key_constraint_on: notebook_id
@@ -38,6 +59,9 @@ insert_permissions:
                 id:
                   _eq: X-Hasura-Manager-Id
       columns:
+        - contract_type_id
+        - employment_type_id
+        - hourly_rate
         - mobility_radius
         - notebook_id
         - rome_code_id
@@ -52,6 +76,9 @@ insert_permissions:
               - active:
                   _eq: true
       columns:
+        - contract_type_id
+        - employment_type_id
+        - hourly_rate
         - mobility_radius
         - notebook_id
         - rome_code_id
@@ -66,6 +93,9 @@ insert_permissions:
               - active:
                   _eq: true
       columns:
+        - contract_type_id
+        - employment_type_id
+        - hourly_rate
         - mobility_radius
         - notebook_id
         - rome_code_id
@@ -73,22 +103,28 @@ select_permissions:
   - role: admin_cdb
     permission:
       columns:
-        - mobility_radius
+        - contract_type_id
         - created_at
-        - updated_at
+        - employment_type_id
+        - hourly_rate
         - id
+        - mobility_radius
         - notebook_id
         - rome_code_id
+        - updated_at
       filter: {}
   - role: admin_structure
     permission:
       columns:
+        - contract_type_id
+        - created_at
+        - employment_type_id
+        - hourly_rate
         - id
         - notebook_id
-        - rome_code_id
-        - created_at
-        - updated_at
         - mobility_radius
+        - rome_code_id
+        - updated_at
       filter:
         notebook:
           _or:
@@ -123,12 +159,15 @@ select_permissions:
   - role: manager
     permission:
       columns:
-        - mobility_radius
+        - contract_type_id
         - created_at
-        - updated_at
+        - employment_type_id
+        - hourly_rate
         - id
+        - mobility_radius
         - notebook_id
         - rome_code_id
+        - updated_at
       filter:
         notebook:
           beneficiary:
@@ -138,12 +177,15 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - mobility_radius
+        - contract_type_id
         - created_at
-        - updated_at
+        - employment_type_id
+        - hourly_rate
         - id
+        - mobility_radius
         - notebook_id
         - rome_code_id
+        - updated_at
       filter:
         notebook:
           beneficiary:
@@ -152,12 +194,15 @@ select_permissions:
   - role: professional
     permission:
       columns:
-        - mobility_radius
+        - contract_type_id
         - created_at
-        - updated_at
+        - employment_type_id
+        - hourly_rate
         - id
+        - mobility_radius
         - notebook_id
         - rome_code_id
+        - updated_at
       filter:
         notebook:
           members:
