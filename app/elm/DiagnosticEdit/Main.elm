@@ -1,13 +1,17 @@
 port module DiagnosticEdit.Main exposing (..)
 
 import Browser
+import Date
+import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
+import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
 import Html.Attributes exposing (checked, class, for, id, name, type_, value)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, onInput)
 import List.Extra
 import Set exposing (Set)
+import Html.Attributes exposing (attribute)
 
 
 type alias RefSituationFlag =
@@ -26,8 +30,13 @@ type alias NotebookSituationFlag =
 type alias Flags =
     { refSituations : List RefSituationFlag
     , situations : List NotebookSituationFlag
+    , professionalProjects : List ProfessionalProjectFlags
     }
 
+
+inputmode : String -> Attribute msg
+inputmode name =
+  attribute "inputmode" name
 
 main : Program Flags Model Msg
 main =
@@ -52,6 +61,9 @@ type alias RefSituation =
 
 type Msg
     = ToggleSelectedSituation SelectedSituation
+    | AddEmptyProfessionalProject
+    | RemoveProject Int
+    | UpdateMobilityRadius Int String
 
 
 
@@ -61,6 +73,7 @@ type Msg
 type alias Model =
     { possibleSituationsByTheme : List RefSituation
     , selectedSituationSet : Set String
+    , professionalProjects : List ProfessionalProject
     }
 
 
@@ -81,6 +94,11 @@ extractSituationOptionFromFlag flag =
         (themeKeyStringToType flag.theme)
 
 
+extractProfessionalProjectsFromFlags : List ProfessionalProjectFlags -> List ProfessionalProject
+extractProfessionalProjectsFromFlags professionalProjects =
+    List.map extractProfessionalProjectFromFlags professionalProjects
+
+
 
 -- INIT
 
@@ -95,6 +113,7 @@ init flags =
                 |> List.map .refSituation
                 |> List.map .id
                 |> Set.fromList
+      , professionalProjects = extractProfessionalProjectsFromFlags flags.professionalProjects
       }
     , Cmd.none
     )
@@ -107,6 +126,39 @@ init flags =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        AddEmptyProfessionalProject ->
+            ( { model
+                | professionalProjects =
+                    model.professionalProjects
+                        ++ [ { id = "id"
+                             , createdAt = Nothing
+                             , updatedAt = Nothing
+                             , rome = Nothing
+                             , mobilityRadius = Nothing
+                             }
+                           ]
+              }
+            , Cmd.none
+            )
+
+        UpdateMobilityRadius index value ->
+            let
+                model.professionalProjects.
+            in
+
+            ( {model | professionalProjects = projects}, Cmd.none )
+
+        RemoveProject indexToRemove ->
+            ( { model
+                | professionalProjects =
+                    model.professionalProjects
+                        |> List.indexedMap Tuple.pair
+                        |> List.filter (\( index, _ ) -> index /= indexToRemove)
+                        |> List.map (\( _, value ) -> value)
+              }
+            , Cmd.none
+            )
+
         ToggleSelectedSituation selectedSituation ->
             let
                 newModel =
@@ -145,6 +197,41 @@ view : Model -> Html Msg
 view model =
     div [ class "pt-12" ]
         [ h2
+            [ class "text-france-blue" ]
+            [ text "Projet(s) Professionnel(s)" ]
+        , div [ class "pb-4" ]
+            (model.professionalProjects
+                |> List.indexedMap
+                    (\index project ->
+                        div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
+                            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
+                                [ div [ class "fr-col-8" ]
+                                    [ Maybe.withDefault "projet en construction" (Maybe.map .label project.rome) |> text
+                                    ]
+                                , div [ class "fr-col-4" ]
+                                    [ div [ class "fr-input-group" ]
+                                        [ label [ class "fr-label", for ("mobility-radius" ++ String.fromInt index) ] [ text "Rayon de mobilité" ]
+                                        , input
+                                            [ class "fr-input"
+                                            , onInput (UpdateMobilityRadius index)
+                                            , type_ "number"
+                                            , id ("mobility-radius" ++ String.fromInt index)
+                                            , name "mobility-radius[]"
+                                            , value (String.fromInt (Maybe.withDefault 0 project.mobilityRadius))
+                                            , inputmode "numeric"
+                                            ]
+                                            []
+                                        ]
+                                    ]
+                                ]
+                            , button
+                                [ class "fr-btn fr-btn--secondary", type_ "button", onClick (RemoveProject index) ]
+                                [ text "Supprimer" ]
+                            ]
+                    )
+            )
+        , button [ class "fr-btn", type_ "button", onClick AddEmptyProfessionalProject ] [ text "Ajouter un projet professionnel" ]
+        , h2
             [ class "text-france-blue" ]
             [ text "Situation Personnelle" ]
         , div []

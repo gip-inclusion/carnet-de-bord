@@ -9,11 +9,16 @@ export type Flags = {
 		workSituationDate: string | undefined;
 		workSituationEndDate: string | undefined;
 		rightRqth: boolean;
-		geographicalArea: number | undefined;
 		educationLevel: string | undefined;
-		professionalProjects: string[];
 		lastJobEndedAt: string | undefined;
 	};
+	professionalProjects: {
+		id: string;
+		rome: { id: string; label: string };
+		createdAt: string;
+		updatedAt: string;
+		mobilityRadius: Number | undefined;
+	}[];
 	peGeneralData: { [name: string]: string };
 	personalSituations: {
 		refSituation?: {

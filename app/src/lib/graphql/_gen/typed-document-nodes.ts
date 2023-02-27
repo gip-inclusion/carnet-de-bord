@@ -5327,7 +5327,6 @@ export type MutationRootUpdateManagerManyArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookArgs = {
-	_inc?: InputMaybe<NotebookIncInput>;
 	_set?: InputMaybe<NotebookSetInput>;
 	where: NotebookBoolExp;
 };
@@ -5368,7 +5367,6 @@ export type MutationRootUpdateNotebookAppointmentManyArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookByPkArgs = {
-	_inc?: InputMaybe<NotebookIncInput>;
 	_set?: InputMaybe<NotebookSetInput>;
 	pk_columns: NotebookPkColumnsInput;
 };
@@ -5622,12 +5620,14 @@ export type MutationRootUpdateProfessionalOrientationSystemManyArgs = {
 
 /** mutation root */
 export type MutationRootUpdateProfessionalProjectArgs = {
+	_inc?: InputMaybe<ProfessionalProjectIncInput>;
 	_set?: InputMaybe<ProfessionalProjectSetInput>;
 	where: ProfessionalProjectBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateProfessionalProjectByPkArgs = {
+	_inc?: InputMaybe<ProfessionalProjectIncInput>;
 	_set?: InputMaybe<ProfessionalProjectSetInput>;
 	pk_columns: ProfessionalProjectPkColumnsInput;
 };
@@ -5780,7 +5780,6 @@ export type Notebook = {
 	focuses: Array<NotebookFocus>;
 	/** An aggregate relationship */
 	focuses_aggregate: NotebookFocusAggregate;
-	geographicalArea?: Maybe<Scalars['Int']>;
 	id: Scalars['uuid'];
 	lastJobEndedAt?: Maybe<Scalars['date']>;
 	/** An array relationship */
@@ -6191,17 +6190,9 @@ export type NotebookAggregate = {
 /** aggregate fields of "notebook" */
 export type NotebookAggregateFields = {
 	__typename?: 'notebook_aggregate_fields';
-	avg?: Maybe<NotebookAvgFields>;
 	count: Scalars['Int'];
 	max?: Maybe<NotebookMaxFields>;
 	min?: Maybe<NotebookMinFields>;
-	stddev?: Maybe<NotebookStddevFields>;
-	stddev_pop?: Maybe<NotebookStddevPopFields>;
-	stddev_samp?: Maybe<NotebookStddevSampFields>;
-	sum?: Maybe<NotebookSumFields>;
-	var_pop?: Maybe<NotebookVarPopFields>;
-	var_samp?: Maybe<NotebookVarSampFields>;
-	variance?: Maybe<NotebookVarianceFields>;
 };
 
 /** aggregate fields of "notebook" */
@@ -6492,12 +6483,6 @@ export type NotebookAppointmentUpdates = {
 	where: NotebookAppointmentBoolExp;
 };
 
-/** aggregate avg on columns */
-export type NotebookAvgFields = {
-	__typename?: 'notebook_avg_fields';
-	geographicalArea?: Maybe<Scalars['Float']>;
-};
-
 /** Boolean expression to filter rows from the table "notebook". All fields are combined with a logical 'AND'. */
 export type NotebookBoolExp = {
 	_and?: InputMaybe<Array<NotebookBoolExp>>;
@@ -6517,7 +6502,6 @@ export type NotebookBoolExp = {
 	events_aggregate?: InputMaybe<NotebookEventAggregateBoolExp>;
 	focuses?: InputMaybe<NotebookFocusBoolExp>;
 	focuses_aggregate?: InputMaybe<NotebookFocusAggregateBoolExp>;
-	geographicalArea?: InputMaybe<IntComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	lastJobEndedAt?: InputMaybe<DateComparisonExp>;
 	members?: InputMaybe<NotebookMemberBoolExp>;
@@ -7292,11 +7276,6 @@ export type NotebookFocusUpdates = {
 	where: NotebookFocusBoolExp;
 };
 
-/** input type for incrementing numeric columns in table "notebook" */
-export type NotebookIncInput = {
-	geographicalArea?: InputMaybe<Scalars['Int']>;
-};
-
 /** notebook orientation infos */
 export type NotebookInfo = {
 	__typename?: 'notebook_info';
@@ -7493,7 +7472,6 @@ export type NotebookInsertInput = {
 	educationLevel?: InputMaybe<Scalars['String']>;
 	events?: InputMaybe<NotebookEventArrRelInsertInput>;
 	focuses?: InputMaybe<NotebookFocusArrRelInsertInput>;
-	geographicalArea?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	members?: InputMaybe<NotebookMemberArrRelInsertInput>;
@@ -7517,7 +7495,6 @@ export type NotebookMaxFields = {
 	contractType?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	educationLevel?: Maybe<Scalars['String']>;
-	geographicalArea?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastJobEndedAt?: Maybe<Scalars['date']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -7874,7 +7851,6 @@ export type NotebookMinFields = {
 	contractType?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	educationLevel?: Maybe<Scalars['String']>;
-	geographicalArea?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
 	lastJobEndedAt?: Maybe<Scalars['date']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -7919,7 +7895,6 @@ export type NotebookOrderBy = {
 	educationLevel?: InputMaybe<OrderBy>;
 	events_aggregate?: InputMaybe<NotebookEventAggregateOrderBy>;
 	focuses_aggregate?: InputMaybe<NotebookFocusAggregateOrderBy>;
-	geographicalArea?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	lastJobEndedAt?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
@@ -8123,8 +8098,6 @@ export enum NotebookSelectColumn {
 	/** column name */
 	EducationLevel = 'educationLevel',
 	/** column name */
-	GeographicalArea = 'geographicalArea',
-	/** column name */
 	Id = 'id',
 	/** column name */
 	LastJobEndedAt = 'lastJobEndedAt',
@@ -8149,7 +8122,6 @@ export type NotebookSetInput = {
 	contractType?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
-	geographicalArea?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
@@ -8420,24 +8392,6 @@ export type NotebookSituationUpdates = {
 	where: NotebookSituationBoolExp;
 };
 
-/** aggregate stddev on columns */
-export type NotebookStddevFields = {
-	__typename?: 'notebook_stddev_fields';
-	geographicalArea?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type NotebookStddevPopFields = {
-	__typename?: 'notebook_stddev_pop_fields';
-	geographicalArea?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type NotebookStddevSampFields = {
-	__typename?: 'notebook_stddev_samp_fields';
-	geographicalArea?: Maybe<Scalars['Float']>;
-};
-
 /** Streaming cursor of the table "notebook" */
 export type NotebookStreamCursorInput = {
 	/** Stream column input with initial value */
@@ -8455,7 +8409,6 @@ export type NotebookStreamCursorValueInput = {
 	contractType?: InputMaybe<Scalars['String']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
-	geographicalArea?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
@@ -8463,12 +8416,6 @@ export type NotebookStreamCursorValueInput = {
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
 	workSituationEndDate?: InputMaybe<Scalars['date']>;
-};
-
-/** aggregate sum on columns */
-export type NotebookSumFields = {
-	__typename?: 'notebook_sum_fields';
-	geographicalArea?: Maybe<Scalars['Int']>;
 };
 
 /** columns and relationships of "notebook_target" */
@@ -8772,8 +8719,6 @@ export enum NotebookUpdateColumn {
 	/** column name */
 	EducationLevel = 'educationLevel',
 	/** column name */
-	GeographicalArea = 'geographicalArea',
-	/** column name */
 	Id = 'id',
 	/** column name */
 	LastJobEndedAt = 'lastJobEndedAt',
@@ -8790,29 +8735,9 @@ export enum NotebookUpdateColumn {
 }
 
 export type NotebookUpdates = {
-	/** increments the numeric columns with given value of the filtered values */
-	_inc?: InputMaybe<NotebookIncInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookSetInput>;
 	where: NotebookBoolExp;
-};
-
-/** aggregate var_pop on columns */
-export type NotebookVarPopFields = {
-	__typename?: 'notebook_var_pop_fields';
-	geographicalArea?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate var_samp on columns */
-export type NotebookVarSampFields = {
-	__typename?: 'notebook_var_samp_fields';
-	geographicalArea?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate variance on columns */
-export type NotebookVarianceFields = {
-	__typename?: 'notebook_variance_fields';
-	geographicalArea?: Maybe<Scalars['Float']>;
 };
 
 /** column ordering options */
@@ -10358,15 +10283,16 @@ export type ProfessionalPkColumnsInput = {
 /** Stores the jobs wanted for a notebook beneficiary */
 export type ProfessionalProject = {
 	__typename?: 'professional_project';
-	created_at?: Maybe<Scalars['timestamptz']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
 	id: Scalars['uuid'];
+	mobilityRadius?: Maybe<Scalars['Int']>;
 	/** An object relationship */
 	notebook: Notebook;
-	notebook_id: Scalars['uuid'];
+	notebookId: Scalars['uuid'];
+	romeCodeId: Scalars['uuid'];
 	/** An object relationship */
 	rome_code: RomeCode;
-	rome_code_id: Scalars['uuid'];
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregated selection of "professional_project" */
@@ -10390,9 +10316,17 @@ export type ProfessionalProjectAggregateBoolExpCount = {
 /** aggregate fields of "professional_project" */
 export type ProfessionalProjectAggregateFields = {
 	__typename?: 'professional_project_aggregate_fields';
+	avg?: Maybe<ProfessionalProjectAvgFields>;
 	count: Scalars['Int'];
 	max?: Maybe<ProfessionalProjectMaxFields>;
 	min?: Maybe<ProfessionalProjectMinFields>;
+	stddev?: Maybe<ProfessionalProjectStddevFields>;
+	stddev_pop?: Maybe<ProfessionalProjectStddevPopFields>;
+	stddev_samp?: Maybe<ProfessionalProjectStddevSampFields>;
+	sum?: Maybe<ProfessionalProjectSumFields>;
+	var_pop?: Maybe<ProfessionalProjectVarPopFields>;
+	var_samp?: Maybe<ProfessionalProjectVarSampFields>;
+	variance?: Maybe<ProfessionalProjectVarianceFields>;
 };
 
 /** aggregate fields of "professional_project" */
@@ -10403,9 +10337,17 @@ export type ProfessionalProjectAggregateFieldsCountArgs = {
 
 /** order by aggregate values of table "professional_project" */
 export type ProfessionalProjectAggregateOrderBy = {
+	avg?: InputMaybe<ProfessionalProjectAvgOrderBy>;
 	count?: InputMaybe<OrderBy>;
 	max?: InputMaybe<ProfessionalProjectMaxOrderBy>;
 	min?: InputMaybe<ProfessionalProjectMinOrderBy>;
+	stddev?: InputMaybe<ProfessionalProjectStddevOrderBy>;
+	stddev_pop?: InputMaybe<ProfessionalProjectStddevPopOrderBy>;
+	stddev_samp?: InputMaybe<ProfessionalProjectStddevSampOrderBy>;
+	sum?: InputMaybe<ProfessionalProjectSumOrderBy>;
+	var_pop?: InputMaybe<ProfessionalProjectVarPopOrderBy>;
+	var_samp?: InputMaybe<ProfessionalProjectVarSampOrderBy>;
+	variance?: InputMaybe<ProfessionalProjectVarianceOrderBy>;
 };
 
 /** input type for inserting array relation for remote table "professional_project" */
@@ -10415,18 +10357,30 @@ export type ProfessionalProjectArrRelInsertInput = {
 	on_conflict?: InputMaybe<ProfessionalProjectOnConflict>;
 };
 
+/** aggregate avg on columns */
+export type ProfessionalProjectAvgFields = {
+	__typename?: 'professional_project_avg_fields';
+	mobilityRadius?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "professional_project" */
+export type ProfessionalProjectAvgOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
+};
+
 /** Boolean expression to filter rows from the table "professional_project". All fields are combined with a logical 'AND'. */
 export type ProfessionalProjectBoolExp = {
 	_and?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
 	_not?: InputMaybe<ProfessionalProjectBoolExp>;
 	_or?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
-	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	mobilityRadius?: InputMaybe<IntComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
-	notebook_id?: InputMaybe<UuidComparisonExp>;
+	notebookId?: InputMaybe<UuidComparisonExp>;
+	romeCodeId?: InputMaybe<UuidComparisonExp>;
 	rome_code?: InputMaybe<RomeCodeBoolExp>;
-	rome_code_id?: InputMaybe<UuidComparisonExp>;
-	updated_at?: InputMaybe<TimestamptzComparisonExp>;
+	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** unique or primary key constraints on table "professional_project" */
@@ -10437,53 +10391,63 @@ export enum ProfessionalProjectConstraint {
 	ProfessionalProjectPkey = 'professional_project_pkey',
 }
 
+/** input type for incrementing numeric columns in table "professional_project" */
+export type ProfessionalProjectIncInput = {
+	mobilityRadius?: InputMaybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "professional_project" */
 export type ProfessionalProjectInsertInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	mobilityRadius?: InputMaybe<Scalars['Int']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	romeCodeId?: InputMaybe<Scalars['uuid']>;
 	rome_code?: InputMaybe<RomeCodeObjRelInsertInput>;
-	rome_code_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type ProfessionalProjectMaxFields = {
 	__typename?: 'professional_project_max_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
-	notebook_id?: Maybe<Scalars['uuid']>;
-	rome_code_id?: Maybe<Scalars['uuid']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	mobilityRadius?: Maybe<Scalars['Int']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	romeCodeId?: Maybe<Scalars['uuid']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "professional_project" */
 export type ProfessionalProjectMaxOrderBy = {
-	created_at?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
-	notebook_id?: InputMaybe<OrderBy>;
-	rome_code_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	mobilityRadius?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	romeCodeId?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type ProfessionalProjectMinFields = {
 	__typename?: 'professional_project_min_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
 	id?: Maybe<Scalars['uuid']>;
-	notebook_id?: Maybe<Scalars['uuid']>;
-	rome_code_id?: Maybe<Scalars['uuid']>;
-	updated_at?: Maybe<Scalars['timestamptz']>;
+	mobilityRadius?: Maybe<Scalars['Int']>;
+	notebookId?: Maybe<Scalars['uuid']>;
+	romeCodeId?: Maybe<Scalars['uuid']>;
+	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "professional_project" */
 export type ProfessionalProjectMinOrderBy = {
-	created_at?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
-	notebook_id?: InputMaybe<OrderBy>;
-	rome_code_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	mobilityRadius?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	romeCodeId?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "professional_project" */
@@ -10504,13 +10468,14 @@ export type ProfessionalProjectOnConflict = {
 
 /** Ordering options when selecting data from "professional_project". */
 export type ProfessionalProjectOrderBy = {
-	created_at?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	mobilityRadius?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
-	notebook_id?: InputMaybe<OrderBy>;
+	notebookId?: InputMaybe<OrderBy>;
+	romeCodeId?: InputMaybe<OrderBy>;
 	rome_code?: InputMaybe<RomeCodeOrderBy>;
-	rome_code_id?: InputMaybe<OrderBy>;
-	updated_at?: InputMaybe<OrderBy>;
+	updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: professional_project */
@@ -10521,24 +10486,60 @@ export type ProfessionalProjectPkColumnsInput = {
 /** select columns of table "professional_project" */
 export enum ProfessionalProjectSelectColumn {
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
 	Id = 'id',
 	/** column name */
-	NotebookId = 'notebook_id',
+	MobilityRadius = 'mobilityRadius',
 	/** column name */
-	RomeCodeId = 'rome_code_id',
+	NotebookId = 'notebookId',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	RomeCodeId = 'romeCodeId',
+	/** column name */
+	UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "professional_project" */
 export type ProfessionalProjectSetInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
-	rome_code_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	mobilityRadius?: InputMaybe<Scalars['Int']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	romeCodeId?: InputMaybe<Scalars['uuid']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type ProfessionalProjectStddevFields = {
+	__typename?: 'professional_project_stddev_fields';
+	mobilityRadius?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "professional_project" */
+export type ProfessionalProjectStddevOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
+};
+
+/** aggregate stddev_pop on columns */
+export type ProfessionalProjectStddevPopFields = {
+	__typename?: 'professional_project_stddev_pop_fields';
+	mobilityRadius?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "professional_project" */
+export type ProfessionalProjectStddevPopOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
+};
+
+/** aggregate stddev_samp on columns */
+export type ProfessionalProjectStddevSampFields = {
+	__typename?: 'professional_project_stddev_samp_fields';
+	mobilityRadius?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "professional_project" */
+export type ProfessionalProjectStddevSampOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** Streaming cursor of the table "professional_project" */
@@ -10551,31 +10552,80 @@ export type ProfessionalProjectStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type ProfessionalProjectStreamCursorValueInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	notebook_id?: InputMaybe<Scalars['uuid']>;
-	rome_code_id?: InputMaybe<Scalars['uuid']>;
-	updated_at?: InputMaybe<Scalars['timestamptz']>;
+	mobilityRadius?: InputMaybe<Scalars['Int']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	romeCodeId?: InputMaybe<Scalars['uuid']>;
+	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate sum on columns */
+export type ProfessionalProjectSumFields = {
+	__typename?: 'professional_project_sum_fields';
+	mobilityRadius?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "professional_project" */
+export type ProfessionalProjectSumOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** update columns of table "professional_project" */
 export enum ProfessionalProjectUpdateColumn {
 	/** column name */
-	CreatedAt = 'created_at',
+	CreatedAt = 'createdAt',
 	/** column name */
 	Id = 'id',
 	/** column name */
-	NotebookId = 'notebook_id',
+	MobilityRadius = 'mobilityRadius',
 	/** column name */
-	RomeCodeId = 'rome_code_id',
+	NotebookId = 'notebookId',
 	/** column name */
-	UpdatedAt = 'updated_at',
+	RomeCodeId = 'romeCodeId',
+	/** column name */
+	UpdatedAt = 'updatedAt',
 }
 
 export type ProfessionalProjectUpdates = {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: InputMaybe<ProfessionalProjectIncInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ProfessionalProjectSetInput>;
 	where: ProfessionalProjectBoolExp;
+};
+
+/** aggregate var_pop on columns */
+export type ProfessionalProjectVarPopFields = {
+	__typename?: 'professional_project_var_pop_fields';
+	mobilityRadius?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "professional_project" */
+export type ProfessionalProjectVarPopOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
+};
+
+/** aggregate var_samp on columns */
+export type ProfessionalProjectVarSampFields = {
+	__typename?: 'professional_project_var_samp_fields';
+	mobilityRadius?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "professional_project" */
+export type ProfessionalProjectVarSampOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
+};
+
+/** aggregate variance on columns */
+export type ProfessionalProjectVarianceFields = {
+	__typename?: 'professional_project_variance_fields';
+	mobilityRadius?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "professional_project" */
+export type ProfessionalProjectVarianceOrderBy = {
+	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "professional" */
@@ -15384,7 +15434,6 @@ export type UpdateSocioProMutationVariables = Exact<{
 	workSituationDate?: InputMaybe<Scalars['date']>;
 	workSituationEndDate?: InputMaybe<Scalars['date']>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
-	geographicalArea?: InputMaybe<Scalars['Int']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	professionalProjects: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
@@ -15665,9 +15714,10 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		contractEndDate?: string | null;
 		educationLevel?: string | null;
 		lastJobEndedAt?: string | null;
-		geographicalArea?: number | null;
 		professionalProjects: Array<{
 			__typename?: 'professional_project';
+			id: string;
+			mobilityRadius?: number | null;
 			rome_code: { __typename?: 'rome_code'; id: string; label: string };
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -15855,9 +15905,10 @@ export type GetNotebookByIdQuery = {
 		contractEndDate?: string | null;
 		educationLevel?: string | null;
 		lastJobEndedAt?: string | null;
-		geographicalArea?: number | null;
 		professionalProjects: Array<{
 			__typename?: 'professional_project';
+			id: string;
+			mobilityRadius?: number | null;
 			rome_code: { __typename?: 'rome_code'; id: string; label: string };
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -16038,9 +16089,10 @@ export type NotebookFragmentFragment = {
 	contractEndDate?: string | null;
 	educationLevel?: string | null;
 	lastJobEndedAt?: string | null;
-	geographicalArea?: number | null;
 	professionalProjects: Array<{
 		__typename?: 'professional_project';
+		id: string;
+		mobilityRadius?: number | null;
 		rome_code: { __typename?: 'rome_code'; id: string; label: string };
 	}>;
 	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -16709,7 +16761,6 @@ export type GetNotebookQuery = {
 			workSituationEndDate?: string | null;
 			workSituation?: string | null;
 			rightRqth: boolean;
-			geographicalArea?: number | null;
 			educationLevel?: string | null;
 			contractType?: string | null;
 			contractSignDate?: string | null;
@@ -16719,6 +16770,10 @@ export type GetNotebookQuery = {
 			notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 			professionalProjects: Array<{
 				__typename?: 'professional_project';
+				id: string;
+				mobilityRadius?: number | null;
+				createdAt?: string | null;
+				updatedAt?: string | null;
 				rome_code: { __typename?: 'rome_code'; id: string; label: string };
 			}>;
 			situations: Array<{
@@ -17387,6 +17442,7 @@ export const NotebookFragmentFragmentDoc = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'rome_code' },
@@ -17398,6 +17454,7 @@ export const NotebookFragmentFragmentDoc = {
 										],
 									},
 								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
 							],
 						},
 					},
@@ -17409,7 +17466,6 @@ export const NotebookFragmentFragmentDoc = {
 							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } }],
 						},
 					},
-					{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
 					{
 						kind: 'Field',
 						name: { kind: 'Name', value: 'beneficiary' },
@@ -23675,11 +23731,6 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'geographicalArea' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 				},
@@ -23793,14 +23844,6 @@ export const UpdateSocioProDocument = {
 										},
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'geographicalArea' },
-											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'geographicalArea' },
-											},
-										},
-										{
-											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'educationLevel' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
 										},
@@ -23830,7 +23873,7 @@ export const UpdateSocioProDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebook_id' },
+											name: { kind: 'Name', value: 'notebookId' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
@@ -27872,7 +27915,6 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'workSituationEndDate' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'workSituation' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightRqth' } },
-											{ kind: 'Field', name: { kind: 'Name', value: 'geographicalArea' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'educationLevel' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'contractType' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'contractSignDate' } },
@@ -27895,6 +27937,10 @@ export const GetNotebookDocument = {
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'rome_code' },

@@ -4,12 +4,29 @@ import Browser
 import Date exposing (Date, fromIsoString)
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
-import Domain.ProfessionalProject exposing (ProfessionalProject)
+import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html exposing (..)
 import Html.Attributes exposing (class, rowspan)
 import List.Extra
+
+
+type alias Flags =
+    { professionalSituation : ProfessionalSituationFlags
+    , peGeneralData : Maybe PeFlags
+    , personalSituations : Maybe (List PersonalSituationFlags)
+    , professionalProjects : List ProfessionalProjectFlags
+    }
+
+
+type alias ProfessionalProjectFlags =
+    { id : String
+    , rome : Maybe Rome
+    , mobilityRadius : Maybe Int
+    , createdAt : String
+    , updatedAt : String
+    }
 
 
 type alias PeFlags =
@@ -26,9 +43,7 @@ type alias ProfessionalSituationFlags =
     , workSituationDate : Maybe String
     , workSituationEndDate : Maybe String
     , rightRqth : Bool
-    , geographicalArea : Maybe Int
     , educationLevel : Maybe String
-    , professionalProjects : List String
     , lastJobEndedAt : Maybe String
     }
 
@@ -64,13 +79,6 @@ type alias PersonalSituationFlags =
     }
 
 
-type alias Flags =
-    { professionalSituation : ProfessionalSituationFlags
-    , peGeneralData : Maybe PeFlags
-    , personalSituations : Maybe (List PersonalSituationFlags)
-    }
-
-
 type GenderType
     = Feminine
     | Plural
@@ -103,7 +111,7 @@ type alias Model =
 init : Flags -> ( Model, Cmd msg )
 init flags =
     ( { professionalSituation = extractSituationFromFlags flags
-      , professionalProjects = []
+      , professionalProjects = extractProfessionalProjectsFromFlags flags
       , peGeneralData = extractPeGeneralDataFromFlags flags
       , personalSituations = extractPersonalSituationsFromFlags flags
       }
@@ -159,9 +167,7 @@ extractSituationFromFlags { professionalSituation } =
         professionalSituation.workSituationEndDate
             |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     , rightRqth = professionalSituation.rightRqth
-    , geographicalArea = professionalSituation.geographicalArea
     , educationLevel = professionalSituation.educationLevel
-    , professionalProjects = professionalSituation.professionalProjects
     , lastJobEndedAt = professionalSituation.lastJobEndedAt |> Maybe.andThen (fromIsoString >> Result.toMaybe)
     }
 
@@ -184,6 +190,21 @@ extractPeGeneralDataFromFlags { peGeneralData } =
             , motifInscription = Nothing
             , dateDerEntretienPpae = Nothing
             }
+
+
+extractProfessionalProjectsFromFlags : Flags -> List ProfessionalProject
+extractProfessionalProjectsFromFlags { professionalProjects } =
+    List.map extractProfessionalProjectFromFlags professionalProjects
+
+
+extractProfessionalProjectFromFlags : ProfessionalProjectFlags -> ProfessionalProject
+extractProfessionalProjectFromFlags flags =
+    { rome = flags.rome
+    , id = flags.id
+    , mobilityRadius = flags.mobilityRadius
+    , updatedAt = fromIsoString flags.updatedAt |> Result.toMaybe
+    , createdAt = fromIsoString flags.createdAt |> Result.toMaybe
+    }
 
 
 
@@ -352,45 +373,40 @@ peInformationsView peGeneralData =
         ]
 
 
-professionalProjectsToHtml : List String -> Maybe (Html msg)
-professionalProjectsToHtml professionalProjects =
-    case professionalProjects of
-        [] ->
-            Nothing
-
-        jobs ->
-            Just
-                (ul []
-                    (jobs
-                        |> List.map (\job -> li [] [ text job ])
-                    )
-                )
-
-
 professionalProjectView : Model -> Html msg
 professionalProjectView model =
     div [ class "pt-10 flex flex-col" ]
-        [ h3 [ class "text-xl" ] [ text "Projet professionnel" ]
-        , div [ class "fr-container shadow-dsfr rounded-lg pt-4" ]
-            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                [ div [ class "fr-col-6" ]
-                    [ situationElement "Emplois recherchés"
-                        (professionalProjectsToHtml model.professionalSituation.professionalProjects)
-                        (unfilled Plural)
-                        Nothing
-                    ]
-                , div [ class "fr-col-6" ]
-                    [ situationElement "Zone de mobilité"
-                        (model.professionalSituation.geographicalArea
-                            |> Maybe.map String.fromInt
-                            |> Maybe.map addDistanceUnit
-                            |> Maybe.map text
-                        )
-                        (unfilled Feminine)
-                        Nothing
-                    ]
-                ]
-            ]
+        [ h3
+            [ class "text-xl" ]
+            [ text "Projets professionnels" ]
+        , div []
+            (model.professionalProjects
+                |> List.map
+                    (\professionalProject ->
+                        div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
+                            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
+                                [ div [ class "fr-col-6" ]
+                                    [ situationElement "Emplois recherchés"
+                                        (Maybe.map .label professionalProject.rome
+                                            |> Maybe.map text
+                                        )
+                                        (unfilled Plural)
+                                        Nothing
+                                    ]
+                                , div [ class "fr-col-6" ]
+                                    [ situationElement "Zone de mobilité"
+                                        (professionalProject.mobilityRadius
+                                            |> Maybe.map String.fromInt
+                                            |> Maybe.map addDistanceUnit
+                                            |> Maybe.map text
+                                        )
+                                        (unfilled Feminine)
+                                        Nothing
+                                    ]
+                                ]
+                            ]
+                    )
+            )
         ]
 
 

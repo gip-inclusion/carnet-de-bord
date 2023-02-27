@@ -1,29 +1,20 @@
 <script lang="ts" context="module">
-	import type {
-		Notebook,
-		ExternalData,
-		NotebookSituation,
-	} from '$lib/graphql/_gen/typed-document-nodes';
-	import type { Creator } from '../../../../elm/Diagnostic/Main.elm';
+	import type { ExternalData, GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
 	import { formatDateLocale } from '$lib/utils/date';
 
 	export type SocioProInfo = Pick<
-		Notebook,
+		GetNotebookQuery['notebook_public_view'][number]['notebook'],
 		| 'workSituation'
 		| 'workSituationDate'
 		| 'workSituationEndDate'
 		| 'rightRqth'
-		| 'geographicalArea'
 		| 'educationLevel'
 		| 'lastJobEndedAt'
 		| 'id'
-	> & {
-		professionalProjects: Array<{ rome_code: { id: string; label: string } }>;
-		situations: Array<
-			Pick<NotebookSituation, 'id' | 'createdAt' | 'refSituation'> & { creator?: Creator }
-		>;
-	};
+		| 'professionalProjects'
+		| 'situations'
+	>;
 
 	export type ExternalDataDetail = Pick<ExternalData, 'data' | 'source'>;
 </script>
@@ -51,13 +42,18 @@
 					workSituationDate: notebook.workSituationDate,
 					workSituationEndDate: notebook.workSituationEndDate,
 					rightRqth: notebook.rightRqth,
-					geographicalArea: notebook.geographicalArea,
 					educationLevel: notebook.educationLevel,
-					professionalProjects: notebook.professionalProjects.map(
-						({ rome_code }) => rome_code.label
-					),
 					lastJobEndedAt: notebook.lastJobEndedAt,
 				},
+				professionalProjects: notebook.professionalProjects.map(
+					({ rome_code, id, mobilityRadius, createdAt, updatedAt }) => ({
+						id,
+						createdAt,
+						updatedAt,
+						mobilityRadius,
+						rome: rome_code,
+					})
+				),
 				peGeneralData: externalDataDetail?.data?.source || null,
 				personalSituations: situationsWithFormattedDates || null,
 			},

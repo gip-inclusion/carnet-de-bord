@@ -54,6 +54,15 @@
 			flags: {
 				refSituations,
 				situations: notebook.situations,
+				professionalProjects: notebook.professionalProjects.map(
+					({ id, createdAt, updatedAt, mobilityRadius, rome_code }) => ({
+						id,
+						createdAt,
+						updatedAt,
+						mobilityRadius,
+						rome: rome_code,
+					})
+				),
 			},
 		});
 
@@ -72,7 +81,6 @@
 	<div class="flex flex-col space-y-6">
 		<ProNotebookSocioProUpdate
 			notebook={notebookWithJobs}
-			{options}
 			{selectedSituations}
 			onClose={goToNotebook}
 		>

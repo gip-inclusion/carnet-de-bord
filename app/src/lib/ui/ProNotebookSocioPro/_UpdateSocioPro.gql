@@ -4,7 +4,6 @@ mutation UpdateSocioPro(
   $workSituationDate: date
   $workSituationEndDate: date
   $rightRqth: Boolean
-  $geographicalArea: Int
   $educationLevel: String
   $lastJobEndedAt: date
   $professionalProjects: [professional_project_insert_input!]!
@@ -18,14 +17,13 @@ mutation UpdateSocioPro(
       workSituationDate: $workSituationDate
       workSituationEndDate: $workSituationEndDate
       rightRqth: $rightRqth
-      geographicalArea: $geographicalArea
       educationLevel: $educationLevel
       lastJobEndedAt: $lastJobEndedAt
     }
   ) {
     id
   }
-  delete_professional_project(where: { notebook_id: { _eq: $id } }) {
+  delete_professional_project(where: { notebookId: { _eq: $id } }) {
     affected_rows
   }
   insert_professional_project(objects: $professionalProjects) {

@@ -1,6 +1,25 @@
 table:
   name: professional_project
   schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    mobility_radius:
+      custom_name: mobilityRadius
+    notebook_id:
+      custom_name: notebookId
+    rome_code_id:
+      custom_name: romeCodeId
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    mobility_radius: mobilityRadius
+    notebook_id: notebookId
+    rome_code_id: romeCodeId
+    updated_at: updatedAt
+  custom_root_fields: {}
 object_relationships:
   - name: notebook
     using:
@@ -19,6 +38,7 @@ insert_permissions:
                 id:
                   _eq: X-Hasura-Manager-Id
       columns:
+        - mobility_radius
         - notebook_id
         - rome_code_id
   - role: orientation_manager
@@ -32,6 +52,7 @@ insert_permissions:
               - active:
                   _eq: true
       columns:
+        - mobility_radius
         - notebook_id
         - rome_code_id
   - role: professional
@@ -45,6 +66,7 @@ insert_permissions:
               - active:
                   _eq: true
       columns:
+        - mobility_radius
         - notebook_id
         - rome_code_id
 select_permissions:
@@ -54,6 +76,9 @@ select_permissions:
         - id
         - notebook_id
         - rome_code_id
+        - created_at
+        - updated_at
+        - mobility_radius
       filter:
         notebook:
           _or:
@@ -74,6 +99,9 @@ select_permissions:
   - role: beneficiary
     permission:
       columns:
+        - mobility_radius
+        - created_at
+        - updated_at
         - id
         - notebook_id
         - rome_code_id
@@ -85,6 +113,9 @@ select_permissions:
   - role: manager
     permission:
       columns:
+        - mobility_radius
+        - created_at
+        - updated_at
         - id
         - notebook_id
         - rome_code_id
@@ -97,6 +128,9 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
+        - mobility_radius
+        - created_at
+        - updated_at
         - id
         - notebook_id
         - rome_code_id
@@ -108,6 +142,9 @@ select_permissions:
   - role: professional
     permission:
       columns:
+        - mobility_radius
+        - created_at
+        - updated_at
         - id
         - notebook_id
         - rome_code_id
@@ -116,6 +153,35 @@ select_permissions:
           members:
             account_id:
               _eq: X-Hasura-User-Id
+update_permissions:
+  - role: orientation_manager
+    permission:
+      columns:
+        - mobility_radius
+        - rome_code_id
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      check: null
+  - role: professional
+    permission:
+      columns:
+        - mobility_radius
+        - rome_code_id
+      filter:
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      check: null
 delete_permissions:
   - role: orientation_manager
     permission:

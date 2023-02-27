@@ -5,12 +5,6 @@ import { transformDate } from '../ProNotebookContract/ProNotebookContract.schema
 export const proNotebookSocioproSchema = yup.object().shape({
 	workSituation: yup.string().nullable(),
 	rightRqth: yup.boolean(),
-	geographicalArea: yup
-		.number()
-		.min(0)
-		.integer()
-		.nullable()
-		.transform((_, val) => (val === '' ? null : Number(val))),
 	educationLevel: yup.string().nullable(),
 	lastJobEndedAt: yup.date().transform(transformDate).nullable(),
 	workSituationDate: yup.date().transform(transformDate).nullable(),

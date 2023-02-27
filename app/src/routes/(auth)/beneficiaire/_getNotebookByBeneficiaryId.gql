@@ -24,15 +24,16 @@ fragment notebookFragment on notebook {
   educationLevel
   lastJobEndedAt
   professionalProjects {
+    id
     rome_code {
       id
       label
     }
+    mobilityRadius
   }
   notebookInfo {
     needOrientation
   }
-  geographicalArea
   beneficiary {
     address1
     address2

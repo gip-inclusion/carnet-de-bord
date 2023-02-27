@@ -7,14 +7,11 @@ interface Window {
 	dsfr: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-// support for svelecte
+// support for svelte-file-dropzone
 declare module 'svelte-file-dropzone';
 
-// support for svelecte
+// support for svelte-accessible-dialog
 declare module 'svelte-accessible-dialog';
-
-// support for svelecte
-declare module 'svelecte';
 
 // support for matomo-tracker
 declare module 'matomo-tracker';

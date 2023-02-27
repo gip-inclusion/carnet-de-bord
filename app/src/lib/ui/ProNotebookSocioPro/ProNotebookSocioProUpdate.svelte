@@ -5,7 +5,6 @@
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { mutation, operationStore } from '@urql/svelte';
 	import { Button } from '../base';
-	import ProNotebookSocioProRome from './ProNotebookSocioProROME.svelte';
 	import { add } from 'date-fns';
 	import { formatDateISO } from '$lib/utils/date';
 	import {
@@ -16,7 +15,6 @@
 	import { captureException } from '$lib/utils/sentry';
 
 	export let onClose: () => void;
-	export let options: { id: string; label: string }[];
 	export let notebook: Pick<
 		GetNotebookQuery['notebook_public_view'][0]['notebook'],
 		| 'id'
@@ -25,7 +23,6 @@
 		| 'workSituationEndDate'
 		| 'rightRqth'
 		| 'educationLevel'
-		| 'geographicalArea'
 		| 'lastJobEndedAt'
 		| 'focuses'
 		| 'situations'
@@ -34,19 +31,17 @@
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
-	const romeSelectorId = 'romeSelectorId';
 
 	const initialValues = {
 		workSituation: notebook.workSituation,
 		workSituationDate: notebook.workSituationDate ?? '',
 		workSituationEndDate: notebook.workSituationEndDate ?? '',
 		rightRqth: notebook.rightRqth,
-		geographicalArea: notebook.geographicalArea,
 		educationLevel: notebook.educationLevel,
 		lastJobEndedAt: notebook.lastJobEndedAt ?? '',
 	};
 
-	let professionalProjects = notebook.professionalProjects;
+	const professionalProjects = notebook.professionalProjects;
 
 	function close() {
 		onClose();
@@ -54,7 +49,7 @@
 
 	async function handleSubmit(values: ProNotebookSocioproInput) {
 		trackEvent('pro', 'notebook', 'update socio pro info');
-		const { educationLevel, geographicalArea, rightRqth, workSituation } =
+		const { educationLevel, rightRqth, workSituation } =
 			proNotebookSocioproSchema.validateSync(values);
 
 		const currentSituationIds = notebook.situations.map(({ refSituation }) => refSituation.id);
@@ -75,7 +70,6 @@
 		const payload = {
 			id: notebook.id,
 			educationLevel,
-			geographicalArea,
 			rightRqth,
 			workSituation,
 			workSituationDate: values.workSituationDate.toString() || null,
@@ -84,6 +78,7 @@
 			professionalProjects: professionalProjects.map((rome_code_id) => ({
 				notebook_id: notebook.id,
 				rome_code_id,
+				mobilityRadius: 0,
 			})),
 			situationsToAdd,
 			situationIdsToDelete,
@@ -224,12 +219,6 @@
 		</div>
 		<div class="pb-4">
 			<Checkbox name="rightRqth" label="RQTH" />
-		</div>
-		<div class="fr-form-group">
-			<div class="!pb-2 font-bold">
-				<label for={romeSelectorId}>Emploi recherché</label>
-			</div>
-			<ProNotebookSocioProRome bind:value={professionalProjects} {options} {romeSelectorId} />
 		</div>
 
 		<Input name="geographicalArea" inputLabel="Zone de mobilité géographique (km)" type="number" />

@@ -8,9 +8,7 @@ type alias ProfessionalSituation =
     , workSituationDate : Maybe Date
     , workSituationEndDate : Maybe Date
     , rightRqth : Bool
-    , geographicalArea : Maybe Int
     , educationLevel : Maybe String
-    , professionalProjects : List String
     , lastJobEndedAt : Maybe Date
     }
 
