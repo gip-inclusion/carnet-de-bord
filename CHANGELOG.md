@@ -1,3 +1,10 @@
+## [1.201.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.3...v1.201.4) (2023-02-27)
+
+
+### Bug Fixes
+
+* **manager:** mise à jour de la liste bénéficiaires et du dashboard ([#1537](https://github.com/gip-inclusion/carnet-de-bord/issues/1537)) ([f2729b6](https://github.com/gip-inclusion/carnet-de-bord/commit/f2729b63db71f9ccf888ad518b4107d353c87d15))
+
 ## [1.201.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.2...v1.201.3) (2023-02-27)
 
 ## [1.201.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.1...v1.201.2) (2023-02-27)
