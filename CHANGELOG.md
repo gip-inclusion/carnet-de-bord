@@ -1,3 +1,10 @@
+## [1.201.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.1...v1.201.2) (2023-02-27)
+
+
+### Bug Fixes
+
+* creation d'un axe de travail sans situation ([#1566](https://github.com/gip-inclusion/carnet-de-bord/issues/1566)) ([e54b50c](https://github.com/gip-inclusion/carnet-de-bord/commit/e54b50ceba9670d4171bab57525455bf6a90c974))
+
 ## [1.201.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.0...v1.201.1) (2023-02-24)
 
 # [1.201.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.200.2...v1.201.0) (2023-02-23)
