@@ -2,7 +2,7 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Domain.Situation exposing (Situation)
-import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel, themeTypeToKeyString)
+import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
 import Html.Attributes exposing (checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick)
