@@ -15403,7 +15403,7 @@ export type UpdateSocioProMutation = {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
-	delete_notebook_situation?: {
+	update_notebook_situation?: {
 		__typename?: 'notebook_situation_mutation_response';
 		affected_rows: number;
 	} | null;
@@ -17646,6 +17646,29 @@ export const NotebookFragmentFragmentDoc = {
 						kind: 'Field',
 						name: { kind: 'Name', value: 'situations' },
 						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deletedAt' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_is_null' },
+														value: { kind: 'BooleanValue', value: true },
+													},
+												],
+											},
+										},
+									],
+								},
+							},
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'order_by' },
@@ -23845,7 +23868,7 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'delete_notebook_situation' },
+						name: { kind: 'Name', value: 'update_notebook_situation' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -23897,6 +23920,25 @@ export const UpdateSocioProDocument = {
 																				kind: 'Variable',
 																				name: { kind: 'Name', value: 'situationIdsToDelete' },
 																			},
+																		},
+																	],
+																},
+															},
+														],
+													},
+													{
+														kind: 'ObjectValue',
+														fields: [
+															{
+																kind: 'ObjectField',
+																name: { kind: 'Name', value: 'deletedAt' },
+																value: {
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: '_is_null' },
+																			value: { kind: 'BooleanValue', value: true },
 																		},
 																	],
 																},
@@ -27871,6 +27913,29 @@ export const GetNotebookDocument = {
 												kind: 'Field',
 												name: { kind: 'Name', value: 'situations' },
 												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deletedAt' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_is_null' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
 													{
 														kind: 'Argument',
 														name: { kind: 'Name', value: 'order_by' },
