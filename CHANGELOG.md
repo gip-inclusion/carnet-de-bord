@@ -1,3 +1,10 @@
+# [1.202.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.7...v1.202.0) (2023-02-28)
+
+
+### Features
+
+* afficher un placeholder quand la situation personnelle est vide ([#1572](https://github.com/gip-inclusion/carnet-de-bord/issues/1572)) ([cf2e055](https://github.com/gip-inclusion/carnet-de-bord/commit/cf2e0557e5bb3901b5d7268fc4647a720951a341))
+
 ## [1.201.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.6...v1.201.7) (2023-02-28)
 
 ## [1.201.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.5...v1.201.6) (2023-02-28)
