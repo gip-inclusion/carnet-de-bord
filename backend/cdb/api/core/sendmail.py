@@ -23,8 +23,7 @@ def send_mail(to: str, subject: str, message: str) -> None:
     msg.attach(part1)
     s = smtplib.SMTP(settings.smtp_host, int(settings.smtp_port))
 
-    if "maildev" not in settings.smtp_host:
-        s.starttls()
+    s.starttls()
 
     if settings.smtp_user and settings.smtp_pass:
         s.login(settings.smtp_user, settings.smtp_pass)
