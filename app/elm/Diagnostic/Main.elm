@@ -404,45 +404,49 @@ personalSituationView { personalSituations } =
     div [ class "pt-10 flex flex-col" ]
         [ h3 [ class "text-xl" ] [ text "Situation personnelle" ]
         , div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
-            [ table [ class "w-full" ]
-                [ thead [ class "text-left pb-4" ]
-                    [ th [ class "font-normal text-sm leading-10 pl-2" ] [ text "Thématique" ]
-                    , th [ class "font-normal text-sm" ] [ text "Situation" ]
-                    , th [ class "font-normal text-sm" ] [ text "Ajouté le" ]
-                    , th [ class "font-normal text-sm" ] [ text "Ajouté par" ]
+            [ if List.isEmpty personalSituations then
+                span [] [ text "Aucune situation renseignée" ]
+
+              else
+                table [ class "w-full" ]
+                    [ thead [ class "text-left pb-4" ]
+                        [ th [ class "font-normal text-sm leading-10 pl-2" ] [ text "Thématique" ]
+                        , th [ class "font-normal text-sm" ] [ text "Situation" ]
+                        , th [ class "font-normal text-sm" ] [ text "Ajouté le" ]
+                        , th [ class "font-normal text-sm" ] [ text "Ajouté par" ]
+                        ]
+                    , tbody []
+                        (personalSituations
+                            |> List.indexedMap
+                                (\personalIndex personalSituation ->
+                                    personalSituation.situations
+                                        |> List.indexedMap
+                                            (\index situation ->
+                                                tr
+                                                    [ if modBy 2 personalIndex == 0 then
+                                                        class "bg-gray-100 align-text-top text-left"
+
+                                                      else
+                                                        class "align-text-top text-left"
+                                                    ]
+                                                    [ if index == 0 then
+                                                        th [ class "font-bold pr-8 pl-2 py-3", rowspan (List.length personalSituation.situations) ]
+                                                            [ personalSituation.theme |> themeKeyStringToString |> text ]
+
+                                                      else
+                                                        text ""
+                                                    , td [ class "font-bold pr-8 py-3" ]
+                                                        [ text situation.description ]
+                                                    , td [ class "pr-8 py-3" ]
+                                                        [ text situation.createdAt ]
+                                                    , td [ class "py-3" ]
+                                                        [ text situation.creator ]
+                                                    ]
+                                            )
+                                )
+                            |> List.concat
+                        )
                     ]
-                , tbody []
-                    (personalSituations
-                        |> List.indexedMap
-                            (\personalIndex personalSituation ->
-                                personalSituation.situations
-                                    |> List.indexedMap
-                                        (\index situation ->
-                                            tr
-                                                [ if modBy 2 personalIndex == 0 then
-                                                    class "bg-gray-100 align-text-top text-left"
-
-                                                  else
-                                                    class "align-text-top text-left"
-                                                ]
-                                                [ if index == 0 then
-                                                    th [ class "font-bold pr-8 pl-2 py-3", rowspan (List.length personalSituation.situations) ]
-                                                        [ personalSituation.theme |> themeKeyStringToString |> text ]
-
-                                                  else
-                                                    text ""
-                                                , td [ class "font-bold pr-8 py-3" ]
-                                                    [ text situation.description ]
-                                                , td [ class "pr-8 py-3" ]
-                                                    [ text situation.createdAt ]
-                                                , td [ class "py-3" ]
-                                                    [ text situation.creator ]
-                                                ]
-                                        )
-                            )
-                        |> List.concat
-                    )
-                ]
             ]
         ]
 
