@@ -27,7 +27,11 @@ query GetBeneficiariesWithOrientationRequest(
         name
       }
     }
-    orientationRequest(order_by: { createdAt: desc }, limit: 1) {
+    orientationRequest(
+      where: { decidedAt: { _is_null: true } }
+      order_by: { createdAt: desc }
+      limit: 1
+    ) {
       id
       requestedOrientationSystem {
         name

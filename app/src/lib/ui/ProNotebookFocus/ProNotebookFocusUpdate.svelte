@@ -9,7 +9,7 @@
 	import { Button, Radio } from '$lib/ui/base';
 	import { mutation, operationStore } from '@urql/svelte';
 
-	export let focus: Pick<NotebookFocus, 'id' | 'theme' | 'situations' | 'linkedTo'>;
+	export let focus: Pick<NotebookFocus, 'id' | 'theme' | 'linkedTo'>;
 
 	const updateNotebookFocusStore = operationStore(UpdateNotebookFocusDocument);
 	const updateNotebookFocus = mutation(updateNotebookFocusStore);
