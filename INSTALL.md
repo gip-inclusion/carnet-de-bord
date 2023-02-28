@@ -28,6 +28,7 @@ cd carnet-de-bord
 
 ```sh
 cp .env.sample .env
+cp .env.test.sample .env.test
 ````
 
 **3/** Récupérer les dépendances du projet
