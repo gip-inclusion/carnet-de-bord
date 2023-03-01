@@ -7,11 +7,10 @@ import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
-import Html.Attributes exposing (checked, class, for, id, name, type_, value)
+import Html.Attributes exposing (attribute, checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick, onInput)
 import List.Extra
 import Set exposing (Set)
-import Html.Attributes exposing (attribute)
 
 
 type alias RefSituationFlag =
@@ -36,7 +35,8 @@ type alias Flags =
 
 inputmode : String -> Attribute msg
 inputmode name =
-  attribute "inputmode" name
+    attribute "inputmode" name
+
 
 main : Program Flags Model Msg
 main =
@@ -141,12 +141,24 @@ update msg model =
             , Cmd.none
             )
 
-        UpdateMobilityRadius index value ->
-            let
-                model.professionalProjects.
-            in
+        UpdateMobilityRadius indexToUpdate value ->
+            ( { model
+                | professionalProjects =
+                    model.professionalProjects
+                        |> List.indexedMap Tuple.pair
+                        |> List.map
+                            (\( index, professionalProject ) ->
+                                if index == indexToUpdate then
+                                    { professionalProject
+                                        | mobilityRadius = String.toInt value
+                                    }
 
-            ( {model | professionalProjects = projects}, Cmd.none )
+                                else
+                                    professionalProject
+                            )
+              }
+            , Cmd.none
+            )
 
         RemoveProject indexToRemove ->
             ( { model
