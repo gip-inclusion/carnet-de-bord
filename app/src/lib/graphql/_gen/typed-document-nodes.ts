@@ -5419,22 +5419,12 @@ export type MutationRootUpdateNotebookEventTypeManyArgs = {
 
 /** mutation root */
 export type MutationRootUpdateNotebookFocusArgs = {
-	_append?: InputMaybe<NotebookFocusAppendInput>;
-	_delete_at_path?: InputMaybe<NotebookFocusDeleteAtPathInput>;
-	_delete_elem?: InputMaybe<NotebookFocusDeleteElemInput>;
-	_delete_key?: InputMaybe<NotebookFocusDeleteKeyInput>;
-	_prepend?: InputMaybe<NotebookFocusPrependInput>;
 	_set?: InputMaybe<NotebookFocusSetInput>;
 	where: NotebookFocusBoolExp;
 };
 
 /** mutation root */
 export type MutationRootUpdateNotebookFocusByPkArgs = {
-	_append?: InputMaybe<NotebookFocusAppendInput>;
-	_delete_at_path?: InputMaybe<NotebookFocusDeleteAtPathInput>;
-	_delete_elem?: InputMaybe<NotebookFocusDeleteElemInput>;
-	_delete_key?: InputMaybe<NotebookFocusDeleteKeyInput>;
-	_prepend?: InputMaybe<NotebookFocusPrependInput>;
 	_set?: InputMaybe<NotebookFocusSetInput>;
 	pk_columns: NotebookFocusPkColumnsInput;
 };
@@ -7032,18 +7022,12 @@ export type NotebookFocus = {
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
-	situations?: Maybe<Scalars['jsonb']>;
 	/** An array relationship */
 	targets: Array<NotebookTarget>;
 	/** An aggregate relationship */
 	targets_aggregate: NotebookTargetAggregate;
 	theme: Scalars['String'];
 	updatedAt: Scalars['timestamptz'];
-};
-
-/** columns and relationships of "notebook_focus" */
-export type NotebookFocusSituationsArgs = {
-	path?: InputMaybe<Scalars['String']>;
 };
 
 /** columns and relationships of "notebook_focus" */
@@ -7103,11 +7087,6 @@ export type NotebookFocusAggregateOrderBy = {
 	min?: InputMaybe<NotebookFocusMinOrderBy>;
 };
 
-/** append existing jsonb value of filtered columns with new jsonb value */
-export type NotebookFocusAppendInput = {
-	situations?: InputMaybe<Scalars['jsonb']>;
-};
-
 /** input type for inserting array relation for remote table "notebook_focus" */
 export type NotebookFocusArrRelInsertInput = {
 	data: Array<NotebookFocusInsertInput>;
@@ -7127,7 +7106,6 @@ export type NotebookFocusBoolExp = {
 	linkedTo?: InputMaybe<StringComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
-	situations?: InputMaybe<JsonbComparisonExp>;
 	targets?: InputMaybe<NotebookTargetBoolExp>;
 	targets_aggregate?: InputMaybe<NotebookTargetAggregateBoolExp>;
 	theme?: InputMaybe<StringComparisonExp>;
@@ -7140,21 +7118,6 @@ export enum NotebookFocusConstraint {
 	NotebookFocusPkey = 'notebook_focus_pkey',
 }
 
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-export type NotebookFocusDeleteAtPathInput = {
-	situations?: InputMaybe<Array<Scalars['String']>>;
-};
-
-/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-export type NotebookFocusDeleteElemInput = {
-	situations?: InputMaybe<Scalars['Int']>;
-};
-
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-export type NotebookFocusDeleteKeyInput = {
-	situations?: InputMaybe<Scalars['String']>;
-};
-
 /** input type for inserting data into table "notebook_focus" */
 export type NotebookFocusInsertInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
@@ -7164,7 +7127,6 @@ export type NotebookFocusInsertInput = {
 	linkedTo?: InputMaybe<Scalars['String']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	situations?: InputMaybe<Scalars['jsonb']>;
 	targets?: InputMaybe<NotebookTargetArrRelInsertInput>;
 	theme?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -7248,7 +7210,6 @@ export type NotebookFocusOrderBy = {
 	linkedTo?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
-	situations?: InputMaybe<OrderBy>;
 	targets_aggregate?: InputMaybe<NotebookTargetAggregateOrderBy>;
 	theme?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
@@ -7257,11 +7218,6 @@ export type NotebookFocusOrderBy = {
 /** primary key columns input for table: notebook_focus */
 export type NotebookFocusPkColumnsInput = {
 	id: Scalars['uuid'];
-};
-
-/** prepend existing jsonb value of filtered columns with new jsonb value */
-export type NotebookFocusPrependInput = {
-	situations?: InputMaybe<Scalars['jsonb']>;
 };
 
 /** select columns of table "notebook_focus" */
@@ -7277,8 +7233,6 @@ export enum NotebookFocusSelectColumn {
 	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
-	Situations = 'situations',
-	/** column name */
 	Theme = 'theme',
 	/** column name */
 	UpdatedAt = 'updatedAt',
@@ -7291,7 +7245,6 @@ export type NotebookFocusSetInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	linkedTo?: InputMaybe<Scalars['String']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	situations?: InputMaybe<Scalars['jsonb']>;
 	theme?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -7311,7 +7264,6 @@ export type NotebookFocusStreamCursorValueInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	linkedTo?: InputMaybe<Scalars['String']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
-	situations?: InputMaybe<Scalars['jsonb']>;
 	theme?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -7329,24 +7281,12 @@ export enum NotebookFocusUpdateColumn {
 	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
-	Situations = 'situations',
-	/** column name */
 	Theme = 'theme',
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
 
 export type NotebookFocusUpdates = {
-	/** append existing jsonb value of filtered columns with new jsonb value */
-	_append?: InputMaybe<NotebookFocusAppendInput>;
-	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-	_delete_at_path?: InputMaybe<NotebookFocusDeleteAtPathInput>;
-	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-	_delete_elem?: InputMaybe<NotebookFocusDeleteElemInput>;
-	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-	_delete_key?: InputMaybe<NotebookFocusDeleteKeyInput>;
-	/** prepend existing jsonb value of filtered columns with new jsonb value */
-	_prepend?: InputMaybe<NotebookFocusPrependInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookFocusSetInput>;
 	where: NotebookFocusBoolExp;
@@ -8226,6 +8166,10 @@ export type NotebookSituation = {
 	createdBy: Scalars['uuid'];
 	/** An object relationship */
 	creator?: Maybe<Account>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
+	deletedBy?: Maybe<Scalars['uuid']>;
+	/** An object relationship */
+	deletor?: Maybe<Account>;
 	id: Scalars['uuid'];
 	/** An object relationship */
 	notebook?: Maybe<Notebook>;
@@ -8289,6 +8233,9 @@ export type NotebookSituationBoolExp = {
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	createdBy?: InputMaybe<UuidComparisonExp>;
 	creator?: InputMaybe<AccountBoolExp>;
+	deletedAt?: InputMaybe<TimestamptzComparisonExp>;
+	deletedBy?: InputMaybe<UuidComparisonExp>;
+	deletor?: InputMaybe<AccountBoolExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
@@ -8298,6 +8245,8 @@ export type NotebookSituationBoolExp = {
 
 /** unique or primary key constraints on table "notebook_situation" */
 export enum NotebookSituationConstraint {
+	/** unique or primary key constraint on columns "deleted_at", "notebook_id", "situation_id" */
+	NotebookSituationNotebookIdSituationIdDeletedAtKey = 'notebook_situation_notebook_id_situation_id_deleted_at_key',
 	/** unique or primary key constraint on columns "id" */
 	NotebookSituationPkey = 'notebook_situation_pkey',
 }
@@ -8307,6 +8256,9 @@ export type NotebookSituationInsertInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	createdBy?: InputMaybe<Scalars['uuid']>;
 	creator?: InputMaybe<AccountObjRelInsertInput>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedBy?: InputMaybe<Scalars['uuid']>;
+	deletor?: InputMaybe<AccountObjRelInsertInput>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
@@ -8319,6 +8271,8 @@ export type NotebookSituationMaxFields = {
 	__typename?: 'notebook_situation_max_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	createdBy?: Maybe<Scalars['uuid']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
+	deletedBy?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
@@ -8328,6 +8282,8 @@ export type NotebookSituationMaxFields = {
 export type NotebookSituationMaxOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	createdBy?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
+	deletedBy?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
@@ -8338,6 +8294,8 @@ export type NotebookSituationMinFields = {
 	__typename?: 'notebook_situation_min_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	createdBy?: Maybe<Scalars['uuid']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
+	deletedBy?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
@@ -8347,6 +8305,8 @@ export type NotebookSituationMinFields = {
 export type NotebookSituationMinOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	createdBy?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
+	deletedBy?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
@@ -8373,6 +8333,9 @@ export type NotebookSituationOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	createdBy?: InputMaybe<OrderBy>;
 	creator?: InputMaybe<AccountOrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
+	deletedBy?: InputMaybe<OrderBy>;
+	deletor?: InputMaybe<AccountOrderBy>;
 	id?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
@@ -8392,6 +8355,10 @@ export enum NotebookSituationSelectColumn {
 	/** column name */
 	CreatedBy = 'createdBy',
 	/** column name */
+	DeletedAt = 'deletedAt',
+	/** column name */
+	DeletedBy = 'deletedBy',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	NotebookId = 'notebookId',
@@ -8403,6 +8370,8 @@ export enum NotebookSituationSelectColumn {
 export type NotebookSituationSetInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	createdBy?: InputMaybe<Scalars['uuid']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedBy?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
@@ -8420,6 +8389,8 @@ export type NotebookSituationStreamCursorInput = {
 export type NotebookSituationStreamCursorValueInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	createdBy?: InputMaybe<Scalars['uuid']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedBy?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
@@ -8431,6 +8402,10 @@ export enum NotebookSituationUpdateColumn {
 	CreatedAt = 'createdAt',
 	/** column name */
 	CreatedBy = 'createdBy',
+	/** column name */
+	DeletedAt = 'deletedAt',
+	/** column name */
+	DeletedBy = 'deletedBy',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -26617,6 +26592,29 @@ export const GetBeneficiariesWithOrientationRequestDocument = {
 									kind: 'Field',
 									name: { kind: 'Name', value: 'orientationRequest' },
 									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'decidedAt' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_is_null' },
+																	value: { kind: 'BooleanValue', value: true },
+																},
+															],
+														},
+													},
+												],
+											},
+										},
 										{
 											kind: 'Argument',
 											name: { kind: 'Name', value: 'order_by' },

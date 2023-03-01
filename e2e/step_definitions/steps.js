@@ -87,6 +87,10 @@ Soit("le chargé d'orientation {string} sur le carnet de {string}", async (email
 
 //
 
+Quand('je navigue vers la page précédente', async () => {
+	I.executeScript('window.history.back();');
+});
+
 Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
 	const item = locate('*')
 		.after(locate('h2').withText(header))

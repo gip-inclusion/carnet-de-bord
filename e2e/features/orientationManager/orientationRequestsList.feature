@@ -26,3 +26,14 @@ Fonctionnalité: Liste des demandes de réorientation
 		Alors je clique sur "Fermer"
 		Quand je clique sur "Voir le carnet de Oconnor Carlson"
 		Alors je suis sur la page "/orientation/carnets/fb0e54ce-5cb8-460c-952c-9256d4c6102e"
+
+	Scénario: Ne pas afficher les demandes de réorientation traitées
+		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
+		Quand je clique sur "Bénéficiaires"
+		Et j'attends que le tableau "Liste des bénéficiaires" apparaisse
+		Alors je vois "Voir la demande de réorientation de Etta Bullock"
+		Quand je clique sur "Voir le carnet de Etta Bullock"
+		Et je clique sur le bouton "Maintenir l'accompagnement"
+		Et je clique sur "Oui"
+		Et je navigue vers la page précédente
+		Alors je ne vois pas "Voir la demande de réorientation de Etta Bullock"
