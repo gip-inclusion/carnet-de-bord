@@ -7,6 +7,10 @@ configuration:
       custom_name: createdAt
     created_by:
       custom_name: createdBy
+    deleted_at:
+      custom_name: deletedAt
+    deleted_by:
+      custom_name: deletedBy
     notebook_id:
       custom_name: notebookId
     situation_id:
@@ -14,6 +18,8 @@ configuration:
   custom_column_names:
     created_at: createdAt
     created_by: createdBy
+    deleted_at: deletedAt
+    deleted_by: deletedBy
     notebook_id: notebookId
     situation_id: situationId
   custom_root_fields: {}
@@ -23,6 +29,15 @@ object_relationships:
       manual_configuration:
         column_mapping:
           created_by: id
+        insertion_order: null
+        remote_table:
+          name: account
+          schema: public
+  - name: deletor
+    using:
+      manual_configuration:
+        column_mapping:
+          deleted_by: id
         insertion_order: null
         remote_table:
           name: account
@@ -82,6 +97,8 @@ select_permissions:
       columns:
         - created_at
         - created_by
+        - deleted_at
+        - deleted_by
         - id
         - notebook_id
         - situation_id
@@ -91,6 +108,8 @@ select_permissions:
       columns:
         - created_at
         - created_by
+        - deleted_at
+        - deleted_by
         - id
         - notebook_id
         - situation_id
@@ -114,7 +133,9 @@ select_permissions:
     permission:
       columns:
         - created_at
+        - deleted_at
         - created_by
+        - deleted_by
         - id
         - notebook_id
         - situation_id
@@ -126,7 +147,9 @@ select_permissions:
     permission:
       columns:
         - created_at
+        - deleted_at
         - created_by
+        - deleted_by
         - id
         - notebook_id
         - situation_id
@@ -139,7 +162,9 @@ select_permissions:
     permission:
       columns:
         - created_at
+        - deleted_at
         - created_by
+        - deleted_by
         - id
         - notebook_id
         - situation_id
@@ -152,7 +177,9 @@ select_permissions:
     permission:
       columns:
         - created_at
+        - deleted_at
         - created_by
+        - deleted_by
         - id
         - notebook_id
         - situation_id
@@ -161,18 +188,32 @@ select_permissions:
           members:
             account_id:
               _eq: X-Hasura-User-Id
-delete_permissions:
+update_permissions:
   - role: orientation_manager
     permission:
+      columns:
+        - deleted_at
+        - deleted_by
       filter:
         notebook:
           members:
             account_id:
               _eq: X-Hasura-User-Id
+      check: null
+      set:
+        deleted_at: now
+        deleted_by: x-hasura-User-Id
   - role: professional
     permission:
+      columns:
+        - deleted_at
+        - deleted_by
       filter:
         notebook:
           members:
             account_id:
               _eq: X-Hasura-User-Id
+      check: null
+      set:
+        deleted_at: now
+        deleted_by: x-hasura-User-Id

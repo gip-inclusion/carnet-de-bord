@@ -115,7 +115,7 @@ query GetNotebook(
           label
         }
       }
-      situations(order_by: { createdAt: desc }) {
+      situations(where: { deletedAt: { _is_null: true } }, order_by: { createdAt: desc }) {
         id
         refSituation {
           id

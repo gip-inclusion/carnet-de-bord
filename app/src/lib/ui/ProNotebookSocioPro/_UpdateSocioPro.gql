@@ -31,8 +31,14 @@ mutation UpdateSocioPro(
   insert_professional_project(objects: $professionalProjects) {
     affected_rows
   }
-  delete_notebook_situation(
-    where: { _and: [{ notebookId: { _eq: $id } }, { situationId: { _in: $situationIdsToDelete } }] }
+  update_notebook_situation(
+    where: {
+      _and: [
+        { notebookId: { _eq: $id } }
+        { situationId: { _in: $situationIdsToDelete } }
+        { deletedAt: { _is_null: true } }
+      ]
+    }
   ) {
     affected_rows
   }
