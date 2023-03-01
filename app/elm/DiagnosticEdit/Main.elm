@@ -1,16 +1,25 @@
 port module DiagnosticEdit.Main exposing (..)
 
 import Browser
-import Date
+import Date exposing (Date)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
-import Domain.ProfessionalProject exposing (ProfessionalProject)
+import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
 import Html.Attributes exposing (attribute, checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick, onInput)
+import Html.Styled as Styled
 import List.Extra
+import Select
 import Set exposing (Set)
+
+
+type RomeData
+    = Failure
+    | Loading
+    | NotAsked
+    | Success (List Rome)
 
 
 type alias RefSituationFlag =
@@ -30,6 +39,16 @@ type alias Flags =
     { refSituations : List RefSituationFlag
     , situations : List NotebookSituationFlag
     , professionalProjects : List ProfessionalProjectFlags
+    }
+
+
+type alias ProfessionalProjectState =
+    { id : Maybe String
+    , rome : Maybe Rome
+    , mobilityRadius : Maybe Int
+    , romeData : RomeData
+    , selectedRome : Maybe Rome
+    , selectState : Select.State
     }
 
 
@@ -64,6 +83,7 @@ type Msg
     | AddEmptyProfessionalProject
     | RemoveProject Int
     | UpdateMobilityRadius Int String
+    | SelectMsg Int (Select.Msg Rome)
 
 
 
@@ -73,7 +93,7 @@ type Msg
 type alias Model =
     { possibleSituationsByTheme : List RefSituation
     , selectedSituationSet : Set String
-    , professionalProjects : List ProfessionalProject
+    , professionalProjects : List ProfessionalProjectState
     }
 
 
@@ -99,6 +119,17 @@ extractProfessionalProjectsFromFlags professionalProjects =
     List.map extractProfessionalProjectFromFlags professionalProjects
 
 
+initProfessionalProjectState : ProfessionalProject -> ProfessionalProjectState
+initProfessionalProjectState professionalProject =
+    { id = Just professionalProject.id
+    , rome = professionalProject.rome
+    , mobilityRadius = professionalProject.mobilityRadius
+    , romeData = NotAsked
+    , selectedRome = Nothing
+    , selectState = Select.initState (Select.selectIdentifier "RomeSelector")
+    }
+
+
 
 -- INIT
 
@@ -113,7 +144,9 @@ init flags =
                 |> List.map .refSituation
                 |> List.map .id
                 |> Set.fromList
-      , professionalProjects = extractProfessionalProjectsFromFlags flags.professionalProjects
+      , professionalProjects =
+            extractProfessionalProjectsFromFlags flags.professionalProjects
+                |> List.map initProfessionalProjectState
       }
     , Cmd.none
     )
@@ -130,11 +163,12 @@ update msg model =
             ( { model
                 | professionalProjects =
                     model.professionalProjects
-                        ++ [ { id = "id"
-                             , createdAt = Nothing
-                             , updatedAt = Nothing
+                        ++ [ { id = Nothing
                              , rome = Nothing
                              , mobilityRadius = Nothing
+                             , romeData = NotAsked
+                             , selectedRome = Nothing
+                             , selectState = Select.initState (Select.selectIdentifier "RomeSelector")
                              }
                            ]
               }
@@ -145,16 +179,9 @@ update msg model =
             ( { model
                 | professionalProjects =
                     model.professionalProjects
-                        |> List.indexedMap Tuple.pair
-                        |> List.map
-                            (\( index, professionalProject ) ->
-                                if index == indexToUpdate then
-                                    { professionalProject
-                                        | mobilityRadius = String.toInt value
-                                    }
-
-                                else
-                                    professionalProject
+                        |> List.Extra.updateAt indexToUpdate
+                            (\professionalProjectState ->
+                                { professionalProjectState | mobilityRadius = String.toInt value }
                             )
               }
             , Cmd.none
@@ -192,6 +219,32 @@ update msg model =
             , sendSelectedSituations (newModel.selectedSituationSet |> Set.toList)
             )
 
+        SelectMsg indexToUpdate selectMsg ->
+            case
+                List.Extra.getAt indexToUpdate model.professionalProjects
+                    |> Maybe.map .selectState
+                    |> Maybe.map (Select.update selectMsg)
+            of
+                Just ( maybeAction, updatedSelectState, selectCmds ) ->
+                    case maybeAction of
+                        Just (Select.Select someRome) ->
+                            ( { model
+                                | professionalProjects =
+                                    model.professionalProjects
+                                        |> List.Extra.updateAt indexToUpdate
+                                            (\professionalProjectState ->
+                                                { professionalProjectState | selectState = updatedSelectState, selectedRome = Just someRome }
+                                            )
+                              }
+                            , Cmd.map (SelectMsg indexToUpdate) selectCmds
+                            )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
 
 situationsByTheme : List Situation -> List RefSituation
 situationsByTheme situations =
@@ -203,6 +256,22 @@ situationsByTheme situations =
 
 
 -- VIEW
+-- Disable box-shadow on the select
+
+
+selectedRomeToMenuItem : Rome -> Select.MenuItem Rome
+selectedRomeToMenuItem rome =
+    Select.basicMenuItem { item = rome, label = rome.label }
+
+
+romeDataToMenuItems : RomeData -> List (Select.MenuItem Rome)
+romeDataToMenuItems romeData =
+    case romeData of
+        Success data ->
+            data |> List.map selectedRomeToMenuItem
+
+        _ ->
+            []
 
 
 view : Model -> Html Msg
@@ -218,7 +287,16 @@ view model =
                         div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
                             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                                 [ div [ class "fr-col-8" ]
-                                    [ Maybe.withDefault "projet en construction" (Maybe.map .label project.rome) |> text
+                                    [ Html.map
+                                        (SelectMsg index)
+                                        (Styled.toUnstyled <|
+                                            Select.view
+                                                ((Select.single <| Maybe.map selectedRomeToMenuItem project.rome)
+                                                    |> Select.menuItems (romeDataToMenuItems project.romeData)
+                                                    |> Select.state project.selectState
+                                                    |> Select.searchable True
+                                                )
+                                        )
                                     ]
                                 , div [ class "fr-col-4" ]
                                     [ div [ class "fr-input-group" ]
@@ -226,7 +304,7 @@ view model =
                                         , input
                                             [ class "fr-input"
                                             , onInput (UpdateMobilityRadius index)
-                                            , type_ "number"
+                                            , type_ "text"
                                             , id ("mobility-radius" ++ String.fromInt index)
                                             , name "mobility-radius[]"
                                             , value (String.fromInt (Maybe.withDefault 0 project.mobilityRadius))
