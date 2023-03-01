@@ -1,3 +1,10 @@
+# [1.203.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.202.1...v1.203.0) (2023-03-01)
+
+
+### Features
+
+* Ne pas afficher les demandes de réorientation traitées. ([#1574](https://github.com/gip-inclusion/carnet-de-bord/issues/1574)) ([1e97830](https://github.com/gip-inclusion/carnet-de-bord/commit/1e978305b7459b38b659fe0d3d63619f77a9d365))
+
 ## [1.202.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.202.0...v1.202.1) (2023-02-28)
 
 # [1.202.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.201.7...v1.202.0) (2023-02-28)
