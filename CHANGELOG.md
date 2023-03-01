@@ -1,3 +1,10 @@
+# [1.204.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.203.0...v1.204.0) (2023-03-01)
+
+
+### Features
+
+* Historiser les changements de situations d'un bénéficiaire ([#1570](https://github.com/gip-inclusion/carnet-de-bord/issues/1570)) ([ba3c51e](https://github.com/gip-inclusion/carnet-de-bord/commit/ba3c51e68e1df4d461664cdf5f21c7f689175460))
+
 # [1.203.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.202.1...v1.203.0) (2023-03-01)
 
 
