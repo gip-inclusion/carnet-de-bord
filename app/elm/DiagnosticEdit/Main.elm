@@ -2,6 +2,7 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Date exposing (Date)
+import Debouncer.Messages as Debouncer exposing (Debouncer, debounce, fromSeconds, provideInput, settleWhenQuietFor, toDebouncer)
 import Debug exposing (log)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
@@ -90,7 +91,9 @@ type Msg
     | RemoveProject Int
     | UpdateMobilityRadius Int String
     | SelectMsg Int (Select.Msg Rome)
-    | RomeFetched Int (Result Http.Error (List Rome))
+    | MsgFetchJobTitlesDebouncer (Debouncer.Msg Msg)
+    | FetchJobTitles Int String
+    | JobTitlesFetched Int (Result Http.Error (List Rome))
 
 
 
@@ -103,6 +106,7 @@ type alias Model =
     , professionalProjects : List ProfessionalProjectState
     , token : String
     , serverUrl : String
+    , fetchJobTitlesDebouncer : Debouncer.Debouncer Msg
     }
 
 
@@ -158,6 +162,7 @@ init flags =
                 |> List.map initProfessionalProjectState
       , token = flags.token
       , serverUrl = flags.serverUrl
+      , fetchJobTitlesDebouncer = debounce (fromSeconds 0.5) |> toDebouncer
       }
     , Cmd.none
     )
@@ -165,6 +170,14 @@ init flags =
 
 
 -- UPDATE
+
+
+fetchJobTitlesDebouncerConfig : Debouncer.UpdateConfig Msg Model
+fetchJobTitlesDebouncerConfig =
+    { mapMsg = MsgFetchJobTitlesDebouncer
+    , getDebouncer = .fetchJobTitlesDebouncer
+    , setDebouncer = \debouncer model -> { model | fetchJobTitlesDebouncer = debouncer }
+    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -237,47 +250,65 @@ update msg model =
                     |> Maybe.map (Select.update selectMsg)
             of
                 Just ( maybeAction, updatedSelectState, selectCmds ) ->
-                    case maybeAction of
-                        Just (Select.Select someRome) ->
-                            ( { model
+                    let
+                        newModel =
+                            { model
                                 | professionalProjects =
                                     model.professionalProjects
                                         |> List.Extra.updateAt indexToUpdate
                                             (\professionalProjectState ->
-                                                { professionalProjectState | selectState = updatedSelectState, selectedRome = Just someRome }
+                                                { professionalProjectState | selectState = updatedSelectState }
+                                            )
+                            }
+
+                        newCmds =
+                            Cmd.map (SelectMsg indexToUpdate) selectCmds
+                    in
+                    case maybeAction of
+                        Just (Select.Select someRome) ->
+                            ( { newModel
+                                | professionalProjects =
+                                    newModel.professionalProjects
+                                        |> List.Extra.updateAt indexToUpdate
+                                            (\professionalProjectState ->
+                                                { professionalProjectState | selectedRome = Just someRome }
                                             )
                               }
-                            , Cmd.map (SelectMsg indexToUpdate) selectCmds
+                            , newCmds
                             )
 
                         Just (Select.InputChange value) ->
-                            ( { model
-                                | professionalProjects =
-                                    model.professionalProjects
-                                        |> List.Extra.updateAt indexToUpdate
-                                            (\professionalProjectState ->
-                                                { professionalProjectState | selectState = updatedSelectState }
-                                            )
-                              }
-                            , getRome model.token model.serverUrl value indexToUpdate
-                            )
+                            let
+                                ( debouncerModel, debouncerCmds ) =
+                                    Debouncer.update update
+                                        fetchJobTitlesDebouncerConfig
+                                        (FetchJobTitles indexToUpdate value
+                                            |> provideInput
+                                        )
+                                        newModel
+                            in
+                            ( debouncerModel, Cmd.batch [ newCmds, debouncerCmds ] )
 
+                        -- TODO: Show loading state.
                         _ ->
-                            ( { model
-                                | professionalProjects =
-                                    model.professionalProjects
-                                        |> List.Extra.updateAt indexToUpdate
-                                            (\professionalProjectState ->
-                                                { professionalProjectState | selectState = updatedSelectState }
-                                            )
-                              }
-                            , Cmd.map (SelectMsg indexToUpdate) selectCmds
-                            )
+                            ( newModel, newCmds )
 
                 _ ->
-                    log "Outer" ( model, Cmd.none )
+                    ( model, Cmd.none )
 
-        RomeFetched index result ->
+        MsgFetchJobTitlesDebouncer subMsg ->
+            Debouncer.update update fetchJobTitlesDebouncerConfig subMsg model
+
+        FetchJobTitles index searchString ->
+            ( model
+            , if not (String.isEmpty searchString) then
+                getRome model.token model.serverUrl searchString index
+
+              else
+                Cmd.none
+            )
+
+        JobTitlesFetched index result ->
             case result of
                 Ok romeData ->
                     ( { model
@@ -324,7 +355,7 @@ getRome token serverUrl searchString index =
                       )
                     ]
                 )
-        , expect = Http.expectJson (RomeFetched index) romeListDecoder
+        , expect = Http.expectJson (JobTitlesFetched index) romeListDecoder
         , timeout = Nothing
         , tracker = Nothing
         }
