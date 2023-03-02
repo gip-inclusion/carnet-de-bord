@@ -12,6 +12,8 @@ export type Flags = {
 	refSituations: Array<RefSituation>;
 	situations: Array<Situation>;
 	professionalProjects: Array<ProfessionalProjectElm>;
+	serverUrl: string;
+	token: string;
 };
 
 export interface ElmApp {

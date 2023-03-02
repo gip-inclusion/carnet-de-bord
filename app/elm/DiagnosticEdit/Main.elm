@@ -2,6 +2,7 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Date exposing (Date)
+import Debug exposing (log)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
 import Domain.Situation exposing (Situation)
@@ -10,6 +11,9 @@ import Html exposing (..)
 import Html.Attributes exposing (attribute, checked, class, for, id, name, type_, value)
 import Html.Events exposing (onClick, onInput)
 import Html.Styled as Styled
+import Http
+import Json.Decode
+import Json.Encode
 import List.Extra
 import Select
 import Set exposing (Set)
@@ -39,6 +43,8 @@ type alias Flags =
     { refSituations : List RefSituationFlag
     , situations : List NotebookSituationFlag
     , professionalProjects : List ProfessionalProjectFlags
+    , token : String
+    , serverUrl : String
     }
 
 
@@ -84,6 +90,7 @@ type Msg
     | RemoveProject Int
     | UpdateMobilityRadius Int String
     | SelectMsg Int (Select.Msg Rome)
+    | RomeFetched Int (Result Http.Error (List Rome))
 
 
 
@@ -94,6 +101,8 @@ type alias Model =
     { possibleSituationsByTheme : List RefSituation
     , selectedSituationSet : Set String
     , professionalProjects : List ProfessionalProjectState
+    , token : String
+    , serverUrl : String
     }
 
 
@@ -124,9 +133,9 @@ initProfessionalProjectState professionalProject =
     { id = Just professionalProject.id
     , rome = professionalProject.rome
     , mobilityRadius = professionalProject.mobilityRadius
-    , romeData = NotAsked
-    , selectedRome = Nothing
-    , selectState = Select.initState (Select.selectIdentifier "RomeSelector")
+    , romeData = Maybe.withDefault NotAsked (Maybe.map (\value -> Success [ value ]) professionalProject.rome)
+    , selectedRome = professionalProject.rome
+    , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ professionalProject.id))
     }
 
 
@@ -147,6 +156,8 @@ init flags =
       , professionalProjects =
             extractProfessionalProjectsFromFlags flags.professionalProjects
                 |> List.map initProfessionalProjectState
+      , token = flags.token
+      , serverUrl = flags.serverUrl
       }
     , Cmd.none
     )
@@ -168,7 +179,7 @@ update msg model =
                              , mobilityRadius = Nothing
                              , romeData = NotAsked
                              , selectedRome = Nothing
-                             , selectState = Select.initState (Select.selectIdentifier "RomeSelector")
+                             , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt (List.length model.professionalProjects)))
                              }
                            ]
               }
@@ -239,11 +250,96 @@ update msg model =
                             , Cmd.map (SelectMsg indexToUpdate) selectCmds
                             )
 
+                        Just (Select.InputChange value) ->
+                            ( { model
+                                | professionalProjects =
+                                    model.professionalProjects
+                                        |> List.Extra.updateAt indexToUpdate
+                                            (\professionalProjectState ->
+                                                { professionalProjectState | selectState = updatedSelectState }
+                                            )
+                              }
+                            , getRome model.token model.serverUrl value indexToUpdate
+                            )
+
                         _ ->
-                            ( model, Cmd.none )
+                            ( { model
+                                | professionalProjects =
+                                    model.professionalProjects
+                                        |> List.Extra.updateAt indexToUpdate
+                                            (\professionalProjectState ->
+                                                { professionalProjectState | selectState = updatedSelectState }
+                                            )
+                              }
+                            , Cmd.map (SelectMsg indexToUpdate) selectCmds
+                            )
 
                 _ ->
-                    ( model, Cmd.none )
+                    log "Outer" ( model, Cmd.none )
+
+        RomeFetched index result ->
+            case result of
+                Ok romeData ->
+                    ( { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt index
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | romeData = Success romeData }
+                                    )
+                      }
+                    , Cmd.none
+                    )
+
+                Err _ ->
+                    log "err" ( model, Cmd.none )
+
+
+getRome : String -> String -> String -> Int -> Cmd Msg
+getRome token serverUrl searchString index =
+    let
+        query =
+            """
+            query searchRomes($searchString: String!) {
+              rome: search_rome_codes(args: {search: $searchString}, limit: 50) {
+                id
+                label
+              }
+            }
+            """
+    in
+    Http.request
+        { method = "POST"
+        , url = serverUrl
+        , headers =
+            [ Http.header "Authorization" ("Bearer " ++ token) ]
+        , body =
+            Http.jsonBody
+                (Json.Encode.object
+                    [ ( "query", Json.Encode.string query )
+                    , ( "variables"
+                      , Json.Encode.object
+                            [ ( "searchString", Json.Encode.string searchString )
+                            ]
+                      )
+                    ]
+                )
+        , expect = Http.expectJson (RomeFetched index) romeListDecoder
+        , timeout = Nothing
+        , tracker = Nothing
+        }
+
+
+romeListDecoder : Json.Decode.Decoder (List Rome)
+romeListDecoder =
+    Json.Decode.at [ "data", "rome" ] (Json.Decode.list romeDecoder)
+
+
+romeDecoder : Json.Decode.Decoder Rome
+romeDecoder =
+    Json.Decode.map2 Rome
+        (Json.Decode.field "id" Json.Decode.string)
+        (Json.Decode.field "label" Json.Decode.string)
 
 
 situationsByTheme : List Situation -> List RefSituation
@@ -261,7 +357,7 @@ situationsByTheme situations =
 
 selectedRomeToMenuItem : Rome -> Select.MenuItem Rome
 selectedRomeToMenuItem rome =
-    Select.basicMenuItem { item = rome, label = rome.label }
+    Select.basicMenuItem { item = rome, label = rome.label } |> Select.filterableMenuItem False
 
 
 romeDataToMenuItems : RomeData -> List (Select.MenuItem Rome)
@@ -291,10 +387,9 @@ view model =
                                         (SelectMsg index)
                                         (Styled.toUnstyled <|
                                             Select.view
-                                                ((Select.single <| Maybe.map selectedRomeToMenuItem project.rome)
+                                                ((Select.single <| Maybe.map selectedRomeToMenuItem project.selectedRome)
                                                     |> Select.menuItems (romeDataToMenuItems project.romeData)
                                                     |> Select.state project.selectState
-                                                    |> Select.searchable True
                                                 )
                                         )
                                     ]
