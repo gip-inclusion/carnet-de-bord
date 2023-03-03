@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { educationLevelKeys, workSituationKeys } from '$lib/constants/keys';
-	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		GetNotebookQuery,
+		ProfessionalProjectInsertInput,
+		ProfessionalProjectUpdates,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { mutation, operationStore } from '@urql/svelte';
@@ -13,6 +17,7 @@
 	} from './ProNotebookSocioPro.schema';
 	import { Checkbox, Form, Input, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
+	import type { ProfessionalProjectOut } from 'elm/DiagnosticEdit/Main.elm';
 
 	export let onClose: () => void;
 	export let notebook: Pick<
@@ -26,8 +31,10 @@
 		| 'lastJobEndedAt'
 		| 'focuses'
 		| 'situations'
-	> & { professionalProjects: string[] };
+		| 'professionalProjects'
+	>;
 	export let selectedSituations: string[];
+	export let professionalProjects: ProfessionalProjectOut[];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -40,8 +47,6 @@
 		educationLevel: notebook.educationLevel,
 		lastJobEndedAt: notebook.lastJobEndedAt ?? '',
 	};
-
-	const professionalProjects = notebook.professionalProjects;
 
 	function close() {
 		onClose();
@@ -67,6 +72,35 @@
 			(id) => !selectedSituations.includes(id)
 		);
 
+		const professionalProjectIds = professionalProjects.map(({ id }) => id);
+		const professionalProjectIdsToDelete = notebook.professionalProjects
+			.map(({ id }) => id)
+			.filter((id) => !professionalProjectIds.includes(id));
+
+		const professionalProjectsToAdd: ProfessionalProjectInsertInput[] = professionalProjects
+			.filter(({ id }) => !id)
+			.map((project) => {
+				return {
+					notebookId: notebook.id,
+					mobilityRadius: project.mobilityRadius,
+					romeCodeId: project.romeId,
+				};
+			});
+
+		const professionalProjectsToUpdate: ProfessionalProjectUpdates[] = professionalProjects
+			.filter(({ id }) => id)
+			.map((project) => {
+				return {
+					where: {
+						id: { _eq: project.id },
+					},
+					_set: {
+						mobilityRadius: project.mobilityRadius,
+						romeCodeId: project.romeId,
+					},
+				};
+			});
+
 		const payload = {
 			id: notebook.id,
 			educationLevel,
@@ -75,11 +109,9 @@
 			workSituationDate: values.workSituationDate.toString() || null,
 			workSituationEndDate: values.workSituationEndDate.toString() || null,
 			lastJobEndedAt: values.lastJobEndedAt.toString() || null,
-			professionalProjects: professionalProjects.map((rome_code_id) => ({
-				notebook_id: notebook.id,
-				rome_code_id,
-				mobilityRadius: 0,
-			})),
+			professionalProjectsToAdd,
+			professionalProjectIdsToDelete,
+			professionalProjectsToUpdate,
 			situationsToAdd,
 			situationIdsToDelete,
 		};
@@ -220,8 +252,6 @@
 		<div class="pb-4">
 			<Checkbox name="rightRqth" label="RQTH" />
 		</div>
-
-		<Input name="geographicalArea" inputLabel="Zone de mobilité géographique (km)" type="number" />
 
 		<div class="fr-form-group">
 			<div class="pb-2 font-bold">Niveau de formation</div>

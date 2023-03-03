@@ -15436,7 +15436,9 @@ export type UpdateSocioProMutationVariables = Exact<{
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
-	professionalProjects: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
+	professionalProjectsToAdd: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
+	professionalProjectIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
+	professionalProjectsToUpdate: Array<ProfessionalProjectUpdates> | ProfessionalProjectUpdates;
 	situationsToAdd: Array<NotebookSituationInsertInput> | NotebookSituationInsertInput;
 	situationIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
@@ -15452,6 +15454,10 @@ export type UpdateSocioProMutation = {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
+	update_professional_project_many?: Array<{
+		__typename?: 'professional_project_mutation_response';
+		affected_rows: number;
+	} | null> | null;
 	update_notebook_situation?: {
 		__typename?: 'notebook_situation_mutation_response';
 		affected_rows: number;
@@ -23741,7 +23747,10 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalProjects' } },
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'professionalProjectsToAdd' },
+					},
 					type: {
 						kind: 'NonNullType',
 						type: {
@@ -23751,6 +23760,43 @@ export const UpdateSocioProDocument = {
 								type: {
 									kind: 'NamedType',
 									name: { kind: 'Name', value: 'professional_project_insert_input' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'professionalProjectIdsToDelete' },
+					},
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
+					},
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'professional_project_updates' },
 								},
 							},
 						},
@@ -23873,14 +23919,17 @@ export const UpdateSocioProDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookId' },
+											name: { kind: 'Name', value: 'id' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
-														value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+														name: { kind: 'Name', value: '_in' },
+														value: {
+															kind: 'Variable',
+															name: { kind: 'Name', value: 'professionalProjectIdsToDelete' },
+														},
 													},
 												],
 											},
@@ -23901,7 +23950,28 @@ export const UpdateSocioProDocument = {
 							{
 								kind: 'Argument',
 								name: { kind: 'Name', value: 'objects' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'professionalProjects' } },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'professionalProjectsToAdd' },
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_professional_project_many' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'updates' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
+								},
 							},
 						],
 						selectionSet: {

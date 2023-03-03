@@ -8,6 +8,12 @@ export type ProfessionalProjectElm = Pick<
 	'id' | 'updatedAt' | 'createdAt' | 'mobilityRadius'
 > & { rome?: Pick<RomeCode, 'id' | 'label'> };
 
+export type ProfessionalProjectOut = {
+	id: string?;
+	mobilityRadius: number?;
+	romeId: string?;
+};
+
 export type Flags = {
 	refSituations: Array<RefSituation>;
 	situations: Array<Situation>;

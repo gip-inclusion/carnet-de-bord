@@ -59,6 +59,21 @@ type alias ProfessionalProjectState =
     }
 
 
+type alias ProfessionalProjectOut =
+    { id : Maybe String
+    , mobilityRadius : Maybe Int
+    , romeId : Maybe String
+    }
+
+
+toProfessionalProjectOut : ProfessionalProjectState -> ProfessionalProjectOut
+toProfessionalProjectOut state =
+    { id = state.id
+    , mobilityRadius = state.mobilityRadius
+    , romeId = Maybe.map .id state.selectedRome
+    }
+
+
 inputmode : String -> Attribute msg
 inputmode name =
     attribute "inputmode" name
@@ -184,42 +199,60 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         AddEmptyProfessionalProject ->
-            ( { model
-                | professionalProjects =
-                    model.professionalProjects
-                        ++ [ { id = Nothing
-                             , rome = Nothing
-                             , mobilityRadius = Nothing
-                             , romeData = NotAsked
-                             , selectedRome = Nothing
-                             , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt (List.length model.professionalProjects)))
-                             }
-                           ]
-              }
-            , Cmd.none
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                ++ [ { id = Nothing
+                                     , rome = Nothing
+                                     , mobilityRadius = Nothing
+                                     , romeData = NotAsked
+                                     , selectedRome = Nothing
+                                     , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt (List.length model.professionalProjects)))
+                                     }
+                                   ]
+                    }
+            in
+            ( newModel
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
             )
 
         UpdateMobilityRadius indexToUpdate value ->
-            ( { model
-                | professionalProjects =
-                    model.professionalProjects
-                        |> List.Extra.updateAt indexToUpdate
-                            (\professionalProjectState ->
-                                { professionalProjectState | mobilityRadius = String.toInt value }
-                            )
-              }
-            , Cmd.none
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt indexToUpdate
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | mobilityRadius = String.toInt value }
+                                    )
+                    }
+            in
+            ( newModel
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
             )
 
         RemoveProject indexToRemove ->
-            ( { model
-                | professionalProjects =
-                    model.professionalProjects
-                        |> List.indexedMap Tuple.pair
-                        |> List.filter (\( index, _ ) -> index /= indexToRemove)
-                        |> List.map (\( _, value ) -> value)
-              }
-            , Cmd.none
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.indexedMap Tuple.pair
+                                |> List.filter (\( index, _ ) -> index /= indexToRemove)
+                                |> List.map (\( _, value ) -> value)
+                    }
+            in
+            ( newModel
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
             )
 
         ToggleSelectedSituation selectedSituation ->
@@ -240,7 +273,9 @@ update msg model =
                         }
             in
             ( newModel
-            , sendSelectedSituations (newModel.selectedSituationSet |> Set.toList)
+            , newModel.selectedSituationSet
+                |> Set.toList
+                |> sendSelectedSituations
             )
 
         SelectMsg indexToUpdate selectMsg ->
@@ -274,7 +309,12 @@ update msg model =
                                                 { professionalProjectState | selectedRome = Just someRome }
                                             )
                               }
-                            , newCmds
+                            , Cmd.batch
+                                [ newCmds
+                                , newModel.professionalProjects
+                                    |> List.map toProfessionalProjectOut
+                                    |> sendUpdatedProfessionalProjects
+                                ]
                             )
 
                         Just (Select.InputChange value) ->
@@ -291,7 +331,14 @@ update msg model =
 
                         -- TODO: Show loading state.
                         _ ->
-                            ( newModel, newCmds )
+                            ( newModel
+                            , Cmd.batch
+                                [ newCmds
+                                , newModel.professionalProjects
+                                    |> List.map toProfessionalProjectOut
+                                    |> sendUpdatedProfessionalProjects
+                                ]
+                            )
 
                 _ ->
                     ( model, Cmd.none )
@@ -323,6 +370,7 @@ update msg model =
                     )
 
                 Err _ ->
+                    -- TODO: Que fait-on des erreurs http ?
                     log "err" ( model, Cmd.none )
 
 
@@ -383,7 +431,7 @@ situationsByTheme situations =
 
 
 -- VIEW
--- Disable box-shadow on the select
+-- TODO: Disable box-shadow on the select
 
 
 selectedRomeToMenuItem : Rome -> Select.MenuItem Rome
@@ -421,6 +469,7 @@ view model =
                                                 ((Select.single <| Maybe.map selectedRomeToMenuItem project.selectedRome)
                                                     |> Select.menuItems (romeDataToMenuItems project.romeData)
                                                     |> Select.state project.selectState
+                                                    |> Select.placeholder "Recherchez un métier ou un code ROME"
                                                 )
                                         )
                                     ]
@@ -433,7 +482,7 @@ view model =
                                             , type_ "text"
                                             , id ("mobility-radius" ++ String.fromInt index)
                                             , name "mobility-radius[]"
-                                            , value (String.fromInt (Maybe.withDefault 0 project.mobilityRadius))
+                                            , value (Maybe.map String.fromInt project.mobilityRadius |> Maybe.withDefault "")
                                             , inputmode "numeric"
                                             ]
                                             []
@@ -496,3 +545,6 @@ situationCheckboxView selectedSituationSet situation =
 
 
 port sendSelectedSituations : List String -> Cmd msg
+
+
+port sendUpdatedProfessionalProjects : List ProfessionalProjectOut -> Cmd msg

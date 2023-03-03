@@ -9,7 +9,10 @@
 	import { displayFullName } from '$lib/ui/format';
 	import { connectedUser, token, graphqlAPI } from '$lib/stores';
 	import { afterUpdate } from 'svelte';
-	import { Elm as DiagnosticEditElm } from '../../../../elm/DiagnosticEdit/Main.elm';
+	import {
+		Elm as DiagnosticEditElm,
+		ProfessionalProjectOut,
+	} from '../../../../elm/DiagnosticEdit/Main.elm';
 
 	export let notebookId: string;
 	$: notebookPath =
@@ -37,13 +40,15 @@
 	$: beneficiary = publicNotebook?.beneficiary;
 	$: refSituations = $getNotebook.data?.refSituations;
 
-	$: notebookWithJobs = {
-		...notebook,
-		professionalProjects: notebook?.professionalProjects.map(({ rome_code }) => rome_code.id) || [],
-	};
-
-	$: options = notebook?.professionalProjects.map(({ rome_code }) => rome_code);
 	let selectedSituations: string[] = [];
+	$: professionalProjects =
+		notebook?.professionalProjects?.map((professionalProject) => {
+			return {
+				id: professionalProject.id,
+				mobilityRadius: professionalProject.mobilityRadius,
+				romeId: professionalProject.rome_code.id,
+			};
+		}) ?? [];
 
 	let elmNode: HTMLElement;
 	afterUpdate(() => {
@@ -71,6 +76,13 @@
 		app.ports.sendSelectedSituations.subscribe((updatedSelection: string[]) => {
 			selectedSituations = updatedSelection;
 		});
+
+		app.ports.sendUpdatedProfessionalProjects.subscribe(
+			(updatedProfessionalProjects: ProfessionalProjectOut[]) => {
+				console.log(updatedProfessionalProjects);
+				professionalProjects = updatedProfessionalProjects;
+			}
+		);
 	});
 
 	function goToNotebook() {
@@ -82,8 +94,9 @@
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col space-y-6">
 		<ProNotebookSocioProUpdate
-			notebook={notebookWithJobs}
+			{notebook}
 			{selectedSituations}
+			{professionalProjects}
 			onClose={goToNotebook}
 		>
 			{#key refSituations}
