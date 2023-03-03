@@ -374,39 +374,41 @@ peInformationsView peGeneralData =
 
 
 professionalProjectView : Model -> Html msg
-professionalProjectView model =
+professionalProjectView { professionalProjects } =
     div [ class "pt-10 flex flex-col" ]
         [ h3
             [ class "text-xl" ]
             [ text "Projets professionnels" ]
-        , div []
-            (model.professionalProjects
-                |> List.map
-                    (\professionalProject ->
-                        div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
-                            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                                [ div [ class "fr-col-6" ]
-                                    [ situationElement "Emplois recherchés"
-                                        (Maybe.map .label professionalProject.rome
-                                            |> Maybe.map text
-                                        )
-                                        (unfilled Plural)
-                                        Nothing
-                                    ]
-                                , div [ class "fr-col-6" ]
-                                    [ situationElement "Zone de mobilité"
-                                        (professionalProject.mobilityRadius
-                                            |> Maybe.map String.fromInt
-                                            |> Maybe.map addDistanceUnit
-                                            |> Maybe.map text
-                                        )
-                                        (unfilled Feminine)
-                                        Nothing
+        , if List.isEmpty professionalProjects then
+            span [ class "fr-container shadow-dsfr rounded-lg py-8" ] [ text "Aucun projet professionel défini" ]
+
+          else
+            div []
+                (professionalProjects
+                    |> List.map
+                        (\professionalProject ->
+                            div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
+                                [ div [ class "fr-grid-row fr-grid-row--gutters" ]
+                                    [ div [ class "fr-col-6" ]
+                                        [ situationElement "Emploi recherché"
+                                            (Maybe.map .label professionalProject.rome |> Maybe.map text)
+                                            (unfilled Plural)
+                                            Nothing
+                                        ]
+                                    , div [ class "fr-col-6" ]
+                                        [ situationElement "Zone de mobilité"
+                                            (professionalProject.mobilityRadius
+                                                |> Maybe.map String.fromInt
+                                                |> Maybe.map addDistanceUnit
+                                                |> Maybe.map text
+                                            )
+                                            (unfilled Feminine)
+                                            Nothing
+                                        ]
                                     ]
                                 ]
-                            ]
-                    )
-            )
+                        )
+                )
         ]
 
 
