@@ -1,8 +1,7 @@
 port module DiagnosticEdit.Main exposing (..)
 
 import Browser
-import Date exposing (Date)
-import Debouncer.Messages as Debouncer exposing (Debouncer, debounce, fromSeconds, provideInput, settleWhenQuietFor, toDebouncer)
+import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
 import Debug exposing (log)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
