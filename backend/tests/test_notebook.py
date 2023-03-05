@@ -22,7 +22,6 @@ async def test_get_notebook_by_id(db_connection):
     assert notebook is not None
 
     assert notebook.right_rqth
-    assert notebook.geographical_area == 20
     assert notebook.education_level == "NV4"
     assert notebook.work_situation_date == date(2022, 7, 22)
     assert notebook.contract_type == "cer"
@@ -38,7 +37,6 @@ async def test_get_notebook_by_id(db_connection):
 
     assert notebook is not None
     assert not notebook.right_rqth
-    assert notebook.geographical_area is None
     assert notebook.education_level is None
 
 
