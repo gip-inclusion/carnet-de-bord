@@ -1,3 +1,10 @@
+## [1.204.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.204.0...v1.204.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* Ne pas comptabiliser ni montrer dans le portefeuille d'un chargé d'orientation les bénéficiaires dont il n'est pas membre actif du carnet. ([#1577](https://github.com/gip-inclusion/carnet-de-bord/issues/1577)) ([ba031f9](https://github.com/gip-inclusion/carnet-de-bord/commit/ba031f98b93e7973d9584d39a1bf137d29c8a8d8))
+
 # [1.204.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.203.0...v1.204.0) (2023-03-01)
 
 
