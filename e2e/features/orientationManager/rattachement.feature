@@ -1,6 +1,6 @@
 #language: fr
 
-Fonctionnalité: Orientaion par un chargé d'orientation
+Fonctionnalité: Orientation par un chargé d'orientation
 	Pour pouvoir gérer les orientation
 	En tant que chargé d'orientation
 	Je veux pouvoir assigner un référent aux bénéficiaires
@@ -36,8 +36,8 @@ Fonctionnalité: Orientaion par un chargé d'orientation
 		Alors je selectionne l'option "Service Social Départemental (2)" dans la liste "Nom de la structure"
 		Alors je selectionne l'option "Paul Camara (2)" dans la liste "Nom du référent unique"
 		Quand je clique sur "Valider" dans le volet
-		Alors je ne vois pas "Henderson"
-		Alors je ne vois pas "Lynch"
+		Alors je ne vois pas "Henderson Myrna"
+		Alors je ne vois pas "Lynch Della"
 		Quand je selectionne l'option "Accompagné" dans la liste "Statut"
-		Alors je vois "Service Social Départemental" sur la ligne "Henderson"
-		Alors je vois "Service Social Départemental" sur la ligne "Lynch"
+		Alors je vois "Service Social Départemental" sur la ligne "Henderson Myrna"
+		Alors je vois "Service Social Départemental" sur la ligne "Lynch Della"

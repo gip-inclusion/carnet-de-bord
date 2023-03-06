@@ -29,7 +29,9 @@
 
 	export let data: PageData;
 
-	const graphqlBeneficiaryFilter = { members: { accountId: { _eq: $connectedUser.id } } };
+	const graphqlBeneficiaryFilter = {
+		members: { active: { _eq: true }, accountId: { _eq: $connectedUser.id } },
+	};
 	function getBeneficiaryFilter(filter: BeneficiaryFilter): NotebookBoolExp {
 		switch (filter) {
 			case 'suivi':
@@ -38,15 +40,20 @@
 				if (data.withoutOrientationManager) {
 					return {
 						_and: [
-							{ _not: { members: { accountId: { _eq: $connectedUser.id } } } },
-							{ _not: { members: { account: { orientation_manager: {} } } } },
+							{
+								_not: { members: { active: { _eq: true }, account: { orientation_manager: {} } } },
+							},
 						],
 					};
 				}
-				return { _not: { members: { accountId: { _eq: $connectedUser.id } } } };
+				return {
+					_not: { members: { active: { _eq: true }, accountId: { _eq: $connectedUser.id } } },
+				};
 			default:
 				if (data.withoutOrientationManager) {
-					return { _not: { members: { account: { orientation_manager: {} } } } };
+					return {
+						_not: { members: { active: { _eq: true }, account: { orientation_manager: {} } } },
+					};
 				}
 				return {};
 		}
