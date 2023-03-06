@@ -383,11 +383,11 @@ professionalProjectView { professionalProjects } =
             span [ class "fr-container shadow-dsfr rounded-lg py-8" ] [ text "Aucun projet professionel défini" ]
 
           else
-            div []
+            div [ class "space-y-8" ]
                 (professionalProjects
                     |> List.map
                         (\professionalProject ->
-                            div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
+                            div [ class "fr-container shadow-dsfr rounded-lg" ]
                                 [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                                     [ div [ class "fr-col-6" ]
                                         [ situationElement "Emploi recherché"
