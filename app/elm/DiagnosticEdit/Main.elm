@@ -2,7 +2,6 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
-import Debug exposing (log)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
 import Domain.Situation exposing (Situation)
@@ -370,7 +369,7 @@ update msg model =
 
                 Err _ ->
                     -- TODO: Que fait-on des erreurs http ?
-                    log "err" ( model, Cmd.none )
+                    ( model, Cmd.none )
 
 
 getRome : String -> String -> String -> Int -> Cmd Msg
