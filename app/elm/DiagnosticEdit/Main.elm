@@ -2,7 +2,8 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
-import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
+import Debug
+import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags, professionalProjectView)
 import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
@@ -11,7 +12,7 @@ import Html.Attributes exposing (attribute, checked, class, for, id, name, type_
 import Html.Events exposing (onClick, onInput)
 import Html.Styled as Styled
 import Http
-import Json.Decode
+import Json.Decode exposing (bool)
 import Json.Encode
 import List.Extra
 import Select
@@ -103,6 +104,7 @@ type Msg
     | AddEmptyProfessionalProject
     | RemoveProject Int
     | UpdateMobilityRadius Int String
+    | OpenRomeSearch Int
     | SelectMsg Int (Select.Msg Rome)
     | MsgFetchJobTitlesDebouncer (Debouncer.Msg Msg)
     | FetchJobTitles Int String
@@ -120,6 +122,7 @@ type alias Model =
     , token : String
     , serverUrl : String
     , fetchJobTitlesDebouncer : Debouncer.Debouncer Msg
+    , activeRomeSearchIndex : Maybe Int
     }
 
 
@@ -176,6 +179,7 @@ init flags =
       , token = flags.token
       , serverUrl = flags.serverUrl
       , fetchJobTitlesDebouncer = debounce (fromSeconds 0.5) |> toDebouncer
+      , activeRomeSearchIndex = Nothing
       }
     , Cmd.none
     )
@@ -306,6 +310,7 @@ update msg model =
                                             (\professionalProjectState ->
                                                 { professionalProjectState | selectedRome = Just someRome }
                                             )
+                                , activeRomeSearchIndex = Nothing
                               }
                             , Cmd.batch
                                 [ newCmds
@@ -327,25 +332,67 @@ update msg model =
                             in
                             ( debouncerModel, Cmd.batch [ newCmds, debouncerCmds ] )
 
-                        -- TODO: Show loading state.
                         _ ->
-                            ( newModel
-                            , Cmd.batch
-                                [ newCmds
-                                , newModel.professionalProjects
-                                    |> List.map toProfessionalProjectOut
-                                    |> sendUpdatedProfessionalProjects
-                                ]
-                            )
+                            if Select.isMenuOpen updatedSelectState then
+                                ( newModel
+                                , Cmd.batch
+                                    [ newCmds
+                                    , newModel.professionalProjects
+                                        |> List.map toProfessionalProjectOut
+                                        |> sendUpdatedProfessionalProjects
+                                    ]
+                                )
+
+                            else
+                                ( { newModel | activeRomeSearchIndex = Nothing }
+                                , Cmd.batch
+                                    [ newCmds
+                                    , newModel.professionalProjects
+                                        |> List.map toProfessionalProjectOut
+                                        |> sendUpdatedProfessionalProjects
+                                    ]
+                                )
 
                 _ ->
                     ( model, Cmd.none )
 
+        OpenRomeSearch professionalProjectIndex ->
+            let
+                ss =
+                    Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt professionalProjectIndex))
+
+                -- Because it's being used as a dropdown we want a fresh state
+                -- every time an action is clicked.
+                ( _, focusedSelectState, cmds ) =
+                    -- Focusing the select. Using the Select Cmd
+                    -- ensures the menu is open on focus which is what you probably want
+                    -- for a dropdown menu.
+                    Select.update Select.focus ss
+
+                newProfessionalProjects =
+                    model.professionalProjects
+                        |> List.Extra.updateAt professionalProjectIndex
+                            (\professionalProjectState ->
+                                { professionalProjectState | selectState = focusedSelectState }
+                            )
+            in
+            case model.activeRomeSearchIndex of
+                Just _ ->
+                    ( { model | activeRomeSearchIndex = Nothing }, Cmd.none )
+
+                _ ->
+                    ( { model | professionalProjects = newProfessionalProjects, activeRomeSearchIndex = Just professionalProjectIndex }, Cmd.map (SelectMsg professionalProjectIndex) cmds )
+
+        -- { model | ActiveRomeSearch = Just(professionalProjectIndex, selectState) }
         MsgFetchJobTitlesDebouncer subMsg ->
             Debouncer.update update fetchJobTitlesDebouncerConfig subMsg model
 
         FetchJobTitles index searchString ->
-            ( model
+            let
+                newProfessionProjects =
+                    model.professionalProjects |> List.Extra.updateAt index (\project -> { project | romeData = Loading })
+            in
+            ( { model | professionalProjects = newProfessionProjects }
             , if not (String.isEmpty searchString) then
                 getRome model.token model.serverUrl searchString index
 
@@ -453,27 +500,55 @@ view model =
         [ h2
             [ class "text-france-blue" ]
             [ text "Projet(s) Professionnel(s)" ]
-        , div [ class "pb-4" ]
+        , div []
             (model.professionalProjects
                 |> List.indexedMap
                     (\index project ->
                         div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
                             [ div [ class "fr-grid-row fr-grid-row--gutters" ]
                                 [ div [ class "fr-col-8" ]
-                                    [ Html.map
-                                        (SelectMsg index)
-                                        (Styled.toUnstyled <|
-                                            Select.view
-                                                ((Select.single <| Maybe.map selectedRomeToMenuItem project.selectedRome)
-                                                    |> Select.menuItems (romeDataToMenuItems project.romeData)
-                                                    |> Select.state project.selectState
-                                                    |> Select.placeholder "Recherchez un métier ou un code ROME"
-                                                )
-                                        )
+                                    [ div [ class "fr-input-group elm-select" ]
+                                        [ label [ class "fr-label", for ("job" ++ String.fromInt index) ] [ text "Métier recherché" ]
+                                        , button
+                                            [ class "fr-select text-left"
+                                            , type_ "button"
+                                            , onClick (OpenRomeSearch index)
+                                            ]
+                                            [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> text
+                                            ]
+                                        , case model.activeRomeSearchIndex of
+                                            Just _ ->
+                                                let
+                                                    showloading =
+                                                        case project.romeData of
+                                                            Loading ->
+                                                                Select.loading True
+
+                                                            _ ->
+                                                                Select.loading False
+                                                in
+                                                Html.map
+                                                    (SelectMsg index)
+                                                    (Styled.toUnstyled <|
+                                                        Select.view
+                                                            (Select.menu
+                                                                |> Select.state project.selectState
+                                                                |> Select.menuItems (romeDataToMenuItems project.romeData)
+                                                                |> Select.placeholder "Recherchez un métier ou un code ROME"
+                                                                |> Select.loadingMessage "Chargement..."
+                                                                |> showloading
+                                                            )
+                                                    )
+
+                                            _ ->
+                                                text ""
+                                        ]
                                     ]
                                 , div [ class "fr-col-4" ]
                                     [ div [ class "fr-input-group" ]
-                                        [ label [ class "fr-label", for ("mobility-radius" ++ String.fromInt index) ] [ text "Rayon de mobilité" ]
+                                        [ label
+                                            [ class "fr-label", for ("mobility-radius" ++ String.fromInt index) ]
+                                            [ text "Rayon de mobilité" ]
                                         , input
                                             [ class "fr-input"
                                             , onInput (UpdateMobilityRadius index)
@@ -487,15 +562,17 @@ view model =
                                         ]
                                     ]
                                 ]
-                            , button
-                                [ class "fr-btn fr-btn--secondary", type_ "button", onClick (RemoveProject index) ]
-                                [ text "Supprimer" ]
+                            , p [ class "py-4" ]
+                                [ button
+                                    [ class "fr-btn fr-btn--secondary", type_ "button", onClick (RemoveProject index) ]
+                                    [ text "Supprimer" ]
+                                ]
                             ]
                     )
             )
         , button [ class "fr-btn", type_ "button", onClick AddEmptyProfessionalProject ] [ text "Ajouter un projet professionnel" ]
         , h2
-            [ class "text-france-blue" ]
+            [ class "text-france-blue pt-12" ]
             [ text "Situation Personnelle" ]
         , div []
             (model.possibleSituationsByTheme
