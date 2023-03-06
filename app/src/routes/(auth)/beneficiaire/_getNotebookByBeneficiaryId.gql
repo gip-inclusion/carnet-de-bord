@@ -30,6 +30,8 @@ fragment notebookFragment on notebook {
       label
     }
     mobilityRadius
+    updatedAt
+    createdAt
   }
   notebookInfo {
     needOrientation

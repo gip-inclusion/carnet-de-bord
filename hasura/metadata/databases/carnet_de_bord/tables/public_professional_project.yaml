@@ -70,6 +70,16 @@ insert_permissions:
         - notebook_id
         - rome_code_id
 select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - mobility_radius
+        - created_at
+        - updated_at
+        - id
+        - notebook_id
+        - rome_code_id
+      filter: {}
   - role: admin_structure
     permission:
       columns:

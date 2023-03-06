@@ -15724,6 +15724,8 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			__typename?: 'professional_project';
 			id: string;
 			mobilityRadius?: number | null;
+			updatedAt?: string | null;
+			createdAt?: string | null;
 			rome_code: { __typename?: 'rome_code'; id: string; label: string };
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -15915,6 +15917,8 @@ export type GetNotebookByIdQuery = {
 			__typename?: 'professional_project';
 			id: string;
 			mobilityRadius?: number | null;
+			updatedAt?: string | null;
+			createdAt?: string | null;
 			rome_code: { __typename?: 'rome_code'; id: string; label: string };
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -16099,6 +16103,8 @@ export type NotebookFragmentFragment = {
 		__typename?: 'professional_project';
 		id: string;
 		mobilityRadius?: number | null;
+		updatedAt?: string | null;
+		createdAt?: string | null;
 		rome_code: { __typename?: 'rome_code'; id: string; label: string };
 	}>;
 	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
@@ -17461,6 +17467,8 @@ export const NotebookFragmentFragmentDoc = {
 									},
 								},
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 							],
 						},
 					},
