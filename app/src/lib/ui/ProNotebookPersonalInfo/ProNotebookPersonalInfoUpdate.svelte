@@ -84,10 +84,7 @@
 </script>
 
 <section>
-	<div class="pb-8">
-		<h1>Informations personnelles</h1>
-		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
-	</div>
+	<h1>Informations personnelles</h1>
 	<Form {initialValues} {validationSchema} onSubmit={updateBeneficiary}>
 		<ProBeneficiaryUpdateFields {forbiddenFields} />
 		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />

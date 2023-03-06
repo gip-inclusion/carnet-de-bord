@@ -2,13 +2,12 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
-import Debug
-import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags, professionalProjectView)
+import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
-import Html.Attributes exposing (attribute, checked, class, for, id, name, type_, value)
+import Html.Attributes exposing (attribute, checked, class, disabled, for, id, name, type_, value)
 import Html.Events exposing (onClick, onInput)
 import Html.Styled as Styled
 import Http
@@ -111,6 +110,11 @@ type Msg
     | JobTitlesFetched Int (Result Http.Error (List Rome))
 
 
+professionalProjetsMaxCount : Int
+professionalProjetsMaxCount =
+    5
+
+
 
 -- MODEL
 
@@ -123,6 +127,7 @@ type alias Model =
     , serverUrl : String
     , fetchJobTitlesDebouncer : Debouncer.Debouncer Msg
     , activeRomeSearchIndex : Maybe Int
+    , professionalProjectsMaxCountReached : Bool
     }
 
 
@@ -159,6 +164,11 @@ initProfessionalProjectState professionalProject =
     }
 
 
+hasReachedProfessionalProjectMaxCount : List a -> Bool
+hasReachedProfessionalProjectMaxCount list =
+    (list |> List.length) >= professionalProjetsMaxCount
+
+
 
 -- INIT
 
@@ -180,6 +190,7 @@ init flags =
       , serverUrl = flags.serverUrl
       , fetchJobTitlesDebouncer = debounce (fromSeconds 0.5) |> toDebouncer
       , activeRomeSearchIndex = Nothing
+      , professionalProjectsMaxCountReached = flags.professionalProjects |> hasReachedProfessionalProjectMaxCount
       }
     , Cmd.none
     )
@@ -216,7 +227,10 @@ update msg model =
                                    ]
                     }
             in
-            ( newModel
+            ( { newModel
+                | professionalProjectsMaxCountReached =
+                    newModel.professionalProjects |> hasReachedProfessionalProjectMaxCount
+              }
             , newModel.professionalProjects
                 |> List.map toProfessionalProjectOut
                 |> sendUpdatedProfessionalProjects
@@ -249,6 +263,7 @@ update msg model =
                                 |> List.indexedMap Tuple.pair
                                 |> List.filter (\( index, _ ) -> index /= indexToRemove)
                                 |> List.map (\( _, value ) -> value)
+                        , professionalProjectsMaxCountReached = False
                     }
             in
             ( newModel
@@ -574,7 +589,13 @@ view model =
                             ]
                     )
             )
-        , button [ class "fr-btn", type_ "button", onClick AddEmptyProfessionalProject ] [ text "Ajouter un projet professionnel" ]
+        , button
+            [ class "fr-btn"
+            , type_ "button"
+            , onClick AddEmptyProfessionalProject
+            , disabled model.professionalProjectsMaxCountReached
+            ]
+            [ text "Ajouter un projet professionnel" ]
         , h2
             [ class "text-france-blue pt-12" ]
             [ text "Situation Personnelle" ]
