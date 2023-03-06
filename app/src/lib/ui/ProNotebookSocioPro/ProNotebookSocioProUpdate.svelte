@@ -8,7 +8,7 @@
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { mutation, operationStore } from '@urql/svelte';
-	import { Button } from '../base';
+	import { Alert, Button } from '../base';
 	import { add } from 'date-fns';
 	import { formatDateISO } from '$lib/utils/date';
 	import {
@@ -18,6 +18,7 @@
 	import { Checkbox, Form, Input, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
 	import type { ProfessionalProjectOut } from 'elm/DiagnosticEdit/Main.elm';
+	import type { GraphQLError } from 'graphql';
 
 	export let onClose: () => void;
 	export let notebook: Pick<
@@ -35,6 +36,7 @@
 	>;
 	export let selectedSituations: string[];
 	export let professionalProjects: ProfessionalProjectOut[];
+	$: errorMessage = '';
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -116,8 +118,24 @@
 			situationIdsToDelete,
 		};
 
+		errorMessage = null;
 		await updateSocioPro(payload);
-		close();
+		if ($updateSocioProStore.error) {
+			errorMessage = formatErrors($updateSocioProStore.error.graphQLErrors);
+		} else {
+			close();
+		}
+	}
+
+	function formatErrors(errors: GraphQLError[]): string {
+		return errors
+			.map((error) => {
+				if (/professional_project_notebook_id_rome_code_id_key/.test(error.message)) {
+					return "Il n'est pas possible de créer deux projets professionnels pour le même emploi.";
+				}
+				return '';
+			})
+			.join('\n');
 	}
 
 	function setWorkSituationEndDate(initialDate: unknown, monthInterval: number) {
@@ -143,10 +161,7 @@
 </script>
 
 <section class="flex flex-col w-full">
-	<div class="pb-8">
-		<h1 class="text-france-blue">Diagnostic socioprofessionnel</h1>
-		<p class="mb-0">Veuillez cliquer sur un champ pour le modifier.</p>
-	</div>
+	<h1 class="text-france-blue">Diagnostic socioprofessionnel</h1>
 	<Form
 		{initialValues}
 		validationSchema={proNotebookSocioproSchema}
@@ -263,6 +278,16 @@
 		</div>
 
 		<slot />
+
+		{#if errorMessage}
+			<div class="mb-4">
+				<Alert
+					type="error"
+					title={"Impossible d'enregistrer les modifications."}
+					description={errorMessage}
+				/>
+			</div>
+		{/if}
 
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}>Enregistrer</Button
