@@ -46,7 +46,7 @@
 			return {
 				id: professionalProject.id,
 				mobilityRadius: professionalProject.mobilityRadius,
-				romeId: professionalProject.rome_code.id,
+				romeId: professionalProject.rome_code?.id,
 			};
 		}) ?? [];
 
@@ -79,7 +79,6 @@
 
 		app.ports.sendUpdatedProfessionalProjects.subscribe(
 			(updatedProfessionalProjects: ProfessionalProjectOut[]) => {
-				console.log(updatedProfessionalProjects);
 				professionalProjects = updatedProfessionalProjects;
 			}
 		);
