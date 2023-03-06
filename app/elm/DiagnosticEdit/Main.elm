@@ -12,7 +12,7 @@ import Html.Attributes exposing (attribute, checked, class, for, id, name, type_
 import Html.Events exposing (onClick, onInput)
 import Html.Styled as Styled
 import Http
-import Json.Decode exposing (bool)
+import Json.Decode
 import Json.Encode
 import List.Extra
 import Select
@@ -388,17 +388,23 @@ update msg model =
             Debouncer.update update fetchJobTitlesDebouncerConfig subMsg model
 
         FetchJobTitles index searchString ->
-            let
-                newProfessionProjects =
-                    model.professionalProjects |> List.Extra.updateAt index (\project -> { project | romeData = Loading })
-            in
-            ( { model | professionalProjects = newProfessionProjects }
-            , if not (String.isEmpty searchString) then
-                getRome model.token model.serverUrl searchString index
+            if String.isEmpty searchString then
+                ( { model
+                    | professionalProjects =
+                        model.professionalProjects
+                            |> List.Extra.updateAt index (\project -> { project | romeData = NotAsked })
+                  }
+                , Cmd.none
+                )
 
-              else
-                Cmd.none
-            )
+            else
+                ( { model
+                    | professionalProjects =
+                        model.professionalProjects
+                            |> List.Extra.updateAt index (\project -> { project | romeData = Loading })
+                  }
+                , getRome model.token model.serverUrl searchString index
+                )
 
         JobTitlesFetched index result ->
             case result of
