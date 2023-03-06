@@ -383,7 +383,6 @@ update msg model =
                 _ ->
                     ( { model | professionalProjects = newProfessionalProjects, activeRomeSearchIndex = Just professionalProjectIndex }, Cmd.map (SelectMsg professionalProjectIndex) cmds )
 
-        -- { model | ActiveRomeSearch = Just(professionalProjectIndex, selectState) }
         MsgFetchJobTitlesDebouncer subMsg ->
             Debouncer.update update fetchJobTitlesDebouncerConfig subMsg model
 
@@ -482,7 +481,6 @@ situationsByTheme situations =
 
 
 -- VIEW
--- TODO: Disable box-shadow on the select
 
 
 selectedRomeToMenuItem : Rome -> Select.MenuItem Rome
